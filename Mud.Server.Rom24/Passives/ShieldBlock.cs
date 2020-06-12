@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Ability;
+using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;

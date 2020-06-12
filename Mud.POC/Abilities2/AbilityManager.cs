@@ -13,6 +13,25 @@ namespace Mud.POC.Abilities2
     {
         private readonly Dictionary<string, IAbilityInfo> _abilities;
 
+        public AbilityManager()
+        {
+            _abilities = new Dictionary<string, IAbilityInfo>();
+            // Get abilities and register them in IOC
+            Type iAbility = typeof(IAbility);
+            foreach (var abilityType in Assembly.GetExecutingAssembly().GetTypes()
+                .Where(x => x.IsClass && !x.IsAbstract && iAbility.IsAssignableFrom(x)))
+            {
+                AbilityInfo abilityInfo = new AbilityInfo(abilityType);
+                if (_abilities.ContainsKey(abilityInfo.Name))
+                    Log.Default.WriteLine(LogLevels.Error, "Duplicate ability {0}", abilityInfo.Name);
+                else
+                {
+                    _abilities.Add(abilityInfo.Name, abilityInfo);
+                    DependencyContainer.Current.Register(abilityType);
+                }
+            }
+        }
+
         public IEnumerable<IAbilityInfo> Abilities => _abilities.Values;
 
         public IAbilityInfo this[string abilityName]
@@ -52,25 +71,6 @@ namespace Mud.POC.Abilities2
                 return default;
             }
             return instance;
-        }
-
-        public AbilityManager()
-        {
-            _abilities = new Dictionary<string, IAbilityInfo>();
-            // Get abilities and register them in IOC
-            Type iAbility = typeof(IAbility);
-            foreach (var abilityType in Assembly.GetExecutingAssembly().GetTypes()
-                .Where(x => x.IsClass && !x.IsAbstract && iAbility.IsAssignableFrom(x)))
-            {
-                AbilityInfo abilityInfo = new AbilityInfo(abilityType);
-                if (_abilities.ContainsKey(abilityInfo.Name))
-                    Log.Default.WriteLine(LogLevels.Error, "Duplicate ability {0}", abilityInfo.Name);
-                else
-                {
-                    _abilities.Add(abilityInfo.Name, abilityInfo);
-                    DependencyContainer.Current.Register(abilityType);
-                }
-            }
         }
     }
 }

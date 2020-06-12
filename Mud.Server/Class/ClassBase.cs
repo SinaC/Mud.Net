@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Ability;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 
@@ -48,22 +48,14 @@ namespace Mud.Server.Class
 
         protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
         {
-            IAbility ability = AbilityManager[abilityName];
-            if (ability == null)
+            IAbilityInfo abilityInfo = AbilityManager[abilityName];
+            if (abilityInfo == null)
             {
                 Wiznet.Wiznet($"Trying to add unknown ability [{abilityName}] to class [{Name}]", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return;
             }
             //
-            _abilities.Add(new AbilityUsage
-            {
-                Ability = ability,
-                Level = level,
-                ResourceKind = resourceKind,
-                CostAmount = costAmount,
-                CostAmountOperator = costAmountOperator,
-                Rating = rating
-            });
+            _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, abilityInfo));
         }
     }
 }

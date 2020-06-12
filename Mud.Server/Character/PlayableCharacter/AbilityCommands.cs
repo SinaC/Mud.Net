@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Input;
@@ -36,21 +37,21 @@ namespace Mud.Server.Character.PlayableCharacter
             // List
             if (StringCompareHelpers.StringStartsWith("list", parameters[0].Value))
             {
-                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Abilities",  3, KnownAbilities.Where(x => x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Abilities",  3, LearnedAbilities.Where(x => x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Name));
                 Send(sb);
                 return CommandExecutionResults.Ok;
             }
             // skills + passives
             if (StringCompareHelpers.StringStartsWith("skills", parameters[0].Value))
             {
-                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Skills+Passives", 3, KnownAbilities.Where(x => (x.Ability.Kind == AbilityKinds.Skill || x.Ability.Kind == AbilityKinds.Passive) && x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Skills+Passives", 3, LearnedAbilities.Where(x => (x.AbilityInfo.Type == AbilityTypes.Skill || x.AbilityInfo.Type == AbilityTypes.Passive) && x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Name));
                 Send(sb);
                 return CommandExecutionResults.Ok;
             }
             // spells
             if (StringCompareHelpers.StringStartsWith("spells", parameters[0].Value))
             {
-                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Spells", 3, KnownAbilities.Where(x => x.Ability.Kind == AbilityKinds.Spell && x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                StringBuilder sb = TrainAbilityTableGenerator.Value.Generate("Spells", 3, LearnedAbilities.Where(x => x.AbilityInfo.Type == AbilityTypes.Spell && x.CanBeGained(this)).OrderBy(x => x.Level).ThenBy(x => x.Name));
                 Send(sb);
                 return CommandExecutionResults.Ok;
             }
@@ -83,21 +84,21 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             // Gain ability
             // TODO: search among all abilities even if can't be learned, not yet be learned, already learned ?
-            IKnownAbility knownAbility = KnownAbilities.FirstOrDefault(x => x.CanBeGained(this) && StringCompareHelpers.StringStartsWith(x.Ability.Name, parameters[0].Value));
-            if (knownAbility == null)
+            IAbilityLearned learnedAbility = LearnedAbilities.FirstOrDefault(x => x.CanBeGained(this) && StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            if (learnedAbility == null)
             {
                 Act(ActOptions.ToCharacter, "{0:N} tells you 'This is beyond your powers.'", trainer);
                 return CommandExecutionResults.TargetNotFound;
             }
-            if (Trains < knownAbility.Rating)
+            if (Trains < learnedAbility.Rating)
             {
                 Act(ActOptions.ToCharacter, "{0:N} tells you 'You are not yet ready for that skill.'", trainer);
                 return CommandExecutionResults.InvalidTarget;
             }
             // Let's go
-            knownAbility.Learned = 1;
-            Trains -= knownAbility.Rating;
-            Act(ActOptions.ToCharacter, "{0:N} trains you in the art of {1}", trainer, knownAbility.Ability.Name);
+            learnedAbility.IncrementLearned(1);
+            Trains -= learnedAbility.Rating;
+            Act(ActOptions.ToCharacter, "{0:N} trains you in the art of {1}", trainer, learnedAbility.Name);
 
             return CommandExecutionResults.Ok;
         }
@@ -111,7 +112,7 @@ namespace Mud.Server.Character.PlayableCharacter
             // list
             if (parameters.Length == 0) // no practicer needed to see list
             {
-                StringBuilder sb = PracticeAbilityTableGenerator.Value.Generate("Abilities", 3, KnownAbilities.Where(x => x.CanBePracticed(this)).OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                StringBuilder sb = PracticeAbilityTableGenerator.Value.Generate("Abilities", 3, LearnedAbilities.Where(x => x.CanBePracticed(this)).OrderBy(x => x.Level).ThenBy(x => x.Name));
                 sb.AppendFormatLine("You have {0} practice sessions left.", Practices);
                 Send(sb);
                 return CommandExecutionResults.Ok;
@@ -130,49 +131,49 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             // search ability
             // TODO: search among already max percentage and display another message
-            IKnownAbility knownAbility = KnownAbilities.FirstOrDefault(x => x.CanBePracticed(this) && StringCompareHelpers.StringStartsWith(x.Ability.Name, parameters[0].Value));
-            if (knownAbility == null)
+            IAbilityLearned learnedAbility = LearnedAbilities.FirstOrDefault(x => x.CanBePracticed(this) && StringCompareHelpers.StringStartsWith(x.Name, parameters[0].Value));
+            if (learnedAbility == null)
             {
                 Send("You can't practice that.");
                 return CommandExecutionResults.TargetNotFound;
             }
-            if (knownAbility.Learned >= (Class?.MaxPracticePercentage ?? 50))
+            if (learnedAbility.Learned >= (Class?.MaxPracticePercentage ?? 50))
             {
-                Send("You are already learned at {0}", knownAbility.Ability.Name);
+                Send("You are already learned at {0}", learnedAbility.Name);
                 return CommandExecutionResults.InvalidTarget;
             }
             // let's go
             Practices--;
-            int learned = Math.Max(1, TableValues.LearnBonus(this) / knownAbility.Rating);
-            knownAbility.Learned += learned;
+            int learned = Math.Max(1, TableValues.LearnBonus(this) / learnedAbility.Rating);
+            learnedAbility.IncrementLearned(learned);
             int maxPractice = Class?.MaxPracticePercentage ?? 50;
-            if (knownAbility.Learned < maxPractice)
+            if (learnedAbility.Learned < maxPractice)
             {
-                Act(ActOptions.ToCharacter, "You practice {0}.", knownAbility.Ability.Name);
-                Act(ActOptions.ToRoom, "{0:N} practice {1}.", this, knownAbility.Ability.Name);
+                Act(ActOptions.ToCharacter, "You practice {0}.", learnedAbility.Name);
+                Act(ActOptions.ToRoom, "{0:N} practice {1}.", this, learnedAbility.Name);
             }
             else
             {
-                Act(ActOptions.ToCharacter, "You are now learned at {0}.", knownAbility.Ability.Name);
-                Act(ActOptions.ToRoom, "{0:N} is now learned at {1}.", this, knownAbility.Ability.Name);
+                Act(ActOptions.ToCharacter, "You are now learned at {0}.", learnedAbility.Name);
+                Act(ActOptions.ToRoom, "{0:N} is now learned at {1}.", this, learnedAbility.Name);
             }
 
             return CommandExecutionResults.Ok;
         }
 
-        private static readonly Lazy<TableGenerator<IKnownAbility>> TrainAbilityTableGenerator = new Lazy<TableGenerator<IKnownAbility>>(() =>
+        private static readonly Lazy<TableGenerator<IAbilityLearned>> TrainAbilityTableGenerator = new Lazy<TableGenerator<IAbilityLearned>>(() =>
         {
-            TableGenerator<IKnownAbility> generator = new TableGenerator<IKnownAbility>();
-            generator.AddColumn("Name", 18, x => x.Ability.Name);
+            TableGenerator<IAbilityLearned> generator = new TableGenerator<IAbilityLearned>();
+            generator.AddColumn("Name", 18, x => x.Name);
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
             generator.AddColumn("Cost", 5, x => x.Rating.ToString());
             return generator;
         });
 
-        private static readonly Lazy<TableGenerator<IKnownAbility>> PracticeAbilityTableGenerator = new Lazy<TableGenerator<IKnownAbility>>(() =>
+        private static readonly Lazy<TableGenerator<IAbilityLearned>> PracticeAbilityTableGenerator = new Lazy<TableGenerator<IAbilityLearned>>(() =>
         {
-            TableGenerator<IKnownAbility> generator = new TableGenerator<IKnownAbility>();
-            generator.AddColumn("Name", 18, x => x.Ability.Name);
+            TableGenerator<IAbilityLearned> generator = new TableGenerator<IAbilityLearned>();
+            generator.AddColumn("Name", 18, x => x.Name);
             generator.AddColumn("Pra%", 6, x => $"{x.Learned}%");
             return generator;
         });

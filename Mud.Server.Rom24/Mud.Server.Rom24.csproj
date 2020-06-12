@@ -49,13 +49,6 @@
     <Compile Include="BreathSpells\FrostBreath.cs" />
     <Compile Include="BreathSpells\GasBreath.cs" />
     <Compile Include="BreathSpells\LightningBreath.cs" />
-    <Compile Include="CharacterBuffSpellBase.cs" />
-    <Compile Include="CharacterDebuffSpellBase.cs" />
-    <Compile Include="CharacterFlagsSpellBase.cs" />
-    <Compile Include="CureSpellBase.cs" />
-    <Compile Include="DamageSpellBase.cs" />
-    <Compile Include="DamageTableSpellBase.cs" />
-    <Compile Include="DefensiveSpellBase.cs" />
     <Compile Include="Effects\AcidEffect.cs" />
     <Compile Include="Effects\BlessEffect.cs" />
     <Compile Include="Effects\BlindnessEffect.cs" />
@@ -67,22 +60,8 @@
     <Compile Include="Effects\PoisonEffect.cs" />
     <Compile Include="Effects\RefreshEffect.cs" />
     <Compile Include="Effects\ShockEffect.cs" />
-    <Compile Include="FightingSkillBase.cs" />
-    <Compile Include="HealSpellBase.cs" />
-    <Compile Include="ItemCastSpellSkillBase.cs" />
-    <Compile Include="ItemCreationSpellBase.cs" />
-    <Compile Include="ItemInventorySkillBase.cs" />
-    <Compile Include="ItemInventorySpellBase.cs" />
-    <Compile Include="ItemOrDefensiveSpellBase.cs" />
-    <Compile Include="ItemOrOffensiveSpellBase.cs" />
     <Compile Include="MegaSpells\GeneralPurpose.cs" />
     <Compile Include="MegaSpells\HighExplosive.cs" />
-    <Compile Include="NoTargetSkillBase.cs" />
-    <Compile Include="NoTargetSpellBase.cs" />
-    <Compile Include="OffensiveSkillBase.cs" />
-    <Compile Include="OffensiveSpellBase.cs" />
-    <Compile Include="OptionalItemInventorySpellBase.cs" />
-    <Compile Include="PassiveBase.cs" />
     <Compile Include="Passives\Axe.cs" />
     <Compile Include="Passives\Dagger.cs" />
     <Compile Include="Passives\Dodge.cs" />
@@ -104,7 +83,6 @@
     <Compile Include="Passives\ThirdAttack.cs" />
     <Compile Include="Passives\Whip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SkillBase.cs" />
     <Compile Include="Skills\Backstab.cs" />
     <Compile Include="Skills\Bash.cs" />
     <Compile Include="Skills\Berserk.cs" />
@@ -121,7 +99,6 @@
     <Compile Include="Skills\Staves.cs" />
     <Compile Include="Skills\Trip.cs" />
     <Compile Include="Skills\Wands.cs" />
-    <Compile Include="SpellBase.cs" />
     <Compile Include="Spells\AcidBlast.cs" />
     <Compile Include="Spells\Armor.cs" />
     <Compile Include="Spells\Bless.cs" />
@@ -212,7 +189,6 @@
     <Compile Include="Spells\Ventriloquate.cs" />
     <Compile Include="Spells\Weaken.cs" />
     <Compile Include="Spells\WordOfRecall.cs" />
-    <Compile Include="TransportationSpellBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">

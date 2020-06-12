@@ -27,6 +27,7 @@ namespace Mud.Server.Quest
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
         protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
         public Quest(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
         {
@@ -120,7 +121,7 @@ namespace Mud.Server.Quest
                 {
                     if (World.GetItemBlueprint(loot) is ItemQuestBlueprint questItemBlueprint)
                     {
-                        World.AddItem(Guid.NewGuid(), questItemBlueprint, container);
+                        ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, container);
                         Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {Character.DisplayName}");
                     }
                     else
@@ -353,7 +354,7 @@ namespace Mud.Server.Quest
             foreach (IItem questItem in questItems)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "Destroying quest item {0} in {1}", questItem.DebugName, Character.DebugName);
-                World.RemoveItem(questItem);
+                ItemManager.RemoveItem(questItem);
             }
         }
     }

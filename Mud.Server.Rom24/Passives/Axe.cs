@@ -1,4 +1,5 @@
 ﻿using Mud.Server.Ability;
+using Mud.Server.Ability.Passive;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Passives

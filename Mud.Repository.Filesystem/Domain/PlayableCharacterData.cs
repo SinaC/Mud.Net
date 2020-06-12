@@ -24,13 +24,13 @@ namespace Mud.Repository.Filesystem.Domain
 
         public CurrentQuestData[] CurrentQuests { get; set; }
 
-        public KnownAbilityData[] KnownAbilities { get; set; }
+        public LearnedAbilityData[] LearnedAbilities { get; set; }
 
         public PairData<int,int>[] Conditions { get; set; }
 
         public PairData<string, string>[] Aliases { get; set; }
 
-        public PairData<int,int>[] Cooldowns { get; set; }
+        public PairData<string,int>[] Cooldowns { get; set; }
 
         public CharacterData[] Pets { get; set; }
     }

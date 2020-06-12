@@ -34,6 +34,8 @@ using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.World;
+using Mud.Server.Random;
+using Mud.Common;
 
 namespace Mud.Server.Server
 {
@@ -73,6 +75,8 @@ namespace Mud.Server.Server
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
         protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
         public Server()
         {
@@ -733,24 +737,10 @@ namespace Mud.Server.Server
 
         private void SanityCheckAbilities()
         {
-            var duplicateIds = AbilityManager.Abilities.GroupBy(x => x.Id).Where(x => x.Count() > 1);
-            foreach(var duplicate in duplicateIds)
-                Log.Default.WriteLine(LogLevels.Error, "Ability duplicate id {0}: {1}", duplicate.Key, string.Join(",", duplicate.Select(x => x.Name)));
-
-            var duplicateNames = AbilityManager.Abilities.GroupBy(x => x.Name).Where(x => x.Count() > 1);
-            foreach (var duplicate in duplicateNames)
-                Log.Default.WriteLine(LogLevels.Error, "Ability duplicate name {0}: {1}", duplicate.Key, string.Join(",", duplicate.Select(x => x.Id.ToString())));
-
-            foreach (var ability in AbilityManager.Abilities)
-            {
-                if (!string.IsNullOrWhiteSpace(ability.DispelRoomMessage) && !ability.AbilityFlags.HasFlag(AbilityFlags.CanBeDispelled))
-                    Log.Default.WriteLine(LogLevels.Warning, "Ability {0} has dispel message but is not flagged as CanBeDispelled", ability.Name);
-            }
-
             Log.Default.WriteLine(LogLevels.Info, "#Abilities: {0}", AbilityManager.Abilities.Count());
-            Log.Default.WriteLine(LogLevels.Info, "#Passives: {0}", AbilityManager.Passives.Count());
-            Log.Default.WriteLine(LogLevels.Info, "#Spells: {0}", AbilityManager.Spells.Count());
-            Log.Default.WriteLine(LogLevels.Info, "#Skills: {0}", AbilityManager.Skills.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Passives: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Passive));
+            Log.Default.WriteLine(LogLevels.Info, "#Spells: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Spell));
+            Log.Default.WriteLine(LogLevels.Info, "#Skills: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Skill));
         }
 
         private void SanityCheckClasses()
@@ -765,7 +755,7 @@ namespace Mud.Server.Server
                 {
                     foreach (IAbilityUsage abilityUsage in c.Abilities)
                         if (abilityUsage.ResourceKind.HasValue && !c.ResourceKinds.Contains(abilityUsage.ResourceKind.Value))
-                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Ability.Name, abilityUsage.ResourceKind);
+                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Name, abilityUsage.ResourceKind);
                 }
             }
             Log.Default.WriteLine(LogLevels.Info, "#Classes: {0}", ClassManager.Classes.Count());
@@ -796,13 +786,13 @@ namespace Mud.Server.Server
         private void SanityCheckRooms()
         {
             Log.Default.WriteLine(LogLevels.Info, "#RoomBlueprints: {0}", World.RoomBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Rooms: {0}", World.Rooms.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Rooms: {0}", RoomManager.Rooms.Count());
         }
 
         private void SanityCheckItems()
         {
             Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {0}", World.ItemBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Items: {0}", World.Items.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Items: {0}", ItemManager.Items.Count());
             if (World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
                 Log.Default.WriteLine(LogLevels.Error, "Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
             if (World.GetItemBlueprint<ItemFoodBlueprint>(Settings.MushroomBlueprintId) == null)
@@ -958,46 +948,6 @@ namespace Mud.Server.Server
                 && aggressor.CanSee(victim);
         }
 
-        private void HandlePeriodicAuras(int pulseCount)
-        {
-            // TODO: remove aura with amount == 0 ?
-            // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
-            // TODO: take periodic aura that will be processed/removed
-            //IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(World.Characters().Where(x => x.PeriodicAuras.Any()).ToList());
-            //foreach (ICharacter character in clonePeriodicAuras)
-            foreach (ICharacter character in World.Characters.Where(x => x.PeriodicAuras.Any()))
-            {
-                try
-                {
-                    IReadOnlyCollection<IPeriodicAura> clonePeriodicAuras = new ReadOnlyCollection<IPeriodicAura>(character.PeriodicAuras.ToList()); // must be cloned because collection may be modified during foreach
-                    foreach (IPeriodicAura pa in clonePeriodicAuras)
-                    {
-                        // On NPC, remove hot/dot from unknown source or source not in the same room
-                        ICharacter sourceAsCharacter = pa.Source as ICharacter;
-                        if (Settings.RemovePeriodicAurasInNotInSameRoom && character is INonPlayableCharacter && (pa.Source == null || sourceAsCharacter == null || sourceAsCharacter.Room != character.Room))
-                        {
-                            pa.OnVanished();
-                            character.RemovePeriodicAura(pa);
-                        }
-                        else // Otherwise, process normally
-                        {
-                            if (pa.TicksLeft > 0)
-                                pa.Process(character);
-                            if (pa.TicksLeft == 0) // no else, because Process decrease PeriodsLeft
-                            {
-                                pa.OnVanished();
-                                character.RemovePeriodicAura(pa);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic auras of {0}. Exception: {1}", character.DebugName, ex);
-                }
-            }
-        }
-
         private void HandleAuras(int pulseCount) 
         {
             foreach (ICharacter character in World.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
@@ -1028,7 +978,7 @@ namespace Mud.Server.Server
                     Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of character {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
-            foreach (IItem item in World.Items.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+            foreach (IItem item in ItemManager.Items.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
             {
                 try
                 {
@@ -1056,7 +1006,7 @@ namespace Mud.Server.Server
                     Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of item {0}. Exception: {1}", item.DebugName, ex);
                 }
             }
-            foreach (IRoom room in World.Rooms.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+            foreach (IRoom room in RoomManager.Rooms.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
             {
                 try
                 {
@@ -1090,12 +1040,12 @@ namespace Mud.Server.Server
             {
                 try
                 {
-                    IReadOnlyCollection<IAbility> abilitiesInCooldown = new ReadOnlyCollection<IAbility>(character.AbilitiesInCooldown.Keys.ToList()); // clone
-                    foreach (IAbility ability in abilitiesInCooldown)
+                    IReadOnlyCollection<string> abilitiesInCooldown = new ReadOnlyCollection<string>(character.AbilitiesInCooldown.Keys.ToList()); // clone
+                    foreach (string abilityName in abilitiesInCooldown)
                     {
-                        bool available = character.DecreaseCooldown(ability, pulseCount);
+                        bool available = character.DecreaseCooldown(abilityName, pulseCount);
                         if (available)
-                            character.ResetCooldown(ability, true);
+                            character.ResetCooldown(abilityName, true);
                     }
                 }
                 catch (Exception ex)
@@ -1281,7 +1231,7 @@ namespace Mud.Server.Server
                             character.Room.DecreaseLight();
                             character.Act(ActOptions.ToRoom, "{0} goes out.", light);
                             character.Act(ActOptions.ToCharacter, "{0} flickers and goes out.", light);
-                            World.RemoveItem(light);
+                            ItemManager.RemoveItem(light);
                         }
                         else if (!light.IsInfinite && light.TimeLeft < 5)
                             character.Act(ActOptions.ToCharacter, "{0} flickers.", light);
@@ -1397,7 +1347,7 @@ namespace Mud.Server.Server
         private void HandleItems(int pulseCount)
         {
             //Log.Default.WriteLine(LogLevels.Debug, "HandleItems {0} {1}", CurrentTime, DateTime.Now);
-            IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(World.Items.Where(x => x.DecayPulseLeft > 0).ToList()); // clone bause decaying item will be removed from list
+            IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(ItemManager.Items.Where(x => x.DecayPulseLeft > 0).ToList()); // clone bause decaying item will be removed from list
             foreach (IItem item in clone)
             {
                 try
@@ -1461,7 +1411,7 @@ namespace Mud.Server.Server
                                 }
                             }
                         }
-                        World.RemoveItem(item);
+                        ItemManager.RemoveItem(item);
                     }
                 }
                 catch (Exception ex)
@@ -1516,7 +1466,6 @@ namespace Mud.Server.Server
         private void GameLoopTask()
         {
             PulseManager pulseManager = new PulseManager();
-            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandlePeriodicAuras);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleAuras);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleCooldowns);
             pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleQuests);

@@ -40,11 +40,11 @@ namespace Mud.Server.Interfaces.Item
         void DecreaseDecayPulseLeft(int pulseCount);
         void SetTimer(TimeSpan duration);
 
-        void AddBaseItemFlags(ItemFlags itemFlags);
-        void RemoveBaseItemFlags(ItemFlags itemFlags);
+        void AddBaseItemFlags(ItemFlags itemFlags, bool recompute);
+        void RemoveBaseItemFlags(ItemFlags itemFlags, bool recompute);
+        void Disenchant();
 
         void IncreaseLevel();
-        void Disenchant();
 
         // Affects
         void ApplyAffect(IItemFlagsAffect affect);

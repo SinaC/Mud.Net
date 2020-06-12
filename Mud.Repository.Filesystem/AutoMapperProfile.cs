@@ -41,7 +41,7 @@ namespace Mud.Repository.Filesystem
             CreateMap<Mud.Domain.PlayableCharacterData, Domain.PlayableCharacterData>()
                 .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)))
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapFromDictionary(x.Aliases)))
-                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapFromDictionary(x.Cooldowns, y => y)))
+                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapFromDictionary(x.Cooldowns)))
                 .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => MapAutoFlags(x.AutoFlags)));
             CreateMap<Mud.Domain.PetData, Domain.PetData>();
 
@@ -111,7 +111,7 @@ namespace Mud.Repository.Filesystem
             CreateMap<Mud.Domain.PoisonDamageAffectData, Domain.PoisonDamageAffectData>();
             CreateMap<Mud.Domain.PlagueSpreadAndDamageAffectData, Domain.PlagueSpreadAndDamageAffectData>();
 
-            CreateMap<Mud.Domain.KnownAbilityData, Domain.KnownAbilityData>()
+            CreateMap<Mud.Domain.LearnedAbilityData, Domain.LearnedAbilityData>()
                 .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
                 .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
@@ -140,7 +140,7 @@ namespace Mud.Repository.Filesystem
             CreateMap<Domain.PlayableCharacterData, Mud.Domain.PlayableCharacterData>()
                 .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)))
                 .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)))
-                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapToDictionary(x.Cooldowns, y => y)))
+                .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapToDictionary(x.Cooldowns)))
                 .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => MapAutoFlags(x.AutoFlags)));
             CreateMap<Domain.PetData, Mud.Domain.PetData>();
 
@@ -210,7 +210,7 @@ namespace Mud.Repository.Filesystem
             CreateMap<Domain.PoisonDamageAffectData, Mud.Domain.PoisonDamageAffectData>();
             CreateMap<Domain.PlagueSpreadAndDamageAffectData, Mud.Domain.PlagueSpreadAndDamageAffectData>();
 
-            CreateMap<Domain.KnownAbilityData, Mud.Domain.KnownAbilityData>()
+            CreateMap<Domain.LearnedAbilityData, Mud.Domain.LearnedAbilityData>()
                 .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
                 .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
@@ -218,6 +218,10 @@ namespace Mud.Repository.Filesystem
         private Domain.PairData<string, string>[] MapFromDictionary(Dictionary<string, string> dictionary) => dictionary?.Select(x => new Domain.PairData<string, string>(x.Key, x.Value)).ToArray();
 
         private Dictionary<string, string> MapToDictionary(Domain.PairData<string, string>[] array) => array?.ToLookup(x => x.Key, x => x.Value).ToDictionary(x => x.Key, x => x.First());
+
+        private Domain.PairData<string, int>[] MapFromDictionary(Dictionary<string, int> dictionary) => dictionary?.Select(x => new Domain.PairData<string, int>(x.Key, x.Value)).ToArray();
+
+        private Dictionary<string, int> MapToDictionary(Domain.PairData<string, int>[] array) => array?.ToLookup(x => x.Key, x => x.Value).ToDictionary(x => x.Key, x => x.First());
 
         private Domain.PairData<int, int>[] MapFromDictionary<T>(Dictionary<T, int> dictionary, Func<T,int> mapKeyFunc) => dictionary?.Select(x => new Domain.PairData<int, int>(mapKeyFunc(x.Key), x.Value)).ToArray();
 

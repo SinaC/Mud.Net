@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -232,15 +233,24 @@ namespace Mud.Server.Item
             DecayPulseLeft = Pulse.FromTimeSpan(duration);
         }
 
-        public void AddBaseItemFlags(ItemFlags itemFlags)
+        public void AddBaseItemFlags(ItemFlags itemFlags, bool recompute)
         {
             BaseItemFlags |= itemFlags;
-            Recompute();
+            if (recompute)
+                Recompute();
         }
 
-        public void RemoveBaseItemFlags(ItemFlags itemFlags)
+        public void RemoveBaseItemFlags(ItemFlags itemFlags, bool recompute)
         {
             BaseItemFlags &= ~itemFlags;
+            if (recompute)
+                Recompute();
+        }
+
+        public void Disenchant()
+        {
+            RemoveAuras(_ => true, false);
+            RemoveBaseItemFlags(BaseItemFlags, false); // clear
             Recompute();
         }
 

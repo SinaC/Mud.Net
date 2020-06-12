@@ -235,6 +235,14 @@
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
       <Name>Mud.Network</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj">
+      <Project>{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}</Project>
+      <Name>Mud.Server.Ability</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj">
+      <Project>{80EA18BC-ABA5-40F7-8483-6B94750CD704}</Project>
+      <Name>Mud.Server.Affects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
@@ -251,6 +259,14 @@
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
       <Name>Mud.Server.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
+      <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
+      <Name>Mud.Server.Random</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj">
+      <Project>{8A3A8267-B6A3-441B-BCF1-925B09FF920E}</Project>
+      <Name>Mud.Server.Rom24</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
       <Name>Mud.Settings</Name>
@@ -260,9 +276,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Affect\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

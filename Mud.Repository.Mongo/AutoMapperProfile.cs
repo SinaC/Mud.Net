@@ -105,7 +105,7 @@ namespace Mud.Repository.Mongo
             CreateMap<Mud.Domain.PlagueSpreadAndDamageAffectData, Domain.PlagueSpreadAndDamageAffectData>();
             CreateMap<Mud.Domain.PoisonDamageAffectData, Domain.PoisonDamageAffectData>();
 
-            CreateMap<Mud.Domain.KnownAbilityData, Domain.KnownAbilityData>()
+            CreateMap<Mud.Domain.LearnedAbilityData, Domain.LearnedAbilityData>()
                 .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
                 .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }
@@ -198,7 +198,7 @@ namespace Mud.Repository.Mongo
             CreateMap<Domain.PlagueSpreadAndDamageAffectData, Mud.Domain.PlagueSpreadAndDamageAffectData>();
             CreateMap<Domain.PoisonDamageAffectData, Mud.Domain.PoisonDamageAffectData>();
 
-            CreateMap<Domain.KnownAbilityData, Mud.Domain.KnownAbilityData>()
+            CreateMap<Domain.LearnedAbilityData, Mud.Domain.LearnedAbilityData>()
                 .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
                 .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
         }

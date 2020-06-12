@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Entity;
@@ -11,6 +13,8 @@ namespace Mud.Server.Item
     public class ItemContainer : ItemBase<ItemContainerBlueprint, ItemContainerData>, IItemContainer
     {
         private readonly List<IItem> _content;
+
+        private IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
         public ItemContainer(Guid guid, ItemContainerBlueprint blueprint, IContainer containedInto)
             : base(guid, blueprint, containedInto)
@@ -35,7 +39,7 @@ namespace Mud.Server.Item
             if (itemContainerData.Contains?.Length > 0)
             {
                 foreach (ItemData itemData in itemContainerData.Contains)
-                    World.AddItem(Guid.NewGuid(), itemData, this);
+                    ItemManager.AddItem(Guid.NewGuid(), itemData, this);
             }
         }
 

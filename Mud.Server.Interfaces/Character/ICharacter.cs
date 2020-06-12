@@ -96,11 +96,11 @@ namespace Mud.Server.Interfaces.Character
         int this[ResourceKinds resource] { get; }
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
 
-        // Form
-        Forms Form { get; }
-
         // Abilities
         IEnumerable<IAbilityLearned> LearnedAbilities { get; }
+
+        // Form
+        Forms Form { get; }
 
         // Followers
         ICharacter Leader { get; } // character we are following, different from group leader
@@ -227,6 +227,7 @@ namespace Mud.Server.Interfaces.Character
     public interface IHitModifier
     {
         string AbilityName { get; }
+        string DamageNoun { get; }
         int Learned { get; }
         int Thac0Modifier(int baseThac0);
         int DamageModifier(IItemWeapon weapon, int level, int baseDamage);

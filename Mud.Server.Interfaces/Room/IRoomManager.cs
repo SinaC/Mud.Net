@@ -14,7 +14,8 @@ namespace Mud.Server.Interfaces.Room
 
         IRoom DefaultRecallRoom { get; }
         IRoom DefaultDeathRoom { get; }
-        
+        IRoom MudSchoolRoom { get; }
+
         IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area);
 
         void RemoveRoom(IRoom room);

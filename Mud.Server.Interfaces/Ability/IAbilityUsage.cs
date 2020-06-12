@@ -15,5 +15,10 @@ namespace Mud.Server.Interfaces.Ability
         CostAmountOperators CostAmountOperator { get; }
 
         int Rating { get; }
+
+        IAbilityInfo AbilityInfo { get; }
+
+        void Update(int level, int rating, int costAmount);
+        void Update(int level, int rating);
     }
 }

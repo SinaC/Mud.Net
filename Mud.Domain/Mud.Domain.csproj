@@ -107,7 +107,7 @@
     <Compile Include="ItemWandData.cs" />
     <Compile Include="ItemWeaponData.cs" />
     <Compile Include="ItemWeaponFlagsAffectData.cs" />
-    <Compile Include="KnownAbilityData.cs" />
+    <Compile Include="LearnedAbilityData.cs" />
     <Compile Include="PlayerData.cs" />
     <Compile Include="PoisonDamageAffectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

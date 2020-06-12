@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Ability;
+using Mud.Server.Ability.Skill;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -51,7 +52,7 @@ namespace Mud.Server.Rom24.Skills
             if (RandomManager.Chance(Learned)
                 || (Learned > 1 && Victim.Position <= Positions.Sleeping))
             {
-                BackstabMultitHitModifier modifier = new BackstabMultitHitModifier(SkillName, Learned);
+                BackstabMultitHitModifier modifier = new BackstabMultitHitModifier(SkillName, "backstab", Learned);
 
                 User.MultiHit(Victim, modifier);
                 return true;
@@ -65,9 +66,10 @@ namespace Mud.Server.Rom24.Skills
 
         public class BackstabMultitHitModifier : IMultiHitModifier
         {
-            public BackstabMultitHitModifier(string abilityName, int learned)
+            public BackstabMultitHitModifier(string abilityName, string damageNoun, int learned)
             {
                 AbilityName = abilityName;
+                DamageNoun = damageNoun;
                 Learned = learned;
             }
 
@@ -75,11 +77,9 @@ namespace Mud.Server.Rom24.Skills
 
             #region IHitModifier
 
-            public int MaxAttackCount => 2;
-
-            #endregion
-
             public string AbilityName { get; }
+
+            public string DamageNoun { get; }
 
             public int Learned { get; }
 
@@ -99,6 +99,10 @@ namespace Mud.Server.Rom24.Skills
             {
                 return baseThac0 - 10 * (100 - Learned);
             }
+
+            #endregion
+
+            public int MaxAttackCount => 2;
 
             #endregion
         }

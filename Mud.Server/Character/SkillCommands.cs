@@ -1,4 +1,7 @@
 ﻿using Mud.Domain;
+using Mud.Logger;
+using Mud.Server.Ability;
+using Mud.Server.Ability.Skill;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 // ReSharper disable UnusedMember.Global
@@ -81,37 +84,29 @@ namespace Mud.Server.Character
         //
         private CommandExecutionResults ExecuteSkill(string abilityName, string rawParameters, params CommandParameter[] parameters)
         {
-            IAbility ability = AbilityManager[abilityName];
-            if (ability == null)
+            var abilityInfo = AbilityManager[abilityName];
+            if (abilityInfo == null)
             {
-                Wiznet.Wiznet($"ExecuteSkill: invalid skill {abilityName}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return CommandExecutionResults.InvalidParameter;
+                Log.Default.WriteLine(LogLevels.Error, "Skill {0} not found.", abilityName);
+                Send("Something goes wrong.");
+                return CommandExecutionResults.Error;
             }
-
-            UseResults result = AbilityManager.Use(ability, this, rawParameters, parameters);
-            return MapUseResults(result);
-        }
-
-        private CommandExecutionResults MapUseResults(UseResults result)
-        {
-            switch (result)
+            var skillInstance = AbilityManager.CreateInstance<ISkill>(abilityName);
+            if (skillInstance == null)
             {
-                case UseResults.Ok: return CommandExecutionResults.Ok;
-                case UseResults.MissingParameter: return CommandExecutionResults.SyntaxErrorNoDisplay;
-                case UseResults.InvalidParameter: return CommandExecutionResults.InvalidParameter;
-                case UseResults.InvalidTarget: return CommandExecutionResults.InvalidTarget;
-                case UseResults.TargetNotFound: return CommandExecutionResults.TargetNotFound;
-                case UseResults.CantUseRequiredResource: return CommandExecutionResults.NoExecution;
-                case UseResults.NotEnoughResource: return CommandExecutionResults.NoExecution;
-                case UseResults.Failed: return CommandExecutionResults.NoExecution;
-                case UseResults.NotKnown: return CommandExecutionResults.NoExecution;
-                case UseResults.InCooldown: return CommandExecutionResults.NoExecution;
-                case UseResults.MustBeFighting: return CommandExecutionResults.NoExecution;
-                case UseResults.Error: return CommandExecutionResults.Error;
-                default:
-                    Wiznet.Wiznet($"Unexpected UseResults {result}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                    return CommandExecutionResults.Error;
+                Log.Default.WriteLine(LogLevels.Error, "Skill {0} cannot be created.", abilityName);
+                Send("Something goes wrong.");
+                return CommandExecutionResults.Error;
             }
+            var skillActionInput = new SkillActionInput(abilityInfo, this, rawParameters, parameters);
+            string skillInstanceGuards = skillInstance.Setup(skillActionInput);
+            if (skillInstanceGuards != null)
+            {
+                Send(skillInstanceGuards);
+                return CommandExecutionResults.NoExecution;
+            }
+            skillInstance.Execute();
+            return CommandExecutionResults.Ok;
         }
     }
 }

@@ -49,7 +49,7 @@ namespace Mud.Server.Tests
                 Vulnerabilities = AutoFaker.Generate<IRVFlags>(),
                 Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
                 Auras = AutoFaker.Generate<AuraData[]>(),
-                KnownAbilities = AutoFaker.Generate<KnownAbilityData[]>(), // AbilityManagerMock will generate Ability at runtime // TODO: find a way to automatically (int)AutoFaker.Generate<ushort>() on int fields
+                KnownAbilities = AutoFaker.Generate<LearnedAbilityData[]>(), // AbilityManagerMock will generate Ability at runtime // TODO: find a way to automatically (int)AutoFaker.Generate<ushort>() on int fields
                 Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>())
             };
 

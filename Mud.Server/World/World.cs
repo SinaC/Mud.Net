@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Mud.Common;
 using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
@@ -24,12 +26,13 @@ using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Item;
+using Mud.Server.Random;
 using Mud.Server.Room;
 using Mud.Settings;
 
 namespace Mud.Server.World
 {
-    public class World : IWorld
+    public class World : IWorld, IRoomManager, IItemManager, IAuraManager
     {
         // Null room is used to avoid setting char.room to null when deleting and is used as container when deleting item
         private IRoom _nullRoom; // save a reference for further use
@@ -163,6 +166,7 @@ namespace Mud.Server.World
         public IRoom DefaultRecallRoom => _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
 
         public IRoom DefaultDeathRoom => _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultDeathRoomId);
+        public IRoom MudSchoolRoom => _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.MudSchoolRoomId);
 
         public IRoom GetRandomRoom(ICharacter character)
         {
@@ -526,9 +530,9 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IAura AddAura(IEntity target, IAbility ability, IEntity source, int level, TimeSpan duration, AuraFlags auraFlags, bool recompute, params IAffect[] affects)
+        public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, TimeSpan duration, AuraFlags auraFlags, bool recompute, params IAffect[] affects)
         {
-            IAura aura = new Aura.Aura(ability, source, auraFlags, level, duration, affects);
+            IAura aura = new Aura.Aura(abilityName, source, auraFlags, level, duration, affects);
             target.AddAura(aura, recompute);
             return aura;
         }
@@ -568,30 +572,6 @@ namespace Mud.Server.World
         public void RemoveCharacter(ICharacter character)
         {
             character.StopFighting(true);
-
-            // Search IPeriodicAura with character as Source and nullify Source
-            IReadOnlyCollection<ICharacter> charactersWithPeriodicAuras = new ReadOnlyCollection<ICharacter>(_characters.Where(x => x.PeriodicAuras.Any(pa => pa.Source == character)).ToList()); // clone
-            foreach (ICharacter characterWithPeriodicAuras in charactersWithPeriodicAuras)
-            {
-                foreach (IPeriodicAura pa in characterWithPeriodicAuras.PeriodicAuras.Where(x => x.Source == character))
-                    pa.ResetSource();
-            }
-
-            //// Search IAura with character as Source and nullify Source
-            //IReadOnlyCollection<ICharacter> charactersWithAuras = new ReadOnlyCollection<ICharacter>(_characters.Where(x => x.Auras.Any(a => a.Source == character)).ToList()); // clone
-            //foreach (ICharacter characterWithAuras in charactersWithAuras)
-            //{
-            //    foreach (IAura aura in characterWithAuras.Auras.Where(x => x.Source == character))
-            //        aura.ResetSource();
-            //}
-
-            // Remove periodic auras on character
-            IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(character.PeriodicAuras.ToList()); // clone
-            foreach (IPeriodicAura pa in periodicAuras)
-            {
-                pa.ResetSource();
-                character.RemovePeriodicAura(pa);
-            }
 
             // Remove auras
             IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // clone

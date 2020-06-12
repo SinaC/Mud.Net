@@ -34,6 +34,11 @@ using Mud.Server.Interfaces.Table;
 using Mud.Server.Common;
 using Mud.Server.Server;
 using Mud.Settings;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Ability;
+using Mud.Server.Random;
+using Mud.Common;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -49,6 +54,8 @@ namespace Mud.Server.WPFTestApplication
         private static IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         private static IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
         private static IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        private static IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        private static IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
         public ServerWindow()
         {
@@ -64,13 +71,16 @@ namespace Mud.Server.WPFTestApplication
             // Initialize IOC container
             DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAuraManager
+            DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IItemManager
+            DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IRoomManager
             DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
             DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
             DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
             DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
             DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-            DependencyContainer.Current.Register<IAbilityManager, Ability.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IAbilityManager, AbilityManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
@@ -389,14 +399,14 @@ namespace Mud.Server.WPFTestApplication
                     Log.Default.WriteLine(LogLevels.Error, "Area id {0} not found", blueprint.AreaId);
                 }
                 else
-                    World.AddRoom(Guid.NewGuid(), blueprint, area);
+                    RoomManager.AddRoom(Guid.NewGuid(), blueprint, area);
             }
 
-            foreach (IRoom room in World.Rooms)
+            foreach (IRoom room in RoomManager.Rooms)
             {
                 foreach(ExitBlueprint exitBlueprint in room.Blueprint.Exits.Where(x => x != null))
                 {
-                    IRoom to = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == exitBlueprint.Destination);
+                    IRoom to = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == exitBlueprint.Destination);
                     if (to == null)
                         Log.Default.WriteLine(LogLevels.Warning, "Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
                     else
@@ -499,19 +509,19 @@ namespace Mud.Server.WPFTestApplication
                     RoomFlags = RoomFlags.ImpOnly | RoomFlags.NoRecall | RoomFlags.NoScan | RoomFlags.NoWhere | RoomFlags.Private
                 };
                 World.AddRoomBlueprint(voidBlueprint);
-                World.AddRoom(Guid.NewGuid(), voidBlueprint, area);
+                RoomManager.AddRoom(Guid.NewGuid(), voidBlueprint, area);
             }
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001);
-            IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3005);
-            IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3014);
-            IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3025);
+            IRoom templeOfMota = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001);
+            IRoom templeSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3005);
+            IRoom marketSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3014);
+            IRoom commonSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3025);
 
             if (templeOfMota == null || templeSquare == null || marketSquare == null || commonSquare == null)
                 return;
 
-            World.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
+            ItemManager.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
 
             // Quest
             QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>

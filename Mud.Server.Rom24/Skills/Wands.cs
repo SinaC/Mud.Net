@@ -1,16 +1,26 @@
-﻿using Mud.Container;
-using Mud.Domain;
+﻿using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Ability;
+using Mud.Server.Ability.Skill;
+using Mud.Server.Ability.Spell;
+using Mud.Server.Affects;
 using Mud.Server.Common;
 using Mud.Server.Input;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
+using Mud.Server.Rom24.Passives;
+using Mud.Server.Rom24.Spells;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Mud.Server.Rom24.Skills
 {
@@ -68,64 +78,10 @@ namespace Mud.Server.Rom24.Skills
                 ItemManager.RemoveItem(Item);
                 return string.Empty; // stop but don't display anything
             }
-            return SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
-            // return SetupSpell(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
-        }
-
-        private string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
-        {
-            if (string.IsNullOrWhiteSpace(spellName))
-                return null; // not really an error but don't continue
-            var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
-            if (abilityInfo == null)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, Item.DebugName);
-                return "Something goes wrong.";
-            }
-
-            var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
-            if (spellInstance == null)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "Cannot create instance of spell '{0}' on item {1}.", spellName, Item.DebugName);
-                return "Something goes wrong.";
-            }
-
-            SpellActionInput spellActionInput;
-            // no target specified
-            if (parameters.Length == 0)
-            {
-                spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
-            }
-            else
-            {
-                var getTargetedAction = spellInstance as ITargetedAction;
-                if (getTargetedAction == null)
-                {
-                    spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
-                }
-                else
-                {
-                    IEnumerable<IEntity> predefinedTargets = getTargetedAction.ValidTargets(User);
-                    if (parameters.Length == 0)
-                    {
-                        Target = User.Fighting;
-                        if (Target == null)
-                            return "Zap whom or what?";
-                    }
-                    else
-                        Target = FindHelpers.FindByName(predefinedTargets, parameters[0]);
-                    if (Target == null)
-                        return "You can't find it.";
-
-                    spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = Target }, rawParameters, parameters);
-                }
-            }
-            string spellInstanceGuards = spellInstance.Setup(spellActionInput);
-            if (spellInstanceGuards != null)
-                return spellInstanceGuards;
-            SpellInstances.Add(spellInstance);
-
-            return null;
+            IEntity target;
+            string setupResult = SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, out target, skillActionInput.RawParameters, skillActionInput.Parameters);
+            Target = target;
+            return setupResult;
         }
     }
 }

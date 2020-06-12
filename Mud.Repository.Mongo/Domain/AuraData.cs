@@ -2,9 +2,7 @@
 {
     public class AuraData
     {
-        public int AbilityId { get; set; }
-
-        // TODO: source
+        public string AbilityName { get; set; }
 
         public int Level { get; set; }
 

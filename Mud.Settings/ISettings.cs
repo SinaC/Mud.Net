@@ -36,6 +36,7 @@
         int DefaultRecallRoomId { get; }
         int NullRoomId { get; }
         int DefaultDeathRoomId { get; }
+        int MudSchoolRoomId { get; }
 
         bool CheckLoginPassword { get; }
 

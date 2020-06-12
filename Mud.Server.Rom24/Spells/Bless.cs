@@ -1,7 +1,9 @@
 ﻿using Mud.Domain;
 using Mud.Server.Ability;
+using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -49,7 +51,7 @@ namespace Mud.Server.Rom24.Spells
                     if (evilAura != null)
                         item.RemoveAura(evilAura, false);
                     Caster.Act(ActOptions.ToAll, "{0} glows a pale blue.", item);
-                    item.RemoveBaseItemFlags(ItemFlags.Evil);
+                    item.RemoveBaseItemFlags(ItemFlags.Evil, true);
                     return;
                 }
                 Caster.Act(ActOptions.ToCharacter, "The evil of {0} is too powerful for you to overcome.", item);
