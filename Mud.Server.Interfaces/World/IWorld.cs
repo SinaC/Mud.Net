@@ -53,19 +53,11 @@ namespace Mud.Server.Interfaces.World
 
         //
         IEnumerable<IArea> Areas { get; }
-        IEnumerable<IRoom> Rooms { get; }
         IEnumerable<ICharacter> Characters { get; }
         IEnumerable<INonPlayableCharacter> NonPlayableCharacters { get; }
         IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
-        IEnumerable<IItem> Items { get; }
-
-        IRoom DefaultRecallRoom { get; }
-        IRoom DefaultDeathRoom { get; }
-        IRoom GetRandomRoom(ICharacter character);
 
         IArea AddArea(Guid guid, AreaBlueprint blueprint);
-
-        IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area);
 
         IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction);
 
@@ -73,25 +65,10 @@ namespace Mud.Server.Interfaces.World
         INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room);
         INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room);
 
-        IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim);
-        IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer);
-        IItemMoney AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container);
-
-        IItem AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container);
-        IItem AddItem(Guid guid, ItemData itemData, IContainer container);
-        IItem AddItem(Guid guid, int blueprintId, IContainer container);
-
-        IAura AddAura(IEntity target, IAbility ability, IEntity source, int level, TimeSpan duration, AuraFlags auraFlags, bool recompute, params IAffect[] affects);
-
-        //IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Hot
-        //IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks); // Dot
-
         void FixWorld(); // should be called before the first ResetWorld
         void ResetWorld();
 
         void RemoveCharacter(ICharacter character);
-        void RemoveItem(IItem item);
-        void RemoveRoom(IRoom room);
 
         void Cleanup(); // called once outputs has been processed (before next loop)
     }

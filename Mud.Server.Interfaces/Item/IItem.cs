@@ -44,6 +44,7 @@ namespace Mud.Server.Interfaces.Item
         void RemoveBaseItemFlags(ItemFlags itemFlags);
 
         void IncreaseLevel();
+        void Disenchant();
 
         // Affects
         void ApplyAffect(IItemFlagsAffect affect);

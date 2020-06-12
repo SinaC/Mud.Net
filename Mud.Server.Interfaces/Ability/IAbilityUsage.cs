@@ -4,16 +4,16 @@ namespace Mud.Server.Interfaces.Ability
 {
     public interface IAbilityUsage
     {
-        IAbility Ability { get; set; }
+        string Name { get; }
 
-        int Level { get; set; }
+        int Level { get; }
 
-        ResourceKinds? ResourceKind { get; set; }
+        ResourceKinds? ResourceKind { get; }
 
-        int CostAmount { get; set; }
+        int CostAmount { get; }
 
-        CostAmountOperators CostAmountOperator { get; set; }
+        CostAmountOperators CostAmountOperator { get; }
 
-        int Rating { get; set; }
+        int Rating { get; }
     }
 }

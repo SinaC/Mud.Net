@@ -4,6 +4,7 @@ using Mud.Container;
 using Mud.POC.Abilities2;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Common;
+using Mud.Server.Random;
 using System.Linq;
 
 namespace Mud.POC.Tests.Abilities2

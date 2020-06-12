@@ -41,7 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ability\IAbilityInfo.cs" />
+    <Compile Include="Ability\IAbilityLearned.cs" />
     <Compile Include="Ability\IAbilityUsage.cs" />
+    <Compile Include="Ability\IPassive.cs" />
+    <Compile Include="Ability\ISkill.cs" />
+    <Compile Include="Ability\ISkillActionInput.cs" />
+    <Compile Include="Ability\ISpell.cs" />
+    <Compile Include="Ability\ISpellActionInput.cs" />
     <Compile Include="Affect\ICharacterAffect.cs" />
     <Compile Include="Affect\ICharacterPeriodicAffect.cs" />
     <Compile Include="Affect\IFlagAffect.cs" />
@@ -63,18 +70,23 @@
     <Compile Include="Affect\IAffect.cs" />
     <Compile Include="Area\IArea.cs" />
     <Compile Include="Aura\IAura.cs" />
+    <Compile Include="Aura\IAuraManager.cs" />
+    <Compile Include="Aura\IDispelManager.cs" />
     <Compile Include="Character\ICharacter.cs" />
     <Compile Include="Class\IClass.cs" />
     <Compile Include="Class\IClassManager.cs" />
+    <Compile Include="Effect\IEffect.cs" />
+    <Compile Include="IActionInput.cs" />
     <Compile Include="ICloseable.cs" />
     <Compile Include="Entity\IContainer.cs" />
     <Compile Include="Entity\IEntity.cs" />
+    <Compile Include="IGameAction.cs" />
+    <Compile Include="ITargetedAction.cs" />
+    <Compile Include="Item\IItemManager.cs" />
     <Compile Include="Room\IExit.cs" />
     <Compile Include="IGroup.cs" />
     <Compile Include="Item\IItem.cs" />
     <Compile Include="Character\INonPlayableCharacter.cs" />
-    <Compile Include="Ability\IKnownAbility.cs" />
-    <Compile Include="Aura\IPeriodicAura.cs" />
     <Compile Include="Character\IPlayableCharacter.cs" />
     <Compile Include="Race\IPlayableRace.cs" />
     <Compile Include="Player\IPlayer.cs" />
@@ -86,6 +98,7 @@
     <Compile Include="IServer.cs" />
     <Compile Include="IServerAdminCommand.cs" />
     <Compile Include="IServerPlayerCommand.cs" />
+    <Compile Include="Room\IRoomManager.cs" />
     <Compile Include="Table\ITableValues.cs" />
     <Compile Include="Item\IItemArmor.cs" />
     <Compile Include="Item\IItemBoat.cs" />

@@ -22,7 +22,6 @@ namespace Mud.Server.Interfaces.Entity
         IAdmin IncarnatedBy { get; }
 
         // Auras
-        IEnumerable<IPeriodicAura> PeriodicAuras { get; }
         IEnumerable<IAura> Auras { get; }
 
         // Recompute
@@ -31,9 +30,6 @@ namespace Mud.Server.Interfaces.Entity
 
         // Auras
         IAura GetAura(string abilityName);
-        IAura GetAura(IAbility ability);
-        void AddPeriodicAura(IPeriodicAura aura);
-        void RemovePeriodicAura(IPeriodicAura aura);
         void AddAura(IAura aura, bool recompute);
         void RemoveAura(IAura aura, bool recompute);
         void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute);

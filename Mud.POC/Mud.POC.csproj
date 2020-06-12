@@ -441,6 +441,10 @@
     <Compile Include="TestTableGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
@@ -468,6 +472,10 @@
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
       <Name>Mud.Server.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
+      <Project>{0221cf37-eec1-4144-91c4-00176a735d34}</Project>
+      <Name>Mud.Server.Random</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

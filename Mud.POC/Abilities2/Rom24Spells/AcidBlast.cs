@@ -1,4 +1,4 @@
-﻿using Mud.Server.Common;
+﻿using Mud.Server.Random;
 using Mud.POC.Abilities2.Domain;
 
 namespace Mud.POC.Abilities2.Rom24Spells

@@ -1,5 +1,5 @@
 ﻿using Mud.Logger;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System;
+using Mud.Server.Common;
 
 namespace Mud.POC.Abilities2
 {

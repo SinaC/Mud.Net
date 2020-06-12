@@ -3,6 +3,7 @@ using Moq;
 using Mud.POC.Abilities;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Random;
 using System.Linq;
 
 namespace Mud.POC.Tests.Abilities

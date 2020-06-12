@@ -74,16 +74,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ability\AbilityAttribute.cs" />
-    <Compile Include="Ability\AbilityManager.cs" />
-    <Compile Include="Ability\Ability.cs" />
-    <Compile Include="Ability\AbilityUsage.cs" />
-    <Compile Include="Ability\KnownAbility.cs" />
-    <Compile Include="Ability\MysteryPassives.cs" />
-    <Compile Include="Ability\Rom24Effects.cs" />
-    <Compile Include="Ability\Rom24Passives.cs" />
-    <Compile Include="Ability\Rom24Skills.cs" />
-    <Compile Include="Ability\Rom24Spells.cs" />
     <Compile Include="Ability\TestSpells.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
@@ -91,29 +81,17 @@
     <Compile Include="Admin\PunishCommands.cs" />
     <Compile Include="Area\Area.cs" />
     <Compile Include="Aura\Aura.cs" />
-    <Compile Include="Affect\CharacterAttributeAffect.cs" />
-    <Compile Include="Affect\CharacterFlagsAffect.cs" />
-    <Compile Include="Affect\CharacterIRVAffect.cs" />
-    <Compile Include="Affect\CharacterSizeAffect.cs" />
-    <Compile Include="Affect\CharacterSexAffect.cs" />
-    <Compile Include="Affect\PlagueSpreadAndDamageAffect.cs" />
-    <Compile Include="Affect\PoisonDamageAffect.cs" />
-    <Compile Include="Affect\FlagAffectBase.cs" />
-    <Compile Include="Affect\ItemFlagsAffect.cs" />
-    <Compile Include="Affect\ItemWeaponFlagsAffect.cs" />
     <Compile Include="Aura\PeriodicAura.cs" />
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\ImpersonateCommand.cs" />
     <Compile Include="Admin\IncarnateCommand.cs" />
     <Compile Include="Admin\InfoCommands.cs" />
-    <Compile Include="Affect\RoomFlagsAffect.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
     <Compile Include="Character\PlayableCharacter\InfoCommands.cs" />
     <Compile Include="Character\PlayableCharacter\MiscCommands.cs" />
     <Compile Include="Character\PlayableCharacter\ShopCommands.cs" />
     <Compile Include="Group\Group.cs" />
-    <Compile Include="Helpers\MiscHelpers.cs" />
     <Compile Include="Item\ItemClothing.cs" />
     <Compile Include="Item\ItemBoat.cs" />
     <Compile Include="Item\ItemCastSpellsChargeBase.cs" />
@@ -188,7 +166,6 @@
     <Compile Include="Class\Warrior.cs" />
     <Compile Include="Helpers\TableGenerators.cs" />
     <Compile Include="Entity\EntityBase.cs" />
-    <Compile Include="Helpers\FindHelpers.cs" />
     <Compile Include="Item\ItemArmor.cs" />
     <Compile Include="Item\ItemCorpse.cs" />
     <Compile Include="Item\ItemFountain.cs" />
@@ -230,6 +207,10 @@
     <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{FA516A9E-EA0B-4F74-A5AA-23DE3D109ADC}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
@@ -279,7 +260,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Affect\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -7,7 +7,7 @@ namespace Mud.Server.Interfaces.Item
         int SpellLevel { get; }
         int MaxChargeCount { get; }
         int CurrentChargeCount { get; }
-        IAbility Spell { get; }
+        string SpellName { get; }
         bool AlreadyRecharged { get; }
 
         void Use();

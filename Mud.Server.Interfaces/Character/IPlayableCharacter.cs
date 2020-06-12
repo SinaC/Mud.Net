@@ -56,7 +56,7 @@ namespace Mud.Server.Interfaces.Character
         void GainExperience(long experience); // add/substract experience
 
         // Ability
-        bool CheckAbilityImprove(IKnownAbility knownAbility, bool abilityUsedSuccessfully, int multiplier);
+        bool CheckAbilityImprove(IAbilityLearned ability, bool abilityUsedSuccessfully, int multiplier);
 
         // Immortality
         void ChangeImmortalState(bool isImmortal);

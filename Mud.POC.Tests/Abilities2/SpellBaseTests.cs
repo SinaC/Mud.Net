@@ -1,11 +1,17 @@
-﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Mud.Common;
+using Mud.Container;
 using Mud.POC.Abilities2;
 using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
+using Mud.POC.Abilities2.Rom24Skills;
+using Mud.POC.Abilities2.Rom24Spells;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Random;
+using System;
+using System.Linq;
 
 namespace Mud.POC.Tests.Abilities2
 {
@@ -20,7 +26,8 @@ namespace Mud.POC.Tests.Abilities2
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            SpellActionInput abilityActionInput = new SpellActionInput(null, characterMock.Object, 10, null, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+            var parameters = BuildParameters("");
+            SpellActionInput abilityActionInput = new SpellActionInput(null, characterMock.Object, 10, null, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -32,7 +39,8 @@ namespace Mud.POC.Tests.Abilities2
         {
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), null, 10, null, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+            var parameters = BuildParameters("");
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), null, 10, null, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -45,7 +53,8 @@ namespace Mud.POC.Tests.Abilities2
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<ICharacter> characterMock = new Mock<ICharacter>();
             SpellBaseTestsSpell spell = new SpellBaseTestsSpell(randomManagerMock.Object);
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), characterMock.Object, 10, null, string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+            var parameters = BuildParameters("");
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), characterMock.Object, 10, null, parameters.rawParameters, parameters.parameters);
 
             string result = spell.Setup(abilityActionInput);
 

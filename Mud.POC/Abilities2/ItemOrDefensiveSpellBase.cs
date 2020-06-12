@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2

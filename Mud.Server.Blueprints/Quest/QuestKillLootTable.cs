@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Mud.Container;
 using Mud.Logger;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.Server.Blueprints.Quest
 {

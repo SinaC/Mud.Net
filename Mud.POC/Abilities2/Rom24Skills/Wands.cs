@@ -3,7 +3,7 @@ using Mud.Logger;
 using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using Mud.Server.Input;
 using System.Collections.Generic;
 

@@ -100,7 +100,7 @@ namespace Mud.Server.Interfaces.Character
         Forms Form { get; }
 
         // Abilities
-        IEnumerable<IKnownAbility> KnownAbilities { get; }
+        IEnumerable<IAbilityLearned> LearnedAbilities { get; }
 
         // Followers
         ICharacter Leader { get; } // character we are following, different from group leader
@@ -114,6 +114,7 @@ namespace Mud.Server.Interfaces.Character
         // Act
         void Act(ActOptions option, string format, params object[] arguments);
         void ActToNotVictim(ICharacter victim, string format, params object[] arguments); // to everyone except this and victim
+        string ActPhrase(string format, params object[] arguments);
 
         // Equipments
         bool Unequip(IItem item);
@@ -163,7 +164,7 @@ namespace Mud.Server.Interfaces.Character
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
         void MultiHit(ICharacter victim); // 'this' starts a combat with 'victim'
         void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
-        DamageResults AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using an ability
+        DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using an ability
         DamageResults HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using a weapon
         DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using 'damageNoun'
         ResistanceLevels CheckResistance(SchoolTypes damageType);
@@ -175,15 +176,14 @@ namespace Mud.Server.Interfaces.Character
         bool IsSafe(ICharacter aggressor);
 
         // Abilities
-        (int learned, IKnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon);
-        (int learned, IKnownAbility knownAbility) GetLearnInfo(IAbility ability);
-        (int learned, IKnownAbility knownAbility) GetLearnInfo(string abilityName);
-        IDictionary<IAbility, int> AbilitiesInCooldown { get; }
+        (int percentage, IAbilityLearned abilityLearned) GetWeaponLearnedInfo(IItemWeapon weapon);
+        (int percentage, IAbilityLearned abilityLearned) GetAbilityLearnedInfo(string abilityName); // percentage is dynamically computed and can be different than abilityLearned.Learned
+        IDictionary<string, int> AbilitiesInCooldown { get; }
         bool HasAbilitiesInCooldown { get; }
-        int CooldownPulseLeft(IAbility ability); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
-        void SetCooldown(IAbility ability);
-        bool DecreaseCooldown(IAbility ability, int pulseCount); // return true if timed out
-        void ResetCooldown(IAbility ability, bool verbose);
+        int CooldownPulseLeft(string abilityName); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
+        void SetCooldown(string abilityName, int cooldown);
+        bool DecreaseCooldown(string abilityName, int pulseCount); // return true if timed out
+        void ResetCooldown(string abilityName, bool verbose);
 
         // Equipment
         IItem GetEquipment(EquipmentSlots slot); // return item found in first non-empty specified slot
@@ -226,7 +226,7 @@ namespace Mud.Server.Interfaces.Character
 
     public interface IHitModifier
     {
-        IAbility Ability { get; }
+        string AbilityName { get; }
         int Learned { get; }
         int Thac0Modifier(int baseThac0);
         int DamageModifier(IItemWeapon weapon, int level, int baseDamage);
@@ -238,6 +238,6 @@ namespace Mud.Server.Interfaces.Character
         Safe, // target is safe
         NoDamage, // damage has been reduced to 0
         Killed, // target has been killed by damage
-        Damaged, // normal damage
+        Done, // normal damage
     }
 }

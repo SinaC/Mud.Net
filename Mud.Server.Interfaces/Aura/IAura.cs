@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Mud.Domain;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
-using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Interfaces.Aura
 {
@@ -16,9 +14,7 @@ namespace Mud.Server.Interfaces.Aura
 
         int PulseLeft { get; } // irrelevant if AuraFlags.Permanent is set
 
-        IAbility Ability { get; }
-
-        IEntity Source { get; }
+        string AbilityName { get; }
 
         AuraFlags AuraFlags { get; }
 
