@@ -1,5 +1,4 @@
 ﻿using Mud.Server.Input;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
 {
@@ -15,24 +14,6 @@ namespace Mud.Server.Admin
                 Send("You are already incarnating {0}.", Incarnating.DisplayName);
             else
                 return base.DoImpersonate(rawParameters, parameters);
-            return CommandExecutionResults.Ok;
-        }
-
-        [AdminCommand("immortal", "Avatar", Priority = 500, MustBeImpersonated = true)]
-        [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoImmortal(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (Impersonating.IsImmortal)
-            {
-                Send("%R%BEWARE: %G%YOU ARE %R%MORTAL%G% NOW!%x%");
-                Impersonating.ChangeImmortalState(false);
-            }
-            else
-            {
-                Send("%R%YOU ARE IMMORTAL NOW!%x%");
-                Impersonating.ChangeImmortalState(true);
-            }
-
             return CommandExecutionResults.Ok;
         }
     }

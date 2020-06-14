@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mud.Domain;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Room
 {
@@ -16,21 +14,23 @@ namespace Mud.Server.Room
             Description = blueprint.Description;
             Destination = destination;
             Blueprint = blueprint;
-            ExitFlags = Blueprint.Flags;
+            CurrentFlags = Blueprint.Flags;
         }
 
         #region IExit
 
-        #region ICloseable
+        public ExitBlueprint Blueprint { get; private set; }
 
-        public int KeyId => Blueprint.Key;
-        public bool IsCloseable => ExitFlags.HasFlag(ExitFlags.Door);
-        public bool IsLockable => KeyId >= 0;
-        public bool IsClosed => ExitFlags.HasFlag(ExitFlags.Closed);
-        public bool IsLocked => ExitFlags.HasFlag(ExitFlags.Locked);
-        public bool IsPickProof => ExitFlags.HasFlag(ExitFlags.PickProof);
-        public bool IsEasy => ExitFlags.HasFlag(ExitFlags.Easy);
-        public bool IsHard => ExitFlags.HasFlag(ExitFlags.Hard);
+        public string Name { get; }
+        public IEnumerable<string> Keywords { get; }
+        public string Description { get; }
+        public IRoom Destination { get; private set; }
+        public ExitFlags CurrentFlags { get; private set; }
+
+        public bool IsDoor => (CurrentFlags & ExitFlags.Door) == ExitFlags.Door;
+        public bool IsClosed => (CurrentFlags & ExitFlags.Closed) == ExitFlags.Closed;
+        public bool IsLocked => (CurrentFlags & ExitFlags.Locked) == ExitFlags.Locked;
+        public bool IsHidden => (CurrentFlags & ExitFlags.Hidden) == ExitFlags.Hidden;
 
         public void Open()
         {
@@ -52,19 +52,6 @@ namespace Mud.Server.Room
             AddFlags(ExitFlags.Locked);
         }
 
-        #endregion
-
-        public ExitBlueprint Blueprint { get; private set; }
-
-        public string Name { get; }
-        public IEnumerable<string> Keywords { get; }
-        public string Description { get; }
-        public IRoom Destination { get; private set; }
-        public ExitFlags ExitFlags { get; private set; }
-
-        public bool IsDoor => ExitFlags.HasFlag(ExitFlags.Door);
-        public bool IsHidden => ExitFlags.HasFlag(ExitFlags.Hidden);
-
         public void OnRemoved()
         {
             Destination = null;
@@ -75,12 +62,12 @@ namespace Mud.Server.Room
 
         private void AddFlags(ExitFlags flags)
         {
-            ExitFlags |= flags;
+            CurrentFlags |= flags;
         }
 
         private void RemoveFlags(ExitFlags flags)
         {
-            ExitFlags &= ~flags;
+            CurrentFlags &= ~flags;
         }
     }
 }

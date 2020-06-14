@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
@@ -11,14 +10,6 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.Room;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
 {
@@ -117,17 +108,17 @@ namespace Mud.Server.Admin
             if (parameters.Length == 0 || !parameters[0].IsNumber)
                 return CommandExecutionResults.SyntaxError;
 
-            ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(parameters[0].AsNumber);
+            ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(parameters[0].AsNumber);
             if (itemBlueprint == null)
             {
                 Send("No item with that id.");
                 return CommandExecutionResults.TargetNotFound;
             }
 
-            IContainer container = itemBlueprint.NoTake
-                ? Impersonating.Room
+            IContainer container = itemBlueprint.WearLocation == WearLocations.None
+                ? Impersonating.Room as IContainer
                 : Impersonating as IContainer;
-            IItem item = ItemManager.AddItem(Guid.NewGuid(), itemBlueprint, container);
+            IItem item = World.AddItem(Guid.NewGuid(), itemBlueprint, container);
             if (item == null)
             {
                 Send("Item cannot be created.");
@@ -179,8 +170,6 @@ namespace Mud.Server.Admin
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
 
-            // TODO: room NoPurge
-
             // purge room
             if (parameters[0].IsAll)
             {
@@ -191,7 +180,7 @@ namespace Mud.Server.Admin
                 // Purge items (with NoPurge flag)
                 IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(Impersonating.Room.Content.Where(x => !x.ItemFlags.HasFlag(ItemFlags.NoPurge)).ToList()); // clone
                 foreach (IItem itemToPurge in items)
-                    ItemManager.RemoveItem(itemToPurge);
+                    World.RemoveItem(itemToPurge);
                 Impersonating.Act(ActOptions.ToRoom, "{0} purge{0:v} the room!", Impersonating);
                 Send("Ok.");
                 return CommandExecutionResults.Ok;
@@ -209,7 +198,7 @@ namespace Mud.Server.Admin
             IPlayableCharacter playableCharacterVictim = FindHelpers.FindPlayableChararacterInWorld(Impersonating, parameters[0]);
             if (playableCharacterVictim != null)
             {
-                if (playableCharacterVictim == Impersonating)
+                if (playableCharacterVictim == this)
                 {
                     Send("Ho ho ho.");
                     return CommandExecutionResults.InvalidTarget;
@@ -217,7 +206,7 @@ namespace Mud.Server.Admin
                 playableCharacterVictim.Act(ActOptions.ToRoom, "{0} disintegrate{0:v} {1}.", Impersonating, playableCharacterVictim);
                 playableCharacterVictim.StopFighting(true);
                 if (playableCharacterVictim.ImpersonatedBy != null)
-                    playableCharacterVictim.StopImpersonation();
+                    playableCharacterVictim.ChangeImpersonation(null);
                 World.RemoveCharacter(playableCharacterVictim);
             }
 
@@ -238,7 +227,7 @@ namespace Mud.Server.Admin
             Wiznet.Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}.", Impersonating, item);
-            ItemManager.RemoveItem(item);
+            World.RemoveItem(item);
 
             return CommandExecutionResults.Ok;
         }
@@ -257,11 +246,6 @@ namespace Mud.Server.Admin
                 Send("No such location.");
                 return CommandExecutionResults.TargetNotFound;
             }
-            if (where.IsPrivate && where.People.Count() > 1)
-            {
-                Send("That room is private right now.");
-                return CommandExecutionResults.InvalidTarget;
-            }
 
             if (Impersonating.Fighting != null)
                 Impersonating.StopFighting(true);
@@ -273,7 +257,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("xpbonus", "Admin")]
+        [Command("xpbonus", "Admin")]
         [Syntax("[cmd] <player name> <experience>")]
         protected virtual CommandExecutionResults DpXpBonus(string rawParameters, params CommandParameter[] parameters)
         {
@@ -310,7 +294,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("transfer", "Admin")]
+        [Command("transfer", "Admin")]
         [Syntax(
             "[cmd] <character> (if impersonated)",
             "[cmd] <character> <location>")]
@@ -338,15 +322,12 @@ namespace Mud.Server.Admin
                 Send("No such location.");
                 return CommandExecutionResults.TargetNotFound;
             }
-            if (where.IsPrivate)
-            {
-                Send("That room is private right now.");
-                return CommandExecutionResults.InvalidTarget;
-            }
 
-            ICharacter whom = Impersonating != null 
-                ? FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]) 
-                : FindHelpers.FindByName(World.Characters, parameters[0]);
+            ICharacter whom;
+            if (Impersonating != null)
+                whom = FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]);
+            else
+                whom = FindHelpers.FindByName(World.Characters, parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
@@ -371,48 +352,8 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("restore", "Admin")]
-        [Syntax(
-            "[cmd] <character>",
-            "[cmd] all",
-            "[cmd] (if impersonated)")]
-        protected virtual CommandExecutionResults DoRestore(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length == 0 || parameters[0].Value == "room")
-            {
-                if (Impersonating == null)
-                {
-                    Send("Restore what?");
-                    return CommandExecutionResults.SyntaxErrorNoDisplay;
-                }
-                foreach (ICharacter loopVictim in Impersonating.Room.People)
-                    RestoreOneCharacter(loopVictim);
-                Wiznet.Wiznet($"{DisplayName} has restored room {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
-                Send("Room restored.");
-                return CommandExecutionResults.Ok;
-            }
-            if (parameters[0].IsAll)
-            {
-                foreach (IPlayableCharacter loopVictim in World.PlayableCharacters)
-                    RestoreOneCharacter(loopVictim);
-                Wiznet.Wiznet($"{DisplayName} has restored everyone {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
-                Send("All active players restored.");
-                return CommandExecutionResults.Ok;
-            }
-            IPlayableCharacter victim = FindHelpers.FindByName(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating), parameters[0]);
-            if (victim == null)
-            {
-                Send(StringHelpers.CharacterNotFound);
-                return CommandExecutionResults.TargetNotFound;
-            }
-            RestoreOneCharacter(victim);
-            Wiznet.Wiznet($"{DisplayName} has restored {victim.DisplayName}.", WiznetFlags.Restore);
-            Send("Ok.");
-            return CommandExecutionResults.Ok;
-        }
+        [Command("sanitycheck", "Admin")]
 
-        [AdminCommand("sanitycheck", "Admin")]
-        [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoSanityCheck(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
@@ -432,7 +373,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [AdminCommand("commanddebug", "Admin", Priority = 10)]
+        [Command("commanddebug", "Admin", Priority = 10)]
         [Syntax(
             "[cmd] admin", 
             "[cmd] player",
@@ -456,78 +397,29 @@ namespace Mud.Server.Admin
             else if ("npc".StartsWith(specifier))
                 type = typeof(Character.NonPlayableCharacter.NonPlayableCharacter);
             else if ("item".StartsWith(specifier))
-                type = typeof(Item.ItemBase<,>);
+                type = typeof(Item.ItemBase<>);
             else if ("room".StartsWith(specifier))
                 type = typeof(Room.Room);
             else
                 return CommandExecutionResults.SyntaxError;
             IReadOnlyTrie<CommandMethodInfo> commands = CommandHelpers.GetCommands(type);
             // Filter?
-            var query = parameters.Length > 1
+            IEnumerable<CommandMethodInfo> query;
+            if (parameters.Length > 1)
+            {
                 // Filter using Trie, then order by priority
-                ? commands.GetByPrefix(parameters[1].Value).OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value)
+                query = commands.GetByPrefix(parameters[1].Value).OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value);
+            }
+            else
+            {
                 // No filter and order by MethodInfo name
-                : commands.Values.OrderBy(x => x.MethodInfo.Name);
+                query = commands.Values.OrderBy(x => x.MethodInfo.Name);
+            }
+
             // Display
             StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {type.Name}", query);
             Page(sb);
             return CommandExecutionResults.Ok;
-        }
-
-        [AdminCommand("resetarea", "Admin")]
-        [Syntax(
-            "[cmd] <area>",
-            "[cmd] (if impersonated)")]
-        protected virtual CommandExecutionResults DoResetArea(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length == 0 && Impersonating == null)
-                return CommandExecutionResults.SyntaxError;
-
-            IArea area;
-            if (parameters.Length == 0)
-                area = Impersonating.Room.Area;
-            else
-                area = World.Areas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.DisplayName, parameters[0].Value));
-
-            if (area == null)
-            {
-                Send("Area not found.");
-                return CommandExecutionResults.TargetNotFound;
-            }
-
-            area.ResetArea();
-
-            Send($"{area.DisplayName} resetted.");
-            return CommandExecutionResults.Ok;
-        }
-
-        [AdminCommand("peace", "Admin", MustBeImpersonated = true)]
-        [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoPeace(string rawParameters, params CommandParameter[] parameters)
-        {
-            foreach (ICharacter character in Impersonating.Room.People)
-            {
-                character.StopFighting(true);
-                // Needed ?
-                //if (character is INonPlayableCharacter npc && npc.ActFlags.HasFlag(ActFlags.Aggressive))
-                //    npc.Remove
-            }
-            Send("Ok.");
-
-            return CommandExecutionResults.Ok;
-        }
-
-        //
-        private void RestoreOneCharacter(ICharacter victim)
-        {
-            victim.RemoveAuras(_ => true, true); // TODO: harmful auras only ?
-            victim.UpdateHitPoints(victim.MaxHitPoints);
-            victim.UpdateMovePoints(victim.MaxMovePoints);
-            foreach (ResourceKinds resource in victim.CurrentResourceKinds)
-                victim.UpdateResource(resource, victim.MaxResource(resource));
-            victim.UpdatePosition();
-            // TODO: update_pos
-            victim.Send("{0} has restored you.", Impersonating?.DisplayName ?? DisplayName);
         }
     }
 }

@@ -1,38 +1,26 @@
 ﻿using System;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Item
 {
-    public class ItemArmor : ItemBase<ItemArmorBlueprint, ItemData>, IItemArmor
+    public class ItemArmor : ItemEquipableBase<ItemArmorBlueprint>, IItemArmor
     {
         public ItemArmor(Guid guid, ItemArmorBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
-            Bash = blueprint.Bash;
-            Pierce = blueprint.Pierce;
-            Slash = blueprint.Slash;
-            Exotic = blueprint.Exotic;
+            Armor = blueprint.Armor;
+            ArmorKind = blueprint.ArmorKind;
         }
 
         public ItemArmor(Guid guid, ItemArmorBlueprint blueprint, ItemData itemData, IContainer containedInto)
             : base(guid, blueprint, itemData, containedInto)
         {
-            Bash = blueprint.Bash;
-            Pierce = blueprint.Pierce;
-            Slash = blueprint.Slash;
-            Exotic = blueprint.Exotic;
+            Armor = blueprint.Armor;
+            ArmorKind = blueprint.ArmorKind;
         }
 
-        #region IItemArmor
-
-        public int Bash { get; }
-        public int Pierce { get; }
-        public int Slash { get; }
-        public int Exotic { get; }
-
-        #endregion
+        public int Armor { get; }
+        public ArmorKinds ArmorKind { get; }
     }
 }

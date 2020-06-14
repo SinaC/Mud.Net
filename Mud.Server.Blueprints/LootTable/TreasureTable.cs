@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mud.Container;
 using Mud.Logger;
-using Mud.Server.Random;
+using Mud.Server.Common;
 
 namespace Mud.Server.Blueprints.LootTable
 {
@@ -30,7 +30,7 @@ namespace Mud.Server.Blueprints.LootTable
 
         public T GenerateLoot()
         {
-            T randomId = RandomManager.RandomOccurancy(Entries);
+            T randomId = RandomManager.Random(Entries);
             if (randomId.Equals(default))
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");
             return randomId;
@@ -41,19 +41,19 @@ namespace Mud.Server.Blueprints.LootTable
             if (Entries == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: No entries");
-                return default; // max occurancy reached, no loot
+                return default(T); // max occurancy reached, no loot
             }
-            TreasureTableEntry<T> randomEntry = RandomManager.RandomOccurancy<TreasureTableEntry<T>, T>(Entries);
+            TreasureTableEntry<T> randomEntry = RandomManager.Random<TreasureTableEntry<T>, T>(Entries);
             if (randomEntry == null)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");
-                return default;
+                return default(T);
             }
             //Log.Default.WriteLine(LogLevels.Debug, "Loot: {0}", randomEntry.Value);
             if (history.Count(x => x.Equals(randomEntry.Value)) >= randomEntry.MaxOccurancy)
             {
                 //Log.Default.WriteLine(LogLevels.Debug, "Loot rejected #>Max");
-                return default; // max occurancy reached, no loot
+                return default(T); // max occurancy reached, no loot
             }
             return randomEntry.Value;
         }

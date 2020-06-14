@@ -72,19 +72,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AreaData.cs" />
-    <Compile Include="RomConvertException.cs" />
     <Compile Include="MobileData.cs" />
     <Compile Include="ObjectData.cs" />
     <Compile Include="RomImporter.cs" />
-    <Compile Include="RomLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoomData.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
-      <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
-      <Name>Mud.Domain</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Importer\Mud.Importer.csproj">
       <Project>{3a7f2847-d754-4eb1-ad57-805df4f9241f}</Project>
       <Name>Mud.Importer</Name>
@@ -92,10 +86,6 @@
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
-      <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
-      <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -76,8 +76,8 @@
     <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -140,10 +140,6 @@
       <Project>{628aeb23-cbe8-4b89-a1b6-ab6b1c22d0fc}</Project>
       <Name>Mud.POC</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj">
-      <Project>{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}</Project>
-      <Name>Mud.Server.Ability</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
@@ -151,14 +147,6 @@
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
       <Name>Mud.Server.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
-      <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
-      <Name>Mud.Server.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
-      <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
-      <Name>Mud.Server.Random</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>

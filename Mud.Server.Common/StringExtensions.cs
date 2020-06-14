@@ -33,5 +33,26 @@ namespace Mud.Server.Common
             string output = ColorTagRegex.Replace(s, match => string.Empty);
             return output.Length;
         }
+
+        public static string CenterText(this string text, int length)
+        {
+            if (text.Length >= length)
+                return text;
+            int space = length - text.Length;
+            int left = space / 2;
+            //int right = space/2 + (space%2);
+            return text.PadLeft(left + text.Length).PadRight(length);
+        }
+
+        public static string UpperFirstLetter(this string text, string ifNull = "???")
+        {
+            if (text == null)
+                return ifNull;
+
+            if (text.Length > 1)
+                return char.ToUpper(text[0]) + text.Substring(1);
+
+            return text.ToUpper();
+        }
     }
 }

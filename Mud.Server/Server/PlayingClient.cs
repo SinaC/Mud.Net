@@ -3,7 +3,6 @@ using System.Collections.Concurrent;
 using System.Text;
 using Mud.Container;
 using Mud.Network;
-using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Server
 {
@@ -15,7 +14,7 @@ namespace Mud.Server.Server
         private readonly ConcurrentQueue<string> _receiveQueue; // concurrent queue because network may write and server read at the same time
         private readonly StringBuilder _sendBuffer;
 
-        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
 
         public Paging Paging { get; }
 

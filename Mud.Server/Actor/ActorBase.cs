@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Mud.Common;
 using Mud.Container;
 using Mud.DataStructures.Trie;
-using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Common;
+using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Actor;
-using Mud.Server.Interfaces.World;
 using Mud.Settings;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Actor
 {
@@ -22,7 +18,10 @@ namespace Mud.Server.Actor
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
+        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
+        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
+        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
 
         #region IActor
 
@@ -79,7 +78,7 @@ namespace Mud.Server.Actor
                         }
                         else if (executionResult == CommandExecutionResults.SyntaxError)
                         {
-                            StringBuilder syntax = BuildCommandSyntax(entry.Key, entry.Value.Syntax.Syntax, false);
+                            StringBuilder syntax = BuildCommandSyntax(entry.Value);
                             Send(syntax);
                         }
                         bool afterExecute = ExecuteAfterCommand(entry.Value, rawParameters, parameters);
@@ -112,6 +111,16 @@ namespace Mud.Server.Actor
             }
         }
 
+        public virtual bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            return true;
+        }
+
+        public virtual bool ExecuteAfterCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            return true;
+        }
+
         public void Send(string format, params object[] parameters)
         {
             string message = parameters.Length == 0 
@@ -127,60 +136,26 @@ namespace Mud.Server.Actor
 
         #endregion
 
-        protected virtual bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            return true;
-        }
-
-        protected virtual bool ExecuteAfterCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            return true;
-        }
-
         [Command("cmd", Priority = 0)]
         [Command("commands", Priority = 0)]
         [Syntax(
             "[cmd]",
-            "[cmd] all",
             "[cmd] <category>")]
         protected virtual CommandExecutionResults DoCommands(string rawParameters, params CommandParameter[] parameters)
         {
-            const int columnCount = 6;
+            const int columnCount = 5;
+            // TODO: group trie by value (group by DoXXX) and display set of key linked to this value
 
             IEnumerable<KeyValuePair<string, CommandMethodInfo>> filteredCommands = Commands.Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
 
-            // Display categories
-            if (parameters.Length == 0)
-            {
-                StringBuilder categoriesSb = new StringBuilder();
-                categoriesSb.AppendLine("Available categories:%W%");
-                int index = 0;
-                foreach (var category in filteredCommands
-                    .SelectMany(x => x.Value.Attribute.Categories.Where(c => !string.IsNullOrWhiteSpace(c)))
-                    .Distinct()
-                    .OrderBy(x => x))
-                {
-                    if ((++index % columnCount) == 0)
-                        categoriesSb.AppendFormatLine("{0,-14}", category);
-                    else
-                        categoriesSb.AppendFormat("{0,-14}", category);
-                }
-                if (index > 0 && index % columnCount != 0)
-                    categoriesSb.AppendLine();
-                categoriesSb.Append("%x%");
-                Send(categoriesSb);
-                return CommandExecutionResults.Ok;
-            }
-
-            // If a parameter is specified, filter on category unless parameter is 'all'
+            // If a parameter is specified, filter on category
             Func<string, bool> filterOnCategoryFunc = _ => true;
-            if (!parameters[0].IsAll)
-                filterOnCategoryFunc = category => StringCompareHelpers.StringStartsWith(category, parameters[0].Value);
+            if (parameters.Length > 0)
+                filterOnCategoryFunc = category => FindHelpers.StringStartsWith(category, parameters[0].Value);
 
             // Grouped by category
             // if a command has multiple categories, it will appear in each category
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Available commands:");
+            StringBuilder sb = new StringBuilder("Available commands:" + Environment.NewLine);
             foreach(var cmdByCategory in filteredCommands
                 .SelectMany(x => x.Value.Attribute.Categories.Where(filterOnCategoryFunc), (kv, category) => new {category, cmi = kv.Value})
                 .GroupBy(x => x.category, (category, group) => new {category, commands = group.Select(x => x.cmi)})
@@ -206,29 +181,29 @@ namespace Mud.Server.Actor
         }
 
         [Command("syntax", Priority = 999)]
-        [Syntax(
-            "[cmd] all",
-            "[cmd] <command>")]
+        [Syntax("[cmd] <command>")]
         protected virtual CommandExecutionResults DoSyntax(string rawParameters, params CommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
 
-            string commandNameToFind = parameters[0].IsAll
-                ? string.Empty // Trie will return whole tree when searching with empty string
-                : parameters[0].Value.ToLowerInvariant();
+            string commandNameToFind = parameters[0].Value.ToLowerInvariant();
             var commands = Commands.GetByPrefix(commandNameToFind).Where(x => !x.Value.Attribute.Hidden && IsCommandAvailable(x.Value.Attribute));
 
             bool found = false;
             StringBuilder sb = new StringBuilder();
-            foreach (var group in commands.GroupBy(x => x.Value.MethodInfo.Name).OrderBy(x => x.Key)) // group by command
+            foreach (var group in commands.GroupBy(x => x.Value.MethodInfo.Name)) // group by command
             {
                 string[] namesByPriority = group.OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value.Attribute.Name).ToArray(); // order by priority
                 string title = string.Join(", ", namesByPriority.Select(x => $"%C%{x}%x%"));
                 sb.AppendLine($"Command{(namesByPriority.Length > 1 ? "s" : string.Empty)} {title}:");
                 string commandNames = string.Join("|", namesByPriority);
-                StringBuilder sbSyntax = BuildCommandSyntax(commandNames, group.SelectMany(x => x.Value.Syntax.Syntax).Distinct(), true);
-                sb.Append(sbSyntax);
+                foreach (string syntax in group.SelectMany(x => x.Value.Syntax.Syntax))
+                {
+                    // TODO: enrich argument such as <character>, <player name>, ...
+                    string enrichedSyntax = syntax.Replace("[cmd]", commandNames);
+                    sb.AppendLine("     Syntax: " + enrichedSyntax);
+                }
                 found = true;
             }
             if (found)
@@ -245,19 +220,15 @@ namespace Mud.Server.Actor
             return true;
         }
 
-        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>()
-            where T : ActorBase
-            => CommandHelpers.GetCommands(typeof(T));
+        protected static IReadOnlyTrie<CommandMethodInfo> GetCommands<T>() => CommandHelpers.GetCommands(typeof(T));
 
-        private StringBuilder BuildCommandSyntax(string commandNames, IEnumerable<string> syntaxes, bool addSpaces)
+        private StringBuilder BuildCommandSyntax(CommandMethodInfo commandMethodInfo)
         {
             StringBuilder sb = new StringBuilder();
-            foreach (string syntax in syntaxes)
+            foreach (string syntax in commandMethodInfo.Syntax.Syntax)
             {
                 // TODO: enrich argument such as <character>, <player name>, ...
-                string enrichedSyntax = syntax.Replace("[cmd]", commandNames);
-                if (addSpaces)
-                    sb.Append("      ");
+                string enrichedSyntax = syntax.Replace("[cmd]", commandMethodInfo.Attribute.Name);
                 sb.AppendLine("Syntax: " + enrichedSyntax);
             }
             return sb;
@@ -273,7 +244,7 @@ namespace Mud.Server.Actor
                     : CommandExecutionResults.Error;
             if (rawResult is CommandExecutionResults commandExecutionResult)
                 return commandExecutionResult;
-            Wiznet.Wiznet($"Command {command} return type {rawResult.GetType().Name} is not convertible to CommandExecutionResults", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Log.Default.WriteLine(LogLevels.Error, "Command {0} return type {1} is not convertible to CommandExecutionResults", command, rawResult.GetType().Name);
             return CommandExecutionResults.Ok;
         }
     }

@@ -59,53 +59,5 @@ namespace Mud.Repository.Tests
 
             original.WithDeepEqual(externalAdminData).Assert();
         }
-
-        // AffectDataBase is abstract, so AuraData.Affects will always be populated with null
-        [TestMethod]
-        public void Test_Affects_Success()
-        {
-            Domain.AuraData original = new Domain.AuraData
-            {
-                Affects = new Domain.AffectDataBase[]
-                {
-                    new Domain.ItemWeaponFlagsAffectData
-                    {
-                        Modifier = Domain.WeaponFlags.Holy,
-                        Operator = Domain.AffectOperators.Assign,
-                    },
-                    new Domain.ItemFlagsAffectData
-                    {
-                        Modifier = Domain.ItemFlags.Evil,
-                        Operator = Domain.AffectOperators.Or,
-                    },
-                    new Domain.CharacterSexAffectData
-                    {
-                        Value = Domain.Sex.Female,
-                    },
-                    new Domain.CharacterIRVAffectData
-                    {
-                        Location = Domain.IRVAffectLocations.Resistances,
-                        Modifier = Domain.IRVFlags.Cold,
-                        Operator = Domain.AffectOperators.Add,
-                    },
-                    new Domain.CharacterFlagsAffectData
-                    {
-                        Modifier = Domain.CharacterFlags.Regeneration,
-                        Operator = Domain.AffectOperators.Nor,
-                    },
-                    new Domain.CharacterAttributeAffectData
-                    {
-                        Location = Domain.CharacterAttributeAffectLocations.SavingThrow,
-                        Modifier = -5,
-                        Operator = Domain.AffectOperators.Assign,
-                    },
-                }
-            };
-
-            var internalAuraData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AuraData, Mongo.Domain.AuraData>(original);
-            var externalAuraData = DependencyContainer.Current.GetInstance<IMapper>().Map<Mongo.Domain.AuraData, Domain.AuraData>(internalAuraData);
-
-            original.WithDeepEqual(externalAuraData).Assert();
-        }
     }
 }

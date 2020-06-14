@@ -37,19 +37,15 @@ namespace Mud.Settings.ConfigurationManager
         public bool DumpOnInitialize => BoolSetting("DumpOnInitialize", false);
 
         //
-        public int CoinsBlueprintId => IntSetting("CoinsBlueprintId", 5);
-        public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 10);
-        public int MushroomBlueprintId => IntSetting("MushroomBlueprintId", 20);
-        public int LightBallBlueprintId => IntSetting("LightBallBlueprintId", 21);
-        public int SpringBlueprintId => IntSetting("SpringBlueprintId", 22);
-        public int FloatingDiscBlueprintId => IntSetting("FloatingDiscBlueprintId", 23);
-        public int PortalBlueprintId => IntSetting("PortalBlueprintId", 25);
-        public int RoseBlueprintId => IntSetting("RoseBlueprintId", 1001);
+        public int CorpseBlueprintId => IntSetting("CorpseBlueprintId", 999999);
         public int DefaultRoomId => IntSetting("DefaultRoomId", 3001);
-        public int DefaultRecallRoomId => IntSetting("DefaultRoomId", 3001);
-        public int DefaultDeathRoomId => IntSetting("DefaultDeathRoomId", 3054);
-        public int MudSchoolRoomId => IntSetting("MudSchoolRoomId", 3001);
-        public int NullRoomId => IntSetting("NullRoomId", 1);
+
+        // Pulse
+        public int PulsePerSeconds => IntSetting("PulsePerSeconds", 4);
+        public int PulsePerMinutes => PulsePerSeconds * 60;
+        public int PulseDelay => 1000 / PulsePerSeconds;
+        // automatic combat (in pulse per seconds)
+        public int PulseViolence => 3 * PulsePerSeconds;
 
         //
         public bool CheckLoginPassword => BoolSetting("CheckLoginPassword", false);

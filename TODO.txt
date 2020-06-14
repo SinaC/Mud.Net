@@ -1,361 +1,31 @@
-NEXT:
-integrate new abilities system into rom24_spells branch
-redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
+ItemFlags to use: Indestructible, Invisible
 
-move ClassBase/Manager and RaceBase/Manager into specific project and move races/classes to Rom24 project
-move Weapon effect from OneHit to Rom24
-find a elegant way to apply PoisonDamageAffect without referencing Rom24
-use StringComparer.InvariantCultureIgnoreCase in Dictionary<string, ???> constructor
-add ICharacterManager -> once done, rename every method to remove Item/Character/Room
+refactor RawKilled: found in NonPlayableCharacter and PlayableCharacter
+IEquipable should not exist -> every item with a wear location should be equipable even if it's a furniture or a bag
+When adding a container in a container, check if there is no cycle
 
-make a map of calls done when a NPC is Removed/StopFollowing/...
+refactor damage functions in OneHit, Ability, DamageHelpers
 
-module to enable load on demand of skills/spells/commands/...
+test group
+     kill steal
 
-SHORT TERM TODO:
-grove.are: the second jar will never appear
-O 0 8902   2 8915	* a spice jar
-P 1 8903   1 8902  1	*   some black powder
-O 0 8902   2 8915	* a spice jar
-P 1 8904   1 8902  1	*   some small yellow kernels
-dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 different containers in fact: room for the first one and mob for the second one)
-O 0 6506   1 6534	* long, black stick
-E 1 6506  10   17	*   long, black stick
-
-commands dynamically added to Character depending on room they are, for example
-	we could add list/buy/sell/value to commands if a shopkeeper is in the room
-	brandish only when holding a staff
-
-poison/plague affect serialization
-remove position incap, mortal, stunned -> probably remove UpdatePosition, replaced stunned with a 'timer'
-offensive flags: rescue, bite, crush, ...
-clan/guild, auction house, help, socials, wimpy, note
-commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
-	heal, autoaffect, wake, myclan, petition, clanlist
-admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
-	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
-PK
-Add ctor to every manager with other manager as parameter to easy unit tests
-prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
-linkdead
-Move CanSee in IEntity
-Move AddAura in aura manager
-each time operator IS or AS is used, this should be replaced with an overridable method
-DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
-IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
-EquippedItem should be responsible for displaying itself
-EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
-pull/push
-Multiple wear location
-Reset 'R'
-quest: add quest item on the fly when player takes the quest
-item: protect, room_key
-Monitor Recompute calls
-Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
-Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
-skills: steal/lore
-spells: create rose, farsight, identify
-assign abilities to classes
-Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
-Unit tests on spell/skill to check if method argument matches AbilityTarget, check if ItemInventoryOrCharacterDefensive have both dispel message
-UnitTests CastFromItem/GetItemAbilityTarget
-UnitTests on Rom24Effects
-
-AbilityTargets not yet handled:
-	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
-
-DONE:
-Rescue skill
-race form, parts
-plague spread to other people in room
-poison does periodic damage
-Spell with damage + effect (such as ColourSpray) can lead to strange behaviour -> damage kill victim then blindness is cast on victim  -> Damage should return if character has been killed
-commands: buy, list, value, sell
-CharacterShopBlueprint
-Mass invis added
-IsSameGroup return true when checking 2 same character
-Xp loss when dying added
-Rot importer
-Group displayed infos: resources are missing
-Newly created character were drunk :p
-IsSameGroup should consider Pet as in group: IsSameGroupOrPet method
-autoassist, autoexits, autosplit, autogold, autosacrifice, autoloot
-Auto, Sacrifice, Split command
-ActPet specific code
-PlayableCharacter can be immortal or not -> don't link immortality to ImpersonatedBy is IAdmin
-Admin command: peace
-command SAffects added
-third wield, fourth wield
-add dummy spell to create a pet
-pet save
-Order implemented
-Command attribute name forced to lower invariant
-Unfollow pc-specific added 
-groups/pets/followers integrate from POC
-use wiznet(msg, WiznetFlags.Bugs) when LogLevels.Error is used
-default error message with character command if not in correct position
-mystery imported fixed
-trinket wear location removed
-reset fixed
-rom importer fixed
-missing equipment slot amulet/wrist for npc and race
-canyon.are:
-	room 9204: M 9202 global limit was 0 -> set to 1
-	room 9204: E 9213 invalid reset wear location arms -> set reset location to wrist
-	item 9223, 9224, 9225, 9328: no wear location but found in E reset hold -> set item wear location to hold
-	room 9222: E 9225 invalid reset wear location chest -> set reset location to hold
-	room 9230: E 9218 invalid reset wear location wield -> set reset location to hold
-	room 9238: E 9217 invalid reset wear location wield -> set reset location to hold
-	room 9257: E 9216 invalid reset wear location wield -> set reset location to hold
-	room 9220: E 9222 is a light so wear location is forced to light but reset location is gold -> set reset location to light
-pyramid.are:
-	room 8732: O 8723 global limit was 0 -> set to 1
-	room 8745: M 8710 2 instances but local limit of 1 -> set local limit to 2
-ofcol2.are:
-	room 688: E 656 invalid reset wear location head -> set reset location to legs
-			  E 657 invalid reset wear location legs -> set reset location to feet
-olympus.are:
-	item 915, 916: no wear location but found in E reset hold -> set to hold
-hitower.are:
-	room 1314: M 1314 2 instances but local limit of 1 -> set local limit to 2
-	item 1316, 1323, 1325: no wear location but found in E reset hold -> set to hold
-	item 1356: no wear location but found in E reset wrist -> set to wrist
-gnome.are:
-	item 1514: no wear location but found in E reset wield -> set item wear location to hold and reset tto hold
-wyvern.are:
-	room 1638: E 1621 invalid reset wear location waist -> set reset location to hold
-catacomb.are;
-	room 2016: M 2010 3 instances but local limit of 2 -> set local limit to 3
-	room 2025: E 2001 key with reset wear location light -> change reset to G
-	room 2030: E 2006 crown with reset wear location hold -> change reset to G
-	room 2050: E 2012 shield with reset wear location chest -> change reset to G
-	room 2052: M 2001 6 instances but local limit of 3 -> set local limit to 6
-draconia.are:
-	room 2214: E 2223 invalid reset wear location cloak -> set reset location to wield
-mahntor.are:
-	room 2387: E 2382 invalid reset wear location waist -> set reset location neck
-	room 2391: E 2315 invalid reset wear location ring -> set reset location to head
-	room 2396: E 2342 invalid reset wear location wrist -> set reset location to hold
-chapel.are:
-	item 3411, 3416, 3419: no wear location but found in E reset hold -> set to hold
-	room 3465: M 3407 2 instances but local limit of 1 -> set local limit to 2
-school.are:
-	item 3714: no wear location but found in E reset hold -> set to hold
-moria.are:
-	room 4013, 4021, 4027: M 4003 2 instances in each room but local limit of 1 -> set local limit to 2
-	room 4070: E 3072 invalid reset wear location head -> set reset location to chest
-	room 4028: M 4004 2 instances but local limit of 1 -> set local limit to 2
-drop.are:
-	room 5109: E 5108 invalid reset wear location arms -> set reset location to wrist
-thalos.are, mirror.are:
-	item 5230, 5233, 5231, 5243, 5235, 5214, 5232, 5237, 5214, 5241: wear location float was incompatible with description and E reset -> set item wear location to hold
-	item 5224, 5226, 5239: no wear location but found in E reset hold -> set item wear location to hold
-	room 5229, 5238: E 5214 is a light so wear location is forced to light but reset location is hold -> set reset location to light
-dwarven.are:
-	item 6514: no wear location but found in E reset hold -> set item wear location to hold
-daycare.are:
-	room 6609: M 6603 2 instances but local limit of 1 -> set local limit to 2
-sewer.are:
-	room 7233: M 7203 2 instances but local limit of 1 -> set local limit to 2
-	room 7285: M 7002 2 instances but local limit of 1 -> set local limit to 2
-	room 7428: E 7309 invalid reset wear location arms -> set reset location to feet
-    room 7428: E 7310 invalid reset wear location feet -> set reset location to arms
-astral.are:
-	 room 7751, 7765, 7767, 7769: M: 7707 2 instances but local limit of 1 -> set local limit to 2
-tohell.are:
-	room 10456, 10465, 10467: E 10412 invalid reset wear location mainhand  -> set reset location to hold
-	room 10470: E 10414 invalid reset wear location mainhand  -> set reset location to hold
-RomImporter: light item wear location forced to light
-FixWorld: fix wear location on items and local limit in resets, warn about global limit not high enough
-Fixing area and reset issues
-New abstraction level IItemCanContain as common level for IItemContainer and IItemCorpse
-Spells: general purpose, high explosive
-item: trash, gem, clothing, map, corpse
-AreaBlueprint: flags, and other fields
-Reset 'D'
-Admin command Resets
-Mystery resets fixed, set global limit to -1 and local limit to 1
-Add aliases to PlayableCharacter
-Cooldown saved
-item order in room
-container are not closed/locked when resetted -> was not handled when creating blueprint
-lock/unlock/open/close fixed for container
-admin commands: Ostat, Cstat
-Armor from shield added in Recompute
-boat
-noweapon damagetype for npc
-workaround for mystery reset bug
-item: money, treasure
-short description added on item
-name, short desc, description can now be set at creation
-silver/gold
-moons
-room: heal/resource rate, maxsize, sector, light
-Death room added: room where PC goes when killed
-nasty bug with when PC were killed -> could never go below 1 :)
-resets
-command min position
-Scavenger/Sentinel handled
-UpdatePosition call in CharacterUpdate
-Aura's level decrease with time
-when a spell has damage + effect, the target sometimes dies on damage and can get a null ref exception on additional effect (because Room is set to null for example)
-check ACT_WARRIOR, ACT_THIEF, ACT_CLERIC, ACT_MAGE
-Combat system (backstab multihit included)
-    MultiHit in NonPlayableCharacter and PlayableCharacter
-    OneHit in CharacterBase
-    AbilityDamage in CharacterBase
-    HitDamage in CharacterBase
-    GenericDamage in CharacterBase
-	hitpoint, manapoint, dam in CharacterBlueprint
-Recompute call count optimized when unequiping item
-Issue fixed when recompute was causing item to be unequiped, item was removed from equipment but EquippedBy was not set to null
-weather
-commands: DoWeather
-spells: call lightning, control weather
-Item types used in Rom24Effects
-Rainy used in SpellCreateWater
-command quaff, recite
-item pill, potion, scroll
-Unequip/Equip add optional recompute argument
-use GetEquipment where Equipments is reference
-prime attribute for class: +2 max train points in this attribute (+3 if human)
-IEquippableItem should not exist -> every item with a wear location should be equippable even if it's a furniture or a bag
-command all + syntax all reworked
-SpellFloatingDisc now uses a new IItemContainer method to set max weight, ...
-When putting a container in a container, check if there is no cycle
-weapon types + relation to abilities
-WearLocations.Float, EquipmentSlots.Float, SpellFloatingDisc
-size
-equipment wear phrase
-container max weight, max items
-carry, weight
-RoomFlags
-IsSafe
-GetLearned replaced this[IAbility]
-envenom
-all skills
-    should use UseResult (Ok/Fail) from skill to call check improve (additional attribute param for skill storing improve multiplier)
-    wear off message
-pick lock added
-AddOrUpdateAffect could have an additional parameter with duration, if update is selected -> update duration
-AddAura: additional param combine, when adding already existing aura (see affect_join)
-Exit flags
-closeable items (portal and container)
-issue with lightning breath, table-based damage spell, ray of truth
-portal flags, charge, load/save
-WarpStone + SpellPortal + SpellNexus
-Aura.update
-ColdEffect: DrinkContainer
-PoisonEffect: DrinkContainer/Food
-SpellPoison: food
-create spring, water, food added
-eat command added
-food item added
-conditions serialize/deserialize added
-conditions: drunk/thirst/full/hungry
-pour, fill command added
-IItemDrinkable tests
-drink command added
-fountain and liquid table added
-issue when impersonating another character while already impersonating (previous was not removed from the game, pure luck if I found this one) fixed
-ExitDirectionCount removed
-Sneak/Hide
-armor on equipment apply in recompute
-wear off message <> dispel message (see message send in TryDispels)
-Passives not hardcoded anymore in AbilityManager, new attribute [PassiveList] handle this
-xp/level
-Sneak leave/enter
-Train command
-shortcuts to BasicAttributes
-HitRoll/DamRoll/Armors properties to avoid computing every real formula
-race base/max attr, imm, res, vuln added
-issue with npc/pc attributes/resources solved
-issue with impersonation ImpersonatedBy was set twice, replace ChangeImpersonation with StopImpersonation
-issue with player/admin folders not found, is fixed
-regen now based on stats and base regen values is an abstract method to avoid cast
-Min/MaxHitPerLevel added in classes
-Levelling stat increase are now based on tables
-CheckAbilityImprove: %age shoud be computed (or table) based on intelligence
-CurrentAttributes, CurrentCharacterFlags, CurrentXXX should be accessible with indexers
-Needed domain classes copied in POC instead of using Domain ones -> POC will not be impacted by future change in domain
-fixed typing command, syntax a, will give duplicate results for atalk
-    Commands atalk, admintalk:
-        Syntax: atalk|admintalk <message>
-        Syntax: atalk|admintalk <message>
-when load pfile with unknown resource kind -> crash in ToDictionary because multiple key -1 will be found
-gain/practice command
-restore command
-HP/Move/Resources saved in pfile
-remove CharacterBase.RecomputeCommands + StaticCommands + _fullCommands
-Class/Race AddAbility additional parameters
-Add/Merge abilities from race/class when PlayableCharacter is created/connected
-AbilityManager reflection to gather abilities will not work because Spells are not static
-    use new system to gather spell/skill/passive: find every class implementing an interface IAbilityImplementation
-    those classes will have a predefined ctor with needed interfaces such as ISettings, IRandomManager, ...
-Ability wears off message done
-Generate skill command in ICharacter and tests Use
-Skill practice %
-Ability info by class/race
-Cast resource/gain exp/check improve
-Don't save invalid auras, better use of IsValid on Aura -> store an Aura list in World this will avoid looping on all room/character/item to check aura
-Move, Resistances, Alignment added
-Rom24 various flags added
-Rom24 most spells added
-.Net Random direct access removed from RandomManager 
-ICharacter.Inventory is the same as Content 
-AddAura duration in pulse and not second (-1: permanent)
-    change aura/quest/... duration to TimeSpan
-Save aura in CharacterData/ItemData
-Aura with multiple modifiers
-Add AddOrModifyAura to refactor test on GetAura then AddAura or Aura.Modify
-Affects save
-Full character/item data save
-TableGenerator with duplicate columns
-	 ----------------------
-	|Name  | % || Name  | %|
-	|------+---++-------+--|
-	|Name1 | 1 || Name2 | 2|
-	|Name3 | 3 || Name4 | 5|
-	|Name5 | 5             |
-	 ----------------------
-
-*************************************************************
-LONG TERM TODO:
-Shop: appraise
-specials
-assist_guard
-aggro table
-isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
-automated quests
-quest history
-leaving impersonation should not stop fighting -> PlayableCharacter can still died while not impersonated
-  when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
-make text drunk in say/whisper/... see act_comm.C:2222
-when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
-Second/Third/Fourth wield in insectoid
-alignment at creation ?
-Idea: move HP and move in ResourceKinds
-Use SafeList where List is used
-Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
-store an Aura list in World this will avoid looping on all room/character/item to check aura
-Save blueprint in Hashtable
-Enum string representation instead of int in Repository
-redo DoScore, DoAffects
-check if IStat, MStat and RStat display new informations
-When an item quest objective is complete, quest item should be NoTake or should be invisible
 cannot quit while affected by an harmful aura/periodic aura
 while leaving(or reconnecting) aura should be removed ? maybe an additional flag saying if timer should decrease while disconnected ?
+
 remove Send(..., bool addTrailingNewLine)
 auto paging if data to send to too big?
 check if RelativeDisplayName should be used instead of DisplayName in Command (check if CanSee should be used)
+
 quest save completed quests
       quest tree (prereq)
       repeteable or not quests
-      autogenerate
+
+aura/cd: SecondsLeft should be used (decreased in pulse methods) instead of Start + Duration  without this modification, it will be almost impossible to save
+
 better command parser: should be able to specify something like     will be possible with SyntaxAttribute
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world
-    [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipment
+    [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipement
 wear item
      all
      all.item
@@ -365,13 +35,23 @@ look no arg
      item
      extradescription
      direction
+
 multitable generator, paging a table should repeat the header at the beginning of each page
-prompt modifiable by user
+
+autosac, autoloot, auto...
+prompt
+
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
+
 move blueprints to Mud.Domain + refactor Mud.Domain
+
 IWorld: should create IReadonlyWorld which only contains getter
 
+default error message with character command if not in correct position
+
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
+
+unit/integration tests
 
 specialization
 talent
@@ -385,10 +65,29 @@ notes
 weather
 lua for mob IA
 
+use wiznet(msg, WiznetFlags.Bugs) when LogLevels.Error is used
+
+drink/eat/fill/pour/quaff
+pull/push
+buy/sell/list
+
+act: add IPlayer, IAdmin -> Name or Impersonated.DisplayName
+
 admin
     at(quite difficult to implement)
     most [MustBeImpersonated] command should work when incarnating
 statistics: mob killed, player killed, ...
+
+!! Stunned position is not very well used/defined
+min pos to initiate command  see interp.C:935
+use more StringBuilder
+check if everywhere if Act should replace Send
+use new act formatting: h, b, v whereas possible
+
+prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
+
+aura/periodic aura can have multiply affects/effects
+isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
 
 Mystery to new format converter (see olc_act.C:2578 for obj values  L4571 for mob values)
 Other format (ROM, Merc, ...)
@@ -400,6 +99,16 @@ http://wow.gamepedia.com/Dual_wield
 http://wow.gamepedia.com/Crushing_blow
 
 check wheelmud for mccp/mxp
+
+each time operator IS or AS is used, this should be replaced with an overridable method
+DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
+IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
+EquipedItem should be responsible for displaying itself
+EquipedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
+
+unit tests
+
+spam, linkdead, ...
 
 ability:
 http://www.wowhead.com/spell=106832/thrash
@@ -420,9 +129,6 @@ school: see DamageTypes
 dispel type: ?
 effects: list of effect such as weapon damage %, school damage % spellpower, apply aura absorb damage, apply aura periodic damage % spellpower tick seconds, apply aura periodic heal % spellpower tick seconds
 flags: require main hand, not shapeshifted, passive
-
-mudbytes
-http://www.mudbytes.net/files/tags/RoT/
 
 lua:
 http://dotnetslackers.com/articles/wpf/Integrate-Lua-into-WPF-Games.aspx
@@ -463,7 +169,3 @@ https://github.com/vedicveko/Mud-Areas
 
 old mobprogram
 http://dsmud.wikidot.com/mprog-guide-written-by-xzylvador-from-aarchon-mud
-
-building
-http://www.ansalon.net/Building_Ansalon2.2.3.txt
-http://www.eotmud.com/NewbieOLC.txt

@@ -1,4 +1,4 @@
-﻿using Mud.Server.Random;
+﻿using Mud.Server.Common;
 
 namespace Mud.Server.Blueprints.LootTable
 {

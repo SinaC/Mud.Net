@@ -79,10 +79,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
-      <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
-      <Name>Mud.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
       <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
       <Name>Mud.DataStructures</Name>

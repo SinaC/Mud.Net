@@ -2,35 +2,7 @@
 {
     public static class ExitDirectionsExtensions
     {
-
-        public static string ShortExitDirections(this ExitDirections exitDirections)
-        {
-            switch (exitDirections)
-            {
-                case ExitDirections.North:
-                    return "N";
-                case ExitDirections.East:
-                    return "E";
-                case ExitDirections.South:
-                    return "S";
-                case ExitDirections.West:
-                    return "W";
-                case ExitDirections.Up:
-                    return "U";
-                case ExitDirections.Down:
-                    return "D";
-                case ExitDirections.NorthEast:
-                    return "ne";
-                case ExitDirections.NorthWest:
-                    return "nw";
-                case ExitDirections.SouthEast:
-                    return "se";
-                case ExitDirections.SouthWest:
-                    return "sw";
-                default:
-                    return "?";
-            }
-        }
+        public static int ExitCount = 10;
 
         public static ExitDirections ReverseDirection(this ExitDirections direction)
         {
@@ -79,25 +51,6 @@
             else
                 return false;
             return true;
-        }
-
-        public static string DisplayName(this ExitDirections direction)
-        {
-            switch (direction)
-            {
-                case ExitDirections.North: return "north";
-                case ExitDirections.East: return "east";
-                case ExitDirections.South: return "south";
-                case ExitDirections.West: return "west";
-                case ExitDirections.Up: return "up";
-                case ExitDirections.Down: return "down";
-                case ExitDirections.NorthEast: return "north east";
-                case ExitDirections.NorthWest: return "north west";
-                case ExitDirections.SouthEast: return "south east";
-                case ExitDirections.SouthWest: return "south west";
-                default:
-                    return "???";
-            }
         }
     }
 }

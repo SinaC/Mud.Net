@@ -1,32 +1,44 @@
-﻿using Moq;
-using Mud.Server.Interfaces.Ability;
+﻿using Mud.Server.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Mud.Server.Tests.Mocking
 {
     internal class AbilityManagerMock : IAbilityManager
     {
-        private List<IAbilityInfo> _abilityInfos = new List<IAbilityInfo>();
+        public IAbility this[int id] => throw new NotImplementedException();
 
-        public IAbilityInfo this[string abilityName] 
+        public IAbility this[string name] => throw new NotImplementedException();
+
+        public IAbility WeakenedSoulAbility => throw new NotImplementedException();
+
+        public IAbility ParryAbility => throw new NotImplementedException();
+
+        public IAbility DodgerAbility => throw new NotImplementedException();
+
+        public IAbility ShieldBlockAbility => throw new NotImplementedException();
+
+        public IAbility DualWieldAbility => throw new NotImplementedException();
+
+        public IAbility ThirdWieldAbility => throw new NotImplementedException();
+
+        public IAbility FourthWieldAbility => throw new NotImplementedException();
+
+        public IEnumerable<IAbility> Abilities => throw new NotImplementedException();
+
+        public bool Process(ICharacter source, params CommandParameter[] parameters)
         {
-            get
-            {
-                IAbilityInfo info = _abilityInfos.FirstOrDefault(x => x.Name == abilityName);
-                if (info != null)
-                    return info;
-                Mock<IAbilityInfo> infoMock = new Mock<IAbilityInfo>();
-                _abilityInfos.Add(infoMock.Object);
-                return infoMock.Object;
-            }
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<IAbilityInfo> Abilities => _abilityInfos;
+        public bool Process(ICharacter source, ICharacter target, IAbility ability)
+        {
+            throw new NotImplementedException();
+        }
 
-        public IAbilityInfo Search(string pattern, AbilityTypes type) => Abilities.FirstOrDefault(x => x.Type == type && x.Name.StartsWith(pattern, StringComparison.InvariantCultureIgnoreCase));
-
-        TAbility IAbilityManager.CreateInstance<TAbility>(string abilityName) => throw new NotImplementedException();
+        public IAbility Search(CommandParameter parameter, bool includePassive = false)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

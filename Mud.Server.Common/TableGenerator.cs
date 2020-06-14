@@ -1,5 +1,4 @@
-﻿using Mud.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,192 +52,161 @@ namespace Mud.Server.Common
 
         public int Width => 1 + _columns.Sum(x => x.Width) + _columns.Count;
 
-        public StringBuilder Generate(IEnumerable<string> titles, IEnumerable<T> items)
+        public StringBuilder GenerateWithPreHeaders(string title, IEnumerable<T> items, IEnumerable<string> preHeaders) // TODO: will be replaced by multi-table
         {
-            StringBuilder sb = BuildTable(titles, 1, items);
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine();
+
+            AddSeparatorLine(sb);
+            foreach (string preHeader in preHeaders)
+                AddPreHeaderLine(sb, preHeader);
+
+            BuildTable(title, sb, items);
+
             return sb;
         }
 
         public StringBuilder Generate(string title, IEnumerable<T> items)
         {
-            StringBuilder sb = BuildTable(new[] {title}, 1, items);
+            StringBuilder sb = new StringBuilder();
+
+            BuildTable(title, sb, items);
+
             return sb;
         }
 
-        public StringBuilder Generate(string title, int columnRepetionCount, IEnumerable<T> items)
+        private void AddPreHeaderLine(StringBuilder sb, string content)
         {
-            StringBuilder sb = BuildTable(new[] { title }, columnRepetionCount, items);
-            return sb;
-        }
-
-        private void AddPreHeaderLine(StringBuilder sb, int columnRepetionCount, string content)
-        {
-            int width = Width * columnRepetionCount;
+            int width = Width;
 
             sb.Append("| ");
             sb.Append(content);
             int contentLengthNoColor = content.LengthNoColor();
-            int repetitionCount = width - (3 + contentLengthNoColor);
-            if (repetitionCount > 0)
-                sb.Append(' ', repetitionCount);
+            for (int i = 3 + contentLengthNoColor; i < width; i++)
+                sb.Append(' ');
             sb.AppendLine("|");
         }
 
-        private void AddSeparatorLine(StringBuilder sb, int columnRepetionCount)
+        private void AddSeparatorLine(StringBuilder sb)
         {
-            int width = Width * columnRepetionCount;
+            int width = Width;
 
             sb.Append("+");
-            int repetionCount = width - 2;
-            if (repetionCount > 0)
-                sb.Append('-', repetionCount);
+            for (int i = 1; i < width - 1; i++)
+                sb.Append('-');
             sb.AppendLine("+");
         }
 
-        private void AddSeparatorWithColumnsLine(StringBuilder sb, int columnRepetionCount)
+        private void AddSeparatorWithColumnsLine(StringBuilder sb)
         {
-            for (int i = 0; i < columnRepetionCount; i++)
+            foreach (Column column in _columns)
             {
-                foreach (Column column in _columns)
-                {
-                    sb.Append('+');
-                    sb.Append('-', column.Width);
-                }
-
-                sb.Append("+");
+                sb.Append('+');
+                for (int i = 0; i < column.Width; i++)
+                    sb.Append('-');
             }
-            sb.AppendLine();
+            sb.AppendLine("+");
         }
 
-        private void AddEmptyLineNoCrLf(StringBuilder sb)
+        private void BuildTable(string title, StringBuilder sb, IEnumerable<T> items)
         {
-            foreach (var column in _columns)
-            {
-                sb.Append('|');
-                sb.Append(' ', column.Width);
-            }
-
-            sb.Append('|');
-        }
-
-        private StringBuilder BuildTable(IEnumerable<string> titles, int columnRepetionCount, IEnumerable<T> items)
-        {
-            StringBuilder sb = new StringBuilder();
+            int width = Width;
 
             //-->
-            // line before titles
-            AddSeparatorLine(sb, columnRepetionCount);
+            // line before title
+            AddSeparatorLine(sb);
 
-            // titles
-            foreach (string title in titles ?? Enumerable.Empty<string>())
-                AddPreHeaderLine(sb, columnRepetionCount, title);
+            // title
+            sb.Append("| ");
+            sb.Append(title);
+            for (int i = 3 + title.LengthNoColor(); i < width; i++)
+                sb.Append(' ');
+            sb.AppendLine("|");
 
-            // line after titles
-            AddSeparatorWithColumnsLine(sb, columnRepetionCount);
+            // line after title
+            AddSeparatorWithColumnsLine(sb);
 
             // column headers
-            for (int i = 0; i < columnRepetionCount; i++)
+            foreach (Column column in _columns)
             {
-                foreach (Column column in _columns)
-                {
-                    sb.Append("| ");
-                    sb.Append(column.Header);
-                    int columnHeaderLengthNoColor = column.Header.LengthNoColor();
-                    int repetionCount = column.Width - (1 + columnHeaderLengthNoColor);
-                    if (repetionCount > 0)
-                        sb.Append(' ', repetionCount);
-                }
-                sb.Append("|");
+                sb.Append("| ");
+                sb.Append(column.Header);
+                for (int i = 1 + column.Header.LengthNoColor(); i < column.Width; i++)
+                    sb.Append(' ');
             }
-            sb.AppendLine();
+            sb.AppendLine("|");
 
             // line after column header
-            AddSeparatorWithColumnsLine(sb, columnRepetionCount);
+            AddSeparatorWithColumnsLine(sb);
             //<-- can be precomputed
 
             // Values
             string[] previousValues = new string[_columns.Count];
-            foreach (IEnumerable<T> itemByChunk in items.Chunk(columnRepetionCount))
+            foreach (T item in items)
             {
-                int repetitionCount = 0;
-                foreach (T item in itemByChunk)
+                // TODO: if hasToMergeIdenticalValue was true for any column and is false now and SeparatorAfterIdenticalValue is true, add separator
+                for (int index = 0; index < _columns.Count; index++)
                 {
-                    // TODO: if hasToMergeIdenticalValue was true for any column and is false now and SeparatorAfterIdenticalValue is true, add separator
-                    // TODO: hand merge identical value with columnRepetition > 1
-                    for (int index = 0; index < _columns.Count; index++)
+                    Column column = _columns[index];
+
+                    string value = column.GetValueFunc(item);
+                    bool hasToMergeIdenticalValue = column.Options.MergeIdenticalValue && value == previousValues[index];
+                    string trailingSpace = column.Options.AlignLeft 
+                        ? AlignLeftFunc(item)
+                        : column.Options.GetTrailingSpaceFunc(item);
+                    int columnWidth = column.Width;
+                    int mergeLength = column.Options.GetMergeLengthFunc(item);
+                    if (mergeLength > 0)
                     {
-                        Column column = _columns[index];
-
-                        string value = column.GetValueFunc(item) ?? "!!!";
-                        bool hasToMergeIdenticalValue = column.Options.MergeIdenticalValue && columnRepetionCount == 1 && value == previousValues[index];
-                        string trailingSpace = column.Options.AlignLeft
-                            ? AlignLeftFunc(item)
-                            : column.Options.GetTrailingSpaceFunc(item);
-                        int columnWidth = column.Width;
-                        int mergeLength = column.Options.GetMergeLengthFunc(item);
-                        if (mergeLength > 0)
-                        {
-                            // if cell is merged, increase artificially column width
-                            for (int i = index + 1; i < index + 1 + mergeLength; i++)
-                                columnWidth += 1 + _columns[i].Width;
-                            //for (int i = 0; i < mergeLength; i++) // reset previous values
-                            //    previousValues[index + i] = null;
-                            index += mergeLength;
-                        }
-
-                        sb.Append('|');
-                        if (trailingSpace == null) // if not trailing space, align on left
-                        {
-                            if (hasToMergeIdenticalValue)
-                            {
-                                sb.Append(' ', columnWidth);
-                            }
-                            else
-                            {
-                                sb.Append(' ');
-                                sb.Append(value);
-                                for (int i = value.LengthNoColor() - 1; i < columnWidth - 2; i++)
-                                    sb.Append(' ');
-                            }
-                        }
-                        else // if trailing space, align on right
-                        {
-                            if (hasToMergeIdenticalValue)
-                            {
-                                sb.Append(' ', columnWidth);
-                            }
-                            else
-                            {
-                                for (int i = 1 + value.LengthNoColor() + trailingSpace.LengthNoColor() - 1; i < columnWidth; i++)
-                                    sb.Append(' ');
-                                sb.Append(value);
-                                sb.Append(trailingSpace);
-                            }
-                        }
-
-                        // store previous value
-                        previousValues[index] = value;
+                        // if cell is merged, increase artificially column width
+                        for (int i = index + 1; i < index + 1 + mergeLength; i++)
+                            columnWidth += 1 + _columns[i].Width;
+                        //for (int i = 0; i < mergeLength; i++) // reset previous values
+                        //    previousValues[index + i] = null;
+                        index += mergeLength;
                     }
 
-                    sb.Append("|");
-                    repetitionCount++;
-                }
+                    sb.Append('|');
+                    if (trailingSpace == null) // if not trailing space, align on left
+                    {
+                        if (hasToMergeIdenticalValue)
+                        {
+                            sb.Append(' ', columnWidth);
+                        }
+                        else
+                        {
+                            sb.Append(' ');
+                            sb.Append(value);
+                            for (int i = value.LengthNoColor() - 1; i < columnWidth - 2; i++)
+                                sb.Append(' ');
+                        }
+                    }
+                    else // if trailing space, align on right
+                    {
+                        if (hasToMergeIdenticalValue)
+                        {
+                            sb.Append(' ', columnWidth);
+                        }
+                        else
+                        {
+                            for (int i = 1 + value.LengthNoColor() + trailingSpace.LengthNoColor() - 1; i < columnWidth; i++)
+                                sb.Append(' ');
+                            sb.Append(value);
+                            sb.Append(trailingSpace);
+                        }
+                    }
 
-                if (repetitionCount != columnRepetionCount)
-                {
-                    for(int i = repetitionCount; i < columnRepetionCount; i++)
-                        AddEmptyLineNoCrLf(sb);
+                    // store previous value
+                    previousValues[index] = value;
                 }
-
-                sb.AppendLine();
+                sb.AppendLine("|");
             }
 
             // line after values
-            AddSeparatorWithColumnsLine(sb, columnRepetionCount);
+            AddSeparatorWithColumnsLine(sb);
 
             // ONLY FOR TEST PURPOSE
             //Console.Write(sb.ToString());
-            return sb;
         }
     }
 }

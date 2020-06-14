@@ -1,16 +1,13 @@
 ﻿using Mud.Domain;
-using Mud.Server.Common;
+using Mud.Domain.Extensions;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Room;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [CharacterCommand("kill", "Combat", Priority = 1, MinPosition = Positions.Fighting)]
+        [Command("kill", "Combat")]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoKill(string rawParameters, params CommandParameter[] parameters)
         {
@@ -30,11 +27,8 @@ namespace Mud.Server.Character
             if (target == this)
             {
                 Send("You hit yourself. Ouch!");
-                return CommandExecutionResults.InvalidTarget; // TODO: call MultiHit
-            }
-
-            if (target.IsSafe(this))
                 return CommandExecutionResults.InvalidTarget;
+            }
 
             if (target is IPlayableCharacter)
             {
@@ -42,8 +36,11 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
 
+            // TODO
+            //if (is_safe(ch, victim))
+            //    return;
+
             IPlayableCharacter playableCharacter = this as IPlayableCharacter;
-            INonPlayableCharacter nonPlayableCharacter = this as INonPlayableCharacter;
             if (target.Fighting != null)
             {
                 // if not in same group, don't allow kill stealing
@@ -55,11 +52,11 @@ namespace Mud.Server.Character
                 }
             }
 
-            if (CharacterFlags.HasFlag(CharacterFlags.Charm) && nonPlayableCharacter?.Master == target)
-            {
-                Act(ActOptions.ToCharacter, "{0:N} is your beloved master.", target);
-                return CommandExecutionResults.InvalidTarget;
-            }
+            //if (IS_AFFECTED(ch, AFF_CHARM) && ch->master == victim)
+            //{
+            //    act("$N is your beloved master.", ch, NULL, victim, TO_CHAR);
+            //    return;
+            //}
 
             if (Position == Positions.Fighting)
             {
@@ -75,7 +72,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("flee", "Combat", MinPosition = Positions.Standing)]
+        [Command("flee", "Combat")]
         protected virtual CommandExecutionResults DoFlee(string rawParameters, params CommandParameter[] parameters)
         {
             if (Fighting == null)
@@ -88,29 +85,20 @@ namespace Mud.Server.Character
             // Try 6 times to find an exit
             for (int attempt = 0; attempt < 6; attempt++)
             {
-                ExitDirections randomExit = RandomManager.Random<ExitDirections>();
-                IExit exit = Room.Exits[(int)randomExit];
-                IRoom destination = exit?.Destination;
-                if (destination != null && !exit.IsClosed
-                    && !(this is INonPlayableCharacter && destination.RoomFlags.HasFlag(RoomFlags.NoMob)))
+                int randomExit = RandomManager.Randomizer.Next(ExitDirectionsExtensions.ExitCount);
+                IRoom destination = Room.Exits[randomExit]?.Destination;
+                if (destination != null)
                 {
                     // Try to move without checking if in combat or not
-                    Move(randomExit, false);
+                    Move((ExitDirections) randomExit, false);
                     if (Room != from) // successful only if effectively moved away
                     {
                         //
                         StopFighting(true);
                         //
                         Send("You flee from combat!");
-                        Act(from.People, "{0} has fled!", this);
-
-                        if (this is IPlayableCharacter pc)
-                        {
-                            Send("You lost 10 exp.");
-                            pc.GainExperience(-10);
-                        }
+                        Act(ActOptions.ToRoom, "{0} has fled!", this);
                         return CommandExecutionResults.Ok;
-                        // TODO: xp loss
                     }
                 }
             }

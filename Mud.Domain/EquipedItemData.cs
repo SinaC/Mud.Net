@@ -1,6 +1,6 @@
 ﻿namespace Mud.Domain
 {
-    public class EquippedItemData
+    public class EquipedItemData
     {
         public EquipmentSlots Slot { get; set; }
 

@@ -9,37 +9,18 @@ using System.Windows.Media;
 using AutoMapper;
 using Mud.Container;
 using Mud.Domain;
-using Mud.Importer.Rom;
 using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
 using Mud.Repository;
-using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.World;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Race;
-using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Table;
-using Mud.Server.Server;
+using Mud.Server.Common;
+using Mud.Server.Item;
 using Mud.Settings;
-using Mud.Server.Interfaces.Aura;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Ability;
-using Mud.Server.Random;
-using Mud.Common;
-using System.Reflection;
-using Mud.Server.Rom24.Spells;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -55,13 +36,6 @@ namespace Mud.Server.WPFTestApplication
         private static IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         private static IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
         private static IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
-        private static IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
-        private static IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
-
-        internal class AssemblyHelper : IAssemblyHelper
-        {
-            public Assembly ExecutingAssembly => typeof(AcidBlast).Assembly;
-        }
 
         public ServerWindow()
         {
@@ -69,31 +43,25 @@ namespace Mud.Server.WPFTestApplication
 
             // Initialize settings
             ISettings settings = new Settings.ConfigurationManager.Settings();
-            DependencyContainer.Current.RegisterInstance(settings);
+            DependencyContainer.Current.RegisterInstance<ISettings>(settings);
 
             // Initialize log
             Log.Default.Initialize(settings.LogPath, "server.log");
 
             // Initialize IOC container
-            //DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(new AssemblyHelper());
-            DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAuraManager
-            DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IItemManager
-            DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IRoomManager
             DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
             DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
             DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
             DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
             DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
             DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-            //DependencyContainer.Current.Register<IAbilityManager, AbilityManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper()));
-            DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector cant choose which one to chose
-            DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
 
             if (settings.UseMongo)
             {
@@ -243,7 +211,7 @@ namespace Mud.Server.WPFTestApplication
         private void SendButton_OnClick(object sender, RoutedEventArgs e)
         {
             string input = InputTextBox.Text.ToLower();
-            if (input == "exit" || input == "quit" || input == "stop")
+            if (input == "exit" || input == "quit")
             {
                 Server.Stop();
                 Application.Current.Shutdown();
@@ -344,7 +312,6 @@ namespace Mud.Server.WPFTestApplication
             // NOP
         }
 
-        // Don't remove, used from nlog.config
         public static void LogMethod(string level, string message)
         {
             _serverWindowInstance.Dispatcher.InvokeAsync(() =>
@@ -380,156 +347,1164 @@ namespace Mud.Server.WPFTestApplication
             _serverWindowInstance.OutputRichTextBox.Document.Blocks.Add(paragraph);
         }
 
+        private static RoomBlueprint CreateRoomBlueprint(Importer.Mystery.RoomData data)
+        {
+            RoomBlueprint blueprint = new RoomBlueprint
+            {
+                Id = data.VNum,
+                Name = data.Name,
+                Description = data.Description,
+                ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(data.ExtraDescr)
+                // Exits will be done when each room blueprint is created
+            };
+            World.AddRoomBlueprint(blueprint);
+            return blueprint;
+        }
+
+        private static RoomBlueprint CreateRoomBlueprint(Importer.Rom.RoomData data)
+        {
+            RoomBlueprint blueprint = new RoomBlueprint
+            {
+                Id = data.VNum,
+                Name = data.Name,
+                Description = data.Description,
+                ExtraDescriptions = RoomBlueprint.BuildExtraDescriptions(data.ExtraDescr)
+                // Exits will be done when each room blueprint is created
+            };
+            World.AddRoomBlueprint(blueprint);
+            return blueprint;
+        }
+
+        private static CharacterNormalBlueprint CreateCharacterBlueprint(Importer.Mystery.MobileData data)
+        {
+            Sex sex = Sex.Neutral;
+            if (data.Sex.ToLower() == "female")
+                sex = Sex.Female;
+            else if (data.Sex.ToLower() == "male")
+                sex = Sex.Male;
+            CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
+            {
+                Id = data.VNum,
+                Name = data.Name,
+                Description = data.Description,
+                Level = data.Level,
+                LongDescription = data.LongDescr,
+                ShortDescription = data.ShortDescr,
+                Sex = sex,
+            };
+            World.AddCharacterBlueprint(blueprint);
+            return blueprint;
+        }
+        private static CharacterNormalBlueprint CreateCharacterBlueprint(Importer.Rom.MobileData data)
+        {
+            Sex sex = Sex.Neutral;
+            if (data.Sex.ToLower() == "female")
+                sex = Sex.Female;
+            else if (data.Sex.ToLower() == "male")
+                sex = Sex.Male;
+            CharacterNormalBlueprint blueprint = new CharacterNormalBlueprint
+            {
+                Id = data.VNum,
+                Name = data.Name,
+                Description = data.Description,
+                Level = data.Level,
+                LongDescription = data.LongDescr,
+                ShortDescription = data.ShortDescr,
+                Sex = sex,
+            };
+            World.AddCharacterBlueprint(blueprint);
+            return blueprint;
+        }
+
+        private long ConvertToLong(char c)
+        {
+            return (long)1 << (c - 48);
+        }
+
+        private static ExitFlags ConvertExitInfo(long exitInfo)
+        {
+            ExitFlags flags = 0;
+            if ((exitInfo & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A)
+                flags |= ExitFlags.Door;
+            if ((exitInfo & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B)
+                flags |= ExitFlags.Closed;
+            if ((exitInfo & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B)
+                flags |= ExitFlags.Locked;
+            if ((exitInfo & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H)
+                flags |= ExitFlags.Easy;
+            if ((exitInfo & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I)
+                flags |= ExitFlags.Hard;
+            if ((exitInfo & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M)
+                flags |= ExitFlags.Hidden;
+            return flags;
+        }
+
+        private static FurnitureActions ConvertFurnitureActions(object value)
+        {
+            FurnitureActions actions = FurnitureActions.None;
+
+            int flag = value == null ? 0 : Convert.ToInt32(value);
+            if ((flag & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A
+                || (flag & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B
+                || (flag & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C)
+                actions |= FurnitureActions.Stand;
+            if ((flag & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D
+                || (flag & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E
+                || (flag & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F)
+                actions |= FurnitureActions.Sit;
+            if ((flag & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G
+                || (flag & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H
+                || (flag & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I)
+                actions |= FurnitureActions.Rest;
+            if ((flag & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J
+                || (flag & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K
+                || (flag & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L)
+                actions |= FurnitureActions.Sleep;
+            return actions;
+        }
+
+        private static FurniturePlacePrepositions ConvertFurniturePreposition(object value)
+        {
+            FurniturePlacePrepositions preposition = FurniturePlacePrepositions.None;
+
+            int flag = value == null ? 0 : Convert.ToInt32(value);
+            if ((flag & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A
+                || (flag & Importer.Mystery.MysteryImporter.D) == Importer.Mystery.MysteryImporter.D
+                || (flag & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G
+                || (flag & Importer.Mystery.MysteryImporter.J) == Importer.Mystery.MysteryImporter.J)
+                preposition = FurniturePlacePrepositions.At;
+            else if ((flag & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B
+                || (flag & Importer.Mystery.MysteryImporter.E) == Importer.Mystery.MysteryImporter.E
+                || (flag & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H
+                || (flag & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K)
+                preposition = FurniturePlacePrepositions.On;
+            else if ((flag & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C
+                || (flag & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F
+                || (flag & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I
+                || (flag & Importer.Mystery.MysteryImporter.L) == Importer.Mystery.MysteryImporter.L)
+                preposition = FurniturePlacePrepositions.In;
+            return preposition;
+        }
+
+        private static WearLocations ConvertWearLocation(Importer.Mystery.ObjectData data)
+        {
+            //#define ITEM_TAKE		(A)
+            //#define ITEM_WEAR_FINGER	(B)
+            //#define ITEM_WEAR_NECK		(C)
+            //#define ITEM_WEAR_BODY		(D)
+            //#define ITEM_WEAR_HEAD		(E)
+            //#define ITEM_WEAR_LEGS		(F)
+            //#define ITEM_WEAR_FEET		(G)
+            //#define ITEM_WEAR_HANDS		(H)
+            //#define ITEM_WEAR_ARMS		(I)
+            //#define ITEM_WEAR_SHIELD	(J)
+            //#define ITEM_WEAR_ABOUT		(K)
+            //#define ITEM_WEAR_WAIST		(L)
+            //#define ITEM_WEAR_WRIST		(M)
+            //#define ITEM_WIELD		(N)
+            //#define ITEM_HOLD		(O)
+            //#define ITEM_WEAR_FLOAT		(Q)
+            //#define ITEM_WEAR_EAR           (R)
+            //#define ITEM_WEAR_EYES          (S)
+            switch (data.WearFlags & ~1 /*remove TAKE*/)
+            {
+                case 0:
+                    if (data.ItemType == "light")
+                        return WearLocations.Light;
+                    else
+                        return WearLocations.None;
+                case Importer.Mystery.MysteryImporter.B: // B finger
+                    return WearLocations.Ring;
+                case Importer.Mystery.MysteryImporter.C: // C neck
+                    return WearLocations.Amulet;
+                case Importer.Mystery.MysteryImporter.D: // D body
+                    return WearLocations.Chest;
+                case Importer.Mystery.MysteryImporter.E: // E head
+                    return WearLocations.Head;
+                case Importer.Mystery.MysteryImporter.F: // F legs
+                    return WearLocations.Legs;
+                case Importer.Mystery.MysteryImporter.G: // G feet
+                    return WearLocations.Feet;
+                case Importer.Mystery.MysteryImporter.H: // H hands
+                    return WearLocations.Hands;
+                case Importer.Mystery.MysteryImporter.I: // I arms
+                    return WearLocations.Arms;
+                case Importer.Mystery.MysteryImporter.J: // J shield
+                    return WearLocations.Shield;
+                case Importer.Mystery.MysteryImporter.K: // K about
+                    return WearLocations.Cloak;
+                case Importer.Mystery.MysteryImporter.L: // L waist
+                    return WearLocations.Waist;
+                case Importer.Mystery.MysteryImporter.M: // M wrist
+                    return WearLocations.Wrists;
+                case Importer.Mystery.MysteryImporter.N: // N wield
+                    return WearLocations.Wield;
+                case Importer.Mystery.MysteryImporter.O: // O hold
+                    return WearLocations.Hold;
+                //case Importer.Mystery.MysteryImporter.Q: // Q float
+                //case Importer.Mystery.MysteryImporter.R: // R ear
+                case Importer.Mystery.MysteryImporter.S: // S eyes
+                    return WearLocations.Head; // eyes
+                default:
+                    return WearLocations.None;
+            }
+        }
+        private static WearLocations ConvertWearLocation(Importer.Rom.ObjectData data)
+        {
+            //#define ITEM_TAKE		(A)
+            //#define ITEM_WEAR_FINGER	(B)
+            //#define ITEM_WEAR_NECK		(C)
+            //#define ITEM_WEAR_BODY		(D)
+            //#define ITEM_WEAR_HEAD		(E)
+            //#define ITEM_WEAR_LEGS		(F)
+            //#define ITEM_WEAR_FEET		(G)
+            //#define ITEM_WEAR_HANDS		(H)
+            //#define ITEM_WEAR_ARMS		(I)
+            //#define ITEM_WEAR_SHIELD	(J)
+            //#define ITEM_WEAR_ABOUT		(K)
+            //#define ITEM_WEAR_WAIST		(L)
+            //#define ITEM_WEAR_WRIST		(M)
+            //#define ITEM_WIELD		(N)
+            //#define ITEM_HOLD		(O)
+            //#define ITEM_WEAR_FLOAT		(Q)
+            //#define ITEM_WEAR_EAR           (R)
+            //#define ITEM_WEAR_EYES          (S)
+            switch (data.WearFlags & ~1 /*remove TAKE*/)
+            {
+                case 0:
+                    if (data.ItemType == "light")
+                        return WearLocations.Light;
+                    else
+                        return WearLocations.None;
+                case Importer.Mystery.MysteryImporter.B: // B finger
+                    return WearLocations.Ring;
+                case Importer.Mystery.MysteryImporter.C: // C neck
+                    return WearLocations.Amulet;
+                case Importer.Mystery.MysteryImporter.D: // D body
+                    return WearLocations.Chest;
+                case Importer.Mystery.MysteryImporter.E: // E head
+                    return WearLocations.Head;
+                case Importer.Mystery.MysteryImporter.F: // F legs
+                    return WearLocations.Legs;
+                case Importer.Mystery.MysteryImporter.G: // G feet
+                    return WearLocations.Feet;
+                case Importer.Mystery.MysteryImporter.H: // H hands
+                    return WearLocations.Hands;
+                case Importer.Mystery.MysteryImporter.I: // I arms
+                    return WearLocations.Arms;
+                case Importer.Mystery.MysteryImporter.J: // J shield
+                    return WearLocations.Shield;
+                case Importer.Mystery.MysteryImporter.K: // K about
+                    return WearLocations.Cloak;
+                case Importer.Mystery.MysteryImporter.L: // L waist
+                    return WearLocations.Waist;
+                case Importer.Mystery.MysteryImporter.M: // M wrist
+                    return WearLocations.Wrists;
+                case Importer.Mystery.MysteryImporter.N: // N wield
+                    return WearLocations.Wield;
+                case Importer.Mystery.MysteryImporter.O: // O hold
+                    return WearLocations.Hold;
+                //case Importer.Mystery.MysteryImporter.Q: // Q float
+                //case Importer.Mystery.MysteryImporter.R: // R ear
+                case Importer.Mystery.MysteryImporter.S: // S eyes
+                    return WearLocations.Head; // eyes
+                default:
+                    return WearLocations.None;
+            }
+        }
+
+        private static WeaponTypes ConvertWeaponType(object value)
+        {
+            string weaponType = (string)value;
+            switch (weaponType)
+            {
+                case "exotic": // Exotic
+                    // TODO:
+                    return WeaponTypes.Fist;
+                case "sword": // Sword
+                    return WeaponTypes.Sword1H;
+                case "dagger": // Dagger
+                    return WeaponTypes.Dagger;
+                case "spear": // Spear
+                    return WeaponTypes.Mace2H;
+                case "mace": // Mace
+                    return WeaponTypes.Mace1H;
+                case "axe": // Axe
+                    return WeaponTypes.Mace2H;
+                case "flail": // Flail
+                    // TODO:
+                    return WeaponTypes.Fist;
+                case "whip": // Whip
+                    // TODO:
+                    return WeaponTypes.Fist;
+                case "polearm": // Polearm
+                    // TODO:
+                    return WeaponTypes.Polearm;
+                case "staff(weapon)": // Staff
+                    return WeaponTypes.Stave;
+                case "arrow": // Arrow
+                    // TODO:
+                    return WeaponTypes.Fist;
+                case "ranged": // Ranged
+                    // TODO:
+                    return WeaponTypes.Fist;
+            }
+            return WeaponTypes.Fist;
+        }
+
+        private static SchoolTypes ConvertWeaponDamageType(object attackTableValue, object weaponType2Value)
+        {
+            string attackTable = (string)attackTableValue;
+            int weaponType2 = weaponType2Value == null ? 0 : Convert.ToInt32(weaponType2Value);
+            if (attackTable == "acid") // Acid
+                return SchoolTypes.Nature;
+            if (attackTable == "wrath") // Wrath
+                return SchoolTypes.Arcane;
+            if (attackTable == "magic") // Magic
+                return SchoolTypes.Arcane;
+            if (attackTable == "divine") // Divine power
+                return SchoolTypes.Holy;
+            if (attackTable == "shbite") // Shocking bite
+                return SchoolTypes.Nature;
+            if (attackTable == "flbite") // Flaming bite
+                return SchoolTypes.Fire;
+            if (attackTable == "frbite") // Frost bite
+                return SchoolTypes.Frost;
+            if (attackTable == "acbite") // Acidic bite
+                return SchoolTypes.Nature;
+            if (attackTable == "drain") // Life drain
+                return SchoolTypes.Shadow;
+            if (attackTable == "slime") // Slime
+                return SchoolTypes.Nature;
+            if (attackTable == "shock") // Shock
+                return SchoolTypes.Nature;
+            if (attackTable == "flame") // Flame
+                return SchoolTypes.Fire;
+            if (attackTable == "chill") // Chill
+                return SchoolTypes.Frost;
+
+            // originally a flag but converted to a single value
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) // Flaming
+                return SchoolTypes.Fire;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) // Frost
+                return SchoolTypes.Fire;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.C) == Importer.Mystery.MysteryImporter.C) // Vampiric
+                return SchoolTypes.Shadow;
+            // D: Sharp
+            // E: Vorpal
+            // F: Two-hands
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.G) == Importer.Mystery.MysteryImporter.G) // Shocking
+                return SchoolTypes.Nature;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) // Poison
+                return SchoolTypes.Nature;
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.I) == Importer.Mystery.MysteryImporter.I) // Holy
+                return SchoolTypes.Holy;
+            // J: Weighted
+            if ((weaponType2 & Importer.Mystery.MysteryImporter.K) == Importer.Mystery.MysteryImporter.K) // Necrotism
+                return SchoolTypes.Shadow;
+
+            //
+            return SchoolTypes.Physical;
+        }
+
+        private static ItemFlags ConvertMysteryItemExtraFlags(Importer.Mystery.ObjectData data)
+        {
+            ItemFlags itemFlags = ItemFlags.None;
+
+            if ((data.WearFlags & Importer.Mystery.MysteryImporter.A) != Importer.Mystery.MysteryImporter.A) itemFlags |= ItemFlags.NoTake; // WearFlags A means TAKE
+
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.A) == Importer.Mystery.MysteryImporter.A) itemFlags |= ItemFlags.Glowing; // A ITEM_GLOW
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.B) == Importer.Mystery.MysteryImporter.B) itemFlags |= ItemFlags.Humming; // B ITEM_HUM
+            // C ITEM_DARK
+            // D ITEM_STAY_DEATH
+            // E ITEM_EVIL
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.F) == Importer.Mystery.MysteryImporter.F) itemFlags |= ItemFlags.Invisible; // F ITEM_INVIS
+            // G ITEM_MAGIC
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.H) == Importer.Mystery.MysteryImporter.H) itemFlags |= ItemFlags.NoDrop; // H ITEM_NODROP
+            // I ITEM_BLESS
+            // J ITEM_ANTI_GOOD
+            // K ITEM_ANTI_EVIL
+            // L ITEM_ANTI_NEUTRAL
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.M) == Importer.Mystery.MysteryImporter.M) itemFlags |= ItemFlags.NoRemove; // M ITEM_NOREMOVE
+            // N ITEM_INVENTORY
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.O) == Importer.Mystery.MysteryImporter.O) itemFlags |= ItemFlags.NoPurge; // O ITEM_NOPURGE
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.P) == Importer.Mystery.MysteryImporter.P) itemFlags |= ItemFlags.RotDeath; // P ITEM_ROT_DEATH
+            // Q ITEM_VIS_DEATH
+            // R ITEM_DONATED
+            // S ITEM_UNIQUE
+            // T ITEM_NOLOCATE
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.U) == Importer.Mystery.MysteryImporter.U) itemFlags |= ItemFlags.MeltOnDrop; // U ITEM_MELT_DROP
+            // V ITEM_HAD_TIMER
+            // W ITEM_SELL_EXTRACT
+            // X ITEM_NOSAC
+            // Y ITEM_BURN_PROOF
+            // Z ITEM_NOUNCURSE
+            // aa ITEM_NOIDENT
+            if ((data.ExtraFlags & Importer.Mystery.MysteryImporter.bb) == Importer.Mystery.MysteryImporter.bb) itemFlags |= ItemFlags.Indestructible; // bb ITEM_NOCOND
+
+            return itemFlags;
+        }
+
+        private static ItemFlags ConvertRomItemExtraFlags(Importer.Rom.ObjectData data)
+        {
+            // TODO
+            return ItemFlags.None;
+        }
+
+        private static ItemBlueprintBase CreateItemBlueprint(Importer.Mystery.ObjectData data)
+        {
+            ItemBlueprintBase blueprint;
+            if (data.ItemType == "weapon")
+            {
+                blueprint = new ItemWeaponBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    Type = ConvertWeaponType(data.Values[0]),
+                    DiceCount = Convert.ToInt32(data.Values[1]),
+                    DiceValue = Convert.ToInt32(data.Values[2]),
+                    // Values[3] slash/pierce/bash/... attack_table in const.C
+                    // Values[4] flaming/sharp/... weapon_type2 in tables.C
+                    DamageType = ConvertWeaponDamageType(data.Values[3], data.Values[4]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "container")
+            {
+                blueprint = new ItemContainerBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemCount = Convert.ToInt32(data.Values[3]),
+                    WeightMultiplier = Convert.ToInt32(data.Values[4]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "armor")
+            {
+                WearLocations wearLocations = ConvertWearLocation(data);
+                if (wearLocations == WearLocations.Shield)
+                    blueprint = new ItemShieldBlueprint
+                    {
+                        Id = data.VNum,
+                        Name = data.Name,
+                        ShortDescription = data.ShortDescr,
+                        Description = data.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                        Cost = Convert.ToInt32(data.Cost),
+                        Weight = data.Weight,
+                        WearLocation = ConvertWearLocation(data),
+                        Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
+                        ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    };
+                else 
+                    blueprint = new ItemArmorBlueprint
+                    {
+                        Id = data.VNum,
+                        Name = data.Name,
+                        ShortDescription = data.ShortDescr,
+                        Description = data.Description,
+                        ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                        Cost = Convert.ToInt32(data.Cost),
+                        Weight = data.Weight,
+                        WearLocation = ConvertWearLocation(data),
+                        Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
+                        ArmorKind = ArmorKinds.Leather, // TODO
+                        ItemFlags = ConvertMysteryItemExtraFlags(data)
+                    };
+            }
+            else if (data.ItemType == "light")
+            {
+                blueprint = new ItemLightBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    DurationHours = Convert.ToInt32(data.Values[2]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "furniture")
+            {
+                blueprint = new ItemFurnitureBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    MaxPeople = Convert.ToInt32(data.Values[0]),
+                    MaxWeight = Convert.ToInt32(data.Values[1]),
+                    FurnitureActions = ConvertFurnitureActions(data.Values[2]),
+                    FurniturePlacePreposition = ConvertFurniturePreposition(data.Values[2]),
+                    HealBonus = Convert.ToInt32(data.Values[3]),
+                    ResourceBonus = Convert.ToInt32(data.Values[4]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "fountain")
+            {
+                blueprint = new ItemFurnitureBlueprint // TODO: fountain
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    MaxPeople = 0,
+                    MaxWeight = 0,
+                    HealBonus = 0,
+                    ResourceBonus = 0,
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "jewelry" || data.ItemType == "treasure")
+            {
+                blueprint = new ItemJewelryBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "key")
+            {
+                blueprint = new ItemKeyBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "portal")
+            {
+                blueprint = new ItemPortalBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    Destination = Convert.ToInt32(data.Values[3]),
+                    ItemFlags = ConvertMysteryItemExtraFlags(data)
+                };
+            }
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{data.VNum}] [{data.ItemType}] [{data.WearFlags}] : {data.Name}");
+                // TODO: other item type
+                blueprint = null;
+            }
+            if (blueprint != null)
+                World.AddItemBlueprint(blueprint);
+            return blueprint;
+        }
+
+        private static ItemBlueprintBase CreateItemBlueprint(Importer.Rom.ObjectData data)
+        {
+            ItemBlueprintBase blueprint;
+            if (data.ItemType == "weapon")
+            {
+                blueprint = new ItemWeaponBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    // TODO: weapon type Values[0]
+                    DiceCount = Convert.ToInt32(data.Values[1]),
+                    DiceValue = Convert.ToInt32(data.Values[2]),
+                    // TODO: damage type Values[3]
+                    ItemFlags = ConvertRomItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "container")
+            {
+                blueprint = new ItemContainerBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemCount = Convert.ToInt32(data.Values[3]),
+                    WeightMultiplier = Convert.ToInt32(data.Values[4]),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "armor")
+            {
+                blueprint = new ItemArmorBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    Armor = Convert.ToInt32(data.Values[0]) + Convert.ToInt32(data.Values[1]) + Convert.ToInt32(data.Values[2]) + Convert.ToInt32(data.Values[3]), // TODO
+                    ArmorKind = ArmorKinds.Leather, // TODO
+                    ItemFlags = ConvertRomItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "light")
+            {
+                blueprint = new ItemLightBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    DurationHours = Convert.ToInt32(data.Values[2]),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "furniture")
+            {
+                blueprint = new ItemFurnitureBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    MaxPeople = Convert.ToInt32(data.Values[0]),
+                    MaxWeight = Convert.ToInt32(data.Values[1]),
+                    FurnitureActions = ConvertFurnitureActions(data.Values[2]),
+                    FurniturePlacePreposition = ConvertFurniturePreposition(data.Values[2]),
+                    HealBonus = Convert.ToInt32(data.Values[3]),
+                    ResourceBonus = Convert.ToInt32(data.Values[4]),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "fountain")
+            {
+                blueprint = new ItemFurnitureBlueprint // TODO: fountain
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    MaxPeople = 0,
+                    MaxWeight = 0,
+                    HealBonus = 0,
+                    ResourceBonus = 0,
+                    ItemFlags = ConvertRomItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "jewelry" || data.ItemType == "treasure")
+            {
+                blueprint = new ItemJewelryBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "key")
+            {
+                blueprint = new ItemKeyBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
+                };
+            }
+            else if (data.ItemType == "portal")
+            {
+                blueprint = new ItemPortalBlueprint
+                {
+                    Id = data.VNum,
+                    Name = data.Name,
+                    ShortDescription = data.ShortDescr,
+                    Description = data.Description,
+                    ExtraDescriptions = ItemBlueprintBase.BuildExtraDescriptions(data.ExtraDescr),
+                    Cost = Convert.ToInt32(data.Cost),
+                    Weight = data.Weight,
+                    WearLocation = ConvertWearLocation(data),
+                    Destination = Convert.ToInt32(data.Values[3]),
+                    ItemFlags = ConvertRomItemExtraFlags(data)
+                };
+            }
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{data.VNum}] [{data.ItemType}] [{data.WearFlags}] : {data.Name}");
+                // TODO: other item type
+                blueprint = null;
+            }
+            if (blueprint != null)
+                World.AddItemBlueprint(blueprint);
+            return blueprint;
+        }
+
         private static void CreateWorld()
         {
-            string path = DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
+            string path =  DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
 
-            RomImporter importer = new RomImporter();
-            //MysteryImporter importer = new MysteryImporter();
-            //RotImporter importer = new RotImporter();
-            importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
-            //importer.ImportByList(path, "area.lst");
+            Importer.Mystery.MysteryImporter mysteryImporter = new Importer.Mystery.MysteryImporter();
+            mysteryImporter.Load(System.IO.Path.Combine(path, "midgaard.are"));
+            mysteryImporter.Parse();
+            //mysteryImporter.Load(System.IO.Path.Combine(path, "amazon.are"));
+            //mysteryImporter.Parse();
 
-            // Area
-            foreach (AreaBlueprint blueprint in importer.Areas)
+            //string fileList = System.IO.Path.Combine(path, "area.lst");
+            //string[] areaFilenames = System.IO.File.ReadAllLines(fileList);
+            //foreach (string areaFilename in areaFilenames.Where(x => !x.Contains("limbo")))
+            //{
+            //    if (areaFilename.Contains("$"))
+            //        break;
+            //    string areaFullName = System.IO.Path.Combine(path, areaFilename);
+            //    mysteryImporter.Load(areaFullName);
+            //    mysteryImporter.Parse();
+            //}
+
+
+            foreach (var itemTypeAndCount in mysteryImporter.Objects.GroupBy(o => o.ItemType, (itemType, list) => new {itemType, count = list.Count()}).OrderBy(x => x.count))
+                Log.Default.WriteLine(LogLevels.Info, "{0} -> {1}", itemTypeAndCount.itemType, itemTypeAndCount.count);
+
+            Dictionary<int, IArea> areasByVnums = new Dictionary<int, IArea>();
+            Dictionary<int, IRoom> roomsByVNums = new Dictionary<int, IRoom>();
+
+            // Create Rooms blueprints
+            foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms)
+                CreateRoomBlueprint(importedRoom);
+            // Create Character blueprints
+            foreach (Importer.Mystery.MobileData mobile in mysteryImporter.Mobiles)
+                CreateCharacterBlueprint(mobile);
+            // Create Item blueprints
+            foreach (Importer.Mystery.ObjectData obj in mysteryImporter.Objects)
+                CreateItemBlueprint(obj);
+            // Create Areas
+            foreach (Importer.Mystery.AreaData importedArea in mysteryImporter.Areas)
             {
-                World.AddAreaBlueprint(blueprint);
-                World.AddArea(Guid.NewGuid(), blueprint);
+                // TODO: levels
+                IArea area = World.AddArea(Guid.NewGuid(), importedArea.Name, 1, 99, importedArea.Builders, importedArea.Credits);
+                areasByVnums.Add(importedArea.VNum, area);
             }
 
-            // Rooms
-            foreach (RoomBlueprint blueprint in importer.Rooms)
+            // Create Rooms
+            foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms)
             {
-                RoomManager.AddRoomBlueprint(blueprint);
-                IArea area = World.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
-                if (area == null)
+                IArea area = areasByVnums[importedRoom.AreaVnum];
+                IRoom room = World.AddRoom(Guid.NewGuid(), World.GetRoomBlueprint(importedRoom.VNum), area);
+                roomsByVNums.Add(importedRoom.VNum, room);
+            }
+
+            // Create Exits
+            foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms)
+            {
+                for (int i = 0; i < Importer.Mystery.RoomData.MaxExits - 1; i++)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Area id {0} not found", blueprint.AreaId);
+                    Importer.Mystery.ExitData exit = importedRoom.Exits[i];
+                    if (exit != null)
+                    {
+                        IRoom from;
+                        roomsByVNums.TryGetValue(importedRoom.VNum, out from);
+                        IRoom to;
+                        roomsByVNums.TryGetValue(exit.DestinationVNum, out to);
+                        if (from == null)
+                            Log.Default.WriteLine(LogLevels.Warning, "Origin room not found for vnum {0}", importedRoom.VNum);
+                        else if (to == null)
+                            Log.Default.WriteLine(LogLevels.Warning, "Destination room not found for vnum {0}", importedRoom.VNum);
+                        else
+                        {
+                            ExitBlueprint exitBlueprint = new ExitBlueprint
+                            {
+                                Destination = exit.DestinationVNum,
+                                Description = exit.Description,
+                                Key = exit.Key,
+                                Keyword = exit.Keyword,
+                                Flags = ConvertExitInfo(exit.ExitInfo)
+                            };
+                            // TODO: add exit to room blueprint
+                            World.AddExit(from, to, exitBlueprint, (ExitDirections)i);
+                        }
+                    }
                 }
-                else
-                    RoomManager.AddRoom(Guid.NewGuid(), blueprint, area);
             }
 
-            foreach (IRoom room in RoomManager.Rooms)
+            // Handle resets
+            // TODO: handle rom resets
+            INonPlayableCharacter lastCharacter = null;
+            IItemContainer lastContainer = null;
+            Dictionary<string, int> itemTypes = new Dictionary<string, int>();
+            foreach (Importer.Mystery.RoomData importedRoom in mysteryImporter.Rooms.Where(x => x.Resets.Any()))
             {
-                foreach(ExitBlueprint exitBlueprint in room.Blueprint.Exits.Where(x => x != null))
+                IRoom room;
+                roomsByVNums.TryGetValue(importedRoom.VNum, out room);
+                foreach (Importer.Mystery.ResetData reset in importedRoom.Resets)
                 {
-                    IRoom to = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == exitBlueprint.Destination);
-                    if (to == null)
-                        Log.Default.WriteLine(LogLevels.Warning, "Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
-                    else
-                        World.AddExit(room, to, exitBlueprint, exitBlueprint.Direction);
+                    switch (reset.Command)
+                    {
+                        case 'M':
+                            {
+                                CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(reset.Arg1);
+                                if (blueprint != null)
+                                {
+                                    lastCharacter = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, room);
+                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} added");
+                                }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: M: Mob {reset.Arg1} not found");
+                                break;
+                            }
+                        case 'O':
+                            {
+                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
+                                if (blueprint != null)
+                                {
+                                    IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, room);
+                                    if (item != null)
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} added room");
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not created");
+                                    lastContainer = item as IItemContainer; // even if item is not a container, we have to convert it
+                                }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: O: Obj {reset.Arg1} not found");
+                                //ObjectData obj = importer.Objects.FirstOrDefault(x => x.VNum == reset.Arg1);
+                                //if (obj != null)
+                                //{
+                                //    if (obj.ItemType == "weapon")
+                                //    {
+                                //        ItemWeaponBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemWeaponBlueprint;
+                                //        World.AddItemWeapon(Guid.NewGuid(), blueprint, room);
+                                //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Weapon {reset.Arg1} added on floor");
+                                //    }
+                                //    else if (obj.ItemType == "container")
+                                //    {
+                                //        ItemContainerBlueprint blueprint = World.GetItemBlueprint(reset.Arg1) as ItemContainerBlueprint;
+                                //        lastContainer = World.AddItemContainer(Guid.NewGuid(), blueprint, room);
+                                //        Log.Default.WriteLine(LogLevels.Info, $"Room {importedRoom.VNum}: Container {reset.Arg1} added on floor");
+                                //    }
+                                //}
+                                //else
+                                //    Log.Default.WriteLine(LogLevels.Error, $"Room {importedRoom.VNum}: Obj {reset.Arg1} not found");
+                                break;
+                            }
+                        // P: put object arg1 (add arg2 times at once with max occurence arg4) in object arg3
+                        case 'P':
+                            {
+                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
+                                if (blueprint != null)
+                                {
+                                    if (lastContainer != null)
+                                    {
+                                        World.AddItem(Guid.NewGuid(), blueprint.Id, lastContainer);
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} added in {lastContainer.Blueprint.Id}");
+                                    }
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Last item was not a container");
+                                }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: P: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
+                                break;
+                            }
+                        // G: give object arg1 to mobile 
+                        case 'G':
+                            {
+                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
+                                if (blueprint != null)
+                                {
+                                    if (lastCharacter != null)
+                                    {
+                                        World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
+                                    }
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Last character doesn't exist");
+                                }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: G: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
+                                break;
+                            }
+                        // E: equip object arg1 to mobile
+                        case 'E':
+                            {
+                                ItemBlueprintBase blueprint = World.GetItemBlueprint(reset.Arg1);
+                                if (blueprint != null)
+                                {
+                                    if (lastCharacter != null)
+                                    {
+                                        IItem item = World.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} added on {lastCharacter.Blueprint.Id}");
+                                        // try to equip
+                                        if (item is IEquipable equipable)
+                                        {
+                                            EquipedItem equipedItem = lastCharacter.SearchEquipmentSlot(equipable, false);
+                                            if (equipedItem != null)
+                                            {
+                                                equipedItem.Item = equipable;
+                                                equipable.ChangeContainer(null); // remove from inventory
+                                                equipable.ChangeEquipedBy(lastCharacter); // set as equiped by lastCharacter
+                                            }
+                                            else
+                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} wear location {equipable.WearLocation} doesn't exist on last character");
+                                        }
+                                        else
+                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Item {reset.Arg1} cannot be equiped");
+                                    }
+                                    else
+                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Last character doesn't exist");
+                                }
+                                else
+                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {importedRoom.VNum}: E: Obj {reset.Arg1} (type: {mysteryImporter.Objects.FirstOrDefault(x => x.VNum == reset.Arg1)?.ItemType ?? "unknown"}) not found");
+                                break;
+                            }
+                            // D: set state of door  (not used)
+                            // R: randomize room exits
+                            // Z: maze at arg3 with size arg1*arg2 and map vnum arg4
+                            // TODO: other command  D, R, Z
+                    }
                 }
             }
 
-            // Characters
-            foreach (CharacterBlueprintBase blueprint in importer.Characters)
-                World.AddCharacterBlueprint(blueprint);
+            CharacterNormalBlueprint mob2Blueprint = new CharacterNormalBlueprint
+            {
+                Id = 2,
+                Name = "mob2",
+                ShortDescription = "Second mob (female)",
+                Description = "Second mob (female) is here",
+                Sex = Sex.Female,
+                Level = 10
+            };
+            World.AddCharacterBlueprint(mob2Blueprint);
+            CharacterNormalBlueprint mob3Blueprint = new CharacterNormalBlueprint
+            {
+                Id = 3,
+                Name = "mob3",
+                ShortDescription = "Third mob (male)",
+                Description = "Third mob (male) is here",
+                Sex = Sex.Male,
+                Level = 10
+            };
+            World.AddCharacterBlueprint(mob3Blueprint);
+            //CharacterBlueprint mob4Blueprint = new CharacterBlueprint
+            //{
+            //    Id = 4,
+            //    Name = "mob4",
+            //    ShortDescription = "Fourth mob (neutral)",
+            //    Description = "Fourth mob (neutral) is here",
+            //    Sex = Sex.Neutral,
+            //    Level = 10
+            //};
+            CharacterNormalBlueprint mob5Blueprint = new CharacterNormalBlueprint
+            {
+                Id = 5,
+                Name = "mob5",
+                ShortDescription = "Fifth mob (female)",
+                Description = "Fifth mob (female) is here",
+                Sex = Sex.Female,
+                Level = 10
+            };
+            World.AddCharacterBlueprint(mob5Blueprint);
 
-            // Items
-            foreach(ItemBlueprintBase blueprint in importer.Items)
-                ItemManager.AddItemBlueprint(blueprint);
-
-            // Custom blueprint to test
+            ItemContainerBlueprint item1Blueprint = new ItemContainerBlueprint
+            {
+                Id = 1,
+                Name = "item1 first",
+                ShortDescription = "First item (container)",
+                Description = "The first item (container) has been left here.",
+                ItemCount = 10,
+                WeightMultiplier = 100
+            };
+            World.AddItemBlueprint(item1Blueprint);
+            ItemWeaponBlueprint item2Blueprint = new ItemWeaponBlueprint
+            {
+                Id = 2,
+                Name = "item2 second",
+                ShortDescription = "Second item (weapon)",
+                Description = "The second item (weapon) has been left here.",
+                Type = WeaponTypes.Axe1H,
+                DiceCount = 10,
+                DiceValue = 20,
+                DamageType = SchoolTypes.Fire,
+                WearLocation = WearLocations.Wield
+            };
+            World.AddItemBlueprint(item2Blueprint);
+            ItemArmorBlueprint item3Blueprint = new ItemArmorBlueprint
+            {
+                Id = 3,
+                Name = "item3 third",
+                ShortDescription = "Third item (armor|feet)",
+                Description = "The third item (armor|feet) has been left here.",
+                Armor = 100,
+                ArmorKind = ArmorKinds.Mail,
+                WearLocation = WearLocations.Feet
+            };
+            World.AddItemBlueprint(item3Blueprint);
+            ItemLightBlueprint item4Blueprint = new ItemLightBlueprint
+            {
+                Id = 4,
+                Name = "item4 fourth",
+                ShortDescription = "Fourth item (light)",
+                Description = "The fourth item (light) has been left here.",
+                DurationHours = -1,
+                WearLocation = WearLocations.Light
+            };
+            World.AddItemBlueprint(item4Blueprint);
+            ItemWeaponBlueprint item5Blueprint = new ItemWeaponBlueprint
+            {
+                Id = 5,
+                Name = "item5 fifth",
+                ShortDescription = "Fifth item (weapon)",
+                Description = "The fifth item (weapon) has been left here.",
+                Type = WeaponTypes.Sword1H,
+                DiceCount = 5,
+                DiceValue = 40,
+                DamageType = SchoolTypes.Physical,
+                WearLocation = WearLocations.Wield
+            };
+            World.AddItemBlueprint(item5Blueprint);
+            ItemWeaponBlueprint item6Blueprint = new ItemWeaponBlueprint
+            {
+                Id = 6,
+                Name = "item6 sixth",
+                ShortDescription = "Sixth item (weapon 2H)",
+                Description = "The sixth item (weapon 2H) has been left here.",
+                Type = WeaponTypes.Mace2H,
+                DiceCount = 10,
+                DiceValue = 20,
+                DamageType = SchoolTypes.Holy,
+                WearLocation = WearLocations.Wield2H
+            };
+            World.AddItemBlueprint(item6Blueprint);
+            ItemShieldBlueprint item7Blueprint = new ItemShieldBlueprint
+            {
+                Id = 7,
+                Name = "item7 seventh",
+                ShortDescription = "Seventh item (shield)",
+                Description = "The seventh item (shield) has been left here.",
+                Armor = 1000,
+                WearLocation = WearLocations.Shield
+            };
+            World.AddItemBlueprint(item7Blueprint);
             ItemQuestBlueprint questItem1Blueprint = new ItemQuestBlueprint
             {
-                Id = 80000,
+                Id = 8,
                 Name = "Quest item 1",
                 ShortDescription = "Quest item 1",
                 Description = "The quest item 1 has been left here."
             };
-            ItemManager.AddItemBlueprint(questItem1Blueprint);
+            World.AddItemBlueprint(questItem1Blueprint);
             ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
             {
-                Id = 80001,
+                Id = 9,
                 Name = "Quest item 2",
                 ShortDescription = "Quest item 2",
                 Description = "The quest item 2 has been left here."
             };
-            ItemManager.AddItemBlueprint(questItem2Blueprint);
-            CharacterNormalBlueprint construct = new CharacterNormalBlueprint
-            {
-                Id = 80000,
-                Name = "Construct",
-                ShortDescription = "A construct",
-                LongDescription = "A construct waiting orders",
-                Description = "A construct is here, built from various of gears and springs",
-                Sex = Sex.Neutral,
-                Level = 40,
-                Wealth = 0,
-                Alignment = 0,
-                DamageNoun = "buzz",
-                DamageType = SchoolTypes.Bash,
-                DamageDiceCount = 5,
-                DamageDiceValue = 10,
-                DamageDiceBonus = 10,
-                HitPointDiceCount = 20,
-                HitPointDiceValue = 30,
-                HitPointDiceBonus = 300,
-                ManaDiceCount = 0,
-                ManaDiceValue = 0,
-                ManaDiceBonus = 0,
-                HitRollBonus = 10,
-                ArmorBash = 300,
-                ArmorPierce = 200,
-                ArmorSlash = 400,
-                ArmorExotic = 0,
-                ActFlags = ActFlags.Pet,
-                OffensiveFlags = OffensiveFlags.Bash,
-                CharacterFlags = CharacterFlags.Haste,
-                Immunities = IRVFlags.None,
-                Resistances = IRVFlags.Slash | IRVFlags.Fire,
-                Vulnerabilities = IRVFlags.Acid,
-            };
-            World.AddCharacterBlueprint(construct);
+            World.AddItemBlueprint(questItem2Blueprint);
 
-            // MANDATORY ITEMS
-            if (ItemManager.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
+            //
+            ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
-                ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
-                {
-                    Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
-                    NoTake = true,
-                    Name = "corpse"
-                };
-                ItemManager.AddItemBlueprint(corpseBlueprint);
-            }
-            if (ItemManager.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId) == null)
-            {
-                ItemMoneyBlueprint moneyBlueprint = new ItemMoneyBlueprint
-                {
-                    Id = DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId,
-                    NoTake = true,
-                    Name = "coins"
-                };
-                ItemManager.AddItemBlueprint(moneyBlueprint);
-            }
-            // MANDATORY ROOM
-            RoomBlueprint voidBlueprint = RoomManager.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
-            if (voidBlueprint == null)
-            {
-                IArea area = World.Areas.First();
-                Log.Default.WriteLine(LogLevels.Error, "NullRoom not found -> creation of null room with id {0} in area {1}", DependencyContainer.Current.GetInstance<ISettings>().NullRoomId, area.DisplayName);
-                voidBlueprint = new RoomBlueprint
-                {
-                    Id = DependencyContainer.Current.GetInstance<ISettings>().NullRoomId,
-                    Name = "The void",
-                    RoomFlags = RoomFlags.ImpOnly | RoomFlags.NoRecall | RoomFlags.NoScan | RoomFlags.NoWhere | RoomFlags.Private
-                };
-                RoomManager.AddRoomBlueprint(voidBlueprint);
-                RoomManager.AddRoom(Guid.NewGuid(), voidBlueprint, area);
-            }
+                Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
+                Name = "corpse"
+            }; // this is mandatory
+            World.AddItemBlueprint(corpseBlueprint);
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001);
-            IRoom templeSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3005);
-            IRoom marketSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3014);
-            IRoom commonSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3025);
+            IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+            IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+            IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "market square");
+            IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the common square");
 
-            if (templeOfMota == null || templeSquare == null || marketSquare == null || commonSquare == null)
-                return;
+            //ICharacter mob1 = World.AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Druid"], Repository.RaceManager["Insectoid"], Sex.Male, templeOfMota); // playable
+            ICharacter mob2 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+            ICharacter mob3 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+            //ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+            //ICharacter mob4 = World.AddCharacter(Guid.NewGuid(), "mob4", Repository.ClassManager["Warrior"], Repository.RaceManager["Dwarf"], Sex.Female, templeSquare); // playable
+            ICharacter mob5 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-            ItemManager.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
+            World.AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota);
+            IItemContainer item1Dup1 = World.AddItem(Guid.NewGuid(), item1Blueprint, mob5) as IItemContainer;
+            World.AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1);
+            IItemWeapon item2 = World.AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+            //World.AddItem(Guid.NewGuid(), item4Blueprint, mob1);
+            //World.AddItem(Guid.NewGuid(), item5Blueprint, mob1);
+            //World.AddItem(Guid.NewGuid(), item1Blueprint, mob1);
+            IItem item3OnMob3 = World.AddItem(Guid.NewGuid(), item3Blueprint, mob3);
+            item3OnMob3.AddItemFlags(ItemFlags.RotDeath);
+            //World.AddItemLight(Guid.NewGuid(), item4Blueprint, mob4);
+            World.AddItem(Guid.NewGuid(), item6Blueprint, templeSquare);
+            World.AddItem(Guid.NewGuid(), item7Blueprint, templeOfMota);
+            World.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare);
+
+            // Equip weapon on mob2
+            mob2.Equipments.First(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
+            item2.ChangeContainer(null);
+            item2.ChangeEquipedBy(mob2);
 
             // Quest
             QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>
@@ -645,6 +1620,18 @@ namespace Mud.Server.WPFTestApplication
             };
             World.AddCharacterBlueprint(mob10Blueprint);
             ICharacter mob10 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);
+
+            // Give quest 1 and 2 to mob1
+            //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);
+            //mob1.AddQuest(quest1);
+            //IQuest quest2 = new Quest.Quest(questBlueprint2, mob1, mob2);
+            //mob1.AddQuest(quest2);
+
+            //// Search extra description
+            //foreach(IRoom room inWorld.Rooms.Where(x => x.ExtraDescriptions != null && x.ExtraDescriptions.Any()))
+            //    Log.Default.WriteLine(LogLevels.Info, "Room {0} has extra description: {1}", room.DebugName, room.ExtraDescriptions.Keys.Aggregate((n,i) => n+","+i));
+            //foreach (IItem item inWorld.Items.Where(x => x.ExtraDescriptions != null && x.ExtraDescriptions.Any()))
+            //    Log.Default.WriteLine(LogLevels.Info, "Item {0} has extra description: {1}", item.DebugName, item.ExtraDescriptions.Keys.Aggregate((n, i) => n + "," + i));
         }
     }
 }

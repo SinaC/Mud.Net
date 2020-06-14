@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Mud.Container;
 using Mud.Logger;
-using Mud.Server.Random;
+using Mud.Server.Common;
 
 namespace Mud.Server.Blueprints.Quest
 {
@@ -34,7 +34,7 @@ namespace Mud.Server.Blueprints.Quest
             {
                 foreach (QuestKillLootTableEntry<T> entry in Entries)
                 {
-                    int percentage = RandomManager.Range(1,100);
+                    int percentage = 1 + RandomManager.Randomizer.Next(0, 100); // from 1 to 100
                     if (percentage <= entry.Percentage)
                         loots.Add(entry.Value);
                 }

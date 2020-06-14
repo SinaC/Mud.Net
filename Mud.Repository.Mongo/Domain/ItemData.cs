@@ -2,26 +2,14 @@
 
 namespace Mud.Repository.Mongo.Domain
 {
-    [BsonKnownTypes(
-        typeof(ItemContainerData), 
-        typeof(ItemCorpseData), 
-        typeof(ItemWeaponData), 
-        typeof(ItemDrinkContainerData), 
-        typeof(ItemFoodData), 
-        typeof(ItemPortalData),
-        typeof(ItemStaffData),
-        typeof(ItemWandData))]
+    [BsonKnownTypes(typeof(ItemContainerData), typeof(ItemCorpseData))]
     public class ItemData
     {
         [BsonId]
         public int ItemId { get; set; }
 
-        public int Level { get; set; }
-
         public int DecayPulseLeft { get; set; }
 
         public int ItemFlags { get; set; }
-
-        public AuraData[] Auras { get; set; }
     }
 }
