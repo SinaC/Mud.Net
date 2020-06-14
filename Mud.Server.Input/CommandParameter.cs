@@ -5,9 +5,9 @@ namespace Mud.Server.Input
 {
     public class CommandParameter
     {
-        public static readonly CommandParameter EmptyCommand = new CommandParameter();
-        public static readonly CommandParameter InvalidCommand = new CommandParameter();
-        public static readonly CommandParameter IsAllCommand = new CommandParameter(string.Empty, true);
+        public static readonly CommandParameter EmptyCommandParameter = new CommandParameter();
+        public static readonly CommandParameter InvalidCommandParameter = new CommandParameter();
+        public static readonly CommandParameter IsAllCommandParameter = new CommandParameter(string.Empty, true);
 
         public bool IsAll { get; } // all.xxx
         public int Count { get; }
@@ -16,12 +16,23 @@ namespace Mud.Server.Input
         public List<string> Tokens { get; }
 
         public bool IsNumber => int.TryParse(Value, out _);
+        public bool IsLong => long.TryParse(Value, out _);
 
-        public int AsNumber {
+        public int AsNumber
+        {
             get
             {
                 int.TryParse(Value, out var intValue);
                 return intValue;
+            }
+        }
+
+        public long AsLong
+        {
+            get
+            {
+                long.TryParse(Value, out var longValue);
+                return longValue;
             }
         }
 

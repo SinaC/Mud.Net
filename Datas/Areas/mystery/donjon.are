@@ -1,0 +1,2873 @@
+#AREADATA
+Name The Dungeon~
+Builders None~
+VNUMs 36100 36169
+Credits {{ 3 45} Yaegar/Aurorix The Dungeon~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#36100
+maniacal prisoner~
+a maniacal prisoner~
+A maniacal prisoner giggles insanely at you.
+~
+This poor soul has been in here so long it has broken his mind. No one even
+remembers why he is here.
+~
+human~
+0
+ABFGH 0 0 0 0 0
+18 3 1d37+323 1d1+99 0d0+0 1d15+5 none
+-2 -2 -2 3
+0 0 0 0
+stand stand male 180
+AHMV ABCDEFGHIJK medium 0
+#36101
+turnkey~
+a drunken turnkey~
+The turnkey snores loudly as he sleeps off another binge.
+~
+His job bores him to tears. No one ever tries to escape. His duties are
+limited to escorting prisoners to and from their cells, and occasionally
+beating a noisy or frightened prisoner into submission. So he spends most
+(heck, ALL) of his time drinking.
+~
+human~
+0
+ABDG HR 0 0 -400 0
+32 5 1d65+1023 1d1+99 0d0+0 1d25+9 none
+-11 -11 -11 -6
+0 0 0 0
+stand stand male 320
+AHMV ABCDEFGHIJK medium 0
+#36102
+inquisitor~
+the inquisitor~
+The inquisitor stands here, extracting "confessions".
+~
+He seems somewhat puzzled by your presence, then shrugs and turns back to
+his task. The world is full of sickos, and if you get your jollies watching
+a man being tortured to death, well... that's how he gets his, too.
+~
+human~
+0
+ABDGH DFH 0 0 -750 0
+40 6 1d81+1599 1d1+99 0d0+0 1d30+12 none
+-16 -16 -16 -11
+0 0 0 0
+stand stand male 400
+AHMV ABCDEFGHIJK medium 0
+#36103
+master torturer~
+the master torturer~
+The master torturer grins wickedly and gives the rack another turn.
+~
+This gap-toothed moron is quite adept at causing hapless prisoners exquisite
+pain without any grave danger to their lives. And, what's more, he enjoys it!
+Job satisfaction is SO important, really. I mean, if you don't enjoy your
+job, what have you got?
+~
+human~
+0
+ABDG N 0 0 -500 0
+36 6 1d73+1295 1d1+99 0d0+0 1d27+11 none
+-14 -14 -14 -9
+0 0 0 0
+stand stand male 360
+AHMV ABCDEFGHIJK medium 0
+#36104
+noble prisoner~
+a noble prisoner~
+A noble prisoner is being kept here.
+~
+This fellow was imprisoned by the Castellan for offensive behavior towards
+the Castellan's daughter during the Castellan's Ball held recently. He is of
+high status, however, and thus the Castellan afforded him a decent cell. For
+a price, of course.
+~
+human~
+0
+ABGH 0 0 0 400 0
+25 4 1d51+624 1d1+99 0d0+0 1d20+7 none
+-6 -6 -6 -1
+0 0 0 0
+stand stand male 250
+AHMV ABCDEFGHIJK medium 0
+#36105
+man iron mask~
+the man in the iron mask~
+The man in the iron mask prepares to dig another tunnel with a spoon.
+~
+The man in the iron mask managed to escape his last cell, but ended up
+digging into this jail. Thus he has to try and escape again.
+~
+human~
+0
+ABG N 0 0 500 0
+28 4 1d57+783 1d1+99 0d0+0 1d22+8 none
+-8 -8 -8 -3
+0 0 0 0
+stand stand male 280
+AHMV ABCDEFGHIJK medium 0
+#36106
+skeleton~
+an animated skeleton~
+A pile of bones comes to life before you!
+~
+The former occupant of this cell died a slow, painful death of starvation,
+and thus his spirit lingers still, animating his earthly remains to attack
+anyone he can.
+~
+human~
+0
+ABFG DKN 0 0 -400 0
+24 4 1d49+575 1d1+99 0d0+0 1d19+7 none
+-6 -6 -6 -1
+0 0 0 0
+stand stand none 240
+AHMV ABCDEFGHIJK medium 0
+#36107
+bat~
+a bat~
+A huge bat flies into your face!
+~
+These massive bats are disturbed by your light.
+~
+human~
+0
+AFGH T 0 0 -500 0
+20 3 1d41+399 1d1+99 0d0+0 1d17+5 none
+-3 -3 -3 2
+0 0 0 0
+stand stand none 200
+AHMV ABCDEFGHIJK medium 0
+#36108
+spider~
+a giant spider~
+A huge spider crawls toward you.
+~
+These massive spiders are disturbed by your light.
+~
+human~
+0
+ABFGH N 0 0 -500 0
+20 3 1d41+399 1d1+99 0d0+0 1d17+5 none
+-3 -3 -3 2
+0 0 0 0
+stand stand none 200
+AHMV ABCDEFGHIJK medium 0
+#36109
+rat~
+a rat~
+A rat squeaks and runs away.
+~
+This Dungeon is crawling with rats!
+~
+human~
+0
+AFGH 0 0 0 0 0
+5 0 1d12+59 1d1+99 0d0+0 1d7+0 none
+7 7 7 12
+0 0 0 0
+stand stand none 50
+AHMV ABCDEFGHIJK medium 0
+#36110
+cockroach~
+a cockroach~
+A cockroach scuttles across the floor.
+~
+This Dungeon is crawling with roaches!
+~
+human~
+0
+AFGH PQU 0 0 0 0
+3 0 1d12+35 1d1+99 0d0+0 1d5+0 none
+8 8 8 13
+0 0 0 0
+stand stand none 30
+AHMV ABCDEFGHIJK medium 0
+#36111
+wretched prisoner~
+a wretched prisoner~
+A wretched prisoner cries out for pity.
+~
+These doomed souls will spend years rotting away in this hell hole.
+~
+human~
+0
+ABGH 0 0 0 0 0
+12 2 1d12+143 1d1+99 0d0+0 1d11+3 none
+2 2 2 7
+0 0 0 0
+stand stand male 120
+AHMV ABCDEFGHIJK medium 0
+#36112
+wretched prisoner~
+a wretched prisoner~
+A wretched prisoner cries out for pity.
+~
+These doomed souls will spend years rotting away in this hell hole.
+~
+human~
+0
+ABGH 0 0 0 0 0
+12 2 1d12+143 1d1+99 0d0+0 1d11+3 none
+2 2 2 7
+0 0 0 0
+stand stand female 120
+AHMV ABCDEFGHIJK medium 0
+#36113
+political prisoner~
+a political prisoner~
+A political prisoner is on hunger strike.
+~
+Hunger strike doesn't really work when no one gives a shit whether you live
+or die...
+~
+human~
+0
+ABG N 0 0 500 0
+27 4 1d55+728 1d1+99 0d0+0 1d21+8 none
+-8 -8 -8 -3
+0 0 0 0
+stand stand male 270
+AHMV ABCDEFGHIJK medium 0
+#36114
+grubby child~
+a grubby child~
+A grubby child holds out his hands for food.
+~
+He can't talk- the guards cut out his tongue to silence his incessant
+whining.
+~
+human~
+0
+ABGH 0 0 0 0 0
+8 1 1d12+95 1d1+99 0d0+0 1d9+1 none
+5 5 5 10
+0 0 0 0
+stand stand male 80
+AHMV ABCDEFGHIJK medium 0
+#36115
+cook~
+the Dungeon cook~
+The cook for the Dungeon grunts as you enter.
+~
+He wasn't expecting anyone would want to eat yet. Actually, he wasn't
+expecting anyone to EVER want to eat while he was cook...
+~
+human~
+0
+ABGH 0 0 0 0 0
+28 3 2d45+500 1d1+99 0d0+0 2d18+6 none
+-4 -4 -4 1
+0 0 0 0
+stand stand male 220
+AHMV ABCDEFGHIJK medium 0
+#36116
+guard~
+a Dungeon guard~
+A Dungeon guard stands wearily at his post.
+~
+This fellow is bored beyond measure. He is itching for some action.
+~
+human~
+0
+ADG N 0 0 0 0
+30 5 1d61+899 1d1+99 0d0+0 1d23+9 none
+-10 -10 -10 -5
+0 0 0 0
+stand stand male 300
+AHMV ABCDEFGHIJK medium 0
+#36117
+dog~
+a war dog~
+A war dog bares its fangs and growls menacingly.
+~
+These dogs are huge, ferocious canines with teeth six inches long. Is that
+foam coating their muzzles?
+~
+human~
+0
+ABFG 0 0 0 -400 0
+26 3 1d43+440 1d1+99 0d0+0 1d17+6 none
+-4 -4 -4 1
+0 0 0 0
+stand stand none 210
+AHMV ABCDEFGHIJK medium 0
+M
+specFido
+#36118
+escaped prisoner~
+an escaped prisoner~
+An escaped prisoner begs you to help her.
+~
+She has been on the run for three days, but hasn't managed to get out of
+this cell block. How unadmirable. Call a guard and claim the reward.
+~
+human~
+0
+ABGH 0 0 0 0 0
+18 3 1d37+323 1d1+99 0d0+0 1d15+5 none
+-2 -2 -2 3
+0 0 0 0
+stand stand female 180
+AHMV ABCDEFGHIJK medium 0
+M
+specFido
+#36119
+ghost~
+the ubiquitous Dungeon ghost~
+The ubiquitous Dungeon ghost is here doing its job.
+~
+Every jail, Dungeon, prison etc has a ghost. This one is no exception. Harry
+the ghost approaches and says "Boo" in a manner that makes Steve Wright seem
+animated. He sure seems to love his job.
+~
+human~
+0
+ABGH BHTU 0 0 0 0
+39 6 1d79+1520 1d1+99 0d0+0 1d29+12 none
+-16 -16 -16 -11
+0 0 0 0
+stand stand none 390
+AHMV ABCDEFGHIJK medium 0
+#36120
+crypt walker~
+a crypt walker~
+A crypt walker shambles past you.
+~
+This doomed soul is damned to wander here for eternity.
+~
+human~
+0
+ADG DN 0 0 0 0
+34 5 1d69+1155 1d1+99 0d0+0 1d26+10 none
+-12 -12 -12 -7
+0 0 0 0
+stand stand none 340
+AHMV ABCDEFGHIJK medium 0
+#36121
+coffer corpse~
+a coffer corpse~
+A coffer corpse charges you!
+~
+This evil undead wants to eat your spleen!
+~
+human~
+0
+ADFG DJN 0 0 -1000 0
+31 5 1d63+960 1d1+99 0d0+0 1d24+9 none
+-10 -10 -10 -5
+0 0 0 0
+stand stand none 310
+AHMV ABCDEFGHIJK medium 0
+#36122
+lich ael~
+the lich Ael~
+The lich Ael screams at your intrusion.
+~
+Ael was a powerful mage in life, and in death he remains so.
+~
+human~
+0
+ABDFG DHJN 0 0 -1000 0
+45 7 1d91+2024 1d1+99 0d0+0 1d33+14 none
+-20 -20 -20 -15
+0 0 0 0
+stand stand none 450
+AHMV ABCDEFGHIJK medium 0
+#36123
+vampire baraga~
+the vampiure Baraga~
+The vampire Baraga sneers at you.
+~
+Baraga was once a powerful noble. Now, Baraga lives only to suck blood.
+~
+human~
+0
+ABDFG DHJNT 0 0 -1000 0
+42 7 1d85+1763 1d1+99 0d0+0 1d31+13 none
+-18 -18 -18 -13
+0 0 0 0
+stand stand none 420
+AHMV ABCDEFGHIJK medium 0
+#36124
+spectre cas~
+the spectre Cas~
+The spectre Cas moves into combat.
+~
+Cas was once a thief of some importance. Now he is a ruthless undead.
+~
+human~
+0
+ABDFG DHJNTU 0 0 -1000 0
+39 6 1d79+1520 1d1+99 0d0+0 1d29+12 none
+-16 -16 -16 -11
+0 0 0 0
+stand stand none 390
+AHMV ABCDEFGHIJK medium 0
+#36125
+wraith deros~
+the wraith Deros~
+The wraith Deros snarls and attacks.
+~
+Deros was once an evil cleric. Now he's an evil undead cleric.
+~
+human~
+0
+ABDFG DHJ 0 0 -1000 0
+36 6 1d73+1295 1d1+99 0d0+0 1d27+11 none
+-14 -14 -14 -9
+0 0 0 0
+stand stand none 360
+AHMV ABCDEFGHIJK medium 0
+#36126
+wight emur~
+the wight emur~
+The wight Emur wearily rises to defend his tomb.
+~
+Emur is not hostile, but is not good either. Emur was a cowardly autocrat
+slain centuries ago and imprisoned down here by a holy cleric of Argh.
+~
+human~
+0
+ABGH DJN 0 0 -1000 0
+33 5 1d67+1088 1d1+99 0d0+0 1d25+10 none
+-12 -12 -12 -7
+0 0 0 0
+stand stand none 330
+AHMV ABCDEFGHIJK medium 0
+#0
+
+
+
+#OBJECTS
+#36100
+manacles~
+a pair of iron manacles~
+A pair of iron manacles lie here.~
+nothingness~
+armor M AI
+0 0 0 0 1
+5 15 1000 P
+Y
+char 'dexterity' 0 -3
+Y
+char 'moves' 0 -50
+#36101
+straw~
+some filthy straw~
+Some filthy straw is scattered about the floor of this cell.~
+nothingness~
+furniture 0 0
+10 10000 E 0 0
+5 1 1000 P
+#36102
+bowl~
+a wooden bowl~
+A wooden bowl sits here.~
+nothingness~
+container 0 AO
+2 A 0 2 100
+9 1 1000 P
+#36103
+gruel~
+some watery gruel~
+Some watery gruel has been slopped here.~
+nothingness~
+food 0 A
+4 4 0 0 0
+5 1 1000 P
+#36104
+ball chain~
+a ball and chain~
+A ball and chain has been left here.~
+nothingness~
+armor M AF
+0 0 0 0 1
+12 25 1000 P
+Y
+char 'dexterity' 0 -3
+Y
+char 'moves' 0 200
+#36105
+bones~
+some bones~
+Some bones are scattered about here.~
+nothingness~
+trash 0 A
+0 0 0 0 0
+5 10 1000 P
+#36106
+iron maiden~
+an iron maiden~
+An iron maiden stands in one corner.~
+nothingness~
+furniture 0 0
+10 10000 E 0 0
+15 1 1000 P
+#36107
+rack~
+a rack~
+The rack is being used to stretch a dying prisoner.~
+nothingness~
+furniture 0 0
+10 10000 E 0 0
+15 1 1000 P
+#36108
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell A"
+~
+#36109
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell B"
+~
+#36110
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell C"
+~
+#36111
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell D"
+~
+#36112
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell E"
+~
+#36113
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell F"
+~
+#36114
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell G"
+~
+#36115
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell H"
+~
+#36116
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell I"
+~
+#36117
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell J"
+~
+#36118
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell K"
+~
+#36119
+key~
+a cell key~
+A cell key hangs here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+5 1 1000 P
+E
+key~
+it is labelled "Cell L"
+~
+#36120
+bottle grog~
+a bottle of grog~
+A bottle of grog sits here.~
+nothingness~
+drink 0 AO
+5 3 'firebreather' 0 0
+29 2 1000 P
+#36121
+axe~
+a sturdy axe~
+A sturdy hand axe lies here.~
+nothingness~
+weapon 0 AN
+axe 6 4 slice 0
+31 10 300 P
+Y
+char 'damroll' 0 4
+#36122
+belt~
+a leather belt~
+A leather belt once held up someone's trousers.~
+nothingness~
+armor 0 AL
+9 8 10 5 1
+29 3 1000 P
+#36123
+trousers~
+a pair of stained trousers~
+A pair of stained trousers lie here.~
+nothingness~
+armor B AF
+7 9 8 6 1
+29 5 1000 P
+#36124
+hairy chest~
+a hairy chest~
+A hairy chest lies here. Yes, someone's hairy chest.~
+nothingness~
+armor M AD
+6 5 3 4 1
+29 2 1000 P
+Y
+char 'constitution' 0 2
+#36125
+robes~
+the inquisitor's robes~
+The inquisitor's robes lie crumpled up here.~
+nothingness~
+armor 0 AK
+9 8 5 7 1
+37 4 1000 P
+Y
+char 'mana' 0 25
+#36126
+boots~
+the inquisitor's boots~
+The inquisitor's boots sit here.~
+nothingness~
+armor 0 AG
+5 8 9 4 1
+37 5 1000 P
+Y
+char 'moves' 0 150
+#36127
+hood~
+the inquisitor's hood~
+The inquisitor's hood has been left here.~
+nothingness~
+armor 0 AE
+7 8 6 9 1
+37 2 1000 P
+Y
+char 'intelligence' 0 2
+#36128
+hot iron~
+a hot iron~
+A hot iron lies here.~
+nothingness~
+light A AO
+0 0 999 0 0
+33 2 1000 P
+#36129
+brazier~
+a metal brazier~
+A metal brazier sits on a tripod here.~
+nothingness~
+container A 0
+10 A 0 10 100
+15 1 1000 P
+#36130
+cabinet~
+a cabinet~
+A cabinet full of torture implements stands near one wall.~
+nothingness~
+container 0 0
+1000 A 0 1000 100
+15 1 1000 P
+#36131
+iron mask~
+an iron mask~
+The man's iron mask has been removed.~
+nothingness~
+armor M AE
+0 0 0 0 1
+25 10 1000 P
+Y
+char 'AC' 0 -20
+#36132
+prison rags~
+prison rags~
+Some rags worn by a prisoner fester here.~
+nothingness~
+armor 0 AD
+0 0 0 0 1
+12 1 1000 P
+#36133
+bed~
+a narrow bed~
+A narrow bed sits here.~
+wood~
+furniture 0 A
+10 10000 L 200 200
+12 1 1000 P
+#36134
+bat shit~
+some bat shit~
+Some bat shit is scattered about here.~
+nothingness~
+trash 0 A
+0 0 0 0 0
+5 1 1000 P
+#36135
+rat shit~
+some rat shit~
+Some rat shit is scattered about here.~
+nothingness~
+trash 0 A
+0 0 0 0 0
+5 1 1000 P
+#36136
+roach shit~
+some cockroach shit~
+Some cockroach shit is scattered about here.~
+nothingness~
+trash 0 A
+0 0 0 0 0
+5 1 1000 P
+#36137
+pot~
+a massive iron pot~
+A massive iron pot bubbles away over a hearth here.~
+nothingness~
+container A 0
+10 A 0 10 100
+5 1 1000 P
+#36138
+stew~
+a huge amount of stew~
+This stew is enough to feed a man for days.~
+nothingness~
+food 0 A
+96 96 0 0 0
+5 10 1000 P
+#36139
+hearth~
+a hearth~
+A hearth burns away here.~
+nothingness~
+light A A
+0 0 999 0 0
+5 1 1000 P
+#36140
+sword~
+a broad sword~
+A broad sword rests here, gleaming dully.~
+nothingness~
+weapon G AN
+sword 5 6 slash 0
+26 10 200 P
+Y
+char 'hitroll' 0 3
+Y
+char 'damroll' 0 3
+#36141
+shield~
+a shield~
+A shield bearing the Coat of Arms of Anon rests here.~
+nothingness~
+armor 0 AJ
+0 0 0 0 1
+26 5 1000 P
+Y
+char 'AC' 0 -10
+#36142
+tunic~
+a black and gold tunic~
+A tunic bearing the Coat of Arms of Anon rests here.~
+nothingness~
+armor 0 AD
+6 9 10 7 1
+26 2 1000 P
+Y
+char 'constitution' 0 1
+#36143
+coif~
+a metal coif~
+A metal coif lies here.~
+nothingness~
+armor 0 AE
+0 0 0 0 1
+26 4 1000 P
+Y
+char 'AC' 0 -1
+Y
+char 'saving throw' 0 -4
+#36144
+leggings~
+some metal leggings~
+A pair of metal leggings lie here.~
+nothingness~
+armor 0 AF
+7 6 5 7 1
+26 7 1000 P
+Y
+char 'moves' 0 25
+#36145
+gloves~
+a pair of leather gloves~
+A pair of leather gloves lies here.~
+nothingness~
+armor 0 AH
+5 6 4 7 1
+26 2 1000 P
+Y
+char 'dexterity' 0 2
+#36146
+torch~
+a torch~
+A torch burns brightly here.~
+nothingness~
+light 0 AO
+0 0 48 0 0
+26 1 1000 P
+#36147
+bracer~
+a steel bracer~
+A steel bracer lies here.~
+nothingness~
+armor 0 AM
+4 5 3 3 1
+26 5 1000 P
+Y
+char 'strength' 0 1
+Y
+char 'hp' 0 10
+#36148
+dog collar~
+a spiked dog collar~
+A spiked dog collar would make a good punching weapon.~
+nothingness~
+weapon R AN
+dagger 4 6 stab 0
+29 5 200 P
+Y
+char 'damroll' 0 4
+#36149
+file~
+an iron file~
+An iron file lies here.~
+nothingness~
+weapon 0 AN
+dagger 4 5 pierce 0
+18 3 300 P
+#36150
+spoon~
+a spoon~
+This spoon has done a LOT of digging.~
+nothingness~
+weapon 0 AN
+exotic 5 6 pound 0
+26 1 450 P
+#36151
+chains~
+some rattling chains~
+Some chains that could be rattled lie here.~
+nothingness~
+armor M AK
+0 0 0 0 1
+36 15 1000 P
+Y
+char 'dexterity' 0 -2
+Y
+char 'moves' 0 -25
+#36152
+saliva coated fangs~
+some saliva coated fangs~
+Some saliva coated fangs have been torn from a dog's maw.~
+nothingness~
+armor 0 AE
+0 0 0 0 1
+1 1 1000 P
+Y
+char 'hitroll' 0 3
+Y
+char 'damroll' 0 3
+#36153
+thumbscrews~
+some thumbscrews~
+Some tumbscrews lie here.~
+nothingness~
+armor M AH
+0 0 0 0 1
+20 1 1000 P
+Y
+char 'strength' 0 -1
+Y
+char 'dexterity' 0 -1
+Y
+char 'hp' 0 -10
+#36154
+pincers~
+a pair of pincers~
+A pair of pincers hang here.~
+nothingness~
+weapon 0 AN
+exotic 3 3 bite 0
+5 5 1000 P
+#36155
+iron chair~
+an iron chair~
+An iron chair with leather straps sits here.~
+nothingness~
+furniture 0 0
+10 10000 E 0 0
+5 1 1000 P
+#36156
+flaming feather dulphur~
+a flaming feather dipped in sulphur~
+A flaming feather dipped in sulphur has been placed here.~
+nothingness~
+light Q AO
+0 0 999 0 0
+5 1 1000 P
+#36157
+hot bath lime~
+a hot bath containing lime~
+A hot bath containing lime bubbles away here.~
+nothingness~
+furniture 0 0
+10 10000 E 0 0
+5 1 1000 P
+#36158
+a pulley~
+a pulley~
+A pulley with a hooked rope attached hangs from the ceiling.~
+nothingness~
+furniture 0 0
+10 10000 E 0 0
+5 1 1000 P
+#36159
+heavy weights~
+a row of heavy weights~
+A row of heavy weights sit here.~
+nothingness~
+furniture 0 A
+10 10000 E 0 0
+5 75 1000 P
+#36160
+bellows~
+a bellows~
+A bellows used to fan the fires rests here.~
+nothingness~
+furniture 0 0
+10 10000 E 0 0
+5 1 1000 P
+#36161
+hot coals~
+some hot coals~
+Ouch! These coals will burn your fingers!~
+nothingness~
+light Q AO
+0 0 999 0 0
+30 5 200 P
+Y
+char 'damroll' 0 3
+#36162
+scourge~
+a scourge~
+A spiky scourge affixed to a wheel is used to beat victims.~
+nothingness~
+furniture 0 0
+10 10000 E 0 0
+0 1 200 P
+#36163
+sword ael~
+a dagger of Ael~
+The dagger of Ael glows evilly here.~
+nothingness~
+weapon ABEGJM AN
+dagger 5 8 pierce 0
+45 20 5000 P
+Y
+char 'strength' 0 2
+Y
+char 'mana' 0 20
+Y
+char 'hp' 0 15
+Y
+char 'AC' 0 -15
+Y
+char 'hitroll' 0 8
+Y
+char 'damroll' 0 8
+#36164
+necklace~
+a jewelled necklace~
+A jewelled necklace lies here.~
+nothingness~
+armor AEJ AC
+0 0 0 0 1
+40 1 200 P
+Y
+char 'intelligence' 0 2
+Y
+char 'wisdom' 0 2
+Y
+char 'mana' 0 25
+Y
+char 'AC' 0 -5
+Y
+char 'saving throw' 0 -2
+Y
+char 'saving throw' 0 -2
+#36165
+boots~
+boots of quickness~
+A pair of nice boots rest here.~
+nothingness~
+armor 0 AG
+0 0 0 0 1
+37 1 200 P
+Y
+char 'dexterity' 0 3
+Y
+char 'moves' 0 100
+Y
+char 'AC' 0 -15
+#36166
+helm~
+a platinum helm~
+A platinum helm rests here.~
+nothingness~
+armor BEJM AE
+0 0 0 0 1
+34 5 200 P
+Y
+char 'intelligence' 0 -3
+Y
+char 'wisdom' 0 3
+Y
+char 'mana' 0 50
+Y
+char 'AC' 0 -25
+#36167
+cloak~
+a plain gray cloak~
+A plain gray cloak has been left here.~
+nothingness~
+armor 0 AK
+25 25 25 25 1
+30 2 200 P
+#0
+
+
+
+#ROOMS
+#36100
+Inside the Gates~
+You are walking along a short corridor toward the yard. Torch brackets
+line the stone walls on either side, but it still has a cold, merciless
+feel to it.
+~
+0 12 0
+5
+D1
+~
+~
+0 0 7043
+D3
+~
+~
+A -1 36101
+S
+#36101
+The Yard~
+Here those few fortunate prisoners with privileges are allowed a short walk.
+Guards stroll back and forth, keeping an eye on them. A chill wind blows
+across this only open air space in the dungeons.
+~
+0 0 0
+5
+D0
+~
+~
+0 -1 36102
+D1
+~
+~
+A 0 36100
+D2
+~
+~
+0 -1 36103
+D3
+~
+~
+0 -1 36105
+S
+#36102
+The Yard~
+Here those few fortunate prisoners with privileges are allowed a short walk.
+Guards stroll back and forth, keeping an eye on them. A chill wind blows
+across this only open air space in the dungeons.
+~
+0 0 0
+5
+D2
+~
+~
+0 -1 36101
+D3
+~
+~
+0 -1 36104
+S
+#36103
+The Yard~
+Here those few fortunate prisoners with privileges are allowed a short walk.
+Guards stroll back and forth, keeping an eye on them. A chill wind blows
+across this only open air space in the dungeons.
+~
+0 0 0
+5
+D0
+~
+~
+0 -1 36101
+D3
+~
+~
+0 -1 36106
+S
+#36104
+The Yard~
+Here those few fortunate prisoners with privileges are allowed a short walk.
+Guards stroll back and forth, keeping an eye on them. A chill wind blows
+across this only open air space in the dungeons.
+
+North lie the Kitchens.
+~
+0 0 0
+5
+D0
+~
+~
+A -1 36107
+D1
+~
+~
+0 0 36102
+D2
+~
+~
+0 -1 36105
+S
+#36105
+The Yard~
+Here those few fortunate prisoners with privileges are allowed a short walk.
+Guards stroll back and forth, keeping an eye on them. A chill wind blows
+across this only open air space in the dungeons.
+
+A gate to the west marks the entrance down the stairs to the cells below.
+~
+0 0 0
+5
+D0
+~
+~
+0 -1 36104
+D1
+~
+~
+0 -1 36101
+D2
+~
+~
+0 -1 36106
+D5
+~
+gate~
+A -1 36108
+S
+#36106
+The Yard~
+Here those few fortunate prisoners with privileges are allowed a short walk.
+Guards stroll back and forth, keeping an eye on them. A chill wind blows
+across this only open air space in the dungeons.
+~
+0 0 0
+5
+D0
+~
+~
+0 -1 36105
+D1
+~
+~
+0 0 36103
+S
+#36107
+The Kitchens~
+Several surly wenches move slowly about here preparing the crap they serve
+the prisoners below (as well as the guards). You see little you would like
+(or be game to) take.
+~
+0 8 0
+5
+D2
+~
+~
+A 0 36104
+S
+#36108
+The Dungeon~
+You are in a dank, dismal corridor, lined with dirty stone blocks into which
+the occasional torch bracket has been wedged. A few stubs gutter feebly,
+providing little illumination. Cries of woe and pain echo down this
+depressing passageway.
+~
+0 9 0
+5
+D3
+~
+~
+0 -1 36109
+D4
+~
+gate~
+A 0 36105
+S
+#36109
+The Dungeon~
+You are in a dank, dismal corridor, lined with dirty stone blocks into which
+the occasional torch bracket has been wedged. A few stubs gutter feebly,
+providing little illumination. Cries of woe and pain echo down this
+depressing passageway.
+
+A door to the north marks the entrance to Cell Block One.
+~
+0 9 0
+5
+D0
+~
+~
+A 0 36110
+D1
+~
+~
+0 -1 36108
+D3
+~
+~
+0 -1 36118
+S
+#36110
+Cell Block One~
+You are marching along a north south passageway lined with several cell
+doors. Cries come from behind some of them, and form behind other comes only
+silence. A guard room lies directly north of here.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 36113
+D1
+Cell D~
+cell~
+A 36111 36112
+D2
+~
+~
+A 0 36109
+D3
+Cell C~
+cell~
+A 36110 36111
+S
+#36111
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D1
+~
+~
+A 36110 36110
+S
+#36112
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D3
+~
+~
+A 36111 36110
+S
+#36113
+Cell Block One~
+You are marching along a north south passageway lined with several cell
+doors. Cries come from behind some of them, and form behind other comes only
+silence. A guard room lies directly north of here.
+~
+0 9 0
+5
+D0
+~
+~
+A -1 36116
+D1
+Cell B~
+cell~
+A 36109 36115
+D2
+~
+~
+0 0 36110
+D3
+Cell A~
+cell~
+A 36108 36114
+S
+#36114
+A Well-Appointed Cell~
+This cell is clean and well-lit, and has some rather decent furnishings.
+Doubtless someone of some means has managed to requisition this cell, to
+spend their interrment in relative comfort.
+~
+0 9 0
+5
+D1
+~
+~
+A 36108 36113
+S
+#36115
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D3
+~
+~
+A 36109 36113
+S
+#36116
+A Guard Room~
+You have entered the quarters of the dungeon guards. There are usually a few
+off duty guards here at any given time, playing cards, dice, etc. to while
+away the time before their next shift.  A door to the west is marked- DOGS!
+KEEP OUT!
+
+A trapdoor leads upward to the city square, where prisoners who are
+sentenced to death are led for their execution.
+~
+0 8 0
+5
+D2
+~
+~
+A 0 36113
+D3
+~
+~
+A 0 36117
+S
+#36117
+The Dog Kennels~
+The dungeon hounds are kept in here, ready to be released on rioting
+prisoners in emergencies. They are rabid creatures, underfed and constantly
+tormented to keep their anger at a peak.
+~
+0 9 0
+5
+D1
+~
+~
+A 0 36116
+S
+#36118
+The Turnkey's Room~
+Here the Turnkey stands his post, managing and guarding the keys to all the
+cells, and keeping an eye out for any trouble. He is a recalcitrant and lazy
+sod, and not much use at either task.
+
+A door to the west leads to Cell Block Two. The torture chamber lies south.
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 36109
+D2
+~
+~
+A -1 36119
+D3
+~
+~
+A 0 36122
+S
+#36119
+The Torture Chamber~
+This is the most feared place in all the dungeon. Any and all prisoners who
+end up here rarely leave in one piece. And even if they do, they are usually
+driven quite insane by the weeks of torture. Long chains hanging from the
+ceiling suspend dead or dying victims, while fresher ones are currently
+being subjected to cruel tortures on the nightmarish devices below.
+~
+0 9 0
+5
+D0
+~
+~
+A -1 36118
+D1
+~
+~
+0 0 36120
+D2
+~
+~
+0 -1 36121
+S
+#36120
+The Torture Chamber~
+This is the most feared place in all the dungeon. Any and all prisoners who
+end up here rarely leave in one piece. And even if they do, they are usually
+driven quite insane by the weeks of torture. Long chains hanging from the
+ceiling suspend dead or dying victims, while fresher ones are currently
+being subjected to cruel tortures on the nightmarish devices below.
+~
+0 9 0
+5
+D3
+~
+~
+0 -1 36119
+S
+#36121
+The Torture Chamber~
+This is the most feared place in all the dungeon. Any and all prisoners who
+end up here rarely leave in one piece. And even if they do, they are usually
+driven quite insane by the weeks of torture. Long chains hanging from the
+ceiling suspend dead or dying victims, while fresher ones are currently
+being subjected to cruel tortures on the nightmarish devices below.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 36119
+S
+#36122
+Cell Block One~
+You are marching along a east west passageway lined with several cell
+doors. Cries come from behind some of them, and from behind others comes only
+silence.
+~
+0 9 0
+5
+D0
+Cell E~
+cell~
+A 36112 36123
+D1
+~
+~
+A 0 36118
+D2
+Cell F~
+cell~
+A 36113 36124
+D3
+~
+~
+0 -1 36125
+S
+#36123
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D2
+~
+~
+A 36112 36122
+S
+#36124
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D0
+~
+~
+A 36113 36122
+S
+#36125
+Cell Block One~
+You are marching along a east west passageway lined with several cell
+doors. Cries come from behind some of them, and from behind others comes only
+silence.
+~
+0 9 0
+5
+D0
+Cell G~
+cell~
+A 36114 36126
+D1
+~
+~
+A 0 36122
+D2
+Cell H~
+cell~
+A 36115 36127
+D3
+~
+~
+0 -1 36128
+S
+#36126
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D2
+~
+~
+A 36114 36125
+S
+#36127
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D0
+~
+~
+A 36115 36125
+S
+#36128
+Cell Block One~
+You are marching along a east west passageway lined with several cell
+doors. Cries come from behind some of them, and from behind others comes only
+silence.
+~
+0 9 0
+5
+D0
+Cell I~
+cell~
+A 36116 36129
+D1
+~
+~
+A 0 36125
+D2
+Cell J~
+cell~
+A 36117 36130
+D3
+~
+~
+0 -1 36131
+S
+#36129
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D2
+~
+~
+A 36116 36128
+S
+#36130
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D0
+~
+~
+A 36117 36128
+S
+#36131
+Cell Block One~
+You are marching along a east west passageway lined with several cell
+doors. Cries come from behind some of them, and from behind others comes only
+silence. The passage bends downwards to the west.
+~
+0 9 0
+5
+D0
+Cell K~
+cell~
+A 36118 36132
+D1
+~
+~
+A 0 36128
+D2
+Cell L~
+cell~
+A 36119 36133
+D3
+~
+~
+0 -1 36134
+S
+#36132
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D2
+~
+~
+A 36118 36131
+S
+#36133
+A Cell~
+This is a dank, damp, filthy prison cell. Mice and cockroaches scurry about,
+mingling in the animal and human filth that litters the floor. The cell has
+no windows or sources of ventilation, and the air is fetid and stale. You
+gag and hold your breath in disgust.
+~
+0 9 0
+5
+D0
+~
+~
+A 36119 36131
+S
+#36134
+The Lower Chambers~
+These chambers once held cells, but were long ago abandoned. Rotted doors
+hang open to the north and south, while a hole in the floor gives rise to
+an awful smell. You really don't want to go down there... really.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 36137
+D1
+~
+~
+0 -1 36131
+D2
+~
+~
+0 -1 36135
+D5
+~
+~
+0 -1 36136
+S
+#36135
+A Ruined Cell~
+Naught remains of whoever once occupied this cell save for some bones. Rats
+scurry away from your light, and you grimace at the stench in this hole.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 36134
+S
+#36136
+The PIT~
+This foul hole is used for disposal of garbage and of unruly prisoners. You
+land in this muck with a squelching noise, and you almost vomit when you
+realize you are chest-deep in human and animal waste. A chill wind whips
+eerily at you from nowhere, and you suddenly get the feeling you're not
+alone down here...
+~
+0 8201 0
+5
+D4
+~
+~
+0 -1 36134
+S
+#36137
+A Ruined Cell~
+Naught remains of whoever once occupied this cell save for some bones. Rats
+scurry away from your light, and you grimace at the stench in this hole.
+A hole in the north wall allows passage into a cave.
+~
+0 13 0
+5
+D0
+~
+~
+0 -1 36138
+D2
+~
+~
+0 -1 36135
+S
+#36138
+A Cavern~
+This natural cavern is home to variety of animals who have become trapped
+down here after entering from the city above and losing their way back.
+You smell guano everywhere, and see thick cobwebs.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 36139
+D2
+~
+~
+0 -1 36137
+S
+#36139
+A Cavern~
+This natural cavern is home to variety of animals who have become trapped
+down here after entering from the city above and losing their way back.
+You smell guano everywhere, and see thick cobwebs. A passage running
+westward leads into a dark maze.
+~
+0 9 0
+5
+D2
+~
+~
+0 -1 36138
+D3
+~
+~
+0 -1 36140
+S
+#36140
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D2
+~
+~
+0 -1 36141
+D1
+~
+~
+0 -1 36139
+D3
+~
+~
+0 -1 36145
+S
+#36141
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D2
+~
+~
+0 -1 36142
+D0
+~
+~
+0 -1 36140
+D3
+~
+~
+0 -1 36146
+S
+#36142
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D0
+~
+~
+0 -1 36141
+D2
+~
+~
+0 -1 36143
+D3
+~
+~
+0 -1 36147
+S
+#36143
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D0
+~
+~
+0 -1 36142
+D2
+~
+~
+0 -1 36144
+D3
+~
+~
+0 -1 36148
+S
+#36144
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D0
+~
+~
+0 -1 36143
+D3
+~
+~
+0 -1 36149
+D5
+~
+~
+A 0 36169
+S
+#36145
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D3
+~
+~
+0 -1 36150
+D2
+~
+~
+0 -1 36146
+D1
+~
+~
+0 -1 36140
+D5
+~
+~
+A 0 36168
+S
+#36146
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D0
+~
+~
+0 -1 36145
+D3
+~
+~
+0 -1 36151
+D1
+~
+~
+0 -1 36141
+D2
+~
+~
+0 -1 36147
+S
+#36147
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D3
+~
+~
+0 -1 36152
+D2
+~
+~
+0 -1 36148
+D1
+~
+~
+0 -1 36142
+D0
+~
+~
+0 -1 36146
+S
+#36148
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D3
+~
+~
+0 -1 36153
+D2
+~
+~
+0 -1 36149
+D0
+~
+~
+0 -1 36147
+D1
+~
+~
+0 -1 36143
+S
+#36149
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D3
+~
+~
+0 -1 36154
+D1
+~
+~
+0 -1 36144
+D0
+~
+~
+0 -1 36148
+S
+#36150
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D3
+~
+~
+0 -1 36155
+D1
+~
+~
+0 -1 36145
+D2
+~
+~
+0 -1 36151
+S
+#36151
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D1
+~
+~
+0 -1 36146
+D0
+~
+~
+0 -1 36150
+D2
+~
+~
+0 -1 36152
+D3
+~
+~
+0 -1 36156
+S
+#36152
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D2
+~
+~
+0 -1 36153
+D3
+~
+~
+0 -1 36157
+D0
+~
+~
+0 -1 36151
+D1
+~
+~
+0 -1 36147
+S
+#36153
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D2
+~
+~
+0 -1 36154
+D1
+~
+~
+0 -1 36148
+D0
+~
+~
+0 -1 36152
+D3
+~
+~
+0 -1 36158
+D5
+~
+~
+A 0 36167
+S
+#36154
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D3
+~
+~
+0 -1 36159
+D0
+~
+~
+0 -1 36153
+D1
+~
+~
+0 -1 36149
+S
+#36155
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D2
+~
+~
+0 -1 36156
+D3
+~
+~
+0 -1 36160
+D1
+~
+~
+0 -1 36150
+S
+#36156
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D0
+~
+~
+0 -1 36155
+D1
+~
+~
+0 -1 36151
+D3
+~
+~
+0 -1 36161
+D2
+~
+~
+0 -1 36157
+D5
+~
+~
+A 0 36166
+S
+#36157
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D1
+~
+~
+0 -1 36152
+D0
+~
+~
+0 -1 36156
+D2
+~
+~
+0 -1 36158
+D3
+~
+~
+0 -1 36162
+S
+#36158
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D2
+~
+~
+0 -1 36159
+D3
+~
+~
+0 -1 36163
+D0
+~
+~
+0 -1 36157
+D1
+~
+~
+0 -1 36153
+S
+#36159
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D1
+~
+~
+0 -1 36154
+D0
+~
+~
+0 -1 36158
+D3
+~
+~
+0 -1 36164
+S
+#36160
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D2
+~
+~
+0 -1 36161
+D1
+~
+~
+0 -1 36155
+S
+#36161
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D2
+~
+~
+0 -1 36162
+D0
+~
+~
+0 -1 36160
+D1
+~
+~
+0 -1 36156
+S
+#36162
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D0
+~
+~
+0 -1 36161
+D1
+~
+~
+0 -1 36157
+D2
+~
+~
+0 -1 36163
+D5
+~
+~
+A 0 36165
+S
+#36163
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D0
+~
+~
+0 -1 36162
+D1
+~
+~
+0 -1 36158
+D2
+~
+~
+0 -1 36164
+S
+#36164
+The Dark Maze~
+This hive of subterranean passageways was once a burial chamber. But the
+priests long ago removed all the corpses, leaving the place vacant. Rumor
+has it, however, that a few tombs still remain, undisturbed for centuries,
+full of magnificent treasures.
+~
+0 8201 0
+5
+D0
+~
+~
+0 -1 36163
+D1
+~
+~
+0 -1 36159
+S
+#36165
+Tomb of Ael~
+This dark tomb contains a sarcophagus and the mortal remains of a powerful
+spellcaster of ancient times. Unfortunately this spellcaster was also
+rather evil... You could be in trouble.
+~
+0 9 0
+5
+D4
+~
+~
+0 -1 36162
+S
+#36166
+Tomb of Baraga~
+This dark tomb contains a sarcophagus and the mortal remains of a powerful
+spellcaster of ancient times. Unfortunately this spellcaster was also
+rather evil... You could be in trouble.
+~
+0 9 0
+5
+D4
+~
+~
+0 -1 36156
+S
+#36167
+Tomb of Cas~
+This dark tomb contains a sarcophagus and the mortal remains of a powerful
+spellcaster of ancient times. Unfortunately this spellcaster was also
+rather evil... You could be in trouble.
+~
+0 9 0
+5
+D4
+~
+~
+0 -1 36153
+S
+#36168
+Tomb of Deros~
+This dark tomb contains a sarcophagus and the mortal remains of a powerful
+spellcaster of ancient times. Unfortunately this spellcaster was also
+rather evil... You could be in trouble.
+~
+0 9 0
+5
+D4
+~
+~
+0 -1 36145
+S
+#36169
+Tomb of Emur~
+This dark tomb contains a sarcophagus and the mortal remains of a powerful
+spellcaster of ancient times. Unfortunately this spellcaster was also
+rather evil... You could be in trouble.
+~
+0 9 0
+5
+D4
+~
+~
+0 -1 36144
+S
+#0
+
+
+
+#SPECIALS
+M 36100 spec_poison
+M 36101 spec_guard
+M 36102 spec_cast_cleric
+M 36103 spec_executioner
+M 36107 spec_poison
+M 36108 spec_poison
+M 36109 spec_poison
+M 36110 spec_poison
+M 36114 spec_thief
+M 36116 spec_guard
+M 36119 spec_cast_undead
+M 36120 spec_breath_frost
+M 36121 spec_cast_undead
+M 36122 spec_cast_undead
+M 36123 spec_cast_undead
+M 36124 spec_cast_undead
+M 36125 spec_cast_undead
+S
+
+
+
+#RESETS
+M 0 36116 12 36101 12
+E 0 36140 0 16
+E 0 36141 0 11
+E 0 36142 0 5
+E 0 36143 0 6
+E 0 36144 0 7
+E 0 36145 0 8
+E 0 36146 0 0
+E 0 36147 0 14
+E 0 36148 0 15
+M 0 36115 1 36107 1
+E 0 36121 0 16
+O 0 36137 0 36107
+P 0 36128 5 36137 1
+O 0 36139 0 36107
+M 0 36116 12 36108 12
+E 0 36140 0 16
+E 0 36141 0 11
+E 0 36142 0 5
+E 0 36143 0 6
+E 0 36144 0 7
+E 0 36145 0 8
+E 0 36146 0 0
+E 0 36147 0 14
+E 0 36148 0 15
+M 0 36109 20 36109 20
+O 0 36135 0 36109
+M 0 36110 29 36109 29
+M 0 36110 29 36110 29
+O 0 36101 0 36111
+M 0 36110 29 36111 29
+M 0 36111 5 36111 5
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36112 5 36111 5
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+G 0 36102 0
+P 0 36103 -1 36102 1
+O 0 36101 0 36112
+M 0 36110 29 36112 29
+M 0 36111 5 36112 5
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36112 5 36112 5
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36110 29 36113 29
+O 0 36101 0 36114
+M 0 36104 1 36114 1
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+G 0 36102 0
+P 0 36103 -1 36102 1
+O 0 36133 0 36114
+M 0 36110 29 36114 29
+O 0 36101 0 36115
+M 0 36105 1 36115 1
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36131 0 6
+E 0 36150 0 16
+E 0 36104 0 7
+G 0 36102 0
+P 0 36103 -1 36102 1
+M 0 36110 29 36115 29
+O 0 36101 0 36116
+M 0 36110 29 36116 29
+M 0 36116 12 36116 12
+E 0 36140 0 16
+E 0 36141 0 11
+E 0 36142 0 5
+E 0 36143 0 6
+E 0 36144 0 7
+E 0 36145 0 8
+E 0 36146 0 0
+E 0 36147 0 14
+E 0 36148 0 15
+O 0 36101 0 36117
+O 0 36105 0 36117
+M 0 36110 29 36117 29
+M 0 36117 6 36117 6
+E 0 36152 0 6
+E 0 36148 0 16
+O 0 36103 0 36117
+M 0 36101 1 36118 1
+E 0 36121 0 16
+E 0 36122 0 13
+E 0 36123 0 7
+E 0 36124 0 5
+G 0 36120 0
+O 0 36108 0 36118
+O 0 36109 0 36118
+O 0 36110 0 36118
+O 0 36111 0 36118
+O 0 36112 0 36118
+O 0 36113 0 36118
+O 0 36114 0 36118
+O 0 36115 0 36118
+O 0 36116 0 36118
+O 0 36117 0 36118
+O 0 36118 0 36118
+O 0 36119 0 36118
+M 0 36110 29 36118 29
+O 0 36106 0 36119
+O 0 36130 0 36119
+P 0 36153 -1 36130 1
+P 0 36154 -1 36130 1
+P 0 36156 -1 36130 1
+P 0 36159 -1 36130 1
+M 0 36109 20 36119 20
+O 0 36135 0 36119
+M 0 36110 29 36119 29
+O 0 36162 0 36120
+O 0 36155 0 36120
+O 0 36157 0 36120
+O 0 36158 0 36120
+M 0 36102 1 36120 1
+E 0 36125 0 12
+E 0 36126 0 8
+E 0 36127 0 6
+M 0 36110 29 36120 29
+O 0 36107 0 36121
+O 0 36129 0 36121
+P 0 36128 -1 36129 1
+P 0 36161 -1 36129 1
+O 0 36160 0 36121
+M 0 36103 1 36121 1
+E 0 36121 0 16
+E 0 36128 0 0
+M 0 36110 29 36121 29
+M 0 36109 20 36122 20
+O 0 36135 0 36122
+M 0 36110 29 36122 29
+O 0 36101 0 36123
+M 0 36106 2 36123 2
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36110 29 36123 29
+M 0 36116 12 36123 12
+E 0 36140 0 16
+E 0 36141 0 11
+E 0 36142 0 5
+E 0 36143 0 6
+E 0 36144 0 7
+E 0 36145 0 8
+E 0 36146 0 0
+E 0 36147 0 14
+E 0 36148 0 15
+O 0 36101 0 36124
+M 0 36110 29 36124 29
+M 0 36111 5 36124 5
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36112 5 36124 5
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36110 29 36125 29
+O 0 36101 0 36126
+M 0 36110 29 36126 29
+M 0 36111 5 36126 5
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36112 5 36126 5
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+O 0 36101 0 36127
+M 0 36110 29 36127 29
+M 0 36113 1 36127 1
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36109 20 36128 20
+O 0 36135 0 36128
+M 0 36110 29 36128 29
+O 0 36101 0 36129
+M 0 36100 1 36129 1
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36110 29 36129 29
+O 0 36101 0 36130
+M 0 36106 2 36130 2
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+M 0 36110 29 36130 29
+M 0 36110 29 36131 29
+M 0 36116 12 36131 12
+E 0 36140 0 16
+E 0 36141 0 11
+E 0 36142 0 5
+E 0 36143 0 6
+E 0 36144 0 7
+E 0 36145 0 8
+E 0 36146 0 0
+E 0 36147 0 14
+E 0 36148 0 15
+O 0 36101 0 36132
+M 0 36110 29 36132 29
+M 0 36114 2 36132 2
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+G 0 36102 0
+P 0 36103 -1 36102 1
+O 0 36101 0 36133
+M 0 36110 29 36133 29
+M 0 36114 2 36133 2
+E 0 36132 0 5
+E 0 36100 0 10
+E 0 36104 0 7
+G 0 36102 0
+P 0 36103 -1 36102 1
+M 0 36109 20 36134 20
+O 0 36135 0 36134
+M 0 36110 29 36134 29
+O 0 36105 0 36135
+M 0 36108 4 36135 4
+M 0 36110 29 36135 29
+M 0 36118 1 36135 1
+E 0 36149 0 16
+E 0 36104 0 7
+O 0 36105 0 36136
+M 0 36110 29 36136 29
+O 0 36136 0 36136
+M 0 36119 1 36136 1
+E 0 36151 0 12
+E 0 36104 0 7
+O 0 36105 0 36137
+O 0 36105 0 36138
+M 0 36107 10 36138 10
+O 0 36134 0 36138
+O 0 36105 0 36139
+M 0 36107 10 36139 10
+O 0 36134 0 36139
+M 0 36108 4 36139 4
+R 0 36140 4
+O 0 36105 0 36140
+M 0 36107 10 36140 10
+O 0 36134 0 36140
+R 0 36141 4
+M 0 36120 5 36141 5
+E 0 36104 0 7
+R 0 36142 4
+R 0 36143 4
+R 0 36144 4
+M 0 36121 5 36144 5
+R 0 36145 4
+R 0 36146 4
+R 0 36147 4
+M 0 36120 5 36147 5
+E 0 36104 0 7
+R 0 36148 4
+R 0 36149 4
+M 0 36121 5 36149 5
+R 0 36150 4
+M 0 36121 5 36150 5
+R 0 36151 4
+R 0 36152 4
+O 0 36105 0 36152
+M 0 36120 5 36152 5
+E 0 36104 0 7
+R 0 36153 4
+R 0 36154 4
+R 0 36155 4
+M 0 36121 5 36155 5
+R 0 36156 4
+R 0 36157 4
+R 0 36158 4
+R 0 36159 4
+M 0 36120 5 36159 5
+E 0 36104 0 7
+R 0 36160 4
+R 0 36161 4
+M 0 36120 5 36161 5
+E 0 36104 0 7
+R 0 36162 4
+R 0 36163 4
+R 0 36164 4
+M 0 36121 5 36164 5
+O 0 36105 0 36165
+M 0 36122 1 36165 1
+E 0 36163 0 16
+O 0 36105 0 36166
+M 0 36123 1 36166 1
+E 0 36164 0 3
+O 0 36105 0 36167
+M 0 36124 1 36167 1
+E 0 36165 0 8
+O 0 36105 0 36168
+M 0 36125 1 36168 1
+E 0 36166 0 6
+O 0 36105 0 36169
+M 0 36126 1 36169 1
+E 0 36167 0 12
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

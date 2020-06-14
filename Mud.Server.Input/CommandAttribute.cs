@@ -4,7 +4,7 @@ using Mud.Domain;
 
 namespace Mud.Server.Input
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)] // TODO: multiple category
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class CommandAttribute : Attribute
     {
         public const int DefaultPriority = 500;
@@ -19,17 +19,31 @@ namespace Mud.Server.Input
 
         public CommandAttribute(string name, params string[] categories)
         {
-            Name = name;
+            Name = name.ToLowerInvariant();
             Priority = DefaultPriority;
             Hidden = false;
-            Categories = categories ?? new [] { DefaultCategory };
+            Categories = categories?.Length == 0 
+                ? new [] { DefaultCategory }
+                : categories;
             NoShortcut = false;
             AddCommandInParameters = false;
         }
     }
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class PlayableCharacterCommandAttribute : CommandAttribute // Must be impersonated
+    public class CharacterCommandAttribute : CommandAttribute
+    {
+        public Positions MinPosition { get; set; }
+
+        public CharacterCommandAttribute(string name, params string[] categories)
+            : base(name, categories)
+        {
+            MinPosition = Positions.Dead;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    public class PlayableCharacterCommandAttribute : CharacterCommandAttribute // Must be impersonated
     {
         public PlayableCharacterCommandAttribute(string name, params string[] categories)
             : base(name, categories)

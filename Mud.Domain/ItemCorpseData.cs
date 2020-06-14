@@ -7,5 +7,7 @@
         public bool IsPlayableCharacterCorpse { get; set; }
 
         public string CorpseName { get; set; }
+
+        public bool HasBeenGeneratedByKillingCharacter { get; set; }
     }
 }

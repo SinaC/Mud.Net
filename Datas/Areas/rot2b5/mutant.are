@@ -1,0 +1,3428 @@
+#AREADATA
+Name The Mutant Dump~
+Builders None~
+VNUMs 11800 11899
+Credits {65 85} Keldar  The Mutant Dump~
+Security 9
+End
+
+#MOBILES
+#11800
+krukith giant wolf~
+the {^Wolf-headed {8Krukith{0~
+A {^Wolf-headed {8Krukith{0 draws his blade.
+~
+The {8Krukith{0 were giants that once lived in the hills
+and mountains near here.  Caught and enslaved by the
+{1Mages {7of {6Spire{0, these poor souls today are the
+product of breeding and magic performed upon them.
+This one looks to be a crossbreed of wolf and giant.
+~
+giant~
+ACEFGH A DFQZ AHMOV -500 11800
+86 43 26d33+2992 28d32+3247 2d51+53 slash
+-32 -31 -33 -31
+BCDU AHILQ BHIJKP EJP
+stand stand male 1000
+ABCDEFGHIJKMV ABCDEFGHIJKV huge unknown
+#11801
+krukith giant bear~
+the {3Bear-headed {8Krukith{0~
+A {3Bear-headed {8Krukith{0 draws his blade.
+~
+The {8Krukith{0 were giants that once lived in the hills
+and mountains near here.  Caught and enslaved by the
+{1Mages {7of {6Spire{0, these poor souls today are the
+product of breeding and magic performed upon them.
+This one looks to be a crossbreed of a grizzly bear and
+giant.
+~
+giant~
+ACFGT A DFZ AHMOV -500 11800
+90 43 14d71+3678 21d49+4190 7d14+56 claw
+-36 -34 -34 -31
+CDEKLU AHILQ BHIJP FJP
+stand stand male 1000
+ABCDEFGHIJKMV ABCDEFGHIJKUV huge unknown
+#11802
+krukith giant hyena~
+the {$Hyena-headed {8Krukith{0~
+A {$Hyena-headed {8Krukith{0 cackles as he sees you..
+~
+The {8Krukith were giants that once lived in the hills
+and mountains near here.  Caught and enslaved by the
+{1Mages {7of {6Spire{0, these poor souls today are the
+product of breeding and magic performed upon them.
+This one looks to be a crossbreed of hyena and giant.
+~
+giant~
+ACGHS A DFPQZ AHMOV -500 11800
+86 43 27d35+3527 24d35+2874 2d51+54 pierce
+-31 -33 -33 -30
+BFHU AHILQ BHIJKP GJP
+stand stand male 1000
+ABCDEFGHIJKMV ABCDEFGHIJKV large unknown
+#11803
+krukith giant cyote~
+the {8Cyote-headed Krukith{0~
+A {8Cyote-headed Krukith{0 draws his blade.
+~
+The {8Krukith{0 were giants that once lived in the hills
+and mountains near here.  Caught and enslaved by the
+{1Mages {7of {6Spire{0, these poor souls today are the
+product of breeding and magic performed upon them.
+This one looks to be a crossbreed of cyote and giant.
+~
+giant~
+ACEGH A DFQZ AHMOV -500 11800
+84 43 26d33+2992 19d47+3117 6d15+51 pierce
+-33 -33 -32 -29
+BCDFR AHILQ BHIJKP EJP
+stand stand male 1000
+ABCDEFGHIJKMV ABCDEFGHIJKV large unknown
+#11804
+krukith giant lion~
+the {3Lion-headed {8Krukith{0~
+A {3Lion-headed {8Krukith{0 roars as you approach.
+~
+The Krukith were giants that once lived in the hills
+and mountains near here.  Caught and enslaved by the
+{1Mages {7of {6Spire{0, these poor souls today are the
+product of breeding and magic performed upon them.
+This one looks to be a crossbreed of  an lion and giant.
+~
+giant~
+AFGT A DFZc AHMOV -500 11800
+90 43 31d31+3848 31d31+3848 7d14+56 pierce
+-32 -35 -36 -31
+CDEFU AHILQ BEFHIJKP EJP
+stand stand male 1000
+ABCDEFGHIJKMV ABCDEFGHIJKV giant unknown
+#11805
+dreadmage robed man figure~
+a {1Dreadmage{0~
+A black robed figure grins evilly at you.
+~
+This being is living proof that power has it's price.
+Once one of the {1Mages {7of {6Spire{0,  prolonged
+exposure to chemicals has caused him serious brain
+damage. Cast out of {6Spire{0, the mage now roams
+these lands with an army of deformed soldiers. The
+mage wears a simple black robe.
+~
+human~
+AFGRW A DFTUV ABDHMV -800 11800
+90 20 25d37+3384 17d61+4003 5d20+55 stab
+-36 -35 -36 -31
+AFP AJ BKL GN
+stand stand either 1000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#11806
+huge serpent guardian drezil~
+The {3Drezil {4Serpent{0~
+A huge {3Drezil {4Serpent{0 is happy to see its next meal.
+~
+{3Drezil {4Serpents{0 normally are deep sea creatures.
+This one has been preverted into a sludge craving being.
+Ten feet in length and covered with slimy scales from head
+to tail, this beast will eat anything.
+~
+wyvern~
+ABCFT A CDFHQb ABGOZ -500 11801
+82 10 15d51+2361 24d35+2874 7d13+53 charge
+-30 -30 -29 -27
+CEFHLMU AEGL BHS FIJS
+stand stand none 0
+ABCDEFGHJKQVXac ADEFKLOQVX huge unknown
+#11807
+snake alvisian python large~
+the {#Alvisian {2Python{0~
+A large snake uncoils itself and slithers you way.
+~
+This snake is 25 feet long and greenish in color.  It's
+skin seems to keeps changing shades as it slithers
+through the brush towards you.  It's large fangs ooze
+as it's long tongue tests the air.
+~
+snake~
+AGTU A FJPQVb AGOXYc 0 11801
+70 10 24d24+1572 22d27+1696 4d20+44 bite
+-23 -23 -28 -21
+DEFMU ABL GIL IO
+stand stand none 0
+ADEFGKLQVXYc ADEFKLQVX huge unknown
+#11808
+monkey schamic~
+a {5Schamic {&Monkey{0~
+A large monkey is swinging through the trees here.
+~
+The {5Shamic {&Monkeys{0 are normally quit small in
+stature.  This specimen stands 4 feet tall and has claws
+to help grip the branches and vines.  It has white fur and
+those deep set eyes that reguard you show just a little
+too much intelligence to be normal.
+~
+orc~
+ACHQXY A JZ AHMV -500 11801
+70 5 23d27+1752 24d27+1884 6d12+43 claw
+-25 -23 -27 -18
+CDEFMU AELQ KQS IS
+stand stand either 0
+ABCDEFGHIJKMV ABCDEFGHJKQU large unknown
+#11809
+schamic ape~
+the {5Shamic {4Ape{0~
+The {5Shamic {4Ape{0 looks you over.
+~
+This creature is huge in stature. The hulking ape watches
+you carefully as you enter the area. Flexing its long
+shaggy purple fur covered arms,  the {5Shamic {4Ape{0
+looks strong enough to tear you limb from limb.
+~
+troll~
+ACFT A DFJZ ABHMOV -100 11801
+76 76 10d69+1956 23d31+2188 6d14+48 pound
+-29 -28 -29 -22
+CDEIU ABELQ BEHK H
+stand stand either 0
+ABCDEFGHIJKMUV ABCDEFGHIJK huge unknown
+#11810
+worm grey enormous~
+the {*Worm{0~
+An enormous {8Worm{0 plows it's way towards you.
+~
+The linage of this creatue is unknown, but the locals
+have taken to calling it 'Worm'.  Simple as it may be
+that describes the {8Worm{0 perfectly.  Twenty feet in
+length, the monster can literally rearange the countryside.
+It's grey mass moves like some huge acordian as it
+crosses the earth.
+~
+centipede~
+ACGTUY A IZc ABGO 0 11800
+86 10 26d33+2992 28d32+3247 2d51+53 bite
+-34 -33 -33 -29
+AMU ABFILOQ EFIJ 0
+stand stand none 0
+ABCKRc ADFQ giant unknown
+#11811
+worm grey large~
+the {8Worm{0~
+A large {8Worm{0 plows it's way towards you.
+~
+The linage of this creatue is unknown, but the locals have
+taken to calling it 'Worm'.  Simple as it may be, that
+describes the {8Worm{0 perfectly.  Ten feet in length, the
+monster can really do a number on the country side.  It's
+grey mass moves like some huge acordian as it crosses
+the earth.
+~
+centipede~
+ACFGTUY A IZc ABGO 0 11804
+70 0 11d56+1629 23d27+1752 3d27+44 bite
+-25 -26 -27 -20
+AMU ABFILOQ EFIJ 0
+stand stand none 0
+ABCKRc ADFQ huge unknown
+#11812
+field mouse mutant~
+the {1Mutant {7Mouse{0~
+A mutated {7Mouse{0 lumbers about here.
+~
+Oozing sores cover the patchy skin of this {1Mutant
+{7Mouse{0.  Four feet long and weighing in at over 200
+pounds, this mouse is no longer the fuzzy little take
+home variety.  The beady bloodshot eyes size you up
+while it twitches it's long gray tail.
+~
+dog~
+ACGHSU A HJPZ AGV 0 11804
+70 10 24d27+1884 20d32+1817 3d27+43 bite
+-27 -25 -25 -21
+EFHMNRU AKLQ N R
+stand stand none 0
+ABCDEFGHJKUV ACDEFHJKLQUV medium unknown
+#11813
+human mutant man~
+the {1Mutant Dude{0~
+A mutated man is here, grinning evily.
+~
+Once a member of a local community, this man spent
+too much time here.  Exposed to viruses and chemicals
+within the area he began to mutate.  When his fur and
+fangs appeared, the village forced him into exile.  He
+is now one of the many creatures struggling to survive
+here.  He wears the ragged clothing of a woodsman.
+~
+human~
+ACEFG A JPZ AHMOV -500 0
+80 20 10d81+2552 23d31+2188 6d15+52 slice
+-31 -29 -28 -27
+CDFJR AKLQ G H
+stand stand male 2000
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#11814
+human mutant woman~
+the {1Mutant Babe{0~
+A mutated woman licks her cracked lips.
+~
+Once a member of a local community, this woman spent
+too much time here.  Exposed to viruses and chemicals
+within the area she began to mutate.  When her fur and
+fangs appeared, the village forced her into exile.  She is
+now one of the many creatures struggling to survive here.
+She wears the ragged dress she was forced out in.
+~
+human~
+ACEFG A JPZ AHMOV -500 0
+80 20 16d51+2654 10d81+2552 6d15+52 slice
+-31 -31 -32 -27
+CDFJR AKLQ G H
+stand stand female 2000
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#11815
+mutant lynx~
+the {1Mutant {6Lynx{0~
+A {1Mutant {6Lynx {0 hisses at you from the brush.
+~
+The shiny scales on this {6Lynx{0 glitter as it makes
+it's way through the paths in the underbrush.  Three feet
+tall and 5 1/2 long, this kitty is amoung the most dangerous
+felines ever.  With a deep throated hiss, it's warning to
+you is very clear.
+~
+cat~
+AGHTY A DFHPZ AGV 0 0
+70 20 20d32+1817 22d27+1696 3d27+44 claw
+-26 -25 -27 -20
+DEFH AEGLQ HI J
+stand stand none 0
+ABCDEFGHJKQUV ACDEFHJKQUVX medium unknown
+#11816
+tree carnivorous willow~
+the {3Willow {2Tree{0~
+A carnivorous {3Willow {2Tree{0 reaches for you.
+~
+With roots in the soil of this blasted place, some of the
+plants have started to under go mutations as well. This
+mamoth {3Willow {2Tree{0 is a prime example. The 20 to 30
+feet whip thin braches and a knot hole filled with teeth
+show the nutrition requirements for this tree are just a
+little more demanding than what the soil can provide.
+~
+troll~
+ABFGMTY A DFIJLTZc ABHMV 0 0
+84 40 16d51+2654 26d33+2992 6d15+51 whip
+-31 -31 -32 -29
+ADEMN ABCELQRSX BEFGHK IJK
+stand stand none 0
+CDEFGIJKUc N giant unknown
+F for ABHV
+#11817
+elephant roc ickratan~
+the {8Ickratan{0~
+An {8Ickratan{0 wings its way through air.
+~
+This hybred has the body of a huge roc and a head of
+an elephant.  The {8Ickratans{0 wing span is atleast 12
+feet in length.  Large tusks protrude from the mammoth
+head.
+~
+wyvern~
+AGHSY A CDFHLTZ ABGOZ 0 0
+80 10 15d51+2361 15d51+2361 8d10+49 thrust
+-30 -30 -28 -25
+BCFHLR ALQ IS HS
+stand stand none 0
+ABCDEFGHJKQVXZ ACDEFHJKPQUVXY huge unknown
+#11818
+alligator gator reptile saber~
+The {7Saber Toothed{9 Gator{0~
+An alligator slithers towards you.
+~
+There isn't much visible mutation on this beast, only the
+four large saber teeth protruding from its mouth show
+that it is infected.  The gator is 20 feet in length with the
+normal skin of an alligator.
+~
+lizard~
+AFGT A PZbc AGXc 0 0
+76 10 23d31+2188 14d51+2107 4d21+47 chomp
+-27 -28 -30 -22
+CDFM AGL FGHIL I
+stand stand none 0
+ABCDEFGHKQVXc ACDEFHKQV huge unknown
+#11819
+druid wilbur~
+Wilbur~
+Wilbur the druid his here trying to take all the pain away.
+~
+Wilbur the druid is here to help these poor souls.
+Healing those he can, he tries to right the wrongs caused
+by the {1Mages {7of {6Spire{0.
+~
+human~
+AGHLZa A DFJZ AHMNV 1000 0
+110 90 13d119+8804 39d39+9201 8d17+69 thwack
+-44 -44 -43 -41
+EFHKT ABKLQ EFGHIJMS 0
+stand stand male 9000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#11800
+mushroom black spotted~
+a {8s{7p{8o{7t{8t{7e{8d{0 {8black{0 mushroom~
+A {8s{7p{8o{7t{8t{7e{8d{0 {8black{0 mushroom is growing here.~
+food~
+pill APT A
+50 'restore mana' '' '' ''
+0 5 0 P
+E
+black spotted mushroom~
+The mushroom gives off a very stale odder.  Just a whiff
+is quite overpowering.  One inch in diameter, black with
+white spots, this mushroom is found in only the darkest
+areas of most forests.
+~
+#11801
+mushroom gray red stripped~
+a {8gray{0 and {1red s{8t{1r{8i{1p{8p{1e{8d{0 mushroom~
+A {8gray{0 and {1red s{8t{1r{8i{1p{8p{1e{8d{0 mushroom is growing here.~
+food~
+pill APT A
+50 'restore mana' '' '' ''
+0 5 0 P
+E
+gray red stripped mushroom~
+The mushroom gives off a very stale odder.  Just a whiff
+is quite overpowering.  It is approximately 1/2 inch in
+diameter, gray and has red stripes.
+~
+#11802
+mushroom white large~
+a large {7white{0 mushroom~
+A large {7white{0 mushroom is growing here.~
+food~
+pill APT A
+50 'blindness' 'refresh' '' ''
+0 4 0 P
+E
+large white mushroom~
+The smell of the mushroom is sweet.  Slightly bigger than
+an orange, the mushroom is completely white.
+~
+#11803
+banana green~
+a {2green{0 {#banana{0~
+There is a {2green{0 {#banana{0 here.~
+food~
+food APT AE
+3 3 0 0 0
+0 8 0 P
+E
+green banana~
+Fresh off the tree, this banana isn't ripe yet.
+~
+#11804
+vest tanned hides armor~
+a hide vest~
+a smelly vest of hides lies here~
+hard leather~
+armor Y AD
+AE AE BE BCD A
+83 180 0 P
+A
+13 50
+A
+1 2
+A
+18 4
+A
+19 6
+E
+hide~
+This is a well tanned vest of animal hides.  It is quite
+well used but in very good condition, besides the odder.
+~
+#11805
+long chain armour~
+some chain armour~
+some chain armour is lying here~
+steel~
+armor ABJL AD
+E ABE E BCD B
+81 200 1000 P
+F
+A 0 0 G
+A
+19 3
+A
+18 6
+A
+3 3
+A
+2 3
+A
+12 100
+E
+chain~
+The chain armour is well oiled. Sparkling in the light
+the way it does show it has been well maintained.
+~
+#11806
+large hide gauntlets~
+some hide gauntlets~
+a set of hide gauntlets are lying here~
+hard leather~
+armor 0 AH
+BE E ABE ABCD A
+83 100 0 P
+A
+13 60
+A
+1 3
+A
+19 4
+A
+18 7
+E
+guantlets~
+The gauntlets have a faint odder of sweat about them,
+but look to be in good order.  Hides from some
+animal have been used to make these gauntlets.
+~
+#11807
+glowing foxfire~
+some foxfire~
+some foxfire is glowing softly here~
+wood~
+light A AO
+0 0 BDEFGH 0 0
+70 10 0 P
+F
+A 0 0 L
+A
+19 5
+A
+18 7
+A
+17 -10
+A
+13 80
+A
+12 80
+A
+2 1
+A
+1 3
+E
+foxfire wood light~
+The chunk of foxfire is 1 foot long and 3 inches in
+diameter.  It gives of a low but steady glow that
+illuminates a surprisingly large area.
+~
+#11808
+beautiful ordinate lamp~
+a beautiful lamp~
+a beautiful lamp is lying here~
+glass~
+light HY AO
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+70 30 2000 P
+F
+A 0 0 Fc
+A
+19 3
+A
+18 7
+A
+12 100
+A
+1 3
+A
+4 2
+A
+3 3
+E
+lamp light~
+The lamp is exquisitely made.  The detail of the fine
+carvings almost makes you lose yourself within
+the lines.  It is breath breathtakingly beautiful and is
+surely worth holding on to.
+~
+#11809
+glowing braided horse hair ring~
+a glowing horse hair ring~
+A glowing ring made of braided hair lies here~
+fur~
+armor A AB
+E E ABCD CD 0
+76 3 0 P
+A
+19 7
+A
+18 7
+A
+17 15
+A
+13 60
+A
+5 1
+A
+2 1
+A
+1 3
+E
+ring horse hair~
+The ring is made of tightly braided horse hair.  The
+strains of hair are shinny from age.
+~
+#11810
+gaudy golden ring~
+a gaudy gold ring~
+A chipped gaudy golden ring was dropped here~
+copper~
+armor 0 AB
+ABCD AE ABCD ABD 0
+76 5 500 P
+A
+12 90
+A
+19 6
+A
+18 6
+A
+2 -1
+A
+1 2
+E
+gaudy gold ring~
+The heavy gold ring doesn't shine at all.  Cheap in
+design and make, it certainly isn't much to look at.
+~
+#11811
+choke chain collar~
+a choke chain collar~
+A discarded collar was left here~
+iron~
+armor 0 AC
+E AE ABCD ACD 0
+78 20 0 P
+F
+A 0 0 G
+A
+2 -1
+A
+19 6
+A
+18 8
+E
+choke chain collar~
+This collar was used to control something at one time.
+There are bits of hair still stuck on the buckle.
+~
+#11812
+billowing cape~
+a billowing cape~
+A billowing cape has been discarded here~
+velvet~
+armor 0 AC
+E ABE BE CD 0
+77 80 5000 P
+F
+S 0 0 B
+A
+19 5
+A
+18 5
+A
+13 90
+A
+12 90
+A
+3 1
+A
+1 1
+E
+cape billowing~
+The cape is well tailored.  The cut is beautiful, but
+the material itself has seen some use.
+~
+#11813
+thorny vine headband~
+a headband~
+A headband made of thorny vines lies here~
+hardwood~
+armor 0 AE
+AE BE BE BCD 0
+78 20 100 P
+A
+19 7
+A
+18 7
+A
+13 100
+A
+5 -2
+A
+4 -2
+A
+3 -2
+E
+thorny headband~
+The headband is crudely fashioned from tough thorny
+vines.
+~
+#11814
+glimmering shinny chain coif~
+a shinny chain coif~
+A glimmering chain coif  lying here~
+mithril~
+armor AMY AD
+E AE E ACD 0
+82 200 3000 P
+A
+17 -10
+A
+19 7
+A
+18 7
+E
+gleaming chain coif~
+The coif is made from the finest of mithril stock.
+The armor looks quite expensive and well made,
+as well as having a decorative look.
+~
+#11815
+fine riding gloves~
+some fine riding gloves~
+A pair of {8black{0 riding gloves are lying here~
+soft leather~
+armor 0 AH
+ABCD AE AE CD 0
+77 20 1000 P
+A
+3 2
+A
+18 9
+A
+12 90
+A
+2 3
+E
+riding gloves~
+The gloves were made for riding.  The supple leather
+allows for free movement and for some feeling to get
+through to the hands.
+~
+#11816
+worn boots~
+some very worn boots~
+A pair of well used boots have been left here~
+hard leather~
+armor 0 AG
+ABCD AE E CD 0
+74 70 30 P
+A
+18 7
+A
+17 4
+A
+14 30
+A
+5 2
+A
+1 5
+E
+worn boots~
+The boots have seen better days.  They look to have
+been quite fine in their day, how long ago that was is
+hard to say from their condition now.  They are
+still quite functional.
+~
+#11817
+riding boots~
+a pair of riding boots~
+A pair of highly polished riding boots are lying here~
+soft leather~
+armor 0 AG
+ABCD AE ABCD BCD 0
+81 50 1500 P
+A
+18 8
+A
+17 -10
+A
+2 2
+E
+riding boots~
+These are a very fine pair of boots.  The well crafted,
+finely tooled boots look like something a great lord
+would have for riding.
+~
+#11818
+tiger skin leggings~
+some tiger skin leggings~
+A pile of fur is lying here~
+fur~
+armor C AF
+BE BE ABE ABD 0
+83 150 100 P
+F
+A 0 0 PZ
+A
+19 5
+A
+18 8
+A
+2 1
+A
+1 3
+E
+tiger skin leggings~
+Once part of the king of the jungle, this hide has
+been crafted in to a crudely but solidly made set
+of leggings.
+~
+#11819
+tailored pants~
+some well tailored pants~
+Some pants made of fine material have been lost here~
+silk~
+armor C AF
+ABCD ABCD ACD ACD 0
+70 60 2000 P
+F
+R 0 0 HJLM
+F
+A 0 0 PQ
+A
+20 -10
+A
+17 -20
+A
+12 90
+E
+silk tailored pants~
+The pants are of a fine weave.  Made from the finest silk,
+the look suitable for any festive occasion.
+~
+#11820
+dusty old cloak~
+a dusty old cloak~
+A pile of dirty rags has been dropped here~
+cloth~
+armor C AK
+BE ABE AE ACD 0
+77 100 1000 P
+F
+A 0 0 Fc
+A
+19 7
+A
+18 7
+A
+13 90
+A
+5 3
+E
+dusty old cloak~
+The cloak looks to have been left unattended for quite
+some time.  The dust and dirt upon it seem to be
+ground right into the material.
+~
+#11821
+green shroud~
+a dark {2green{0 shroud~
+A dark {2green{0 shroud has been forgotten here~
+silk~
+armor C AK
+E BE AE BCD 0
+83 40 2000 P
+F
+A 0 0 V
+A
+19 8
+A
+12 100
+A
+4 1
+A
+3 2
+E
+green shroud~
+The shroud is of the darkest green die.  Well tailored
+and quiet dressy, it blends well with the color of foliage.
+~
+#11822
+swarm~
+a swarm~
+A bunch of insects are swarming here~
+slime~
+armor G AQ
+CD BCD AE BD 0
+71 0 0 P
+F
+R 0 0 Q
+F
+A 0 0 T
+A
+19 5
+A
+18 5
+A
+5 -1
+A
+4 -2
+A
+3 -3
+E
+insects swarm~
+The insects swarm about in a 1 foot by 1 foot area.  They
+seem content with just flying aimlessly around within the
+circle.
+~
+#11823
+floating eye~
+a floating eye~
+An eye slowly rotates to get a better look~
+gut~
+armor G AQ
+ABCD E ABCD ABD 0
+73 0 30000 P
+F
+A 0 0 DFZ
+A
+20 -10
+A
+19 4
+A
+18 4
+A
+14 40
+A
+3 2
+E
+floating eye~
+The eye floats about, looking over everything it passes.
+It is bloodshot because of the lack of an eyelid to blink
+but it seems unaffected in it's ability to take in the
+surroundings.
+~
+#11824
+wide leather belt~
+a wide leather belt~
+A leather belt is partially hidden here~
+hard leather~
+armor 0 AL
+ABCD AE AE ACD 0
+80 60 1000 P
+F
+R 0 0 E
+A
+19 8
+A
+18 6
+A
+13 100
+A
+4 -1
+A
+3 -2
+A
+2 3
+A
+1 2
+E
+wide leather belt~
+A plain but sturdy belt, it could be something a hauler
+might wear as he went about his work.  It look very
+functional, but unadorned.
+~
+#11825
+chain belt~
+a fine chain belt~
+A delicate finely crafted chain belt lies here~
+mithril~
+armor A AL
+E AE BE CD 0
+75 40 4000 P
+F
+R 0 0 N
+A
+19 5
+A
+18 5
+A
+13 20
+A
+12 100
+A
+1 2
+E
+chain belt~
+This belt is made from mithril stock.  The delicate links
+look too fine to be as strong as they are.  This is
+a fine piece of work.
+~
+#11826
+glowing metal buckler~
+a glowing metal buckler~
+A glowing metal buckler has been dropped here~
+mithril~
+armor AG AJ
+ABCD AE ACD BCD 0
+72 60 4000 P
+F
+R 0 0 G
+A
+19 5
+A
+18 6
+A
+12 85
+E
+metal buckler~
+This small shinny buckler as the look of fine craftsmanship.
+An intricate design has been engraved on the front of
+the buckler.
+~
+#11827
+platinum cufflink~
+a platinum cufflink~
+Something glittering is lying here~
+platinum~
+armor AG AM
+E AE ABE CD 0
+77 1 10000 P
+A
+17 -15
+A
+19 6
+A
+18 6
+A
+13 50
+A
+12 100
+E
+platinum cufflink~
+The cufflink is highly polished and the light glitters off
+of it.  The cufflink is finely crafted, and in the exact
+center are the letters 'RHY'.
+~
+#11828
+long serrated broad sword~
+a serrated broad sword~
+A very effective looking sword has been left here~
+steel~
+weapon ABGM AN
+sword 7 15 cleave AEH
+75 150 2000 P
+A
+19 7
+A
+18 8
+E
+serrated broad sword~
+The sword has small teeth all along both edges, with
+a blood groove down the center of both sides.  The
+tang is leather bound with a metal skull affixed to it.
+~
+#11829
+sleek steel whip~
+a sleek steel whip~
+A sleek looking steel whip has been left coiled here~
+steel~
+weapon BGM AN
+whip 11 11 sting ADEG
+85 60 10000 P
+F
+S 0 0 E
+A
+19 9
+A
+18 9
+E
+sleek steel whip~
+The whip looks to be of standard design, but perhaps
+a shade slimmer than the norm.  The metal links have
+been well oiled.
+~
+#11830
+dull metal dagger~
+a dull metal dagger~
+A dull metal dagger is sticking up from the ground~
+adamantite~
+weapon CGM AN
+dagger 9 11 pierce ACDH
+75 90 3000 P
+F
+S 0 0 C
+A
+19 8
+A
+18 7
+A
+13 40
+#11831
+enormous battleaxe~
+an enormous battleaxe~
+An enormous battleaxe has been dropped here~
+steel~
+weapon 0 AN
+axe 10 10 smash ADE
+75 200 2000 P
+A
+19 8
+A
+18 8
+A
+1 2
+E
+enormous battle axe~
+This monstrous axe was made for killing and nothing
+else.  The huge 3/4 moon front edge and the large
+spike on the back could have been made for no other
+purpose than to take apart your opponent with ease.
+~
+#11832
+bec de corbin~
+a gruesome bec de corbin~
+A gruesome bec de corbin has been discarded~
+steel~
+weapon M AN
+polearm 9 12 cleave AEG
+75 150 3000 P
+F
+S 0 0 D
+A
+19 8
+A
+18 8
+A
+12 50
+E
+bec de corbin~
+This design dates back hundreds of years.  The only
+thing that keeps it in use today is it's effectiveness in
+battle.
+~
+#11833
+nasty flail~
+a flail~
+A nasty looking flail is lying upon the ground~
+iron~
+weapon HM AN
+flail 8 15 pound AGH
+83 100 3000 P
+F
+S 0 0 B
+A
+19 8
+A
+18 7
+A
+13 50
+E
+nasty flail~
+A slightly ribbed handle adds a sure grip to this flail.
+The chain is 2 feet long and the iron ball at the end
+as several gleaming spikes upon it.
+~
+#0
+
+
+
+#ROOMS
+#11800
+Entrance to the {1Mutant {8Dump{0.~
+You find yourself at the edge of the Dump. The howls
+of unknown horrors can be heard as you stand and
+gaze out over these strange lands.  Far off on the
+horizon, rising high above the forest,  you can see a
+great snow capped spire.  A trail leads off the east.
+There is a sign posted here.
+~
+0 4 2
+E
+sign~
+{1 ** WARNING **{0
+
+You are entering the an area that has contaminated
+animals within.  I strongly suggest you leave at once.
+
+{1Rhythamon{0, {7Headmaster of {6Spire{0.
+~
+D1
+You see brushlands east.
+~
+~
+0 -1 11801
+D3
+You see the city wall west.
+~
+~
+0 -1 9812
+S
+#11801
+Wandering through the brush.~
+Following the trail as it zigzags through the brush, there
+are old campsites not far off the trail.  Old fire pits
+and trampled areas show that this area is not deserted.
+There are small paths to the west and north.
+~
+0 0 3
+D0
+You see brushlands to the north.
+~
+~
+0 -1 11802
+D3
+You see a clearing to the west.
+~
+~
+0 -1 11800
+S
+#11802
+Wandering through the brush.~
+Following the trail as it zigzags through the brush, there
+are old campsites not far off the trail.  Old fire pits
+and trampled areas show that this area is not deserted.
+There are paths lead to the south and east.
+~
+0 0 3
+D1
+You see brushlands to the east.
+~
+~
+0 -1 11803
+D2
+You see brushlands to the south.
+~
+~
+0 -1 11801
+S
+#11803
+Wandering through the brush.~
+Following the trail as it zigzags through the brush, there
+are old campsites not far off the trail.  Old fire pits
+and trampled areas show that this area is not deserted.
+This trail continues north and south.
+~
+0 0 2
+D0
+You see brushlands to the north.
+~
+~
+0 -1 11811
+D2
+You can see a path to the south.
+~
+~
+0 -1 11804
+D3
+You see brushlands to the west.
+~
+~
+0 -1 11802
+S
+#11804
+Start of a large trail.~
+Off to the east a large trail starts.  There are signs
+of fresh tracks from the hooves of some large beast.
+The brush has been stomped down making the going a little
+easier.
+~
+0 0 2
+D0
+You see brushlands to the north.
+~
+~
+0 -1 11803
+D1
+You can see a trail to the east.
+~
+~
+0 -1 11805
+S
+#11805
+Along the trail.~
+Following the trail as it zigzags through the brush, there
+are old campsites not far off the trail.  Old fire pits and
+trampled areas show that this area is not deserted.
+The trail gets wider to the north.
+~
+0 0 2
+D0
+You see brushlands to the north.
+~
+~
+0 -1 11806
+D3
+You see a path to the west.
+~
+~
+0 -1 11804
+S
+#11806
+Along the trail.~
+You are crossing a very thick area of brush.   The trail
+runs north and south.
+~
+0 0 2
+D0
+You see a trail to the north.
+~
+~
+0 -1 11807
+D2
+You see a trail to the south.
+~
+~
+0 -1 11805
+S
+#11807
+Bend in the trail.~
+The trail takes a sharp turn to the east and also runs to
+the south.  The signs of passage are very easy to see here.
+~
+0 0 2
+D1
+You see a bend in the trail east.
+~
+~
+0 -1 11808
+D2
+You see a trail to the south.
+~
+~
+0 -1 11806
+S
+#11808
+Around the bend.~
+You're cossing an area of very dense brush.  There is a
+crude stone structure visible though the brush to the south.
+The trail continues south and west.
+~
+0 0 2
+D2
+You see a trail to the south.
+~
+~
+0 -1 11809
+D3
+You see a trail to the west.
+~
+~
+0 -1 11807
+S
+#11809
+Before the crumbling {8statue{0.~
+Your standing before a stone structure.  You can see
+that it was once a statue of some human male.  The
+distyle is to great too tell more, but you can see the
+trail leads directly to it.
+~
+0 0 2
+D0
+You see a bend in the trail to the north.
+~
+~
+0 -1 11808
+D2
+You see a statue to the south.
+~
+~
+0 -1 11810
+S
+#11810
+At the base of the {8statue{0.~
+You crane your neck to look up at the statue.  The face
+is weather worn and there are several chunks missing.
+There is a cude altar set up behind the statue.
+~
+0 0 2
+E
+altar~
+The altar is covered with dried old blood and insects buzz
+noisily around it.  The piles of bones beside the stone
+altar shows you weren't the first people to have come this way.
+~
+E
+statue man~
+The crumbling statue's face is too weather worn to
+make out many details.  The man is looking down at you
+as if to pass judgment or to show disapproval with your
+actions. Upon closer inspection you see that the statue
+isn't that old, it was just poorly made and hasn't stood
+the test of time well.
+~
+D0
+You see a trail to the north.
+~
+~
+0 -1 11809
+S
+#11811
+Wandering through the brush.~
+You're traveling through dense brush.  There is a game
+trail running north and south with the tracks of some
+strange beast upon it.
+~
+0 0 3
+D0
+You see a sharp turn to the north.
+~
+~
+0 -1 11812
+D2
+You see brushlands to the south.
+~
+~
+0 -1 11803
+S
+#11812
+A sharp turn.~
+The brush is becoming dense again and traveling has become
+more difficult.  To the south the trail appears to be a little
+better.  To the east is a small path.
+~
+0 0 3
+D1
+You see brushlands to the east.
+~
+~
+0 -1 11813
+D2
+You see brushlands to the south.
+~
+~
+0 -1 11811
+S
+#11813
+A faint trail.~
+The trail has become faint again.  The brush is as close
+nitted as most cloak weaves.  There are small breaks in
+the brush to the east, west and north.
+~
+0 0 3
+D0
+You see brushlands to the north.
+~
+~
+0 -1 11816
+D1
+You see brushlands to the east.
+~
+~
+0 -1 11814
+D3
+You see brushlands to the west.
+~
+~
+0 -1 11812
+S
+#11814
+Through the thick brush.~
+The grey and brown brush grabs at your legs likes some
+hungry beggar.  The going looks easier to the north and
+west.
+~
+0 0 3
+D0
+You see brushlands to the north.
+~
+~
+0 -1 11815
+D3
+You see brushlands to the west.
+~
+~
+0 -1 11813
+S
+#11815
+Through the thick brush.~
+Your traveling along a path in very thick brush.  To the
+west and south the passage looks easier.
+~
+0 0 3
+D2
+You see brushlands to the south.
+~
+~
+0 -1 11814
+D3
+You see brushlands to the west.
+~
+~
+0 -1 11816
+S
+#11816
+Through the tick brush.~
+The brush is extreemly thick here.  If each plant were a
+tree, you would be in choking forest.  You can make out
+small breaks in the brush to the east, south and north.
+~
+0 0 3
+D0
+You see a bend to the north.
+~
+~
+0 -1 11817
+D1
+You see brushlands to the east.
+~
+~
+0 -1 11815
+D2
+You see brushlands to the south.
+~
+~
+0 -1 11813
+S
+#11817
+Another bend.~
+You can again see a trail.  It runs south and east with a
+sharp turn on the eastern end. The brush seems to keep
+getting more dense.
+~
+0 0 3
+D1
+You see a trail to the east.
+~
+~
+0 -1 11818
+D2
+You see brushlands to the south.
+~
+~
+0 -1 11816
+S
+#11818
+Trudging along.~
+The brush is so dense here that a trail must be forced
+as you move along this east/west trail.  To the east
+you can see the trail turns south again.
+~
+0 0 3
+D1
+You see a trun to the east.
+~
+~
+0 -1 11819
+D3
+You see a bend to the west.
+~
+~
+0 -1 11817
+S
+#11819
+Rounding the bend.~
+A faint trail through the brush turns south here or you
+can follow it west.  There is a circle of stones down the
+trail to the south.  A faint smell of smoke is in the air.
+~
+0 0 3
+D2
+You see a trail to the south.
+~
+~
+0 -1 11820
+D3
+You see a trail to the west.
+~
+~
+0 -1 11818
+S
+#11820
+Looking at the circle.~
+Just to the south there is a circle of stones.  The stones
+and the ground within are charred black.  The circle is
+3 paces in diameter.  The smell of smoke is very strong here.
+~
+0 0 3
+E
+stone circle~
+The circle looks to be 3 paces in diameter.  Something
+has charred the rocks and ground black.  Within the
+middle of the circle, partially covered with ash, something
+is gleaming.
+~
+D0
+You see a turn to the north.
+~
+~
+0 -1 11819
+D2
+You see a stone circle south.
+~
+~
+0 -1 11821
+S
+#11821
+After the {7FLASH{0.~
+There is a {&FLASH of LIGHT{0!!  Your clothing is still
+smoking a bit as your vision clears.  There is no sign
+of the circle, but you can see a way through the
+underbrush to the north.
+~
+0 0 3
+D0
+You see trees to the north.
+~
+~
+0 -1 11822
+S
+#11822
+A change of scenery~
+There is a change coming over the land here.  The air is
+more humid and the brush is starting to become small
+bent trees. There is a trail to the west.
+~
+0 0 3
+D3
+You see a trees to the west.
+~
+~
+0 -1 11823
+S
+#11823
+The beginnings of a forest.~
+The trees are becoming more numerous.  The underbrush
+that was grabing at you is starting to give way.  To the
+west there are more trees and to the south you can skirt
+the forest's edge.
+~
+0 0 3
+D1
+You see small trees to the east.
+~
+~
+0 -1 11822
+D2
+You see trees to the south.
+~
+~
+0 -1 11824
+D3
+You see a forest to the west.
+~
+~
+0 -1 11831
+S
+#11824
+The beginnings of a forest.~
+The trees are very numerous here.  The underbrush is
+thick, but not so thick as to be much of a hinderance .
+To the south and north you can skirt the forest and west
+leads you toward the denser trees.
+~
+0 0 3
+D0
+You see trees to the north.
+~
+~
+0 -1 11823
+D2
+You see trees to the south.
+~
+~
+0 -1 11825
+D3
+You see a forest to the west.
+~
+~
+0 -1 11830
+S
+#11825
+Along the edge of a forest.~
+The trees are very numerous here, but the underbrush is
+very sparse.  To the south and north you can skirt the
+forest and west leads you toward the denser trees.
+~
+0 0 3
+D0
+You see trees to the north.
+~
+~
+0 -1 11824
+D2
+You see trees to the south.
+~
+~
+0 -1 11826
+D3
+You see a forest to the east.
+~
+~
+0 -1 11829
+S
+#11826
+Along the edge of a forest.~
+The trees are very numerous here, but the underbrush is
+somewhat sparse.  To the north you can  skirt the forest
+and west leads you toward the denser trees.
+~
+0 0 3
+D0
+You see trees to the north.
+~
+~
+0 -1 11825
+D3
+You see a forest to the west.
+~
+~
+0 -1 11827
+S
+#11827
+Just inside the forest.~
+You are within a forest.  There is little in the way of
+underbrush here, but the trees are dense enough to prevent
+traveling in a straight line.  You can go south, east, north or
+west into a thicker part of the forest.
+~
+0 0 3
+D0
+The forest continues north.
+~
+~
+0 -1 11829
+D1
+The trees thin to the east.
+~
+~
+0 -1 11826
+D2
+The forest continues south.
+~
+~
+0 -1 11828
+D3
+You see heavy forest west.
+~
+~
+0 -1 11835
+S
+#11828
+Coming to a halt.~
+You travel south and see that your way is blocked by a
+great rock face.  How you didn't see it through the trees
+is hard to understand, but there is no way past it.  The
+only way out to to go back north.
+~
+0 0 3
+E
+face cliff rock~
+The hard grey stone is very smooth.  It rises up for 200
+feet before it meets the sky.
+~
+D0
+The forest continues north.
+~
+~
+0 -1 11827
+S
+#11829
+Just inside the forest.~
+You are within a forest.  There is little in the way of
+underbrush here, but the trees are dense enough to
+prevent traveling in a straight line.  You see a break in
+the trees to the east, north and south.  To the west the
+forest thickens.
+~
+0 0 3
+D0
+The forest continues north.
+~
+~
+0 -1 11830
+D1
+The trees thin to the east.
+~
+~
+0 -1 11825
+D2
+The forest continues south.
+~
+~
+0 -1 11827
+S
+#11830
+Just inside the forest.~
+You are within a forest.  There is little in the way of
+underbrush here, but the trees are dense enough to
+prevent traveling in a straight line.  To the east the forest
+tapers, it continues to the north and south and westward
+it thickens.
+~
+0 0 3
+D0
+The forest continues north.
+~
+~
+0 -1 11831
+D1
+The trees thin to the east.
+~
+~
+0 -1 11824
+D2
+The forest continues south.
+~
+~
+0 -1 11829
+D3
+You see heavy forest west.
+~
+~
+0 -1 11833
+S
+#11831
+Just inside the forest.~
+You are within a forest.  There is little in the way of
+underbrush here, but the trees are dense enough to
+prevent traveling in a straight line.  You can see easier
+going east and south, to the west the forest thickens.
+~
+0 0 3
+D1
+The trees thin to the east.
+~
+~
+0 -1 11823
+D2
+The forest continues to the south.
+~
+~
+0 -1 11830
+D3
+You see heavy forest west.
+~
+~
+0 -1 11832
+S
+#11832
+Within the forest.~
+The normal woodland sounds seem to be absent within
+these trees.  The forest is very thick and dark.  The floor
+of the forest is littered with old branches and dead falls.
+You can see small trails leading east and south.
+~
+0 1 3
+D1
+The trees thin to the east.
+~
+~
+0 -1 11831
+D2
+It is too dark to see much south.
+~
+~
+0 -1 11833
+S
+#11833
+Within the forest.~
+The normal woodland sounds seem to be absent within
+these trees.  The forest is very thick and dark.  The floor
+of the forest is littered with old branches and dead falls.
+You can see small zigzaging trails leading east, west, north
+and south.
+~
+0 1 3
+D0
+It is too dark to see much north.
+~
+~
+0 -1 11832
+D1
+The trees thin to the east.
+~
+~
+0 -1 11830
+D2
+It is too dark to see much south.
+~
+~
+0 -1 11834
+D3
+It is too dark to see much west.
+~
+~
+0 -1 11839
+S
+#11834
+Within the forest.~
+The normal woodland sounds seem to be absent within
+these trees.  The forest is very thick and dark.  The floor
+of the forest is littered with old branches and dead falls.
+You can see small zigzaging trails leading west, north
+and south.
+~
+0 1 3
+D0
+It is too dark to see much north.
+~
+~
+0 -1 11833
+D2
+It is too dark to see much south.
+~
+~
+0 -1 11835
+D3
+It is too dark to see much west.
+~
+~
+0 -1 11840
+S
+#11835
+Within the forest.~
+The normal woodland sounds seem to be absent within
+these trees.  The forest is very thick and dark.  The floor
+of the forest is littered with old branches and dead falls.
+You can see small trails leading east north and south.
+~
+0 1 3
+D0
+It is too dark to see much north.
+~
+~
+0 -1 11834
+D1
+The trees thin to the east.
+~
+~
+0 -1 11827
+D2
+It is too dark to see much west.
+~
+~
+0 -1 11836
+S
+#11836
+Within the forest.~
+The normal woodland sounds seem to be absent within
+these trees.  The forest is very thick and dark.  The floor
+of the forest is littered with old branches and dead falls.
+You can see a faint trail going north and south.
+~
+0 1 3
+D0
+It is too dark to see much north.
+~
+~
+0 -1 11835
+D2
+It is too dark to see much south.
+~
+~
+0 -1 11837
+S
+#11837
+Within the forest.~
+The normal woodland sounds seem to be absent within
+these trees.  The forest is very thick and dark.  The floor
+of the forest is littered with old branches and dead falls.
+You can see small a trail leading north. To the west the
+forest thickens.
+~
+0 1 3
+D0
+It is too dark to see much north.
+~
+~
+0 -1 11836
+D3
+It is too dark to see much west.
+~
+~
+0 -1 11843
+S
+#11838
+Under the vast branches.~
+The trees are huge and there are years of fallen leaves
+and branches on the ground.  The darkness feels almost
+repressive.  The air is so humid that even the drooping
+leaves seem to feel the weight of it.  The trees and thorn
+bushes to the north, east and west are so dense they form
+a living wall.  There is a path to the south.
+~
+0 1 3
+E
+thorn bushes wall~
+The thorns are very sharp.  You can only assume the
+liquid dripping from this is caused by the humidity.
+~
+D2
+It is too dark to see much south.
+~
+~
+0 -1 11839
+S
+#11839
+In the gloom of the forest.~
+The trees are huge and there are years of fallen leaves
+and branches on the ground.  The darkness closes in
+around you.  The air is so humid that even the drooping
+leaves seem to feel the weight of it.  You can make a
+way out to the north and east through the dim light.
+~
+0 1 3
+D0
+It is too dark to see much north.
+~
+~
+0 -1 11838
+D1
+It is too dark to see much east.
+~
+~
+0 -1 11833
+S
+#11840
+In the gloom of the forest.~
+The trees are huge and there are years of fallen leaves
+and branches on the ground.  The darkness closes in
+around you.  The air is so humid that even the drooping
+leaves seem to feel the weight of it.  You can make a way
+out to the south and east through the dim light.
+~
+0 1 3
+D1
+It is too dark to see much east.
+~
+~
+0 -1 11834
+D2
+It is too dark to see much south.
+~
+~
+0 -1 11841
+S
+#11841
+In the gloom of the forest.~
+The trees are huge and there are years of fallen leaves
+and branches on the ground.  The darkness closes in
+around you.  The air is so humid that even the drooping
+leaves seem to feel the weight of it.  You can make a
+way out to the north and to the west you can see a mist forming.
+~
+0 1 3
+D0
+It is too dark to see much north.
+~
+~
+0 -1 11840
+D3
+You see a mist forming to the west.
+~
+~
+0 -1 11846
+S
+#11842
+In the gloom of the forest.~
+The trees are huge and there are years of fallen leaves
+and branches on the ground.  The darkness closes in
+around you.  The air is so humid that even the drooping
+leaves seem to feel the weight of it.  You can make a way
+out to the south and to the west you can see a mist forming.
+~
+0 1 3
+D2
+It is too dark to see much south.
+~
+~
+0 -1 11843
+D3
+You see a mist forming to the west.
+~
+~
+0 -1 11845
+S
+#11843
+In the gloom of the forest.~
+The trees are huge and there are years of fallen leaves
+and branches on the ground.  The darkness closes in
+around you.  The air is so humid that even the drooping
+leaves seem to feel the weight of it.  You can make a way
+out to the north and east through the dim light.
+~
+0 1 3
+D0
+It is too dark to see much north.
+~
+~
+0 -1 11842
+D1
+It is too dark to see much east.
+~
+~
+0 -1 11837
+S
+#11844
+A path in the jungle.~
+Swarms of biting insects surround you as you traverse
+the jungle.  The thick vines and twisted trunks of the trees
+block out light and whatever breeze there might have been.
+You see a path running north and west.
+~
+0 1 3
+D0
+It is too dark to see much north.
+~
+~
+0 -1 11845
+D3
+It is too dark to see much west.
+~
+~
+0 -1 11847
+S
+#11845
+Welcome to the Jungle.~
+You chop your way through a dense jungle teaming with
+insects and other parasites.  The air is very humid within
+this cook pot of twisted trees and vines.  To the east you
+can just make out the forest and to the south you can see
+a pathway.
+~
+0 1 10
+D1
+It is too dark to see much east.
+~
+~
+0 -1 11842
+D2
+It is too dark to see much south.
+~
+~
+0 -1 11844
+S
+#11846
+Just north of the jungle.~
+The air is noticeably warmer and humid here.  The foliage
+is dripping with condensation and the ground is spongy.
+To the south you can see a jungle but no way to get there
+from here.  To the east is the forest.
+~
+0 1 3
+D1
+It is too dark to see much east.
+~
+~
+0 -1 11841
+S
+#11847
+Along a the path in the jungle.~
+There is a path that runs east and west here. The ground
+is becoming very wet and your boots sink in a little as
+you walk along. The one constant is, the insects seem
+happy to see you.  There is an old sign nailed to the base
+of a huge tree.
+~
+0 5 10
+E
+sign~
+There is a crude drawing of a skull and crossbones on
+the sign.  The writing is very worn and there are only 2
+letters you can make out: ___k_ __r______.  The rest
+of the sign is too rotted to read.
+~
+D1
+You can only see more jungle east.
+~
+~
+0 -1 11844
+D3
+You can only see more jungle west.
+~
+~
+0 -1 11848
+S
+#11848
+Deep in the jungle.~
+The thick vines and twisted trunks of the trees block out
+light and whatever breeze there might have been in this
+place.  To the east and north the path goes on.
+~
+0 1 10
+D0
+You can only see more jungle north.
+~
+~
+0 -1 11849
+D1
+You can only see more jungle and a path east.
+~
+~
+0 -1 11847
+S
+#11849
+Deep in the jungle.~
+Swarms of biting insects surround you as you traverse
+the jungle.  The thick vines and twisted trunks of the
+trees block out light and whatever breeze there might
+have been.  To the west and south the way looks passable.
+~
+0 1 10
+D2
+You can only see more jungle south.
+~
+~
+0 -1 11848
+D3
+You can only see more jungle west.
+~
+~
+0 -1 11850
+S
+#11850
+Deep in the jungle.~
+You continue to make your way through the jungle.
+To the east, west and south the path continues.
+~
+0 1 10
+D1
+You can only see more jungle east.
+~
+~
+0 -1 11849
+D2
+You can only see more jungle south.
+~
+~
+0 -1 11851
+D3
+The jungle seems to then a bit west.
+~
+~
+0 -1 11853
+S
+#11851
+Deep in the jungle.~
+The jungle heat hammers down upon you, uncaring of
+your discomfort.  As you are slowly being eaten alive
+your options present themsleves in the form of a path
+that goes to the west and north.
+~
+0 1 10
+D0
+You can only see more jungle north.
+~
+~
+0 -1 11850
+D3
+The jungle seems to thin a bit west.
+~
+~
+0 -1 11852
+S
+#11852
+On swampy ground.~
+The ground is nearly saturated here.  Your boots make
+slurping sounds as come up out of the muck.  No sooner
+does your foot leave the hole than it fills itself back in.
+To the east, north and west there is only more swamp.
+~
+0 1 10
+D0
+The quagmire continues north.
+~
+~
+0 -1 11853
+D1
+The ground looks firmer east.
+~
+~
+0 -1 11851
+D3
+The swamp continues west.
+~
+~
+0 -1 11854
+S
+#11853
+On swampy ground.~
+The ground is nearly saturated here.  Your boots make
+slurping sounds as come up out of the muck.  No sooner
+does your foot leave the hole than it fills itself back in.
+To the east there are twisted trees and to the south there
+is only more swamp.
+~
+0 1 10
+D1
+The ground looks firmer east.
+~
+~
+0 -1 11850
+D2
+The swamp continues south.
+~
+~
+0 -1 11852
+S
+#11854
+On swampy ground.~
+The ground is nearly saturated here.  Your boots make
+slurping sounds as they come up out of the muck.  No
+sooner does your boot leave the hole than it fills itself
+back in.  To the east and north there is only more swamp.
+~
+0 1 10
+D0
+The swamp continues north.
+~
+~
+0 -1 11855
+D1
+The swamp continues east.
+~
+~
+0 -1 11852
+S
+#11855
+On swampy ground.~
+The ground is nearly saturated here.  Your boots make
+slurping sounds as come up out of the muck.  No sooner
+does your foot leave the hole than it fills itself back in.
+There are puddles to the north and more swamp to the south.
+~
+0 1 10
+D0
+The swamp seems to recede to the north.
+~
+~
+0 -1 11856
+D2
+The swamp continues south.
+~
+~
+0 -1 11854
+S
+#11856
+At the beginning of a  trail.~
+There are puddles all around.  Making it's way through
+them is a small trail heading north and east.  To the
+south is swampy ground.
+~
+0 0 3
+D0
+You can see a beaten trail north.
+~
+~
+0 -1 11858
+D1
+There is a trail to the east.
+~
+~
+0 -1 11857
+D2
+There is a swamp south.
+~
+~
+0 -1 11855
+S
+#11857
+On the trail by the lake.~
+You are on a sparsely wooded trail with a lake to your
+north. The stagnate waters churn slowly, causing waves
+of stench to roll out.  The trail dead ends here.
+~
+0 0 3
+D0
+You see stagnate waters north.
+~
+~
+0 -1 11859
+D3
+You can see a beaten trail west.
+~
+~
+0 -1 11856
+S
+#11858
+On the trail by the lake.~
+You are on a sparsely wooded trail with a lake to the
+east. The stagnate waters churn slowly, causing waves
+of stench to roll out.  There is a trail leading north and
+south.
+~
+0 0 3
+D0
+You can see a beaten trail north.
+~
+~
+0 -1 11860
+D1
+You see stagnate waters east.
+~
+~
+0 -1 11859
+D2
+You can see a beaten trail south.
+~
+~
+0 -1 11856
+S
+#11859
+In the murky waters. ~
+The waves of stench are thick here.  The noxious fumes
+continue to waif up as the brown waters churns.  There
+is a small island not far to the east and the lake continues
+to the north.  Just to the west there is dry ground.
+~
+0 0 7
+D0
+You see stagnate waters north.
+~
+~
+0 -1 11871
+D1
+You see a small island east.
+~
+~
+0 -1 11872
+D2
+You can see land south.
+~
+~
+0 -1 11857
+D3
+You see land west.
+~
+~
+0 -1 11858
+S
+#11860
+On the trail by the lake.~
+You are on a sparsely wooded trail with a lake to the
+east.  The stagnate waters churn slowly, causing waves
+of stench to roll out.  There is a trail leading north and south.
+~
+0 0 3
+D0
+You can see a beaten trail north.
+~
+~
+0 -1 11861
+D1
+You see stagnate waters east.
+~
+~
+0 -1 11871
+D2
+You can see a beaten trail south.
+~
+~
+0 -1 11858
+S
+#11861
+On the trail by the lake.~
+You are on a sparsely wooded trail.  To the east and
+south the trail continues.
+~
+0 0 3
+D1
+You can see a beaten trail east.
+~
+~
+0 -1 11862
+D2
+You can see a beaten trail south.
+~
+~
+0 -1 11860
+S
+#11862
+On the trail by the lake.~
+You are on a sparsely wooded trail with a lake to the
+south.  The stagnate waters churn slowly, causing waves
+of stench to roll out.  The trail goes east and west.
+~
+0 0 3
+D1
+You can see a beaten trail east.
+~
+~
+0 -1 11863
+D2
+You see stagnate waters south.
+~
+~
+0 -1 11871
+D3
+You can see a beaten trail west.
+~
+~
+0 -1 11861
+S
+#11863
+On the trail by the lake.~
+You are on a sparsely wooded trail with a lake to the
+south.  The stagnate waters churn slowly, causing waves
+of stench to roll out.  There is a trail going east and west.
+~
+0 0 3
+D1
+You can see a beaten trail east.
+~
+~
+0 -1 11864
+D2
+You see stagnate waters south.
+~
+~
+0 -1 11870
+D3
+You can see a beaten trail west.
+~
+~
+0 -1 11862
+S
+#11864
+On the trail by the lake.~
+You are on a sparsely wooded trail with a lake to the
+south.  The stagnate waters churn slowly, causing waves
+of stench to roll out.  There is a trail going east and west.
+~
+0 0 3
+D1
+You can see a beaten trail east.
+~
+~
+0 -1 11865
+D2
+You see stagnate waters south.
+~
+~
+0 -1 11869
+D3
+You can see a beaten trail west.
+~
+~
+0 -1 11863
+S
+#11865
+On the trail by the lake.~
+You are on a sparsely wooded trail.  The is a trail goes
+west and south.
+~
+0 0 3
+D2
+You can see a beaten trail south.
+~
+~
+0 -1 11866
+D3
+You can see a beaten trail west.
+~
+~
+0 -1 11864
+S
+#11866
+On the trail by the lake.~
+You are on a sparsely wooded trail with a lake to the
+west.  The stagnate waters churn slowly, causing waves
+of stench to roll out.  The trail goes north and south.
+~
+0 0 3
+D0
+You can see a beaten trail north.
+~
+~
+0 -1 11865
+D2
+You can see a beaten trail south.
+~
+~
+0 -1 11867
+D3
+You see stagnate waters west.
+~
+~
+0 -1 11869
+S
+#11867
+At the end of a trail.~
+This is a sparcely wooded area. To the west see a lake
+and a trail leads to the north. Near the lake there is an
+old row boat.
+~
+0 0 3
+E
+old row boat~
+You see an old boat here.  It would have been perfect
+for crossing the waters if it wasn't for the huge hole in
+the bottom.
+~
+D0
+You can see a beaten trail north.
+~
+~
+0 -1 11866
+D3
+You see stagnate waters west.
+~
+~
+0 -1 11868
+S
+#11868
+In the murky waters.~
+The waves of stench are thick here.  The noxious fumes
+continue to waif up as the brown waters churns.  There
+is a small island not far to the west and the lake continues
+to the north.  Just to the east there is dry ground.
+~
+0 0 7
+D0
+You see stagnate waters north.
+~
+~
+0 -1 11869
+D1
+You see land east.
+~
+~
+0 -1 11867
+D3
+You see a small island west.
+~
+~
+0 -1 11872
+S
+#11869
+In the murky waters.~
+The waves of stench are thick here.  The noxious fumes
+continue to waif up as the brown waters churns.  To the
+north and east there is dry ground and the lake continues
+to the west and south.
+~
+0 0 7
+D0
+You see land north.
+~
+~
+0 -1 11864
+D1
+You see land east.
+~
+~
+0 -1 11866
+D2
+You see stagnate waters south.
+~
+~
+0 -1 11868
+D3
+You see stagnate waters west.
+~
+~
+0 -1 11870
+S
+#11870
+In the murky waters.~
+The waves of stench are thick here.  The noxious fumes
+continue to waif up as the brown waters churns.  There is
+a small island not far to the south and the lake continues to
+the east and west.  Just to the north there is dry ground.
+~
+0 0 7
+D0
+You see land north.
+~
+~
+0 -1 11863
+D1
+You see stagnate waters east.
+~
+~
+0 -1 11869
+D2
+You see a small island south.
+~
+~
+0 -1 11872
+D3
+You see stagnate waters west.
+~
+~
+0 -1 11871
+S
+#11871
+In the murky waters.~
+The waves of stench are thick here.  The noxious fumes
+continue to waif up as the brown waters churns.  Just to
+the north and west there is dry ground and to the south
+and east the lake continues.
+~
+0 0 7
+D0
+You see land north.
+~
+~
+0 -1 11862
+D1
+You see stagnate waters east.
+~
+~
+0 -1 11870
+D2
+You see stagnate waters south.
+~
+~
+0 -1 11859
+D3
+You see land west.
+~
+~
+0 -1 11860
+S
+#11872
+On the isle.~
+After crossing the murky waters, you finally arrive at the
+island.  It is even smaller than what it appeared to be from
+the distyle.  With only a small half sunken stone hut in the
+exact middle.  You see nothing but water all around you.
+~
+0 0 3
+E
+small hut~
+The hut is unremarkable.  You can see the door has long
+ago been torn from it's hinges.
+~
+D0
+You see stagnate waters north.
+~
+~
+0 -1 11870
+D1
+You see stagnate waters east.
+~
+~
+0 -1 11868
+D3
+You see stagnate waters west.
+~
+~
+0 -1 11859
+D5
+You can see into the hut from here.
+~
+~
+0 -1 11873
+S
+#11873
+Inside the hut.~
+By all appearances the hut hasn't been used in quite some
+time.  Thick dust on the sills is the only thing inside.  The
+only exit is back out to the east.
+~
+0 5 1
+D1
+You can see the yard in front of the hut.
+~
+~
+0 -1 11874
+S
+#11874
+Front yard.~
+Standing just to the east of  the hut,  there some thickly
+forest foothills visible further to the east.  There is a spire
+quite aways off to the north.  There is a hut to the west
+and east there is a footpath to the hills.
+~
+0 0 4
+D1
+You can see some hills to the east.
+~
+~
+0 -1 11875
+D3
+You can a hut west.
+~
+~
+0 -1 11873
+S
+#11875
+Start of the steep hills.~
+The steep hills rise all around you and the shadow's within
+are deep.  There is a draw of sorts to the north and a trail
+to the west.
+~
+0 0 4
+D0
+You can see a draw north.
+~
+~
+0 -1 11876
+D3
+You can see a clearing west.
+~
+~
+0 -1 11874
+S
+#11876
+Through the hills.~
+The steep hills rise all around you and the wind howls through
+the trees.  The hills continue to the north south.
+~
+0 0 4
+D0
+You can only see more hills north.
+~
+~
+0 -1 11881
+D2
+You can see the end of the hills south.
+~
+~
+0 -1 11875
+S
+#11877
+Through the hills.~
+The steep hills rise all around you and the wind howls through
+the trees.  The hills continue to the north and there is a path
+to the east.
+~
+0 0 4
+D0
+You can only see more hills north.
+~
+~
+0 -1 11880
+D1
+You can only see more hills east.
+~
+~
+0 -1 11878
+S
+#11878
+Through the hills.~
+Your crossing some very steep and thickly wooded hills.
+You can see a trampled path north and west.
+~
+0 0 4
+D0
+You can only see more hills north.
+~
+~
+0 -1 11879
+D3
+You can only see more hills west.
+~
+~
+0 -1 11877
+S
+#11879
+Through the hills.~
+The steep hills rise all around you and the wind howls
+through the trees.  The hills continue to the north and south.
+~
+0 0 4
+D0
+You can only see more hills north.
+~
+~
+0 -1 11885
+D2
+You can only see more hills south.
+~
+~
+0 -1 11878
+S
+#11880
+Through the hills.~
+The steep hills rise all around you and the wind howls
+through the trees.  There is an old trail that runs west
+and south.
+~
+0 0 4
+D2
+You can only see more hills south.
+~
+~
+0 -1 11877
+D3
+You can only see more hills west.
+~
+~
+0 -1 11881
+S
+#11881
+Through the hills.~
+Your crossing some very steep and thickly wooded hills.
+It is impossible see very far, but there is an old footpath
+to the east.  To the south are more hills.
+~
+0 0 4
+D1
+You can only see more hills east.
+~
+~
+0 -1 11880
+D2
+You can only see more hills south.
+~
+~
+0 -1 11876
+S
+#11882
+Through the hills.~
+The steep hills rise all around you and the wind howls
+through the trees.  Between the trees the spire can be
+glimpsed off to the north. There is a trail heading north
+and a path to the east.
+~
+0 0 4
+D0
+You can only see more hills north.
+~
+~
+0 -1 11889
+D1
+You can only see more hills east.
+~
+~
+0 -1 11883
+S
+#11883
+Through the hills.~
+The steep hills rise all around you and the wind howls
+through the trees.  The hills continue to the east and west.
+To the south is a poor trail.
+~
+0 0 4
+D1
+You can only see more hills east.
+~
+~
+0 -1 11884
+D2
+The way south looks very difficult.
+~
+~
+0 -1 11881
+D3
+You can only see more hills west.
+~
+~
+0 -1 11882
+S
+#11884
+Through the hills.~
+The hills are very steep and thickly wooded. There is an old
+trail to that follows the draw north and a game trail to the
+west.  A poor path leads south.
+~
+0 0 4
+D0
+You can only see more hills north.
+~
+~
+0 -1 11887
+D2
+The way south looks very difficult.
+~
+~
+0 -1 11880
+D3
+You can only see more hills west.
+~
+~
+0 -1 11883
+S
+#11885
+Through the hills.~
+The steep hills rise all around you and the wind howls
+through the trees.  There is a rugged trail to the north
+and south.
+~
+0 0 4
+D0
+You can see some mountains north.
+~
+~
+0 -1 11886
+D2
+You can only see more hills south.
+~
+~
+0 -1 11879
+S
+#11886
+The edge of the mountain.~
+The lower sweeps of the mountains begin here.  Over
+the high cliffs as spire is visible to the north.  There is a
+trail running west and south here.
+~
+0 0 5
+D2
+You can only see more hills south.
+~
+~
+0 -1 11885
+D3
+You can see mountains west.
+~
+~
+0 -1 11887
+S
+#11887
+The edge of the mountain.~
+The lower sweeps of the mountains begin here.  Over
+the high cliffs as spire is visible to the north.  The trail
+runs east and south here.
+~
+0 0 5
+D1
+You can see mountains east.
+~
+~
+0 -1 11886
+D2
+You can see some hills south.
+~
+~
+0 -1 11884
+S
+#11888
+The edge of the mountain.~
+The lower sweeps of the mountains begin here.  Over
+the high cliffs as spire is visible to the north.   There is
+a trail to the west and a rocky path leading north.
+~
+0 0 5
+D0
+You can mountains north.
+~
+~
+0 -1 11891
+D3
+You can mountains west.
+~
+~
+0 -1 11889
+S
+#11889
+The edge of the mountain.~
+The lower sweeps of the mountains begin here.  Over
+the high cliffs as spire is visible to the north.  There is
+a trail to the south and east.
+~
+0 0 5
+D1
+You can see mountains east.
+~
+~
+0 -1 11888
+D2
+You can see some hills to the south.
+~
+~
+0 -1 11882
+S
+#11890
+A boxed in canyon.~
+You come down the path only to find that you must go
+right back up.  The towering cliffs to the north, west
+and south effectively cut off any travel in this direction.
+~
+0 1 5
+E
+cliffs~
+The smooth granite cliffs rise for better than 200 feet,
+casting long shadows into the canyon.
+~
+D1
+You can see a way out east.
+~
+~
+0 -1 11891
+S
+#11891
+On the mountain side.~
+The mountain is very steep here.  The spire is in clear
+veiw now to the north.  The ground gently sloops down
+to the west, a trail leads east and there is a path back to
+the hills to the south.
+~
+0 0 5
+D1
+You can see mountains east.
+~
+~
+0 -1 11892
+D2
+You can see mountains south.
+~
+~
+0 -1 11888
+D3
+You can see a gently slopping path west.
+~
+~
+0 -1 11890
+S
+#11892
+On the mountain side.~
+The mountain climbs sharply here and the shale threatens
+to dislodge you with every step.  There is a of a broad
+path to the east and a trail leads through the mountains
+to the west.
+~
+0 0 5
+D1
+You can see the start of a path east.
+~
+~
+0 -1 11893
+D3
+You can see mountains west.
+~
+~
+0 -1 11891
+S
+#11893
+On the broad path.~
+There is a broad path here running north and west.
+~
+0 0 3
+D0
+You can see a high piece of ground north.
+~
+~
+0 -1 11894
+D3
+You can see mountains west.
+~
+~
+0 -1 11892
+S
+#11894
+Topping another rise.~
+Following the path eventually brings you to a high rise
+in the ground.  From this vantage point a full view of the
+spire to the north is possible.  Barely visible on the side
+of the spire is a complex of some sort.  The path goes
+north and south.  There is a sign posted here.
+~
+0 0 4
+E
+complex buildings~
+It is too far to see more than a cluster of buildings is on
+the side of the spire.  A bridge leads across a small
+chasm to the north.  A path runs to the buildings from there.
+~
+E
+spire~
+Looking closely you can see several buildings on the side
+of the great spire.  Just above the buildings you can make
+out what might be a cave.
+~
+E
+sign~
+{1 ** WARNING **{0
+
+You are entering the an area that has contaminated
+animals within.  I strongly suggest you leave the area
+at once.
+
+{1Rhythamon{0, {7Headmaster of {6Spire{0.
+~
+D0
+You can see a path north, and a bridge farther on.
+~
+~
+0 -1 11895
+D2
+You can see a broad path south.
+~
+~
+0 -1 11893
+S
+#11895
+Southside of a bridge.~
+A strong looking bridge spans a small chasm here.  To
+the north is a bridge and a broad path leads to the south.
+~
+0 0 3
+D0
+You see a strong bridge north.
+~
+~
+0 -1 11896
+D2
+The ground rises to the south.
+~
+~
+0 -1 11894
+S
+#11896
+On the bridge.~
+Your footsteps thump solidly upon the bridge.  Whoever
+made this bridge, they made it to last.  The bridge
+continues to the north and south.
+~
+0 4 1
+D0
+The bridge comes to an end to the north.
+~
+~
+0 -1 11897
+D2
+The bridge comes to an end to the south.
+~
+~
+0 -1 11895
+S
+#11897
+Nothside of the bridge.~
+You can see a village to the north and a bridge spans a
+small chasm to the south.  A path leads up to the village.
+~
+0 4 3
+D2
+You can see a strong bridge south.
+~
+~
+0 -1 11896
+S
+#11898
+{1Keldar{0's pad~
+First thought that hits you is 'what a mess'.  Upon the
+writing desk are papers scattered in what can only
+be termed a whirlwind filling system.  Empty bottles
+of firebreathers are scattered about the room, as well
+as scraps from some meal long since eaten.
+~
+0 9740 1
+S
+#11899
+YOU MESS UP!~
+You were put here to be delt with when the IMM gets
+ready to deal with you.  You might consider 2 things
+while you wait.  Did I break an obvious rule?  Did
+I do something that wasn't a posted rule but was still
+dumb to do?
+~
+0 9228 1
+S
+#0
+
+
+
+#SPECIALS
+M 11805 spec_cast_mage
+M 11808 spec_cast_cleric
+M 11812 spec_thief
+M 11819 spec_cast_cleric
+S
+
+
+
+#RESETS
+M 0 11815 6 11803 1
+G 0 11800 0
+M 0 11815 6 11804 1
+G 0 11801 0
+M 0 11811 7 11805 1
+G 0 11801 0
+M 0 11812 5 11806 1
+G 0 11800 0
+M 0 11813 6 11807 1
+E 0 11822 0 18
+M 0 11814 6 11807 1
+E 0 11810 0 1
+M 0 11811 7 11808 1
+G 0 11802 0
+M 0 11812 5 11808 1
+G 0 11801 0
+M 0 11815 6 11808 1
+G 0 11802 0
+M 0 11810 4 11811 1
+G 0 11801 0
+M 0 11811 7 11811 1
+M 0 11812 5 11813 1
+G 0 11802 0
+M 0 11811 7 11814 1
+G 0 11800 0
+M 0 11817 6 11814 1
+G 0 11801 0
+M 0 11812 5 11815 1
+G 0 11801 0
+M 0 11812 5 11816 1
+G 0 11800 0
+M 0 11811 7 11817 1
+G 0 11801 0
+M 0 11815 6 11819 1
+M 0 11811 7 11824 1
+M 0 11815 6 11824 1
+G 0 11800 0
+M 0 11817 6 11825 1
+G 0 11802 0
+M 0 11816 3 11828 1
+G 0 11802 0
+M 0 11813 6 11829 1
+E 0 11807 0 17
+E 0 11810 0 1
+M 0 11814 6 11829 1
+E 0 11813 0 6
+M 0 11813 6 11832 1
+E 0 11807 0 17
+E 0 11813 0 6
+M 0 11814 6 11832 1
+E 0 11807 0 17
+E 0 11820 0 12
+M 0 11811 7 11833 1
+M 0 11815 6 11833 1
+G 0 11801 0
+M 0 11816 3 11838 1
+O 0 11803 0 11845
+M 0 11804 4 11845 1
+E 0 11833 0 16
+E 0 11818 0 7
+M 0 11807 8 11846 1
+G 0 11800 0
+M 0 11807 8 11847 1
+G 0 11801 0
+M 0 11809 4 11847 1
+G 0 11801 0
+O 0 11803 0 11848
+M 0 11807 8 11848 1
+G 0 11802 0
+M 0 11808 4 11848 1
+G 0 11801 0
+M 0 11807 8 11849 1
+G 0 11800 0
+M 0 11808 4 11849 1
+G 0 11802 0
+M 0 11809 4 11849 1
+G 0 11802 0
+M 0 11807 8 11851 1
+G 0 11801 0
+M 0 11809 4 11851 1
+M 0 11808 4 11852 1
+M 0 11818 4 11852 1
+G 0 11802 0
+M 0 11807 8 11853 1
+G 0 11802 0
+M 0 11817 6 11853 1
+M 0 11807 8 11855 1
+M 0 11809 4 11855 1
+G 0 11800 0
+M 0 11808 4 11856 1
+G 0 11800 0
+M 0 11807 8 11857 1
+G 0 11800 0
+M 0 11818 4 11858 1
+G 0 11800 0
+M 0 11806 10 11859 2
+M 0 11806 10 11859 2
+M 0 11818 4 11859 1
+G 0 11801 0
+M 0 11813 6 11861 1
+E 0 11807 0 17
+E 0 11816 0 8
+M 0 11814 6 11861 1
+E 0 11807 0 17
+E 0 11816 0 8
+M 0 11819 1 11861 1
+M 0 11816 3 11862 1
+G 0 11800 0
+M 0 11817 6 11863 1
+G 0 11800 0
+M 0 11818 4 11863 1
+M 0 11805 5 11865 1
+E 0 11829 0 16
+E 0 11812 0 3
+E 0 11826 0 11
+M 0 11806 10 11868 2
+M 0 11806 10 11868 2
+M 0 11806 10 11869 2
+M 0 11806 10 11869 2
+M 0 11806 10 11870 2
+M 0 11806 10 11870 2
+M 0 11806 10 11871 2
+M 0 11806 10 11871 2
+M 0 11805 5 11872 1
+E 0 11815 0 9
+E 0 11805 0 5
+M 0 11805 5 11874 1
+E 0 11817 0 8
+E 0 11827 0 15
+M 0 11803 4 11875 1
+E 0 11832 0 16
+M 0 11804 4 11876 1
+E 0 11809 0 1
+M 0 11810 4 11877 1
+G 0 11802 0
+M 0 11817 6 11877 1
+G 0 11801 0
+M 0 11800 4 11881 1
+E 0 11828 0 16
+E 0 11809 0 1
+M 0 11813 6 11881 1
+E 0 11807 0 17
+E 0 11823 0 18
+M 0 11814 6 11881 1
+E 0 11810 0 1
+E 0 11807 0 17
+M 0 11817 6 11881 1
+M 0 11801 3 11882 1
+E 0 11831 0 16
+E 0 11809 0 1
+M 0 11810 4 11882 1
+M 0 11803 4 11883 1
+E 0 11809 0 1
+E 0 11832 0 16
+M 0 11802 4 11884 1
+M 0 11805 5 11884 1
+E 0 11819 0 7
+E 0 11825 0 13
+M 0 11800 4 11886 1
+E 0 11806 0 9
+M 0 11803 4 11886 1
+E 0 11832 0 16
+M 0 11804 4 11886 1
+E 0 11833 0 16
+M 0 11802 4 11887 1
+E 0 11809 0 1
+E 0 11830 0 16
+M 0 11810 4 11887 1
+G 0 11800 0
+M 0 11800 4 11889 1
+E 0 11828 0 16
+M 0 11804 4 11890 1
+E 0 11824 0 13
+M 0 11805 5 11890 1
+E 0 11814 0 6
+E 0 11821 0 12
+M 0 11813 6 11890 1
+E 0 11807 0 17
+M 0 11814 6 11890 1
+M 0 11800 4 11891 1
+E 0 11828 0 16
+E 0 11804 0 5
+M 0 11803 4 11892 1
+E 0 11832 0 16
+M 0 11802 4 11893 1
+E 0 11811 0 3
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

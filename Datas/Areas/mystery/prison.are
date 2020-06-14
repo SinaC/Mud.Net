@@ -1,0 +1,505 @@
+#AREADATA
+Name The Prison~
+Builders Roland~
+VNUMs 11600 11699
+Credits {{90 100} Roland  The Prison~
+Security 5
+Flags 0
+End
+
+
+
+#MOBILES
+#11600
+Grug~
+Grug~
+A huge, bulking ogre stands here.
+~
+Grug is a huge mountain of muscle and meaness.  He wants nothing more than to kill you painfully.
+~
+human~
+0
+ABFT DFHJc 0 0 -1000 0
+110 120 1d1+25000 0d0+0 0d0+0 15d20+200 smash
+-50 -50 -50 -50
+0 AB CDE K
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#11601
+aesir human darkness~
+Aesir, Child of Darkness~
+A tall, thin human stands here.
+~
+Aesir looks you over, smiling as he prepares to dine upon you.
+~
+human~
+0
+ABFOR DFHc 0 0 -1000 0
+113 125 1d1+12000 1d1+10000 0d0+0 10d20+200 magic
+-70 -70 -70 -70
+F 0 CD HNSX
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#11602
+Beo werewolf~
+Beo, the Cursed~
+A slobbering, snarling werewolf stands here.
+~
+Beo is a truly cursed human who now lives to tear and ravage.
+~
+human~
+0
+ABF DFHOPac 0 0 -1000 0
+108 200 1d1+15000 0d0+0 0d0+0 16d20+280 chomp
+-70 -70 -70 -70
+DEFK 0 CD Y
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#11603
+Asod demon~
+Asod, Hell's executioner~
+A black demon stands here.
+~
+Asod, Hell's executioner, stands here laughing at you.
+~
+human~
+0
+ABFQRT DFHOac 0 0 -1000 0
+115 200 1d1+15000 1d1+10000 0d0+0 15d25+150 divine
+-70 -70 -70 -70
+DEFGK 0 CD 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#11604
+Searnik drow murderer~
+Searnik the Ripper~
+A slinking, stalking drow.
+~
+Clothed in green and brown, Searnik looks every bit the drow nobleman. Who would know the numbers of innocents he has slain.
+~
+drow~
+0
+A EJ 0 0 -1000 0
+108 125 1d1+10000 0d0+0 0d0+0 10d20+225 thrust
+-90 -90 -90 -90
+0 0 C QS
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+F aff Z
+#11605
+Bane minotaur~
+Bane the Brutal~
+A shaggy, bellowing minotaur warrior.
+~
+Bane wants to kill you, very slowly.
+~
+minotaur~
+0
+AFGT DHOac 0 0 -1000 0
+110 200 1d1+15000 0d0+0 0d0+0 10d20+300 smash
+-70 -70 -70 -70
+CFK 0 CDE J
+stand stand none 0
+AHMVd ABCDEFGHIJKW medium unknown
+#11606
+Blacktongue troll~
+Blacktongue~
+Blacktongue stands here.
+~
+Blacktongue is a large, scaly troll constantly in search of a meal.
+~
+troll~
+0
+ABFT DFHJc 0 0 -1000 0
+106 200 1d1+15000 0d0+0 0d0+0 12d20+220 cleave
+-70 -70 -70 -70
+F 0 BCDEHI HKRS
+stand stand none 0
+AHMV ABCDEFGHIJK large unknown
+#11607
+Jylranthar draconian~
+Jylranthar~
+A large draconian stands here snarling.
+~
+Jylranthar is an evil specimen who lives for mayhem and destruction.
+~
+dragon~
+0
+ABFR DFHJTc 0 0 -1000 0
+108 215 1d1+15000 1d1+10000 0d0+0 11d21+300 flbite
+-70 -70 -70 -70
+F 0 BCDEH 0
+stand stand none 0
+AHMVZ ABCDEFGHIJKPQUVX medium unknown
+F vul FI
+#11608
+guard prison samus~
+Prison Guard 114A~
+Deputy Samus stands here fumbling with his keys.
+~
+~
+human~
+0
+ABFT DFHNa 0 0 1000 0
+110 150 1d1+10000 0d0+0 0d0+0 10d20+150 crush
+-70 -70 -70 -70
+CF 0 CD 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#11609
+a prison guard~
+Prison Guard 195C~
+A large, smartly dressed guard stands here.
+~
+~
+human~
+0
+ABF DFHNac 0 0 1000 0
+110 175 1d1+15000 0d0+0 0d0+0 10d20+212 crush
+-70 -70 -70 -70
+DEFO 0 CD 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#11600
+Prison floorplan map~
+a small, rolled up map.~
+This is the floorplan of the prison.~
+unknown~
+map 0 A
+0 0 0 0 0
+1 0 0 P
+#11601
+Prison guard cape~
+a guard's cape~
+A long, white cape with a golden eagle ensignia lies here.~
+unknown~
+armor G AK
+200 200 200 200 0
+90 0 2000 P
+Y
+char 'hitroll' 0 35
+Y
+char 'damroll' 0 25
+Y
+char 'AC' 0 -50
+Y
+char 'hp' 0 500
+#0
+
+
+
+#ROOMS
+#11600
+A passageway~
+A torch on each side of the wall lights up the passageway. Drawings of warriors in battle cover the wet moldy walls.  The air has an dank and putrid smell, like decaying flesh.  The passage leads north and west.
+A small signs stands pounded into the ground. (You should read it.)
+~
+0 4 0
+5
+E
+sign~
+BEWARE!!!   Dangerous Area Ahead!   Death awaits all who enter the prison facility.  The inmates are aggressive..repeat AGGRESSIVE!!!!
+_
+ DISCLAIMER:  We are not responsible for lost lives..no refunds available.
+~
+D0
+~
+~
+0 0 11601
+S
+#11601
+A passageway~
+Two huge double doors made of oak stand before  the passageway's end.  A bat flutters high above looking for a place to sleep.  Signs of construction lie to east.
+~
+0 0 0
+5
+D0
+~
+door~
+AB 0 11602
+D2
+~
+~
+0 0 11600
+S
+#11602
+Hallway~
+Rust covered doors lie on either side of you.  The floorway of the hall is mostly dirt and sawdust.  The hallway continues north and south. There are doors to the east and west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 11603
+D1
+~
+~
+AB 0 11605
+D2
+~
+~
+AB 0 11601
+D3
+~
+~
+AB 0 11610
+S
+#11603
+Hallway~
+Smells of bodily waste waft through the cell doors.  Deep scratch marks cover the metal door to the east.  The hallway continues to the north and south.  There are doorways to the east and west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 11604
+D1
+~
+~
+AB 0 11606
+D2
+~
+~
+0 0 11602
+D3
+~
+~
+AB 0 11609
+S
+#11604
+Hallway~
+A rat scurries by with a piece of bread in it's mouth.  A faint clanking noise comes out of the door to the west.  One of the torch-holders is missing a torch.  There is a door to the east and the west.  The hallway continues north and south.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 11611
+D1
+~
+~
+AB 0 11607
+D2
+~
+~
+0 0 11603
+D3
+~
+~
+AB 0 11608
+S
+#11605
+Cell 1~
+A bed made of hay lies in the left-hand corner.  Bowls of half eaten gruel litter the floor.  The room has no windows, but is lit by a source of light which is unknown to you.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 11602
+S
+#11606
+Cell 3~
+The walls of the room are covered with black mold.  The room is very cold and devoid of any color, save blackish-gray.  The room is lit, but the source is unknown.  A bed of hay lies in the left-hand corner.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 11603
+S
+#11607
+Cell 5~
+A bed made of hay lies in the left-hand corner.  Bowls of half eaten gruel litter the floor.  The room has no windows, but is lit by a source of light which is unknown to you.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 11604
+S
+#11608
+Cell 6~
+The walls of the room are covered with black mold.  The room is very cold and devoid of any color, save blackish-gray.  The room is lit, but the source is unknown.  A bed of hay lies in the left-hand corner.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 11604
+S
+#11609
+Cell 4~
+A bed made of hay lies in the left-hand corner.  Bowls of half eaten gruel litter the floor.  The room has no windows, but is lit by a source of light which is unknown to you.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 11603
+S
+#11610
+Cell 2~
+The walls of the room are covered with black mold.  The room is very cold and devoid of any color, save blackish-gray.  The room is lit, but the source is unknown.  A bed of hay lies in the left-hand corner.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 11602
+S
+#11611
+Hallway~
+You stand at the the hallway's end. South leads to the prison cells
+and north heads to the break room. A small sign is on the wall 
+beside the hallway entrance.
+~
+0 0 0
+5
+E
+sign~
+A small sign reads:
+          UNAUTHORIZED ENTRY IS PROHIBITED.
+     VIOLATORS WILL BE DEALT WITH SEVERELY.
+~
+D0
+~
+~
+AB 0 11614
+D1
+~
+~
+AB 0 11612
+D2
+~
+~
+0 0 11604
+D3
+~
+~
+AB 0 11613
+S
+#11612
+Cell 7~
+The walls of the room are covered with black mold.  The room is very cold and devoid of any color, save blackish-gray.  The room is lit, but the source is unknown.  A bed of hay lies in the left-hand corner.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 11611
+S
+#11613
+Cell 8~
+A bed made of hay lies in the left-hand corner.  Bowls of half eaten gruel litter the floor.  The room has no windows, but is lit by a source of light which is unknown to you.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 11611
+S
+#11614
+Break Area~
+You enter a small room the guards use to rest between shifts.
+Magazines lie on a small table in the center of the room
+and a broken waterfountain sits in the corner.  Doors lead
+north and south.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 11615
+D2
+~
+~
+AB 0 11611
+S
+#11615
+Watch Office~
+You enter the office of the watch-chief. An old desk lies in
+the center of the room, covered with file folders. Wanted posters
+cover the walls and lie in stacks near the desk. A smoking ashtray 
+fills the room with harsh smoke. A door leads south to the break room.
+done
+~
+0 0 0
+5
+D2
+~
+~
+AB 0 11614
+S
+#0
+
+
+
+#SPECIALS
+M 11601 spec_cast_undead
+M 11607 spec_breath_any
+S
+
+
+
+#RESETS
+D 0 11601 0 1
+D 0 11602 1 1
+D 0 11602 2 1
+D 0 11602 3 1
+D 0 11603 1 1
+D 0 11603 3 1
+D 0 11604 1 1
+D 0 11604 3 1
+D 0 11605 3 1
+D 0 11606 3 1
+D 0 11607 3 1
+D 0 11608 1 1
+D 0 11609 1 1
+D 0 11610 1 1
+D 0 11611 0 1
+D 0 11611 1 1
+D 0 11611 3 1
+D 0 11612 3 1
+D 0 11613 1 1
+D 0 11614 0 1
+D 0 11614 2 1
+D 0 11615 2 1
+M 0 11600 1 11605 1
+M 0 11602 1 11606 1
+M 0 11603 1 11607 1
+M 0 11605 1 11608 1
+M 0 11606 1 11609 1
+M 0 11607 1 11610 1
+M 0 11601 1 11612 1
+M 0 11604 1 11613 1
+M 0 11608 1 11614 1
+M 0 11609 1 11615 1
+E 0 11601 0 12
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

@@ -1,7 +1,10 @@
 ﻿using System.Linq;
 using Mud.Logger;
-using Mud.Server.Helpers;
+using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Player;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
 {
@@ -38,13 +41,13 @@ namespace Mud.Server.Admin
                 if (parameters[1].IsNumber)
                 {
                     int id = parameters[1].AsNumber;
-                    incarnateTarget = World.Rooms.FirstOrDefault(x => x.Blueprint?.Id == id);
+                    incarnateTarget = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint?.Id == id);
                 }
                 else
-                    incarnateTarget = FindHelpers.FindByName(World.Rooms, parameters[1]);
+                    incarnateTarget = FindHelpers.FindByName(RoomManager.Rooms, parameters[1]);
             }
             else if ("item".StartsWith(kind))
-                incarnateTarget = FindHelpers.FindByName(World.Items, parameters[1]);
+                incarnateTarget = FindHelpers.FindByName(ItemManager.Items, parameters[1]);
             else if ("mob".StartsWith(kind))
                 incarnateTarget = FindHelpers.FindByName(World.Characters, parameters[1]);
             if (incarnateTarget == null)

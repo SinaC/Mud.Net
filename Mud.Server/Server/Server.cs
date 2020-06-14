@@ -12,7 +12,6 @@ using Mud.Repository;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Network;
-using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
@@ -20,7 +19,23 @@ using Mud.Server.Input;
 using Mud.Settings;
 using System.Reflection;
 using Mud.Server.Blueprints.Quest;
-using Mud.Server.Item;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.World;
+using Mud.Server.Random;
+using Mud.Common;
 
 namespace Mud.Server.Server
 {
@@ -34,7 +49,7 @@ namespace Mud.Server.Server
 
     // Once playing,
     //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
-    public class Server : IServer, ITimeHandler, IWiznet, IPlayerManager, IAdminManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
+    public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
     {
         // This allows fast lookup with client or player BUT both structures must be modified at the same time
         private readonly object _playingClientLockObject = new object();
@@ -57,8 +72,11 @@ namespace Mud.Server.Server
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
-        protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
+        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
         public Server()
         {
@@ -78,10 +96,17 @@ namespace Mud.Server.Server
                 networkServer.ClientDisconnected += NetworkServerOnClientDisconnected;
             }
 
-            // Check item corpse blueprint
-            if (World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
+            TimeManager.Initialize();
+
+            if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "ItemCorpseBlueprint (id:{0}) doesn't exist or is not an corpse item !!!", Settings.CorpseBlueprintId);
+                Log.Default.WriteLine(LogLevels.Error, "Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
+                throw new Exception($"Item corpse blueprint {Settings.CorpseBlueprintId} not found or not a corpse");
+            }
+            if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(Settings.CoinsBlueprintId) == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Item coins blueprint {0} not found or not money", Settings.CoinsBlueprintId);
+                throw new Exception($"Item coins blueprint {Settings.CoinsBlueprintId} not found or not money");
             }
 
             // Perform some validity/sanity checks
@@ -97,6 +122,12 @@ namespace Mud.Server.Server
 
             // Initialize UniquenessManager
             UniquenessManager.Initialize();
+            
+            // Fix world
+            World.FixWorld();
+
+            // Reset world
+            World.ResetWorld();
         }
 
         public void Start()
@@ -141,13 +172,8 @@ namespace Mud.Server.Server
             DumpClasses();
             DumpRaces();
             DumpClasses();
+            DumpAbilities();
         }
-
-        #endregion
-
-        #region ITimeHandler
-
-        public DateTime CurrentTime { get; private set; }
 
         #endregion
 
@@ -155,7 +181,13 @@ namespace Mud.Server.Server
 
         public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
         {
-            foreach (IAdmin admin in Admins.Where(a => (a.WiznetFlags & flags) == flags && a.Level >= minLevel))
+            LogLevels level = LogLevels.Info;
+            if (flags.HasFlag(WiznetFlags.Bugs))
+                level = LogLevels.Error;
+            else if (flags.HasFlag(WiznetFlags.Typos))
+                level = LogLevels.Warning;
+            Log.Default.WriteLine(level, "WIZNET: FLAGS: {0} {1}", flags, message);
+            foreach (IAdmin admin in Admins.Where(a => a.WiznetFlags.HasFlag(flags) && a.Level >= minLevel))
                 admin.Send($"%W%WIZNET%x%:{message}");
         }
 
@@ -237,7 +269,7 @@ namespace Mud.Server.Server
                 Broadcast($"%R%Shutdown in {minutes} minute{(minutes > 1 ? "s" : string.Empty)}%x%");
             else
                 Broadcast($"%R%Shutdown in {seconds} second{(seconds > 1 ? "s" : string.Empty)}%x%");
-            _pulseBeforeShutdown = seconds * Settings.PulsePerSeconds;
+            _pulseBeforeShutdown = seconds * Pulse.PulsePerSeconds;
         }
 
         public void Promote(IPlayer player, AdminLevels level)
@@ -361,8 +393,6 @@ namespace Mud.Server.Server
             client.DataReceived += ClientLoginOnDataReceived;
             // Send greetings
             client.WriteData("Why don't you login or tell us the name you wish to be known by?");
-            //// TODO: TEST purpose
-            //client.WriteData("%y%Quest Quest 1: the beggar          :   1 /   3 (33%)%x%");
         }
 
         private void NetworkServerOnClientDisconnected(IClient client)
@@ -634,17 +664,18 @@ namespace Mud.Server.Server
         private void ProcessInput()
         {
             // Read one command from each client and process it
-            foreach (PlayingClient playingClient in _players.Values.Shuffle()) // !! players list cannot be modified while processing inputs
+            foreach (PlayingClient playingClient in _players.Values.Shuffle(RandomManager)) // !! players list cannot be modified while processing inputs
             {
                 if (playingClient.Player != null)
                 {
+                    string command = string.Empty;
                     try
                     {
                         if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
                             playingClient.Player.DecreaseGlobalCooldown();
                         else
                         {
-                            string command = playingClient.DequeueReceivedData(); // process one command at a time
+                            command = playingClient.DequeueReceivedData(); // process one command at a time
                             if (command != null)
                             {
                                 if (playingClient.Paging.HasPageLeft) // if paging, valid commands are <Enter>, Next, Quit, All
@@ -658,7 +689,7 @@ namespace Mud.Server.Server
                     }
                     catch (Exception ex)
                     {
-                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0}. Exception: {1}", playingClient.Player.Name, ex);
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0} [{1}]. Exception: {2}", playingClient.Player.Name, command, ex);
                     }
                 }
                 else
@@ -695,8 +726,8 @@ namespace Mud.Server.Server
 
         private void SanityChecks()
         {
-            SanityCheckExperience();
             SanityCheckQuests();
+            SanityCheckAbilities();
             SanityCheckClasses();
             SanityCheckRaces();
             SanityCheckRooms();
@@ -704,44 +735,35 @@ namespace Mud.Server.Server
             SanityCheckCharacters();
         }
 
-        private void SanityCheckExperience()
+        private void SanityCheckAbilities()
         {
-            long totalExperience = 0;
-            long previousExpToLevel = 0;
-            for (int lvl = 1; lvl < 100; lvl++)
-            {
-                long expToLevel;
-                bool found = CombatHelpers.ExperienceToNextLevel.TryGetValue(lvl, out expToLevel);
-                if (!found)
-                    Log.Default.WriteLine(LogLevels.Error, "No experience to next level found for level {0}", lvl);
-                else if (expToLevel < previousExpToLevel)
-                    Log.Default.WriteLine(LogLevels.Error, "Experience to next level for level {0} is lower than previous level", lvl);
-                else
-                    previousExpToLevel = expToLevel;
-                totalExperience += expToLevel;
-            }
-            Log.Default.WriteLine(LogLevels.Info, "Total experience from 1 to 100 = {0:n0}", totalExperience);
+            Log.Default.WriteLine(LogLevels.Info, "#Abilities: {0}", AbilityManager.Abilities.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Passives: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Passive));
+            Log.Default.WriteLine(LogLevels.Info, "#Spells: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Spell));
+            Log.Default.WriteLine(LogLevels.Info, "#Skills: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Skill));
         }
 
         private void SanityCheckClasses()
         {
             foreach (IClass c in ClassManager.Classes)
             {
+                if (c.MaxHitPointGainPerLevel < c.MinHitPointGainPerLevel)
+                    Log.Default.WriteLine(LogLevels.Warning, "Class {0} max hp per level < min hp per level");
                 if (c.ResourceKinds == null || !c.ResourceKinds.Any())
-                    Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources");
+                    Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources", c.Name);
                 else
                 {
-                    foreach (AbilityAndLevel abilityAndLevel in c.Abilities)
-                        if (abilityAndLevel.Ability.ResourceKind != ResourceKinds.None && !c.ResourceKinds.Contains(abilityAndLevel.Ability.ResourceKind))
-                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityAndLevel.Ability.Name, abilityAndLevel.Ability.ResourceKind);
+                    foreach (IAbilityUsage abilityUsage in c.Abilities)
+                        if (abilityUsage.ResourceKind.HasValue && !c.ResourceKinds.Contains(abilityUsage.ResourceKind.Value))
+                            Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Name, abilityUsage.ResourceKind);
                 }
             }
-            Log.Default.WriteLine(LogLevels.Info, "#Classes: {}", ClassManager.Classes.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Classes: {0}", ClassManager.Classes.Count());
         }
 
         private void SanityCheckRaces()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#Races: {}", RaceManager.Races.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#Races: {0}", RaceManager.PlayableRaces.Count());
         }
 
         private void SanityCheckQuests()
@@ -758,25 +780,33 @@ namespace Mud.Server.Server
                         Log.Default.WriteLine(LogLevels.Error, "Quest id {0} has objectives with duplicate id {1} count {2}", questBlueprint.Id, duplicateId.objectiveId, duplicateId.count);
                 }
             }
-            Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {}", World.QuestBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {0}", World.QuestBlueprints.Count);
         }
 
         private void SanityCheckRooms()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#RoomBlueprints: {}", World.RoomBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Rooms: {}", World.Rooms.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#RoomBlueprints: {0}", RoomManager.RoomBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Rooms: {0}", RoomManager.Rooms.Count());
         }
 
         private void SanityCheckItems()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {}", World.ItemBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Items: {}", World.Items.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {0}", ItemManager.ItemBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Items: {0}", ItemManager.Items.Count());
+            if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
+                Log.Default.WriteLine(LogLevels.Error, "Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
+            if (ItemManager.GetItemBlueprint<ItemFoodBlueprint>(Settings.MushroomBlueprintId) == null)
+                Log.Default.WriteLine(LogLevels.Error, "'a Magic mushroom' blueprint {0} not found or not food (needed for spell CreateFood)", Settings.MushroomBlueprintId);
+            if (ItemManager.GetItemBlueprint<ItemFountainBlueprint>(Settings.SpringBlueprintId) == null)
+                Log.Default.WriteLine(LogLevels.Error, "'a magical spring' blueprint {0} not found or not a fountain (needed for spell CreateSpring)", Settings.SpringBlueprintId);
+            if (ItemManager.GetItemBlueprint<ItemLightBlueprint>(Settings.LightBallBlueprintId) == null)
+                Log.Default.WriteLine(LogLevels.Error, "'a bright ball of light' blueprint {0} not found or not an light (needed for spell ContinualLight)", Settings.LightBallBlueprintId);
         }
 
         private void SanityCheckCharacters()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {}", World.CharacterBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Characters: {}", World.Characters.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {0}", World.CharacterBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Characters: {0}", World.Characters.Count());
         }
 
         private void DumpCommands()
@@ -813,50 +843,50 @@ namespace Mud.Server.Server
 
         private void DumpClasses()
         {
-            StringBuilder sb = TableGenerators.ClassTableGenerator.Value.Generate($"Classes", ClassManager.Classes.OrderBy(x => x.Name));
+            StringBuilder sb = TableGenerators.ClassTableGenerator.Value.Generate("Classes", ClassManager.Classes.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
         private void DumpRaces()
         {
-            StringBuilder sb = TableGenerators.RaceTableGenerator.Value.Generate($"Races", RaceManager.Races.OrderBy(x => x.Name));
+            StringBuilder sb = TableGenerators.PlayableRaceTableGenerator.Value.Generate("Races", RaceManager.PlayableRaces.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
-        private void DumpAbilities(int pulseCount)
+        private void DumpAbilities()
         {
             StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
-        private void HandleShutdown(int pulseCount)
+        private void HandleShutdown()
         {
             if (_pulseBeforeShutdown >= 0)
             {
                 _pulseBeforeShutdown--;
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60*15)
+                if (_pulseBeforeShutdown == Pulse.PulsePerMinutes*15)
                     Broadcast("%R%Shutdown in 15 minutes%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60*10)
+                if (_pulseBeforeShutdown == Pulse.PulsePerMinutes*10)
                     Broadcast("%R%Shutdown in 10 minutes%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60*5)
+                if (_pulseBeforeShutdown == Pulse.PulsePerMinutes*5)
                     Broadcast("%R%Shutdown in 5 minutes%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*60)
+                if (_pulseBeforeShutdown == Pulse.PulsePerMinutes)
                     Broadcast("%R%Shutdown in 1 minute%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*30)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*30)
                     Broadcast("%R%Shutdown in 30 seconds%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*15)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*15)
                     Broadcast("%R%Shutdown in 15 seconds%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*10)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*10)
                     Broadcast("%R%Shutdown in 10 seconds%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*5)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*5)
                     Broadcast("%R%Shutdown in 5%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*4)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*4)
                     Broadcast("%R%Shutdown in 4%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*3)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*3)
                     Broadcast("%R%Shutdown in 3%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*2)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*2)
                     Broadcast("%R%Shutdown in 2%x%");
-                if (_pulseBeforeShutdown == Settings.PulsePerSeconds*1)
+                if (_pulseBeforeShutdown == Pulse.PulsePerSeconds*1)
                     Broadcast("%R%Shutdown in 1%x%");
                 else if (_pulseBeforeShutdown == 0)
                 {
@@ -866,83 +896,157 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandlePeriodicAuras(int pulseCount)
+        private void HandleAggressiveNonPlayableCharacters()
         {
-            // TODO: remove aura with amount == 0 ?
-            // Remove dot/hot on non-impersonated if source is not the in same room (or source is inexistant)
-            // TODO: take periodic aura that will be processed/removed
-            //IReadOnlyCollection<ICharacter> clonePeriodicAuras = new ReadOnlyCollection<ICharacter>(World.Characters().Where(x => x.PeriodicAuras.Any()).ToList());
-            //foreach (ICharacter character in clonePeriodicAuras)
-            foreach (ICharacter character in World.Characters.Where(x => x.PeriodicAuras.Any()))
+            IReadOnlyCollection<IPlayableCharacter> pcClone = new ReadOnlyCollection<IPlayableCharacter>(World.PlayableCharacters.Where(x => x.Room != null).ToList()); // TODO: !immortal
+            foreach (IPlayableCharacter pc in pcClone)
             {
-                try
+                IReadOnlyCollection<INonPlayableCharacter> aggressorClone = new ReadOnlyCollection<INonPlayableCharacter>(pc.Room.NonPlayableCharacters.Where(x => !IsInvalidAggressor(x, pc)).ToList());
+                foreach (INonPlayableCharacter aggressor in aggressorClone)
                 {
-                    IReadOnlyCollection<IPeriodicAura> clonePeriodicAuras = new ReadOnlyCollection<IPeriodicAura>(character.PeriodicAuras.ToList()); // must be cloned because collection may be modified during foreach
-                    foreach (IPeriodicAura pa in clonePeriodicAuras)
+                    var victims = aggressor.Room.PlayableCharacters.Where(x => IsValidVictim(x, aggressor)).ToArray();
+                    if (victims.Length > 0)
                     {
-                        // On NPC, remove hot/dot from unknown source or source not in the same room
-                        if (Settings.RemovePeriodicAurasInNotInSameRoom && character is INonPlayableCharacter && (pa.Source == null || pa.Source.Room != character.Room))
+                        IPlayableCharacter victim = RandomManager.Random(victims);
+                        if (victim != null)
                         {
-                            pa.OnVanished();
-                            character.RemovePeriodicAura(pa);
-                        }
-                        else // Otherwise, process normally
-                        {
-                            if (pa.TicksLeft > 0)
-                                pa.Process(character);
-                            if (pa.TicksLeft == 0) // no else, because Process decrease PeriodsLeft
+                            try
                             {
-                                pa.OnVanished();
-                                character.RemovePeriodicAura(pa);
+                                Log.Default.WriteLine(LogLevels.Debug, "HandleAggressiveNonPlayableCharacters: starting a fight between {0} and {1}", aggressor.DebugName, victim.DebugName);
+                                aggressor.MultiHit(victim); // TODO: undefined type
+                            }
+                            catch (Exception ex)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Exception while handling aggressive behavior {0} on {1}. Exception: {2}", aggressor.DebugName, victim.DebugName, ex);
                             }
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling periodic auras of {0}. Exception: {1}", character.DebugName, ex);
-                }
             }
+        }
+
+        private bool IsInvalidAggressor(INonPlayableCharacter aggressor, IPlayableCharacter victim)
+        {
+            return 
+                !aggressor.ActFlags.HasFlag(ActFlags.Aggressive)
+                || aggressor.Room.RoomFlags.HasFlag(RoomFlags.Safe)
+                || aggressor.CharacterFlags.HasFlag(CharacterFlags.Calm)
+                || aggressor.Fighting != null
+                || aggressor.CharacterFlags.HasFlag(CharacterFlags.Charm)
+                || aggressor.Position <= Positions.Sleeping
+                || aggressor.ActFlags.HasFlag(ActFlags.Wimpy) && victim.Position >= Positions.Sleeping // wimpy aggressive mobs only attack if player is asleep
+                || !aggressor.CanSee(victim)
+                || RandomManager.Chance(50);
+        }
+
+        private bool IsValidVictim(IPlayableCharacter victim, INonPlayableCharacter aggressor)
+        {
+            return
+                // TODO: immortal
+                aggressor.Level >= victim.Level - 5
+                && (!aggressor.ActFlags.HasFlag(ActFlags.Wimpy) || victim.Position < Positions.Sleeping) // wimpy aggressive mobs only attack if player is asleep
+                && aggressor.CanSee(victim);
         }
 
         private void HandleAuras(int pulseCount) 
         {
-            // TODO: remove aura with amount == 0 ?
-            // Take aura that will expired
-            //IReadOnlyCollection<ICharacter> cloneAuras = new ReadOnlyCollection<ICharacter>(World.Characters().Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)).ToList());
-            //foreach (ICharacter character in cloneAuras)
-            foreach (ICharacter character in World.Characters.Where(x => x.Auras.Any(b => b.SecondsLeft <= 0)))
+            foreach (ICharacter character in World.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
             {
                 try
                 {
-                    IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // must be cloned because collection may be modified during foreach
                     bool needsRecompute = false;
-                    foreach (IAura aura in cloneAuras.Where(x => x.SecondsLeft <= 0))
+                    IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // must be cloned because collection may be modified during foreach
+                    foreach (IAura aura in cloneAuras.Where(x => x.PulseLeft > 0))
                     {
-                        aura.OnVanished();
-                        character.RemoveAura(aura, false); // recompute once each aura has been processed
-                        needsRecompute = true;
+                        bool timedOut = aura.DecreasePulseLeft(pulseCount);
+                        if (timedOut)
+                        {
+                            //TODO: aura.OnVanished();
+                            // TODO: Set Validity to false
+                            character.RemoveAura(aura, false); // recompute once each aura has been processed
+                            needsRecompute = true;
+                        }
+                        else if (aura.Level > 0 && RandomManager.Chance(20)) // spell strength fades with time
+                            aura.DecreaseLevel();
                     }
                     if (needsRecompute)
-                        character.RecomputeAttributes();
+                        character.Recompute();
+                    // TODO: remove invalid auras
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of {0}. Exception: {1}", character.DebugName, ex);
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of character {0}. Exception: {1}", character.DebugName, ex);
+                }
+            }
+            foreach (IItem item in ItemManager.Items.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+            {
+                try
+                {
+                    bool needsRecompute = false;
+                    IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(item.Auras.ToList()); // must be cloned because collection may be modified during foreach
+                    foreach (IAura aura in cloneAuras.Where(x => x.PulseLeft > 0))
+                    {
+                        bool timedOut = aura.DecreasePulseLeft(pulseCount);
+                        if (timedOut)
+                        {
+                            //TODO: aura.OnVanished();
+                            // TODO: Set Validity to false
+                            item.RemoveAura(aura, false); // recompute once each aura has been processed
+                            needsRecompute = true;
+                        }
+                        else if (aura.Level > 0 && RandomManager.Chance(20)) // spell strength fades with time
+                            aura.DecreaseLevel();
+                    }
+                    if (needsRecompute)
+                        item.Recompute();
+                    // TODO: remove invalid auras
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of item {0}. Exception: {1}", item.DebugName, ex);
+                }
+            }
+            foreach (IRoom room in RoomManager.Rooms.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+            {
+                try
+                {
+                    bool needsRecompute = false;
+                    IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(room.Auras.ToList()); // must be cloned because collection may be modified during foreach
+                    foreach (IAura aura in cloneAuras.Where(x => x.PulseLeft > 0))
+                    {
+                        bool timedOut = aura.DecreasePulseLeft(pulseCount);
+                        if (timedOut)
+                        {
+                            //TODO: aura.OnVanished();
+                            // TODO: Set Validity to false
+                            room.RemoveAura(aura, false); // recompute once each aura has been processed
+                            needsRecompute = true;
+                        }
+                    }
+                    if (needsRecompute)
+                        room.Recompute();
+                    // TODO: remove invalid auras
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of room {0}. Exception: {1}", room.DebugName, ex);
                 }
             }
         }
 
         private void HandleCooldowns(int pulseCount) 
         {
-            // TODO: filter on character with expired cooldowns
             foreach (ICharacter character in World.Characters.Where(x => x.HasAbilitiesInCooldown))
             {
                 try
                 {
-                    IReadOnlyCollection<KeyValuePair<IAbility, DateTime>> cooldowns = new ReadOnlyCollection<KeyValuePair<IAbility, DateTime>>(character.AbilitiesInCooldown.ToList()); // clone
-                    foreach (IAbility ability in cooldowns.Where(x => (x.Value - CurrentTime).TotalSeconds <= 0).Select(x => x.Key))
-                        character.ResetCooldown(ability, true);
+                    IReadOnlyCollection<string> abilitiesInCooldown = new ReadOnlyCollection<string>(character.AbilitiesInCooldown.Keys.ToList()); // clone
+                    foreach (string abilityName in abilitiesInCooldown)
+                    {
+                        bool available = character.DecreaseCooldown(abilityName, pulseCount);
+                        if (available)
+                            character.ResetCooldown(abilityName, true);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -957,7 +1061,7 @@ namespace Mud.Server.Server
             {
                 try
                 {
-                    IReadOnlyCollection<IQuest> clone = new ReadOnlyCollection<IQuest>(player.Impersonating.Quests.Where(x => x.Blueprint.TimeLimit > 0).ToList());
+                    IReadOnlyCollection<IQuest> clone = new ReadOnlyCollection<IQuest>(player.Impersonating.Quests.Where(x => x.Blueprint.TimeLimit > 0).ToList()); // clone because quest list may be modified
                     foreach (IQuest quest in clone)
                     {
                         bool timedOut = quest.DecreasePulseLeft(pulseCount);
@@ -975,18 +1079,21 @@ namespace Mud.Server.Server
             }
         }
 
-        // TODO: 'Optimize' following function using area info such as players count
-
         private void HandleViolence(int pulseCount)
         {
-            foreach (ICharacter character in World.Characters.Where(x => x.Fighting != null))
+            //Log.Default.WriteLine(LogLevels.Debug, "HandleViolence: {0}", DateTime.Now);
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
+            foreach (ICharacter character in clone)
             {
+                INonPlayableCharacter npcCharacter = character as INonPlayableCharacter;
+                IPlayableCharacter pcCharacter = character as IPlayableCharacter;
+
                 ICharacter victim = character.Fighting;
                 if (victim != null)
                 {
                     try
                     {
-                        if (victim.Room == character.Room) // fight continue only if in the same room
+                        if (character.Position > Positions.Sleeping && victim.Room == character.Room) // fight continue only if in the same room and awake
                         {
                             Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.DebugName, victim.DebugName);
                             character.MultiHit(victim);
@@ -995,10 +1102,61 @@ namespace Mud.Server.Server
                         {
                             Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.DebugName, victim.DebugName);
                             character.StopFighting(false);
-                            if (character is INonPlayableCharacter nonPlayableCharacter)
+                            if (npcCharacter != null)
                             {
                                 Log.Default.WriteLine(LogLevels.Debug, "Non-playable character stop fighting, resetting it");
-                                nonPlayableCharacter.Reset();
+                                npcCharacter.Reset();
+                            }
+                        }
+                        // check auto-assist
+                        IReadOnlyCollection<ICharacter> cloneInRoom = new ReadOnlyCollection<ICharacter>(character.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping).ToList());
+                        foreach (ICharacter inRoom in cloneInRoom)
+                        {
+                            INonPlayableCharacter npcInRoom = inRoom as INonPlayableCharacter;
+                            IPlayableCharacter pcInRoom = inRoom as IPlayableCharacter;
+                            // quick check for ASSIST_PLAYER
+                            if (pcCharacter != null && npcInRoom != null && npcInRoom.AssistFlags.HasFlag(AssistFlags.Players)
+                                && npcInRoom.Level + 6 > victim.Level)
+                            {
+                                npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
+                                npcInRoom.MultiHit(victim);
+                                continue;
+                            }
+                            // PCs next
+                            if (pcCharacter != null 
+                                || character.CharacterFlags.HasFlag(CharacterFlags.Charm))
+                            {
+                                bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcInRoom != null && pcInRoom.IsSameGroupOrPet(character);
+                                bool isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcInRoom.Master == pcCharacter;
+                                if ((isPlayerAutoassisting || isNpcAutoassisting)
+                                    && !victim.IsSafe(inRoom))
+                                {
+                                    inRoom.MultiHit(victim);
+                                    continue;
+                                }
+                            }
+                            // now check the NPC cases
+                            if (npcCharacter != null && !npcCharacter.CharacterFlags.HasFlag(CharacterFlags.Charm)
+                                && npcInRoom != null)
+                            {
+                                bool isAssistAll = npcInRoom.AssistFlags.HasFlag(AssistFlags.All);
+                                bool isAssistGroup = false; // TODO
+                                bool isAssistRace = npcInRoom.AssistFlags.HasFlag(AssistFlags.Race) && npcInRoom.Race == npcCharacter.Race;
+                                bool isAssistAlign = npcInRoom.AssistFlags.HasFlag(AssistFlags.Align) && ((npcInRoom.IsGood && npcCharacter.IsGood) || (npcInRoom.IsNeutral && npcCharacter.IsNeutral) || (npcInRoom.IsEvil && npcCharacter.IsEvil));
+                                bool isAssistVnum = npcInRoom.AssistFlags.HasFlag(AssistFlags.Vnum) && npcInRoom.Blueprint.Id == npcCharacter.Blueprint.Id;
+                                if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
+                                {
+                                    if (RandomManager.Chance(50))
+                                    {
+                                        ICharacter target = character.Room.People.Where(x => npcInRoom.CanSee(x) && x.IsSameGroupOrPet(victim)).Random(RandomManager);
+                                        if (target != null)
+                                        {
+                                            npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
+                                            npcInRoom.MultiHit(target);
+                                            continue;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -1018,9 +1176,11 @@ namespace Mud.Server.Server
                 {
                     //
                     playingClient.Client.WriteData("--TICK--" + Environment.NewLine); // TODO: only if user want tick info
+                    string prompt = playingClient.Player.Prompt;
+                    playingClient.Client.WriteData(prompt); // display prompt at each tick
 
                     // If idle for too long, unimpersonate or disconnect
-                    TimeSpan ts = CurrentTime - playingClient.LastReceivedDataTimestamp;
+                    TimeSpan ts = TimeManager.CurrentTime - playingClient.LastReceivedDataTimestamp;
                     if (ts.TotalMinutes > Settings.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
                     {
                         playingClient.Client.WriteData("Idle for too long, unimpersonating..." + Environment.NewLine);
@@ -1040,17 +1200,71 @@ namespace Mud.Server.Server
             }
         }
 
-        private void HandlePlayableCharacters(int pulseCount)
+        private void HandleCharacters(int pulseCount)
         {
-            foreach (IPlayableCharacter character in World.Characters.OfType<IPlayableCharacter>())
+            foreach (ICharacter character in World.Characters)
             {
                 try
                 {
-                    if (character.ImpersonatedBy == null) // TODO: remove after x minutes
+                    IPlayableCharacter pc = character as IPlayableCharacter;
+                    if (pc != null && pc.ImpersonatedBy == null) // TODO: remove after x minutes
                         Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
 
-                    //
-                    character.UpdateResources();
+                    if (character.Position >= Positions.Stunned)
+                    {
+                        // TODO: check to see if need to go home
+                        // Update resources
+                        character.Regen();
+                    }
+
+                    // Update position
+                    if (character.Position == Positions.Stunned)
+                        character.UpdatePosition();
+
+                    IItemLight light = character.GetEquipment<IItemLight>(EquipmentSlots.Light);
+                    if (light != null
+                        && light.IsLighten)
+                    {
+                        bool turnedOff = light.DecreaseTimeLeft();
+                        if (turnedOff && character.Room != null)
+                        {
+                            character.Room.DecreaseLight();
+                            character.Act(ActOptions.ToRoom, "{0} goes out.", light);
+                            character.Act(ActOptions.ToCharacter, "{0} flickers and goes out.", light);
+                            ItemManager.RemoveItem(light);
+                        }
+                        else if (!light.IsInfinite && light.TimeLeft < 5)
+                            character.Act(ActOptions.ToCharacter, "{0} flickers.", light);
+                    }
+
+                    // Update conditions
+                    pc?.GainCondition(Conditions.Drunk, -1); // decrease drunk state
+                    // TODO: not if undead from here
+                    pc?.GainCondition(Conditions.Full, character.Size > Sizes.Medium ? -4 : -2);
+                    pc?.GainCondition(Conditions.Thirst, -1);
+                    pc?.GainCondition(Conditions.Hunger, character.Size > Sizes.Medium ? -2 : -1);
+
+                    // apply a random periodic affect if any
+                    IAura[] periodicAuras = character.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
+                    if (periodicAuras.Length > 0)
+                    {
+                        IAura aura = periodicAuras.Random(RandomManager);
+                        ICharacterPeriodicAffect affect = aura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
+                        affect?.Apply(aura, character);
+                    }
+                    // Incap character takes damage
+                    else if (character.Position == Positions.Incap && RandomManager.Chance(50))
+                    {
+                        character.Damage(character, 1, SchoolTypes.None, string.Empty, false);
+                    }
+                    // Mortal character takes damage
+                    else if (character.Position == Positions.Mortal)
+                    {
+                        character.Damage(character, 1, SchoolTypes.None, string.Empty, false);
+                    }
+
+                    // TODO: limbo
+                    // TODO: autosave, autoquit
                 }
                 catch (Exception ex)
                 { 
@@ -1059,10 +1273,82 @@ namespace Mud.Server.Server
             }
         }
 
+        private void HandleNonPlayableCharacters(int pulseCount)
+        {
+            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
+            {
+                try
+                {
+                    // is mob update always or area not empty
+                    if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Any())
+                    {
+                        // TODO: invoke spec_fun
+
+                        // give some money to shopkeeper
+                        if (npc.Blueprint is CharacterShopBlueprint)
+                        {
+                            if (npc.SilverCoins + npc.GoldCoins * 100 < npc.Blueprint.Wealth)
+                            {
+                                long silver = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 5000000;
+                                long gold = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 50000;
+                                if (silver > 0 || gold > 0)
+                                {
+                                    Log.Default.WriteLine(LogLevels.Debug, "Giving {0} silver {1} gold to {2}.", silver, gold, npc.DebugName);
+                                    npc.UpdateMoney(silver, gold);
+                                }
+                            }
+                        }
+
+                        // that's all for all sleeping/busy monsters
+                        if (npc.Position != Positions.Standing)
+                            continue;
+
+                        // scavenger
+                        if (npc.ActFlags.HasFlag(ActFlags.Scavenger) && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
+                        {
+                            //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
+                            // get most valuable item in room
+                            IItem mostValuable = npc.Room.Content.Where(x => !x.NoTake && x.Cost > 0 /*&& CanLoot(npc, item)*/).OrderByDescending(x => x.Cost).FirstOrDefault();
+                            if (mostValuable != null)
+                            {
+                                npc.Act(ActOptions.ToRoom, "{0} gets {1}.", npc, mostValuable);
+                                mostValuable.ChangeContainer(npc);
+                            }
+                        }
+
+                        // sentinel
+                        if (!npc.ActFlags.HasFlag(ActFlags.Sentinel) && RandomManager.Range(0, 7) == 0)
+                        {
+                            //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
+                            int exitNumber = RandomManager.Range(0, 31);
+                            if (exitNumber < EnumHelpers.GetCount<ExitDirections>())
+                            {
+                                ExitDirections exitDirection = (ExitDirections)exitNumber;
+                                IExit exit = npc.Room[exitDirection];
+                                if (exit != null
+                                    && exit.Destination != null
+                                    && !exit.IsClosed
+                                    && !exit.Destination.RoomFlags.HasFlag(RoomFlags.NoMob)
+                                    && (!npc.ActFlags.HasFlag(ActFlags.StayArea) || npc.Room.Area == exit.Destination.Area)
+                                    && (!npc.ActFlags.HasFlag(ActFlags.Outdoors) || !exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors))
+                                    && (!npc.ActFlags.HasFlag(ActFlags.Indoors) || exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors)))
+                                    npc.Move(exitDirection, false);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling npc {0}. Exception: {1}", npc.DebugName, ex);
+                }
+            }
+        }
+
         private void HandleItems(int pulseCount)
         {
             //Log.Default.WriteLine(LogLevels.Debug, "HandleItems {0} {1}", CurrentTime, DateTime.Now);
-            foreach (IItem item in World.Items.Where(x => x.DecayPulseLeft > 0))
+            IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(ItemManager.Items.Where(x => x.DecayPulseLeft > 0).ToList()); // clone bause decaying item will be removed from list
+            foreach (IItem item in clone)
             {
                 try
                 {
@@ -1071,13 +1357,40 @@ namespace Mud.Server.Server
                     if (item.DecayPulseLeft == 0)
                     {
                         Log.Default.WriteLine(LogLevels.Debug, "Item {0} decays", item.DebugName);
+                        string msg = "{0:N} crumbles into dust.";
+                        switch (item)
+                        {
+                            case IItemCorpse _:
+                                msg = "{0:N} decays into dust.";
+                                break;
+                            case IItemFountain _:
+                                msg = "{0:N} dries up.";
+                                break;
+                            case IItemFood _:
+                                msg = "{0:N} decomposes.";
+                                break;
+                            // TODO: potion  "$p has evaporated from disuse."
+                            case IItemPortal _:
+                                msg = "{0:N} fades out of existence.";
+                                break;
+                            case IItemContainer caseContainer:
+                                if (item.WearLocation == WearLocations.Float)
+                                {
+                                    if (caseContainer.Content.Any())
+                                        msg = "{0:N} flickers and vanishes, spilling its contents on the floor.";
+                                    else
+                                        msg = "{0:N} flickers and vanishes.";
+                                }
+                                break;
+                        }
+                        // TODO: give some money to shopkeeer
                         // Display message to character or room
                         if (item.ContainedInto is ICharacter wasOnCharacter)
-                            wasOnCharacter.Act(ActOptions.ToCharacter, "{0:N} decays into dust.", item);
+                            wasOnCharacter.Act(ActOptions.ToCharacter, msg, item);
                         else if (item.ContainedInto is IRoom wasInRoom)
                         {
                             foreach (ICharacter character in wasInRoom.People)
-                                character.Act(ActOptions.ToCharacter, "{0:N} decays into dust.", item);
+                                character.Act(ActOptions.ToCharacter, msg, item);
                         }
 
                         // If container or playable character corpse, move items to contained into (except quest item)
@@ -1092,13 +1405,13 @@ namespace Mud.Server.Server
                                     Log.Default.WriteLine(LogLevels.Error, "Item was in the void");
                                 else
                                 {
-                                    IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(container.Content.Where(x => !(x is IItemQuest)).ToList()); // except quest item
-                                    foreach (IItem itemInCorpse in clone)
-                                        itemInCorpse.ChangeContainer(newContainer);
+                                    IReadOnlyCollection<IItem> cloneContent = new ReadOnlyCollection<IItem>(container.Content.Where(x => !(x is IItemQuest)).ToList()); // except quest item
+                                    foreach (IItem itemInContainer in cloneContent)
+                                        itemInContainer.ChangeContainer(newContainer);
                                 }
                             }
                         }
-                        World.RemoveItem(item);
+                        ItemManager.RemoveItem(item);
                     }
                 }
                 catch (Exception ex)
@@ -1113,6 +1426,37 @@ namespace Mud.Server.Server
             // TODO
         }
 
+        private void HandleTime(int pulseCount)
+        {
+            string timeUpdate = TimeManager.Update();
+            Log.Default.WriteLine(LogLevels.Debug, "HandleTime: {0}", !string.IsNullOrWhiteSpace(timeUpdate) ? timeUpdate : "no update");
+            if (!string.IsNullOrWhiteSpace(timeUpdate))
+            {
+                // inform non-sleeping and outdoors players
+                foreach (IPlayableCharacter character in World.PlayableCharacters.Where(x => 
+                    x.Position > Positions.Sleeping 
+                    && x.Room != null 
+                    && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)
+                    && x.Room.SectorType != SectorTypes.Inside
+                    && x.Room.SectorType != SectorTypes.Underwater))
+                {
+                    try
+                    {
+                        character.Send(timeUpdate);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Default.WriteLine(LogLevels.Error, "Exception while handling time character {0}. Exception: {1}", character.DebugName, ex);
+                    }
+                }
+            }
+        }
+
+        private void HandleAreas(int pulseCount)
+        {
+            World.ResetWorld();
+        }
+
         private void Cleanup()
         {
             // Remove invalid entities
@@ -1122,15 +1466,17 @@ namespace Mud.Server.Server
         private void GameLoopTask()
         {
             PulseManager pulseManager = new PulseManager();
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulseViolence, HandleViolence);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandlePeriodicAuras);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleAuras);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleCooldowns);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds, HandleQuests);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 5, HandleItems);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 60, HandlePlayers);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 60, HandlePlayableCharacters);
-            pulseManager.Add(Settings.PulsePerSeconds, Settings.PulsePerSeconds * 60, HandleRooms);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleAuras);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleCooldowns);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleQuests);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulseViolence, HandleViolence);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 4, HandleNonPlayableCharacters);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleCharacters);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleItems);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
+            pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleTime); // 1 minute IRL = 1 hour IG
+            pulseManager.Add(Pulse.PulsePerMinutes * 3, Pulse.PulsePerMinutes * 3, HandleAreas);
 
             try
             {
@@ -1144,13 +1490,13 @@ namespace Mud.Server.Server
                         break;
                     }
 
-                    CurrentTime = DateTime.Now;
+                    TimeManager.FixCurrentTime();
 
                     ProcessInput();
 
-                    //DoPulse();
-                    HandleShutdown(1);
+                    HandleShutdown();
                     pulseManager.Pulse();
+                    HandleAggressiveNonPlayableCharacters();
 
                     ProcessOutput();
 
@@ -1158,13 +1504,12 @@ namespace Mud.Server.Server
 
                     sw.Stop();
                     long elapsedMs = sw.ElapsedMilliseconds; // in milliseconds
-                    if (elapsedMs < Settings.PulseDelay)
+                    if (elapsedMs < Pulse.PulseDelay)
                     {
+                        int sleepTime = (int)(Pulse.PulseDelay - elapsedMs); // game loop should iterate every 250ms
                         //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
                         //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
-                        //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}Ms {1}Ticks {2}Ns", elapsedMs, elapsedTick, elapsedNs);
-                        //Thread.Sleep(250 - (int) elapsedMs);
-                        int sleepTime = Settings.PulseDelay - (int) elapsedMs;
+                        //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}ms | {1}ticks | {2}ns -> sleep {3}ms", elapsedMs, elapsedTick, elapsedNs, sleepTime);
                         _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);
                     }
                     else

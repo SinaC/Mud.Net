@@ -72,16 +72,345 @@
     <Reference Include="KeraLua, Version=1.0.29.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
       <HintPath>..\packages\KeraLua.1.0.29\lib\net45\KeraLua.dll</HintPath>
     </Reference>
-    <Reference Include="NLua, Version=1.4.31.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLua.1.4.31\lib\net45\NLua.dll</HintPath>
+    <Reference Include="NLua, Version=1.4.32.0, Culture=neutral, PublicKeyToken=6a194c04b9c89217, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLua.1.4.32\lib\net45\NLua.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities2\IActionInput.cs" />
+    <Compile Include="Abilities2\IAbilityLearned.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemShield.cs" />
+    <Compile Include="Abilities2\IAbilityInfo.cs" />
+    <Compile Include="Abilities2\IAbilityUsage.cs" />
+    <Compile Include="Abilities2\IPassive.cs" />
+    <Compile Include="Abilities2\ISkillActionInput.cs" />
+    <Compile Include="Abilities2\ITargetedAction.cs" />
+    <Compile Include="Abilities2\PassiveBase.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Haggle.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Peek.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Meditation.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Polearm.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Staff.cs" />
+    <Compile Include="Abilities2\Rom24Passives\FastHealing.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Whip.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Spear.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Flail.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Mace.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Sword.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Dagger.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Axe.cs" />
+    <Compile Include="Abilities2\Rom24Passives\ThirdAttack.cs" />
+    <Compile Include="Abilities2\Rom24Passives\SecondAttack.cs" />
+    <Compile Include="Abilities2\Rom24Passives\EnhancedDamage.cs" />
+    <Compile Include="Abilities2\Rom24Passives\ShieldBlock.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Parry.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Rescue.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Staves.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Wands.cs" />
+    <Compile Include="Abilities2\SkillActionInput.cs" />
+    <Compile Include="Abilities2\AbilityAttribute.cs" />
+    <Compile Include="Abilities2\AbilityEffects.cs" />
+    <Compile Include="Abilities2\AbilityInfo.cs" />
+    <Compile Include="Abilities2\AbilityLearned.cs" />
+    <Compile Include="Abilities2\AbilityManager.cs" />
+    <Compile Include="Abilities2\AbilityUsage.cs" />
+    <Compile Include="Abilities2\ActionInput.cs" />
+    <Compile Include="Abilities2\ItemCastSpellSkillBase.cs" />
+    <Compile Include="Abilities2\Domain\ExitDirections.cs" />
+    <Compile Include="Abilities2\Domain\ExitDirectionsExtensions.cs" />
+    <Compile Include="Abilities2\ExistingCode\IExit.cs" />
+    <Compile Include="Abilities2\FightingSkillBase.cs" />
+    <Compile Include="Abilities2\ItemInventorySkillBase.cs" />
+    <Compile Include="Abilities2\NoTargetSkillBase.cs" />
+    <Compile Include="Abilities2\Rom24Passives\Dodge.cs" />
+    <Compile Include="Abilities2\Rom24Passives\HandToHand.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Backstab.cs" />
+    <Compile Include="Abilities2\Rom24Skills\DirtKicking.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Disarm.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Envenom.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Kick.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Hide.cs" />
+    <Compile Include="Abilities2\Rom24Skills\PickLock.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Recall.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Scrolls.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Trip.cs" />
+    <Compile Include="Abilities2\ISpellActionInput.cs" />
+    <Compile Include="Abilities2\SpellActionInput.cs" />
+    <Compile Include="Abilities2\Use.cs" />
+    <Compile Include="Abilities2\Cast.cs" />
+    <Compile Include="Abilities2\CharacterFlagsSpellBase.cs" />
+    <Compile Include="Abilities2\DamageTableSpellBase.cs" />
+    <Compile Include="Abilities2\CureSpellBase.cs" />
+    <Compile Include="Abilities2\DispelManager.cs" />
+    <Compile Include="Abilities2\Domain\Enums.cs" />
+    <Compile Include="Abilities2\Domain\ItemData.cs" />
+    <Compile Include="Abilities2\ExistingCode\ICloseable.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemArmor.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemCanContain.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemCastSpellsCharge.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemCloseable.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemClothing.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemContainer.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemCorpse.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemPill.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemPortal.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemPotion.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemScroll.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemStaff.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemWand.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemWarpstone.cs" />
+    <Compile Include="Abilities2\ExistingCode\IRoomManager.cs" />
+    <Compile Include="Abilities2\ExistingCode\PlagueSpreadAndDamageAffect.cs" />
+    <Compile Include="Abilities2\ExistingCode\PoisonDamageAffect.cs" />
+    <Compile Include="Abilities2\HealSpellBase.cs" />
+    <Compile Include="Abilities2\Helpers\FindHelpers.cs" />
+    <Compile Include="Abilities2\IAbility.cs" />
+    <Compile Include="Abilities2\IAbilityManager.cs" />
+    <Compile Include="Abilities2\IEffect.cs" />
+    <Compile Include="Abilities2\IDispelManager.cs" />
+    <Compile Include="Abilities2\IGameAction.cs" />
+    <Compile Include="Abilities2\ExistingCode\CharacterAttributeAffect.cs" />
+    <Compile Include="Abilities2\ExistingCode\CharacterFlagsAffect.cs" />
+    <Compile Include="Abilities2\ExistingCode\CharacterIRVAffect.cs" />
+    <Compile Include="Abilities2\ExistingCode\CharacterSexAffect.cs" />
+    <Compile Include="Abilities2\ExistingCode\CharacterSizeAffect.cs" />
+    <Compile Include="Abilities2\ExistingCode\FlagAffectBase.cs" />
+    <Compile Include="Abilities2\ExistingCode\IActor.cs" />
+    <Compile Include="Abilities2\ExistingCode\IAffect.cs" />
+    <Compile Include="Abilities2\ExistingCode\IArea.cs" />
+    <Compile Include="Abilities2\ExistingCode\IAura.cs" />
+    <Compile Include="Abilities2\IAuraManager.cs" />
+    <Compile Include="Abilities2\ExistingCode\ICharacter.cs" />
+    <Compile Include="Abilities2\ExistingCode\IContainer.cs" />
+    <Compile Include="Abilities2\ExistingCode\IEntity.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItem.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemDrinkable.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemDrinkContainer.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemFood.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemFountain.cs" />
+    <Compile Include="Abilities2\IItemManager.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemPoisonable.cs" />
+    <Compile Include="Abilities2\ExistingCode\IItemWeapon.cs" />
+    <Compile Include="Abilities2\ExistingCode\INonPlayableCharacter.cs" />
+    <Compile Include="Abilities2\ExistingCode\IPlayableCharacter.cs" />
+    <Compile Include="Abilities2\ExistingCode\IPlayer.cs" />
+    <Compile Include="Abilities2\ExistingCode\IRoom.cs" />
+    <Compile Include="Abilities2\ExistingCode\ISettings.cs" />
+    <Compile Include="Abilities2\ExistingCode\ItemFlagsAffect.cs" />
+    <Compile Include="Abilities2\ExistingCode\ItemWeaponFlagsAffect.cs" />
+    <Compile Include="Abilities2\ExistingCode\ITimeManager.cs" />
+    <Compile Include="Abilities2\ExistingCode\RoomFlagsAffect.cs" />
+    <Compile Include="Abilities2\ISkill.cs" />
+    <Compile Include="Abilities2\ISpell.cs" />
+    <Compile Include="Abilities2\ExistingCode\IWiznet.cs" />
+    <Compile Include="Abilities2\ItemCreationSpellBase.cs" />
+    <Compile Include="Abilities2\ItemInventorySpellBase.cs" />
+    <Compile Include="Abilities2\ItemOrOffensiveSpellBase.cs" />
+    <Compile Include="Abilities2\ItemOrDefensiveSpellBase.cs" />
+    <Compile Include="Abilities2\NoTargetSpellBase.cs" />
+    <Compile Include="Abilities2\OffensiveSkillBase.cs" />
+    <Compile Include="Abilities2\OffensiveSpellBase.cs" />
+    <Compile Include="Abilities2\DefensiveSpellBase.cs" />
+    <Compile Include="Abilities2\OptionalItemInventorySpellBase.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\AcidBreath.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\BreathAreaAction.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\FireBreath.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\FrostBreath.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\GasBreath.cs" />
+    <Compile Include="Abilities2\Rom24BreathSpells\LightningBreath.cs" />
+    <Compile Include="Abilities2\Rom24Effects\FireEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\BlessEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\BlindnessEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\ColdEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\CurseEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\FrenzyEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\HealEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\AcidEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\PoisonEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\RefreshEffect.cs" />
+    <Compile Include="Abilities2\Rom24Effects\ShockEffect.cs" />
+    <Compile Include="Abilities2\Rom24MegaSpells\GeneralPurpose.cs" />
+    <Compile Include="Abilities2\Rom24MegaSpells\HighExplosive.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Bash.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Berserk.cs" />
+    <Compile Include="Abilities2\Rom24Skills\Sneak.cs" />
+    <Compile Include="Abilities2\Rom24Spells\AcidBlast.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Armor.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Bless.cs" />
+    <Compile Include="Abilities2\CharacterDebuffSpellBase.cs" />
+    <Compile Include="Abilities2\CharacterBuffSpellBase.cs" />
+    <Compile Include="Abilities2\DamageSpellBase.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Blindness.cs" />
+    <Compile Include="Abilities2\Rom24Spells\BurningHands.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CallLightning.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Calm.cs" />
+    <Compile Include="Abilities2\Rom24Spells\DispelMagic.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Cancellation.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CauseSerious.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CauseLight.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CauseCritical.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ChainLightning.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ChangeSex.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CharmPerson.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ChillTouch.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ColourSpray.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ContinualLight.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ControlWeather.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CreateSpring.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CreateRose.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CreateFood.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CreateWater.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CureBlindness.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CureCritical.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CureSerious.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CureLight.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CureDisease.cs" />
+    <Compile Include="Abilities2\Rom24Spells\CurePoison.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Curse.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Demonfire.cs" />
+    <Compile Include="Abilities2\Rom24Spells\DetectMagic.cs" />
+    <Compile Include="Abilities2\Rom24Spells\DetectInvis.cs" />
+    <Compile Include="Abilities2\Rom24Spells\DetectHidden.cs" />
+    <Compile Include="Abilities2\Rom24Spells\DetectGood.cs" />
+    <Compile Include="Abilities2\Rom24Spells\DetectEvil.cs" />
+    <Compile Include="Abilities2\Rom24Spells\DetectPoison.cs" />
+    <Compile Include="Abilities2\Rom24Spells\DispelGood.cs" />
+    <Compile Include="Abilities2\Rom24Spells\DispelEvil.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Earthquake.cs" />
+    <Compile Include="Abilities2\Rom24Spells\EnchantArmor.cs" />
+    <Compile Include="Abilities2\Rom24Spells\EnchantWeapon.cs" />
+    <Compile Include="Abilities2\Rom24Spells\EnergyDrain.cs" />
+    <Compile Include="Abilities2\Rom24Spells\FaerieFire.cs" />
+    <Compile Include="Abilities2\Rom24Spells\FaerieFog.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Farsight.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Fireball.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Fireproof.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Flamestrike.cs" />
+    <Compile Include="Abilities2\Rom24Spells\FloatingDisc.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Fly.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Frenzy.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Gate.cs" />
+    <Compile Include="Abilities2\Rom24Spells\GiantStrength.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Harm.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Haste.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Heal.cs" />
+    <Compile Include="Abilities2\Rom24Spells\HeatMetal.cs" />
+    <Compile Include="Abilities2\Rom24Spells\HolyWord.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Identify.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Infravision.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Invisibility.cs" />
+    <Compile Include="Abilities2\Rom24Spells\KnowAlignment.cs" />
+    <Compile Include="Abilities2\Rom24Spells\LightningBolt.cs" />
+    <Compile Include="Abilities2\Rom24Spells\LocateObject.cs" />
+    <Compile Include="Abilities2\Rom24Spells\MagicMissile.cs" />
+    <Compile Include="Abilities2\Rom24Spells\MassHealing.cs" />
+    <Compile Include="Abilities2\Rom24Spells\MassInvis.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Nexus.cs" />
+    <Compile Include="Abilities2\Rom24Spells\PassDoor.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Plague.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Poison.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Portal.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ProtectionGood.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ProtectionEvil.cs" />
+    <Compile Include="Abilities2\Rom24Spells\RayOfTruth.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Recharge.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Refresh.cs" />
+    <Compile Include="Abilities2\Rom24Spells\RemoveCurse.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Sanctuary.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Shield.cs" />
+    <Compile Include="Abilities2\Rom24Spells\ShockingGrasp.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Sleep.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Slow.cs" />
+    <Compile Include="Abilities2\Rom24Spells\StoneSkin.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Summon.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Teleport.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Ventriloquate.cs" />
+    <Compile Include="Abilities2\Rom24Spells\Weaken.cs" />
+    <Compile Include="Abilities2\Rom24Spells\WordOfRecall.cs" />
+    <Compile Include="Abilities2\SkillBase.cs" />
+    <Compile Include="Abilities2\SpellBase.cs" />
+    <Compile Include="Abilities2\Helpers\StringHelpers.cs" />
+    <Compile Include="Abilities2\TransportationSpellBase.cs" />
+    <Compile Include="Abilities\Ability.cs" />
+    <Compile Include="Abilities\AbilityAttribute.cs" />
+    <Compile Include="Abilities\AbilityManager.cs" />
+    <Compile Include="Abilities\AbilityUsage.cs" />
+    <Compile Include="Abilities\AttributeTables.cs" />
+    <Compile Include="Abilities\Enums.cs" />
+    <Compile Include="Abilities\IAbility.cs" />
+    <Compile Include="Abilities\IAbilityManager.cs" />
+    <Compile Include="Abilities\IAttributeTableManager.cs" />
+    <Compile Include="Abilities\ICharacter.cs" />
+    <Compile Include="Abilities\IClass.cs" />
+    <Compile Include="Abilities\IEntity.cs" />
+    <Compile Include="Abilities\IItem.cs" />
+    <Compile Include="Abilities\IItemArmor.cs" />
+    <Compile Include="Abilities\IItemWeapon.cs" />
+    <Compile Include="Abilities\INonPlayableCharacter.cs" />
+    <Compile Include="Abilities\IPlayableCharacter.cs" />
+    <Compile Include="Abilities\IRace.cs" />
+    <Compile Include="Abilities\IRoom.cs" />
+    <Compile Include="Abilities\KnownAbility.cs" />
+    <Compile Include="Abilities\Passives.cs" />
+    <Compile Include="Abilities\PlayableCharacter.cs" />
+    <Compile Include="Abilities\Skills.cs" />
+    <Compile Include="Abilities\Spells.cs" />
+    <Compile Include="Affects\AffectDataBase.cs" />
+    <Compile Include="Affects\Aura.cs" />
+    <Compile Include="Affects\AuraData.cs" />
+    <Compile Include="Affects\CharacterAttributeAffect.cs" />
+    <Compile Include="Affects\CharacterAttributeAffectData.cs" />
+    <Compile Include="Affects\CharacterFlagsAffect.cs" />
+    <Compile Include="Affects\CharacterFlagsAffectData.cs" />
+    <Compile Include="Affects\CharacterIRVAffect.cs" />
+    <Compile Include="Affects\CharacterIRVAffectData.cs" />
+    <Compile Include="Affects\CharacterSexAffect.cs" />
+    <Compile Include="Affects\CharacterSexAffectData.cs" />
+    <Compile Include="Affects\EntityBase.cs" />
+    <Compile Include="Affects\Enums.cs" />
+    <Compile Include="Affects\FlagAffectBase.cs" />
+    <Compile Include="Affects\IAffect.cs" />
+    <Compile Include="Affects\IAura.cs" />
+    <Compile Include="Affects\ICharacter.cs" />
+    <Compile Include="Affects\ICharacterAffect.cs" />
+    <Compile Include="Affects\IEntity.cs" />
+    <Compile Include="Affects\IItem.cs" />
+    <Compile Include="Affects\IItemAffect.cs" />
+    <Compile Include="Affects\IItemWeapon.cs" />
+    <Compile Include="Affects\IRoom.cs" />
+    <Compile Include="Affects\IRoomAffect.cs" />
+    <Compile Include="Affects\IAbility.cs" />
+    <Compile Include="Affects\ItemBase.cs" />
+    <Compile Include="Affects\ItemDummy.cs" />
+    <Compile Include="Affects\ItemFlagsAffect.cs" />
+    <Compile Include="Affects\ItemFlagsAffectData.cs" />
+    <Compile Include="Affects\ItemWeapon.cs" />
+    <Compile Include="Affects\ItemWeaponFlagsAffect.cs" />
+    <Compile Include="Affects\ItemWeaponFlagsAffectData.cs" />
+    <Compile Include="Affects\Misc.cs" />
+    <Compile Include="Affects\Room.cs" />
+    <Compile Include="Affects\RoomFlagsAffect.cs" />
+    <Compile Include="Affects\Character.cs" />
+    <Compile Include="Abilities\CombatCommands.cs" />
+    <Compile Include="GroupsPetsFollowers\CharacterBase.cs" />
+    <Compile Include="GroupsPetsFollowers\CharacterCommands.cs" />
+    <Compile Include="GroupsPetsFollowers\Group.cs" />
+    <Compile Include="GroupsPetsFollowers\ICharacter.cs" />
+    <Compile Include="GroupsPetsFollowers\IGroup.cs" />
+    <Compile Include="GroupsPetsFollowers\INonPlayableCharacter.cs" />
+    <Compile Include="GroupsPetsFollowers\IPlayableCharacter.cs" />
+    <Compile Include="GroupsPetsFollowers\IRoom.cs" />
+    <Compile Include="GroupsPetsFollowers\IWorld.cs" />
+    <Compile Include="GroupsPetsFollowers\NonPlayableCharacter.cs" />
+    <Compile Include="GroupsPetsFollowers\PlayableCharacter.cs" />
+    <Compile Include="GroupsPetsFollowers\PlayableCharacterCommands.cs" />
+    <Compile Include="GroupsPetsFollowers\Room.cs" />
+    <Compile Include="GroupsPetsFollowers\World.cs" />
     <Compile Include="NewMud\Behaviors\Behavior.cs" />
     <Compile Include="NewMud\Behaviors\BehaviorManager.cs" />
     <Compile Include="NewMud\Behaviors\MovableBehavior.cs" />
@@ -93,6 +422,8 @@
     <Compile Include="NewMud\Behaviors\PlayerBehavior.cs" />
     <Compile Include="NewMud\Thing.cs" />
     <Compile Include="TestDelayedAction.cs" />
+    <Compile Include="TestLua\CharacterData.cs" />
+    <Compile Include="TestLua\PlayableCharacter.cs" />
     <Compile Include="TestLua\TestLuaRegisterFunction.cs" />
     <Compile Include="TestLua\CharacterScript.cs" />
     <Compile Include="TestLua\LuaOutput.cs" />
@@ -110,13 +441,17 @@
     <Compile Include="TestTableGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
-      <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
-      <Name>Mud.Domain</Name>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
+      <Name>Mud.DataStructures</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
@@ -126,15 +461,28 @@
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
-      <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
-      <Name>Mud.Server</Name>
+    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
+      <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
+      <Name>Mud.Server.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
+      <Project>{3E2BD396-17B9-423E-9114-9E215B468267}</Project>
+      <Name>Mud.Server.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
+      <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
+      <Name>Mud.Server.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
+      <Project>{0221cf37-eec1-4144-91c4-00176a735d34}</Project>
+      <Name>Mud.Server.Random</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -1,0 +1,2049 @@
+#AREADATA
+Name Aerial City~
+Builders None~
+VNUMs 22000 22999
+Credits {45 70} Fnor    Aerial City~
+Security 9
+End
+
+#MOBILES
+#22000
+King Raptor~
+King Raptor~
+The king of Aerial City is here
+~
+He says: {RWhy{x area you in my Throne Room, and draws a {GHuge{x sword.
+~
+dragon~
+ABCRT A BDFHJTV ABHZ -900 0
+70 70 11d56+1629 23d27+1752 3d27+43 slice
+-24 -23 -25 -23
+AEFGHIKM ABEH BCDEFHI EFGHI
+stand stand male 10000
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX giant unknown
+#22001
+queen raptor~
+Queen Raptor~
+Queen of Aerial City is here
+~
+She says: How may I help you ??
+~
+dragon~
+ABCR A BDFHJTV ABHZ -850 0
+69 69 11d56+1629 20d32+1817 3d27+43 claw
+-25 -23 -23 -20
+AEFGHIKM ABEH BCDEFHI FIJ
+stand stand female 9000
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#22002
+captain guard~
+Captain of the Guard~
+Aerial City Captain of the Guard is here
+~
+You are not allowed {CHere{x, the Captain charges.
+~
+dragon~
+ABT A DFHJTV AHZ -800 0
+68 68 23d27+1752 23d24+1463 6d12+43 slice
+-22 -24 -24 -21
+CDEFIJKM ABEH BCDEFHI FIJ
+stand stand male 7500
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#22003
+Lieutenant commander guard~
+Lieutenant Commander of the Guard~
+Lieutenant Commander of the Guard of Aerial City is here
+~
+Looks at you with a concerned look on his face, and says Why are you here
+~
+dragon~
+ABT A DFJTV AHZ -575 0
+67 67 24d24+1572 11d56+1629 8d8+41 chop
+-24 -24 -23 -20
+EFIKM ABEH BCDEFHI FIJ
+stand stand male 7000
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#22004
+master arms~
+Master at Arms~
+Master at Arms of the Aerial City Guards is here
+~
+You see a huge Eagle who is the Master of Arms of Aerial City
+~
+unique~
+ABFT A FGHQT 0 -500 0
+65 65 23d24+1463 23d24+1463 8d8+41 scratch
+-19 -22 -23 -18
+EFH AB CD 0
+stand stand either 6500
+AHW AFHKP medium unknown
+#22005
+ninja~
+9th Level Ninja~
+A high ranking Ninja is here
+~
+A Ninja wearing a black belt is eyeing you suspiciously
+~
+human~
+AFS A DFJTV AHMV -800 0
+60 60 6d81+1095 9d59+1266 6d10+36 punch
+-21 -20 -21 -16
+BHN AB 0 0
+stand stand male 4000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#22006
+gate guard~
+Gate Guardian~
+You see a gate Guardian here
+~
+You see a {GGuard{x that protects the entrance to the Aerial City here
+~
+human~
+ABT A DFTV AHMV 750 0
+65 30 9d59+1266 18d32+1516 2d39+42 slice
+-21 -21 -20 -18
+DEFI AB 0 GKQ
+stand stand male 5000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#22007
+city guard~
+Aerial City Guard~
+A City Guard is standing here
+~
+You see a very {WLarge{x Eagle looking down his beak at you
+~
+unique~
+AGT A TV 0 600 0
+56 56 20d20+946 17d26+1015 7d8+36 bite
+-16 -16 -21 -14
+DEFIKU AB 0 BIK
+stand stand either 4500
+AGHW ACDEFKPU large unknown
+#22009
+king stable master~
+King stable master~
+You see the Stable Master here
+~
+You see a small dragon here tending the Kings prize creatures
+~
+dragon~
+ABT A DFJTV AHZ -600 0
+55 55 17d26+1015 6d81+1095 6d9+33 pierce
+-17 -15 -19 -10
+EFHIM ABEH BEFHI FIJ
+stand stand male 4800
+ACDEFGHIJKMPQUVXZ ACDEFGHIJKPQUVX large unknown
+#22010
+vstable boy~
+stable boy~
+You see a small boy here
+~
+You see a boy fixing a bridle harness here.
+~
+unique~
+ABC A DFJLT AHMV -400 0
+48 48 5d65+687 14d26+769 6d8+31 punch
+-15 -14 -15 -8
+EIK J JLQ JLQ
+stand stand male 3000
+ABCDEFGHIJKMPVW ABCDEFGHIJKP medium unknown
+#22011
+waitress~
+waitress~
+You see a waitress hovering here
+~
+You see a small female flittering around the Pub taking orders
+~
+pixie~
+ABHR A DEFJTV AHMV -400 0
+45 45 14d21+623 5d65+687 5d9+28 slap
+-13 -12 -12 -8
+EIK BP BPZ CIRZ
+stand stand female 2000
+ABCDEFGHIJKMPV ABCDEFGHIJKP tiny unknown
+#22013
+griffon~
+The King's Griffon~
+You see a Griffon that belongs to the King here
+~
+You see a magnificent Griffon here
+~
+unique~
+ABF A DFJT 0 -800 0
+62 62 8d65+1221 20d26+1313 7d9+39 bite
+-21 -22 -23 -16
+AEF 0 0 IJK
+stand stand male 6000
+AVW ADFKPSV large unknown
+#22014
+harpy~
+The King's Harpy~
+You see a Harpy that belongs to the King here
+~
+You see a disgustingly filthy Harpy here
+~
+human~
+ABCF A DFP AHMV -750 0
+46 46 14d26+769 10d36+737 4d12+28 bite
+-15 -13 -13 -9
+EFNU 0 0 0
+stand stand female 2125
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#22015
+king dragon~
+The King's Dragon~
+You see {YHuge{x Dragon here.
+~
+You look upon an immense Black Dragon
+~
+dragon~
+ABFR A DFHJTV AHZ -900 0
+68 50 11d56+1629 22d24+1418 4d20+44 bite
+-25 -23 -22 -21
+ACDEFHIKM ABEHKQ BCDEFHI FIJN
+stand stand male 9900
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#22016
+custodian~
+Aerial City custodian~
+You see a custodian keeping the city clean.
+~
+You see a bat flying around, gathering trash. He hears you and shouts:
+Keep the city clean {GRECYCLE{x.
+~
+bat~
+ACGHOPT A FHJTUZ AGV -200 0
+45 0 10d35+705 5d65+687 5d10+30 shbite
+-13 -13 -14 -9
+EFH 0 S S
+stand stand male 300
+ABCDEFGHIJKPVWc ABCDEFGHIJKP medium unknown
+#22017
+Heidi Fliess~
+Heidi Fliess~
+You see Heidi Fliess here
+~
+You see a female that is a mix of Pixie and Human, with long flowing brown
+hair, and an enchanting smile.
+~
+pixie~
+ABHV A DEFJTV AHMV -550 0
+47 0 14d26+769 10d35+705 2d27+29 thwack
+-14 -13 -15 -8
+EHK BP BPZ CHQZ
+stand stand female 1800
+ABCDEFGHIJKMNPV ABCDEFGHIJKP tiny unknown
+#22018
+shopkeeper pamela~
+Pamela~
+You see Pamela the shopkeeper here.
+~
+The beautiful creature looks like Pamela Lee, and Jenny McCarthy rolled
+into one fabulous looking lady.
+~
+human~
+ABCMV A DFHT AHMV -500 0
+80 0 21d35+2272 10d81+2552 8d10+49 magic
+-29 -29 -30 -27
+0 ABCD 0 0
+stand stand female 1000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#22019
+adjani cook~
+Adjani~
+Adjani is standing here.
+~
+You see a woman that is running to and fro, completing the tasks of the 
+cafe Head Cook. She is busy filling order for the waitress.
+~
+unique~
+ABC A DFJLT AHMV -300 0
+50 50 14d26+769 14d26+769 5d10+30 smash
+-15 -15 -13 -10
+EIK J JLQ JLQ
+stand stand female 5000
+ABCDEFGHIJKMPVW ABCDEFGHIJKP medium unknown
+#22020
+rat~
+kitchen rat~
+A rat is scurrying away
+~
+You see a small rat running across the floor.
+~
+cat~
+ABC A BFHQVZ ABGV -200 0
+50 50 16d24+835 15d25+802 6d8+31 scratch
+-14 -15 -17 -9
+FHK 0 0 0
+stand stand male 2000
+ABCDEFGHJKQUV ACDEFHJKQUV small unknown
+#22021
+moll~
+Don's Moll~
+A moll is here.
+~
+You see a female Draconian and she looks {^MAD{x.
+~
+draconian~
+ABCFT A DFJTV AHMV -300 0
+47 47 10d35+705 10d36+737 5d10+30 slap
+-12 -12 -11 -9
+DEHKLQ HILQ FGHIJ FGJLQ
+stand stand female 4700
+ABCDEFGHIJKMPQV ABCDEFGHIJKPQ medium unknown
+#22022
+servant~
+don carlos servant~
+A servant is here
+~
+You see a servant of Don Carlo.
+~
+bat~
+ABFH A DFHTZ AGV -250 0
+45 45 14d21+623 10d35+705 4d12+29 flbite
+-10 -13 -13 -8
+EFH 0 S S
+stand stand either 4500
+ACDEFGHJKPV ACDEFHJKP small unknown
+#22023
+spider~
+spider~
+A large black spider is here.
+~
+You see a large black spider, running across his web at you.
+~
+human~
+AB A DFJTV AHMV -700 0
+65 65 22d24+1418 22d24+1418 8d8+40 bite
+-23 -22 -22 -17
+EFHK L 0 0
+stand stand either 6500
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#22024
+citizen~
+Aerial City citizen~
+A citizen is here.
+~
+You see a citizen of Aerial City, the citizen see you and {%Smiles{x.
+~
+unique~
+ACT A DFJLNTU AHMV 0 0
+50 50 14d26+769 13d31+869 2d27+29 slice
+-14 -17 -16 -12
+DEHKP J JLQ LQ
+stand stand either 1500
+ABCDEFGHIJKMPV ABCDEFGHIJKP medium unknown
+#22025
+Wendy Thomas~
+Wendy Thomas~
+Wendy Thomas is awaiting your order.
+~
+A cute pixie lass is here balancing her book. She sees you and flitts
+over to your face.
+~
+pixie~
+ABCR A DEFJTVc AHMV 200 0
+50 50 16d24+835 13d31+869 5d11+33 slice
+-14 -15 -16 -12
+DEFHRU BP BPZ Z
+stand stand female 7000
+ABCDEFGHIJKMPV ABCDEFGHIJKP small unknown
+#22026
+Ben Bridge~
+Ben Bridge~
+Ben Bridge is here.
+~
+You see a portly, upper crust, citizen of the Aerial city standing here
+in finely talored clothing.
+~
+unique~
+ABCR A DFJLTV AHMV -400 0
+60 60 13d42+1361 17d28+1136 6d10+37 pound
+-20 -20 -20 -16
+DEHKQ J JLQ LQ
+stand stand male 6000
+ABCDEFGHIJKMPV ABCDEFGHIJKP medium unknown
+#22027
+Bonnie~
+Bonnie~
+Bonnie is here.
+~
+You see a female draconian. she glares at you, shouts a war cry and
+attacks.
+~
+draconian~
+ABFS A DFJTV AHMV -850 0
+75 75 22d31+2029 10d69+1956 6d14+48 acbite
+-27 -27 -27 -21
+BDEFHLMQ HILQ FGHIJ FGJ
+stand stand female 750
+ABCDEFGHIJKMPQVY ABCDEFGHIJKPQUVX large unknown
+#22028
+Clyde~
+Clyde~
+Clyde is here.
+~
+You see a male draconian, standing in a corner. He sees you and grins
+evilly.
+~
+draconian~
+ABFS A DFJTV AHMV -850 0
+75 75 14d51+2107 22d31+2029 4d21+47 acbite
+-24 -27 -27 -21
+BDEFHLMQ HILQ FGHIJ FGJ
+stand stand male 7300
+ABCDEFGHIJKMPQV ABCDEFGHIJKPQUVX large unknown
+#22029
+Don Carlo~
+Don Carlo~
+Don carlo is here.
+~
+Don carlo is the head of the Aerial city mafia. He is dispatching
+messages to keep up with the daily activities of the Aerial city mob.
+~
+draconian~
+ACFQ A CDFTV AHMV -1000 0
+85 85 28d32+3247 28d32+3247 7d13+53 frbite
+-32 -29 -34 -28
+CDEFGLMQU HILQ FGHIJ FGJ
+stand stand male 8000
+ABCDEFGHIJKMPQV ABCDEFGHIJKPQUVX huge unknown
+#22030
+panhandler~
+panhandler~
+A panhandler
+~
+You see a wyvern down on his luck. His scales are all dusty and grimy.
+~
+dragon~
+ACV A DFJT AHZ -300 0
+63 63 18d27+1178 18d27+1178 8d8+41 flbite
+-20 -23 -19 -19
+EFK BEH BEFHI FIJ
+stand stand male 1000
+ABCDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX large unknown
+#22031
+Blaine~
+Blaine~
+Blaine is here.
+~
+You see a huge old draconian blacksmith sitting here crafting a fine
+sword. This blacksmith is renonwed for his work.
+~
+draconian~
+ABCT A DFTV AHMV -400 0
+65 65 22d27+1696 24d24+1572 7d9+39 slice
+-22 -22 -23 -19
+DEFLNQ HILQ FGHIJ FGJ
+stand stand male 8000
+ABCDEFGHIJKMPQV ABCDEFGHIJKPQ large unknown
+#22032
+vail banker~
+Vail the Banker~
+Vail the Banker sits behind his desk, waiting for your coins.
+~
+Vail is a tall skinny man with a clean shaven face. His business suit
+fits him well as he sits here counting deposits. His sharp blue eyes seem
+to be constantly moving and his smile entrances you as you approach him.
+~
+human~
+ABVd A DF AHMV 900 0
+50 0 13d31+869 16d24+835 5d11+33 slap
+-15 -15 -15 -12
+FG ABCD 0 0
+stand stand male 1000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#22000
+king sword~
+King Raptor's sword~
+You see a {GHuge{x glowing sword laying here.~
+emerald~
+weapon AT AN
+sword 8 12 slice DEH
+70 500 8000 P
+A
+19 25
+A
+18 25
+A
+1 2
+#22001
+kings pendent~
+King Raptors Pendant~
+You see bejeweled necklace that is glowing laying here.~
+crystal~
+armor ATW AC
+ACD BCD ABCD AD 0
+68 15 3000 P
+F
+A 0 0 F
+A
+3 3
+#22002
+kings ring~
+King Raptors Ring~
+You see a sparkling, glowing ring lying here.~
+ivory~
+armor AT AB
+BCD BCD E ABD 0
+63 10 2500 P
+A
+2 3
+#22003
+queen claw~
+Queen Raptor's Claw~
+You see a deadly glowing claw that is barely visible.~
+dark laen~
+weapon AT AN
+exotic 2 51 claw CE
+69 450 7000 P
+A
+19 10
+A
+18 5
+#22004
+cape~
+Queen's cape~
+You see a glowing cape thrown to the side.~
+satin~
+armor A AC
+ACD ABCD AE CD 0
+67 25 4000 P
+F
+A 0 0 F
+#22005
+gauntlets~
+Queen's Gauntlets~
+You see a pair of glowing guantlets left here.~
+adamantite~
+armor A AI
+CD BCD ABD BD 0
+65 40 2500 P
+#22006
+cloak~
+Captain's Cloak~
+You see a pile of cloth glowing dimly lying here.~
+cloth~
+armor A AC
+BCD ACD AE ACD 0
+68 20 2000 P
+#22007
+plate mail~
+Captain's Plate Mail~
+You see some darkly glowing plate mail here.~
+dark laen~
+armor AT AD
+ACD ABCD ABCD ACD 0
+68 650 2800 P
+#22008
+helmet~
+Captain's Helmet~
+You see a glowing helmet lying here.~
+obsidian~
+armor AT AE
+ACD CD ACD AD 0
+68 500 4850 P
+#22009
+leg protectors~
+Captain's Leg Protectors~
+You see some glowing metal lying her.~
+dark laen~
+armor A AF
+ACD ACD BCD ABD 0
+68 450 4000 P
+#22010
+ring~
+Captain's Ring~
+You see a glowing ring with a dark stone on it here.~
+onyx~
+armor AF AB
+BCD ABCD ACD ABD 0
+68 50 1500 P
+A
+4 3
+#22011
+visor~
+Captain's Visor~
+You see a glowing visor cast to the side here.~
+electrum~
+armor AF AR
+BD ACD ACD D 0
+60 10 3500 P
+F
+A 0 0 CDEFG
+#22012
+sword~
+Captain's Sword~
+You see an extremely well crafted glowing sword here.~
+adamantite~
+weapon AT AN
+sword 6 15 slice F
+68 450 5000 P
+A
+19 15
+A
+18 15
+#22013
+key~
+Captain's Key~
+You see a ornate darkly glowing key.~
+pewter~
+key AFQ A
+0 0 0 0 0
+65 5 100 P
+#22014
+black orb light~
+Black Orb~
+You see a black orb floating here.~
+energy~
+light A AO
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+65 1 750 P
+A
+19 4
+A
+18 4
+#22015
+ring~
+Lieutenant Commander's Ring~
+You see a glowing ring lying here.~
+platinum~
+armor A AB
+BCD BCD E BD 0
+67 10 800 P
+A
+5 3
+#22016
+boots~
+Lieutenant Commander's Boots~
+You see a pair of glowing boots here.~
+hear leather~
+armor A AG
+ACD AE BCD ABD 0
+65 20 700 P
+F
+A 0 0 P
+#22017
+gloves~
+Lieutenant Commander's Gloves~
+You see some glowing gloves here.~
+soft leather~
+armor A AH
+ACD E ACD ABD 0
+65 25 600 P
+#22018
+shield~
+Lieutenant Commander's Shield~
+You see a glowing shield here.~
+steel~
+armor A AK
+CD BCD BCD ABC 0
+63 50 1000 P
+#22019
+axe~
+Axe of Destruction~
+You see a deadly glowing axe lying here.~
+mithril~
+weapon A AN
+axe 9 9 chop EF
+63 50 1000 P
+#22020
+sword~
+Gate Guard Sword~
+You see a Gate Guard Sword here.~
+steel~
+weapon T AN
+sword 5 18 slice 0
+65 40 1000 P
+A
+19 3
+A
+18 2
+#22021
+plate mail~
+Gate Guards Plate Mail~
+You see some glowing plate mail lying here.~
+corundum~
+armor A AD
+ACD ACD BCD BD 0
+65 200 900 P
+#22022
+gate helm~
+A Gate Guard's Helm~
+A glowing helmet is lying here.~
+steel~
+armor A AE
+ACD ABD ACD BD 0
+63 100 850 P
+A
+4 3
+#22023
+wrist guard~
+Gate Guard Wrist Guards~
+You see a golden glowing wrist guard here.~
+gold~
+armor AT AH
+ACD ACD ABCD BD 0
+63 50 500 P
+#22024
+wrist guard~
+Gate Guard Wrist Guards~
+You see a golden glowing wrist guard here.~
+gold~
+armor AT AH
+CD ACD ABCD BD 0
+63 50 500 P
+#22025
+belt~
+Gate Guard Belt~
+You see an old worn belt lying here.~
+hard leather~
+armor 0 AL
+ACD CD CD AD 0
+60 80 550 P
+A
+5 4
+#22026
+orange stone~
+Orange Stone~
+You see an orange stone lying here.~
+quartz~
+armor A AQ
+ABD BCD CD AD 0
+60 5 900 P
+A
+2 4
+A
+1 2
+#22027
+city claw~
+City Guard Claw~
+You see a very sharp claw lying here.~
+bone~
+weapon T AN
+exotic 5 15 claw CDEH
+56 60 750 P
+#22028
+amulet~
+City Guard Amulet~
+You see a glowing amulet lying here.~
+crystal~
+armor AFI AC
+AD BCD ABD AD 0
+56 20 500 P
+F
+A 0 0 T
+#22029
+pitchfork~
+Stable Masters Pitchfork~
+You see a pitchfork leaning against the wall.~
+steel~
+weapon T AN
+exotic 4 20 pierce DF
+56 450 600 P
+A
+19 15
+A
+18 15
+#22030
+purse~
+waitress purse~
+You see a bulky black purse.~
+leather~
+container O A
+1500 0 0 150 40
+0 0 0 P
+#22031
+dress~
+waitdress~
+You see a glowing dress lying here.~
+satin~
+armor A AD
+AD BD BD ABC 0
+45 20 2000 P
+A
+19 10
+A
+18 10
+A
+1 3
+#22032
+key~
+M A A'S Key~
+You see a silvery key lying here.~
+silver~
+key FQ A
+0 0 0 0 0
+65 5 100 P
+#22033
+key~
+Heidi's Key~
+A tiny ruby key is here.~
+ruby~
+key Q A
+0 0 0 0 0
+47 1 250 P
+#22034
+phone book~
+Heidi's Phone Book~
+You see a black phone book lying here.~
+paper~
+weapon CT AN
+exotic 4 17 thwack H
+47 20 750 P
+#22035
+cuff~
+Hiedi's Cuff's~
+You see a pair of handcuffs here.~
+steel~
+trash 0 A
+0 0 0 0 0
+45 10 500 P
+#22036
+whip~
+Domination Whip~
+You see a Cat O' Nine Tails here.~
+hard leather~
+trash ABF 0
+0 0 0 0 0
+50 10 1000 P
+#22037
+confinement chain~
+Chain's of Confinement~
+You see a pile of chains here.~
+steel~
+trash AB A
+0 0 0 0 0
+50 400 2000 P
+#22038
+straps~
+Leather Straps~
+You see a few straps of leather lying here.~
+leather~
+trash AB A
+0 0 0 0 0
+50 150 800 P
+#22039
+crop~
+Riding Crop~
+You see a leather rod lying here.~
+hard leather~
+trash AB A
+0 0 0 0 0
+50 80 800 P
+#22040
+teddy~
+Pamela's Teddy~
+You see some finely made lace here.~
+lace~
+armor ABI AD
+BD ACD BCD BC 0
+55 10 5000 P
+F
+A 2 2 V
+#22041
+box trojan~
+Box of Trojan's~
+You see a small box here.~
+paper~
+trash AB AO
+0 0 0 0 0
+50 15 100 P
+#22042
+spatula~
+Adjani's Spatula~
+You see a strange shaped piece of metal here.~
+tin~
+weapon BC AN
+exotic 6 10 smash G
+50 25 2000 P
+#22043
+oak dresser~
+an oak dresser~
+An ornate looking dresser is sitting along the wall.~
+oak~
+container 0 0
+0 ACD 22060 0 0
+0 0 0 P
+#22044
+forge~
+a forge~
+A glowing hot forge is here.~
+steel~
+furniture B 0
+0 0 0 0 0
+0 0 0 P
+#22045
+gold black stone~
+a gold black stone~
+A precious gold and black stone rests here.~
+stone~
+warp_stone FT AO
+0 0 0 0 0
+65 65 650 P
+#22046
+bag velvet~
+a velvet bag~
+a small black velvet bag is here.~
+velvet~
+container 0 A
+100 0 0 10 100
+65 400 50 P
+#22047
+wendy sword~
+wendy's sword~
+A sword lies here.~
+platinum~
+weapon G AN
+sword 5 13 slice DH
+50 120 800 P
+#22048
+sword citizen~
+a citizens sword~
+You see a sword lying here.~
+steel~
+weapon 0 AN
+sword 6 10 slice H
+50 80 600 P
+#22049
+moll scarf~
+a scarf~
+A scarf from the moll is here.~
+cloth~
+weapon F AN
+exotic 6 10 slap C
+47 30 400 P
+#22050
+mace Ben~
+a mace~
+An ornately made mace is here.~
+bone~
+weapon A AN
+mace 8 9 pound B
+60 60 650 P
+#22051
+claw Bonnie~
+Bonnie's claw~
+You see Bonnie's claw here.~
+bone~
+weapon A AN
+exotic 6 17 claw DGH
+70 70 1000 P
+#22052
+claw Clyde~
+Clyde's claw~
+You see Clydes claw lying here.~
+bone~
+weapon A AN
+exotic 9 10 claw ADH
+70 70 1000 P
+#22053
+claw Don Carlo~
+Don Carlo's claw~
+You see Don Carlo's claw here.~
+bone~
+weapon AB AN
+exotic 5 20 claw BDH
+70 70 1100 P
+#22054
+sun dried beef~
+sun dried beef~
+some delicious dried beef~
+food~
+food O A
+10 8 0 0 0
+0 10 18 P
+#22055
+jar sun tea~
+sun tea jar~
+A jar of sun tea.~
+tea~
+drink A AO
+64 64 'tea' 0 0
+0 10 10 G
+#22056
+fruit dried~
+dried fruit~
+some dried fruit~
+food~
+food 0 A
+10 9 0 0 0
+0 5 8 P
+#22057
+cheese half wheel~
+a half wheel of chese~
+You see a half wheel of chese.~
+food~
+food 0 A
+5 4 0 0 0
+0 25 9 P
+#22058
+cheese wheel~
+a sheel of cheese~
+You see a full wheel of cheese.~
+food~
+food 0 A
+10 8 0 0 0
+0 50 18 P
+#22059
+hammer Blaine~
+Blaine's hammer~
+You see a massive well used hammer here.~
+black dragonscale~
+weapon ABFOT AN
+exotic 6 15 slice GH
+65 80 1200 P
+A
+5 3
+#22060
+key moll's dresser~
+a key~
+A small gold key is here.~
+gold~
+key CQ A
+0 0 0 0 0
+0 30 0 P
+#22061
+flecked ruby~
+flecked ruby~
+A ruby flecked with specks of gold is here.~
+gem~
+gem AW A
+0 0 0 0 0
+62 10 5000 P
+#22062
+sapphire star~
+star sapphire~
+A sapphire with a star on it is here.~
+gem~
+gem AW A
+0 0 0 0 0
+62 10 7500 P
+#22063
+stone fire~
+fire stone~
+A stone that burns with fiery radiance.~
+gem~
+gem AW A
+0 0 0 0 0
+65 10 9000 P
+#22064
+topaz~
+topaz gem~
+You see a many faceted topaz here.~
+topaz~
+gem AW A
+0 0 0 0 0
+60 5 3000 P
+#22065
+diamond hope~
+Hope diamond~
+You see the fabulous Hope diamond here.~
+diamond~
+gem AW A
+0 0 0 0 0
+70 20 15000 P
+#0
+
+
+
+#ROOMS
+#22000
+Gate Room~
+You see a room that is the entrance to the Aerial city with a stair
+case that leads up. You notice the guards eyeing you with caution.
+There is a {Rsign{x here.
+~
+0 0 9
+E
+sign~
+This is my 1st attempt at an area, let me know what you think. You have to 
+be {wflying{x to be in this area. The area is for levels 45-70.
+                  I would not try at less than 43 ...
+			      {&F'nor{x
+~
+D0
+You see a ring of stones.
+~
+~
+0 0 339
+D2
+You see the Aerial City branch of Phoenix bank.
+~
+~
+0 0 22044
+D4
+You see an exit leading upwards.
+~
+~
+0 0 22001
+S
+#22001
+Above the gate room~
+You see the view above the Dwarven Kingdom, and a tall tower as you
+look to the north. To the right you see an imposing building connected by
+a bridge.
+~
+0 0 9
+D1
+There is a bridge leading off to the east.
+~
+~
+0 0 22017
+D4
+Stairs continue upward from here.
+~
+~
+0 0 22002
+D5
+Stairs continue downwards from here.
+~
+~
+0 0 22000
+S
+#22002
+City Green~
+You see a panoramic view of Thera starting to develop now as you look
+out from approximately 75 feet up in the air. Off to the east you see a
+freshly painted sign that reads GRIFFON CAFE.
+~
+0 0 9
+E
+spiral stairs staircase~
+You see a staircase that spirals upward, and it has seen eons of use.
+~
+D1
+You see a cafe to the east.
+~
+~
+0 0 22003
+D3
+To the west is a much frequented pub.
+~
+~
+0 0 22004
+D4
+You see a spiral staircase leading up.
+~
+~
+0 0 22005
+D5
+~
+~
+0 0 22001
+S
+#22003
+Cafe Griffin~
+As you enter the room a hush falls over the people there as they give
+you a quick perusal. The din soon picks back up as people go back to
+their conversation and drinking, and as you glance around you note
+groups and couples of elves and humans conversing. After a momeent the
+waitress flies over and escorts you to a table.
+~
+0 8 9
+E
+spiral stairs staircase~
+You see a staircase that spirals upwards, and it has seen eons of use.
+~
+D3
+This leads back to the city green.
+~
+~
+0 0 22002
+D4
+You see a spiral staircase leading up.
+~
+~
+0 0 22021
+S
+#22004
+Dragon's Blood Pub~
+You walk into a room and see people of various races of Thera. Looking
+around you see drarves, goblins and orcs among others. Amazing isn't it
+how a couple of mugs of good mead can bring together people that would
+otherwise be wary of one another. Over in the corner is an empty table
+and as you saunter over a waitress flies over to you.
+~
+0 8 9
+D1
+You see a city green to the east.
+~
+~
+0 0 22002
+D5
+You see a ladder leading down.
+~
+~
+0 0 22022
+S
+#22005
+Main Road~
+Continuing upwards you glance to the east and see another swinging
+bridge.
+~
+0 0 9
+D1
+Towards the end of the bridge you see a building.
+~
+~
+0 0 22006
+D3
+You see Western Ave.
+~
+~
+0 0 22025
+D4
+A rope bridge leads upwards from here.
+~
+~
+0 0 22008
+D5
+A rope bridge leads downwards from here.
+~
+~
+0 0 22002
+S
+#22006
+Tack Room~
+Here there is an assortment of different types of riding harness and
+huge bridles on the walls. There is a saddle of enormous size hanging
+on the wall with a golden R on the horn. Looking to the east you see
+another bridge.
+~
+0 0 9
+E
+Saddle~
+Here is a saddle finely crafted with exotic leathers. It is huge and 
+would probably take four strong men to lift. You wonder who would possibly
+ride in a saddle of this size.
+~
+D1
+There is a bridge leading to the stables.
+~
+~
+0 0 22007
+D3
+There is a bridge leading to the main road.
+~
+~
+0 0 22005
+S
+#22007
+The Stables~
+The room you are in is huge. You see a bin filled with fresh animal
+carcasses and wonder what sort of creatures are kept here. Off to the
+side you see a small dragon walking over to you. As he gets closer you
+hear jim ask you, can I help you ? There are four doors leading out of
+the room, one to the north, south, east and west.
+~
+0 0 9
+D0
+You see a huge stall to the north.
+~
+~
+0 0 22018
+D1
+You see a stall to the east.
+~
+~
+0 0 22019
+D2
+You see a very large cavern to the south.
+~
+~
+0 0 22020
+D3
+The bridge leads back to the tack room.
+~
+~
+0 0 22006
+S
+#22008
+Going Up~
+The bridge continues upwards.
+~
+0 0 9
+D4
+The rope bridge leads up.
+~
+~
+0 0 22009
+D5
+the rope bridge leads down.
+~
+~
+0 0 22005
+S
+#22009
+Maa Room~
+This room is rather plain and utilitarian in appearance
+honoring the master at arms of the Aerial City guards, displayed on 
+the walls.
+~
+0 0 9
+D4
+You see another rope bridge leading up.
+~
+~
+0 0 22010
+D5
+~
+~
+0 0 22008
+S
+#22010
+Continuing Up~
+The bridge continues upwards, and the view of the land is panoramic as
+you are now about 200 feet up in the air.
+~
+0 0 9
+D4
+The rope bridge continues upwards.
+~
+~
+0 0 22011
+D5
+The rope bridge leads downwards.
+~
+~
+0 0 22001
+S
+#22011
+Lieutenant Commander's Room~
+You see a room that seems to be occupied by an officer of the Aerial 
+Guards. There is a desk and filing cabinets along one wall.
+~
+0 0 9
+D4
+Another rope bridge leads upwards.
+~
+~
+0 22032 22012
+D5
+The rope bridge leads downwards.
+~
+~
+0 0 22010
+S
+#22012
+Up the Stairs~
+Continuing upwards, you notice the steps are worn from long use through
+the ages.
+~
+0 0 9
+D4
+Plain stairs lead upwards.
+~
+~
+0 0 22013
+D5
+Plain stairs leads downwards.
+~
+~
+0 0 22011
+S
+#22013
+Captain's Room~
+You step into the office of the ccaptain of the Aerial City Guards. A
+very large dragon is sitting at the desk and rises, when he notices you
+are here.
+~
+0 1 9
+D4
+You see the stairs leading upwards.
+~
+~
+0 0 22014
+D5
+You see a ladder leading downwards.
+~
+~
+0 0 22012
+S
+#22014
+Farther up the ladder~
+You step into a chamber that can only be described by the word Royalty.
+Tapestries line the wall and silk banners hang by the windows in the
+room.
+~
+0 8 9
+E
+banners silk~
+These banners are woven from silk from across the Dragon Sea, they seem
+to be made from almost every color of the rainbow.
+~
+E
+tapestries~
+The tapestries are finely woven, and show scenes of dragons fighting
+other dragons with spectactlar detail. The weavers work is very admirable.
+~
+D4
+The stairs continue upwards.
+~
+~
+0 0 22015
+D5
+The stairs continue downwards.
+~
+~
+0 0 22013
+S
+#22015
+Queens Chamber~
+You stand in a chamber that is daunting in size. There is a table off
+to the right and the east wall has a window in it that takes up half of
+the wall. There is a beautiful white dragon sitting on a bench by the
+east wall enjoying the view.
+~
+0 0 9
+E
+window~
+You look out the window and the ciew of the world is staggering. Judging
+from the size of the landscape you are about five hundred feet up.
+~
+E
+table~
+The table has three mirrors mounted on it with a collection of bottles
+of various size on top of it.
+~
+D4
+Beautifully carpeted stairs continue upwards.
+~
+~
+0 22013 22016
+D5
+Plain stone stairs lead downwards.
+~
+~
+0 0 22014
+S
+#22016
+Kings Chamber~
+You step into the room and realize that you may have made a big mistake.
+This room is at least twice the size of the Queens Chamber from whence you
+just came. The first thing you notice is that is no roof over this
+room and it is very spartan in comparison to the chamber you just left.
+Looking up you see the largest Dragon you have ever seen and he is coming 
+down for a landing, and he is totally black, you turn and attempt to ..
+                    !!!!!!!!!!!FLEE!!!!!!!!!!!!
+~
+0 0 9
+E
+dragon~
+You see an ancient Black Dragon here with a {SHUGE{x sword strapped to
+his side.
+~
+D5
+You see carpeted stairs leading downward.
+~
+~
+0 22032 22015
+S
+#22017
+City Guard Barracks~
+You see a room with bunk beds lining the eastern wall, all made up with
+military precision. Along the western wall there are closets lining it.
+~
+0 0 9
+D3
+You see a rope bridge leading westward.
+~
+~
+0 0 22001
+S
+#22018
+King Raptor's pet Griffon's Stall~
+You see a stall that is open to the sky with huge steps set into the
+northern wall. Looking to the west you see a Griffon eyeing you.
+~
+0 0 9
+D2
+You see the stables
+~
+~
+0 0 22007
+S
+#22019
+King Raptor's pet Harpy Stall~
+You see a stall that has trees growing in it, atop a tree to the east you
+see a nest that is about 10 ft. in circumference, resting in the nest you 
+spy an ugly Harpy.
+~
+0 0 9
+D3
+You see the Stables.
+~
+~
+0 0 22007
+S
+#22020
+King Raptor's pet Dragon's Lair~
+You see a cave of gigantic proportions, the walls are covered with a
+greenish glowing moss, you notice various spots that seem to have been
+burnt, and the stone is pitted.
+~
+0 1 9
+D0
+You see the Stables.
+~
+~
+0 0 22007
+S
+#22021
+Griffin Cafe Loft~
+As you reach the top of the stairs, you wonder if this is where the
+waitress lives. Glancing around you see various items all in neatly
+arranged order, but the sizes of the clothing is miniscule in nature.
+~
+0 8 1
+D5
+A spiral staircase leads down.
+~
+~
+0 0 22003
+S
+#22022
+Dragon's Blood Bordello~
+As you enter the room, you see couches, and chairs scattered around the
+room, almost all of them are occupiedby scantily clad females from all
+the races on Thera. An older female comes over to you and asks: What does
+your heart desire tonight?
+~
+0 8 1
+D1
+~
+~
+0 22033 22023
+D4
+~
+~
+0 0 22004
+S
+#22023
+The Bordello's Closet~
+Stepping into the closet, you see various items displayed on shelveson
+the northern wall. An extremely exquisite looking female sees you. She
+says: Hello, and wink mischieviously and blushes.
+~
+0 1 1
+E
+shelf shelves wall item items~
+On the shelves are various items: hendcuffs, and leashes. On the wall
+are whips, straps, chains, and riding crops.
+~
+D3
+~
+~
+0 0 22022
+S
+#22024
+Griffon's Cafe Kitchen~
+You see a kitchen with a huge stove along the Eastern wall thea accomodates
+all of the cooking needs for the cafe, along the southern wall you see shelves
+with sacks of supplies for the Cafe.
+~
+0 8 9
+E
+shelf shelves sack supplies~
+These shelves are made from dark wood that might be mahogany. The sacks have 
+the words Flour, Oats, Barley on them and they are stacked to the roof.
+~
+D0
+You see the Cafe.
+~
+~
+0 0 22003
+S
+#22025
+Western Ave~
+You see a district that is not as affluent as the main road there are Exits
+leading to the north, east, south, and west.
+~
+0 0 9
+D0
+~
+~
+0 0 22027
+D1
+Lead back to the main road across a rope bridge.
+~
+~
+0 0 22005
+D2
+~
+~
+0 0 22028
+D3
+You see a Mansion across a rope bridge.
+~
+~
+0 0 22026
+S
+#22026
+Don's Mansion~
+You step into the vestibule of an obviously affluent citizen of the Aerial
+City. Along the walls are portraits of the Avian Males of this Family.
+You see a marble stairway leading upwards, and a door in the western wall.
+~
+0 8 9
+D1
+You see a rope bridge leading back to Western Ave.
+~
+~
+0 0 22025
+D3
+You see a room to the west.
+~
+~
+0 0 22029
+D4
+You see a marble stairway leading up.
+~
+~
+0 0 22030
+S
+#22027
+Along Western Ave~
+Continuing along Western Avenue you see various shops that might be worth
+examining. To the East is a Provision's Store, and to the west is an 
+Armoury, to the north the avenue continues..
+~
+0 0 9
+D0
+~
+~
+0 0 22033
+D1
+You see the Provision's Store across a rope bridge.
+~
+~
+0 0 22031
+D2
+~
+~
+0 0 22025
+D3
+You see the Armoury across a rope bridge.
+~
+~
+0 0 22032
+S
+#22028
+Aerial City Jeweller's~
+You step into the Shop, and you see glass cabinet's along all four walls 
+of the room, then in the center of the Shop is another {bcabinet{x that catches 
+your eye. Looking up you see a gentlemen approaching.
+~
+0 0 9
+E
+cabinet cabinets~
+Looking closer inside you see all kinds of Gems, and Rings of almost every
+known mineral known to Thera. You see {WDiamonds, {GEmeralds, {RRubies,{x and 
+{BSapphires{x to just name a few.
+~
+D0
+You see Western Ave.
+~
+~
+0 0 22025
+S
+#22029
+Don's Room~
+You step into a huge room, that has a mirror that covers the entire northern
+wall. A bed of giganitc proportions, with servant's waiting to do the Master's 
+Bidding. You wonder whom the Owner of this Mansion might be. The only exit
+is the door you came in.
+~
+0 8 9
+E
+mirror~
+You see a reflection of yourself, seeing yourself in this bedraggled 
+condition and wish you had stayed at Ronni's Road House.
+~
+D1
+You see the vestibule.
+~
+~
+0 0 22026
+S
+#22030
+Moll's Room~
+You step into a room with a bed and several dressers against the wall.
+There is a full length mirror on the door in the western wall. A middle aged 
+female draconian step back into the room through the door and screams.
+~
+0 0 9
+D3
+~
+~
+0 0 22034
+D5
+You see the mansion
+~
+~
+0 0 22026
+S
+#22031
+Provision Store~
+You see a room with all sorts of supplies, that may be needed on your trek, 
+there are shelves along the walls. Along the back wall there is a counter
+with a young Pixie girl, waiting to help you.
+~
+0 8 1
+D3
+You see Western Ave across a rope bridge.
+~
+~
+0 0 22027
+S
+#22032
+BlackSmith's Forge~
+You step into a room with a Forge mounted in the back wall, you feel waves
+of heat flowing across your body and you feel it warmth through your armour.
+Apprentices are hammering out different pieces of armour. Blaine the 
+Blacksmith looks up, and wanders over to you.
+~
+0 8 1
+D1
+You see a rope bridge leading to Western Ave. 
+~
+~
+0 0 22027
+S
+#22033
+Western Avenue continues~
+As you keep flying down Western Ave., you see citizens flitting back and
+forth through the various businesses. You see house to the east and the west.
+~
+0 0 9
+D0
+You see Western Ave.
+~
+~
+0 0 22037
+D1
+You see a house across a rope bridge.
+~
+~
+0 0 22042
+D2
+You see a rope bridge leading to Western Ave.
+~
+~
+0 0 22027
+D3
+You see a house across a rope bridge.
+~
+~
+0 0 22041
+S
+#22034
+Moll's Bathroom~
+You step into a totally devastated lavatory, with a small hole in the west 
+wall for ventilation. You notice a massive spider web up in the corner.
+~
+0 8 9
+D1
+~
+~
+0 0 22030
+S
+#22037
+farther along Western Ave.~
+Citizen's male and female bustle about with activity. As they fly
+between the various shops, and businesses of the Aerial city.
+~
+0 0 9
+D0
+You see Western Ave.
+~
+~
+0 0 22039
+D2
+You see Western Ave.
+~
+~
+0 0 22033
+S
+#22038
+Continuing along Western Ave.~
+There are lot's of citizens bustling to and fro on their way onward to
+Pioneer square and it's nighttime gala activities.
+~
+0 0 9
+D2
+~
+~
+0 0 22037
+D3
+~
+~
+0 0 22039
+S
+#22039
+Pioneer Square~
+you step into an open Square with benches, to sit and watch the activity
+of this part of the Aerial City with it's sidewalk cafe's and and busker's
+working the area. There are exits to the north, east, and west.
+~
+0 0 9
+D0
+You see more of the Square
+~
+~
+0 0 22043
+D1
+You see Western Ave.
+~
+~
+0 0 22038
+D3
+You see an Alley.
+~
+~
+0 0 22040
+S
+#22040
+Back Alley~
+You are flying through a filthy alley that is cluttered with refuse, and
+garbage containers along both sides of the alley. You see a flicker of
+movement to your left.
+~
+0 0 9
+D1
+You see Pioneer Square.
+~
+~
+0 0 22039
+S
+#22041
+Aerial City Home~
+You step into a House, of one of the residents of the Aerial City. It is
+very sparsly furnished with a couch and a pair of chairs in the Room.
+~
+0 8 1
+D3
+You see Western Ave.
+~
+~
+0 0 22027
+S
+#22042
+Aerial City Home~
+You step into a House, of none of the residents of the Aerial City. it is
+sparingly furnished with a pair of chairs and a love seat off to the side.
+~
+0 8 1
+D3
+~
+~
+0 0 22027
+S
+#22043
+more Pioneer Square~
+You see another place to watch the residents of Aerial city as they go
+about their daily routine.
+~
+0 0 1
+D2
+Pioneer Square
+~
+~
+0 0 22039
+S
+#22044
+First National Bank of Thera, Aerial City branch~
+You enter the small office of Mr. Vail manager Aerial city Branch. The
+building itself is only one room but the atmosphere is laid back. The branch
+opened quite busy. A small desk sits in the corner with a young banker sitting
+behind it.
+~
+0 262152 1
+D0
+You see the Gate Guards.
+~
+~
+0 -1 22000
+S
+#0
+
+
+
+#SPECIALS
+M 22000 spec_prog_two
+M 22001 spec_cast_mage
+M 22004 spec_prog_two
+M 22005 spec_nasty
+M 22011 spec_cast_mage
+M 22015 spec_breath_any
+M 22016 spec_janitor
+M 22025 spec_cast_mage
+M 22026 spec_cast_mage
+M 22027 spec_nasty
+M 22028 spec_thief
+M 22029 spec_cast_cleric
+M 22030 spec_breath_fire
+S
+
+
+
+#RESETS
+M 0 22006 1 22000 1
+E 0 22020 0 16
+E 0 22021 0 5
+E 0 22022 0 6
+M 0 22007 1 22000 1
+E 0 22023 0 14
+E 0 22024 0 15
+E 0 22020 0 16
+E 0 22025 0 13
+E 0 22026 0 18
+M 0 22007 8 22001 2
+E 0 22027 0 16
+E 0 22028 0 3
+M 0 22007 8 22001 2
+E 0 22027 0 16
+M 0 22024 15 22001 2
+M 0 22024 15 22003 2
+E 0 22028 0 16
+M 0 22005 5 22004 5
+M 0 22011 1 22004 1
+G 0 22020 0
+M 0 22011 1 22004 1
+E 0 22031 0 5
+M 0 22007 8 22004 1
+E 0 22027 0 16
+E 0 22028 0 3
+M 0 22024 15 22004 2
+E 0 22028 0 16
+M 0 22030 4 22004 1
+M 0 22007 8 22005 1
+E 0 22027 0 16
+M 0 22024 15 22005 2
+E 0 22028 0 16
+M 0 22010 1 22006 1
+M 0 22009 1 22007 1
+E 0 22029 0 16
+M 0 22016 3 22008 1
+M 0 22024 15 22008 2
+E 0 22028 0 16
+M 0 22030 4 22008 1
+M 0 22004 1 22009 1
+G 0 22032 0
+M 0 22030 4 22010 1
+M 0 22003 1 22011 1
+E 0 22014 0 18
+E 0 22015 0 1
+E 0 22016 0 8
+E 0 22017 0 9
+E 0 22018 0 11
+E 0 22019 0 16
+M 0 22024 15 22012 2
+E 0 22028 0 16
+M 0 22002 1 22013 1
+G 0 22013 0
+E 0 22006 0 3
+E 0 22006 0 4
+E 0 22007 0 5
+E 0 22008 0 6
+E 0 22009 0 7
+E 0 22010 0 1
+E 0 22011 0 21
+E 0 22012 0 16
+M 0 22016 3 22014 1
+M 0 22001 1 22015 1
+E 0 22003 0 16
+E 0 22004 0 13
+E 0 22005 0 10
+M 0 22000 1 22016 1
+E 0 22000 0 16
+E 0 22001 0 3
+E 0 22002 0 1
+M 0 22007 8 22017 4
+E 0 22027 0 16
+E 0 22028 0 3
+M 0 22007 8 22017 4
+E 0 22027 0 16
+M 0 22007 8 22017 4
+E 0 22027 0 16
+E 0 22028 0 3
+M 0 22007 8 22017 4
+E 0 22027 0 16
+M 0 22016 3 22017 1
+M 0 22013 1 22018 1
+M 0 22015 1 22020 1
+M 0 22017 1 22022 1
+G 0 22033 0
+E 0 22034 0 16
+M 0 22018 1 22023 1
+G 0 22035 0
+G 0 22036 0
+G 0 22037 0
+G 0 22038 0
+G 0 22039 0
+G 0 22040 0
+G 0 22041 0
+M 0 22019 1 22024 1
+E 0 22042 0 16
+M 0 22020 1 22024 1
+M 0 22024 15 22024 2
+E 0 22028 0 16
+M 0 22024 15 22028 2
+E 0 22048 0 16
+M 0 22026 1 22028 1
+G 0 22061 0
+G 0 22062 0
+G 0 22063 0
+G 0 22064 0
+G 0 22065 0
+E 0 22050 0 16
+M 0 22022 2 22029 4
+M 0 22022 2 22029 4
+M 0 22029 1 22029 1
+E 0 22053 0 16
+O 0 22043 0 22030
+P 0 22046 1 22043 1
+M 0 22021 1 22030 1
+G 0 22060 0
+E 0 22049 0 16
+M 0 22025 1 22031 1
+G 0 22054 0
+G 0 22055 0
+G 0 22056 0
+G 0 22057 0
+G 0 22058 0
+E 0 22047 0 16
+O 0 22044 0 22032
+M 0 22031 1 22032 1
+E 0 22059 0 16
+M 0 22023 1 22034 1
+M 0 22030 4 22038 1
+M 0 22028 1 22039 1
+E 0 22052 0 16
+M 0 22027 1 22040 1
+E 0 22051 0 16
+M 0 22024 15 22041 2
+E 0 22028 0 16
+M 0 22032 1 22044 1
+S
+
+
+
+#SHOPS
+22018 5 9 30 32 33 100 88 0 23
+22025 1 11 8 32 33 100 88 0 23
+22026 8 30 32 33 0 100 88 0 23
+22030 3 4 5 9 32 100 88 0 23
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

@@ -31,17 +31,17 @@ namespace Mud.Server.Tests.Mocking
 
         public bool DumpOnInitialize => throw new NotImplementedException();
 
+        public int CoinsBlueprintId => throw new NotImplementedException();
+
         public int CorpseBlueprintId => throw new NotImplementedException();
+
+        public int LightBallBlueprintId => throw new NotImplementedException();
+
+        public int FloatingDiscBlueprintId => throw new NotImplementedException();
 
         public int DefaultRoomId => throw new NotImplementedException();
 
-        public int PulsePerSeconds => 4;
-
-        public int PulsePerMinutes => PulsePerSeconds * 60;
-
-        public int PulseDelay => throw new NotImplementedException();
-
-        public int PulseViolence => throw new NotImplementedException();
+        public int DefaultRecallRoomId => throw new NotImplementedException();
 
         public bool CheckLoginPassword => throw new NotImplementedException();
 
@@ -52,5 +52,19 @@ namespace Mud.Server.Tests.Mocking
         public int MaxLevel => throw new NotImplementedException();
 
         public int MaxAvatarCount => throw new NotImplementedException();
+
+        public int MushroomBlueprintId => throw new NotImplementedException();
+
+        public int SpringBlueprintId => throw new NotImplementedException();
+
+        public int PortalBlueprintId => throw new NotImplementedException();
+
+        public int RoseBlueprintId => throw new NotImplementedException();
+
+        public int NullRoomId => throw new NotImplementedException();
+
+        public int DefaultDeathRoomId => throw new NotImplementedException();
+
+        public int MudSchoolRoomId => throw new NotImplementedException();
     }
 }

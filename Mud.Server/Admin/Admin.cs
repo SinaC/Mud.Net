@@ -7,16 +7,31 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Input;
 using System.Collections.Generic;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Table;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Admin
 {
     public partial class Admin : Player.Player, IAdmin
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<Admin>());
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Admin>);
 
+        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
+        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         protected IServerAdminCommand ServerAdminCommand => DependencyContainer.Current.GetInstance<IServerAdminCommand>();
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
         protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
+        protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
+        protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 
         public Admin(Guid id, string name) 
             : base(id, name)
@@ -24,7 +39,7 @@ namespace Mud.Server.Admin
         }
 
         // used for promotion
-        public Admin(Guid id, string name, AdminLevels level, IReadOnlyDictionary<string,string> aliases, IEnumerable<CharacterData> avatarList)
+        public Admin(Guid id, string name, AdminLevels level, IReadOnlyDictionary<string,string> aliases, IEnumerable<PlayableCharacterData> avatarList)
             : base(id, name, aliases, avatarList)
         {
             Level = level;
@@ -67,7 +82,7 @@ namespace Mud.Server.Admin
             // Load player data
             LoadPlayerData(data);
             // Load admin datas
-            Level = data?.Level ?? AdminLevels.Angel;
+            Level = data?.AdminLevel ?? AdminLevels.Angel;
             WiznetFlags = data?.WiznetFlags ?? 0;
             //
             PlayerState = PlayerStates.Playing;
@@ -83,7 +98,7 @@ namespace Mud.Server.Admin
             // Fill player data
             FillPlayerData(data);
             // Fill admin data
-            data.Level = Level;
+            data.AdminLevel = Level;
             data.WiznetFlags = WiznetFlags;
             //
             AdminRepository.Save(data);
@@ -147,7 +162,7 @@ namespace Mud.Server.Admin
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating", DisplayName);
+               Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating", WiznetFlags.Bugs, AdminLevels.Implementor);
                 executedSuccessfully = false;
             }
             if (!executedSuccessfully)

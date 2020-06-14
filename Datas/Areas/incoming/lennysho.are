@@ -1,0 +1,2166 @@
+#AREA
+lennysho.are~
+Lenny's House~
+{15 20} Lenny   Lenny's House~
+0700 0799
+
+
+#MOBILES
+#0700
+uncle ed~
+Lenny's demented uncle~
+Lenny's demented uncle Ed anxiously awaits any company.
+~
+A withered old man sits atop his hand made rocking shair. As you look closer
+you see that it is made from human skin and bones.
+~
+human~
+ABCG DH 0 0
+24 0 5d10+500 239d1+1 2d10+6 punch
+-6 -6 -6 6
+E 0 Y X
+stand stand male 1400
+0 0 medium 0
+
+#0701
+melvin lenny's cousin~
+Lenny's cousin Melvin~
+Melvin, leader of the Melvinnes.
+~
+Melvin looks bad to the bone down to his pocket protector.
+~
+human~
+ABCG H 200 0
+19 0 3d9+308 189d1+1 2d7+5 slap
+-4 -4 -4 7
+FG 0 0 X
+stand stand male 900
+0 0 medium 0
+
+#0702
+myrtle~
+Lenny's grandmother Myrtle~
+Myrtle is Lenny's grandmother.
+~
+Myrtle is here taking a bath.
+~
+human~
+ABCG H 1000 0
+16 0 3d9+233 159d1+1 2d6+4 blast
+-2 -2 -2 7
+GH 0 0 X
+stand stand female 600
+0 0 medium 0
+
+#0703
+roach~
+King of the roaches~
+Roach, King of the roaches is here.
+~
+Roach is here discussing plans for the next attack on the kitchen.
+~
+centipede~
+ABCG D -400 0
+18 0 3d9+283 179d1+1 2d7+4 scratch
+-3 -3 -3 7
+HI 0 0 XY
+stand stand male 800
+0 0 medium 0
+
+#0704
+stooge~
+a stooge roach~
+A stooge roach does Roach's bidding.
+~
+A member of the Roach patrol stands here.
+~
+centipede~
+ABCG F -200 0704
+16 0 3d9+233 159d1+1 2d6+4 chomp
+-2 -2 -2 7
+0 0 0 XY
+stand stand female 660
+IJ 0 medium 0
+
+#0705
+petie~
+the hot dog vender~
+Petie, the hot dog vender stands here.
+~
+A vender stands here yelling 'Hot dogs here! Get your red hots!'
+~
+human~
+AB F 400 0
+24 0 5d10+500 239d1+1 2d10+6 punch
+-6 -6 -6 6
+JK 0 0 0
+stand stand male 1700
+0 0 medium 0
+
+#0706
+mike~
+the roomate Mike~
+Mike, Lenny's roommate stands here.
+~
+A burnt out old smoke stack stands here. He is completely wasted and keeps
+uttering something about getting out of his room?
+~
+human~
+ACG F 0 0
+20 0 3d9+333 199d1+1 2d8+5 punch
+-4 -4 -4 7
+KL 0 C 0
+stand stand male 1000
+0 0 medium 0
+
+#0708
+lunatic preacher~
+a lunatic preaches at you~
+Preacher gossips to you about MUD addictment.
+~
+Preacher is here spreading his gospel on MUDs and how to do them safely. After
+listening for a while you decide that maybe you should enroll in the course.
+~
+human~
+AG H 1000 0
+17 0 3d9+258 169d1+1 3d4+4 crush
+-3 -3 -3 7
+LN 0 C 0
+stand stand male 900
+0 0 medium 0
+
+#0709
+lulu delightful cousin~
+Lulu, Lenny's delightful cousin~
+Lulu, Lenny's cousin awaits her next dance partner.
+~
+This obese gal does nothing but eat and dance. It is amazing that she could
+possible weigh this much with all the dancing she does! Once you've seen her
+eat once, you realize why Lulu is here alone. Hope they are not kissing
+cousins.
+~
+human~
+ACF D 250 0
+15 0 3d9+208 149d1+1 2d6+3 punch
+-2 -2 -2 7
+NE AB C X
+stand stand female 550
+0 0 medium 0
+
+#0710
+barney~
+Barney~
+Barney is here singing.
+~
+Barney, everyones favorite dinosaur is here singing away, 'I love you, you
+love me' Makes you sick just thinking about it.
+~
+human~
+ABCF 4 800 0
+26 0 5d10+600 259d1+1 3d7+7 charge
+-7 -7 -7 6
+EC AB 0 YX
+stand stand male 2100
+0 0 medium 0
+
+#0711
+smelly dirty socks~
+smelly, dirty socks~
+A pair of smelly socks lie here
+~
+The odor coming from this pair of socks is unbearable. Something must be done!
+Quickly take action before they do!
+~
+human~
+ACG D -500 0711
+17 0 3d9+258 169d1+1 3d4+4 punch
+-3 -3 -3 7
+DE 0 C 0
+stand stand either 1900
+0 0 medium 0
+
+#0712
+Myron lenny's half brother~
+Myron, Lenny's half brother shivers here~
+Myron, Lenny's half brother shivers here.
+~
+Myron, is a lab expiriment that went bad from the 1960's. I guess he is living
+proof you should not MUD while pregnant.
+~
+human~
+ACG H -200 0
+23 0 5d10+450 229d1+1 3d6+6 sting
+-6 -6 -6 6
+I 0 0 Y
+stand stand male 2100
+0 0 medium 0
+
+#0713
+Musak~
+Musak is here annoying himself~
+Musak, that really bad elevator music.
+~
+A vaguely familar version for Guns and Roses is playing in you head, except
+it is being played by an orchestra?
+~
+human~
+AG 4 200 0
+17 0 3d9+258 169d1+1 3d4+4 punch
+-3 -3 -3 7
+0 0 D 0
+stand stand male 1300
+J 0 medium 0
+
+#0714
+Melvinelle~
+A Melvinelle sits here~
+A member of the Melvinnes is here
+~
+You picked the wrong person to fight now, he yells out, 'I'm bad to the bone!'
+~
+human~
+AB 0 200 0714
+16 0 3d9+233 159d1+1 2d6+4 stab
+-2 -2 -2 7
+0 0 C 0
+stand stand male 500
+0 0 medium 0
+
+#0715
+nurse~
+nurse~
+A beautiful nurse walks here.
+HELLO NURSE!
+~
+Looking at this nurse makes you wonder why you are not sick. Perhaps you do
+feel a cold coming on though *cough*.
+~
+human~
+AC D -200 0
+20 0 3d9+333 199d1+1 2d8+5 slap
+-4 -4 -4 7
+0 0 0 0
+stand stand female 1200
+0 0 medium 0
+
+#0716
+belle librarian ghostly~
+Belle, the ghostly librarian~
+Belle, the ex-librarian sits here.
+~
+The ghost of Lenny's librarian floats around these halls moaning about the
+way she was killed. As Lenny tells it, It is a completely different story.
+You wonder why she would hang around to lie like that?
+~
+human~
+ACG BH 0 0
+18 0 3d9+283 179d1+1 2d7+4 punch
+-3 -3 -3 7
+FH 0 X 0
+stand stand male 900
+0 0 medium 0
+
+#0717
+cook chops~
+Chops the cook~
+Lenny's cook Chops is here.
+~
+Lenny's cook Chops is cooking up something good! Mmmm....just the smell and
+your mouth starts watering like a sieve. If you could just sneak a bite.
+You try for a bite and he crashes down on you!
+~
+human~
+ABG C 300 0
+17 2 3d9+258 169d1+1 3d4+4 chomp
+-3 -3 -3 7
+EI 0 0 XY
+stand stand male 800
+FHK 0 medium 0
+
+#0718
+mole~
+a huge mole~
+A huge mole digs here.
+~
+A giantic mole burrows up from underneath you!
+~
+human~
+ABG D -50 0718
+16 2 3d9+233 159d1+1 2d6+4 punch
+-2 -2 -2 7
+EFK 0 0 XYZ
+stand stand either 700
+0 0 medium 0
+
+#0719
+vine grape~
+some grape vines grow here~
+Some grape vines look very bitter.
+~
+The vines seem to grow at you! The are surrounding you!
+~
+human~
+ABG D -400 0719
+18 2 3d9+283 179d1+1 2d7+4 punch
+-3 -3 -3 7
+HK 0 0 XZ
+stand stand male 800
+0 0 medium 0
+
+#0720
+huge gold coin~
+a huge gold coin~
+A huge gold coin seems tossed at your presence
+~
+The shine off this coins in unbelievable! You just catch a glimpse and
+you are blinded by the powerful shine!
+~
+human~
+AFG AH -300 0
+24 3 5d10+500 239d1+1 2d10+6 flame
+-6 -6 -6 6
+0 0 0 0
+stand stand male 1500
+0 0 medium 0
+
+#0721
+boogie man~
+the Boogie man~
+The boogie man is getting down here.
+~
+You can tell by the looks of this monster that he is not the same old Boogie
+Man you used to dream of, He has gotten fly and can bust some moves now. He is
+getting down so hard he doesnt notice your presence.
+~
+human~
+AB H 250 0
+22 2 5d10+400 219d1+1 4d4+6 pound
+-5 -5 -5 7
+EHK 0 0 X
+stand stand male 1200
+0 0 medium 0
+
+#0722
+venus fly trap~
+a Venus Fly Trap~
+A plant with mighty jowls tries to bite you.
+~
+As you walk by this plant you notice they seem to be alive... Oh, my god!
+They are alive... Run!
+~
+human~
+AFG C -500 0722
+20 2 3d9+333 199d1+1 2d8+5 punch
+-4 -4 -4 7
+0 AB 0 XZ
+stand stand either 0
+0 0 medium 0
+
+#0723
+spider monkey guard~
+Spider Monkey Guard~
+This monkey seems really devoted to his leader...  Lenny.
+~
+As you approach, you can see the monkey tighten his grip on his weapon. His
+piercing eyes send shivers down your spine. You start thinking that it might
+be a good idea to turn back.
+~
+human~
+AG F 400 0723
+25 0 5d10+550 249d1+1 2d10+7 slice
+-7 -7 -7 6
+E 0 0 XYZ
+stand stand male 1500
+0 0 medium 0
+
+#0724
+grandpa frank~
+Lenny's Grandpa Frank~
+A tired looking, but smiling, old man sits in his wheelchair here.
+~
+When you first see Grandpa Frank, you feel sorry for him, as he gets closer
+you realize he is just a perverted old man using Lenny for his money. You do
+notice however, the pacemaker he has on his wrist.
+~
+human~
+AC H -700 0
+20 0 3d9+333 199d1+1 2d8+5 blast
+-4 -4 -4 7
+FK 0 0 0
+stand stand male 1000
+0 0 medium 0
+
+#0
+
+
+
+#OBJECTS
+#0700
+hacksaw~
+a rusty hacksaw~
+A rusty old hacksaw lies here~
+iron~
+weapon 0 AN
+exotic 5 6 slap 0
+20 120 4500 P
+A
+18 1
+A
+19 1
+
+#0701
+chicago chile dog~
+a hot dog smoothered in chile~
+A piping hot Chicago chile dog sits here~
+food~
+food 0 A
+10 10 0 0 0
+2 10 44 P
+
+#0702
+pacemaker~
+a pacemaker~
+A pace maker lies here~
+steel~
+armor BG AD
+7 7 7 1 4
+18 20 4851 P
+A
+9 -10
+A
+5 2
+A
+2 2
+
+#0703
+medical bracelet~
+a medical bracelet~
+A bracelet which reads, 'I've fallen and can't get up!'~
+steel~
+armor G AM
+7 7 7 1 2
+19 10 3591 P
+A
+13 20
+
+#0704
+stethoscope~
+a stethoscope~
+A stethoscope lies here~
+iron~
+armor BG AC
+7 7 7 1 2
+18 10 3780 P
+A
+13 15
+A
+1 2
+A
+9 -2
+
+#0705
+syringe~
+a huge syringe~
+A huge syringe lies here, you hope its not for you!~
+glass~
+weapon 0 AN
+dagger 5 5 stab 0
+17 70 4400 P
+A
+18 2
+A
+19 2
+
+#0706
+keyboard~
+a keyboard~
+A keyboard from a strange computer lies here. Hm... computer, what is it ?? ~
+plastic~
+weapon C AN
+exotic 5 5 slap 0
+17 70 3800 P
+A
+3 2
+A
+18 1
+A
+19 2
+
+#0707
+rubber knife~
+a rubber knife~
+A rubber knife is left here, wonder why noone wanted it?~
+rubber~
+weapon HM AN
+dagger 4 5 stab 0
+14 90 2400 P
+A
+17 10
+A
+18 2
+A
+19 1
+A
+1 -1
+
+#0708
+cockroach pinchers~
+a pair of wicked looking pinchers~
+The jowls of a huge cockroach lie here.~
+bone~
+weapon 0 AN
+exotic 5 5 stab 0
+15 70 3600 P
+A
+18 2
+A
+19 4
+
+#0709
+turkey baister~
+a turkey baister~
+A baister is here, looking like it is ready for any turkey to get it.~
+steel~
+weapon 4 AN
+exotic 5 6 chomp 0
+23 90 6610 P
+A
+18 2
+A
+19 3
+
+#0710
+soupspoon~
+a soupspoon~
+A large soupspoon rests here.~
+iron~
+weapon H AN
+exotic 5 4 pound 0
+15 70 2872 P
+A
+18 1
+A
+19 3
+
+#0711
+remote control~
+a huge remote control~
+A huge remote control sits here, I bet it could control anything. Gods even.~
+plastic~
+weapon ABE AN
+exotic 5 5 wrath 0
+19 70 4222 P
+A
+3 -2
+A
+11 20
+A
+18 2
+A
+19 3
+
+#0712
+cocktail fork~
+a miniature cocktail fork~
+A miniature cocktail fork sits here waiting to be used~
+plastic~
+weapon AH AN
+exotic 5 6 slap 0
+22 120 4510 P
+A
+2 2
+A
+18 2
+A
+19 1
+
+#0714
+soapbrush~
+a gigantic soapbrush~
+A lathered old soapbrush lies here.~
+steel~
+weapon 0 AN
+exotic 5 7 flbite 0
+15 110 2470 P
+
+#0720
+apron~
+an apron which reads, 'Kiss the cook'~
+An apron lies here waiting to be used.~
+wool~
+armor G AD
+6 6 6 1 2
+14 100 2890 P
+A
+11 20
+A
+6 -1
+A
+17 -15
+
+#0721
+chefs hat~
+a chefs hat~
+A white hat lies here.~
+wool~
+armor G AE
+6 6 6 1 0
+15 110 2880 P
+A
+17 -10
+A
+5 2
+
+#0722
+crown of the roach kingdom~
+a crown made of human flesh~
+The crown of the king lies here.~
+flesh~
+armor CG AE
+6 6 6 1 3
+15 120 2890 P
+A
+17 -15
+A
+18 2
+A
+19 2
+
+#0723
+reading glasses nice pair bifocals~
+a nice pair of bifocals~
+A pair of glasses has been carelessly left here.~
+glass~
+armor GF AE
+3 3 3 -3 2
+17 110 3120 P
+A
+3 2
+A
+4 2
+A
+17 3
+A
+18 2
+
+#0724
+antenna~
+an antenna~
+A really nice television antenna lies here. hm? television...? what's that?~
+steel~
+armor B AE
+6 6 6 0 3
+16 110 3310 P
+A
+12 20
+
+#0725
+skateboard~
+a thrashers skateboard~
+A skateboard lies here, better watch your step.~
+plastic~
+armor ABGJ AG
+6 6 6 1 4
+16 70 3610 P
+A
+14 100
+A
+17 -10
+A
+3 -1
+
+#0726
+melvins sash~
+a leopard skin sash~
+This is a ridiculous looking sash, no wonder it was left here.~
+snakeskin~
+armor GHM AL
+6 6 6 1 3
+19 220 2917 P
+A
+17 -15
+A
+18 2
+A
+19 1
+A
+1 1
+
+#0727
+membership ring~
+a ring of Melvin~
+A ring from Melvins club is here, do you really want it?~
+bronze~
+armor AG AB
+6 6 6 1 1
+13 50 2475 P
+A
+1 1
+A
+13 10
+A
+12 15
+
+#0728
+book of knowledge~
+a smart looking book~
+An old book lies here~
+paper~
+armor G AO
+6 6 6 1 2
+17 200 3850 P
+A
+4 3
+A
+3 3
+A
+13 -25
+
+#0729
+dancing shoes~
+a pair of dancing shoes~
+A pair of dance shoes tap away here.~
+leather~
+armor BG AG
+5 7 5 1 2
+14 110 1638 P
+A
+14 5
+A
+17 -10
+A
+18 1
+A
+19 1
+
+#0730
+cockroach juice~
+a vial of cockroach juice~
+A vial designed like a cockroach sits here.~
+energy~
+potion 0 A
+28 'heal' 'heal mana' 'stone skin' 'haste'
+16 20 3078 P
+
+#0731
+diggers gloves~
+a pair of diggers gloves~
+A pair of gloves covered in dirt rest here.~
+leather~
+armor CG AH
+6 6 6 1 2
+16 120 3420 P
+A
+1 2
+A
+17 -5
+A
+18 2
+A
+19 1
+
+#0732
+boogie leggings~
+a pair of boogie leggings~
+Dance the night away with these leggings.~
+leather~
+armor B AF
+6 6 6 2 3
+21 220 3449 P
+A
+14 10
+A
+2 2
+A
+17 -10
+
+#0733
+barneys shirt~
+a T-shirt which reads, 'Hugs not drugs.'~
+A nice looking t-shirt lays here.~
+wool~
+armor G AD
+8 8 8 1 3
+23 40 6335 P
+A
+17 -10
+A
+18 2
+A
+19 1
+
+#0734
+myrons ring~
+a ring with Lennys emblem~
+A titanium ring is wasting away here.~
+bone~
+armor ACG AB
+7 7 7 1 1
+22 20 6325 P
+A
+17 -20
+A
+18 2
+A
+19 1
+A
+1 2
+
+#0735
+towel cape~
+a cape made out of a towel~
+A towel lies here waiting to be washed~
+wool~
+armor G AC
+7 7 7 1 2
+22 25 5750 P
+A
+17 10
+A
+3 -1
+
+#0736
+farside bible~
+the farside bible~
+A book with some familiar hieroglyphics waits here.~
+paper~
+armor ABCGHM AO
+6 6 6 1 2
+15 100 2330 P
+A
+1 1
+A
+2 1
+A
+3 1
+A
+4 1
+A
+5 1
+A
+18 1
+A
+19 1
+
+#0740
+robe of addiction~
+Robe of Addiction~
+A piece of purple cloth lies here.~
+velvet~
+armor GHM AK
+6 6 6 1 3
+16 55 2890 P
+A
+12 30
+A
+17 25
+
+#0741
+farside amulet~
+a Farside amulet~
+An amulet depicting the Farside is here.~
+steel~
+armor ABGHM AC
+6 6 6 1 0
+15 45 3060 P
+A
+2 2
+A
+17 -10
+A
+18 2
+A
+19 2
+
+#0745
+spider monkey fangs~
+spider monkey fangs~
+A pair of vicious looking fangs sit here.~
+bone~
+weapon 0 AN
+exotic 5 6 chomp 0
+24 75 5625 P
+A
+18 2
+A
+19 2
+
+#0746
+spider bracers~
+spider bracers~
+A pair of bracers with the symbol of a spider rests here.~
+leather~
+armor G AI
+8 7 7 1 3
+23 75 7020 P
+A
+17 -10
+A
+1 1
+
+#0747
+spider belt~
+spider belt~
+A belt with a spider symbol lays here.~
+leather~
+armor 0 AL
+7 8 7 1 2
+23 25 7030 P
+A
+13 20
+A
+17 -10
+
+#0750
+fly swatter~
+fly swatter~
+A fly swatter waits to be used here~
+air~
+weapon ABC AN
+mace 5 5 pound 0
+18 135 3990 P
+A
+18 1
+A
+19 1
+
+#0751
+root boots~
+Root boots~
+A pair of boots made of plant skin lie here.~
+wood~
+armor GHM AG
+7 7 7 1 3
+18 95 4180 P
+A
+14 -150
+A
+17 15
+A
+5 2
+
+#0752
+thorn staff~
+the thorn staff~
+A staff with thorns growing out of it rests here.~
+energy~
+staff C AO
+30 10 10 'lightning breath' 0
+15 75 3179 P
+
+
+#0
+
+
+
+
+
+
+
+
+
+#ROOMS
+#0713
+Foyer~
+     You stand in the foyer of Lenny's House. This is a beautifully designed
+foyer with intricate wood carvings and stained glass eith golden trim. There
+is a winding stairway to the east, and a doorway to the north.
+~
+0 ACD 0
+D0
+A beautiful golden door
+~
+door ~
+1 0 0714
+D1
+~
+~
+0 0 0750
+D2
+You see the Corner of West Gullen and Harvest Road.
+~
+~
+0 0 10224
+S
+#0714
+Corridor~
+     You are approximately a fourth of the way down a massive granite hallway.
+From the outside, you would have never guessed this house to be so large. Lenny
+is proof that its not the size, its how you use it! There are doors to your 
+east and west, or you can continue down the corridor.
+~
+0 AD 0
+D0
+Corridor
+~
+door corridor~
+0 0 0715
+D1
+A large wooden door
+~
+door wooden~
+1 0 0720
+D2
+Foyer
+~
+~
+0 0 0713
+D3
+A large wooden door
+~
+door wooden~
+1 0 0740
+S
+#0715
+Corridor~
+     You are approximately halfway down this enormous corridor. As you look
+up, you see a beautifully crafted chandalier. Uh oh, you begin to hear some
+peculiar creaking noises coming from the rope that holds it up. *snap* There
+are doors to the east and west, or you can continue down the corridor.
+~
+0 AD 0
+D0
+Corridor
+~
+~
+0 0 0716
+D1
+A huge wooden door
+~
+door wooden~
+1 0 0723
+D2
+Corridor
+~
+~
+0 0 0714
+D3
+A huge wooden door
+~
+door wooden~
+1 -1 0724
+S
+#0716
+Corridor~
+     *Crash* You hear the chandalier crash behind you. Thank god you got away
+in time! You would think Lenny would be more careful! There are doors to the
+east and west, or you can continue down the corridor.
+~
+0 AD 0
+D0
+Corridor
+~
+~
+0 0 0717
+D1
+A huge wooden door
+~
+door wooden~
+1 0 0725
+D2
+Corridor
+~
+~
+0 0 0715
+D3
+A huge wooden door
+~
+door wooden~
+1 0 0726
+S
+#0717
+Corridor~
+     You stand at the end of this long corridor. There are exits in all the
+cardinal directions including where you just came from.
+~
+0 AD 0
+D0
+A huge wooden door
+~
+door wooden~
+1 0 0729
+D1
+A huge wooden door
+~
+door wooden~
+1 0 0727
+D2
+Corridor
+~
+~
+0 0 0716
+D3
+A huge wooden door
+~
+door wooden~
+1 0 0728
+S
+#0720
+Closet~
+     This is a nice closet, kind of roomy, where the coats get hung. Since
+there are no guests in now, it is empty.
+~
+0 AD 0
+D3
+A huge wooden door
+~
+door wooden~
+1 0 0714
+S
+
+#0723
+Grandma's Bedroom~
+     You have walked in to an ancient bedroom. There are black and white
+photographs lining the walls, and a decreped stench. There is a door to the
+east that you think you can hear running water from. Also, there is a feint
+humming noise?
+~
+0 AD 0
+D1
+A solid oak door
+~
+door oak~
+1 0 0743
+D3
+A huge wooden door
+~
+door huge~
+1 0 0715
+S
+#0724
+Uncle Ed's~
+     You have walked into Uncle Ed's room! He is always happy to get visitors,
+the family neglects him so. As you look around, you notice that there are
+newspaper clippings on the wall about some killings, and that all the furniture
+resembles bones! Wait a minute! They are made out of bones! Ed stands up to
+greet you with his hacksaw in one hand. Hmmm....
+~
+0 AD 0
+D1
+A huge wooden door
+~
+door wooden~
+1 0 0715
+S
+
+#0725
+Empty Bedroom~
+    This is an empty bedroom that appears to have not of been used for a while.
+You can tell from the shabby appearance, that the maid does not even venture in
+here often. There is a window on the east wall and a tiny bed in the corner. 
+You could swear you hear some mumbling coming from under the bed?
+~
+0 AD 0
+D3
+A huge wooden door
+~
+door wooden~
+1 0 0716
+D5
+~
+~
+0 0 0732
+S
+
+#0726
+Television Room~
+     This is Lenny's pride and joy. before you sits the largest television ever
+invented, and it just yearns for you to watch it. When you look closer, you
+notice that the television is not plugged in!
+~
+0 AD 0
+D1
+A huge wooden door
+~
+door wooden~
+1 0 0716
+S
+
+#0727
+The Laundry Room~
+     This is just a plain typical laundry room where the maid does Lenny's
+laundry. There is quite a foul stench in here, but you realize it is coming
+from the socks in the corner. All you want to do is get out of here fast. There
+is a washer and dryer in the along the north wall.
+~
+0 AD 0
+D3
+A huge wooden door
+~
+Door wooden~
+1 0 0717
+S
+
+#0728
+The Hallway~
+     This is an elaborate hallway running from east to west.
+~
+0 AD 0
+D1
+A huge wooden door
+~
+door wooden~
+1 0 0717
+D3
+~
+~
+0 0 0734
+S
+
+#0729
+The Kitchen~
+     Ahh.....There is a sweet aroma rising from the stove here. Your stomach
+starts to grumble just thinking about the delicious food being made here. It
+is hard to believe you can think! You must have some. As you reach for the pot
+a cook hits your hand with his soupspoon. There are exits to the south, east
+and west.
+~
+0 AD 0
+D1
+A huge wooden door
+~
+door huge wooden~
+1 0 0730
+D2
+A huge wooden door
+~
+door wooden~
+1 0 0717
+D3
+Archway
+~
+Archway door~
+0 0 0731
+S
+
+#0730
+The Maids Quarters~
+As you enter this room you notice that it is different form the rest of the
+house, it is an absolute pig sty! The two maids are just sitting there 
+bickering about how much work they do. You wish they would just start cracking! 
+You wonder why Lenny keeps them around, but good help is so hard to find these 
+days.
+~
+0 AD 0
+D3
+A large wooden door
+~
+door wooden~
+1 0 0729
+S
+
+#0731
+The Pantry~
+     This is the pantry in the house where the cooks hide all the good food so
+that they can eat well, while Lenny just eats his Jacks pizzas. The shelves
+are filled with all sorts of canned goods, to bad you dont have a can opener!
+~
+0 AD 0
+D1
+Archway
+~
+Archway~
+0 0 0729
+D3
+Cabinet Door
+~
+Cabinet door~
+1 0 0733
+S
+
+#0732
+The Cage~
+     This room was obviously hollowed out on purpose. You see non-human
+scratches in the walls and ripped and tattered cloth everywhere. As you
+looak aroud, you wonder what could have caused this? There is a mattress
+lying against the west wall.
+~
+0 AD 0
+D4
+Hole in the ceiling
+~
+Hole door~
+1 0 0725
+D3
+Mattress
+~
+Mattress door~
+1 0 0780
+S
+
+#0733
+The Hotel~
+     As soon as you open the door, you see nothing but black. Once your eyes
+focus you realize that the floor is moving! All around you you see cockroaches.
+At the head of the table stands their King and his drones.
+~
+0 AD 0
+D1
+Cabinet Door
+~
+Cabinet door~
+1 0 0731
+S
+
+#0734
+The Hallway~
+     This is an elaborate hallway running east to west.
+~
+0 AD 0
+D1
+~
+~
+0 0 0728
+D3
+~
+~
+0 0 0735
+S
+
+#0735
+End of the Hallway~
+     This is the end of the hallway from the kitchen. There is a metal door to
+the north, and a large door to the south.
+~
+0 AD 0
+D0
+A metal door
+~
+door metal~
+1 0 0736
+D1
+~
+~
+0 0 0734
+D2
+A large wooden door
+~
+door wooden~
+1 0 0737
+S
+
+#0736
+Another Bedroom~
+     This is Lenny's roommates bedroom. You better get out of here, He doesnt
+like it when you go through his stuff. I mean it.....he gets really mad!
+~
+0 AD 0
+D2
+A huge metal door
+~
+Metal door~
+1 0 0735
+S
+#0737
+The Billiards Room~
+     This is where Lenny brings his friends after bar, to shoot pool and drink
+some brewskis. There is a fridge in the corner and a sign which reads 'Hey guys
+beers on me! I wont be around til later, make yourselves at home. Lenny' Wow,
+what a great host. There are exits to the north, south, and east.
+~
+0 AD 0
+D0
+A large door
+~
+door~
+1 0 0735
+D1
+~
+~
+0 0 0742
+D2
+A large wooden door
+~
+Door~
+1 0 0738
+S
+
+#0738
+The Library~
+As you enter this library you notice that there are no books or any media
+types at all for that matter. You wonder why this is even called a library,
+then you remeber that Lenny cannot read. It is fabled that he kill the 
+librarian and burned all the books in here in spite. There are exits to the 
+north, south, and east.
+~
+0 AD 0
+D2
+~
+~
+0 0 0739
+D1
+~
+~
+0 0 0741
+D0
+A massive door
+~
+door massive~
+1 0 0737
+S
+
+#0739
+The Study~
+     You have wandered into Lenny's study. this is where he comes to hook into
+his favorite MUD, the Farside. There is a desk in the corner, and a computer
+lying on the floor. There is a sign which reads 'Do not enter' on the door to
+the south. There are exits to the north, and east.
+~
+0 AD 0
+D1
+A pair of double doors
+~
+doors double~
+1 0 0740
+D0
+~
+~
+0 0 0738
+D2
+Warning door
+~
+warning door~
+1 0 0744
+S
+
+#0740
+Muds Anonymous~
+     This is where Lenny and the rest of the farside crew go to try to kick
+the mudding habit. There are ashtrays and empty cups of coffee everywhere in
+this room. There is a preacher here praying for their souls. There are exits
+to the east and west.
+~
+0 AD 0
+D1
+A huge wooden door
+~
+door wooden~
+1 0 0714
+D3
+A pair of double doors
+~
+doors double~
+1 0 0739
+S
+
+#0741
+The Ballroom~
+     The musac is getting louder and you pray to god you can make it out
+before Lulu finds you!
+~
+0 AD 0
+D0
+The northern end of the ballroom
+~
+~
+0 0 0742
+D3
+A huge wooden door
+~
+door huge~
+1 0 0738
+S
+
+#0742
+The Ballroom~
+     As you enter this room, the sounds of some of the greats blare through
+the speakers, Dizzy Gillespie, Miles Davis, B.B. King, and of course Lenny's
+band,'The Influence'. Lenny's cousin Lulu likes to frequent here, better look
+out or you will be dancing.
+~
+0 AD 0
+D3
+~
+~
+0 0 0737
+D2
+The southern end of the ballroom
+~
+~
+0 0 0741
+S
+
+#0743
+Bathroom~
+     You have walked in on Lenny's grandma taking a bath! She jumps out of the
+tub and screams, 'What are you doing in here? Get outta here! Ain't you got no
+manners!' You missed the rest from the pure sight of Lenny's naked grandmother.
+Suddenly you feel queasy!
+~
+0 AD 0
+D3
+A solid oak door
+~
+door oak~
+1 0 0723
+S
+
+#0744
+Top Secret~
+     Can't you read? Lenny was kind enough to warn you about this trap, but
+you didnt listen to him! Well, guess you will just have to recall now, and
+remember to take heed from Lenny's warnings. He really does know what he is
+doing.
+~
+0 AD 0
+S
+
+#0750
+Top of the stairs~
+     This is the room at the top of the stairs. There are exits leading south,
+to the north is a red and white striped door, and to the east there are glass
+double doors. Of course you can always go back down to the foyer.
+~
+0 AD 0
+D0
+Red and white striped door
+~
+Door red white~
+1 0 0762
+D1
+Glass double doors
+~
+glass double door~
+1 0 0761
+D2
+~
+~
+0 0 0751
+D5
+Winding stairway
+~
+Stairs~
+0 0 0713
+S
+#0751
+The Gallery~
+     This is Res and Lenny's gallery. There are many works from Nagle, Sudi,
+Stair and Freedman. This stuff must be worth a fortune! If only the close
+circuit television cameras werent installed. there are exits to the north
+and west.
+~
+0 AD 0
+D0
+~
+~
+0 0 0750
+D3
+~
+~
+0 0 0752
+S
+#0752
+The Studio~
+This is Lenny's sound studio that he set up to do recordings with his band.
+There is some mighty nice equipment here that seems to almost play itself. The
+rest of the guys from the band are sitting here drinking brews and waiting for
+Lenny to arrive. There are exits to the north and east.
+~
+0 AD 0
+D1
+~
+~
+0 0 0751
+D0
+A finely crafted door
+~
+door fine~
+1 0 0753
+S
+#0753
+Hallway~
+     This is a north running hallway, finely decorated with the latest in
+art deco. As you look, you wonder who designed this place. There are exits
+to the north and south.
+~
+0 AD 0
+D0
+~
+~
+0 0 0754
+D2
+A finely crafted door
+~
+door fine~
+1 0 0752
+S
+#0754
+Hallway~
+     A north south running hallway.
+~
+0 AD 0
+D0
+~
+~
+0 0 0756
+D2
+~
+~
+0 0 0753
+S
+
+#0755
+Hot tub~
+     This is the master bathroom of this mansion. There is a large heart
+shaped whirl pool bubbling away, inviting you to take a dip.
+~
+0 AD 0
+D0
+A finely crafted door
+~
+door fine~
+1 0 0769
+S
+
+#0756
+The Hallway~
+     You are at the end of the hallway. There is a door to the west, or you
+can go south or east.
+~
+0 AD 0
+D1
+~
+~
+0 0 0758
+D2
+~
+~
+0 0 0754
+D3
+A beautifully carved golden portal
+~
+portal door gold~
+1 0 0769
+S
+
+#0757
+The Attic~
+     It is too dark to see anything here, even with your light.
+~
+0 A 0
+D1
+~
+~
+0 0 0764
+S
+
+#0758
+The Hallway~
+     This is an east west hallway running from the bar. There is a ladder
+leading up to a hatch, or you can go east or west.
+~
+0 AD 0
+D1
+~
+~
+0 0 0759
+D3
+~
+~
+0 0 0756
+D4
+A ladder leads to the ceiling
+~
+ladder door hatch~
+1 0 0763
+S
+
+#0759
+The Bar~
+     This is Lenny's Bar. There is no opening or closing time, as long as there
+is liqour, you are welcome to stay. There is also a hot dog machine behind the
+bar that is loaded with fresh Chicago dogs.
+~
+0 AD 0
+D2
+~
+~
+0 0 0760
+D3
+~
+~
+0 0 0758
+S
+
+#0760
+The Stage~
+     This is where the parties are on friday and saturday nights. The Influence
+usually takes the stage about 10:00 pm and doesnt stop til the parties over.
+And, since this is Lenny's house, we know that it is never early.
+~
+0 AD 0
+D0
+~
+~
+0 0 0759
+D2
+A set of glass double doors
+~
+glass doors door~
+1 0 0761
+S
+
+#0761
+Indoor Greenhouse~
+     This room is entirely surrounded in glass. There are many tall tropical
+plants growing here. Either Res or Lenny has a green thumb because all the
+plants here seem so alive! I wonder what they feed them anyway?
+~
+0 AD 0
+D0
+A set of glass double doors
+~
+glass doors door~
+1 0 0760
+D3
+A set of glass double doors
+~
+glass double door doors~
+1 0 0750
+S
+
+#0762
+Waldo's Room~
+     This is a red and white room. Everything in here is red and white. The
+wallpaper has pictures of thousands of people who look exactly like waldo.
+Waldo sometimes brings his friends here to play Where's Waldo? Sounds pretty
+strange to me.
+~
+0 AD 0
+D2
+A red and white striped door
+~
+red white door striped~
+1 0 0750
+S
+
+#0763
+The Attic~
+     You stand atop a ladder in what is left of the light. As you look into
+the darkness you wonder if you should continue.
+~
+0 A 0
+D5
+A ladder
+~
+hole ladder door~
+1 0 0758
+D0
+~
+~
+0 0 0764
+S
+
+#0764
+The Attic~
+     You cannot see anything? Where is that light you brought anyway? You can
+faintly see doors to the east and west, and of course back south.
+~
+0 A 0
+D1
+~
+~
+0 0 0765
+D2
+~
+~
+0 0 0763
+D3
+~
+~
+0 0 0757
+S
+#0765
+The Attic~
+     It is to dark to see anything, but you can feel something breathing on
+your neck!
+~
+0 A 0
+D0
+~
+~
+0 0 0766
+D3
+~
+~
+0 0 0764
+S
+#0766
+The Attic~
+     It is to dark to see but you can hear some singing in the distance.
+~
+0 A 0
+D2
+~
+~
+0 0 0765
+D3
+~
+~
+0 0 0767
+S
+#0767
+The Attic~
+     The singing grows louder, but the darkness grows darker.
+~
+0 A 0
+D1
+~
+~
+0 0 0766
+D3
+~
+~
+0 0 0768
+S
+#0768
+The Attic~
+     The singing is driving you crazy now, 'I love you, you love me'...
+You just cant take it anymore! You will go mad if you don't stop the music!
+~
+0 A 0
+D1
+~
+~
+0 0 0767
+S
+
+#0769
+Master Bedroom~
+    This is the master bedroom of Lenny and Res. There is a huge bed here
+and a warm breeze flowing in from the open balcony doors to the north. There
+is also a door to the south.
+~
+0 AD 0
+D0
+Open Double Doors
+~
+doors double door~
+1 0 0770
+D1
+A beautifully carved golden portal
+~
+golden portal door~
+1 0 0756
+D2
+A finely crafted door
+~
+door fine~
+1 0 0755
+S
+
+#0770
+The Balcony~
+     There is a spectacular view from here of the mountains to the north. You
+wonder how Res or Lenny can get anything done with all this serenity around
+them. No matter where you stand or the time of day, there appears to be a
+reddish tint to the sky.
+~
+0 AD 0
+D2
+Open double doors
+~
+doors door double~
+1 0 0769
+S
+
+#0780
+Underground Room~
+     This rooms floor and walls are filled with gigantic holes. There is an
+especially large hole to the west. You are really glad you brought a light
+because you can hear a strange clawing noise.
+~
+0 AD 0
+D1
+Mattress
+~
+Mattress door~
+1 0 0732
+D3
+Hole
+~
+Hole door~
+1 0 0781
+S
+
+#0781
+Wine Cellar~
+     This is where Lenny keeps his finer vintage wines that he hides from his
+family and guests. There are hundreds of bottles here, but most are locked
+in the racks where the lie. There are scrapings on the floor to the north
+that appear to be from the winerack moving?
+~
+0 AD 0
+D1
+Hole
+~
+Hole Door~
+1 0 0780
+D0
+Wine rack
+~
+Wine rack door~
+1 0 0782
+S
+#0782
+Treasure Room~
+     This is a brilliantly lit room with wall of gold. There is a single gold
+coin that draws your attention to it. It is three times the size of you an
+almost appears to be ... breathing?
+~
+0 AD 0
+D2
+Wine rack
+~
+wine rack door~
+1 0 0781
+S
+
+#0
+
+
+
+
+
+
+
+
+#RESETS
+* this area has been converted to ROM 2.4 format by jaceks
+*
+* i was remove this mob (no killing planes, cars etc...):
+* #0707
+* Televisor~
+* A big screen tv~
+* Televisor, the huge color television
+* ~
+* Televisor shouts television kills!!!
+* ~
+* ABCF H -500 0
+* 16 0 0 0D0+0 0D0+0
+*                           jaceks
+*
+* this area is connected with:
+*         713 Foyer <>10224 Corner of West Gullen Way (solace  )
+*
+* ver 1.00 by jaceks, Fri Aug  9 05:08:49 1996
+*
+M 0 0700 1 0724 1       * Uncle Ed (24)
+E 1 0700 -1 16
+*
+M 0 0701 1 0734 1       * Melvin (19)
+E 1 0725 -1  8            * a thrashers skateboard
+E 1 0726 -1 13            * a leopard skin sash
+E 1 0706 -1 16            * a keyboard
+*
+M 0 0702 1 0743 1       * Myrtle (16)
+E 1 0714 -1 16            * a gigantic soapbrush
+*
+M 0 0703 1 0733 1       *  Roach (18)
+E 1 0722 1  6             * a crown made of human flesh
+E 1 0708 1 16             * a pair of wicked looking pinchers
+*
+M 0 0704 3 0733 3       * Stooge (16)
+E 1 0730 -1 1             * a vial of cockroach juice
+M 0 0704 3 0733 3       * Stooge
+E 1 0730 -1 1             * a vial of cockroach juice
+M 0 0704 3 0733 3       * Stooge
+E 1 0730 -1 1             * a vial of cockroach juice
+*
+M 0 0705 1 0759 1       * Petie (24)
+E 1 0712 -1 16            * a miniature cocktail fork
+G 1 0701 -1               * a hot dog smoothered in chile
+E 1 3001 -1 17            * a bottle of beer :)
+*
+M 0 0706 1 0736 1       * Mike (20) 
+E 1 0711 -1 16            * a huge remote control
+*
+* M 0 0707 1 0726 Televisor * removed ! *banzai*
+O 1 0724 -1 0726
+*
+M 0 0708 1 0740 1       * Preacher (17)
+E 1 0736 -1 17            * the farside bible
+E 1 0740 -1 12            * Robe of Addiction
+E 1 0741 -1  3            * a Farside amulet
+*
+M 0 0709 1 0742 1       * Lulu (15)
+E 1 0729 -1  8            * a pair of dancing shoes
+*
+M 0 0710 1 0768 1       * Barney (26)
+E 1 0733 -1  5            * a T-shirt which reads, 'Hugs not drugs.'
+*
+M 0 0711 3 0727 3       * Socks (17)
+M 0 0711 3 0727 3       * Socks
+M 0 0711 3 0727 3       * Socks
+*
+M 0 0712 1 0732 1       * Myron (23)
+E 1 0735 -1  3            * a cape made out of a towel
+E 1 0734 -1  2            * a ring with Lennys emblem
+E 1 0709 -1 16            * a turkey baister
+*
+M 0 0713 1 0741 1       * Musak (17)
+M 0 0713 1 0742 1     
+*
+M 0 0714 4 0735 4       * Melvins gang (16)
+E 1 0707 -1 16            * a keyboard
+E 1 0727 -1  2            * a ring of Melvin
+M 0 0714 4 0735 4       * Melvins gang
+E 1 0707 -1 16            * a keyboard
+E 1 0727 -1  2            * a ring of Melvin
+M 0 0714 4 0735 4       * Melvins gang
+E 1 0707 -1 16            * a keyboard
+E 1 0727 -1  2            * a ring of Melvin
+M 0 0714 4 0735 4       * Melvins gang
+E 1 0707 -1 16            * a keyboard
+E 1 0727 -1  2            * a ring of Melvin
+*
+M 0 0715 1 0715 1       * Nurse (20)
+E 1 0703 -1 15            * a medical bracelet
+E 1 0704 -1  1            * a stethoscope
+E 1 0705 -1 16            * a huge syringe
+*
+M 0 3100 5 0730 2       * Maids  /*  ??????????   */
+M 0 3100 5 0730 2       * Maids
+*
+M 0 0724 1 0715 1       * Frank
+E 1 0702 -1  5            * a pacemaker
+*
+M 0 0716 1 0738 1       * Belle (18)
+E 1 0723 -1  6            * a nice pair of bifocals
+E 1 0728 -1 17            * a smart looking book
+*
+M 0 0717 1 0729 1       * Chops (17)
+E 1 0710 -1 17            * a soupspoon
+E 1 0720 -1  5            * an apron which reads, 'Kiss the cook'
+E 1 0721 -1  6            * a chefs hat
+*
+M 0 0718 4 0780 4       * Moles (16)
+E 1 0731 -1  9            * a pair of diggers gloves
+M 0 0718 4 0780 4       * Moles
+E 1 0731 -1  9            * a pair of diggers gloves
+M 0 0718 4 0780 4       * Moles
+E 1 0731 -1  9            * a pair of diggers gloves
+M 0 0718 4 0780 4       * Moles
+E 1 0731 -1  9            * a pair of diggers gloves
+*
+M 0 0719 5 0781 5       * Vines (18)
+E 1 0752 -1 17            * the thorn staff
+M 0 0719 5 0781 5       * Vines
+E 1 0752 -1 17            * the thorn staff
+M 0 0719 5 0781 5       * Vines
+E 1 0752 -1 17            * the thorn staff
+M 0 0719 5 0781 5       * Vines
+E 1 0752 -1 17            * the thorn staff
+M 0 0719 5 0781 5       * Vines
+E 1 0752 -1 17            * the thorn staff
+*
+M 0 0720 1 0782 1       * Coin (24)
+E 1 13418 -1 17           * a humongous pile of gold (ciquala lair area)
+*
+M 0 0721 1 0765 1       * Boogie man (22)
+E 1 0732 -1  7            * a pair of boogie leggings
+*
+M 0 0722 3 0761 3       * Venus fly traps (20)
+E 1 0750 -1 16            * fly swatter
+E 1 0751 -1  7            * Root boots
+M 0 0722 3 0761 3       * Venus fly traps
+E 1 0750 -1 16            * fly swatter
+E 1 0751 -1  7            * Root boots
+M 0 0722 3 0761 3       * Venus fly traps
+E 1 0750 -1 16            * fly swatter
+E 1 0751 -1  7            * Root boots
+*
+M 0 0723 4 0756 4       * Spider monkies (25)
+E 1 0745 -1 16            * spider monkey fangs
+E 1 0746 -1 01            * spider bracers
+E 1 0747 -1 13            * spider belt
+M 0 0723 4 0756 4       * Spider monkies
+E 1 0745 -1 16            * spider monkey fangs
+E 1 0746 -1 01            * spider bracers
+E 1 0747 -1 13            * spider belt
+M 0 0723 4 0756 4       * Spider monkies
+E 1 0745 -1 16            * spider monkey fangs
+E 1 0746 -1 01            * spider bracers
+E 1 0747 -1 13            * spider belt
+M 0 0723 4 0756 4       * Spider monkies
+E 1 0745 -1 16            * spider monkey fangs
+E 1 0746 -1 01            * spider bracers
+E 1 0747 -1 13            * spider belt
+*
+D 0 0713 0 1
+D 0 0714 1 1
+D 0 0714 3 1
+D 0 0715 1 1
+D 0 0715 3 1
+D 0 0716 1 1
+D 0 0716 3 1
+D 0 0717 0 1
+D 0 0717 1 1
+D 0 0717 3 1
+D 0 0720 3 1
+D 0 0740 1 1
+D 0 0740 3 1
+D 0 0743 3 1
+D 0 0723 1 1
+D 0 0723 3 1
+D 0 0724 1 1
+D 0 0739 1 1
+D 0 0738 0 1
+D 0 0725 3 1
+D 0 0727 3 1
+D 0 0730 3 1
+D 0 0726 1 1
+D 0 0731 3 1
+D 0 0733 1 1
+D 0 0729 1 1
+D 0 0729 2 1
+D 0 0736 2 1
+D 0 0737 0 1
+D 0 0737 2 1
+D 0 0735 0 1
+D 0 0735 2 1
+D 0 0728 1 1
+D 0 0741 3 1
+D 0 0732 4 1
+D 0 0732 3 1
+D 0 0780 1 1
+D 0 0780 3 1
+D 0 0781 1 1
+D 0 0781 0 1
+D 0 0782 2 1
+D 0 0750 0 1
+D 0 0750 1 1
+D 0 0752 0 1
+D 0 0753 2 1
+D 0 0762 2 1
+D 0 0761 0 1
+D 0 0761 3 1
+D 0 0760 2 1
+D 0 0758 4 1
+D 0 0756 3 1
+D 0 0769 0 1
+D 0 0769 1 1
+D 0 0769 2 1
+D 0 0755 0 1
+D 0 0770 2 1
+D 0 0763 5 1
+
+
+
+S
+
+
+
+#SHOPS
+ 0705    0  0  0  0  0   100 100         0 23   *  Matt
+0
+
+
+
+#SPECIALS
+* M  3050 spec_cast_mage
+S
+
+
+
+#$

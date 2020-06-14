@@ -1,0 +1,65 @@
+#AREADATA
+Name Winner-Loser~
+Builders None~
+VNUMs 27033 27034
+Credits {1 201} Winner-Loser~
+Security 9
+End
+
+#MOBILES
+#0
+
+
+
+#OBJECTS
+#0
+
+
+
+#ROOMS
+#27033
+The winners circle.~
+You are standing in the winners circle, you know it wasn't luck that
+brought you here, congratulations.
+~
+0 0 1
+D5
+You see some stairs going down
+~
+~
+0 -1 3014
+S
+#27034
+The losers circle.~
+You are all alone, nothing special about this room.
+~
+0 0 1
+D5
+You see some stairs going down
+~
+~
+0 -1 3014
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

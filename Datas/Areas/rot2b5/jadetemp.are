@@ -1,0 +1,4112 @@
+#AREADATA
+Name Jade Temple~
+Builders Irix~
+VNUMs 32000 32199
+Credits [20 50] Irix    Jade Temple~
+Security 9
+End
+
+#MOBILES
+#32000
+jade statue golem~
+a jade golem~
+A large jade statue rests on the ground in front of the gates.
+~
+Although the statue has been carved from a single block of jade stone,
+the details are so exact that it appears alive.  The statue has been made
+with such exactness that even the body has been outfitted with armor and
+weapons.  The jade itself is veined with silver and glows from within,
+casting an eerie light.  The overall form is that of a large draconian that
+has a seven-pointed star on its forehead.  
+~
+draconian~
+ABCG A DFJLTVZac AHMNOV -1000 0
+30 30 61d10+304 30d10+85 10d3+20 smash
+-10 -10 -10 -4
+CEFHIJKLMNOQU AHILPQRX FGJY GIJST
+stand stand none 0
+CDFHIJM ABCGHLPQUVW large unknown
+F for ABEGKPQ
+#32001
+elven prisoner~
+an elven prisoner~
+Laying in the back of the room, curled into a ball, is an elven prisoner.
+~
+Obviously this unfortunate elf was caught within the temple and taken
+prisoner.  His normally flawless skin now has a pale, grey color to it,
+making him appear skinny...  Even for an elf.  He looks up at you from his
+fetal position on the floor with fear, eventhough he knows death would be a
+kinder fate than he could look forward to here.  
+~
+elf~
+ABG A KMXYcd MV 1000 0
+20 20 41d6+203 20d10+85 6d3+15 punch
+-3 -3 -3 0
+DI A CNPSTX MZ
+stand stand male 0
+ABFHMV ABCDEFGHIJK medium unknown
+F shd AH
+F imm B
+F res Z
+F for CDEGIJK
+#32002
+wandering monk~
+a wandering monk~
+A monk wanders the corridors, keeping them clean.
+~
+Although its true form is covered by a long robe, it is obviously a
+draconian who has scaled flesh and dark red eyes.  A hint of a tail can be
+seen poking from under the robe, and twin curving horns protrude from its
+forehead.  It stops its movements as it sees intruders in the temple
+complex, but then returns to its cleaning of the walls and floor.  
+~
+draconian~
+ACGH A PZ O -1000 0
+20 20 41d6+203 20d10+85 6d3+15 claw
+-3 -3 -3 0
+CIMO ABQ EM PY
+stand stand none 200
+ABCFH ABCDEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for DEGIJKPQ
+#32003
+1st level guard~
+a draconian guard~
+A draconian guard is here to see that the temple is protected.
+~
+This draconian has the responsibility of seeing that those in the temple
+complex are supposed to be there.  His deep green skin is covered with shiny
+scales over some impressive muscles.  His tail swishes slowly along the
+floor and a smell of old smoke waifs from his direction.  
+~
+draconian~
+AG A TVZa O -1000 0
+25 25 51d8+253 25d10+85 8d3+17 claw
+-7 -7 -7 -1
+CEFHIJKMNO ABQ EM PY
+stand stand male 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32004
+praying monk~
+a praying monk~
+A monk kneels here on the ground, deep in prayer.
+~
+This devote monk is so deep in its prayers that it does not even
+acknowledge the presence of outsiders in the temple complex.  It is kneeling
+on the ground with its forehead resting against the cold, stone floor.  A
+tail and scaled skin can be seen peeking out from under its plain,
+emerald-colored robe.  
+~
+draconian~
+ACG A TXZ O -1000 0
+20 20 41d6+203 20d10+85 6d3+15 none
+-3 -3 -3 0
+IJM ABQ EM PY
+stand stand none 500
+ABCFH ABCDEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for DEGIJKPQ
+#32005
+meditating monk~
+a meditating monk~
+A monk is here, deep in meditation.
+~
+Sitting cross-legged on the floor of the chamber, this monk is deep in
+meditation.  A low chant can be heard coming from its mouth, but the exact
+language is unknown.  The clasped hands in front of the monk's body are
+covered with scales, and some sharp claws can be seen as well.  The monk
+does not seem to recognize the intrusion and continues its solitary
+practice.  
+~
+draconian~
+ABG A Zc O -1000 0
+20 20 41d6+203 20d10+85 6d3+15 claw
+-3 -3 -3 0
+CEIJMNO ABQ EM PY
+stand stand none 0
+ABCFH ABCDFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for DEGIJKPQ
+#32006
+high priest~
+The High Priest of the Jade Dragon~
+The High Priest is here, speaking of The Jade Dragon.
+~
+This large draconian is a total zealot and wants to convert the world to
+his vision of religion which revolves around The Jade Dragon coming to life
+in order to destroy the world as it is known.  The High Priest feels that
+anyone not following his belief is unclean and must be killed.  His form is
+larger than a normal draconian, with muscles to match.  His scales are a
+bright, emerald color and there are pieces of jade which have been inserted
+into his skin all over his body.  
+~
+draconian~
+ABGO A TVXZac HO -1000 0
+30 30 61d10+304 30d10+85 10d3+20 none
+-10 -10 -10 -4
+CEFHIKMNO ABQ EM PY
+stand stand male 0
+ABCFHI ABCDEFGHIJKLPQUVWX large unknown
+F shd AMV
+F off LQ
+F imm HI
+F res FGJ
+F for DEGJKPQ
+#32007
+2nd level draconian guard~
+a draconian guard~
+A draconian guard wanders the temple complex, seeking out intruders.
+~
+The guard is a draconian who appears to have earned its job by fighting
+to the top of the ranks by the look of the scars in its scales.  Corded
+muscles flex as it scans the corridors for any intruders.  A long tail
+snakes along the floor, balancing the draconian perfectly.  
+~
+draconian~
+AFG A JPQTVZac BCNO -1000 0
+35 35 71d11+354 35d10+85 11d3+22 none
+-13 -13 -13 -6
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32008
+2nd level draconian guard~
+a draconian guard~
+A draconian guard wanders the temple complex, seeking out intruders.
+~
+The guard is a draconian who appears to have earned its job by fighting
+to the top of the ranks by the look of the scars in its scales.  Corded
+muscles flex as it scans the corridors for any intruders.  A long tail
+snakes along the floor, balancing the draconian perfectly.  
+~
+draconian~
+AFG A JPTVZac BNO -1000 0
+35 35 71d11+354 35d10+85 11d3+22 none
+-13 -13 -13 -6
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32009
+2nd level draconian guard~
+a draconian guard~
+A draconian guard wanders the temple complex, seeking out intruders.
+~
+The guard is a draconian who appears to have earned its job by fighting
+to the top of the ranks by the look of the scars in its scales.  Corded
+muscles flex as it scans the corridors for any intruders.  A long tail
+snakes along the floor, balancing the draconian perfectly.  
+~
+draconian~
+AFG A JPTVZac BNO -1000 0
+35 35 71d11+354 35d10+85 11d3+22 none
+-13 -13 -13 -6
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32010
+3rd level draconian guard~
+a draconian guard~
+A draconian guard prowls the temple complex, searching for intruders.
+~
+Prowling the corridors of the temple complex, this large dracionian
+guards the secrets which only those that are enlightened can understand. 
+Its large frame is fulled with enormous muscles which have been honed with
+deadly skill.  It lifts its snout high into the air, smelling for intruders.
+~
+draconian~
+AFG A JPTVZac BNO -1000 0
+40 40 81d13+405 40d10+85 13d3+25 none
+-17 -17 -17 -9
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32011
+3rd level draconian guard~
+a draconian guard~
+A draconian guard prowls the temple complex, searching for intruders.
+~
+Prowling the corridors of the temple complex, this large dracionian
+guards the secrets which only those that are enlightened can understand. 
+Its large frame is fulled with enormous muscles which have been honed with
+deadly skill.  It lifts its snout high into the air, smelling for intruders./f
+~
+draconian~
+AFG A JPTVZac BNO -1000 0
+40 40 81d13+405 40d10+85 13d3+25 none
+-17 -17 -17 -9
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32012
+3rd level draconian guard~
+a draconian guard~
+A draconian guard prowls the temple complex, searching for intruders.
+~
+Prowling the corridors of the temple complex, this large dracionian
+guards the secrets which only those that are enlightened can understand. 
+Its large frame is fulled with enormous muscles which have been honed with
+deadly skill.  It lifts its snout high into the air, smelling for intruders.
+~
+draconian~
+AFG A JPTVZac BNO -1000 0
+43 43 87d14+435 43d10+85 14d3+26 none
+-19 -19 -19 -10
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32013
+3rd level draconian guard~
+a draconian guard~
+A draconian guard prowls the temple complex, searching for intruders.
+~
+Prowling the corridors of the temple complex, this large dracionian
+guards the secrets which only those that are enlightened can understand. 
+Its large frame is fulled with enormous muscles which have been honed with
+deadly skill.  It lifts its snout high into the air, smelling for intruders.
+~
+draconian~
+AFG A JPTVZac BNO -1000 0
+43 43 89d15+435 43d11+95 15d2+36 none
+-22 -22 -22 -13
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32014
+3rd level draconian guard~
+a draconian guard~
+A draconian guard prowls the temple complex, searching for intruders.
+~
+Prowling the corridors of the temple complex, this large dracionian
+guards the secrets which only those that are enlightened can understand. 
+Its large frame is fulled with enormous muscles which have been honed with
+deadly skill.  It lifts its snout high into the air, smelling for intruders.
+~
+draconian~
+AFG A JPTVZac BNO -1000 0
+43 43 89d15+435 43d11+95 15d2+36 none
+-22 -22 -22 -13
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32015
+4th level draconian guard~
+a draconian guard~
+A draconian guard stands in the corridor, ready to fight unbelievers.
+~
+This large draconian has the teask of protecting the upper levels of the
+Jade Temple and keeping the masters safe from unbelievers.  His frame
+supports a system of muscles which have been honed to the perfection of the
+fighting arts.  His blood-red eyes scan the corridors checking to make sure
+all is as it should be.  
+~
+draconian~
+AFG A JPTVZac BNO -1000 0
+45 45 93d16+455 45d11+95 16d2+37 none
+-23 -23 -23 -14
+CEIJMNO ABQ EM PY
+stand stand male 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32016
+large draconian bodyguard guard~
+a large draconian~
+A large draconian guard stands here, ready to protect his master.
+~
+Standing below his master, this draconian has the most sacred of all the
+jobs his race can hope to obtain, that of a body guard to the masters of the
+temple.  His station is represented by a tattoo of a seven pointed star on
+his forehead.  He is constantly looking about the chamber, searching for any
+sign of trouble which may appear.  
+~
+draconian~
+ABFG A JPTVZac BNO -1000 0
+50 50 104d17+506 50d11+95 17d2+40 none
+-27 -27 -27 -16
+CEIJMNO ABQ EM PY
+stand stand male 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AHMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32017
+spirit carobantar~
+the spirit of Carobantar~
+The spirit of Carobantar haunts this chamber.
+~
+This long dead draconian once was the commander of the dark forces who
+strived to bring the Jade Dragon to life and rule the world.  He now haunts
+the chamber wanting nothing more than to kill again.  
+~
+draconian~
+ABFG A JPTVZac BHNO -1000 0
+40 40 83d14+405 40d11+95 14d2+34 none
+-19 -19 -19 -11
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32018
+spirit contaever~
+the spirit of Contaever~
+The spirit of Contaever haunts this chamber.
+~
+This long dead draconian was once an assassin for the dark forces and
+never failed in a mission for the temple.  It is rumored that his death was
+very violent and at the hands of one of the temple masters for some unknown
+reason.  He now haunts this chamber in the hopes of getting more kills to
+add to his collection.  
+~
+draconian~
+ABFG A JPTVZac BHNO -1000 0
+40 40 83d14+405 40d11+95 14d2+34 none
+-19 -19 -19 -11
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32019
+spirit alodobriela~
+the spirit of Alodobriela~
+The spirit of Alodobriela haunts this chamber.
+~
+This long dead spirit is that of Alodobriela who it is said once was a
+queen among mortals until she pledged he soul to the Jade Dragon in return
+for eternal life.  Little did she realize that he bargin would mean a
+lifetime with the undead in the temple.  Now her anger is such that she will
+kill anyone or anything that crosses into this chamber.  
+~
+draconian~
+ABFG A JPTVZac BHNO -1000 0
+40 40 83d14+405 40d11+95 14d2+34 none
+-19 -19 -19 -11
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32020
+spirit talendar~
+the spirit of Talendar~
+The spirit of Talendar haunts this chamber.
+~
+At one time Talendar was considered one of the worlds most accomplished
+makers of potions, but he sold his soul to the Jade Dragon in return for
+knowledge of the more deadly brewing arts.  It is said that he death was
+caused by someone switching his evening tea with one of his more deadly
+potions.  
+~
+draconian~
+ABFG A JPTVZac BHNO -1000 0
+40 40 83d14+405 40d11+95 14d2+34 none
+-19 -19 -19 -11
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32021
+draconian farobandar~
+Farobandar~
+The clerical leader of the temple, Farobandar, is here chanting.
+~
+This large dracoonian has been chosen by The Jade Dragon to lead the
+religious monks of the temple in worship.  His muscles under his scaled
+flesh are large and he probably knows more about The Jade Dragon that
+anyone...  Living or dead.  
+~
+draconian~
+ABFG A JPTVZac BHNO -1000 0
+45 45 93d16+455 45d11+95 16d2+37 none
+-23 -23 -23 -14
+CEIJMNO ABQ EM PY
+stand stand male 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32022
+draconian lamaessi~
+Lamaessi~
+Lamaessi, the consort of the temple master, is here.
+~
+Although the wife of the temple master, some say that it is this large
+draconian female who actually rules the temple.  Lamaessi is cruel, even for
+a draconian, and has no trouble killing sacrifices to The Jade Dragon, and
+does so every chance she gets.  
+~
+draconian~
+ABFG A JPTVZac BHNO -1000 0
+45 45 93d16+455 45d11+95 16d2+37 none
+-23 -23 -23 -14
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32023
+draconian valabemario~
+Valabemario~
+The temple master, Valabemario, stands here.
+~
+The master of the temple, Valabemario is as cunning as he is cruel. 
+Rumor says that his first sacrifice to The Jade Dragon upon being risen to
+his position was that of his only son to show his devotion to the temple and
+The Jade Dragon.  
+~
+draconian~
+ABFG A JPTVZac BHNO -1000 0
+50 50 104d17+506 50d11+95 17d2+40 none
+-27 -27 -27 -16
+CEIJMNO ABQ EM PY
+stand stand none 0
+CFHMXc ABCEFGHIJKLPQUVWX medium unknown
+F shd AMV
+F off LQ
+F imm HI
+F res FGJ
+F for ABDEGIJKPQ
+#32024
+slave girl~
+a human slave~
+Laying naked on the floor is a female slave.
+~
+This young human female must be a prized possession of the temple to have
+been allowed to live.  She is laying on the cold stone floor of the chamner
+awaited the pleasure of the temple's master...  Her master.  The soft pink
+glow of her flawless skin is offset by the long locks of shiny red hair on
+her head.  
+~
+human~
+ABG A 0 0 -1000 0
+25 25 51d8+228 25d9+60 7d3+14 none
+-6 -6 -6 0
+0 0 0 0
+stand stand none 0
+AFHMV ABCDEFGHIJK medium unknown
+F shd AHMV
+F for BCDEGIJK
+#32025
+random guard~
+a large draconian guard~
+A large draconian guard attacks anyone foolish enough to enter the temple.
+~
+~
+draconian~
+AFGO A JLPTVZac BHNO -1000 0
+55 55 111d18+501 55d9+60 17d3+28 none
+-25 -25 -25 -14
+CEIJMNO ABQ EM PY
+stand stand none 0
+ABCDFHIM ABCDFGHIJKLPQUVWX medium unknown
+F shd AMV
+F off LQ
+F imm HI
+F res FGJ
+F for EGJKPQ
+#0
+
+
+
+#OBJECTS
+#32000
+gold coins treasure~
+a large pile of gold coins~
+A large stack of gold coins is here.~
+gold~
+money JLWY A
+EIJKN 0 0 0 0
+109 100 1000 P
+#32001
+double bladed stone axe~
+a double-bladed stone axe~
+A large, double-bladed axe is here.~
+stone~
+weapon J AN
+axe 4 9 cleave 0
+30 31 1765 P
+A
+19 2
+A
+18 2
+#32002
+stone boots~
+stone boots~
+A pair of heavy stone boots are here.~
+stone~
+armor J AG
+ABD ABD ABD BD 0
+30 31 26 P
+#32003
+stone armor~
+stone armor~
+A set of heavy stone armor is here.~
+stone~
+armor J AD
+ABD ABD ABD BD 0
+30 31 26 P
+#32004
+stone belt~
+a stone belt~
+A thick belt of stone is here.~
+stone~
+armor J AL
+ABD ABD ABD BD 0
+30 31 26 P
+#32005
+filthy rags~
+filthy rags~
+A pile of filthy rags are here.~
+cloth~
+trash 0 AD
+0 0 0 0 0
+10 10 0 P
+#32006
+long green robe~
+long green robe~
+A long robe of green color is here.~
+cloth~
+armor J AD
+D D D ABC 0
+20 21 16 P
+#32007
+long jade spear~
+a long jade spear~
+A long jade spear is here.~
+jade~
+weapon J AN
+staff 3 13 stab 0
+25 26 1820 P
+A
+19 1
+A
+18 1
+#32008
+jade boots~
+a pair of jade boots~
+A pair of boots, made from jade, are here.~
+jade~
+armor J AG
+AD AD AD D 0
+25 26 29 P
+#32009
+jade plates~
+jade plates~
+Some jade plates are here.~
+jade~
+armor J AF
+AD AD AD D 0
+25 26 29 P
+#32010
+jade helm~
+jade helm~
+A jade helm is here.~
+jade~
+armor J AE
+AD AD AD D 0
+25 26 29 P
+#32011
+flowing green robe~
+a flowing green robe~
+A flowing green robe is here.~
+jade~
+armor J AD
+D D D ABC 0
+20 21 16 P
+#32012
+wooden prayer beads~
+wooden prayer beads~
+A set of wooden prayer beads is here.~
+wood~
+weapon J AN
+whip 2 9 whip 0
+20 21 1095 P
+A
+19 1
+A
+18 1
+#32013
+deep green robe~
+a deep green robe~
+A robe of deep green color is here.~
+cloth~
+armor J AD
+D D D ABC 0
+20 21 16 P
+#32014
+stick incense~
+a stick of incense~
+A stick of incense is here.~
+wood~
+wand J AO
+50 5 5 'blindness' 0
+20 0 0 P
+#32015
+jade staff~
+a jade staff~
+A staff of jade is here.~
+jade~
+staff J AO
+60 5 5 'rasp' 0
+30 50 0 P
+#32016
+deep green cloak~
+a deep green cloak~
+A deep green cloak is here.~
+cloth~
+armor J AD
+ABD ABD ABD BD 0
+30 31 26 P
+#32017
+seven pointed star~
+a seven pointed star~
+A seven pointed star is here.~
+silver~
+jewelry J AC
+0 0 0 0 0
+30 10 0 P
+#32018
+thin green mist~
+a thin green mist~
+A thin mist, green in color, is here.~
+unknown~
+armor J AQ
+ABD ABD ABD ABCD 0
+30 31 26 P
+#32019
+jade mace~
+jade mace~
+A mace, made of jade, is here.~
+jade~
+weapon J AN
+mace 4 11 pound 0
+35 36 2115 P
+A
+19 2
+A
+18 2
+#32020
+jade boots~
+some jade boots~
+Some boots, made from jade, are here.~
+jade~
+armor J AG
+ACD ACD ACD CD 0
+35 36 39 P
+#32021
+jade cape~
+a green cape~
+A long green cape is here.~
+cloth~
+armor J AK
+ACD ACD ACD CD 0
+35 36 39 P
+#32022
+jade bracer~
+a jade bracer~
+A bracer, made from jade, is here.~
+jade~
+armor J AM
+ACD ACD ACD CD 0
+35 36 39 P
+#32023
+jade flail~
+a fail with a jade head~
+A flail, made from jade, is here.~
+jade~
+weapon J AN
+flail 4 11 pound 0
+40 41 2235 P
+A
+19 3
+A
+18 3
+#32024
+leather harness~
+a leather harness~
+A harness, made from leather, is here.~
+leather~
+armor J AD
+ABCD ABCD ABCD BCD 0
+40 41 44 P
+#32025
+jade arm bands~
+jade armbands~
+A set of armbands, made from jade, are here.~
+jade~
+armor J AI
+ABCD ABCD ABCD BCD 0
+40 41 44 P
+#32026
+jade ring~
+a jade ring~
+A small ring, made from jade, is here.~
+jade~
+jewelry J AB
+0 0 0 0 0
+0 10 0 P
+A
+23 -5
+#32027
+green sash~
+a green sash~
+A green sash is here.~
+cloth~
+armor J AL
+ABCD ABCD ABCD BCD 0
+40 41 44 P
+#32028
+jade morning star~
+a jade morning star~
+A morning star, made of jade, is here.~
+jade~
+weapon J AN
+mace 5 11 pound 0
+45 46 2610 P
+A
+19 3
+A
+18 3
+#32029
+green loin cloth~
+a green loin cloth~
+A loin cloth, made of green cloth, is here.~
+cloth~
+armor J AL
+AE AE AE E 0
+45 46 41 P
+#32030
+jade shin guards~
+some jade shin guards~
+Some shin guards, made from jade, are here.~
+unknown~
+armor J AF
+AE AE AE E 0
+45 46 41 P
+#32031
+belt jade pockets~
+a belt with jade pockets~
+A belt, with jade pockets, is here.~
+jade~
+container J AL
+1 C 0 1000 50
+45 10 0 P
+A
+14 100
+A
+5 2
+#32032
+gold robe~
+a long gold robe~
+A long gold robe is here.~
+gold~
+armor J AD
+BE BE BE AE 0
+50 51 54 P
+#32033
+jade longsword sword~
+a jade longsword~
+A longsword, made of jade, is here.~
+unknown~
+weapon J AN
+sword 6 11 slash 0
+50 51 3005 P
+A
+19 4
+A
+18 4
+#32034
+jade armor~
+a set of jade armor~
+A set of armor, made from jade, is here.~
+jade~
+armor J AD
+ABCD ABCD ABCD BCD 0
+40 41 44 P
+#32035
+jade axe~
+a jade axe~
+An axe, made from jade, is here.~
+unknown~
+weapon J AN
+axe 5 10 slice 0
+40 41 2360 P
+A
+19 3
+A
+18 3
+#32036
+vest jade plates~
+a vest with jade plates~
+A vest, with thick jade plates, is here.~
+jade~
+armor J AD
+ABCD ABCD ABCD BCD 0
+40 41 44 P
+#32037
+jade dirk~
+a jade dirk~
+A thin dirk, made from jade, is here.~
+jade~
+weapon J AN
+dagger 4 10 stab 0
+40 41 2110 P
+A
+19 3
+A
+18 3
+#32038
+jade club~
+a club made from jade~
+A thick club, made of jade, is here.~
+jade~
+weapon J AN
+mace 5 10 pound 0
+40 41 2360 P
+A
+19 3
+A
+18 3
+#32039
+green smock~
+a green smock~
+A long smock, made of green cloth, is here.~
+cloth~
+armor J AD
+ABCD ABCD ABCD BCD 0
+40 41 44 P
+#32040
+misty green vial~
+a misty green vial~
+A misty, green vial is here.~
+glass~
+potion J AO
+0 'protection good' 'farsight' 'pass door' ''
+40 10 0 P
+#32041
+jade war hammer~
+jade war hammer~
+A war hammer, made of jade, is here.~
+jade~
+weapon J AN
+mace 5 11 pound 0
+45 46 2610 P
+A
+19 3
+A
+18 3
+#32042
+jade robe~
+a jade robe~
+A long jade robe, made of cloth, is here.~
+cloth~
+armor J AD
+AE AE AE E 0
+45 46 41 P
+#32043
+gold seven pointed symbol~
+a gold, seven-pointed star~
+A seven-pointed star, made from gold, is here.~
+gold~
+treasure J AC
+0 0 0 0 0
+45 10 1000 P
+A
+12 100
+#32044
+gold cloak~
+a gold cloak~
+A long cloak, made from gold cloth, is here.~
+gold~
+armor J AK
+AE AE AE E 0
+45 46 41 P
+#32045
+jade gold ring~
+a gold and jade ring~
+A gold ring, with a jade stone, is here.~
+gold~
+armor J AB
+AE AE AE E 0
+45 46 41 P
+#32046
+jade wand~
+a wand made of jade~
+A long, thin wand, made out of jade, is here~
+unknown~
+wand J AO
+50 5 5 'rasp' 0
+45 0 50 P
+#32047
+jade lucern hammer~
+a jade, lucern hammer~
+(no description)~
+jade~
+weapon J AN
+polearm 7 12 pound F
+50 51 3180 P
+A
+19 4
+A
+18 4
+#32048
+dragon hide armor~
+a set of dragon-hide armor~
+A set of armor, made from dragon-hide, is here.~
+hide~
+armor J AD
+BE BE BE AE 0
+50 51 54 P
+#32049
+great dragon helmet~
+a great helm, in the shape of a dragon~
+A great helmet, in the shape of a dragon, is here.~
+unknown~
+armor J AE
+BE BE BE AE 0
+50 51 54 P
+#32050
+jade short sword~
+a jade short sword~
+A short sword, made of jade, is here.~
+jade~
+weapon J AN
+sword 5 11 slice 0
+40 41 2510 P
+A
+19 3
+A
+18 3
+#32051
+green breeches~
+green breeches~
+Some breeches, made of green cloth, are here.~
+cloth~
+armor J AF
+ABCD ABCD ABCD BCD 0
+40 41 44 P
+#32052
+wooden sandals~
+some wooden sandals~
+Some sandals, made of wood, are here.~
+wood~
+armor J AG
+ABCD ABCD ABCD BCD 0
+40 41 44 P
+#32053
+green shirt~
+a green shirt~
+A green shirt, made of cloth, is here.~
+cloth~
+armor J AD
+ABCD ABCD ABCD BCD 0
+40 41 44 P
+#32054
+statue jade dragon~
+a statue of The Jade Dragon~
+Against the north wall, a statue of The Jade Dragon rest in the sand.~
+stone~
+fountain J 0
+1000 1000 'aquavit' 0 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#32000
+Jade Temple Control Room~
+This room will be used as a control room for the area and also as a mob
+chute for random placement of mobs throughout the area.  
+~
+0 559117 0
+O irix~
+S
+#32001
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32002
+D2
+~
+~
+0 0 32008
+S
+#32002
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32003
+D3
+~
+~
+0 0 32001
+S
+#32003
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32004
+D3
+~
+~
+0 0 32002
+S
+#32004
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32005
+D3
+~
+~
+0 0 32003
+S
+#32005
+An Intersection of Jade Corridors~
+The corridor splits at this spot and leads off west, east and south.  The
+deep grey stone walls have several lines of green jade running through them
+creating a strange pattern on the walls, floor and ceiling.  The air is
+filled with the smells of sulfur and a thin mists covers the floor.  
+~
+0 9 0
+D1
+~
+~
+0 0 32006
+D2
+~
+~
+0 0 32012
+D3
+~
+~
+0 0 32004
+S
+#32006
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32007
+D3
+~
+~
+0 0 32005
+S
+#32007
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32014
+D3
+~
+~
+0 0 32006
+S
+#32008
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32001
+D1
+~
+~
+0 0 32009
+S
+#32009
+An Intersection of Jade Corridors~
+The corridor splits at this spot and leads off west, east and south.  The
+deep grey stone walls have several lines of green jade running through them
+creating a strange pattern on the walls, floor and ceiling.  The air is
+filled with the smells of sulfur and a thin mists covers the floor.  
+~
+0 9 0
+D1
+~
+~
+0 0 32010
+D2
+~
+~
+0 0 32016
+D3
+~
+~
+0 0 32008
+S
+#32010
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32011
+D3
+~
+~
+0 0 32009
+S
+#32011
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32018
+D3
+~
+~
+0 0 32010
+S
+#32012
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32005
+D1
+~
+~
+0 0 32013
+S
+#32013
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32020
+D3
+~
+~
+0 0 32012
+S
+#32014
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32007
+D2
+~
+~
+0 0 32021
+S
+#32015
+Below a Hole in the Ceiling~
+The corridor ends here below a large hole in the ceiling leading up into
+the darkness.  There does not seem to be any easy way up, except to fly up. 
+This section of the corridors is oval in shape and bits of sand are located
+around the smooth edges of the hole.  
+~
+0 9 0
+D1
+~
+~
+0 0 32016
+D4
+~
+~
+0 0 32057
+S
+#32016
+An Intersection of Jade Corridors~
+The corridor splits at this spot and leads off west, east and north.  The
+deep grey stone walls have several lines of green jade running through them
+creating a strange pattern on the walls, floor and ceiling.  The air is
+filled with the smells of sulfur and a thin mists covers the floor.  
+~
+0 9 0
+D0
+~
+~
+0 0 32009
+D1
+~
+~
+0 0 32017
+D3
+~
+~
+0 0 32015
+S
+#32017
+Below a Hole in the Ceiling~
+The corridor ends here below a large hole in the ceiling leading up into
+the darkness.  There does not seem to be any easy way up, except to fly up. 
+This section of the corridors is oval in shape and bits of sand are located
+around the smooth edges of the hole.  
+~
+0 9 0
+D3
+~
+~
+0 0 32016
+D4
+~
+~
+0 0 32059
+S
+#32018
+Above a Large Hole in the Floor~
+The floor of the corridor is a large hole which leads down, and passages
+lead north and south into the darkness.  The walls of the corridor are a
+deep grey stone, with thin lines of jade running through them in a strange
+pattern.  The jade gives off a light that is low, giving it an eerie feeling
+to it.  
+~
+0 9 0
+D0
+~
+~
+0 0 32011
+D2
+~
+~
+0 0 32025
+D5
+~
+~
+0 0 32095
+S
+#32019
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32020
+D2
+~
+~
+0 0 32026
+S
+#32020
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32013
+D3
+~
+~
+0 0 32019
+S
+#32021
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32014
+D2
+~
+~
+0 0 32028
+S
+#32022
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32023
+D2
+~
+~
+0 0 32029
+S
+#32023
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32024
+D3
+~
+~
+0 0 32022
+S
+#32024
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32025
+D3
+~
+~
+0 0 32023
+S
+#32025
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32018
+D3
+~
+~
+0 0 32024
+S
+#32026
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32019
+D1
+~
+~
+0 0 32027
+S
+#32027
+Below a Hole in the Ceiling~
+The corridor ends here below a large hole in the ceiling leading up into
+the darkness.  There does not seem to be any easy way up, except to fly up. 
+This section of the corridors is oval in shape and bits of sand are located
+around the smooth edges of the hole.  
+~
+0 9 0
+D3
+~
+~
+0 0 32026
+D4
+~
+~
+0 0 32069
+S
+#32028
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32021
+D2
+~
+~
+0 0 32035
+S
+#32029
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32022
+D1
+~
+~
+0 0 32030
+S
+#32030
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32037
+D3
+~
+~
+0 0 32029
+S
+#32031
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32032
+D2
+~
+~
+0 0 32038
+S
+#32032
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32039
+D3
+~
+~
+0 0 32031
+S
+#32033
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32034
+D2
+~
+~
+0 0 32040
+S
+#32034
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32041
+D3
+~
+~
+0 0 32033
+S
+#32035
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32028
+D2
+~
+~
+0 0 32042
+S
+#32036
+Below a Hole in the Ceiling~
+The corridor ends here below a large hole in the ceiling leading up into
+the darkness.  There does not seem to be any easy way up, except to fly up. 
+This section of the corridors is oval in shape and bits of sand are located
+around the smooth edges of the hole.  
+~
+0 9 0
+D1
+~
+~
+0 0 32037
+D4
+~
+~
+0 0 32078
+S
+#32037
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32030
+D3
+~
+~
+0 0 32036
+S
+#32038
+Below a Hole in the Ceiling~
+The corridor ends here below a large hole in the ceiling leading up into
+the darkness.  There does not seem to be any easy way up, except to fly up. 
+This section of the corridors is oval in shape and bits of sand are located
+around the smooth edges of the hole.  
+~
+0 9 0
+D0
+~
+~
+0 0 32031
+D4
+~
+~
+0 0 32080
+S
+#32039
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32032
+D1
+~
+~
+0 0 32040
+S
+#32040
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32033
+D3
+~
+~
+0 0 32039
+S
+#32041
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32034
+D1
+~
+~
+0 0 32042
+S
+#32042
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32035
+D3
+~
+~
+0 0 32041
+S
+#32043
+The Chamber of Carobantar~
+The walls of this chamber are solid jade and the deep grey stone in the
+corridors is not present within it anywhere.  The chamber has an eerie glows
+that seems to pulse with a life of its own.  The smell of sulfur is thick in
+the air, possibly coming from the mist which covers the floor.  
+~
+0 9 0
+D1
+~
+~
+0 0 32044
+S
+#32044
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32045
+D3
+~
+~
+0 0 32043
+S
+#32045
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32052
+D3
+~
+~
+0 0 32044
+S
+#32046
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32047
+D2
+~
+~
+0 0 32053
+S
+#32047
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32048
+D3
+~
+~
+0 0 32046
+S
+#32048
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32049
+D3
+~
+~
+0 0 32047
+S
+#32049
+Below a Hole in the Ceiling~
+The corridor ends here below a large hole in the ceiling leading up into
+the darkness.  There does not seem to be any easy way up, except to fly up. 
+This section of the corridors is oval in shape and bits of sand are located
+around the smooth edges of the hole.  
+~
+0 13 0
+D3
+~
+~
+0 0 32048
+D4
+~
+~
+0 0 32129
+S
+#32050
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32051
+D2
+~
+~
+0 0 32057
+S
+#32051
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32052
+D3
+~
+~
+0 0 32050
+S
+#32052
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32045
+D3
+~
+~
+0 0 32051
+S
+#32053
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32046
+D1
+~
+~
+0 0 32054
+S
+#32054
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32055
+D3
+~
+~
+0 0 32053
+S
+#32055
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32056
+D3
+~
+~
+0 0 32054
+S
+#32056
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32063
+D3
+~
+~
+0 0 32055
+S
+#32057
+Above a Hole in the Floor~
+The corridor ends here above a large hole in the floor leading down into
+the darkness.  There does not seem to be any easy way down, except to fly
+down.  This section of the corridors is oval in shape and bits of sand are
+located around the smooth edges of the hole.  
+~
+0 13 0
+D0
+~
+~
+0 0 32050
+D5
+~
+~
+0 0 32015
+S
+#32058
+The Chamber of Contaever~
+The walls of this chamber are solid jade and the deep grey stone in the
+corridors is not present within it anywhere.  The chamber has an eerie glows
+that seems to pulse with a life of its own.  The smell of sulfur is thick in
+the air, possibly coming from the mist which covers the floor.  
+~
+0 9 0
+D2
+~
+~
+0 0 32065
+S
+#32059
+Above a Hole in the Floor~
+The corridor ends here above a large hole in the floor leading down into
+the darkness.  There does not seem to be any easy way down, except to fly
+down.  This section of the corridors is oval in shape and bits of sand are
+located around the smooth edges of the hole.  
+~
+0 13 0
+D1
+~
+~
+0 0 32060
+D5
+~
+~
+0 0 32017
+S
+#32060
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32067
+D3
+~
+~
+0 0 32059
+S
+#32061
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32062
+D2
+~
+~
+0 0 32068
+S
+#32062
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32063
+D3
+~
+~
+0 0 32061
+S
+#32063
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32056
+D3
+~
+~
+0 0 32062
+S
+#32064
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32065
+D2
+~
+~
+0 0 32071
+S
+#32065
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32058
+D3
+~
+~
+0 0 32064
+S
+#32066
+The Chamber of Alodobriela~
+The walls of this chamber are solid jade and the deep grey stone in the
+corridors is not present within it anywhere.  The chamber has an eerie glows
+that seems to pulse with a life of its own.  The smell of sulfur is thick in
+the air, possibly coming from the mist which covers the floor.  
+~
+0 9 0
+D2
+~
+~
+0 0 32073
+S
+#32067
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32060
+D2
+~
+~
+0 0 32074
+S
+#32068
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32061
+D2
+~
+~
+0 0 32075
+S
+#32069
+Above a Hole in the Floor~
+The corridor ends here above a large hole in the floor leading down into
+the darkness.  There does not seem to be any easy way down, except to fly
+down.  This section of the corridors is oval in shape and bits of sand are
+located around the smooth edges of the hole.  
+~
+0 13 0
+D1
+~
+~
+0 0 32070
+D5
+~
+~
+0 0 32027
+S
+#32070
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32077
+D3
+~
+~
+0 0 32069
+S
+#32071
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32064
+D1
+~
+~
+0 0 32072
+S
+#32072
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 0 0
+D2
+~
+~
+0 0 32079
+D3
+~
+~
+0 0 32071
+S
+#32073
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32066
+D1
+~
+~
+0 0 32074
+S
+#32074
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32067
+D3
+~
+~
+0 0 32073
+S
+#32075
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32068
+D2
+~
+~
+0 0 32082
+S
+#32076
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32077
+D2
+~
+~
+0 0 32083
+S
+#32077
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32070
+D3
+~
+~
+0 0 32076
+S
+#32078
+Above a Hole in the Floor~
+The corridor ends here above a large hole in the floor leading down into
+the darkness.  There does not seem to be any easy way down, except to fly
+down.  This section of the corridors is oval in shape and bits of sand are
+located around the smooth edges of the hole.  
+~
+0 13 0
+D1
+~
+~
+0 0 32079
+D5
+~
+~
+0 0 32036
+S
+#32079
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32072
+D3
+~
+~
+0 0 32078
+S
+#32080
+Above a Hole in the Floor~
+The corridor ends here above a large hole in the floor leading down into
+the darkness.  There does not seem to be any easy way down, except to fly
+down.  This section of the corridors is oval in shape and bits of sand are
+located around the smooth edges of the hole.  
+~
+0 13 0
+D1
+~
+~
+0 0 32081
+D5
+~
+~
+0 0 32038
+S
+#32081
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32082
+D3
+~
+~
+0 0 32080
+S
+#32082
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32075
+D3
+~
+~
+0 0 32081
+S
+#32083
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32076
+D1
+~
+~
+0 0 32084
+S
+#32084
+The Chamber of Talendar~
+The walls of this chamber are solid jade and the deep grey stone in the
+corridors is not present within it anywhere.  The chamber has an eerie glows
+that seems to pulse with a life of its own.  The smell of sulfur is thick in
+the air, possibly coming from the mist which covers the floor.  
+~
+0 9 0
+D3
+~
+~
+0 0 32083
+S
+#32085
+A Large Domed Chamber~
+The large chamber has deep grey stone walls which are laced with thin
+lines of jade.  The dome overhead is covered with a mural of a large green
+dragon breathing fire and smoke as helpless elves run away in fear.  The
+floor is covered with a soft, warm sand and the smell of sandalwood is thick
+in the air.  
+~
+0 9 0
+D1
+~
+~
+0 0 32086
+D2
+~
+~
+0 0 32090
+S
+#32086
+Before The Jade Dragon Statue~
+The large chamber has deep grey stone walls which are laced with thin
+lines of jade.  The dome overhead is covered with a mural of a large green
+dragon breathing fire and smoke as helpless elves run away in fear.  The
+floor is covered with a soft, warm sand and the smell of sandalwood is thick
+in the air.  
+~
+0 9 0
+D1
+~
+~
+0 0 32087
+D2
+~
+~
+0 0 32091
+D3
+~
+~
+0 0 32085
+S
+#32087
+A Large Domed Chamber~
+The large chamber has deep grey stone walls which are laced with thin
+lines of jade.  The dome overhead is covered with a mural of a large green
+dragon breathing fire and smoke as helpless elves run away in fear.  The
+floor is covered with a soft, warm sand and the smell of sandalwood is thick
+in the air.  
+~
+0 9 0
+D2
+~
+~
+0 0 32092
+D3
+~
+~
+0 0 32086
+S
+#32088
+Meditation Chamber~
+The chamber is lite by low light coming from candles which are located
+high on the grey walls which are veined by thin lines of jade.  The floor of
+the chamber is covered with soft sand which is warm to the touch.  Placed
+around the sand are sticks of incense, some burning giving off a faint smell
+of sandalwood.  A thin red cloth covers the exit to the east.  
+~
+0 13 0
+D1
+~
+~
+0 0 32089
+S
+#32089
+The End of a Jade Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads south from this section, and a thin red
+drape covers something to the west.  
+~
+0 9 0
+D2
+~
+~
+0 0 32094
+D3
+~
+~
+0 0 32088
+S
+#32090
+A Large Domed Chamber~
+The large chamber has deep grey stone walls which are laced with thin
+lines of jade.  The dome overhead is covered with a mural of a large green
+dragon breathing fire and smoke as helpless elves run away in fear.  The
+floor is covered with a soft, warm sand and the smell of sandalwood is thick
+in the air.  
+~
+0 9 0
+D0
+~
+~
+0 0 32085
+D1
+~
+~
+0 0 32091
+S
+#32091
+A Large Domed Chamber~
+The large chamber has deep grey stone walls which are laced with thin
+lines of jade.  The dome overhead is covered with a mural of a large green
+dragon breathing fire and smoke as helpless elves run away in fear.  The
+floor is covered with a soft, warm sand and the smell of sandalwood is thick
+in the air.  A large opening to the south leads back to the corridors.  
+~
+0 9 0
+D0
+~
+~
+0 0 32086
+D1
+~
+~
+0 0 32092
+D2
+~
+~
+0 0 32096
+D3
+~
+~
+0 0 32090
+S
+#32092
+A Large Domed Chamber~
+The large chamber has deep grey stone walls which are laced with thin
+lines of jade.  The dome overhead is covered with a mural of a large green
+dragon breathing fire and smoke as helpless elves run away in fear.  The
+floor is covered with a soft, warm sand and the smell of sandalwood is thick
+in the air.  
+~
+0 9 0
+D0
+~
+~
+0 0 32087
+D3
+~
+~
+0 0 32091
+S
+#32093
+Meditation Chamber~
+The chamber is lite by low light coming from candles which are located
+high on the grey walls which are veined by thin lines of jade.  The floor of
+the chamber is covered with soft sand which is warm to the touch.  Placed
+around the sand are sticks of incense, some burning giving off a faint smell
+of sandalwood.  A thin red cloth covers the exit to the east.  
+~
+0 13 0
+D1
+~
+~
+0 0 32094
+S
+#32094
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section, and
+a thin red drape covers something to the west.  
+~
+0 9 0
+D0
+~
+~
+0 0 32089
+D2
+~
+~
+0 0 32099
+D3
+~
+~
+0 0 32093
+S
+#32095
+A Hidden Stairway~
+This hidden chamber seems to connect the corridors to something above
+through a large hole in the ceiling.  The walls are a deep grey color and
+thin lines of emerald jade flow in a strange pattern through the walls.  A
+movable wood panel is located to the east, which leads into the corridors.  
+~
+0 13 0
+D1
+The wall of the chamber has a movable wooden panel in it.
+~
+wall~
+4 32017 32096
+D4
+~
+~
+0 0 32018
+S
+#32096
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  Low chanting can be heard from the north where a
+large chamber is located.  
+~
+0 13 0
+D0
+~
+~
+0 0 32091
+D1
+~
+~
+0 0 32097
+D3
+The smooth wall of the corridor has a thin seem in it.
+~
+wall~
+4 32017 32095
+S
+#32097
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.  
+~
+0 9 0
+D1
+~
+~
+0 0 32098
+D3
+~
+~
+0 0 32096
+S
+#32098
+An Intersection of Jade Corridors~
+The corridor splits at this spot and leads off west, east and south.  The
+deep grey stone walls have several lines of green jade running through them
+creating a strange pattern on the walls, floor and ceiling.  The air is
+filled with the smells of sulfur and a thin mists covers the floor.  
+~
+0 9 0
+D1
+~
+~
+0 0 32099
+D2
+~
+~
+0 0 32104
+D3
+~
+~
+0 0 32097
+S
+#32099
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32094
+D3
+~
+~
+0 0 32098
+S
+#32100
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32101
+D2
+~
+~
+0 0 32106
+S
+#32101
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.  
+~
+0 9 0
+D1
+~
+~
+0 0 32102
+D3
+~
+~
+0 0 32100
+S
+#32102
+An Intersection of Jade Corridors~
+The corridor splits at this spot and leads off west, east and south.  The
+deep grey stone walls have several lines of green jade running through them
+creating a strange pattern on the walls, floor and ceiling.  The air is
+filled with the smells of sulfur and a thin mists covers the floor.  
+~
+0 9 0
+D1
+~
+~
+0 0 32103
+D2
+~
+~
+0 0 32108
+D3
+~
+~
+0 0 32101
+S
+#32103
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32104
+D3
+~
+~
+0 0 32102
+S
+#32104
+An Intersection of Jade Corridors~
+The corridor splits at this spot and leads off west, east and north.  The
+deep grey stone walls have several lines of green jade running through them
+creating a strange pattern on the walls, floor and ceiling.  The air is
+filled with the smells of sulfur and a thin mists covers the floor.  
+~
+0 9 0
+D0
+~
+~
+0 0 32098
+D1
+~
+~
+0 0 32105
+D3
+~
+~
+0 0 32103
+S
+#32105
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32111
+D3
+~
+~
+0 0 32104
+S
+#32106
+The End of the Jade Corridor~
+The corridor ends here at what would appear to be a set of prison cells
+which are located to the south and east.  The walls of the corridor are a
+deep grey stone, with several thin lines of jade stone running through the
+smooth walls.  
+~
+0 9 0
+D0
+~
+~
+0 0 32100
+D1
+~
+bars~
+4 0 32107
+D2
+~
+bars~
+4 0 32112
+S
+#32107
+A Dark and Smelly Chamber~
+While having walls of the same grey stone as the corridors, this chamber
+is completely square in shape and it is missing the lines of thin jade.  The
+chamber is also dirty and has a smell of unwashed bodies and feces.  Thick
+silver bars block the exit from the chamber to the west.  
+~
+0 13 0
+D3
+~
+bars~
+4 0 32106
+S
+#32108
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 0 0
+D0
+~
+~
+0 0 32102
+D2
+~
+~
+0 0 32113
+S
+#32109
+MOB CHUTE ROOM~
+This room is used as a mob chute to distribute mob randomly about the
+area.  Mobs are loaded into this room, then they will wander out via the six
+exits into various rooms within the area.  The room is flagged GODS_ONLY so
+mortals should never see this room.  Be sure that any mobs loaded into this
+room are NOT flagged sentinel as they will just sit in the room and not go
+forth into the area.  Also be aware that all exits from this room should be
+one-way so that mobs will not wander into the room.  
+~
+0 557068 0
+D0
+~
+~
+0 0 32047
+D1
+~
+~
+0 0 32031
+D2
+~
+~
+0 0 32061
+D3
+~
+~
+0 0 32021
+D4
+~
+~
+0 0 32127
+D5
+~
+~
+0 0 32147
+S
+#32110
+The End of a Jade Corridor~
+A thin red cloth covers something to the south, but it lays flat against
+the deep grey stone walls.  The thin lines of jade flow in strange patterns
+through the walls, which lead back east into the corridors.  
+~
+0 9 0
+D1
+~
+~
+0 0 32111
+D2
+~
+~
+0 0 32114
+S
+#32111
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  To the south a thin red cloth covers what is
+beyond.  
+~
+0 9 0
+D0
+~
+~
+0 0 32105
+D2
+~
+~
+0 0 32115
+D3
+~
+~
+0 0 32110
+S
+#32112
+A Dark and Smelly Chamber~
+While having walls of the same grey stone as the corridors, this chamber
+is completely square in shape and it is missing the lines of thin jade.  The
+chamber is also dirty and has a smell of unwashed bodies and feces.  Thick
+silver bars block the exit from the chamber to the north.  
+~
+0 13 0
+D0
+~
+bars~
+4 0 32106
+S
+#32113
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32108
+D2
+~
+~
+0 0 32116
+S
+#32114
+Sleeping Chamber~
+The chamber appears to be used by someone to sleep in since it has a low
+pallet on the floor with a blanket and pillow.  The grey walls glow with an
+eerie green glow from the lines of jade with flow through the walls, floor
+and ceiling.  The smell of fresh cut flowers is in the air, but the source
+is unknown.  
+~
+0 9 0
+D0
+~
+~
+0 0 32110
+S
+#32115
+Sleeping Chamber~
+The chamber appears to be used by someone to sleep in since it has a low
+pallet on the floor with a blanket and pillow.  The grey walls glow with an
+eerie green glow from the lines of jade with flow through the walls, floor
+and ceiling.  The smell of fresh cut flowers is in the air, but the source
+is unknown.  
+~
+0 9 0
+D0
+~
+~
+0 0 32111
+S
+#32116
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.  
+~
+0 9 0
+D0
+~
+~
+0 0 32113
+D2
+~
+~
+0 0 32119
+S
+#32117
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32118
+D2
+~
+~
+0 0 32120
+S
+#32118
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32119
+D3
+~
+~
+0 0 32117
+S
+#32119
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32116
+D3
+~
+~
+0 0 32118
+S
+#32120
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32117
+D1
+~
+~
+0 0 32121
+S
+#32121
+A Turn in the Jade Corridor~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32122
+D3
+~
+~
+0 0 32120
+S
+#32122
+In a Jade Lined Corridor~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.  
+~
+0 9 0
+D0
+~
+~
+0 0 32121
+D2
+The way south has a set of silver gates across the opening in the corridor.
+~
+gates~
+4 32017 32123
+S
+#32123
+In a Jade Lined Corridor~
+The way north through the corridor is blocked by a set of polished,
+silver gates with thick bars that have fanciful scroll-work weaving between.
+The walls are a deep grey stone, with thin lines of emerald jade running
+through them.  A thin mist covers the floor of the corridor, making it hard
+to see what might be on the floor.  A low moan of the wind can be heard
+coming from the south, where the corridor leads away from the gates.  
+~
+0 13 0
+D0
+The way north has a set of silver gates placed across it.
+~
+gates~
+4 32017 32122
+D2
+~
+~
+0 0 32124
+S
+#32124
+In a Jade Lined Corridor~
+The walls of the strange corridor are a deep grey stone which has thin
+veins of green jade running through it.  The corridor has an oval shape to
+it, which is more pronounced by the fact that the floor, ceiling and walls
+are all smooth.  The jade seems to have a slight glow to it, but not nearly
+enough light to see by.  A slight smell of sulfur can be discerned in the
+air, but its source is unknown.  Exits are west toward the mountain side
+entrance, and north further into the corridors.  
+~
+0 13 0
+D0
+~
+~
+0 0 32123
+D3
+~
+~
+0 0 4010
+S
+#32125
+A Corridor of Jade Turns~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D1
+~
+~
+0 0 32126
+D2
+~
+~
+0 0 32130
+S
+#32126
+The Jade Corridors Intersect~
+The corridor splits at this spot and leads off west, east and south.  The
+deep grey stone walls have several lines of green jade running through them
+creating a strange pattern on the walls, floor and ceiling.  The air is
+filled with the smells of sulfur and a thin mists covers the floor.  
+~
+0 9 0
+D1
+~
+~
+0 0 32127
+D2
+~
+~
+0 0 32131
+D3
+~
+~
+0 0 32125
+S
+#32127
+The Jade Corridors Intersect~
+The corridor splits at this spot and leads off west, east and south.  The
+deep grey stone walls have several lines of green jade running through them
+creating a strange pattern on the walls, floor and ceiling.  The air is
+filled with the smells of sulfur and a thin mists covers the floor.  
+~
+0 9 0
+D1
+~
+~
+0 0 32128
+D2
+~
+~
+0 0 32132
+D3
+~
+~
+0 0 32126
+S
+#32128
+A Corridor Through Solid Jade~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.  
+~
+0 9 0
+D1
+~
+~
+0 0 32129
+D3
+~
+~
+0 0 32127
+S
+#32129
+Above a Hole in the Floor~
+The corridor ends here above a large hole in the floor leading down into
+the darkness.  There does not seem to be any easy way down, except to fly
+down.  This section of the corridors is oval in shape and bits of sand are
+located around the smooth edges of the hole.  
+~
+0 9 0
+D3
+~
+~
+0 0 32128
+D5
+~
+~
+0 0 32049
+S
+#32130
+A Corridor Through Solid Jade~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32125
+D2
+~
+~
+0 0 32135
+S
+#32131
+A Corridor Through Solid Jade~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32126
+D2
+~
+~
+0 0 32136
+S
+#32132
+A Corridor of Jade Turns~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32127
+D1
+~
+~
+0 0 32133
+S
+#32133
+A Corridor Through Solid Jade~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32134
+D3
+~
+~
+0 0 32132
+S
+#32134
+A Corridor of Jade Turns~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32139
+D3
+~
+~
+0 0 32133
+S
+#32135
+A Corridor Through Solid Jade~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32130
+D2
+~
+~
+0 0 32140
+S
+#32136
+A Corridor of Jade Turns~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or east at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32131
+D1
+~
+~
+0 0 32137
+S
+#32137
+A Corridor Through Solid Jade~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32138
+D3
+~
+~
+0 0 32136
+S
+#32138
+A Corridor of Jade Turns~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either south or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D2
+~
+~
+0 0 32143
+D3
+~
+~
+0 0 32137
+S
+#32139
+A Corridor Through Solid Jade~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.
+~
+0 9 0
+D0
+~
+~
+0 0 32134
+D2
+~
+~
+0 0 32144
+S
+#32140
+A Demonic Summoning Chamber~
+The walls of this chamber are solid jade which gives off a low glow which
+pulses slowly.  A few candles have been placed high above the chamber floor,
+which has a large area cleared of sand to reveal a large seven pointed star
+pattern.  Candles have been placed at the tips of the star and the smell of
+death and decay are strong in the air.  
+~
+0 270349 0
+D0
+~
+~
+0 0 32135
+S
+#32141
+A Small Chamber off the Corridor~
+This small chamber appears to be used as a meeting place of some kind
+from the low, wooden table in the center of the chamber.  The square walls
+are a deep grey stone, with a few thin lines of jade flowing through them. 
+Bones and other wastes are in a pile located in the south-west corner of the
+chamber.  
+~
+0 9 0
+D1
+~
+~
+0 0 32142
+S
+#32142
+The Jade Corridors Intersect~
+The corridor splits at this spot and leads off west, east and south.  The
+deep grey stone walls have several lines of green jade running through them
+creating a strange pattern on the walls, floor and ceiling.  The air is
+filled with the smells of sulfur and a thin mists covers the floor.  
+~
+0 9 0
+D1
+~
+~
+0 0 32143
+D2
+~
+~
+0 0 32147
+D3
+~
+~
+0 0 32141
+S
+#32143
+A Corridor of Jade Turns~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32138
+D3
+~
+~
+0 0 32142
+S
+#32144
+A Corridor Through Solid Jade~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either north or south from this section.  
+~
+0 9 0
+D0
+~
+~
+0 0 32139
+D2
+~
+~
+0 0 32149
+S
+#32145
+The Temple Master's Chamber~
+This chamber has solid jade walls and is lit by candles which are placed
+high up on the walls.  Soft, warm sand fills the floor and the smell of
+sulfur if almost unbearable.  The air is extremely hot and tentrils of smoke
+rise up from the floor.  
+~
+0 13 0
+D1
+~
+~
+0 0 32146
+D2
+~
+~
+0 0 32150
+S
+#32146
+A Corridor Through Solid Jade~
+The walls of the corridor are grey in color, with strange lines of deep,
+green jade flowing through it.  A putrid smell of sulfur fills the air, but
+not quite enough to cause choking.  The exactness of the walls, floor and
+ceiling could not possibly be natural in origin as they are too straight and
+too smooth.  The corridor leads either east or west from this section.
+~
+0 9 0
+D1
+~
+~
+0 0 32147
+D3
+~
+~
+0 0 32145
+S
+#32147
+A Corridor of Jade Turns~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32142
+D3
+~
+~
+0 0 32146
+S
+#32148
+The Inner Sanctum~
+The walls of this chamber are made from solid jadewhich glows in a low
+light.  The walls are scarred with burns and in various places they appear
+to have been melted.  The smell of sulfur and sandalwood are strong in the
+air, but the source is unknown.  Soft, warm sand covers the floor and a
+slight mist pools in circles.  
+~
+0 9 0
+D1
+~
+~
+0 0 32149
+S
+#32149
+A Corridor of Jade Turns~
+The smooth walls of the corridors continue on here, but instead of
+running in a straight direction they turn leading either north or west at
+this point.  The thin lines of jade flow with the turn as if everything was
+designed to be perfect.  
+~
+0 9 0
+D0
+~
+~
+0 0 32144
+D3
+~
+~
+0 0 32148
+S
+#32150
+The Temple Treasury~
+The walls of this chamber are formed from what appears to be pure jade,
+or possibly the chamber itself was cut into a large pocket of the substance
+itself.  The floor is littered with gold in various forms and a few chests
+are stacked up along the southern wall.  It would seem someone or something
+has a fairly vaste treasury to leave all this just laying about.  
+~
+0 9 0
+D0
+~
+~
+0 0 32145
+S
+#0
+
+
+
+#SPECIALS
+M 32000 spec_breath_any
+M 32002 spec_janitor
+M 32004 spec_dark_magic
+M 32025 spec_breath_any
+S
+
+
+
+#RESETS
+D 0 32095 1 2
+D 0 32096 3 2
+D 0 32106 1 2
+D 0 32106 2 2
+D 0 32107 3 2
+D 0 32112 0 2
+D 0 32122 2 2
+D 0 32123 0 2
+M 0 32007 5 32001 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32008 5 32001 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32009 5 32001 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32007 5 32011 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32008 5 32011 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32009 5 32011 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32007 5 32013 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32008 5 32013 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32009 5 32013 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32007 5 32025 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32008 5 32025 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32009 5 32025 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32007 5 32042 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32008 5 32042 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32009 5 32042 1
+E 0 32019 0 16
+E 0 32020 0 8
+E 0 32021 0 12
+E 0 32022 0 14
+M 0 32017 1 32043 1
+E 0 32034 0 5
+E 0 32035 0 16
+M 0 32010 3 32050 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32010 3 32050 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32013 5 32053 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32013 5 32053 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32018 1 32058 1
+E 0 32036 0 5
+E 0 32037 0 16
+M 0 32012 3 32060 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32012 3 32060 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32019 1 32066 1
+E 0 32038 0 16
+M 0 32014 3 32070 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32014 3 32070 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32011 3 32079 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32011 3 32079 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32013 5 32081 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32013 5 32081 2
+E 0 32023 0 16
+E 0 32024 0 5
+E 0 32025 0 10
+E 0 32026 0 1
+E 0 32027 0 13
+M 0 32020 1 32084 1
+E 0 32039 0 5
+E 0 32040 0 17
+M 0 32006 1 32086 1
+E 0 32015 0 17
+E 0 32016 0 12
+E 0 32017 0 4
+E 0 32018 0 18
+M 0 32004 10 32086 4
+E 0 32011 0 5
+E 0 32012 0 16
+M 0 32004 10 32086 4
+E 0 32011 0 5
+E 0 32012 0 16
+M 0 32004 10 32086 4
+E 0 32011 0 5
+E 0 32012 0 16
+O 0 32054 0 32086
+M 0 32005 2 32088 1
+E 0 32013 0 5
+E 0 32014 0 17
+M 0 32004 10 32090 4
+E 0 32011 0 5
+E 0 32012 0 16
+M 0 32004 10 32090 4
+E 0 32011 0 5
+E 0 32012 0 16
+M 0 32004 10 32092 4
+E 0 32011 0 5
+E 0 32012 0 16
+M 0 32004 10 32092 4
+E 0 32011 0 5
+E 0 32012 0 16
+M 0 32005 2 32093 1
+E 0 32013 0 5
+E 0 32014 0 17
+M 0 32002 4 32098 1
+E 0 32006 0 5
+M 0 32003 5 32099 1
+E 0 32007 0 16
+E 0 32008 0 8
+E 0 32009 0 7
+E 0 32010 0 6
+M 0 32003 5 32100 1
+E 0 32007 0 16
+E 0 32008 0 8
+E 0 32009 0 7
+E 0 32010 0 6
+M 0 32002 4 32101 1
+E 0 32006 0 5
+M 0 32003 5 32102 1
+E 0 32007 0 16
+E 0 32008 0 8
+E 0 32009 0 7
+E 0 32010 0 6
+M 0 32003 5 32104 1
+E 0 32007 0 16
+E 0 32008 0 8
+E 0 32009 0 7
+E 0 32010 0 6
+M 0 32002 4 32105 1
+E 0 32006 0 5
+M 0 32001 2 32107 1
+E 0 32005 0 5
+M 0 32025 5 32109 5
+E 0 32050 0 16
+E 0 32051 0 7
+E 0 32052 0 8
+E 0 32053 0 5
+M 0 32025 5 32109 5
+E 0 32050 0 16
+E 0 32051 0 7
+E 0 32052 0 8
+E 0 32053 0 5
+M 0 32025 5 32109 5
+E 0 32050 0 16
+E 0 32051 0 7
+E 0 32052 0 8
+E 0 32053 0 5
+M 0 32025 5 32109 5
+E 0 32050 0 16
+E 0 32051 0 7
+E 0 32052 0 8
+E 0 32053 0 5
+M 0 32025 5 32109 5
+E 0 32050 0 16
+E 0 32051 0 7
+E 0 32052 0 8
+E 0 32053 0 5
+M 0 32001 2 32112 1
+E 0 32005 0 5
+M 0 32003 5 32113 1
+E 0 32007 0 16
+E 0 32008 0 8
+E 0 32009 0 7
+E 0 32010 0 6
+M 0 32000 2 32123 2
+E 0 32001 0 16
+E 0 32002 0 8
+E 0 32003 0 5
+E 0 32004 0 13
+E 0 32017 0 4
+M 0 32000 2 32123 2
+E 0 32001 0 16
+E 0 32002 0 8
+E 0 32003 0 5
+E 0 32004 0 13
+M 0 32015 10 32125 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32015 10 32125 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32015 10 32128 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32015 10 32128 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32015 10 32134 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32015 10 32134 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32015 10 32137 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32015 10 32137 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32016 3 32140 1
+E 0 32032 0 5
+E 0 32033 0 16
+M 0 32021 1 32140 1
+E 0 32041 0 16
+E 0 32042 0 5
+E 0 32043 0 4
+M 0 32015 10 32141 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32015 10 32141 2
+E 0 32028 0 16
+E 0 32030 0 7
+E 0 32031 0 13
+M 0 32016 3 32145 1
+E 0 32032 0 5
+E 0 32033 0 16
+M 0 32023 1 32145 1
+E 0 32047 0 16
+E 0 32048 0 5
+E 0 32049 0 6
+M 0 32024 1 32145 1
+M 0 32016 3 32148 1
+E 0 32032 0 5
+E 0 32033 0 16
+M 0 32022 1 32148 1
+E 0 32044 0 12
+E 0 32045 0 2
+E 0 32045 0 1
+E 0 32046 0 17
+O 0 32000 0 32150
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

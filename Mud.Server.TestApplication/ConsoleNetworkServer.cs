@@ -5,6 +5,14 @@ using AutoMapper;
 using Mud.Container;
 using Mud.Network;
 using Mud.Repository;
+using Mud.Server.Server;
+using Mud.Server.Interfaces.World;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.TestApplication
 {
@@ -34,15 +42,15 @@ namespace Mud.Server.TestApplication
             _stopped = false;
 
             // Initialize IOC container
+            DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<ITimeHandler, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements ITimeHandler
             DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
             DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
             DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
-            DependencyContainer.Current.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IAbilityManager, Ability.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
 
             DependencyContainer.Current.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
