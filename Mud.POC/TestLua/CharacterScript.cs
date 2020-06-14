@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
-using Mud.Domain;
-using Mud.Server;
 using NLua;
+using Mud.Server.Interfaces.Character;
 
 namespace Mud.POC.TestLua
 {
@@ -29,7 +28,7 @@ namespace Mud.POC.TestLua
             luaFunction?.Call(Entity, actor, message);
         }
 
-        public void OnGreet(ICharacter actor, ExitDirections from)
+        public void OnGreet(ICharacter actor, int from)
         {
             Debug.WriteLine($"DEBUG: CharacterScript::OnGreet: Entity [{Entity.DebugName}]");
             LuaFunction luaFunction = GetLuaFunction();

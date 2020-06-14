@@ -1,0 +1,2793 @@
+#AREADATA
+Name the Abyss~
+Builders None~
+VNUMs 25000 25099
+Credits {60 99} Anon    the Abyss~
+Security 9
+End
+
+#MOBILES
+#25000
+demi lich demi-lich~
+The Demi-Lich~
+The Demi-Lich leaps from his throne as you enter the room, his evil
+eyes fixed dead upon you!
+~
+The Demi-Lich is, perhaps, the single most powerful undead creature known
+to exist.  Greatly resembling a wight or mummy, and being gaunt and skeletal
+in form. It is, nevertheless a being of forboding might. Its eye sockets are 
+black and empty, save for the fierce pinpoints of light which serve as eyes. 
+An aura of cold and darkness radiates from it, which makes it an ominous and 
+fearsome sight. Despite the wasted, rotten flesh it is garbed in the rich 
+clothes of nobility.
+~
+human~
+ABCF A D AHMV -1000 0
+94 0 21d49+4190 14d80+4553 9d11+58 punch
+-36 -35 -37 -35
+CDIKLN AB E CK
+stand stand male 6700
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25001
+keftab~
+Keftab, the Ancient One~
+Keftab, the Ancient One stands here, calmly searching ceaslessly.
+~
+A writhing, quivering mass of horrific, unspeakable flesh-like material, this
+ancient one stares coldly about through its many multifacted eyes, viscious, 
+vile smelling liquid seeps through its flesh in many places, originating from 
+the ghastly, crater like pores which pepper his body. Disgustingly, large 
+portions of its flesh seem to bubble with an alien life of their own. 
+The surface of its body, where not oozing, is covered with mottled, grey, 
+mossy protrusions, like some strange malignant blemishes. It emits low, 
+gutteral mewlings from its fange, quivering oriface.
+~
+human~
+ABC A DP AHMV -1000 0
+90 0 14d71+3678 21d49+4190 7d14+56 beating
+-36 -34 -34 -31
+CDEFH AB N C
+stand stand male 6500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25002
+death cardinal~
+A Cardinal Death~
+A cardinal death materializes from a dense patch of red mist.
+~
+Its skeletal form is garbed in a robe of cardinal red, the blood of
+its many victims stain the robe. Its skeletal figure resembles that
+of the angel of death. Its eyes glow with a furious fire to kill.
+~
+human~
+ABCF A DTU AHMV -1000 0
+72 0 22d31+2029 22d27+1696 5d16+45 punch
+-24 -26 -26 -23
+DEHIJK AB D FGNO
+stand stand either 5600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25003
+mist daemon~
+A Mist Daemon~
+A mist daemon stands here, in a cloud of grey mist.
+~
+A large demon like creature hovers abover you, in a cloud of grey mist.
+Its winged form stares down at you in utter hatred.
+~
+human~
+ABCF A U AHMV -1000 0
+68 0 11d56+1629 22d27+1696 2d39+41 punch
+-25 -25 -24 -21
+HIK AB R X
+stand stand either 10000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25004
+black slayer~
+a Black Slayer~
+A huge, shadowy figure materializes from the shadows around you.
+~
+The black slayer is a shadowy figure, about 7 feet in height. Garbed in
+a heavey, black cloak, in his right hand, he wields a wicked dagger.
+~
+human~
+ABCF A DP AHMV -1000 0
+50 0 16d24+835 16d24+835 7d7+31 punch
+-12 -15 -16 -11
+ACFHIK A C B
+stand stand male 999
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25005
+lost soul~
+a Lost Soul~
+A ghostly apparition floats here, staring at you in utter hatred.
+~
+The lost soul is a ghostly apparition, seeking revenge on the living.
+~
+human~
+ACF A DP AHMV -1000 0
+40 0 14d17+458 13d22+561 2d21+24 punch
+-11 -10 -11 -6
+FGJK A C DS
+stand stand female 666
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25006
+storm giant~
+a Storm Giant~
+A storm giant stands here, angered by your presence.
+~
+This huge creature is approximatly 18 feet tall, He grasps a huge bolt
+of lightning it his right hand.... He doesnt look happy to see you.
+~
+giant~
+ABCF A DP AHMV -1000 0
+80 0 23d31+2188 16d51+2654 6d15+51 punch
+-29 -29 -28 -26
+CEIKL ABHI DHIJP CIJKP
+stand stand male 10000
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#25007
+white gold manticore~
+a White Gold Manticore~
+A statuesque manticore stands here, crafted entirely of white gold.
+~
+The statue is beautifully crafted, the whole statue is formed 
+entirely of white gold. Its eyes seem to watch your every move.. 
+they almost appear is if they were alive.
+~
+bear~
+ABC A DEO AGHV 0 25007
+44 0 13d22+561 14d21+623 4d12+28 punch
+-10 -10 -15 -8
+ACDEHIKLO EI EIJ E
+stand stand male 877
+ABCDEFGHJKUV ABCDEFHJKUV medium unknown
+#25008
+flaming efreet~
+an Efreet~
+A huge flaming figure stands here, with a glint of evil in his eyes.
+~
+The creature is formed entirely of flames. The creature gives off an
+intense heat.
+~
+human~
+ABF A b AHMV -1000 25008
+70 0 23d27+1752 24d27+1884 6d12+43 punch
+-25 -23 -27 -18
+CDEFGHIK AB H LNOS
+stand stand male 5612
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25009
+hydra~
+the Hydra~
+A huge eight headed hydra is sleeping here
+~
+The huge, scaled creature  has eight heads... each capable of breathing
+a dangerous stream of fire.
+~
+fox~
+ABCF A FHZ AGV -1000 0
+72 0 22d27+1696 24d27+1884 6d13+46 punch
+-27 -26 -27 -20
+FHK AB R LO
+stand stand female 6090
+ACDEFGHJKQV ACDEFHJKQV medium unknown
+#25010
+kraken~
+the kraken~
+A large squid-like creature erupts from the waters beneath you!
+~
+This large creature is a close relative of the squid but a much larger
+size. its huge tentacles grasp something... though you can not make out
+what the object is.
+~
+water fowl~
+ABF A DTb AGW -1000 0
+80 0 15d51+2361 10d81+2552 9d9+49 punch
+-31 -30 -30 -26
+AB R CR HI
+stand stand male 4504
+ACDEFGHKPW ACDEFHKP medium unknown
+#25011
+treant tree~
+the Treant~
+A large tree-like creature reaches out for you with its many limbs.
+~
+It is a rather large creature resembling a tree. At the base of the trunk
+is a large opening that looks very much like a mouth.
+~
+lizard~
+ABCF A 0 AGHXc -1000 0
+88 0 28d32+3247 27d35+3527 5d20+55 punch
+-34 -35 -36 -29
+CEF ABL DIL CHI
+stand stand male 5709
+ACDEFGHKQVXc ACDEFHKQV medium unknown
+#25012
+githyanki~
+a Githyanki~
+A disgusting creature of etheral nature stands here, its body completely
+wraped in bandages..
+~
+This man sized creature has bandages wrapped all about its body. Its eyes
+glow with a brilliant red fire, in its right hand he grasps a an extremely
+sharp blade of magical nature.
+~
+human~
+ABCGH A DP AHMV -1000 25012
+52 0 16d27+977 20d20+946 7d7+32 punch
+-18 -16 -16 -12
+ADEF 0 LM D
+stand stand male 1500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25013
+kalas~
+Kalas~
+Kalas, the guardian and knight of the castle stands here preparing himself for
+battle.
+~
+He is a large, muscular man of undead nature. He is clad in rather magical
+looking suit of armor, his sword burning fiercly.
+~
+human~
+ABF A 0 AHMV -1000 0
+100 0 18d71+5917 25d45+4979 8d14+64 punch
+-41 -39 -38 -37
+ABCDEFGHJKN AB H IJK
+stand stand male 12045
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25014
+death knight~
+the Death knight~
+The death knight stands here, preparing to do you in.
+~
+This creature is the result of a powerful mage animating the dead remains
+of a once mighty warrior. Its eyes are fixed coldly upon you, unsheathing
+its sword, he charges for battle.
+~
+human~
+ABCF A 0 AHMV -1000 0
+76 0 21d35+2272 23d31+2188 9d9+49 punch
+-29 -29 -30 -25
+BCEGK AB D H
+stand stand male 6860
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25015
+Neo Otyugh~
+the Neo-Otyugh~
+A large, disgusting, vile creature stands here, smelling putrid.
+~
+This creature is covered with slime like substyle, many tentacles protrude
+from its disgusting body.
+~
+dog~
+ABCF A H AGHV -1000 25015
+92 0 32d33+4361 17d61+4003 6d17+58 punch
+-37 -36 -38 -31
+HJ AB KL I
+stand stand male 10000
+ACDEFGHJKUV ACDEFHJKUV medium unknown
+#25016
+shadow daemon~
+a Shadow Daemon~
+A shadowy figure stands here, looking you over with greed.
+~
+This creature has almost no form, it looks like some sort of shadow with wings.
+~
+human~
+ACF A D AHMV -1000 0
+56 0 20d20+946 8d59+1054 6d9+34 punch
+-17 -17 -18 -15
+CDHI AB MNO STZ
+stand stand male 1230
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25017
+gatekeeper gate keeper warrior~
+the Gatekeeper~
+A huge warrior stands here guarding the portal beyond.
+~
+He is a huge man, his strong, muscular body stands about 8 feet tall.
+He guards the portal beyond him angrily.
+~
+human~
+ABFG A DFJ AHMV -1000 25036
+70 0 11d56+1629 11d56+1629 6d12+43 punch
+-25 -25 -23 -20
+CI AB C D
+stand stand male 5400
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25018
+elemental water prince~
+The Water Prince~
+The prince of water elementals flows here
+~
+He looks like a giant wave about to swoop down upon you.
+~
+water fowl~
+AB A FTb AGHW 0 0
+64 0 22d24+1418 13d42+1361 6d11+39 punch
+-21 -22 -24 -16
+AHI R HIJKR 0
+stand stand male 4500
+ACDEFGHKPW ACDEFHKP medium unknown
+#25019
+earth elemental king~
+The Earth King~
+The King of earth elementals stands here.. cower fool!
+~
+It looks vaguely man-shaped.
+~
+water fowl~
+AB A FTb AGHW 0 0
+64 0 13d42+1361 22d24+1418 8d8+41 punch
+-21 -21 -20 -18
+AHI R HIJKR 0
+stand stand male 10000
+ACDEFGHKPW ACDEFHKP medium unknown
+#25020
+air elemental lord tornado~
+The Lord of Air~
+A huge tornado is squeezed into this impossibly small space.
+~
+It looks sentinent.
+~
+song bird~
+AB A DFHT AGW 0 0
+64 0 20d26+1313 23d24+1463 8d8+41 punch
+-20 -23 -23 -18
+AFHI 0 HIJK 0
+stand stand male 4906
+ACDEFGHKPW ACDEFHKP medium unknown
+#25021
+fire elemental sultan~
+The Sultan of Fire~
+The Sultan of fire Elementals stands before you, you feel crisp.
+~
+It looks vaguely man-shaped.
+~
+dragon~
+AB A DJT AHZ 0 0
+64 0 13d42+1361 13d42+1361 6d11+39 punch
+-23 -22 -22 -17
+AHI BEH BEFHIJK FI
+stand stand male 4111
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX medium unknown
+#25022
+king goblin~
+The goblin king~
+The goblin king is here.
+~
+He looks like david bowie.
+~
+goblin~
+A A DJ AHMV -351 0
+36 0 13d16+389 14d17+458 5d6+21 punch
+-7 -10 -9 -5
+0 P NPSXY NSXY
+stand stand male 940
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25023
+goblin cannon~
+A goblin cannon~
+A goblin cannon is here, warming up.
+~
+He looks like a tank.
+~
+goblin~
+AB A J AHMV -351 0
+60 0 8d65+1221 9d59+1266 7d9+39 punch
+-19 -20 -21 -17
+0 P NPSXY NSXY
+stand stand male 4500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25024
+goblin gatling~
+A gatling goblin~
+A gatling goblin is here!  Duck!
+~
+He looks like a walking gatling gun.
+~
+goblin~
+AB A J AHMV -351 0
+60 0 13d42+1361 17d28+1136 6d10+37 punch
+-20 -20 -20 -16
+0 P NPSXY NSXY
+stand stand male 5400
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25025
+acid blob~
+An acid blob~
+An acid blob is here
+~
+He looks like a big blob of acid
+~
+human~
+AB A 0 AHMV 0 0
+40 0 16d16+508 9d29+482 4d11+26 punch
+-10 -10 -10 -4
+0 0 0 0
+stand stand either 999
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25026
+acid blob giant~
+A giant acid blob~
+A gaint acid blob is here
+~
+He looks like a huge blob of acid
+~
+human~
+AB A 0 AHMV 0 0
+100 0 18d71+5917 33d37+5662 5d23+63 punch
+-37 -40 -40 -34
+0 0 0 0
+stand stand either 11111
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25030
+demon vrock~
+A vrock~
+A Vrock stands here
+~
+It is a vulture/human creature. Extremely ugly, and nasty.
+~
+human~
+ACF A DF AHMV -666 25030
+42 0 14d21+623 14d21+623 5d8+26 punch
+-11 -8 -13 -7
+FI AB C D
+stand stand male 999
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25031
+demon hezrou~
+A hezrou~
+A demon Hezrou stands here.
+~
+Not unlike A large toad/man
+~
+human~
+ACF A DF AHMV -666 0
+34 0 12d14+307 12d14+307 5d7+23 punch
+-6 -9 -5 -5
+AKN AB GPS HR
+stand stand male 378
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25032
+demon glabrezu~
+A glabrezu~
+A demon Glabrezu stands here.
+~
+I forget what this one looks like.
+~
+human~
+ACF A DF AHMV -666 25032
+36 0 15d18+534 9d29+482 5d6+21 punch
+-8 -8 -9 -5
+J AB 0 0
+stand stand either 490
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25033
+demon nalfeshnee~
+Nalfeshnee~
+Nalfeshnee stands here
+~
+This one is big and mean looking.
+~
+giant~
+ABCF A DF AHMV -666 25033
+38 0 16d16+508 9d29+482 5d8+25 punch
+-9 -9 -9 -6
+A ABHI HIJP JP
+stand stand either 890
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25034
+demon marilith~
+Marilith~
+Marilith slithers here
+~
+A woman with 6 arms and a snake's tail
+~
+elf~
+ACF A DFJ AHMV -666 25034
+30 0 7d23+271 12d14+307 4d7+19 punch
+-5 -8 -5 -1
+A AB BZ Z
+stand stand female 450
+ABCDEFGHIJKMV ABCDEFGHIJK tiny unknown
+#25035
+demon balor~
+Balor~
+Balor stands here, surrounded by electrical fire
+~
+He is very large, and looks rather deadly
+~
+dwarf~
+ACF A DFJ AHMV -666 0
+40 0 14d21+623 15d18+534 5d8+26 punch
+-11 -10 -11 -6
+I ABLQ DLQR CR
+stand stand male 899
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#25036
+gatekeeper gate keeper warrior~
+the Gatekeeper~
+A huge warrior stands here guarding the portal beyond.
+~
+He is a huge man, his strong, muscular body stands about 8 feet tall.
+He guards the portal beyond him angrily.
+~
+human~
+ABFG A DFJ AHMV -1000 25017
+70 0 23d27+1752 10d69+1956 5d16+45 punch
+-26 -27 -27 -22
+CDIK AB 0 0
+stand stand male 5400
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#25000
+sword~
+the Sword of the Ancients~
+The Sword of the Ancients rests here~
+steel~
+weapon GJLO AN
+sword 5 23 pierce D
+80 320 840 G
+A
+19 4
+A
+18 4
+E
+ancients~
+This huge sword is very old, and very very big and sharp.
+~
+#25001
+cloak~
+a pile of blue silk~
+A pile of dark blue silk lies here, rustling slightly.~
+wool~
+armor GL AK
+BCD BCD ABCD AD 0
+74 120 945 G
+A
+17 -10
+E
+dark blue~
+This cloak is dark blue, and looks like very effective armor
+~
+#25002
+silver sleeves~
+a pair of silver sleeves~
+A pair of silver sleeves lies at your feet.~
+silver~
+armor GLO AI
+ACD ABD BCD AD 0
+64 200 180 G
+A
+13 15
+E
+silver sleeves~
+These sleeves seem to have a sort of magical aura...
+~
+#25003
+belt~
+a Rune Covered Belt~
+An ornate looking belt lies here.~
+leather~
+armor GL AL
+ACD ACD BCD AD B
+64 100 479 G
+E
+rune covered belt~
+Upon closer inspection of the belt you find strange magical symbols...
+~
+#25004
+helm dragons~
+a Helm of the Dragons~
+A strange helm lies here.~
+steel~
+armor GJL AE
+ABCD BE E ABD A
+76 240 945 G
+A
+17 -17
+A
+6 1
+E
+helm dragons~
+The metal is like nothing you have ever seen, perhaps this helm is of the
+gods...
+~
+#25005
+rune breast plate~
+a Rune Covered Breast Plate~
+A rune covered breast plate lies here in the dirt~
+steel~
+armor GJLO AD
+E ACD BCD ACD C
+76 150 839 G
+A
+17 -10
+E
+rune breast plate~
+The breast plate is of no metal you have ever seen, strange markings 
+cover the plate.
+~
+#25006
+pair silver boot boots~
+a Pair of Silver Boots~
+A pair of silver boots stands neatly in the corner~
+silver~
+armor GLO AG
+BCD E BCD ACD 0
+70 90 756 G
+E
+pair silver boots~
+They are made of pure silver.... they radiate a strong sense of magic.
+~
+#25007
+silver shield~
+silver Shield~
+A Sturdy looking shield of silver rests against a nearby wall, gleaming
+brightly.~
+silver~
+armor GLO AJ
+BE BCE ABE E AB
+92 250 1566 G
+E
+silver shield~
+The shield is made of a silvery substyle.. It is like nothing you have
+ever seen.
+~
+#25008
+black silver cloak~
+a Black and Silver Cloak~
+A Black and silver Cloak lies crumpled in a corner.~
+silver~
+armor GLM AK
+BD ACD BD D B
+50 50 234 G
+E
+black silver cloak~
+It is of a fine, black material that is as dark as night......
+Silver runes and symbols are carefully inscribed on the back of the cloak.
+~
+#25009
+metallic leg plates~
+a Pair of Metallic Leg Plates~
+A pair of leg plates formed of some metallic substyle lie in pile.~
+steel~
+armor EGL AF
+AD ABD ABD C C
+50 3500 0 G
+F
+A 0 0 Va
+#25010
+pair jeweled gauntlets~
+a Pair of Jeweled Gauntlets~
+A pair of jewel encrusted gauntlets lie here.~
+steel~
+armor GJLN AH
+E ABE ABE ABCD B
+90 17 367 G
+A
+19 2
+A
+18 2
+E
+gauntlets~
+Looks very useful in combat.  They are made of fine chain mail.
+~
+#25011
+pitch black cloak~
+a Pitch-Black Cloak~
+A dark black cloak lies here in the dirt.~
+energy~
+armor GHLM AK
+ACD E AE D 0
+70 60 662 G
+#25012
+flaming bracelet~
+a Flaming Bracelet~
+A diamond studded bracelet lies here, burning fiercely.~
+diamond~
+armor GHLMO AM
+BCD ACD BCD BD 0
+70 20 467 G
+A
+19 2
+A
+18 2
+E
+flaming bracelet~
+It had several large diamonds placed on it... it burns fiercely!
+~
+#25013
+black onyx ring~
+a Black Onyx Ring~
+A black onyx ring lies here, just barely visible.~
+stone~
+armor GL AB
+ABCD BE AE ACD A
+72 10 225 G
+A
+18 1
+A
+17 -10
+#25014
+shadowshiv~
+the Shadowshiv~
+A small, wicked looking dagger lies here, its blade as black as night.~
+steel~
+weapon BGHLM AN
+dagger 6 11 stab C
+50 40 306 G
+A
+19 4
+A
+18 -1
+#25015
+two handed sword flaming~
+a Flaming Two-Handed Sword~
+A finely crafted two handed sword lies here engulfed in flames.~
+fire~
+weapon GLO AN
+sword 12 12 blast A
+100 40 674 G
+F
+A 0 0 I
+A
+19 12
+A
+18 3
+#25016
+silver trident~
+a Silver Trident~
+A trident crafted from fine silver has been placed here.~
+silver~
+weapon BCGHJLM AN
+staff 8 12 pierce 0
+72 180 674 G
+A
+19 2
+A
+18 2
+#25017
+sword sharpness~
+sword of Sharpness~
+A sword with a razor sharp blade lies here.~
+steel~
+weapon GLO AN
+sword 7 13 pierce D
+66 70 870 G
+A
+19 5
+A
+18 2
+#25018
+crystal ring~
+a Crystal Ring~
+A small crystal ring lies here.~
+crystal~
+treasure AGL AB
+0 0 0 0 0
+44 100 500 G
+A
+12 25
+#25019
+jeweled dagger~
+a Jeweled Dagger~
+A small dagger, encrusted with jewels lies here.~
+steel~
+weapon GLM AN
+dagger 3 39 stab 0
+74 70 2342 G
+#25020
+jewel encrusted helmet~
+a Jewel Encrusted Helmet~
+A small, jewel encrusted helmet lies here.~
+silver~
+armor GJLNO AE
+E ABCD ABCD CD B
+74 170 367 G
+#25021
+small medallion~
+a Small Medallion~
+A small medallion lies here among the dirt.~
+quartz~
+armor AGLP AC
+ABCD BE E ACD 0
+82 20 899 G
+A
+12 50
+#25022
+ivory bracelet~
+an Ivory Bracelet~
+A bracelet made of the finest ivory rests here.~
+ivory~
+armor GL AM
+ACD ABD E AD 0
+62 16 342 G
+F
+A 0 0 KTZ
+F
+R 0 0 D
+#25023
+green cape~
+a Bright Green Cape~
+An ugly, bright green cape lies ruffled in a nearby corner.~
+snakeskin~
+armor GL AC
+BCD ABCD ABCD D AB
+66 120 140 G
+A
+13 10
+#25024
+fire blade~
+the fire blade~
+A large sword lies here, smoldering in flames.~
+fire~
+weapon AGL AN
+sword 6 11 blast A
+50 400 378 G
+#25025
+glaive~
+glaive~
+A glaive rests here in the dirt.~
+steel~
+weapon GL AN
+polearm 4 35 slash 0
+88 120 873 G
+E
+glaive~
+You see nothing special.
+~
+#25026
+soul amulet~
+the Soul Amulet~
+A magical looking amulet lies here, gleaming.~
+quartz~
+armor GL AC
+BCD AE BE BD A
+72 30 640 G
+#25027
+circlet concentration~
+the Silver Circlet of Concentration~
+A small tiara of silver lies on the ground.~
+silver~
+armor GL AE
+E AE E ABCD A
+84 100 845 G
+A
+12 44
+E
+silver~
+A small inscription says "I hated it when i lost concentration in battle"
+~
+#25028
+portal~
+a small portal~
+Small portal is here leading to {RT{re{Dmp{rl{Re A{rl{Dt{ra{Rr{x.~
+energy~
+portal ABG 0
+ABCDIJKN 0 A BCDFGHIJL 0
+0 0 0 G
+#25050
+runed key~
+a Huge Runed Key~
+A huge rune covered key lies here in the dirt.~
+stone~
+key 0 AO
+0 0 0 0 0
+1 0 0 G
+#25051
+runed key~
+a Runed Key~
+A small rune covered key lies here in the dirt.~
+stone~
+key 0 AO
+0 0 0 0 0
+1 0 0 G
+E
+runed key~
+You see nothing special.
+~
+#25052
+runed key~
+a Runed Key~
+A small rune covered key lies here in the dirt.~
+stone~
+key 0 AO
+0 0 0 0 0
+1 0 0 G
+E
+runed key~
+You see nothing special.
+~
+#25053
+runed key~
+a Runed Key~
+A small runed key lies here in the dirt.~
+stone~
+key 0 AO
+0 0 0 0 0
+1 0 0 G
+E
+runed key~
+You see nothing special.
+~
+#25054
+runed key~
+a Runed Key~
+A rune covered key lies here in the dirt.~
+stone~
+key 0 AO
+0 0 0 0 0
+1 0 0 G
+E
+runed key~
+You see nothing special.
+~
+#25056
+crystal key~
+a Crystal Key~
+A crystal key lies here in the dirt.~
+crystal~
+key I AO
+0 0 0 0 0
+1 1 0 G
+E
+crystal key~
+You see nothing special.
+~
+#25057
+silvery key~
+a silvery key~
+A silvery key lies here in the dirt.~
+silver~
+key I AO
+0 0 0 0 0
+1 0 0 G
+E
+silvery key~
+You see nothing special.
+~
+#25058
+emerald key~
+an emerald key~
+An emerald key lies here in the dirt.~
+granite~
+key 0 AO
+0 0 0 0 0
+1 0 0 G
+E
+emerald key~
+You see nothing special.
+~
+#25059
+diamond key~
+a diamond key~
+A diamond key lies here in the dirt.~
+diamond~
+key 0 AO
+0 0 0 0 0
+1 0 0 G
+#25060
+breast plate~
+The Silver Breast Plate~
+A silver breast plate lies here in the dirt~
+silver~
+armor GJL AD
+BE BCE ABE E AC
+96 150 939 G
+A
+17 -20
+#25061
+helm~
+the Silver Helm~
+A strange, silver helm lies here.~
+silver~
+armor GJL AE
+CE CE AE AE A
+96 280 1450 G
+A
+17 -25
+#25062
+pair boot boots~
+a Pair of Runed Covered Boots~
+A pair of runed covered boots stands neatly in the corner~
+leather~
+armor GLO AG
+ABD ACD CD ABC 0
+54 120 956 G
+#25080
+girth hero heroism~
+the Girth of Real Heroism~
+An enormous, huge GIRTH lies here, filling the room with its power.~
+mithril~
+armor AGIOY AL
+BCE BCE BCE BCD B
+101 300 5000 G
+F
+A 17 -15 CDEFGJZ
+F
+R 19 5 C
+A
+18 5
+A
+14 100
+A
+13 100
+A
+12 100
+A
+3 2
+A
+5 2
+A
+4 1
+A
+1 1
+#25081
+ring hero heroism~
+the Ring of Real Heroism~
+An enormous, RING lies here, filling the room with its power.~
+energy~
+armor AGIOY AB
+BE ABE ABE AE A
+101 300 5000 G
+F
+A 14 100 TUV
+A
+13 50
+A
+12 50
+A
+18 5
+A
+17 -10
+#25082
+weapon hero heroism~
+the Real Hero' Weapon~
+An enormous, huge WEAPON lies here, filling the room with its power.~
+steel~
+weapon AGIOY AN
+exotic 10 15 slash D
+101 300 5000 G
+A
+14 50
+A
+13 50
+A
+12 50
+A
+4 1
+A
+2 1
+A
+1 1
+A
+18 5
+A
+19 6
+#0
+
+
+
+#ROOMS
+#25000
+The Mountain Path~
+You find yourself standing in a heavily wooded area, overgrown with brush,
+and gnarled trees. To the north, you see a neglected, twisted path,
+disappearing far into the mountains.
+     There is a small (Glowing) (Huming) tablet.
+~
+0 4 5
+E
+small tablet~
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                                                                    +
++   This area has been groked, strongly modified, debugged (?:)      +
++               and adapted in rain, cold week, july'96              +
++                             by jaceks                              +
++                                                                    +
++     PS. prepare to die - it is extremly hard {{60 99} area          +
++                          with aggro mobs                           +
++                     only armed personel allowed                    +
++                                                                    +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+~
+D0
+~
+~
+0 -1 25001
+D2
+~
+~
+0 -1 9202
+S
+#25001
+Lost in the Mountains~
+Numerous craggy mountains surround you. Twisted, deadened trees stare at
+you from all around. A neglected path, at your feet. You get an uneasy
+feeling of deja-vu.
+~
+0 0 5
+D0
+~
+~
+0 -1 25001
+D1
+~
+~
+0 -1 25001
+D2
+~
+~
+0 -1 25001
+D3
+~
+~
+0 -1 25074
+S
+#25002
+A Steep Trail~
+Here lies a steep, rocky trail, amidst the mountains, descending
+downward, into pitch black silence.
+~
+0 0 1
+D0
+~
+~
+0 -1 25003
+D2
+~
+~
+0 -1 25001
+S
+#25003
+The End of the Trail~
+As you disappear into the mountains, you get a growing feeling of evil, among 
+the faint darkness. You find yourself amidst an ancient warrior, towering far 
+above you. His face, twisted into an evil grin. A jagged opening in the 
+mountain lies behind your foe.
+~
+0 0 5
+D2
+~
+~
+0 -1 25002
+D5
+~
+~
+0 -1 25004
+S
+#25004
+Gateway to the Abyss~
+As you enter the jagged opening, you feel the coldness of the rock against 
+your skin. As you look into the darkness ahead, you are striken by 
+an overwhelming sense of evil. You dread the thought of what lies ahead.
+     There is a small (Glowing) (Huming) tablet.
+~
+0 8193 3
+E
+small tablet~
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++                                                                    +
++   This area has been groked, strongly modified, debugged (?:)      +
++               and adapted in rain, cold week, july'96              +
++                             by jaceks                              +
++                                                                    +
++     PS. prepare to die - it is extremly hard {{60 99} area          +
++                          with aggro mobs                           +
++                     only armed personel allowed                    +
++                                                                    +
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+~
+D0
+~
+~
+0 -1 6155
+D4
+~
+~
+0 -1 25003
+D5
+~
+~
+0 -1 25005
+S
+#25005
+Into the Dark~
+Here, the feeling of heat starts to engulf your soul. The intensity
+is almost unbearable. The walls around you have a glow of faint red.
+Thoughts of turning back start creeping into your mind. But, you feel
+a strange force pulling you... pulling you deeper and deeper into the
+pits of hell!
+~
+0 8201 3
+D0
+~
+~
+0 -1 25006
+D4
+~
+~
+0 -1 25004
+S
+#25006
+Cavern of Lost Souls~
+You wander into a dimly lit, caverous room. You are overpowered by
+a strong sense of death, here. The darkness seems to come alive at
+your presence. Visions of gruesome death, dance before your eyes...
+so real... as if they were alive... The souls of evil, banished from
+their bodies.... trapped here, seeking revenge... You feel your body
+being ravaged by the souls of adventurers long past.
+~
+0 8201 3
+D0
+~
+~
+0 -1 25007
+D2
+~
+~
+0 -1 25005
+S
+#25007
+Into the Caverns~
+From here, caverns branch off in all directions. You hear
+waves coming from a cavern to the east, while to the west
+the cavern has been enveloped in a glowing mist.
+~
+0 8201 3
+D0
+~
+~
+0 -1 25007
+D1
+~
+~
+0 -1 25008
+D2
+~
+~
+0 -1 25006
+D3
+~
+~
+0 -1 25009
+S
+#25008
+Damp Cavern~
+Here you find yourself in a large, cavernous passageway. The
+walls and floor of the cave are rather damp, and a musty smell
+fills the air. A familiar crashing sound continues to come from
+beyond the east passageway.
+~
+0 8201 3
+D1
+~
+~
+0 -1 25011
+S
+#25009
+Misty Cavern~
+As you enter the cavern you are surrounded by a strange mist
+filling the cavern. You are overpowered by the feeling of
+death and despair. Through the mist you can just barely make
+out what looks like a door to the west.
+~
+0 8201 3
+D1
+~
+~
+0 -1 25007
+D3
+~
+~
+0 -1 25010
+S
+#25010
+Western End of the Misty Cavern~
+The entire west wall is made up of two huge doors which seem
+to be glowing with a red aura. There is a small hole in one of
+the doors, perhaps a key hole. The mist in this room seems to
+be alive. You hear a deep wailing from beyond the doors, you
+shudder at the thought of what lies behind them.
+~
+0 8201 3
+D1
+~
+~
+0 -1 25009
+D3
+~
+Door Huge~
+0 -1 25012
+S
+#25011
+The Gate~
+As you enter this room, your eyes become fixed upon a large
+black object, in the center of the room. After carefull obse-
+rvation, you find that it resembeles some sort of window.
+The sounds you have been hearing appear to be coming from inside.
+You start to recall the crashing sounds of the waves...and
+suddenly you realize you have stumbled upon thier source.
+~
+0 8201 3
+D0
+~
+~
+0 -1 25013
+S
+#25012
+Realm of the Dead~
+This room appears to be a room of great riches. A large
+chest sits at the back of the room, you notice a pair of
+eyes staring at you from a dark corner of the room. You
+are suddenly overcome by an overwhelming feeling of un-
+easiness.
+~
+0 8201 3
+D0
+~
+~
+0 -1 25011
+D1
+~
+~
+0 -1 25010
+S
+#25013
+The Other Side~
+As you step through the window, you are instantly transported
+to find yourself here. Just to the north is what appears to be
+the shore of a large ocean.
+~
+0 8201 3
+D0
+~
+~
+0 -1 25014
+S
+#25014
+Ocean Shore~
+Here, though you are underground (or so you believe) there seems
+to be a sky of some sort, it is dark, and above you are black,
+constantly moving clouds, as black as the waves of the ocean which
+flows before you.
+~
+0 8197 3
+D0
+~
+~
+0 -1 25015
+S
+#25015
+On the Ocean of Despair~
+As you float on the jet-black waters of the ocean, occasionally
+something will stick its head above the surface. You try to focus
+your eyes upon the image, but unfortunately it is too dark to make
+out exactly what the creature is.
+~
+0 8193 7
+D0
+~
+~
+0 -1 25015
+D1
+~
+~
+0 -1 25015
+D2
+~
+~
+0 -1 25016
+D3
+~
+~
+0 -1 25015
+S
+#25016
+On the Ocean of Despair~
+As you go farther and farther out into the see you lose sight of
+all land. The thing that was back toword the shore appears to be
+following you. You begin to wonder what lies ahead.
+~
+0 8193 7
+D0
+~
+~
+0 -1 25015
+D1
+~
+~
+0 -1 25017
+D2
+~
+~
+0 -1 25015
+D3
+~
+~
+0 -1 25016
+S
+#25017
+On the Ocean of Despair~
+After you have been on the ocean for what seems like days....
+You notice what may be land to the north, at last land!
+~
+0 8193 6
+D0
+~
+~
+0 -1 25018
+D1
+~
+~
+0 -1 25015
+D2
+~
+~
+0 -1 25015
+D3
+~
+~
+0 -1 25015
+S
+#25018
+On the Shore~
+The shore is covered with the dead remains of many strange
+creatures. Bones line the shore, hundreds of them, every wave
+seems to bring more of the eerie, decayed debris.
+~
+0 8193 4
+D1
+~
+~
+0 -1 25019
+D2
+~
+~
+0 -1 25017
+S
+#25019
+A Wooded Path~
+As you enter these woods you feel an ever growing sense
+of evil. The trees are twisted and bent, and you notice many plants
+that have long since died, there is a small path  branching off to
+east.
+~
+0 8193 4
+D1
+~
+~
+0 -1 25020
+D3
+~
+~
+0 -1 25018
+S
+#25020
+A Small Path in the Twisted Forest~
+This faint path appears to have been neglected. You get
+the feeling that this path has not been tread upon for quite
+some time. As you continue down the path, a large twisted tree
+blocks the northern path. After taking a closer look you are
+able to make out what appears to be a flat clear land to the south.
+~
+0 8193 4
+D1
+~
+~
+0 -1 25019
+D2
+~
+~
+0 -1 25021
+S
+#25021
+The Abyssial Plains~
+Here the land is free of all trees. You actually see some
+plant life here. The plains are vast, and endless as far as the
+eye can see. Besides the woods from which you have just come
+there is nothing but flat land as far as the eye can see.
+~
+0 8193 4
+D0
+~
+~
+0 -1 25020
+D1
+~
+~
+0 -1 25022
+S
+#25022
+On the Plains~
+These vast plains seem to go on forever. A well worn
+path along the plains lies to the north, while you can make
+out a small hill to the east.
+~
+0 8193 4
+D0
+~
+~
+0 -1 25023
+D1
+~
+~
+0 -1 25035
+D3
+~
+~
+0 -1 25021
+S
+#25023
+Along a Well Worn Path~
+As you come closer to the trail, you realize that it
+has not been worn at all, but has been burned into the very
+ground on which you stand. Whatever made this trail could
+not be far ahead, for the trail is still smoldering.
+~
+0 8193 1
+D2
+~
+~
+0 -1 25022
+D3
+~
+~
+0 -1 25024
+S
+#25024
+The Smouldering Trail~
+As you continue down the trail, you notice parts of the
+trail are still burning. You appear to be catching up with
+whatever made this trail.
+~
+0 8193 1
+D1
+~
+~
+0 -1 25023
+D3
+~
+~
+0 -1 25025
+S
+#25025
+The Smouldering Trail~
+Looking around you notice that you are no longer in
+sight of the forest from which you came. The trail continues
+to smolder at your feet.
+~
+0 8193 1
+D1
+~
+~
+0 -1 25024
+D3
+~
+~
+0 -1 25026
+S
+#25026
+The Smouldering Trail~
+The sky seems to get darker and darker with every step.
+You start to wonder why you are hunting the creature which
+lies at the end of this flaming trail.
+~
+0 8193 1
+D1
+~
+~
+0 -1 25025
+D3
+~
+~
+0 -1 25027
+S
+#25027
+The Smouldering Trail~
+It continues to grow darker, the only thing you can see are
+the flames lighting your way along the trail on which you now
+walk.
+~
+0 8193 1
+D1
+~
+~
+0 -1 25026
+D3
+~
+~
+0 -1 25028
+S
+#25028
+The Smouldering Trail~
+You must be nearing the end of the trail, for here the
+heat gets more intense. Flames are all about the trail, you
+must be nearing your quarry also.
+~
+0 8193 1
+D1
+~
+~
+0 -1 25027
+D3
+~
+~
+0 -1 25029
+S
+#25029
+The Smouldering Trail~
+Just ahead you see the end of the trail, the very end
+appears to be burning heavily. You can't make out anything else
+ahead for the flames are too bright.
+~
+0 8193 1
+D1
+~
+~
+0 -1 25028
+D3
+~
+~
+0 -1 25030
+S
+#25030
+The Flaming Gates~
+As you approach the flames  you realize it was not
+the trail itself that was burning so brightly ahead.
+Suddenly you stand face to face with a huge, flaming
+street! You cringe in terror as you see two large gates
+that seem to glowing with a faint aura of red.
+~
+0 8193 1
+D0
+~
+gate flaming~
+0 25050 25031
+D1
+~
+~
+0 -1 25029
+S
+#25031
+Inside the Flaming Gates~
+As you open the huge gates and step inside, you notice
+a large courtyard just to the north of you. On the far side
+of the courtyard you can just barely make out what appears
+to be a large castle of some sort.
+~
+0 8193 1
+D0
+~
+~
+0 -1 25032
+D2
+~
+gate flaming~
+0 25050 25030
+S
+#25032
+The Castle Courtyard~
+Strange, the courtyard is very quiet, nothing appears to
+be around. Off to the west you notice a small structure. Closer
+to the castle, you can now make out some sort of statues on each
+side of the entrance.
+~
+0 8193 1
+D0
+~
+~
+0 -1 25040
+D2
+~
+~
+0 -1 25031
+D3
+~
+~
+0 -1 25033
+S
+#25033
+Western End of the Courtyard~
+Upon nearing the building you notice that it looks
+rather ruined, you hear a strange sound come from within.
+You find here, what appears to be the remains of some sort
+of creature, bones are strewn all about the ground.
+~
+0 8193 1
+D1
+~
+~
+0 -1 25032
+D3
+~
+door ruined
+
+~
+0 25050 25034
+S
+#25034
+Inside a Small Stone Building~
+As you enter the room you see several weapons hung upon
+the walls, just as you start to take some of the weaponry you
+notice that is has long since rusted and is of no use to you.
+At the far end of the room you notice a small table, a closer
+look reveals the remains of what may have been a knight. The
+corpse, resting in a chair just behind the table appears to be
+grasping something. Moving closer to the corpse you notice a
+sword held tightly in the clutch of the skeletal figure.  Looking
+at the sword you realize it is unlike the rest of the decayed
+weaponry.... The blade appears to be razor sharp, and the metal
+untarnished.
+~
+0 8201 4
+D1
+~
+door ruined~
+0 25050 25033
+S
+#25035
+A Small Hill~
+As you climb the hill you notice something at the top,
+however, it is too dark to make out exactly what the shape is.
+~
+0 8193 4
+D3
+~
+~
+0 -1 25022
+D4
+~
+~
+0 -1 25036
+S
+#25036
+Entrance to a Small Building~
+As you come to the top of the hill, you can see that
+the shape you saw from below was a small building.
+The building appears empty, for the door lies open,
+revealing a stair well within.
+~
+0 8201 2
+D3
+~
+~
+0 -1 25037
+D5
+~
+~
+0 -1 25035
+S
+#25037
+Top of the Stair Well~
+You step inside the building to find that you were
+correct, you find nothing within the small room. There is
+a stair well descending downward into the darkness below.
+~
+0 8201 4
+D1
+~
+~
+0 -1 25036
+D5
+~
+~
+0 -1 25038
+S
+#25038
+The Stair Well~
+You set foot down the descending passage. The stairs are
+made of stone and appear to be quite solid. There is a strong
+stench coming from below, you begin to feel sick as you
+continue to descend the stairs.
+~
+0 8201 1
+D4
+~
+~
+0 -1 25037
+D5
+~
+~
+0 -1 25039
+S
+#25039
+A Large Room~
+Upon entering, you discover that this may have once
+been a small crypt of some sort. What looks to be the
+remains of several adventures... perhaps a large party...
+You wonder what could have done away with them. A strange
+feeling comes over you, you sense you are not alone.
+~
+0 8201 1
+D4
+~
+~
+0 -1 25038
+S
+#25040
+The Central Courtyard~
+As you come to the center of the courtyard, you notice
+a large fountain... it looks very old and weathered, but a
+constant stream of clear liquid continues to flow from a
+small statue in the center of the fountain. The castle
+drawbridge lies just to the north of you.
+~
+0 8193 2
+D0
+~
+~
+0 -1 25041
+D2
+~
+~
+0 -1 25032
+S
+#25041
+The Castle Drawbridge~
+You are now standing on the drawbridge of an ancient
+castle. Two huge statues of some strange creature float in
+mid-air directly above the pit beneath the drawbridge on
+which you now stand. You can't see any farther than the
+inside of the entrance, for the castle appears to be
+totally without light.
+~
+0 8193 1
+D0
+~
+~
+0 -1 25043
+D2
+~
+~
+0 -1 25040
+D5
+~
+~
+0 -1 25042
+S
+#25042
+In The Bottomless Pit~
+As you begin to climb down the side of the pit, you begin to
+lose your footing. Desperatly you try to regain any hold you can,
+but unfortunatly you can not find any and you begin to fall! After
+several minutes, you begin to wonder if there is any end to this
+seemingly bottomless pit into which you have fallen. Just as you
+decide that there must be no end and that you will fall eternally,
+you notice a bed of very large steel spikes fast approaching you,
+Alas there is no escape. You cry out in agony as the spikes pierce
+your flesh!
+~
+0 2 1
+D4
+~
+~
+0 -1 25041
+S
+#25043
+Inside the Entrance to the Castle~
+As you step inside the castle, you are overpowered by the
+darkness, the shadows seem to come alive at your presence. The
+whole castle is pitch black, as your light cuts through the darkness
+you notice a large banner hanging upon the wall. There are exits in
+nearly every direction, to the north a large staircase ascends
+upwards into the darkness.
+~
+0 8201 1
+D0
+~
+~
+0 -1 25044
+D1
+~
+~
+0 -1 25052
+D2
+~
+~
+0 -1 25041
+S
+#25044
+At the Base of the Spiral Staircase~
+As you come to the base of the staircase, you hear a faint
+roaring sound from somewhere above you. The staircase is old, but
+still looks quite sturdy. Strange symbols are engraved into the
+railings of the staircase.
+~
+0 8201 6
+D2
+~
+~
+0 -1 25043
+D4
+~
+~
+0 -1 25045
+S
+#25045
+On the Spiral Staircase~
+As you begin to climb the staircase, you start to hear strange
+noises from further up. The stairs creak as you set foot upon them,
+you see the outline of something up ahead. Your light just barely
+penetrates the darkness, you can only see about three feet in any
+direction.
+~
+0 8201 6
+D4
+~
+~
+0 -1 25046
+D5
+~
+~
+0 -1 25044
+S
+#25046
+On the Spiral Staircase~
+You approach the figure.... you hear a loud roar and the darkness
+is lit by a stream of fire coming from some kind of three-headed
+beast. The creature is winged, none of the three heads appear to
+be of the same species. Worn around the central neck of the creature is
+an amulet of some kind.
+~
+0 8201 6
+D4
+~
+~
+0 -1 25047
+D5
+~
+~
+0 -1 25045
+S
+#25047
+The Top of the Spiral Staircase~
+You find the top floor of the castle is much cleaner than the
+previous level. The floor is richly carpeted, several pictures line
+the walls. The figure in the paintings is a skeleton, and dressed
+in a richly tailored robe.
+~
+0 8201 6
+D1
+~
+~
+0 -1 25048
+D5
+~
+~
+0 -1 25046
+S
+#25048
+A Coridoor~
+You step into a rather long hallway, there appears to be
+a door or two further down the hall. There seems to be a
+strange glow at the southern end of the hall.
+~
+0 8201 6
+D2
+~
+~
+0 -1 25049
+D3
+~
+~
+0 -1 25047
+S
+#25049
+Southern End of Coridoor~
+At this end of the hall, you come to a huge door, made entirely of
+gold and silver. A small keyhole is set into the left side of the
+door. The air seems to crackle with magical energy, the door resists
+all of your attempts to enter without the proper key. As you reach
+out to touch the door, you feel a sharp pain run through your body,
+thoughts of death and great evil race through your mind. You hear an
+evil laugh from beyond the door.
+~
+0 8201 6
+D0
+~
+~
+0 -1 25048
+D2
+~
+door~
+0 25051 25050
+S
+#25050
+Castle Throne Room~
+As you enter the room you notice several symbols and markings of unholy nature.
+The room is light enough to see, but rather dim. A huge pentacle is layed out 
+upon the floor, the dwemor of some evil magic is in the air. At the far back of
+the room, you see a brilliant throne of crystal, strange runes of gold are set 
+into the throne. Your heart stops for a moment as you notice the decayed, 
+skeletal form of a lich seated in the throne, the red glow of its eyes fixed 
+dead upon you. With a quick motion of its hand, the door from which you 
+entered, magically forms into a stone wall. the only exit is an ornate door 
+set into the wall behind the throne of the lich! An evil laugh echoes
+through the air.
+~
+0 9 1
+D2
+~
+door~
+0 25056 25051
+S
+#25051
+The Vault~
+You now stand within the lich's treasure vault, a huge treasure
+lies in the center of the room. The room is decorated with many marble
+columns, in the far corner you can make out a shimering portal........
+through which you can see a path along a vast mountain range.
+~
+0 9 2
+D0
+~
+door
+
+~
+0 25056 25050
+S
+#25052
+The Grand Hallway~
+You stand just to the east of the castke entrance. Many statues
+of gargoyles and other strange creatures line each side of the hall
+ a little farther down the hall, you can make our a huge set of double
+doors, you hear a strange sound to the east.
+~
+0 8201 1
+D1
+~
+~
+0 -1 25053
+D3
+~
+~
+0 -1 25043
+S
+#25053
+The Grand Hallway~
+This part of the hall is lined with the same sort of statues.
+The statues in the part of the hall to the east look a little more
+life like...... they almost look real. A large statue of a wizard
+of some sort stands at one side of the room, the statue is not like
+the others, it seems to be newly made. No dust or cracks are visible on the
+statue, it almost appears as if it were staring directly at you!
+~
+0 8201 1
+D1
+~
+~
+0 -1 25054
+D3
+~
+~
+0 -1 25052
+S
+#25054
+End of the Grand Hallway~
+A huge set of doors are set into the wall to the east, the doors
+are bound of iron and are very sturdy. The statues in this end of
+the hall look as though they are watching you! As you reach for the
+doors the statues suddenly spring to life and attack!
+~
+0 8201 1
+D1
+~
+double doors~
+0 25053 25055
+D3
+~
+~
+0 -1 25053
+S
+#25055
+A Large Room~
+This rooms appears to be the room where the owner of the castle
+comes to dine. A large feast is layed out upon a table in the
+center of the room, a voice echoes through the room 'I have been
+expecting you' the voice says. You look all about the room for the
+speaker, but fail to find one.
+~
+0 8201 1
+D1
+~
+~
+0 -1 25056
+D3
+~
+double door
+
+doors
+
+~
+0 25053 25054
+S
+#25056
+The Castle Pantry~
+Shelves line the walls, many differnt goods lay in piles
+on top of them. The floors are covered with the remains of broken
+shelves and other various items which were once stored on them.
+There are exits to the west and south.
+~
+0 8201 5
+D2
+~
+~
+0 -1 25057
+D3
+~
+~
+0 -1 25055
+S
+#25057
+The Castle Store Room~
+The room is dark and very damp, dust covers the goods stored
+here. There are many boxes and crates here, however most are empty,
+but you manage to find an old noz with a few remaining goods stored
+inside.
+~
+0 8201 6
+D0
+~
+~
+0 -1 25056
+D2
+~
+door~
+0 25051 25058
+S
+#25058
+Castle Barracks~
+Upon entering this room, you see several figures laying all about
+the room. Suddenly you realize you have entered the guards barracks!
+Just as you are about to leave the figures begin to move, angry that
+you have awakened them, they charge you!
+~
+0 8201 8
+D0
+~
+door~
+0 25051 25057
+D2
+~
+door~
+0 -1 25059
+S
+#25059
+Guest Room~
+This room is richly decorated, may fine tapestries line the
+walls. A large bed lies in the southwest corner of the room. There
+are also many chests in the room, but you look through them and
+find nothing of value. There is a large metal door to the east.
+~
+0 8205 3
+D0
+~
+~
+0 -1 25058
+D1
+~
+metal large door~
+0 25054 25060
+S
+#25060
+Base of the Tower~
+This room appears to be the base of a large watch tower, stairs
+ascend upword twords the top of the tower.. Several strange runes are
+etched into each stair, the feeling of evil is strong in the air. You
+hear footsteps behind you as the door suddenly slams shut! The only
+exit, now that the door has been sealed are a set of stairs going up
+to the top of the tower and a set of stairs going downward into the
+darkness.
+~
+0 8201 4
+D4
+~
+~
+0 -1 25061
+D5
+~
+~
+0 -1 25075
+S
+#25061
+The Tower Staircase~
+As you climb the staircase, you feel the presence of something
+watching you. You feel a slight draft, there must be an opening
+somewhere up the tower. You hear the movement of something above you.
+~
+0 8201 4
+D4
+~
+~
+0 -1 25062
+D5
+~
+~
+0 -1 25060
+S
+#25062
+The Tower Staircase~
+You have entered a small room near the top of the tower.
+Stairs continue upword to the top of the tower, the room is deathly
+quiet, you wander what could have made the strange sounds which
+you heard from below.
+~
+0 8201 5
+D4
+~
+~
+0 -1 25063
+D5
+~
+~
+0 -1 25061
+S
+#25063
+Top of the Tower~
+The top of the tower is lit by a large window, probably meant as
+a lookout incase of an attack. From the looks of the castle it appears
+that this tower obviously didnt help much.
+~
+0 8201 5
+D5
+~
+~
+0 -1 25062
+S
+#25074
+Lost in the Mountains~
+Numerous craggy mountains surround you. Twisted, deadened trees stare at
+you from all around. A neglected path, at your feet. You get an uneasy
+feeling of deja-vu.
+~
+0 8193 4
+D0
+~
+~
+0 -1 25002
+D1
+~
+~
+0 -1 25001
+S
+#25075
+The Central Chamber~
+You are in a large chamber, from the looks of the room, it
+appears that this is the place where the prisoners are executed.
+A large pit lies in the center of the room, huge flames erupt
+upwords from its firey depths.
+~
+0 8201 1
+D4
+~
+~
+0 -1 25060
+D5
+~
+~
+0 -1 25076
+S
+#25076
+The Pit of Sacrifice~
+As you begin to descend into the depths of the pit, you ready
+yourself for the agony of the blaze. As the flames come in contact
+with your skin you feel a slight disorientation, but you remain
+unharmed.
+~
+0 8201 2
+D4
+~
+~
+0 -1 25075
+D5
+~
+~
+0 -1 25077
+S
+#25077
+Beneath the Sacraficial Pit~
+As you near the base of the illusionary blaze, you notice
+several figures emerge from the flames. A large door lies to
+the west, while the exit from the pit lies directly overhead.
+~
+0 8201 4
+D3
+~
+door large~
+0 -1 25078
+D4
+~
+~
+0 -1 25076
+S
+#25078
+Entrance to the Sanctuary~
+You stand in the doorway of some sort of sanctuary.
+A small altar lies in the center of the room, bloodstained
+from recent sacrafices that have been made upon it. The
+only exits from the room are east and west.
+~
+0 8201 4
+D1
+~
+door large~
+0 -1 25077
+D3
+~
+~
+0 -1 25079
+S
+#25079
+The Sanctuary~
+As you approach the altar, you notice the blood upon it
+is fresh. There are several exits to this room, the door to the
+north is slightly ajar, while the door to the west remains closed.
+The altar seems to glow with a sort of inner light....
+~
+0 8201 2
+D0
+~
+door ajar
+
+~
+0 -1 25082
+D1
+~
+~
+0 -1 25078
+D2
+~
+~
+0 -1 25086
+D3
+~
+door
+
+~
+0 -1 25080
+D5
+~
+~
+0 -1 25094
+S
+#25080
+The Sanctuary~
+As you enter this room, you get a feeling of safety. A large,
+ornate door lies directly to the west of you, a feeling of great
+evil radiates from it. As you begin to look around the room, a
+strange red mist begins to seep from a crak beneath the door....
+~
+0 8201 2
+D1
+~
+door~
+0 -1 25079
+D3
+~
+ornate door large~
+0 -1 25081
+S
+#25081
+Cardinal's Death Room~
+This oddly shaped room gives off a feeling of great power.
+Dimly lit, and vast in size, you eyes focus on an eerie, demonic
+throne at the far end of the chamber. The throne is etched with
+many twisted, grotesque carvings that give off a faint aura of
+cardinal red.
+~
+0 8201 4
+D1
+~
+large ornate door~
+0 -1 25080
+S
+#25082
+The Sanctuary~
+You are in a small chamber, upon entering the room you
+notice a lone knight clad in armor run through the door to
+the west, perhaps the same one you seen earlier. Suddenly,
+without warning, you see two shadowy figures materialize
+before you!
+~
+0 8201 4
+D2
+~
+door ajar~
+0 -1 25079
+D3
+~
+door~
+0 -1 25083
+S
+#25083
+The Sanctuary~
+You chase the knight into a small alcove. Upon seeing you,
+the knight quickly shifts the south wall, revealing a passage,
+and quickly runs through it. You hear an evil laugh.
+~
+0 8201 2
+D1
+~
+door~
+0 -1 25082
+D2
+~
+~
+0 -1 25084
+S
+#25084
+Sanctuary Guard Post~
+You have entered the guard post of the sanctuary, several
+guards snarl at you entry. The knight quickly orders them to
+dispose of the and takes off through the south door.
+~
+0 8201 4
+D0
+~
+~
+0 -1 25083
+D2
+~
+door~
+0 -1 25085
+S
+#25085
+Chamber of Kalas~
+You have entered the chambers of Kalas, the knight, and
+defender of this castle. Upon entering, Kalas begins to speak,
+'You must leave, do not force me to destroy you.' The is a glint
+of evil in his eyes as he prepares for battle.
+~
+0 8201 2
+D0
+~
+door~
+0 -1 25084
+D4
+~
+~
+0 -1 25040
+S
+#25086
+A Narrow Passage~
+You stand within a narrow passage deep below the castle.
+You see no other exits other than the one you have just
+come from except for the passage to the west.
+~
+0 8201 2
+D0
+~
+~
+0 -1 25079
+D3
+~
+~
+0 -1 25087
+S
+#25087
+A Narrow Passage~
+As you walk a little further down the passage, you see
+a door a little further to the west. A thick mist fills this
+portion of the passage, it appears to get even thicker to the
+west.
+~
+0 8201 1
+D1
+~
+~
+0 -1 25086
+D3
+~
+~
+0 -1 25088
+S
+#25088
+End of a Narrow Passage~
+At this end of the passage, the mist gets very thick, and
+you can just barely make out the door to the west. You hear
+a faint, ghost like voice float through the air, but you
+cant make out the words that are spoken.
+~
+0 8201 2
+D1
+~
+~
+0 -1 25087
+D3
+~
+door~
+0 -1 25089
+S
+#25089
+The Mist~
+Upon entering this room, you are assaulted by a dense patch
+of mist. The mist seems to glow with an inner light, its almost
+as if it were alive. The ghostly voice grows louder, speaking in
+a language unknown to you.
+~
+0 8201 4
+D1
+~
+door~
+0 -1 25088
+D3
+~
+~
+0 -1 25090
+S
+#25090
+The Castle Dungeon~
+You find yourself in a small room near the Dungeon entrance.
+The room is deathly quiet, a large doorway lies to the south.
+The words 'Beware of the Ancient One' are inscribed into the wall
+next to the doorway.
+~
+0 8201 4
+D1
+~
+~
+0 -1 25089
+D2
+~
+~
+0 -1 25091
+S
+#25091
+The Castle Dungeon~
+You stand in a small torture chamber, like the rest of the
+dungeon, bones lie strewn about the room. The only exit from
+this room is to the south. The wall to the west has a small
+split down the middle... it appears as if it could be opened.
+~
+0 8201 3
+D0
+~
+~
+0 -1 25090
+D3
+~
+wall split~
+0 -1 25092
+S
+#25092
+Secret Passage~
+This room is clean, the walls here are of marble, and are a
+spectacular sight. Many fine tapestries line the walls. The room
+is quiet, almost too quiet... You see a solid iron door to the south.
+~
+0 8201 2
+D1
+~
+wall split~
+0 -1 25091
+D2
+~
+iron solid door~
+0 -1 25093
+S
+#25093
+Hall of Ancients~
+This room is amazingly beautiful, there is the throne made
+entirely of silver set against the south wall. A gruesome thing
+lies in the center of the room, some disgusting green liquid
+oozes from many small bubbles on the creatures flesh. The sight
+of the horrible creature nearly makes you sick. The creature
+slowly begins to make its way toword you.......
+~
+0 9 1
+D0
+~
+solid iron door~
+0 -1 25092
+S
+#25094
+A Small Alcove~
+Upon entering this small alcove, you get a safe feeling
+within its walls. The room is clean and several tapestries
+hang upon the wall. The wall to the east appears to be moveable,
+for there are marks on the floor where the wall may have
+scraped it.
+~
+0 8201 4
+D1
+~
+wall~
+0 -1 25095
+D4
+~
+~
+0 -1 25079
+S
+#25095
+A Narrow Tunnel~
+Shifting the wall has revealed a long, narrow tunnel
+in which you now find yourself. The tunnel is freshly dug
+and appears to extend quite a long way. No doors are visible
+save for the wall you just shifted.
+~
+0 8201 2
+D1
+~
+wall~
+0 -1 25094
+D3
+~
+~
+0 -1 25096
+S
+#25096
+A Narrow Tunnel~
+As you come around a small corner in the tunnel, you see
+a faint light to the south. The southern part of the tunnel
+is lit by a dim light of some kind at the far end of the
+tunnel.
+~
+0 8201 1
+D1
+~
+~
+0 -1 25095
+D2
+~
+~
+0 -1 25097
+S
+#25097
+A Narrow Tunnel~
+At this point of the tunnel, the walls get closer together
+and the passage gets very narrow. As you near the southern end
+of the tunnel, the light grows brighter. The only apparent exits
+from the room are north and south.
+~
+0 8201 2
+D0
+~
+~
+0 -1 25096
+D2
+~
+~
+0 -1 25098
+S
+#25098
+A Small Portal~
+As you come to the end of the tunnel, you notice the
+light is coming from a somewhat small portal. The light coming
+from the portal is so intense that it nearly blinds you.
+~
+0 8201 2
+D0
+~
+~
+0 -1 25097
+S
+#0
+
+
+
+#SPECIALS
+M 25001 spec_breath_gas
+M 25008 spec_cast_cleric
+M 25010 spec_poison
+M 25011 spec_cast_undead
+M 25018 spec_breath_any
+M 25019 spec_breath_any
+M 25020 spec_breath_any
+M 25021 spec_breath_any
+M 25033 spec_thief
+S
+
+
+
+#RESETS
+M 0 25017 2 25003 1
+E 0 25017 0 16
+M 0 25036 2 25003 1
+E 0 25017 0 16
+M 0 25004 5 25004 2
+M 0 25005 9 25006 3
+M 0 25017 2 25011 1
+E 0 25017 0 16
+M 0 25036 2 25011 1
+E 0 25017 0 16
+M 0 25014 3 25012 1
+E 0 25001 0 3
+E 0 25016 0 16
+M 0 25010 1 25015 1
+M 0 25011 1 25020 1
+E 0 25021 0 3
+M 0 25030 5 25028 3
+M 0 25008 5 25030 1
+E 0 25023 0 3
+E 0 25050 0 17
+M 0 25008 5 25031 1
+E 0 25023 0 3
+E 0 25050 0 17
+M 0 25031 5 25032 3
+M 0 25032 5 25034 3
+M 0 25012 9 25036 3
+M 0 25015 2 25039 2
+E 0 25025 0 16
+M 0 25007 2 25041 1
+G 0 25018 0
+M 0 25007 2 25041 1
+G 0 25018 0
+M 0 25009 1 25045 1
+G 0 25026 0
+M 0 25016 1 25048 1
+M 0 25014 2 25050 1
+E 0 25005 0 5
+E 0 25004 0 6
+E 0 25000 0 16
+E 0 25056 0 17
+M 0 25000 1 25051 1
+E 0 25013 0 2
+E 0 25011 0 12
+E 0 25012 0 15
+E 0 25056 0 17
+M 0 25006 6 25054 1
+E 0 25019 0 16
+M 0 25006 6 25054 1
+E 0 25020 0 6
+M 0 25033 5 25055 2
+M 0 25033 5 25056 2
+M 0 25033 5 25057 1
+E 0 25051 0 17
+M 0 25006 6 25058 1
+G 0 25001 0
+M 0 25006 6 25058 1
+E 0 25006 0 8
+M 0 25034 3 25063 3
+M 0 25035 1 25063 1
+M 0 25008 5 25063 1
+E 0 25008 0 12
+M 0 25008 5 25076 1
+E 0 25022 0 15
+M 0 25002 1 25081 1
+E 0 25002 0 10
+E 0 25008 0 12
+M 0 25004 5 25082 1
+E 0 25008 0 12
+M 0 25004 5 25082 1
+E 0 25014 0 16
+M 0 25004 5 25082 1
+E 0 25024 0 16
+M 0 25006 6 25084 1
+E 0 25009 0 7
+M 0 25006 6 25084 1
+M 0 25013 1 25085 1
+E 0 25013 0 2
+E 0 25060 0 5
+E 0 25007 0 11
+E 0 25061 0 6
+E 0 25062 0 8
+E 0 25010 0 9
+E 0 25015 0 16
+M 0 25003 1 25089 1
+E 0 25003 0 13
+M 0 25001 1 25093 1
+E 0 25027 0 6
+M 0 25018 1 25094 1
+M 0 25019 1 25095 1
+M 0 25020 1 25096 1
+M 0 25021 1 25097 1
+O 0 25028 0 25098
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

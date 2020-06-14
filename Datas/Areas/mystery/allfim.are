@@ -1,0 +1,5528 @@
+#AREADATA
+Name Lands of Fim~
+Builders Charun~
+VNUMs 10200 10399
+Credits {{50 70} Charun  Lands of Fim~
+Security 5
+Flags 0
+End
+
+
+
+#MOBILES
+#10200
+grey tiger~
+a big grey tiger~
+A great grey tiger stalks here looking for prey
+~
+~
+human~
+0
+AC DFJPV 0 0 0 0
+53 13 9d180+930 0d0+0 0d0+0 5d10+0 bite
+-9 -21 -11 7
+DH 0 IQ B
+stand stand none 2550
+AV ACDFUV large unknown
+F for HM
+F par BEGHIJK
+#10201
+monk priest~
+A robed monk~
+A monk is here meditating on the meaning of life
+~
+~
+human~
+0
+AB HNc 0 0 200 0
+57 15 10d170+933 55d10+100 0d0+0 6d10+0 punch
+-15 -15 -14 4
+FIK 0 LP M
+rest rest male 0
+HMV BEGH medium unknown
+F for A
+F par ACDFIJK
+#10202
+merchant shopkeeper~
+a merchant~
+A food merchent is here
+~
+The merchant is a short, slender oriental man.  He really wants to show
+you his wares.  You seems very happy to see you.  
+~
+human~
+0
+AB Vc 0 0 0 0
+1 25 20d200+0 0d0+0 0d0+0 4d25+0 slap
+-30 -30 -30 -30
+EFJ CDP HI 0
+stand stand male 10000
+ADHMV 0 small flesh
+F par ABCDEFGHIJK
+#10203
+monk~
+a monk~
+A monk in yellow and white robes 
+~
+This is a monk.  He searchs for the true meaning of life, and prays that
+the spirits will help him in that quest.  He is friendly, and willing to
+help.  Though he seems very uncertain of you.  
+~
+human~
+0
+A F 0 0 180 0
+53 22 13d225+940 53d10+100 0d0+0 3d16+15 punch
+-16 -14 0 15
+FIP 0 BCP M
+stand stand male 0
+AMV ABCDEFK medium flesh
+F for H
+F par GHIJ
+#10204
+warrior monk sohei~
+a warrior monk~
+A monk is here practicing his form
+~
+The monk seems to be perfectly graceful.  His movements are flood and
+intense.  He seems to have the power of the world backing his every move.  
+~
+human~
+0
+ABKT DF 0 0 200 0
+58 21 10d169+850 55d10+100 0d0+0 3d20+0 thrust
+-14 -14 -14 3
+FIKN 0 BCHP M
+stand stand male 0
+AMV ABCEFK medium unknown
+F for H
+F par DGHIJ
+#10205
+master monk teacher~
+The master warrior~
+A monk is here teaching others the ways of combat
+~
+~
+human~
+0
+ABKT H 0 0 210 0
+60 37 0d0+0 0d0+0 0d0+0 7d10+0 smash
+-14 -15 -15 5
+EFHIKO B CHP M
+stand stand none 0
+0 ABCEFGK medium unknown
+F for AHMV
+F par DHIJ
+#10206
+wolf~
+a maze wolf ~
+A maze wolf walks here, looking to protect his territory
+~
+The maze wolf was specially bred to kill things in this maze.  You get the feeling that he's good at his job.
+~
+wolf~
+0
+ABF FZ 0 0 0 0
+55 24 10d171+875 0d0+0 0d0+0 3d30+0 bite
+-18 -18 -18 6
+BEFH 0 0 0
+stand stand none 0
+AGV ACEFHJKV medium unknown
+F for HM
+F par BDGI
+#10207
+hidden ninja~
+a hiding ninja~
+A camoflauged ninja is here watching you.
+~
+~
+human~
+0
+AB JQ 0 0 -80 0
+59 28 7d250+800 57d10+100 0d0+0 2d45+0 slash
+-14 -16 -14 5
+EFHJKN 0 KL 0
+stand stand male 500
+AHMV ABCDEFGHK medium flesh
+F par IJ
+#10208
+lag monster~
+the LAG monster~
+The lag monster is here slowing things down
+~
+~
+dragon~
+0
+A JT 0 0 0 0
+25 10 10d55+140 0d0+0 0d0+0 5d5+12 wrath
+-2 -2 -2 4
+0 0 BEH FI
+stand stand none 0
+AHZ ACDEFGHIJKPQUVX small unknown
+#10209
+guard ninja~
+the lair guard~
+The ninja here is not happy you've found the clan lair
+~
+This ninja is charged with defenind the entrace of his clan's hall.  You
+are trespassing.  He only knows of one way to deal with trespassers.  
+~
+human~
+0
+ABF FTV 0 0 -80 0
+57 27 13d170+920 0d0+0 0d0+0 7d12+0 slash
+-15 -15 -15 2
+EFHIJKNO B KL N
+stand stand male 3500
+HMV ABCEFGJ medium unknown
+F for A
+F par DHIK
+#10210
+ninja~
+a ninja~
+A ninja is here, beating up a practice dummy
+~
+~
+human~
+0
+AB F 0 0 -50 0
+53 26 15d168+930 0d0+0 0d0+0 5d11+0 slash
+-17 -16 -15 2
+CEFHIJKN B KL 0
+stand stand none 2500
+MV ABCEFK medium unknown
+F for AH
+F par DGHIJ
+#10211
+ninja lord~
+the ninja lord~
+The lord of clan Blood Dawn is here
+~
+~
+human~
+0
+AF DFTV 0 0 0 0
+72 43 10d225+1800 70d10+100 0d0+0 10d12+0 slice
+-26 -24 -29 -2
+EFHJK B HKLP IJ
+stand stand male 10000
+HMV ABCEFGK medium unknown
+F for A
+F par DHIJ
+#10212
+ninja~
+sleeping ninja~
+A ninja is sleeping here, unaware of you
+~
+~
+human~
+0
+AB a 0 0 0 0
+50 21 10d170+920 0d0+0 0d0+0 6d10+0 none
+-22 -22 -22 -4
+CFHJ 0 KL 0
+sleep sleep male 2000
+HMV ACEFGK medium unknown
+F for A
+F par BDHIJ
+#10213
+ninja~
+the dressing ninja~
+A ninja is here getting dressed
+~
+The ninja appears to be busy putting on his camoflauge
+~
+human~
+0
+AB Fa 0 0 0 0
+52 23 10d170+950 0d0+0 0d0+0 5d10+0 punch
+0 0 0 0
+FHIJ 0 KL P
+stand stand none 0
+MV ABCEFGHK medium unknown
+F for AH
+F par DIJ
+#10214
+ninja closet~
+the closet ninja~
+A ninja is here, and he doesn't want to leave
+~
+This ninja looks like he's lost his nerve, and appears to be happy
+standing in the closet.  
+~
+human~
+0
+AB F 0 0 -120 0
+51 25 12d166+980 0d0+0 0d0+0 6d10+0 stab
+-13 -16 -15 0
+EFJK 0 KL 0
+stand stand male 1500
+AHMV ABCEFGHK medium unknown
+F par DIJ
+#10215
+ninja guard~
+the treasure guard~
+A ninja is here guarding the treasure from everyone
+~
+This ninja is especially disiplined.  He can resist the temptation of
+touching the treasure.  But he doesn't believe you can.  
+~
+human~
+0
+ABF DFT 0 0 -150 0
+58 30 13d172+925 58d10+100 0d0+0 6d11+0 slash
+-16 -16 -18 1
+EFHJKO AB HKLP N
+stand stand male 3500
+AHMV ABCEFGHK medium unknown
+F par DIJ
+#10216
+ninja lieutenant~
+the ninja lieutenant~
+A ninja lieutenant is here sparing
+~
+He seems very intent on his combat, though he appears as if he is trying
+very hard to not be lethal.  
+~
+human~
+0
+AB TV 0 0 -200 0
+60 32 14d172+910 0d0+0 0d0+0 6d12+0 crush
+-17 -17 -17 2
+CEFHJKP B HKLP 0
+stand stand male 4000
+AHMV ABCEFGHK medium unknown
+F par DIJ
+#10217
+ninja~
+the ninja~
+A ninja is here
+~
+~
+human~
+0
+AB F 0 0 0 0
+53 22 10d165+950 0d0+0 0d0+0 6d10+0 pound
+-13 -13 -13 2
+FIJKNP 0 KL P
+stand stand none 2250
+AHMV ABCEFGHK medium unknown
+F par DIJ
+#10218
+monk librarian~
+The librarian~
+A librarian is here making sure all the scrolls are in place
+~
+The librarian wanders around.  Occasionally pulling a scroll to see if
+it's in the right case.  Sometimes rearranging the scroll cases on a shelf. 
+He seems content with his job.  
+ 
+~
+human~
+0
+AB HNc 0 0 220 0
+58 31 12d172+960 58d10+100 0d0+0 6d12+0 smash
+-17 -17 -17 2
+EFIK B HP 0
+stand stand male 3400
+AHMV ABCEFGHK medium unknown
+F par DIJ
+#10219
+ninja~
+a ninja~
+A ninja is here
+~
+This is a ninja.  A man trained in the black art of ninjitsu.  He is a
+trained killer, and he is good at his job.  
+ 
+~
+human~
+0
+A F 0 0 -100 0
+52 22 10d165+950 0d0+0 0d0+0 5d11+0 pound
+-14 -14 -14 3
+FIJKNP 0 KL P
+stand stand male 2250
+AHMV ABCEFGHK medium unknown
+F par DIJ
+#10220
+lion statue~
+a statue of a lion~
+A marble statue of a lion sits here
+~
+~
+human~
+0
+AB N 0 0 100 0
+60 25 20d162+250 0d0+0 0d0+0 5d13+0 bite
+-15 -17 -13 2
+CFO BL J K
+stand stand none 0
+CHJ ABCHUV medium unknown
+F for AMV
+F par DEFGIJK
+#10221
+monk~
+a praying monk~
+A monk is on his knees praying here
+~
+The monk here is very intent on his prayers.
+~
+human~
+0
+AB HN 0 0 300 0
+53 23 10d169+950 0d0+0 0d0+0 6d10+0 punch
+-14 -13 -13 3
+CEFKN 0 CP M
+stand stand male 0
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10222
+monk~
+the hungry monk~
+A hungry monk is eating here.
+~
+The monk is rapidly eating a bowl of noodles.  He seems to be enjoying it
+more than most people, it would be a shame to ruin it.  
+~
+human~
+0
+AB Na 0 0 275 0
+60 27 10d170+955 0d0+0 0d0+0 6d12+0 punch
+-16 -16 -14 2
+CEFKNO 0 CP M
+stand stand male 0
+AHMV 0 medium unknown
+F par ABCDEFGHIJK
+#10223
+monk potter~
+The potter~
+A potter is here making a pot
+~
+This is the monks master potter.  He has attained inner peace by making
+arwork out of his job.  The pots that lay around him are truely some of the
+most exquist that have ever been produced.  
+~
+human~
+0
+AB FHNT 0 0 450 0
+60 31 13d172+950 60d10+100 0d0+0 6d12+0 smash
+-18 -19 -19 0
+FHIKNOP B HP M
+stand stand male 0
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10224
+monk tailor~
+The tailor~
+A tailor is here fixing a robe
+~
+The temple tailor is a mast of embroidery and repair.  He takes great
+pleasure in making the clothes of people.  He feels that the universe is
+rewarding him for picking the proper profession.  
+
+~
+human~
+0
+AB FHN 0 0 450 0
+60 31 13d172+950 60d10+100 0d0+0 6d12+0 smash
+-18 -18 -16 0
+CFHKNOP B PZ MX
+stand stand male 0
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10225
+monk smith~
+The smith~
+A blacksmith is here working on some metal
+~
+The smith's arms are huge, from the years spent mastering how to make
+metal into tools.  He is centered when he performs smithing, and can create
+high quality items in very little time.  He is one of the most noted men in
+the temple.  
+~
+human~
+0
+AB FHN 0 0 0 0
+62 0 12d172+950 60d10+100 0d0+0 6d12+0 smash
+-18 -17 -16 1
+CFHKLNO 0 CP M
+stand stand male 0
+AHMV ABCEFGHJK medium unknown
+F par DI
+#10226
+monk mason~
+The mason~
+The temple mason is here working on some stone.
+~
+His arms are thin and well toned, his shoulders are broad and muscular. 
+His eyes are show that he has the concentration of master, and that he has
+found his path in life.  
+~
+human~
+0
+AB FHN 0 0 400 0
+62 31 12d172+900 60d10+100 0d0+0 6d12+0 smash
+-17 -18 -18 0
+CFHKNOP B CKP M
+stand stand male 0
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10227
+monk master chu~
+Master Chu~
+Master Chu is here giving away his knowledge
+~
+Master Chu is a small man, but you can feel the energy flow from his
+body.  When you walk up he hushes the other monks and looks you straight in
+the eye.  
+ 
+ 
+"Go to Asano in the north if you want to help this cursed land."
+~
+human~
+0
+ABQb FHNT 0 0 560 0
+75 45 10d230+1800 65d10+100 0d0+0 10d15+0 smash
+-19 -19 -19 -1
+FGHIKNOP BNQ CHP 0
+stand stand male 8100
+AHMV ABCDEFGHK medium unknown
+F par IJ
+#10228
+adept monk~
+A monk adept~
+A monk adept is here learning from his master
+~
+He is listening intently to master Chu.  His eyes are almost tearing from
+the wisdom that he is being told.  He is fiercely loyal to Chu, for it's Chu
+that is showing him the path to true enlightenment.  
+~
+human~
+0
+AB HTc 0 0 475 0
+62 30 12d175+980 60d10+100 0d0+0 7d11+0 punch
+-17 -16 -17 1
+FHKP B CP M
+stand stand none 0
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10229
+undead samurai~
+an undead samurai~
+A pale, beaten samurai walks here.
+~
+This samurai has taken quite a beating.  His armor is smashed, and he has
+at least a dozen arrows protruding from his body.  His eyes are completely
+lifeless, and no blood is coming from his wounds.  
+
+~
+human~
+0
+ACFO ac 0 0 -240 0
+65 35 13d172+940 0d0+0 0d0+0 6d12+0 claw
+-19 -19 -19 0
+CEFHKU B DLP NX
+stand stand none 120
+IM ABCGHJ medium unknown
+F for AHV
+F par DEFIK
+#10230
+undead peasant ashigaru~
+an undead ashigaru~
+A warrior peasant walks here.  There is no life in his eyes.
+~
+~
+human~
+0
+ACF ac 0 0 -200 0
+60 31 10d173+1000 0d0+0 0d0+0 7d15+0 claw
+-15 -17 -14 5
+CFHKU B ILP N
+stand stand none 1800
+DIM ABCGHJ medium unknown
+F for AHV
+F par DEFIK
+#10231
+herbalist~
+the herbalist~
+A herbalist is here making potions
+~
+He is a small old man.  He seems happy to work if the sick and wounded. 
+He has made a very profittable business out of healing them.  
+He will heal you too, for a price.
+~
+human~
+0
+ABa V 0 0 0 0
+70 41 12d180+1200 0d0+0 0d0+0 10d10+0 punch
+-18 -18 -19 2
+EFKN AB 0 0
+stand stand male 6000
+AHMV ABCDEFGHK medium unknown
+F par IJ
+#10232
+general~
+Lin-Po's general~
+The general of Lin-Po's army is here giving orders
+~
+~
+human~
+0
+AB DFTVc 0 0 -100 0
+75 44 12d200+1800 0d0+0 0d0+0 10d12+0 chop
+-21 -21 -21 0
+EFHKNO AB HIJ P
+stand stand male 3500
+AHMV DEF medium unknown
+F par ABCGHIJK
+#10233
+wounded samurai~
+the wounded samurai~
+A wounded samurai lies here in pain.
+~
+You look at the wounded samurai.  His eyes are full of inhuman fear, and
+he chokes a phrase out to you.  "Please, don't let me die again..."  
+~
+human~
+0
+AB MV 0 0 120 0
+65 35 10d180+1200 0d0+0 0d0+0 8d11+0 pound
+-12 -15 -14 3
+FKO 0 GH 0
+stand stand male 220
+AHMV BCDEFGHJK medium unknown
+F par AI
+#10234
+samurai player~
+a go-moku player~
+A samurai of the Togashi clan sits and plays go-moku
+~
+He is concentrating very intently on his next move.  He contorts his face
+as he thinks, and bounces his knee up and down.  Even with the pressure of
+the game, he seems happy with playing.  It would upset him greatly if
+something was to ruin the game.  
+~
+human~
+0
+AB HV 0 0 150 0
+65 36 10d175+1150 0d0+0 0d0+0 8d12+0 punch
+-17 -17 -18 4
+FHKNO B HJKPQ EIL
+stand stand male 2000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10235
+soldier player~
+a go-moku player~
+A Lin-Po soldier is here playing go-moku
+~
+He is a soldier, who has taken some time to play his enemy in a board
+game.  He has done it out of respect, and honor.  He looks confident that he
+will win, and happy that he had taken the time to play against him.  He
+would be very displeased if anyone disrupted he when he's about to win.  
+~
+human~
+0
+AB HV 0 0 150 0
+65 36 10d175+1150 0d0+0 0d0+0 8d12+0 punch
+-17 -17 -18 4
+FHKNO B HJKPQ EIL
+stand stand male 2000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10236
+ashigaru peasant warrior~
+a ashigaru~
+A warrior peasant walks here looking for a fight.
+~
+~
+human~
+0
+AF a 0 0 0 0
+60 31 10d172+1000 0d0+0 0d0+0 7d11+35 pierce
+-15 -14 -15 6
+FJKNU 0 F E
+stand stand male 55
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10237
+soldier~
+a soldier~
+One of Lin-Po's soldiers walks here looking for the enemy
+~
+~
+human~
+0
+AF a 0 0 0 0
+60 30 10d171+1000 0d0+0 0d0+0 7d11+50 pierce
+-14 -14 -14 6
+FJKNU 0 F E
+stand stand male 55
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10238
+guard~
+the tired guard~
+A guard is here, falling asleep on his spear.
+~
+He looks like he can barely keep his eyes open, but has been trying to
+stay awake for a long time.  
+~
+human~
+0
+ABH V 0 0 0 0
+65 34 10d180+1120 0d0+0 0d0+0 8d10+45 stab
+-18 -17 -17 3
+FKOP 0 0 0
+sleep rest male 75
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10239
+archer~
+an archer~
+A archer walks here, searching for targets
+~
+~
+human~
+0
+A FV 0 0 0 0
+67 35 10d182+1155 65d10+100 0d0+0 8d12+40 blast
+0 0 0 0
+FGHK B FH L
+stand stand none 205
+HMV ABCDEFGHJK medium unknown
+F for A
+F par I
+#10240
+general yamamito~
+general Yamamito~
+General Yamamito of the Togashi clan is here arguing over strategy
+~
+A thin majestic man.  You can see his battle experience in his eyes.  He
+keeps pushing for a hoshi(arrowhead) attack formation. 
+~
+human~
+0
+AB HTV 0 0 200 0
+78 43 12d230+1880 73d10+100 0d0+0 10d10+0 slash
+-20 -23 -23 -1
+EFHK AB GJ 0
+stand stand male 1600
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10241
+general takenda~
+general Takenda~
+General Takenda of the Togashi clan is here arguing over strategy
+~
+He has a heavy build, but his moves are graceful.  He is a seasoned
+warrior, who has earned the rank of general He keeps pushing for a
+Kakuyoku(Crane's Wing) battle formation.  
+~
+human~
+0
+AB HTV 0 0 0 0
+78 43 12d230+1880 73d10+100 0d0+0 10d10+0 crush
+-20 -23 -23 -1
+EFHK B EH 0
+stand stand male 1600
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10242
+general asakura~
+general Asakura~
+General Asakura of the Togashi clan is here arguing over strategy
+~
+He is fully dressed in his armor, you can't even see his face.  He stomps
+about like he knows what he is doing.  He is pushing strongly for a
+engetsu(half moon) battle posture.  
+~
+human~
+0
+AB HTV 0 0 200 0
+78 43 12d230+1880 73d10+100 0d0+0 10d10+0 thrust
+-20 -23 -23 -1
+EFHK B GK 0
+stand stand none 1600
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10243
+royal guard~
+one of Lin-Po's guards~
+One of the royal guard of Lin-Po is at attention here
+~
+~
+human~
+0
+AB V 0 0 0 0
+60 35 10d200+1500 0d0+0 0d0+0 6d11+30 slash
+-17 -16 -17 1
+EFHKO B HP 0
+stand stand male 1200
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10244
+yan can royal chef~
+Yan Can~
+Yan Can the royal chef is here cooking up a meal
+~
+Yan Can runs about the kitchen explaining the steps of preparation to
+anyone who will listen.  
+~
+human~
+0
+AB NTV 0 0 200 0
+66 40 10d220+1650 0d0+0 0d0+0 5d12+33 cleave
+-17 -17 -17 0
+EFHK B GH 0
+stand stand male 2000
+AHMV ABCDFGHJK medium unknown
+F par EI
+#10245
+intellectual guest~
+Lin-Po's guest~
+It is Lin-Po's guest.  He's wandering about a little.
+~
+~
+human~
+0
+A 0 0 0 0 0
+65 38 10d177+1300 0d0+0 0d0+0 7d10+50 none
+-15 -16 -15 4
+CFH 0 0 0
+stand stand none 4200
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10246
+servant~
+a servant~
+One of Lin-Po's many servants is here
+~
+~
+human~
+0
+A 0 0 0 0 0
+55 26 10d170+970 0d0+0 0d0+0 6d10+30 thrust
+0 0 0 0
+CEIKP 0 EH 0
+stand stand none 1200
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10247
+wan~
+Wan~
+Wan is here practicing his etiquette
+~
+He's trying very hard to remeber how to serve tea to a lady...  SSHHH!  
+~
+human~
+0
+AB V 0 0 0 0
+60 35 10d190+1200 0d0+0 0d0+0 6d11+30 none
+-20 -19 -19 2
+EFHKN 0 BHL 0
+stand stand male 3000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10248
+slave prisoner~
+a slave~
+A slave cringes in a corner
+~
+He's frieghtened, and looks like he's attened several of his own
+torturings.  His spirit has been broken beyond repair.  He can't even bring
+himself to commit seppuko.  
+~
+human~
+0
+ABH 0 0 0 0 0
+55 24 10d179+900 0d0+0 0d0+0 5d10+25 punch
+-15 -15 -15 3
+FJ 0 0 AB
+stand stand male 0
+AMV ABCDEGHJK medium unknown
+F for H
+F par FI
+#10300
+linpo lin po lin-po~
+Lin-Po~
+The master of this land Lin-Po is relaxing here.
+~
+~
+human~
+0
+AB FHT 0 0 0 0
+75 42 10d240+1950 0d0+0 0d0+0 10d16+75 smash
+-25 -25 -25 -3
+EFHK BJ HMOP 0
+stand stand male 30000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10301
+wife wo sing wosing wo-sing ~
+Lin-Po's Wife~
+The wife of Lin-Po is here
+~
+This is Wo-Sing wife of Lin-Po, lord of this compound.  She shows the
+grace and mastery of years of royal life.  She knows that she is the queen
+here, and has no problem expressing herself about it.  
+~
+human~
+0
+AB FHT 0 0 0 0
+70 40 10d225+1800 0d0+0 0d0+0 10d12+65 slap
+-22 -22 -22 -1
+EFHJKO B HJ 0
+stand stand female 10000
+AHMV ABCEFGH medium unknown
+F par DIJK
+#10302
+wan~
+Wan~
+Wan is here practicing his etiquette
+~
+He's trying very hard to remember how to serve tea to a lady...  SSHHH!  
+~
+human~
+0
+AB V 0 0 0 0
+60 35 10d190+1200 0d0+0 0d0+0 6d11+30 thwack
+-20 -19 -19 2
+EFHKN 0 BHL 0
+stand stand male 3000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10303
+slave prisoner~
+the slave~
+A slave cringes in a corner
+~
+He's frightened, and looks like he's attended several of his own
+torturings.  His spirit has been broken beyond repair.  He can't even commit
+suicide anymore.  
+~
+human~
+0
+ABH 0 0 0 0 0
+55 24 10d179+900 0d0+0 0d0+0 5d10+25 punch
+-15 -15 -15 3
+FJ 0 0 AB
+stand stand male 0
+AMV ABCDEGHJK medium unknown
+F for H
+F par FI
+#10304
+royal mystic fu~
+the mystic~
+Fu, the royal mystic, is preparing something
+~
+~
+human~
+0
+AC DFTUVc 0 0 0 0
+65 35 10d180+1300 60d10+100 0d0+0 7d10+33 stab
+-15 -15 -15 3
+FK 0 C 0
+stand stand male 3500
+AHMV ABCDEGHJK medium unknown
+F par FI
+#10305
+servant attendant maid~
+Wo-sings's attendant~
+Wo-Sing's personal maid is here, taking care of things
+~
+~
+human~
+0
+AB HNa 0 0 0 0
+60 36 10d185+1150 0d0+0 0d0+0 6d12+25 punch
+-15 -16 -15 4
+EFJKP 0 0 0
+stand stand female 2500
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10306
+Lu stable keeper~
+Lu~
+Lu, the stable keeper, is sweeping up
+~
+He's going about his chores, and working hard to please people.  Right
+now he's sweeping.  
+~
+human~
+0
+ABH N 0 0 320 0
+63 31 10d200+1180 0d0+0 0d0+0 8d10+35 thwack
+0 0 0 0
+EFHJK LQ 0 0
+stand stand none 0
+AHMV ABCDEGHJK medium unknown
+F par FI
+#10307
+executioner~
+the executioner~
+The executioner is here, waiting for work.
+~
+~
+human~
+0
+AB 0 0 0 0 0
+70 40 10d227+1850 0d0+0 0d0+0 10d12+60 cleave
+-20 -20 -18 0
+EFHJKO B EP 0
+stand stand male 7500
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10308
+servant~
+a servant~
+One of Lin-Po's many servants is here
+~
+~
+human~
+0
+A 0 0 0 0 0
+55 26 10d170+970 0d0+0 0d0+0 6d10+30 thrust
+0 0 0 0
+CEFIKP 0 EH BF
+stand stand none 1200
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10309
+perfect horse~
+a magnificent horse~
+A horse of perfect grooming and training stands here.
+~
+~
+horse~
+0
+AM 0 0 0 0 0
+50 50 50d10+4500 50d10+100 50d10+100 5d8+19 charge
+-20 -20 -20 -13
+CFI 0 0 0
+stand stand none 0
+AGV ACDEFHJK large unknown
+#10310
+togashi daimyo saji~
+the Togashi daimyo~
+The daimyo of the Togashi clan, Saji, commands here.
+~
+~
+human~
+0
+AB HTV 0 0 0 0
+75 50 10d235+1830 0d0+0 0d0+0 10d16+75 beating
+-14 -14 -14 0
+EFGHK AB I 0
+stand stand male 12000
+AHMV ABCDFGHJK medium unknown
+F par EI
+#10311
+lady court~
+a lady~
+A lady of the court is here watching the intrigue
+~
+~
+human~
+0
+AB 0 0 0 0 0
+60 38 10d200+1900 0d0+0 0d0+0 7d10+33 slap
+-15 -16 -14 2
+FJK 0 C B
+stand stand female 8000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10312
+clan scribe~
+the scribe~
+The clan scribe sits here writing.
+~
+~
+human~
+0
+AB FHV 0 0 0 0
+60 33 10d180+1150 0d0+0 0d0+0 6d11+30 stab
+-14 -16 -14 2
+CEFHJK B L 0
+stand stand male 2000
+AHMV ABCDEGJK medium unknown
+F par FHI
+#10313
+harem girl~
+a harem girl~
+One of Saji's  harem girls sleeps around here
+~
+~
+human~
+0
+ABH F 0 0 -140 0
+55 25 10d173+975 0d0+0 0d0+0 6d10+22 suction
+-14 -13 -14 3
+FJK ABQ 0 0
+stand stand female 3400
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10314
+master archer bow~
+The master archer~
+A master of the bow is here practicing
+~
+~
+human~
+0
+AB 0 0 0 0 0
+70 40 10d200+1400 0d0+0 0d0+0 7d9+0 pierce
+-16 -17 -16 1
+FHK 0 F 0
+stand stand male 0
+AHMV 0 medium unknown
+F par ABCDEFGHIJK
+#10315
+sculptor wood woodcarver~
+a wood sculptor~
+A woodcarver is sculpting here
+~
+~
+human~
+0
+AB DH 0 0 200 0
+65 38 10d170+1000 0d0+0 0d0+0 5d10+0 stab
+-14 -15 -15 3
+FK 0 0 0
+stand stand male 3000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10316
+Asano~
+Asano~
+Asano stands here thinking
+~
+He was once a best swordsman in a the land.  He was thought to have
+killed over one thousand men.  But that was then, now he is a painter.  He
+has given up the ways of war, and is trying to mend is soul.  He says, "To
+lift the curse on this land you must get the dagger which each warlord
+possesses.  Then you must travel to the cave to the west, and destroy the
+dragon Fim."  
+~
+human~
+0
+A HT 0 0 250 0
+80 44 8d200+1600 0d0+0 0d0+0 12d9+10 slash
+-16 -15 -15 -2
+EFHKO B 0 0
+stand stand male 15000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10317
+gi gigi gi-gi ward lady woman girl~
+Gi-gi~
+Asano's ward, Gi-gi, stands here
+~
+~
+human~
+0
+AH H 0 0 300 0
+62 38 8d180+1050 0d0+0 0d0+0 6d8+0 claw
+0 0 0 0
+FJKP 0 0 0
+stand stand female 7000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10318
+fim ancient cathay dragon~
+the ancient dragon Fim~
+The ancient cathay dragon known as Fim is coiled here, plotting
+~
+He speaks to you saying, "I am why the warlords battle for eternity.  I
+have promised them both my help in conquering the world.  All that they must
+do, is defeat the other warlords immortal army.  I have been reaping the
+benefits of war for centuries, but it looks like you've come to stop all
+that.  If you try, I will have to hurt you...  Very...  Very...  Badly."  
+~
+dragon~
+0
+A FJTV 0 0 -400 0
+83 64 12d240+1700 0d0+0 0d0+0 10d12+10 acbite
+-30 -30 -30 -5
+EFGHJK ABHJ E F
+stand stand male 20000
+ACHZ ABCDEFGHIJKLPQUVWX huge unknown
+F res BH
+F vul I
+#10319
+Hori ~
+Hori the dung dealer~
+Hori, seller of many assorted flavors of feces, is here selling his wares
+~
+~
+human~
+0
+AB 0 0 0 0 0
+70 47 9d200+1200 0d0+0 0d0+0 7d7+5 digestion
+-15 -13 -13 2
+CEFJK LQ 0 0
+stand stand none 4000
+BHMV ABCDEFGHJK medium unknown
+F for A
+F par I
+#10320
+mai depressed teen~
+mai the depressed~
+Mai is a dpressed, and is hoping the garden will cheer her
+~
+My is in her teens, and the weight of the world is pressing on her.  Her
+brow is low with depression, but she is her looking for a cure.  
+~
+human~
+0
+AB H 0 0 120 0
+70 40 9d150+1000 0d0+0 0d0+0 6d8+0 none
+-10 -10 -13 4
+FHJK 0 0 0
+stand stand none 5000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10321
+ronin~
+a vengeful ronin~
+A ronin his here, practicing for revenge
+~
+His leader killed, his land burned.  He is a samurai with nothing, but
+vengance in his heart.  
+~
+human~
+0
+AB TV 0 0 0 0
+80 55 10d230+1400 0d0+0 0d0+0 10d10+5 slash
+-14 -14 -17 -2
+EFHKO 0 G 0
+stand stand male 0
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10322
+regent akaru~
+Akaru the regent~
+Akaru the regent is here making sure everything runs smoothly
+~
+~
+human~
+0
+A H 0 0 200 0
+75 48 10d200+1550 0d0+0 0d0+0 8d9+12 wrath
+-12 -12 -15 0
+EFKO B 0 0
+stand stand none 4000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10323
+wong~
+Wong~
+Wong is here, scratching himself while waiting for customers
+~
+~
+human~
+0
+AB 0 0 0 0 0
+60 37 1d1+2000 0d0+0 0d0+0 1d100+50 punch
+-12 -13 -12 1
+CEFJK 0 0 0
+stand stand none 2000
+AMV ABCDEFGHJK medium unknown
+F for H
+F par I
+#10324
+forty old whore~
+An old whore~
+A forty year old is here trying to turn a trick
+~
+~
+human~
+0
+AB 0 0 0 0 0
+58 33 9d185+1000 0d0+0 0d0+0 6d8+5 bite
+-13 -13 -13 2
+EFHIJK BLQ 0 F
+stand stand female 4000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10325
+rice farmer~
+a rice farmer~
+A rice farmer is here working
+~
+~
+human~
+0
+AB 0 0 0 0 0
+50 25 7d175+860 0d0+0 0d0+0 6d6+5 none
+-11 -10 -10 4
+EFJKO 0 0 0
+stand stand female 1000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10326
+player patron~
+A mah jong player~
+A patron of Wong's is here practicing mah jong
+~
+~
+human~
+0
+AB Va 0 0 0 0
+60 36 10d190+1320 0d0+0 0d0+0 6d8+0 pound
+-12 -13 -12 1
+CFJKN 0 0 0
+stand stand male 2500
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10327
+common villager~
+a villager~
+A common villager walks here
+~
+~
+human~
+0
+A 0 0 0 0 0
+53 27 8d180+880 0d0+0 0d0+0 5d9+0 thwack
+-10 -13 -12 2
+0 0 0 0
+stand stand none 1000
+AHMV ABCDEFGHJK medium unknown
+F par I
+#10328
+peacock~
+a peacock~
+A beautifully colored peacock walks here
+~
+~
+human~
+0
+AB T 0 0 100 0
+55 28 8d155+900 0d0+0 0d0+0 6d7+0 peck
+-10 -10 -10 3
+0 0 0 0
+stand stand none 0
+AW ACDEFHJK medium unknown
+F for HMV
+F par BGI
+#0
+
+
+
+#OBJECTS
+#10200
+tall thin tree~
+a tall thin tree~
+A tall, thin tree stands here.  It's low slung branches look easy to climb.~
+wood~
+trash 0 A
+0 0 0 0 0
+0 10000 0 P
+#10201
+plank~
+a wood plank~
+A wide plank lies across two trees~
+wood~
+trash 0 A
+0 0 0 0 0
+0 10000 0 P
+E
+plank~
+As you stare at the sagging plank you realize that this was probably a
+perch...for man.  Who probably could watch everything around him from this
+locale.  
+~
+#10202
+robe robes~
+monk's robes~
+A pile of yellow and white monks' robes lays here~
+cloth~
+armor K AD
+10 17 14 10 0
+50 30 25000 P
+Y
+char 'saving throw' 0 -3
+Y
+char 'constitution' 0 3
+#10203
+key lords~
+the clan lord's key~
+A key with the symbol of the Blood Dawn on it is here~
+gold~
+key V AO
+0 0 0 0 0
+1 2 0 P
+#10204
+The clan lord's room key~
+the clan lord's room key~
+A peice of brass twisted to form a key lies here~
+brass~
+key PV AO
+0 0 0 0 0
+1 3 0 P
+#10205
+No-Dachi sword~
+charun's No-Dachi~
+The great death bringer, Charun's No-dachi lays on a peice of silk here~
+steel~
+weapon ABFGI AN
+exotic 100 5 cleave D
+105 10 0 P
+#10206
+sushi~
+a bit of sushi~
+A plate of sushi is laying here.~
+food~
+food 0 A
+40 50 0 0 0
+1 0 30 P
+#10207
+rice ball~
+a balls of rice~
+A ball of white rice lays here~
+food~
+food 0 A
+15 15 0 0 0
+1 1 15 P
+#10208
+eggroll~
+an eggroll~
+A large greasy eggroll is here, waiting to be eaten~
+food~
+food I A
+35 20 0 0 0
+1 2 40 P
+#10209
+sake rice wine~
+a bottle of sake~
+A Bottle of sake sits here~
+glass~
+drink 0 A
+6 6 'cordial' 0 0
+1 2 20 P
+#10210
+root~
+some youth root~
+Some pulp of the youth root is here, it could improve your health~
+unknown~
+pill 0 A
+40 'cure serious' 'cure poison' '' ''
+1 1 3200 P
+#10211
+water waterclock clock~
+the water clock~
+A large stone waterclock is here dripping the hours away.~
+unknown~
+fountain 0 0
+0 0 'water' 0 0
+1 10000 0 P
+#10212
+brass telescope~
+a large brass telescope~
+A large brass telescope is here pointing to the stars.~
+unknown~
+staff G AO
+60 10 10 'detect invis' 0
+55 120 4000 P
+#10213
+royal earring~
+a royal earring~
+A set of elegant earrings has been placed here~
+unknown~
+jewelry G AR
+0 0 0 0 0
+60 4 15000 P
+Y
+char 'AC' 0 5
+Y
+char 'hitroll' 0 2
+Y
+char 'damroll' 0 2
+#10214
+gloves shuko armguard~
+a shuko~
+A armguard with climbing spikes lays here, looking useful~
+iron~
+armor 0 AH
+7 5 10 7 0
+57 15 4500 P
+Y
+char 'damroll' 0 10
+Y
+char 'dexterity' 0 2
+#10215
+ninja maze medallion~
+a maze medallion~
+The reward for completing the ninja's maze hangs here. ~
+unknown~
+treasure B AC
+0 0 0 0 0
+55 12 7000 P
+Y
+char 'AC' 0 -5
+Y
+char 'mana' 0 30
+#10216
+shurekin pouch stars~
+a shurekin pouch~
+A pouch full of throwing stars has been left here~
+unknown~
+wand 0 AO
+52 5 5 'general purpose' 0
+50 20 4400 P
+#10217
+naginata spear~
+a naginata~
+A spear with a long curved head rests on the ground~
+unknown~
+weapon 0 AN
+spear 11 8 slash 0
+55 150 13000 P
+Y
+char 'damroll' 0 7
+Y
+char 'hitroll' 0 3
+Y
+char 'AC' 0 10
+#10218
+durma doll~
+a durma doll~
+A small doll of a priest has been dropped here~
+unknown~
+treasure G ACO
+0 0 0 0 0
+57 5 12000 P
+Y
+char 'constitution' 0 6
+Y
+char 'wisdom' 0 3
+Y
+char 'mana' 0 30
+E
+durma~
+The doll is of the priest durma.  Its arms and legs are missing, just
+like the priest.  
+~
+#10219
+gong stick~
+a gong stick~
+(no description)~
+unknown~
+wand B AO
+65 5 2 'earthquake' 0
+60 10 15400 P
+#10220
+pillow~
+a large pillow~
+A large soft pillow is waiting for someone to rest on it~
+unknown~
+furniture 0 A
+1 5000 H 15 0
+50 20 20000 P
+#10221
+cot~
+a cot~
+A uncomfortable cot is here~
+unknown~
+furniture 0 A
+1 5000 K 20 0
+60 200 20000 P
+#10222
+incense stick~
+a incense stick~
+A incense stick smokes here~
+unknown~
+trash A AO
+0 0 0 0 0
+0 4 100 P
+#10223
+walking staff~
+a walking staff~
+A walking staff lays here, ready for a journey~
+unknown~
+staff 0 AO
+60 3 3 'fly' 0
+55 70 16000 P
+Y
+char 'moves' 0 50
+#10224
+warrior sash~
+a warrior's sash~
+The sash of a warrior is folded up here~
+unknown~
+armor 0 AK
+10 10 10 10 0
+57 20 20000 P
+#10225
+masters sash~
+a masters sash~
+The sash of the sohei master hangs here~
+unknown~
+armor AK AK
+5 5 5 10 0
+70 20 28000 P
+Y
+char 'constitution' 0 9
+Y
+char 'intelligence' 0 6
+Y
+char 'dexterity' 0 5
+Y
+char 'damroll' 0 5
+Y
+char 'hitroll' 0 5
+Y
+char 'mana' 0 40
+#10226
+no name~
+the Lin-Po no-dachi~
+Lin-Po's personal no-dachi lays here wrapped in silk~
+unknown~
+weapon BCG AN
+sword 10 12 slash D
+75 10 45000 P
+Y
+char 'strength' 0 5
+Y
+char 'damroll' 0 12
+Y
+char 'hp' 0 50
+#10227
+wind chime~
+a wind chime ~
+A wind chime sings in the wind here~
+unknown~
+staff 0 AO
+70 1 1 'cancellation' 0
+65 5 50000 P
+#10228
+blowgun blow gun~
+a blowgun~
+A long tube is set here~
+unknown~
+weapon 0 AN
+exotic 8 6 sting H
+60 3 13500 P
+Y
+char 'hitroll' 0 7
+Y
+char 'damroll' 0 12
+Y
+char 'constitution' 0 4
+Y
+char 'saving throw' 0 -10
+#10229
+broom~
+a broom~
+A sweeping broom has been placed in the corner~
+unknown~
+staff 0 AO
+55 5 5 'refresh' 0
+55 5 4500 P
+#10230
+sword ninjato~
+a ninjato~
+A ninjato has been dropped here~
+unknown~
+weapon 0 AN
+sword 6 8 slash 0
+50 4 9600 P
+Y
+char 'dexterity' 0 2
+Y
+char 'saving throw' 0 -4
+Y
+char 'damroll' 0 8
+Y
+char 'hitroll' 0 5
+#10231
+kusarigama sickle~
+a kusarigama~
+A straight edged sickle lays here~
+unknown~
+weapon 0 AN
+axe 6 10 pierce 0
+55 7 12500 P
+Y
+char 'hitroll' 0 5
+Y
+char 'damroll' 0 10
+Y
+char 'AC' 0 15
+#10232
+rante whip chain~
+a rante~
+A long chain whip with an iron star at its tip has been coiled here~
+unknown~
+weapon 0 AN
+whip 8 10 whip 0
+60 6 21000 P
+Y
+char 'hitroll' 0 4
+Y
+char 'mana' 0 10
+#10233
+dagger parry jitte~
+a jitte~
+A parrying dagger is laying here~
+unknown~
+weapon 0 AN
+dagger 5 9 pierce 0
+60 2 12700 P
+Y
+char 'AC' 0 30
+#10234
+display case~
+display case~
+A weapon display case is on the wall~
+unknown~
+container 0 0
+1 ACD 0 10000 1
+0 0 0 P
+#10235
+small sack jewels~
+a small sack of jewels~
+A small sack of sparkling jewels sits here~
+unknown~
+jewelry KL A
+0 0 0 0 0
+1 12 55000 P
+#10236
+small sack ryu gold~
+a sack of ryu~
+A small sack of ryu(gold peices) lays here~
+unknown~
+jewelry JL A
+0 0 0 0 0
+1 15 55000 P
+E
+sack~
+This stuff looks like a jeweler might want it.
+~
+#10237
+iron shin guards suneate~
+suneate~
+Iron shin guards rest on the ground here~
+unknown~
+armor 0 AF
+5 5 5 5 0
+55 10 3500 P
+Y
+char 'dexterity' 0 2
+Y
+char 'hitroll' 0 -2
+Y
+char 'damroll' 0 10
+#10238
+black ninja face mask~
+a ninja face mask~
+A black face mask used to by ninjas has been dropped here~
+unknown~
+armor 0 AE
+7 7 12 9 0
+52 2 12000 P
+Y
+char 'saving throw' 0 -7
+Y
+char 'dexterity' 0 4
+Y
+char 'hp' 0 20
+#10239
+wooden game board grid go moku go-moku gomoku~
+a go-moku board~
+A wooden game board with a grid has been placed here.~
+unknown~
+armor 0 AJ
+12 14 18 18 0
+60 5 8500 P
+Y
+char 'wisdom' 0 5
+Y
+char 'saving throw' 0 -5
+#10240
+stone game piece go moku gomoku go-moku~
+a go-moku stone~
+A smooth translucent stone game piece has been left here~
+unknown~
+treasure K AQ
+0 0 0 0 0
+60 3 10000 P
+Y
+char 'AC' 0 10
+Y
+char 'constitution' 0 3
+Y
+char 'hitroll' 0 5
+#10241
+hoki spear~
+a Hoki~
+A large spear with a curved and barbed head is stuck in the mud here~
+unknown~
+weapon 0 AN
+spear 9 10 stab 0
+62 17 9000 P
+Y
+char 'moves' 0 20
+Y
+char 'ac magic' 0 10
+Y
+char 'hitroll' 0 5
+#10242
+yumi fine bow~
+a yumi~
+A finely crafted long bow has been placed here~
+unknown~
+staff B AO
+70 5 5 'high explosive' 0
+65 10 24000 P
+Y
+char 'hitroll' 0 15
+#10243
+arrow ya bundle~
+a bundle of arrows~
+A bundle of arrows has been left here~
+unknown~
+staff 0 AO
+75 4 4 'acid blast' 0
+72 10 15000 P
+#10244
+mempo face plate bloody~
+a bloody mempo~
+A blood covered face plate has been dropped here~
+unknown~
+armor 0 AS
+14 9 15 14 0
+65 12 12000 P
+Y
+char 'strength' 0 3
+Y
+char 'saving throw' 0 -3
+#10245
+potion cure vial grey~
+a grey potion~
+A vial of grey liquid has been placed here~
+unknown~
+potion 0 A
+90 'cure poison' 'cure serious' '' ''
+60 1 1750 P
+#10246
+broken samurai armor~
+broken samurai armor~
+A set of damaged samurai armor has been placed in the corner~
+unknown~
+armor 0 AD
+10 11 16 15 0
+63 20 10500 P
+Y
+char 'mana' 0 20
+Y
+char 'saving throw' 0 -8
+Y
+char 'constitution' 0 3
+Y
+char 'moves' 0 20
+#10247
+flask brown potion liquid~
+a deep brown potion~
+A flask of deep brown liquid~
+unknown~
+potion 0 A
+90 'cure blindness' 'refresh' '' ''
+60 5 2000 P
+#10248
+priest robe~
+{y Gylian's  {b Cthulhu  {x Priest  {r Robe {x~
+Gylian~
+unknown~
+armor 0 AK
+22 22 22 22 0
+30 5 0 P
+Y
+char 'hp' 0 200
+Y
+char 'hitroll' 0 20
+Y
+char 'damroll' 0 20
+#10249
+quest end~
+the quests end~
+The quests end~
+unknown~
+trash 0 A
+0 0 0 0 0
+0 0 0 P
+#10300
+royal earring~
+a royal earring~
+A elegant earrings has been placed here~
+unknown~
+jewelry G AR
+0 0 0 0 0
+60 4 15000 P
+Y
+char 'hitroll' 0 12
+Y
+char 'damroll' 0 12
+Y
+char 'AC' 0 25
+#10301
+drawing kimono~
+a drawing of a kimono~
+A beautiful drawing of a kimono.~
+unknown~
+staff A AO
+70 5 5 'shield' 0
+60 5 34000 P
+Y
+char 'dexterity' 0 3
+Y
+char 'moves' 0 -20
+Y
+char 'hp' 0 60
+Y
+char 'AC' 0 50
+#10302
+no no-dachi sword dachi~
+togashi no-dachi~
+The no-dachi of the clan Togashi has been placed here~
+unknown~
+weapon BCG AN
+sword 10 12 slash D
+75 12 40000 P
+Y
+char 'dexterity' 0 4
+Y
+char 'mana' 0 50
+Y
+char 'intelligence' 0 4
+#10303
+sword behead executioner beheading~
+a beheading sword~
+A curved beheading sword is jammed into the ground~
+unknown~
+weapon 0 AN
+sword 10 8 cleave E
+70 10 34000 P
+Y
+char 'damroll' 0 20
+Y
+char 'strength' 0 4
+#10304
+dung shit crap~
+a pile of dung~
+A large clump of dung is here stinking up the place~
+unknown~
+pill 0 A
+75 'stone skin' 'aid' '' ''
+50 7 1120 P
+#10305
+shogun prize~
+the Shogun's  {w prize {x~
+Syr~
+unknown~
+weapon AFK AN
+exotic 7 12 slice F
+78 5 40000 P
+Y
+char 'damroll' 0 20
+Y
+char 'hitroll' 0 20
+Y
+char 'AC' 0 20
+Y
+char 'saving throw' 0 -5
+#10306
+asano sword katana~
+the Asano family sword~
+A masterfully crafted katana with the mark of the Asano family is here~
+unknown~
+weapon A AN
+sword 8 13 slice C
+80 10 34000 P
+Y
+char 'damroll' 0 20
+Y
+char 'hitroll' 0 20
+Y
+char 'resistances' 1 64
+Y
+char 'vulnerabilities' 1 4
+#10307
+record scroll paper~
+a village record~
+One of the villages many record has been left here~
+unknown~
+scroll 0 AO
+70 'protection evil' 'combat mind' 'blur' ''
+50 12 14000 P
+#10308
+game mahjong mah jong piece white tile~
+a mah jong piece~
+A smooth white tile with some writing on it has been placed here~
+unknown~
+treasure 0 AQ
+0 0 0 0 0
+55 1 3500 P
+Y
+char 'affects' 1 16384
+Y
+char 'hitroll' 0 4
+Y
+char 'AC' 0 5
+#10309
+water well~
+the well~
+A simple stone well is here~
+unknown~
+fountain 0 0
+0 0 'water' 0 0
+1 0 0 P
+#10310
+straw round hat~
+a round straw hat~
+A round straw hat has been left here by a farmer~
+unknown~
+armor 0 AE
+5 7 10 9 0
+50 2 7000 P
+Y
+char 'resistances' 1 512
+Y
+char 'constitution' 0 3
+#10311
+mason chisel~
+a mason chisel~
+The chisel of the temple mason is here~
+unknown~
+staff A AO
+75 2 1 'enchant armor' 0
+65 15 8000 P
+#10312
+smith hammer~
+a smith hammer~
+The hammer of the blacksmith has been left here~
+unknown~
+staff A AO
+75 2 1 'enchant weapon' 0
+65 15 8000 P
+#10313
+dragon scale~
+fim's scale~
+One of the scales of Fim the dragon has been left here~
+unknown~
+armor ACJ AD
+15 15 15 15 0
+83 20 15000 P
+Y
+char 'resistances' 1 128
+Y
+char 'resistances' 1 1024
+Y
+char 'affects' 1 268435456
+#10314
+claw~
+fim's {r claw {x~
+One of the claws of Fim the dragon has been ripped away and is laying here~
+unknown~
+weapon AJL AN
+flail 10 12 claw D
+85 30 12000 P
+Y
+char 'saving throw' 0 -10
+Y
+char 'damroll' 0 10
+Y
+char 'strength' 0 3
+Y
+char 'affects' 1 16384
+#10315
+eye eyeball~
+fim's {b eyeball {x~
+One of the ancient cathay dragon's eye's has been left here~
+unknown~
+treasure AJL AS
+0 0 0 0 0
+83 20 13500 P
+Y
+char 'affects' 1 32
+Y
+char 'intelligence' 0 5
+Y
+char 'hitroll' 0 5
+Y
+char 'mana' 0 50
+Y
+char 'resistances' 1 2048
+#10316
+needle~
+the tailors needle~
+The thin needle of the monk tailor has been put here~
+unknown~
+staff 0 AO
+75 2 1 'intellect fortress' 0
+60 2 4500 P
+#10317
+unfinshed pot~
+a unfinished pot~
+A lump of clay that resemble a pot in work has been dropped here~
+unknown~
+staff 0 AO
+75 2 1 'mass healing' 0
+60 8 4300 P
+#0
+
+
+
+#ROOMS
+#10240
+On A Slow River~
+The river meanders slowly through the rolling hills.  The water is cool,
+and refreshing.  The current is slight, and you have little trouble with it.
+The river continues north and west from here.  
+~
+0 0 6
+5
+D0
+~
+~
+0 0 10241
+D3
+~
+~
+0 0 10220
+S
+#10241
+Bobbing Along the River~
+The water here.  Is very ripply.  But the river still flows silently
+throught the hills.  The water is a bit deeper here, and for the first time
+you notice a fish swimming along.  The river continues through the hills to
+the south of here, and passes under a bridge here 
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10258
+D2
+~
+~
+0 0 10240
+S
+#10242
+The End of the Maze~
+This is a small room above the maze, there's a moveable panel over head,
+that looks like a way out.  ' There is a large sign, and a medallion hanging
+from a nail under it.  
+~
+0 0 0
+5
+E
+sign~
+You have survived our maze and found it's end.  You have proved yourself
+worthy of being a lieutenant.  Take the medallion and wear it proudly.  
+~
+D4
+~
+panel~
+AB 0 10227
+S
+#10243
+North West Monks' Quarters~
+You stand in a very plain looking room.  There are just a few cots, some
+olf candles, and a wash bowl or two in this room.  The walls have prayers
+brushed onto them.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10225
+M 100 H 105 P 100
+S
+#10244
+South West Monks' Quarters~
+This bed room suits the monks just fine, but to you it appears empty. 
+They like only have cots and washbowls in their room.  They also like the
+prayer that they have painted on the walls and ceilings.  Further more they
+don't mind that they only have on e window looking out, and that it faces
+the sister compound to this one.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10225
+M 100 H 105 P 100
+S
+#10245
+Outside the East Sleeping Chambers~
+You are standing under a large shingle roof that covers the easterm
+sleeping area.  The sleeping lodgeds for the monks are to the north and
+south.  They are mad of mud brick.  They also look pretty empty, both of
+people and possesions.  To the east is another court yard.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10256
+D1
+~
+~
+0 0 10252
+D2
+~
+~
+0 0 10257
+D3
+~
+~
+0 0 10225
+S
+#10246
+The Potter and The Tailor~
+A monk sits among several painted clay pots.  He looks like he is forming
+another right now.  Next to him is a monk who is sewing together a robe. 
+They both appear hard at work, and deep in thought. 
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10226
+D1
+~
+~
+0 0 10247
+S
+#10247
+The Smith and The Mason~
+There is a powerfully built monk standing before a furnace, heating up a
+piece of iron.  He appears to be making a weapon of some sort.  Just past
+the furnace, which dominates this unwalled hut, you see a stone mason
+chiseling symbols into a tablet.  They both appear hard at work, and deep
+in thought.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10246
+S
+#10248
+The North End of the Temple~
+You stand at the north edge of the temple complex.  The sweet sound of
+chimes is strionger here, and coming from the east.  You can see the many
+monks go about their business from here.  To the west is where there Sohei
+train, and to the north there is a collection of shrines.  To the east is a
+single huge shrine.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10250
+D1
+~
+~
+0 0 10251
+D3
+~
+~
+0 0 10224
+S
+#10249
+The River Turns~
+The river turns here, and travels straight northward, and westward.  To
+the north there appears to be a house that is split by the river.  To the
+west there is another turn which takes the river into the hills.  
+ 
+~
+0 4 6
+5
+D0
+~
+~
+0 0 10261
+D3
+~
+~
+0 0 10258
+S
+#10250
+The Minor Shrines~
+You are in the middle of a semicircle of small shrines.  Each devoted to
+a different god.  They all have one or two monks at them praying.  Small
+sticks of incence smoke with the shrines.  Beads hang from the tops of the
+enclaves.  There is little activity here other than the praying.  
+~
+0 0 1
+5
+D2
+~
+~
+0 0 10248
+M 105 H 100 P 100
+S
+#10251
+The Great Shrine of Fim~
+You stand before a gaint shrine.  It sits on a stone platform, with
+access facing each of the cardinal directions.  The shrine is made of bronze
+with gold leaf.  It has four corners, each with a flared out edge.  The
+entire enitire structure is about five stories high.  There are metal
+dragons wrapped about the outside of it's massive dome.  Within it you see
+many praying monks.  There is a single, huge, bronze bell of beuatiful
+craftsmanship in it's center.  There appears to be a group of monks not
+praying, but discussing.  Occasionally they look at you.  
+ 
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10260
+D2
+~
+~
+0 0 10252
+D3
+~
+~
+0 0 10248
+S
+#10252
+The East Court~
+This court has many smalls pools to sit next to.  There are also
+diminutive conifir trees splashed about.  There are few monks here, and even
+those that are here appear to have little interest in you.  To the south
+there is a long brown building, to the east is an impressive stone building,
+and to the north is what appears to be a huge shrine.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10251
+D1
+~
+~
+0 0 10253
+D2
+~
+~
+0 0 10254
+D3
+~
+~
+0 0 10245
+S
+#10253
+The Library~
+This must be the library.  There seems to be an infinate number of
+scrolls here.  Shelf after shelf, row after row.  You think to yourself
+'This building is huge'.  Eash scroll is held in a thin copper scroll case
+that has been painted with a forest scene.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10252
+S
+#10254
+The Mess Hall~
+This is a very plain mess hall.  Long wooden tables sit in close rows. 
+The tables sit close to the ground, and have place enough for about twenty
+each.  The tables have been cleaned and their polished surface reflects the
+dim light well.  This gives the tables an almost glowing appearance.  The
+walls are bare wood, and have nothing on the.  There is the occational
+window.  On the east wall there is a door that leads to the kitchen.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10252
+D1
+~
+~
+0 0 10255
+D3
+~
+~
+0 0 10226
+S
+#10255
+The Kitchen~
+This is thas in it kitchen.  The monks take turns cooking the food, so
+they all occasionally come in here.  The room is simple and efficent.  There
+are to well cleaned counters.  There is a place for a fire.  Some pots sit
+next to it.  There is a open cabinet that he the ingredience for paste
+already ready.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10254
+S
+#10256
+The North East Sleeping Chambers~
+This is a very bland room.  The walls are a drab grey.  All that breaks
+up the boring walls are a few prayers scribled on them There are a few
+uncomfortable looking cots and some half empty washbowls to round out the
+rooms uninteresting highlights.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10245
+M 100 H 105 P 100
+S
+#10257
+The South East Sleeping Chambers~
+These are a the monks sleeping chambers.  As such they're pretty empty of
+anything that would resemble comfortable.  There are cots for them to sleep
+on, washbowls for the morning, and prays for when they sleep.  Other than
+that there is nothing but a window that looks across to the north east
+sleeping chambers.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10245
+M 100 H 105 P 100
+S
+#10258
+A bend in the River~
+The river makes a smooth turn here.  There is no signs of erosion of any
+sort on either bank.  As you pass the bend you begin to wonder about the age
+of this place.  The banks here are lined with what look like small cedar
+trees, you can hear nirds sing from within them.  You have the feeling that
+all is not what it appears with this scene.  To the south, you think you
+hear the clopping of hooves and some splashing.  
+~
+0 0 6
+5
+D1
+~
+~
+0 0 10249
+D2
+~
+~
+0 0 10241
+S
+#10259
+The closet~
+This a a closet full of the different uniforms and costumes that the
+ninja use on their missions.  They range from the standard black gi, to a
+very large nobleman's outfit.  They all appear to be in good shape.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10235
+S
+#10260
+Inside the Temple of Fim~
+You stand inside the temple.  The great bell, you can now see, has been
+engraved with pictures of battle, and of monks praying to a dragon.  There
+is a congregation of people around the high priest of this temple.  They
+seek to gain his insight on the many things which they have been meditating
+on.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10251
+M 110 H 110 P 100
+S
+#10261
+Under a bridge, and In the Middle of a House~
+The river cuts a home in two here.  A simple wooden arch bridges two
+parts of the home.  The part of the home that is to the west is larger, but
+the part to the east seems more serene.  To the north there looks to be a
+pool.  
+~
+0 0 6
+5
+D0
+~
+~
+0 0 10262
+D2
+~
+~
+0 0 10249
+D4
+~
+~
+0 0 10344
+S
+#10262
+The Begining of the River~
+This calm spring is the start of a long river.  Cold water bubbles up
+from the ground, causing ripples in the mirror-like water.  The water flows
+southward, through the middle of a house.  
+~
+0 0 6
+5
+D2
+~
+~
+0 0 10261
+S
+#10263
+On the Battlefield~
+This grey field is a place of battle, no doubt about that.  We have to
+wade through the despair to keep moving.  You can almost taste the gloom of
+this forsaken place.  There appears to be more activity to the north, but
+even that is not much.  
+~
+0 4 2
+5
+D0
+~
+~
+0 0 10266
+D1
+~
+~
+0 0 10265
+D2
+~
+~
+0 0 10219
+D3
+~
+~
+0 0 10264
+S
+#10264
+On the Battlefield~
+The dead surround you here.  There bodies are littered across the field
+as though they had been a tornado.  The weight of the armor on some of the
+causes them to sink into the mud.  There weapons, all ruined throught the
+trails of combat, also lay scattered and occasionally still within a body.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10269
+D1
+~
+~
+0 0 10263
+S
+#10265
+On the Battlefield~
+The land here is grey.  It isn't even just hues or impressions.  It is
+more like something sucked the color from the land when it sucked the spirit
+away.  The entire battlefield has the look of a black and white movie. 
+Except that there is color.  You can see it, your not quite sure where, but
+there is color.  To the north there appears to be a group of tents.  
+~
+0 0 2
+5
+E
+color~
+After concenrating on this confusing image of a colorless landscape that
+has color you realize the key.  The people, they are ghost pale.  Their skin
+is streaked with the red of blood.  The decoration of their clothing, though
+muddy and stained with the pain of battle, has color.  
+~
+D0
+~
+~
+0 0 10267
+D3
+~
+~
+0 0 10263
+S
+#10266
+On the Battlefield~
+You see only the desctruction which war has brought to the land.  Horses
+lay maimed, but still living.  There are shattered war banners, and smashed
+carts.  The ground has turned to a mud that refuses to fully release your
+feet.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10273
+D1
+~
+~
+0 0 10267
+D2
+~
+~
+0 0 10263
+D3
+~
+~
+0 0 10269
+S
+#10267
+Outside an Army Encampment~
+This part of the battlefield is more alive than the rest.  Directly east
+of you is where on of the armys has set up camp.  You can see people moving
+around, but it is still rather quiet here.  From the looks of the people
+walked about you get the impression that the war doesn't go well. The torn
+banners of the Togashi clan fly in the middle of the camp.  
+~
+0 4 2
+5
+D0
+~
+~
+0 0 10274
+D1
+~
+~
+0 0 10268
+D2
+~
+~
+0 0 10265
+D3
+~
+~
+0 0 10266
+S
+#10268
+Inside the Togashi Encampment~
+This camp is dead.  Its people are cursed with having to fight a war
+that they have nothing to do with.  The warriors who walk around here look
+gaunt.  Their eyes are empty, for they have already seen death and beyond. 
+To the east is the soldiers' tents, and to the south are the generals'.  
+ 
+~
+0 0 2
+5
+D1
+~
+~
+0 0 10271
+D2
+~
+~
+0 0 10280
+D3
+~
+~
+0 0 10267
+S
+#10269
+On the Battlefield~
+There is a camp to the north.  You can see people walking around between
+the tents.  There are a few horses in the camp too, but mostly just people
+carrying spears.  There is no happiness in the movment or actions of these
+people.  In truth they are acting as if all their strength had been sapped. 
+To the east is the rest of the grey, desolete battlefield.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10270
+D1
+~
+~
+0 0 10266
+D2
+~
+~
+0 0 10264
+S
+#10270
+Outside an Army Encampment~
+This is where the army of Lin-Po have made camp.  A few unattentive
+guards stand around, leaning on their spears.  They wounded lay in the mud,
+writhing in agony.  The strange thing about the wounded is that they make no
+sound from their pain.  The soldiers that are sitting about seem to be
+oblivious to their injured comrades.  
+~
+0 4 2
+5
+D0
+~
+~
+0 0 10277
+D1
+~
+~
+0 0 10273
+D2
+~
+~
+0 0 10269
+D3
+~
+~
+0 0 10272
+S
+#10271
+Outside the Barracks~
+You are located outside the tents where the soldiers stay.  The tents are
+full, the tents are silent.  There is movement within them, but very little
+and very discrete.  The blowing breeze flaps the walls of the tents.  You
+think you hear sobbing.  To the east is where the samurai'stay, to the south
+the ashagaru.  
+~
+0 0 2
+5
+D1
+~
+~
+0 0 10278
+D2
+~
+~
+0 0 10279
+D3
+~
+~
+0 0 10268
+S
+#10272
+The Edge of the Lin-Po Camp~
+No one here seems to pay any attention to you, or anything else.  The
+dying lay in the mud.  The living lay in the mud.  There are some whose
+intestine hang out, yet still the soldiers of the camp do nothing but step
+over them.  You can hear someone giving instructions, but you can't tell
+where.  Few seem attentive to the situation of the camp.  The banners of the
+the army of Lin-Po wave bravely  
+in the wind.
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10282
+D1
+~
+~
+0 0 10270
+D2
+~
+~
+0 0 10283
+D3
+~
+~
+0 0 10284
+S
+#10273
+The Middle of the Field~
+This is the middle of a dismal battlefield.  Death and destruction
+surround you on all sides.  There is nothing happy here, only the grayness
+of war.  The winds blow.  With them come the cries of the dead, and the sobs
+of the damned.  To the west you see a camping army, and to the east you see
+the same.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10276
+D1
+~
+~
+0 0 10274
+D2
+~
+~
+0 0 10266
+D3
+~
+~
+0 0 10270
+S
+#10274
+The Archers Nest~
+This place was clearly designed to protect the flank of the Togashi camp.
+There are small bastions set up in diamond formations here.  They are made
+of wood and bamboo, and look like they were built to defend the firing
+positions of archers.  To the north there appears to be many people sitting
+around.  
+~
+0 0 2
+5
+E
+bastion~
+There are dead men in light armor within them.  They still clutch their
+bows.  Many look as if they died just before firing.  
+~
+D0
+~
+~
+0 0 10275
+D2
+~
+~
+0 0 10267
+D3
+~
+~
+0 0 10273
+S
+#10275
+Go-Moku~
+Here is where the samurai go to play go-moku.  Then are obligated to play
+go-moku with each other when one or the other requests it.  They then come
+here and play each other until they feel ready to fight again.  There are
+several samurai and their attendants here.  They all appear to be watching a
+single game.  Everyone is quiet, but the feeling of doom isn't as strong as
+it is in the rest of the field.  
+~
+0 0 2
+5
+E
+game~
+You watch the game for a little bit.  It looks as if the samurai from the
+Togashi army will win.  
+~
+D2
+~
+~
+0 0 10274
+D3
+~
+~
+0 0 10276
+S
+#10276
+On the Battlefield~
+There is nothing but mud here.  It looks as if people have slipped and
+travelled through here a thousand times.  Their blood making the mud ever
+more slippery.  It looks as if people may be buried under the mud, for parts
+of weapons and armor stick out of it at strange angles.  
+~
+0 0 2
+5
+D1
+~
+~
+0 0 10275
+D2
+~
+~
+0 0 10273
+D3
+~
+~
+0 0 10277
+S
+#10277
+The Edge of the Battlefield~
+You are at the northern edge of a great battlefield.  Before you sits a
+land devoid of life, devoid of its color, devoid of its hope.  A battle has
+raged here for centuries with neither side coming any closer to winning. 
+The sky, earth, and everything you see is gray.  Even where there is color,
+there is a gray sadness to it.  The combatant pawns of battle know that
+nothing is their future, but to die.  This is a vast wasteland of grey
+death, it is all that is to the south.  
+~
+0 4 2
+5
+D0
+~
+~
+0 0 10357
+D1
+~
+~
+0 0 10276
+D2
+~
+~
+0 0 10270
+S
+#10278
+A Samurai's Tent~
+A samurai lies here bleeding on some mats.  He is being attended to by
+two women.  The remains of his stylized platemail rests against a wall.  His
+swords are held in a stand made of elk horns that is at the foot of his bed.
+ 
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10271
+S
+#10279
+The Barracks~
+This is where the peasant soldiers stay.  Thoses that are here seem to
+be sleeping with their eyes open.  They look as if they have stopped being
+scared of death, and are only scarred of the pain before one dies.  Their
+equipment sits at their feet.  The ground here is mud, with a few remnants
+of grass.  The tent is some thin rough material, and poles are dispursed
+regularly throughout the tent.  Here, as everywhere, the predominant color
+is gray.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10271
+S
+#10280
+Outside the Generals' Tent~
+To the south is where the generals sleep and plan the war.  You can see
+three men standing around a table argueing.  Every so often an attendant
+darts in or out of the tent.  This tent has the most life you've seen in the
+entire camp.  The gray here seems washed out by the soft light of a lantern
+within the tent.  Not to far to the east, down a small path, is a large
+compound.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10268
+D1
+~
+~
+0 0 10288
+D2
+~
+~
+0 0 10281
+S
+#10281
+The Generals' Tent~
+Three generals stand around a table arguing over attack formation.  The
+room is filled with the instruments of war.  A table with maps sits in
+middle of the room.  There are stools around the table.  There are
+attendants checking on things all around.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10280
+S
+#10282
+The General's Tent~
+This tent is laid out almost like a throne room.  A single general sits
+on a stool that sits on a platform.  He has attendents feeding information
+to him.  He doesn't seem to hear them, and is continuously giving orders to
+other attendents.  Everyone in here is wearing armor, and bares a weapon. 
+The walls are covered with trophies of various sorts.  It is apparent that
+this army is under the complete control of the general.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10272
+S
+#10283
+The Soldiers' Tent~
+This tent holds the great bulk of Lin-Po's forces.  The tent itself is
+huge, being the size of a large airplane hanger.  There are many exits, each
+of them being about four people wide.  About half the cots have a soldier
+resting in them, each cot has the soldier's weapons and equipment in a neat
+pile next to it.  People here seem to ignore one another, but still have
+life in thier eyes.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10272
+S
+#10284
+The Edge of Lin-Po's Camp~
+You are outside the camp of Lin-Po's army.  Beyond it to the east is a
+great battlefield.  To the west you see a path that leads to Lin-Po's
+compound.  South of here you can see many wounded and sick people flocking
+to a small white and blue tent.  
+~
+0 0 1
+5
+D1
+~
+~
+0 0 10272
+D2
+~
+~
+0 0 10285
+D3
+~
+~
+0 0 10286
+S
+#10285
+The Herbalist's Tent~
+The floor of this tent is covered with small tables that have potions and
+assorted potion making instruments on them.  On some tables there are
+pestles filled with strange smelling powders.  Bubbly liquids are being
+distilled on others.  There is a work bench in the middle of this alchemical
+mess.  On that bench sits a small, old man.  He is cheerfully busying
+himslef with the preparation of potions for Lin-Po's wounded army.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10284
+S
+#10286
+The Road Between Lin-Po and The Battlefield~
+This is a tree lined road.  It looks heavily travelled.  There are horse
+and cart tracks everywhere.  To the north and south beyond the path you can
+see rolling green fields.  To the east is a grey battlefield, and to the
+west is a large castle.  
+~
+0 4 2
+5
+D1
+~
+~
+0 0 10284
+D3
+~
+~
+0 0 10287
+S
+#10287
+The East Entrance to Lin-Po's Compound~
+This is the east entrance to the compound of the warlord Lin-Po.  There
+is a high stone wall surrounding the fortress.  The only way in is the large
+bronze gates.  Far to the east is a grey land.  A wooded path starts here.  
+~
+0 4 2
+5
+D1
+~
+~
+0 0 10286
+D3
+~
+~
+0 0 10293
+S
+#10288
+The Way to the Home of the Togashi Clan~
+This is the path that is has been trodden a million times before.  It
+connects the battle camp of the clan Togashi to their clans central home. 
+There doesn't appear to be many people travelling this road now, but that is
+because most of the clan is already at the front.  
+~
+0 4 2
+5
+D1
+~
+~
+0 0 10289
+D3
+~
+~
+0 0 10280
+S
+#10289
+Outside the Togashi Home~
+This is the traditional home of the head of the Togashi clan.  This large
+and luxurious home is more than just a house.  It is where clan business is
+taken care of, and where the runs the war with Lin-Po.  
+~
+0 0 2
+5
+D1
+~
+~
+0 0 10316
+D3
+~
+~
+0 0 10288
+S
+#10290
+The Inner Court~
+The wall is set far enough apart from the main building to allow for some
+shrubs to grow here.  They appear well groomed.  The main building is made
+of solid stone.  There is a pair of thick wooden doors to the north,
+entering the building.  There is also a path that leads west, around the
+side of the building.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10291
+D1
+~
+~
+0 0 10222
+D3
+~
+~
+0 0 10292
+S
+#10291
+The Main Hall~
+This is the main hall of the castle.  Multicolored vases, and small
+statues of fat men line the walls.  There is a large mirror on one wall. 
+Several small cedar tables are placed in one corner.  There are well padded
+chairs surrounding the tables.  You can here the scuffle of servents running
+about.  To the west is the kitchen.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10293
+D2
+~
+~
+0 0 10290
+D3
+~
+~
+0 0 10294
+S
+#10292
+The Observitory~
+This is a large court, the ground here is made of interlocking brick. 
+There are wooden benches arranged in a semi-circle at one end.  In the
+middle of the court sits an intericately designed water clock.  There is
+also a brass telescope near the benches, and sundial that looks like a
+sculpture.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10308
+D1
+~
+~
+0 0 10290
+D2
+~
+~
+0 0 10303
+D3
+~
+~
+0 0 10305
+S
+#10293
+The Main Hall~
+Many pictures have been hug here.  They are all of the same man.  He is
+shown as a war hero, and a lover.  The floors are made of some tile, and the
+walls are frescos.  There is a table in the middle of the room, and a board
+game on the table.  To the west is the tea room.  There is a large decorated
+wooden door the leaves the compound east.  There is a set of steps on the
+wall leading up to the bedrooms.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10295
+D1
+~
+~
+0 0 10287
+D2
+~
+~
+0 0 10291
+D3
+~
+~
+0 0 10296
+D4
+~
+~
+0 0 10297
+S
+#10294
+The Kitchen~
+There are several woks sitting on heating plates.  Chickens dangle from
+the ceiling.  Steam pours from several bamboo steamers, there are racks of
+spices and sauces everywhere.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10291
+S
+#10295
+A Room in Lin-Po's Compound~
+Plants and small buddist statues decorate this room.  There are a few
+stairs going down leading to a small door.  From beyond the door you hear
+voices, they sound like they're complaining.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10298
+D2
+~
+~
+0 0 10293
+D5
+~
+~
+0 0 10299
+S
+#10296
+The Tea Room~
+This room is nicely decorated with screens that have gold embossed
+pictures on them.  A low sitting marble table is in the middle of this small
+room.  The sun pours in from a open sky light.  Next to the table is a try
+that has service for two, and a place to warm the tea pot.  The walls are
+lined with small conifers.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10293
+S
+#10297
+Outside the Bedrooms~
+You are outside where Lin-Po and his wife sleep.  There is a mirror on
+the east walls that is framed in brass.  The floor here is carpetted with a
+plush red and gold carpet.  
+~
+0 0 0
+5
+D0
+~
+~
+ABC 0 10301
+D3
+~
+~
+AB 0 10302
+D5
+~
+~
+0 0 10293
+S
+#10298
+The Demonstration Hall~
+The floor here is covered in padding.  There are combat dummies, and
+targets resting on the walls.  This hall is used for martial arts
+demonstations.  Targets also hang from the ceiling, and weapons line the
+walls too.  There are spectator seats neatly tucked into a corner.  
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 10300
+D2
+~
+~
+0 0 10295
+S
+#10299
+The Slaves Quarters~
+These quarters are bare.  There are wooden shelves that act as beds. 
+Small pots of rice, and a old bucket of water are the only food here.  This
+room is wear the prisoners of the war Lin-Po is engaged in are kept. 
+Cockroachs crawl everywhere, and the walls are earthen and uninteresting. 
+There is clothing on one bed, and it seems in good condition.  
+~
+0 0 0
+5
+D4
+~
+~
+0 0 10295
+S
+#10300
+The Mystics Quarters~
+This is the mystics room.  Here he can work on potions, and cures for
+just about anything.  It is his workshop and study.  There is a table on
+which to treat people up against one wall.  There is another table full of
+medicines, and scrolls explaining the detection and treatment of many
+diseases.  Another of the mystics talents is obvious from the rack of knives
+hanging on a wall.  
+~
+0 4 0
+5
+D3
+~
+~
+AB 0 10298
+S
+#10301
+The Master Bedroom~
+This is were the warlord Lin-Po sleeps.  The room is well furnished.  A
+large bed with many silk sheets commands the view of one wall.  A small bird
+cage hangs next to a large vanity, and a closet stands open on another wall.
+The trappings of royalty adorn the room any place you look.  
+~
+0 0 0
+5
+D2
+~
+~
+ABC 0 10297
+S
+#10302
+The Room of Lin-Po's Wife~
+Lin-Po's only wife stay is this room most of the day.  She is attended to by servants who also act as friends.  The room is filled with things made of fine laquered wood, and draped in silk and satin.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 10297
+S
+#10303
+The Armory~
+This room houses the war equipment of the house of Lin-Po.  There is very
+little in here, because most of it has been taken to the battlefield.  There
+is some nice armor, and a few solid looking spears.  Mostly, however, there
+are just sacks and sacks of extra arrows and spare parts for things.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10292
+S
+#10304
+The Personal Library~
+The texts of that tell of the history of the Togashi clan are here.  They
+are kept in order, and are read for inspiration and guidance to the head of
+the Togashi's.  There is just a simple table in the center, and a single
+candle to light the room.  The walls are line with scrolls from all the
+periods of the clan.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10325
+S
+#10305
+Outside the Stables~
+The smell of manure wafts from the stables to the north.  The sounds of
+horses waiting patiently in stalls comes from there too.  You can here a man
+whistle as he works from within.  
+~
+0 4 1
+5
+D0
+~
+~
+0 0 10306
+D1
+~
+~
+0 0 10292
+S
+#10306
+Where the Horses are Kept~
+This is a well built stable.  There are four large stalls, each with its
+own water and food trough.  There is only one horse here.  He is very
+muscular, and is about a meter and a half tall.  His mane and tail are
+exquisitely brushed.  He has the air of pure bred royalty around him.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10307
+D2
+~
+~
+0 0 10305
+S
+#10307
+The Stable Supplies~
+The supplies for the stable are here.  Bridals decorated with gold and
+fine saddles hang on the walls.  Food for the horses is packed into a
+corner.  Brushes of varying size are tacked to another wall.  A few extra
+bales of straw are stacked in the middle, and pots of water hang from the
+ceiling.  This stable looks well equiped.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10306
+S
+#10308
+The Exectutioner's Block~
+Off the path a little is a wooden block.  It is were those who have
+angered Lin-Po or his wife eventually end up.  There is a umbrella where
+people may watch executions near the block.  The blood of many has been
+spilled here.  You can see a more tranquil stop a bit to the east.  
+~
+0 0 1
+5
+E
+block~
+It is a large block of heavy wood, bolted to the ground.  There is rope
+wrapped to it which is used to bind the condemed.  The block is badly
+stained for blood 
+~
+D0
+~
+~
+0 0 10311
+D1
+~
+~
+0 0 10310
+D2
+~
+~
+0 0 10292
+S
+#10309
+The Master Bedroom~
+The master bedroom is based around form.  Vases and firms decorate the
+room.  A large bed, with quality sheets is in the center of the room.  A
+dresser and several screens are in the room as well.  This room is very
+humble in its gracefullness.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10319
+M 100 H 110 P 100
+S
+#10310
+The Shrine~
+The shrine is located on the southern end of a large ornamental fish
+pond.  The prisoners are taken here to pray one last time before execution. 
+The executioner is also given a chance to pray.  The shrine is simply a
+kneeling stone and a small statue.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10308
+S
+#10311
+The Fish Pond~
+A large fish pond is here.  It looks two be two meters deep at the
+center.  Many large carp swim in it.  The water has an emerald color to it
+because of the green rock that makes up the bottom.  Many trees surround the
+pond.  To the east, on the other side, you can see a small shrine.  The air
+here is cool, the mood is calm.  
+~
+0 0 1
+5
+D2
+~
+~
+0 0 10308
+D3
+~
+~
+0 0 10312
+S
+#10312
+The Zoo~
+There are many black iron cages here.  They are filled with exotic
+animals.  You see birds of ever imaginable color, all sorts of monkeys, and
+tigers from differen lands.  None of them seem to be mistreated.  In fact
+they all look very healthy.  One thing does strike you as odd though; no zoo
+keepers.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10313
+D1
+~
+~
+0 0 10311
+S
+#10313
+Outside Some Houses~
+You are located outside of where important guest stay, if they stay for a
+long time.  None of them appears to be in use, but there are still people
+tending to them.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10315
+D2
+~
+~
+0 0 10312
+D3
+~
+~
+0 0 10314
+S
+#10314
+A Nitch~
+This is a little nitch.  A bench sits against the wall of the compound. 
+It is shaded by trees.  The entire citadel can be seen from here.  This
+place is jammed between some brushes, and the homes of guests.  The stables
+are to the south.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10313
+S
+#10315
+A Guest House~
+The guests quarters are just as nicely done as the rest of the house. 
+Great steps were taken to insure that the guest will be comfortable during
+his stay within the compound.  There is no kitchen, or upstairs.  Every
+function beyond sleeping is almost prohibited.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10313
+S
+#10316
+Inside the Togashi Clan Home~
+This is the central hallway in the clan home.  From here you can easily
+walk to any part of the house.  To the east there you hear alot of walking
+about.  To the south comes a stunning silence, and a feeling of peace.  The
+north seems to be better lit, and there is a lot of calm movement.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10318
+D1
+~
+~
+0 0 10319
+D2
+~
+~
+0 0 10317
+D3
+~
+~
+0 0 10289
+S
+#10317
+A Room in the House~
+This is just a intersection between rooms.  The wood panelled floor, and
+paper walls are all that are here.  None have tried to decorate it.  To the
+east is the bath house, an attendant is always there to help.  To the south
+you can see works of art on display.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10316
+D1
+~
+~
+0 0 10323
+D2
+~
+~
+0 0 10322
+S
+#10318
+The Artisans' Room~
+This room is where the many artisans of the Togashi clan come to practice
+their crafts.  There are the necessary supplies for potters, painters, and
+wood sculptures.  Many beautiful, but unfinished works lay around the room. 
+Down the hall to the south is where their finished products are kept.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10324
+D2
+~
+~
+0 0 10316
+D3
+~
+~
+0 0 10325
+S
+#10319
+The Throne Room~
+Here is where the business takes place.  There is a seat for the head of
+the clan, all others must sit on pillows before him.  There are paintings on
+the walls, and doors leading in many directions.  The court is full of
+people.  They all have impeccable manners, even though they whisper to one
+another about things best not heard.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10309
+D2
+~
+~
+0 0 10321
+D3
+~
+~
+0 0 10316
+D4
+~
+~
+0 0 10320
+S
+#10320
+The Scribe's Quarters~
+The scribes quarters are neat.  There is a table with many writing
+ustensils, at one wall.  There is a simple sleeping mat at the other.  There
+are few comforts here, but much paper.  
+~
+0 0 0
+5
+D5
+~
+~
+0 0 10319
+S
+#10321
+The Harem Room~
+Within this room the harem of the leader of the Togashi clan stays. 
+There are many beds made of large pillows of different colors.  The women
+who stay here have left their fine clothing all about.  The air in the room
+smells of a dozen perfumes, this is definatelies a domain for elegant women.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10319
+S
+#10322
+The Art Room~
+Many of the Togashi clan's finest work are on display in this room.  More
+than a few are many centuries old, but there are plenty of the new wood
+carvings from the current master wood worker of the Togashi clan.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10317
+S
+#10323
+The Bath Room~
+You have to go up a step to enter this room.  The wood here is of a
+softer sort, and has no finish.  There is a single large bathtub with a wood
+panel exterior.  The water in it steams a little.  Two buckets lie next to
+the tub, and a woman sits waiting for someone to bathe.  There water is
+warmed on a small stove at the far end of the room.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10317
+S
+#10324
+Outside the Togashi Clan Home~
+This is the other side of the home.  Through the rolling hills of this
+area you see orchards to the south, and a huge garden.  A sporting facility
+was built to the north of here.  A wide open archery range is directly east,
+along a path.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10326
+D1
+~
+~
+0 0 10327
+D2
+~
+~
+0 0 10329
+D3
+~
+~
+0 0 10318
+S
+#10325
+The Music Chamber~
+This is where the musicians of the Togashi clan play their music.  There
+are several different kinds of stringed instruments laying across tables. 
+There is also some flute like instruments, seperated from the rest.  Many
+drum sets control your view of one side of the room, but among them you see
+no striking mallets.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10304
+D1
+~
+~
+0 0 10318
+S
+#10326
+The Sumo Ring~
+The ring's floor is made of sand.  Knotted rope defines the outside edge
+of the playing field.  There are many benchs set up so that no matter where
+you sit, you can have a good view.  There doesn't appear to have been much
+competing in this arena.  The Togashi clan only supports two sumo, and can
+only very rarely invite others wrestlers to battle here.  
+~
+0 0 1
+5
+D1
+~
+~
+0 0 10328
+D2
+~
+~
+0 0 10324
+S
+#10327
+Archey Ranges~
+All is quiet here.  Nobody has yet to finish his rituals before using the
+bow.  Most of them seem to be stringing it, or checking the string.  The
+range itself is about fifty to seventy meters.  A small stand for arrows is
+at one end, and meter wide wooden targets at the other.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10333
+D3
+~
+~
+0 0 10324
+S
+#10328
+The Training Hall~
+This training area is a collection of huts with a single wall.  Each hut
+has the equipment and practice tools of a different martial art.  There is
+another general hut, which people use to spar with each other.  Though the
+Togashi clan requires a minimun amount of combat training, nobody is using
+these huts now.  
+~
+0 0 1
+5
+E
+huts~
+There's a hut here for the following: Karate, kenjutsu, yarijitsu, and
+shurikenjitsu.  There is also a large area to practice bajutsu.  To the
+south you can see the archery ranges for kyujitsu.  
+~
+D3
+~
+~
+0 0 10326
+S
+#10329
+The Orchard~
+This orchard is soon to blossom.  Already white flower petals can be seen
+on the trees.  The trees are in very neat rows, and appear to go on for a
+ways.  This orchard looks very empty.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10324
+D1
+~
+~
+0 0 10330
+D2
+~
+~
+0 0 10331
+S
+#10330
+The Garden~
+This is a well tended garden.  Many firns and bonzi trees make up the
+most of it.  There doesnt appear to be anyone around.  This place seems a
+bit confusing.  
+~
+0 4 2
+5
+D3
+~
+~
+0 0 10329
+S
+#10331
+The Garden~
+This garden seems to be laid out like a maze.  There are many kinds of
+flowers here, but the most striking are the blue roses.  You see the orchard
+off in the distance, you think...  
+~
+0 4 2
+5
+E
+blue~
+Of all the roses these stand out.  Their petals are link purest silk, and
+they have grow in wonderous patterns through out the gardens.  
+
+~
+D0
+~
+~
+0 0 10329
+D3
+~
+~
+0 0 10332
+S
+#10332
+The Sand Garden~
+A large sand garden is here.  There are stone benches on which to watch
+it from.  Many rocks have been placed within it, and its subtle lines weave
+and intricate design.  
+~
+0 4 2
+5
+D1
+~
+~
+0 0 10331
+S
+#10333
+The Path to Asano's Home~
+The path to Asano's house is well travelled.  The members of the Togashi
+clan go there often.  You can see his house to the north.  It is small, but
+very pretty in its simplicity.  The road to his home is well maintained. 
+The bushes that line the path are kept in good condition, so the the daimyo
+never need look upon the ugly.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10334
+D2
+~
+~
+0 0 10327
+S
+#10334
+The Entrance to Asano's House~
+The Entrace to Asano's house is nothing more than a wooden porch.  There
+are two steps up to the porch, and the door a few feet from the steps.  The
+door slides open, and is a bit ornate.  Beyond that there is no decoration,
+but the front still conveys a feeling of refinement.  
+~
+0 0 2
+5
+E
+door~
+It has a painting of two dragons twisted around each other as they fight
+over a burning town.  
+~
+D0
+~
+~
+AB 0 10335
+D2
+~
+~
+0 0 10333
+S
+#10335
+Inside Asano's Humble Home~
+Welcome to Asano's humble abode.  There is no decorations in this
+hallway.  But there are a few paintings, all of them are peaceful.  You can
+here people movind about to the north, and someone humming a little tune to
+the east.  The air here smells of calmness.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10336
+D1
+~
+~
+0 0 10337
+D2
+~
+~
+AB 0 10334
+S
+#10336
+A Room in Asano's Home~
+This is a simple bend in the hallway.  The walls are the same blank that
+they are every where in the house.  The is nothing to make this look more
+than a simple turn.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10335
+D3
+~
+~
+0 0 10344
+S
+#10337
+The Painting Room~
+This is where Asano spends much of his time.  Many painting decorate the
+room.  The vibrant color contrast strongly with the plainness of the house. 
+Several small paint mixing bowls and fine brushes have been left in front of
+his current painting; a massive red sunset.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10335
+S
+#10338
+The House's Main Intersection~
+From this location you can get to just about anywhere in the house in
+just a few steps.  To the north is the houses shrine.  Go east if you want
+to go over the bridge.  South of here is Asano's room.  His servants sleep
+in the room west of here.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10340
+D1
+~
+~
+0 0 10344
+D2
+~
+~
+0 0 10339
+D3
+~
+~
+0 0 10341
+S
+#10339
+Asano's Room~
+Asano must have spent a lot of time decorating this room.  The walls have
+been meticulously paint with one giant morale.  A large vase is in each
+corner of the room.  Plants and wood sculptures take up most of the wall
+space.  A large bed is in the middle of the room, and chest of clothing sits
+next to it.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10338
+D2
+~
+~
+0 0 10342
+D3
+~
+~
+0 0 10343
+S
+#10340
+Asano's Shrine~
+This little space in Asano's house has been reserved for a shrine.  It's
+a simple place where Asano can pray to the gods for mercy upon his soul.  It
+is also frequently used as a place to meditate to recollect his thoughts
+about a painting.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10338
+M 105 H 100 P 100
+S
+#10341
+The Servants Quarters~
+Asano only has two servants.  This room is both of theres.  As per
+Asano's instructions they have kept the room simple.  To the point of being
+descriptionless.  It's plain beyond imagination, two beds and a place for
+clothing; that's it.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10345
+D1
+~
+~
+0 0 10338
+S
+#10342
+Gi-Gi's Room~
+Asano made a promise to his sister when she died, protect her daughter. 
+To do so he added a small room to his abode.  The room has a simple changing
+screen, a tidy liitle bed, and a small wooden dresser.  It's not luxurious,
+but it can be lived in.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10339
+S
+#10343
+The Bathhouse~
+This room is on a raised wooden platform.  A large hot tub is sunk into
+the floor in the middle of the room.  Steam pours from the water within it. 
+A sponge and some folded towels sit on a stool next to it.  
+~
+0 0 0
+5
+E
+bath~
+The tub is oval shaped.  It has a bench attached to the wall, about three
+feet under the water.  There are four steps that lead to the floor of the
+tub.  All but one step is under the water.  
+~
+D1
+~
+~
+0 0 10339
+S
+#10344
+On the Bridge~
+Asano's House is split into two sections.  A river runs between those
+sections.  This simple bridge traverses that river.  The river travels north
+and south of here.  To the north you see a clear spring that is the start of
+the stream.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10336
+D3
+~
+~
+0 0 10338
+D5
+~
+~
+0 0 10261
+S
+#10345
+A Path in the Country Side~
+The is alot of grass here, it covers the hills completely.  The path is
+just a line that has been walked well.  Past the next hill to the north you
+can make out the huts of a small village.  To the south the path connects
+directly to a house split by a stream.  
+~
+0 4 2
+5
+D0
+~
+~
+0 0 10346
+D2
+~
+~
+0 0 10341
+S
+#10346
+The Village Well~
+A simple stone well has been built into the ground.  A bucket with a rope
+has been attach to a loop of iron on the side of the well.  The villagers
+use this a a place of gossip, as well as water.  Nobody is currently using
+it, but that is likely to change.  
+~
+0 0 1
+5
+D1
+~
+~
+0 0 10347
+D2
+~
+~
+0 0 10345
+D3
+~
+~
+0 0 10348
+S
+#10347
+Outside the Regents Office~
+The office of the regent is to the east.  He oversee the collection of
+taxes, and the operation of the community.  If you need to speak with him,
+just go in and talk.  To the south a large poorly built building, you can
+hear people yelling with happiness from inside.  
+~
+0 0 1
+5
+D1
+~
+~
+0 0 10350
+D2
+~
+~
+0 0 10349
+D3
+~
+~
+0 0 10346
+S
+#10348
+In the Middle of the Village~
+This is the center of the village.  Straw huts encircle this area, and
+many people walk here.  This is where all holidays are celebrated, as well
+as where markets are held.  To the west are the rice paddies, and to the
+east is a well.  A strong smell is coming from the north.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10351
+D1
+~
+~
+0 0 10346
+D3
+~
+~
+0 0 10352
+S
+#10349
+Wongs House of Pleasure~
+This was once a den of sin.  Now that the whores are all married and in
+their forties, it's mostly just a place to play mah jong and drink with
+friends.  Wong has gotten older, and let the place fall apart.  Still it
+holds the air of a whore house, as well as its reputation.  You will see no
+proper ladies and men in this place.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10347
+S
+#10350
+The Regents Office~
+The single room office is designed to be efficent.  A desk at the center
+has blank paper, ink, and pens upon it.  On one wall is a shelf with all the
+old records bundled together.  A book of laws is on the other wall, as well
+as a small stack of papers about what the village is currently up to.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10347
+S
+#10351
+Hori's Dung Shop~
+This is Hori's shop.  How does Hori make a living?  Collevting
+everythings dung, and selling to people as useful crap.  He has a huge dung
+heap in the back, and a small shack that he works out of.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10348
+S
+#10352
+Rice Paddy~
+The rice paddies are the way that the village survives.  That being said,
+it makes sense that they are in exellent condition.  There are small raised
+paths between fields, and the paddies themselves are in perfect order.  
+~
+0 0 3
+5
+D1
+~
+~
+0 0 10348
+D2
+~
+~
+0 0 10353
+D3
+~
+~
+0 0 10354
+S
+#10353
+Knee Deep in a Rice Paddy~
+The rice floats on water that is about knee deep.  The ground at the
+bottom of the pool like rice fields is extremely soft, almost to the point
+of mud.  There is only a single person hunched over in the fields.  She is
+working herself hard, hoping to get a good crop of rice this year.  The
+water and rice reflect the light, making almost look as if it is glowing.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10352
+S
+#10354
+Outside the West End of a Village~
+You stand at the west end of a small village.  It appears to have a
+reasonable population, and they don't appear unhappy.  Directly to your west
+is the village rice paddies.  There is a path that heads west into sparse
+forest, and on that goes south into a grey valley of waste.  
+~
+0 4 2
+5
+D1
+~
+~
+0 0 10352
+D2
+~
+~
+0 0 10357
+D3
+~
+~
+0 0 10355
+S
+#10355
+South of a Woodland Shine~
+A thin forest of cedar grows here.  The green grass of the land gives way
+to brown dirt, and underbrush.  To the north you see a hole in the forest. 
+It looks like someone has made a shrine there.  As you look closer it
+appears someone is practicing thier swordsmanship by the shrine.  
+~
+0 0 3
+5
+D0
+~
+~
+0 0 10361
+D1
+~
+~
+0 0 10354
+D3
+~
+~
+0 0 10356
+S
+#10356
+The Entrance to a Cave~
+A large hole in the ground is here.  It is the entrance to a cave, the
+ground slopes gently as the tunnel enters the earth.  The smell of urine
+pours from the mouth of the cave, you can hear the breathing of a large
+creature from within.  
+~
+0 4 2
+5
+D0
+~
+~
+0 0 10358
+D1
+~
+~
+0 0 10355
+S
+#10357
+Outside the Valley~
+South of here, is the nothing that is the battlefield.  You can see the
+dead and dying scattered around.  The grey toned landscape within the valley
+does not extend up here.  A path leads north to what looks like a village.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10354
+D2
+~
+~
+0 0 10277
+S
+#10358
+Fim's Sleeping Chamber~
+This chamber of the lair is large.  The great dragon Fim can sleep
+comfortably in here, and still have room to move about.  The ground is very
+moist here.  A hot lemon colored stream runs from a pool in the middle to
+one wall of the cave.  The is no decoration in this room, because as Fim
+says "When you sleep you have no need for pretty things."  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10359
+D2
+~
+~
+0 0 10356
+D3
+~
+~
+0 0 10360
+S
+#10359
+Fim's Treasure Room~
+Treasure fills this room, gold sparkles from every corner.  There are
+statues, weapons, furniture, and many many more riches.  Some of the
+treasure is larger than you are.  But there are also coins, and small
+trinkets.  You reach out, just to touch the treasures, but the moment you do
+an opaque energy field crackles to life.  It lies as a barrier between you
+and the treasure.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10358
+S
+#10360
+Fim's Antechamber of Food~
+Here is where Fim eats.  Food hangs off the ceiling, and unidentifiable
+parts of animals litter the floor.  Even though Fim does clean his lair, it
+is certainly a mess.  The floor is slick with blood, and other organic
+juices.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10358
+S
+#10361
+A Woodland Shrine~
+A large stone shrine has been propped up in the middle of the forest. 
+The forest opens up a little to reveal a place to meditate, and pray to the
+gods.  The land is attuned, and peaceful.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10355
+M 110 H 100 P 100
+S
+#10362
+On the Lake~
+The lake is small.  Nestled in the middle of tall mountains, it brings a
+sense of peace.  Harmony seems to fill the air and slowly glide about the
+waters.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10239
+S
+#10200
+An Open Field~
+You can see for many miles in any direction.  This land looks almost
+empty, but for the  occasional animal.  The grass here is short, with a
+mellow green to it.  No sound looms in the air, but that of birds that you
+can not see.  
+ 
+There is a sign hastely posted here.
+~
+0 4 2
+5
+E
+sign~
+These are the lands of Fim.  They have been plagued with battle.  You
+should only go into the battlefield if you are strong enough to repell the
+attack of aggressors.  The rest of the level is free for you to roam.  The
+lands have been completed.  
+-->Charun
+~
+D0
+~
+~
+0 0 10203
+D1
+~
+~
+0 0 10202
+D2
+~
+~
+0 0 4036
+D3
+~
+~
+0 0 10201
+S
+#10201
+An Open Field~
+The meadow turns to gently rolling hills here.  The soft grass looks as
+if it has never been trodden.  The smooth up and down of the hills here
+reminds you of ripples on water.  As you continue, you think it strange that
+with all this grass you smell next to nothing.  For the only you can detect
+is an ever faint, yet ever present smell of manure.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10204
+D1
+~
+~
+0 0 10200
+S
+#10202
+An Open Field~
+The view of green and light brown grass continues on for miles. Every
+here-and-there stands a thin, lone batch of trees. Their colors are
+bright and they appear healthy as and tree you have seen before. Even
+from a distance you can see their low slung branches. For a fleeting moment
+you think of climbing them, but it passes and you continue your way.
+Travelling through this barren, but strangely serene land.
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10206
+D1
+~
+~
+0 0 10212
+D3
+~
+~
+0 0 10200
+S
+#10203
+An Open Field~
+Just more green fields.  Your begining to become sick of the sight of all
+the grass.  As you go about looking at the world you notice that the ground
+before you has been rended from the earth rather violently.  The blackness
+of the dirt is a welcome change from all the green.  
+~
+0 0 2
+5
+E
+tracks~
+You look about and slowly begin to notice that there are more. 
+Travelling off to the northwest.  Over the small hills. 
+
+~
+E
+ground~
+You look closely at the ground and after a moment decide that this was
+done by a horse.  Yes...  You decide this is definately horse tracks.  
+~
+D0
+~
+~
+0 0 10219
+D1
+~
+~
+0 0 10206
+D2
+~
+~
+0 0 10200
+D3
+~
+~
+0 0 10204
+S
+#10204
+A Thin Group of Trees~
+A small group of tree is here.  They are very tall, an quite thin.  Their
+branches are low, and their leaves tightly packed together.  Even though
+these trees are very sparsely distributed the canopy still blocks your veiw
+of sky.  You look at the trees, and swear that you can here birds but can't
+seem them.  To the west a small forest stands, looking very out of place,
+and to the northwest you see something sparkle briliantly.  
+~
+0 4 2
+5
+E
+trees~
+Up one of the trees you think you see something placed across two of the
+branches 
+~
+D0
+~
+~
+0 0 10207
+D1
+~
+~
+0 0 10203
+D2
+~
+~
+0 0 10201
+D3
+~
+~
+0 0 10208
+D4
+~
+~
+0 0 10205
+S
+#10205
+In a Tree~
+You climb about fifteen meters when you come upon a thin wooden plank
+that has been tied on each end to a branch.  The plank sags a little in the
+middle, and seem weather beaten.  There is some cloth that appears to have
+snagged on a broken branch.  You still can not seem to find the birbs that
+are chirping, even though it sounds as if you are standing over their nest. 
+~
+0 0 0
+5
+D5
+~
+~
+0 0 10204
+S
+#10206
+An Open Field~
+This field is a little less bland.  There are bushes every so often,
+stubby and brown.  With fern-like leaves, Also to break the monotony, you
+clearly see animals running about, including some large preditory cat beast.
+Off a ways to the east is something that appears to be a giant bush.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10218
+D2
+~
+~
+0 0 10202
+D3
+~
+~
+0 0 10203
+S
+#10207
+An Open Field~
+You can see a river twist around the low hills of the land.  It is the
+only moving thing for miles, save a few animals.  The river is off to the
+northwest.  To the northeast is a sweeping valley.  You think you can make
+out two encampments within it.  After a few seconds you realize that instead
+of green, the ground of the valley is an unnature grey.  
+~
+0 0 2
+5
+D2
+~
+~
+0 0 10204
+S
+#10208
+A Sparse Forest~
+A forest forms, getting thicker westard.  It is made up of tall thin
+trees, conifirs, and the occational bamboo.  Even though life is evident
+(you can see it move among the trees) you still feel as though this place is
+empty.  Add to that the inexplicable felling that your being watched, and
+you can't help but check the readiness of your weapons and armor.  
+~
+0 0 3
+5
+D0
+~
+~
+0 0 10216
+D1
+~
+~
+0 0 10204
+D2
+~
+~
+0 0 10209
+D3
+~
+~
+0 0 10210
+S
+#10209
+Bamboo Forest~
+The transition to bamboo forest is complete.  You here monkeys jump in
+the trees.  The Bamboo is hard to make you way through, but you manage.  You
+are aware of so much life in this forest.  For now the bland fields of grass
+are only a memory.  This place is full of life, but has no smell.  Except
+for the faint, ever present, aroma of manure.  
+~
+0 0 3
+5
+D0
+~
+~
+0 0 10208
+S
+#10210
+A Darker Part of the Forest~
+The forest becomes thinker here.  A strange contrast to the empty plains
+which you had moments ago travelled.  A you wander among the large trees you
+realize the forest is utterly silent.  There is only a faint rustling, which
+seems to come from every diection.  It's probably just the wind.  Though you
+can't help think that maybe it's not.  This forest has a ordered look to it,
+almost artifical in it's naturalness.  Some dead bushes are especially out
+of place you think.  
+~
+0 4 3
+5
+E
+leaves~
+You brush aside the leaves to find a hidden hatch in the floor of the
+forest.  
+~
+E
+bushes~
+The bushes appear withered and dieing, among rich yet queer life.  On top
+of that there is an innordinate amount of leaves around the brush, as though
+trying to hide something.  
+~
+D1
+~
+~
+0 0 10208
+D5
+~
+hidden~
+ABG 0 10211
+S
+#10211
+The Entrance to the Lair of Clan Blood Dawn~
+A bamboo ladder goes into the ground about 4 meters.  The dirt is held in
+place by support planks that have been fixed to the wall.  At the bottom a
+flag is draped as a door across the entrance to this place.  The flags show
+a red sun rising over two crossed swords.  Welcome to the Lair of Clan Blood
+Dawn.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 10227
+D4
+~
+~
+ABG 0 10210
+S
+#10212
+A Wooden Path~
+A path starts here, made up of thin sticks lain side-by-side.  They
+appear to be well worn, and pressed firmly into the soft dirt.  This is the
+only sign that other people have been around here.  I light wind blows from
+the east, and you can actually smell the grass.  It's almost as if the
+meadow actually starts to the east of here, and this massive barren field is
+just a living blight of the land 
+ 
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10213
+D2
+~
+~
+0 0 10214
+D3
+~
+~
+0 0 10202
+S
+#10213
+Path to a Temple~
+The laid wooden path continues to the east, and south.  The grass here is
+sparser, and you even see a few dead patches.  You look to the east and see
+a small valley with some sort of structure in it.  Within its walls, but you
+can hear the light sound of bells coming from inside it.  
+ 
+~
+0 0 2
+5
+D1
+~
+~
+0 0 10215
+D2
+~
+~
+0 0 10212
+S
+#10214
+A Secluded Spot~
+There is a small depresion in the earthere.  At the bottom of it sits a
+little pond of crystal clear water.  Around that pond are five medium sized
+rocks.  They have a worn appearence to them.  On one of the rocks sits a
+monk.  His head is shaved and covered with tattoos.  He is dressed in white
+and yellow robes.  His eyes are closed, and he appears content with the
+world.  
+ 
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10212
+S
+#10215
+The Gates of the Sohei Temple~
+You stand before the Torii gates of a temple.  To the side of the large
+sagging arch is stone housing with a burning torch inside.  From here you
+can see a reasonable amount of activity, as the monks go about their daily
+lives.  
+~
+0 4 2
+5
+D1
+~
+~
+0 0 10223
+D3
+~
+~
+0 0 10213
+S
+#10216
+South River Bank~
+You stand on the South bank of a river.  It appears clean, shallow, and
+wide.  There is a thin wooden bridge across the river.  The bridge is made
+of a dark and lavish wood.  It seems to be brand new, or at least aging very
+well.  There is a man, on the other side of the river beckoning for you to
+come.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10217
+D2
+~
+~
+0 0 10208
+S
+#10217
+North River Bank~
+You stand on the north side of the river bank.  There isn't much here,
+exept a merchant.  He seems happy to see you.  He has a cart with a paper
+suncover and is full of food.  His cart sits at the start of a peddle
+covered road.  It heads off to the north, and meets a large compound some
+ways from here.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10221
+D2
+~
+~
+0 0 10216
+D3
+~
+~
+0 0 10220
+S
+#10218
+A Point Above the Battlegrounds~
+You stand at a cliff overlooking a great grey valley.  Soldiers, and the
+signs of war are scattered thoughout the field.  The battle continues before
+your eyes.  There is an occational arrow shot, or a sword duel.  Every
+action seems to be done very slowly and with delibration.  For the most part
+the combatants seem to be asleep, or completely drained of energy by their
+owe sorrow.  A army is not camped to far to the north of here.  To the south
+are the vast green expanses of the empty meadow ,and there appears to be a
+path down to the valley west of here.  
+~
+0 0 2
+5
+D2
+~
+~
+0 0 10206
+D3
+~
+~
+0 0 10219
+S
+#10219
+An Open Field~
+You stand on the edge of what appears to be a great battlefield in a
+valley.  War banners stand where their carriers have fallen.  Horses lay
+dead, carts full of the dead lay abandon.  A few people move slowly around
+the field, they all wear a sort of decorated platemail.  As you look at the
+armor, you begin to notice that the predominate color is gray.  In fact,
+even the grass has gray hues to it.  The sky here is as gray, as the sky
+anywhere else is blue.  You can feel despair pour from the ground, and soak
+the valley in hopelessness.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 10263
+D1
+~
+~
+0 0 10218
+D2
+~
+~
+0 0 10203
+S
+#10220
+A River~
+This river is deeper than it appears.  You are still able to control
+yourself, as the follow isn't strong at all.  The water is clear as air, and
+very calm.  The cold of the water doesn't bother you much.  The river
+travels east and west from here.  
+~
+0 0 6
+5
+D1
+~
+~
+0 0 10240
+D3
+~
+~
+0 0 10239
+D4
+~
+~
+0 0 10216
+S
+#10221
+The Pebble Path~
+This path is here for a reason, to lead people to the large walled area
+you see not too far to the north.  The path is about two meters wide and
+covered with smooth elipsiod pebbels.  There are places where they have
+clearly been kicked up by feet, and maybe hooves.  You see several eagles
+flying in the air, and the sound of crickets is strong here.  The path goes
+north toward a compound, and south to a bridge.  
+~
+0 4 2
+5
+D0
+~
+~
+0 0 10222
+D2
+~
+~
+0 0 10217
+S
+#10222
+Entrance to the Lin-Po Compound~
+This is the outer entrance to the Lin-Po compound.  It is surrounded by a
+five meter wall of stone.  Each stone looks to be about a ton.  The iron
+gates that block the entrance have been shaped to look like a great battle
+scene.  To the south lays a river with a bridge over it, and to the west is
+the inside of the compound.  
+~
+0 0 1
+5
+E
+gate~
+You can clearly destinguish between two armies, one is Lin-Po's.  There
+is a dragon figure above the whole scene.  
+~
+D2
+~
+~
+0 0 10221
+D3
+~
+~
+0 0 10290
+S
+#10223
+The Front Court~
+The ground here is made of limestone tile, inlaid with jade symbols. 
+Occasionally someone walks by, but he take little notice of you.  You
+notice that all the monks have the same tattoo on their shaven heads.  There
+is a covered structure east of here To the north there seems to be a greater
+amount of activity.  You can see people working in an open faced building to
+the south.  
+~
+0 0 1
+5
+E
+symbols~
+You closely examine the sybloms and can't help but think that is all forms into a greater picture.
+~
+E
+picture~
+You think about the sybloms as a whole, and realize that you are standing
+on the face of a large picture of a dragon.  
+~
+D0
+~
+~
+0 0 10224
+D1
+~
+~
+0 0 10225
+D2
+~
+~
+0 0 10226
+D3
+~
+~
+0 0 10215
+S
+#10224
+The Training Ground~
+You are located in the middle of a large training area.  Targets of
+various sorts are arranged to your left, and have the look of being used
+quite often.  There are many monks here.  Some are practicing balance,
+others are engaged in mock combat with spears.  The ground here is
+completely covered in soft thatched mats.  To the south is the front
+courtyard and to the east there looks to be several shrines.  
+ 
+ 
+~
+0 0 1
+5
+D1
+~
+~
+0 0 10248
+D2
+~
+~
+0 0 10223
+S
+#10225
+Outside the West Sleeping Chambers~
+You are beneath a shingled roof, It is dark blue, and large enough to
+cover the mud brick house that sit on either side of the road on which you
+find yourself.  Each of the two long brick houses has two doors, and a
+single window that is filled with well made glass.  The ground here is just
+packed dirt, and the sound of chimes can be hear floating through the air. 
+To the east in another complex like this one.  To the west is the court
+yard.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10243
+D1
+~
+~
+0 0 10245
+D2
+~
+~
+0 0 10244
+D3
+~
+~
+0 0 10223
+S
+#10226
+In the Sohei Temple~
+You are within the limits of a Sohei temple.  Though many of the monks
+seem to be training for war, you still feel an over all sense of peace here.
+To the south you can see people working ov various crafts.  North of here is
+the front court, and a large brown building sits to the east.  It's on the
+other side of the temple.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 10223
+D1
+~
+~
+0 0 10254
+D2
+~
+~
+0 0 10246
+S
+#10227
+Inside the Lair~
+You are standing a low ceilinged hallway, made of brown mud that is held
+in place by boards.  There is a special training facility to the north,
+there is a sign next to the door, and a standard ninja practice room.  
+~
+0 0 0
+5
+E
+sign~
+The sign to the side of the north door is, "The Black Maze...  Approved
+ninja only".  
+~
+D0
+~
+~
+0 0 10228
+D1
+~
+~
+0 0 10211
+D2
+~
+~
+0 0 10229
+D3
+~
+~
+0 0 10230
+S
+#10228
+The Dark Maze~
+You are wanding through a short, simple maze.  The walls are made of
+thin, hard wood.  The wall have a sinister feature to them.  Sticking out of
+the walls, at different angles and with inconstistant distribution are ravor
+sharp blades.  They are all different sizes, and make walking through the
+narrow corridor vary dangerous.  You also hear heavy breathing coming from
+somewhere in the maze.  
+~
+0 1 0
+5
+D2
+~
+~
+0 0 10227
+D4
+~
+panel~
+AB 0 10242
+S
+#10229
+The Training Hall~
+This is the Ninja Practice Center.  It houses several different type of
+obsticle courses which are designed to hone the many skills ninjas need to
+do their dishonorable duty.  There are a some clan members practicing.  
+ 
+~
+0 0 0
+5
+D0
+~
+~
+0 0 10227
+S
+#10230
+The Halls of the Clan~
+This part of the clan's lair is covered with paintings of the history of
+the clan.  Many thin vertical brush paintings decorate the walls.  To the
+North is the clan lords bedroom, to the south is everyone elses, and to the
+west is the clan meeting room.  
+~
+0 0 0
+5
+D0
+~
+~
+ABC 10204 10231
+D1
+~
+~
+0 0 10227
+D2
+~
+~
+0 0 10232
+D3
+~
+~
+0 0 10236
+D5
+~
+~
+0 0 10233
+S
+#10231
+The Clan Lord's Bedroom~
+You would have expected the bed room of the clan lord to be more
+impressive.  But actually it's rather drab.  The bed looks comfortable, and
+they dresser full of clothes.  Beyond that there isn't much else.  
+~
+0 0 0
+5
+D2
+~
+~
+ABC 0 10230
+D3
+~
+~
+ABC 0 10234
+S
+#10232
+Sleeping Quarters~
+There are many bunk beds here.  There are many poprnographic paintings on
+the walls of this room as well.  Though the Bunks are well made, implying
+order, there is clothes all over the place.  
+~
+0 0 0
+5
+E
+paintings~
+You look at the paintings for a little, and it dawns on you...They're all about guys...
+~
+E
+pornographic~
+Yep, all the paintings are about men having sex...hhmmm
+~
+D0
+~
+~
+0 0 10230
+D1
+~
+~
+0 0 10235
+S
+#10233
+The Testing Room~
+Here is where the clan tests its lieutenants to become captains.  There
+is currently a test underway.  Two men are sparing with each other.  Their
+movements are so fast that it is hard to keep track of their limbs.  There
+are four students act as spectators.  On occations on of them throws a
+shuriken at the two fighters.  They dodge each shot, and continue fighting
+without a break in the action.  
+~
+0 0 0
+5
+D4
+~
+~
+0 0 10230
+S
+#10234
+The Weapons Gallery~
+This appears to be where that clan keeps it's weapons.  The wall is lined
+with ninjato, sai, and kusarigama.  There is an impressive number of each. 
+They have been placed in protective cases, and it doesn't appear that they
+can be easyily gotten to.  
+ 
+~
+0 0 0
+5
+D1
+~
+~
+ABC 0 10231
+S
+#10235
+The Dressing Room~
+This is where the ninjas don thier uniforms.  There are several different
+kinds of camonlauge clothing on hanging on a rack, and lots of make up
+sitting on a dresser infront of a mirror.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 10259
+D3
+~
+~
+0 0 10232
+S
+#10236
+The Meeting Room~
+Here is were the clan meets.  They do everything from assigning tasks to
+awarding honors.  When it is not in use, like now, It is kept clean and
+neat.  There is a low central table which is surrounded by red silk pillows.
+The table has an inlaid marble top, and is very beutifully crafted.  The
+walls have several paintings of battles, and mountains hanging from them.  
+~
+0 0 0
+5
+D0
+~
+~
+ABFG 10203 10237
+D1
+~
+~
+0 0 10230
+S
+#10237
+The Clan treasure room~
+All the clans money is stored in this room.  There are many leather bound
+black chests here.  These boxes undoubtably contain much of their wealth. 
+Those things too large for the chests are just sitting out.  These things
+include several statues, and some expensive looking clothes and furniture.  
+~
+0 0 0
+5
+E
+statue~
+The most noticable one is a large jade tiger, with gold as the strips.  
+~
+D2
+~
+~
+ABFG 0 10236
+S
+#10238
+A Rapid Part of the River~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 10220
+D5
+~
+~
+0 0 10239
+S
+#10239
+Down The Waterfall~
+The river ends in a small waterfall here.  The mist being thrown up
+creates a perfect rainbow of the crest of the waterfall.  The falls empty
+into a small lake of lttle importance.  
+~
+0 4 7
+5
+D1
+~
+~
+0 0 10220
+D3
+~
+~
+0 0 10362
+S
+#0
+
+
+
+#SPECIALS
+M 10243 spec_guard
+M 10300 spec_breath_lightning
+M 10304 spec_cast_mage
+M 10307 spec_executioner
+M 10310 spec_breath_frost
+M 10313 spec_poison
+M 10318 spec_breath_fire
+M 10321 spec_cast_mage
+M 10201 spec_breath_frost
+M 10203 spec_guard
+M 10205 spec_breath_lightning
+M 10207 spec_cast_mage
+M 10208 spec_nasty
+M 10211 spec_cast_mage
+M 10215 spec_breath_fire
+M 10217 spec_thief
+M 10218 spec_cast_cleric
+M 10219 spec_thief
+M 10220 spec_guard
+M 10227 spec_cast_mage
+M 10228 spec_breath_fire
+M 10229 spec_poison
+M 10239 spec_nasty
+S
+
+
+
+#RESETS
+D 0 10242 4 1
+D 0 10297 0 2
+D 0 10297 3 1
+D 0 10298 1 1
+D 0 10300 3 1
+D 0 10301 2 2
+D 0 10302 1 1
+D 0 10334 0 1
+D 0 10335 2 1
+D 0 10210 5 1
+D 0 10211 4 1
+D 0 10228 4 1
+D 0 10230 0 2
+D 0 10231 2 2
+D 0 10231 3 2
+D 0 10234 1 2
+D 0 10236 0 1
+D 0 10237 2 1
+O 0 10215 0 10242
+O 0 10220 0 10244
+M 0 10223 1 10246 1
+E 0 10317 0 17
+M 0 10224 1 10246 1
+E 0 10316 0 17
+M 0 10226 1 10247 1
+E 0 10311 0 17
+M 0 10225 1 10247 1
+E 0 10312 0 17
+M 0 10221 2 10250 1
+O 0 10222 0 10250
+M 0 10220 2 10251 1
+M 0 10221 2 10251 1
+G 0 10218 0
+M 0 10218 1 10253 1
+M 0 10222 1 10254 1
+O 0 10227 0 10254
+O 0 10221 0 10256
+M 0 10214 1 10259 1
+M 0 10227 1 10260 1
+E 0 10225 0 12
+M 0 10228 3 10260 1
+M 0 10236 3 10264 1
+E 0 10241 0 16
+M 0 10238 1 10272 1
+M 0 10229 5 10273 1
+E 0 10244 0 20
+M 0 10230 4 10273 1
+M 0 10239 2 10274 1
+E 0 10242 0 17
+G 0 10243 0
+M 0 10234 1 10275 1
+E 0 10239 0 11
+M 0 10235 1 10275 1
+E 0 10240 0 22
+M 0 10236 3 10276 1
+M 0 10233 1 10278 1
+E 0 10246 0 5
+M 0 10242 1 10281 1
+M 0 10241 1 10281 1
+M 0 10240 1 10281 1
+M 0 10232 1 10282 1
+M 0 10231 1 10285 1
+G 0 10247 0
+G 0 10245 0
+M 0 10243 1 10287 1
+M 0 10246 3 10290 1
+M 0 10245 2 10292 1
+O 0 10211 0 10292
+O 0 10212 0 10292
+M 0 10244 1 10294 1
+M 0 10247 1 10296 1
+M 0 10243 1 10297 1
+M 0 10248 1 10299 1
+M 0 10304 1 10300 1
+M 0 10300 1 10301 1
+E 0 10226 0 16
+M 0 10301 1 10302 1
+G 0 10300 0
+M 0 10305 1 10302 1
+M 0 10309 1 10306 1
+M 0 10306 1 10307 1
+G 0 10229 0
+M 0 10307 1 10308 1
+E 0 10303 0 16
+M 0 10328 1 10312 1
+M 0 10315 1 10318 1
+M 0 10310 1 10319 1
+E 0 10302 0 16
+M 0 10311 2 10319 1
+M 0 10312 1 10320 1
+M 0 10313 2 10321 1
+M 0 10320 1 10332 1
+M 0 10316 1 10339 1
+G 0 10306 0
+M 0 10317 1 10342 1
+E 0 10301 0 5
+O 0 10309 0 10346
+M 0 10327 2 10348 1
+M 0 10323 1 10349 1
+M 0 10326 1 10349 1
+E 0 10308 0 22
+M 0 10324 1 10349 1
+M 0 10322 1 10350 1
+E 0 10307 0 17
+O 0 10304 0 10351
+M 0 10319 1 10351 1
+M 0 10325 1 10353 1
+E 0 10310 0 6
+M 0 10318 1 10358 1
+G 0 10314 0
+E 0 10313 0 5
+E 0 10315 0 20
+M 0 10321 1 10361 1
+E 0 10305 0 16
+O 0 10200 0 10204
+O 0 10201 0 10205
+M 0 10200 2 10206 1
+M 0 10207 1 10208 1
+G 0 10228 0
+M 0 10207 1 10210 1
+M 0 10209 1 10211 1
+M 0 10201 1 10214 1
+E 0 10223 0 17
+M 0 10202 1 10217 1
+G 0 10210 0
+G 0 10209 0
+G 0 10208 0
+G 0 10207 0
+G 0 10206 0
+M 0 10203 4 10223 1
+E 0 10202 0 5
+M 0 10204 1 10224 2
+E 0 10217 0 16
+E 0 10224 0 12
+M 0 10206 3 10228 1
+M 0 10210 1 10229 1
+E 0 10237 0 7
+M 0 10217 3 10230 3
+M 0 10211 1 10231 1
+G 0 10203 0
+M 0 10212 1 10232 1
+M 0 10216 2 10233 1
+E 0 10214 0 9
+G 0 10204 0
+M 0 10217 3 10233 1
+G 0 10216 0
+O 0 10234 0 10234
+P 0 10233 1 10234 1
+P 0 10232 1 10234 1
+P 0 10231 1 10234 1
+M 0 10213 1 10235 1
+E 0 10238 0 6
+M 0 10219 4 10236 1
+E 0 10230 0 16
+M 0 10215 1 10237 1
+O 0 10235 0 10237
+O 0 10236 0 10237
+S
+
+
+
+#SHOPS
+10202 0 19 17 26 0 100 100 1 24
+10231 10 0 0 0 0 100 100 1 23
+0
+
+
+
+#$

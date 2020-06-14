@@ -28,9 +28,95 @@ namespace Mud.Server.Blueprints.Character
         public Sex Sex { get; set; }
 
         [DataMember]
+        public Sizes Size { get; set; }
+
+        [DataMember]
         public int Level { get; set; }
 
-        // TODO: race, class, flags, armor, damage, ...
+        [DataMember]
+        public long Wealth { get; set; }
+
+        [DataMember]
+        public int Alignment { get; set; }
+
+        [DataMember]
+        public string DamageNoun { get; set; }
+
+        [DataMember]
+        public SchoolTypes DamageType{ get; set; }
+
+        [DataMember]
+        public int DamageDiceCount { get; set; }
+
+        [DataMember]
+        public int DamageDiceValue { get; set; }
+
+        [DataMember]
+        public int DamageDiceBonus { get; set; }
+
+        [DataMember]
+        public int HitPointDiceCount { get; set; }
+
+        [DataMember]
+        public int HitPointDiceValue { get; set; }
+
+        [DataMember]
+        public int HitPointDiceBonus { get; set; }
+
+        [DataMember]
+        public int ManaDiceCount { get; set; }
+
+        [DataMember]
+        public int ManaDiceValue { get; set; }
+
+        [DataMember]
+        public int ManaDiceBonus { get; set; }
+
+        [DataMember]
+        public int HitRollBonus { get; set; }
+
+        [DataMember]
+        public int ArmorBash { get; set; }
+
+        [DataMember]
+        public int ArmorPierce { get; set; }
+
+        [DataMember]
+        public int ArmorSlash { get; set; }
+
+        [DataMember]
+        public int ArmorExotic { get; set; }
+
+        [DataMember]
+        public ActFlags ActFlags { get; set; }
+
+        [DataMember]
+        public OffensiveFlags OffensiveFlags { get; set; }
+
+        [DataMember]
+        public AssistFlags AssistFlags { get; set; }
+
+        [DataMember]
+        public CharacterFlags CharacterFlags { get; set; }
+
+        [DataMember]
+        public IRVFlags Immunities { get; set; }
+
+        [DataMember]
+        public IRVFlags Resistances { get; set; }
+
+        [DataMember]
+        public IRVFlags Vulnerabilities { get; set; }
+
+        [DataMember]
+        public string Race { get; set; }
+
+        [DataMember]
+        public string Class { get; set; }
+
+        // TODO CharacterAttributes
+
+        // TODO: affects, ...
 
         [DataMember]
         public CharacterLootTable<int> LootTable { get; set; }

@@ -1,0 +1,2453 @@
+#AREADATA
+Name The Bazaar~
+Builders None~
+VNUMs 5900 5999
+Credits {{ 4 89} Yaegar  The Bazaar~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#5900
+armor merchant dealer abdul~
+an armor merchant~
+A merchant specializing in armor offers to sell you a good shield.
+~
+This wily fellow has stock from all around the world. He will offer you a
+price for your own armor, should you wish to sell it, though you can be
+guaranteed of him selling it for a big profit.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5901
+arms merchant hazid~
+an arms merchant~
+A merchant specializing in a variety of weapons shows you a nice dagger.
+~
+This fellow, Hazid by name, is the brother of the the armor merchant. They
+are vicious rivals, each determined to rake in the most gold through sale
+of items of warfare. So far, Hazid's brother Abdul is the clear winner- it
+would seem most people are more concerned with protecting their own life
+than with taking others.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5902
+goods dealer~
+a goods dealer~
+A dealer in basic goods smiles happily and rubs her hands together.
+~
+She sure seems pleased to see you, especially when her greedy eyes light upon
+that bulge in your... money pouch. She stocks a variety of basic adventuring
+goods that you may be interested in.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand female 890
+AHMV ABCDEFGHIJK medium 0
+#5903
+chef~
+a chef~
+A busy chef is here preparing and selling hot meals.
+~
+You can feast on felafels, kebabs or fried capsicum here, all cooked by the
+fine chef standing before you. The smell is mouth watering.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5904
+thaumaturgist~
+a thaumaturgist~
+A thaumaturgist offers to show you some nice wands.
+~
+The thaumaturgist is a travelling mage who collects rods, staves and wands.
+he has no potions or scrolls, nor is he interested in them. For them you
+must go to the herbalist or the scribe.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5905
+herbalist~
+a herbalist~
+A herbalist grins as you enter and puts out some of her wares.
+~
+This lady specializes in herbs, pills and other digestible magical
+substances, including potions (she has branched out to fill the gap in the
+market).
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand female 890
+AHMV ABCDEFGHIJK medium 0
+#5906
+tailor~
+a tailor~
+A tailor leaps up and begins to measure you for a suit.
+~
+This fellow is the finest clothier in the bazaar. Well, he's actually the
+ONLY clothier in the bazaar. Oh well.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5907
+sage~
+a wise old sage~
+A wise old sage offers to identify your equipment.
+~
+This fellow is a wise and learned and very expensive scholar of legend lore,
+the divination of the properties of items both arcane and mundane. Just
+give him the item you want identified and he will do so.
+~
+human~
+0
+ABGR HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5908
+blacksmith smith~
+a blacksmith~
+Smith, the blacksmith, sniffs as you enter.
+~
+Smith can repair any type of armor you have, for a price. And don't be
+surprised by a rude outburst if you waste his time by giving him something
+that isn't broken to mend.
+~
+human~
+0
+ABGS HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5909
+scribe~
+a scribe~
+A scribe offers to show you his range of scrolls.
+~
+This felloe is an avid collector of rare and magical scrolls, and has quite
+a few he sells to the discerning public. Have a browse.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5910
+shipwright ship wright~
+a shipwright~
+A shipwright smiles and offers you a ship.
+~
+This fellow has been making and selling all types of water craft for decades.
+He's quite good at it too.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5911
+animal trainer~
+an animal trainer~
+An animal trainer playfully punches a gorilla as you enter.
+~
+She is going to do that once too often, you think to yourself as you see
+the gorilla glower. Still, she's a big enough lass to make you doubt the
+gorilla's chances in a scrap.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand female 890
+AHMV ABCDEFGHIJK medium 0
+#5912
+slave trainer~
+a slave trainer~
+A slave trainer is whipping some slaves into combat readiness.
+~
+If you want to, you can buy one of this fellow's slaves to aid you in combat.
+They don't talk back, they follow orderd fanatically, and they are quite
+tough.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5913
+healer monk~
+a monk~
+A wandering monk sits crosslegged here, healing the ill.
+~
+This fellow wanders the land, spreading the word of his god, and healing
+the injuries of his fellow beings.
+~
+human~
+0
+ABGL HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5914
+fruiterer~
+a fruiterer~
+A fruiterer offers you a magical pear.
+~
+The fruit that this pretty girl sells is magically enchanted, as it is
+grown in a field of magical energy in a secret location only she knows. Thus
+she has the market cornered so to speak. Buy a piece and eat it, it may be
+greatly beneficial.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand female 890
+AHMV ABCDEFGHIJK medium 0
+#5915
+dave peddler~
+Dave the peddler~
+A wandering peddler attempts to sell you some of his goods.
+~
+This fellow wanders from market to market across the world, selling the many
+things he has acquired on his journeys. You may find something of interest,
+maybe not.
+~
+human~
+0
+AG N 0 0 0 0
+36 6 1d73+1295 1d1+99 0d0+0 1d27+11 none
+-14 -14 -14 -9
+0 0 0 0
+stand stand male 360
+AHMV ABCDEFGHIJK medium 0
+#5916
+agitator~
+an agitator~
+An agitator is here stirring up the public (or attempting to).
+~
+Market places and the like are always popular places for demagogues, public
+speakers and other agitators, for they have a ready-made captive audience.
+Listening to this woman babble on, you suddenly remember that a shop near
+here sells tomatoes...
+~
+human~
+0
+ABGH N 0 0 0 0
+22 3 1d45+483 1d1+99 0d0+0 1d18+6 none
+-4 -4 -4 1
+0 0 0 0
+stand stand male 220
+AHMV ABCDEFGHIJK medium 0
+#5917
+shopper~
+a shopper~
+A shopper moves about the bazaar.
+~
+A customer of the merchants here, just like you. A little poorer perhaps,
+and a damn sight less violent, but a shopper nonetheless.
+~
+human~
+0
+AGH 0 0 0 0 0
+8 1 1d12+95 1d1+99 0d0+0 1d9+1 none
+5 5 5 10
+0 0 0 0
+stand stand male 80
+AHMV ABCDEFGHIJK medium 0
+#5918
+shopper~
+a shopper~
+A shopper moves about the bazaar.
+~
+A customer of the merchants here, just like you. A little poorer perhaps,
+and a damn sight less violent, but a shopper nonetheless.
+~
+human~
+0
+AGH 0 0 0 0 0
+8 1 1d12+95 1d1+99 0d0+0 1d9+1 none
+5 5 5 10
+0 0 0 0
+stand stand female 80
+AHMV ABCDEFGHIJK medium 0
+#5919
+thief scoundrel~
+a thieving scoundrel~
+A thieving scoundrel skulks about here.
+~
+Market places are like a magnet for thieves in every nation, and this one is
+no exception. With so many fat merchants waddling around with such fat
+purses, who wouldn't feel a little larcenous?
+~
+human~
+0
+AGH DFPQ 0 0 -500 0
+10 1 1d12+119 1d1+99 0d0+0 1d10+2 none
+4 4 4 9
+0 0 0 0
+stand stand male 100
+AHMV ABCDEFGHIJK medium 0
+#5920
+beggar~
+a beggar~
+A beggar cries out for alms.
+~
+Market places are popular gathering spots for beggars, the poor souls hoping
+for a coin from a fat merchant or busy shopper. Unfortunately they are very
+rarely lucky.
+~
+human~
+0
+ABGH 0 0 0 0 0
+4 0 1d12+47 1d1+99 0d0+0 1d6+0 none
+8 8 8 13
+0 0 0 0
+stand stand male 40
+AHMV ABCDEFGHIJK medium 0
+M
+specFido
+#5921
+guard~
+a guard~
+A black-robed guard swaggers past you.
+~
+These guards are actually a squad of mercenaries hired by the Merchant's
+Union to keep the peace in the bazaar. They approach their task with great
+relish, delighting in terrorising anyone they don't like.
+~
+human~
+0
+ADG DFJ 0 0 -400 0
+19 3 1d39+360 1d1+99 0d0+0 1d16+5 none
+-2 -2 -2 3
+0 0 0 0
+stand stand male 190
+AHMV ABCDEFGHIJK medium 0
+#5922
+princess fatima~
+the princess fatima~
+Princes Fatima glares imperiously at you.
+~
+The princess is a frequent customer of the bazaar. She is used to having
+people grovel before her, and she seems affronted by your refusal to do
+so.
+~
+human~
+0
+ABGH H 0 0 -400 0
+45 7 1d91+2024 1d1+99 0d0+0 1d33+14 none
+-20 -20 -20 -15
+0 0 0 0
+stand stand female 450
+AHMV ABCDEFGHIJK medium 0
+#5923
+spice merchant~
+a spice merchant~
+A spice merchant sneezes as he gets a noseful of pepper.
+~
+This stout fellow has a wide variety of spices gathered from all parts of
+the world. Most of them are of little use to an adventurer, though it is
+said that some spices have a rejuvenating effect on people...
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5924
+florist~
+a florist~
+A florist offers to sell you a rose.
+~
+This florist stocks a good range of flora. Most of it isn't of immediate
+practical use to an adventurer, though in this magical land one can never
+tell just what could be useful...
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand male 890
+AHMV ABCDEFGHIJK medium 0
+#5925
+jeweller~
+a jeweller~
+A jeweller shows you some fine rubies.
+~
+This half elf is a superb jeweller- she has even created jewellery for
+royalty. Her products are very expensive but also very good.
+~
+human~
+0
+ABG HJN 0 0 0 0
+89 14 1d179+7920 1d1+99 0d0+0 1d63+28 none
+-49 -49 -49 -44
+0 0 0 0
+stand stand female 890
+AHMV ABCDEFGHIJK medium 0
+#5926
+slave~
+a slave~
+A male slave hauls his master's goods along.
+~
+This fellow is burdened with several chests full of goods recently acquired
+by his master.
+~
+human~
+0
+ABGH 0 0 0 0 0
+7 1 1d12+83 1d1+99 0d0+0 1d8+1 none
+6 6 6 11
+0 0 0 0
+stand stand male 70
+AHMV ABCDEFGHIJK medium 0
+M
+specJanitor
+#5927
+slave whore~
+a whore~
+A whore stands here, waiting for a "client".
+~
+This girl has been placed by the merchants to provide "services" for any
+patron of the bazaar who is so inclined. She is obedient, well-groomed and
+very broad-minded.
+~
+human~
+0
+ABG 0 0 0 0 0
+5 0 1d12+59 1d1+99 0d0+0 1d7+0 none
+7 7 7 12
+0 0 0 0
+stand stand female 50
+AHMV ABCDEFGHIJK medium 0
+#5928
+chimp chimpanzee~
+the chimpanzee~
+The chimpanzee squeaks and scratches its ass.
+~
+The chimp looks like a fierce fighter.
+~
+human~
+0
+AI 0 0 0 0 0
+5 0 1d12+59 1d1+99 0d0+0 1d7+0 none
+7 7 7 12
+0 0 0 0
+stand stand none 50
+AHMV ABCDEFGHIJK medium 0
+#5929
+jaguar~
+the jaguar~
+The jaguar growls menacingly at you.
+~
+The jaguar looks like a fierce fighter.
+~
+human~
+0
+AI 0 0 0 0 0
+10 1 1d12+119 1d1+99 0d0+0 1d10+2 none
+4 4 4 9
+0 0 0 0
+stand stand none 100
+AHMV ABCDEFGHIJK medium 0
+#5930
+gorilla~
+the gorilla~
+The gorilla beats its chest and roars!
+~
+The gorilla looks like a fierce fighter.
+~
+human~
+0
+AI 0 0 0 0 0
+16 2 1d33+255 1d1+99 0d0+0 1d14+4 none
+0 0 0 5
+0 0 0 0
+stand stand none 160
+AHMV ABCDEFGHIJK medium 0
+#5931
+spearman~
+the spearman~
+The spearman stands rigidly at attention.
+~
+The spearman looks like a fierce fighter.
+~
+human~
+0
+AI 0 0 0 0 0
+13 2 1d27+168 1d1+99 0d0+0 1d12+3 none
+2 2 2 7
+0 0 0 0
+stand stand none 130
+AHMV ABCDEFGHIJK medium 0
+#5932
+bowman~
+the bowman~
+The bowman strings his bow.
+~
+The bowman looks like a fierce fighter.
+~
+human~
+0
+AI 0 0 0 0 0
+22 3 1d45+483 1d1+99 0d0+0 1d18+6 none
+-4 -4 -4 1
+0 0 0 0
+stand stand none 220
+AHMV ABCDEFGHIJK medium 0
+#5933
+swordsman~
+the swordsman~
+The swordsman flashes his scimitars.
+~
+The swordsman looks like a fierce fighter.
+~
+human~
+0
+AI 0 0 0 0 0
+28 4 1d57+783 1d1+99 0d0+0 1d22+8 none
+-8 -8 -8 -3
+0 0 0 0
+stand stand none 280
+AHMV ABCDEFGHIJK medium 0
+#5934
+busker~
+a busker~
+A busker is here playing his sitar.
+~
+This fellow is plying his trade to make a few pennies for his family.
+~
+human~
+0
+ABGH 0 0 0 0 0
+7 1 1d12+83 1d1+99 0d0+0 1d8+1 none
+6 6 6 11
+0 0 0 0
+stand stand male 70
+AHMV ABCDEFGHIJK medium 0
+#5935
+snake charmer~
+a snake charmer~
+A snake charmer entices a cobra from a basket.
+~
+This game fellow charms the cobras he keeps with a small flute. Sometimes it
+
+works, sometimes a new snake charmer gets a job...
+~
+human~
+0
+ABGH 0 0 0 0 0
+9 1 1d12+107 1d1+99 0d0+0 1d9+2 none
+4 4 4 9
+0 0 0 0
+stand stand male 90
+AHMV ABCDEFGHIJK medium 0
+#5936
+cobra~
+a cobra~
+A cobra rears from the basket, fangs bared.
+~
+This snake is for the present quite harmless, as it has been charmed by the
+
+snake charmer's hypnotic tune.
+~
+human~
+0
+ABGH S 0 0 -400 0
+10 1 1d12+119 1d1+99 0d0+0 1d10+2 none
+4 4 4 9
+0 0 0 0
+stand stand none 100
+AHMV ABCDEFGHIJK medium 0
+#0
+
+
+
+#OBJECTS
+#5900
+chainmail tunic~
+a chainmail tunic~
+A chainmail tunic has been left here.~
+nothingness~
+armor 0 AD
+0 0 0 0 1
+3 5 50 P
+Y
+char 'AC' 0 -5
+#5901
+leather breeches~
+a pair of leather breeches~
+A pair of leather breeches has been left here.~
+nothingness~
+armor 0 AF
+0 0 0 0 1
+19 1 230 P
+Y
+char 'constitution' 0 1
+Y
+char 'moves' 0 5
+#5902
+helmet~
+an iron helmet~
+An iron helmer is here. It looks heavy.~
+nothingness~
+armor 0 AE
+0 0 0 0 1
+19 10 450 P
+Y
+char 'intelligence' 0 -1
+Y
+char 'hp' 0 5
+Y
+char 'AC' 0 -10
+#5903
+mithril gauntlets~
+a pair of mithril gauntlets~
+A pair of mithril gauntlets are here.~
+nothingness~
+armor 0 AH
+0 0 0 0 1
+5 1 200 P
+Y
+char 'dexterity' 0 1
+Y
+char 'hitroll' 0 1
+Y
+char 'damroll' 0 1
+#5904
+scimitar~
+a scimitar~
+A scimitar has been dropped here.~
+nothingness~
+weapon 0 AN
+sword 0 0 slice 0
+3 5 100 P
+Y
+char 'hitroll' 0 1
+#5905
+shamsheer~
+a huge shamsheer~
+A huge shamsheer is lying on the ground here.~
+nothingness~
+weapon 0 AN
+sword 6 4 slash 0
+19 20 420 P
+Y
+char 'damroll' 0 3
+#5906
+spear~
+a short spear~
+A short spear is stuck in the ground here.~
+nothingness~
+weapon 0 AN
+dagger 0 0 stab 0
+5 5 20 P
+#5907
+dagger~
+a silver dagger~
+A dagger lined with silver to increase accuracy is here.~
+nothingness~
+weapon 0 AN
+dagger 0 0 pierce 0
+5 1 50 P
+Y
+char 'hitroll' 0 2
+#5908
+blanket~
+a coarse blanket~
+A coarse blanket lies here.~
+nothingness~
+armor 0 AK
+1 1 1 1 1
+3 2 50 P
+#5909
+torch~
+a torch~
+A torch has been discarded here.~
+nothingness~
+light 0 AO
+0 0 12 0 0
+5 1 50 P
+#5910
+brass lantern~
+a brass lantern~
+A brass lantern has been discarded here.~
+nothingness~
+light 0 AO
+0 0 24 0 0
+5 1 50 P
+#5911
+pouch belt~
+a pouch belt~
+A pouch belt lies here.~
+nothingness~
+container 0 AL
+25 A 0 25 100
+5 2 100 P
+#5912
+felafel~
+a felafel~
+A tasty felafel lies here.~
+nothingness~
+food 0 A
+4 4 0 0 0
+3 1 10 P
+#5913
+beef shish kebab~
+a beef shish kebab~
+(Hot) A beef shisk kebab steams away here.~
+nothingness~
+food 0 A
+6 6 0 0 0
+5 1 20 P
+#5914
+lamb doner kebab~
+a lamb doner kebab~
+(Tasty) A lamb doner kebab is here.~
+nothingness~
+food 0 A
+12 12 0 0 0
+5 1 15 P
+#5915
+fried capsicum~
+fried capsicum~
+(Hmmm) Fried capsicum lies here.~
+nothingness~
+food 0 A
+2 2 0 0 0
+2 1 10 P
+#5916
+bone staff~
+a bone staff~
+A bone staff is here.~
+nothingness~
+staff B AO
+0 5 5 'cure blindness' 0
+5 2 100 P
+E
+bone staff~
+An inscription reads- "Let them SEE!"
+
+~
+#5917
+ivory wand~
+a slender ivory wand~
+A slender ivory wand lies here.~
+nothingness~
+wand A AO
+0 5 5 'detect invis' 0
+5 1 100 P
+E
+ivory wand~
+An inscription reads- "See what is not seen!"
+
+~
+#5918
+oak staff~
+an oak staff~
+An oak staff lays here.~
+nothingness~
+staff B AO
+0 5 5 'armor' 0
+5 2 50 P
+E
+oak staff~
+An inscription reads- "Let them be armored!"
+
+~
+#5919
+black wand~
+a short black wand~
+A short black wand hums strangely here.~
+nothingness~
+wand BE AO
+0 5 5 'weaken' 0
+10 2 200 P
+E
+black wand~
+An inscription reads- "Let them be stricken!"
+
+~
+#5920
+yellow herb~
+a yellow herb~
+A yellow herb is here.~
+nothingness~
+pill G A
+0 'armor' 'bless' '' ''
+10 1 100 P
+E
+yellow herb~
+This herb will increase your defenses and engender the blessing of the Gods.
+
+~
+#5921
+red herb~
+a red herb~
+A red herb is here.~
+nothingness~
+pill G A
+0 'infravision' 'detect invis' 'detect hidden' ''
+10 1 100 P
+E
+red herb~
+This herb will greatly increase your powers of perception.
+
+~
+#5922
+green herb~
+a green herb~
+A green herb is here.~
+nothingness~
+pill G A
+0 'invisibility' 'protection evil' '' ''
+10 1 100 P
+E
+green herb~
+This herb will conceal and protect you.
+
+~
+#5923
+white herb~
+a white herb~
+A white herb is here.~
+nothingness~
+pill G A
+0 'cure serious' 'refresh' '' ''
+10 1 100 P
+E
+white herb~
+This herb will heal and refresh you.
+
+~
+#5924
+fez~
+a bright red fez~
+A bright red fez with a yellow tassel sits here.~
+nothingness~
+armor 0 AE
+0 0 0 0 1
+5 1 50 P
+#5925
+camelhair jacket~
+a camelhair jacket~
+Someone has left their very fashionable camelhair jacket here.~
+nothingness~
+armor 0 AD
+0 0 0 0 1
+5 1 50 P
+#5926
+silk trousers~
+a pair of silk trousers~
+A pair of silk trousers has been left here.~
+nothingness~
+armor 0 AF
+0 0 0 0 1
+5 1 50 P
+Y
+char 'AC' 0 10
+#5927
+curled boots~
+a pair of curled boots~
+A pair of curled boots are here.~
+nothingness~
+armor 0 AG
+0 0 0 0 1
+5 1 100 P
+#5928
+scroll~
+a scroll~
+A scroll. That's it. A SCROLL.~
+nothingness~
+scroll G AO
+0 'armor' 'teleport' 'change sex' ''
+10 1 100 P
+#5929
+scroll~
+a scroll~
+A scroll. That's it. A SCROLL.~
+nothingness~
+scroll G AO
+0 'blindness' 'cure light' 'faerie fire' ''
+15 1 200 P
+#5930
+scroll~
+a scroll~
+A scroll. That's it. A SCROLL.~
+nothingness~
+scroll G AO
+0 'weaken' 'heal' 'sleep' ''
+10 1 50 P
+#5931
+scroll~
+a scroll~
+A scroll. That's it. A SCROLL.~
+nothingness~
+scroll G AO
+0 'invisibility' 'fly' 'fireball' ''
+10 1 100 P
+#5932
+skiff~
+a skiff~
+A skiff sits here, unwanted.~
+nothingness~
+boat 0 A
+0 0 0 0 0
+10 10 50 P
+#5933
+junk~
+a chinese junk~
+A chinese junk with sail down sits here.~
+nothingness~
+boat 0 A
+0 0 0 0 0
+10 50 100 P
+#5934
+small galley~
+a small galley~
+A small galley with battering ram lies on its side here.~
+nothingness~
+boat 0 A
+0 0 0 0 0
+10 250 200 P
+#5935
+scow~
+a scow~
+A scow full of crap is here.~
+nothingness~
+boat B A
+0 0 0 0 0
+5 50 20 P
+#5936
+tomato~
+an overripe tomato~
+An overripe tomato squelches here.~
+nothingness~
+food 0 A
+1 1 0 0 0
+2 1 5 P
+#5937
+juicy pear~
+a juicy pear~
+A juicy pear rolls about on the ground.~
+nothingness~
+food 0 A
+1 1 0 0 0
+4 1 5 P
+#5938
+crunchy apple~
+a crunchy apple~
+A red crunchy apple is here.~
+nothingness~
+food 0 A
+1 1 0 0 0
+3 1 7 P
+#5939
+melon~
+a juicy melon~
+A juicy melon has been left here.~
+nothingness~
+food 0 A
+4 4 0 0 0
+2 1 10 P
+#5940
+tin cup~
+a tin cup~
+A tin cup lies here.~
+nothingness~
+container 0 AO
+1 A 0 1 100
+4 1 23 P
+#5941
+rusty knife~
+a rusty knife~
+A rusty knife lies here.~
+nothingness~
+weapon 0 AN
+dagger 5 3 pierce 0
+10 1 500 P
+Y
+char 'hitroll' 0 -2
+Y
+char 'damroll' 0 -2
+#5942
+potion~
+a potion~
+A murky potion is here.~
+nothingness~
+potion B AO
+0 'poison' 'poison' 'poison' ''
+10 1 200 P
+#5943
+pouch~
+a small pouch~
+A small pouch has been tossed aside here.~
+nothingness~
+container 0 AO
+5 A 0 5 100
+15 1 500 P
+#5944
+mysterious powder~
+a mysterious powder~
+A mysterious powder is scattered about here.~
+nothingness~
+pill B A
+95 'invisibility' '' '' ''
+90 1 300 P
+#5945
+vest~
+a studded vest~
+A studded vest lies here.~
+nothingness~
+armor 0 AD
+0 0 0 0 1
+19 1 370 P
+Y
+char 'constitution' 0 2
+Y
+char 'hp' 0 20
+#5946
+veil~
+a veil~
+A silk veil lies here.~
+nothingness~
+armor 0 AE
+0 0 0 0 1
+19 1 300 P
+Y
+char 'intelligence' 0 3
+#5947
+slippers~
+a pair of soft slippers~
+A pair of soft slippers rests here.~
+nothingness~
+armor 0 AG
+0 0 0 0 1
+45 1 1800 P
+Y
+char 'dexterity' 0 2
+Y
+char 'moves' 0 25
+Y
+char 'saving throw' 0 -4
+#5948
+nipple ring~
+a gold nipple ring~
+A gold nipple ring from the breast of a princess lies here.~
+nothingness~
+armor 0 AD
+0 0 0 0 1
+45 1 1253 P
+Y
+char 'AC' 0 -25
+#5949
+sachet spice~
+a sachet of exotic spices~
+A sachet of exotic spices has been left here.~
+nothingness~
+food 0 A
+24 24 0 0 0
+10 1 200 P
+#5950
+sachet spice~
+a sachet of exotic spices~
+A sachet of exotic spices has been left here.~
+nothingness~
+pill 0 A
+0 'stone skin' '' '' ''
+10 1 200 P
+#5951
+sachet spice~
+a sachet of exotic spices~
+A sachet of exotic spices has been left here.~
+nothingness~
+trash 0 A
+0 0 0 0 0
+10 1 300 P
+#5952
+sachet spice~
+a sachet of exotic spices~
+A sachet of exotic spices has been left here.~
+nothingness~
+container 0 A
+1 0 0 1 100
+10 1 200 P
+#5953
+flower wildflower~
+a wildflower~
+A wildflower has been left here.~
+nothingness~
+trash 0 A
+0 0 0 0 0
+5 1 200 P
+#5954
+rose~
+a rose~
+A red rose has been left here.~
+nothingness~
+pill 0 A
+0 'armor' '' '' ''
+5 1 20 P
+#5955
+carnation~
+a carnation~
+A carnation has been left here.~
+nothingness~
+armor 0 A
+0 0 0 0 1
+10 1 200 P
+#5956
+daisy~
+a daisy~
+A daisy has been left here.~
+nothingness~
+light 0 AO
+0 0 24 0 0
+10 1 500 P
+#5957
+ruby pendant~
+a ruby pendant~
+A ruby pendant is here.~
+nothingness~
+treasure 0 AC
+0 0 0 0 0
+10 1 500 P
+#5958
+sun jewel~
+a sun jewel~
+A sun jewel is here.~
+nothingness~
+light 0 AO
+0 0 999 0 0
+10 1 500 P
+#5959
+sapphire ring~
+a sapphire ring~
+A sapphire ring is here.~
+nothingness~
+treasure 0 AB
+0 0 0 0 0
+10 1 5000 P
+#5960
+diamond~
+a diamond necklace~
+A diamond necklace is here.~
+nothingness~
+treasure 0 AC
+0 0 0 0 0
+5 1 100 P
+#5961
+turban~
+a turban~
+A turban sits here.~
+nothingness~
+armor 0 AE
+0 0 0 0 1
+7 1 120 P
+#5962
+sitar~
+a sitar~
+A sitar has been left here.~
+nothingness~
+furniture 0 AO
+10 10000 E 0 0
+7 5 65 P
+#5963
+basket~
+a wicker basket~
+A wicker basket sits on the floor here.~
+nothingness~
+container 0 AO
+100 0 0 100 100
+7 5 20 P
+#5964
+flute~
+a flute~
+A flute is lying on the floor here.~
+nothingness~
+furniture 0 AO
+10 10000 E 0 0
+9 1 100 P
+#0
+
+
+
+#ROOMS
+#5900
+Entrance to the Bazaar~
+You are walking toward the Bazaar, a huge marketplace full of brightly-
+colored tents, within which dozens of merchants hawk their wares to the
+public. The market is always crowded, and you quickly break out in a sweat
+as you elbow your way through the teeming hordes of people.
+~
+0 4 1
+5
+D0
+~
+~
+0 -1 5901
+S
+#5901
+An Open Area~
+You have entered the first part of the bazaar, an open area which is lined
+by tents to the far east, south and west, and which stretches away to a
+market square to the north. Merchants, traders, slaves, vagrants and thieves
+all rush by you, and you find yourself feeling quite dizzy.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5908
+D1
+~
+~
+0 -1 5905
+D2
+~
+~
+0 -1 5900
+D3
+~
+~
+0 -1 5902
+S
+#5902
+An Open Area~
+You have entered the first part of the bazaar, an open area which is lined
+by tents to the far east, south and west, and which stretches away to a
+market square to the north. Merchants, traders, slaves, vagrants and thieves
+all rush by you, and you find yourself feeling quite dizzy.
+
+To the south lies a herbalist's tent, and to the west a tailor.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5950
+D1
+~
+~
+0 -1 5901
+D2
+~
+~
+0 -1 5903
+D3
+~
+~
+0 -1 5904
+S
+#5903
+A Herbalist's Tent~
+The interior of this tent is pungent with the aroma of a variety of herbs
+and salves sold by this merchant. Bags used for storing and preserving the
+herbs line the rear wall of the tent, hanging above a large counter which
+is lined with the herbalist's best products.
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 5902
+S
+#5904
+A Tailor's Tent~
+You make your way past a row of clothes horses and clothes racks and come to
+a small counter covered with scraps of expensive material. A small tailor
+is busy making alterations to the robes of some nobleman, and he tells you
+around a mouthful of pins that he won't be long.
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 5902
+S
+#5905
+An Open Area~
+You have entered the first part of the bazaar, an open area which is lined
+by tents to the far east, south and west, and which stretches away to a
+market square to the north. Merchants, traders, slaves, vagrants and thieves
+all rush by you, and you find yourself feeling quite dizzy.
+
+To the south lies a scribe's tent, and to the east a goods merchant.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5911
+D1
+~
+~
+0 -1 5907
+D2
+~
+~
+0 -1 5906
+D3
+~
+~
+0 -1 5901
+S
+#5906
+A Scribe's Tent~
+The interior of this tent is fairly plain, being dominated by a single
+writing desk and a rack of scrolls. There is also a map on the back wall, of
+a land you have never heard of.
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 5905
+S
+#5907
+A Goods Merchant~
+This tent is full of items such as blankets, tents, belt pouches, lanterns,
+ropes, packs and other adventuring gear that you may find of use. In
+addition, there is sometimes a collection of items sold by other adventurers
+such as keys, treasures and lights.
+~
+0 8 0
+5
+D3
+~
+~
+0 -1 5905
+S
+#5908
+A Slave Auction~
+At this point in the central area, a dais has been erected, and atop it stands
+a burly man selling some of his trained warrior slaves. If you wish you can
+stop and examine his merchandise, or proceed north into the center of the
+market square, or east or west along Buyer's Lane, which dissects the square
+at this point.
+~
+0 4096 1
+5
+D0
+~
+~
+0 -1 5913
+D1
+~
+~
+0 -1 5911
+D2
+~
+~
+0 -1 5901
+D3
+~
+~
+0 -1 5950
+S
+#5909
+Slave Storage~
+The slave master stores his slaves in this small room. It looks very
+
+uncomfortable.
+~
+0 12 0
+5
+S
+#5910
+Buyer's Lane~
+This narrow lane runs the perimeter of the Bazaar, heading west from here
+for a while before bending north to follow the wall that surrounds the
+bazaar, and heading east back toward the market square.
+~
+0 0 1
+5
+D1
+~
+~
+0 -1 5950
+D3
+~
+~
+0 -1 5934
+S
+#5911
+The Market Square~
+This is the center of the bazaar, and the primary gathering point for the
+hordes of people who visit the bazaar every day and night. You see strangely-
+clad visitors from many foreign lands clamoring to buy and sell every
+conceivable item known to humanity. The air is thick with the stench of stale
+sweat, camel manure and exotic spices.
+
+At this point Buyer's Lane cuts through the square, running east-west.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5916
+D1
+~
+~
+0 -1 5912
+D2
+~
+~
+0 -1 5905
+D3
+~
+~
+0 -1 5908
+S
+#5912
+Buyer's Lane~
+This narrow lane runs the perimeter of the Bazaar, heading east from here
+for a while before bending north to follow the wall that surrounds the
+bazaar, and heading west back toward the market square.
+~
+0 0 1
+5
+D1
+~
+~
+0 -1 5932
+D3
+~
+~
+0 -1 5911
+S
+#5913
+The Center of the Square~
+You are at the hub of the bazaar- the center of the market square. People
+rush to and fro on business of their own, as merchants flog their wares to
+them mercilessly. Slaves, whores, beggars and thieves mingle with the crowd,
+each of them attempting to elicit a few coppers from any generous souls by
+one means or another.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5918
+D1
+~
+~
+0 -1 5916
+D2
+~
+~
+0 -1 5908
+D3
+~
+~
+0 -1 5914
+S
+#5914
+The Market Square~
+This is the center of the bazaar, and the primary gathering point for the
+hordes of people who visit the bazaar every day and night. You see strangely-
+clad visitors from many foreign lands clamoring to buy and sell every
+conceivable item known to humanity. The air is thick with the stench of stale
+sweat, camel manure and exotic spices.
+
+The odor of baked food comes from the west.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5919
+D1
+~
+~
+0 -1 5913
+D2
+~
+~
+0 -1 5950
+D3
+~
+~
+0 -1 5915
+S
+#5915
+A Food Tent~
+A skilled chef is here busily preparing and serving a variety of middle
+eastern dishes to a horde of hungry merchants. It is very hot in here, and
+the air is thick with smoke and grease, but the food still smells very
+
+good.
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 5914
+S
+#5916
+The Market Square~
+This is the center of the bazaar, and the primary gathering point for the
+hordes of people who visit the bazaar every day and night. You see strangely-
+clad visitors from many foreign lands clamoring to buy and sell every
+conceivable item known to humanity. The air is thick with the stench of stale
+sweat, camel manure and exotic spices.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5921
+D1
+~
+~
+0 -1 5917
+D2
+~
+~
+0 -1 5911
+D3
+~
+~
+0 -1 5913
+S
+#5917
+Produce Tent~
+Fresh (or reasonably fresh) fruit and vegetables are for sale in this tent.
+A mob of farmers file in and out in a steady stream, dropping off cases of
+produce for sale to the constant flow of customers.
+~
+0 8 0
+5
+D3
+~
+~
+0 -1 5916
+S
+#5918
+The Market Square~
+This is the center of the bazaar, and the primary gathering point for the
+hordes of people who visit the bazaar every day and night. You see strangely-
+clad visitors from many foreign lands clamoring to buy and sell every
+conceivable item known to humanity. The air is thick with the stench of stale
+sweat, camel manure and exotic spices.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5928
+D1
+~
+~
+0 -1 5921
+D2
+~
+~
+0 -1 5913
+D3
+~
+~
+0 -1 5919
+S
+#5919
+The Market Square~
+This is the center of the bazaar, and the primary gathering point for the
+hordes of people who visit the bazaar every day and night. You see strangely-
+clad visitors from many foreign lands clamoring to buy and sell every
+conceivable item known to humanity. The air is thick with the stench of stale
+sweat, camel manure and exotic spices.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5927
+D1
+~
+~
+0 -1 5918
+D2
+~
+~
+0 -1 5914
+D3
+~
+~
+0 -1 5920
+S
+#5920
+A Side Road~
+This narrow lane cuts across the north of market square, heading back to
+buyers' lane to the west, and the square itself to the east. Tents line
+even this thoroughfare- no part of the bazaar is empty of customers.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5926
+D1
+~
+~
+0 -1 5919
+D3
+~
+~
+0 -1 5924
+S
+#5921
+The Market Square~
+This is the center of the bazaar, and the primary gathering point for the
+hordes of people who visit the bazaar every day and night. You see strangely-
+clad visitors from many foreign lands clamoring to buy and sell every
+conceivable item known to humanity. The air is thick with the stench of stale
+sweat, camel manure and exotic spices.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5929
+D1
+~
+~
+0 -1 5922
+D2
+~
+~
+0 -1 5916
+D3
+~
+~
+0 -1 5918
+S
+#5922
+A Side Road~
+This narrow lane cuts across the north of market square, heading back to
+buyers' lane to the east, and the square itself to the west. Tents line
+even this thoroughfare- no part of the bazaar is empty of customers.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5930
+D1
+~
+~
+0 -1 5923
+D3
+~
+~
+0 -1 5921
+S
+#5923
+A Junction~
+Here Buyer's Lane, running north-south, is met by Market Lane from the east.
+There is a conglomeration of people here, all curiously staring at something
+or someone. With a gasp, you realize that that someone is Princess Fatima,
+ruler of a great empire of the east.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5931
+D1
+~
+~
+0 -1 5949
+D2
+~
+~
+0 -1 5933
+D3
+~
+~
+0 -1 5922
+S
+#5924
+A Junction~
+Here Buyer's Lane, running north-south, is met by Market Lane from the east.
+A crowd of noisy revellers suddenly rush past, heading from one party to
+the next somewhere in the bazaar, or maybe in the rooms that lie to the
+east in the wall of the bazaar.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5925
+D1
+~
+~
+0 -1 5920
+D2
+~
+~
+0 -1 5935
+D3
+~
+~
+0 -1 5945
+S
+#5925
+The Wall of the Bazaar~
+You are heading along the western part of Buyer's Lane, past the market on
+the right, and the houses and shops built into the wall on the left. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5936
+D2
+~
+~
+0 -1 5924
+D3
+~
+~
+0 -1 5951
+S
+#5926
+A Spice Tent~
+As you enter, you are almost overwhelmed by the overpowering aroma of hundreds
+of exotic spices, and you are not surprised to see that the proprietor is
+wearing nose plugs. This makes more sense still when he explains to you that
+many of his herbs have magical or addictive qualities, either or both of
+which can take effect with but a single sniff...
+~
+0 8 0
+5
+D2
+~
+~
+0 -1 5920
+S
+#5927
+A Florist~
+This tent is actually a small greenhouse lined with rows of potted plants and
+flowers on metal shelves, kept constantly moist by a fine mist that emanates
+from metal pipes in the roof to belay the debilitating effects of the summer
+heat. There is also a wide variety of picked flowers for sale, arranged in
+metal and ceramic containers near the entrance.
+~
+0 8 0
+5
+D2
+~
+~
+0 -1 5919
+S
+#5928
+A Magical Shop~
+This small tent is rather spartan, having only a small table, a wooden
+chair, and two wooden cases containing a variety of rods, staves and wands.
+Feel free to browse.
+~
+0 8 0
+5
+D2
+~
+~
+0 -1 5918
+S
+#5929
+A Blacksmith's Forge~
+This tent serves as a workplace for the blacksmith. A forge rests in one
+corner, beneath a circular hole in the leather hide that comprises the roof
+of this tent, which allows smoke to escape. A variety of hammers, tongs and
+pliers line one wall, hanging from a wooden rack stained with oil and grease.
+A pail of oil rests near a large anvil, and atop it lies a huge hammer.
+~
+0 8 0
+5
+D2
+~
+~
+0 -1 5921
+S
+#5930
+A Jeweller's Tent~
+This small tent has four glass cabinets full of costume jewellery made of
+plastic and paste, all the items being replicas of the real items the
+jeweller offers, should you be interested (you don't think he is foolish
+enough to keep his REAL products here, do you?). However, the jeweller does
+keep a small stock of genuine jewellery for customers who don't wish to
+wait for weeks to obtain their ornaments.
+~
+0 8 0
+5
+D2
+~
+~
+0 -1 5922
+S
+#5931
+The Wall of the Bazaar~
+You are heading along the eastern part of Buyer's Lane, past the market on
+the left, and the houses and shops built into the wall on the right. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5937
+D1
+~
+~
+0 -1 5950
+D2
+~
+~
+0 -1 5923
+S
+#5932
+The Wall of the Bazaar~
+You are heading along the eastern part of Buyer's Lane, past the market on
+the left, and the houses and shops built into the wall on the right. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+
+The road to the east changes into Port Lane, and heads toward the docks.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5933
+D1
+~
+~
+0 -1 5947
+D3
+~
+~
+0 -1 5912
+S
+#5933
+The Wall of the Bazaar~
+You are heading along the eastern part of Buyer's Lane, past the market on
+the left, and the houses and shops built into the wall on the right. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5923
+D2
+~
+~
+0 -1 5932
+S
+#5934
+The Wall of the Bazaar~
+You are heading along the western part of Buyer's Lane, past the market on
+the right, and the houses and shops built into the wall on the left. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5935
+D1
+~
+~
+0 -1 5910
+D3
+~
+~
+0 -1 5943
+S
+#5935
+The Wall of the Bazaar~
+You are heading along the western part of Buyer's Lane, past the market on
+the right, and the houses and shops built into the wall on the left. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5924
+D2
+~
+~
+0 -1 5934
+D3
+~
+~
+0 -1 5944
+S
+#5936
+The Wall of the Bazaar~
+You are heading along the northern part of Buyer's Lane, past the market to
+the south, and the houses and shops built into the wall to the north. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D1
+~
+~
+0 -1 5938
+D2
+~
+~
+0 -1 5925
+S
+#5937
+The Wall of the Bazaar~
+You are heading along the northern part of Buyer's Lane, past the market to
+the south, and the houses and shops built into the wall to the north. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D2
+~
+~
+0 -1 5931
+D3
+~
+~
+0 -1 5942
+S
+#5938
+The Wall of the Bazaar~
+You are heading along the northern part of Buyer's Lane, past the market to
+the south, and the houses and shops built into the wall to the north. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D1
+~
+~
+0 -1 5939
+D3
+~
+~
+0 -1 5936
+S
+#5939
+The Wall of the Bazaar~
+You are heading along the northern part of Buyer's Lane, past the market to
+the south, and the houses and shops built into the wall to the north. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D1
+~
+~
+0 -1 5940
+D3
+~
+~
+0 -1 5938
+S
+#5940
+The Wall of the Bazaar~
+You are heading along the northern part of Buyer's Lane, past the market to
+the south, and the houses and shops built into the wall to the north. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D1
+~
+~
+0 -1 5941
+D3
+~
+~
+0 -1 5939
+S
+#5941
+The Wall of the Bazaar~
+You are heading along the northern part of Buyer's Lane, past the market to
+the south, and the houses and shops built into the wall to the north. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D1
+~
+~
+0 -1 5942
+D3
+~
+~
+0 -1 5940
+S
+#5942
+The Wall of the Bazaar~
+You are heading along the northern part of Buyer's Lane, past the market to
+the south, and the houses and shops built into the wall to the north. People
+enter and exit many of these houses as you watch, and you surmise that no
+place in the bazaar is free of mercantilism- everyone has something to sell.
+~
+0 0 1
+5
+D1
+~
+~
+0 -1 5937
+D3
+~
+~
+0 -1 5941
+S
+#5943
+A Weapons Shop~
+This store, built into the wall of the bazaar, is lined with weapons of
+every variety, crafted from bronze, iron, steel, copper and even gold. You
+look around and see several of interest.
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 5934
+S
+#5944
+An Armor Shop~
+This store, built into the wall of the bazaar, is lined with suits of armor
+every variety, crafted from bronze, iron, steel, copper and even gold. You
+look around and see several items of interest.
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 5935
+S
+#5945
+A Brothel~
+Several merchants look away with embarrassment as you catch their eyes upon
+entering. Evidently visiting such places is not considered good for business,
+if you are caught. Several attractive men and women smile seductively at
+you, and you gulp nervously. Have you had your shots?
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 5924
+S
+#5946
+A Guard House~
+This room serves as quarters for the market guards. There are rarely many
+guards in here at any one time- the market is so busy and so prone to
+crime that they rarely have time to relax.
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 5925
+S
+#5947
+Near the Docks~
+You are standing near the docks of the city, which lie upon the massive
+harbour it is nestled in. Ships of all nations sail back and forth, either
+delivering or picking up cargo, passengers or illicit goods. Near here there
+is a large warehouse, wherein ships are constructed for anyone with the
+interest and the financial means.
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 5948
+D3
+~
+~
+0 -1 5932
+S
+#5948
+A Shipyard~
+Here you may negotiate the purchase of a seagoing vessel to suit your needs.
+There is no shortage of supply in a huge port such as this; indeed, in this
+city, ships are more common than horses.
+~
+0 8 0
+5
+D2
+~
+~
+0 -1 5947
+S
+#5949
+An Empty Shop~
+This shop is currently vacant, awaiting a new tenant after its last was
+slain in a knife fight with some disgruntled customers.
+~
+0 8 0
+5
+D3
+~
+~
+0 -1 5923
+S
+#5950
+The Market Square~
+This is the center of the bazaar, and the primary gathering point for the
+hordes of people who visit the bazaar every day and night. You see strangely-
+clad visitors from many foreign lands clamoring to buy and sell every
+conceivable item known to humanity. The air is thick with the stench of stale
+sweat, camel manure and exotic spices.
+
+At this point Buyer's Lane cuts through the square, running east-west.
+~
+0 0 1
+5
+D0
+~
+~
+0 -1 5914
+D1
+~
+~
+0 -1 5908
+D2
+~
+~
+0 -1 5902
+D3
+~
+~
+0 -1 5910
+S
+#5951
+An Animal Trainer's Store~
+In this place you can purchase yourself an animal companion for your travels
+from the range of animals trained by the proprietor.
+~
+0 4104 0
+5
+D3
+~
+~
+0 -1 5931
+S
+#5952
+Animal Shed~
+He keeps his animals here. Don't bother reading this, you shouldn't be here
+anyway.
+~
+0 12 0
+5
+S
+#0
+
+
+
+#SPECIALS
+M 5904 spec_cast_mage
+M 5913 spec_cast_adept
+M 5919 spec_thief
+M 5921 spec_guard
+M 5922 spec_breath_frost
+M 5927 spec_cast_judge
+M 5936 spec_poison
+S
+
+
+
+#RESETS
+M 0 5920 8 5901 8
+E 0 5940 0 17
+M 0 5921 10 5901 10
+E 0 5945 0 5
+E 0 5901 0 7
+E 0 5902 0 6
+E 0 5905 0 16
+M 0 5905 1 5903 1
+G 0 5920 0
+G 0 5921 0
+G 0 5922 0
+G 0 5923 0
+M 0 5906 1 5904 1
+G 0 5924 0
+G 0 5925 0
+G 0 5926 0
+G 0 5927 0
+M 0 5909 1 5906 1
+G 0 5928 0
+G 0 5929 0
+G 0 5930 0
+G 0 5931 0
+M 0 5902 1 5907 1
+G 0 5908 0
+G 0 5909 0
+G 0 5910 0
+G 0 5911 0
+M 0 5912 1 5908 1
+M 0 5918 8 5908 8
+M 0 5935 4 5908 4
+E 0 5961 0 6
+E 0 5964 0 17
+M 0 5936 1 5908 1
+O 0 5963 0 5908
+M 0 5931 1 5909 1
+M 0 5932 1 5909 1
+M 0 5933 1 5909 1
+M 0 5934 8 5912 8
+E 0 5961 0 6
+E 0 5962 0 17
+M 0 5916 1 5913 1
+M 0 5926 8 5913 8
+M 0 5920 8 5914 8
+E 0 5940 0 17
+M 0 5935 4 5914 4
+E 0 5961 0 6
+E 0 5964 0 17
+M 0 5936 4 5914 4
+O 0 5963 0 5914
+M 0 5903 1 5915 1
+G 0 5912 0
+G 0 5913 0
+G 0 5914 0
+G 0 5915 0
+M 0 5920 8 5916 8
+E 0 5940 0 17
+M 0 5935 4 5916 4
+E 0 5961 0 6
+E 0 5964 0 17
+M 0 5935 4 5916 4
+O 0 5963 0 5916
+M 0 5914 1 5917 1
+G 0 5936 0
+G 0 5937 0
+G 0 5938 0
+G 0 5939 0
+M 0 5913 1 5918 1
+M 0 5919 2 5918 2
+M 0 5935 4 5918 4
+E 0 5961 0 6
+E 0 5964 0 17
+M 0 5935 4 5918 4
+O 0 5963 0 5918
+M 0 5920 8 5920 8
+E 0 5940 0 17
+M 0 5934 8 5921 8
+E 0 5961 0 6
+E 0 5962 0 17
+M 0 5920 8 5922 8
+E 0 5940 0 17
+M 0 5918 8 5923 8
+M 0 5918 8 5924 8
+M 0 5922 1 5924 1
+E 0 5946 0 6
+E 0 5947 0 8
+E 0 5948 0 5
+M 0 5926 8 5924 8
+M 0 5923 1 5926 1
+G 0 5949 0
+G 0 5950 0
+G 0 5951 0
+G 0 5952 0
+M 0 5924 1 5927 1
+G 0 5953 0
+G 0 5954 0
+G 0 5955 0
+G 0 5956 0
+M 0 5904 1 5928 1
+G 0 5916 0
+G 0 5917 0
+G 0 5918 0
+G 0 5919 0
+M 0 5908 1 5929 1
+M 0 5925 1 5930 1
+G 0 5957 0
+G 0 5958 0
+G 0 5959 0
+G 0 5960 0
+M 0 5926 8 5931 8
+M 0 5917 8 5932 8
+M 0 5915 1 5934 1
+G 0 5940 0
+G 0 5941 0
+G 0 5942 0
+G 0 5943 0
+G 0 5923 0
+M 0 5917 8 5934 8
+M 0 5917 8 5936 8
+M 0 5926 8 5938 8
+M 0 5918 8 5940 8
+M 0 5919 2 5940 2
+M 0 5934 8 5940 8
+E 0 5962 0 17
+E 0 5961 0 6
+M 0 5917 8 5942 8
+M 0 5921 10 5942 10
+E 0 5945 0 5
+E 0 5901 0 7
+E 0 5902 0 6
+E 0 5905 0 16
+M 0 5901 1 5943 1
+G 0 5904 0
+G 0 5905 0
+G 0 5906 0
+G 0 5907 0
+M 0 5900 1 5944 1
+G 0 5900 0
+G 0 5901 0
+G 0 5902 0
+G 0 5903 0
+M 0 5921 10 5946 10
+E 0 5945 0 5
+E 0 5901 0 7
+E 0 5902 0 6
+E 0 5905 0 16
+M 0 5910 1 5948 1
+G 0 5932 0
+G 0 5933 0
+G 0 5934 0
+G 0 5935 0
+M 0 5907 1 5949 1
+M 0 5934 8 5950 8
+E 0 5961 0 6
+E 0 5962 0 17
+M 0 5911 1 5951 1
+M 0 5928 1 5952 1
+M 0 5929 1 5952 1
+M 0 5930 1 5952 1
+S
+
+
+
+#SHOPS
+5900 9 0 0 0 0 120 80 0 23
+5901 5 0 0 0 0 120 80 0 23
+5902 1 12 15 17 18 120 80 0 23
+5903 19 0 0 0 0 120 80 0 23
+5904 1 3 4 0 0 120 80 0 23
+5905 10 26 0 0 0 120 80 0 23
+5906 9 13 0 0 0 120 80 0 23
+5909 2 0 0 0 0 120 80 0 23
+5910 22 0 0 0 0 120 80 0 23
+5911 0 0 0 0 0 100 100 0 23
+5912 0 0 0 0 0 100 100 0 23
+5914 19 0 0 0 0 120 80 0 23
+5915 8 15 17 18 9 150 50 0 23
+5923 10 26 19 0 0 120 80 0 23
+5924 10 26 13 0 0 120 80 0 23
+5925 8 0 0 0 0 120 80 0 23
+0
+
+
+
+#$

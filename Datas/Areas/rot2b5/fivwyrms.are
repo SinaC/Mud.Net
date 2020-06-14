@@ -1,0 +1,1639 @@
+#AREADATA
+Name Five Wyrms~
+Builders Irix~
+VNUMs 24000 24099
+Credits [ NONE] Irix    Five Wyrms~
+Security 9
+End
+
+#MOBILES
+#24000
+dira female dark elf~
+Dira~
+A female, dark elf is hiding among the ruins.
+~
+~
+elf~
+AGH JPQVZ BDHO -1000 86
+60 60 124d21+1213 60d11+95 21d2+47 punch
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand female 150
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24001
+edrez male dark elf~
+Edrez~
+A male, dark elf is hiding among the ruins.
+~
+~
+elf~
+AG PVZ BDHO -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 none
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand male 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24002
+idiin male dark elf~
+Idiin~
+A male, dark elf is hiding among the ruins.
+~
+~
+elf~
+AG JPQVZ BDHO -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 none
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand male 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24003
+kiko female dark elf~
+Kiko~
+A female, dark elf is hiding among the ruins.
+~
+~
+elf~
+AG JPQVZ BDHO -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 none
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand female 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24004
+niran male dark elf~
+Niran~
+A male, dark elf is hiding among teh ruins
+~
+~
+elf~
+AG JPQVZ BDHO -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 none
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand male 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24005
+orero male dark elf~
+Orero~
+A male, dark elf is hiding among the ruins.
+~
+~
+elf~
+AG JPQVZ BDHO -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 none
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand male 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24006
+oxace male dark elf~
+Oxace~
+A male, dark elf is hiding among the ruins.
+~
+~
+elf~
+AG JPQVZ BDHO -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 none
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand male 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24007
+zeci female dark elf~
+Zeci~
+A female, dark elf is hiding among the ruins.
+~
+~
+elf~
+AG JPQVZ BDHO -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 none
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand female 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24008
+torar male dark elf~
+Torar~
+A male, dark elf is hiding among the ruins.
+~
+~
+elf~
+AG JPQVZ BDHO -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 none
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand male 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24009
+zorin male dark elf~
+Zorin~
+A male, dark elf is hiding among the ruins.
+~
+~
+elf~
+AG JPQVZ BDHO -1000 0
+60 60 124d21+1213 60d11+95 21d2+47 none
+-33 -33 -33 -21
+AEFHKN B Z 0
+stand stand male 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24010
+dark elf warrior~
+a dark elf warrior~
+A dark elf is hiding in the ruins.
+~
+~
+elf~
+AG JPQVZ BDHO -1000 0
+55 55 114d19+1111 55d11+95 19d2+44 none
+-30 -30 -30 -19
+AEFHKN B Z 0
+stand stand male 0
+AFHM ABCDEFGHIJK medium unknown
+F shd AMV
+F for BCDEGIJK
+#24011
+1st wyrm~
+(no short description)~
+(no long description)
+~
+~
+human~
+A 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F shd AHMV
+F for ABCDEFGHIJK
+#24012
+2nd wyrm~
+(no short description)~
+(no long description)
+~
+~
+human~
+A 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F shd AHMV
+F for ABCDEFGHIJK
+#24013
+3rd wyrm~
+(no short description)~
+(no long description)
+~
+~
+human~
+A 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F shd AHMV
+F for ABCDEFGHIJK
+#24014
+4th wyrm~
+(no short description)~
+(no long description)
+~
+~
+human~
+A 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F shd AHMV
+F for ABCDEFGHIJK
+#24015
+5th wyrm~
+(no short description)~
+(no long description)
+~
+~
+human~
+A 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F shd AHMV
+F for ABCDEFGHIJK
+#0
+
+
+
+#OBJECTS
+#24087
+no name~
+(no short description)~
+(no description)~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#24000
+Five Wyrms Control Room~
+~
+0 559117 0
+S
+#24001
+Wandering in the Castle Ruins~
+~
+0 13 0
+D1
+~
+~
+0 0 24002
+D2
+~
+~
+0 0 24010
+D4
+~
+~
+0 0 24062
+S
+#24002
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24003
+D3
+~
+~
+0 0 24001
+S
+#24003
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24004
+D3
+~
+~
+0 0 24002
+S
+#24004
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24005
+D2
+~
+~
+0 0 24011
+D3
+~
+~
+0 0 24003
+S
+#24005
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24006
+D3
+~
+~
+0 0 24004
+S
+#24006
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24007
+D2
+~
+~
+0 0 24012
+D3
+~
+~
+0 0 24005
+S
+#24007
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24008
+D3
+~
+~
+0 0 24006
+S
+#24008
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24009
+D3
+~
+~
+0 0 24007
+S
+#24009
+Wandering in the Castle Ruins~
+~
+0 13 0
+D2
+~
+~
+0 0 24013
+D3
+~
+~
+0 0 24008
+S
+#24010
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24001
+D2
+~
+~
+0 0 24014
+S
+#24011
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24004
+D2
+~
+~
+0 0 24016
+S
+#24012
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24006
+D2
+~
+~
+0 0 24018
+S
+#24013
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24009
+D2
+~
+~
+0 0 24020
+S
+#24014
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24010
+D2
+~
+~
+0 0 24021
+S
+#24015
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24016
+D2
+~
+~
+0 0 24023
+S
+#24016
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24011
+D1
+~
+~
+0 0 24017
+D3
+~
+~
+0 0 24015
+S
+#24017
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24018
+D2
+~
+~
+0 0 24024
+D3
+~
+~
+0 0 24016
+S
+#24018
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24012
+D1
+~
+~
+0 0 24019
+D3
+~
+~
+0 0 24017
+S
+#24019
+Wandering in the Castle Ruins~
+~
+0 9 0
+D2
+~
+~
+0 0 24025
+D3
+~
+~
+0 0 24018
+S
+#24020
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24013
+D2
+~
+~
+0 0 24027
+S
+#24021
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24014
+D1
+~
+~
+0 0 24022
+D2
+~
+~
+0 0 24028
+S
+#24022
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24023
+D3
+~
+~
+0 0 24021
+S
+#24023
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24015
+D2
+~
+~
+0 0 24029
+D3
+~
+~
+0 0 24022
+S
+#24024
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24017
+D2
+~
+~
+0 0 24031
+S
+#24025
+Wandering in the Castle Ruins~
+~
+0 0 0
+D0
+~
+~
+0 0 24019
+D1
+~
+~
+0 0 24026
+D2
+~
+~
+0 0 24033
+S
+#24026
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24027
+D3
+~
+~
+0 0 24025
+S
+#24027
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24020
+D2
+~
+~
+0 0 24034
+D3
+~
+~
+0 0 24026
+S
+#24028
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24021
+D2
+~
+~
+0 0 24035
+S
+#24029
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24023
+D1
+~
+~
+0 0 24030
+D2
+~
+~
+0 0 24037
+S
+#24030
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24031
+D3
+~
+~
+0 0 24029
+S
+#24031
+The Center of the Castle Ruins~
+~
+0 1033 0
+D0
+~
+~
+0 0 24024
+D1
+~
+~
+0 0 24032
+D2
+~
+~
+0 0 24038
+D3
+~
+~
+0 0 24030
+S
+#24032
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24033
+D3
+~
+~
+0 0 24031
+S
+#24033
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24025
+D2
+~
+~
+0 0 24039
+D3
+~
+~
+0 0 24032
+S
+#24034
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24027
+D2
+~
+~
+0 0 24041
+S
+#24035
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24028
+D1
+~
+~
+0 0 24036
+D2
+~
+~
+0 0 24042
+S
+#24036
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24037
+D3
+~
+~
+0 0 24035
+S
+#24037
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24029
+D2
+~
+~
+0 0 24043
+D3
+~
+~
+0 0 24036
+S
+#24038
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24031
+D2
+~
+~
+0 0 24045
+S
+#24039
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24033
+D1
+~
+~
+0 0 24040
+D2
+~
+~
+0 0 24047
+S
+#24040
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24041
+D3
+~
+~
+0 0 24039
+S
+#24041
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24034
+D2
+~
+~
+0 0 24048
+D3
+~
+~
+0 0 24040
+S
+#24042
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24035
+D2
+~
+~
+0 0 24049
+S
+#24043
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24037
+D1
+~
+~
+0 0 24044
+S
+#24044
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24045
+D2
+~
+~
+0 0 24050
+D3
+~
+~
+0 0 24043
+S
+#24045
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24038
+D1
+~
+~
+0 0 24046
+D3
+~
+~
+0 0 24044
+S
+#24046
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24047
+D2
+~
+~
+0 0 24051
+D3
+~
+~
+0 0 24045
+S
+#24047
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24039
+D3
+~
+~
+0 0 24046
+S
+#24048
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24041
+D2
+~
+~
+0 0 24052
+S
+#24049
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24042
+D2
+~
+~
+0 0 24053
+S
+#24050
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24044
+D2
+~
+~
+0 0 24056
+S
+#24051
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24046
+D2
+~
+~
+0 0 24058
+S
+#24052
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24048
+D2
+~
+~
+0 0 24061
+S
+#24053
+Wandering in the Castle Ruins~
+~
+0 13 0
+D0
+~
+~
+0 0 24049
+D1
+~
+~
+0 0 24054
+S
+#24054
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24055
+D3
+~
+~
+0 0 24053
+S
+#24055
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24056
+D3
+~
+~
+0 0 24054
+S
+#24056
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24050
+D1
+~
+~
+0 0 24057
+D3
+~
+~
+0 0 24055
+S
+#24057
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24058
+D3
+~
+~
+0 0 24056
+S
+#24058
+Wandering in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24051
+D1
+~
+~
+0 0 24059
+D3
+~
+~
+0 0 24057
+S
+#24059
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24060
+D3
+~
+~
+0 0 24058
+S
+#24060
+Wandering in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24061
+D3
+~
+~
+0 0 24059
+S
+#24061
+Wandering in the Castle Ruins~
+~
+0 13 0
+D0
+~
+~
+0 0 24052
+D3
+~
+~
+0 0 24060
+S
+#24062
+Climbing in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24063
+D2
+~
+~
+0 0 24067
+D5
+~
+~
+0 0 24001
+S
+#24063
+Climbing in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24064
+D3
+~
+~
+0 0 24062
+S
+#24064
+Climbing in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24065
+D2
+~
+~
+0 0 24069
+D3
+~
+~
+0 0 24063
+S
+#24065
+Climbing in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24066
+D3
+~
+~
+0 0 24064
+S
+#24066
+Climbing in the Castle Ruins~
+~
+0 9 0
+D2
+~
+~
+0 0 24071
+D3
+~
+~
+0 0 24065
+S
+#24067
+Climbing in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24062
+D2
+~
+~
+0 0 24072
+S
+#24068
+Inside a Ruined Chamber~
+~
+0 13 0
+S
+#24069
+Climbing in the Castle Ruins~
+~
+0 13 0
+D0
+~
+~
+0 0 24064
+D2
+~
+~
+0 0 24074
+D4
+~
+~
+0 0 24087
+S
+#24070
+Inside a Ruined Chamber~
+~
+0 13 0
+S
+#24071
+Climbing in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24066
+D2
+~
+~
+0 0 24076
+S
+#24072
+Climbing in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24067
+D1
+~
+~
+0 0 24073
+D2
+~
+~
+0 0 24077
+S
+#24073
+Climbing in the Castle Ruins~
+~
+0 13 0
+D1
+~
+~
+0 0 24074
+D3
+~
+~
+0 0 24072
+D4
+~
+~
+0 0 24088
+S
+#24074
+The Center of the Ruins~
+~
+0 13 0
+D0
+~
+~
+0 0 24069
+D1
+~
+~
+0 0 24075
+D2
+~
+~
+0 0 24079
+D3
+~
+~
+0 0 24073
+S
+#24075
+Climbing in the Castle Ruins~
+~
+0 13 0
+D1
+~
+~
+0 0 24076
+D3
+~
+~
+0 0 24074
+D4
+~
+~
+0 0 24090
+S
+#24076
+Climbing in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24071
+D2
+~
+~
+0 0 24081
+D3
+~
+~
+0 0 24075
+S
+#24077
+Climbing in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24072
+D2
+~
+~
+0 0 24082
+S
+#24078
+Inside a Ruined Chamber~
+~
+0 13 0
+S
+#24079
+Climbing in the Castle Ruins~
+~
+0 13 0
+D0
+~
+~
+0 0 24074
+D2
+~
+~
+0 0 24084
+D4
+~
+~
+0 0 24091
+S
+#24080
+Inside a Ruined Chamber~
+~
+0 13 0
+S
+#24081
+Climbing in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24076
+D2
+~
+~
+0 0 24086
+S
+#24082
+Climbing in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24077
+D1
+~
+~
+0 0 24083
+S
+#24083
+Climbing in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24084
+D3
+~
+~
+0 0 24082
+S
+#24084
+Climbing in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24079
+D1
+~
+~
+0 0 24085
+D3
+~
+~
+0 0 24083
+S
+#24085
+Climbing in the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24086
+D3
+~
+~
+0 0 24084
+S
+#24086
+Climbing in the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24081
+D3
+~
+~
+0 0 24085
+S
+#24087
+Inside the Castle Ruins~
+~
+0 9 0
+D2
+~
+~
+0 0 24089
+D5
+~
+~
+0 0 24092
+S
+#24088
+Inside the Castle Ruins~
+~
+0 9 0
+D1
+~
+~
+0 0 24089
+D5
+~
+~
+0 0 24093
+S
+#24089
+Inside the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24087
+D1
+~
+~
+0 0 24090
+D2
+~
+~
+0 0 24091
+D3
+~
+~
+0 0 24088
+D5
+~
+~
+0 0 24094
+S
+#24090
+Inside the Castle Ruins~
+~
+0 9 0
+D3
+~
+~
+0 0 24089
+D5
+~
+~
+0 0 24095
+S
+#24091
+Inside the Castle Ruins~
+~
+0 9 0
+D0
+~
+~
+0 0 24089
+D5
+~
+~
+0 0 24096
+S
+#24092
+Inside a Dark Crypt~
+~
+0 13 0
+D4
+~
+~
+0 0 24031
+S
+#24093
+Inside a Dark Crypt~
+~
+0 13 0
+D4
+~
+~
+0 0 24031
+S
+#24094
+Inside a Dark Crypt~
+~
+0 13 0
+D4
+~
+~
+0 0 24031
+S
+#24095
+Inside a Dark Crypt~
+~
+0 13 0
+D4
+~
+~
+0 0 24031
+S
+#24096
+Inside a Dark Crypt~
+~
+0 13 0
+D4
+~
+~
+0 0 24031
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

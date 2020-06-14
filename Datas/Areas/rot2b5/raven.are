@@ -1,0 +1,1231 @@
+#AREADATA
+Name Reverse Palace~
+Builders Raven~
+VNUMs 23000 23050
+Credits [35 50} Raven   Reverse Palace~
+Security 9
+End
+
+#MOBILES
+#23000
+Guardian Guard Star~
+short {CG{cu{Ca{cr{Cd{ci{Ca{cn{0 of the {yS{Yt{ya{Yr{ys{0~
+The {CG{cu{Ca{cr{Cd{ci{Ca{cn{0 of the {yS{Yt{ya{Yr{ys{0 guards the gates.
+~
+~
+wyvern~
+AB A DEFGH ABGZ 0 0
+35 35 71d11+354 35d10+85 11d3+22 pierce
+-13 -13 -13 -6
+EK 0 S 0
+stand stand male 200
+ACDEFHJKQVX D medium unknown
+F aff C
+F off L
+#23001
+githyanki gith soldier~
+a {DGithyanki soldier{0~
+A {DGithyanki soldier{0 stands in attention.
+~
+~
+draconian~
+AB A CDEFG AH -250 0
+40 15 1d1+799 0d0+0 5d8+25 pierce
+-25 -25 -25 -7
+0 HI FGJ N
+stand stand male 800
+ABCDEFGHIJKPQ ABCDEFGHIJKPQUVX medium unknown
+F shd MV
+F off LQ
+#23002
+githyanki gith sentry~
+a {DGithyanki sentry{0~
+A {DGithyanki sentry{0 stands here glaring at you.
+~
+~
+snake~
+ABF A CDEFZ AGHMVXYc -250 0
+40 40 81d13+405 40d10+85 13d3+25 slash
+-17 -17 -17 -9
+LQ IL F EHN
+stand stand male 0
+ABCDEFGHIJKLPQVX 0 medium unknown
+F res I
+#23003
+Seraphic Mesilla~
+{YMesilla{x, {Bthe{x {CSeraphic{x~
+{YMesilla{x, {Bthe{x {CSeraphic{x is here uttering incantations.
+~
+~
+halfelf~
+ABa A CDEFG AHMV 1000 0
+50 50 101d16+506 50d10+85 16d3+30 divine
+-24 -24 -24 -14
+EFKN LNQS EJ GM
+stand stand female 1000
+ABCDEFGHIJK ABCDEFGHIJP medium unknown
+#23004
+Seraph Sage~
+a {CSeraph{x {Ysage{x~
+A {CSeraph{x {Ysage{x is here meditating.
+~
+~
+elf~
+AB A CDEFG AHMV 250 0
+35 35 71d11+354 35d10+85 11d3+22 blast
+-13 -13 -13 -6
+EFK BENQ LOZ GM
+stand stand male 0
+ABCDEFGHIJK ABCDEFGHIJ medium unknown
+#23005
+Seraph Warrior~
+a {CSeraph{x {Rwarrior{x~
+A {CSeraph{x {Rwarrior{x is here at ready.
+~
+~
+elf~
+AB A CDEFG AHMV 500 0
+40 40 81d13+405 40d10+85 13d3+25 slash
+-17 -17 -17 -9
+EFKN BELNQ JSZ GM
+stand stand male 800
+ABCDEFGHIJK ABCDEFGHIJ medium unknown
+#23006
+Seraph Amazon~
+a {CSeraph{x {Ramazon{x~
+A {CSeraph{x {Ramazon{x stands at guard.
+~
+~
+human~
+AB A CDEFG AHMV 500 0
+40 40 81d13+405 40d10+85 13d3+25 slash
+-17 -17 -17 -9
+EFKN ELNQ JS GM
+stand stand female 800
+0 ABCDEFGHIJ medium unknown
+F for ABCDEFGHIJK
+#23007
+shop keeper~
+a shopkeeper~
+A shopkeeper stands here selling wares.
+~
+~
+halfelf~
+AB A CDEFG AHMV 0 0
+100 30 1d1+29999 0d0+0 10d20+75 slash
+-70 -70 -70 -70
+0 0 0 0
+stand stand female 0
+ABCDEFGHIJK 0 medium unknown
+#23008
+Seraph Trainee~
+a {CSeraph{x {Wtrainee{x~
+A {CSeraph{x {Wtrainee{x practices here.
+~
+~
+halfelf~
+AB A CDEFG H 100 0
+30 10 1d1+499 0d0+0 4d6+15 pound
+-9 -9 -9 0
+EIK ENS K GM
+stand stand male 0
+ABCDEFGHIJK ABCDEFGHIJK medium unknown
+F shd AMV
+#23009
+Midnight Star ~
+{yThe{x {DMidnight{x {yS{Yt{ya{Yr{x~
+{yThe{x {DMidnight{x {yS{Yt{ya{Yr{x glares at you hatefully.
+~
+~
+draconian~
+ABO A CDEFG AH 0 0
+50 20 1d1+1499 0d0+0 5d10+55 smash
+-50 -50 -50 -20
+EFIKN BHILMQ FGJ NS
+stand stand male 1000
+ABCDEFGHIJKPQ ABCDEFGHIJPUVX medium unknown
+F shd MV
+F off LQ
+#23010
+Morning Star~
+{yThe{x {YMorning{x {yS{Yt{ya{Yr{0~
+{yThe{x {YMorning{x {yS{Yt{ya{Yr{0 smiles at you happily.
+~
+~
+pixie~
+AB A CDEFG AH 0 0
+40 20 1d1+1499 0d0+0 5d10+55 smash
+-50 -50 -50 -20
+EFIKN HILNPQ FGJZ M
+stand stand female 1000
+ABCDEFGHIJKP ABCDEFGHIJP medium unknown
+F shd MV
+F imm B
+#23011
+Githyanki Page~
+{DGithyanki{x {wpage{0~
+{DGithyanki{x {wpage{0 is here grinning mischieviously.
+~
+~
+draconian~
+AB A CDEFG AH -100 0
+30 10 1d1+499 0d0+0 5d8+20 smash
+-12 -12 -12 -2
+0 HI FGJ NS
+stand stand male 500
+ABCDEFGHIJKPQ ABCDEFGHIJPQUVX medium unknown
+F shd MV
+F off LQ
+#23012
+Githyanki Headmaster~
+{DThe{x {cHead{rmaster{0~
+{DThe{x {cHead{rmaster{0 glares at you askingly.
+~
+~
+draconian~
+ABO A CDEFG AH -1000 0
+50 20 1d1+1499 0d0+0 5d10+30 drain
+-55 -55 -55 -35
+EFIKMN HI FGJ N
+stand stand male 1200
+ABCDEFGHIJKPQ ABCDEFGHIJKPQUVWX medium unknown
+F shd MV
+F off LQ
+#23013
+Star King~
+{wKing{x {Rof{x {yS{Yt{ya{Yr{ys{0~
+{wKing{x {Rof{x {yS{Yt{ya{Yr{ys{0 rests upon his throne.
+~
+~
+wyvern~
+AB A CDEFGH AH 0 0
+50 20 1d1+1499 0d0+0 5d9+25 crush
+-45 -45 -45 -25
+EFIKN 0 S 0
+stand stand male 2000
+ACDEFHJKQVX ABCDEFGHIJKPQUVWX medium unknown
+F shd BGZ
+F off L
+#23014
+Seraph Principle Lauson~
+{rPri{ynci{rpal{x {YLauson{0~
+{rPri{ynci{rpal{x {YLauson{0 gives a caring glance.
+~
+~
+halfelf~
+AB A CDEFG AH 750 0
+0 20 1d1+1499 0d0+0 5d10+30 divine
+-50 -50 -50 -30
+EIKN BLNP QZ GM
+stand stand male 1200
+ABCDEFGHIJK ABCDEFGHIJKP medium unknown
+F shd MV
+#23015
+Seraph Vice Principal Reani~
+{wV{cice-{x{rPri{ynci{rpal{x {YReani{0~
+{wV{cice-{x{rPri{ynci{rpal{x {YReani{0 looks up from her desk.
+~
+~
+halfelf~
+AB A CDEFG AH 600 0
+45 18 1d1+1299 0d0+0 5d9+28 divine
+-45 -45 -45 -25
+EIKN BLNP QZ M
+stand stand female 1200
+ABCDEFGHIJK ABCDEFGHIJKP medium unknown
+F shd MV
+#0
+
+
+
+#OBJECTS
+#23000
+Raven Spear~
+{RR{ra{Rv{re{Rn{r's{0 {bS{cp{be{ca{br{0~
+{RR{ra{Rv{re{Rn{r's{0 {bS{cp{be{ca{br{0 lies here.~
+unknown~
+weapon 0 AN
+polearm 1000 500 pierce G
+107 0 0 P
+#23001
+object~
+{&A Sign{0~
+{&A sign of {Bwisdom{& stands here.{0~
+unknown~
+furniture 0 0
+0 0 0 0 0
+0 0 0 P
+#23002
+gith key~
+a {ykey{x of {Dgith{x~
+A {ykey{x of {Dgith{x shines with a devilish glow.~
+unknown~
+key 0 AO
+0 0 0 0 0
+0 0 0 P
+#23003
+object~
+{& A Sign{0~
+A sign of {Rencouragement{x stands here.~
+unknown~
+furniture 0 0
+0 0 0 0 0
+0 0 0 P
+#23004
+elixir elements potion~
+elixir of elements~
+Elixir of elements~
+unknown~
+potion 0 A
+55 'fireshield' 'iceshield' 'shockshield' 'sanctuary'
+50 0 5000 P
+#23005
+Sleeping Dawn sword~
+{DSleeping{x {yDawn{x~
+{DSleeping{x {yDawn{x brightens the ground.~
+unknown~
+weapon 0 AN
+sword 8 12 slash 0
+50 45 6500 P
+#23006
+scroll sustenance~
+scroll of sustenance~
+A scroll of sustenance lies here.~
+unknown~
+scroll 0 A
+45 'create spring' 'create food' 'create food' 'continual light'
+30 0 3000 P
+#23007
+Waking Night flail~
+{yWaking{x {DNight{0~
+{yWaking{x {DNight{0 shadows the ground.~
+unknown~
+weapon 0 0
+flail 8 12 smash 0
+0 45 6500 P
+#23008
+pain lance spear~
+{rPain{x {bLance{0~
+{rPain{x {bLance{0 longs for agony.~
+unknown~
+weapon 0 AN
+staff 8 12 pierce 0
+50 45 6500 P
+#23009
+Malice Sceptre~
+{RSceptre{x {Bof{x {DMalice{0~
+{RSceptre{x {Bof{x {DMalice{0 gleams with trouble.~
+unknown~
+weapon 0 AN
+mace 8 12 crush 0
+50 45 6500 P
+#0
+
+
+
+#ROOMS
+#23000
+{RGrand {BWalkway{0 to {yPalace {RR{Be{Yv{De{yr{cs{re{0~
+Here you are at the Grand Walkway upon entering this reverse palace. Further ahead lies the mystery and many fates of the Palace Reverse, enter with your own precaution.
+~
+0 0 1
+D0
+~
+~
+0 0 23001
+D1
+~
+~
+0 0 23002
+D2
+~
+~
+0 0 6151
+D3
+~
+~
+0 0 23003
+S
+#23001
+{yPalace {wFoyer{0~
+You have reached the palace foyer where you must make some choices. East and west seem to look like stairwells while ahead to the north looks like a hallway. Choose wisely, it could be your last.
+~
+0 0 1
+D0
+~
+~
+0 0 23018
+D1
+~
+~
+0 0 23006
+D2
+~
+~
+0 0 23000
+D3
+~
+~
+0 0 23004
+S
+#23002
+{CG{cu{Ca{cr{Cd{x {yH{Yu{yt{0~
+Here is a small hut for guards to live in and take their break from their work. Basic furnishings decorate the hut as it provides for the guards. 
+~
+0 0 1
+D3
+~
+~
+0 0 23000
+S
+#23003
+{CG{cu{Ca{cr{Cd{x {yH{Yu{yt{0~
+~
+0 0 1
+D1
+~
+~
+0 0 23000
+S
+#23004
+{mStairs in the{x {wPalace{0~
+Spiraling down are the stairs inside the palace. There isn't much decoration nor much effort in taking care of it either. Some steps are missing from the stairwell, be cautious.
+~
+0 0 0
+D1
+~
+~
+0 0 23001
+D5
+~
+~
+0 0 23005
+S
+#23005
+{DRoom in the shadows{0~
+This is a room.  There is a {!sign{0 standing in the middle of the path.
+The room is dark and the shadows seem alive, what is this place? There is a sign oddly located infront of the north.
+~
+0 0 0
+E
+sign~
+"{8Evil{0 {1is{0 {6Ahead{0
+{BBrave{0 {1or{0 {3Foolish{0 {1may{0 {6enter{0
+{6Enter{0 {1if you{0 {&Dare!{0"
+~
+D0
+~
+~
+0 0 23008
+D4
+~
+~
+0 0 23004
+S
+#23006
+{mStairs in the{x {wPalace{0~
+Spiraling down are the stairs inside the palace. There isn't much decoration nor much effort in taking care of it either. Some steps are missing from the stairwell, be cautious.
+~
+0 0 0
+D3
+~
+~
+0 0 23001
+D5
+~
+~
+0 0 23007
+S
+#23007
+{DRoom in the shadows{0~
+This is a room.  There is a {!sign{0 standing in the middle of the path.
+The room is dark and the shadows seem alive, what is this place? There is a sign oddly located infront of the north.
+~
+0 0 0
+E
+sign~
+"{8Evil{0 {1is{0 {6Ahead{0
+{BBrave{0 {1or{0 {3Foolish{0 {1 may{0 {6enter{0
+{6Enter{0 {1if you{0 {&Dare!{0
+~
+D0
+~
+~
+0 0 23008
+D4
+~
+~
+0 0 23006
+S
+#23008
+Never-ending Corridor~
+What happened? You can't go back anymore, all there is, is a corridor running north for as far as anyone can see. A sign is here standing in the middle of the room.
+~
+0 0 0
+E
+sign~
+{1Look Beneath yourself{0
+{BThere lies the passage to home{0
+    {8Darkness be with you{0
+~
+D0
+~
+~
+0 0 23008
+D5
+~
+~
+1 23002 23009
+S
+#23009
+{BEntrance{x {rto the{x {DGithyanki{x {rHideout{0~
+Well look what you found, it seems to be a hideout of some sort. Dust covers the walls and some minor blood stains the ground.
+~
+0 0 0
+D1
+~
+~
+0 0 23010
+D4
+~
+~
+1 0 23008
+S
+#23010
+{BTunnel{x {rin the{x {DGithyanki{x {rHideout{0~
+The tunnel is overly filled with dust and the blood stains grow wider. Noises from the north acknowledge the fact someone inhabits the place.
+~
+0 0 0
+D0
+~
+~
+0 0 23011
+D3
+~
+~
+0 0 23009
+S
+#23011
+{rHideout{x {DCrossroads{0~
+Which way to go which way to go....there is exits leaving in all cardinal directions leading to all different places..or do they meet? Choose a direction, any direction and your fate shall await.
+~
+0 0 0
+D0
+~
+~
+0 0 23013
+D1
+~
+~
+0 0 23012
+D2
+~
+~
+0 0 23010
+D3
+~
+~
+0 0 23014
+S
+#23012
+{BRoad{x {rto the{x {DCharred{x {wChapel{0~
+~
+0 0 0
+D2
+~
+~
+0 0 23015
+D3
+~
+~
+0 0 23011
+S
+#23013
+{rLost in the{x {Dshadows{0~
+Where are you? Lost in the dark shadows as if pitch blackness has dropped its shade. The only way you see is to the south from which you came.
+~
+0 0 0
+D1
+~
+~
+1 0 23017
+D2
+~
+~
+0 0 23011
+S
+#23014
+{BPathway{x {rto the Training{x {DGrounds{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23016
+D1
+~
+~
+0 0 23011
+S
+#23015
+{DCharred{x {wChapel{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23012
+S
+#23016
+{BEntrance{x {rto the Training{x {DGrounds{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23041
+D2
+~
+~
+0 0 23014
+S
+#23017
+{DGithyanki{x {cHead{rmaster's{x {BOffice{0~
+~
+0 0 0
+D4
+~
+~
+0 0 23001
+S
+#23018
+{DApproaching the{x {yS{Yt{ya{Yr{ys{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23047
+D2
+~
+~
+0 0 23001
+D4
+~
+~
+0 0 23019
+S
+#23019
+{YGateway{x {Wto{x {MBliss{0~
+What a find! Here lies the gateway to a city of bliss. Northwards seems to be a huge amount of vegitatinal growth that give off an attractive look.
+~
+0 0 0
+D0
+~
+~
+0 0 23020
+D5
+~
+~
+0 0 23018
+S
+#23020
+{RPath{0 {Wto{0 {GG{Ya{gr{yd{Ge{Yn{0~
+There is a pathway that encircles the main Garden. On this piece of the circle are assortment of flowers and other natural vegitation. On this path you can find many useful places so don't get lost.
+~
+0 0 2
+D0
+~
+~
+0 0 23021
+D1
+~
+~
+0 0 23027
+D2
+~
+~
+0 0 23019
+D3
+~
+~
+0 0 23028
+S
+#23021
+{GG{Ya{gr{yd{Ge{Yn {Rof {CT{Wr{Ca{Wn{Cq{Wu{Ci{Wl{Ci{Wt{Cy{0~
+You have stumbled upon the main Garden which is the crossroads of the ciy of Bliss. A statue stands tall and proud that strongly resembles the founder of this city. Around you are citizens bustling around to reach their destinations.
+~
+0 0 2
+D0
+~
+~
+0 0 23022
+D1
+~
+~
+0 0 23023
+D2
+~
+~
+0 0 23020
+D3
+~
+~
+0 0 23025
+S
+#23022
+{RPath{0 {Wto{0 {GG{Ya{gr{yd{Ge{Yn{0~
+There is a pathway that encircles the main Garden. On this piece of the circle are assortment of flowers and other natural vegitation. On this path you can find many useful places so don't get lost.
+~
+0 0 2
+D0
+~
+~
+0 0 23029
+D1
+~
+~
+0 0 23030
+D2
+~
+~
+0 0 23021
+D3
+~
+~
+0 0 23031
+S
+#23023
+{RPath{0 {Wto{0 {GG{Ya{gr{yd{Ge{Yn{0~
+There is a pathway that encircles the main Garden. On this piece of the circle are assortment of flowers and other natural vegitation. On this path you can find many useful places so don't get lost.
+~
+0 0 2
+D0
+~
+~
+0 0 23030
+D1
+~
+~
+0 0 23024
+D2
+~
+~
+0 0 23027
+D3
+~
+~
+0 0 23021
+S
+#23024
+{BM{ye{cd{yi{Bt{ya{ct{yi{Bo{cn{x {RC{Yh{ya{rm{Rb{Ye{yr{rs{0~
+Here is a small chamber as where meditation is a plus. Wandering about are some patrons of this chamber uttering their own things to themselves. Symbols of the Mind outfit the entire chamber.
+~
+0 0 0
+D3
+~
+~
+0 0 23023
+S
+#23025
+{RPath{0 {Wto{0 {GG{Ya{gr{yd{Ge{Yn{0~
+There is a pathway that encircles the main Garden. On this piece of the circle are assortment of flowers and other natural vegitation. On this path you can find many useful places so don't get lost.
+~
+0 0 2
+D0
+~
+~
+0 0 23031
+D1
+~
+~
+0 0 23021
+D2
+~
+~
+0 0 23028
+D3
+~
+~
+0 0 23026
+S
+#23026
+{RA{Bc{Ra{Bd{Re{Bm{Ry {Yof the {CSeraphs{0~
+You arrive at the Academy training young Seraphs to protect and keep peace. Implanted is a statue of Mesilla the Seraphic surrounded by grass. North is the Principal's Office and south is the Vice-Principal's Office.
+~
+0 0 0
+D0
+~
+~
+0 0 23039
+D1
+~
+~
+0 0 23025
+D2
+~
+~
+0 0 23040
+D3
+~
+~
+0 0 23033
+S
+#23027
+{RPath{0 {Wto{0 {GG{Ya{gr{yd{Ge{Yn{0~
+There is a pathway that encircles the main Garden. On this piece of the circle are assortment of flowers and other natural vegitation. On this path you can find many useful places so don't get lost.
+~
+0 0 2
+D0
+~
+~
+0 0 23023
+D3
+~
+~
+0 0 23020
+S
+#23028
+{RPath{0 {Wto{0 {GG{Ya{gr{yd{Ge{Yn{0~
+There is a pathway that encircles the main Garden. On this piece of the circle are assortment of flowers and other natural vegitation. On this path you can find many useful places so don't get lost.
+~
+0 0 0
+D0
+~
+~
+0 0 23025
+D1
+~
+~
+0 0 23020
+S
+#23029
+{CSeraph's{x {RC{Yh{ra{ym{Rb{ye{rr{Ys{0~
+This is the Seraphic's peronsal chambers. She keeps the place nice and neat with a separate spot for healing. Symbols of Divine surround the walls representing her beliefs.
+~
+0 0 0
+D2
+~
+~
+0 0 23022
+S
+#23030
+{RPath{0 {Wto{0 {GG{Ya{gr{yd{Ge{Yn{0~
+There is a pathway that encircles the main Garden. On this piece of the circle are assortment of flowers and other natural vegitation. On this path you can find many useful places so don't get lost.
+~
+0 0 2
+D2
+~
+~
+0 0 23023
+D3
+~
+~
+0 0 23022
+S
+#23031
+{RPath{0 {Wto{0 {GG{Ya{gr{yd{Ge{Yn{0~
+There is a pathway that encircles the main Garden. On this piece of the circle are assortment of flowers and other natural vegitation. On this path you can find many useful places so don't get lost.
+~
+0 0 2
+D1
+~
+~
+0 0 23022
+D2
+~
+~
+0 0 23025
+D3
+~
+~
+0 0 23032
+S
+#23032
+{BProvisions{x{R of the{x {GG{Ya{gr{yd{Ge{Yn{0~
+Here is the shop of the Garden. This is the place where you can find useful items to aide you in different events. The shopkeeper notices you and greets you with a warm smile.
+~
+0 4 0
+D1
+~
+~
+0 0 23031
+S
+#23033
+{yField {rof {cValor{0~
+You are surrounded by well-cared-for {@grass{0, and on the wall nearby is equipment for training the young Seraphs who wish to learn to defend the {@G{#a{2r{3d{@e{#n{0. Words are scribed on a plaque honoring the graduates of this Academy.
+~
+0 4 0
+D0
+~
+~
+0 0 23035
+D1
+~
+~
+0 0 23026
+D2
+~
+~
+0 0 23036
+D3
+~
+~
+0 0 23034
+S
+#23034
+{yField {rof {cValor{0~
+You are surrounded by well-cared-for {@grass{0, and on the wall nearby is equipment for training the young Seraphs who wish to learn to defend the {@G{#a{2r{3d{@e{#n{0. Words are scribed on a plaque honoring the graduates of this Academy.
+~
+0 0 0
+D0
+~
+~
+0 0 23037
+D1
+~
+~
+0 0 23033
+D2
+~
+~
+0 0 23038
+S
+#23035
+{yField {rof {cValor{0~
+You are surrounded by well-cared-for {@grass{0, and on the wall nearby is equipment for training the young Seraphs who wish to learn to defend the {@G{#a{2r{3d{@e{#n{0. Words are scribed on a plaque honoring the graduates of this Academy.
+~
+0 0 0
+D2
+~
+~
+0 0 23033
+D3
+~
+~
+0 0 23037
+S
+#23036
+{yField {rof {cValor{0~
+You are surrounded by well-cared-for {@grass{0, and on the wall nearby is equipment for training the young Seraphs who wish to learn to defend the {@G{#a{2r{3d{@e{#n{0. Words are scribed on a plaque honoring the graduates of this Academy.
+~
+0 0 0
+D0
+~
+~
+0 0 23033
+D3
+~
+~
+0 0 23038
+S
+#23037
+{yField {rof {cValor{0~
+You are surrounded by well-cared-for {@grass{0, and on the wall nearby is equipment for training the young Seraphs who wish to learn to defend the {@G{#a{2r{3d{@e{#n{0. Words are scribed on a plaque honoring the graduates of this Academy.
+~
+0 0 0
+D1
+~
+~
+0 0 23035
+D2
+~
+~
+0 0 23034
+S
+#23038
+{yField {rof {cValor{0~
+You are surrounded by well-cared-for {@grass{0, and on the wall nearby is equipment for training the young Seraphs who wish to learn to defend the {@G{#a{2r{3d{@e{#n{0. Words are scribed on a plaque honoring the graduates of this Academy.
+~
+0 0 0
+D0
+~
+~
+0 0 23034
+D1
+~
+~
+0 0 23036
+S
+#23039
+{rPri{ynci{rpal{y's{x {BOffice{x~
+Here you find an office that is well-taken care of and in order. Behind the desk is {rPri{ynci{rpal{x {YLauson{0 {ggoing over his papers and making schedules. Many awards fill the walls of the office showing great success.{0
+~
+0 0 0
+D2
+~
+~
+0 0 23026
+S
+#23040
+{wV{cice-{x{rPri{ynci{rpal{y's{x {BOffice{x~
+Here you find an office that is well-taken care of and in order. Behind the desk is {wV{cice-{x{rPri{ynci{rpal{x {YReani{0 {ggoing over his papers and making schedules. Many awards fill the walls of the office showing great success.{0
+~
+0 0 0
+D0
+~
+~
+0 0 23026
+S
+#23041
+{rTraining{x {DGrounds{0~
+A dirt floor with {1blood{0 stains is lies here. Scattered about is the remains of training tools that resemble trainking manikins with many cuts. Written in {1blood{0 barely legible states, "Only the strong will win.".
+~
+0 0 0
+D0
+~
+~
+0 0 23045
+D1
+~
+~
+0 0 23043
+D2
+~
+~
+0 0 23016
+D3
+~
+~
+0 0 23042
+S
+#23042
+{rTraining{x {DGrounds{0~
+A dirt floor with {1blood{0 stains is lies here. Scattered about is the remains of training tools that resemble trainking manikins with many cuts. Written in {1blood{0 barely legible states, "Only the strong will win.".
+~
+0 0 0
+D0
+~
+~
+0 0 23044
+D1
+~
+~
+0 0 23041
+S
+#23043
+{rTraining{x {DGrounds{0~
+A dirt floor with {1blood{0 stains is lies here. Scattered about is the remains of training tools that resemble trainking manikins with many cuts. Written in {1blood{0 barely legible states, "Only the strong will win.".
+~
+0 0 0
+D0
+~
+~
+0 0 23046
+D3
+~
+~
+0 0 23041
+S
+#23044
+{rTraining{x {DGrounds{0~
+A dirt floor with {1blood{0 stains is lies here. Scattered about is the remains of training tools that resemble trainking manikins with many cuts. Written in {1blood{0 barely legible states, "Only the strong will win.".
+~
+0 0 0
+D1
+~
+~
+0 0 23045
+D2
+~
+~
+0 0 23042
+S
+#23045
+{rTraining{x {DGrounds{0~
+A dirt floor with {1blood{0 stains is lies here. Scattered about is the remains of training tools that resemble trainking manikins with many cuts. Written in {1blood{0 barely legible states, "Only the strong will win.".
+~
+0 0 0
+D1
+~
+~
+0 0 23046
+D2
+~
+~
+0 0 23041
+D3
+~
+~
+0 0 23044
+S
+#23046
+{rTraining{x {DGrounds{0~
+A dirt floor with {1blood{0 stains is lies here. Scattered about is the remains of training tools that resemble trainking manikins with many cuts. Written in {1blood{0 barely legible states, "Only the strong will win.".
+~
+0 0 0
+D1
+~
+~
+0 0 23017
+D2
+~
+~
+0 0 23043
+D3
+~
+~
+0 0 23045
+S
+#23047
+{YHallway{x {rJunction{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23050
+D1
+~
+~
+0 0 23048
+D2
+~
+~
+0 0 23018
+D3
+~
+~
+0 0 23049
+S
+#23048
+{DDarkened{x {yS{Yt{ya{Yr{x {RC{wh{ra{Wm{Rb{we{rr{0~
+~
+0 0 0
+D3
+~
+~
+0 0 23047
+S
+#23049
+{YLightened{x {yS{Yt{ya{Yr{x {CC{gh{ca{Gm{Cb{ge{cr{0~
+~
+0 0 0
+D1
+~
+~
+0 0 23047
+S
+#23050
+{wKing's{x {yThrone{rroom{0~
+~
+0 0 0
+D2
+~
+~
+0 0 23047
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 23008 5 2
+D 0 23009 4 2
+D 0 23013 1 1
+M 0 23000 20 23000 2
+M 0 23000 20 23000 2
+M 0 23000 20 23001 1
+M 0 23000 20 23002 3
+M 0 23000 20 23002 3
+M 0 23000 20 23002 3
+M 0 23000 20 23003 3
+M 0 23000 20 23003 3
+M 0 23000 20 23003 3
+M 0 23000 20 23004 1
+O 0 23001 0 23005
+M 0 23000 20 23006 1
+O 0 23001 0 23007
+M 0 23002 20 23008 1
+G 0 23002 0
+O 0 23003 0 23008
+M 0 23001 20 23009 2
+M 0 23001 20 23009 2
+M 0 23001 20 23010 2
+M 0 23001 20 23010 2
+M 0 23001 20 23011 2
+M 0 23001 20 23011 2
+M 0 23001 20 23012 2
+M 0 23001 20 23012 2
+M 0 23001 20 23013 4
+M 0 23001 20 23013 4
+M 0 23001 20 23013 4
+M 0 23001 20 23013 4
+M 0 23001 20 23014 2
+M 0 23001 20 23014 2
+M 0 23001 20 23016 2
+M 0 23001 20 23016 2
+M 0 23012 1 23017 1
+E 0 23008 0 16
+M 0 23000 20 23018 1
+M 0 23004 50 23024 3
+M 0 23004 50 23024 3
+M 0 23004 50 23024 3
+M 0 23005 50 23026 2
+M 0 23005 50 23026 2
+M 0 23006 50 23026 2
+M 0 23006 50 23026 2
+M 0 23003 1 23029 1
+M 0 23007 1 23032 1
+G 0 23004 0
+G 0 23006 0
+M 0 23008 12 23033 2
+M 0 23008 12 23033 2
+M 0 23008 12 23034 2
+M 0 23008 12 23034 2
+M 0 23008 12 23035 2
+M 0 23008 12 23035 2
+M 0 23008 12 23036 2
+M 0 23008 12 23036 2
+M 0 23008 12 23037 2
+M 0 23008 12 23037 2
+M 0 23008 12 23038 2
+M 0 23008 12 23038 2
+M 0 23014 1 23039 1
+M 0 23015 1 23040 1
+M 0 23011 12 23041 2
+M 0 23011 12 23041 2
+M 0 23011 12 23042 2
+M 0 23011 12 23042 2
+M 0 23011 12 23043 2
+M 0 23011 12 23043 2
+M 0 23011 12 23044 2
+M 0 23011 12 23044 2
+M 0 23011 12 23045 2
+M 0 23011 12 23045 2
+M 0 23011 12 23046 2
+M 0 23011 12 23046 2
+M 0 23000 20 23047 1
+M 0 23009 1 23048 1
+E 0 23007 0 16
+M 0 23000 20 23048 3
+M 0 23000 20 23048 3
+M 0 23010 1 23049 1
+E 0 23005 0 16
+M 0 23000 20 23049 3
+M 0 23000 20 23049 3
+M 0 23000 20 23049 3
+M 0 23000 20 23050 3
+M 0 23000 20 23050 3
+M 0 23000 20 23050 3
+M 0 23013 1 23050 1
+E 0 23009 0 16
+S
+
+
+
+#SHOPS
+23007 0 10 2 5 9 100 80 0 24
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

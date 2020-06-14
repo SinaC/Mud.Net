@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using Mud.Domain;
 using Mud.Logger;
-using Mud.Server;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.POC
 {
@@ -124,9 +125,16 @@ namespace Mud.POC
         }
 
         // Description macros.
-//#define PERS(ch, looker)	( can_see( looker, (ch) ) ?		\
-//                ( IS_NPC(ch) ? (ch)->short_descr	\
-//                : (ch)->name ) : "someone" )
+        //#define PERS(ch, looker)	( can_see( looker, (ch) ) ?		\
+        //                ( IS_NPC(ch) ? (ch)->short_descr	\
+        //                : (ch)->name ) : "someone" )
+
+        public enum Sex 
+        {
+            Neutral,
+            Male,
+            Female
+        }
 
         //https://genderneutralpronoun.wordpress.com/tag/ze-and-zir/
         private static readonly IDictionary<Sex, string> _subjects = new Dictionary<Sex, string>
@@ -150,24 +158,24 @@ namespace Mud.POC
             {Sex.Female, "her"},
         };
 
-        public static void Act(string format, ICharacter character, ICharacter victim, ActOptions option)
-        {
-            GenericAct(option, character, victim, target => CreatePhrase(format, target, character, victim));
-        }
+        //public static void Act(string format, ICharacter character, ICharacter victim, ActOptions option)
+        //{
+        //    GenericAct(option, character, victim, target => CreatePhrase(format, target, character, victim));
+        //}
 
-        private static string CreatePhrase(string phrase, ICharacter target, ICharacter character, ICharacter victim)
-        {
-            phrase = phrase.Replace("$n", target.CanSee(character) ? character.Name : "someone"); // TODO: short description is NPC
-            phrase = phrase.Replace("$N", target.CanSee(victim) ? victim.Name : "someone"); // TODO: short description is NPC
-            phrase = phrase.Replace("$e", _subjects[character.Sex]);
-            phrase = phrase.Replace("$E", _subjects[victim.Sex]);
-            phrase = phrase.Replace("$m", _objectives[character.Sex]);
-            phrase = phrase.Replace("$M", _objectives[victim.Sex]);
-            phrase = phrase.Replace("$s", _possessives[character.Sex]);
-            phrase = phrase.Replace("$S", _possessives[victim.Sex]);
+        //private static string CreatePhrase(string phrase, ICharacter target, ICharacter character, ICharacter victim)
+        //{
+        //    phrase = phrase.Replace("$n", target.CanSee(character) ? character.Name : "someone"); // TODO: short description is NPC
+        //    phrase = phrase.Replace("$N", target.CanSee(victim) ? victim.Name : "someone"); // TODO: short description is NPC
+        //    phrase = phrase.Replace("$e", _subjects[character.CurrentSex]);
+        //    phrase = phrase.Replace("$E", _subjects[victim.CurrentSex]);
+        //    phrase = phrase.Replace("$m", _objectives[character.CurrentSex]);
+        //    phrase = phrase.Replace("$M", _objectives[victim.CurrentSex]);
+        //    phrase = phrase.Replace("$s", _possessives[character.CurrentSex]);
+        //    phrase = phrase.Replace("$S", _possessives[victim.CurrentSex]);
 
-            return phrase;
-        }
+        //    return phrase;
+        //}
 
         private static void GenericAct(ActOptions option, ICharacter character, ICharacter victim, Func<ICharacter, string> createPhraseFunc)
         {

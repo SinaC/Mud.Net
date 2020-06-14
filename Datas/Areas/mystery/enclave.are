@@ -1,0 +1,1990 @@
+#AREADATA
+Name The Orc Enclave~
+Builders None~
+VNUMs 2400 2499
+Credits {{ 1  5} C.A.W   Enclave~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#2400
+deer~
+a deer~
+A deer looks at you with fear in its eyes.
+~
+That's one nice looking deer!
+~
+unique~
+0
+AH 0 0 0 0 0
+3 18 3d5+33 0d0+0 0d0+0 1d7+0 pound
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEF medium 0
+#2401
+rabbit~
+a rabbit~
+A small rabbit nibbles at a leaf here.
+~
+It's a small, furry rodent with big ears.
+~
+unique~
+0
+AH 0 0 0 0 0
+1 20 1d5+3 0d0+0 0d0+0 1d3+0 pound
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEF medium 0
+#2402
+squirrel~
+a squirrel~
+A squirrel spots you and runs around a tree!
+~
+Its a small, brown squirrel.  Kind of like a
+fuzzy high-tension spring.
+~
+unique~
+0
+AH 0 0 0 0 0
+1 20 1d3+0 0d0+0 0d0+0 1d1+1 pound
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEF medium 0
+#2403
+orc hunter~
+the orc hunter~
+An orc hunter looks at you with hateful eyes.
+~
+He looks angry, desperate, and maybe a little sick.
+His green skin is definitely mottled, and he seems to
+limp a little bit...
+~
+unique~
+0
+AF 0 0 0 -350 0
+7 14 3d5+83 0d0+0 0d0+0 2d3+2 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#2404
+orc chief~
+the orc chief~
+An orc chief growls at you!
+~
+He wears a crown of oak leaves to show he's a 
+leader.  He carries a club to show he's a warrior.  
+You wonder how good he is at both.
+~
+unique~
+0
+ABF 0 0 0 -600 0
+10 11 3d5+120 0d0+0 0d0+0 2d7+2 pound
+0 0 0 0
+0 0 0 0
+stand stand male 17
+AHMV ABCDEF medium 0
+#2405
+orc woman~
+an orc woman~
+An orc woman stands here, frightened of you.
+~
+As you stare her down, she raises her hands slowly,
+as if to say, 'Don't kill me'.
+~
+unique~
+0
+AH 0 0 0 -50 0
+5 16 3d5+58 0d0+0 0d0+0 2d4+0 pound
+0 0 0 0
+0 0 0 0
+stand stand female 0
+AHMV ABCDEF medium 0
+#2406
+orc child~
+an orc child~
+An orc child frantically searches for her mother.
+~
+She's raggedy, and seems to be covered with sores.
+~
+unique~
+0
+AH 0 0 0 50 0
+3 18 3d5+30 0d0+0 0d0+0 1d7+0 pound
+0 0 0 0
+0 0 0 0
+stand stand female 0
+AHMV ABCDEF medium 0
+#2407
+orc woman~
+an orc woman~
+A pregnant orc woman tries to stand to flee from you.
+~
+She's too far gone to move very quickly.  You could
+kill her easily.
+~
+unique~
+0
+ABH 0 0 0 -50 0
+5 16 3d5+58 0d0+0 0d0+0 1d4+0 pound
+0 0 0 0
+0 0 0 0
+stand stand female 0
+AHMV ABCDEF medium 0
+#2408
+orc mutant mutated~
+the mutant orc~
+A mutant orc lies here, barely alive.
+~
+Its body has been twisted beyond all hope.
+Its dying, and nothing will stop that.
+~
+unique~
+0
+A 0 0 0 0 0
+6 20 1d1+0 0d0+0 0d0+0 1d1+0 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#2409
+orc mutant mutated~
+the mutant orc~
+A horribly mutated orc stands here, gibbering.
+~
+It doesn't even appear to have registered your
+arrival...its just talking to itself.  Its body
+is a twisted wreck of orc, man, beast, and what-
+not.
+~
+unique~
+0
+A 0 0 0 0 0
+6 20 3d5+60 0d0+0 0d0+0 1d1+0 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#2410
+wizard elf elven Elstar~
+Elstar~
+An elven wizard is here.  He looks angry.
+~
+He looks at you archly as he wonders why you've
+invaded his domain.  No matter...it shouldn't be
+too hard for him to destroy you, no?
+~
+unique~
+0
+ABF D 0 0 -1000 0
+15 6 3d5+183 0d0+0 0d0+0 2d8+2 pound
+0 0 0 0
+0 0 0 0
+stand stand male 10000
+AHMV ABCDEF medium 0
+#2411
+child elf elven apprentice~
+the elven child~
+An elven child casts his fishing pole into the river.
+~
+He looks young and innocent.  You wonder what
+he's doing here.
+~
+unique~
+0
+AB 0 0 0 600 0
+3 18 3d5+35 0d0+0 0d0+0 2d4+0 pound
+0 0 0 0
+0 0 0 0
+stand stand male 0
+AHMV ABCDEF medium 0
+#2412
+Mutant thing~
+the mutant thing~
+A mutant...thing rushes at you!
+~
+It might've been an orc, once.  Now its
+a living terror, pushing everything out of
+its way to get at you.
+~
+unique~
+0
+AF 0 0 0 -800 0
+12 9 3d5+170 0d0+0 0d0+0 2d7+4 pound
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEF medium 0
+#2413
+Mutant thing~
+a mutant thing~
+A mutant...thing tries to get you, but cannot move into range!
+~
+It might've been an orc, once.  Now its
+a living terror, pushing everything out of
+its way to get at you.
+~
+unique~
+0
+AB 0 0 0 -800 0
+12 9 3d5+170 0d0+0 0d0+0 2d7+4 pound
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEF medium 0
+#0
+
+
+
+#OBJECTS
+#2400
+key~
+a key~
+A key sits here.~
+iron~
+key 0 AO
+DFGHIJ 0 0 0 0
+1 1 20 P
+E
+key~
+It's a plain looking key.
+~
+#2401
+manacles~
+a set of manacles~
+A set of iron manacles lie here.~
+iron~
+armor H AH
+0 0 0 0 0
+0 20 100 P
+Y
+char 'hitroll' 0 -20
+E
+manacles~
+They're big steel cuffs, meant to be locked around the hands.
+~
+#2402
+shackles~
+a set of shackles~
+A set of shackles sit here, discarded.~
+iron~
+armor H AG
+0 0 0 0 0
+0 20 100 P
+Y
+char 'moves' 0 -80
+E
+shackles~
+Big iron cuffs, meant to be locked around the 
+ankles.
+~
+#2403
+Runestone rune stone~
+a runestone~
+A small stone with an inscription sits here.~
+stone~
+light A AO
+0 0 999 0 0
+12 1 10000 P
+Y
+char 'mana' 0 8
+E
+Runestone rune stone~
+Its a small, carved stone with a strange symbol
+carved upon it.  Strange...
+~
+#2404
+club~
+a club~
+A crude wooden club sits here.~
+wood~
+weapon 0 AN
+exotic 2 2 pound 0
+6 12 10 P
+E
+club~
+Its a big, wooden club.
+~
+#2405
+Starkblade knife dagger blade~
+starkblade~
+A knife hums with eternal energy here.~
+ebony~
+weapon B AN
+exotic 3 7 slash 0
+15 1 100000 P
+Y
+char 'mana' 0 10
+Y
+char 'hp' 0 -20
+E
+Starkblade knife dagger blade~
+It's an odd knife, with an inset of sapphire in the
+pommel.  It hums constantly, and your hand stings a 
+bit when you touch it.
+~
+#0
+
+
+
+#ROOMS
+#2400
+In the Forest~
+The trail ends here where the mountains begin abruptly.
+Looking up, you note that the climb would be rough, 
+hazardous, and probably not worth the effort; the energy 
+barrier continues up the mountain side out of sight.  The
+only exit is back to the east.
+~
+0 0 3
+5
+E
+barrier energy~
+You can faintly see the woods continue beyond it, but it 
+seems there's no way through.  The field rises high up 
+into the air, and seems to form a ceiling above the woods,
+preventing a flying entrance.  You'd also bet it extends 
+deep into the ground.
+~
+D0
+~
+~
+0 0 2499
+D1
+~
+~
+0 0 2401
+S
+#2401
+In the Forest~
+To the west the mountains rise high up, rocky and 
+lifeless.  The trail you are walking on heads west 
+to the end of the forest, and back east.  Each way the 
+strange energy barrier stands just to the north, 
+inscrutable, magical, and impenetrable.
+~
+0 0 3
+5
+E
+barrier energy~
+You can faintly see the woods continue beyond it, but it 
+seems there's no way through.  The field rises high up 
+into the air, and seems to form a ceiling above the woods,
+preventing a flying entrance.  You'd also bet it extends 
+deep into the ground.
+~
+D1
+~
+~
+0 0 2402
+D3
+~
+~
+0 0 2400
+S
+#2402
+In the Forest~
+This trail runs parallel to the energy barrier to your 
+north, seemingly all the way up to the mountains to the 
+west that form the boundries of this valley.  Walking 
+along, you scare a small squirrel, which leaps through 
+the barrier without a second thought!  Your hand is still 
+repulsed by the magical field, however.
+~
+0 0 3
+5
+E
+barrier energy~
+You can faintly see the woods continue beyond it, but it 
+seems there's no way through.  The field rises high up 
+into the air, and seems to form a ceiling above the woods,
+preventing a flying entrance.  You'd also bet it extends 
+deep into the ground.
+~
+D1
+~
+~
+0 0 2403
+D3
+~
+~
+0 0 2401
+S
+#2403
+In the Forest~
+The northern pathway stops abruptly here, halted by 
+some sort of glowing energy barrier running through the 
+woods.  A game trail, seemingly well traveled, runs east-
+west along the magical barrier's length.  Very strange.
+~
+0 0 3
+5
+E
+barrier energy~
+You can faintly see the woods continue beyond it, but it 
+seems there's no way through.  The field rises high up 
+into the air, and seems to form a ceiling above the woods,
+preventing a flying entrance.  You'd also bet it extends 
+deep into the ground.
+~
+D1
+~
+~
+0 0 2404
+D3
+~
+~
+0 0 2402
+S
+#2404
+In the Forest~
+The energy barrier runs through the woods on its east-
+west course here, just north of the trail you are walking 
+on.  A faint humming seems to eminate from the glowing 
+field, pushing the normal sounds of the forest into the 
+background.  For a short moment, you wonder if the field 
+is keeping something in, or you out.  It makes you 
+wonder...
+~
+0 0 3
+5
+E
+barrier energy~
+You can faintly see the woods continue beyond it, but it 
+seems there's no way through.  The field rises high up 
+into the air, and seems to form a ceiling above the woods,
+preventing a flying entrance.  You'd also bet it extends 
+deep into the ground.
+~
+D1
+~
+~
+0 0 2405
+D3
+~
+~
+0 0 2403
+S
+#2405
+In the Forest~
+The energy field makes a sudden ninety-degree turn 
+here, running to the north and west out of sight through 
+the thickening woods.  The trail you are on curves to 
+skirt the edge of the magical barrier in either direction.
+Curious...who or what is keeping this field in place,
+and for what purpose?
+~
+0 0 3
+5
+E
+barrier energy~
+You can faintly see the woods continue beyond it, but it 
+seems there's no way through.  The field rises high up 
+into the air, and seems to form a ceiling above the woods,
+preventing a flying entrance.  You'd also bet it extends 
+deep into the ground.
+~
+D0
+~
+~
+0 0 2406
+D3
+~
+~
+0 0 2404
+S
+#2406
+In the Forest~
+The woods thicken here, and surpisingly, you see a tree
+completely cut in half by the magical barrier running 
+north-south here.  The tree looks healthy and unaffected 
+by the energy field passing right through its center.  
+Odd...
+~
+0 0 3
+5
+E
+barrier energy~
+You can faintly see the woods continue beyond it, but it 
+seems there's no way through.  The field rises high up 
+into the air, and seems to form a ceiling above the woods,
+preventing a flying entrance.  You'd also bet it extends 
+deep into the ground.
+~
+D0
+~
+~
+0 0 2407
+D2
+~
+~
+0 0 2405
+S
+#2407
+In the Forest~
+The magical energy barrier runs straight north-south, 
+unaffected by dips in the grounds, intervening rocks and 
+trees, everything.  From the north, you hear a faint 
+rushing noise above the humming of the field.  The trail 
+you are on continues to the north and south, only a few 
+feet away from the barrier it follows.
+~
+0 0 3
+5
+E
+barrier energy~
+You can faintly see the woods continue beyond it, but it 
+seems there's no way through.  The field rises high up 
+into the air, and seems to form a ceiling above the woods,
+preventing a flying entrance.  You'd also bet it extends 
+deep into the ground.
+~
+D0
+~
+~
+0 0 2408
+D2
+~
+~
+0 0 2406
+S
+#2408
+In the Forest~
+Here the field changes color, becoming almost 
+transparent.  Beyond, you think you can make out a few 
+shapes, but nothing too terribly distinct.  From the north
+comes the rushing sound of water, and through the trees 
+you believe you can see a river cutting through the 
+forest.  The trail you are on leads north-south through 
+the woods, following the energy barrier all along its 
+length.
+~
+0 0 3
+5
+E
+barrier energy~
+You can see a clearing beyond, the barrier not fully blocking
+out the area behind.  You think it might be possible to push
+your way through, if the damn thing doesn't kill you first.
+~
+D0
+~
+~
+0 0 2409
+D2
+~
+~
+0 0 2407
+D3
+~
+~
+0 0 2410
+S
+#2409
+River's Edge~
+A river flows through the forest here, its water clean 
+and clear.  The energy barrier runs right out into the 
+middle of the river, and then makes another ninety-degree 
+turn to the west.  The water seems to have no problem 
+penetrating the magical field, however.
+   The river seems too wide and too swift to cross here.  
+It appears the only way to go is back to the south.
+~
+0 0 3
+5
+E
+barrier energy~
+You can faintly see the woods continue beyond it, but it 
+seems there's no way through.  The field rises high up 
+into the air, and seems to form a ceiling above the woods,
+preventing a flying entrance.  You'd also bet it extends 
+deep into the ground.
+~
+D2
+~
+~
+0 0 2408
+S
+#2410
+Just Passing Through...~
+The energy barrier seems to push against you 
+ineffectively as you shove your way through it.  All your 
+hairs stick up on your body from the static electricity, 
+and electric shocks sting your body from every metallic 
+piece of equipment you are carrying.  You think with a 
+final shove, you can break through to the other side...
+~
+0 4 5
+5
+D1
+~
+~
+0 0 2408
+D3
+~
+~
+0 0 2411
+S
+#2411
+By the Barrier~
+To the west the magical energy barrier crackles and 
+hums to itself, almost looking harmless.  Almost -- all 
+around on the ground are charred corpses and bodies.  
+Several poles with skulls on top face to the west, warning
+travellers on the forest paths away from here.  The air 
+smells of death and decay, and the air is very still.  You
+feel uncomfortable.
+~
+0 4 3
+5
+E
+corpse body bodies corpses skull skulls~
+Demi-human, from the size.  The foreheads slop down to 
+a blocky brow, and the braincase seems rather small.  On 
+a hunch, you check one of the feet of a torched body.  
+Cloven, like a pig's.
+   Orcs.
+~
+D1
+~
+~
+0 0 2410
+D3
+~
+~
+0 0 2412
+S
+#2412
+Clearing in the Forest~
+Several trails in the forest intersect here in a small 
+clearing.  The dirt seems matted down, and you see many 
+footprints in the soil.   Nearby you hear a bird's chirp 
+abruptly cut off in a loud squawk, and then silence.  The 
+paths seem well-traveled, the undergrowth matted down and 
+the foilage hacked away to leave plenty of room or a 
+traveller to pass in every cardinal direction, excepting
+the west path seems fairly overgrown...
+   You feel watched.
+~
+0 0 3
+5
+E
+foot footprint footprints print prints~
+Cloven hoofs, two feet...they walk erect whatever they are.
+~
+D0
+~
+~
+0 0 2413
+D1
+~
+~
+0 0 2411
+D2
+~
+~
+0 0 2417
+D3
+~
+~
+0 0 2428
+S
+#2413
+A Forest Trail~
+The northern trail winds through the trees, heading 
+from a forest clearings to the south to where there appears 
+to be a river's edge to the north.  This trail appears to 
+be well-used and you spot many tracks in the earth.  Again 
+the hairs on the back of your neck stand up, and you wonder 
+if you're being spied upon.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 2414
+D2
+~
+~
+0 0 2412
+S
+#2414
+River's Edge~
+A beautiful river flows swiftly by, the current looking
+quite dangerous in fact.  Out in the center of the river 
+you spot the energy barrier enclosure...no way out here.  
+Looking up, you see a bird fly right through the barrier 
+overhead and wonder as to the force field's nature.  This 
+path leads south into the forest, and westwards along the 
+river's edge.
+~
+0 0 2
+5
+D2
+~
+~
+0 0 2413
+D3
+~
+~
+0 0 2415
+S
+#2415
+River's Edge~
+The river flows on its course, unhampered by the energy
+barrier passing right down its center for as far as you 
+can see in both directions.  The path you are on travels 
+along the length of the river to the east and west 
+inbetween the water and the forest's edge.  Once again you
+shiver and feel that unmistakeable sense that you are 
+being watched.  Disturbing.
+~
+0 0 2
+5
+D1
+~
+~
+0 0 2414
+D3
+~
+~
+0 0 2416
+S
+#2416
+River's Edge~
+A large out-cropping of rock blocks this path along the
+river to the west, and you don't spot any way around it; 
+the woods are too thick to the south, the river too swift 
+to the north, the magical barrier above you.  This is a 
+nice area, however, as evidenced by the amount of traffic
+this path gets.  From the marks in the grass, you guess 
+that this is a favored resting spot.
+~
+0 0 2
+5
+D1
+~
+~
+0 0 2415
+S
+#2417
+Forest Trail~
+This well-used forest trail leads south.  Among the 
+foot-tracks in the dirt, you spot a few animal tracks as 
+well, leading you to believe that these trails are used by
+hunters.  Why would they be enclosed in this manner, 
+however?
+   There is a clearing to the north, and the path
+continues to the south.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 2412
+D2
+~
+~
+0 0 2419
+S
+#2418
+Forest Trail~
+This trail leads north-south...obviously a gaming 
+trail.  The woods, mostly deciduous trees with the 
+accompanying ground foilage, crowd in to either side.  
+A shrub to your left shows a fresh cutting wound...looks 
+like a sharp object like a knife or machete did the 
+damage.
+   A crackle in the leaves spins you around, to see 
+nothing.  Something is watching you, you feel it.  Where?
+~
+0 0 3
+5
+D0
+~
+~
+0 0 2433
+D2
+~
+~
+0 0 2426
+S
+#2419
+Forest Trail~
+The trail changes direction here, turning to the north 
+and west.  A large tree to your south bears an interesting
+artifact; a rusty arrowhead embedded in the wood.  It 
+looks as if the arrow had been  broken off at the head, 
+the wood scratched at, and the arrowhead left behind.  
+Otherwise, there doesn't seem to be much of interest in 
+this particular section of the woods.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 2417
+D3
+~
+~
+0 0 2420
+S
+#2420
+Forest Trail~
+This is a winding east-west path through the thickening
+forest.  The grass along the path is matted down from 
+frequent traffic.  The path continues to the east, and 
+there seems to be a small clearing to the west.
+   A faint noise makes you stand stock still.  You could 
+have sworn you heard a voice nearby.  Whatever it was, it 
+wasn't speaking common.
+~
+0 0 3
+5
+D1
+~
+~
+0 0 2419
+D3
+~
+~
+0 0 2421
+S
+#2421
+A Small Clearing~
+In the middle of this small clearing in the forest is a
+fairly large rock sticking up out of the ground.  Paths 
+lead away to the east, west, and south from here.  The 
+trees above block out the sky fairly effectively, also
+blotting out the glowing energy barrier above your head.
+~
+0 0 3
+5
+E
+rock boulder~
+There's dried blood on it.
+~
+D1
+~
+~
+0 0 2420
+D2
+~
+~
+0 0 2422
+D3
+~
+~
+0 0 2427
+S
+#2422
+Forest Trail~
+A smaller northern path leads away from the main east-
+west trail here towards a clearing.  The main path leads 
+windingly around the trees to the east and west, the woods
+blocking out whatever may be ahead.  Again you get that 
+strange feeling of being watched.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 2421
+D1
+~
+~
+0 0 2423
+D3
+~
+~
+0 0 2425
+S
+#2423
+Forest Trail~
+The trail leads east and west here through the forest.  
+To the west you spot an area where a smaller path breaks 
+off from the main track.  Eastwards seems to be another 
+small clearing that seems to be well used; there are many
+tracks leading in that direction.
+~
+0 0 3
+5
+D1
+~
+~
+0 0 2424
+D3
+~
+~
+0 0 2422
+S
+#2424
+Dead End~
+The ground has been cleared of vegetation in this small
+clearing, and several large, man-made salt licks lie on
+the ground and stand on poles here.  There are many animal
+tracks in the earth -- the salt licks must attract 
+wildlife for miles around.  You think this would be a good
+place to hide and wait for dinner if you were a hunter...
+~
+0 0 3
+5
+D3
+~
+~
+0 0 2423
+S
+#2425
+Forest Trail~
+This trail leads east-west through the forest foilage,
+around the trees and up and down the slight rises.  The
+area is quiet and serene, except for the energy barrier
+keeping you in to the south.  For just a moment, you wonder
+if you're still being watched...
+~
+0 0 3
+5
+D1
+~
+~
+0 0 2422
+D3
+~
+~
+0 0 2426
+S
+#2426
+Forest Trail~
+The trail bends here, leading away to the north and 
+east.  Far off the the distance you hear the squawk of a 
+large bird-of-prey searching the skies for a meal.  The 
+ferns around you rustle gently in the light breeze.  
+Somehow, the threatening aura that pervades over the rest
+of the area seems absent here.  You feel almost relaxed...
+~
+0 4 3
+5
+D0
+~
+~
+0 0 2418
+S
+#2427
+Forest Trail~
+A bend in the forest trail allows you to go east and
+north here.  To the east you spot a small clearing, while
+northwards this trail seems to join a much larger one 
+leading through the woods.  On the ground is half of a 
+broken knife handle, made of bone and dried leather,
+useless now.  You wonder if the owner is watching you 
+now -- something certainly is.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 2432
+D1
+~
+~
+0 0 2421
+S
+#2428
+Forest Trail~
+This path leads from the main clearing to the west to 
+intersect with a north-south path just to the east.  A 
+small sapling on the north side of the trail has a rope 
+tied around one of its top branches; an unused snare 
+evidently.  You still feel as if you're being watched in 
+the back of your mind, and adrenaline pumps into your
+brain like a lightning fuzz.
+~
+0 0 3
+5
+D1
+~
+~
+0 0 2412
+D3
+~
+~
+0 0 2429
+S
+#2429
+Forest Trail~
+A north-south trail leads through the woods here, with 
+a small side trail leading off to the east.  The trees 
+provide adequate cover from the sky, but through a few 
+holes in the foilage you spot the magical barrier above 
+you, keeping you from escaping by flight.  You feel 
+slightly captured.
+~
+0 0 3
+5
+D1
+~
+~
+0 0 2428
+D2
+~
+~
+0 0 2430
+S
+#2430
+Forest Trail~
+Two trails come together here, a large northern path 
+heading away from tracks leading to the east and west.  
+The western path seems to be the most traveled, and the 
+east hardly at all.  There seems to be less trees around 
+here...it seems as if many have been cut down by some sort
+of crude tools.  This land clearing appears to be 
+especially true to the east.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 2429
+D1
+~
+~
+0 0 2431
+D3
+~
+~
+0 0 2432
+S
+#2431
+Clearing~
+The trees have been cut down around here, and many of 
+the trunks hollowed out with sharp stones and lined with 
+treated leather to make almost-waterproof tubs.  A foul 
+smelling brown fluid, tannin evidently, fills many of 
+these, soaking into various bits and pieces of animal 
+hides.  Crude, but workable.
+~
+0 0 3
+5
+D3
+~
+~
+0 0 2430
+S
+#2432
+Forest Trail~
+The trail is widening to the west, where the path leads
+all the way up to the side of the mountains that enclose 
+this valley.  Many of the trees have been cut down around
+here, and it definitely looks as if the forest is ending.
+Eastwards the trail leads on into the thick of the forest.
+A small split off trail leads away to the south here.
+~
+0 0 3
+5
+D1
+~
+~
+0 0 2430
+D2
+~
+~
+0 0 2427
+D3
+~
+~
+0 0 2433
+S
+#2433
+Forest Trail~
+The ground is growing more rocky here.  The trees and 
+other foilage in the forest grow sparse here, finding it 
+hard to find purchase in the soil.   The forest ends just 
+to the west, with the trail you are on leading right on up
+to the side of the mountains.  A side trail leads south 
+here, and the trail also leads back into the thick of the 
+forest to the east.
+~
+0 0 3
+5
+D1
+~
+~
+0 0 2432
+D2
+~
+~
+0 0 2418
+D3
+~
+~
+0 0 2434
+S
+#2434
+Rocky Trail~
+The ground is getting very rocky here, causing the 
+trees of the woods to become more sparse.  Several bushes 
+have found purchase in the soil, but not near enough to 
+block free movement in this area.  The trail leads on up 
+to what appears to be a cave in the side of the mountain 
+to the west, and a side trail runs along the forest's edge
+to the north.  To the east, the trail runs deep into the 
+forest out of sight.
+~
+0 0 4
+5
+D0
+~
+~
+0 0 2441
+D1
+~
+~
+0 0 2433
+D3
+~
+~
+0 0 2442
+S
+#2435
+Forest Trail~
+The trail you are on bends around a large double-
+trunked tree and leads away to the north and west.  The 
+green canopy of leaves overhead make this area fairly dark
+and ominous, and that creepy 'watched' feeling returns to
+hit you with full force.
+~
+0 0 3
+5
+D2
+~
+~
+0 0 2429
+D3
+~
+~
+0 0 2436
+S
+#2436
+Forest Trail~
+The trail continues here to the east and west, with a 
+small trail splitting off towards a large clearing to the
+south.  Two wooden poles with skulls on top warn you away
+from the south, and succeed in making you feel quite
+uncomfortable.  Strange...
+~
+0 0 3
+5
+D1
+~
+~
+0 0 2435
+D2
+~
+~
+0 0 2437
+D3
+~
+~
+0 0 2438
+S
+#2437
+Large Clearing~
+The earth has been upturned many times here, and 
+several white rocks stick up from the ground in odd 
+positions.
+   Graveyard.
+   This must be where they bury their dead -- just dig a 
+hole and throw the corpse inside, ignoring any previous 
+occupants in the ground.  How uncivilized...you hope you 
+aren't taken care of in this matter when your time 
+comes...
+~
+0 0 2
+5
+D0
+~
+~
+0 0 2436
+S
+#2438
+Forest Trail~
+The trail splits here, one fork heading north towards 
+the rushing sounds of a river, and west where the forest 
+seems to be thinning out a lot.  A sudden motion out of 
+the corner of your eye catches your eyes, and you turn 
+your head.  Nothing, there's nothing there at all.
+   You wonder if you're being stalked.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 2439
+D1
+~
+~
+0 0 2436
+D3
+~
+~
+0 0 2441
+S
+#2439
+River's Edge~
+The river flows swiftly on its course to the north.  
+The trail you are on leads on by the water's edge to the 
+west, and back into the forest to the south.  A large 
+boulder is just to the west, blocking all travel in that 
+direction.  Out in the center of the river, the 'roof' of 
+the energy field meets the northern 'wall'.  The water 
+passes right on through the magical barrier, however...the
+barrier is obviously porous to some materials.
+~
+0 0 2
+5
+D2
+~
+~
+0 0 2438
+D3
+~
+~
+0 0 2440
+S
+#2440
+River's Edge~
+The river pours down the side of the mountains to the 
+west, originating from a large hole in the face of one of 
+the sheer rock protuberances.  The energy barrier climbs 
+right up the mountain, and seals off any means of escape 
+by that means.  The trail you are on runs by the side of 
+the river to the east, and a path leads by the forest side
+to the south.
+~
+0 0 2
+5
+D1
+~
+~
+0 0 2439
+D2
+~
+~
+0 0 2441
+S
+#2441
+Rocky Trail~
+The forest is just to your west, with a side trail 
+leading deep inside from here.  The main trail you are on,
+however, heads north towards the river, and south near 
+where a trail leads up to a cave in the mountain side.  
+There doesn't seem to be a whole lot to capture your 
+attention here...
+~
+0 0 4
+5
+D0
+~
+~
+0 0 2440
+D1
+~
+~
+0 0 2438
+D2
+~
+~
+0 0 2434
+S
+#2442
+Cave Entrance~
+You are half blinded by the differences of the outdoors
+illumination and the pure darkness of the cave.  A deep,
+cloying stench flows out from the cave mouth; the smells
+of decay, unwashed bodies, and sickness in one roiling 
+odor.  Your stomach turns involuntarily, and you wonder 
+about going back down the hill to the east, instead of 
+going even further down the western tunnel.
+~
+0 8 5
+5
+D1
+~
+~
+0 0 2434
+D3
+~
+~
+0 0 2443
+S
+#2443
+Tunnel Forking~
+The tunnel forks here, one branch leading north, the 
+other west.  Additionally, you can head back outside to 
+the east, which seems like a very good idea to your 
+tortured nasal passages.  Your eyes water from the stench,
+and you clench your left hand tightly to keep control of 
+your bile.
+   Forcing your eyes open, you notice the warning signs
+painted around the tunnel to the north.
+~
+0 9 4
+5
+E
+painting sign signs~
+They're orcish, and you could swear they were all 
+warning symbols.
+~
+D0
+~
+~
+0 0 2455
+D1
+~
+~
+0 0 2442
+D3
+~
+~
+0 0 2444
+S
+#2444
+Tunnel~
+The floor is slick with the humidity that boils out of
+the lower reaches of this cave, bringing that most awful 
+smell with it.  Again, you consider saving your nose the 
+trip west and down the tunnel, and heading back east to 
+the cave entrance.
+~
+0 9 4
+5
+D1
+~
+~
+0 0 2443
+D3
+~
+~
+0 0 2445
+S
+#2445
+Tunnel~
+The tunnel takes a deep dip here, and opens up into a 
+largish cave to the west.  There seems to be a few faint 
+lights from inside, and you hear some heavy breathing and 
+low grunts from that direction.  The cave entrance to the 
+east seems far too far away for your comfort...
+~
+0 9 5
+5
+D1
+~
+~
+0 0 2444
+D3
+~
+~
+0 0 2451
+S
+#2446
+Cave~
+Heaps of rotting meat and cups of near-drinkable water
+sit here; the orc food stores.  You stand here and 
+wonder in near-disbelief at how the orcs could find this 
+stuff palatable.  They're orcs; its their nature and their 
+stomachs you guess.  Oddly enough, you don't even care to 
+catalog what they have available -- there's no chance you're 
+going to take any of this...
+~
+0 8 4
+5
+D1
+~
+~
+0 0 2447
+D2
+~
+~
+0 0 2449
+S
+#2447
+Cave~
+A single corpse lies here, well away from a pile of 
+similars to the east.  There are several sharpened stakes 
+and rocks sitting about conveniently.  The way the corpse 
+is lying, the stone next to its hand...this is a suicide 
+area!  You look down upon the orc and comprehend its 
+suffering in its twisted form.  How sad.
+~
+0 8 4
+5
+D1
+~
+~
+0 0 2448
+D2
+~
+~
+0 0 2450
+D3
+~
+~
+0 0 2446
+S
+#2448
+Cave~
+There are bodies here...corpses.  Orcs, the lot of 
+them, every single one of them horribly disfigured in 
+some senseless way; one whose arms were removed, another 
+who lacks anything that could sensibly be called a face. 
+A few twitch feebly with the last remains of life, the 
+rest just decompose.  The dim sense of horror budding in 
+your head blossoms as you realize the pile in the corner 
+consists of dead orc children awaiting burial.
+~
+0 12 4
+5
+D2
+~
+~
+0 0 2451
+D3
+~
+~
+0 0 2447
+S
+#2449
+Cave~
+A few sleeping pallets, made of moldy straw and 
+stinking furs are arranged around a small firepit here.  
+A wooden cup, carved by a crude tool and cruder hands 
+sits near the ashes filled with water you consider 
+undrinkable.  Somewhere to the east you hear an orc 
+child's whining cry, and a voice hushes it urgently.  
+Beware, orcs!  Adventurers are here!  Hide your children!
+~
+0 8 4
+5
+D0
+~
+~
+0 0 2446
+D1
+~
+~
+0 0 2450
+D2
+~
+~
+0 0 2452
+S
+#2450
+Cave~
+Several grass sleeping pallets are here, clustered 
+around the remains of an old fire.  The sloping of the 
+cave's ceiling allow for smoke ventilation towards the 
+surface in here you note, lucky for the orcs.  A few 
+strings of burnt meat still hang over the fire, untended 
+and uneaten.  On the floor near your feet you spy a small, 
+twisted piece of wire...one orc's idea of a treasured ring, 
+no doubt.  Kicking the trinket away, you try to push the 
+pity out of your heart for these wretches.
+~
+0 8 4
+5
+D0
+~
+~
+0 0 2447
+D1
+~
+~
+0 0 2451
+D2
+~
+~
+0 0 2453
+D3
+~
+~
+0 0 2449
+S
+#2451
+Cave~
+You are standing just inside a largish cave, about a 
+hundred feet in diameter.  A few dim make-shift lanterns 
+burning animal fat illuminate the area, just enough so you
+can see the rotted food on the floor, and a few bodies 
+sprawled throughout the whole area.  Your disgust quickly 
+turns to horror as you see a horrible creature, half...
+well, half something and half orc dash between two 
+stalagmites.
+~
+0 8 4
+5
+D0
+~
+~
+0 0 2448
+D1
+~
+~
+0 0 2445
+D2
+~
+~
+0 0 2454
+D3
+~
+~
+0 0 2450
+S
+#2452
+Cave~
+This must be the orc chief's area.  There's an old 
+prize -- a stolen timeworn human armchair sitting near 
+the south wall as a throne.  A mammoth sleeping pallet 
+made of piled furs is nearby.  Next to that is the pile 
+of orc treasure; a pile of well-polished coppers.  You 
+look at the pile of worthless coins and wonder at the 
+image of orcish raiders.
+   These orcs aren't raiders, they're victims.
+~
+0 8 4
+5
+D0
+~
+~
+0 0 2449
+D1
+~
+~
+0 0 2453
+S
+#2453
+Cave~
+Many sleeping pallets are arranged near the walls, each
+made of heavy fur padding for comfort and warmth.  Many 
+are covered with blood and other, unidentifiable 
+substances.  Looking around, your only coherent thought 
+is, 'Don't want to know...don't want to know...'
+~
+0 8 4
+5
+D0
+~
+~
+0 0 2450
+D1
+~
+~
+0 0 2454
+D3
+~
+~
+0 0 2452
+S
+#2454
+Cave~
+This area of the cave is one vast orc sickroom.  
+Mutated and mangled orcs lie on the floor, seeming quiet, 
+lifeless.  They're not even worth your time, you think, 
+unless you've the mercy to put them out of their misery.
+   You look at the corruption of nature's design and 
+wonder what forces are at work here...the barrier, the 
+orcs...  What's going on here?
+~
+0 8 4
+5
+D0
+~
+~
+0 0 2451
+D3
+~
+~
+0 0 2453
+S
+#2455
+Tunnel~
+This forking off from the mail tunnel seems odd; the 
+walls are strangely smooth, as if they were carved out by 
+forces unknown.  The end is abrupt and short, but there is
+a steel door inset in the wall of the west side of the 
+tunnel.  The smell from the lower tunnel doesn't seem 
+nearly as bad here...this might be a good place to rest
+and catch your breath.
+~
+0 13 4
+5
+D2
+~
+~
+0 0 2443
+D3
+A large steel door.  There seems to be no hinges or knob,
+but there is a small keyhole in the exact center of it.
+~
+door steel~
+ABCF 2400 2456
+S
+#2456
+Tunnel~
+This section of man-made tunnel heads north from here,
+doors on either side.  A few glowing spots on the ceiling 
+illuminate the area to almost a daylight level.  From the 
+north you hear some horrible cries of pain and anguish 
+that make you cringe inside and think twice about heading 
+in that direction.
+~
+0 8 0
+5
+D0
+~
+~
+0 0 2458
+D1
+~
+door steel~
+ABCF 2400 2455
+D3
+This is a normal, wooden door.
+~
+door wooden~
+AB -1 2457
+S
+#2457
+Bedroom~
+This is a bedroom, catered to someone with a definite 
+sense of taste.  There's a chest of drawers made of a 
+solid section of oak tree.  In fact, most of the furniture
+here has that 'natural look' about it.  The bed is filled 
+with soft down with an ornate table lamp close by.  Nice 
+place.
+~
+0 8 0
+5
+D1
+A normal, wooden door.
+~
+door wooden~
+AB -1 2456
+S
+#2458
+Tunnel~
+This tunnel opens up into a large room to the north, 
+and to the south, leads towards a set of doors.  The light
+is crisp and bright, clearly showing the lack of tool 
+marks on the hewn walls...magic?  The room just ahead is 
+large, and also well-lighted, giving it an almost clinical
+atmosphere.  Somewhere in the recesses of that room 
+something cries out in a horrible crackling voice.  Not 
+good.
+~
+0 8 0
+5
+D0
+~
+~
+0 0 2466
+D2
+~
+~
+0 0 2456
+S
+#2459
+Laboratory~
+A full fledge operating table is set up here, outfitted
+with a full set of restraints.  A ledge nearby has a whole
+array of sterile medical equipment on it, covered over by 
+a clear lid.  There's a drain in the floor with gradients 
+leading to it to carry away the blood.  For some reason, 
+you don't imagine this as a voluntary operating theatre...
+~
+0 8 0
+5
+D1
+~
+~
+0 0 2460
+D2
+~
+~
+0 0 2462
+S
+#2460
+Laboratory~
+Another table is set up will all sorts of alchemical 
+apparatus here, vials and beakers, distillation equipment 
+and et cetera.  The stuff looks expensive, but bulky and 
+fragile; not good treasure to cart away with you at all.
+~
+0 8 0
+5
+D1
+A steel cell door.
+~
+door steel~
+AB 2400 2461
+D2
+~
+~
+0 0 2463
+D3
+~
+~
+0 0 2459
+S
+#2461
+Cage~
+This is a small, dirty cage, with only a bucket for 
+wastes, another bucket for food, and a dirty towel for a 
+bed.  The whole room has a terrible stench about it.
+~
+0 8 0
+5
+D3
+A steel cell door.
+~
+door steel~
+AB 2400 2460
+S
+#2462
+Laboratory~
+Some small cages sit here, containing many different 
+types of rodents.  Leaning down to look better, you are 
+very surprised as a tiny, common garden mouse growls at 
+you and tries to rip your face off through the bars.  
+There are some bulges on its back, and it doesn't seem to 
+be in a very good mood.  It quivers some, not fully in
+control of its motor functions.  Poor thing.
+~
+0 8 0
+5
+D0
+~
+~
+0 0 2459
+D1
+~
+~
+0 0 2463
+D2
+~
+~
+0 0 2465
+S
+#2463
+Laboratory~
+A rack stands near the cages on the eastern wall, 
+filled with shackles and manacles, bullwhips and worse.  
+They all look well-used.  You give a shiver, and carry on.
+~
+0 8 0
+5
+D0
+~
+~
+0 0 2460
+D1
+A steel cell door.
+~
+door cell~
+AB 2400 2464
+D2
+~
+~
+0 0 2466
+D3
+~
+~
+0 0 2462
+S
+#2464
+Cage~
+This is a small, dirty cage, with only a bucket for 
+wastes, another bucket for food, and a dirty towel for a 
+bed.  The whole room has a terrible stench about it.
+~
+0 8 0
+5
+D3
+A steel cell door.
+~
+door steel~
+AB 2400 2463
+S
+#2465
+Laboratory~
+This is the southwest corner of the lab.  There's no 
+equipment here, merely several pairs of heavy steel 
+shackles on the southern wall.  There's also some a few 
+small bloodstains on the floor beneath the shackles.
+~
+0 8 0
+5
+D0
+~
+~
+0 0 2462
+D1
+~
+~
+0 0 2466
+S
+#2466
+Laboratory~
+This is a fairly roomy laboratory that extends to the 
+north, with cages set on the east side of the room.  A 
+metal table here is empty, although you can see some 
+outlines in the dust that suggest books had laid here 
+once.
+~
+0 8 0
+5
+D0
+~
+~
+0 0 2463
+D1
+A steel cell door.
+~
+cell door~
+AB 2400 2467
+D2
+~
+~
+0 0 2458
+D3
+~
+~
+0 0 2465
+S
+#2467
+Cage~
+This is a small, dirty cage, with only a bucket for 
+wastes, another bucket for food, and a dirty towel for a 
+bed.  The whole room has a terrible stench about it.
+~
+0 8 0
+5
+D3
+A steel cell door.
+~
+door cell~
+AB 2400 2466
+S
+#2499
+In the Forest~
+South, you see the orc enclave. East, you see a forest and a colossal tree block.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 6103
+D2
+~
+~
+0 0 2400
+S
+#0
+
+
+
+#SPECIALS
+M 2410 spec_cast_mage
+S
+
+
+
+#RESETS
+D 0 2455 3 2
+D 0 2456 1 2
+D 0 2456 3 1
+D 0 2457 1 1
+D 0 2460 1 1
+D 0 2461 3 1
+D 0 2463 1 1
+D 0 2464 3 1
+D 0 2466 1 1
+D 0 2467 3 1
+M 0 2403 10 2412 10
+E 0 2404 0 16
+M 0 2403 10 2414 10
+E 0 2404 0 16
+M 0 2411 1 2416 1
+G 0 2400 0
+M 0 2400 3 2418 3
+M 0 2400 3 2419 3
+M 0 2401 2 2419 2
+M 0 2403 10 2421 10
+E 0 2404 0 16
+M 0 2403 10 2423 10
+E 0 2404 0 16
+M 0 2400 3 2424 3
+M 0 2401 2 2424 2
+M 0 2402 3 2424 3
+M 0 2403 10 2425 10
+E 0 2404 0 16
+M 0 2402 3 2427 3
+M 0 2403 10 2429 10
+E 0 2404 0 16
+M 0 2403 10 2430 10
+E 0 2404 0 16
+M 0 2403 10 2434 10
+E 0 2404 0 16
+M 0 2403 10 2436 10
+E 0 2404 0 16
+M 0 2402 3 2438 3
+M 0 2403 10 2440 10
+E 0 2404 0 16
+M 0 2409 3 2444 3
+E 0 2404 0 16
+M 0 2406 2 2446 2
+M 0 2405 3 2449 3
+M 0 2405 3 2450 3
+M 0 2409 3 2450 3
+E 0 2404 0 16
+M 0 2406 2 2451 2
+M 0 2409 3 2451 3
+E 0 2404 0 16
+M 0 2404 1 2452 1
+E 0 2404 0 16
+M 0 2405 3 2453 3
+M 0 2407 1 2453 1
+M 0 2408 2 2454 2
+M 0 2408 2 2454 2
+M 0 2410 1 2459 1
+E 0 2405 0 16
+E 0 2403 0 17
+M 0 2412 4 2461 4
+M 0 2412 4 2464 4
+M 0 2413 1 2465 1
+E 0 2401 0 9
+E 0 2402 0 8
+M 0 2412 4 2467 4
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

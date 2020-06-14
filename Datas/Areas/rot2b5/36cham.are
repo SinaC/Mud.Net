@@ -1,0 +1,3434 @@
+#AREADATA
+Name The 36 Chambers of Death~
+Builders None~
+VNUMs 400 499
+Credits [95 HR] Rza     36 Chambers of Death~
+Security 9
+End
+
+#MOBILES
+#400
+Rusao~
+Rusao~
+Rusao awakes and sees through his dragon eyes!
+~
+This entity of powerful proportions possesses the many skills of the
+Shaolin technique.  With powers of a mage, and tactics of a thousand
+warriors, Rusao is no ordinary human being.  His dragon eyes and
+snake-fanged teeth leaves you in fear although his stature is of mortal
+standards.
+~
+human~
+ABFR A DEJTb ACDEHMOV -1000 0
+210 200 13d2400+11000 5d50+50 50d15+260 none
+-132 -132 -132 -130
+0 0 0 I
+stand stand male 13493
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#401
+Tacoshi man~
+Tacoshi~
+A rugged-looking man is here punching the wall with his fists!
+~
+They call him the warrior of the Tacoshian Stallion.  He emits fast
+lightning-quick jabs and combinations of boxing punches.  Known for the
+furious fists like those of Bruce Lee, Tacoshi has been known all around the
+lands to have fought victoriously over all his opponents, 200-0.  He has
+rugged facial hairs around his face and thick knappy hair.  He wears a loose
+black kung-fu uniform with a rock solid chest..  Somehow you know that he is
+wearing a protective covering under his clothes.
+~
+human~
+ABFT A GJPVb ABCDEHMNOV -1000 0
+200 20 13d1850+8800 5d50+50 12d65+265 punch
+-110 -110 -110 -109
+EFHIKNO PZ 0 IQ
+stand stand none 13734
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#402
+Masoshi mage~
+Masoshi~
+A mage stands here performing the art of the liquid technique.
+~
+Before you is the notorious mage in black.  His silence leaves you
+somewhat suspicious of his intentions whether he is friend or foe.  But
+realize in a place like this, you never know what to expect.  Ancient times
+have said that Masoshi is an escaped mind-reader with powers possessed
+far beyond any human being to handle.  His short height shows a wimpy type
+of fellow, but maintains a hard visage about him.  Also known as the Genius,
+he suddenly lures his eyes onto you and hums something you do not recognize!
+You stand there frozen and captivated by his illustrious powers!
+
+~
+human~
+ABFR A HPVb ABCDEHMV -1000 0
+200 200 13d1900+8500 3d50+50 12d60+300 divine
+-35 -35 -35 -33
+FHIKNO 0 0 DI
+stand stand male 13874
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#403
+Jazeo high chief warrior chieftan~
+Jazeo the High Chief~
+A chieftain warrior floats here indian style in deep meditation.
+~
+Tribal warriors of the past have fallen to this physical specimen.  He is
+known to many as the Masta Killa.  His deep voice emits an dictatorlike
+command standing at about six feet.  His broad muscular features and ough
+features all perfectly characterize him as the one you don't want to f--k
+with!
+~
+human~
+ABFT A JOTab ABCDEHMV -1000 0
+200 200 411d67+8081 200d11+95 67d2+140 wrath
+-134 -134 -134 -93
+HIK 0 0 I
+stand stand male 20042
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#404
+guy deko~
+Deko~
+A small sneaky guy squats in the corner eyeing you!
+~
+This little guy uses his small frame to lure himself quickly and swiftly
+from room to room cackling, sneaking and stealing in 1 second!  He also
+stands guard and watches your every move inspecting all your actions.  Only
+about five feet, you tend to think he possesses no fighting skills what so
+ever.  Try killing him then.
+~
+human~
+ABFS A GJPQVb ACDEHMV -1000 0
+200 200 411d67+8081 200d11+95 67d2+140 stab
+-134 -134 -134 -93
+FGIJK 0 0 IP
+stand stand male 12243
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#405
+ghost face warrior ghostfacekiller~
+The Ghostfacekiller~
+A ghost-faced warrior hunches low then circles you in caution.
+~
+Bred from the lands of the unknown, the High Council of the Shaolin Monks
+have kicked Starky out due to his juvenile and abrasive tactics in fighting.
+His inability to inhale the secret techniques has entitled him as the
+ghostface with no remorse.  Standing at about five and a half feet, he
+possesses many different fighting styles.  Stand fast or be destroyed!
+~
+human~
+ABFT A HOVb ABEHMOV -1000 0
+200 200 411d67+8081 200d11+95 67d2+140 none
+-134 -134 -134 -93
+BK 0 0 CI
+stand stand male 11023
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#406
+lunatic Osan bastard~
+Osan the Bastard~
+A crazed, lunatic goes psychotic as you enter.. lookout!
+~
+Spawned from the distant lands of the Stonehavenian Zoo, this infamous
+in-humanlike character stands six feet and has dredded hair spiked all
+about.  He seems to be in a state of hypertension with his animated spirited
+attitude.  Although much who have tried to know more of this character has
+ended up pushing daisies.
+~
+human~
+ABFT A PVZab ABDEHMOV -1000 0
+200 200 411d67+8081 200d11+95 67d2+140 crush
+-134 -134 -134 -93
+BDHIP 0 0 CI
+stand stand male 25253
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#407
+Ubosu golden child ~
+Ubosu the Golden Child~
+A small humble child stares at you in a tranced state.
+~
+Known to the entire clan as the true posessor of Humility, Ubosu is a
+silent youth with powers to heal and to cause critical damage.  Little is
+known of him, but most people say that he has abilities to metamorphisize
+into a giant man with great warrior-like powers.  But warrior or not, he is
+a warrior-cleric indeed, possessed with the art to kill and the art to heal.
+Take heed and watch out.
+~
+human~
+ABFQ A DHJZb ABCEHMV -1000 0
+200 200 13d1800+7200 2d50+50 12d60+200 none
+-19 -19 -19 -18
+HIKO PQ J I
+stand stand male 28482
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#408
+Raevon chef~
+Raevon the Chef~
+A mean-looking chef is here making a gourmet meal of human flesh!
+~
+As a young kid, he skillfully mastered the art of using weapons made for
+cutting, slicing, cleaving, chopping etc.  Studying the art of weaponry in
+the Shaolin Temple, Raevon also had a hobbie of making gourmet meals and
+delicacies to the commoners and the folks of Shaolin.  But as a warrior, he
+uses his furious mindstate and wears the emblem of the WU - which signifies
+his vicious antics in using his tools!  A stocky individual but quick like
+the INS, Raevon can be also known as the bulldog.
+~
+human~
+ABFT A EVab ABCDHMOV -1000 0
+200 200 13d1820+7200 2d50+50 12d60+200 cleave
+-19 -19 -19 -18
+FHIMNP P 0 I
+stand stand male 28248
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#409
+wraith~
+A menacing wraith~
+A hideous wraith roars and screams in anger!
+~
+It is mysterious..  It is invisible.  It is gruesome and utterly quick.
+Like a ghost of some sort, this wraith is annoyed by your entrance!
+~
+unique~
+ABFT A JU DHO -1000 0
+140 30 13d1030+4700 2d50+50 17d8+250 wrath
+-78 -78 -78 -73
+0 0 EL CN
+stand stand none 3025
+AHMV ABCDEFGHIJK medium unknown
+M GRALL 409 100~
+#410
+apparition~
+An apparition of evil~
+An apparition laughs loud and evilly as you enter!
+~
+This entity of hatred is strangely a ghostly apparition with unknown
+origins, unknown powers, and unknown of everything!
+~
+unique~
+ABF A DFJTU 0 -1000 0
+140 140 13d1100+4800 2d50+50 17d10+213 none
+-78 -78 -78 -73
+CFH L EL CNS
+stand stand none 3054
+ABGHMVZ ABCDEFGHIJK medium unknown
+M GRALL 410 100~
+#411
+samurai~
+A slanted-eyed samurai~
+A samurai practices his sword swings in here!
+~
+The master of the ancient technique of the samurai clan, this warrior
+bases his whole entire fighting style thru the martial arts.  His ability
+with weapons are considered extraordinary to the eyes of the other warriors
+and monks.  He is about six feet in height and very muscular under all the
+ancient garments he wears over him.
+~
+human~
+ABFT A HVb ADEHMOV -1000 0
+145 35 13d1123+5024 2d50+50 28d8+300 beating
+-85 -85 -85 -84
+HIK 0 0 CI
+stand stand male 14240
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+M GRALL 411 100~
+#412
+gladiator arms man~
+A gladiator-at-arms~
+A massive-built gladiator stands here motionless in thought.
+~
+Serving the master warriors of Shaolin, this gladiator is one of the few
+gladiators that survived the wars of the past.  His appearance is scarred,
+brutalized, battered, and everything about him as well.  During these latter
+days, with his physical condition he may not be much to fear, but take heed,
+you do not know what sort of skills he possesses!
+~
+human~
+ABFT A Vab ADHMOV -1000 0
+145 35 13d1123+5024 2d50+50 28d8+300 none
+-84 -84 -84 -82
+CIO 0 0 IKL
+stand stand none 3692
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+M GRALL 412 100~
+#413
+vampress woman~
+A sexy but hideous vampress~
+A woman with snake-eyes & fangs winks at you.
+~
+Ooh this sexy woman got more curves than the railroad tracks.  Her
+curvature bodily dimensions sets any creature into salivating ecstasy.
+Beware, for this may be her lure into using her tactics for your blood!  Do
+you risk temporary passion for a good life-suck?
+~
+human~
+ABFR A BGHJTb ABCDHMOV -1000 0
+150 150 13d1232+6232 2d50+50 30d9+232 none
+-87 -87 -87 -84
+FHI IL 0 HIJS
+stand stand female 4024
+ABCDEFGHIJKMV ABCDEFGHIJKV medium unknown
+M GRALL 413 100~
+#414
+mage ghostly~
+A ghostly mage~
+A mage floats here angered by your intrusion!
+~
+Though this mage is ghostly in appearance, he looks strangely familiar to
+you.  Who could he be??
+~
+human~
+ABF A GOb ACDEHMV -1000 0
+150 150 13d1232+6232 2d50+50 30d8+232 none
+-88 -88 -88 -84
+FKP D 0 CI
+stand stand male 4023
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#415
+blind ninja~
+a blind ninja~
+A ninja extends his hands in front of him looking for you.
+~
+This ninja is disabled with the usage of sight, but I do not trust him.
+As a ninja you figure he has many special techniques and manuevers in
+tricking you and may leave you fooled and also dead!
+~
+human~
+ABFS A APQVb ADEHMOV -1000 0
+155 155 13d1424+5858 2d50+50 30d8+285 none
+-89 -89 -89 -84
+FKN 0 0 I
+stand stand none 15355
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+M GRALL 415 100~
+#416
+eye eyeball~
+A glowing eye~
+A huge eyeball peers at you hypnotizing you!
+~
+He looks at you and looks at you and stares..  And glares and never
+blinks..  What the hell..  Jus poke him!
+~
+bat~
+ABF A CDEFHJT ACGHOV -1000 0
+155 155 13d1434+5935 2d50+50 30d9+285 none
+-90 -91 -91 -90
+FH 0 S DS
+stand stand none 15555
+ACDEFGHJKP K medium unknown
+#417
+prizefighter~
+An ancient prizefighter~
+A prizefighter walks about talking to himself.
+~
+This prizefighter masters the art of mu-thai boxing.  He only wears a
+traditional pair of shorts with sacred unreadable symbols and his feet are
+taped up heavily to emit heavy damage as he kicks his opponents.  His fists
+are also taped up as well.  He wears a white headband to make him look more
+intimidating..  I think not!
+~
+human~
+ABFT A Vab AHMV -1000 0
+160 50 13d1444+6111 2d50+50 40d10+150 none
+-93 -93 -93 -91
+CFHIKN 0 0 CI
+stand stand male 15050
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+M GRALL 417 100~
+#418
+brown hornet~
+A huge brown hornet~
+A humongous buzzing from a hornet startles you as you enter!
+~
+This irritating insect of a sight buzzes so loud--you'd think he was just
+beside your ear ready to sting you.  But your wrong, his enormous wings and
+hideous-looking sting on its tail makes you somewhat hesitated by its grand
+presence!!
+~
+unique~
+ABFT A T BHO -1000 0
+190 190 13d1800+7300 2d50+50 50d10+150 none
+-120 -120 -118 -118
+HM 0 EI 0
+stand stand male 20042
+AHMV ABCDEFGHIJKP large unknown
+#419
+army killer soldier~
+An army-killer soldier~
+A militant soldier stands here ready and willing.
+~
+This fellow soldier was recently expelled from the school of Shaolin
+because of his refusal in learning the proper powers and skills of the mind.
+His stature is of great proportions..  Very muscle-bounded and well-fed.
+However, in reality, he is clumsy and utterly ill-minded to all the magical
+ablities known by the Shaolin monks.
+~
+human~
+ABFT A OVb AHMOV -1000 0
+190 190 13d1823+7650 80d10+85 50d10+150 none
+-120 -120 -120 -118
+FIN E 0 IKP
+stand stand male 21424
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#420
+druid~
+An evil druid of hate~
+An enraged druid dressed in rags shouts obscene words at you!
+~
+This raggedy, somewhat smelly elderly man, has obviously hasn't taken a
+bath in a while.  His care for hygiene has disintegrated into something far
+beyond sanitation.  However, he delivers a strange invisible aura about him.
+Do you dare approach and confront him??
+~
+human~
+ABFQ A FGHb AHMV -1000 0
+190 190 13d1820+7500 2d50+50 50d10+150 none
+-120 -120 -120 -113
+0 PQ 0 IO
+stand stand male 24242
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#421
+serpent snake~
+A 10 foot serpent~
+A huge coiled-up serpent hisses and springs into action!
+~
+Remember that movie ANACONDA?  Ok, think of this serpent 2 times more
+bigger and thicker, and nastier, and uglier, and grossier too.  :)
+~
+snake~
+ABF A V AGHOXYc -1000 0
+190 190 13d1900+7600 2d50+50 50d13+160 bite
+-124 -124 -124 -120
+HKM L IL I
+stand stand none 24249
+ADEFGKLQVXYc ADEFKLQVX medium unknown
+#422
+Kim queenbee~
+Kim the Queenbee~
+An enormous queenbee buzzes excitedly as you enter!
+~
+This half-human half-bee features somewhat of a strange appearance.  She
+wields a long sharp tail-like stinger in her rear while with human anatomy,
+her face is that of a bee.  Although the face is horrid, her body is divine,
+but her attacks can force you to buy a lot of band-aids and bactine.
+~
+bat~
+ABFT A FHTZ AGV -1000 0
+190 200 13d2000+7300 2d50+50 50d15+170 sting
+-122 -122 -122 -121
+CDFHKM T BS 0
+stand stand female 25050
+ACDEFGHJKPV ACDEFHJKP medium unknown
+#423
+praying mantis~
+A giant praying mantis~
+A huge praying mantis has its back turned toward you.
+~
+This ugly but vicious looking insect wields the two ferocious front claws
+and possesses a unique fighting style when attacking opponents.  The masters
+of Shaolin have used this insect as a symbolism of techniques when attacking
+and defending from opponents.
+~
+centipede~
+ABFT A Z ABGO -1000 0
+190 90 13d2000+7350 2d50+50 50d15+150 claw
+-124 -124 -124 -121
+CDEFHIMN FI EFI E
+stand stand none 9244
+ABCGKO ACK medium unknown
+#424
+drunk drunkenmaster~
+The Drunkenmaster~
+An old drunk is here moving about in drowsiness.
+~
+Maoshin, a member of the High Council of Monks, spoke with other members
+of the council and agreed to have his father, the drunkenmaster, to be
+banished from the Shaolin Temple forever.  In exile, the drunkenmaster was
+captured and lured into this awful chamber to serve as a trooper of
+destruction to all enemies that pass within the realms.  He is dressed in
+ragged clothes and his breath is heavily smelling of alcohol intensely.
+With a long white beard and mustache, he seems totally un-focused with
+what's going on.
+~
+human~
+ABFS A Hb AHMV -1000 0
+195 195 13d1900+7600 2d50+50 50d15+210 none
+-130 -130 -130 -121
+CFHIJKM 0 0 BI
+stand stand none 9623
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#425
+monk shedu man~
+A shedu monk~
+A small quiet monk is here eyes closed and head bowed.
+~
+A quiet person he is.  Peaceful, serene, good-natured such a humble
+person he is.  Don't bother him, he's sleeping I think.  He only has robes
+on about him.  Hmmm wake him up.  |
+~
+human~
+ABFR A HJPb AHMV -850 0
+195 195 13d1924+8013 2d50+50 50d15+220 punch
+-130 -130 -130 -124
+CFIK 0 0 INQ
+stand stand none 29482
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#430
+no name~
+(no short description)~
+(no long description)
+~
+~
+human~
+A A b AHMV 0 0
+0 0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 I
+stand stand none 0
+BCDEFGHIJK 0 medium unknown
+F for A
+#436
+beast terrapin~
+A vicious terrapin~
+A savage-looking beast walks back and forth salivating in hunger.
+~
+Crazy and vicious, ferocious and fearful, better make a move left when he
+attacks right.  Better make a move right when it attacks left.  Heavily
+hard-bodied in armor and swift in speed..  You better watch out kid.
+~
+unique~
+ABF A J BO -1000 0
+160 160 13d1433+5999 2d50+50 30d9+160 bite
+-94 -94 -94 -92
+DN 0 0 0
+stand stand none 18535
+AGMV ABCDEFGHIJK medium unknown
+#437
+dragon reptilian~
+The baby fire dragon~
+A small little reptilian dragon stands in the room motionless.
+~
+This baby dragon is enormous and very ugly.  His small size does not
+affect his tough raw skin for damage absorption.  He is about 6 feet in
+length and red on the skin but light on its underside.
+~
+dragon~
+ABFR A EJT ADHOZ -1000 0
+165 165 13d1500+6400 2d50+50 30d10+222 bite
+-98 -98 -98 -92
+O BEH BEFHI FIJ
+stand stand female 17555
+ACDEFGHIJKMPQUVXZ ABCDEFGHIJKPQUVX huge unknown
+M GRALL 437 100~
+#438
+gryphon~
+A powerful gryphon~
+A gryphon peers at you ready to rip you apart to pieces!
+~
+This legendary creature of immense power is known as the guardians of the
+great treasure from days long ago.  With the head of an eagle and the body
+of a lion with eagle's wings, this flying species of power wields claws so
+sharp even the slightest tip of its nails can cause major bleeding.
+~
+unique~
+ABF A T EHO -1000 0
+165 165 13d1500+6500 2d50+50 30d10+223 claw
+-98 -98 -98 -93
+EFHM 0 EI 0
+stand stand male 19646
+AHMV ABCDEFGHIJKPQU medium unknown
+#439
+daemon~
+A giant daemon~
+A huge winged daemon spreads its arms and charges at you!
+~
+This beastly monster stands at a tall 7 feet and has sharp claws and
+wings under his arms to allow himself to fly wherever he wishes.  His
+horrifying face is enough to let you know how evil this thing is.
+~
+song bird~
+ABF A FHT AGW -1000 0
+170 170 13d1545+8324 2d50+50 30d12+200 wrath
+-35 -35 -35 -23
+FH K 0 0
+stand stand none 6323
+ACDEFGHKPW ACDEFHKP medium unknown
+#440
+cockatrice~
+A cockatrice of deadly proportions~
+A cockatrice slithers itself towards you to attack!
+~
+This rare creature of ancient days has a very strange appearance.  With
+the head of a chicken and the body of a snake, this evil creature slithers
+its way around with poison in its blood.
+~
+snake~
+ABFT A T ADEGHOXYc -1000 0
+170 160 13d1500+6600 2d50+50 30d11+200 flbite
+-100 -100 -98 -98
+HM L IL I
+stand stand none 6334
+ADEFGKLQVXYc ADEFKLPQVX medium unknown
+#441
+apparition~
+An apparition of hate~
+Loud laughing echoes the room as an apparition appears!
+~
+Where is he... who is he... jus a evil face... lookout!!
+~
+unique~
+ABFR A JU 0 -1000 0
+175 170 13d1700+6900 2d50+50 30d12+220 magic
+-102 -102 -102 -100
+0 0 EL CN
+stand stand none 6843
+AHMV ABCDEFGHIJK medium unknown
+#442
+swarm bees~
+A swarm of killer bees~
+Numerous amount of bees fly about here buzzing furiously.
+~
+These little tiny irritating critters gather in a pack and move about in
+search of honey if not that..  In search of mating with the queenbee.  But
+these bees are nothing of those but with only one purpose...  KILL.
+~
+bat~
+ABF A FHT AGHOV -1000 0
+175 170 13d1620+7000 65d10+85 30d13+232 sting
+-109 -109 -106 -106
+FH T S H
+stand stand none 6888
+ACDEFGHJKPV ACDEFHJKP medium unknown
+#443
+manifestation death~
+A Manifestation of Death~
+An unknown manifestation stands here growling at you.
+~
+This weird looking thing stands at about 6 and a half feet and very
+muscular.  However, although he looks much like a giant goblin you cant make
+out its true race.
+~
+hobgoblin~
+ABF A J ACDEHMV -1000 0
+180 175 13d1690+7100 2d50+50 50d13+40 wrath
+-113 -113 -113 -110
+BF LQ LQ 0
+stand stand none 7232
+ABCDEFGHIJKMVY ABCDEFGHIJKY medium unknown
+M GRALL 443 100~
+#444
+disciple~
+The 37th Disciple~
+A disciple sits here meditating with a huge "W" on its uniform.
+~
+Enlisted into the Shaolin Temple as a apprentice, this young lad
+represents himself as Wushu smartest mage.  With his useful wits in
+spellcasting..  And only a good 5'5", this skinny-framed kid uses his mind
+powers to regulate all those who oppose him and the ancient sacred teachings
+of the Wushu Clan.
+~
+human~
+ABFR A EPb ACDEHMOV -1000 0
+180 180 13d1800+6900 2d50+50 50d13+50 divine
+-112 -112 -112 -108
+HK 0 0 I
+stand stand male 7232
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+M GRALL 444 100~
+#445
+shaolin shadowboxer~
+A Shaolin Shadowboxer~
+A shadowboxer stretches out here.. waiting.
+~
+He ain no Rocky Balboa..  He ain no Hulk Hogan..  But he is the true
+warrior of Shaolin's finest.  6'4" 210 pounds..  Muscular definition..
+Useful in the art of the tiger...  The praying mantis..  And the water
+technique..  The shaolin shadowboxer is nothing to be taken lightly.
+~
+human~
+ABFT A Vab AHMOV -1000 0
+185 75 13d1850+7234 2d50+50 50d14+94 punch
+-114 -114 -114 -111
+CDFHIKN 0 0 I
+stand stand none 7773
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+M GRALL 445 100~
+#446
+Someone shadow Something~
+someone~
+As you look around, you see a shadow moving about here!!
+~
+Something, someone, what is it?
+~
+unique~
+ABCF A JPTVZab CDEHO -1000 0
+210 210 13d2200+9000 50d50+50 50d14+250 divine
+-140 -140 -140 -120
+BCDEFHIJKNO BP BCLMXbd EKNOSTZ
+stand stand none 20000
+AHMV ABCDEFGHIJK giant unknown
+#447
+maoshin creator~
+Maoshin~
+The creator of the 36 chambers, Maoshin is here!!
+~
+Watch out!!!!!
+~
+human~
+ABF A Vab ACDEHMOV -1000 0
+200 110 15d2000+11000 10d50+50 50d25+1500 divine
+-150 -150 -150 -120
+DEFKNO 0 0 I
+stand stand male 2
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#499
+healer~
+The Healer of the 36 Chambers~
+A healer is here to revive your wounds.
+~
+The almighty and divine.. the powerful and the caring.. he is giving...
+he is life... he is restoration.. he is the healer!
+~
+human~
+ABQa A Tb AHMV 1000 0
+110 110 221d36+3314 110d10+85 13d10+97 divine
+-85 -85 -85 -62
+0 ABCDEFGHKLQST 0 I
+stand stand male 40000
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#400
+wu shu wushu clan patch~
+[ The Wu-Shu Clan ]~
+A clan patch from Rusao lies here shining brightly!~
+crystal~
+armor ABY AV
+CDF CDF CDF DF 0
+101 50 7900 P
+A
+13 150
+A
+19 55
+A
+20 -20
+#401
+secret maoshin floating object smoke~
+the Secret of Maoshin~
+An undescribable mist of smoke is floating here hissing.~
+unknown~
+armor ABGIY AQ
+ABDF ABDF ABDF DF 0
+101 101 900 P
+A
+12 200
+A
+18 55
+A
+2 4
+#402
+liquid sword~
+the Liquid Sword~
+A sword with a strangely iced blade lies here slowly melting.~
+liquid~
+weapon Y AN
+sword 12 17 slice B
+101 102 5800 P
+A
+18 14
+A
+19 14
+A
+4 3
+A
+13 100
+#403
+garment cloth protection~
+the Garments of Protection~
+A wrinkled striped cloth lies here barely visible as you walk by.~
+cloth~
+armor 0 AL
+DF DF DF BCF 0
+101 101 17000 P
+A
+12 135
+A
+23 -10
+A
+20 -14
+A
+5 2
+A
+14 -50
+#404
+mind wisdom helmet~
+the Mind of Wisdom~
+A helmet of some sort lies here humming ferociously.~
+invisible~
+armor B AE
+CF CF CF ABF 0
+101 101 10429 P
+A
+13 200
+A
+12 200
+A
+4 4
+A
+1 -2
+#405
+golden arms power~
+the Golden Arms of Power~
+A pair of golden arm protectors lie here glowing brightly.~
+gold~
+armor AIY AI
+CF CF CF ABF 0
+101 75 16342 P
+A
+18 25
+A
+13 127
+A
+2 2
+A
+1 2
+A
+3 -2
+A
+12 -100
+#406
+hands~
+a pair of lucky hands~
+Some gruesome pair of hands lie here soaked with blood.~
+leather~
+armor CI AH
+ABCF ABCF ABCF ABF 0
+101 95 22000 P
+A
+13 127
+A
+19 32
+A
+1 4
+A
+12 200
+#407
+mace flaming massacres ~
+the Flaming Mace of massacres~
+A slender, but strong, mace lies here.~
+wood~
+weapon AG AN
+mace 11 14 pound AD
+101 102 5500 P
+A
+18 14
+A
+19 14
+#408
+earring wushu~
+the Earring of the Wushu Clan~
+A sparkling earring with the letter "W", lies here.~
+plastic ~
+armor CH AS
+BCDE BCDE BCDE CDE 0
+101 101 27000 P
+A
+18 14
+A
+19 14
+A
+14 100
+A
+12 75
+A
+13 120
+#409
+kung kung-fu shoes~
+a pair of kung-fu shoes ~
+From a distance, you notice some soft pair of black shoes lying about.~
+cloth  ~
+armor CI AG
+DF BCF BCF CF 0
+101 101 24000 P
+A
+18 30
+A
+5 3
+A
+9 -3
+A
+13 184
+A
+14 450
+#410
+iron lung~
+the Iron Lung~
+A heavy, iron-coated armor of steel-like hardness rots here in the
+chambers.~
+iron~
+armor BCHY AD
+CF CF CF ABF 0
+100 101 14444 P
+A
+19 25
+A
+18 25
+A
+14 -250
+A
+20 -3
+A
+12 -100
+#411
+recipe health potion~
+the Recipe of Health Potion~
+A strange boiling potion lies here furiously quivering.~
+glass~
+potion A A
+110 'cure critical' 'mass healing' 'sanctuary' 'giant strength'
+100 5 12000 P
+#412
+anklet wushu silver ankle~
+an Anklet of the Wushu~
+A strange silver anklet of the Wushu Clan lies here.~
+leather~
+armor 0 AT
+F F ACDE ACDE 0
+101 45 28000 P
+A
+18 38
+A
+3 2
+A
+13 150
+A
+17 -15
+A
+20 -13
+#413
+axe killer ~
+the Chef's Axe-Killer~
+A bloody razor sharp axe lies here with the blade shining!~
+unknown~
+weapon Y AN
+axe 11 15 cleave DH
+101 105 5860 P
+A
+18 9
+A
+19 30
+#414
+samurai sword ~
+the Samurai Sword of Shaolin~
+A long-slender sword of a strange crystalline material leans on the
+wall here.~
+steel~
+weapon 0 AN
+sword 11 12 thwack CE
+100 101 57000 P
+A
+13 155
+A
+19 9
+A
+18 9
+#415
+ring insanity platinum~
+the Ring of Insanity~
+A platinum ring with a dark spheric crystal in the center lies here.~
+platinum~
+armor Y AB
+ABF ABF ACDE ACDE 0
+101 10 45000 P
+A
+19 24
+A
+18 24
+A
+13 300
+#416
+golden chained medallion~
+the Golden Shiny Medallion~
+A golden-chained medallion is lying here shining brightly.~
+adamantite~
+armor ABHIY AC
+CF CF CF ABF 0
+101 60 54000 P
+A
+18 -5
+A
+19 -15
+A
+14 250
+A
+13 250
+A
+12 250
+#417
+uniform back wushu~
+the Wushu Uniform~
+A long uniform worn on the back with the letter "W" lies here.~
+wood~
+armor BGY AX
+EF EF EF CF 0
+101 80 24000 P
+#418
+polearm banzai~
+the Banzai~
+A notorious shining black polearm lies here.~
+steel~
+weapon G AN
+polearm 11 14 slice CD
+101 102 6100 P
+A
+19 22
+A
+18 9
+A
+14 200
+#419
+chestplate~
+the Magical Chestplate~
+A large black-steel chestplate lies here shining.~
+blacksteel~
+armor GY AD
+DE DE DE ABCE 0
+65 66 9000 P
+A
+20 -3
+A
+12 85
+A
+13 85
+A
+18 5
+#420
+gown vampress~
+the Gown of the Vampress~
+An evil-looking gown lies here slowly carrying itself away from the
+breeze.    ~
+fire~
+armor EY AD
+DF DF DF BCF 0
+101 102 97 P
+A
+3 4
+A
+12 185
+#421
+belt garment body~
+the Black Belt of Mastery~
+A long black garment used for bodywear lies here.~
+unknown~
+armor BG AL
+DF DF BCF BCF 0
+101 46 4853 P
+A
+4 -2
+A
+9 3
+A
+2 3
+A
+12 185
+A
+14 196
+A
+18 30
+#422
+bandanna~
+a shadowboxer's bandanna~
+A strange decorative bandanna with uninterpreted writings on it lies here.~
+unknown~
+armor Y AEX
+BCDE BCDE BCDE CE 0
+101 76 20042 P
+A
+13 250
+A
+14 250
+A
+12 -350
+A
+4 -3
+A
+18 100
+#423
+headdress headpiece head~
+the Queenbee's Headdress~
+A laced-made headpiece lies here sparkling with glittery gold.~
+unknown~
+armor EIY AE
+ABCDE ABCDE ABCDE BCDE 0
+95 86 81 P
+A
+19 35
+A
+14 100
+A
+13 350
+A
+12 -160
+A
+4 3
+A
+20 2
+#424
+dagger jeweled~
+a Jeweled Dagger~
+A huge dagger with a jewel on the holster lies here gleaming!~
+unknown~
+weapon AGY AN
+dagger 11 11 thrust CDE
+101 102 5225 P
+A
+18 9
+A
+19 30
+#425
+leggings golden shinguards~
+a pair of golden shinguards~
+A shiny pair of hard-solid golden leggings lie here.~
+unknown~
+armor B AF
+F F BCDE CDE 0
+101 36 14853 P
+A
+12 -35
+A
+14 150
+A
+19 25
+A
+18 35
+A
+4 -3
+#426
+ring victory~
+the Ring of Victory~
+A ring with a huge 'V' layered on top of the ruby shines here.~
+ruby~
+armor I AB
+BE BE BE ABCD 0
+101 9 56000 P
+A
+19 18
+A
+18 18
+A
+12 40
+A
+5 1
+A
+13 35
+#427
+scaly armor snake skin snakeskin~
+the Tough Snakeskin Armor~
+A long scaly layered armor lies here coiled up in the soil.~
+scale~
+armor AB AD
+AF AF AF F 0
+101 91 25550 P
+A
+19 35
+A
+14 -250
+A
+17 -15
+A
+5 -4
+A
+13 350
+#428
+face mask~
+the Face of Death~
+A hideous face-wear lies here with a evil grin on the front of it.~
+unknown~
+armor A AR
+ABF ABF BF BF 0
+101 71 19494 P
+A
+12 -150
+A
+19 70
+A
+14 -300
+A
+4 3
+A
+18 75
+A
+13 200
+#429
+key M hollow~
+the Key to Maoshin~
+A strange hollow key with an "M" engraved is lying here.~
+unknown~
+key A AO
+0 0 0 0 0
+1 1 0 P
+#430
+potion final conflict maoshin~
+a Potion of the Final Conflict!~
+A special potion used to find Maoshin is lying here.~
+unknown~
+potion AF AO
+160 'detect evil' 'detect invis' 'protection evil' 'detect hidden'
+100 10 300 P
+#431
+second key maoshin~
+the Second Key to Maoshin~
+A strange twirling key with "Maoshin" engraved is lying here.~
+unknown~
+key AF AO
+0 0 0 0 0
+100 10 10000 P
+#432
+burning hands pair ~
+(Maoshin's Burning Hands)~
+A mysterious pair of scorching hands lies here!~
+unknown~
+weapon AB AN
+exotic 15 19 smash AEFG
+101 102 5800 P
+A
+12 350
+A
+18 9
+A
+19 9
+#433
+brown robe maoshin~
+the Robe of Maoshin~
+A glimmering brown robe of Maoshin is lying here.~
+cloth~
+armor A AD
+ACDF ACDF ACDF BDF 0
+101 102 10040 P
+A
+5 3
+A
+14 350
+A
+18 40
+A
+19 40
+A
+12 350
+#434
+pair shinguards iron~
+a pair of shinguards~
+An iron-solid pair of shinguards lies here unused and unworn.~
+unknown~
+armor 0 AFT
+CE CE BE BE 0
+101 51 15828 P
+A
+1 2
+A
+12 60
+A
+19 30
+A
+14 45
+#435
+glimmering portal door~
+a glimmering portal~
+A bright portal door into the unknown is standing here.~
+unknown~
+portal 0 0
+0 0 0 DFILN 0
+0 0 0 P
+#436
+portal drakyri~
+a portal~
+A portal to Drakyri floats here.~
+unknown~
+portal 0 0
+FHJKPQ H H CEFHIKLN 0
+70 0 0 P
+#437
+portal arachonian chess~
+a portal~
+A portal to Arachonian Chess floats here.~
+unknown~
+portal 0 0
+FHJKPQ H H CDEGIJLN 0
+75 0 0 P
+#444
+face mask humbleness~
+the Face of Humbleness~
+A plastic mask of a unemotional face lies here.~
+unknown~
+armor Y AR
+BEF BEF BEF BEF 0
+151 85 17000 R
+A
+1 -1
+A
+3 4
+A
+4 4
+A
+20 -14
+A
+12 350
+A
+13 350
+A
+19 50
+A
+18 65
+#498
+immortal garbage~
+crap~
+Don't remake this crap please~
+unknown~
+trash 0 0
+0 0 0 0 0
+102 10 0 P
+#499
+butt~
+(_I_)~
+A tiny butt~
+flesh~
+armor 0 AL
+0 0 0 0 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#400
+The Path's Ending~
+The path that appears from the east ends here abruptly as the direction
+drastically curves to the north.  From a distance, you see what seems to be
+a huge but somewhat humble-looking castle.  You pause for a moment to wonder
+what to do next.  The trees around you gap away from you and part as the
+structures of the huge building to the north presents itself clearly, almost
+inviting you to go there.
+~
+0 80 0
+D0
+~
+~
+0 0 499
+D2
+~
+~
+0 0 8318
+S
+#401
+Enter the 36 Chambers~
+Welcome!  The castle is dark and deserted.  Cobwebs fill the corners of
+the walls as a slight chilly breeze tingles your spine.  Echoes of screams
+and cries are heard within the castle.  Old agey bricks keep support of the
+walls around you.  A dark pathway takes you further into whats supposed to
+be the end of your life!  An old sign is seen at the western wall.
+~
+0 9 0
+E
+sign~
+Long ago, MAOSHIN, a monk was rejected from the Council of Monks because
+of his evil intentions and relentless behavior of hatred.  From his
+punishment of being banished, he came upon these realms in hopes of creating
+a new force of evil.  Maoshin, with his powers, created this huge dungeon of
+sorts and travelled in many different lands in hopes of obtaining the most
+perilous warriors/monsters in Phoenix.  With this huge establishment came
+the creation of the 36 Chambers of Death!  Many have come to test their
+skills but have paid their lives and never leaving here in peace.  Rumor was
+told that anyone who was able to destroy all monsters of the 36 chambers
+would soon be tested with the most ultimate monster..  But that awaits.
+Live long...  And test...
+
+The 36 Chambers of Death ..... Feel the Pain.
+~
+D0
+~
+~
+0 0 402
+D2
+~
+gate~
+1 0 499
+S
+#402
+A Dark Pathway~
+The path leading further into the chambers darkens immensely and for some
+reasons turns chilly.  Not much can be seen around you but total pitch
+blackness.  Two tiny sparks of fire from small candles provide some
+visibility here.  Much more light can be seen to the south.  The path north
+is black as ever can be.
+~
+0 9 0
+D0
+~
+~
+0 0 403
+D2
+~
+~
+0 0 401
+S
+#403
+A Dark Pathway~
+A tiny mouse scampers by as you enter here.  Blackness is dominant around
+you.  The tiny patches of light to your left and right are all that's visible
+here.  Blackness is seen south of here.  To the north light can be observed.
+~
+0 9 0
+D0
+~
+~
+0 0 405
+D2
+~
+~
+0 0 402
+S
+#404
+The 1st Chamber of Curiousity~
+Curiousities of your first encounters are always the mysterious and most
+fearful situations.  With no knowledge of what to expect, you see nothing
+special about this dungeon but a flat surfaced board chained to the side
+walls for sleep.  Creepy little critters scamper by the floor as the air in
+the chamber fills you with uncomfortable feelings.  An exit is out to the
+east.
+~
+0 8 0
+D1
+~
+~
+1 0 405
+S
+#405
+A Somewhat Lit Passageway~
+A stone-faced carving of an evil cackling face glows above both of the
+chamber doors to your left and right.  The shambled wooden doors that hold
+you here in this dim area are old and rotting away badly.  Strange noises
+are heard from both sides.  Beside each door is a large torch giving light
+as you stand here.  Darkness fills both to the south and the north.
+~
+0 9 0
+D0
+~
+~
+0 0 407
+D1
+~
+east-door~
+1 0 406
+D2
+~
+~
+0 0 403
+D3
+~
+west-door~
+1 0 404
+S
+#406
+The 2nd Chamber of Wonder~
+Your eyes squint as you notice bright sparkles fill the entire chamber.
+The room seems to be strangely enchanted as you see flying little lighted
+objects float about you.  You realize inside this chamber that you've become
+utterly dizzy to the room's unusual setting.  An exit is out to the west.
+~
+0 8 0
+D3
+~
+~
+1 0 405
+S
+#407
+A Dark Passageway~
+The darkness once again overwhelms you.  The stench of the invisible air
+utters an eerie tingling feeling to your body.  Tiny little candles perch on
+the sides of the walls giving some sort of life in the room.  To the south
+and north, you see some light illuminating.
+~
+0 9 0
+D0
+~
+~
+0 0 409
+D2
+~
+~
+0 0 405
+S
+#408
+The 3rd Chamber of Mystery~
+As you enter here..  You clench your ears shut to a loud-pitched noise
+somewhere inside here.  You open your eyes in pain to see yourself seeing
+double!!  You realize that now you want to leave this chamber quick..  The
+exit's out east if you can make it!
+~
+0 8 0
+D1
+~
+~
+1 0 409
+S
+#409
+A Somewhat Lit Passageway~
+Huge chamber doors appear to your left and right.  A strange statue of a
+crying woman is perched on top of both doors.  Huge torches stand beside it.
+Ahead of you to the north lies darkness into the unknown.  To the south lies
+a passageway into the unknown.  You stop for a moment and listen to the
+silence...  So deathly quiet.  So scary..
+~
+0 9 0
+D0
+~
+~
+0 0 411
+D1
+~
+east-door~
+1 0 410
+D2
+~
+~
+0 0 407
+D3
+~
+west-door~
+1 0 408
+S
+#410
+The 4th Chamber of Bad Intentions~
+This room is filled with many graphic pictures of slain monsters and
+warriors in the history of battles past.  Used as for some sort of
+wallpaper, you notice some of the pictures move as you look away from it.
+You feel as if you have a real bad feeling about what is to happen next.
+The chamber door is to the west.
+~
+0 8 0
+D3
+~
+~
+1 0 409
+S
+#411
+A Dark Passageway~
+The darkness once again meets you as you continue along this long
+passageway into the numerous chambers.  But what lies ahead of you is your
+biggest curiousity.  How well-prepared are you for your next confrontation?
+Walled statues of ugly looking creatures are hung along the chamber walls
+here.  A lit passageway is to the south and north.
+~
+0 9 0
+D0
+~
+~
+0 0 413
+D2
+~
+~
+0 0 409
+S
+#412
+The 5th Chamber of Excessive Attacks~
+The misty fog slowly floats about thee chamber as you enter.  Spots of
+blood are sprayed along th walls around you.  The stench of the air around
+sends shivers down your spine.  A whispering hum can be heard somewhere
+amongst the walls.  Pieces of broken wood lie scattered near the eastern
+wall.  It look as if the pieces of wood laying here were once a coffin used
+for those laid to rest.  To the east is your only possible exit out of here.
+~
+0 8 0
+D1
+~
+~
+1 0 413
+S
+#413
+A Lit Passageway~
+Lookout!!!!!  WOOOOOOOOOOSH!  A huge winged creature just swooped by over
+you and fled north into the darkness.  As you recover, you look around and
+notice several bats perched upside down above you.  They must be asleep.
+Tiny little insects move across the passage here to your avoidance.  Two
+more chamber doors appear to your left and right.  Darkness is dominant to
+the north and south of you.
+~
+0 9 0
+D0
+~
+~
+0 0 415
+D1
+~
+east-door~
+1 0 414
+D2
+~
+~
+0 0 411
+D3
+~
+west-door~
+1 0 412
+S
+#414
+The 6th Chamber of Adversity~
+Haunting wails echo outside the chamber as you enter this strange room.
+Weird colored substances are smothered along the walls and ground here.  You
+look down at your feet and notice several blotches of slime are on your
+boots burning them.  Oozing slime spray across the room barely hitting you!
+Phew!  You suddenly have an urge to leave but don't know if you should.  A
+door exits to the west.
+~
+0 8 0
+D3
+~
+~
+1 0 413
+S
+#415
+A Dark Passageway~
+Loud thumping noises are heard above you as the path dims and the ground
+is somewhat wet.  You examine the wetness and realize that this fluid is
+blood coming from the north!  The vibrant thumping knocks over the candles
+perched along side the walls here making the room dark.  Light from the
+north and the south is seen at a distance.  Whispers can be heard all around
+you now.
+~
+0 9 0
+D0
+~
+~
+0 0 417
+D2
+~
+~
+0 0 413
+S
+#416
+The 7th Chamber of Dread~
+All around the chamber, displays of unique and never seen before weapons
+and armor are hung on the walls.  Most of the equipment haven't been cleaned
+yet from the battles its endured through.  A tiny little shrine is set at
+the western wall with a picture of an elderly man on the portrait.  Smells
+of incense fill the room with a herbal aroma.  The odor has made you
+somewhat dizzy.  A large tapestry is placed in the middle of the chamber
+here.  In the center of this tapestry, a huge circular ring with a large "W"
+is drawn.  A chamber door is to the east.  You begin to feel a little woozy.
+~
+0 8 0
+D1
+~
+~
+1 0 417
+S
+#417
+A Bloody Passageway~
+Torches give some light here as they hang beside you along this passage.
+Stone faces of despair hang above the chamber doors both to your west and
+east.  A good amount of blood from the north makes a large river-like trail
+to the south of you.  A couple of rats scatter about near a human skull next
+to the western chamber door.
+~
+0 9 0
+D0
+~
+~
+0 0 419
+D1
+~
+east-door~
+1 0 418
+D2
+~
+~
+0 0 415
+D3
+~
+west-door~
+1 0 416
+S
+#418
+The 8th Chamber of Infinite Cries~
+You look around the room and notice that you are being watched!  A
+strange golden glass layers the walls around you with nothing but eyes
+watching you.  You look north and see eyes watching you.  You look south and
+see eyes watching you as well!  Eyes, Eyes, Eyes!  You shiver uneasily.  An
+exit goes out to the west.  A sign from above reads, 'SEE AND FEEL!  FEAR
+AND DIE!  '
+~
+0 8 0
+D3
+~
+~
+1 0 417
+S
+#419
+Outside the Chamber Doors~
+As you arrive, en enormous puddle of blood fills the room.  Decapitated
+body parts lie here and there.  You gasp in horror as above you, a long
+chain hangs high with a head of a human still tied to the chains.  Drips of
+blood fall from the neck of the head as it leaks into the darkness to the
+south.  A huge iron gate blocks your way north into the unknown.
+~
+0 9 0
+D0
+~
+iron-gate~
+1 0 420
+D2
+~
+~
+0 0 417
+S
+#420
+The 9th Chamber of Bloodshed~
+You enter a chamber where drips of water fall from the ceiling above.  A
+small fire fills some liveliness in this hideous smelly chamber in the
+center of the room.  Several bones from a dead animal lie about the room.
+At the far northern end, old stairs ascend up into the darkness.
+~
+0 9 0
+D2
+~
+iron-gate~
+1 0 419
+D4
+~
+~
+0 0 421
+S
+#421
+The 10th Chamber of Decimation~
+At the right-most corner of the chamber, you notice a humongous cage with
+blood and pieces of meat lying around in scraps.  Several bones from what
+looks like an animal of some sort scatter amongst the room.  The walls are
+strangely decorated with a unique orange coloring and black stripes all
+around.  The wall's surface is of strange tiger fur as you feel the layers.
+Blood is furnished all around..  Something is definitely not right in here.
+A door to the south gets you out of this horrifying room!  An old stairway
+descends down.
+~
+0 9 0
+D2
+~
+south-door~
+1 0 422
+D5
+~
+~
+0 0 420
+S
+#422
+The Dark Passageway~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  A scratched-up wooden door is to your north.  The
+dark passageway continues south.
+~
+0 9 0
+D0
+~
+north-door~
+1 0 421
+D2
+~
+~
+0 0 423
+S
+#423
+A Dark Passage~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  A chamber door lies to your east.  To the south, the
+eerie darkness continues.
+~
+0 9 0
+D0
+~
+~
+0 0 422
+D1
+~
+east-door~
+1 0 424
+D2
+~
+~
+0 0 425
+S
+#424
+The 11th Chamber of Extermination~
+Pictures of furious dragons of all kinds furnish the walls around you.
+Each wall depicts a story of the rise and fall of the dragons from great
+battles with soldiers of numerous amounts to the great heist attempt on the
+dragon's treasures.  Glorious treasures and sorts fill the room with
+luxurious furnishings and such.  Scraps of flesh and bones lie scattered
+about in the chamber.  A wooden door to the west enables your way out of
+here.
+~
+0 8 0
+D3
+~
+west-door~
+1 0 423
+S
+#425
+A Dark Passage~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  You grip your weapon and your armor a bit tighter as
+you walk down this passageway.  Blackness is seen to your north and south.
+~
+0 9 0
+D0
+~
+~
+0 0 423
+D2
+~
+~
+0 0 426
+S
+#426
+A Multi-Passageway into the Darkness~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  A second passageway heads to the west.  Strange
+moans however can be heard to the south.
+~
+0 9 0
+D0
+~
+~
+0 0 425
+D2
+~
+~
+0 0 431
+D3
+~
+~
+0 0 427
+S
+#427
+A Tunnel Passage ~
+You can't see anything!!!  Are you blind?  All you remember is exits that
+go west and east here.
+~
+0 8 0
+D1
+~
+~
+0 0 426
+D3
+~
+~
+0 0 428
+S
+#428
+Outside the Chamber Doors~
+To the western wall, you see a skeleton of a human shackled in chains
+against the wall here.  Little spiders rest within the skeleton bones and
+settle there with cobwebs filled all over.  You wonder how long that
+skeleton's been hanging there.  Several eyes high above you look down upon
+you but make no action in trying to attack.  To your north and south are old
+wooden chamber doors with a steel bar bolted over it.  A huge knob allows
+entry to both chambers.
+~
+0 8 0
+D0
+~
+north-door~
+1 0 429
+D1
+~
+~
+0 0 427
+D2
+~
+south-door~
+1 0 430
+S
+#429
+The 12th Chamber of Trucidation~
+Golden rays of light glitter around as you enter this chamber.  You are
+awe-stricken by its magnificent interiors.  Statues of bronze-figured eagles
+perch along the western and eastern walls.  Two pillars are aligned across
+each other on the northern end of the chamber.  Two huge gargoyle statues
+stand in front of you with an empty space between.  Usually you would see a
+throne or a pedestal..  Strange..  Overall, you are captivated by its
+brightness and beauty and wonder why a room so overwhelming would be in a
+castle so dark and evil..  Then you look again at the room..  Something is
+not right.  An exit is to the south.
+~
+0 8 0
+D2
+~
+south-door~
+1 0 428
+S
+#430
+The 13th Chamber of Bloody Fisticuffs~
+Tiny little bats fly across above you from the eastern end to the western
+end of this chamber.  Statues of evil demons and goblins are set here as a
+monument of evil.  Strange writings unknown to you are written around the
+walls.  You stop for a moment to translate but have no luck.  A unknown but
+horrifying odor can be smelt around the room..  Like..  Like..  Human
+flesh!!!!  You bulge your eyes out in caution and look at all directions
+around you..  It suddenly turns deathly quiet.  A chamber door is to the
+north of you.
+~
+0 8 0
+D0
+~
+north-door~
+1 0 428
+S
+#431
+A Dark Passage~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  Dead silence suddenly freezes you!  To the south you
+noticed something scamper off in the darkness!
+~
+0 9 0
+D0
+~
+~
+0 0 426
+D2
+~
+~
+0 0 432
+S
+#432
+A Dark Passage~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  As you look around, you notice two different
+passageways to go to.  To the east, a slight chilly breeze can be felt
+towards that direction.  But to the south, the passageway is also breezy..
+Noo wait..  Maybe something's just wrong with you..  Where will you go?
+~
+0 9 0
+D0
+~
+~
+0 0 431
+D1
+~
+east-door~
+1 0 433
+D2
+~
+~
+0 0 436
+S
+#433
+The 14th Chamber of Suicide ~
+Several piles of hay are lying in the southwestern and southeastern
+corners of the chamber.  You strangely look at the haystack and notice
+something moved inside it!  The room gives out a horrible smell like chicken
+manure or something.  You gag and want to leave here immediately!  Chamber
+doors exit to the west and east.
+~
+0 8 0
+D1
+~
+east-door~
+1 0 434
+D3
+~
+west-door~
+1 0 432
+S
+#434
+A Room of Resting~
+For the first time, you feel a sense of peace and serenity in this room
+for some strange reason.  A huge torch like flame lies on a huge table on
+the northeastern corner of this passage.  The flame itself makes you feel
+well rested and relieved.  Maybe you can rest here and ease back for a
+moment.  To the eastern wall, a small sign can be seen.  A chamber door is
+to the south.
+~
+0 8 0
+E
+sign~
+To the mighty warriors that have made it this far, you have proven
+yourself to be a worthy adversary to my chambers.  But remember, you are
+only halfway through.  Many more perils lie ahead of you.  You will see many
+horrid sights, hear many screams, feel the most excruciating pain.  Above
+all, you will see death!!  Battle on, and show your wholesome strength..  
+ 
+But that you must require.  To get thru the remaining chambers of death, you
+will need it all!
+MAUAHAHAHAHAHAHAHAHAAHAH!
+ 
+Rest in Peace..
+ 
+ 
+ 
+ 
+ 
+[ You suddenly shiver in fear.. ]
+~
+D2
+~
+south-door~
+1 0 435
+D3
+~
+west-door~
+1 0 433
+S
+#435
+The 15th Chamber of the Slaughterhouse~
+Gruesome pieces of decaptivated body parts lies scattered around.
+Puddles of blood and bones lie around the room rotting away emitting a
+horrible smell.  You begin to feel nauseaous from the awfulness of the
+chamber.  You gasp at the sight of several dead bodies lying upside down
+high atop the ceiling.  Apparently the cold temperature in the room allows
+the meet to stay fresh for whatever that lives here to store its meal.  A
+chamber door exits to the north.
+~
+0 8 0
+D0
+~
+north-door~
+1 0 434
+S
+#436
+A Dark Passage~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  The path continues north and south.
+~
+0 9 0
+D0
+~
+~
+0 0 432
+D2
+~
+~
+0 0 437
+S
+#437
+The "Cross"-Path of Darkness~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  You've come upon a four-way passage.  Exits are
+possible in every direction..  Hmm..  There's a sign posted here..  Maybe
+you should read it.
+~
+0 9 0
+E
+sign~
+Help...   To whoever... can read..... this........
+
+            Great danger... lies... within ... this "CROSS".....
+
+                            Please... bewaarrr..............
+
+
+
+*You stand there wondering what happened to the fellow who TRIED to
+write this*
+~
+D0
+~
+~
+0 0 436
+D1
+~
+~
+0 0 440
+D2
+~
+~
+0 0 442
+D3
+~
+~
+0 0 438
+S
+#438
+Outside A Chamber Door (West)~
+The passage ends here abruptly with another wooden chamber door to your
+south.  A low pedestal with a torch lit on it illuminates a faint glow in
+the room.  Cracked walls are filled along the northern and western walls.
+The aging wooden door to your south is filled with many tiny critters and
+webs cautioning your way in.  To the east the way is much dimmer.
+~
+0 8 0
+D1
+~
+~
+0 0 437
+D2
+~
+south-door~
+1 0 439
+S
+#439
+The 16th Chamber of Cut-throat Manuevers~
+As you step foot inside the chamber, you notice that the door itself is
+covered with a golden sticky substance dripping along the floor.  You turn
+around and gasp as you realize the chamber you have entered upon is a golden
+honeycomb smelling of nothing but honey!  Numbers of tiny little bees fly
+around within honeycomb to honeycomb harvesting.  Puddles of honey are seen
+around you with a small empty table to the western wall.  You gasp again as
+you notice a recently deceased body filled with bee-stings all over being
+slowly eaten alive by a swarm of bees!  An exit is out north but you wonder
+how you'll be able to touch the door with all that honey..  The bees might
+attack you!
+~
+0 8 0
+D0
+~
+north-door~
+1 0 438
+S
+#440
+Outside A Chamber Door (East)~
+A small pedestal lies at the northeastern portion of the wall.  A small
+torch is lit upon the pedestal giving off a faint spell of light within the
+room.  A wooden door leads to a chamber inside to the south.  Darkness once
+again fills to the west.  Strange vibrations and very low moans can be felt
+and heard behind the eastern wall.  You stop momentarily to wait for the
+noises to fade!
+~
+0 8 0
+D2
+~
+south-door~
+1 0 441
+D3
+~
+~
+0 0 437
+S
+#441
+The 17th Chamber of Lethal Malignance~
+Strange circular tiles with rings inside them fill around the chamber as
+you enter.  The smooth stone surface are filled with tiny little holes all
+around you.  You suddenly realize that little tiny maggots are crawling out
+from it!  You stand fast in caution and see nothing around you but realize
+that you had better leave quick before you get overtaken by these little
+creepy insects!  A chamber door leaves to the north.
+~
+0 8 0
+D0
+~
+north-door~
+1 0 440
+S
+#442
+A Dark Passage~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  A passage to the north is visible.  To the south,
+the passage continues.
+~
+0 9 0
+D0
+~
+~
+0 0 437
+D2
+~
+~
+0 0 443
+S
+#443
+A Dark Passage~
+Echoes of evil cackling and screams of horror are heard along the chamber
+passageway.  Obscure darkness consolidates itself in a form of mysterious
+enigma arousing your curiousity into following yourself to the darkness
+beyond.  The dirt soil beneath your feet covers the hard layered cement as
+you drag yourself exhausted from your already past encounters.  Several
+bones from a human skeleton lie scattered along side this tunnel with
+cobwebs built upon it.  You have come upon three possible exits.  To the
+north, a passage leads into the unknown.  Huge chamber doors lead to the
+west and south of here.
+~
+0 9 0
+D0
+~
+~
+0 0 442
+D2
+~
+south-door~
+1 0 445
+D3
+~
+west-door~
+1 0 444
+S
+#444
+The 18th Chamber of Decapitation~
+The faint smell of candles illuminates the room in a peaceful yet deathly
+quiet manner.  Sounds of faint music are heard..  Sort of like a bamboo
+flute.  Your eyes gaze at the spectacular banners that are hung along the
+northern and southern wall of the chamber.  A logo of a huge dragon is on
+the southern banner while to the northern banner is the logo of a snake.
+Tiny walled candles fill along the room.  A small altar is seen before you
+with strange language writings encrypted on an aging scroll here.  Beside
+the altar lies two huge statues of slanted-eyed warriors bronzed and shined.
+The chamber door allows you to exit here to the east.
+~
+0 8 0
+D1
+~
+east-door~
+1 0 443
+S
+#445
+The 19th Chamber of the Flying Fists~
+You squint your eyes from the brightness in the room and pause for a
+moment.  You open your eyes and find yourself what seems to be a dojo of
+sorts.  Strangely this chamber is extraordinarily big.  Ropes are set all
+around you preventing you to exit the room!  You look around somewhat
+confused and in thought as to why this room looks so familiar to you.  A
+small chair is set at the northwestern and southeastern corner of the
+chamber!  You suddenly are dumbfounded by the fact that you have entered an
+ancient boxing ring!  Ghosts of all sorts are seen around you high above the
+ceiling shouting and cheering!  You are the fighter!  But who is your
+opponent?  Your heart beats rapidly as you stand there indecisive of your
+actions.  An exit is to the north.  A dangling rope hangs from the darkness
+seen above the ghostly spectators aloft.
+~
+0 9 0
+D0
+~
+north-door~
+1 0 443
+D4
+~
+~
+0 0 446
+S
+#446
+Enter the 3rd Level of the 36 Chambers~
+Evil sounds of cackling and booing can be heard from a pit that lies here
+in the middle of the room.  A small rope tied to the ceiling above you
+allows you to move down below into some hideous and dark chamber.  A door
+can be seen to the north with a sign next to it.  A wailing voice whistles,
+'Bewaare...  Bewareee......  Bewaare....  '
+~
+0 9 0
+E
+sign~
+W E L C O M E . .
+
+           T O  T H E
+
+                 F I N A L  S T A G E . .
+
+                                     O R  I S  I T ? ? ?
+~
+D0
+~
+north-door~
+1 0 447
+D5
+~
+~
+0 0 445
+S
+#447
+The 20th Chamber of the Mischievious Beehive~
+Strange as it seems..  You see a horde of buzzing bees all around you..
+Sealed up in their honeycombs and furiously anticipating in breaking the
+blockage and ready to attack!  You frantically panic and wonder where to
+flee.  It seems you have no way to flee to..  A huge chamber door is visible
+to your north and south.  From the intense buzzing you plug your ears and
+begin lose focus of yourself and your physical status and want to leave..
+But where to go?
+~
+0 9 0
+D0
+~
+north-door~
+1 0 448
+D2
+~
+south-door~
+1 0 446
+S
+#448
+The 21st Chamber of Army Defense~
+The entire room is camoflauged in a strange silvery black color.  Along
+the walls around you, stand sacred weapons and armor of ancient samurai
+times.  Blades of shiny steel and gold sparkle the room giving your eyes a
+slight squint as you wander your eyes.  A strange garment of sorts in a
+black color with a silvery logo embedded on the front hangs atop the eastern
+wall with 3 other pieces of armor, one a helmet, one a pair of shin
+protectors, a pair of golden gloves and a pair of strange glowing bracers.
+To the western wall are five of the finest blades from the samurais to be
+held from thousands of years past.  Although these equipment would suit you
+good for battle, you suddenly blink and see them instantly gone!  You look
+around and notice instantly the room has emptied clean!  Chamber doors are
+visible from the north to the south.
+~
+0 9 0
+D0
+~
+north-door~
+1 0 449
+D2
+~
+south-door~
+1 0 447
+S
+#449
+The 22nd Chamber of the Mystical Stars~
+A strange huge aura of light fills the entire room--not blinding your
+eyes but with an unknown dimness to it.  As you stand, you notice unusual
+things moving around you even though you see nothing out of the ordinary.  A
+baritone-moaning hum can be heard below your feet as if some machine is
+running.  You look around and see portraits of many druids and wizards
+casting spells on hideous creatures visualizing horrifying pictures of blood
+and gore.  Your stomach feels light as you look about and feel somewhat
+woozy.  Large chamber doors are seen to the north and south.
+~
+0 9 0
+D0
+~
+north-door~
+1 0 450
+D2
+~
+south-door~
+1 0 448
+S
+#450
+The 23rd Chamber of the Symbolism of Evil~
+Four small urns stand within the corners of the room here.  A
+larger-sized urn lies in the middle with a strange and unknown sound coming
+from the inside.  The ground is filled with sand as you step along the hard
+and moving surface.  Something has crawled right beside you!!  What is it?
+You quickly jump aside and look around ..  And see several bones and
+skeletons lying about.  A glowing door is seen to the north while a regular
+chamber door to the south.
+~
+0 9 0
+D0
+~
+north-door~
+1 0 451
+D2
+~
+south-door~
+1 0 449
+S
+#451
+The HEALING ROOM OF RESTORATION~
+Divine inspirations, self-fulfillment, restorations and such--you feel a
+heavenly presence illuminate here as you find some sort of relief and
+resting spot in the room.  A huge pedestal with a stone-dimpled ditch has
+some form of strange clear liquid on it.  Four crosses stand within the four
+corners of the wall.  You don't know if so, but a strange heavenly chant can
+be chorused within the room giving you a sense of life..  A sense of
+revival.  Golden doors lead both ways to the north and the south.
+~
+0 9 0
+D0
+~
+north-door~
+1 0 452
+D2
+~
+south-door~
+1 0 450
+S
+#452
+The 24th Chamber of the Golden Throne~
+A huge throne is layed upon the center of the western wall with golden
+tapestries and glittery sparkles all on the seat.  Elegant flowers and
+magnificant tiles of floral designs fill the chamber walls here.  You look
+peacefully around the room thinking that this must not be an evil chamber..
+You gaze at the corner of the room and see a shattered portrait with a vague
+picture of a beautiful lady in golden and silver sparkles.  You wonder what
+this could mean.  Two elegant doors are seen to the north and south.
+~
+0 9 0
+D0
+~
+north-door~
+1 0 453
+D2
+~
+south-door~
+1 0 451
+S
+#453
+The 25th Chamber of Infested Pests~
+A huge plywood surface is perched along the mid-section of the walls all
+around.  Small boxes of bloodthirsty insects hypertensionally buzz hoping to
+be let out in search of prey.  You stare at some of these insects in awe at
+the enormous sizes of them!  As you look about at all the displays, you
+notice most of them are trying to pry their way out..  To attack you!!!
+Hurry!  Exits to the north and south..  But you must open the chamber doors
+first!
+~
+0 9 0
+D0
+~
+north-door~
+1 0 454
+D2
+~
+south-door~
+1 0 452
+S
+#454
+The 26th Chamber of Visual Intoxication~
+Your eyes have turned bad!  Or is it just your imagination?  You move
+around randomly in a state of confusion and in need as you have somehow fell
+into the spell of visual impairment!  Strange shapes and forms of
+manifestations fill your eyes with blur.  You know you havent drank too much
+from your journeys..  So why is this happening?  You gaze around again..
+And notice a dark brown door visible to the north and south of you..  Maybe
+if you can just get that knob in reach..
+~
+0 9 0
+D0
+~
+north-door~
+1 0 455
+D2
+~
+south-door~
+1 0 453
+S
+#455
+The 27th Chamber of Silence~
+Utter silence is heard..  The chamber is empty.  Nothing special is seen
+around here..  Only four walls and two doors headed north and south.  You
+sit here to rest for a moment, but you know through instincts that something
+is wrong.
+~
+0 9 0
+D0
+~
+north-door~
+1 0 456
+D2
+~
+south-door~
+1 0 454
+S
+#456
+A Circular Descending Stairway~
+A chamber door into the realms of chaos can be seen to the south.  To the
+north an old wooden stairway coils downwards into the darkness arousing your
+curiousity..  What perils lie between here and down there?  On both eastern
+and western walls you see two huge notes posted for those who ventured this
+deep within the 36 chambers of death.  The notes to your "west" and to your
+"east" demand your attention.
+~
+0 9 0
+E
+east~
+You try to read the vague letterings of the poster but you can't make of
+nothing.  But wait..  It says on the bottom He who survives the passage..
+Is proven to be the ultimate warrior...
+~
+E
+west~
+You try to read the vague letterings of the poster but you can't make of
+nothing.
+~
+D2
+~
+south-door~
+1 0 455
+D5
+~
+~
+0 0 486
+S
+#457
+Enter the Final Stage of the 36 Chambers~
+So quiet..  So peaceful..  But maybe a bit too peaceful.  Brick walls are
+layered around you wet with dripping water.  Several drips of water from
+above emits a wet, stenchy downpour of eerie feeling.  Exits to the west and
+east reveal light from a distance.  Darkness fills towards the south.  As
+you scout out the room you notice a sign behind you on the northern wall.
+An old stairway climbs into the darkness above.
+ 
+NOTE: It is advised that a party of 2 or more enter these realms due to the
+possible extreme difficulty of the mobs and the damage they emit (including
+the possible EQ that provides).
+~
+0 9 0
+E
+sign~
+Mighty adventurer!  You have proven yourself to be a force to wrecken
+with.  I applaud you of your achievements.  But your ultimate test lies
+before you.  My clan of sorcerers and warriors will see to that your life in
+battle here will be a short one..  These are my finest creations!  Can you
+defeat my entourage of monsters!?!?!?!?
+
+
+MUAHAHAHAHAHAHAHAHAHAHAHAHAHAHAH!
+~
+D1
+~
+~
+0 0 458
+D2
+~
+~
+0 0 470
+D3
+~
+~
+0 0 460
+D4
+~
+~
+0 0 486
+S
+#458
+A Somewhat Lit Passageway~
+A path runs here from the west to the east.  Drips of water fall from the
+ceiling above.  Small torches fill the dark room with a little bit of light
+as you walk along this long corridor-like passage.
+~
+0 8 0
+D1
+~
+~
+0 0 459
+D3
+~
+~
+0 0 457
+S
+#459
+A Corner Passage~
+The long passageway turns south here as you notice a dead body perched
+atop here on the eastern wall.  Shivers start running down your spine as you
+sense a fear overtake you as you wander about.  Several cockroaches scatter
+about into a tiny hole in search of I don't know what.  The light turns dark
+to the south of here.  A lit passage leads to the west.
+~
+0 8 0
+D2
+~
+~
+0 0 466
+D3
+~
+~
+0 0 458
+S
+#460
+A Somewhat Lit Passageway~
+A path runs here from the west to the east.  Drips of water fall from the
+ceiling above.  Small torches fill the dark room with a little bit of light
+as you walk along this long corridor-like passage.
+~
+0 8 0
+D1
+~
+~
+0 0 457
+D3
+~
+~
+0 0 461
+S
+#461
+A Corner Passage~
+The long passageway turns south here as you notice a shackled skeleton
+perched atop here on the western wall.  Chills run down your spine as you
+feel the sense of evil spirits fill the aroma of the atmosphere.  Several
+rats run from one crevice of a hole to the next in search of food.  THe
+light turns dark to the south here.  A lit passage leads to the east.
+~
+0 8 0
+D1
+~
+~
+0 0 460
+D2
+~
+~
+0 0 462
+S
+#462
+A Somewhat Lit Passageway~
+A scream of horror is heard not too far away as you walk into sudden
+darkness!  You stop momentarily and wait for more sounds..  You hear
+nothing.  Tiny little footsteps can be heard echoing to the north.  A
+haunting moan of sorts can be heard somewhere to the south.  The once water
+droplets that fell from the ceiling has dried up now.  You walk within the
+passage with soft feet in waiting ...  But for what.
+~
+0 8 0
+D0
+~
+~
+0 0 461
+D2
+~
+~
+0 0 463
+S
+#463
+A Bloody Sight~
+As you arrive, you almost vomit at the sight of decapitated body parts
+lying all over the place.  Sprays of blood and guts ooze along the dungeon
+walls as you around.  Pieces of internal organs lie splattered as if some
+menacing creature took a bite out of somebody!  You turn away from the room
+facing north and momentarily gathering yourself.  You then look at the room
+and ready for whatever you may encounter behind the western or eastern
+chamber doors.
+~
+0 8 0
+D0
+~
+~
+0 0 462
+D1
+~
+east-door~
+1 0 465
+D3
+~
+west-door~
+1 0 464
+S
+#464
+The 28th Chamber of the Ironmask~
+Ghostly spirits are seen flying around high up above as you enter.
+Several portraits of men are seen along the western and northern wall.  A
+bed is stood along the southwestern corner of the chamber where a huge "G"
+is drawn on the bedsheets.  A small circular table is at the southeastern
+end of the room with a tiny lantern stood on it.  Several jester masks are
+hung above the chamber door to the east as you gaze around the room.  An
+interesting yet bizarre room this is..
+~
+0 8 0
+D1
+~
+east-door~
+1 0 463
+S
+#465
+The 29th Chamber of Mortal Madness~
+Mysterious roars of intense rage pierce within your eardrums as you
+arrive.  The roars somehow disables your equilibrium for a bit as you try to
+maintain composure.  Sprays and blotches of blood fill around the chamber
+walls as you look around.  A humongous checkered floor is seen here with
+black and white colors almost making you think as if you were standing in a
+chessboard.  On the center of the room a huge circular logo with the letters
+"ODB" is encrypted.  You look around and feel disabled in any sense of
+entering battle.  A chamber door leads you out to the west.
+~
+0 8 0
+D3
+~
+west-door~
+1 0 463
+S
+#466
+A Somewhat Lit Passageway~
+Sounds of strange voodoo music is heard somewhere around the area.
+Repetitious drum sounds are being played.  You stop for a moment and hear
+the unusual sound fade into the utter silence.  A quietness is heard to the
+south and north of you.
+~
+0 8 0
+D0
+~
+~
+0 0 459
+D2
+~
+~
+0 0 467
+S
+#467
+The Passage's End~
+Voodoo drums are heard once again but now in a louder volume.  A drip of
+sweat slowly descends on your face as you feel the bass of your heartbeat
+louder and louder.  You panic for a short time and then realize that the
+voodoo drum is doing something to you!  You must find the source of that
+enchanted sound and eliminate it at all cost..  But where is it coming from?
+Chamber doors are to your right and left.  A tiny glittery star sparkles
+before you and then wooshes to your west.
+~
+0 8 0
+D0
+~
+~
+0 0 466
+D1
+~
+east-door~
+1 0 469
+D3
+~
+west-door~
+1 0 468
+S
+#468
+The 30th Chamber of Unseen Divinity~
+The room is black...  Black as can be.  You feel as if you come upon
+outside the castle..  But this must be just a visual illusion.  You look up
+and see bright glittery spots of light and several shooting lights fly
+across above you.  A chilly breeze fills within you as you notice tiny
+cricket chirpings from a distance.  Wait, you must be outside..  No inside..
+No wait..  "What the hell are you doing here," you ask yourself..  A glowing
+door leads you out to the east.  You notice that you don't hear anymore
+voodoo drums.
+~
+0 8 0
+D1
+~
+east-door~
+1 0 467
+S
+#469
+The 31st Chamber of Carnal Massacres~
+You've entered a gourmet kitchen of sorts.  Cupboards and pantries fill
+the room around you furnishing certain delicious yummy foods.  You see a
+huge refrigerator at the northeastern corner of the chamber.  A huge table
+with a sink is here in the middle of the kitchen with a huge "W" logo cloth
+layered on top.  Of course, you realize this is the kitchen of the angry
+cook Raevon, who through history has been known in serving massacre
+cuisines with human bodies..  You suddenly become terrified and make your
+way for the exit out west.  But then you your heart beats fast..  And you
+soon realize that voodoo noise that you heard before is the sound of your
+heart from far away.  You blink your eyes for one second and suddenly see
+drenches and downpours of red oozing all over the kitchen.....  Blood..
+AHHHHHHHHHHHHHHHHHHHHH!
+~
+0 8 0
+D3
+~
+west-door~
+1 0 467
+S
+#470
+A Long Passageway~
+The passage here is dark and dreadful.  Although you've come this far
+into the chambers, you find yourself overcome with courage from the darkness
+that lies beyond.  You've proven yourself to be a worthy adventurer within
+the 36 chambers..  But more perils lie ahead of you.  The path goes north
+and south of here.
+~
+0 8 0
+D0
+~
+~
+0 0 457
+D2
+~
+~
+0 0 471
+S
+#471
+A Long Passageway~
+The dark passage continues north and south.  Your feet is growing weary
+of the hard brick-layered ground forcing you to complain of your boots that
+you are wearing.  This might be a legitimate spot to rest for a bit..  But I
+think you better be aware of what lurks around you.
+~
+0 8 0
+D0
+~
+~
+0 0 470
+D2
+~
+~
+0 0 472
+S
+#472
+A Long Passageway~
+The long passageway continues on and on along the north and the south.
+Usually torches are seen perched along the side walls as you walk here, but
+you find that darkness is all that is to be seen.  Where will this nullified
+realm take you to next?
+~
+0 8 0
+D0
+~
+~
+0 0 471
+D2
+~
+~
+0 0 473
+S
+#473
+A Four-Way Passage~
+You have come upon a passage that leads in all directions.  A strange
+circular orb of sorts hangs high above you to provide some illumination as
+you notice strange wails from the south and north.  Silence is heard headed
+west and east of you.
+~
+0 8 0
+D0
+~
+~
+0 0 472
+D1
+~
+~
+0 0 476
+D2
+~
+~
+0 0 478
+D3
+~
+~
+0 0 474
+S
+#474
+Outside the Chamber Door~
+You are now outside a chamber door that heads into the south where a soft
+scratching noise from the door can be heard.  A strange blank portrait is
+hung on the western wall here..  Leaving you in wonder..  What is it?  A
+passage leads to the east where some glow can be seen.
+~
+0 8 0
+E
+portrait~
+** To your expectation, you see nothing.
+~
+D1
+~
+~
+0 0 473
+D2
+~
+south-door~
+1 0 475
+S
+#475
+The 33rd Chamber of Masterful Killing~
+Strange weird drums thump about as you enter a strange decorated room.
+Weird festive rugs and weapons and armors hang across the four walls here.
+On the western wall lies a small table with strange musical instruments.  On
+the eastern wall lies a round table with strange weapons of sorts.  An exit
+out of here is to the north.  A smell of smoke begins to fill the room...
+~
+0 8 0
+D0
+~
+north-door~
+1 0 474
+S
+#476
+Outside the Chamber Door~
+You are now outside a chamber door that is to the north of you.  It is
+quiet in here but to the eastern wall lies a strange black frame.  You
+wonder..  What do you see there?  A passage leads to the west where some
+light is shown.
+~
+0 8 0
+E
+frame~
+** You see nothing odd about it.
+~
+D0
+~
+north-door~
+1 0 477
+D3
+~
+~
+0 0 473
+S
+#477
+The 32nd Chamber of Eye Examination~
+The chamber suddenly turns shivery cold as you find yourself completely
+in obscure blackness!  Strange little spots of light shine around you...
+No...  You realize that they aren't spots but pairs of eyes shining and
+glaring at you waiting for your first conflictual move!
+~
+0 8 0
+D2
+~
+south-door~
+1 0 476
+S
+#478
+A Dark Passage~
+To the north of you some sort of light can be seen while the ground here
+slightly slants itself downward into the darkness southwards.  Several bats
+hurry above you into the darkness.
+~
+0 8 0
+D0
+~
+~
+0 0 473
+D2
+~
+~
+0 0 479
+S
+#479
+A Four-Way Direction~
+Darkness is all to be seen.  The passage however veers off in all
+directions.  It is deathly quiet.  Not a sound to be heard at all.  You
+somewhat lose your balance while trying to move around in the dark.
+~
+0 8 0
+D0
+~
+~
+0 0 478
+D1
+~
+~
+0 0 482
+D2
+~
+~
+0 0 484
+D3
+~
+~
+0 0 480
+S
+#480
+Outside the Chamber Door~
+A torch is just east of this chamber door as you arrive.  The walls
+around are aging and some crumbling as well.  Small cobwebs hang on the
+corners of the ceilings above you.  Darkness leads you eastward.
+~
+0 8 0
+D1
+~
+~
+0 0 479
+D3
+~
+west-door~
+1 0 481
+S
+#481
+The 34th Chamber of Methods~
+In comparison with the other chambers..  This one is quite large in
+width.  In the far corner to the east lies a strange cylindrical sack filled
+with sand used for punching.  Off to the western wall lies a small altar
+with several wicks of cense burning filling the room with a stench of
+mystery.  Several carcasses are found lying scattered in the chamber.  The
+only form of light shining is a small glow from the northwestern corner of
+the dungeon.  An exit is seen to the east.
+~
+0 8 0
+D1
+~
+east-door~
+1 0 480
+S
+#482
+Outside the Chamber Door~
+A torch lies west of the chamber door here.  The walls around are old and
+cracked badly.  Several old skeleton bones lie around here.  A passage takes
+u to the west.
+~
+0 8 0
+D1
+~
+east-door~
+1 0 483
+D3
+~
+~
+0 0 479
+S
+#483
+The 35th Chamber of Mindgames~
+Strange objects are floating about you as the room seems to be spinning.
+You are somewhat dazed by the strange colors that fill the walls.  You hold
+on to the door trying to regain your equilbrium but don't know what to do.
+
+An evil voice says, 'You cannot leave here alive... You cannot leave here 
+alive!!
+
+~
+0 8 0
+D3
+~
+west-door~
+1 0 482
+S
+#484
+Outside the Chamber Door~
+OOMPH!  As you move southward, your walk is interrupted by a huge chamber
+door.  A small SIGN is posted beside the door here.  A passage heads off
+north.
+~
+0 8 0
+E
+sign~
+Welcome to your final destruction!!!
+
+
+                           Farewell to your short life!!!
+
+
+MUAHAHAHAHAHAHAHAHAHAH!!!!!
+~
+D0
+~
+~
+0 0 479
+D2
+~
+south-door~
+1 0 485
+S
+#485
+The 36th Chamber of the Final Resurrection~
+Your eyes suddenly are blinded!  A scorching ray of light shoots at you
+as you stagger not able to see what's around you!!  Your foot seems to have
+tripped over something as you lose balance and almost fall here.
+~
+0 8 0
+D0
+~
+north-door~
+1 0 484
+D5
+~
+secret~
+4 429 487
+S
+#486
+Down the Long Coiling Stairway~
+With each step into the dark stairways down, you notice several bats
+fly away from you off to the chambers above.  You pause for a moment and
+debate whether to continue or abort this entire adventure..  You shake your
+head and decide to make a decision...  You've come too far to wuss out.
+~
+0 9 0
+D4
+~
+~
+0 0 456
+D5
+~
+~
+0 0 457
+S
+#487
+A Strange Stairway Down~
+|
+               -
+                |
+                 -
+                  |
+                   -
+                    |
+                     -
+                      |
+                       -
+                        |
+                        |
+                       \ /
+                        .
+
+The stairway makes a sudden descent all the way down into the unknown.
+~
+0 8 0
+D5
+~
+~
+0 0 488
+S
+#488
+The Narrow Stairway Down~
+_
+                  |
+                 _
+                |
+               _
+              |
+             _
+            |
+           _
+          |
+<--------
+
+The stairs suddenly spin west as it descends and finally flattens to a 
+passage headed west.
+~
+0 8 0
+D3
+~
+~
+0 0 489
+S
+#489
+A Dead End~
+The room stops here as you have entered what seems to be a dead end.  To
+your fright you notice horrifying drenches of blood shot about here and
+there on the walls.  Several scraps of flesh are lying here and there as you
+take caution to what dwells in here.
+~
+0 8 0
+D5
+~
+grate~
+4 431 490
+S
+#490
+Enter the Monk's Chamber~
+This is the final confrontation of the 36 Chambers.  You have entered the
+37th Chamber.  Portraits of all 36 monsters are hung across the walls here.
+A strange table seats at the corner of the room with a barred-up door that
+heads north.  Splatters of blood are seen all around as you find yourself
+trapped with no possible exits.
+~
+0 12 0
+S
+#491
+~
+~
+0 4 0
+S
+#499
+Before the Entrance~
+{0     (_)                  _                           _
+                       o=='                        o=='
+                      /                             \
+                     x                               x
+                   xXX                               XXx              _
+                .xXXXX___   ___   __   __   ___   ___XXXXx.          / `-.
+               /-----/  /\_/  /\ /  |_|  \ /\  \_/\  \----:\        /_    \
+              /  / :/   ---   ---         ---   ---   \  \ :\      /XXXxxXX\
+             /    :/                               =-  \    :\    /XXXXXXXX##
+            /  / :/              _________              \  \ :\  /XXXXXXXXXX#
+           /    :/    -=        /_______ _\              \    :\/XXXXXXXXXXX#
+ _        /  / :/                //  |: \\:               \  \ :\XXXXXXXXXXXX
+  \  /\  /    :/                //   |:  \\:    =-         \    :\XXXXXXXX/\X
+   \/ /\/    :/________________//   o|o   \\:_________._____\    :\XXXX/\/  \
+  {0    |(____:/________________//_____|_____\\:_______/ \_____\____:)/--  \
+ / :\          _.....   /\         /::/             /    \             \  \
+     \/   \   /:\:::    :   /\     \::\  /\   _/\  /:    __    :        \
+  / /    :/  ''''' _/\     __      /:::\     /  :\ --   /: \    __   /\ \
+                /\/  :\/\ /  \    /:.:.:\                   \  /  |-' :\
+   .. ::       /      / :\       /.......\          .. _      /:       :\\
+ ::           /          :|     /. . . . .\    ::     / |    |:         /  
+You arrive at a humongous building reaching high above you.  The castle
+itself is humongous in structure and is massive in every way..  A SIGN is
+posted here..  I think you should read it. 
+~
+0 0 0
+E
+sign~
+W E L C O M E . . .
+
+               T H E  3 6  C H A M B E R S
+
+                                   O F  D E A T H ! ! !
+
+Area done by Rzarecta aka Opio Copyright 1997.  All Rights Reserved.
+~
+D0
+~
+gate~
+1 0 401
+D2
+~
+~
+0 0 400
+S
+#0
+
+
+
+#SPECIALS
+M 400 spec_breath_any
+M 401 spec_ai_actor
+M 402 spec_cast_mage
+M 403 spec_cast_mage
+M 404 spec_ai_actor
+M 405 spec_breath_gas
+M 406 spec_breath_frost
+M 407 spec_breath_fire
+M 408 spec_ai_actor
+M 410 spec_breath_acid
+M 411 spec_ai_actor
+M 412 spec_ai_actor
+M 413 spec_cast_mage
+M 414 spec_cast_mage
+M 415 spec_ai_actor
+M 417 spec_ai_actor
+M 419 spec_ai_actor
+M 420 spec_cast_cleric
+M 421 spec_poison
+M 422 spec_cast_cleric
+M 424 spec_ai_actor
+M 425 spec_clan_healer
+M 436 spec_ai_actor
+M 437 spec_breath_fire
+M 438 spec_ai_actor
+M 439 spec_breath_acid
+M 441 spec_breath_any
+M 443 spec_cast_mage
+M 444 spec_cast_mage
+M 447 spec_breath_any
+S
+
+
+
+#RESETS
+D 0 401 2 1
+D 0 404 1 1
+D 0 405 1 1
+D 0 405 3 1
+D 0 406 3 1
+D 0 408 1 1
+D 0 409 1 1
+D 0 409 3 1
+D 0 410 3 1
+D 0 412 1 1
+D 0 413 1 1
+D 0 413 3 1
+D 0 414 3 1
+D 0 416 1 1
+D 0 417 1 1
+D 0 417 3 1
+D 0 418 3 1
+D 0 419 0 1
+D 0 420 2 1
+D 0 421 2 1
+D 0 422 0 1
+D 0 423 1 1
+D 0 424 3 1
+D 0 428 0 1
+D 0 428 2 1
+D 0 429 2 1
+D 0 430 0 1
+D 0 432 1 1
+D 0 433 1 1
+D 0 433 3 1
+D 0 434 2 1
+D 0 434 3 1
+D 0 435 0 1
+D 0 438 2 1
+D 0 439 0 1
+D 0 440 2 1
+D 0 441 0 1
+D 0 443 2 1
+D 0 443 3 1
+D 0 444 1 1
+D 0 445 0 1
+D 0 446 0 1
+D 0 447 0 1
+D 0 447 2 1
+D 0 448 0 1
+D 0 448 2 1
+D 0 449 0 1
+D 0 449 2 1
+D 0 450 0 1
+D 0 450 2 1
+D 0 451 0 1
+D 0 451 2 1
+D 0 452 0 1
+D 0 452 2 1
+D 0 453 0 1
+D 0 453 2 1
+D 0 454 0 1
+D 0 454 2 1
+D 0 455 0 1
+D 0 455 2 1
+D 0 456 2 1
+D 0 463 1 1
+D 0 463 3 1
+D 0 464 1 1
+D 0 465 3 1
+D 0 467 1 1
+D 0 467 3 1
+D 0 468 1 1
+D 0 469 3 1
+D 0 474 2 1
+D 0 475 0 1
+D 0 476 0 1
+D 0 477 2 1
+D 0 480 3 1
+D 0 481 1 1
+D 0 482 1 1
+D 0 483 3 1
+D 0 484 2 1
+D 0 485 0 1
+D 0 485 5 2
+D 0 489 5 2
+D 0 499 0 1
+M 0 409 1 404 1
+M 0 410 1 406 1
+M 0 411 1 408 1
+E 0 418 0 16
+M 0 412 1 410 1
+E 0 426 0 2
+E 0 425 0 7
+E 0 424 0 16
+M 0 413 1 412 1
+E 0 420 0 5
+M 0 414 1 414 1
+M 0 415 1 416 1
+E 0 421 0 13
+M 0 416 1 418 1
+M 0 417 1 420 1
+E 0 434 0 21
+M 0 436 1 421 1
+M 0 437 1 424 1
+M 0 438 1 429 1
+M 0 439 1 430 1
+M 0 440 1 433 1
+M 0 441 1 435 1
+M 0 442 2 439 2
+M 0 443 1 441 1
+E 0 428 0 6
+M 0 444 1 444 1
+M 0 445 1 445 1
+E 0 422 0 6
+M 0 418 1 447 1
+M 0 419 1 448 1
+M 0 420 1 449 1
+M 0 421 1 450 1
+E 0 427 0 5
+M 0 499 2 451 2
+M 0 422 1 452 1
+E 0 423 0 6
+M 0 423 1 453 1
+M 0 424 1 454 1
+M 0 425 1 455 1
+M 0 405 1 464 1
+E 0 407 0 16
+M 0 406 1 465 1
+E 0 415 0 1
+M 0 407 1 468 1
+E 0 406 0 9
+E 0 405 0 10
+M 0 408 1 469 1
+E 0 413 0 16
+M 0 403 1 475 1
+E 0 416 0 3
+M 0 404 1 477 1
+E 0 417 0 28
+E 0 404 0 6
+M 0 401 1 481 1
+E 0 409 0 8
+M 0 402 1 483 1
+E 0 403 0 13
+E 0 402 0 16
+M 0 400 1 485 1
+E 0 400 0 25
+E 0 429 0 17
+E 0 401 0 18
+M 0 446 1 489 1
+E 0 431 0 17
+G 0 430 0
+O 0 430 0 489
+M 0 447 1 490 1
+E 0 433 0 5
+E 0 432 0 17
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#400
+emote roars and screams to attack!!!
+'die!!!!!!
+~
+#409
+say Die you villain!!!
+~
+#410
+'Prepare to die!!!!
+scream
+~
+#411
+grin
+'Do you think you can defeat me!??!?!?
+~
+#412
+emote grunts, 'I am the true master!!!!'
+say You are nothing to me!
+~
+#413
+emote circles you and licks you sexually.
+say Come let me seduce you..
+~
+#415
+say Beware! I am the masterful blind ninja!
+emote emits hand techniques, 'En Garde!'
+~
+#417
+emote seems to be meditating from finishing his workout.
+~
+#437
+snarl
+'ROOOOARRR!
+~
+#443
+'Soon you shall feel the wrath of my destruction!!!!!
+~
+#444
+'THE WUSHU CLAN REIGNS SUPREME!
+'and the enemy will feel the pain of my sword!!!
+~
+#445
+'Prepare to die!
+~
+#0
+
+#$

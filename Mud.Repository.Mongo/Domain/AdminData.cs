@@ -2,7 +2,7 @@
 {
     public class AdminData : PlayerData
     {
-        public int Level { get; set; }
+        public int AdminLevel { get; set; }
 
         public int WiznetFlags { get; set; }
 

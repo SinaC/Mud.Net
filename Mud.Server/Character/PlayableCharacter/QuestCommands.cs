@@ -2,16 +2,21 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Common;
+using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Quest;
-using Mud.Server.Helpers;
+using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Quest;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("quest", "Quest", Priority = 1)]
+        [PlayableCharacterCommand("quest", "Quest", Priority = 1, MinPosition = Positions.Standing)]
         [Syntax(
             "[cmd]",
             "[cmd] <id>",
@@ -89,8 +94,8 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.SyntaxError;
         }
 
-        [PlayableCharacterCommand("qcomplete", "Quest", Priority = 2)]
-        [PlayableCharacterCommand("questcomplete", "Quest", Priority = 2)]
+        [PlayableCharacterCommand("qcomplete", "Quest", Priority = 2, MinPosition = Positions.Standing)]
+        [PlayableCharacterCommand("questcomplete", "Quest", Priority = 2, MinPosition = Positions.Standing)]
         [Syntax(
             "[cmd] <id>",
             "[cmd] all")]
@@ -142,8 +147,8 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("qabandon", "Quest", Priority = 3)]
-        [PlayableCharacterCommand("questabandon", "Quest", Priority = 3)]
+        [PlayableCharacterCommand("qabandon", "Quest", Priority = 3, MinPosition = Positions.Standing)]
+        [PlayableCharacterCommand("questabandon", "Quest", Priority = 3, MinPosition = Positions.Standing)]
         [Syntax("[cmd] <id>")]
         protected virtual CommandExecutionResults DoQuestAbandon(string rawParameters, params CommandParameter[] parameters)
         {
@@ -167,8 +172,8 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("qget", "Quest", Priority = 4)]
-        [PlayableCharacterCommand("questget", "Quest", Priority = 4)]
+        [PlayableCharacterCommand("qget", "Quest", Priority = 4, MinPosition = Positions.Standing)]
+        [PlayableCharacterCommand("questget", "Quest", Priority = 4, MinPosition = Positions.Standing)]
         [Syntax(
             "[cmd] <quest name>",
             "[cmd] all")]
@@ -228,8 +233,8 @@ namespace Mud.Server.Character.PlayableCharacter
             return CommandExecutionResults.Ok;
         }
 
-        [PlayableCharacterCommand("qlist", "Quest", Priority = 5)]
-        [PlayableCharacterCommand("questlist", "Quest", Priority = 5)]
+        [PlayableCharacterCommand("qlist", "Quest", Priority = 5, MinPosition = Positions.Standing)]
+        [PlayableCharacterCommand("questlist", "Quest", Priority = 5, MinPosition = Positions.Standing)]
         protected virtual CommandExecutionResults DoQuestList(string rawParameters, params CommandParameter[] parameters)
         {
             // Display quests available in this.Room
@@ -270,6 +275,7 @@ namespace Mud.Server.Character.PlayableCharacter
             AddQuest(quest);
             //
             Act(ActOptions.ToRoom, "{0} get{0:v} quest '{1}'.", this, questBlueprint.Title);
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (questBlueprint.TimeLimit > 0)
                 Send($"You get quest '{questBlueprint.Title}'. Better hurry, you have {questBlueprint.TimeLimit} minutes to complete this quest!");
             else
@@ -283,12 +289,13 @@ namespace Mud.Server.Character.PlayableCharacter
         private void BuildQuestSummary(StringBuilder sb, IQuest quest, int? id)
         {
             // TODO: Table ?
+            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (id >= 0)
                 sb.Append($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
             else
                 sb.Append($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
             if (quest.Blueprint.TimeLimit > 0)
-                sb.Append($" Time left: {StringHelpers.FormatDelay(quest.PulseLeft / Settings.PulsePerSeconds)}");
+                sb.Append($" Time left: {(quest.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
             sb.AppendLine();
             if (!quest.IsCompleted)
                 BuildQuestObjectives(sb, quest);
@@ -299,6 +306,7 @@ namespace Mud.Server.Character.PlayableCharacter
             foreach (IQuestObjective objective in quest.Objectives)
             {
                 // TODO: 2 columns ?
+                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (objective.IsCompleted)
                     sb.AppendLine($"     %g%{objective.CompletionState}%x%");
                 else

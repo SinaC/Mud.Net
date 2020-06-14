@@ -1,0 +1,2202 @@
+#AREADATA
+Name Sacrifice~
+Builders None~
+VNUMs 13500 13699
+Credits { LOCK} Veng    Sacrifice~
+Security 9
+End
+
+#MOBILES
+#13500
+bert~
+Bert~
+Bert stands here, selling boats.
+~
+Bert stands almost 7 feet tall, with a girth resembling that
+of a house.  The scars on his face and arms tell you that he's
+seen his fair share of combat.
+~
+human~
+ABTV A 0 AHMV 900 0
+46 10 17d17+658 10d35+705 4d12+28 beating
+-12 -11 -13 -11
+CEI ABCD 0 0
+stand stand male 1300
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#13501
+sea serpent~
+the sea serpent~
+A huge green sea serpent stares at you hungrily.
+~
+The sea serpent resembles a cross between a dragon and a snake.
+~
+dragon~
+AFMN A DJTb AHZ -1000 0
+32 0 7d27+327 13d16+389 5d6+20 acbite
+-7 -5 -5 -2
+EFNU BEHR ABEFHIK FI
+stand stand either 5000
+ACDEFGHIJKPQUVXZ ACDEFGHIJKPQUVX huge unknown
+#0
+
+
+
+#OBJECTS
+#13500
+raft~
+a raft~
+A raft has been left here.~
+wood~
+boat 0 A
+0 0 0 0 0
+0 750 400 A
+E
+raft~
+The raft looks very primitive.
+~
+#13501
+canoe~
+a canoe~
+A canoe has been left here.~
+wood~
+boat 0 A
+0 0 0 0 0
+0 320 900 G
+E
+canoe~
+The canoe is fairly light.
+~
+#13502
+compass~
+a navigater's compass~
+A navigater's compass has been left here.
+~
+metal~
+light A A
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+0 5 100 P
+E
+compass~
+Some letters have been scratched into the back.
+                WSES
+                WSWS
+~
+#0
+
+
+
+#ROOMS
+#13500
+Waterfall Pool~
+You are floating on the calm waters of a large pool just below
+a large waterfall.  A river runs off to the east, while the plains
+are to the south.
+~
+0 0 7
+D1
+You see a river winding through a forest.
+~
+~
+0 -1 13501
+D2
+You see a small dock.
+~
+~
+0 -1 13619
+S
+#13501
+On the River~
+You are floating along a river.  The current here is weak but is slowly
+carrying you eastward.  The banks to the north and south are choked with
+a thick growth of trees, and do not seem to provide anyplace to land.
+The river flows off to the east as far as the eye can see, and to the
+west to a large waterfall.
+~
+0 0 7
+D1
+You see a river winding through a forest.
+~
+~
+0 -1 13502
+D3
+You see a large waterfall.
+~
+~
+0 -1 13500
+S
+#13502
+On the River~
+You are floating along a river.  The current here is weak but is slowly
+carrying you eastward.  The south bank is choked with a thick growth
+of trees, and does not seem to provide anyplace to land.  On the north
+bank, you can make out a small trail leading up the side of a mountain,
+but a sign reading "{RClosed For Construction{x" blocks your way.
+The river flows off to the west as far as the eye can see, and to the
+east the river takes a sharp turn north.
+~
+0 0 7
+D0
+You see a small trail.
+~
+~
+0 -1 13513
+D1
+You see a bend in the river.
+~
+~
+0 -1 13503
+D3
+You see a river winding through a forest.
+~
+~
+0 -1 13501
+S
+#13503
+A bend in the River~
+You are floating along a river.  The current here is weak but is slowly
+carrying you northward.  The banks to the east and south are choked with
+a thick growth of trees, and do not seem to provide anyplace to land.
+The river flows off to the north and west as far as the eye can see.
+~
+0 0 7
+D0
+You see a river winding through a forest.
+~
+~
+0 -1 13504
+D3
+You see a river winding through a forest.
+~
+~
+0 -1 13502
+S
+#13504
+On the River~
+You are floating along a river.  The current here is weak but is slowly
+carrying you northward.  The east bank is choked with a thick growth
+of trees, and does not seem to provide anyplace to land.  The west bank
+is a sheer cliff of the mountainside rising thousands of feet straight
+up. To the north and south, the river takes sharp turns to the west.
+~
+0 0 7
+D0
+You see a bend in the river.
+~
+~
+0 -1 13505
+D2
+You see a bend in the river.
+~
+~
+0 -1 13503
+S
+#13505
+A bend in the River~
+You are floating along a river.  The current here is weak but is slowly
+carrying you westward.  The banks to the east and north are choked with
+a thick growth of trees, and do not seem to provide anyplace to land.
+The river flows off to the south as far as the eye can see.  To the west
+you see yet another bend in the river.
+~
+0 0 7
+D2
+You see a river winding through a forest.
+~
+~
+0 -1 13504
+D3
+You see a bend in the river.
+~
+~
+0 -1 13506
+S
+#13506
+A bend in the River~
+You are floating along a river.  The current here is weak but is slowly
+carrying you northward.  The west bank is choked with a thick growth
+of trees, and does not seem to provide anyplace to land.  On the south
+bank, you can make out a small trail leading up the side of a mountain,
+but a sign reading "{RClosed For Construction{x" blocks your way.
+The river flows north into a small bay, and to the east the river takes
+a sharp turn south.
+~
+0 0 7
+D0
+You see a small bay.
+~
+~
+0 -1 13507
+D1
+You see a bend in the river.
+~
+~
+0 -1 13505
+D2
+You see a small trail.
+~
+~
+0 -1 13508
+S
+#13507
+A small Bay~
+You are floating in a small bay.  The edges of the bay to the east and
+west are formed by a thick tangle of trees and brush.  To the south
+is the mouth of a large river.  To the north is the endless expanse
+of the northern sea.  Many adventurers have braved the northern sea,
+most of them never to be heard from again.
+~
+0 0 7
+D0
+You see the northern sea.
+~
+~
+0 -1 13596
+D2
+You see the mouth of the river.
+~
+~
+0 -1 13506
+S
+#13508
+A small Path~
+Description
+~
+0 32768 2
+D0
+~
+~
+0 -1 13506
+D2
+~
+~
+0 -1 13509
+S
+#13509
+End of the Path~
+Description
+~
+0 0 2
+D0
+~
+~
+0 -1 13508
+D4
+~
+~
+0 -1 13510
+S
+#13510
+Side of the Volcano~
+Description
+~
+0 0 5
+D4
+~
+~
+0 -1 13511
+D5
+~
+~
+0 -1 13509
+S
+#13511
+Side of the Volcano~
+Description
+~
+0 0 5
+D4
+~
+~
+0 -1 13512
+D5
+~
+~
+0 -1 13510
+S
+#13512
+Top of the Volcano~
+Description
+~
+0 0 1
+D2
+~
+~
+0 -1 13524
+D5
+~
+~
+0 -1 13511
+S
+#13513
+A small Path~
+Description
+~
+0 32768 2
+D0
+~
+~
+0 -1 13514
+D2
+~
+~
+0 -1 13502
+S
+#13514
+End of a small Path~
+Description
+~
+0 0 2
+D2
+~
+~
+0 -1 13513
+D4
+~
+~
+0 -1 13515
+S
+#13515
+Side of the Volcano~
+Description
+~
+0 0 5
+D0
+~
+~
+0 -1 13516
+D4
+~
+~
+0 -1 13518
+D5
+~
+~
+0 -1 13514
+S
+#13516
+A small Cave~
+Description
+~
+0 2052 1
+D2
+~
+~
+0 -1 13515
+D3
+~
+~
+0 -1 13517
+S
+#13517
+A Lair~
+Description
+~
+0 9 1
+D1
+~
+~
+0 -1 13516
+S
+#13518
+Side of the Volcano~
+Description
+~
+0 0 5
+D4
+~
+~
+0 -1 13519
+D5
+~
+~
+0 -1 13515
+S
+#13519
+Top of the Volcano~
+Description
+~
+0 0 1
+D0
+~
+~
+0 -1 13520
+D5
+~
+~
+0 -1 13518
+S
+#13520
+South rim of the Volcano~
+Description
+~
+0 0 1
+D0
+~
+~
+0 -1 13530
+D1
+~
+~
+0 -1 13527
+D2
+~
+~
+0 -1 13519
+D3
+~
+~
+0 -1 13521
+S
+#13521
+Southwest rim of the Volcano~
+Description
+~
+0 0 1
+D0
+~
+~
+0 -1 13522
+D1
+~
+~
+0 -1 13520
+S
+#13522
+West rim of the Volcano~
+Description
+~
+0 0 1
+D0
+~
+~
+0 -1 13523
+D1
+~
+~
+0 -1 13530
+D2
+~
+~
+0 -1 13521
+D5
+~
+~
+0 -1 13528
+S
+#13523
+Northwest rim of the Volcano~
+Description
+~
+0 0 1
+D1
+~
+~
+0 -1 13524
+D2
+~
+~
+0 -1 13522
+S
+#13524
+North rim of the Volcano~
+Description
+~
+0 0 1
+D0
+~
+~
+0 -1 13512
+D1
+~
+~
+0 -1 13525
+D2
+~
+~
+0 -1 13530
+D3
+~
+~
+0 -1 13523
+S
+#13525
+Northeast rim of the Volcano~
+Description
+~
+0 0 1
+D2
+~
+~
+0 -1 13526
+D3
+~
+~
+0 -1 13524
+S
+#13526
+East rim of the Volcano~
+Description
+~
+0 0 1
+D0
+~
+~
+0 -1 13526
+D2
+~
+~
+0 -1 13527
+D3
+~
+~
+0 -1 13530
+D5
+~
+~
+0 -1 13529
+S
+#13527
+Southeast rim of the Volcano~
+Description
+~
+0 0 1
+D0
+~
+~
+0 -1 13526
+D3
+~
+~
+0 -1 13520
+S
+#13528
+A small ledge in the Volcano~
+Description
+~
+0 0 1
+D1
+~
+~
+0 -1 13530
+D3
+~
+~
+0 -1 13611
+D4
+~
+~
+0 -1 13522
+S
+#13529
+A small ledge in the Volcano~
+Description
+~
+0 0 1
+D1
+~
+~
+0 -1 13531
+D3
+~
+~
+0 -1 13530
+D4
+~
+~
+0 -1 13526
+S
+#13530
+A small Island~
+Description
+~
+0 0 10
+D0
+~
+~
+0 -1 13566
+D2
+~
+~
+0 -1 13565
+S
+#13531
+~
+Description
+~
+0 9 1
+D1
+~
+~
+0 -1 13532
+D3
+~
+~
+0 -1 13529
+S
+#13532
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13572
+D1
+~
+~
+0 -1 13533
+D3
+~
+~
+0 -1 13531
+D5
+~
+~
+0 -1 13536
+S
+#13533
+~
+Description
+~
+0 9 1
+D3
+~
+~
+0 -1 13532
+S
+#13534
+~
+Description
+~
+0 9 1
+D1
+~
+~
+0 -1 13535
+D2
+~
+~
+0 -1 13614
+S
+#13535
+~
+Description
+~
+0 9 1
+D1
+~
+~
+0 -1 13536
+D3
+~
+~
+0 -1 13534
+S
+#13536
+~
+Description
+~
+0 9 1
+D1
+~
+~
+0 -1 13541
+D2
+~
+~
+0 -1 13537
+D3
+~
+~
+0 -1 13535
+D4
+~
+~
+0 -1 13532
+S
+#13537
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13536
+D1
+~
+~
+0 -1 13538
+D2
+~
+~
+0 -1 13539
+D3
+~
+~
+0 -1 13540
+S
+#13538
+~
+Description
+~
+0 9 1
+D3
+~
+~
+0 -1 13537
+S
+#13539
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13537
+S
+#13540
+~
+Description
+~
+0 9 1
+D1
+~
+~
+0 -1 13537
+S
+#13541
+~
+Description
+~
+0 8 1
+D1
+~
+~
+0 -1 13542
+D2
+~
+~
+0 -1 13543
+D3
+~
+~
+0 -1 13536
+S
+#13542
+~
+Description
+~
+0 8 1
+D2
+~
+~
+0 -1 13544
+D3
+~
+~
+0 -1 13541
+S
+#13543
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13541
+D1
+~
+~
+0 -1 13544
+D2
+~
+~
+0 -1 13545
+S
+#13544
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13542
+D2
+~
+~
+0 -1 13546
+D3
+~
+~
+0 -1 13543
+S
+#13545
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13543
+D1
+~
+~
+0 -1 13546
+D5
+~
+~
+0 -1 13547
+S
+#13546
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13544
+D3
+~
+~
+0 -1 13545
+S
+#13547
+~
+Description
+~
+0 9 1
+D1
+~
+~
+0 -1 13548
+D4
+~
+~
+0 -1 13545
+D5
+~
+~
+0 -1 13549
+S
+#13548
+~
+Description
+~
+0 9 1
+D3
+~
+~
+0 -1 13547
+S
+#13549
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13558
+D1
+~
+~
+0 -1 13552
+D2
+~
+~
+0 -1 13550
+D4
+~
+~
+0 -1 13547
+S
+#13550
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13549
+D1
+~
+~
+0 -1 13551
+S
+#13551
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13552
+D3
+~
+~
+0 -1 13550
+S
+#13552
+~
+Description
+~
+0 9 1
+D1
+~
+~
+0 -1 13553
+D2
+~
+~
+0 -1 13551
+D3
+~
+~
+0 -1 13549
+S
+#13553
+~
+Description
+~
+0 9 1
+D2
+~
+~
+0 -1 13554
+D3
+~
+~
+0 -1 13552
+S
+#13554
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13553
+D1
+~
+~
+0 -1 13555
+D2
+~
+~
+0 -1 13557
+S
+#13555
+~
+Description
+~
+0 8 1
+D2
+~
+~
+0 -1 13556
+D3
+~
+~
+0 -1 13554
+S
+#13556
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13555
+D3
+~
+~
+0 -1 13557
+S
+#13557
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13554
+D1
+~
+~
+0 -1 13556
+S
+#13558
+Bank of a Lava River~
+Description
+~
+0 8 1
+D2
+~
+~
+0 -1 13549
+D3
+~
+~
+0 -1 13559
+S
+#13559
+On a Lava River~
+Description
+~
+0 0 9
+D0
+~
+~
+0 -1 13562
+D1
+~
+~
+0 -1 13558
+D2
+~
+~
+0 -1 13560
+S
+#13560
+On a Lava River~
+Description
+~
+0 0 9
+D0
+~
+~
+0 -1 13559
+D2
+~
+~
+0 -1 13561
+S
+#13561
+On a Lava River~
+Description
+~
+0 0 9
+D0
+~
+~
+0 -1 13560
+S
+#13562
+Bend in a Lava River~
+Description
+~
+0 0 9
+D2
+~
+~
+0 -1 13559
+D3
+~
+~
+0 -1 13563
+S
+#13563
+Bend in a Lava River~
+Description
+~
+0 0 9
+D0
+~
+~
+0 -1 13564
+D1
+~
+~
+0 -1 13562
+S
+#13564
+On a Lava River~
+Description
+~
+0 0 9
+D0
+~
+~
+0 -1 13565
+D2
+~
+~
+0 -1 13563
+S
+#13565
+Inside the Volcano~
+Description
+~
+0 0 9
+D0
+~
+~
+0 -1 13566
+D2
+~
+~
+0 -1 13564
+S
+#13566
+Inside the Volcano~
+Description
+~
+0 0 9
+D0
+~
+~
+0 -1 13567
+D2
+~
+~
+0 -1 13565
+S
+#13567
+On a Lava River~
+Description
+~
+0 0 9
+D0
+~
+~
+0 -1 13568
+D2
+~
+~
+0 -1 13566
+S
+#13568
+Bend in the Lava River~
+Description
+~
+0 0 9
+D1
+~
+~
+0 -1 13569
+D2
+~
+~
+0 -1 13567
+S
+#13569
+On a Lava River~
+Description
+~
+0 0 9
+D1
+~
+~
+0 -1 13570
+D3
+~
+~
+0 -1 13568
+S
+#13570
+Bend in the Lava River~
+Description
+~
+0 0 1
+D0
+~
+~
+0 -1 13571
+D1
+~
+~
+0 -1 13582
+D3
+~
+~
+0 -1 13569
+S
+#13571
+On a Lava River~
+Description
+~
+0 0 9
+D2
+~
+~
+0 -1 13570
+S
+#13572
+~
+Description
+~
+0 9 1
+D2
+~
+~
+0 -1 13532
+D3
+~
+~
+0 -1 13573
+S
+#13573
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13581
+D1
+~
+~
+0 -1 13572
+S
+#13574
+~
+Description
+~
+0 9 1
+D2
+~
+~
+0 -1 13611
+S
+#13575
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13576
+D2
+~
+~
+0 -1 13612
+S
+#13576
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13577
+D1
+~
+~
+0 -1 13579
+D2
+~
+~
+0 -1 13575
+S
+#13577
+~
+Description
+~
+0 8 1
+D1
+~
+~
+0 -1 13578
+D2
+~
+~
+0 -1 13576
+S
+#13578
+~
+Description
+~
+0 8 1
+D1
+~
+~
+0 -1 13580
+D2
+~
+~
+0 -1 13579
+D3
+~
+~
+0 -1 13577
+S
+#13579
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13578
+D3
+~
+~
+0 -1 13576
+S
+#13580
+On a Ledge~
+Description
+~
+0 8 1
+D2
+~
+~
+0 -1 13581
+D3
+~
+~
+0 -1 13578
+D5
+~
+~
+0 -1 13568
+S
+#13581
+On a Ledge~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13580
+D2
+~
+~
+0 -1 13573
+D5
+~
+~
+0 -1 13567
+S
+#13582
+Southern end of hallway~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13583
+D3
+~
+~
+0 -1 13570
+S
+#13583
+Northern end of hallway~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13584
+D2
+~
+~
+0 -1 13582
+S
+#13584
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13593
+D1
+~
+~
+0 -1 13592
+D2
+~
+~
+0 -1 13583
+D3
+~
+~
+0 -1 13585
+S
+#13585
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13586
+D1
+~
+~
+0 -1 13584
+S
+#13586
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13587
+D1
+~
+~
+0 -1 13593
+D2
+~
+~
+0 -1 13585
+S
+#13587
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13588
+D1
+~
+~
+0 -1 13589
+D2
+~
+~
+0 -1 13586
+S
+#13588
+~
+Description
+~
+0 9 1
+D2
+~
+~
+0 -1 13587
+S
+#13589
+~
+Description
+~
+0 8 1
+D1
+~
+~
+0 -1 13590
+D2
+~
+~
+0 -1 13593
+D3
+~
+~
+0 -1 13587
+S
+#13590
+~
+Description
+~
+0 8 1
+D2
+~
+~
+0 -1 13591
+D3
+~
+~
+0 -1 13589
+S
+#13591
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13590
+D2
+~
+~
+0 -1 13592
+D3
+~
+~
+0 -1 13593
+S
+#13592
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13591
+D3
+~
+~
+0 -1 13584
+S
+#13593
+~
+Description
+~
+0 8 1
+D0
+~
+~
+0 -1 13589
+D1
+~
+~
+0 -1 13591
+D2
+~
+~
+0 -1 13584
+D3
+~
+~
+0 -1 13586
+D4
+~
+~
+0 -1 13594
+S
+#13594
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13595
+D5
+~
+~
+0 -1 13593
+S
+#13595
+A small crevice in the rock.~
+Description
+~
+0 0 10
+D0
+~
+~
+0 -1 13510
+D2
+~
+~
+0 -1 13594
+S
+#13596
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+You seem to have gotten turned around, and wish you had a compass about
+now.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13606
+D1
+Just more water.
+~
+~
+0 -1 13599
+D2
+Just more water.
+~
+~
+0 -1 13609
+D3
+Just more water.
+~
+~
+0 -1 13598
+S
+#13597
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13605
+D1
+Just more water.
+~
+~
+0 -1 13600
+D2
+Just more water.
+~
+~
+0 -1 13605
+D3
+Just more water.
+~
+~
+0 -1 13609
+S
+#13598
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13604
+D1
+Just more water.
+~
+~
+0 -1 13596
+D2
+Just more water.
+~
+~
+0 -1 13608
+D3
+Just more water.
+~
+~
+0 -1 13606
+S
+#13599
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13600
+D1
+Just more water.
+~
+~
+0 -1 13596
+D2
+Just more water.
+~
+~
+0 -1 13599
+D3
+Just more water.
+~
+~
+0 -1 13599
+S
+#13600
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13599
+D1
+Just more water.
+~
+~
+0 -1 13597
+D2
+Just more water.
+~
+~
+0 -1 13606
+D3
+Just more water.
+~
+~
+0 -1 13605
+S
+#13601
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13610
+D1
+Just more water.
+~
+~
+0 -1 13602
+D2
+Just more water.
+~
+~
+0 -1 13607
+D3
+Just more water.
+~
+~
+0 -1 13609
+S
+#13602
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13601
+D1
+Just more water.
+~
+~
+0 -1 13606
+D2
+Just more water.
+~
+~
+0 -1 13604
+D3
+Just more water.
+~
+~
+0 -1 13608
+S
+#13603
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+Wait...Is that land to the south?
+~
+0 8196 7
+D0
+Just more water.
+~
+~
+0 -1 13604
+D1
+Just more water.
+~
+~
+0 -1 13608
+D2
+You can barely make out a small bay.
+~
+~
+0 -1 13507
+D3
+Just more water.
+~
+~
+0 -1 13604
+S
+#13604
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13602
+D1
+Just more water.
+~
+~
+0 -1 13598
+D2
+Just more water.
+~
+~
+0 -1 13603
+D3
+Just more water.
+~
+~
+0 -1 13603
+S
+#13605
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13597
+D1
+Just more water.
+~
+~
+0 -1 13607
+D2
+Just more water.
+~
+~
+0 -1 13597
+D3
+Just more water.
+~
+~
+0 -1 13600
+S
+#13606
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13600
+D1
+Just more water.
+~
+~
+0 -1 13596
+D2
+Just more water.
+~
+~
+0 -1 13602
+D3
+Just more water.
+~
+~
+0 -1 13598
+S
+#13607
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13605
+D1
+Just more water.
+~
+~
+0 -1 13601
+D2
+Just more water.
+~
+~
+0 -1 13610
+D3
+Just more water.
+~
+~
+0 -1 13609
+S
+#13608
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13598
+D1
+Just more water.
+~
+~
+0 -1 13610
+D2
+Just more water.
+~
+~
+0 -1 13602
+D3
+Just more water.
+~
+~
+0 -1 13603
+S
+#13609
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+~
+0 8192 7
+D0
+Just more water.
+~
+~
+0 -1 13597
+D1
+Just more water.
+~
+~
+0 -1 13607
+D2
+Just more water.
+~
+~
+0 -1 13596
+D3
+Just more water.
+~
+~
+0 -1 13601
+S
+#13610
+Lost at Sea~
+Looking around, you see nothing but water as far as the eye can see.
+Wait...Is that an island to the south?
+~
+0 8196 7
+D0
+Just more water.
+~
+~
+0 -1 13601
+D1
+Just more water.
+~
+~
+0 -1 13607
+D2
+Land is visible to the south.
+~
+~
+0 -1 11700
+D3
+Just more water.
+~
+~
+0 -1 13608
+S
+#13611
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13574
+D1
+~
+~
+0 -1 13528
+D3
+~
+~
+0 -1 13612
+S
+#13612
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13575
+D1
+~
+~
+0 -1 13611
+D2
+~
+~
+0 -1 13613
+S
+#13613
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13612
+D1
+~
+~
+0 -1 13614
+S
+#13614
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13534
+D1
+~
+~
+0 -1 13615
+D2
+~
+~
+0 -1 13616
+D3
+~
+~
+0 -1 13613
+S
+#13615
+~
+Description
+~
+0 9 1
+D2
+~
+~
+0 -1 13617
+D3
+~
+~
+0 -1 13614
+S
+#13616
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13614
+D1
+~
+~
+0 -1 13617
+S
+#13617
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13615
+D2
+~
+~
+0 -1 13618
+D3
+~
+~
+0 -1 13616
+S
+#13618
+~
+Description
+~
+0 9 1
+D0
+~
+~
+0 -1 13617
+S
+#13619
+A small Dock~
+You are standing on a small dock extending out into a large pool of water.
+A huge waterfall to your west sprays you with a cool mist.  A small shack
+is here with a sign that reads "{BBert's Boats{x".
+         A sign is nailed to a post at the edge of the dock.
+         Below the sign, a brass plaque glints in the light.
+~
+0 9 1
+E
+brass plaque~
++-------------------+
+| +---------------+ |
+| | SACRIFICE.ARE | |
+| |      by       | |
+| |   Vengeance   | |
+| +---------------+ |
++--Realms-Of-Thoth--+
+~
+E
+sign~
+The sign reads:
+               NO FISHING
+~
+D0
+You see a large pool below a waterfall.
+~
+~
+0 -1 13500
+D2
+You see the northern plains.~
+~
+0 -1 326
+S
+#0
+
+
+
+#SPECIALS
+M 13501 spec_breath_any
+S
+
+
+
+#RESETS
+M 0 13501 2 13600 1
+M 0 13501 2 13607 1
+M 0 13500 1 13619 1
+G 0 13500 0
+G 0 13501 0
+G 0 13502 0
+S
+
+
+
+#SHOPS
+13500 1 22 0 0 0 120 90 0 23
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

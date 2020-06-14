@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
@@ -15,6 +17,9 @@ namespace Mud.Server.WPFTestApplication
     /// </summary>
     public partial class ClientWindow : Window, IClient
     {
+        private readonly List<string> _commandHistory = new List<string>();
+        private int _currentHistoryIndex;
+
         public ClientWindow()
         {
             InitializeComponent();
@@ -34,15 +39,43 @@ namespace Mud.Server.WPFTestApplication
         private void SendButton_OnClick(object sender, RoutedEventArgs e)
         {
             string input = InputTextBox.Text.ToLower();
+            if (_commandHistory.Count == 0 || input != _commandHistory.First())
+                _commandHistory.Insert(0, input);
+            _currentHistoryIndex = 0;
             DataReceived?.Invoke(this, input);
             InputTextBox.Focus();
             InputTextBox.SelectAll();
         }
 
-        private void InputTextBox_OnKeyDown(object sender, KeyEventArgs e)
+        private void InputTextBox_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
+            {
                 SendButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent)); // http://stackoverflow.com/questions/728432/how-to-programmatically-click-a-button-in-wpf
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Up)
+            {
+                if (_commandHistory.Count > 1 && _currentHistoryIndex < _commandHistory.Count - 1)
+                {
+                    _currentHistoryIndex++;
+                    InputTextBox.Text = _commandHistory.Skip(_currentHistoryIndex).First();
+                    InputTextBox.Focus();
+                    InputTextBox.SelectAll();
+                }
+                e.Handled = true;
+            }
+            else if (e.Key == Key.Down)
+            {
+                if (_commandHistory.Count > 1 && _currentHistoryIndex > 0)
+                {
+                    _currentHistoryIndex--;
+                    InputTextBox.Text = _commandHistory.Skip(_currentHistoryIndex).First();
+                    InputTextBox.Focus();
+                    InputTextBox.SelectAll();
+                }
+                e.Handled = true;
+            }
         }
 
         public event DataReceivedEventHandler DataReceived;

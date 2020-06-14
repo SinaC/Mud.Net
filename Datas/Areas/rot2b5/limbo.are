@@ -1,0 +1,969 @@
+#AREADATA
+Name Limbo~
+Builders None~
+VNUMs 1 66
+Credits { NONE} Diku    Limbo~
+Security 9
+End
+
+#MOBILES
+#0
+
+
+
+#OBJECTS
+#1
+coin silver gcash~
+a silver coin~
+One miserable silver coin.~
+silver~
+money 0 A
+A 0 0 0 0
+0 10 0 P
+#2
+coin gold gcash~
+a gold coin~
+One valuable gold coin.~
+gold~
+money 0 A
+0 A 0 0 0
+0 10 0 P
+#3
+coins gold gcash~
+%d gold coins~
+A pile of gold coins.~
+gold~
+money 0 A
+0 0 0 0 0
+0 10 0 P
+#4
+coins silver gcash~
+%d silver coins~
+A pile of silver coins.~
+silver~
+money 0 A
+0 0 0 0 0
+0 10 0 P
+#5
+coins money gcash~
+a pile of money~
+A pile of money.~
+gold~
+money 0 A
+0 0 0 0 0
+0 10 0 P
+#6
+coins platinum gcash~
+a platinum coin~
+One valuable platinum coin.~
+platinum~
+money 0 A
+0 0 A 0 0
+0 10 0 P
+#7
+coins platinum gcash~
+%d platinum coins~
+A pile of platinum coins.~
+platinum~
+money 0 A
+0 0 0 0 0
+0 10 0 P
+#10
+corpse~
+the corpse of %s~
+The corpse of %s is lying here.~
+meat~
+npc_corpse 0 A
+0 0 0 A 0
+0 1000 0 D
+#11
+corpse~
+the corpse of %s~
+The corpse of %s is lying here.~
+meat~
+pc_corpse O A
+0 0 0 A 0
+0 1000 0 D
+#12
+%s head~
+the head of %s~
+The severed head of %s is lying here.~
+meat~
+trash 0 AO
+0 0 0 0 0
+0 50 0 D
+#13
+%s heart~
+the heart of %s~
+The torn-out heart of %s is lying here.~
+meat~
+food 0 AO
+16 16 0 0 0
+0 20 0 D
+#14
+%s arm~
+the arm of %s~
+The sliced-off arm of %s is lying here.~
+meat~
+food 0 AO
+20 20 0 0 0
+0 50 0 D
+#15
+%s leg~
+the leg of %s~
+The sliced-off leg of %s is lying here.~
+meat~
+food 0 AO
+20 20 0 0 0
+0 50 0 D
+#16
+%s guts entrails~
+the guts of %s~
+A steaming pile of %s's entrails is lying here.~
+meat~
+food 0 AO
+5 5 0 1 0
+0 20 0 D
+#17
+%s brains brain~
+the brains of %s~
+The splattered brains of %s are lying here.~
+meat~
+food 0 AO
+10 10 0 0 0
+0 20 0 D
+#18
+pool blood~
+{Ra pool of blood{x~
+A small {Rpool of blood{x is here.~
+~
+fountain PT 0
+1 1 'blood' 0 0
+0 0 0 G
+#20
+mushroom~
+a Magic Mushroom~
+A delicious magic mushroom is here.~
+food~
+food 0 A
+8 8 0 0 0
+0 10 0 P
+#21
+ball light~
+a bright ball of light~
+A bright ball of light shimmers in the air.~
+energy~
+light A A
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+0 0 0 P
+#22
+spring~
+a magical spring~
+A magical spring flows from the ground here.~
+water~
+fountain G 0
+100000 100000 'water' 0 0
+0 0 0 P
+#23
+disc disk floating black~
+a floating disc~
+A floating black disc hangs in the air.~
+energy~
+container GMPUYZ AQ
+0 E 0 0 0
+0 0 0 P
+#25
+gate portal~
+a shimmering gate~
+A shimmering black gate rises from the ground, leading to parts unknown.~
+shadow~
+portal GOT 0
+0 0 0 0 0
+0 0 0 P
+#30
+dummy object~
+a dummy object~
+Dummy object si used for loading non-existent objects~
+~
+none 0 0
+0 0 0 0 0
+0 0 0 P
+#50
+pill quest white~
+a shimmering white pill~
+A shimmering white pill has been dropped here.~
+jelly~
+pill AGHTa A
+110 'quest pill' '' '' ''
+0 1 0 P
+#51
+%s voodoo doll~
+a voodoo doll of %s~
+A voodoo doll of %s is lying here.~
+energy~
+treasure G AO
+0 0 0 0 0
+20 5 50 P
+#52
+exit~
+exit~
+Nothing special there.~
+energy~
+exit ORTY 0
+A 0 0 0 0
+1 1 1 P
+#53
+exit chain up~
+the chain~
+The chain disappears in the clouds.~
+iron~
+exit ORTY 0
+BDFGHJKLM 0 0 0 0
+1 1 1 P
+E
+chain~
+The chain reaches the clouds high above you, the bottom link is mangled,
+and almost scrapes the ground.
+~
+#54
+bag~
+a paper bag~
+A small paper bag.~
+leather~
+container 0 A
+50 0 0 5 100
+0 10 0 G
+#55
+passbook~
+a small passbook~
+A small passbook is here.~
+leather~
+passbook PU AO
+0 0 0 0 0
+0 1 0 P
+#56
+exit rope ladder up~
+the rope ladder~
+The rope ladder disappears in a cloud.~
+rope~
+exit ORTY 0
+CFGJKN 0 0 0 0
+1 1 1 P
+E
+rope ladder~
+The ladder reaches a cloud high above you, the bottom floats only inches
+above the ground.
+~
+#57
+quest pouch~
+a green quest pouch~
+A small green pouch for quest items.~
+leather~
+container Y A
+500 0 0 50 1
+0 1 0 G
+#58
+quest item~
+quest item 20~
+Quest item 20~
+treasure~
+trash 0 A
+0 0 0 0 0
+0 1 0 G
+#59
+quest item~
+quest item 30~
+Quest item 30~
+treasure~
+trash 0 A
+0 0 0 0 0
+0 1 0 G
+#60
+quest item~
+quest item 40~
+Quest item 40~
+treasure~
+trash 0 A
+0 0 0 0 0
+0 1 0 G
+#61
+quest item~
+quest item 50~
+Quest item 50~
+treasure~
+trash 0 A
+0 0 0 0 0
+0 1 0 G
+#62
+quest item~
+quest item 60~
+Quest item 60~
+treasure~
+trash 0 A
+0 0 0 0 0
+0 1 0 G
+#63
+quest item~
+quest item 70~
+Quest item 70~
+treasure~
+trash 0 A
+0 0 0 0 0
+0 1 0 G
+#64
+quest item~
+quest item 80~
+Quest item 80~
+treasure~
+trash 0 A
+0 0 0 0 0
+0 1 0 G
+#65
+quest item~
+quest item 90~
+Quest item 90~
+treasure~
+trash 0 A
+0 0 0 0 0
+0 1 0 G
+#66
+quest item~
+quest item 100~
+Quest item 100~
+treasure~
+trash 0 A
+0 0 0 0 0
+0 1 0 G
+#0
+
+
+
+#ROOMS
+#1
+The Void~
+You are floating in nothing.
+~
+0 12 1
+S
+#2
+Limbo~
+You are floating in a formless void, detached from all sensation of physical
+matter, surrounded by swirling glowing light, which fades into the relative
+darkness around you without any trace of edges or shadow.
+   There is a "No Tipping" notice pinned to the darkness.
+~
+0 8 1
+D4
+~
+~
+0 -1 3001
+S
+#3
+The Corner~
+You are standing with your nose in the corner.  Every time you try to
+turn around, you get slapped upside the head and quickly resume your
+position.
+~
+0 40964 1
+S
+#4
+{MI{mm{Cmort{ma{Ml H{ma{Cngou{mt{M!{x~
+~
+0 32772 1
+S
+#10
+Center of the Arena~
+You are standing in the center of a large arena, walls are visible
+far off in each direction.  Blood is splattered across the bricks
+below your feet in a gory display that makes you shudder to think
+of what the creature that died here went through.
+Exits lead off in all directions.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 11
+D1
+~
+~
+0 -1 12
+D2
+~
+~
+0 -1 13
+D3
+~
+~
+0 -1 14
+S
+#11
+Northern Arena~
+You are standing in a large arena. Blood is splattered across the
+ground beneath you.  The northern wall is visible just to the north,
+and walls are visible far to the east and west.
+Exits lead off in all directions.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 15
+D1
+~
+~
+0 -1 16
+D2
+~
+~
+0 -1 10
+D3
+~
+~
+0 -1 17
+S
+#12
+Eastern Arena~
+You are standing in a large arena of some sort. The bricks beneath your
+feet are stained red with blood.  The eastern wall of the arena is
+visible close by to the east.  Other walls are visible far to the north
+and south.  Exits lead in all directions.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 16
+D1
+~
+~
+0 -1 18
+D2
+~
+~
+0 -1 19
+D3
+~
+~
+0 -1 10
+S
+#13
+Southern Arena~
+You are standing in a large battle arena.  Trails of red and green
+blood lead off in various directions.  To the south, the southern
+wall of the arena dominates the sky. Other walls are visible far
+to the east and west.  Exits lead in all directions.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 10
+D1
+~
+~
+0 -1 19
+D2
+~
+~
+0 -1 20
+D3
+~
+~
+0 -1 21
+S
+#14
+Western Arena~
+You stand in a large sqaure room.  Close by to the west is a huge
+wall, extending as far up as the eye can see.  Far to the north and
+south you can see similar walls.  Exits lead in all directions.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 17
+D1
+~
+~
+0 -1 10
+D2
+~
+~
+0 -1 21
+D3
+~
+~
+0 -1 22
+S
+#15
+Along the Northern Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  Similar walls
+can be seen far to the east and west.
+You can head east and west along the wall, or south out into
+the open.
+~
+0 2097156 1
+D1
+~
+~
+0 -1 23
+D2
+~
+~
+0 -1 11
+D3
+~
+~
+0 -1 24
+S
+#16
+Northeast Arena~
+You are standing in a large brick yard.  Traces of blood are
+visible visible on the surface of the bricks.  Huge walls
+loom above you close by to the north and east.
+Trails of blood lead off in all directions.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 23
+D1
+~
+~
+0 -1 25
+D2
+~
+~
+0 -1 12
+D3
+~
+~
+0 -1 11
+S
+#17
+Northwest Arena~
+You are standing in a large brick yard.  Traces of blood are
+visible visible on the surface of the bricks.  Huge walls
+loom above you close by to the north and west.
+Trails of blood lead off in all directions.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 24
+D1
+~
+~
+0 -1 11
+D2
+~
+~
+0 -1 14
+D3
+~
+~
+0 -1 30
+S
+#18
+Along the Eastern Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  Similar walls
+can be seen far to the north and south.
+You can head north and south along the wall, or west out into
+the open.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 25
+D2
+~
+~
+0 -1 26
+D3
+~
+~
+0 -1 12
+S
+#19
+Southeast Arena~
+You are standing in a large brick yard.  Traces of blood are
+visible visible on the surface of the bricks.  Huge walls
+loom above you close by to the south and east.
+Trails of blood lead off in all directions.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 12
+D1
+~
+~
+0 -1 26
+D2
+~
+~
+0 -1 27
+D3
+~
+~
+0 -1 13
+S
+#20
+Along the Southern Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  Similar walls
+can be seen far to the east and west.
+You can head east and west along the wall, or north out into
+the open.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 13
+D1
+~
+~
+0 -1 27
+D3
+~
+~
+0 -1 28
+S
+#21
+Southwest Arena~
+You are standing in a large brick yard.  Traces of blood are
+visible visible on the surface of the bricks.  Huge walls
+loom above you close by to the south and west.
+Trails of blood lead off in all directions.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 14
+D1
+~
+~
+0 -1 13
+D2
+~
+~
+0 -1 28
+D3
+~
+~
+0 -1 29
+S
+#22
+Along the Western Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  Similar walls
+can be seen far to the north and south.
+You can head north and south along the wall, or east out into
+the open.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 30
+D1
+~
+~
+0 -1 14
+D2
+~
+~
+0 -1 29
+S
+#23
+Along the Northern Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  A similar wall
+can be seen close by to the east.
+You can head east and west along the wall, or south out into
+the open.
+~
+0 2097156 1
+D1
+~
+~
+0 -1 31
+D2
+~
+~
+0 -1 16
+D3
+~
+~
+0 -1 15
+S
+#24
+Along the Northern Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  A similar wall
+can be seen close by to the west.
+You can head east and west along the wall, or south out into
+the open.
+~
+0 2097156 1
+D1
+~
+~
+0 -1 15
+D2
+~
+~
+0 -1 17
+D3
+~
+~
+0 -1 34
+S
+#25
+Along the Eastern Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  A similar wall
+can be seen close by to the north.
+You can head north and south along the wall, or west out into
+the open.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 31
+D2
+~
+~
+0 -1 18
+D3
+~
+~
+0 -1 16
+S
+#26
+Along the Eastern Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  A similar wall
+can be seen close by to the south.
+You can head north and south along the wall, or west out into
+the open.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 18
+D2
+~
+~
+0 -1 32
+D3
+~
+~
+0 -1 19
+S
+#27
+Along the Southern Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  A similar wall
+can be seen close by to the east.
+You can head east and west along the wall, or north out into
+the open.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 19
+D1
+~
+~
+0 -1 32
+D3
+~
+~
+0 -1 20
+S
+#28
+Along the Southern Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  A similar wall
+can be seen close by to the west.
+You can head east and west along the wall, or north out into
+the open.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 21
+D1
+~
+~
+0 -1 20
+D3
+~
+~
+0 -1 33
+S
+#29
+Along the Western Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  A similar wall
+can be seen close by to the south.
+You can head north and south along the wall, or east out into
+the open.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 22
+D1
+~
+~
+0 -1 21
+D2
+~
+~
+0 -1 33
+S
+#30
+Along the Western Wall of the Arena~
+You stand before an impressive black wall, heavily stained with what
+must be years worth of different colors you assume to be blood.
+The wall extends upward as far as the eye can see.  A similar wall
+can be seen close by to the north.
+You can head north and south along the wall, or east out into
+the open.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 34
+D1
+~
+~
+0 -1 17
+D2
+~
+~
+0 -1 22
+S
+#31
+Northeast Corner of Arena~
+You stand in the corner of a large arena.  The brick floor beneath
+you is stained with the blood of the many who have entered here
+unprepared.  To your north and east, a huge wall extends upward
+as far as the eye can see.  You can follow the wall to the west
+or south.
+~
+0 2097156 1
+D2
+~
+~
+0 -1 25
+D3
+~
+~
+0 -1 23
+S
+#32
+Southeast Corner of Arena~
+You stand in the corner of a large arena.  The brick floor beneath
+you is stained with the blood of the many who have entered here
+unprepared.  To your south and east, a huge wall extends upward
+as far as the eye can see.  You can follow the wall to the west
+or north.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 26
+D3
+~
+~
+0 -1 27
+S
+#33
+Southwest Corner of Arena~
+You stand in the corner of a large arena.  The brick floor beneath
+you is stained with the blood of the many who have entered here
+unprepared.  To your south and west, a huge wall extends upward
+as far as the eye can see.  You can follow the wall to the east
+or north.
+~
+0 2097156 1
+D0
+~
+~
+0 -1 29
+D1
+~
+~
+0 -1 28
+S
+#34
+Northwest Corner of Arena~
+You stand in the corner of a large arena.  The brick floor beneath
+you is stained with the blood of the many who have entered here
+unprepared.  To your north and west, a huge wall extends upward
+as far as the eye can see.  You can follow the wall to the east
+or south.
+~
+0 2097156 1
+D1
+~
+~
+0 -1 24
+D2
+~
+~
+0 -1 30
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

@@ -1,0 +1,897 @@
+#AREA   {20 35} Handful    MOBprogram School~
+#HELPS 
+-1 generic~
+generic message
+~
+1 things~
+here is some help on things
+~
+1 variables~
+variable         mobile actor victim random     object 2nd_object
+-----------------------------------------------------------------------------
+  name             $i    $n     $t     $r         $o       $p      
+shrt_desc/title    $I    $N     $T     $R         $O       $P          
+he/she/it          $j    $e     $E     $J         --       --    '$'symbol=$$
+him/her/it         $l    $m     $M     $L         --       --          
+his/hers/its       $k    $s     $S     $K         --       --
+a/an               --    --     --     --         $a       $A
+~
+1 conditions~
+ifcheck       argument?        meaning
+-----------------------------------------------------------------------------
+rand(num)                   Is a random percentage less than or equal to num
+has($*,vnum)                Does $* have item # vnum
+isnpc($*)                   Is $* an NPC
+ispc($*)                    Is $* a PC
+isgood($*)                  Does $* have a good alignment 
+isfight($*)                 Is $* fighting
+isimmort($*)                Is the level of $* greater than max_mortal
+ischarmed($*)               Is $* affected by charm
+isfollow($*)                Is $* a follower with their master in the room
+isaffected($*) & integer    Is ($*->affected_by & integer) true (person only) 
+hitprcnt($*)  == percent    Is the hit/max_hit of $* equal to percent
+inroom($*)    == integer    Is the room of $* equal to integer (person only)
+sex($*)       == integer    Is the sex of $* equal to integer
+position($*)  == integer    Is the position of $* equal to integer
+level($*)     == integer    Is the level of $* equal to integer
+class($*)     == integer    Is the class of $* equal to integer
+goldamt($*)   == integer    Does $* have a gold total equal to integer
+objtype($*)   == integer    Is the type of $* equal to integer (armor,boat,etc)
+objval#($*)   == integer    Is $*->value[#] equal to integer (# from 0-3)
+number($*)    == integer    Is the vnum of $* equal to integer
+name($*)      == string     Is the name of $* equal to string
+~
+1 MOBcommands~
+MOBcommand      argument_list           MOBcommand      argument_list
+-----------------------------------------------------------------------------
+MPSTAT          <mobile>                MPASOUND        <text_string>
+MPJUNK          <object>                MPECHO          <text_string>
+MPMLOAD         <mobile>                MPECHOAT        <victim> <text_string>
+MPOLOAD         <object> <level>        MPECHOAROUND    <victim> <text_string>
+MPKILL          <victim>                MPPURGE         [argument]
+MPGOTO          <dest>                  MPAT            <dest> <command> 
+MPTRANSFER      <dest> [location]       MPFORCE         <victim> <command>
+~
+1 triggers~
+act_prog
+all_greet_prog
+bribe_prog
+death_prog
+entry_prog
+fight_prog
+give_prog
+greet_prog
+hitprcent_prog
+rand_prog
+speech_prog~
+
+0 $~
+
+#MOBILES
+#3051
+example1~
+Example 1~
+Example 1 is here
+~
+You see nothing special
+~
+human~
+BGKV 0 0 S
+1 -1 1d1+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 0
+0 A 2 0
+>greet_prog 100~
+bow
+~
+|
+
+#3052
+example2~
+Example 2~
+Example 2 is here
+~
+You see nothing special
+~
+human~
+BGKV 0 0 S
+1 -1 1d1+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 0
+0 A 2 0
+>greet_prog 50~
+bow
+hop
+say "I am Example2, aren't I cute?
+~
+|
+
+#3053
+example3~
+The Third Example~
+The Third Example is here
+~
+You see nothing special
+~
+human~
+BGKV 0 0 S
+1 -1 1d1+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 0
+0 A 2 0
+>greet_prog 100~
+bow $n
+say You look just like $N.
+say My full name is $I, but you can call me $i.
+~
+|
+
+#3054
+example4~
+Example 4~
+Example 4 is here
+~
+You see nothing special
+~
+human~
+BGKV 0 0 S
+1 -1 1d1+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 0
+0 A 2 0
+>greet_prog 100~
+if ispc($n)
+   bow $n
+endif
+~
+|
+
+#3055
+sage~
+The Sage~
+The sage waits patiently to bestow knowledge upon you.
+~
+This wise old man has the worldly look of someone who
+knows all there is to know. The friendly wink he gives
+you thinks he may even be willing to share that
+knowledge with you.
+~
+human~
+BGKV 0 0 S
+150 -1 50d10+9500 1d1+1 8d6+28 17
+-30 -30 -30 -30
+0 ABCDEFGHIJKLMNOPQRS ABCDEFGHIJKLMNOPQRS 0 
+8 8 1 0
+DV ABCDEFGHIJK 2 0
+>greet_prog 100~
+if ispc ($n)
+  if isimmort ($n)
+    bow $n
+  else
+    MPECHO The sage raps you across the knuckles with his ruler and says
+    MPECHO 'Pay attention when I'm talking!'
+  endif
+endif
+~
+|
+
+#3056
+example6~
+Example 6~
+Example 6 is here
+~
+You see nothing special
+~
+human~
+BGV 0 0 S
+1 -1 1d1+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 0
+0 A 2 0
+>death_prog 100~
+MPECHO $I says "Arrggh! You got me! But just wait til I repop!"
+~
+|
+
+#3057
+beggar~
+The beggar~
+A beggar is here
+~
+You see nothing special
+~
+human~
+BGV 0 0 S
+1 -1 10d100+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 0
+0 A 2 0
+>greet_prog 80~
+if ispc($n)
+	beg $n
+	say Spare some gold?
+endif
+~
+>bribe_prog 10000~
+dance $n
+french $n
+~
+>bribe_prog 1000~
+say Oh my GOD!  Thank you! Thank you!
+french $n
+~
+>bribe_prog 100~
+say Wow!  Thank you! Thank you!
+~
+>bribe_prog 1~
+thank $n
+~
+>fight_prog 20~
+say Help!  Please somebody help me!
+if rand(50)
+	say Ouch!
+else
+	say I'm bleeding.
+endif
+~
+>death_prog 50~
+if rand(50)
+	MPECHOAROUND $i $I says 'Now I go to a better place.'
+else
+	MPECHOAROUND $i $I says 'Forgive me God for I have sinned...'
+endif
+~
+|
+
+#3058
+example8~
+Example 8~
+Example 8 is here
+~
+You see nothing special
+~
+human~
+BGV 0 0 S
+1 -1 1d1+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 0
+0 A 2 0
+>all_greet_prog 100~
+   say You should not be here - begone!
+	MPTRANSFER $n 3009
+~
+|
+
+#3059
+example9~
+example 9~
+Example 9 is here
+~
+You see nothing special
+~
+human~
+BGV 0 0 S
+1 -1 20d100+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 0
+0 A 2 0
+>hitprcnt_prog 40~
+	say I feel a little unwell...
+~
+>hitprcnt_prog 60~
+	say You are beginning to make an impression on me
+~
+>hitprcnt_prog 80~
+	say I felt a pinprick
+~
+>hitprcnt_prog 100~
+	say Barely touched me
+~
+|
+
+#3060
+questmaster~
+The Quest Master~
+The Quest Master is here
+~
+You see nothing special
+~
+human~
+BGV 0 0 S
+1 -1 20d100+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 10000
+0 A 2 0
+>give_prog sword shiny magic~
+   say At last, you have returned to me this worthless item!
+   say Your quest is over, my faithful friend.
+   say here is a token of my esteem.
+   give 100 gold $n
+   drop sword
+~
+|
+
+#3061
+puff2~
+Puff 2~
+Puff2 is here
+~
+You see nothing special
+~
+human~
+BGV 0 0 S
+1 -1 20d100+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 10000
+0 A 2 0
+>rand_prog 20~
+	say Did you know I am a MOBprogrammed mob?
+~
+>rand_prog 40~
+	say Are we having fun yet?
+~
+>rand_prog 60~
+	say More light! More light!
+~
+>rand_prog 80~
+	say You cried for night to fall - now cry in the darkness.
+~
+|
+
+#3062
+minstrel~
+The Wandering Minstrel~
+The Wandering Minstrel is here
+~
+You see nothing special
+~
+human~
+GV 0 0 S
+1 -1 20d100+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 10000
+0 A 2 0
+>rand_prog 50~
+   east
+~
+>rand_prog 50~
+   west
+~
+>entry_prog 100~
+   say Hi, everyone.
+~
+>speech_prog hi heya hiya~
+	bow
+~
+>speech_prog p what's up with you?~
+   say Nothing much, you?
+~
+|
+
+#3063
+poker~
+The Poker~
+The Poker is here
+~
+You see nothing special
+~
+human~
+BGV 0 0 S
+1 -1 20d100+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 10000
+0 A 2 0
+>greet_prog 100~
+   poke $n
+   if sex($n)==0
+      say you look neuter
+   else 
+     if sex($n)==1
+	say you look male
+     else
+	you look female
+     endif
+  endif
+~
+>act_prog p pokes you in the~
+   say two can play at that game
+   poke $n
+   poke $n
+~
+|
+
+#3064
+vendor~
+The Ticket Vendor~
+The Ticket Vendor is here
+~
+You see nothing special
+~
+human~
+BGV 0 0 S
+1 -1 20d100+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 10000
+0 A 2 0
+
+#3065
+collector~
+The Ticket Collector~
+The Ticket Collector is here
+~
+You see nothing special
+~
+human~
+BGV 0 0 S
+1 -1 20d100+1 1d1+1 1d1+1 1
+-1 -1 -1 -1
+0 0 0 0 
+8 8 0 10000
+0 A 2 0
+>give_prog ticket to moon~
+	say Next stop - the Moon!
+   MPECHOAT $n You hear a sudden rushing noise...
+	MPJUNK ticket
+	MPTRANSFER $n 3031
+~
+|
+#0
+
+#OBJECTS 
+#3090
+sword shiny magic~
+a sword~
+There is a shiny sword here.~
+metal~
+5 0 AN
+1 1 5 1 0
+0 3 60 G
+
+#3091
+ticket to moon~
+a ticket to the Moon~
+There is a transporter ticket here.~
+metal~
+18 0 AN
+1 1 5 1 0
+0 3 60 G
+
+#3092
+ticket to mars~
+a ticket to Mars~
+There is a transporter ticket here.~
+metal~
+18 0 AN
+1 1 5 1 0
+0 3 60 G
+
+#3093
+ticket to venus~
+a ticket to Venus~
+There is a transporter ticket here.~
+metal~
+18 0 AN
+1 1 5 1 0
+0 3 60 G
+
+#3094
+ticket to mercury~
+a ticket to Mercury~
+There is a transporter ticket here.~
+metal~
+18 0 AN
+1 1 5 1 0
+0 3 60 G
+#0
+
+
+#ROOMS 
+
+#3000
+Entrance to MOBprogram school~
+In the next rooms you will find a tutorial set of
+mobs with MOBprograms set. Always move up to go on,
+and down to go back.
+
+You can use the mpstat <mob> command to see the MOBprogram
+on a mob. Most mobs have names like example1, example2, etc
+
+In this area are several help topics - variables,
+conditions, MOBcommand, and triggers will show you
+the appropriate lists.
+~
+0 N 0
+D4
+You see more MOBprogram examples.
+~
+up~
+0 -1 3001
+S
+
+#3001
+Example 1~
+This mob bows deeply when you come in, but note that if you come
+in from the same room - i.e. use the east exit, which leads back
+here, he does nothing.
+
+Also, see that he does not bow if you transfer in, or are invisible
+when you come in, or if you login when in this room - try it.
+~
+0 N 0
+D1
+You see more MOBprogram examples.
+~
+east~
+0 -1 3001
+D5
+~
+down~
+0 -1 3000
+D4
+~
+up~
+0 -1 3002
+S
+
+#3002
+Example 2~
+This mob just illustrates multiple commands, and only reacts 50%
+of the time.
+~
+0 N 0
+D5
+~
+down~
+0 -1 3001
+D4
+~
+up~
+0 -1 3003
+S
+
+#3003
+Example 3~
+This mob shows the use of variables.
+
+   $n  will be replaced by the name of whoever caused the trigger
+       i.e. the character who enters in our case.
+   $N  will be replaced by the name and title of the character
+
+   $i  will be replaced by the name of the responding mob.
+   $I  will be replaced by the name and title of the mob.
+
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3002
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3004
+S
+
+#3004
+Example 4~
+This is an example of a simple condition testing. Example4
+will not react if a mob enters - but how can I prove it?
+
+Well, there should be two examples here. If you have the
+command, you can switch into one, go down and come back up.
+If you don't have it...tough, just take me word for it. If 
+you do switch, please leave things as you found them.
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3003
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3005
+S
+
+#3005
+Example 5~
+Here is an example with a nested if statement, an "else" section
+and some MOBCommands.
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3004
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3006
+S
+
+
+#3006
+Example 6~
+Kill this mob to see his death_prog.
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3005
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3007
+S
+
+
+#3007
+Example 7~
+This is an example mob from the original developers of
+MOBprograms. You can give him money and fight him to
+see him react.
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3006
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3008
+S
+
+
+#3008
+Example 8~
+The guardian's room.
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3007
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3009
+S
+
+
+#3009
+Example 9~
+Attack this mob, but I suggest you use no weapon to avoid killing him
+too fast.
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3008
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3010
+S
+
+#3010
+You have arrived in the QuestMaster's room~
+
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3009
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3011
+S
+
+#3011
+You have arrived in Puff 2's room~
+
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3010
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3012
+S
+
+#3012
+You have arrived in The Wandering Minstel's room.~
+Just wait around, the Wandering Minstrel should move in and
+out of here and exercise his entry_prog.
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3011
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3013
+D1
+You see more MOBprogram examples~
+east~
+0 -1 3030
+D3
+You see more MOBprogram examples~
+west~
+0 -1 3030
+S
+
+#3013
+You have arrived in the Poker's room.~
+The Poker has an act_prog() trigger which is currently not working.
+In fact act_prog() seems to be bad code altogether. Handful is
+researching this question...
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3012
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3014
+S
+
+#3014
+Transporter ticket sales~
+Buy a ticket here and give it to the ticket collector in
+the next room.
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3013
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3015
+S
+
+#3015
+Transporter Room.~
+Please have your tickets ready. You give the ticket to
+the Collector. Note that you dont have to state your 
+destination: he can tell by the ticket where to send you.
+~
+0 N 0
+D5
+You see the last set of MOBprogram examples~
+down~
+0 -1 3014
+D4
+You see more MOBprogram examples~
+up~
+0 -1 3000
+S
+
+#3030
+The Wandering Minstrel's Run~
+
+~
+0 N 0
+D1
+You see the Wandering Minstrel's room~
+east~
+0 -1 3012
+D3
+You see Wandering Minstrel's room~
+west~
+0 -1 3012
+S
+
+#3031
+The Moon~
+
+~
+0 N 0
+D5
+~
+down~
+0 -1 3014
+
+S
+
+
+#3032
+Mars~
+
+~
+0 N 0
+D5
+~
+down~
+0 -1 3014
+
+S
+
+
+#3033
+Venus~
+
+~
+0 N 0
+D5
+~
+down~
+0 -1 3014
+
+S
+
+
+#3034
+Mercury~
+
+~
+0 N 0
+D5
+~
+down~
+0 -1 3014
+S
+
+#0
+
+#RESETS 
+M 0 3051 1 3001   ; example 1
+M 0 3052 1 3002   ; example 2
+M 0 3053 1 3003   ; example 3
+M 0 3054 2 3004   ; example 4
+M 0 3054 2 3004   ; example 4
+M 0 3055 1 3005   ; example 5
+M 0 3056 1 3006   ; example 6
+M 0 3057 1 3007   ; beggar
+M 0 3058 1 3008   ; example 8
+M 0 3059 1 3009   ; example 9
+M 0 3060 1 3010   ; quest master
+O 0 3090 0 3010   ; load shiny magic sword
+M 0 3061 1 3011   ; puff2
+M 0 3062 1 3012   ; wandering minstrel
+M 0 3063 1 3013   ; poker
+M 0 3064 1 3014   ; vendor
+G 1 3091 3064     ; ticket to moon
+G 1 3092 3064     ; ticket to mars
+G 1 3093 3064     ; ticket to venus
+G 1 3094 3064     ; ticket to mercury
+M 0 3065 1 3015   ; ticket collector
+S
+
+#SHOPS 
+3064 18 0 0 0 0 100 100 0 23
+0
+
+#SPECIALS 
+S
+
+#MOBPROGS
+S
+
+#$

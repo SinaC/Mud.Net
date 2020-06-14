@@ -1,0 +1,2135 @@
+#AREADATA
+Name Valley Glade~
+Builders None~
+VNUMs 21100 21199
+Credits {{ 7 15} Mishakal  The Valley Glade~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#21100
+cardinal bird~
+a cardinal~
+A red bird sings in the trees.
+~
+It glances at you with animal curiousity, then goes back to singing.
+~
+song bird~
+0
+AG JZ 0 0 0 0
+2 2 2d7+21 1d1+1 0d0+0 1d5+0 peckb
+8 9 8 13
+FH 0 0 0
+stand stand either 1
+AGHMVW ACDEFHKP small 0
+F aff T
+#21101
+bird~
+a song bird~
+A bright bird chirps constantly from the branches.
+~
+Brightly coloured, the bird ceaselessly sings to itself and other birds.
+~
+song bird~
+0
+AG JZ 0 0 0 0
+1 1 2d6+10 1d1+1 0d0+0 1d4+0 peck
+9 7 8 12
+FH 0 0 0
+stand stand either 1
+AGHMVW ACDEFHKP small 0
+F aff T
+#21102
+snake~
+a garter snake~
+A green snake slides noislessly through the underbrush.
+~
+Long, thin and vibrantly green, the snake seems to take no notice of you. It flicks out its tongue often, and because it has round pupils, it is not poisonous.
+~
+snake~
+0
+AG JPZ 0 0 0 0
+4 1 2d7+46 1d1+1 0d0+0 1d5+1 bite
+6 5 6 10
+FW 0 L I
+stand stand either 2
+AGHMVXYc ADEFKLQVX small 0
+#21103
+burrower worm~
+a large, burrowing worm~
+An enormous white worm tunnels out of the earth!
+~
+The worm is large and white, purely muscle developed to burrow through the earth. It seems to call this deep pit home, and is threatened by your presence here.
+~
+snake~
+0
+ABFG DJOPZ 0 0 -720 0
+13 0 3d9+233 5d5+10 0d0+0 2d6+4 digestion
+-2 0 -3 5
+FMW 0 L I
+stand stand none 10
+AGHMVXYc ADEFKLQVX medium 0
+#21104
+cleric elven elf~
+an elven cleric~
+An elf dressed in clerical robes wanders through the forest.
+~
+He is dressed simply, and has striking features, even for an elf. He seems to be thinking on the deeper mysteries of life as he walks through the peaceful forest. On his left arm is a sign of a clenched fist.
+~
+grey-elf~
+0
+ABGQ DPZ 0 0 800 0
+11 6 2d10+150 5d5+250 0d0+0 1d10+2 pound
+0 -1 1 4
+FK 0 CP Z
+stand stand male 13
+AHMV ABCDEFGHIJK medium 0
+F aff FJ
+#21105
+orc~
+a hill orc~
+A grotesque orc stands here, seeking to kill.
+~
+It grunts angrily, as if your mere presence irritated it. Swinging a mithril flail carelessly, it seems ready to beat someone's head in just for the sadistic joy of it.
+~
+orc~
+0
+AGT Z 0 0 -615 0
+10 6 2d7+121 1d1+1 0d0+0 2d4+2 beating
+1 2 1 6
+0 0 LQ 0
+stand stand male 8
+AHMV ABCDEFGHIJK medium 0
+F aff J
+#21106
+centaur soldier~
+a centaur soldier~
+A centaur patrols the area for threats to the woodland.
+~
+He is strong, both his horse half and his human half. Muscles ripple beneath bronzed skin, and he wields his javelin like a true master. He is relentless in his quest to protect these woods from the evils that have beset the surrounding woodlands.
+~
+unique~
+0
+AGT JZ 0 0 600 0
+12 4 2d10+195 1d1+1 0d0+0 1d12+3 charge
+-2 -1 -3 3
+FIKN 0 0 0
+stand stand male 15
+AHMNV ABCDEFGHIJKQ medium 0
+#21107
+anti-ranger scout human~
+an anti-ranger scout~
+A human dressed in green and brown clothing scowls at the woods.
+~
+He is dressed like a ranger, but something about him suggests that he seeks to destroy the forest. He was sent here by the higher forces that are ravaging the woods nearby, to see what sort of resistance will be made here.
+~
+human~
+0
+AGT JPZ 0 0 -700 0
+18 4 5d10+650 1d1+1 0d0+0 3d7+9 slash
+-7 -8 -7 -4
+0 0 0 0
+stand stand male 25
+AHMV ABCDEFGHIJK medium 0
+#21108
+gardener~
+a gardener~
+A man stands in the garden, artfully pruning the trees.
+~
+He is dressed in simple clothes, and seems to derive a lot of pleasure from the keeping of his little garden. No doubt he maintains the pond as well. Using his pruning hook, he carefully cuts back certain branches to give a very pleasing look to his small plot of land.
+~
+human~
+0
+ABG JZ 0 0 0 0
+8 6 2d7+96 1d1+1 0d0+0 1d7+2 punch
+0 3 2 5
+IJKN 0 0 0
+stand stand male 3
+AHMV ABCDEFGHIJK medium 0
+#21109
+fish~
+a small fish~
+A small fish swims about the still waters.
+~
+It's not terribly large, and seems to be content with swimming back and forth in the cool waters of the pond.
+~
+water fowl~
+0
+ABG JZ 0 0 0 0
+3 1 2d6+35 1d1+1 0d0+0 1d6+0 chomp
+8 9 9 15
+F 0 R 0
+stand stand none 1
+AGHMVWb ACDEFHKPX small 0
+F aff Tb
+F aff2 AB
+#21110
+fungus crawling~
+a crawling fungus~
+A sickly mass of organic matter crawls about slowly on the earth.
+~
+It seems to be a gigantic, moving heap of fungus, not terribly pleasant at all.
+~
+unique~
+0
+AG Z 0 0 0 0
+5 3 2d6+60 1d1+1 0d0+0 1d6+1 slime
+5 4 5 10
+0 ALPQ B HK
+stand stand none 2
+AHMSV 0 large 0
+#21111
+red centipede~
+a small red centipede~
+A small centipede crawls around on the floor of the cave.
+~
+It doesn't look too threatening, although it wouldn't be a good idea to eat whatever's left of it. Red is a warning colour in nature generally meaning "don't eat me."
+~
+centipede~
+0
+AG 0 0 0 0 0
+2 2 2d7+21 1d1+1 0d0+0 1d5+0 sting
+8 9 8 16
+0 0 FI E
+stand stand none 0
+ABGHMOV ACKV small 0
+F aff Z
+#21112
+squirrel grey~
+a grey squirrel~
+A small squirrel searches warily for food.
+~
+It has a large, fluffy tail, and as it hops around in its life's quest to eat, the tail undulates interestingly. As it notices you looking at it, it freezes.
+~
+dog~
+0
+AGH PZ 0 0 0 0
+2 0 0d0+0 0d0+0 0d0+0 0d0+0 scratch
+0 0 0 0
+HW 0 0 0
+stand stand either 0
+AGHMV ABCDEFHJKUV medium 0
+#21113
+rabbit small~
+a small rabbit~
+A small rabbit hops around here, eating some grass.
+~
+It doesn't have a care in this world; it hops around and eats grass all day long. With no natural predators around, they are quite prolific.
+~
+rabbit~
+0
+AGH 0 0 0 0 0
+7 5 2d6+85 1d1+1 0d0+0 1d8+1 scratch
+3 4 4 9
+FH 0 0 0
+stand stand none 1
+AGHMV ABCDEFHJK small 0
+#21114
+bear black~
+a black bear~
+A large black bear ambles slowly through the forest.
+~
+The bear is quite beautiful, with a thick, shiny black coat. It lives mainly off berries and roots, and is fairly peaceful. But when threatened, it fights fiercely.
+~
+bear~
+0
+AG 0 0 0 0 0
+10 3 2d7+121 1d1+1 0d0+0 2d4+2 claw
+1 2 1 6
+DEOW 0 EI 0
+stand stand either 3
+AGHMV ABCDEFHJKUV medium 0
+#21115
+human druid~
+a human druid~
+A druid stands here, silently watching over the forest.
+~
+He seems to have made his home here, and is devoted to making this forest as safe as he can. He is waiting for his ranger friend to come and help him more, especially with the threat of an anti-ranger scout here.
+~
+human~
+0
+ABGQ DPTZ 0 0 0 0
+12 3 2d10+195 5d10+50 0d0+0 1d12+3 smash
+-1 1 0 4
+JK 0 0 0
+stand stand male 19
+AHMV ABCDEFGHIJK medium 0
+#21116
+human ranger~
+a human ranger~
+A ranger is prowling about the area, looking for something.
+~
+He is wearing some leather armor, but not much more. With his whip in his hand, he is ready to start protected this forest as well. He just got out of his basic training, and is looking for an orc who has been seen around.
+~
+human~
+0
+AG PZ 0 0 0 0
+12 3 2d10+195 1d1+1 0d0+0 1d12+3 whip
+-1 -2 0 4
+DEJ 0 0 0
+stand stand male 19
+AHMV ABCDEFGHIJK medium 0
+#21117
+myconoid~
+a myconoid~
+A mushroom man wanders around the caves.
+~
+It seems like a fungi. It's grey-coloured, and seems to be very peaceful. Its head is topped with a cap, which is spotted all over with red dots.
+~
+unique~
+0
+AG FJPQZ 0 0 0 0
+13 0 3d9+233 1d1+1 0d0+0 2d6+4 crush
+-2 -1 -1 4
+IJK LQ E H
+stand stand none 21
+AHMV ABCDEF medium 0
+#0
+
+
+
+#OBJECTS
+#21100
+ring gold~
+a gold ring~
+A small golden ring glitters prettily.~
+gold~
+armor 0 AB
+3 4 4 3 3
+7 10 0 P
+Y
+char 'strength' 0 1
+Y
+char 'hp' 0 10
+E
+gold ring~
+It is a very plain gold band, but it is very shiny.~
+#21101
+javelin spear steel~
+a steel javelin~
+A rather short spear is lying on the ground.~
+wood~
+weapon 0 AN
+exotic 6 3 stab 0
+9 40 0 P
+Y
+char 'damroll' 0 1
+Y
+char 'hitroll' 0 3
+E
+short spear javelin~
+It looks as if it were made for something smaller than the average human, or even a kender. It can probably be held easily with one hand.~
+#21102
+smoky glass orb~
+a smoky glass orb~
+A small, dark glass ball rolls around a little.~
+glass~
+staff EGJQ AO
+15 6 6 'protection good' 0
+15 30 0 P
+E
+smoky glass orb~
+The glass is clouded darkly, and has a certain magical aura to it.~
+#21103
+mace copper coral~
+a copper-handled mace with a coral head~
+A mace with a bright aquamarine handle and a delicate pink head stands out clearly.~
+copper~
+weapon 0 AN
+mace 4 6 crush 0
+11 40 0 P
+Y
+char 'hitroll' 0 2
+Y
+char 'wisdom' 0 1
+Y
+char 'mana' 0 15
+E
+mace copper coral~
+It is quite striking; the contrast between the bright aquamarine of the tarnished copper and the soft orange-pink of the mace is very interesting.~
+#21104
+pendant fist clenched wooden~
+a wooden pendant of a clenched fist~
+A small wooden pendant is tied to a thin cord.~
+wood~
+armor AKL AC
+4 5 3 4 4
+12 10 0 P
+Y
+char 'hp' 0 10
+Y
+char 'strength' 0 1
+Y
+char 'mana' 0 10
+E
+pendant fist clenched wood~
+The pendant is beautifully carved from a white wood, every detail immaculate. The cord is coarse and simple.~
+#21105
+pole pruning hook~
+a pruning hook~
+A long wooden pole is topped with a sharp, curved blade.~
+wood~
+weapon 0 AN
+polearm 4 6 slash F
+7 100 0 P
+Y
+char 'hitroll' 0 -1
+Y
+char 'damroll' 0 3
+E
+pole pruning hook~
+It was made to cut away unwanted growth on taller trees, and was probably the property of a gardener at one time.~
+#21106
+wand platinum~
+a platinum wand~
+A short, slender length of platinum is here.~
+platinum~
+wand BG AO
+10 20 20 'magic missile' 0
+10 10 0 P
+E
+wand platinum~
+It is quite solid and strong, and it hums with magical energies.~
+#21107
+flask holy water~
+a flask of holy water~
+A crystal-clear flask sits upright.~
+glass~
+potion 0 AO
+10 'bless' 'remove curse' '' ''
+10 10 0 P
+E
+flask holy water~
+It seems to have a blessed radiance to it.~
+#21108
+flaxen robe~
+a flaxen robe~
+A simple, white robe has been heartlessly cast away.~
+linen~
+armor 0 AK
+6 6 6 6 6
+11 50 0 P
+Y
+char 'constitution' 0 1
+Y
+char 'saving throw' 0 -3
+Y
+char 'hitroll' 0 3
+E
+flaxen robe~
+There is nothing fancy about this robe whatsoever. It is made of simple fiber, stitched together to form a cool, comfortable yet very plain robe.~
+#21109
+bronze bracer carved~
+a carved bronze bracer~
+A strong-looking bracer of bronze glitters brightly.~
+bronze~
+armor A AM
+4 5 5 4 4
+7 10 0 P
+Y
+char 'AC' 0 -4
+Y
+char 'hp' 0 20
+E
+bronze bracer carved~
+After it was cast, it appears to have been carved with some general swirls and whirls.~
+#21110
+mithril flail~
+a mithril flail~
+A mithril ball, attached to a chain and a wooden stick, sits heavily on the ground.~
+mithril~
+weapon 0 AN
+flail 5 5 beating 0
+10 110 0 P
+Y
+char 'dexterity' 0 -1
+Y
+char 'hp' 0 15
+Y
+char 'damroll' 0 3
+E
+mithril flail~
+Made of silver-steel, the mithril ball is spiked and looks as if it can cause quite a lot of pain. It is attached to a wooden haft by means of a mithril chain.~
+#21111
+spiked iron buckler~
+a spiked iron buckler~
+A small, round shield with a single spike protruding from its center rests here.~
+iron~
+armor 0 AJ
+5 6 6 7 7
+10 30 0 P
+Y
+char 'AC' 0 -3
+Y
+char 'hp' 0 15
+E
+spiked iron buckler~
+The spike isn't terribly sharp; it seems as if it were meant to be more of an intimidator than anything else.~
+#21112
+wings shield~
+a shield of outstretched wings~
+What appears to be two metal wings are fitted together.~
+steel~
+armor B AJ
+6 5 6 7 7
+12 50 0 P
+Y
+char 'intelligence' 0 1
+Y
+char 'hp' 0 10
+E
+wings shield~
+It is a beautifully-crafted shield, forged of steel and painted to resemble birds' wings.~
+#21113
+gladius sword black steel~
+a gladius of black steel~
+A short sword of the colour of night gleams dangerously.~
+steel~
+weapon E AN
+sword 9 3 slash 0
+18 80 0 P
+Y
+char 'dexterity' 0 1
+Y
+char 'hitroll' 0 3
+Y
+char 'damroll' 0 4
+E
+gladius sword steel black~
+A short, thick and sharp blade is at one end, while the hilt is elliptical in shape. The pommel is sort of triangular. The entire thing is black, except for a glimmering white opal set into it.~
+#21114
+chain boots~
+a pair of chainmail boots~
+Two boots of meshed rings flop over to the side.~
+iron~
+armor E AG
+6 7 5 6 6
+15 40 0 P
+Y
+char 'AC' 0 -5
+Y
+char 'hp' 0 -5
+Y
+char 'dexterity' 0 1
+Y
+char 'moves' 0 15
+E
+chain boots~
+They are made of meshed chain links, closely knit for good protection of the lower leg. The soles are padded with very soft black leather.~
+#21115
+pond~
+the pond~
+A pond is here.~
+water~
+fountain OTY 0
+10000 10000 'water' 0 0
+10 5000 0 P
+E
+pond~
+The water of the pond is very clear and refershing-looking. It seems safe to drink.~
+#21116
+herb green~
+a green herb~
+A fresh-looking herb is here.~
+meat~
+pill G A
+10 'cure disease' 'cure poison' 'cure light' ''
+10 10 0 P
+E
+herb green~
+It smells quite good.~
+#21117
+statue nymph~
+a statue of a nymph~
+A lovely blue marble statue is in the center of the pond.~
+marble~
+treasure TY 0
+0 0 0 0 0
+20 5000 0 P
+E
+statue nymph~
+It's quite lifelike and lovely. The statue is carved out of blue marble, and the nymph depicted is coyly covering her naked body from whoever may look upon her while she is enjoying the cool waters. At the base of the statue, barely above the water, is a faint square-shaped outline.~
+#21118
+square outline box~
+a hidden compartment~
+A square outline box lies on the ground.~
+wood~
+container O 0
+50 ABCD 21123 50 100
+0 5000 0 P
+E
+square box outline compartment~
+Hmmm ... seems to be a hidden compartment of some sort.~
+#21119
+statuette nymph marble~
+a statuette of a nymph~
+A small blue statuette of a nymph has been left here.~
+marble~
+treasure GKTY AO
+0 0 0 0 0
+10 50 0 P
+Y
+char 'hp' 0 20
+Y
+char 'mana' 0 15
+Y
+char 'AC' 0 -5
+E
+statuette nymph marble~
+It was loving crafted of a solid block of blue marble. The nymph is in a playful pose, smiling and laughing.~
+#21120
+gloves leather soft gardening~
+a pair of soft leather gardening gloves~
+Two gloves of supple leather lie here.~
+leather~
+armor 0 AH
+8 4 3 4 4
+0 20 0 P
+Y
+char 'wisdom' 0 1
+Y
+char 'AC' 0 -3
+Y
+char 'dexterity' 0 1
+E
+gloves leather soft~
+They are quite comfortable-looking, made of thick yet soft and pliable leather. Made for gardening, they protect the hands best against the pricks of thorns.~
+#21121
+seeds~
+a handful of seeds~
+A small pile of seeds aren't sprouting yet.~
+meat~
+food 0 A
+1 2 0 0 0
+2 10 0 P
+E
+seeds~
+They look edible.~
+#21122
+flower patch~
+a flower patch~
+A large patch of brightly-coloured flowers is well-tended.~
+wood~
+treasure OTY 0
+0 0 0 0 0
+10 5000 0 P
+E
+flowers patch~
+They are all quite lovely, and grow easily in the pleasant forest glade.~
+#21123
+jewel blue~
+a blue jewel~
+A tiny blue jewel glitters and catches the light.~
+crystal~
+treasure Y AO
+0 0 0 0 0
+3 10 0 P
+Y
+char 'hp' 0 10
+Y
+char 'saving throw' 0 -2
+E
+jewel blue~
+What a pretty gem!~
+#21124
+mushroom grey~
+a small grey mushroom~
+There is a tiny mushroom here, looking inconspicuous.~
+meat~
+food 0 A
+2 2 0 0 0
+2 10 0 P
+E
+mushroom grey~
+It doesn't seem to be poisonous.~
+#21125
+watering can~
+a watering can~
+A large can of water sits here.~
+aluminium~
+drink 0 AO
+80 80 'water' 0 0
+4 20 0 P
+E
+watering can~
+It's equipped with some holes at the end of a spout to disperse water over plants more gently.~
+#21126
+fungus chunk~
+a chunk of fungus~
+A large piece of fungus lies here.~
+meat~
+pill Q A
+3 'detect magic' 'faerie fog' 'infravision' ''
+3 10 0 P
+E
+fungus chunk~
+Certain mushrooms are supposed to make you hallucinate. Why not try it?~
+#21127
+scale mail green iron~
+a suit of green scalemail~
+A suit of scalemail lies in a heap, coloured like the grass.~
+iron~
+armor 0 AD
+6 6 7 6 6
+16 60 0 P
+Y
+char 'hp' 0 20
+Y
+char 'hitroll' 0 3
+Y
+char 'constitution' 0 1
+E
+scale mail black iron~
+Made of iron and stained green, it seems like good protection.~
+#21128
+armbands steel~
+a pair of steel armbands~
+Two thick bands of polished steel rest here.~
+steel~
+armor B AI
+5 6 5 6 6
+13 40 0 P
+Y
+char 'damroll' 0 2
+Y
+char 'constitution' 0 1
+Y
+char 'hp' 0 15
+E
+armbands steel~
+They fit tightly around the upper portion of the arms.~
+#21129
+nut~
+a nut~
+A small nut is here.~
+meat~
+food Q A
+1 1 0 0 0
+1 10 0 P
+E
+nut~
+It looks tasty, but you should eat a lot of them. Nuts are good for you.~
+#21130
+silver bracelet~
+a silver bracelet~
+A small silver bracelet gleams in the light.~
+silver~
+treasure 0 AM
+0 0 0 0 0
+11 10 0 P
+Y
+char 'hp' 0 10
+Y
+char 'saving throw' 0 -1
+Y
+char 'AC' 0 -2
+E
+silver bracelet~
+It is fairly thick, but scratched all over.~
+#21131
+berries red~
+some red berries~
+A few large, red berries are laying here.~
+meat~
+food 0 A
+5 4 0 0 0
+5 10 0 P
+E
+berries red~
+They look really juicy and sweet.~
+#21132
+staff wooden~
+a wooden staff wrapped with leather~
+A long wooden staff is wrapped up in thick leather.~
+wood~
+weapon 0 AN
+staff(weapon) 5 5 crush F
+10 50 0 P
+Y
+char 'mana' 0 20
+Y
+char 'saving throw' 0 -3
+Y
+char 'hp' 0 15
+E
+staff wooden~
+The leather is cured and neither soft nor hard; it makes the staff easier to grip and hold on to.~
+#21133
+robe green wool~
+a green wool robe~
+A robe made of wool and dyed green lies in a heap.~
+wool~
+armor A AK
+5 4 6 6 6
+10 40 0 P
+Y
+char 'moves' 0 10
+Y
+char 'hitroll' 0 2
+Y
+char 'AC' 0 -5
+E
+robe green wool~
+The wool is coarse and can be very warm when it is cold. The green colour perfectly matches that of trees and grass.~
+#21134
+ring wooden~
+a small, carved wooden ring~
+A small loop of wood is lying here.~
+wood~
+armor B AB
+3 3 4 4 4
+10 10 0 P
+Y
+char 'wisdom' 0 1
+Y
+char 'damroll' 0 2
+E
+ring wooden~
+It seems to have been carved from a cherry tree.~
+#21135
+bullwhip leather white~
+a white leather bullwhip~
+A length of white leather is coiled up.~
+leather~
+weapon B AN
+whip 5 5 sting 0
+12 30 0 P
+Y
+char 'dexterity' 0 1
+Y
+char 'AC' 0 -5
+Y
+char 'hitroll' 0 3
+E
+bullwhip white leather~
+The fact that it's white is kind of strange. Nevertheless, the whip seems as if it is strong enough.~
+#21136
+leather armor hard~
+a suit of hard leather armor~
+A casing of hard leather lies here.~
+leather~
+armor 0 AD
+5 5 7 6 6
+10 40 0 P
+Y
+char 'damroll' 0 2
+Y
+char 'hp' 0 15
+E
+leather armor hard~
+The armor has been pounded into shape after being boiled and cured.~
+#21137
+iron skull cap~
+an iron skull cap~
+A small iron cap is lying like a bowl.~
+iron~
+armor A AE
+4 4 5 5 5
+10 30 0 P
+Y
+char 'mana' 0 10
+Y
+char 'intelligence' 0 1
+Y
+char 'AC' 0 -3
+E
+iron skull cap~
+It is good protection for the top and back of the head, but not the face. It is reinforced with some iron bands, and is topped with a small spike.~
+#21138
+bear claw~
+a bear claw~
+The claw of a black bear is quite sharp and thick.~
+bone~
+weapon BQ AN
+dagger 5 5 slash 0
+10 5 0 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 1
+Y
+char 'dexterity' 0 1
+E
+bear claw~
+It was severed from a black bear.~
+#21139
+branch leaves green~
+a branch covered with green leaves~
+A short branch is covered in green leaves.~
+wood~
+staff G AO
+13 10 10 'entangle' 0
+13 30 0 P
+E
+branch green leaves~
+It seems magical, somehow.~
+#21140
+stone cup green liquid~
+a stone cup filled with a green liquid~
+A small stone cup is half-filled with green liquid.~
+stone~
+potion Y A
+12 'armor' 'shield' '' ''
+12 20 0 P
+E
+stone cup green liquid~
+The cup is carved from soft stone, and the liquid inside is bitter-smelling.~
+#21141
+pelt black bear~
+a black bear pelt~
+The skin of a bear is stretched out, shining and soft.~
+leather~
+armor BQ AK
+6 4 4 5 5
+12 60 0 P
+Y
+char 'strength' 0 2
+Y
+char 'saving throw' 0 -2
+Y
+char 'damroll' 0 2
+E
+pelt black bear~
+Druid lore suggests that wearing the skin of an animal passes along some of that animal's power to you.~
+#21142
+stone stalactite~
+a stone stalactite~
+A large stone stalactite has fallen from somewhere.~
+stone~
+weapon 0 AN
+mace 5 4 pound 0
+13 120 0 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 -3
+Y
+char 'strength' 0 1
+E
+stone stalactite~
+This thing is large and heavy. Big muscles are needed to use it well.~
+#21143
+mushroom cap~
+a large mushroom cap~
+A fairly huge mushroom cap is sitting on the ground.~
+jelly~
+armor GQ AE
+4 3 3 5 5
+12 20 0 P
+Y
+char 'hp' 0 8
+Y
+char 'mana' 0 15
+Y
+char 'wisdom' 0 2
+E
+mushroom cap~
+It is spotted all over with red dots. It's very big, and could be worn on the head, if one wanted to look like a mushroom.~
+#21144
+amulet ruby~
+an amulet of ruby on a silver chain~
+A small red disk gleams in the light, attached to a silver chain.~
+crystal~
+armor AY AC
+4 4 3 3 5
+12 20 0 P
+Y
+char 'damroll' 0 1
+Y
+char 'saving throw' 0 -2
+Y
+char 'intelligence' 0 1
+E
+amulet ruby~
+It's a very large ruby, and it attached to a thin silver chain.~
+#21145
+corpse~
+an animal corpse~
+A rotten animal corpse is on the floor.~
+meat~
+npc_corpse 0 A
+0 0 0 0 0
+5 150 0 P
+E
+corpse~
+It is almost completely rotted away.~
+#0
+
+
+
+#ROOMS
+#21100
+On a trail in the dwarf forest~
+The trail from the valley in the dwarf forest continues south, along a leaf-covered path that doesn't look as if it has seen many travellers. But who is to say, perhaps it has. The air is cool, but the trees are dark and brooding all around. The small valley is to the north.
+~
+0 4 3
+0
+E
+stone~
+This area may be used in any ROM 2.4 MUD, provided that credit is given to Mishakal in the area list. - copyright 2001~
+D2
+~
+~
+0 -1 21101
+S
+#21101
+On a trail in the dwarf forest~
+The leaf-covered path winds back and forth lazily through the cool, dark woodland. The sound of animals running about in the underbrush can be heard, as can birds singing overhead in the trees. The trees form such a dense canopy overhead that most light is blocked out.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21100
+D2
+~
+~
+0 -1 21102
+S
+#21102
+On a fading trail~
+The path is quite leaf-strewn at this point; it's a bit hard to tell where it is. Bushes and other undergrowth also crowd onto the already narrow trail. The forest seems to be a bit darker here, but it could just be a trick of the eyes. The path to the dwarf forest is northwards, while the trail continues to fade to the west.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21101
+D3
+~
+~
+0 -1 21103
+S
+#21103
+On a fading trail~
+A break in the trees can be seen just to the west; it appears that this is the top of a hill. The trail is faint, but the general outline of the trees suggests where it is. Leaves cover the ground, and grasses and undergrowth grow quite high. Small animals can be heard moving about all around, and birds sing from the branches of trees.
+~
+0 0 3
+0
+D1
+~
+~
+0 -1 21102
+D3
+~
+~
+0 -1 21104
+S
+#21104
+At the top of a wooded hill~
+From this vantage point, a wooded vale can be seen below. The path is quite apparent there; to the east, it isn't so clear. Leaves and shrubs mostly crowd out the path in that direction, but the trees seem to maintain a vague idea of where to head. The valley below seems quiet and peaceful.
+~
+0 0 3
+0
+D1
+~
+~
+0 -1 21103
+D5
+~
+~
+0 -1 21105
+S
+#21105
+At the bottom of a wooded hill~
+The short hill ends here, as does the trail, at the top of the rim of the valley. There are enough trees to still consider this woodland, though they appear to mostly stop growing just to the west. The trail back to the dwarf forest, however faint, is just back up the hill.
+~
+0 0 3
+0
+D3
+~
+~
+0 -1 21106
+D4
+~
+~
+0 -1 21104
+S
+#21106
+The outer edge of the forest trail~
+There are a few trees here, but not many. To the east, however, is wild forest. A small hill rises up to the east, and to the west is a peaceful-looking wooded vale. The sound of birds singing comes from all around, in the woods. The air is still and smells fresh, as it can only in a forest.
+~
+0 4 4
+0
+D1
+~
+~
+0 -1 21105
+D3
+~
+~
+0 -1 21107
+S
+#21107
+Overlooking a wooded valley~
+Here is the true vantage point for the forested glen below. Trees rise up tall and lush, and vibrant birds sing joyfully in them. A small clearing seems to be at the western edge of the valley, and a cave is in the cliff of the northern rim. A thin trail leads down into the valley, and the rim winds around to the north and south.
+~
+0 0 4
+0
+D0
+~
+~
+0 -1 21108
+D1
+~
+~
+0 -1 21106
+D2
+~
+~
+0 -1 21110
+D5
+~
+~
+0 -1 21125
+S
+#21108
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland.
+~
+0 0 4
+0
+D0
+~
+~
+0 -1 21109
+D2
+~
+~
+0 -1 21107
+S
+#21109
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. The trail heads west, with the pathway leading back to the dwarf forest a short way to the south.
+~
+0 0 4
+0
+D2
+~
+~
+0 -1 21108
+D3
+~
+~
+0 -1 21117
+S
+#21110
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. The trail along the rim heads north and south.
+~
+0 0 4
+0
+D0
+~
+~
+0 -1 21107
+D2
+~
+~
+0 -1 21111
+S
+#21111
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. The rim curves around to the north and west.
+~
+0 0 4
+0
+D0
+~
+~
+0 -1 21110
+D3
+~
+~
+0 -1 21112
+S
+#21112
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. The trail heads west and east; just to the east, it bends northward.
+~
+0 0 4
+0
+D1
+~
+~
+0 -1 21111
+D3
+~
+~
+0 -1 21113
+S
+#21113
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. There does not seem to be any way down here, but there does appear to be a steep path just to the west.
+~
+0 0 4
+0
+D1
+~
+~
+0 -1 21112
+D3
+~
+~
+0 -1 21114
+S
+#21114
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. A fairly steep path leads down into the valley, while the path along the rim heads west and east.
+~
+0 0 4
+0
+D1
+~
+~
+0 -1 21113
+D3
+~
+~
+0 -1 21115
+D5
+~
+~
+0 -1 21147
+S
+#21115
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland.
+~
+0 0 4
+0
+D1
+~
+~
+0 -1 21114
+D3
+~
+~
+0 -1 21116
+S
+#21116
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. The trail takes a turn here, to the north and east.
+~
+0 0 4
+0
+D0
+~
+~
+0 -1 21122
+D1
+~
+~
+0 -1 21115
+S
+#21117
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. To the east, the trail seems to turn southward, but it stretches to the west for a good distance.
+~
+0 0 4
+0
+D1
+~
+~
+0 -1 21109
+D3
+~
+~
+0 -1 21118
+S
+#21118
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland.
+~
+0 0 4
+0
+D1
+~
+~
+0 -1 21117
+D3
+~
+~
+0 -1 21119
+S
+#21119
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. A climb down a smoother part of the cliff face will take you into the valley itself.
+~
+0 0 4
+0
+D1
+~
+~
+0 -1 21118
+D3
+~
+~
+0 -1 21120
+D5
+~
+~
+0 -1 21143
+S
+#21120
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. The pathway heads east and west.
+~
+0 0 4
+0
+D1
+~
+~
+0 -1 21119
+D3
+~
+~
+0 -1 21121
+S
+#21121
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. South and east, the trail turns.
+~
+0 0 4
+0
+D1
+~
+~
+0 -1 21120
+D2
+~
+~
+0 -1 21124
+S
+#21122
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. A short leap down the cliffside will take you into the valley, while the path around it goes north and south.
+~
+0 0 4
+0
+D0
+~
+~
+0 -1 21123
+D2
+~
+~
+0 -1 21116
+D5
+~
+~
+0 -1 21157
+S
+#21123
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. To the north and south, the trail continues.
+~
+0 0 4
+0
+D0
+~
+~
+0 -1 21124
+D2
+~
+~
+0 -1 21122
+S
+#21124
+A trail around the valley~
+Walking along the rim of the valley, the air is still and fresh. Trees grow tall down below, but that is not to say that there are none up here; quite the contrary. It is just that there are not enough trees to truly consider this a part of the surrounding woodland. The view from here is quite excellent.
+~
+0 0 4
+0
+D0
+~
+~
+0 -1 21121
+D2
+~
+~
+0 -1 21123
+S
+#21125
+A steep trail~
+Between the valley and the rim, the high and the low, between the earth and the sky, is this short yet almost dangerously steep slope. The soil is quite loose here, and the clattering of rocks falling is not uncommon. There are few truly stable places to step, but the trail slopes more gently towards the bottom, affording slightly easier passage. The sounds of birdsong rise up from the wood below.
+~
+0 4 5
+0
+D4
+~
+~
+0 -1 21107
+D5
+~
+~
+0 -1 21126
+S
+#21126
+The eastern end of the valley~
+The east end of the valley is calm and quiet, the air still and fresh. There seems to be a goodly bit of animal activity going on in the forest which stretches out all to the west. The trees and other plants are thick, but not terribly close together. Sunlight comes down through the canopy in places, illuminating random spots of ground.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21127
+D2
+~
+~
+0 -1 21128
+D3
+~
+~
+0 -1 21129
+D4
+~
+~
+0 -1 21125
+S
+#21127
+In the vale's woodland~
+The woods all around are green and vibrant. Birds sing overhead, while small animals race from your footsteps through the bushes and grass. The air is fresh, and smells alive like the forest. It is quite cool, because the canopy formed by the tall trees is dense and blocks out a lot of sunlight, but not enough to make the forest dark and forboding.
+~
+0 0 3
+0
+D2
+~
+~
+0 -1 21126
+D3
+~
+~
+0 -1 21131
+S
+#21128
+In the vale's woodland~
+The woods all around are green and vibrant. Birds sing overhead, while small animals race from your footsteps through the bushes and grass. The air is fresh, and smells alive like the forest. It is quite cool, because the canopy formed by the tall trees is dense and blocks out a lot of sunlight, but not enough to make the forest dark and forboding.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21126
+D3
+~
+~
+0 -1 21130
+S
+#21129
+In the forested valley~
+The valley is nice and peaceful, and has fresh, cool air. The trees stretch high up above you, soaking up the light and a lot of the heat from the sun. Bushes and grasses are plentiful on the ground, and the animal life is wild and plentiful.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21131
+D1
+~
+~
+0 -1 21126
+D2
+~
+~
+0 -1 21130
+D3
+~
+~
+0 -1 21133
+S
+#21130
+In the wooded glen~
+The vibrant forest is filled with noises of animals, cool air and bright sunlight. The plants grow thick and tall, each competing for the life-giving light of the sun. Birdsong comes from all around, coming sporadically as each bird feels like singing or not. Small furry animals run through the bushes and grass, looking for food.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21129
+D1
+~
+~
+0 -1 21128
+D3
+~
+~
+0 -1 21132
+S
+#21131
+Walking through the valley floor~
+In the valley floor, animals are abundant. They make rustling sounds as they go through the underbrush, searching for food or running from the sound of your footsteps. The air is nice and cool, feeling fresh and clean. Grasses reach up nearly to your waist at some places, and bushes are thick and full with dark leaves, some of them with berries on them.
+~
+0 0 3
+0
+D1
+~
+~
+0 -1 21127
+D2
+~
+~
+0 -1 21129
+D3
+~
+~
+0 -1 21134
+S
+#21132
+In the forested valley~
+The valley is nice and peaceful, and has fresh, cool air. The trees stretch high up above you, soaking up the light and a lot of the heat from the sun. Bushes and grasses are plentiful on the ground, and the animal life is wild and plentiful.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21133
+D1
+~
+~
+0 -1 21130
+D2
+~
+~
+0 -1 21147
+D3
+~
+~
+0 -1 21145
+S
+#21133
+In the wooded glen~
+The vibrant forest is filled with noises of animals, cool air and bright sunlight. The plants grow thick and tall, each competing for the life-giving light of the sun. Birdsong comes from all around, coming sporadically as each bird feels like singing or not. Small furry animals run through the bushes and grass, looking for food.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21134
+D1
+~
+~
+0 -1 21129
+D2
+~
+~
+0 -1 21132
+D3
+~
+~
+0 -1 21144
+S
+#21134
+Before a dark cave~
+To the north is the wide yet low gaping mouth of a cave. Not many sounds come from inside, but an occasional draught of cold air will. Everywhere else, the forest rises up, alive and green. Birds sing and rabbits and squirrels dart about on the ground, looking for a bite to eat. A narrow path leads to the west.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21135
+D1
+~
+~
+0 -1 21131
+D2
+~
+~
+0 -1 21133
+D3
+~
+~
+0 -1 21143
+S
+#21135
+Inside a dark cave~
+Just inside the cave, light from the forest comes into the wide entrance. The ceiling is low, however, and makes movement slightly difficult, for want of not hitting the ceiling. The walls are smooth, soft damp earth, and it seems as if something dug this tunnel, rather than it being a natural formation.
+~
+0 12 0
+0
+D0
+~
+~
+0 -1 21136
+D2
+~
+~
+0 -1 21134
+S
+#21136
+Inside a dark cave~
+The cave's ceiling is very low, making movement a bit difficult. The air is cool and fresh, the ground soft and damp. The cave seems more like a tunnel of a large creature more than a natural formation. A few rocks stick out from the ceiling, but not many. The cave winds east and south, where the entrance is.
+~
+0 9 0
+0
+D1
+~
+~
+0 -1 21137
+D2
+~
+~
+0 -1 21135
+S
+#21137
+Inside a dark cave~
+The tunnel turns north and west here, curving gently. The walls, ceiling and floor are all curved, as well. It seems as if something dug this tunnel itself. The air is still fairly fresh, and a little hint of light comes from the west.
+~
+0 9 0
+0
+D0
+~
+~
+0 -1 21138
+D3
+~
+~
+0 -1 21136
+S
+#21138
+Inside a dark cave~
+The cave slopes off here, but you can still walk around the hole and head to the north. The slope isn't terribly steep or long, and it seems as if the cave extends further that way. The air is a bit stale, smelling strongly of damp earth. The exit to the cavern is somewhere to the south.
+~
+0 9 0
+0
+D0
+~
+~
+0 -1 21158
+D2
+~
+~
+0 -1 21137
+D5
+~
+~
+0 -1 21139
+S
+#21139
+Inside a dark cave~
+At the bottom of the gentle slope, the cave continues to the south. The air is getting a bit rotten-smelling, as if something were decaying around here. A few rocks are on the floor, with indentations in the ceiling and walls to show from where they fell. The cave appears to drop off completely a little way to the south.
+~
+0 9 0
+0
+D2
+~
+~
+0 -1 21140
+D4
+~
+~
+0 -1 21138
+S
+#21140
+At the top of a fairly deep pit~
+Below you is a semi-deep pit. The bottom doesn't seem to be able to be seen. Small bits of dirt and small rocks sometimes fall off the edge, where they can be heard to hit the bottom, so it's doubtful that a fall would be fatal. A few places that can be used to climb down are visible. The air is now pronouncedly smelling of decay.
+~
+0 9 0
+0
+D0
+~
+~
+0 -1 21139
+D5
+~
+~
+0 -1 21141
+S
+#21141
+On the pit's wall~
+The wall of the pit seems even more dangerous than the steep slope that leads into this valley. Handholds are few and far between, but there are enough to safely hang on. Luckily, it doesn't seem as if any sort of animal could have the intelligence to climb this wall. Just below you is the bottom of the pit, while the edge of it is just above.
+~
+0 13 0
+0
+D4
+~
+~
+0 -1 21140
+D5
+~
+~
+0 -1 21142
+S
+#21142
+At the bottom of the pit~
+The pit is dark and cold, and it seems as if something is watching. A few animal skeletons lie on the ground, along with rotten corpses, and the air is saturated with their stench. The dirt is very loose, as if something has been digging around here. The top of the pit is a little way above your head. The ground rumbles occasionally, like a very minor earthquake.
+~
+0 9 0
+0
+D4
+~
+~
+0 -1 21141
+S
+#21143
+At a path leading to the rim~
+The forest breaks slightly here, but not much. Trees are still all around, tall and deep green. The air is cool and moist, as is the ground beneath your feet. The sounds of birds singing can be heard coming from the entire valley, as can the rustling of animals in the underbrush.
+~
+0 4 3
+0
+D1
+~
+~
+0 -1 21134
+D2
+~
+~
+0 -1 21144
+D3
+~
+~
+0 -1 21148
+D4
+~
+~
+0 -1 21119
+S
+#21144
+In the forested valley~
+The valley is nice and peaceful, and has fresh, cool air. The trees stretch high up above you, soaking up the light and a lot of the heat from the sun. Bushes and grasses are plentiful on the ground, and the animal life is wild and plentiful.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21143
+D1
+~
+~
+0 -1 21133
+D2
+~
+~
+0 -1 21145
+S
+#21145
+In the vale's woodland~
+The woods all around are green and vibrant. Birds sing overhead, while small animals race from your footsteps through the bushes and grass. The air is fresh, and smells alive like the forest. It is quite cool, because the canopy formed by the tall trees is dense and blocks out a lot of sunlight, but not enough to make the forest dark and forboding.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21144
+D1
+~
+~
+0 -1 21132
+D2
+~
+~
+0 -1 21146
+S
+#21146
+In the wooded glen~
+The vibrant forest is filled with noises of animals, cool air and bright sunlight. The plants grow thick and tall, each competing for the life-giving light of the sun. Birdsong comes from all around, coming sporadically as each bird feels like singing or not. Small furry animals run through the bushes and grass, looking for food.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21145
+D1
+~
+~
+0 -1 21147
+S
+#21147
+A path leading to the rim~
+The forest breaks slightly here, but not much. Trees are still all around, tall and deep green. The air is cool and moist, as is the ground beneath your feet. The sounds of birds singing can be heard coming from the entire valley, as can the rustling of animals in the underbrush.
+~
+0 4 3
+0
+D0
+~
+~
+0 -1 21132
+D3
+~
+~
+0 -1 21146
+D4
+~
+~
+0 -1 21114
+S
+#21148
+In the wooded glen~
+The vibrant forest is filled with noises of animals, cool air and bright sunlight. The plants grow thick and tall, each competing for the life-giving light of the sun. Birdsong comes from all around, coming sporadically as each bird feels like singing or not. Small furry animals run through the bushes and grass, looking for food.
+~
+0 0 3
+0
+D1
+~
+~
+0 -1 21143
+D3
+~
+~
+0 -1 21149
+S
+#21149
+Walking through the valley floor~
+In the valley floor, animals are abundant. They make rustling sounds as they go through the underbrush, searching for food or running from the sound of your footsteps. The air is nice and cool, feeling fresh and clean. Grasses reach up nearly to your waist at some places, and bushes are thick and full with dark leaves, some of them with berries on them.
+~
+0 0 3
+0
+D1
+~
+~
+0 -1 21148
+D2
+~
+~
+0 -1 21150
+D3
+~
+~
+0 -1 21154
+S
+#21150
+In the forested valley~
+The valley is nice and peaceful, and has fresh, cool air. The trees stretch high up above you, soaking up the light and a lot of the heat from the sun. Bushes and grasses are plentiful on the ground, and the animal life is wild and plentiful.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21149
+D3
+~
+~
+0 -1 21151
+S
+#21151
+In the vale's woodland~
+The woods all around are green and vibrant. Birds sing overhead, while small animals race from your footsteps through the bushes and grass. The air is fresh, and smells alive like the forest. It is quite cool, because the canopy formed by the tall trees is dense and blocks out a lot of sunlight, but not enough to make the forest dark and forboding.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21154
+D1
+~
+~
+0 -1 21150
+D3
+~
+~
+0 -1 21152
+S
+#21152
+In the vale's woodland~
+The woods all around are green and vibrant. Birds sing overhead, while small animals race from your footsteps through the bushes and grass. The air is fresh, and smells alive like the forest. It is quite cool, because the canopy formed by the tall trees is dense and blocks out a lot of sunlight, but not enough to make the forest dark and forboding.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21153
+D1
+~
+~
+0 -1 21151
+D3
+~
+~
+0 -1 21155
+S
+#21153
+A small, lovely garden~
+You stand now in a pretty little garden, obviously tended to with love and great care. The trees are cut back so as to become artful, and flowers grow plentifully. Sunlight streams down from above, making this a nice place to lie down and take a nap, were one so inclined. The buzzing of bees around the flowers is soft and gentle.
+~
+0 4 2
+0
+D1
+~
+~
+0 -1 21154
+D2
+~
+~
+0 -1 21152
+D3
+~
+~
+0 -1 21156
+S
+#21154
+In a pond~
+The pond is only waist-deep, and in the center of it is a statue of a nymph. The waters are calm and cool, almost cold. Sunlight reflects almost blindingly off the surface of the still pond, and below, the flashing silver of fish swimming about can be seen. To the west is a clearing of some kind.
+~
+0 4 6
+0
+D1
+~
+~
+0 -1 21149
+D2
+~
+~
+0 -1 21151
+D3
+~
+~
+0 -1 21153
+S
+#21155
+In the wooded glen~
+The vibrant forest is filled with noises of animals, cool air and bright sunlight. The plants grow thick and tall, each competing for the life-giving light of the sun. Birdsong comes from all around, coming sporadically as each bird feels like singing or not. Small furry animals run through the bushes and grass, looking for food.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 21156
+D1
+~
+~
+0 -1 21152
+D3
+~
+~
+0 -1 21157
+S
+#21156
+Walking through the valley floor~
+In the valley floor, animals are abundant. They make rustling sounds as they go through the underbrush, searching for food or running from the sound of your footsteps. The air is nice and cool, feeling fresh and clean. Grasses reach up nearly to your waist at some places, and bushes are thick and full with dark leaves, some of them with berries on them.
+~
+0 0 3
+0
+D1
+~
+~
+0 -1 21153
+D2
+~
+~
+0 -1 21155
+S
+#21157
+Western side of the valley~
+The west end of the valley is calm and quiet, the air still and fresh. There seems to be a goodly bit of animal activity going on in the forest which stretches out all to the east. The trees and other plants are thick, but not terribly close together. Sunlight comes down through the canopy in places, illuminating random spots of ground. There is a place to climb the cliff wall to go to the rim of the valley.
+~
+0 4 3
+0
+D1
+~
+~
+0 -1 21155
+D4
+~
+~
+0 -1 21122
+S
+#21158
+Inside a dark cave~
+A few small insects crawl around on the moist ground of the cave, but not many. A large chunk of sandstone also juts out of the eastern wall. It seems as if this cave were made by something besides nature. It stretches on to the north and south.
+~
+0 9 0
+0
+D0
+~
+~
+0 -1 21159
+D2
+~
+~
+0 -1 21138
+S
+#21159
+Inside a dark cave~
+Bending south and east, the tunnel continues on. The ceiling is higher here than at the entrance, but not by much. The earth rumbles occasionally, but the cause is not to be found here. The air inside is damp and a bit stale, but a gentle breeze can be felt coming from the east.
+~
+0 9 0
+0
+D1
+~
+~
+0 -1 21160
+D2
+~
+~
+0 -1 21158
+S
+#21160
+Inside a dark cave~
+From above, a faint wind blows down, smelling of earth and a bit like the forest. It must be a tunnel leading to somewhere. The ceiling is starting to become almost completely stone, but the rest of the cave is still damp earth. Tiny holes, made by earthworms, speckle its surface. A rocky wall affords a way to climb up.
+~
+0 9 0
+0
+D3
+~
+~
+0 -1 21159
+D4
+~
+~
+0 -1 21161
+S
+#21161
+Under a hole~
+There seems to be a sort of hole in the ceiling here, a circular opening in the granite. The rest of the cave is damp earth, and the air smells strongly of it. A faint breeze blows through the hole, smelling more of the forest than anything. There must be a way out into it around here.
+~
+0 9 0
+0
+D5
+~
+~
+0 -1 21160
+S
+#0
+
+
+
+#SPECIALS
+M 21103 spec_poison
+M 21104 spec_cast_cleric
+M 21117 spec_poison
+S
+
+
+
+#RESETS
+M 0 21102 6 21101 1
+M 0 21100 5 21103 1
+M 0 21101 6 21105 1
+M 0 21116 1 21113 1
+E 0 21136 0 5
+E 0 21137 0 6
+E 0 21135 0 16
+G 0 21116 0
+M 0 21102 6 21114 1
+O 0 21140 0 21119
+M 0 21105 1 21121 1
+E 0 21111 0 11
+E 0 21109 0 15
+E 0 21110 0 16
+M 0 21100 5 21126 1
+M 0 21115 1 21126 1
+E 0 21134 0 1
+E 0 21133 0 12
+E 0 21132 0 16
+E 0 21139 0 17
+G 0 21131 0
+G 0 21116 0
+M 0 21104 1 21127 1
+E 0 21104 0 3
+E 0 21108 0 12
+E 0 21103 0 16
+E 0 21106 0 17
+G 0 21107 0
+M 0 21112 5 21127 1
+G 0 21129 0
+G 0 21129 0
+M 0 21113 8 21127 1
+M 0 21102 6 21128 1
+M 0 21101 6 21128 1
+O 0 21116 0 21128
+M 0 21113 8 21129 1
+M 0 21101 6 21130 1
+M 0 21114 2 21130 1
+E 0 21138 0 16
+M 0 21113 8 21130 1
+M 0 21102 6 21131 1
+M 0 21106 2 21132 1
+E 0 21112 0 11
+E 0 21101 0 16
+E 0 21128 0 10
+M 0 21112 5 21132 1
+G 0 21129 0
+M 0 21113 8 21132 1
+M 0 21101 6 21133 1
+M 0 21112 5 21133 1
+O 0 21116 0 21133
+M 0 21101 6 21134 1
+M 0 21113 8 21134 1
+O 0 21124 0 21136
+M 0 21111 5 21136 1
+M 0 21110 4 21137 1
+M 0 21117 1 21137 1
+E 0 21142 0 16
+E 0 21144 0 3
+E 0 21143 0 6
+O 0 21124 0 21138
+M 0 21111 5 21138 1
+M 0 21110 4 21139 1
+G 0 21126 0
+O 0 21124 0 21140
+M 0 21111 5 21140 1
+M 0 21103 1 21142 1
+G 0 21102 0
+M 0 21111 5 21142 2
+O 0 21124 0 21142
+O 0 21145 0 21142
+M 0 21100 5 21145 1
+M 0 21101 6 21145 1
+M 0 21106 2 21146 1
+E 0 21101 0 16
+E 0 21130 0 15
+G 0 21140 0
+M 0 21112 5 21146 1
+M 0 21102 6 21148 1
+M 0 21113 8 21148 1
+M 0 21100 5 21149 1
+O 0 21116 0 21149
+M 0 21107 1 21150 1
+E 0 21114 0 8
+E 0 21113 0 16
+E 0 21127 0 5
+M 0 21112 5 21150 1
+M 0 21114 2 21150 1
+E 0 21141 0 12
+M 0 21102 6 21151 1
+M 0 21113 8 21152 1
+M 0 21108 1 21153 1
+E 0 21120 0 9
+E 0 21105 0 16
+E 0 21100 0 1
+G 0 21121 0
+O 0 21122 0 21153
+O 0 21125 0 21153
+O 0 21115 0 21154
+O 0 21117 0 21154
+O 0 21118 0 21154
+P 0 21119 100 21118 100
+M 0 21109 1 21154 1
+G 0 21123 0
+O 0 21116 0 21155
+M 0 21100 5 21156 1
+M 0 21113 8 21156 1
+O 0 21124 0 21158
+M 0 21110 4 21159 1
+O 0 21124 0 21160
+M 0 21110 4 21161 1
+G 0 21126 0
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

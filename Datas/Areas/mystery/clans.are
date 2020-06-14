@@ -1,0 +1,591 @@
+#AREADATA
+Name Clan Area~
+Builders Mud None~
+VNUMs 100 199
+Credits {{ ALL }         Clans Area~
+Security 5
+Flags 0
+End
+
+
+
+#MOBILES
+#100
+Wolverine~
+Wolverine, the guardian of the Hunter of ISE~
+Wolverine, the guardian of the Hunter of ISE
+~
+In the dark, you see small glowing eyes watching your every moves.
+Soon, as you begin to see more in the dark, you start too see a grin, the "man" himself.
+He's halfman-halfbeast...and ready to leap at anytime, hiw claws already unsheated. Even if he can't see you, you know for sure that he's aware of your presence !
+-
+~
+human~
+0
+ABS CEGHJZa 0 0 0 0
+95 0 10d400+3500 0d0+0 0d0+0 17d20+220 claw
+0 0 0 0
+0 0 CD 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#120
+merchant~
+TheKlan merchant~
+You see a well dressed man who looks to have traveled the lands many times
+~
+He is making a killing off of selling TheKlan.  He hopes they never go
+away.  
+~
+human~
+0
+ABa 0 0 0 0 0
+1 0 1d1+1 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#160
+healer~
+the healer~
+The healer is here selling spells.
+~
+~
+human~
+0
+AGa 0 0 0 0 0
+50 0 0d0+0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 AD 0 0
+sit sit none 0
+AHMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#100
+clan amulet~
+an amulet of [Hunter Of ISE]~
+A shimmering amulet lies here.~
+unknown~
+portal AB AO
+0 0 0 100 0
+0 0 0 P
+M
+clanAmulet
+#110
+fire~
+a huge fire~
+A huge fire is set against the north wall.~
+wood~
+container A 0
+200 0 0 1000 100
+0 0 0 P
+#111
+amulet clan troll~
+an amulet of [The Troll's Team]~
+An shimmering amulet lies here.~
+unknown~
+portal AB AO
+0 0 0 110 0
+0 60 0 P
+#120
+amulet clan theklan~
+an amulet of [TheKlan]~
+A shimmering amulet lies here.~
+dust~
+portal AB AO
+0 0 0 120 0
+0 0 0 P
+#121
+jacuzzi pool bubbling~
+a bubbling jacuzzi~
+A bubbling jacuzzi waits for you to take a bath~
+ceramic~
+furniture 0 0
+5 100000 FIL 250 250
+0 0 0 P
+#122
+combat pill~
+a combat pill~
+A combat pill has been dropped here~
+unknown~
+pill A A
+75 'combat mind' 'blur' '' ''
+1 2 50000 P
+#123
+rock stone~
+a rock~
+A magical rock lays here~
+unknown~
+pill A A
+75 'stone skin' 'aid' '' ''
+1 2 50000 P
+#124
+gloves theklan clan klan~
+a pair of {rTheKlan{x gloves~
+A set of gloves with the word '{rTheKlan{x'on the palm has been left here~
+unknown~
+armor A AH
+120 120 120 0 0
+50 10 78000 P
+Y
+char 'hp' 0 1000
+Y
+char 'hitroll' 0 60
+Y
+char 'damroll' 0 60
+Y
+char 'mana' 0 1000
+#130
+clan amulet~
+an amulet of [Cthulhu]~
+A shimmering amulet lies here~
+adamantite~
+portal AB AO
+0 0 0 130 0
+0 0 0 P
+#131
+Altar Cthulhu~
+a Altar made of moonstone~
+A stone altar made of moonstone.~
+unknown~
+treasure CO 0
+0 0 0 0 0
+0 0 0 P
+#132
+Pool of Blood~
+a Pool of Blood~
+A stone tank full of bubbling blood.~
+unknown~
+furniture O 0
+10 100000 IL 250 250
+1 0 0 P
+#133
+Fountain of Cthulhu~
+a Fountain of Blood~
+A Fountain of Blood stands flowing.~
+unknown~
+fountain O 0
+10000000 1000000 'water' 0 0
+1 0 0 P
+#134
+Fire Cthulhu~
+a large {bblue{x flame~
+A large ghost inside a cage of {bblue{x flame. ~
+unknown~
+treasure AO 0
+0 0 0 0 0
+0 0 0 P
+#135
+Statue Cthulhu~
+a statue. This statue honors Gylian, one of the more powerful of Cthulhu's chosen.~
+An ebony statue of Gylian, the First {rMinion{x of {bCthulhu{x.~
+unknown~
+treasure O 0
+0 0 0 0 0
+0 0 0 P
+#136
+Cthulhu statue obelisk~
+a statue. This statue honors Arkandal, the ultimate {Bassassin{x of {RCthulhu{x.~
+A gleaming statue of Arkandal, the ultimate {BAssassin{x of {RCthulhu{x.~
+unknown~
+treasure O 0
+0 0 0 0 0
+0 0 0 P
+#140
+sauna bench benches~
+a sauna bench~
+{rA row of oak benches.{x~
+unknown~
+furniture 0 0
+5 10000 EF 200 200
+0 0 0 P
+E
+bench~
+A nice, oak bench lies against the wall. You could 'sit on' the bench and take advantage of the nice steam.
+~
+#141
+omni clan Voyager~
+an {yOmni{x~
+A {yVoyager {wOmni{x lies here.~
+brass~
+portal AB AO
+0 0 0 140 0
+0 0 0 P
+#142
+water fountain~
+a water fountain~
+A water fountain stands in the corner.~
+unknown~
+fountain 0 0
+1000000 1000000 'water' 0 0
+1 0 0 P
+#150
+amulet clan plague bearer~
+an amulet of [Satanis]~
+A shimmering amulet lies here.~
+unknown~
+portal ABG AO
+0 0 0 150 0
+0 0 0 P
+#151
+satanis pit~
+a donation pit~
+A large earthen pit lies here.~
+unknown~
+container AR 0
+100000 0 0 10000 0
+0 0 0 P
+#160
+blue recall~
+a blue portal to recall~
+A blue portal to recall~
+unknown~
+portal 0 0
+0 0 0 3001 0
+0 10000 0 P
+#161
+green factory~
+a green portal to the mob factory~
+A green portal to the mob factory~
+unknown~
+portal 0 0
+0 0 0 9400 0
+0 10000 0 P
+#162
+grey muppets~
+a grey portal to the muppets~
+A grey portal to the muppets~
+unknown~
+portal 0 0
+0 0 0 24000 0
+0 10000 0 P
+#163
+red prison~
+a red portal to the prison~
+A red portal to the prison~
+unknown~
+portal 0 0
+0 0 0 11600 0
+0 10000 0 P
+#164
+yellow land fim~
+a yellow portal to land of fim~
+A yellow portal to land of fim~
+unknown~
+portal 0 0
+0 0 0 10200 0
+0 10000 0 P
+#170
+Nightbreed lake~
+a small, calm lake~
+A small, calm lake lies here.~
+unknown~
+fountain 0 0
+10000 10000 'water' 0 0
+1 0 0 P
+#171
+nightbreed clan amulet moonbeam~
+a {WNight{MBreed{x amulet~
+A {WNight{MBreed{x amulet lies here.~
+unknown~
+portal 0 AO
+1000 0 0 170 0
+0 0 0 P
+#0
+
+
+
+#ROOMS
+#100
+Hunter of ISE secret room~
+You are in the secret room of the "Hunter of ISE"
+It looks like a school room, with tables leaning  against the wall.
+On the tables, you can see 10 pentiums 200 MMX, connected to a strange  mud ...
+Mystery again ...
+~
+0 8 0
+5
+D5
+~
+~
+0 0 3001
+M 200 H 200 P 100
+C Hunters of ISE~
+S
+#110
+The Troll's Team meeting room~
+~
+0 12 0
+5
+D5
+~
+~
+0 0 3001
+M 200 H 200 P 100
+S
+#120
+The TheKlan's meeting room~
+~
+0 4 0
+5
+D0
+~
+~
+0 0 121
+D4
+~
+~
+0 0 3054
+S
+#121
+TheKlan Jacuzzi~
+~
+0 0 0
+5
+D2
+~
+~
+0 0 120
+S
+#130
+The Followers of Cthulhu Clan Room~
+A strange circle of stones surrounds you here with an ancient stone altar
+lying in the center. The altar is dotted with dried blood and the
+occasional piece of flesh. Around the altar is a faint autline of an 
+octopus-like creature drawn in the sand. Each stone is ensorceled with
+mysterious runes, the meaning of which has been lost to the ages, or at
+least only to select few. A rocky cave lies nearby. You get the distinct
+feeling that only those knowledgable of the real truths of the cosmos
+should be here.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 131
+D3
+~
+~
+0 0 132
+D5
+~
+~
+0 0 3001
+S
+#131
+{mThe Followers of Cthulhu Donation Room{x~
+You have entered the Donation Room of the Followers. The Chosen
+ of Cthulhu find many exotic and valuable items on their mysterious
+ journeys. Many of these items are very useful to the Followers. These
+ useful items are stored here, in hopes that they may be of service 
+ to Cthulhu. West leads back to the central clan room.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 130
+S
+#132
+{mThe Followers of Cthulhu Pray Room{x~
+You are standing within the dark confines of the Cthulhu prayer room. 
+Cthulhu's chosen come here to reflect on the word and be restored.  Several
+old texts line shelves on the wall and a large stone tank of blood stands in
+the room's center.  A small garden lies to the west and the central clan
+room to the east.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 130
+D3
+~
+~
+0 0 133
+S
+#133
+{mA Small Garden{x~
+You stand inside a beautiful garden filled with many exotic trees and 
+ flowers.  Despite the beauty of the garden, a feeling of heavy darkness
+ fills the grove.  The trees seem to whisper twisted and dark words. A 
+ small path leads east to the prayer room.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 132
+S
+#140
+{yVoyager Hall{x~
+Looking around you see tables with papers carelessly
+thrown about. There are large stone statues on each side of a
+set of stairs leading downward. A stained glass window on the 
+western wall depicts a group of travellers, known as Voyagers,
+travelling through spaceatop a rainbow. To the east lies Kaine's
+office. Toward the north, waffs of steam seep through from
+underneath the door marked SAUNA.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 141
+D4
+~
+~
+0 0 3054
+S
+#141
+{ySauna{x~
+White tile covers all four walls of the room. Benches 
+made of red-stained oak line each wall, ready to be used. Black stones
+fill a pit lying in the center of the room. A brass ladle and a bucket of 
+water sit off to the side. There is only one way out of this 
+suffocating heat trap, South.
+ 
+~
+0 0 3
+5
+D2
+~
+~
+0 0 140
+M 200 H 200 P 100
+S
+#142
+~
+~
+0 4 0
+5
+S
+#150
+The Plague Bearer's Hall~
+~
+0 8 0
+5
+D5
+~
+~
+0 0 3001
+S
+#160
+le premier accueil~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 162
+D3
+~
+~
+0 0 161
+D5
+~
+~
+0 0 163
+S
+#161
+healer~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 160
+S
+#162
+donations~
+~
+0 0 0
+5
+D3
+~
+~
+0 0 160
+S
+#163
+sortie~
+A panel says: enter the right color 
+~
+0 0 0
+5
+D4
+~
+~
+0 0 160
+S
+#164
+~
+~
+0 4 0
+5
+S
+#170
+NightBreed clan hall~
+You stand in a calm glade surrounded by ancient oak trees.
+The full moon shines down upon you, giving you Luna's blessing.
+A small lake lies to nearby, gleaming with its own image of Luna.
+~
+0 1024 3
+5
+D4
+~
+~
+0 0 3054
+M 200 H 200 P 100
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+M 0 100 2 100 1
+O 0 110 0 110
+M 0 120 1 120 1
+G 0 122 0
+G 0 123 0
+G 0 124 0
+O 0 121 0 121
+O 0 133 0 130
+O 0 134 0 130
+O 0 132 0 132
+O 0 135 0 133
+O 0 136 0 133
+O 0 142 0 140
+O 0 140 0 141
+M 0 160 1 161 1
+O 0 164 0 163
+O 0 163 0 163
+O 0 162 0 163
+O 0 161 0 163
+O 0 160 0 163
+S
+
+
+
+#SHOPS
+120 26 9 0 0 0 100 100 1 24
+0
+
+
+
+#$

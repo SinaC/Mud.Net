@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
-using Mud.Server.Abilities;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Class;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +25,24 @@ namespace Mud.Server.Tests.Mocking
 
         public string DisplayName => Name;
 
-        public string ShortName => ShortName;
+        public string ShortName => Name;
 
         public IEnumerable<ResourceKinds> ResourceKinds => Enumerable.Empty<ResourceKinds>();
 
-        public IEnumerable<AbilityAndLevel> Abilities => Enumerable.Empty<AbilityAndLevel>();
+        public IEnumerable<IAbilityUsage> Abilities => Enumerable.Empty<IAbilityUsage>();
+
+        public int MaxPracticePercentage => throw new NotImplementedException();
+
+        public (int thac0_00, int thac0_32) Thac0 => throw new NotImplementedException();
+
+        public int MinHitPointGainPerLevel => throw new NotImplementedException();
+
+        public int MaxHitPointGainPerLevel => throw new NotImplementedException();
+
+        public BasicAttributes PrimeAttribute => throw new NotImplementedException();
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form) => Enumerable.Empty<ResourceKinds>();
 
-        public int GetPrimaryAttributeByLevel(PrimaryAttributeTypes primaryAttribute, int level) => level;
+        public int GetAttributeByLevel(CharacterAttributes attribute, int level) => level;
     }
 }
