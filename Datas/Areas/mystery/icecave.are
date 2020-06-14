@@ -1,0 +1,1971 @@
+#AREADATA
+Name Ice Caverns~
+Builders Sinac~
+VNUMs 16200 16299
+Credits [80 99] Protag  Ice Caverns~
+Security 5
+Flags 0
+End
+
+
+
+#MOBILES
+#16200
+hermit aged old~
+A Hermit~
+An aged Hermit sits here reading a large tome.
+~
+He's a filth covered old man, wearing a dirty grease smeared robe, and
+worn out sandals.  He sits here all day muttering enigmatic statements, and
+reading his book.
+~
+human~
+0
+ABT 0 0 0 950 0
+95 95 50d10+13400 95d10+100 95d10+100 8d9+64 pierce
+-65 -65 -65 -43
+IK 0 0 0
+stand stand male 3500
+AHMV ABCDEFGHIJK medium unknown
+M
+mob16200
+#16201
+ursinoid bear creature~
+{DAn ursinoid{x~
+{DA great bear like creature slavers away here{x
+~
+A bear-like creature, but standing 18 foot tall with long fangs and long
+razor sharp claws.
+~
+bear~
+0
+ABF 0 0 0 0 0
+80 80 50d10+11900 80d10+100 80d10+100 9d7+47 crush
+-50 -50 -50 -33
+DFOW 0 EI 0
+stand stand none 0
+AGV ABCDEFHJKUV large unknown
+F off E
+#16202
+guard frost giant~
+{CA Frost-Giant Guard{x~
+{CA Frost-Giant Guard stands here watching.{x
+~
+Huge and powerful, this Frost-Giant is charged with defending his
+homeland, and he takes it seriously.  He is also quick for such a large
+body, and well versed in the arts of the warrior.
+~
+frost-giant~
+0
+ABT 0 0 1 -850 16200
+90 90 50d10+12900 90d10+100 90d10+100 8d8+58 cleave
+-60 -60 -60 -40
+FKTV I E H
+stand stand male 1800
+AHMV ABCDEFGHIJK large unknown
+M
+mob16202
+#16203
+guard frost giant~
+{CA Frost-Giant Guard{x~
+{CA Frost-Giant Guard stands here watching.{x
+~
+Huge and powerful, this Frost-Giant is charged with defending his
+homeland, and he takes it seriously.  He is also quick for such a large
+body, and well versed in the arts of the warrior.
+~
+frost-giant~
+0
+ABT 0 0 1 -850 16200
+90 90 50d10+12900 90d10+100 90d10+100 8d8+58 cleave
+-60 -60 -60 -40
+TV I E H
+stand stand male 1800
+AHMV ABCDEFGHIJK large unknown
+M
+mob16203
+#16204
+frost giant~
+A {CFrost Giant{x~
+A {CFrost Giant{x stands here.
+~
+Large and burly, this {CFrost Giant{x stands ready to defend his home from
+intruders....  Your an intruder right??
+~
+frost-giant~
+0
+AT 0 0 0 -1000 16200
+80 75 50d10+11400 80d9+85 80d9+85 9d6+43 pierce
+-45 -45 -45 -30
+FIKN I E H
+stand stand male 1000
+AHMV ABCDEFGHIJK large unknown
+#16205
+frost giant~
+A {CFrost Giant{x~
+A {CFrost Giant{x stands here.
+~
+Large and burly, this {CFrost Giant{x stands ready to defend his home from
+intruders....  Your an intruder right??
+~
+frost-giant~
+0
+AT 0 0 0 -1000 16200
+80 75 50d10+11400 80d9+85 80d9+85 9d6+43 slash
+-45 -45 -45 -30
+FIKN I E H
+stand stand male 1000
+AHMV ABCDEFGHIJK large unknown
+#16206
+frost elemental ice construct~
+A {CFrost Elemental{x~
+A construct of {CIce{x is wandering here.
+~
+A 10' tall column of {CIce{x, vaguely humanoid, but moving with a sliding
+gait rather than walking.  It emanates an aura of cold and attacks with
+abandon.
+~
+unique~
+0
+AT 0 0 0 -1000 16200
+85 80 50d10+11900 85d9+85 85d9+85 9d7+48 frbite
+-50 -50 -50 -33
+CDFK I E H
+stand stand none 0
+HJM ABCDEFGHIJK large ice
+#16207
+frost giant sentry~
+A {CFrost-Giant{x sentry~
+A {CFrost-Giant{x Sentry patrols here.
+~
+A rather menacing Giant patrols this area, he's rather itching for a
+fight.
+~
+frost-giant~
+0
+AT 0 0 0 -1000 16200
+80 80 50d10+11900 80d10+100 80d10+100 9d7+47 crush
+-50 -50 -50 -33
+CFKO I E H
+stand stand male 2500
+AHMV ABCDEFGHIJK large unknown
+#16208
+demon mage aristobulus~
+{WThe {DDemon{x-{RMage {YAristobulus{x~
+{WA {DDemon{x stands by the altar performing some sort of ritual
+~
+Aristobulus is one of the more powerful of the {DDemon{x-{RMages{x He is
+wicked and emanates a powerful aura of cold.  He is a minor Demon-Prince,
+seeking to gain power in the mortal realm.  He classifies others as either
+superiors, tools, or soon to die.  Applying one or more to each entity he
+knows.
+~
+human~
+0
+ABR H 0 0 -1000 16200
+100 105 50d15+16300 100d11+110 100d11+110 9d10+81 pierce
+-80 -80 -80 -53
+FKMO 0 C 0
+stand stand male 2000
+AHMV ABCDEFGHIJK large unknown
+M
+mob16208
+#16209
+cookie frost giant chef~
+{CCookie {Dthe Frost Giant {CChef{x~
+A Huge Frost Giant with a chef's hat on
+~
+A huge Frost Giant, with a large Chef's hat on.
+He's an old warrior retired to the kitchen.
+~
+frost-giant~
+0
+ABT 0 0 0 -1000 16200
+95 95 50d10+13400 95d10+100 95d10+100 8d9+64 cleave
+-65 -65 -65 -43
+CFKO I E H
+stand stand male 0
+AHMV ABCDEFGHIJK large unknown
+#16210
+guard elite~
+{WOne of the {YKing's {Melite {Rguards {Wstands at attention here{x~
+{WOne of the {YKing's {Melite {Rguards {Wstands at attention here{x
+~
+Huge and hulking, a berserker taking very little care for his own safety.
+He guards the king to the death, caring for little else.
+~
+frost-giant~
+0
+ABT 0 0 0 0 16200
+95 95 50d10+13400 95d10+100 95d10+100 8d9+64 slash
+-65 -65 -65 -43
+KV I E H
+stand stand male 21000
+AHMV ABCDEFGHIJK large unknown
+#16211
+frost giant king~
+{WThe {CFrost-Giant {YKing{x~
+{WThe {CFrost-Giant {YKing {Wwaits here{x.
+~
+Tall and regal the king of the Frost-Giants waits here impatiently.  He
+is imposing in size, and cruel in demeanor, ruling all the denizens of this
+fortress with an iron grip
+~
+frost-giant~
+0
+ABT H 0 -1 -1000 16200
+100 105 50d15+16300 100d11+110 100d11+110 9d10+81 drain
+-80 -80 -80 -53
+CFKV I CDE H
+stand stand male 50000
+AHMV ABCDEFGHIJK large unknown
+M
+mob16211
+#16212
+frost giant child~
+A {CFrost Giant Child{x~
+A {CFrost Giant Child{x plays here.
+~
+A child, slightly larger than an average human sits here playing with {Cicicles{x.
+~
+frost-giant~
+0
+AB 0 0 0 -650 16200
+70 65 45d10+9320 70d9+85 70d9+85 10d5+33 slash
+-35 -35 -35 -23
+CFK I E H
+stand stand either 250
+AHMV ABCDEFGHIJK large unknown
+#16213
+ice demon beast~
+An {CIce {DDemon{x~
+A horned slavering beast of {CIce{x sits here.
+~
+Grotesque features twisted as if an Ice sculpture of a man had been
+blasted with heat then frozen into a half-melted position.
+~
+human~
+0
+ABT B 0 -1 -950 16200
+90 95 50d13+14540 90d11+110 90d11+110 8d10+66 claw
+-68 -68 -68 -45
+CFIK I CM 0
+stand stand none 0
+AHMV ABCDEFGHIJK large unknown
+#16214
+greater frost demon large~
+{DA {WG{Dr{We{Da{Wt{De{Wr {CF{cr{Co{cs{Ct D{ce{Cm{co{Cn{x~
+A {DLarge {CDemon{x wanders here
+~
+Standing 10' tall this demon is made entirely of {CIce{x, and is a
+picture of physical perfection.  Perfecly formed, tall slender and graceful.
+Light glints off its rock hard surface nearly blinding you.
+~
+human~
+0
+AFT 0 0 0 -900 16200
+95 100 50d14+15420 95d11+110 95d11+110 8d10+73 chill
+-74 -74 -74 -49
+CFK I C 0
+stand stand none 100000
+AHMV ABCDEFGHIJK large unknown
+#16215
+greater frost elemental~
+{RA {CGreater Frost Elemental{x~
+A {CFrost Elemental{x wanders here.
+~
+A walking {CGlacier{x is the best description for this entity. Vaguely humanoid, if you can call a snow and {Cice{x covered moutain humanoid. Snow and bits of {Cice{x escape from its cavernous maw as it howls in anger.
+~
+human~
+0
+AFT 0 0 0 -900 16200
+95 95 50d10+13400 95d10+100 95d10+100 8d9+64 chill
+-65 -65 -65 -43
+CFK I 0 H
+stand stand none 1000
+HJM ABCDEFGHIJK large unknown
+F for AV
+#16216
+barg'hust elemental lord of frost~
+{BB{barg'{BHust {Wthe {YE{yl{Ye{ym{Ye{yn{Yt{ya{Yl L{yo{Yr{yd {Wof {CF{cr{Co{cs{Ct{x~
+{CA pale blue entity{x stands here
+~
+One of the elemental lords, {BB{barg'{BH{bust{x is known to be evil..
+Yet its motives are not known.  An androgenous figure of {Cpale blue{x colour.  It stands here unemotionally examing everything with a detached
+~
+human~
+0
+ABFT H 0 0 -1000 16200
+100 105 50d15+16300 100d11+110 100d11+110 9d10+81 chill
+-80 -80 -80 -53
+CFIKO I E H
+stand stand male 20000
+AHMV ABCDEFGHIJK large unknown
+#16217
+michael knight~
+{WS{xi{Wr {YM{yi{Yc{yh{Ya{ye{Yl{x~
+{WS{xi{Wr {YM{yi{Yc{yh{Ya{ye{Yl{x, knight regent is on a quest
+~
+Sir Michael is a famous and powerful knight, well versed in the art of
+combat, and known to be supremely serious.  He has been on a relentless
+quest for the past several years, one can only assume this is part of it.
+~
+human~
+I
+ABT HVc 0 1 1000 0
+102 107 50d16+17145 102d11+110 102d11+110 9d10+83 divine
+-81 -81 -81 -54
+FKSV 0 M 0
+stand stand none 15000
+AHMV ABCDEFGHIJK medium unknown
+#16218
+cruiscius~
+{BC{br{Bu{bi{Bs{bc{Bi{bu{Bs {Dthe D{We{Dm{Wo{Dn L{Wo{Dr{Wd {Dof {CF{cr{Co{cs{Ct{x~
+{DA murky blackness hovers here{x
+~
+{DBlackness{x total and consuming, so dark as if to destroy all light and
+heat.  Cruiscius is insane and wickedly evil, but nevertheless intelligent
+and dangerous.  He is a Demon Lord, Patron of {CIce{x and {CFrost{x.
+~
+human~
+D
+ABT HOVc 0 -1 -1000 0
+105 110 50d18+18411 105d11+110 105d11+110 20d11+85 crush
+-84 -84 -84 -56
+EFIK I E H
+stand stand none 15000
+AHMV ABCDEFGHIJK huge unknown
+#0
+
+
+
+#OBJECTS
+#16200
+book tome el'khabar~
+{WTome of {bEl'Khabar {Wthe {RMad{x~
+A Large Leather bound book sheds radiant light here.~
+paper~
+light G AO
+0 0 999 0 0
+80 7 0 P
+Y
+char 'wisdom' 0 2
+Y
+char 'intelligence' 0 2
+E
+book~
+Try 'read table' for a table of contents
+~
+E
+table~
+Most of the book is unreadable to you, the following topics are valid
+Forward..........................1
+Care/feeding of Elementals.....489
+Aristobulus...................2243
+Cruiscius.....................3380
+Keys..........................4582
+Ravings.......................5934
+~
+E
+1~
+These are the travel notes of one El'Khabar, as he traveled throughout
+the Plane of Elemental Frost.  Many Historians have credited El'Khabar with
+uncovering many of the mysteries behind the beings in these places. 
+Unfortunately much of the information is lost forever as El'Khabar was found
+years after his journey began, stark naked, starved, and a raving madman,
+clutching these notes to his chest.  <skip many lines> this transcription is
+as complete as possible, including a magical warding noted to be able to
+protect the bearer from the elements of cold.
+~
+E
+489~
+I have spent great amounts of time amongst the Elementals of Frost. 
+There are many different kind from the relatively harmless frost brat..  To
+the Great Elemental lord.  While it is quite hard to communicate, their
+language being utterly foreign to my mind, what little I have learned can be
+summed up as follows.  If you wish to destroy them, use fire.
+~
+E
+2243~
+I met with the Demon-Mage Aristobulus in his own fortress....  A grand
+palatial estate, filled with fine works of art held in the same esteem with
+artifacts of great potence.  I was quite suprised at the time, as it had
+been unknown before that he had aligned himself with Cruiscius and the other
+powers of Frost.  Through many days spent in peril of life and soul, I
+learned a great respect for this demon, evil though he might be, somehow he
+is quite charming, and his words seemed to begin to make sense to me after
+all these days spent conversing with him.  On a side note, he is companioned
+at all times by two invisible Ice Demons, I am not sure he knows that I
+observed this however.
+~
+E
+3380~
+Pain terrible pain as I visited the Dark Patron of Frost...  Evil.. 
+Madness...  Such power..  A bold plan..  PAIN again, I cannot speak of
+such...  All Aristobulus said begins to make sense..  Such joy.....  <The
+rest is indecipherable> 
+~
+E
+4582~
+<Editor's Note: This is a severly edited rendition of El'Khabar's notes,
+most of his words in this section were ramblings> El'Khabar speaks of a
+unique form of item, Elementals and their servants routinely used various
+keys to gain entrance to warded area, they in appearance seemed to be large
+keys, however when they were grasped and held in the hand, while causing
+pain, chills, and weakness, the power of the Elemental Lords was infused
+into the bearers body.  Rendering the bearer resistant or sometimes nearly
+immune to the effects of cold.  
+~
+E
+5934~
+You and I, and all that read this will die..  Die die die....  I know the
+truth now...  And its a wonderous thing...  Aristobulus, Cruiscius, they
+were right, from nothing came the realm, and to nothing shall it return.. 
+How could I have not seen this on my own....
+~
+#16201
+blind fish cave~
+A blind cave fish~
+A whole unscaled blind cave fish lies here.~
+meat~
+food 0 AO
+1 1 0 0 0
+1 1 0 P
+#16202
+pool crystal water~
+a pool of water~
+A pool of {Ccool crystal clear water{x lies here.~
+<Not Entered>~
+fountain 0 0
+10000 10000 'water' 0 0
+1 1000 0 P
+#16203
+bearskin fur~
+B{De{xa{Dr{xS{Dk{xi{Dn{x F{Du{xr~
+A B{De{xa{Dr{xS{Dk{xi{Dn{x F{Du{xr lies here foresaken.~
+fur~
+armor 0 AK
+40 25 35 15 0
+70 10 5000 P
+S
+ 'large'
+Y
+char 'affects' 1 268435456
+#16204
+ice key~
+{CThe Ice Key{x~
+A key made entirely of {CIce{x lies here.~
+iron~
+key G AO
+0 0 0 0 0
+50 25 1000 P
+Y
+char 'strength' 0 -5
+#16205
+Iron Key~
+An {DIron{x Key~
+A large {DIron{x Key lies here.~
+iron~
+key G AO
+0 0 0 0 0
+40 30 1000 P
+Y
+char 'strength' 0 -3
+#16206
+axe frost battleaxe battle~
+{BAn {bEtched {CBa{ctt{Cle{cAx{Ce o{cf F{Cro{cst{x~
+{BAn {bEtched {CBa{ctt{Cle{cAx{Ce o{cf F{Cro{cst{x lies foresaken here.~
+ice~
+weapon J AN
+axe 17 8 cleave B
+85 30 4200 P
+Y
+char 'hitroll' 0 4
+Y
+char 'damroll' 0 7
+#16207
+frosty vambraces~
+{DHuge {CF{cr{Co{cs{Ct V{ca{Cm{cb{Cr{ca{Cc{ce{Cs{x~
+{DHuge {CF{cr{Co{cs{Ct V{ca{Cm{cb{Cr{ca{Cc{ce{Cs{x lies here foresaken.~
+ice~
+armor A AI
+70 70 70 50 0
+85 35 3800 P
+S
+ 'large'
+Y
+char 'hitroll' 0 6
+Y
+char 'damroll' 0 5
+#16208
+Ice Mace Icicle club~
+A Huge {CI{xc{Ci{xc{Cl{xe {CC{xl{Cu{xb~
+Long A huge {CI{xc{Ci{xc{Cl{xe melts here.~
+ice~
+weapon A AN
+mace 18 8 crush 0
+85 20 1250 P
+Y
+char 'constitution' 0 1
+Y
+char 'strength' 0 1
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 5
+#16209
+Frost Shield~
+A {DHuge {CKite Shield{x~
+A {DHuge {CKite Shield{x lies here.~
+ice~
+armor AEJY AJ
+60 60 60 40 0
+85 30 2900 P
+S
+ 'large'
+Y
+char 'constitution' 0 2
+Y
+char 'strength' 0 2
+Y
+char 'hp' 0 40
+#16210
+greaves frost~
+{DHuge {CF{cr{Co{cs{Ct G{cr{Ce{ca{Cv{ce{Cs{x~
+A pair of {DHuge {CF{cr{Co{cs{Ct G{cr{Ce{ca{Cv{ce{Cs{x lies here.~
+ice~
+armor AJ AF
+75 75 75 55 0
+85 25 3200 P
+S
+ 'large'
+Y
+char 'hitroll' 0 4
+Y
+char 'damroll' 0 7
+Y
+char 'moves' 0 -50
+#16211
+fountain ice liquid purple~
+ice fountain~
+A {CFountain of Ice{x gushing forth a {MRich Purple Liquid{x is here.~
+ice~
+fountain 0 0
+100000 100000 'icewine' 0 0
+1 2000 0 P
+#16212
+cleaver meat~
+{WA {RMeat {CC{cl{Ce{ca{Cv{ce{Cr{x~
+{WA {RMeat {CC{cl{Ce{ca{Cv{ce{Cr{x lies here.~
+ice~
+weapon 0 AN
+axe 10 8 cleave BD
+80 11 2200 P
+Y
+char 'hitroll' 0 8
+Y
+char 'hp' 0 20
+#16213
+axe frostbite~
+{DA {WSho{Drt{WBla{Dded {WBat{Dtle{WAxe{x Called '{CFro{cst{CBi{cte{x'~
+A BattleAxe emanating fierce {Ccoldness{x lies here.~
+steel~
+weapon AJ AN
+axe 25 6 drain BC
+95 15 9500 P
+Y
+char 'saving throw' 0 2
+Y
+char 'damroll' 0 5
+Y
+char 'hitroll' 0 8
+Y
+char 'mana' 0 -50
+M
+obj16213
+#16214
+dagger iceblade blade~
+The {CIceBlade{x~
+A Dagger with a blade made of {CIce{x lies here.~
+ice~
+weapon AEJ AN
+dagger 18 6 slash BH
+90 4 4500 P
+Y
+char 'hitroll' 0 5
+Y
+char 'damroll' 0 5
+#16215
+tetrahedron crystal~
+{WA {DC{xr{Wy{Ds{xt{Wa{Dl {DT{xe{Wt{Dr{xa{Wh{De{xd{Wr{Do{xn~
+{WA {DC{xr{Wy{Ds{xt{Wa{Dl {DT{xe{Wt{Dr{xa{Wh{De{xd{Wr{Do{xn floats here lazily.~
+crystal~
+jewelry AGY AQ
+0 0 0 0 0
+95 1 9500 P
+Y
+char 'AC' 0 -20
+Y
+char 'hitroll' 0 8
+Y
+char 'hp' 0 20
+Y
+char 'damroll' 0 5
+Y
+char 'dexterity' 0 4
+Y
+char 'mana' 0 40
+#16216
+frosty canteen~
+A {CF{cr{Co{cs{Ct{cy {BCanteen{x~
+A canteen lies here, misting~
+glass~
+drink 0 AO
+4 4 'icewine' 0 0
+80 4 0 P
+M
+obj16216
+#16217
+fangthane dagger~
+{DA cruel blade known as {x'{Rf{rang{RT{rhane{x'~
+A dagger made from a {RD{raemon {RF{rang{x~
+steel~
+weapon EGHJLM AN
+dagger 40 4 pierce C
+95 0 9500 P
+Y
+char 'hitroll' 0 5
+Y
+char 'saving throw' 0 -6
+M
+obj16217
+#16218
+altar ice~
+an ice altar~
+{CAn Altar of Ice{x~
+ice~
+furniture AB 0
+1 1000 HK 50 50
+50 500 0 P
+E
+altar~
+A large Altar made of Ice, engravings scour its surfaces, showing hideous sacrafices and leering Daemonic faces
+~
+#16219
+portal swirling~
+{WA {DSwirling Portal{x~
+{WA {DSwirling Portal {Wradiating a blast of {Cbitter cold{x~
+nothingness~
+portal F 0
+0 0 0 16228 0
+60 0 0 P
+#16220
+potion green icy~
+An {CI{cc{Cy {GG{gr{Ge{ge{Gn P{go{Gt{gi{Go{gn{x~
+An {CI{cc{Cy flask with a {Ggreen tinge{x lies here~
+glass~
+potion 0 AO
+90 'detect invis' 'detect magic' 'detect hidden' 'chill touch'
+90 2 3000 P
+#16221
+ice ring~
+{CI{cc{Ce R{ci{Cn{cg{x~
+A loop of {Cm{xi{Cs{xt{Ci{xn{Cg i{xc{Ce{x lies here.~
+ice~
+armor GY AB
+15 15 15 15 0
+90 1 15000 P
+Y
+char 'hitroll' 0 6
+Y
+char 'damroll' 0 6
+Y
+char 'hp' 0 60
+Y
+char 'mana' 0 40
+#16222
+longsword sword justice~
+{YL{yong{YS{yword of {YJ{yu{Ys{yt{Yi{yc{Ye{x~
+A {CHoly{x LongSword thrums with power here~
+steel~
+weapon AIKL AN
+sword 16 8 divine AI
+90 11 9000 P
+M
+obj16222
+#16223
+BattleMace Mace Battle Retribution~
+{WA {GM{ga{Gl{ga{Gc{gh{Gi{gt{Ge B{ga{Gt{gt{Gl{ge{GM{ga{Gc{ge {Wcalled {x'{GR{ge{Gt{gr{Gi{gb{Gu{gt{Gi{go{Gn{x'~
+A huge {GM{ga{Gc{ge{x made of {GM{ga{Gl{ga{Gc{gh{Gi{gt{Ge{x lies here.~
+<Not Entered>~
+weapon AIKL AN
+mace 12 12 divine IJ
+90 8 8800 P
+Y
+char 'hitroll' 0 7
+M
+obj16223
+#16224
+BreastPlate Breast Plate Justice~
+{YB{yreast{YP{ylate of {YJ{yu{Ys{yt{Yi{yc{Ye{x~
+A Glowing {YB{yreast{YP{ylate{x lies here.~
+steel~
+armor AIKLY AD
+87 81 87 60 0
+95 10 9500 P
+Y
+char 'dexterity' 0 1
+Y
+char 'damroll' 0 5
+Y
+char 'hitroll' 0 5
+#16225
+amulet demon frost~
+{DObsidian {WAmulet{x~
+An Amulet of pure {DBlackness{x lies here.~
+obsidian~
+armor AG AC
+30 30 30 30 0
+95 4 0 P
+Y
+char 'constitution' 0 2
+Y
+char 'saving throw' 0 -10
+Y
+char 'dexterity' 0 4
+Y
+char 'hitroll' 0 7
+M
+obj16225
+#16226
+orb shimmering crystal~
+A {Ds{xh{Wi{Dm{xm{We{Dr{xi{Wn{xg {DO{xr{Wb{x~
+A HUGE {Ds{xh{Wi{Dm{xm{We{Dr{xi{Wn{xg {DO{xr{Wb{x floats here.~
+crystal~
+portal HMXYZb AQ
+1 0 0 16252 0
+60 0 0 P
+M
+obj16226
+#16227
+portal gleaming~
+{RGarish Portal{x~
+A portal through which is seen a {Ygleaming blade{x~
+nothingness~
+portal A 0
+0 0 0 16253 0
+60 0 0 P
+#16228
+portal rusty longsword~
+{RGarish Portal{x~
+A portal through which is seen a {Rrusty longsword{x~
+nothingness~
+portal A 0
+0 0 0 16254 0
+60 0 0 P
+#16229
+sword retribution soulblade soul blade~
+{cO>}{x--]{c=={x={c=={x={c=={x={c=={x=- {DThe {CS{co{Cu{cl{CB{cl{Ca{cd{Ce{x~
+A Blade thrumming with power lies here.~
+<Not Entered>~
+weapon 0 AN
+sword 22 8 divine EI
+90 6 0 P
+M
+obj16229
+#16230
+sword blade SoulDrinker Soul Drinker Grazz't~
+{Ro{W>}{D--]{x={r=={x={r=={x={r=={x={r=- {DThe {x'{RS{roul{RD{rrinker{x'~
+A Gleaming Blade of power lies here.~
+<Not Entered>~
+weapon BGHMZ AN
+sword 20 10 drain AC
+99 5 0 P
+Y
+char 'hitroll' 0 5
+Y
+char 'damroll' 0 5
+M
+obj16230
+#0
+
+
+
+#ROOMS
+#16200
+A long abandoned trail~
+You stand upon a trail that doesn't seem to have been used for years. 
+You can barely make out the path for all the groundcover.  To the north you
+see a great snow covered peak, the, or one of the largest summits in the
+Naverin Mountains.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16201
+S
+#16201
+Bottom of the Mountain~
+You are at the base of a tall mountain shrouded in clouds. It is somewhat
+cold, and you see snow lying upon the path leading up to the mountains
+summit.  A small weatherbeaten shack stands among a small grove of trees to
+the west.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 16200
+D3
+~
+~
+0 0 16202
+D4
+~
+~
+0 0 16203
+S
+#16202
+Small Shack~
+A small shack littered with odd and ends.  Bits of skin, bone splinters,
+shard of crystal, bits of glass, ivory tusks..  And other less recognizable
+things.  A fire burns in the fireplace, and a suprisingly savory smelling
+stew is to fire.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16201
+S
+#16203
+On the Path~
+Partway up the path, it gets colder as ice and snow appears in
+scattered patches along the trail.  Snow covered evergreens line the path on
+either side.  Dimly seen through the brush and trees to the west is a cave
+entrance. 
+~
+0 0 0
+5
+D3
+~
+~
+0 0 16204
+D4
+~
+~
+0 0 16205
+D5
+~
+~
+0 0 16201
+S
+#16204
+Small Cave~
+A small cave, dry and a bit warmer than the outside.  Runoff snow has
+created a small pond in the center.  Bits of bone chewed and broken lie
+scattered around.  Branches, fur, and brush form a pile in the far west
+corner.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16203
+S
+#16205
+Glacier Wall~
+You stand near the summit of the mountain.  Apparently a huge Glacier
+has formed here, a huge wall of ice blocking any further progress.  The
+temperature here has fallen considerably, and snow flurries block out the
+sun.
+~
+0 8396800 0
+5
+D0
+~
+~
+ABCFM 16205 16206
+D5
+~
+~
+0 0 16203
+S
+#16206
+Ice Cavern~
+You stand in a large chamber apparently hewn from the {CGlacier{x itself.
+It feels like deep winter in here, the chill pressing in on you.  There is a
+large door on the north wall made of {Cice{x yet suprisingly banded with
+great iron bands.
+~
+0 8396804 0
+5
+D0
+~
+~
+ABC 16204 16207
+D2
+~
+~
+ABCFM 16205 16205
+S
+#16207
+Hall of Frost~
+Stretching before you is a great hall carved from the {Cice{x .  Benches
+and tables formed by {Cice{x line the hall up and down.  High above you the
+ceiling arches, where {CCrystaline{x formations shed a dull light.  The
+floor is pale {Cice{x  solid and cold, yet grooved so as not to be slippery.
+A chill wind, even colder than the Hall blows from the north.
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16210
+D1
+~
+~
+0 0 16209
+D2
+~
+~
+ABC 16204 16206
+D3
+~
+~
+0 0 16208
+S
+#16208
+Hall of Frost~
+You are in the southwest corner of the Hall.  Stretching out the hall
+continues far to the north.  Tables and benches formed of {Cice{x line the
+Hall, illumination provided by dull light from {CCrystaline{x formations
+high above on the arched ceiling.  From the north and east comes a chill
+blast of wind, even colder if possible than the Hall itself.
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16211
+D1
+~
+~
+0 0 16207
+S
+#16209
+Hall of Frost~
+You are in the southeast corner of the Hall.  Stretching out the hall
+continues far to the north.  Tables and benches formed of {Cice{x line the
+Hall, illumination provided by dull light from {CCrystaline{x formations
+high above on the arched ceiling.  From the north and west comes a chill
+blast of wind, even colder if possible than the Hall itself.
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16212
+D3
+~
+~
+0 0 16207
+S
+#16210
+Hall of Frost~
+You stand in the middle of the {CHall of Frost{x, all about you lie
+tables and benches formed of{Cice{x.  The ceiling vaults high above you, a
+great {CCrystal Ice Chandelier{x hangs down.  It is getting distinctly
+colder here, the wind from the north picking up in speed and colder than the
+surrounding{Cice{x
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16214
+D1
+~
+~
+0 0 16212
+D2
+~
+~
+0 0 16207
+D3
+~
+~
+0 0 16211
+S
+#16211
+Hall of Frost~
+You are against the western wall of the {CHall of Frost{x.  All about
+are {Cicy{x tables and benches.  A dull illumination is provided by
+{CCrystale{x formations hanging down from the arched ceiling, and a bitterly
+cold wind comes from the north and east.  
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16215
+D1
+~
+~
+0 0 16210
+D2
+~
+~
+0 0 16208
+S
+#16212
+Hall of Frost~
+You are against the eastern wall of the {CHall of Frost{x.  All about
+are {Cicy{x tables and benches.  A dull illumination is provided by
+{CCrystaline{x formations hanging down from the arched ceiling, and a
+bitterly cold wind comes from the north and west.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16213
+D2
+~
+~
+0 0 16209
+D3
+~
+~
+0 0 16210
+S
+#16213
+Hall of Frost~
+You are in the north eastern corner of the {CHall of Frost{x.  The
+bitterly cold wind seems to be coming directly from the west.  In the corner
+a 20 foot tall or so {CIce Sculpture{x of a hideously deformed Frost Giant
+rests.  There is a dark ruddy {rstain{x on the floor here, before the
+statue.  
+~
+0 8396800 0
+5
+D2
+~
+~
+0 0 16212
+D3
+~
+~
+0 0 16214
+S
+#16214
+Altar of the Hall of Frost~
+You are before an Altar made of {Cice{x and covered in snow.  The cold is
+nearly suffering, the wind and chill emanating from right above the Altar.{Cice{x sculptures stand beside the Altar on each side, grinning Daemons
+with a tortured sadistic visage.  Frescoes and bas relief carvings of {Cice{x adorn the north wall, depicting otherwordly scenes of daemons on a
+great sheet of frozen ice.
+~
+0 8396800 0
+5
+D1
+~
+~
+0 0 16213
+D2
+~
+~
+0 0 16210
+D3
+~
+~
+0 0 16215
+S
+#16215
+Hall of Frost~
+You are in the north eastern corner of the {CHall of Frost{x.  The
+bitterly cold wind seems to be coming directly from the west.  In the corner
+a 20 foot tall or so {CIce Sculpture{x of a hideously deformed Frost Giant
+rests.  There is a dark ruddy {rstain{x on the floor here, before the
+statue.  
+~
+0 8396800 0
+5
+D1
+~
+~
+0 0 16214
+D2
+~
+~
+0 0 16211
+D3
+~
+~
+0 0 16216
+S
+#16216
+A wide chamber~
+A large chamber hollowed from the {Cice{x, this is quite obviously a
+communal area.  There is evidence of merchant stalls, and a great fountain
+rests in the center.  The {Cice{x  floor here is well worn with the
+travelling of many large booted feet.  The dull light here is again provided
+by {CCrystaline{x  structures hanging from the ceiling.  There are several
+tunnels leading out from this cavern.
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16217
+D1
+~
+~
+0 0 16215
+D2
+~
+~
+0 0 16218
+D3
+~
+~
+0 0 16219
+S
+#16217
+A Regal Cavern~
+In contrast to the austere conditions of most of the chambers here, this
+immense and regal {CIce Cavern{x is filled with opulence.  Rare furs
+decorate the pale {Cwalls{x, and {Cfloor{x.  A bed lies made of {Dgrey
+wood{x in the far corner, and a great slab of {CIce{x in the center of the
+room can only serve as a desk.  
+~
+0 8396800 0
+5
+D2
+~
+~
+0 0 16216
+S
+#16218
+Kitchen and Pantry~
+A large room carved from the {CIce{x, , obviously some special magic
+protects the {CCavern{x  from the great heat of the {Rc{yo{Ro{yk{r f{yi{rr{ye{x. Amongst the tables and countertops various and sundry
+cooking implements are arranged rather haphazardly.
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16216
+S
+#16219
+Hallway~
+A hallway carved out of the {Cice{x, is well travelled.  Scuff marks and
+wear on the {Cice{x floor tell of the many large booted feet that travel
+this way.
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16221
+D1
+~
+~
+0 0 16216
+D3
+~
+~
+ABC 0 16220
+S
+#16220
+Storeroom~
+A room hewn from the {CGlacial Ice{x ever-present here serves as a crude
+storeroom for the giants.  Barrels and crates are stacked randomly, great
+gouges carved out of the {Cice{x by their weight while dragged into
+position.
+~
+0 8396800 0
+5
+D1
+~
+~
+ABC 0 16219
+S
+#16221
+Ice Passageway~
+A hallway carved out of the {Cice{x, is well travelled.  Scuff marks and
+wear on the {Cice{x floor tell of the many large booted feet that travel
+this way.  Openings lead to what are most probably residences
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16223
+D1
+~
+~
+0 0 16224
+D2
+~
+~
+0 0 16219
+D3
+~
+~
+0 0 16222
+S
+#16222
+An Ice Warren~
+A cavern carved from the {Cice{x has been made into a residence.
+Houshold furniture carved from {Cice{x are strewn about, as well as various
+personal items.
+~
+0 8396800 0
+5
+D1
+~
+~
+0 0 16221
+S
+#16223
+Northern Ice Passageway~
+More of the passageway is here, leading deeper into this {Cicy{x community.  The signs of passage here are even more obvious, as
+criss-crossing trails of large bootprints lie revealed by the snow and {cice{x
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16227
+D1
+~
+~
+0 0 16226
+D2
+~
+~
+0 0 16221
+D3
+~
+~
+0 0 16225
+S
+#16224
+An Ice Warren~
+A cavern carved from the {Cice{x has been made into a residence.
+Houshold furniture carved from {Cice{x are strewn about, as well as various
+personal items.
+~
+0 8396800 0
+5
+D3
+~
+~
+0 0 16221
+S
+#16225
+An Ice Warren~
+A cavern carved from the {Cice{x has been made into a residence.
+Houshold furniture carved from {Cice{x are strewn about, as well as various
+personal items.
+~
+0 8396800 0
+5
+D1
+~
+~
+0 0 16223
+S
+#16226
+An Ice Warren~
+A cavern carved from the {Cice{x has been made into a residence.
+Houshold furniture carved from {Cice{x are strewn about, as well as various
+personal items.
+~
+0 8396800 0
+5
+D3
+~
+~
+0 0 16223
+S
+#16227
+An Ice Warren~
+A cavern carved from the {Cice{x has been made into a residence.
+Houshold furniture carved from {Cice{x are strewn about, as well as various
+personal items.
+~
+0 8396800 0
+5
+D2
+~
+~
+0 0 16223
+S
+#16228
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16231
+D1
+~
+~
+0 0 16230
+D2
+~
+~
+0 0 16228
+D3
+~
+~
+0 0 16229
+S
+#16229
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16232
+D1
+~
+~
+0 0 16228
+D2
+~
+~
+0 0 16229
+D3
+~
+~
+0 0 16229
+S
+#16230
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16233
+D1
+~
+~
+0 0 16230
+D2
+~
+~
+0 0 16230
+D3
+~
+~
+0 0 16228
+S
+#16231
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16235
+D1
+~
+~
+0 0 16233
+D2
+~
+~
+0 0 16228
+D3
+~
+~
+0 0 16232
+S
+#16232
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16234
+D1
+~
+~
+0 0 16231
+D2
+~
+~
+0 0 16229
+D3
+~
+~
+0 0 16232
+S
+#16233
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16236
+D1
+~
+~
+0 0 16233
+D2
+~
+~
+0 0 16230
+D3
+~
+~
+0 0 16231
+S
+#16234
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16237
+D1
+~
+~
+0 0 16235
+D2
+~
+~
+0 0 16232
+D3
+~
+~
+0 0 16234
+S
+#16235
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16238
+D1
+~
+~
+0 0 16236
+D2
+~
+~
+0 0 16231
+D3
+~
+~
+0 0 16234
+S
+#16236
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16239
+D1
+~
+~
+0 0 16236
+D2
+~
+~
+0 0 16233
+D3
+~
+~
+0 0 16235
+S
+#16237
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16241
+D1
+~
+~
+0 0 16238
+D2
+~
+~
+0 0 16234
+D3
+~
+~
+0 0 16237
+S
+#16238
+Before a great Ice Crevasse~
+{CIce{x and snow cover the ground here, bitter cold wind lashing at you.
+Stark whiteness as far as the eye can see, except north, where even from
+this distance a large crevasse can be seen to open.  Perhaps there is some
+shelter there.
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16240
+D1
+~
+~
+0 0 16239
+D2
+~
+~
+0 0 16235
+D3
+~
+~
+0 0 16237
+S
+#16239
+A snow covered glacier~
+A pale white bleakness stretches to the horizon, snow bitter cold strikes
+your exposed skin, slivers of {Cice{x almost burning in their bitter chill.
+Even the meager light provided by a backdrop, as you do not see the sun
+anywhere seems to grant no respite from the cold 
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16242
+D1
+~
+~
+0 0 16239
+D2
+~
+~
+0 0 16236
+D3
+~
+~
+0 0 16238
+S
+#16240
+On the rim of the Ice Crevasse~
+{CIce{x and snow swirl about with the eddies causes by the great {CIce Crevasse{x, you stand on the rim looking across and down.  To the east and
+west it seems to go on indefinately, and it is much to far to leap.  There
+is however a crude set of {CIce Steps{x leading down into the {CIce Crevasse{x
+~
+0 8396800 0
+5
+D1
+~
+~
+0 0 16242
+D2
+~
+~
+0 0 16238
+D3
+~
+~
+0 0 16241
+D5
+~
+~
+0 0 16243
+S
+#16241
+On the rim of the Ice Crevasse~
+{CIce{x and snow swirl in eddies here, blasts of cold air shoot from the
+crevasse to sting your hands and face.  East and west as far as they eye can
+see the {CIce Crevasse{x continues.
+~
+0 8396800 0
+5
+D1
+~
+~
+0 0 16240
+D2
+~
+~
+0 0 16237
+D3
+~
+~
+0 0 16242
+S
+#16242
+On the rim of the Ice Crevasse~
+{CIce{x and snow swirl in eddies here, blasts of cold air shoot from the
+crevasse to sting your hands and face.  East and west as far as they eye can
+see the {CIce Crevasse{x continues.
+~
+0 8396800 0
+5
+D1
+~
+~
+0 0 16241
+D2
+~
+~
+0 0 16239
+D3
+~
+~
+0 0 16240
+S
+#16243
+Bottom of the Ice Crevasse~
+The slick narrow floor of the {CIce Crevasse{x is covered with snow and {CIce{x.  The wind has lessened quite a bit, easing somewhat the bitter
+cold.  East and west the narrow floor of the Crevasse winds its way
+serpentine, drifts of snow held by {CIce{x hang overhead, making the risk of
+Avalanche quite apparent.
+~
+0 8396804 0
+5
+D1
+~
+~
+0 0 16245
+D3
+~
+~
+0 0 16244
+D4
+~
+~
+0 0 16240
+S
+#16244
+Bottom of the Ice Crevasse~
+The slick narrow floor of the {CIce Crevasse{x is covered with snow and {CIce{x.  The wind has lessened quite a bit, easing somewhat the bitter
+cold.  East and west the narrow floor of the Crevasse winds its way
+serpentine, drifts of snow held by {CIce{x hang overhead, making the risk of
+Avalanche quite apparent.
+~
+0 8396800 0
+5
+D1
+~
+~
+0 0 16243
+D3
+~
+~
+0 0 16247
+S
+#16245
+Bottom of the Ice Crevasse~
+The slick narrow floor of the {CIce Crevasse{x is covered with snow and {CIce{x.  The wind has lessened quite a bit, easing somewhat the bitter
+cold.  East and west the narrow floor of the Crevasse winds its way
+serpentine, drifts of snow held by {CIce{x hang overhead, making the risk of
+Avalanche quite apparent especially any further east, as the way is already
+partially closed due to a recent slide, with snow and {CIce{x hanging
+dangerously far over the rim of the {CIce Crevasse{x.
+~
+0 8396800 0
+5
+D1
+~
+~
+0 0 16246
+D3
+~
+~
+0 0 16243
+S
+#16246
+Avalanche~
+AVALANCHE!  Snow breaks free from {CIce{x and slides down, covering you
+completely, cold penetrating to your bones.  As the pressure of the snow and
+ice increase, as more of it falls burying you deeper...  Your only hope is
+that somehow the force holding you in this {CIcy Waste{x has abatted.
+~
+0 8388608 0
+5
+S
+#16247
+Bottom of the Ice Crevasse~
+The slick narrow floor of the {CIce Crevasse{x is covered with snow and {CIce{x.
+East and West the narrow floor of the Crevasse winds its way serpentine.
+A small {CIce Cave{x opens south, perhaps providing some shelter.
+~
+0 8396804 0
+5
+D1
+~
+~
+0 0 16244
+D2
+~
+~
+0 0 16248
+D3
+~
+~
+0 0 16247
+S
+#16248
+Ice Cave~
+A cave in the side of the {CIce Crevasse{x which while seeming at first
+innocuous enough, now a feeling of great forboding evil assaults you.  The
+cave continues further south, and the evil presence seems to grow stronger
+in that direction.
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16247
+D2
+~
+~
+0 0 16249
+S
+#16249
+Small Southern Passageway~
+This passage continues to the south, the emanation of evil continuing to
+grow stronger, an overwhelming hunger.  Despite the cold, you feel a
+crackling energy tangibly running through you.
+~
+0 8396800 0
+5
+D0
+~
+~
+0 0 16248
+D2
+~
+~
+0 0 16250
+S
+#16250
+Small Southern Passageway~
+Overwhelming emanations of power, tangible and potent course through you
+and the entire passageway here.  The {Cice{x  sparkling as energies run
+through it.  Something powerful and evil lies south, your whole body and
+senses scream to you.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16249
+D2
+~
+~
+0 0 16251
+S
+#16251
+A Bleak Nothingness~
+A bleak nothingness assaults your senses.  Darkness, yet tangible...  You
+smell the colours of this place, hear the textures, taste the sounds....  A
+place of mind not senses assails your sensibilities.
+~
+0 4194304 0
+5
+S
+#16252
+Chamber of Decision~
+This room is circular, and bare of anything interesting, the walls are
+made of solid unbroken obsidian.  The temperature is at least warm.  
+ 
+A loud voice booms from somewhere:  {YMake your choice{x
+~
+0 8396800 0
+5
+S
+#16253
+A Garishly bright room of fire~
+A bright room completely engulfed in flames.  Smoke fills the room, dimly
+you see blank soot-covered walls, floor, and ceiling.
+~
+0 0 8
+5
+S
+#16254
+A Garishly bright room of fire~
+A bright room completely engulfed in flames.  Smoke fills the room, dimly
+you see blank soot-covered walls, floor, and ceiling.
+~
+0 0 8
+5
+S
+#0
+
+
+
+#SPECIALS
+M 16206 spec_breath_frost
+M 16208 spec_cast_mage
+M 16211 spec_breath_frost
+M 16214 spec_breath_frost
+M 16215 spec_breath_frost
+M 16216 spec_breath_frost
+S
+
+
+
+#RESETS
+D 0 16205 0 2
+D 0 16206 0 2
+D 0 16206 2 2
+D 0 16207 2 2
+D 0 16219 3 2
+D 0 16220 1 2
+M 0 16200 1 16202 1
+E 0 16200 0 0
+O 0 16201 0 16204
+O 0 16202 0 16204
+M 0 16201 1 16204 1
+E 0 16203 0 12
+M 0 16202 1 16205 1
+G 0 16205 0
+E 0 16206 0 16
+E 0 16207 0 10
+M 0 16203 1 16206 1
+G 0 16204 0
+E 0 16208 0 16
+E 0 16209 0 11
+E 0 16210 0 7
+O 0 16218 0 16214
+O 0 16219 0 16214
+M 0 16213 2 16214 2
+M 0 16213 2 16214 2
+M 0 16208 1 16214 1
+E 0 16217 0 16
+G 0 16220 0
+O 0 16211 0 16216
+M 0 16211 1 16217 1
+E 0 16210 0 7
+E 0 16207 0 10
+E 0 16209 0 11
+E 0 16215 0 22
+E 0 16213 0 16
+M 0 16210 2 16217 2
+E 0 16209 0 11
+E 0 16207 0 10
+E 0 16210 0 7
+E 0 16214 0 16
+M 0 16210 2 16217 2
+E 0 16214 0 16
+E 0 16209 0 11
+E 0 16207 0 10
+E 0 16210 0 7
+M 0 16209 1 16218 1
+E 0 16212 0 16
+O 0 16216 0 16220
+M 0 16212 5 16222 1
+M 0 16212 5 16224 1
+M 0 16212 5 16225 1
+M 0 16212 5 16226 1
+M 0 16212 5 16227 1
+M 0 16216 1 16244 1
+E 0 16221 0 1
+M 0 16218 1 16251 1
+E 0 16226 0 22
+E 0 16225 0 3
+M 0 16217 1 16251 1
+E 0 16222 0 16
+E 0 16223 0 21
+E 0 16224 0 5
+O 0 16227 0 16252
+O 0 16228 0 16252
+O 0 16230 0 16253
+O 0 16229 0 16254
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

@@ -1,0 +1,4120 @@
+#AREADATA
+Name Necromancer Island~
+Builders Charun~
+VNUMs 12000 12199
+Credits {{?????} Charun  Necromancer Island~
+Security 5
+Flags 0
+End
+
+
+
+#MOBILES
+#12000
+undead skeleton vulture~
+a skeleton vulture~
+The undead skeleton of a vulture walks here looking for a meal
+~
+Its eye sockets are empty.  Paper thin flesh has been stretched across
+the bone of this walking skeleton.  Occationally it gives a hollow caw, and
+pecks the ground.  
+~
+human~
+0
+AF JT 0 0 -100 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 peck
+-45 -45 -45 -30
+CFK IJ Q ES
+stand stand none 1000
+AHIMVW ACP small unknown
+F par BDEFGHIJK
+#12001
+shadow~
+a shadow~
+A living shadow has stalked you
+~
+At first you didn't notice it, but now it is all too obvious.  This
+shadow isn't a real shadow.  It has been following you, blending in with
+darkness around you, trying to get close enough to strike unnoticed.  
+~
+human~
+0
+AF BTZ 0 0 0 0
+95 95 50d10+13400 95d10+100 95d10+100 8d9+64 slash
+-65 -65 -65 -43
+FHKO 0 HI PS
+stand stand none 2500
+DIL 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12002
+dark cloak figure~
+a cloaked figure~
+A dark cloaked figure stands at the edge of the cliff.
+~
+He stands at the very edge of the cliff, watching the water and waiting
+for something.  The think, flowing cloak that covers his entire length seems
+to move independantly of the wind.  
+~
+modron~
+0
+AB HJT 0 0 0 0
+95 95 50d10+13400 95d10+100 95d10+100 10d24+95 blast
+-65 -65 -65 -43
+0 BMNPQ HIK 0
+stand stand none 0
+DHI 0 medium unknown
+F off QR
+F par ABCGHJK
+#12003
+ghost citizen~
+a ghost citizen~
+A see-through citizen walks here
+~
+The ghost wanders about, completely unaware that it has died.  Perhaps
+this is just a replay of events before its death.  Maybe the death was so
+sudden and shocking that the spirit never had time to leave the mortal
+realm.  
+~
+human~
+0
+AHO JVc 0 0 200 0
+82 82 50d10+12100 82d10+100 82d10+100 9d7+49 slap
+-52 -52 -52 -34
+FGIJKN HI E N
+stand stand none 1200
+I 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12004
+brave soul~
+a brave soul~
+One of the brave souls that fought for the city is here
+~
+~
+human~
+0
+AO BHTV 0 0 225 0
+90 90 50d10+12900 90d10+100 90d10+100 10d21+90 beating
+-60 -60 -60 -40
+EFHKO E FHIL G
+stand stand none 2000
+I 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12005
+wandering soul~
+a wandering soul~
+A soul wanders here
+~
+Once alive, now dead...  It doesn't know what to do with itself.  
+~
+human~
+0
+A BHTc 0 0 150 0
+90 95 50d13+14540 90d11+110 90d11+110 8d10+66 punch
+-68 -68 -68 -45
+EFHJK EHI 0 0
+stand stand none 0
+I 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12006
+captain ghost guard~
+the ex-captain of the city guard~
+A ghost that was once the cityguard captain walks here
+~
+He would have a commanding look to him if he wasn't so dead.  Having been
+killed violently left his soul mangled, and difficult to look at.  
+~
+human~
+0
+AO DFHTc 0 0 320 0
+97 97 50d10+13600 97d10+100 97d10+100 10d20+10 slash
+-67 -67 -67 -44
+EFHKO ABHI 0 0
+stand stand none 2000
+I 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12007
+ghost guard cityguard~
+a ghost guard~
+A deceased cityguard patrols here.
+~
+He was killed quickly (maybe even painlessly) but even now he continues
+to try and safeguard the cities empty streets.  
+~
+human~
+0
+A HT 0 0 200 0
+95 95 50d10+13400 95d10+100 95d10+100 10d9+70 slice
+-65 -65 -65 -43
+FKOP E HJ 0
+stand stand none 2100
+I 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12008
+ghoul~
+the psychotic ghoul~
+A wild-eyed ghoul lunges at you.
+~
+She's been trapped in this room so long that she has lost her mind.  And
+become feral and violent.  
+~
+human~
+0
+ABF D 0 0 -400 0
+95 95 50d10+13400 95d10+100 95d10+100 10d20+5 claw
+-65 -65 -65 -43
+FHKO BIJ K N
+stand stand female 5000
+BI BCGHJK medium unknown
+F for AHMV
+F par ADEFI
+#12009
+fat drunk ghost~
+a fat drunken ghost~
+A fat man that died drinking sits at one of the bar stools.
+~
+~
+human~
+0
+AB HTV 0 0 0 0
+100 105 50d15+16300 100d11+110 100d11+110 10d20+100 punch
+-80 -80 -80 -53
+EFHKO EIJ H 0
+stand stand none 1100
+IK 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12010
+bartender ghost~
+the bartender~
+The bartender is cleaning see through stiens
+~
+He wont let himself leave this plane of existance until his stiens are
+spotless.  Looks like he's going to be here for a while.  
+~
+human~
+0
+AB HTV 0 0 250 0
+105 105 50d15+17345 105d10+100 105d10+100 9d11+80 smash
+-75 -75 -75 -50
+FHK BEHI 0 0
+stand stand male 5000
+IK 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12011
+ghost armorer~
+The armorer's ghost~
+The ghost of the armorer is here trying to relive his past
+~
+~
+human~
+0
+AB BTV 0 0 570 0
+110 100 10d400+3000 0d0+0 0d0+0 20d35+0 pound
+-45 -45 -45 -10
+EFHK EHIJ 0 0
+stand stand none 7000
+IK 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12012
+weaponsmith smith ghost~
+weaponsmith~
+A ghost is pounding away at a weapon that's not there
+~
+~
+human~
+0
+AB BHTVc 0 0 500 0
+95 180 10d450+3700 0d0+0 0d0+0 20d30+25 crush
+-85 -85 -85 -60
+AEFGHJKO EHI 0 MP
+stand stand none 5000
+IK 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12013
+spirit~
+an unnerved spirit~
+A spirit circles here, unable to escape the cave
+~
+~
+human~
+0
+AB BTV 0 0 0 0
+80 65 10d225+1700 0d0+0 0d0+0 10d12+10 whip
+-22 -25 -20 -2
+FHK EI 0 0
+stand stand none 1000
+IK 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12014
+toxic spirit~
+the toxic spirit~
+The twisted spirit of all the wastes of humanity attacks you
+~
+There are arrow ports facing all directions in this cramped tower
+compartment.  Out of the slots you can only see a mist.  It hangs a few feet
+away, and doesn't seem to want to show you want is beyond the tower.  
+~
+human~
+0
+ABFST DFHOTVZ 0 0 -700 0
+115 115 50d25+24234 115d10+100 115d10+100 20d20+10 wrath
+-86 -86 -86 -57
+EFHJK AB 0 0
+stand stand none 0
+S 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12015
+baby ghost~
+a baby ghost~
+A little baby ghost is sobbing here
+~
+~
+human~
+0
+AB HT 0 0 1000 0
+55 50 10d100+1000 0d0+0 0d0+0 2d100+100 none
+-20 -20 -20 0
+FK E 0 0
+stand stand none 0
+IK 0 small unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12016
+guardian~
+the dead guardian~
+The guardian of the dead is, protecting the fabric of death.
+~
+~
+human~
+0
+AB DFHT 0 0 1000 0
+90 110 10d300+3500 0d0+0 0d0+0 20d35+0 none
+-80 -80 -80 -20
+EFJKO J 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12017
+dark wing bat shadow darkwing~
+the DarkWing~
+A giant bat shaped shadow is here, breathing slowly.
+~
+~
+human~
+0
+A TV 0 0 -700 0
+90 88 10d380+2800 0d0+0 0d0+0 15d20+60 frbite
+-40 -40 -40 -10
+FHKN EI 0 H
+sleep stand none 0
+C 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12018
+soul eater souleater soul-eater black cloud~
+the soul-eater~
+A ink black cloud of evil billows before you
+~
+~
+human~
+0
+AB TVa 0 0 -800 0
+95 90 10d370+2800 0d0+0 0d0+0 10d20+5 slash
+-30 -50 -30 -12
+EFGHJK E 0 J
+stand stand none 7000
+K GK medium unknown
+F for AHMV
+F par ABCDEFHIJ
+#12019
+wraith demi demiwraith pale body~
+a demiwraith~
+A pale body is here, is it alive or undead?
+~
+~
+human~
+0
+A Va 0 0 -200 0
+85 80 10d300+2560 0d0+0 0d0+0 10d15+20 pound
+-35 -32 -33 -7
+EFHJKNOU I 0 0
+stand stand none 1000
+I ABCGHJK medium unknown
+F for AHMV
+F par DEFI
+#12020
+vampyre wild vampire~
+a wild vampyre~
+A vampyre consumed in bloodlust is here
+~
+~
+human~
+0
+AF PTV 0 0 -500 0
+90 85 10d320+2800 0d0+0 0d0+0 10d20+20 claw
+-35 -35 -35 -10
+EFHJKO I F 0
+stand stand none 4500
+I ABCGHJK medium unknown
+F for AHMV
+F par DEFI
+#12021
+crimson mist~
+a crimson mist~
+A red hued mist flows here
+~
+~
+human~
+0
+AFH TVZc 0 0 -600 0
+95 85 10d300+2500 0d0+0 0d0+0 10d20+10 drain
+-36 -36 -36 -10
+FHKU E F C
+stand stand none 0
+K 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12022
+skeleton shadow warrior~
+a shadow skeleton~
+A skeleton made of bone and shadow walks here
+~
+~
+human~
+0
+AFH VZc 0 0 -500 0
+100 90 10d400+2800 0d0+0 0d0+0 10d25+10 slash
+-35 -35 -35 -10
+FHKO HI 0 E
+stand stand none 0
+I 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12024
+phantom horde phantoms~
+a phantom horde~
+Hundreds of fighting phantoms are here battling an unseen enemy
+~
+~
+human~
+0
+AB HTc 0 0 500 0
+105 90 10d385+2900 0d0+0 0d0+0 10d25+10 smash
+-30 -30 -30 -12
+AEFKO 0 0 0
+stand stand none 0
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12025
+joe~
+Mad Joe~
+Mad Joe is here, fighting off the flies
+~
+Joes been down here so long that he's gone crazy.  The only thing that
+keeps him alive is his constant battle with the flies buzzing around him
+head.  
+~
+human~
+0
+A T 0 0 -100 0
+90 90 10d360+2700 0d0+0 0d0+0 10d22+20 thwack
+-30 -26 -28 -10
+FHK 0 C P
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#12026
+interrogator~
+the interrogator~
+The interrogator is here, reading about pain
+~
+~
+human~
+0
+AB V 0 0 -500 0
+110 100 10d310+2560 0d0+0 0d0+0 20d20+0 beating
+-35 -30 -36 -13
+FHKO 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#12027
+depression~
+depression~
+Depression is here trying to shallow you whole
+~
+~
+human~
+0
+AF DTV 0 0 -700 0
+100 100 10d266+2550 0d0+0 0d0+0 12d27+12 digestion
+-30 -30 -30 -14
+AFHKO 0 C P
+stand stand none 0
+CHS 0 medium unknown
+F for AMV
+F par ABCDEFGHIJK
+#12028
+spider~
+a spider of Ja~
+One of the thousand spiders of Ja guards the first seal here
+~
+~
+human~
+0
+ABF TV 0 0 -200 0
+100 105 50d15+16300 100d11+110 100d11+110 9d10+81 bite
+-80 -80 -80 -53
+AEFHJK 0 0 0
+stand stand none 0
+HP ACDEK large unknown
+F for AMV
+F par BFGHIJ
+#12029
+spider~
+a spider of Ja~
+One of the thousand spiders of Ja guards the first seal here
+~
+~
+human~
+0
+ABF TV 0 0 -200 0
+115 115 50d25+24234 115d10+100 115d10+100 10d12+100 bite
+-93 -93 -93 -93
+AEFHJK 0 0 0
+stand stand none 0
+HP ACDEK medium unknown
+F for AMV
+F par BFGHIJ
+#12030
+guardian guard statue~
+the seal guardian~
+A large statue stands at the side of the second seal
+~
+~
+human~
+0
+AB V 0 0 -1000 0
+115 115 50d25+24234 115d10+100 115d10+100 20d20+20 chop
+-86 -86 -86 -57
+EFHIJKOU HJ I E
+stand stand none 3000
+CJM ABCGH medium unknown
+F for AHV
+F par DEFIJK
+#12031
+yala ~
+Yala~
+Yala, priestess of pain, guards Ellandra from unwanted visitors
+~
+~
+human~
+0
+ABF TV 0 0 -600 0
+97 100 10d400+3900 125d10+100 0d0+0 20d25+50 whip
+-50 -50 -50 -26
+AFHK I CEFG 0
+stand stand female 7000
+AHMV ABCDEFGHIJK medium unknown
+#12032
+ellandra lich necromancer queen~
+the lich Ellandra~
+The ancient Queen of Worms, Ellandra, stands here preparing
+~
+~
+human~
+J
+ABC HTV 0 0 -1000 0
+100 110 12d1500+4200 140d10+100 0d0+0 20d20+140 drain
+-63 -63 -63 -30
+AHJK EI FGHJ P
+stand stand female 10000
+AHMV ABCGHIJK medium unknown
+F par DEF
+#12033
+wizard guard guardian~
+A guardian of the seal~
+A wizard in red robes floats here, protecting The Third Seal.
+~
+~
+human~
+H
+ABF HOTV 0 0 -500 0
+120 90 50d150+15000 120d150+5000 0d0+0 20d50+200 magic
+-150 -150 -150 -200
+AHU HL EI FK
+stand stand none 0
+ABHMV ABCDEFGHIJK medium unknown
+#12034
+argog ar'gog guard guardian~
+Ar'gog~
+Ar'gog has stood here preserving the closed gate for centuries
+~
+He will not harm you if you are not an agent of the one so corrupt that
+it sought to crown itself a devil and create its own domain.  Should you
+attempt to disrupt the seals, treatening the sovereign power of hell itself.
+Then there will be no peace for your soul when he finally drops your carcass
+to the ground.  Ar'gog if the largest of the demon brothers, sons of Ja. 
+His hide is seems to be a perfect melding of all the qualities of metal and
+flesh.  It has a deep red hue, and veins pulse just below it.  His head is
+much like that of a lion, or maybe a bear.  You can't tell.  The longer you
+look at it the more it changes.  Each new face blends perfectly with the
+last, all of them hairless.  
+~
+storm-giant~
+0
+AB DHO 0 0 -1000 0
+100 105 50d15+16300 100d11+110 100d11+110 10d25+15 wrath
+-80 -80 -80 -53
+AEHKO HJ EI K
+stand stand none 0
+AHMV ABCDEFGHIJK large unknown
+#12122
+skinner female young girl pretty~
+Skinner~
+A pretty young girl eyes you from the far wall
+~
+~
+human~
+0
+A Vc 0 0 -1000 0
+110 110 10d360+3000 0d0+0 0d0+0 20d20+15 smash
+-40 -40 -40 -18
+AFHK IJ 0 EK
+stand stand none 5000
+AHIMV ABCDEFGHIJK medium unknown
+#12123
+stone bust~
+a stone bust~
+The stone bust of a man eyes you with an unrepenting glare
+~
+~
+human~
+0
+AB NOTVc 0 0 -300 0
+105 105 12d380+2250 0d0+0 0d0+0 20d12+15 frbite
+-35 -35 -35 -15
+AFHOP F HIJ EK
+stand stand none 10700
+CJ 0 small unknown
+F for AHMV
+F par ABCDEFGHIJK
+#12124
+bronze bust~
+A bronze bust~
+A bronze bust stares at you, waiting for you to act.
+~
+~
+human~
+0
+AB NOTVc 0 0 -300 0
+105 105 12d380+3000 0d0+0 0d0+0 20d12+35 chomp
+-35 -35 -35 -15
+FHOP F HIJ EK
+stand stand none 12000
+0 0 medium unknown
+F for AHMV
+F par ABCDEFGHIJK
+#0
+
+
+
+#OBJECTS
+#12000
+corpse~
+an old corpse~
+A rotten old corpse lies here~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#12001
+satchel~
+a rotting satchel~
+A leather satchel is rotting away here~
+leather~
+container 0 A
+2500 0 0 0 0
+1 2 300 W
+#12002
+pile rocks~
+a rock pile~
+A small pile of rocks leans against the west wall~
+unknown~
+trash 0 0
+0 0 0 0 0
+0 0 0 P
+#12003
+molding torch~
+a molding torch~
+A lost torch is molding on the ground~
+unknown~
+light 0 A
+0 0 50 0 0
+1 2 20 P
+#12004
+dagger dark blade~
+a dark blade~
+A black dagger has been stuck into the ground~
+unknown~
+weapon 0 AN
+dagger 2 5 stab 0
+3 4 0 P
+#12005
+bronze battered fountain water~
+a battered fountain~
+A smashed bronze fountain is here, water slowly trickles from its wounds.~
+unknown~
+fountain 0 0
+0 0 'water' 0 0
+1 0 0 P
+#12006
+hood~
+a torn hood~
+A ripped black hood has been left on the ground~
+unknown~
+armor C AE
+5 5 10 15 0
+85 10 0 P
+Y
+char 'affects' 1 524288
+Y
+char 'affects' 1 8
+#12007
+skin~
+a ghoul skin~
+The worn out skin of a ghoul lays here in a heap.~
+unknown~
+armor JMY AK
+14 14 14 14 0
+80 3 3000 P
+Y
+char 'resistances' 1 512
+Y
+char 'resistances' 1 256
+Y
+char 'saving throw' 0 -5
+Y
+char 'vulnerabilities' 1 2048
+Y
+char 'hitroll' 0 7
+Y
+char 'damroll' 0 7
+#12008
+beer stien~
+a dusty stien~
+An old dusty beer stien sits here.~
+unknown~
+drink 0 A
+120 10 'mead' 1 0
+0 0 25 P
+#12009
+rusty breastplate plate~
+a rusted breastplate~
+A rust old breastplate sits in a corner~
+unknown~
+armor 0 AD
+7 0 7 3 0
+30 9 2000 P
+Y
+char 'damroll' 0 1
+Y
+char 'constitution' 0 1
+#12010
+ethereal hammer flame mist~
+a ethereal hammer~
+A flaming mist, the shape of a hammer, hangs in the air.~
+unknown~
+weapon 0 AN
+mace 12 20 crush A
+90 20 0 P
+Y
+char 'immunities' 1 128
+Y
+char 'affects' 1 524288
+Y
+char 'resistances' 1 256
+#12011
+crystal pick~
+a crystal pick~
+A thin piece of crystal has broken off, and lies here innocently~
+unknown~
+weapon AK AN
+dagger 8 10 pierce 0
+70 0 1000 P
+Y
+char 'mana' 0 100
+Y
+char 'saving throw' 0 -5
+Y
+char 'constitution' 0 3
+Y
+char 'hitroll' 0 8
+Y
+char 'vulnerabilities' 1 16
+#12012
+pool water~
+a small pool~
+A small pool of water is here~
+unknown~
+fountain 0 0
+0 0 'slime mold juice' 0 0
+1 0 0 P
+#12013
+black boat~
+the black boat~
+A black boat floats here~
+unknown~
+portal C 0
+0 0 0 12136 0
+0 0 0 P
+#12014
+shadow skull~
+a shadow skull~
+The skull of a shadow skeleton lays here, glowing.~
+unknown~
+portal AV AO
+1 0 0 12097 0
+0 20 0 P
+#12015
+finger bone key~
+a finger bone~
+Someones finger bone has broken off and been dropped here~
+unknown~
+key 0 A
+0 0 0 0 0
+1 2 0 P
+#12016
+bone foot key~
+a foot bone~
+Someones foot bone has been dropped here~
+unknown~
+key 0 A
+0 0 0 0 0
+1 2 0 P
+#12017
+tail bone key~
+a tail bone~
+The tail bone of something has been left here~
+unknown~
+key 0 A
+0 0 0 0 0
+1 2 0 P
+#12018
+femur bone key~
+a femur~
+A femur has been set here~
+unknown~
+key 0 A
+0 0 0 0 0
+1 2 0 P
+#12019
+rib bone key~
+a single rib~
+The rib of something has been misplaced here~
+unknown~
+key 0 A
+0 0 0 0 0
+1 2 0 P
+#12020
+small iron key~
+a small iron key~
+A small key of simple iron has been left here~
+unknown~
+key 0 A
+0 0 0 0 0
+1 2 0 P
+#12021
+carriage~
+the carriage~
+A new looking carriage has been left in the corner of the stable~
+unknown~
+portal 0 0
+0 0 0 12122 0
+0 0 0 P
+#12022
+hallway~
+the mirror to the hallway~
+A fine desk sits here, with an odd mirror sitting on it.~
+unknown~
+portal 0 0
+0 0 0 12123 0
+0 0 0 P
+#12023
+red plastic swatter~
+a fly swatter~
+A messy red plastic fly swatter has been dropped here~
+unknown~
+wand 0 AO
+100 2 2 'disintegrate' 0
+90 3 0 P
+#12024
+soul whip~
+the {wSoul{x whip~
+A bull whip of finely laced sould has been wrapped up here~
+unknown~
+weapon JM AN
+whip 15 8 whip C
+95 5 0 P
+Y
+char 'AC' 0 -50
+Y
+char 'resistances' 1 4
+Y
+char 'saving throw' 0 -5
+Y
+char 'mana' 0 200
+#12025
+iron maiden~
+an iron maiden~
+A rusty iron maiden stands against the wall, waiting to hurt someone~
+unknown~
+portal 0 0
+0 0 0 12070 0
+0 0 0 P
+#12026
+flesh face mask~
+a {Rface{x mask~
+A mask made of the flesh of a young girls head has been left here.~
+unknown~
+armor EJMUY AE
+15 10 20 15 0
+95 1 0 P
+Y
+char 'saving throw' 0 5
+Y
+char 'mana' 0 60
+Y
+char 'hp' 0 30
+Y
+char 'vulnerabilities' 1 4
+Y
+char 'immunities' 1 65536
+Y
+char 'damroll' 0 15
+Y
+char 'hitroll' 0 15
+Y
+char 'affects' 1 1024
+Y
+char 'affects' 1 16384
+Y
+char 'affects' 1 268435456
+#12027
+essence life force lifeforce~
+{BEllandra's{x {wLifeforce{x~
+The very essence of Ellandra pulsates about the room~
+unknown~
+treasure AEFGJ AQ
+0 0 0 0 0
+99 15 0 P
+Y
+char 'strength' 0 -9
+Y
+char 'constitution' 0 3
+Y
+char 'wisdom' 0 3
+Y
+char 'saving throw' 0 -12
+Y
+char 'vulnerabilities' 1 4
+Y
+char 'mana' 0 200
+Y
+char 'hp' 0 160
+Y
+char 'hitroll' 0 30
+Y
+char 'damroll' 0 30
+Y
+char 'immunities' 1 512
+Y
+char 'immunities' 1 256
+#12028
+scourge~
+yala's {Rscourge{x~
+A blood soaked scourge made with steel thongs has been left here~
+unknown~
+staff 0 AO
+110 3 3 'energy containment' 0
+98 0 0 P
+Y
+char 'dice number' 0 20
+Y
+char 'dice type' 0 25
+Y
+char 'dam type' 0 12
+Y
+char 'hitroll' 0 35
+Y
+char 'damroll' 0 35
+#12029
+hell earth prophecy~
+{wPROPHECY{x~
+The coming of hell to earth has been discarded and left here~
+unknown~
+treasure BL AL
+0 0 0 0 0
+90 20 0 P
+Y
+char 'AC' 0 40
+Y
+char 'hp' 0 250
+Y
+char 'hitroll' 0 15
+Y
+char 'damroll' 0 15
+Y
+char 'wisdom' 0 4
+Y
+char 'mana' 0 100
+#12030
+book lost knowledge~
+the book of lost knowledge~
+A leather bound book filled with forgotten knowledge rests here~
+unknown~
+scroll JK AO
+110 'energy containment' 'sanctuary' 'displacement' 'acid blast'
+95 50 0 P
+#12031
+note~
+a note~
+A scrap of paper with some writing on it has been left here~
+paper~
+trash 0 AO
+0 0 0 0 0
+0 0 0 P
+E
+note~
+Please, Take heed.  I have traveled the mists and it's horrors for a long
+time.  The terror is tearing me apart, and soon I am sure I will have lost
+my mind.  I have found the way out of this hell hole, but lack the ability
+to get out.  I write this knowing that when you read it you will have had to
+kill me.  I do not wish on you the fate which I have to endure.  There is a
+gate out of the mists below the castle.  It is within the shadowed dead, the
+way out is all in the mind.  The Necromancer's power, that which binds you
+here, is weakest in the south-west.  
+~
+#12032
+seal first~
+the First Seal~
+The first seal between this realm and hell has been broken away, and left here~
+unknown~
+treasure AB AE
+0 0 0 0 0
+97 25 0 P
+Y
+char 'immunities' 1 2048
+#12040
+bed spikes~
+a bed of spikes~
+A bed consisting of a wooden board with spikes driven through it is here~
+unknown~
+furniture 0 A
+1 250 K 0 400
+0 45 0 P
+#0
+
+
+
+#ROOMS
+#12000
+The Old Pier~
+The rotting timbers of an old pier stand from the water.  The waves
+rythmicly slap against the wood.  Some rotting rope hangs from one the
+pillars.  The pier was once attached to the bottom of the cliffs of the
+island you are at.  A path leads up the cliffs, that's about the only way to
+go.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 12001
+D1
+~
+~
+0 0 12002
+D3
+~
+~
+0 0 12150
+S
+#12001
+A Mountain Path~
+The mountain path twists and turns as it travels the mountain.  You can't
+see the water, but from the sound you figure that you are very high up. 
+Above you you see many birds circling overhead, they are to high up to tell
+what they are.  
+~
+0 0 4
+5
+D0
+~
+~
+0 0 12003
+D2
+~
+~
+0 0 12000
+S
+#12002
+A Sea Cave~
+The waves have hollowed out small cave here.  The walls are rounded, and
+slick with water.  Water slushes or sprays in every few minutes, wetting you
+a little.  Salt crystals have formed on the walls, and reflect your light.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 12000
+S
+#12003
+The Path Through the Mountains~
+The path turns a corner here.  The path passes a large chasm, a rock
+slide has sloped the side enough that it looks like you could safely reach
+the bottom.  The chasm seperates you from a large plateau.  The top of the
+plateau has fog covering it.  Through the fog you can make out the outline
+of a castle.  In the air several birds slowly circle.  
+~
+0 0 4
+5
+E
+bird~
+At closer examination you notice something unusual.  You can see right
+through the birds.  There are just flying skeletons, with bits of the
+original flesh clumped onto the bones.  
+~
+D2
+~
+~
+0 0 12001
+D3
+~
+~
+0 0 12014
+D5
+~
+~
+0 0 12004
+S
+#12004
+Down a Cliff~
+It is not as easy as you first think; to climb this rockslide.  Every few
+meters there is a small cliff, and all the rock is loose.  Every now and
+again a few rocks tumble down, and then there is the wind.  The wind keeps
+trying to rip you from the rockface.  You have two options, up or down, they
+are both equally difficult to attain.  
+~
+0 0 5
+5
+D4
+~
+~
+0 0 12003
+D5
+~
+~
+0 0 12005
+S
+#12005
+The Bottom on the Chasm~
+This is the north end of the chasm.  It is fairly deep, and its granite
+wall are imposing.  Luckly there is a rock slide here that you can use to
+get out.  The chasm continues a little ways south, and disappears into
+shadow that the end.  It is difficult to say what is casting the shadow, but
+it is there none the less.  
+~
+0 0 2
+5
+D2
+~
+~
+0 0 12006
+D4
+~
+~
+0 0 12004
+S
+#12006
+The Windy Chasm~
+Your footsteps echo through the canyon, hollow yet unheard.  The wind
+blowing here.  Makes it all but impossible to here the sound bounce off the
+granite walls.  The wind is cold, strong, and relentless.  It burns every
+inch of exposed flesh with its icy flow.  It would be best if you where to
+leave this place.  You can go north or south of here 
+~
+0 4 2
+5
+E
+rocks~
+The pile of rubble seems to be covering a doorway.  
+~
+D0
+~
+~
+0 0 12005
+D2
+~
+~
+0 0 12007
+D3
+~
+rubble~
+AB 0 12013
+S
+#12007
+The Shadow Covered Part of the Chasm~
+The darkness that covers this part of chasm almost has substance its so
+thick.  You can just barely make out the small cave to the east.  It will
+shelter you from the winds, but its MUCH darker.  You can also go north and
+get out of this shadow.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 12006
+D1
+~
+~
+0 0 12008
+S
+#12008
+A Small Cave~
+The wind howls wildly outside the cave.  Its moans are enough to make you
+feel cold, but luckly the winds aren't here.  No light is either, the shadow
+that darkness the outside makes it so no light enters this cave.  There are
+tunnels to the north and south, you can't see where they lead to.  
+~
+0 5 4
+5
+D2
+~
+~
+0 0 12010
+D3
+~
+~
+0 0 12007
+S
+#12009
+Deep in the Cave~
+~
+0 4 0
+5
+S
+#12010
+In the Cave~
+The walls of this end of the caves reflect the light.  On the ground is
+the corpse of a man.  His arms are outstreched, as though he was groping for
+something.  Right near his hands are several molding torches, perhaps that
+was what he was looking for?  The light sure does reflect well, and the
+ground is very slippery from condensation.  The only way out of this part of
+the cave is north.  
+~
+0 1 4
+5
+D0
+~
+~
+0 0 12008
+S
+#12011
+Deep in the Cave~
+The tunnels of the cave twist and turn as you press on.  From here you
+can still hear the wind whine at the caves mouth.  Your light barely can
+find walls to reflect off of, making guiding yours difficult.  The darkness
+gets thinker to east, and the tunnels more confusing.  
+~
+0 1 4
+5
+D1
+~
+~
+0 0 12012
+D2
+~
+~
+0 0 12008
+S
+#12012
+Lost in the Cave~
+It is dark, so very very dark.  Your light cannot pierce the darkness,
+you can't find the wall.  The shadows, that now make up all you can see,
+seem to be moving on their own.  You have travelled to far into the caves,
+you can't even here the wind anymore.  
+~
+0 4 0
+5
+S
+#12013
+Under the Plateau~
+The rock under the plateau has given way to a system of caves.  The walls
+are surprisingly smooth, the floor is virtually free from hazards.  Light
+streams in from the rubble that covers the exit to the east.  The tunnels
+continue north and south of here.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12045
+D1
+~
+~
+AB 0 12006
+D2
+~
+~
+0 0 12060
+S
+#12014
+A Cross Road in the Path~
+The path splits in two here.  It heads north and begins to thin out.  It
+also heads west, and looks like it heads downward.  From here you can
+definately see some kind of fortress on the top of the plateau.  It's
+difficult to make out any detail because of the mists, execpt that the
+castle is black stone.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12015
+D1
+~
+~
+0 0 12003
+D3
+~
+~
+0 0 12016
+S
+#12015
+A Thin Mountain Path~
+The ledge is thin, and an easy one hundred and fifty meters up.  You can
+still see the jagged rock under the crystal clear water from way up here. 
+The waves slowly lap the cliff, eroding it just a little with every strike. 
+Now that your here there are only two ways to go.  To the north there looks
+to be a small town.  To the south is the path crossroads.  
+~
+0 0 4
+5
+D0
+~
+~
+0 0 12017
+D2
+~
+~
+0 0 12014
+S
+#12016
+The Way Down~
+The path goes downward to the west.  It looks as if it falls off into a
+pit of light.  A deep humming noise fills the air here.  You can feel dark
+energey flow from the light.  The walls are lit with an eerie beauty, but at
+the same time are unnaturally replusive.  The path heads upward to the east,
+and meets a cross roads.  
+~
+0 0 4
+5
+D1
+~
+~
+0 0 12014
+D3
+~
+~
+0 0 12018
+S
+#12017
+Before the Ruined of U'Lara~
+You stand before the gates of a small walled town.  The gate lays one the
+ground having apparently been torn from their hinges.  They lay in the dirt
+twisted and rusting.  Above where the gates once were is an old battered
+sign.  There isn't any obvious life around, and no signs of what happened to
+this town.  The road goes back up the cliff to south, and into the village
+to the north.  
+~
+0 4 4
+5
+E
+sign~
+In white faded letters it says, "U'Lara".
+~
+D0
+~
+~
+0 0 12020
+D2
+~
+~
+0 0 12015
+S
+#12018
+Above the Seal~
+You are situated on a rock platform above a large "plus" shaped
+structure.  The structure is no more that to crossing walk ways each of
+which connects to a building, The building gives off it's own aura of
+energy, and death.  From here you could just walk away, or jump down to the
+center of it all.  
+~
+0 4 5
+5
+D1
+~
+~
+0 0 12016
+D5
+~
+~
+0 0 12019
+S
+#12019
+The Center of the Seal~
+You stand in the middle of Hell's Seal.  A skull walkway leads in each of
+the cardinal directions.  There is a building at the end of each walkway. 
+You could escape this place by going up.  Visit the actual sealled gate to
+the north, or go look at each of the seals which protects the gate from
+being used.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 12037
+D1
+~
+~
+0 0 12043
+D2
+~
+~
+0 0 12039
+D3
+~
+~
+0 0 12041
+D4
+~
+~
+0 0 12018
+S
+#12020
+Within the Shattered City of U'Lara~
+This part of the town is completely empty, save the rubble.  It looks
+like a giant explosion occured here, blowing everything down.  Off to the
+west you see a single building.  Its walls have a strange luminescence to
+them; one that's almost not there.  An obvious path leads to the north,
+south, and west.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 12021
+D2
+~
+~
+0 0 12017
+D3
+~
+~
+0 0 12023
+S
+#12021
+A Desolete Street~
+This may have once been a populated street of the town; now the street is
+dead.  The winds cuts through you like a blade.  The ground here is cracked,
+and solid as if it were frozen.  The remains of the city lie about you.  The
+bleakness is almost startling, only shattered rock and rotting wood remains.
+The eastern half of the city is almost flat.  To the west you see a few
+buildings, and what looks like people walking about.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 12022
+D2
+~
+~
+0 0 12020
+S
+#12022
+At the End of the Ruined Street~
+You have reached the north east corner of the town.  The ground here is
+badly scorched, as is the rubble.  Occationally the wind gusts and blows up
+a small whirlwind of dust and gravel.  The wall of the town looks cracked
+and beaten, but still stands.  You look down the street to the west and see
+a glistening structure in the middle of the road.  Other than west, the only
+way to go from here is south.  
+~
+0 0 2
+5
+D2
+~
+~
+0 0 12021
+D3
+~
+~
+0 0 12024
+S
+#12023
+A Main Street in U'Lara~
+There are many more indication of a battle here.  Shattered axe heads,
+and bent swords litter the street.  To the west there seems to see more
+activity.  No buildings stand here, but west of here are two buildings that
+still standing.  
+~
+0 0 2
+5
+D0
+~
+~
+0 0 12024
+D1
+~
+~
+0 0 12020
+D3
+~
+~
+0 0 12026
+S
+#12024
+The Northern Street~
+The ground here is scorched, and blasted.  In a few places it looks like
+a ground experience great upheavel, much like an earthquake.  The flash
+shadows of many people color the ground.  You can see a building that is
+still standing far to the west.  A large hunk of slag is directly west of
+here.  There is little to the south and east.  
+~
+0 0 2
+5
+D1
+~
+~
+0 0 12022
+D2
+~
+~
+0 0 12023
+D3
+~
+~
+0 0 12025
+S
+#12025
+The Fountain Square~
+A ancient fountain sits in the middle of the street.  A one point this
+must have been a nice piece of artwork, but now this bronze fountain is
+twisted, mangled, and dented.  Water trickles from its man cracks and
+orifices.  The area east of here looks pretty desolete.  To the west and
+south you see buildings that haven't been knocked down.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12024
+D3
+~
+~
+0 0 12032
+S
+#12026
+Outside a Glowing Building~
+You stand infront of a dilapidated single story building.  In one of its
+shattered windows is a small sign.  You think you see movement inside.  As
+you step closer to the building the glow of the walls becomes stronger.  Is
+it just a building, or is it a intricate trap set to snare travellers?  If
+you think it's too dangerous to risk then go east or west, but the glowing
+building directly to the north.  
+~
+0 0 2
+5
+E
+sign~
+It says, "Thee Weapon Shop"
+~
+D0
+~
+~
+0 0 12028
+D1
+~
+~
+0 0 12023
+D3
+~
+~
+0 0 12027
+S
+#12027
+Infront of a Old Building~
+The building here is falling apart.  Much of its support structure has
+been blow away, or rotted out.  It has a faint glow, much like foxfire. 
+There is a single door that appears to have been almost torn from the
+hinges, and no windows.  The only way to find out whats inside is to go in. 
+To the east is another building, and the flatted part of the city.  There is
+also another building to the west, and slightly north of it there seems to
+be more activity.  
+~
+0 0 2
+5
+D1
+~
+~
+0 0 12026
+D2
+~
+~
+0 0 12029
+D3
+~
+~
+0 0 12030
+S
+#12028
+The Old Weapon Shop~
+This shop appears to be a fully operational weapon shop.  Swords and axes
+are laying around.  The room is lit by the strange glow of the walls and the
+light of a burning forge.  Occationally the forge burns much brighter for a
+few moments, then calms down.  A few times you have looked somewhere, looked
+away, and then looked back finding a weapon that wasn't there before; your
+sure of it.  Periodically you also hear a soft clang.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12026
+S
+#12029
+What Was Once the Armor Smiths Shop~
+The armorer who made these pieces must have been a master.  Many finely
+crafted armor plates are laid about the shop proudly.  In each piece of
+armor you can almost feel the love placed into making it.  The plates rustle
+occationally, but you don't feel a draft.  Could it be that the smith loved
+his work so much that even death couldn't keep him from it?  Or are the
+spirits of the dead watching you, waitting with a sinister plan.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12027
+S
+#12030
+The Doors of the Ruined Guard Headquarters~
+This was most likely where the last of the resistance fought against
+whoever or whatever destroyed this town.  It is where the city guard of
+U'lara were based.  Within its walls the strongest and bravest of the town
+fought to save their homes.  Now it lies in ruins, collapsing because its
+support beams have been blown away.  The door and all the windows have been
+forcebly removed, and the walls have been scorched by flame..  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 12031
+D1
+~
+~
+0 0 12027
+D2
+~
+~
+0 0 12054
+S
+#12031
+A Much More Populated Part of the City~
+People walk about here like they would in any other town.  They seem to
+ignore the fact that half their city is destoryed, or that you can see right
+through them.  Many seem to be heading west, where you can see many more. 
+North of here you see a large hole in the city wall, and to the south there
+is a badly damaged building.  
+~
+0 0 1
+5
+D0
+~
+~
+0 0 12032
+D2
+~
+~
+0 0 12030
+D3
+~
+~
+0 0 12036
+S
+#12032
+A More Intact Part of Town~
+This part of the city appears to be better perserved.  People walk about,
+and buildings still stand.  In fact, besides the huge hole in the wall to
+the north, this part of the city looks untouched.  To the west is what looks
+like a two story bar.  Just south of here many people are gathering.  To the
+far south, there is another building.   
+~
+0 0 1
+5
+D0
+~
+~
+0 0 12033
+D1
+~
+~
+0 0 12025
+D2
+~
+~
+0 0 12031
+D3
+~
+~
+0 0 12034
+S
+#12033
+Outside the City Walls~
+CAREFUL!  The cliff ends less than a meter from the wall, and then there
+is nothing but the jagged rocks below.  A cool stiff breeze blows here.  The
+horzian seems an infinity away, and there is nothing but water between you
+and it.  
+~
+0 0 4
+5
+D2
+~
+~
+0 0 12032
+S
+#12034
+A Ghost Tavern~
+This would almolst be a nice little tavern, if it wasn't for the fact
+that the dust and glasses haven't moved in centuries.  That doesnt't seem to
+bother the the bartender and his patrons.  They still sit, drinking and
+talking out what they were talking about when they died.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12032
+D4
+~
+attic~
+AB 0 12035
+S
+#12035
+The Ghouls Room~
+This little room was once a bedroom.  A small straw mattress lays on the
+floor, insects crawl in and out of every centimeter of it.  There is a small
+empty water basin on the othyer side of the room, the bottom of which is
+covered in mold.  There are scratch marks all over the wall.  
+~
+0 0 0
+5
+D5
+~
+~
+AB 0 12034
+S
+#12036
+The Gathering Ground~
+This is a an empty grass lot.  It sits between an old tavern, and the
+burnt shell of a house.  Yet for some reason the souls of many citizens now
+wander this place.  Every few minutes another spirit walks on to the crab
+grass.  Those that are already here seem content to stand around doing
+nothing.  There are two ghost that stand out in particular; a large imposing
+ghost, and a small crying ghost.  
+~
+0 0 1
+5
+D1
+~
+~
+0 0 12031
+S
+#12037
+The North Passage~
+This is the north passage, it leads to a sealed gate of hell.  Giant ribs
+are placed along the path, and arch overhead.  Tightly packed skulls make up
+the cobblestones of this road.  It seems alot farther to the building than
+it looks.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12038
+D2
+~
+~
+0 0 12019
+S
+#12038
+The Gate~
+A great obsidian archway with golden runes pulsates in the middle here. 
+The gate stands at the center of whay looks like two great skeletal hands,
+each with 20 meter long fingers, that are pushing their way out of the earth
+in which they are trapped.  Between the gate and you stands a tall red
+demon.  With sinuous muscles clenched he look down upon you and questions
+your purpose here.  He is Ar'gog master of pain, and guardian of the gate. 
+He is here to make sure that the gate is never opened again, and that none
+of hell"s tormented is ever allowed to join the escaped necromancer in its
+quest to create a new hell upon the flesh realm..  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12037
+S
+#12039
+The South Passage~
+This passage leads to a large open area with candles.  In the circle of
+candles is the third seal of hell.  The path to the little building is lines
+with charred corpses on pikes.  The corpses occationally shift, or look to
+you for help.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12019
+D2
+~
+~
+0 0 12040
+S
+#12040
+The Third Seal~
+The seal sits at the center of a large pentegram with extremely ornate
+iconagraphy through-out it.  The pentagram is surrounded by small black
+candles whos flames roar greater with each step closer you take.  In the
+center, floating around the seal which is also floating, are 5 figures. 
+They appear to be men dressed in long red robes.  They are all pointed
+outward from the seal and the white candle it is hovering over.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12039
+S
+#12041
+The West Passage~
+The passage here is made of hot coal.  A strange crystal film covers this
+area, absorbing enough of the heat to make the coals safe to walk upon. 
+This passage leads to a seal of hell, and to the center of this complex.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12019
+D3
+~
+~
+0 0 12042
+S
+#12042
+The Second Seal~
+This seal looks to be held within a small temple of greek architecture. 
+Large white columns hold up a domed ceiling of pearl white stone.  There is
+an altar in the center of the temple.  The second seal rests upon it.  The
+altar is bathed in light through a hole in the ceiling.  A large stone
+statue of dog headed man holding a sickle stands on either end of altar. 
+All appears to be calm at this seals vault.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12041
+S
+#12043
+The East Passage~
+You walk a cobbleskull path to a seal of the gate to hell.  Large arching
+ribs line the passage.  To the East is a building housing the seal, and to
+the west is the center of this great structure.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12044
+D3
+~
+~
+0 0 12019
+S
+#12044
+The First Seal~
+This small cave like room has been clearly constructed by magical forces.
+The stone is unlike any you have seen before.  The patterns within the stone
+are so mesmerising that you hardly even notice that spider webs line this
+place, until it is too late.  The seal is a large red piece of clay which
+has some glowing runes carved into it.  It doesn't look to be very
+important.  It sits on a alter of mummified bodies fashioned into the proper
+positions.  
+~
+0 8192 0
+5
+D3
+~
+~
+0 0 12043
+S
+#12045
+Echoes of Pain~
+Through the tunnels you can feel it.  Reflecting off the wall, and coming
+to you in a almost undetectable way.  It is best that you keep moving, give
+yourself no time to concentrate on the feelings of pain that are not your
+own.  It feels as if the anguish of a 1000 tortured souls fills the cavern
+and is slowly seeping into your soul.  The walls look like they are made of
+granite, with veins of a black reflective substance running through them.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12050
+D2
+~
+~
+0 0 12013
+D3
+~
+~
+0 0 12046
+S
+#12046
+The Pain Gets Stronger~
+Pain pierces your heart, but it is not your own.  You can almost hear the
+cries of fear and screams for mercy in the thundering silence.  The walls
+are heavily streaked with a black rock, that is reflective in nature.  The
+air here is choking you with it's dryness.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12045
+D2
+~
+~
+0 0 12049
+D3
+~
+~
+0 0 12047
+S
+#12047
+The Foul Corner~
+The cave opens up to a larger room, the walls help to illuminate the
+contents of the cavern.  A thousand bodies litter the ground.  At first you
+think they are all skeleltons, but then realize that the bones are covered
+with pale with flesh.  Your lungs burn from the lack of humidity.  Each body
+screams at you of the pain of its death.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12046
+D2
+~
+~
+0 0 12048
+S
+#12048
+The Soul-Eater's Corner~
+The walls here are completely back, corrupted.  It becomes diffcult to
+navigate, the walls are indistinguishable from the darkness.  Light, it
+seems to be sucked into a void at the center of the room.  The void,
+darkness, billowing with intensity and purpose.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12047
+D1
+~
+~
+0 0 12049
+S
+#12049
+Somewhere in the Cave~
+Desc The cave twists and turns.  You seem have distanced yourself from
+the pain that washed through the cavern in other places.  The ground has
+become wet, and a little sticky.  The smell of metal wafts in the air.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12046
+D3
+~
+~
+0 0 12048
+S
+#12050
+A Tunnel in the Cave~
+The walls close in a little, and become a narrow passage.  You can here
+water drip, somewhere.  This tunnel goes north or south.  There is a side
+corridor to the west, the air in that direction seems to be thicker than
+normal.  To the north light seems to shine at you like little stars, but
+there is no sky here.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12051
+D2
+~
+~
+0 0 12045
+D3
+~
+~
+0 0 12052
+S
+#12051
+The Crystal Cave~
+This is truely a wonderous chamber.  The walls are lined with formations
+of crystalls of different kinds.  There are outcroppings of the clear and
+vibrant stonem, everywhere.  They reflect light in a million directions and
+a million colors.  Their energy soaks the air, and there beauty dazes the
+mind.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12050
+M 200 H 80 P 100
+S
+#12052
+A Cold Part of the Cave~
+It has suddenly become very cold in this part of the cave.  The walls are
+slick with condensation, and the ground slippery with water.  A thin mist
+has formed from the sudden temperture change, but that mist doesn't seem to
+have any flow to it.  
+~
+0 8 0
+5
+D1
+~
+~
+0 0 12050
+D2
+~
+~
+0 0 12053
+S
+#12053
+A DarkWing Lair~
+The cave ends here.  The bones of thousands of dead things are scattered
+on the ground.  Insects scurry about collecting meals from the remains.  It
+is bitterly cold, the walls are covered with a thin layer of frost.  A giant
+shadow, shaped like a bat lays against the far wall.  
+~
+0 8 0
+5
+D0
+~
+~
+0 0 12052
+S
+#12054
+Inside Cityguard Headquarters~
+Cobwebs slowly blow in the breeze and rats scurry about the floor.  This
+is all that is left of the final resting place of dozens of brave men.  The
+room looks burnt, and large indentations cover the walls.  Small splinters
+of furniture is all the is here to attest theat this place was once livible.
+~
+0 0 0
+5
+E
+indentation~
+Upon closer examination you realize that these were made by bodies that
+hit the wall.  
+~
+D0
+~
+~
+0 0 12030
+D1
+~
+~
+0 0 12055
+S
+#12055
+The Back Room~
+This is where the city guard once gathered, slept, and stored there
+supplies.  That was a long time ago.  The loyal civil servants are all dead
+now, destroyed with U'lara.  The splintered skeletons on the floor tell of a
+great, but futile, struggle.  There is a strange smell coming from the
+north.  
+~
+0 0 0
+5
+E
+skeletons~
+The long dead remains of bodies lay on the ground.  Some split in half,
+others with torn away limbs.  They must have fought hard, but were swept
+away by a force much to powerful for them.  
+~
+D0
+~
+~
+0 0 12056
+D3
+~
+~
+0 0 12054
+S
+#12056
+A Small Room~
+There is a hole in the floor of this small room.  It smells like
+something is rotting in that hole, and has been for centuries.  Rolls of
+burnt paper sit near the hole in the floor, and a few pieces of a smashed
+wood cylinder.  The rooms purpose isn't apparent from the remains..  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12055
+D5
+~
+~
+0 0 12057
+S
+#12057
+In the Pit~
+You are hip deep in smelly waste.  Stuff floats by, and the water churns
+as you move.  This must have been the pit of a toilet once.  Now it's just a
+breeding ground for disease.  The only why to go is up.  
+~
+0 0 0
+5
+D4
+~
+~
+0 0 12056
+S
+#12060
+The South Tunnel~
+It's dark here, but the tunnel is wide and fairly unobstructed.  There
+are sounds coming from the south, but they are barely audible.  To the north
+you see cracks of light in the wall.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12013
+D2
+~
+~
+0 0 12061
+S
+#12061
+A Noiser Part of the Cave~
+Yips and howls assault your ears.  The noise bounces around the cave, and
+doesn't want to go away.  It sounds like a trapped animal is in pain down
+here.  The air is musty with the smell of decay.  To the north is the way
+out, west and south take you deeper into the cave.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12060
+D2
+~
+~
+0 0 12062
+D3
+~
+~
+0 0 12064
+S
+#12062
+A Small Pool~
+The water dripping from the ceiling has collected into a small pool on
+the floor.  The water is cool, and clear.  The air here is more humid than
+elsewhere.  The dripping has a peaceful rhythm to it.  There is a thin path
+around the pool, and you can continue west or north.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12061
+D3
+~
+~
+0 0 12063
+S
+#12063
+Lair of the Wild Vampyre~
+Gnawed bones, and bits of flesh are the garbage that make up the floor
+here.  Decay and filth are everywhere, as the preditors of these cavers
+don't care about their surroundings.  They care only about...  Their next
+meal.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12064
+D1
+~
+~
+0 0 12062
+S
+#12064
+You Are Not Alone~
+A thousand eyes watch you from every shadow.  A thousand ears listen to
+your every footstep, your every breath, your every heartbeat.  Something is
+behind you, when you turn to face it, it has already hidden.  Into the
+shadows, where danger will always lie.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12061
+D2
+~
+~
+0 0 12063
+D3
+~
+~
+0 0 12065
+S
+#12065
+The Chimney~
+Air pour through this natural chimney.  It doesn't look too difficult to
+climb.  The walls are dry and have outcroppings.  
+~
+0 4 0
+5
+D1
+~
+~
+0 0 12064
+D4
+~
+~
+0 0 12066
+S
+#12066
+The Top of the Plateau~
+A fine mist covers the plateau, and as the sharp winds blow you notice
+that the mists don't move.  In the distance you can here growls, layered on
+top of one another in an unnatural way.  The large all black castle lumes to
+the south, in the center of the plateau.  You can see no windows in its
+shadowy form.  
+~
+0 0 3
+5
+D1
+~
+~
+0 0 12068
+D2
+~
+~
+0 0 12069
+D3
+~
+~
+0 0 12067
+D5
+~
+~
+0 0 12065
+S
+#12067
+The Edge of the Plateau~
+You would think that this a wind swept plateau, but the wind seems to
+have no effect.  The mists are thick, and you almost miss walking off the
+edge.  Your rather high up, and the cold is much worse up here.  If you go
+back you could leave the plateau, or go to the castle.  
+~
+0 0 3
+5
+D1
+~
+~
+0 0 12066
+S
+#12068
+Along the Plateau's Edge~
+The vultures don't circle you up here.  You are higher than them.  The
+wind seems to want to push you away from the castle, and toward the cliff. 
+You hear howling, but can't tell if it is an animal or the winds themselve. 
+~
+0 0 3
+5
+D3
+~
+~
+0 0 12066
+S
+#12069
+Near the Castle~
+The mist thickens here.  The mist is the only thing between you and the
+castle.  There is a drawbridge laying across the thick bubbling mist.  The
+castle is much bigger than it looked from below the plateau.  Dark clouds
+rapidly swirl around the castle, it is not a place of happiness.  You can
+see the entrance to the castle on the other side of drawbridge.  A rusted
+portcullis has been raised, and the main doors have been almost blown off
+their hindges.  
+~
+0 0 3
+5
+E
+mist~
+The mist seems to be pouring out of this thicker portion, and is settling
+on the plateau.  
+~
+D0
+~
+~
+0 0 12066
+D1
+~
+~
+0 0 12074
+D2
+~
+~
+0 0 12075
+D3
+~
+~
+0 0 12070
+S
+#12070
+Along the side of the Castle~
+The castle looks almost identical from any direction, except for the
+placement of the drawbridge.  If that wasn't there you'd swear the structure
+was rotating so that you could only see one of its faces.  
+~
+0 0 3
+5
+D1
+~
+~
+0 0 12069
+D2
+~
+~
+0 0 12071
+S
+#12071
+Behind the Castle~
+You are being followed.  You can feel its eyes watching you, studying
+you.  It may be hiding in the mists, or even though the fortress has no
+windows, perhaps it is watching you from there.  
+~
+0 0 3
+5
+D0
+~
+~
+0 0 12070
+D1
+~
+~
+0 0 12072
+S
+#12072
+By the Boat in the Mists~
+A boat slowly rocks on the mist broth that surrounds the castle.  It is a
+simple wood contruct, painted black.  Some of the paint is peeling, there is
+something coming from those spots.  It is a covered boat, and seems to be
+moored to the ground by some unseen force.  
+~
+0 0 3
+5
+E
+paint~
+Small flows of crimson trickle from the places were the paint has freed
+itself from the boat.  
+~
+D1
+~
+~
+0 0 12073
+D3
+~
+~
+0 0 12071
+S
+#12073
+Behind the Castle~
+The mists slowly draw you to come to the fortress.  An instant before you
+plunge to your death, the mists part for a moment and you can see that you
+stand at a cliff.  This cliff is not unlike the one for the plateau, except,
+you see mist and no bottom to this drop.  
+~
+0 0 3
+5
+D0
+~
+~
+0 0 12074
+D3
+~
+~
+0 0 12072
+S
+#12074
+By the Castles Mists~
+The castle seems to be floating on a sea of thick mists.  You can clearly
+see it bob and sway in the breeze.  The mist seems to be wrapping around
+your legs, try to slowly take you where it feels you should be.  
+~
+0 0 3
+5
+D2
+~
+~
+0 0 12073
+D3
+~
+~
+0 0 12069
+S
+#12075
+The Illusionary Bridge~
+This bridge is not a bridge at all, but an illusion.  Who formed it you
+may never know, all you know now is that is dissovles into mist.  You feel
+as though the mist is actually sucking you down into it.  There is no
+escape.  
+~
+0 8192 0
+5
+D5
+~
+~
+0 0 12076
+S
+#12076
+Falling Through the Mists~
+You are falling through the mist.  At least it feels like your falling. 
+There is nothing to base your perception on, all you can see is the mistYou
+can make out no begining or end to where you are now, all you can do is
+fall.  
+~
+0 8192 0
+5
+D5
+~
+~
+0 0 12077
+S
+#12077
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D1
+~
+~
+0 0 12080
+D2
+~
+~
+0 0 12084
+D3
+~
+~
+0 0 12078
+S
+#12078
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D1
+~
+~
+0 0 12077
+D2
+~
+~
+0 0 12083
+D3
+~
+~
+0 0 12079
+S
+#12079
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D1
+~
+~
+0 0 12078
+D2
+~
+~
+0 0 12082
+S
+#12080
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D1
+~
+~
+0 0 12081
+D2
+~
+~
+0 0 12085
+D3
+~
+~
+0 0 12077
+S
+#12081
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D2
+~
+~
+0 0 12086
+D3
+~
+~
+0 0 12080
+S
+#12082
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12079
+D1
+~
+~
+0 0 12083
+D2
+~
+~
+0 0 12091
+S
+#12083
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12078
+D1
+~
+~
+0 0 12084
+D2
+~
+~
+0 0 12090
+D3
+~
+~
+0 0 12082
+S
+#12084
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12077
+D1
+~
+~
+0 0 12085
+D2
+~
+~
+0 0 12089
+D3
+~
+~
+0 0 12083
+S
+#12085
+In the Mist~
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12080
+D1
+~
+~
+0 0 12086
+D2
+~
+~
+0 0 12088
+D3
+~
+~
+0 0 12084
+S
+#12086
+In the Mist~
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12081
+D2
+~
+~
+0 0 12087
+D3
+~
+~
+0 0 12085
+S
+#12087
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12086
+D2
+~
+~
+0 0 12096
+D3
+~
+~
+0 0 12088
+S
+#12088
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12085
+D1
+~
+~
+0 0 12087
+D2
+~
+~
+0 0 12095
+D3
+~
+~
+0 0 12089
+S
+#12089
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12084
+D1
+~
+~
+0 0 12088
+D2
+~
+~
+0 0 12094
+D3
+~
+~
+0 0 12090
+S
+#12090
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12083
+D1
+~
+~
+0 0 12089
+D2
+~
+~
+0 0 12093
+D3
+~
+~
+0 0 12091
+S
+#12091
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12082
+D1
+~
+~
+0 0 12090
+D2
+~
+~
+0 0 12092
+S
+#12092
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 0 4
+5
+D0
+~
+~
+0 0 12091
+D1
+~
+~
+0 0 12093
+S
+#12093
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12090
+D1
+~
+~
+0 0 12094
+D3
+~
+~
+0 0 12092
+S
+#12094
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12089
+D1
+~
+~
+0 0 12095
+D3
+~
+~
+0 0 12093
+S
+#12095
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 4
+5
+D0
+~
+~
+0 0 12088
+D1
+~
+~
+0 0 12096
+D3
+~
+~
+0 0 12094
+S
+#12096
+In the Mist~
+You can feel the ground under your feet.  There is nothing else but the
+swirling mist.  
+~
+0 8192 0
+5
+D0
+~
+~
+0 0 12087
+D3
+~
+~
+0 0 12095
+S
+#12097
+The Skull Room~
+You stand on a large pile of skulls.  The white spheres come in my
+different sizes.  Through the proportions are about the same on most.  They
+are the proportions of a human skull.  This mountian isn't made exclusively
+of human skulls, there are many other races represent in this pile.  
+~
+0 0 0
+5
+D1
+~
+door~
+0 12015 12098
+S
+#12098
+A Short Corridor~
+This small corridor is a attached to the main corridor of this area.  It
+seems to have been placed here so that three rooms would be accessible at
+once.  The stone floor is badly scratched, and the wooden doors are all
+covered in moss.  The torch light is casting alot of shadows.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12101
+D1
+~
+~
+0 0 12099
+D2
+~
+door~
+0 12018 12100
+D3
+~
+~
+0 0 12097
+S
+#12099
+End of the Corridor~
+The hall way ends here.  Two torches that have been placed in a stand
+illuminate this dead end.  A small indentation to the west has doors in it. 
+The red brick seems blackned by smoke.  The floor here has many scuff marks,
+and lays unevenly.  The air is dry, and you can smell nothing.  To the east
+is a heavy oak door.  Words have been marked on it.  
+~
+0 0 0
+5
+E
+words~
+On the door, written in dark brown it says "Interrogator only" 
+~
+D0
+~
+~
+0 0 12103
+D1
+~
+~
+0 0 12102
+D3
+~
+~
+0 0 12098
+S
+#12100
+The Rib Room~
+This room is full of the ribs cages of various things.  Some of the ribs
+are thick, while other are almost like twigs.  All of the ribs are stacked
+in nice square based pyrimid shapes.  Alot of time has been taken to make
+sure that the ribs are organized, and in order.  This room is dust and mold
+free.  There is little dirt on the stone, and the ground is perfectly level.
+The ribs seem to be important in some way.  
+~
+0 0 0
+5
+D0
+~
+door~
+0 12018 12098
+S
+#12101
+A Room for Miscellaneous Bones~
+The bones of thousands have been left here.  They gather dust in their
+large unorganized piles.  Perhaps someday the bleached white masses will be
+used for something, but for now they just sit in this room.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12098
+S
+#12102
+The Torture Chamber~
+This room appears to be the quintessential torture chamber.  Chains hang
+on the walls.  There is a rack in one corner, and a dunker in another.  A
+cage hangs fromt the ceiling, and you don't even want to start imagining
+what was done with all the tools th at lay next to the extinguished furnace.
+~
+0 0 0
+5
+D3
+~
+door~
+0 12020 12099
+S
+#12103
+In the Corridor~
+The low ceiling and tight walls continues here.  The walls are made of
+simple brick, and torches are placed every dozen feet or so.  The torches
+are set into the wall, as too not burn wide things travelling the halls. 
+Strangely, the brick directly above torches isn't covered with soot.  A cool
+draft blows down the corridor.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12104
+D1
+~
+door~
+ABC 12019 12108
+D2
+~
+~
+0 0 12099
+D3
+~
+~
+ABC 12015 12107
+S
+#12104
+A Turn in the Hall~
+The corridor turns here.  It is a bit taller but not much wider to the
+south.  To the east the cieling lowers and the walls tighten.  There are
+stairs out of the hall to the east.  Many doors are to the south of here.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12105
+D2
+~
+~
+0 0 12103
+S
+#12105
+A Thin Corridor~
+The corridor at the bottom of the steps isn't vary wide, about twice
+shoulder width.  It is also shorter than a normal corridor.  It is made of
+old red brick.  The brick is chipped and cracked everywhere.  The floor is
+exposed cobblestone.  And uneven to walk on.  A draft blows down this hall
+from the stairs.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 12104
+D4
+~
+~
+0 0 12106
+S
+#12106
+A Barrack~
+The floor of the barracks are covered with dust and dried blood.  There
+are numberous cots strewn around the room.  Some are over turned, while
+others are just pushed to the side.  The center of the room is cleared of
+cots, and charred bodies lay in a pile.  The bodies clutch swords and the
+remains of armor is drapped over them.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12110
+D1
+~
+~
+0 0 12109
+D5
+~
+~
+0 0 12105
+S
+#12107
+The Black Room~
+There is a reason that this is called the black room.  There is nothing
+here, but utter blackness.  You can make out a small sliver of light coming
+from the door.  It seems a million miles away, but it's the only thing you
+can see.  
+~
+0 0 0
+5
+D1
+~
+door~
+ABC 0 12103
+S
+#12108
+The Interrogators Room~
+The interrogators room is simply laid out.  A small desk, two stools, and
+a little table with books on it are all the fill this room.  The books are
+all about anatomy and psychology.  There are also a few black hood hanging
+on the wall.  The room is spartan, an interrogator doesn't need much.  
+~
+0 0 0
+5
+D3
+~
+door~
+ABC 12019 12103
+S
+#12109
+The Great Hall~
+This was once the great hall of U'lara keep.  Furs and trophy heads lined
+the walls, great fires roared in the fireplaces, and massive feast were
+given to the soldiers of the fortress.  Now nothing but rotten leather cloth
+lines the walls.  Ashes are all that can be found in the fireplaces.  There
+are many old corpses upon the tables, next to long rotten food.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12124
+D1
+~
+~
+0 0 12111
+D2
+~
+~
+0 0 12113
+D3
+~
+~
+0 0 12106
+S
+#12110
+The Armory~
+This was once were the guard kept its weaponry.  Many empty racks are
+placed along the wall; their wood rotten, and their iron rusted.  The guard
+was able to get all of there equipment off the racks and into the fight that
+has destroyed this island.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12106
+S
+#12111
+The Kitchen~
+The kitchen is dusty, and dingy.  A heavy wooden cooking table is in the
+middle of the room.  A cold fireplace with a empty kettle over it is on the
+far wall.  Old and rusty cooking untensils lie everywhere.  There may still
+be food in the pantries, but the number of fat rats you see running around
+makes that chance very slim.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12112
+D3
+~
+~
+0 0 12109
+S
+#12112
+The Pantry~
+There are many openned barrels along the walls.  They are all full of rat
+droppings, and little less.  The shelves are bare, except for some scap
+packaging left over.  The air is thick with dust here too, it doesn't look
+as if anyone other than the rats has eaten here in centuries.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12111
+S
+#12113
+The Courtyard~
+The courtyard is empty, open aired, and has mud for a floor.  But it's
+not what the room looks like that grabs your attention, it's what's going on
+in it that does.  Warring bodies run about every which way.  They fall and
+die and fade away.  You cannot see who they battle, nor does any of this
+make a sound.  Slowly they all die away.  The courtyard is quiet, and then
+sudden it explodes with action as the scene resets itself.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12109
+D1
+~
+~
+0 0 12115
+D2
+~
+~
+0 0 12116
+D3
+~
+~
+0 0 12114
+S
+#12114
+The Dump~
+A disgusting odor pours from the room.  On the floor there lies a mass
+rotting offal.  Stinking flesh and muscle twist around cracked bones and
+ribs.  Worms crawl among the skulls, they bodies are too fresh to have been
+part of the garrison here.  Perhaps they are the bodies of fools who have
+travelled to close to the island, or resisted its lord.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12113
+S
+#12115
+The Stables~
+The double door to here has been splittered.  Wooden stalls line three
+walls, and harnesses hang from hooks.  This place must have been a stable
+once.  In the corner, a perfectly preserved riding carriage sits.  Parts of
+the wall has collapsed, and the air is heavy with a foul odor.  The ground
+is covered with a fine silt, and the roof is carpetted with sleeping bats.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 12113
+S
+#12116
+Between the Battlements~
+This part of the castle is heavy with silence.  To the north you can see
+what appear to be a battle.  There are two towers here, one has the tell
+tale arrow slits of a guard tower.  The other one, the eastern one, has no
+opennings.  A skeleton has been embedded into a tower wall, and there are
+many signs of magical destruction having been brought here.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12113
+D1
+~
+~
+0 0 12118
+D3
+~
+~
+0 0 12117
+S
+#12117
+The Lower Part of a Watchtower~
+This is an empty room.  A ladder leads to a small door in the ceiling. 
+In the ceiling are a few murder holes, but through them all you see is the
+ceiling of the room above you.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12116
+D4
+~
+~
+0 0 12119
+S
+#12118
+The Bottom of the Tower Keep~
+There is no exit here.  Just a spiral stone stair case.  Light flickers
+from the torches inlaid in the walls.  The strange thing is that these
+torches haven't been lit in years.  In fact there is no fire here, only
+light.  Even that seems to be fading as time goes on, but the castle wants
+to hold onto every memory it can.  
+~
+0 0 0
+5
+D4
+~
+~
+0 0 12120
+D5
+~
+~
+0 0 12161
+S
+#12119
+The Guard Post~
+There are arrow ports facing all directions in this cramped tower
+compartment.  Out of the slots you can only see a mist.  It hangs a few feet
+away, and doesn't seem to want to show you want is beyond the tower.  
+~
+0 0 0
+5
+D5
+~
+~
+0 0 12117
+S
+#12120
+On the Stairs~
+These stairs seem to go on forever.  They spiral by you, and seem not to
+care that you have become tired of travelling on them.  The stone is some
+sort of perfect stone.  It looks like liquid granite, frozen in the
+smoothest of ice.  
+~
+0 0 0
+5
+D4
+~
+~
+0 0 12121
+D5
+~
+~
+0 0 12118
+S
+#12121
+The Baron's Eyrie~
+This is a finely kept room, almost fit for royalty.  Fine silks and
+tapestries hang everywhere in this turret.  There are no windows, and there
+is no bed.  However, about 15 feet above you are rafters.  There is a
+exquiset desk with a mirror on one side of the room, and on the other a
+large wardrobe.  There is something strange about the mirror, the reflection
+it gives isn't quite right.  
+~
+0 4 0
+5
+E
+mirror~
+The reseason it doesn't look right is because it isn't reflecting a image
+of this room.  Rather, it is shows a Hallway.  This Hallway is relatively
+empty, but is probably a Hallway in this castle.  
+~
+S
+#12122
+In the Carriage~
+~
+0 0 0
+5
+D5
+~
+~
+0 0 12115
+S
+#12123
+A Hallway~
+The hall is wide, and made of smooth granite.  There is a thick black
+carpet running down its center.  The veins in the granite seem to for form
+pictures, or at very least faces.  Most of the pictures are of people
+screaming, or something.  You can not seem to get yourself to focus on any
+one image.  Nor can you find images that you had seen before once you've
+looked away.  
+~
+0 4 0
+5
+D0
+~
+~
+0 0 12151
+S
+#12124
+The Command Tower~
+This is where the commander of the garrison would sleep, were he still
+alive.  Rank did not beget much privilage here, for the well of the fortress
+is in here too.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12125
+D2
+~
+~
+0 0 12109
+D4
+~
+~
+0 0 12127
+S
+#12125
+The Well~
+A three foot high brick well sits here.  It is four feet across and you
+can't see the bottom.  On the floor next to it is a dust-covered bucket
+attached to a collapsed crank mechanism.  
+~
+0 0 0
+5
+D3
+~
+~
+0 0 12124
+D5
+~
+~
+0 0 12126
+S
+#12126
+The Bottom of the Well~
+This is the bottom of the castle well.  Entrance can be gained to the
+castle through here, and escape can be facilitated.  
+~
+0 8192 0
+5
+D2
+~
+~
+0 0 12128
+D4
+~
+~
+0 0 12125
+S
+#12127
+The Tower Office~
+This is a dark room, lit only by the glow of a single snuffed candle. 
+The candle sits on a massive desk in the center of the room.  Thick books
+and papers cover the surface of the desk, as well as a few chairs and a
+stool too.  There is a large ledger sitting on the desk in plan view,
+appears to have a alot of things written in it.  
+~
+0 0 0
+5
+E
+ledger~
+The ink is still fresh.  It has a diagram of a huge plus shaped place. 
+In a corner is scribbled "Seal 
+~
+D5
+~
+~
+0 0 12124
+S
+#12128
+Tunnels of Mist~
+The tunnel is full of a thick low lieing mist.  The walls are marked up,
+and you can hear movment from deeper withing the tunnels.  
+~
+0 8192 0
+5
+D0
+~
+~
+0 0 12126
+D1
+~
+~
+0 0 12129
+D2
+~
+~
+0 0 12130
+S
+#12129
+In the Sewer Tunnels~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12138
+D3
+~
+~
+0 0 12128
+S
+#12130
+A Sewer Tunnel~
+The tunnel is full of a thick low lieing mist.  The walls are marked up,
+and you can hear movment from deeper withing the tunnels.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12128
+D1
+~
+~
+0 0 12131
+D2
+~
+~
+0 0 12132
+S
+#12131
+Somewhere in the Sewers~
+~
+0 8192 0
+5
+D1
+~
+~
+0 0 12135
+D3
+~
+~
+0 0 12130
+S
+#12132
+A Turn in the Tunnels~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12130
+D1
+~
+~
+0 0 12133
+S
+#12133
+A Place Where tunnels Cross~
+~
+0 8192 0
+5
+D0
+~
+~
+0 0 12135
+D1
+~
+~
+0 0 12137
+D2
+~
+~
+0 0 12134
+D3
+~
+~
+0 0 12132
+S
+#12134
+The Sewage Tunnel~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12133
+D2
+~
+~
+0 0 12136
+S
+#12135
+A Corner Deep in the Sewers~
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12133
+D3
+~
+~
+0 0 12131
+S
+#12136
+The Sewer Grate~
+The Sewer starts here.  Water and waste should be flowing through this
+area.  But instead all that passes the rusted grate that covers the exit is
+mist.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12134
+S
+#12137
+Somewhere in the Sewer~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12138
+D3
+~
+~
+0 0 12133
+S
+#12138
+In the Sewers~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12139
+D2
+~
+~
+0 0 12137
+D3
+~
+~
+0 0 12129
+S
+#12139
+The Center of the Sewers~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12140
+D2
+~
+~
+0 0 12144
+D3
+~
+~
+0 0 12138
+S
+#12140
+The Small Bend~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12141
+D3
+~
+~
+0 0 12139
+S
+#12141
+The Haven~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12142
+D2
+~
+~
+0 0 12140
+D3
+~
+~
+0 0 12143
+S
+#12142
+The Bunks~
+~
+0 0 0
+5
+D3
+~
+~
+0 0 12141
+S
+#12143
+The Stores~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12141
+S
+#12144
+The Start of a Sewage Loop~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12139
+D1
+~
+~
+0 0 12149
+D2
+~
+~
+0 0 12145
+S
+#12145
+Knee Deep in Nothing~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12144
+D2
+~
+~
+0 0 12146
+S
+#12146
+Deep in the Sewers~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12145
+D1
+~
+~
+0 0 12147
+S
+#12147
+In the Sewer~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12148
+D3
+~
+~
+0 0 12146
+S
+#12148
+In the Sewer~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12149
+D3
+~
+~
+0 0 12147
+S
+#12149
+In the Sewer~
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12148
+D3
+~
+~
+0 0 12144
+S
+#12150
+On the Dragon Sea~
+The Dragon Sea is a cold empty place.  The waves provide a stead rhythm,
+and a stiff wind slowly rolls a fog in.  There looks to be a island off on
+the horizan.  It's desolete rock cliff jut forth from the waters with a
+defience.  
+~
+0 0 7
+5
+D1
+~
+~
+0 0 12000
+D3
+~
+~
+0 0 9789
+S
+#12151
+In a Hallway~
+This is a empty hallway, lit by magical means.  There is a soft black
+carpet that runs down its center.  The temperature seems to always be
+shifting here.  Waves of hot and cold pass through you at random.  Sometimes
+only a single part of your body becomes ice cold, or unbaribly hot.  The
+flat gray of the walls are making your eye play tricks on you.  You could
+swear that the walls are quivering.  The things you see when you stare to
+long at nothing.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12152
+D2
+~
+~
+0 0 12123
+D3
+~
+~
+0 0 12154
+S
+#12152
+The Dining Hall~
+A long table dominates this room.  It made of oak, and has been stained
+to a very dark color.  It is slick, like it has been covered with oil. 
+There are several large french windows, in the room.  The look out onto the
+Dragon Sea.  You are much higher up than you thought.  There is nothing
+sinister or apparently evil about this room, it just looks like it not in
+use now.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12153
+D3
+~
+~
+0 0 12151
+S
+#12153
+The Art Room~
+This room is full of statues of people, all are staring.  The many
+paintings of people in serene places are staring.  The busts, the statues,
+the paintings; they are all watching you.  Maybe they want you to free them.
+Maybe they want you to join them.  They appraise your every move, your every
+twitch, your every feeling.  There are too many eye proding your exposed
+soul.  Perhaps you should do something.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12152
+S
+#12154
+The Ballroom~
+The floor here is made of a shined stone.  Even so, it is scuffed badly. 
+A fine layer of dust has settled over the dance floor.  As well as the many
+red clothed chairs and tables.  Occationally a note or two of musics floats
+to you.  However the silence is heavy with the sound of the people begging
+to be allowed to stop dancing.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12151
+D2
+~
+~
+0 0 12155
+S
+#12155
+The Sitting Room~
+There are many cushioned chairs here.  Tables with books and fancy
+lanterns to provide light.  A painting sits on an easel in the corner. 
+There is no body around.  But you feel that this place is in constant use. 
+You probably shouldn't touch anything.  They would be upset if anything was
+moved.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12154
+D3
+~
+~
+0 0 12156
+S
+#12156
+The Anatomists Archive~
+This place is like a cross between a morgue, a operating room, and a
+library.  Jars full of perserved body parts line shelves, each has a label
+detailing many thing you don't understand.  There are to blood stained
+tables in the center of the room.  A tool rack with many rusty torture
+implements sits between them.  There are catalogues that are pregnant with
+notes on a desk in the corner; none of them come close to closing.  To the
+north is a strange dark portal, you can't see beyond it.  A icy breeze blows
+in from there.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12157
+D1
+~
+~
+0 0 12155
+S
+#12157
+The Garden of Eternity~
+This isn't a room like most others.  The ground here is made of a soft
+loam.  The ceiling is a domed, and the room appears to have been hollowed
+out of a single rock and then smoothed.  In the dirt floor grows many
+plants.  Orchids, small trees, and red thorn bushes seem to be the most
+common.  These plants, however, are not common in any way.  Grotesque faces
+have been grafted into the bark of trees.  Pale and withered arms are the
+stems and branches of many things.  Distorted flesh makes up as much of
+these plants as the vegetable matter does.  To the south is a black portal,
+and to the west is a small building.  
+~
+0 0 0
+5
+D2
+~
+~
+0 0 12156
+D3
+~
+~
+0 0 12158
+S
+#12158
+Yala's Post~
+This is a small room.  Barren of anything.  Except for Yala.  She is ever
+vigilant and will screen all comers to the door of her master.  Yala's room
+is to the south, while the Necromancer's room is to the west.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12157
+D2
+~
+~
+0 0 12159
+D3
+~
+~
+0 0 12160
+S
+#12159
+Yala's Room~
+Nothing but the bare nessecities make up this room; if that much.  A
+short wooden bed with a wooden block for a pillow are against one wall.  On
+the other is a small stick of black incense, currently unlit.  The room is
+blank other than that.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 12158
+S
+#12160
+Ellandra's Room~
+This room is elegently laid out.  There is a large oval shaped bed that
+is veiled in silks and satins, all of them colored blue.  There is a large
+vanity, and an equally large wardrobe.  The whole room is excellently
+decorated, and not at all what you'd expect a necromancer's room to be made
+up.  But then Ellandra always had fine and extraordinary taste.  Even as a
+lich, she can't let go of wanting to make the whole room a palace in which
+she can live.  
+~
+0 0 0
+5
+D1
+~
+~
+0 0 12158
+S
+#12161
+The Crypt~
+This is a small crypt.  Not all of the spaces have been taken up.  Some
+of the bodies with this place haven't fully decomposed.  The freshest body
+is of a young female human, the flesh about her skull has been removed. 
+Another small oddity is that an iron maiden and a person sits on the far
+wall.  
+~
+0 4 0
+5
+S
+#0
+
+
+
+#SPECIALS
+M 12002 spec_cast_mage
+M 12005 spec_poison
+M 12007 spec_guard
+M 12008 spec_poison
+M 12014 spec_cast_mage
+M 12017 spec_breath_frost
+M 12022 spec_poison
+M 12028 spec_cast_mage
+M 12029 spec_poison
+M 12031 spec_cast_cleric
+M 12032 spec_cast_mage
+M 12034 spec_cast_cleric
+S
+
+
+
+#RESETS
+D 0 12006 3 1
+D 0 12013 1 1
+D 0 12034 4 1
+D 0 12035 5 1
+D 0 12103 1 2
+D 0 12103 3 2
+D 0 12107 1 2
+D 0 12108 3 2
+O 0 12000 0 12002
+O 0 12001 0 12002
+O 0 12002 0 12006
+M 0 12013 1 12010 1
+O 0 12000 0 12010
+O 0 12003 0 12010
+M 0 12001 1 12012 1
+M 0 12000 4 12014 1
+M 0 12005 3 12022 1
+M 0 12004 3 12023 1
+M 0 12006 1 12025 1
+O 0 12005 0 12025
+M 0 12012 1 12028 1
+E 0 12010 0 16
+M 0 12011 1 12029 1
+O 0 12009 0 12029
+M 0 12007 3 12030 1
+M 0 12003 5 12031 1
+M 0 12024 1 12032 1
+M 0 12002 1 12033 1
+E 0 12006 0 6
+M 0 12009 1 12034 1
+M 0 12010 1 12034 1
+O 0 12008 0 12034
+M 0 12008 1 12035 1
+E 0 12007 0 12
+M 0 12015 1 12036 1
+M 0 12016 1 12036 1
+E 0 12029 0 13
+M 0 12034 1 12038 1
+M 0 12033 5 12040 1
+M 0 12033 5 12040 1
+M 0 12033 5 12040 1
+M 0 12033 5 12040 1
+M 0 12033 5 12040 1
+M 0 12030 2 12042 1
+M 0 12028 2 12044 1
+M 0 12029 2 12044 1
+M 0 12018 1 12048 1
+M 0 12019 6 12048 1
+O 0 12011 0 12051
+M 0 12017 1 12053 1
+M 0 12014 1 12057 1
+O 0 12012 0 12062
+M 0 12020 3 12063 1
+O 0 12013 0 12072
+M 0 12022 4 12089 1
+G 0 12014 0
+M 0 12021 6 12095 1
+M 0 12025 1 12096 1
+E 0 12023 0 17
+G 0 12031 0
+O 0 12019 0 12100
+O 0 12016 0 12101
+O 0 12018 0 12101
+O 0 12017 0 12101
+M 0 12027 1 12107 1
+M 0 12026 1 12108 1
+E 0 12024 0 16
+G 0 12015 0
+O 0 12021 0 12115
+O 0 12022 0 12121
+M 0 12123 1 12153 1
+M 0 12124 1 12153 1
+O 0 12030 0 12156
+M 0 12031 1 12158 1
+E 0 12028 0 16
+O 0 12040 0 12159
+M 0 12032 1 12160 1
+G 0 12027 0
+O 0 12025 0 12161
+M 0 12122 1 12161 1
+G 0 12026 0
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

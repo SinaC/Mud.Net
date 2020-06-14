@@ -4,7 +4,7 @@ namespace Mud.Importer.Rom
 {
     public class RoomData
     {
-        public const int MaxExits = 11;
+        public const int MaxExits = 6;
 
         public int AreaVnum { get; set; }
 

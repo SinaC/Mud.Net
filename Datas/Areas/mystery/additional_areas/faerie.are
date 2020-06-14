@@ -1,0 +1,2683 @@
+#AREADATA
+Name The Faerie Glen~
+Builders None~
+VNUMs 20300 20399
+Credits {{10 20}  Zeboim  The Faerie Glen~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#20300
+mage man~
+a red-robed mage~
+A man dressed in red robes sits in his hut.
+~
+Wearing red robes and a pointed hat, this man is the stereotypical view of a mage. His belt holds many pouches, but none of them seem to be full. His face is bearded, and wonders what you are doing in his house.
+~
+human~
+0
+ABHR DT 0 0 0 0
+14 0 5d10+500 25d9+100 0d0+0 4d4+6 magic
+-6 -6 -6 2
+FKU 0 HIJ G
+stand stand male 1128
+AHMV ABCDEFGHIJK medium 0
+M
+mob20300
+#20301
+wyvern green~
+a large wyvern~
+A massive winged beast with a barbed tail screams at your intrusion.
+~
+The beast is none other than a wyvern. Far less intelligent than a dragon, it is also a bit more savage because of its raw animal impulses. The tail is barbed, ready to inject venom into a victim. The wyvern's bite is also poisonous.
+~
+wyvern~
+0
+ABCFG 0 0 0 -1000 0
+18 6 5d10+650 4d9+100 0d0+0 3d7+9 claw
+-7 -6 -6 -1
+CDFHMOW BL H IS
+stand stand none 150
+ABGZ ACDEFHJKQVX large 0
+F aff DFT
+#20302
+wandering knight~
+a wandering knight~
+A man dressed as a knight walks slowly through the forest.
+~
+He is young but eager to learn. His armour is not the greatest, but is well-polished, as is his sword. He walks around the valley in what seems to be quiet meditation, perhaps searching for Paladine, Habbakuk and Kiri-Jolith.
+~
+human~
+0
+AG DN 0 0 1000 0
+11 0 2d8+134 5d9+100 0d0+0 1d10+2 slash
+1 1 1 8
+CEFIKQ 0 0 0
+stand stand male 0
+AHMV ABCDEFGHIJK medium 0
+#20303
+faerie tiny~
+a tiny faerie~
+A tiny winged girl flitters through the forest.
+~
+She is barely as tall as a human's arm length, but she is lithe and beautiful. Two wings of gossamer carry her on her sporadic and joyful flight through her forest home. Wearing what appears to be an oak leaf dress, she giggles and smiles.
+~
+cat~
+0
+AGH DPT 0 0 625 0
+6 0 2d8+134 5d9+100 0d0+0 1d10+2 scratch
+1 1 1 8
+FHJKRW 0 CLNQ ER
+stand stand female 31
+ACGHMV ABCDEFGHIJKPQUV small 0
+F aff Z
+#20304
+darkelf elf assassin~
+a young dark-elven assassin~
+An elf clad in black clothing stalks the forest.
+~
+He seems to be hunting, but for what purpose is unclear. Wearing no weapon and very little armor, he glares at you with a rage that is decidedly not elven. He must have been cast out of his home forest for some reason, and is returning because of the longing for the forest that all elves feel when they leave.
+~
+drow~
+0
+AG DFP 0 0 -800 0
+13 5 3d9+233 5d9+100 0d0+0 2d6+4 punch
+-3 -4 -3 4
+CEFHIJKNU 0 CILM NQSY
+stand stand male 120
+AHMV ABCDEFGHIJK medium 0
+F aff EJZ
+#20305
+traveller man~
+a traveller~
+A man is slowly wandering the forest.
+~
+He is dressed in normal clothing, but he has a few more exotic things on his person as well. He seems to be a normal traveller, out of the city for a day to relax and wander the woods by himself.
+~
+human~
+0
+AGH 0 0 0 200 0
+12 0 2d8+134 5d9+100 0d0+0 1d10+2 none
+1 1 1 8
+EFNU 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium 0
+#20306
+statue granite~
+a granite statue~
+A tall granite statue seems to be watching the area.
+~
+Magically enchanted, this statue is a guardian placed by some wizard to keep watch over the area. Why it is watching, only the wizard could say. The statue can not speak.
+~
+human~
+0
+ABG P 0 0 0 0
+25 0 5d10+550 5d9+100 0d0+0 2d10+7 crush
+-7 -7 -7 6
+EFNOU 0 0 0
+stand stand none 212
+ACHJMV ABCDEFGHIJK medium 0
+#20307
+snake green~
+a green snake~
+A long, bright green snake slithers through the grass.
+~
+It blends in quite well with the new growths of the grass.
+~
+snake~
+0
+AH 0 0 0 0 0
+3 0 2d6+35 1d1+1 0d0+0 1d6+0 bite
+7 7 7 10
+W 0 L I
+stand stand either 0
+AGXYc ADEFKLQVX medium 0
+#20308
+statue granite~
+a granite statue~
+A tall granite statue seems to be watching the area.
+~
+Magically enchanted, this statue is a guardian placed by some wizard to keep watch over the area. Why it is watching, only the wizard could say. The statue can not speak. The statue is missing its left arm, surprisingly enough.
+~
+human~
+0
+AB N 0 0 0 0
+25 0 5d10+550 12d9+100 0d0+0 2d10+7 crush
+-7 -7 -7 6
+EFNOU 0 0 0
+stand stand none 212
+ACHJMV ABCDEFGHIJK medium 0
+M
+mob20308
+#20309
+fungus crawling~
+a crawling fungus~
+A sickly mass of organic matter crawls about slowly on the earth.
+~
+It seems to be a gigantic, moving heap of fungus, not terribly pleasant at all.
+~
+unique~
+0
+AG JZ 0 0 0 0
+5 0 2d6+60 1d1+1 0d0+0 1d6+1 slime
+5 6 4 9
+0 ALPQ B HK
+stand stand male 3
+ABHMS 0 large 0
+#20310
+guard elven~
+an elven guard~
+An elf dressed in chain mail stands guard over the path.
+~
+He seems to be protecting the forest to the north from intruders ... but given the horrible feeling in the air all around, perhaps he is guarding intruders from the forest ahead. He wears mithril chain mail, brightly polished, under light grey clothing, and wields his scimitar with great ease and skill.
+~
+high-elf~
+0
+ABGT DFNP 0 0 1000 0
+25 3 15d10+1850 1d1+1 0d0+0 4d8+15 slash
+-15 -14 -14 -10
+0 AB CLQ Z
+stand stand male 0
+AHMV ABCDEFGHIJK medium 0
+F aff J
+#20311
+red bird~
+a red bird~
+A brightly-coloured red bird sings from above.
+~
+It flies gracefully through the forest, avoiding branches and trees. It chirps as it goes along, paying no notice to you.
+~
+song bird~
+0
+AG 0 0 0 0 0
+3 9 2d6+35 1d1+1 0d0+0 1d6+0 peckb
+7 8 7 15
+FH 0 0 0
+stand stand either 0
+AGHMVW ABCDEFHKP medium 0
+F aff T
+#20312
+bluebird bird~
+a bluebird~
+A bluebird chirps angrily at you.
+~
+Coloured blue-grey, it sits on the ground, obviously mad at you for invading its territory. It doesn't seem to be much of a real threat, though.
+~
+song bird~
+0
+AG 0 0 0 0 0
+3 8 2d6+35 1d1+1 0d0+0 1d6+0 peck
+7 7 8 14
+FH 0 0 0
+stand stand either 0
+AGHMVW ABCDEFHKP medium 0
+F aff T
+#20313
+fox red~
+a red fox~
+A red fox stares at you from the underbrush.
+~
+The fox is still very small, but its teeth are sharp. With a look of curiousity, it watches you, wondering if you are a threat or not.
+~
+fox~
+0
+AG 0 0 0 0 0
+11 4 2d10+150 1d1+1 0d0+0 1d10+2 bite
+0 0 3 8
+FHW 0 0 0
+stand stand none 0
+AGHMV ABCDEFHJKQV medium 0
+F aff Z
+#20314
+nymph girl~
+a forest nymph~
+A small girl with pale blue skin skips lightly through the trees.
+~
+On first appearance, she is a normal, young elven girl. However, the blue skin and gossamer wings reveal that she is definitely not an elf, but a forest nymph. She is scantily clad, wearing mostly well-placed moss and leaves. She seems oblivious to you, content to dance happily through her homeland.
+~
+cat~
+0
+AG DJPT 0 0 750 0
+12 3 2d10+195 1d1+1 0d0+0 1d12+3 shock
+-1 -2 0 3
+FHJKRW 0 BCILNS EH
+stand stand female 10
+ACGHMV ABCDEFHJKQUV medium 0
+F aff Z
+#20315
+dryad~
+a delicate dryad~
+A beautiful dryad caresses the trees.
+~
+As she is intimately connected to the expansive network of the forest's many living things, she cares for them deeply. One of the trees in this forest is her true home; which it is, only she can say.
+~
+cat~
+0
+AG DJPT 0 0 700 0
+13 2 3d9+233 1d1+1 0d0+0 2d6+4 magic
+-2 -1 -3 0
+FHJKRW 0 BCEIJLOQ H
+stand stand female 12
+ACGHMV ABCDEFHJKQUV medium 0
+F aff Z
+#0
+
+
+
+#OBJECTS
+#20300
+wooden plate shirt~
+a shirt covered in thick wooden plates~
+A multitude of rectangular wooden blocks is stitched to a shirt.~
+wood~
+armor 0 AD
+7 8 6 6 5
+15 150 7600 P
+Y
+char 'strength' 0 2
+Y
+char 'damroll' 0 1
+Y
+char 'AC' 0 -5
+E
+wooden plates shirt~
+They seem to be some poor man's attempt at making a platemail vest. The thick wood still provides good protection, and it's a good thing that the plates are wood; they're so thick and numerous that if they were metal, the shirt would weigh hundreds of pounds.~
+#20301
+hat red~
+a floppy red hat~
+A floppy red hat is sitting on the ground.~
+cloth~
+armor G AE
+8 8 8 6 6
+13 20 3400 P
+Y
+char 'hitroll' 0 2
+Y
+char 'mana' 0 20
+Y
+char 'hp' 0 10
+E
+red hat~
+Curiously enough, there is a rather cute patch of a penguin stitched onto the side. Hmmm.~
+#20302
+gloves mithril chain~
+a pair of mithril chain gloves~
+Two chainmail gloves lie on the floor.~
+mithril~
+armor GK AH
+7 6 6 5 5
+18 70 2700 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 3
+E
+gloves mithril chain~
+They are made of closely-interlinked mithril rings, and the insides are padded with soft leather.~
+#20303
+plated sleeves metal~
+a pair of metal-plated sleeves~
+Two long, metal-covered sleeves lie here.~
+iron~
+armor 0 AI
+8 8 8 6 6
+25 50 2700 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 1
+Y
+char 'hp' 0 10
+E
+plated sleeves metal~
+There are thick metal plates covering these sleeves, riveted to the soft leather underneath.~
+#20304
+steel greaves~
+two steel greaves~
+There are two steel boots sitting upright.~
+steel~
+armor B AG
+8 7 8 6 6
+18 50 3100 P
+Y
+char 'dexterity' 0 -1
+Y
+char 'hitroll' 0 4
+Y
+char 'moves' 0 25
+Y
+char 'saving throw' 0 -1
+E
+steel greaves~
+Made of thick, bolted steel, they seem to be very sturdy protection, but their bulk and weight would make it a bit harder to move, but not much.~
+#20305
+skirt iron chains~
+a skirt of linked iron chains~
+A heap of thick, interwoven iron chains is arranged in a rough circle.~
+iron~
+armor 0 AF
+8 8 8 6 6
+19 60 3100 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 2
+Y
+char 'constitution' 0 1
+E
+skirt iron chains~
+The chains are of the type usually implemented in lifting large crates and other cargo aboard a ship. They are thick, sturdy, and quite unlikely to break from blows to the legs.~
+#20306
+plated platinum belt~
+a plated belt of platinum~
+A wide belt of platinum lies here.~
+platinum~
+armor ABIKY AL
+9 8 6 5 5
+20 60 20300 P
+Y
+char 'constitution' 0 2
+Y
+char 'hp' 0 15
+Y
+char 'wisdom' 0 1
+E
+plated platinum belt~
+The belt is quite wide and thick, providing excellent protection for the stomach and lower torso. It is studded with four emeralds, with a gold dragon engraved in the center.~
+#20307
+torn grey shirt~
+a torn grey shirt~
+A ragged shirt made of cheap grey cloth is crumpled on the floor.~
+cloth~
+armor L AD
+5 6 5 3 3
+10 20 9100 P
+Y
+char 'hitroll' 0 4
+Y
+char 'dexterity' 0 1
+Y
+char 'constitution' 0 1
+E
+torn grey shirt~
+It seems to have been elven in origin, and quite possibly protective and beautiful at one time, but now it is nearly useless.~
+#20308
+copper tower shield wyvern~
+a copper tower shield marked with a wyvern~
+A large shield bearing the mark of a winged beast is here.~
+copper~
+armor EJ AJ
+7 7 7 5 5
+17 130 4400 P
+Y
+char 'saving throw' 0 -3
+Y
+char 'AC' 0 -3
+Y
+char 'hp' 0 15
+E
+copper tower shield~
+It is very large, and the copper plating is backed with hard wood. Two straps fit the shield to the arm. On the front is a bearing of a black wyvern.~
+E
+wyvern~
+It seems to be made of blackened steel, and it has two rubies for eyes. The tail is barbed, and an emerald hints at the poison of a wyvern's tail.~
+#20310
+bottle black fluid~
+a bottle of black fluid~
+A bottle half-full of a thick, oily liquid sits on its side.~
+glass~
+potion G A
+16 'fly' 'refresh' 'giant strength' 'blindness'
+16 10 880 P
+E
+bottle black~
+The fluid is almost too thick to consider drinking.~
+#20311
+potion bubbly~
+a bubbly potion~
+A small bottle of bubbling blue liquid is on the ground.~
+glass~
+potion G A
+15 'detect invis' 'protection good' '' ''
+15 10 400 P
+E
+potion bubbly~
+The liquid inside is chaotic in how quickly it bubbles.~
+#20314
+staff magic~
+a magic staff~
+A long magic staff illuminates the ground.~
+crystal~
+light GY AO
+0 0 72 0 0
+11 90 50 P
+E
+staff magic~
+It seems to be a light of some kind. One end of it glows with a soft green flame.~
+#20315
+old red scroll~
+an old red scroll~
+A pale red scroll, torn and old, lies here.~
+paper~
+scroll G A
+12 'cremate' '' '' ''
+12 10 1280 P
+E
+old red scroll~
+The runes are fading, but a picture of a flaming sword can be seen.~
+#20316
+white paper~
+a sheet of white paper~
+A small piece of bright white paper rests delicately on the floor.~
+paper~
+scroll G A
+15 'detect good' 'detect invis' 'detect magic' 'detect evil'
+15 10 500 P
+E
+white paper~
+It bears one symbol: that of an eye, wide open.~
+#20317
+wooden stick colourful paper~
+a wooden stick covered with colourful paper~
+A short wooden stick is covered with gaudy paper.~
+wood~
+staff AG AO
+17 8 8 'colour spray' 0
+17 10 3300 P
+E
+wooden stick colourful paper~
+It seems to be enchanted somehow, and the colours seem quite vibrant, perhaps magically so.~
+#20318
+necklace ebony sapphire~
+an ebony necklace set with a sapphire~
+A sapphire shines brightly in a thick band of black wood.~
+ebony~
+treasure AGIJK AC
+0 0 0 0 0
+11 40 1500 P
+Y
+char 'saving throw' 0 -3
+Y
+char 'hp' 0 10
+Y
+char 'hitroll' 0 2
+Y
+char 'damroll' 0 2
+E
+necklace ebony sapphire~
+It is quite pretty, especially the contrast between the black ebony wood and the pale sapphire.~
+#20319
+haunch wyvern~
+the haunch of a wyvern~
+An enormous reptilian leg lies in a pool of blood.~
+meat~
+food 0 A
+24 24 0 0 0
+10 200 200 P
+E
+haunch wyvern~
+It seems to have come straight off a wyvern after the beast was killed.~
+#20320
+spring water~
+a spring of clear water~
+A small spring bubbles up from the ground.~
+water~
+fountain OTY 0
+10000 10000 'water' 0 0
+10 5000 0 P
+E
+spring water~
+It looks wonderful and safe to drink.~
+#20321
+flamberge cold steel~
+a flamberge forged from cold steel~
+A mighty sword with an undulating blade slightly chills the air.~
+steel~
+weapon GI AN
+sword 6 5 cleave BF
+26 160 3300 P
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+Y
+char 'strength' 0 2
+E
+flamberge cold steel~
+The slightly cold air around the sword seems to imply that it is magically enchanted somehow.~
+#20322
+robe red linen~
+a red linen robe~
+A pile of dark red cloth is crumpled into a small ball.~
+linen~
+armor G AK
+5 6 5 6 6
+13 30 410 P
+Y
+char 'mana' 0 15
+Y
+char 'intelligence' 0 1
+Y
+char 'saving throw' 0 -5
+E
+robe red linen~
+The robe is quite soft, made of pure linen dyed red with some manner of berry juice.~
+#20323
+hooded black cape~
+a hooded black cape~
+A piece of thick black cloth with a hood on it lies in a heap.~
+cloth~
+armor GJ AK
+7 7 7 5 5
+20 30 1600 P
+Y
+char 'hp' 0 15
+Y
+char 'AC' 0 -4
+Y
+char 'dexterity' 0 1
+E
+hooded black cape~
+It is made of one piece of soft black fabric. The hems are embroidered with silver thread.~
+#20324
+badge brass~
+a brass badge~
+A small, chevron-shaped badge glimmers dimly.~
+brass~
+treasure AG AC
+0 0 0 0 0
+10 10 500 P
+Y
+char 'hp' 0 20
+Y
+char 'mana' 0 20
+Y
+char 'intelligence' 0 2
+Y
+char 'wisdom' 0 1
+E
+brass badge~
+The badge has a marking of a fireball coming from a hand. It seems to be meant for members of the mage guilds.~
+#20325
+stump tree~
+a tree stump~
+A tree has been cut down, leaving only a stump.~
+wood~
+furniture OTY 0
+2 500 BEHN 130 130
+10 1000 0 P
+E
+stump tree~
+It seems like a good place to sit down and relax for a while.~
+#20326
+medal steel~
+an octagonal steel medal~
+An eight-sided piece of steel is attached to a ribbon.~
+steel~
+key 0 AC
+0 0 0 0 0
+10 20 500 P
+Y
+char 'strength' 0 2
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+Y
+char 'AC' 0 -7
+E
+steel medal~
+Judging by the sword engraved on the steel, it would seem as if this were a medal for warriors.~
+#20327
+stone pedestal column~
+a stone pedestal~
+A column of stone rises up in the back of the cave.~
+stone~
+container OTY 0
+500 ABCD 20326 100 100
+10 50000 0 P
+E
+stone pedestal column~
+There is an eight-sided hole in the top, and what seems to be a door on the side.~
+#20328
+tongue wyvern~
+the tongue of a wyvern~
+A huge, severed black tongue lies here.~
+meat~
+food 0 A
+50 50 0 A 0
+15 200 300 P
+E
+tongue wyvern~
+Both the bite and sting of a wyvern are poisonous.~
+#20330
+blue sapphire~
+a sapphire~
+A small, bright blue stone lies here.~
+crystal~
+gem Y AOQ
+0 0 0 0 0
+5 10 550 P
+Y
+char 'strength' 0 1
+E
+sapphire blue~
+A many-spiked white star is in the center of the gem.~
+#20331
+ruby jewel~
+a ruby~
+A blood-red stone is here.~
+crystal~
+gem Y AOQ
+0 0 0 0 0
+5 10 550 P
+Y
+char 'intelligence' 0 1
+E
+ruby jewel~
+The gem is striated with imperfections.~
+#20332
+amethyst crystal~
+an amethyst~
+A small violet crystal lies here.~
+crystal~
+gem Y AOQ
+0 0 0 0 0
+5 10 550 P
+Y
+char 'wisdom' 0 1
+E
+amethyst crystal~
+It is an incredibly deep violet colour, like the sunset.~
+#20333
+topaz stone~
+a topaz~
+A well-cut yellow stone lies on the ground.~
+crystal~
+gem Y AOQ
+0 0 0 0 0
+5 10 550 P
+Y
+char 'dexterity' 0 1
+E
+topaz stone~
+It is not high-quality; the stone is quite transparent. A better topaz would be almost opaque.~
+#20334
+diamond gem~
+a diamond~
+A dazzlingly bright clear gem has been dropped by someone.~
+crystal~
+gem Y AOQ
+0 0 0 0 0
+5 10 550 P
+Y
+char 'constitution' 0 1
+E
+diamond gem~
+It seems to have been dusted with blue powder, but is still beautiful and valuable.~
+#20335
+white pearl~
+a white pearl~
+A rather large, perfectly formed pearl is here.~
+crystal~
+gem Y AOQ
+0 0 0 0 0
+5 10 550 P
+Y
+char 'hp' 0 20
+E
+white pearl~
+If the pearl is this big, then the oyster that produced it must have been gigantic.~
+#20337
+emerald crystal~
+an emerald~
+A square piece of grass-green crystal is here.~
+crystal~
+gem Y AOQ
+0 0 0 0 0
+5 10 550 P
+Y
+char 'saving throw' 0 -2
+E
+emerald crystal~
+It is square-cut, very pretty. It is a nearly perfect gem.~
+#20339
+granite rock~
+a piece of granite~
+A common piece of grey granite is sitting here.~
+granite~
+gem Y AO
+0 0 0 0 0
+5 10 10 P
+E
+granite rock~
+Its only use is in the building of stone structures.~
+#20341
+opal~
+an opal~
+There is an opal lying on the ground.~
+crystal~
+gem Y AOQ
+0 0 0 0 0
+5 10 500 P
+Y
+char 'mana' 0 15
+E
+opal~
+The center of it gleams with a fiery lustre.~
+#20343
+amber sap~
+a piece of amber~
+A small orb of dried sap reflects the light.~
+crystal~
+gem Y AOQ
+0 0 0 0 0
+5 10 300 P
+Y
+char 'AC' 0 -8
+E
+amber sap~
+There is a bug caught inside the crystallised sap.~
+#20350
+silver heart talisman~
+a silver heart talisman~
+A tiny silver heart lies on the ground.~
+silver~
+staff GY AO
+13 5 5 'cure critical' 0
+13 30 2500 P
+E
+silver heart talisman~
+It seems to be a talisman for healing.~
+#20351
+figurine snake~
+a figurine of a coiled snake~
+A small stone snake is poised to strike.~
+stone~
+staff GY AO
+18 4 4 'poison' 0
+18 50 2700 P
+E
+figurine snake~
+The snake is not well-made, but magic can be felt flowing through it.~
+#20352
+long dagger gold~
+a long golden dagger~
+A golden dagger shines brightly in the light.~
+gold~
+weapon AGIY AN
+dagger 5 6 pierce G
+13 10 700 P
+Y
+char 'hitroll' 0 3
+Y
+char 'hp' 0 15
+Y
+char 'mana' 0 10
+E
+long dagger gold~
+The blade is pure gold, shining bright yellow, but it is magically enchanted so as not to dull or break with use; gold is an extremely soft metal. Were it not for the enchantment, the blade could easily be broken in half by a kender child with no arms.~
+#20353
+bracelet moonstone~
+a moonstone bracelet~
+A hoop of pearly white stone is on the ground.~
+crystal~
+armor BGY AM
+3 4 4 7 7
+15 30 800 P
+Y
+char 'saving throw' 0 -4
+Y
+char 'intelligence' 0 1
+Y
+char 'mana' 0 15
+E
+bracelet moonstone~
+The stone is quite cold to the touch. It is milky-white, striated with what appears to be a vein of silver. Moonstone is a very magical stone, and is used by druids and mages alike.~
+#20354
+gold silver coins~
+some gold and silver coins~
+There is some money lying here.~
+gold~
+money 0 A
+672 21 0 0 0
+10 10 0 P
+#20355
+burning wood~
+a burning piece of wood~
+A charred piece of wood burns softly.~
+wood~
+trash AY AO
+0 0 0 0 0
+3 10 0 P
+Y
+char 'hp' 0 -10
+E
+burning wood~
+It would probably hurt to hold this.~
+#20356
+potbelly wood stove~
+a potbelly wood stove~
+A metal wood stove is in the center of the room.~
+iron~
+container OTY 0
+10 AC 0 10 100
+10 5000 0 P
+E
+metal wood stove~
+The stove is large enough to heat this room quite well. A wide metal tube channels the smoke outside.~
+#20357
+scimitar mithril~
+an elven mithril scimitar~
+A curved sword lies on the ground.~
+mithril~
+weapon BGIKY AN
+sword 5 7 frbite BD
+21 60 2250 P
+Y
+char 'hitroll' 0 5
+Y
+char 'AC' 0 -10
+Y
+char 'dexterity' 0 1
+Y
+char 'damroll' 0 3
+E
+scimitar mithril~
+The blade is curved slightly, and is quite long. The sword as a whole, however, is very light, one of the most attractive properties of mithril. This sword also seems to have been enchanted when its hilt was set with a sapphire.~
+#20358
+mithril chain mail~
+a shirt of mithril chain~
+A heap of polished mithril is on the ground.~
+mithril~
+armor GIKY AD
+8 7 8 6 6
+22 50 1800 P
+Y
+char 'hp' 0 30
+Y
+char 'hitroll' 0 3
+Y
+char 'saving throw' 0 -5
+E
+mithril chain mail~
+One of the finest products of the elves, this mithril chain mail provides excellent protection. It also seems to be magically imbued with other enchantments, as well.~
+#20359
+shield mithril~
+a shield of shining mithril~
+A large shield lies uselessly here.~
+mithril~
+armor AGIK AJ
+7 7 6 6 6
+0 50 1780 P
+Y
+char 'saving throw' 0 -5
+Y
+char 'constitution' 0 2
+Y
+char 'AC' 0 -5
+E
+shield mithril~
+It is quite light, and magically enchanted so as to protect more from magical attacks. The front of the shield has a bearing of an aspen tree.~
+#20360
+stonearm arm~
+a stone arm~
+A dull grey arm is lying on the ground.~
+stone~
+trash TY A
+0 0 0 0 0
+15 110 0 P
+E
+stone arm~
+The arm seems to have been broken off a large statue.~
+#20361
+bush~
+a berry bush~
+~
+wood~
+container OTY 0
+1000 0 0 100 100
+15 5000 0 P
+E
+bush~
+The bush is full of ripened berries. Perhaps you should pick some.~
+#20362
+berry red~
+a red forest berry~
+A rather large berry is oozing a bit of juice.~
+meat~
+food T A
+4 4 0 0 0
+10 0 0 P
+E
+berry red~
+The berry smells quite sweet, and the bit of juice that is running out of it is sticky.~
+#20363
+steel longsword~
+a steel longsword~
+A long, shining steel sword is laying uselessly on the ground.~
+steel~
+weapon A AN
+sword 6 4 cleave D
+15 50 300 P
+Y
+char 'damroll' 0 3
+Y
+char 'strength' 0 1
+Y
+char 'constitution' 0 1
+E
+steel longsword~
+It is unadorned and everything but fancy. It is still beautiful in its pure utilitarian design.~
+#20364
+lance iron~
+a long iron lance~
+A length of thick, tapering iron lies on the ground.~
+iron~
+weapon G AN
+exotic 6 5 thrust BDF
+0 80 360 P
+Y
+char 'damroll' 0 4
+Y
+char 'saving throw' 0 -5
+Y
+char 'dexterity' 0 1
+E
+lance iron~
+Long and brutally sharp at the tip, this lance seems to have been forged with the purpose of slaying dragons. It is not terribly powerful, however.~
+#20365
+mushroom white~
+a white mushroom~
+A small white mushroom grows from the ground.~
+meat~
+food 0 A
+2 2 0 0 0
+1 0 0 P
+E
+mushroom white~
+It seems safe to eat.~
+#20366
+white mushroom~
+a white mushroom with red spots~
+A speckled mushroom flourishes in the soil.~
+meat~
+food 0 A
+2 2 0 A 0
+1 0 0 P
+E
+mushroom white spots~
+Red is usually a warning colour in nature, meaning "Don't eat me."~
+#20367
+flower red~
+a red flower~
+A small red flower lies here.~
+meat~
+pill G AO
+13 'remove curse' 'refresh' '' ''
+13 0 0 P
+#20368
+yellow flower~
+a small yellow flower~
+A bright flower lies on the ground.~
+meat~
+pill G AO
+6 'haste' 'plague' 'poison' ''
+6 0 0 P
+#20369
+blue flower~
+a pretty blue flower~
+A delicate blue flower lies on the ground.~
+meat~
+pill G AO
+6 'cure serious' 'cancellation' '' ''
+6 0 0 P
+#20370
+plant green~
+a green plant~
+A small green plant is uprooted.~
+meat~
+pill G AO
+8 'cure disease' 'cure poison' 'cure light' ''
+8 0 0 P
+#20371
+disk thin stone~
+a thin disk of stone~
+This should not be here.~
+stone~
+treasure BGIPTUY AO
+0 0 0 0 0
+15 20 0 P
+Y
+char 'hitroll' 0 4
+Y
+char 'dexterity' 0 2
+Y
+char 'saving throw' 0 -6
+Y
+char 'hp' 0 15
+Y
+char 'damroll' 0 4
+E
+grey stone~
+It is a flat, small piece of stone, but it has a very magical quality to it.~
+#20372
+stonedisk disk~
+a stone disk~
+A flat disk of grey stone lies here.~
+stone~
+treasure Y A
+0 0 0 0 0
+15 30 0 P
+E
+stonedisk disk~
+The disk is flecked with mica and quartz, but is otherwise worthless.~
+#20373
+stream water~
+a cool stream~
+A stream gently bubbles over rocks and through the cool forest.~
+water~
+fountain TY 0
+10000 10000 'water' 0 0
+1 5000 0 P
+E
+stream water~
+Flashes of light can be seen in it, easily recognisable as small fish. On the surface, leaves float lazily down, as do bubbles which make their way up from the rocks below.~
+#20374
+ring silver dragonscales~
+a ring of linked silver dragonscales~
+A glittering band of scales lies in the dust.~
+dragonscale~
+armor AIKY AB
+6 7 5 5 5
+20 10 0 P
+Y
+char 'hp' 0 15
+Y
+char 'moves' 0 30
+Y
+char 'intelligence' 0 2
+Y
+char 'saving throw' 0 -5
+Y
+char 'mana' 0 15
+E
+ring silver dragonscales~
+It sparkles quite prettily. The scales are small, so they must have been taken from the forelimb of a silver dragon.~
+#0
+
+
+
+#ROOMS
+#20300
+An unwooded trail~
+The unwooded trail ends just west of here, where the trees seemingly begin growing again as if by some unseen force of nature. There is a leaf-covered trail leading into the tall, dark trees. Patches of white mushrooms grow in the rich soil, fed by the rotting leaves and dead wood that is strewn about haphazardly on the ground.
+~
+0 4 2
+0
+D1
+You see a trail out of this blasted place.
+~
+~
+0 0 20356
+D3
+~
+~
+0 0 20301
+S
+#20301
+Dark forest~
+The forest seems quite dark and foreboding around here, even though birds are singing all around. The scent of flowers blows faintly on the light breeze. Perhaps it is only the fact that the trees are very dense in this little patch of the forest. The path out of the woods is east, while the forest stretches out everywhere else.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20339
+D1
+~
+~
+0 0 20300
+D2
+~
+~
+0 0 20355
+D3
+~
+~
+0 0 20302
+S
+#20302
+The green woods~
+The woods here are very green and pleasant, both the air and the flora and fauna all around. The trees grow quite high, mostly consisting of oak and pine. The scent of pine needles and sap flows freely on the breeze. Flowers grow in the rich soil, supported by decaying leaves from the oaks.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20336
+D1
+~
+~
+0 0 20301
+D2
+~
+~
+0 0 20332
+D3
+~
+~
+0 0 20303
+S
+#20303
+A flower-filled part of the woods~
+The thick forest all around breaks open to a much wider, airier place, filled with flowers of all kinds. The soft wind flows the fragrance from all around, delicately perfuming the air. Butterflies flit from flower to flower, as bees do the same, pollinating them all. The grass on the forest floor is soft and cool. The flower patch extends a bit to the north, while the rest of the forest lies everywhere else, although there seems to be a hole in the ground to the west.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20304
+D1
+~
+~
+0 0 20302
+D2
+~
+~
+0 0 20306
+D3
+~
+~
+0 0 20350
+S
+#20304
+A flower-filled part of the woods~
+The thick and green woodlands open up to a grassy, open patch of forest, filled with all variety of flora. Butterflies float gently from flower to flower. Bees fill the air with a soft buzz, pollinating other flowers to continue this lovely, fresh-scented patch of forest. The emerald grass covering the ground is soft and inviting.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20311
+D2
+~
+~
+0 0 20303
+D3
+~
+~
+0 0 20305
+S
+#20305
+Walking through the woods~
+The woods are a pleasant place to be. The air is cool, as is the soft grass. Trees grow quite tall, and moss covers the bases of most of them. The delicate scent of flowers floats through the crisp air. Overhead, the sun is mostly blocked out by the thick, leafy canopy of tree branches, illuminating patches of the ground, giving the forest a dream-like feel.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20304
+D2
+~
+~
+0 0 20350
+S
+#20306
+A short field~
+The trees don't seem to grow here, except for a few saplings. However, they are replaced by grass that is waist-high to an elf, thick and luxuriant. Flowers, growing tall, provide a place for the many butterflies to land and sip on nectar. Underfoot, the ground is damp and cool. The field continues on southwards, while the forest begins to grow again to the north, filled with flowers.
+~
+0 0 2
+0
+D0
+~
+~
+0 0 20303
+D2
+~
+~
+0 0 20312
+S
+#20307
+A small clearing~
+The woods thin out somewhat to create a clearing, filled with fragrant flowers and lush grass. Birds sing from the trees all around. The air is quite cool and very nice, and a soft breeze blows, making the grasses ripple seductively.
+~
+0 0 2
+0
+D0
+~
+~
+0 0 20325
+D2
+~
+~
+0 0 20320
+D3
+~
+~
+0 0 20308
+S
+#20308
+A small clearing~
+The woods thin out somewhat to create a clearing, filled with fragrant flowers and lush grass. Birds sing from the trees all around. The air is quite cool and very nice, and a soft breeze blows, making the grasses ripple seductively. The clearing extends to the north and east, while the forest is southwards.
+~
+0 0 2
+0
+D0
+~
+~
+0 0 20322
+D1
+~
+~
+0 0 20307
+D2
+~
+~
+0 0 20317
+S
+#20309
+The deep green forest~
+Brown trunks rise up from the rich soil, stretching branches up high. They are covered in large, bright green leaves, soaking in the life-giving sunlight. The forest floor grows with all sorts of grasses, ferns and flowers, which rustle with the movements of small animals. The air is cool, creating the perfect place for nature to flourish.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20343
+D2
+~
+~
+0 0 20310
+D3
+~
+~
+0 0 20328
+S
+#20310
+Thick woodland~
+The trees cluster together very tightly here, as do the plants on the forest floor. The sounds of animals moving through them is not as prominent, which is curious. It would seem that there would be more food here, but that does not appear to be the case. The intertwining branches and leaves of the trees block out a good deal of the sunlight. What little light that does get through creates patches of illumination all over the ground flora.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20309
+D1
+~
+~
+0 -1 20344
+D2
+~
+~
+0 0 20311
+D3
+~
+~
+0 0 20326
+S
+#20311
+Walking through the forest~
+The ground is somewhat bare around here, without as much of the dense underbrush that carpets the greater portion of these woodlands. While there is not as much ground cover, what there is is much greener and healthier, since they do not have to compete as much for minerals and water from the soil. Flowers grow tall, perfuming the air with their lovely scents, and small animals forage for food.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20310
+D1
+~
+~
+0 0 20337
+D2
+~
+~
+0 0 20304
+D3
+~
+~
+0 0 20327
+S
+#20312
+A short field~
+The trees don't seem to grow here, except for a few saplings. However, they are replaced by grass that is waist-high to an elf, thick and luxuriant. Flowers, growing tall, provide a place for the many butterflies to land and sip on nectar. Underfoot, the ground is damp and cool. The forest only begins to grow again a short distance to the east, while the green, grassy field grows in every other direction.
+~
+0 0 2
+0
+D0
+~
+~
+0 0 20306
+D1
+~
+~
+0 0 20332
+D2
+~
+~
+0 0 20313
+D3
+~
+~
+0 0 20321
+S
+#20313
+A short field~
+The trees don't seem to grow here, except for a few saplings and a large oak tree, which seems to have been split in half by a bolt of lightning. Thick, wild grass grows here, to the height of an elven waist. Tall flowers have sprouted here as well, brightly colored and wonderfully scented so as to attract the many butterflies and bees. To the east, there seems to be a small, thick grove of trees.
+~
+0 0 2
+0
+D0
+~
+~
+0 0 20312
+D1
+~
+~
+0 0 20330
+D2
+~
+~
+0 0 20314
+D3
+~
+~
+0 0 20319
+S
+#20314
+Wandering the forest~
+Something about this forest makes the heart fill with a sort of wanderlust. The air is very clear and fresh, filling the body with a a very vibrant feeling. The scents of pine sap and flowers float along on the air, the trees growing a good distance apart. The bushes and shrubs are all a deep emerald green; the soil must be very good for the plants.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20313
+D1
+~
+~
+0 0 20351
+D2
+~
+~
+0 0 20329
+D3
+~
+~
+0 0 20318
+S
+#20315
+The deep green woodlands~
+Above, thick green leaves devour the sunlight, taking in its life-giving light and warmth, shading the forest floor below and making it cool. Ferns, grasses, flowers and herbs cover the rich dark soil in a living carpet, one that is inhabited by many small animals. The trees are home to the birds, which sing incessantly. Nature is very much alive here.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20316
+D1
+~
+~
+0 0 20318
+S
+#20316
+The deep green woodlands~
+Brown trunks rise up from the rich soil, stretching branches up high. They are covered in large, bright green leaves, soaking in the life-giving sunlight. The forest floor grows with all sorts of grasses, ferns and flowers, which rustle with the movements of small animals. The air is cool, creating the perfect place for nature to flourish.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 20317
+D1
+~
+~
+0 -1 20319
+D2
+~
+~
+0 -1 20315
+S
+#20317
+Wandering the forest~
+The forested lands seem to incite wanderlust in those who enter, but not always. The air is cool, comforting even the sweatiest traveller. The ground is soft, an excellent break from the hard cobblestones of the city streets. And the noises of civilization are far off: no merchants hawking their wares, no carts grinding along the stone streets. Birds and frogs sing, and bees hum through the air. Small animals disturb the greenery on the forest floor in their search for food.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 20308
+D1
+~
+~
+0 -1 20320
+D2
+~
+~
+0 0 20316
+S
+#20318
+The vibrant woods~
+The bright, lively green colours of plants and trees seem to overrun this forest, making it an ideal home for woodland creatures. Bright orange, red and yellow wildflowers speckle the forest floor, with small white mushrooms adding more contrast. Bright birds sing from the trees, their calls sounding through the vast forest.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 20319
+D1
+~
+~
+0 0 20314
+D3
+~
+~
+0 0 20315
+S
+#20319
+Wandering the forest~
+Something about this forest makes the heart fill with a sort of wanderlust. The air is very clear and fresh, filling the body with a a very vibrant feeling. The scents of pine sap and flowers float along on the air, the trees growing a good distance apart. The bushes and shrubs are all a deep emerald green; the soil must be very good for the plants.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20313
+D2
+~
+~
+0 -1 20318
+D3
+~
+~
+0 -1 20316
+S
+#20320
+Wandering the woods~
+Something about this forest makes the heart fill with a sort of wanderlust. The air is very clear and fresh, filling the body with a a very vibrant feeling. The scents of pine sap and flowers float along on the air, the trees growing a good distance apart. The bushes and shrubs are all a deep emerald green; the soil must be very good for the plants.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20307
+D3
+~
+~
+0 0 20317
+S
+#20321
+A pleasant field~
+Only a few trees grow in this small part of the field, and most of them are saplings. In place of the trees, wild grasses grow, most of them waist-high to an elf. Tall flowers provide food for bees and butterflies, while giving more visual stimulus to the wandering traveller. Underfoot, the ground is damp and cool. The trees block off all access to everything but the field that is to the east.
+~
+0 0 2
+0
+D1
+~
+~
+0 0 20312
+S
+#20322
+A small clearing~
+The woods thin out somewhat to create a clearing, filled with fragrant flowers and lush grass. Birds sing from the trees all around. The air is quite cool and very nice, and a soft breeze blows, making the grasses ripple seductively. To the south and east, the clearing extends. The trees block any movement to the west.
+~
+0 0 2
+0
+D0
+~
+~
+0 0 20323
+D1
+~
+~
+0 0 20325
+D2
+~
+~
+0 0 20308
+S
+#20323
+Dark forest~
+The forest seems quite dark and foreboding around here, even though birds are singing all around. The scent of flowers blows faintly on the light breeze. Perhaps it is only the fact that the trees are very dense in this little patch of the forest.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20324
+D2
+~
+~
+0 0 20322
+S
+#20324
+Wandering the woods~
+Something about this forest makes the heart fill with a sort of wanderlust. The air is very clear and fresh, filling the body with a a very vibrant feeling. The scents of pine sap and flowers float along on the air, the trees growing a good distance apart. The bushes and shrubs are all a deep emerald green; the soil must be very good for the plants.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20328
+D2
+~
+~
+0 0 20323
+S
+#20325
+A small clearing~
+The woods thin out somewhat to create a clearing, filled with fragrant flowers and lush grass. Birds sing from the trees all around. The air is quite cool and very nice, and a soft breeze blows, making the grasses ripple seductively. Except to the north, the field extends in all directions, becoming thick with grass to the east.
+~
+0 0 2
+0
+D1
+~
+~
+0 -1 20327
+D2
+~
+~
+0 0 20307
+D3
+~
+~
+0 0 20322
+S
+#20326
+A grassy patch~
+The grass here is exceptionally thick, and nothing really grows here but the grass. No flowers are visible here, and the only trees growing are those to the north, east and west. The thick grass grows southwards. Birdsong from the woods all around floats gently on the cool air.
+~
+0 0 2
+0
+D0
+~
+~
+0 -1 20328
+D1
+~
+~
+0 -1 20310
+D2
+~
+~
+0 -1 20327
+S
+#20327
+A grassy patch~
+Even more so than to the west, this part of the woods is thick with lush green grasses of all kinds. Some grains grow here, wild and unrefined. The grass has completely taken over this area of the forest, choking out the growth of flowers and trees by blocking their sunlight. The patch continues northwards.
+~
+0 0 2
+0
+D0
+~
+~
+0 -1 20326
+D1
+~
+~
+0 -1 20311
+D3
+~
+~
+0 -1 20325
+S
+#20328
+Walking through the forest~
+The ground is somewhat bare around here, without as much of the dense underbrush that carpets the greater portion of these woodlands. While there is not as much ground cover, what there is is much greener and healthier, since they do not have to compete as much for minerals and water from the soil. Flowers grow tall, perfuming the air with their lovely scents, and small animals forage for food.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20309
+D2
+~
+~
+0 -1 20326
+D3
+~
+~
+0 0 20324
+S
+#20329
+A quiet grove~
+The silence of this small grove is quite odd, as the noises of birds and frogs singing is quite prominent in other parts of the woods. A few animals can be heard and partially seen moving through the forest cover, but not many. The air is, for the most part, silent, echoed by the eternal dimness and beauty of the ancient forest.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20314
+S
+#20330
+A quiet grove~
+The silence of this small grove is quite odd, as the noises of birds and frogs singing is quite prominent in other parts of the woods. A few animals can be heard and partially seen moving through the forest cover, but not many. The air is, for the most part, silent, echoed by the eternal dimness and beauty of the ancient forest. A few patches of sunlight stream in from above, and especially from the west.
+~
+0 0 3
+0
+D3
+~
+~
+0 0 20313
+S
+#20331
+Wandering among the trees~
+The forest seems to fill the body and feet with a want, or a need, to wander and see the woods. The air is very clear and refreshing, rejuvenating the body through its purity. The scents of pine sap and flowers float along on the air, the trees growing a good distance apart. The bushes and shrubs are all a deep emerald green; the soil must be very good for the plants.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20332
+D1
+~
+~
+0 0 20334
+S
+#20332
+Wandering among the trees~
+Something about this forest makes the heart fill with a sort of wanderlust. The air is very clear and fresh, filling the body with a a very vibrant feeling. The scents of pine sap and flowers float along on the air, the trees growing a good distance apart. The bushes and shrubs are all a deep emerald green; the soil must be very good for the plants.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20302
+D1
+~
+~
+0 0 20333
+D2
+~
+~
+0 0 20331
+D3
+~
+~
+0 0 20312
+S
+#20333
+Walking the woods~
+The woods are a pleasant place to be. The air is cool, as is the soft grass. Trees grow quite tall, and moss covers the bases of most of them. The delicate scent of flowers floats through the crisp air. Overhead, the sun is mostly blocked out by the thick, leafy canopy of tree branches, illuminating patches of the ground, giving the forest a dream-like feel.
+~
+0 0 3
+0
+D2
+~
+~
+0 0 20334
+D3
+~
+~
+0 0 20332
+S
+#20334
+A small spring in the forest~
+The small spring that breaks the ground in this part of the forest bubbles up softly, creating a small pool. It appears that many animals drink from this pool. Many animal prints are in the soft mud that lines the water's edge. Flowers and ferns line the southern and eastern parts of the pool, giving this place a primeval sense of liveliness and loveliness.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20333
+D3
+~
+~
+0 0 20331
+S
+#20335
+Walking through the forest~
+The ground is somewhat bare around here, without as much of the dense underbrush that carpets the greater portion of these woodlands. While there is not as much ground cover, what there is is much greener and healthier, since they do not have to compete as much for minerals and water from the soil. Flowers grow tall, perfuming the air with their lovely scents, and small animals forage for food.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20355
+D2
+~
+~
+0 -1 20383
+S
+#20336
+A thick stand of oak~
+While most of this forest is a mixture of pine, oak, aspen and other trees, this small, cramped place is populated solely by large, ancient oak trees, rising up much further than the rest of the forest. Birds sing quite loudly here - the thick branches of the oaks must provide a good place for nesting. Acorns cover the ground, some of them eaten, perhaps by squirrels.
+~
+0 0 3
+0
+D2
+~
+~
+0 0 20302
+S
+#20337
+The deep green woods~
+Brown trunks rise up from the rich soil, stretching branches up high. They are covered in large, bright green leaves, soaking in the life-giving sunlight. The forest floor grows with all sorts of grasses, ferns and flowers, which rustle with the movements of small animals. The air is cool, creating the perfect place for nature to flourish.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20338
+D3
+~
+~
+0 0 20311
+S
+#20338
+In a thick copse~
+This thick, dark stand of trees allows no light to filter in from above, so it is dim and grey. It is not very oppressive, and there is no sense of danger or dark magics at work in the air. Moss covers the bases of the trees in a rich green base, glistening with dew. Leaves cover the ground, providing a perfectly rich soil in which the many ferns and grasses can grow abundantly. Birdsong is quite loud here; the network of branches probably grant them an excellent place where they can build nests.
+~
+0 0 3
+0
+D3
+~
+~
+0 0 20337
+S
+#20339
+Dark forest~
+The forest seems quite dark and foreboding around here, even though birds are singing all around. The scent of flowers blows faintly on the light breeze. Perhaps it is only the fact that the trees are very dense in this little patch of the forest. They are so dense that you can only move north and south.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20340
+D2
+~
+~
+0 0 20301
+S
+#20340
+Dark forest~
+The forest seems quite dark and foreboding around here, even though birds are singing all around. The scent of flowers blows faintly on the light breeze. Perhaps it is only the fact that the trees are very dense in this little patch of the forest. They are so thick to the east and west that you can not head that way.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20341
+D2
+~
+~
+0 0 20339
+S
+#20341
+Walking through the forest~
+The forest is quite light and lovely, mirroring the dark thickness of it to the south. All around, birds and frogs are chirping, and small animals move through the bushes and shrubs that grow prolifically on the forest floor. To the west is a patch of ground that seems to have been cleared away, and a thin stream of smoke is rising just south of it.
+~
+0 0 3
+0
+D2
+~
+~
+0 0 20340
+D3
+~
+~
+0 0 20343
+S
+#20342
+A small hut~
+The interior of this small dwelling place is cozy and comfortable, kept quite warm by a wood-burning stove in the center of the hut. A few drying leaves hang on a crudely-made rack above the stove. There is no glass in the windows, but the shutters are made well enough to keep out the weather.
+~
+0 8 0
+0
+D0
+~
+~
+A -1 20343
+S
+#20343
+A clearing in the woods~
+The forest has been cleared away here for some reason. That reason is most likely the small stone hut to the south, from which a thin but steady plume of black smoke rises. The trees are practically gone without a trace, only a few stumps remaining. But new growth has started to appear on the ground, and the forest will recover eventually.
+~
+0 0 2
+0
+D1
+~
+~
+0 0 20341
+D2
+~
+~
+A -1 20342
+D3
+~
+~
+0 0 20309
+S
+#20344
+A fallen oak~
+This oak tree seems to be the only one in the entire forest that has fallen. It has begun to rot and decay, feeding the forest all around. Termites crawl on the surface of the dead wood, and there are undoubtedly thousands more inside it. Many smaller shrubs and flowers are already flourishing in the rich soil that the decaying tree provides.
+~
+0 0 3
+0
+D3
+~
+~
+0 0 20310
+S
+#20350
+Above a cave mouth~
+Standing above the mouth of the cave, the air is hot. It comes out of the cave, sounding not unlike breathing. But then again, that is just a trick of the environment: the cooler air inside the cave draws the hotter air in, and that produces a sound much like breathing. Still, it seems that something large lives there.
+~
+0 128 3
+0
+D0
+~
+~
+0 0 20305
+D1
+~
+~
+0 0 20303
+D5
+~
+~
+0 -1 20382
+S
+#20351
+Wandering the forest~
+Something about this forest makes the heart fill with a sort of wanderlust. The air is very clear and fresh, filling the body with a a very vibrant feeling. The scents of pine sap and flowers float along on the air, the trees growing a good distance apart. The bushes and shrubs are all a deep emerald green; the soil must be very good for the plants.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20352
+D3
+~
+~
+0 0 20314
+S
+#20352
+A quiet corner of the woods~
+The woods here are quiet, but not silent. The thickness of the trees growing here may have something to do with this. Shrubs, mostly with inedible berries, speckle the floor here. Bird droppings are very prominent here; the birds must like the berries, no matter if humanoid species can nto eat them.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20353
+D3
+~
+~
+0 0 20351
+S
+#20353
+Wandering the forest~
+Something about this forest makes the heart fill with a sort of wanderlust. The air is very clear and fresh, filling the body with a a very vibrant feeling. The scents of pine sap and flowers float along on the air, the trees growing a good distance apart. The bushes and shrubs are all a deep emerald green; the soil must be very good for the plants.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20355
+D2
+~
+~
+0 0 20352
+D3
+~
+~
+0 -1 20383
+S
+#20355
+Wandering the forest~
+Something about this forest makes the heart fill with a sort of wanderlust. The air is very clear and fresh, filling the body with a a very vibrant feeling. The scents of pine sap and flowers float along on the air, the trees growing a good distance apart. The bushes and shrubs are all a deep emerald green; the soil must be very good for the plants.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20301
+D2
+~
+~
+0 0 20353
+D3
+~
+~
+0 0 20335
+S
+#20356
+An unwooded trail~
+A few stumps and malformed trees form the majority of the plant life here. There are barren shrubs and patches of greyish-white mushrooms growing in the leaf cover on the ground, but they too seem somewhat dark and a bit sinister. To the west, the unwooded trail ends, blossoming into a large forest. There is also a trail leading to the east.
+~
+0 0 2
+0
+D1
+~
+~
+0 0 20357
+D3
+~
+~
+0 0 20300
+S
+#20357
+An unwooded trail~
+The trail that is just west of the T-intersection has very few trees. The ones that are here are stunted in growth, and are very dark and malformed. Rotting leaves cover the ground, as do patches of mushrooms, thriving from the rot of the organic matter. The unwooded trail heads west from here.
+~
+0 0 2
+0
+D1
+~
+~
+0 0 20358
+D3
+~
+~
+0 0 20356
+S
+#20358
+An intersection in the path~
+The trail of dead leaves and brown grass breaks east and west here, besides the path leading north to the Solamnic Road. The trees are equally dense all around, giving the impression that there really is nothing out of the ordinary in any direction. However, they do seem to grow taller to the east.
+
+You see more stunted trees here.  A side trail leads west from here.
+To the east, you THINK you see a trail, but you can never be sure.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20359
+D1
+~
+~
+0 -1 20362
+D3
+~
+~
+0 0 20357
+S
+#20359
+A dark forest path~
+The trees block out most light coming in from the sun or the moons, but there is still enough so that anyone can see properly. The trees are fairly short but quite dense, and the grasses are all stunted, brown and dry. The path you are on continues north and south, and it is covered with dead, dry leaves.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20360
+D2
+~
+~
+0 0 20358
+S
+#20360
+A dark forest path~
+The trail heads north and south, if it could be called a trail. It is neither wide nor very clear, just a slightly trampled path through the dead grasses and mounds of dry leaves that cover the ground. The trees do not grow very tall, but they do block out light fairly well, forming a canopy of dense greenery.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20361
+D2
+~
+~
+0 0 20359
+S
+#20361
+South of the crossroads~
+Just south of the crossroads on the Eastern Solamnic Road is this, the dwarf forest. It is very dark here, as the trees that grow overhead are dense and thick. They don't grow terribly tall, and neither does the sparse, dry grass. Leaves litter the ground. The pathway continues to the south.
+~
+0 0 3
+0
+D2
+~
+~
+0 0 20360
+S
+#20362
+The regrowing forest~
+Just east of the small path split, the trees show noticeable signs of growing taller and more vibrant. In fact, the entire forest seems more lively, as birds can be heard singing not far off, somewhere to the southeast. Also to the southeast, somewhat closer, are the sounds of heavy beasts moving through the woods.
+
+You see more stunted trees here.  It looks almost as if this place was
+cursed by a god to be short and dry.  The trail leads east and west.  It looks
+dark toward the east.
+~
+0 0 3
+0
+D1
+~
+~
+0 -1 20363
+D3
+~
+~
+0 -1 20358
+S
+#20363
+The regrowing forest~
+The forest is definitely more alive here than to the west. It grows tall and thick, the grasses knee-high to a minotaur. Birds sing, as do frogs, in their own way. A few flowers sprout up in the thick grass, brightening the otherwise dark green of the forest trail.
+
+You see a more dense foliage in these stunted trees.  The gloom caused
+by them is enhanced by a draft coming from all around.  The trail turns south
+from the west.
+~
+0 0 3
+0
+D2
+~
+~
+0 -1 20364
+D3
+~
+~
+0 -1 20362
+S
+#20364
+The regrowing forest~
+The foliage is quite dense, but very much alive. The darkness is not oppressive and gloomy; it's more of a holding sort of presence, as if the forest were cradling you. Grasses grow quite high, and the ground is speckled with all colour and variety of flower. The leaf-strewn path leads north and east.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 20363
+D1
+~
+~
+0 -1 20365
+S
+#20365
+The regrowing forest~
+The farther east from the split, the higher and more alive everything is. Birds sing quite gaily from the thick branches overhead, secure in their nests. Frogs and crickets chirp from the thick, luxuriant green grass. However, to the south, there seems to be a more desolate sort of feel in the air, and the sounds of large things moving around in the dead forest floor can be heard.
+~
+0 0 3
+0
+D1
+~
+~
+0 -1 20366
+D2
+~
+~
+0 0 1
+D3
+~
+~
+0 -1 20364
+S
+#20366
+At the top of a hill~
+The trees start to slope down a wooded hill. The ground is covered in a thick layer of fallen leaves, through which grasses and shrubs grow, well-fed from the rich, decaying leaves. It is difficult to see the trail now, but it is still there; a trampled line through the leaves betrays it. Birds, frogs and crickets sing everywhere, though hardly any can be seen. Off to the side of the scarcely visible trail, there is a rather large berry bush.
+~
+0 0 3
+0
+D3
+~
+~
+0 -1 20365
+D5
+~
+~
+0 -1 20367
+S
+#20367
+A small valley in the woods~
+Leaves from the tall, verdant trees overhead cover the ground in a thick carpet. The trail is more easily seen than at the top of the hill, and seems go grow more prominent to the south. North of here, the forest seems to grow darker and more forbidding, as if something did not want you there. The side of the hill has a small boulder on it, seemingly plugging a hole.
+~
+0 4 3
+0
+D0
+~
+~
+0 0 20371
+D3
+A small boulder is blocking a hole.~
+boulder~
+AB -1 20368
+D4
+~
+~
+0 0 20366
+S
+#20368
+A small cave~
+The cave is small, smelling strongly of damp earth and the forest outside. A faint odor of decay comes in from the south, although no light is there. The dwarf forest is just to the east, outside of this small hole. A few rocks stick out from the earthen walls and the low ceiling.
+~
+0 9 0
+0
+D1
+The dwarf forest is outside.~
+hole~
+AB -1 20367
+D2
+~
+~
+0 0 20369
+S
+#20369
+Inside a small cave~
+The inside of the earthen cave smells very strongly of damp earth, as it should. A soft breeze blows from the north, where the dwarf forest lies. Another, fainter, breeze comes from somewhere below, although no light comes up through an opening. There must be another way into, and out of, this cave, but it seems to be hidden.
+~
+0 9 0
+0
+D0
+~
+~
+0 0 20368
+D5
+~
+~
+0 0 20370
+S
+#20370
+Above a hole~
+The inside of this small cave allows some breeze to blow in from the entrance to the northeast. There also seems to be a faint odor coming from below, smelling of slight decay. It is quite dark, but a way down can be made out among the stones jutting from the walls.
+~
+0 9 0
+0
+D4
+~
+~
+0 0 20369
+D5
+There seems to be a rock that can be moved aside.~
+rock~
+AB -1 1
+S
+#20371
+A small valley in the woods~
+The valley is quite pleasant, with the thick, lush trees overhead creating a comfortable coolness by blocking the heat of the sun. At night, they hold in the warmth collected during the day. The grass grows a deep emerald hue, thick and soft, collecting fallen leaves and cushioning them. Flowers grow in patches, tended to by butterflies and bees. The small dirt path leads north and south.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20372
+D2
+~
+~
+0 0 20367
+S
+#20372
+A small valley in the woods~
+The valley is very pleasant, and somewhat dim during the day, but the brightness of the wildflowers growing in the thick, rich grass that carpets the ground offsets this. A multitude of butterflies and bees surrounds the bright yellow, red and orange patches. The grass holds many fallen leaves from the large trees that rise up to reach the sky. North and south, there is a small dirt path leading through the valley.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20373
+D2
+~
+~
+0 0 20371
+S
+#20373
+A small valley in the woods~
+Bright patches of wildflowers speckle the narrow valley, filled with rich, soft green grass that reaches a human's waistline. Tall trees provide a pleasant, cool shade in the verdant dimness. The sounds of buzzing bees on the flowers hums lightly in the air, with the frequent staccato sound of chirping birds punctuating it. Butterflies flit through the air, oblivious to your presence. The dirt path heads north and south, with a smaller path leading east, into a much darker area.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20374
+D1
+~
+~
+0 0 20380
+D2
+~
+~
+0 0 20372
+S
+#20374
+A small valley in the woods~
+Bright patches of wildflowers speckle the narrow valley, filled with rich, soft green grass that reaches a human's waistline. Tall trees provide a pleasant, cool shade in the verdant dimness. The sounds of buzzing bees on the flowers hums lightly in the air, with the frequent staccato sound of chirping birds punctuating it. Butterflies flit through the air, oblivious to your presence. The dirt path leads north and south.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20375
+D2
+~
+~
+0 0 20373
+S
+#20375
+A bend in the forest trail~
+Bright patches of wildflowers speckle the narrow valley, filled with rich, soft green grass that reaches a human's waistline. Tall trees provide a pleasant, cool shade in the verdant dimness. The sounds of buzzing bees on the flowers hums lightly in the air, with the frequent staccato sound of chirping birds punctuating it. Butterflies flit through the air, oblivious to your presence. The trail bends, heading south and west.
+~
+0 0 3
+0
+D2
+~
+~
+0 0 20374
+D3
+~
+~
+0 0 20376
+S
+#20376
+A dim trail through thick woodlands~
+The trail is dim, but not dark, and definitely not foreboding. The trees simply are very thick here, and birdsong is noticeably louder. Flowers are being tended to by bees and butterflies. A small rabbit hole is to the south of this trail, too small for even a kender or a gnome to get into. The trail moves east and west.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20375
+D3
+~
+~
+0 0 20377
+S
+#20377
+A dim trail through thick woodlands~
+The trail is dim, but not dark, and definitely not foreboding. The trees simply are very thick here, and birdsong is noticeably louder. Flowers are being tended to by bees and butterflies. To the north, there seems to be a large castle, with an adamantite door.
+~
+0 0 3
+0
+D0
+A large castle rises up out of the surrounding forest.~
+~
+0 -1 1
+D1
+~
+~
+0 0 20376
+D3
+~
+~
+0 0 20378
+S
+#20378
+A dim trail through thick woodlands~
+The trail is dim, but not dark, and definitely not foreboding. The trees simply are very thick here, and birdsong is noticeably louder. Flowers are being tended to by bees and butterflies.
+~
+0 0 3
+0
+D1
+~
+~
+0 0 20377
+D3
+~
+~
+0 0 20379
+S
+#20379
+A bend in the forest path~
+To the south, the forest grows misty and very dark, and it is not pleasant at all. Something evil seems to radiate from there. Few flowers grow, and the trees begin to show some sign of being twisted and gnarled. Howling sounds through the air. Perhaps it would be a good idea to move back to the east.
+~
+0 0 3
+0
+D1
+~
+~
+0 -1 20378
+D2
+~
+~
+0 -1 20381
+S
+#20380
+A dark path into the forest~
+The forest grows noticeably darker here, with the path becoming more like stone. The trees rise up overhead, deeply shadowing the forest floor. The birds do not sing here, nor are there wildflowers growing anywhere nearby. The air doesn't have an evil feeling to it, it's just somewhat different ... perhaps even magical. The path leads westwards back to the valley, while eastwards, a stone tower rises up from the forest.
+~
+0 0 3
+0
+D1
+A large stone tower rises up from the trees.~
+~
+0 -1 1
+D3
+~
+~
+0 0 20373
+S
+#20381
+The misty forest~
+The forest grows mistier here, and more foreboding. It is as if something did not want to be found, but it is here anyway. The air is quite chill and damp, making the forest uncomfortable at best. It is also quite dark, although the trees seem to be dying ... or are they twisting into something else, warped by a darker power?
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20379
+D2
+~
+~
+0 -1 20384
+S
+#20382
+Inside the dark cave~
+The inside of the cave is littered with bones. It seems that something does indeed live here. While the air inside is cooler than that of the forest, it reeks of decay and a very dragon-like stench. Perhaps it would be a good idea to leave quickly, lest the inhabitant try to make your skeleton part of the decor.
+~
+0 9 0
+0
+D4
+~
+~
+0 -1 20350
+S
+#20383
+Walking the forest~
+The woods are a pleasant place to be. The air is cool, as is the soft grass. Trees grow quite tall, and moss covers the bases of most of them. The delicate scent of flowers floats through the crisp air. Overhead, the sun is mostly blocked out by the thick, leafy canopy of tree branches, illuminating patches of the ground, giving the forest a dream-like feel.
+~
+0 0 3
+0
+D0
+~
+~
+0 -1 20335
+D1
+~
+~
+0 -1 20353
+S
+#20384
+The misty forest~
+The thick fog pervading this forest is cold and chill, condensing on your skin in any icy grip. The trees grow blacker here; the forest is oppressive. Something evil haunts the air, just as the dense mist. It seems that something does not want anyone or anything around here. Towards the north, the forest grows lighter.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20381
+D2
+~
+~
+0 -1 20385
+S
+#20385
+The misty forest~
+The forest trail bends here. The only indication of this is the trees, which seem to have grown to allow passage this way, but they appear to do so reluctantly. The thick fog grips at your body, cold and damp like the grasp of a dead man. From the feeling in the air, it is very clear that something does not want you here, but what it is, the forest will not say.
+~
+0 0 3
+0
+D0
+~
+~
+0 0 20384
+D1
+~
+~
+0 -1 20386
+S
+#20386
+The misty forest~
+The mist sinks down, betraying the presence of a fairly steep hill. The trees seem to be moaning now, though the moaning comes from all around, as if it were an intrinsic part of the thick mist. The mist itself is growing colder and more like the terrible breath of the undead. Coming also from the dank fog are what seem to be a myriad of voices, weeping in anguish. What could have twisted a forest so?
+~
+0 0 3
+0
+D3
+~
+~
+0 -1 20385
+D5
+~
+~
+0 -1 20387
+S
+#20387
+The misty forest~
+At the bottom of the hill, what lies ahead is painfully clear: the desecrated forest of Silvanesti, ruined a long time ago by the forces of the Dragon Queen. The mist curls all around you, sinking deep into your body, grasping your insides with the haunt of undying.
+~
+0 0 3
+0
+D0
+The Forest of Silvanesti looms ahead.~
+~
+0 -1 1
+D4
+~
+~
+0 -1 20386
+S
+#0
+
+
+
+#SPECIALS
+M 20300 spec_cast_mage
+M 20301 spec_poison
+S
+
+
+
+#RESETS
+D 0 20367 3 1
+D 0 20368 1 1
+D 0 20370 5 1
+M 0 20306 3 20300 1
+E 0 20321 0 16
+G 0 20339 0
+O 0 20365 0 20301
+O 0 20369 0 20301
+M 0 20312 7 20301 1
+M 0 20313 5 20301 1
+M 0 20311 8 20303 1
+O 0 20367 0 20303
+O 0 20367 0 20303
+O 0 20368 0 20303
+O 0 20368 0 20303
+O 0 20369 0 20303
+O 0 20369 0 20303
+O 0 20370 0 20303
+O 0 20365 0 20303
+O 0 20367 0 20304
+O 0 20367 0 20304
+O 0 20368 0 20304
+O 0 20368 0 20304
+O 0 20369 0 20304
+O 0 20369 0 20304
+M 0 20306 3 20306 1
+E 0 20321 0 16
+G 0 20339 0
+O 0 20366 0 20306
+O 0 20366 0 20308
+M 0 20304 1 20309 1
+E 0 20307 0 5
+E 0 20323 0 12
+E 0 20351 0 17
+G 0 20341 0
+O 0 20365 0 20311
+O 0 20368 0 20312
+M 0 20315 4 20313 1
+E 0 20352 0 16
+G 0 20370 0
+G 0 20343 0
+M 0 20314 3 20315 1
+E 0 20369 0 17
+G 0 20362 0
+G 0 20362 0
+O 0 20365 0 20318
+M 0 20314 3 20318 1
+E 0 20367 0 17
+G 0 20362 0
+M 0 20312 7 20319 1
+O 0 20366 0 20320
+M 0 20305 1 20321 1
+E 0 20318 0 3
+E 0 20335 0 17
+G 0 20350 0
+G 0 20316 0
+G 0 20370 0
+P 0 20315 100 20356 2
+O 0 20369 0 20321
+M 0 20311 8 20325 1
+O 0 20367 0 20326
+M 0 20313 5 20327 1
+O 0 20365 0 20328
+M 0 20311 8 20328 1
+M 0 20312 7 20328 1
+O 0 20365 0 20329
+M 0 20312 7 20329 1
+O 0 20373 0 20330
+M 0 20315 4 20330 1
+E 0 20318 0 4
+E 0 20370 0 17
+G 0 20362 0
+G 0 20362 0
+M 0 20302 2 20331 1
+E 0 20305 0 7
+E 0 20304 0 8
+E 0 20363 0 16
+G 0 20350 0
+O 0 20320 0 20334
+M 0 20303 2 20334 1
+E 0 20317 0 17
+G 0 20368 0
+M 0 20312 7 20335 1
+M 0 20314 3 20338 1
+E 0 20343 0 17
+G 0 20362 0
+O 0 20368 0 20340
+M 0 20312 7 20341 1
+M 0 20300 1 20342 1
+E 0 20301 0 6
+E 0 20322 0 12
+E 0 20352 0 16
+E 0 20314 0 17
+E 0 20353 0 14
+E 0 20324 0 3
+G 0 20310 0
+G 0 20311 0
+O 0 20356 0 20342
+P 0 20355 100 20356 1
+P 0 20355 100 20356 1
+P 0 20355 100 20356 1
+O 0 20325 0 20343
+M 0 20308 1 20343 1
+E 0 20321 0 16
+G 0 20339 0
+O 0 20369 0 20343
+M 0 20306 3 20350 1
+E 0 20321 0 16
+G 0 20339 0
+O 0 20366 0 20350
+O 0 20365 0 20350
+O 0 20369 0 20351
+O 0 20365 0 20352
+O 0 20366 0 20356
+M 0 20303 2 20356 1
+E 0 20350 0 17
+G 0 20365 0
+G 0 20362 0
+O 0 20370 0 20357
+M 0 20311 8 20357 1
+O 0 20365 0 20358
+M 0 20315 4 20361 1
+E 0 20353 0 14
+E 0 20370 0 17
+G 0 20365 0
+M 0 20311 8 20362 1
+O 0 20365 0 20364
+M 0 20313 5 20364 1
+M 0 20315 4 20364 1
+E 0 20368 0 17
+G 0 20367 0
+G 0 20369 0
+O 0 20361 0 20366
+P 0 20362 100 20361 20
+O 0 20365 0 20366
+M 0 20311 8 20366 1
+O 0 20365 0 20367
+M 0 20309 2 20368 1
+O 0 20365 0 20369
+M 0 20309 2 20370 1
+M 0 20302 2 20371 1
+E 0 20300 0 5
+E 0 20303 0 10
+E 0 20364 0 16
+E 0 20306 0 13
+G 0 20350 0
+M 0 20311 8 20372 1
+O 0 20365 0 20373
+M 0 20312 7 20374 1
+M 0 20313 5 20374 1
+O 0 20366 0 20375
+M 0 20311 8 20376 1
+O 0 20366 0 20377
+O 0 20365 0 20379
+O 0 20365 0 20380
+M 0 20301 1 20382 1
+E 0 20326 0 4
+G 0 20328 0
+G 0 20319 0
+G 0 20360 0
+O 0 20327 0 20382
+P 0 20330 100 20327 1
+P 0 20331 100 20327 1
+P 0 20332 100 20327 1
+P 0 20333 100 20327 1
+P 0 20334 100 20327 1
+P 0 20335 100 20327 1
+P 0 20337 100 20327 1
+P 0 20339 100 20327 1
+P 0 20341 100 20327 1
+P 0 20343 100 20327 1
+P 0 20354 100 20327 1
+P 0 20308 100 20327 1
+O 0 20307 0 20382
+O 0 20370 0 20383
+M 0 20313 5 20383 1
+M 0 20310 1 20387 1
+E 0 20358 0 5
+E 0 20357 0 16
+E 0 20359 0 11
+E 0 20374 0 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

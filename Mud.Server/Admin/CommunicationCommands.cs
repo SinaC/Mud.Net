@@ -1,11 +1,13 @@
 ﻿using Mud.Server.Input;
+using Mud.Server.Interfaces.Admin;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("atalk", "Communication")]
-        [Command("admintalk", "Communication")]
+        [AdminCommand("atalk", "Communication")]
+        [AdminCommand("admintalk", "Communication")]
         [Syntax("[cmd] <message>")]
         protected virtual CommandExecutionResults DoAdminTalk(string rawParameters, params CommandParameter[] parameters)
         {

@@ -1,0 +1,4122 @@
+#AREADATA
+Name Mount Doom~
+Builders None~
+VNUMs 20800 20999
+Credits {{45 65} Yaegar/Kurgan Mount Doom~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#20800
+lord krothgar~
+the Lord Krothgar~
+The Lord Krothgar glares balefully at you.
+~
+Krothgar, standing at over eight feet tall and clad in full spiked black
+plate mail, is an imposing... man. It is said his fists have the power to
+rend the very earth asunder if he is angered. It is small wonder the dark
+powers have chosen him as their fell agent on Brythunia.
+~
+human~
+0
+ABGT J 0 0 -1000 0
+55 0 10d204+1078 55d10+100 55d10+100 5d19+28 pound
+-24 -24 -24 -7
+EFNU 0 0 0
+fight fight male 2500
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20801
+death knight~
+a death knight~
+A death knight gazes evilly at you.
+~
+This fellow and his comrades are servants of the demon lord Marmandes, and
+will take only his orders, despite the fact that Krothgar could probably
+crush him (and definitely them) with little effort. Krothgar tolerates their
+presence in honor of the alliance he has forged with the dark powers to
+facilitate the conquest of Brythunia.
+~
+death-knight~
+0
+ABGT J 0 0 -1000 0
+46 0 10d142+815 46d10+100 46d10+100 5d16+23 pound
+-18 -18 -18 -4
+EFNR 0 CLMQ N
+fight fight none 500
+CDHIM ABCGHIJK medium unknown
+#20802
+iron golem~
+an iron golem~
+An iron golem stands ready to rend his master's enemies apart.
+~
+This soulless automaton was created by Krothgar's fell scientist-mages to
+serve him as a bodyguard (for appearance's sake only- he scarcely has need
+of one) and an executioner. It will kill on a command.
+~
+human~
+0
+ABGT 0 0 0 0 0
+50 0 10d168+930 50d10+100 50d10+100 5d17+27 slash
+-21 -21 -21 -5
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20803
+marmandes demon prince~
+the demon prince Marmandes~
+The demon prince Marmandes watches you curiously.
+~
+Marmandes has been sent here by his evil masters to observe and aid their
+servant Krothgar, and as such he will prefer to avoid direct combat, being
+greatly weaker on this plane than on his native, and being eager to see how
+Krothgar performs. This does not mean that he will fail to defend himself
+to the best of his considerable abilities if the need arises.
+~
+human~
+0
+ABGT J 0 0 -1000 0
+50 55 50d10+7000 50d11+110 50d11+110 10d4+23 pound
+-25 -25 -25 -16
+EFNU 0 0 0
+stand stand male 500
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20804
+axtraxes arch mage~
+axtraxes~
+A vile arch mage screams at your intrusion and attacks!
+~
+This foul-tempered, evil man is Krothgar's magical assistant and adviser,
+and in charge of the dark lord's impressive force of mages. He is infuriated
+at your untimely interruption and reacts aggressively.
+~
+human~
+0
+ABGT J 0 0 -1000 0
+48 0 10d155+869 48d10+100 48d10+100 5d16+28 pierce
+-20 -20 -20 -5
+EFNU 0 0 0
+fight fight male 500
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20805
+high priest~
+an evil high priest~
+An evil high priest is angered by your sacrilege!
+~
+You have interrupted this foul priest of unspeakable gods during a very
+critical ceremony! He is extremely angry, and so will his worshippers be...
+He is a total fanatic and will battle to the death.
+~
+high-elf~
+0
+ABGT J 0 0 -1000 0
+48 0 10d155+869 48d10+100 48d10+100 5d16+28 slash
+-20 -20 -20 -5
+EFNR 0 CLQ Z
+fight fight male 250
+AHMV ABCDEFGHIJK medium unknown
+F aff DF
+#20806
+elite guard~
+an elite guard~
+An elite guard attempts to prevent you proceeding further.
+~
+This fellow is clad in full body spiked black plate mail just like his lord,
+and carries a huge spiked morning star, which he swings casually like it was
+but a wooden stick. He cries out upon spotting you, and prepares for combat.
+~
+human~
+0
+ABGT J 0 0 -1000 0
+45 0 10d136+786 45d10+100 45d10+100 5d15+26 pierce
+-18 -18 -18 -4
+EFNU 0 0 0
+fight fight male 125
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20807
+destrier~
+a destrier~
+A destrier, mount of some evil knight, snorts angrily at you.
+~
+This mammoth horse must weigh double any other equine steed you have ever
+seen. Its jet black coat seems to glow with an inner evil, and you gasp in
+astonishment at the satanic gleam in its dark red eyes.
+~
+human~
+0
+ABGT J 0 0 -1000 0
+40 0 10d108+648 40d10+100 40d10+100 5d14+20 pierce
+-15 -15 -15 -2
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+M
+specFido
+#20808
+evil priest~
+an evil priest~
+An evil priest screams in fanatical fury!
+~
+This foul creature is one of the evil priests of the dark lord, and he is
+keen to send your soul to him!
+~
+human~
+0
+ABGT J 0 0 -1000 0
+44 0 10d130+759 44d10+100 44d10+100 5d15+24 pound
+-17 -17 -17 -3
+EFNU 0 0 0
+fight fight male 125
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20809
+scientist mage~
+an evil scientist mage~
+An evil scientist mage roars in fury as you spoil his experiment!
+~
+You have burst in at a very inappropriate time, and spoiled years of work.
+However, the vile mage who is now drooling insanely seems a little upset...
+~
+human~
+0
+ABGT J 0 0 -1000 0
+42 0 10d119+700 42d10+100 42d10+100 5d14+24 slash
+-16 -16 -16 -3
+EFNU 0 0 0
+fight fight male 125
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20810
+blackguard guard~
+a member of the blackguard~
+A member of the blackguard charges toward you.
+~
+This guard is a meber of the blackguard, the fanatical warriors who make up
+the bulk of Lord Krothgar's evil army.
+~
+human~
+0
+ABGT J 0 0 -1000 0
+40 0 10d108+648 40d10+100 40d10+100 5d14+20 pound
+-15 -15 -15 -2
+EFNU 0 0 0
+fight fight male 50
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20811
+red dragon~
+a red dragon~
+A red dragon prepares to incinerate you.
+~
+This dragon is one of Krothgar's five favorites, and is loyal to its master.
+Huge teeth protrude from a mouth capable of spewing forth destructive matter
+and baleful eyes gleam dangerously from above this maw directly at you. You
+regret your intrusion.
+~
+human~
+0
+ABGT T 0 0 -1000 0
+50 0 10d168+930 50d10+100 50d10+100 5d17+27 pound
+-21 -21 -21 -5
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20812
+black dragon~
+a black dragon~
+A black dragon prepares to incinerate you.
+~
+This dragon is one of Krothgar's five favorites, and is loyal to its master.
+Huge teeth protrude from a mouth capable of spewing forth destructive matter
+and baleful eyes gleam dangerously from above this maw directly at you. You
+regret your intrusion.
+~
+black-dragon~
+0
+ABFGT J 0 0 -1000 0
+47 0 10d149+836 47d10+100 47d10+100 5d16+25 pierce
+-19 -19 -19 -4
+EFNR M LQ JNY
+fight fight none 0
+CHZc ABCGHIJKPQUVX medium unknown
+F aff T
+#20813
+white dragon~
+a white dragon~
+A white dragon prepares to incinerate you.
+~
+This dragon is one of Krothgar's five favorites, and is loyal to its master.
+Huge teeth protrude from a mouth capable of spewing forth destructive matter
+and baleful eyes gleam dangerously from above this maw directly at you. You
+regret your intrusion.
+~
+human~
+0
+ABFGT J 0 0 -1000 0
+46 0 10d142+815 46d10+100 46d10+100 5d16+23 slash
+-18 -18 -18 -4
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20814
+blue dragon~
+a blue dragon~
+A blue dragon prepares to incinerate you.
+~
+This dragon is one of Krothgar's five favorites, and is loyal to its master.
+Huge teeth protrude from a mouth capable of spewing forth destructive matter
+and baleful eyes gleam dangerously from above this maw directly at you. You
+regret your intrusion.
+~
+human~
+0
+ABFGT J 0 0 -1000 0
+49 0 10d162+893 49d10+100 49d10+100 5d17+25 pierce
+-20 -20 -20 -5
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20815
+green dragon~
+a green dragon~
+A green dragon prepares to incinerate you.
+~
+This dragon is one of Krothgar's five favorites, and is loyal to its master.
+Huge teeth protrude from a mouth capable of spewing forth destructive matter
+and baleful eyes gleam dangerously from above this maw directly at you. You
+regret your intrusion.
+~
+human~
+0
+ABFGT J 0 0 -1000 0
+48 0 10d155+869 48d10+100 48d10+100 5d16+28 pierce
+-20 -20 -20 -5
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20816
+fire elemental~
+a fire elemental~
+A fire elemental burns everything in sight.
+~
+This magically-summoned being serves the mages of the tower- sometimes.
+~
+fire-elf~
+0
+ABFGT 0 0 0 0 0
+43 0 10d124+733 43d10+100 43d10+100 5d15+21 pound
+-16 -16 -16 -3
+EFNR 0 CH I
+fight fight none 0
+AHMV ABCDEFGHIJK medium unknown
+F aff DE
+#20817
+efreeti~
+an efreeti~
+An efreeti hovers above an iron flask here.
+~
+This being, summoned from the Elemental Plane of Fire by the flask on the
+floor, is not happy, for the power of the flask has been exhausted and he
+has no way of returning home. He reacted by slaying first the summoner, and
+now he will try to slay you!
+~
+human~
+0
+ABFGT T 0 0 -1000 0
+49 0 10d162+893 49d10+100 49d10+100 5d17+25 slash
+-20 -20 -20 -5
+EFNU 0 0 0
+fight fight male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20818
+shedu~
+a shedu~
+A shedu sits in a corner of this room.
+~
+This unfortunate creature was captured by agents of Krothgar, who brought it
+here to amuse him. He occasionally spends time torturing it, but has grown
+bored and will slay it soon.
+~
+human~
+0
+ABGT J 0 0 1000 0
+52 0 10d182+988 52d10+100 52d10+100 5d18+27 pound
+-22 -22 -22 -6
+EFNU 0 0 0
+fight fight male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20819
+illithid~
+an evil illithid~
+An evil illithid eyes your cranium off.
+~
+This foul mind flayer wants brains, and since Krothgar's followers aren't the
+brightest of creatures it is near starvation. You are a nice surprise...
+~
+human~
+0
+ABFGT N 0 0 -1000 0
+44 0 10d130+759 44d10+100 44d10+100 5d15+24 pound
+-17 -17 -17 -3
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20820
+slave~
+a wretched slave~
+A wretched slave awaits sacrifice.
+~
+This pathetic wretch has lost all hope. Squatting naked and shivering in the
+corner of the cell he gibbers insanely and begs for mercy.
+~
+human~
+0
+ABT 0 0 0 0 0
+10 0 2d33+96 10d10+100 10d10+100 3d5+7 pierce
+3 3 3 6
+EFNU 0 0 0
+fight fight male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20821
+slave~
+a wretched slave~
+A female slave will soon "service" Krothgar's legions.
+~
+This pathetic wretch has lost all hope. Squatting naked and shivering in the
+corner of the cell she gibbers insanely and begs for mercy.
+~
+human~
+0
+ABT 0 0 0 0 0
+10 0 2d33+96 10d10+100 10d10+100 3d5+7 slash
+3 3 3 6
+EFNU 0 0 0
+fight fight female 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20822
+mutant~
+a mutant~
+A hideous mutant drools and screams insanely.
+~
+These unnatural beings are foul products of the insane experiments of the
+scientist mages upon captured slaves in an attempt to create the perfect
+fighting race, an experiment finally realised in Korgthar's elite guard.
+These failures have been condemned to a dismal life in the pits.
+~
+human~
+0
+ABFGT F 0 0 0 0
+42 0 10d119+700 42d10+100 42d10+100 5d14+24 pierce
+-16 -16 -16 -3
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+M
+specFido
+#20823
+hydra~
+a twelve-headed hydra~
+A 12 headed hydra roars at you.
+~
+This mighty creature has allied with Krothgar in exchange for a steady diet
+of humans and elves. It will fight ferociously to defend the home of its
+meal ticket.
+~
+human~
+0
+ABFGT J 0 0 0 0
+52 0 10d182+988 52d10+100 52d10+100 5d18+27 pierce
+-22 -22 -22 -6
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20824
+quasit~
+a quasit~
+A quasit squeaks aggressively at you.
+~
+This angry creature is the familiar of some mage or another. It is angered
+at being seen.
+~
+human~
+0
+ABFGT T 0 0 -1000 0
+25 0 10d42+322 25d10+100 25d10+100 5d8+16 pound
+-5 -5 -5 2
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20825
+succubus~
+a succubus~
+A succubus smiles seductively at you.
+~
+This lustful demoness is the current concubine of Korgthar, though her
+appetite is insatiable and she is always on the lookout for new prey... err
+... lovers.
+~
+succubus~
+0
+ABT T 0 0 -1000 0
+49 0 10d162+893 49d10+100 49d10+100 5d17+25 slash
+-20 -20 -20 -5
+EFNR B CD NY
+fight fight female 0
+ACHMV ABCDEFGHIJKPVW medium unknown
+#20826
+earth elemental~
+an earth elemental~
+An earth elemental smashes everything in sight.
+~
+This magically-summoned being serves the mages of the tower- sometimes.
+~
+human~
+0
+ABFGT 0 0 0 0 0
+43 0 10d124+733 43d10+100 43d10+100 5d15+21 slash
+-16 -16 -16 -3
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20827
+water elemental~
+a water elemental~
+A water elemental inundates everything in sight.
+~
+This magically-summoned being serves the mages of the tower- sometimes.
+~
+water fowl~
+0
+ABFGT 0 0 0 0 0
+43 0 10d124+733 43d10+100 43d10+100 5d15+21 slash
+-16 -16 -16 -3
+EFNR 0 R 0
+fight fight none 0
+AGW ACDEFHKP medium unknown
+F aff Tb
+F aff2 AB
+#20828
+air elemental~
+an air elemental~
+An air elemental blows over everything in sight.
+~
+This magically-summoned being serves the mages of the tower- sometimes.
+~
+human~
+0
+ABFGT 0 0 0 0 0
+43 0 10d124+733 43d10+100 43d10+100 5d15+21 pound
+-16 -16 -16 -3
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20829
+hell hound hellhound~
+a hellhound~
+A hellhound lopes toward you.
+~
+Breathing fire and reeking of brimstone, this unholy red-hued hound is indeed
+a terrible sight to behold.
+~
+human~
+0
+AFT DJ 0 0 -1000 0
+40 0 10d108+648 40d10+100 40d10+100 5d14+20 pierce
+-15 -15 -15 -2
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20830
+fire giant~
+a fire giant~
+A fire giant waves his sword menacingly at you.
+~
+These fellows are guardians of the massive volcano known as Mount Doom, upon
+which rests the inpregnable fortress of their master, Lord Krothgar. They
+fight fearlessly to defend it.
+~
+fire-elf~
+0
+ABT J 0 0 -1000 0
+44 0 10d130+759 44d10+100 44d10+100 5d15+24 pound
+-17 -17 -17 -3
+EFNR 0 CH I
+fight fight male 0
+AHMV ABCDEFGHIJK medium unknown
+F aff DE
+#20831
+frost giant~
+a frost giant~
+A frost giant glares icily at you.
+~
+These emissaries are here to form an alliance with the forces of Mount Doom.
+They do not take kindly to intrusions.
+~
+frost-giant~
+0
+ABFGT J 0 0 -1000 0
+44 0 10d130+759 44d10+100 44d10+100 5d15+24 slash
+-17 -17 -17 -3
+EFNR I E H
+fight fight male 0
+AHMV ABCDEFGHIJK medium unknown
+#20832
+hill giant~
+a hill giant~
+A hill giant grunts at you.
+~
+These fellows are guardians of the lands surrounding the massive volcano
+known as Mount Doom, upon which rests the inpregnable fortress of their
+master, Lord Krothgar. They fight fearlessly to defend it.
+~
+hill-dwarf~
+0
+AFT J 0 0 -1000 0
+38 0 10d97+603 38d10+100 38d10+100 5d13+20 pound
+-13 -13 -13 -1
+EFNR 0 CL 0
+fight fight male 0
+AHMV ABCDEFGHIJK medium unknown
+#20833
+cloud giant~
+a cloud giant~
+A cloud giant laughs mercilessly at you. Hmph.
+~
+These emissaries are here to form an alliance with the forces of Mount Doom.
+They do not take kindly to intrusions.
+~
+cloud-giant~
+0
+ABFGT J 0 0 -1000 0
+48 0 10d155+869 48d10+100 48d10+100 5d16+28 pound
+-20 -20 -20 -5
+EFNR I E H
+fight fight male 0
+AHMV ABCDEFGHIJKP medium unknown
+F aff T
+#20834
+ogre~
+an ogre servant~
+An ogre servant serves the giant soldiers.
+~
+This fellow may seem huge to you, but by giant standards he's a veritable
+runt, as they never cease to point out to him as he makes his way about,
+serving food and drinks in between kicks to the head.
+~
+ogre~
+0
+ABT J 0 0 -400 0
+30 0 10d60+426 30d10+100 30d10+100 5d10+17 pierce
+-8 -8 -8 0
+EFNR 0 E P
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+M
+specJanitor
+#20835
+ogre mage~
+an ogre mage~
+An ogre mage glares suspicously at you.
+~
+These eastern cousins of the ogres and giants of the west have been invited
+here to form an alliance with the troops of Krothgar. They are deeply
+suspicious of the arrangement, however, and view all comers with the same
+degree of caution, but not aggression.
+~
+ogre~
+0
+ABT J 0 0 -1000 0
+49 0 10d162+893 49d10+100 49d10+100 5d17+25 slash
+-20 -20 -20 -5
+EFNR 0 E P
+fight fight male 0
+AHMV ABCDEFGHIJK medium unknown
+#20836
+troll~
+a troll~
+A troll foot soldier yawns loudly.
+~
+These grotesques were bred for combat, not sentry duty, and the boredom is
+almost killing them. They don't even notice your presence.
+~
+troll~
+0
+ABT J 0 0 -1000 0
+48 0 10d155+869 48d10+100 48d10+100 5d16+28 slash
+-20 -20 -20 -5
+EFNR 0 HI RS
+fight fight male 0
+AHMV ABCDEFGHIJK medium unknown
+F aff Fc
+M
+specFido
+#20837
+ettin~
+an ettin~
+An ettin turns both its heads to stare at you.
+~
+This two-headed giant is a guard of the more important inhabitants of the
+fortress. He takes his duties very seriously.
+~
+human~
+0
+ABT J 0 0 -1000 0
+48 0 10d155+869 48d10+100 48d10+100 5d16+28 pierce
+-20 -20 -20 -5
+EFNU 0 0 0
+fight fight male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20838
+chief assassin~
+the chief assassin~
+The chief assassin smiles as she draws her swords.
+~
+This beauty is actually the lethal head of Krothgar's elite assassins, who
+have achieved more for his cause than a dozen armies. She asks for no quarter,
+and nor does she give any herself.
+~
+human~
+0
+ABT N 0 0 -1000 0
+53 0 10d189+1019 53d10+100 53d10+100 5d18+29 pound
+-23 -23 -23 -6
+EFNU 0 0 0
+fight fight female 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20839
+assassin~
+an assassin~
+An assassin prepares for combat.
+~
+This woman is a member of Krothgar's assassin company, and has slain more
+men and women than any one hundred of his regular soldiers.
+~
+human~
+0
+ABFGT J 0 0 -1000 0
+47 0 10d149+836 47d10+100 47d10+100 5d16+25 slash
+-19 -19 -19 -4
+EFNU 0 0 0
+fight fight female 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20840
+drow ambassador~
+a drow ambassador~
+A drow ambassador snarls at you.
+~
+This priestess is here to secure an alliance between her people and Krothgar's
+forces. She is not happy about your intrusion into this matter.
+~
+drow~
+0
+ABFGT J 0 0 -1000 0
+46 0 10d142+815 46d10+100 46d10+100 5d16+23 pierce
+-18 -18 -18 -4
+EFNR 0 C QS
+fight fight female 0
+AHMV ABCDEFGHIJK medium unknown
+F aff EZ
+#20841
+warg~
+a warg~
+A hairy warg patrols for trespassers here.
+~
+This beast is a servant of the hill giants who patrol the plains of Doom.
+~
+human~
+0
+AFT F 0 0 -1000 0
+35 0 10d82+534 35d10+100 35d10+100 5d12+18 pierce
+-11 -11 -11 0
+EFNU 0 0 0
+fight fight male 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+M
+specFido
+#20842
+ghoul~
+a bloodthirsty ghoul~
+A bloodthirsty ghoul slavers uncontrollably.
+~
+This hideous undead wants to feast on your flesh!
+~
+ghoul~
+0
+AFT J 0 0 -1000 0
+35 0 10d82+534 35d10+100 35d10+100 5d12+18 slash
+-11 -11 -11 0
+EFNR P MQ H
+fight fight none 0
+CDHIM ABCDEFGHIJK medium unknown
+M
+specFido
+#20843
+vampire~
+a vampire~
+A vampire smiles at you...
+~
+This vampire is treacherous and deadly. You can see why Krothgar likes having
+her around...
+~
+vampire~
+0
+ABT D 0 0 -1000 0
+42 0 10d119+700 42d10+100 42d10+100 5d14+24 pierce
+-16 -16 -16 -3
+EFNR LQ M HNSa
+fight fight female 0
+CHIMV ABCGHIJKV medium unknown
+F aff JZ
+#20844
+lich~
+an ancient lich~
+An ancient lich awakens from his slumber and looks around.
+~
+Even the mages of Krothgar know not of the existence of this secret tomb.
+Buried within is the old lord of the Fortress, who was imprisoned in here
+by the forces of Good ages ago. And now you have woken him up...
+~
+lich~
+0
+ABT T 0 0 -1000 0
+55 0 10d204+1078 55d10+100 55d10+100 5d19+28 pierce
+-24 -24 -24 -7
+EFNR I LMQ H
+fight fight none 0
+ACHIMV ABCGHIJK medium unknown
+#20845
+stone golem~
+a stone golem~
+A stone golem stands ready to rend his master's enemies apart.
+~
+This soulless automaton was created by Krothgar's fell evil priests to
+serve him as a bodyguard (for appearance's sake only- he scarcely has need
+of one) and an executioner. It will kill on a command.
+~
+human~
+0
+ABGT 0 0 0 0 0
+50 0 10d168+930 50d10+100 50d10+100 5d17+27 pound
+-21 -21 -21 -5
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20846
+keeper~
+The keeper of the mutant pit~
+The Keeper of the Mutant Pit snarls angrily at you.
+~
+~
+human~
+0
+ABFGT J 0 0 -1000 0
+46 0 10d142+815 46d10+100 46d10+100 5d16+23 slash
+-18 -18 -18 -4
+EFNU 0 0 0
+fight fight none 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#20847
+naga princess~
+a naga princess~
+A princess of the Naga glares haughtily at you.
+~
+This snake with a woman's head seems unimpressed by your intrusion, but
+she refrains from attacking, hoping that the guards of the castle will see
+to you so she doesn't have to expend energy fighting.
+~
+human~
+0
+ABT J 0 0 -1000 0
+51 0 10d175+958 51d10+100 51d10+100 5d17+29 pierce
+-21 -21 -21 -5
+EFNU 0 0 0
+fight fight female 0
+AHMV ABCDEF medium unknown
+F par GHIJK
+#0
+
+
+
+#OBJECTS
+#20800
+krothgar armor~
+the armor of Lord Krothgar~
+The armor of Lord Krothgar lies here.~
+<Not Entered>~
+armor B AD
+14 14 14 0 0
+55 25 550 P
+Y
+char 'saving throw' 0 -1
+Y
+char 'saving throw' 0 -1
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 2
+Y
+char 'AC' 0 -15
+Y
+char 'constitution' 0 2
+Y
+char 'strength' 0 2
+#20801
+krothgar sword~
+the sword of Lord Krothgar~
+The sword of Lord Krothgar is here.~
+<Not Entered>~
+weapon B AN
+exotic 5 12 pierce 0
+55 15 550 P
+Y
+char 'damroll' 0 10
+Y
+char 'hitroll' 0 10
+Y
+char 'hp' 0 50
+#20802
+krothgar shield~
+the shield of Lord Krothgar~
+The shield of Lord Krothgar is here.~
+<Not Entered>~
+armor B AJ
+14 14 14 0 0
+55 15 550 P
+Y
+char 'saving throw' 0 -3
+Y
+char 'saving throw' 0 -3
+Y
+char 'AC' 0 -30
+#20803
+krothgar helm~
+the cursed helm of Lord Krothgar~
+The cursed helm of Lord Krothgar is here.~
+<Not Entered>~
+armor B AE
+14 14 14 0 0
+55 5 550 P
+Y
+char 'wisdom' 0 -5
+Y
+char 'intelligence' 0 -5
+#20804
+two handed sword~
+a two-handed sword~
+A two-handed sword lies here.~
+<Not Entered>~
+weapon B AN
+exotic 5 10 slash F
+46 10 460 P
+Y
+char 'damroll' 0 6
+Y
+char 'hitroll' 0 6
+Y
+char 'AC' 0 10
+Y
+char 'strength' 0 3
+#20805
+burnt helm~
+a burnt helm~
+A burnt helm painted with a hideous visage lies here.~
+<Not Entered>~
+armor B AE
+12 12 12 0 0
+46 5 460 P
+Y
+char 'AC' 0 -10
+Y
+char 'moves' 0 20
+Y
+char 'hp' 0 20
+Y
+char 'mana' 0 20
+#20806
+iron fist~
+the iron fist~
+The legendary iron fist lies here.~
+<Not Entered>~
+weapon B AH
+exotic 5 11 none 0
+50 10 500 P
+Y
+char 'damroll' 0 8
+Y
+char 'AC' 0 10
+Y
+char 'dexterity' 0 -2
+#20807
+barbed flail~
+a demon's barbed flail~
+A demon's barbed flail lies here.~
+<Not Entered>~
+weapon B AN
+exotic 5 11 whip 0
+50 10 500 P
+Y
+char 'damroll' 0 6
+Y
+char 'hitroll' 0 6
+#20808
+flaming spear~
+a flaming spear~
+A flaming spear burns into the ground here.~
+<Not Entered>~
+weapon A AN
+exotic 5 11 blast 0
+50 5 500 P
+Y
+char 'hitroll' 0 4
+#20809
+staff power~
+a staff of power~
+A staff of power has been left here.~
+<Not Entered>~
+staff AG AO
+54 11 11 'vampiric touch' 0
+48 1 480 P
+Y
+char 'AC' 0 -20
+Y
+char 'wisdom' 0 2
+Y
+char 'intelligence' 0 2
+#20810
+robes archmage~
+robes of the archmage~
+The robes of the archmage are crumpled up in a corner here.~
+<Not Entered>~
+armor AG AK
+12 12 12 0 0
+48 5 480 P
+Y
+char 'mana' 0 50
+#20811
+vial dust~
+a vial of magic dust~
+A vial of magic dust is here.~
+<Not Entered>~
+potion AG A
+54 'heal' 'heal' 'heal' ''
+48 1 480 P
+#20812
+dagger~
+a sacrifical dagger~
+A sacrificial dagger is stuck in the ground here.~
+<Not Entered>~
+weapon E AN
+exotic 5 11 pierce 0
+48 5 480 P
+#20813
+robes~
+the high priest's robes~
+The high priest's robes lie here.~
+<Not Entered>~
+armor E AK
+12 12 12 0 0
+48 5 480 P
+Y
+char 'wisdom' 0 4
+#20814
+mask~
+the high priest's death mask~
+The high priest's ceremonial mask is here.~
+<Not Entered>~
+armor E AE
+12 12 12 0 0
+48 3 480 P
+Y
+char 'hp' 0 20
+Y
+char 'constitution' 0 3
+#20815
+spiked plate mail~
+a suit of spiked plate mail~
+A suit of spiked plate mail has been foolishly discarded here.~
+<Not Entered>~
+armor B AD
+11 11 11 0 0
+40 20 400 P
+Y
+char 'AC' 0 -15
+#20816
+morning star~
+a huge morning star~
+A huge morning star is buried in the ground here.~
+<Not Entered>~
+weapon B AN
+exotic 5 9 crush 0
+40 15 400 P
+Y
+char 'damroll' 0 10
+Y
+char 'hitroll' 0 -5
+#20817
+helm~
+a dark helm~
+A dark helm lies here.~
+<Not Entered>~
+armor B AE
+11 11 11 0 0
+40 5 400 P
+#20818
+dagger~
+a sacrifical dagger~
+A sacrificial dagger is stuck in the ground here.~
+<Not Entered>~
+weapon E AN
+exotic 5 10 pierce 0
+44 5 440 P
+#20819
+robes~
+the priest's robes~
+The priest's robes lie here.~
+<Not Entered>~
+armor E AK
+11 11 11 0 0
+44 5 440 P
+#20820
+mask~
+the priest's death mask~
+The priest's ceremonial mask is here.~
+<Not Entered>~
+armor E AE
+11 11 11 0 0
+44 3 440 P
+#20821
+mage robes~
+the mage's robes~
+Some dirty robes covered in chemical stains lie here.~
+<Not Entered>~
+armor 0 AK
+11 11 11 0 0
+42 1 420 P
+#20822
+wand~
+a magic wand~
+A magic wand is here.~
+<Not Entered>~
+wand A AO
+45 9 9 'cause critical' 0
+42 1 420 P
+#20823
+elixir chemicals~
+an elixir of noxious chemicals~
+An elixir of noxious chemicals bubbles away here.~
+<Not Entered>~
+potion B A
+45 'poison' 'weaken' 'acid blast' ''
+42 1 420 P
+#20824
+dragon scale~
+a dragon scale~
+A huge dragon scale has been dropped here.~
+<Not Entered>~
+armor B AJ
+12 12 12 0 0
+46 10 460 P
+Y
+char 'saving throw' 0 -5
+Y
+char 'AC' 0 -18
+#20825
+tooth~
+a dragon tooth~
+A dragon's tooth lies here.~
+<Not Entered>~
+weapon B AN
+exotic 5 10 pierce 0
+46 10 460 P
+Y
+char 'damroll' 0 5
+Y
+char 'hitroll' 0 5
+#20826
+claw~
+dragon claws~
+A pair of dragon claws is here.~
+<Not Entered>~
+armor B AH
+12 12 12 0 0
+46 10 460 P
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+Y
+char 'dexterity' 0 -2
+#20827
+hide~
+a dragon hide~
+A dragon hide is piled up here.~
+<Not Entered>~
+armor J AK
+12 12 12 0 0
+46 10 460 P
+Y
+char 'saving throw' 0 -2
+Y
+char 'saving throw' 0 -2
+Y
+char 'AC' 0 -20
+Y
+char 'hp' 0 15
+#20828
+brazier~
+a bronze brazier~
+A bronze brazier is here.~
+<Not Entered>~
+staff G AO
+53 1 1 'summon' 0
+43 5 430 P
+#20829
+flask~
+an empty flask~
+This flask has been drained of all magical properties.~
+<Not Entered>~
+container 0 AO
+1 A 0 0 0
+0 1 0 P
+#20830
+manacles~
+a pair of manacles~
+A pair of manacles lies here.~
+<Not Entered>~
+armor G AI
+5 5 5 0 0
+10 5 100 P
+Y
+char 'AC' 0 10
+Y
+char 'dexterity' 0 -3
+#20831
+robes~
+an illithid's robes~
+An illithid's robes lie here, discarded.~
+<Not Entered>~
+armor G AK
+11 11 11 0 0
+44 1 440 P
+Y
+char 'mana' 0 25
+#20832
+gem~
+a gem~
+This gem pulses evilly.~
+<Not Entered>~
+light A A
+0 0 999 0 0
+44 1 440 P
+Y
+char 'AC' 0 -10
+Y
+char 'mana' 0 20
+Y
+char 'wisdom' 0 1
+Y
+char 'intelligence' 0 1
+#20833
+chest~
+a chest~
+A heavy chest rests here.~
+<Not Entered>~
+container 0 0
+10000 A 0 0 0
+50 1 500 P
+#20834
+treasure~
+a great treasure~
+A great treasure lies here.~
+<Not Entered>~
+treasure A A
+0 0 0 0 0
+50 100 500 P
+#20835
+bed~
+a luxurious bed~
+A luxurious bed sits here.~
+<Not Entered>~
+furniture 0 0
+0 0 0 0 0
+47 1 470 P
+#20836
+silk~
+some expensive silk~
+Some expensive silk has been left here.~
+<Not Entered>~
+treasure 0 AK
+0 0 0 0 0
+42 1 420 P
+#20837
+stone~
+a stone~
+A stone is here.~
+<Not Entered>~
+staff G AO
+53 1 1 'summon' 0
+43 5 430 P
+#20838
+bowl~
+a bowl~
+A bowl is here.~
+<Not Entered>~
+staff G AO
+53 1 1 'summon' 0
+43 5 430 P
+#20839
+censer~
+a censer~
+A censer is here.~
+<Not Entered>~
+staff G AO
+53 1 1 'summon' 0
+43 5 430 P
+#20840
+spiked collar~
+a spiked collar~
+A spiked collar rests here.~
+<Not Entered>~
+armor E AC
+10 10 10 0 0
+35 5 350 P
+Y
+char 'damroll' 0 4
+#20841
+sword~
+a giant sword~
+A giant sword rests here.~
+<Not Entered>~
+weapon 0 AN
+exotic 5 10 crush 0
+44 15 440 P
+Y
+char 'damroll' 0 4
+#20842
+rock~
+a throwing rock~
+A throwing rock lies on the ground here.~
+<Not Entered>~
+weapon 0 AN
+exotic 5 9 crush 0
+38 15 380 P
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 -4
+#20843
+club~
+a wooden club~
+A normal wooden club lies here.~
+<Not Entered>~
+weapon 0 AN
+exotic 5 9 pound 0
+38 5 380 P
+#20844
+collar~
+a slave collar~
+A slave collar lies here.~
+<Not Entered>~
+armor M ABCD
+5 5 5 0 0
+10 1 100 P
+Y
+char 'AC' 0 10
+Y
+char 'hp' 0 -10
+Y
+char 'constitution' 0 -1
+Y
+char 'dexterity' 0 -1
+#20845
+glaive~
+a glaive~
+A glaive has been left propped up here.~
+<Not Entered>~
+weapon G AN
+exotic 5 11 slash 0
+49 10 490 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 3
+#20846
+potion~
+a magical potion~
+A magical potion rolls around on the floor here.~
+<Not Entered>~
+potion G AO
+49 'armor' 'bless' 'shield' ''
+49 1 490 P
+#20847
+pole arm~
+a pole arm~
+A pole arm lies here.~
+<Not Entered>~
+weapon 0 AN
+exotic 5 11 crush 0
+48 10 480 P
+Y
+char 'damroll' 0 6
+Y
+char 'hitroll' 0 -2
+#20848
+chainmail~
+a suit of black chainmail~
+A tight-fitting suit of black chainmail lies here.~
+<Not Entered>~
+armor E AD
+12 12 12 0 0
+48 10 480 P
+Y
+char 'AC' 0 -20
+Y
+char 'dexterity' 0 -2
+#20849
+black sword~
+the black sword~
+The black sword glows here.~
+<Not Entered>~
+weapon A AN
+exotic 5 12 slash 0
+53 5 530 P
+Y
+char 'hitroll' 0 8
+#20850
+blue sword~
+the blue sword~
+The blue sword hums here.~
+<Not Entered>~
+weapon B AN
+exotic 5 12 slash 0
+53 5 530 P
+Y
+char 'damroll' 0 8
+#20851
+black robes~
+black robes~
+Some black robes with no special properties lie here.~
+<Not Entered>~
+armor 0 AK
+12 12 12 0 0
+47 1 470 P
+E
+robes~
+They look extraordinarily unencumbering.
+~
+#20852
+vial poison~
+a vial of poison~
+A vial of poison is here.~
+<Not Entered>~
+potion 0 AO
+47 'blindness' 'cause critical' 'poison' ''
+47 1 470 P
+E
+vial poison~
+It looks very deadly.
+~
+#20853
+drow cloak~
+a drow cloak~
+A black Drow cloak is crumpled on the floor here.~
+<Not Entered>~
+armor C AK
+12 12 12 0 0
+46 1 460 P
+Y
+char 'saving throw' 0 -1
+Y
+char 'saving throw' 0 -1
+Y
+char 'hitroll' 0 1
+Y
+char 'dexterity' 0 1
+#20854
+drow boots~
+a pair of drow boots~
+A pair of black drow boots is here.~
+<Not Entered>~
+armor C AG
+12 12 12 0 0
+46 1 460 P
+Y
+char 'AC' 0 -5
+Y
+char 'moves' 0 50
+Y
+char 'dexterity' 0 1
+#20855
+drow chain chainmail~
+a suit of drow chainmail~
+A suit of finely crafted adamantite chainmail is here.~
+<Not Entered>~
+armor G AD
+12 12 12 0 0
+46 5 460 P
+Y
+char 'AC' 0 -10
+Y
+char 'hp' 0 10
+Y
+char 'constitution' 0 1
+#20856
+tentacle whip~
+a greater tentacle whip~
+A rod with several writhing tentacles attached is here.
+~
+<Not Entered>~
+weapon G AN
+exotic 5 10 whip 0
+46 10 460 P
+Y
+char 'damroll' 0 6
+Y
+char 'hitroll' 0 4
+#20857
+tiara~
+a tiara~
+A tiara lies here.~
+<Not Entered>~
+armor G AE
+12 12 12 0 0
+46 1 460 P
+Y
+char 'mana' 0 25
+Y
+char 'wisdom' 0 2
+Y
+char 'intelligence' 0 2
+#20858
+key~
+a door key~
+This key allows access to the upper levels.~
+<Not Entered>~
+key 0 AO
+0 0 0 0 0
+40 1 400 P
+#0
+
+
+
+#ROOMS
+#20800
+Approaching the Plains of Mount Doom~
+You are heading directly toward Mount Doom, on a narrow path that leads to
+the desolate, monster-infested plains that surround it. This is the fell
+domain of Lord Krothgar, whose forbidding black fortress can be seen atop the
+peak of the extinct volcano called by humans Mount Doom. Armies of giants
+patrol the lower slopes, while evil mutants, mages and demons guard the
+fortress itself. Steeling yourself, you push on.
+~
+0 5 2
+5
+D0
+~
+~
+0 -1 20804
+D3
+~
+~
+0 -1 15423
+S
+#20801
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20808
+D1
+~
+~
+0 -1 20802
+S
+#20802
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20809
+D1
+~
+~
+0 -1 20803
+D3
+~
+~
+0 -1 20801
+S
+#20803
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20810
+D1
+~
+~
+0 -1 20804
+D3
+~
+~
+0 -1 20802
+S
+#20804
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20811
+D1
+~
+~
+0 -1 20805
+D2
+~
+~
+0 -1 20800
+D3
+~
+~
+0 -1 20803
+S
+#20805
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20812
+D1
+~
+~
+0 -1 20806
+D3
+~
+~
+0 -1 20804
+S
+#20806
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20813
+D1
+~
+~
+0 -1 20807
+D3
+~
+~
+0 -1 20805
+S
+#20807
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20814
+D3
+~
+~
+0 -1 20806
+S
+#20808
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20815
+D1
+~
+~
+0 -1 20809
+D2
+~
+~
+0 -1 20801
+S
+#20809
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20816
+D1
+~
+~
+0 -1 20810
+D2
+~
+~
+0 -1 20802
+D3
+~
+~
+0 -1 20808
+S
+#20810
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20817
+D1
+~
+~
+0 -1 20811
+D2
+~
+~
+0 -1 20803
+D3
+~
+~
+0 -1 20809
+S
+#20811
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20818
+D1
+~
+~
+0 -1 20812
+D2
+~
+~
+0 -1 20804
+D3
+~
+~
+0 -1 20810
+S
+#20812
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20819
+D1
+~
+~
+0 -1 20813
+D2
+~
+~
+0 -1 20805
+D3
+~
+~
+0 -1 20811
+S
+#20813
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20820
+D1
+~
+~
+0 -1 20814
+D2
+~
+~
+0 -1 20806
+D3
+~
+~
+0 -1 20812
+S
+#20814
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20821
+D2
+~
+~
+0 -1 20807
+D3
+~
+~
+0 -1 20813
+S
+#20815
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20822
+D1
+~
+~
+0 -1 20816
+D2
+~
+~
+0 -1 20808
+S
+#20816
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20823
+D1
+~
+~
+0 -1 20817
+D2
+~
+~
+0 -1 20809
+D3
+~
+~
+0 -1 20815
+S
+#20817
+The Upper Slopes of Mount Doom~
+You are steadily drawing near the summit. The ground has become quite smooth
+here, to the point of sliperiness, and you stop more than once to regain your
+footing on the glassy obsidian that coats the upper slopes. The fortress
+of Lord Krogthar looms closer than ever now, and you mentally prepare
+yourself for the the upcoming battles. The foes you have fought so far have
+been minor compared to those to come.
+~
+0 0 5
+5
+D0
+~
+~
+0 -1 20824
+D1
+~
+~
+0 -1 20818
+D2
+~
+~
+0 -1 20810
+D3
+~
+~
+0 -1 20816
+S
+#20818
+The Upper Slopes of Mount Doom~
+You are steadily drawing near the summit. The ground has become quite smooth
+here, to the point of sliperiness, and you stop more than once to regain your
+footing on the glassy obsidian that coats the upper slopes. The fortress
+of Lord Krogthar looms closer than ever now, and you mentally prepare
+yourself for the the upcoming battles. The foes you have fought so far have
+been minor compared to those to come.
+
+The fortress lies directly north of here.
+~
+0 0 5
+5
+D0
+THE FORTRESS~
+~
+0 -1 20825
+D1
+~
+~
+0 -1 20819
+D2
+~
+~
+0 -1 20811
+D3
+~
+~
+0 -1 20817
+S
+#20819
+The Upper Slopes of Mount Doom~
+You are steadily drawing near the summit. The ground has become quite smooth
+here, to the point of sliperiness, and you stop more than once to regain your
+footing on the glassy obsidian that coats the upper slopes. The fortress
+of Lord Krogthar looms closer than ever now, and you mentally prepare
+yourself for the the upcoming battles. The foes you have fought so far have
+been minor compared to those to come.
+~
+0 0 5
+5
+D0
+~
+~
+0 -1 20826
+D1
+~
+~
+0 -1 20820
+D2
+~
+~
+0 -1 20812
+D3
+~
+~
+0 -1 20818
+S
+#20820
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20827
+D1
+~
+~
+0 -1 20821
+D2
+~
+~
+0 -1 20813
+D3
+~
+~
+0 -1 20819
+S
+#20821
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20828
+D2
+~
+~
+0 -1 20814
+D3
+~
+~
+0 -1 20820
+S
+#20822
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20829
+D1
+~
+~
+0 -1 20823
+D2
+~
+~
+0 -1 20815
+S
+#20823
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20830
+D1
+~
+~
+0 -1 20824
+D2
+~
+~
+0 -1 20816
+D3
+~
+~
+0 -1 20822
+S
+#20824
+The Upper Slopes of Mount Doom~
+You are steadily drawing near the summit. The ground has become quite smooth
+here, to the point of sliperiness, and you stop more than once to regain your
+footing on the glassy obsidian that coats the upper slopes. The fortress
+of Lord Krogthar looms closer than ever now, and you mentally prepare
+yourself for the the upcoming battles. The foes you have fought so far have
+been minor compared to those to come.
+
+The Fortress lies directly east of here.
+~
+0 0 5
+5
+D0
+~
+~
+0 -1 20831
+D1
+THE FORTRESSS~
+~
+0 -1 20825
+D2
+~
+~
+0 -1 20817
+D3
+~
+~
+0 -1 20823
+S
+#20825
+Outside the Fortress of Lord Korgthar~
+You have finally reached the summit, and are standing beneath the gates of
+the Fortress, which you may climb up to by means of an iron staircase. You
+can sense many pairs of eyes upon you, and you wonder how far you will be
+permitted to go before Korgthar's forces combine and crush you.
+~
+0 0 5
+5
+D0
+~
+~
+0 -1 20832
+D1
+~
+~
+0 -1 20826
+D2
+~
+~
+0 -1 20818
+D3
+~
+~
+0 -1 20824
+D4
+~
+~
+A 0 20850
+S
+#20826
+The Upper Slopes of Mount Doom~
+You are steadily drawing near the summit. The ground has become quite smooth
+here, to the point of sliperiness, and you stop more than once to regain your
+footing on the glassy obsidian that coats the upper slopes. The fortress
+of Lord Krogthar looms closer than ever now, and you mentally prepare
+yourself for the the upcoming battles. The foes you have fought so far have
+been minor compared to those to come.
+
+The Fortress lies due west of here.
+~
+0 0 5
+5
+D0
+~
+~
+0 -1 20833
+D1
+~
+~
+0 -1 20827
+D2
+~
+~
+0 -1 20819
+D3
+~
+~
+0 -1 20825
+S
+#20827
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20834
+D1
+~
+~
+0 -1 20828
+D2
+~
+~
+0 -1 20820
+D3
+~
+~
+0 -1 20826
+S
+#20828
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20835
+D2
+~
+~
+0 -1 20821
+D3
+~
+~
+0 -1 20827
+S
+#20829
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20836
+D1
+~
+~
+0 -1 20830
+D2
+~
+~
+0 -1 20822
+S
+#20830
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20837
+D1
+~
+~
+0 -1 20831
+D2
+~
+~
+0 -1 20823
+D3
+~
+~
+0 -1 20829
+S
+#20831
+The Upper Slopes of Mount Doom~
+You are steadily drawing near the summit. The ground has become quite smooth
+here, to the point of sliperiness, and you stop more than once to regain your
+footing on the glassy obsidian that coats the upper slopes. The fortress
+of Lord Krogthar looms closer than ever now, and you mentally prepare
+yourself for the the upcoming battles. The foes you have fought so far have
+been minor compared to those to come.
+~
+0 0 5
+5
+D0
+~
+~
+0 -1 20838
+D1
+~
+~
+0 -1 20832
+D2
+~
+~
+0 -1 20824
+D3
+~
+~
+0 -1 20830
+S
+#20832
+The Upper Slopes of Mount Doom~
+You are steadily drawing near the summit. The ground has become quite smooth
+here, to the point of sliperiness, and you stop more than once to regain your
+footing on the glassy obsidian that coats the upper slopes. The fortress
+of Lord Krogthar looms closer than ever now, and you mentally prepare
+yourself for the the upcoming battles. The foes you have fought so far have
+been minor compared to those to come.
+
+The Fortress lies due south of here.
+~
+0 0 5
+5
+D0
+~
+~
+0 -1 20839
+D1
+~
+~
+0 -1 20833
+D2
+THE FORTRESS~
+~
+0 -1 20825
+D3
+~
+~
+0 -1 20831
+S
+#20833
+The Upper Slopes of Mount Doom~
+You are steadily drawing near the summit. The ground has become quite smooth
+here, to the point of sliperiness, and you stop more than once to regain your
+footing on the glassy obsidian that coats the upper slopes. The fortress
+of Lord Krogthar looms closer than ever now, and you mentally prepare
+yourself for the the upcoming battles. The foes you have fought so far have
+been minor compared to those to come.
+~
+0 0 5
+5
+D0
+~
+~
+0 -1 20840
+D1
+~
+~
+0 -1 20834
+D2
+~
+~
+0 -1 20826
+D3
+~
+~
+0 -1 20832
+S
+#20834
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20841
+D1
+~
+~
+0 -1 20835
+D2
+~
+~
+0 -1 20827
+D3
+~
+~
+0 -1 20833
+S
+#20835
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20842
+D2
+~
+~
+0 -1 20828
+D3
+~
+~
+0 -1 20834
+S
+#20836
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20843
+D1
+~
+~
+0 -1 20837
+D2
+~
+~
+0 -1 20829
+S
+#20837
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20844
+D1
+~
+~
+0 -1 20838
+D2
+~
+~
+0 -1 20830
+D3
+~
+~
+0 -1 20836
+S
+#20838
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20845
+D1
+~
+~
+0 -1 20839
+D2
+~
+~
+0 -1 20831
+D3
+~
+~
+0 -1 20837
+S
+#20839
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20846
+D1
+~
+~
+0 -1 20840
+D2
+~
+~
+0 -1 20832
+D3
+~
+~
+0 -1 20838
+S
+#20840
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20847
+D1
+~
+~
+0 -1 20841
+D2
+~
+~
+0 -1 20833
+D3
+~
+~
+0 -1 20839
+S
+#20841
+The Foothills of Mount Doom~
+You have come to the base of the mountain. From here you may continue to
+slowly make your way up the mountain, or head back to the eerie plains below.
+The ground here is rocky and treacherous, dotted by small crevices in the
+volcanic rock and jagged shards of granite protrustions. The wind is even
+stronger here than on the plains, and you fancy you can hear voices and
+screams.
+~
+0 0 4
+5
+D0
+~
+~
+0 -1 20848
+D1
+~
+~
+0 -1 20842
+D2
+~
+~
+0 -1 20834
+D3
+~
+~
+0 -1 20840
+S
+#20842
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D0
+~
+~
+0 -1 20849
+D2
+~
+~
+0 -1 20835
+D3
+~
+~
+0 -1 20841
+S
+#20843
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D1
+~
+~
+0 -1 20844
+D2
+~
+~
+0 -1 20836
+S
+#20844
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D1
+~
+~
+0 -1 20845
+D2
+~
+~
+0 -1 20837
+D3
+~
+~
+0 -1 20843
+S
+#20845
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D1
+~
+~
+0 -1 20846
+D2
+~
+~
+0 -1 20838
+D3
+~
+~
+0 -1 20844
+S
+#20846
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D1
+~
+~
+0 -1 20847
+D2
+~
+~
+0 -1 20839
+D3
+~
+~
+0 -1 20845
+S
+#20847
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D1
+~
+~
+0 -1 20848
+D2
+~
+~
+0 -1 20840
+D3
+~
+~
+0 -1 20846
+S
+#20848
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D1
+~
+~
+0 -1 20849
+D2
+~
+~
+0 -1 20841
+D3
+~
+~
+0 -1 20847
+S
+#20849
+The Plains of Mount Doom~
+A chill wind blows across the desolate wastes, and you shiver uncomfortably
+as you proceed. The bones of past adventurers lay scattered across the
+hard ground, among rusted weapons and shards of jagged rock that resemble
+teeth. It almost looks as if the very earth had devoured them. But the
+sudden howl of a warg (or a ghoul) alerts you to the very real dangers
+lurking nearby and you press on.
+~
+0 0 2
+5
+D2
+~
+~
+0 -1 20842
+D3
+~
+~
+0 -1 20848
+S
+#20850
+Inside the Fell Fortress~
+You are standing inside the gates of the fortress, at a crossroads. The
+passages are remarkably plain for a den of evil- simply dressed grey flag
+stones on floor and walls, the monotony broken only by the occasional torch
+sconce or tattered tapestry. It is evident that this castle has known many
+inhabitants prior to its current ones.
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 20858
+D1
+~
+~
+0 -1 20851
+D2
+~
+~
+0 -1 20871
+D3
+~
+~
+0 -1 20863
+D5
+~
+~
+AB -1 20825
+S
+#20851
+The Cell Block~
+Here the prisoner of Krogthar are kept. There are not many cells, as the
+Lord Korgthar is not fond of taking prisoners (hassles, hassles...). If
+you think security is a little lax, think of what lurks outside to deter
+potentianl escapees...
+~
+0 9 0
+5
+D0
+~
+~
+AB 0 20852
+D1
+~
+~
+0 0 20854
+D2
+~
+~
+AB 0 20853
+D3
+~
+~
+0 -1 20850
+S
+#20852
+A Cell~
+A dank, dismal affair with little in the way of bedding or toilet facilities.
+The stench is actually quite horrendous and you find yourself eager to leave.
+~
+0 9 0
+5
+D2
+~
+~
+AB 0 20851
+S
+#20853
+A Cell~
+A dank, dismal affair with little in the way of bedding or toilet facilities.
+The stench is actually quite horrendous and you find yourself eager to leave.
+~
+0 9 0
+5
+D0
+~
+~
+AB 0 20851
+S
+#20854
+The Cell Block~
+Here the prisoner of Krogthar are kept. There are not many cells, as the
+Lord Korgthar is not fond of taking prisoners (hassles, hassles...). If
+you think security is a little lax, think of what lurks outside to deter
+potentianl escapees...
+~
+0 9 0
+5
+D0
+~
+~
+AB 0 20855
+D1
+~
+~
+AB 0 20857
+D2
+~
+~
+AB 0 20856
+D3
+~
+~
+0 -1 20851
+S
+#20855
+A Cell~
+A dank, dismal affair with little in the way of bedding or toilet facilities.
+The stench is actually quite horrendous and you find yourself eager to leave.
+~
+0 9 0
+5
+D2
+~
+~
+AB 0 20854
+S
+#20856
+A Cell~
+A dank, dismal affair with little in the way of bedding or toilet facilities.
+The stench is actually quite horrendous and you find yourself eager to leave.
+~
+0 9 0
+5
+D0
+~
+~
+AB 0 20854
+S
+#20857
+A Cell~
+A dank, dismal affair with little in the way of bedding or toilet facilities.
+The stench is actually quite horrendous and you find yourself eager to leave.
+~
+0 9 0
+5
+D3
+~
+~
+AB 0 20854
+S
+#20858
+Some Quarters~
+You are standing before a solid wooden door that leads to the quarters of
+some of the many types of troops that serve Krothgar.
+~
+0 8 0
+5
+D0
+~
+~
+AB 0 20859
+D2
+~
+~
+0 -1 20850
+S
+#20859
+An Ante-Room~
+You are standing in a well-furnished anteroom with doors leading in all four
+directions. No noise comes from behind any- they are quite solid and are
+effectively soundproof.
+~
+0 8 0
+5
+D0
+~
+~
+AB 0 20861
+D1
+~
+~
+AB 0 20862
+D2
+~
+~
+AB 0 20858
+D3
+~
+~
+AB 0 20860
+S
+#20860
+Assassins' Quarters~
+In this room reside some of the assassins that serve Korthgar. He may not
+be the brightest of tyrants, but Krothgar was smart enough to work out it was
+easier to send a single assassin to slay a king and collapse an empire than
+it was to conquer it by brute force. His assassins live in comfort, as he
+values them highly.
+~
+0 8 0
+5
+D1
+~
+~
+AB 0 20859
+S
+#20861
+The Chief Assassin's Quarters~
+You have entered the quarters of the Chief of Krothgar's ruthlessly
+efficient assassins, and caught her in flagrante delicto with two naked men
+strapped to racks. She swears and draws her swords, making no attempt to
+cover herself, slaying her slaves before moving to confront you.
+~
+0 8 0
+5
+D2
+~
+~
+AB 0 20859
+S
+#20862
+Assassins' Quarters~
+In this room reside some of the assassins that serve Korthgar. He may not
+be the brightest of tyrants, but Krothgar was smart enough to work out it was
+easier to send a single assassin to slay a king and collapse an empire than
+it was to conquer it by brute force. His assassins live in comfort, as he
+values them highly.
+~
+0 8 0
+5
+D3
+~
+~
+AB 0 20859
+S
+#20863
+Some Quarters~
+You are standing before a solid wooden door that leads to the quarters of
+some of the many types of troops that serve Krothgar.
+~
+0 8 0
+5
+D1
+~
+~
+0 0 20850
+D3
+~
+~
+AB 0 20864
+S
+#20864
+A Corridor~
+You are advancing along a dark corridor that leads to the quarters of Lord
+Krothgar's blackguard.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 20867
+D1
+~
+~
+AB 0 20863
+D2
+~
+~
+AB 0 20865
+S
+#20865
+The Keeper's Chamber~
+Here resides the keeper of the Mutant Pit, where the failed experiments of
+the scientist mages are kept to do away with prisoners or insolent guards.
+He likes his job, and isn't about to let you hurt his mutants.
+~
+0 8 0
+5
+D0
+~
+~
+AB 0 20864
+D5
+~
+~
+AB 0 20866
+S
+#20866
+The Mutant Pit~
+Ack! You're in the mutant pit! Surrounded by gore, excrement, mucous, vomit
+and the remains of dying mutants, you gag and choke and struggle to get out,
+only to find your way blocked by several mutants...
+~
+0 9 0
+5
+D4
+~
+~
+AB 0 20865
+S
+#20867
+A Corridor~
+You are advancing along a dark corridor that leads to the quarters of Lord
+Krothgar's blackguard.
+~
+0 9 0
+5
+D2
+~
+~
+0 0 20864
+D3
+~
+~
+AB 0 20868
+S
+#20868
+The Guard Common Room~
+Doors lead in all directions from this messy rec room. Blood, beer and food
+stain the straw-covered floor while decomposing human, orc and ogre corpse
+hang from hooks in the ceiling, evidently used as practice dummies.
+~
+0 8 0
+5
+D0
+~
+~
+AB 0 20870
+D1
+~
+~
+AB 0 20867
+D2
+~
+~
+AB 0 20869
+D3
+This door reads- "Upper level access. Authorised personnel only!~
+door~
+ABC 20858 20879
+D5
+~
+~
+0 -1 20906
+S
+#20869
+Guard Quarters~
+This rooms is full of messy bunks and snoring guards. Dice and cards are
+scattered across the filthy stone floor, and rats gnaw at the boots of the
+guards.
+~
+0 9 0
+5
+D0
+~
+~
+AB 0 20868
+S
+#20870
+Guard Quarters~
+This rooms is full of messy bunks and snoring guards. Dice and cards are
+scattered across the filthy stone floor, and rats gnaw at the boots of the
+guards.
+~
+0 9 0
+5
+D2
+~
+~
+AB 0 20868
+S
+#20871
+Guest Quarters~
+Down this southern corridor lie the guest rooms, where the many emissaries
+from the powerful races Krothgar is attempting to gain as allies currently
+reside. They frown upon intruders...
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 20850
+D2
+~
+~
+0 -1 20872
+S
+#20872
+Guest Quarters~
+Down this southern corridor lie the guest rooms, where the many emissaries
+from the powerful races Krothgar is attempting to gain as allies currently
+reside. They frown upon intruders...
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 20871
+D1
+~
+~
+AB 0 20874
+D2
+~
+~
+0 -1 20875
+D3
+~
+~
+AB 0 20873
+S
+#20873
+Guest Quarters~
+These quarters are well-decorated, with well-preserved tapestries and rugs,
+and carved wooden furniture. Alliances with other powers are crucial to
+Krothgar's plans, and he is doing his best to impress his diabolical guests.
+~
+0 8 0
+5
+D1
+~
+~
+AB 0 20872
+S
+#20874
+Guest Quarters~
+These quarters are well-decorated, with well-preserved tapestries and rugs,
+and carved wooden furniture. Alliances with other powers are crucial to
+Krothgar's plans, and he is doing his best to impress his diabolical guests.
+~
+0 8 0
+5
+D3
+~
+~
+AB 0 20872
+S
+#20875
+Guest Quarters~
+Down this southern corridor lie the guest rooms, where the many emissaries
+from the powerful races Krothgar is attempting to gain as allies currently
+reside. They frown upon intruders...
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 20872
+D1
+~
+~
+AB 0 20877
+D2
+~
+~
+AB 0 20878
+D3
+~
+~
+AB 0 20876
+S
+#20876
+Guest Quarters~
+These quarters are well-decorated, with well-preserved tapestries and rugs,
+and carved wooden furniture. Alliances with other powers are crucial to
+Krothgar's plans, and he is doing his best to impress his diabolical guests.
+~
+0 8 0
+5
+D1
+~
+~
+AB 0 20875
+S
+#20877
+Guest Quarters~
+These quarters are well-decorated, with well-preserved tapestries and rugs,
+and carved wooden furniture. Alliances with other powers are crucial to
+Krothgar's plans, and he is doing his best to impress his diabolical guests.
+~
+0 8 0
+5
+D3
+~
+~
+AB 0 20875
+S
+#20878
+Guest Quarters~
+These quarters are well-decorated, with well-preserved tapestries and rugs,
+and carved wooden furniture. Alliances with other powers are crucial to
+Krothgar's plans, and he is doing his best to impress his diabolical guests.
+~
+0 8 0
+5
+D0
+~
+~
+AB 0 20875
+S
+#20879
+The Fortress~
+You have entered the restricted area. Staircases run up and down from here,
+and a narrow passage stretches away to the west.
+~
+0 8 0
+5
+D1
+~
+~
+ABC 20858 20868
+D3
+~
+~
+0 -1 20880
+D4
+~
+~
+0 -1 20893
+D5
+~
+~
+0 -1 20887
+S
+#20880
+A Narrow Corridor~
+This corridor runs through the center of the Fortress to the mage towers,
+on the western wall of the fortress. A junction lies to the west.
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 20879
+D3
+~
+~
+0 -1 20881
+S
+#20881
+A Junction~
+You may head through doors to the north or south from here, or back east
+to the outer fortress. There is a sign on the south door, and a plaque on
+the northern.
+~
+0 8 0
+5
+E
+plaque~
+The plaque reads-
+
+       "T H E   E L E M E N T A L   L A B O R A T O R I E S "
+
+       Keep out!
+
+       - Axtraxes.
+~
+E
+sign~
+The sign reads-
+
+        The Quarters of the Archmage. Please do not enter. Important
+        experiment in progress. Leave messages with the guards.
+
+        - Axtraxes.
+~
+D0
+~
+~
+AB 0 20883
+D1
+~
+~
+0 -1 20880
+D2
+~
+~
+AB 0 20882
+S
+#20882
+The Quarters of the Archmage~
+You have barged into the quarters of Axtraxes, arch mage of Krothgar, and
+ruined his experiment. He's BOUND to be upset.
+~
+0 8 0
+5
+D0
+~
+~
+AB 0 20881
+S
+#20883
+The Elemental Laboratories~
+This vast room extends in all directions. You see vats, urns, beakers, jars,
+alembics and a hundred other items scattered about on desks, benches, chairs
+and floors. Everything appears rather damaged, as if someone (or something)
+has recently gone berserk in here...
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 20885
+D1
+~
+~
+0 -1 20886
+D2
+~
+~
+AB 0 20881
+D3
+~
+~
+0 -1 20884
+S
+#20884
+Western End of the Lab~
+This vast room extends in all directions. You see vats, urns, beakers, jars,
+alembics and a hundred other items scattered about on desks, benches, chairs
+and floors. Everything appears rather damaged, as if someone (or something)
+has recently gone berserk in here...
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 20883
+S
+#20885
+Northern End of the Lab~
+This vast room extends in all directions. You see vats, urns, beakers, jars,
+alembics and a hundred other items scattered about on desks, benches, chairs
+and floors. Everything appears rather damaged, as if someone (or something)
+has recently gone berserk in here...
+~
+0 8 0
+5
+D2
+~
+~
+0 -1 20883
+S
+#20886
+Eastern End of the Lab~
+This vast room extends in all directions. You see vats, urns, beakers, jars,
+alembics and a hundred other items scattered about on desks, benches, chairs
+and floors. Everything appears rather damaged, as if someone (or something)
+has recently gone berserk in here...
+~
+0 8 0
+5
+D3
+~
+~
+0 -1 20883
+S
+#20887
+The Lower Chambers~
+You have entered the lower levels of the Fortress, where hideous creatures
+lurk and evil priests engage in foul ceremonies to their demonic deities.
+~
+0 9 0
+5
+D1
+You see an ancient crypt~
+crypt door~
+ABC 0 20888
+D2
+~
+~
+0 -1 20889
+D4
+~
+~
+0 -1 20879
+S
+#20888
+An Ancient Crypt~
+This crypt has remained untouched for centuries. It houses the remains of
+the foul lich king who once ruled this Fortress and much of the surrounding
+land under an iron fist (literally, Krothgar's golem now wears it). You
+better hope he stayed dead...
+~
+0 9 0
+5
+D3
+~
+crypt door~
+0 0 20887
+S
+#20889
+The Unholy Temple~
+You have entered the grounds of the unholy temple of the Fortress. Screaming
+virgins are torn asunder in foul rituals upon altars soaked with the blood
+of thousands of innocents while evil priests look on and pray for a visitation
+from their gods.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 20887
+D1
+~
+~
+0 -1 20892
+D2
+~
+~
+0 -1 20891
+D3
+~
+~
+0 -1 20890
+S
+#20890
+The Unholy Temple~
+You have entered the grounds of the unholy temple of the Fortress. Screaming
+virgins are torn asunder in foul rituals upon altars soaked with the blood
+of thousands of innocents while evil priests look on and pray for a visitation
+from their gods.
+
+The altar is directly before you, and you see the high priest standing
+behind it, about to sacrifice another virgin.
+~
+0 9 0
+5
+D1
+~
+~
+0 -1 20889
+S
+#20891
+The Unholy Temple~
+You have entered the grounds of the unholy temple of the Fortress. Screaming
+virgins are torn asunder in foul rituals upon altars soaked with the blood
+of thousands of innocents while evil priests look on and pray for a visitation
+from their gods. Down from here lairs Jher, ally of Krogthar.
+~
+0 9 0
+5
+D0
+~
+~
+0 -1 20889
+D5
+~
+~
+0 -1 1
+S
+#20892
+The Hydra Lair~
+Here Krothgar keeps his hydra, which guards the treasure of the evil temple.
+It is a wild and ferocious beast, which will tear apart anything that enters
+its lair save Krothgar or the high priest.
+~
+0 9 0
+5
+D3
+~
+~
+0 -1 20889
+S
+#20893
+A Spiral Staircase~
+You are ascending a spiral staircase that winds up into the heights of the
+multitude of towers that adorn the heights of the Fortress.
+~
+0 8 0
+5
+D4
+~
+~
+0 -1 20894
+D5
+~
+~
+0 -1 20879
+S
+#20894
+A Landing~
+You have come to a landing, upon which are 4 doors leading in the cardinal
+directions. The staircase continues its climb in the center.
+~
+0 8 0
+5
+D0
+~
+~
+AB 0 20897
+D1
+~
+~
+AB 0 20898
+D2
+~
+~
+AB 0 20895
+D3
+~
+~
+AB 0 20896
+D4
+~
+~
+0 0 20899
+D5
+~
+~
+0 0 20893
+S
+#20895
+A Bedchamber~
+You have entered a luxurious boudoir full of expensive furniture and a wide
+variety of perfumes, unguents and other cosmetics. Piles of clothing are
+piled on the floor, as if someone had but recently gone through them in
+search of an outfit.
+~
+0 8 0
+5
+D0
+~
+~
+AB 0 20894
+S
+#20896
+A Bedchamber~
+You have entered a luxurious boudoir full of expensive furniture and a wide
+variety of perfumes, unguents and other cosmetics. Piles of clothing are
+piled on the floor, as if someone had but recently gone through them in
+search of an outfit.
+~
+0 8 0
+5
+D1
+~
+~
+AB 0 20894
+S
+#20897
+A Hall~
+You have entered a long dining hall filled with a huge table lined with
+high-backed chairs. Seated in these chairs are skeletons (the normal sort)
+clad in royal regalia- these are the many opponents that Krothgar has
+vanquished. He keeps their mortal remains here as trophies.
+~
+0 8 0
+5
+D2
+~
+~
+AB 0 20894
+S
+#20898
+A Bedchamber~
+You have entered a luxurious boudoir full of expensive furniture and a wide
+variety of perfumes, unguents and other cosmetics. Piles of clothing are
+piled on the floor, as if someone had but recently gone through them in
+search of an outfit.
+~
+0 8 0
+5
+D3
+~
+~
+AB 0 20894
+S
+#20899
+A Spiral Staircase~
+You are ascending a spiral staircase that winds up into the heights of the
+multitude of towers that adorn the heights of the Fortress.
+~
+0 8 0
+5
+D4
+~
+~
+0 -1 20900
+D5
+~
+~
+0 -1 20894
+S
+#20900
+The Throne Room~
+You have entered the Throne Room of Lord Krothgar. He sits here, upon his
+throne, located in the center of the 5 towers which emerge in all directions
+from this room. In each tower resides a powerful dragon, loyal allies of the
+Lord. Long wall hangings depict the many victories won by Krothgar, and
+in between them stand members of his elite guard, ready to defend their lord.
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 20901
+D1
+~
+~
+0 -1 20904
+D2
+~
+~
+0 -1 20903
+D3
+~
+~
+0 -1 20902
+D4
+~
+~
+0 -1 20905
+D5
+~
+~
+0 -1 20899
+S
+#20901
+Dragon Tower~
+In this tower rests a huge dragon, the largest of its kind. It will not
+appreciate being disturbed by a mortal such as yourself...
+~
+0 8 0
+5
+D2
+~
+~
+0 -1 20900
+S
+#20902
+Dragon Tower~
+In this tower rests a huge dragon, the largest of its kind. It will not
+appreciate being disturbed by a mortal such as yourself...
+~
+0 8 0
+5
+D1
+~
+~
+0 -1 20900
+S
+#20903
+Dragon Tower~
+In this tower rests a huge dragon, the largest of its kind. It will not
+appreciate being disturbed by a mortal such as yourself...
+~
+0 8 0
+5
+D0
+~
+~
+0 -1 20900
+S
+#20904
+Dragon Tower~
+In this tower rests a huge dragon, the largest of its kind. It will not
+appreciate being disturbed by a mortal such as yourself...
+~
+0 8 0
+5
+D3
+~
+~
+0 -1 20900
+S
+#20905
+Dragon Tower~
+In this tower rests a huge dragon, the largest of its kind. It will not
+appreciate being disturbed by a mortal such as yourself...
+~
+0 8 0
+5
+D5
+~
+~
+0 -1 20900
+S
+#20906
+Stables~
+Here, the blackguard keep their steeds, evil destriers bred on the plains
+of Hel itself.
+~
+0 9 0
+5
+D4
+~
+~
+0 -1 20868
+S
+#0
+
+
+
+#SPECIALS
+M 20802 spec_executioner
+M 20803 spec_cast_undead
+M 20804 spec_cast_mage
+M 20805 spec_cast_cleric
+M 20806 spec_guard
+M 20808 spec_cast_mage
+M 20809 spec_cast_cleric
+M 20810 spec_guard
+M 20811 spec_breath_fire
+M 20812 spec_breath_acid
+M 20813 spec_breath_frost
+M 20814 spec_breath_lightning
+M 20815 spec_breath_gas
+M 20816 spec_breath_fire
+M 20817 spec_cast_mage
+M 20818 spec_cast_cleric
+M 20823 spec_breath_any
+M 20824 spec_thief
+M 20825 spec_cast_undead
+M 20828 spec_breath_gas
+M 20829 spec_breath_fire
+M 20833 spec_cast_cleric
+M 20835 spec_cast_mage
+M 20837 spec_guard
+M 20838 spec_cast_mage
+M 20839 spec_thief
+M 20840 spec_cast_cleric
+M 20843 spec_cast_undead
+M 20844 spec_cast_mage
+M 20845 spec_executioner
+M 20846 spec_poison
+M 20847 spec_poison
+S
+
+
+
+#RESETS
+D 0 20850 5 1
+D 0 20851 0 1
+D 0 20851 2 1
+D 0 20852 2 1
+D 0 20853 0 1
+D 0 20854 0 1
+D 0 20854 1 1
+D 0 20854 2 1
+D 0 20855 2 1
+D 0 20856 0 1
+D 0 20857 3 1
+D 0 20858 0 1
+D 0 20859 0 1
+D 0 20859 1 1
+D 0 20859 2 1
+D 0 20859 3 1
+D 0 20860 1 1
+D 0 20861 2 1
+D 0 20862 3 1
+D 0 20863 3 1
+D 0 20864 1 1
+D 0 20864 2 1
+D 0 20865 0 1
+D 0 20865 5 1
+D 0 20866 4 1
+D 0 20867 3 1
+D 0 20868 0 1
+D 0 20868 1 1
+D 0 20868 2 1
+D 0 20868 3 2
+D 0 20869 0 1
+D 0 20870 2 1
+D 0 20872 1 1
+D 0 20872 3 1
+D 0 20873 1 1
+D 0 20874 3 1
+D 0 20875 1 1
+D 0 20875 2 1
+D 0 20875 3 1
+D 0 20876 1 1
+D 0 20877 3 1
+D 0 20878 0 1
+D 0 20879 1 2
+D 0 20881 0 1
+D 0 20881 2 1
+D 0 20882 0 1
+D 0 20883 2 1
+D 0 20887 1 2
+D 0 20894 0 1
+D 0 20894 1 1
+D 0 20894 2 1
+D 0 20894 3 1
+D 0 20895 0 1
+D 0 20896 1 1
+D 0 20897 2 1
+D 0 20898 3 1
+M 0 20841 8 20801 8
+E 0 20840 0 3
+M 0 20842 8 20804 8
+M 0 20841 8 20807 8
+E 0 20840 0 3
+M 0 20832 8 20811 8
+E 0 20843 0 16
+G 0 20842 0
+M 0 20829 4 20818 4
+E 0 20840 0 3
+M 0 20842 8 20822 8
+M 0 20832 8 20823 8
+E 0 20843 0 16
+G 0 20842 0
+M 0 20829 4 20824 4
+E 0 20840 0 3
+M 0 20829 4 20826 4
+E 0 20840 0 3
+M 0 20832 8 20827 8
+E 0 20843 0 16
+G 0 20842 0
+M 0 20842 8 20828 8
+M 0 20830 2 20831 2
+E 0 20841 0 16
+G 0 20842 0
+M 0 20829 4 20832 4
+E 0 20840 0 3
+M 0 20830 2 20833 2
+E 0 20841 0 16
+G 0 20842 0
+M 0 20832 8 20839 8
+E 0 20843 0 16
+G 0 20842 0
+M 0 20841 8 20843 8
+E 0 20840 0 3
+M 0 20842 8 20846 8
+M 0 20841 8 20849 8
+E 0 20840 0 3
+M 0 20820 8 20852 8
+E 0 20830 0 10
+E 0 20844 0 3
+M 0 20821 8 20853 8
+E 0 20830 0 10
+E 0 20844 0 3
+M 0 20820 8 20855 8
+E 0 20830 0 10
+E 0 20844 0 3
+M 0 20821 8 20856 8
+E 0 20830 0 10
+E 0 20844 0 3
+M 0 20818 1 20857 1
+E 0 20830 0 10
+E 0 20844 0 3
+M 0 20839 4 20860 4
+E 0 20851 0 12
+E 0 20852 0 17
+M 0 20838 1 20861 1
+E 0 20849 0 16
+E 0 20850 0 18
+M 0 20839 4 20862 4
+E 0 20851 0 12
+E 0 20852 0 17
+M 0 20846 1 20865 1
+M 0 20822 6 20866 6
+M 0 20810 8 20868 8
+E 0 20815 0 5
+E 0 20816 0 16
+E 0 20817 0 6
+G 0 20858 0
+M 0 20810 8 20869 8
+E 0 20815 0 5
+E 0 20816 0 16
+E 0 20817 0 6
+G 0 20858 0
+M 0 20810 8 20870 8
+E 0 20815 0 5
+E 0 20816 0 16
+E 0 20817 0 6
+G 0 20858 0
+M 0 20836 2 20871 2
+E 0 20847 0 16
+E 0 20848 0 5
+M 0 20831 3 20873 3
+E 0 20841 0 16
+G 0 20842 0
+M 0 20833 1 20874 1
+E 0 20841 0 16
+G 0 20842 0
+M 0 20837 1 20875 1
+E 0 20841 0 16
+G 0 20842 0
+M 0 20835 2 20876 2
+E 0 20845 0 16
+G 0 20846 0
+M 0 20840 1 20877 1
+E 0 20853 0 12
+E 0 20854 0 8
+E 0 20855 0 5
+E 0 20856 0 16
+E 0 20857 0 6
+M 0 20847 1 20878 1
+M 0 20804 1 20882 1
+E 0 20809 0 17
+E 0 20810 0 12
+G 0 20811 0
+M 0 20816 1 20883 1
+G 0 20828 0
+M 0 20826 1 20884 1
+G 0 20837 0
+M 0 20809 3 20884 3
+E 0 20821 0 12
+E 0 20822 0 17
+G 0 20823 0
+M 0 20827 1 20885 1
+G 0 20838 0
+M 0 20809 3 20885 3
+E 0 20821 0 12
+E 0 20822 0 17
+G 0 20823 0
+M 0 20828 1 20886 1
+G 0 20839 0
+M 0 20809 3 20886 3
+E 0 20821 0 12
+E 0 20822 0 17
+G 0 20823 0
+M 0 20844 1 20888 1
+M 0 20808 4 20889 4
+E 0 20818 0 16
+E 0 20819 0 12
+E 0 20820 0 6
+M 0 20805 1 20890 1
+E 0 20812 0 16
+E 0 20813 0 12
+E 0 20814 0 6
+M 0 20808 4 20890 4
+E 0 20818 0 16
+E 0 20819 0 12
+E 0 20820 0 6
+M 0 20808 4 20891 4
+E 0 20818 0 16
+E 0 20819 0 12
+E 0 20820 0 6
+M 0 20823 1 20892 1
+O 0 20833 0 20892
+P 0 20834 1 20833 1
+M 0 20845 1 20893 1
+M 0 20802 1 20894 1
+E 0 20806 0 16
+M 0 20819 1 20895 1
+E 0 20831 0 12
+E 0 20832 0 17
+M 0 20825 1 20896 1
+E 0 20836 0 12
+O 0 20835 0 20896
+M 0 20803 1 20897 1
+E 0 20807 0 16
+G 0 20808 0
+M 0 20843 1 20898 1
+E 0 20836 0 12
+M 0 20801 2 20899 2
+E 0 20804 0 16
+E 0 20805 0 6
+M 0 20800 1 20900 1
+E 0 20800 0 5
+E 0 20801 0 16
+E 0 20802 0 11
+E 0 20803 0 6
+M 0 20806 4 20900 4
+E 0 20815 0 5
+E 0 20816 0 16
+E 0 20817 0 6
+M 0 20812 1 20901 1
+E 0 20824 0 11
+E 0 20825 0 16
+E 0 20826 0 9
+E 0 20827 0 12
+M 0 20813 1 20902 1
+E 0 20824 0 11
+E 0 20825 0 16
+E 0 20826 0 9
+E 0 20827 0 12
+M 0 20814 1 20903 1
+E 0 20824 0 11
+E 0 20825 0 16
+E 0 20826 0 9
+E 0 20827 0 12
+M 0 20815 1 20904 1
+E 0 20824 0 11
+E 0 20825 0 16
+E 0 20826 0 9
+E 0 20827 0 12
+M 0 20811 1 20905 1
+E 0 20824 0 11
+E 0 20825 0 16
+E 0 20826 0 9
+E 0 20827 0 12
+M 0 20807 4 20906 4
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

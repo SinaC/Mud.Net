@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Tests.Mocking;
 
 namespace Mud.Server.Tests
@@ -14,7 +18,7 @@ namespace Mud.Server.Tests
         public void AddItem_EachBlueprint_Test()
         {
             WorldMock world = new WorldMock();
-            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint {Id = 1, Name = "room1"}, new Area.Area("Area", 1, 100, "builders", "credits"));
+            IRoom room = world.AddRoom(Guid.NewGuid(), new RoomBlueprint {Id = 1, Name = "room1"}, new Mock<IArea>().Object);
             var itemBlueprintBaseType = typeof(ItemBlueprintBase);
             var itemBlueprintTypes = itemBlueprintBaseType.Assembly.GetTypes().Where(t => !t.IsAbstract && t.IsAssignableFrom(itemBlueprintBaseType));
 

@@ -1,0 +1,2083 @@
+#AREADATA
+Name Cavern of Heroes~
+Builders Sinac~
+VNUMs 15800 15899
+Credits {{40 65)  Satin  Cavern of Heroes~
+Security 5
+Flags 0
+End
+
+
+
+#MOBILES
+#15800
+cloud fugitive creature~
+the Cloud Fugitive~
+A creature wreathed in roiling black cloud glares about malevolently
+~
+Once one of the masters of storms, now in flight from the overworld kin
+that the Cloud Fugitive once served with, he sought to cover the earth
+in dense mist, defying the stars and sun, praising the dull silver of
+the coated heavens.  Stripped of much power, he still retains some of
+his abilities, and dreams that the spoils brought with the Maiden of Blood
+will  raise him to his old heights.
+~
+unique~
+0
+ABFT 0 0 0 -750 0
+46 46 43d10+3868 46d10+100 46d10+100 5d8+17 none
+-17 -17 -17 -11
+CDEI 0 0 0
+stand stand male 1600
+CLM ABCDEFGHIJK medium unknown
+#15801
+Nulthirren sorceress~
+Nulthirren~
+Nulthirren the sorceress tosses glowing blue flame between her hands.
+~
+Nulthirren is a master of both fire and ice, using flame to slay and ice
+to entrap those she would only capture.  Under the guidance of the Autumn
+Sage, she has achieved powers surpassing that which most mortals may
+even dream of.
+~
+human~
+0
+ABT 0 0 0 750 0
+46 46 43d10+3868 46d10+100 46d10+100 5d8+17 none
+-17 -17 -17 -11
+CDEI 0 0 0
+stand stand female 2000
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15802
+humanoid thief lore~
+the Thief of Lore~
+A humanoid cloaked in shadowy darkness lurks at the edge of vision.
+~
+She now known as the Thief of Lore was once the Spring Sage, serving with
+the other three servants of the gods placed to keep balance between
+divinities and man.  The knowledge intoxicated her, replacing her ethic of
+goodness and balance with a hunger for learning that could be sated only
+by raiding the most private libraries.  The Maiden of Blood has promised,
+and given, her the first choice of all writings that they capture, a
+bargain that has pleased her well.
+~
+human~
+0
+ABCS 0 0 0 -1000 0
+50 50 50d10+4500 50d10+100 50d10+100 5d8+19 none
+-20 -20 -20 -13
+CDEI 0 0 0
+stand stand female 2000
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15803
+camlyrr bard artificer~
+Camlyrr~
+The bard and artificer Camlyrr smiles gently, even in midst of battle.
+~
+Camlyrr has seen too much, and bared too much of her soul, to be anything
+more than a serene being.  The soft curve of her russet mouth has brought
+her many lovers, all of whom she has left the more peaceful and happy for
+her presence, and wistfully but willingly accepted her departure.
+Of all those who serve the Autumn Sage, Camlyrr is the most gifted maker of
+artifacts.  It is said that her stories and song are  enough to rouse even
+inanimate cold stone to service.
+~
+human~
+0
+ABT 0 0 0 1000 0
+50 50 50d10+4500 50d10+100 50d10+100 5d8+19 thrust
+-20 -20 -20 -13
+CDEI 0 0 0
+stand stand female 5000
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15804
+alabaster fleshed nobleman sunless duke~
+the Sunless Duke~
+An alabaster fleshed nobleman with ravenwing hair flashes dark glances.
+~
+Unsubstantiated rumors abound as to how the gentle Duke Helarion became the
+sun fearing madman that he is.  Some claim that it was that his beloved
+Duchess Armorrine abandoned him for another.  Others claim that it was her
+death that caused him to seek the path of death in life.  Still more say
+that it was initially a harmless allergy, amplified as he avoided the sun
+more and more, until the slightest burn caused him agony.
+Regardless, it is certain that he drains the heat and energy of his
+victims, leaving them cold and pallid should they live, and withered husks
+should they die.
+~
+human~
+0
+ABT U 0 0 -1000 0
+52 52 50d10+5052 52d10+100 52d10+100 5d8+21 none
+-22 -22 -22 -14
+CDEI 0 C 0
+stand stand male 6500
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15805
+illusionist serac~
+Serac~
+The mighty illusionist Serac curls his fingers about his mana.
+~
+Serac regards it as both an aesthetic challenge and a moral imperative to
+use his illusionary skills to imprison and reform his enemies, rather than
+destroying them.  However, he is not so fainthearted as to shy from killing
+abominations such as the Maiden of Blood, a creature that clearly cannot be
+purified.
+~
+human~
+0
+ABT 0 0 0 1000 0
+52 52 50d10+5052 52d10+100 52d10+100 5d8+21 none
+-22 -22 -22 -14
+CDEI 0 0 0
+stand stand none 5200
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15806
+orc smoke form~
+the Orc of the Smoke~
+The hazy form of a massive orc hovers over the ground.
+~
+This nameless orc was one of the test subjects for the less scrupulous magi
+developing the Smoke of Knowledge.  The early forms that the smoke took
+were unstable, transforming a weak, battered orc into a barely containable
+force of malevolence.  He was persuaded by the Maiden of Blood to join her
+forces, by her promises of wealth and carnage.
+~
+orc~
+0
+ABT J 0 0 -1000 0
+55 55 50d10+5880 55d10+100 55d10+100 6d8+23 none
+-25 -25 -25 -16
+CDEI 0 LQ 0
+stand stand male 5800
+AHMV ABCDEFGHIJK medium unknown
+#15807
+lionotil paladin golden~
+Lionotil~
+The golden haired paladin Lionotil raises arms in readiness.
+~
+Lionotil has a gentle, sad countenance, hardened by the cruelties he has
+fought against, though his soul has never bowed to them. If it is possible
+to spare his enemy, if he believes they can be brought to justice rather
+than death, he will do so, but he will also strike as he must to defend
+himself.
+~
+human~
+0
+ABT 0 0 1 1000 0
+54 54 50d10+5604 54d10+100 54d10+100 6d8+23 none
+-24 -24 -24 -16
+CDEI 0 0 0
+stand stand male 7000
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15808
+death nymph~
+Death's Nymph~
+A lusciously curved nymph with nacreous hair and slate eyes undulates here.
+~
+Once a delicate forest creature named Calandra, she caught the eye of=
+ruler of the underworld, who corrupted her from the fair, golden haired and
+azure eyed faerie she once was, into the hard eyed, rippling black haired
+vamp she is now.  She is known only as Death's Nymph, and her presence is a
+sign of despair.
+~
+human~
+0
+ABFT 0 0 0 -1000 0
+56 56 50d10+6156 56d10+100 56d10+100 6d8+24 none
+-26 -26 -26 -17
+CDEI 0 M 0
+stand stand female 9000
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15809
+valrisaye priest~
+Valrisaye~
+A chestnut haired priestess exudes the calmness of a storm's eye.
+~
+Valrisaye is a follower of the goddess of Fate, and as such will only
+interfere when the most dire imbalance threatens.  Her loveliness has
+attracted many suitors, as does her rank as a king's daughter, but she
+ignores all, devoted entirely to her goddess.
+~
+human~
+0
+ABQT 0 0 0 1000 0
+53 53 50d10+5328 53d10+100 53d10+100 5d8+22 none
+-23 -23 -23 -15
+CEI 0 0 0
+stand stand female 6800
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15810
+wraith spider~
+the Wraith of the Spiders~
+A wraithlike form trails long, ropy white webs on the ground.
+~
+The Wraith of the Spiders is one of the tentacles of an evil goddess who
+inhabits the underworld.  Long lashes of sticky white web drift from its
+clenched claws.  Burning sullen eyes gleam from its shapeless face,
+shuddering with malevolence.
+~
+human~
+0
+ABT 0 0 0 -1000 0
+48 48 46d10+4184 48d10+100 48d10+100 5d8+18 none
+-19 -19 -19 -12
+CEI 0 0 0
+stand stand none 0
+BHOV ABCDEFGHJK medium unknown
+F aff2 K
+F for AM
+F par I
+#15811
+exengor warrior~
+Exengor~
+A fury eyed warrior gives impression of barely leashed skill.
+~
+Exengor suffered much at the hands of the callous.  Thirsting for
+vengeance yet able to restrain her desire to eradicate evil, she has become
+one of the Autumn Sage's most feared warriors. Inspired by the Sage's
+serenity, she shows much gentleness off the battlefield, but when her
+weapon lies in her hands, she cannot be trusted to deal subtly.
+~
+human~
+0
+ABC 0 0 0 1000 0
+52 52 50d10+5052 52d10+100 52d10+100 5d8+21 none
+-22 -22 -22 -14
+0 0 0 0
+stand stand none 5900
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15812
+scarlet winter~
+Scarlet Winter~
+A swirling flash of scarlet and snow flurries viciously through the air.
+~
+The being known as Scarlet Winter possesses a humanoid form, though also
+often takes the amorphous shape of a cloud of crimson and ivory mist,
+encompassing victims and leaving them coated in frost.
+~
+human~
+0
+ABT 0 0 0 -1000 0
+60 60 50d10+7260 60d10+100 60d10+100 7d7+28 cleave
+-30 -30 -30 -20
+CDI 0 0 0
+stand stand female 10100
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15813
+irath form~
+Irath~
+The lithe form of Irath waits in readiness for action.
+~
+Irath was once an assassin and murderer, though he was brought to desire
+for balance by the Autumn Sage.  The Sage spirited Irath from the dank
+cell in which he rotted, cleansing his heart and soul, that he might turn
+his extraordinary speed and precision to her goals.  Some more slytongued
+claim that their relationship is more than a professional one, though no
+true signs have ever been seen to that effect.
+~
+human~
+0
+ABST PQ 0 0 1000 0
+60 60 50d10+7260 60d10+100 60d10+100 7d7+28 none
+-30 -30 -30 -20
+0 0 0 0
+stand stand male 9500
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15814
+maiden blood scarlet~
+the Maiden of Blood~
+A scarlet eyed maiden snarls in vicious fury.
+~
+It is said that the Maiden of Blood is descended of a union between=
+Master of the Night, who fell in lust upon a mortal woman of  great, but
+undeveloped, powers.  The Maiden was born with enormous talent and none to
+teach it to her.  Consequently she used it for great ill, rousing the
+forces of purity to strive against her.
+She has great powers over negative matter, the decay of nature,  and
+undead, which she has used to craft artifacts of cruelty  for her
+servants.
+~
+human~
+0
+ABT 0 0 0 -1000 0
+60 65 50d10+8960 60d11+110 60d11+110 8d6+32 none
+-35 -35 -35 -23
+CDEI 0 CD 0
+stand stand female 12000
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#15815
+autumn sage woman~
+the Autumn Sage~
+A dazzlingly lovely woman with hair like pale fire raises hands in invocation.
+~
+The Autumn Sage is one of four powerful mages gifted with incredible
+longevity by the gods to serve as custodians of elemental magics and
+keepers of the balance.  Her allies are equipped with the finest
+artifacts that her powers allow, formed of the forces of the stars,
+earth, and elements, and infused with great purity.
+~
+human~
+0
+ABT 0 0 0 1000 0
+60 65 50d10+8960 60d11+110 60d11+110 8d6+32 none
+-35 -35 -35 -23
+CDEI 0 N 0
+stand stand female 11000
+AHMV ABCDEFGHIJK medium unknown
+F aff2 K
+#0
+
+
+
+#OBJECTS
+#15800
+onyx eyed serpent ring eating tail~
+an onyx eyed serpent eating its tail~
+A tail-eating serpent ring, cunningly wrought of platinum with onyx eyes, lies here.~
+onyx~
+jewelry GJ AB
+0 0 0 0 0
+45 1 1920 P
+Y
+char 'AC' 0 -5
+Y
+char 'intelligence' 0 2
+Y
+char 'mana' 0 25
+E
+ring~
+It appears to be a miniature version of the mythic world serpent, that
+girdles the planes in its coils.
+~
+#15801
+long spear rosewood thornbreath~
+a long spear of {mrosewood{x named {mThornbreath{x~
+A long spear of rosewood, tipped with a thick glinting thorn, lies here.~
+wood~
+weapon GJ AN
+staff(weapon) 8 5 stab H
+45 8 1060 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+Y
+char 'strength' 0 2
+E
+spear~
+Thornbreath is scented with dead, ancient roses, their ghosts shrieking for
+release from their bound servitude.  It has long been a weapon of the
+callous, wielded by antipaladins and warlords.
+~
+#15802
+shroud living mist~
+a {Dshroud{x of {Cliving mist{x.~
+A clammy shroud of living boiling mist hovers here.~
+air~
+armor J AK
+50 50 50 25 0
+45 1 4500 P
+E
+shroud~
+Fingers of mist writhe in a confined shape, conforming to the outline of
+a humanoid body.  Wisps of cloud trail moisture over the ground as it seeks
+its master, the Cloud Fugitive.  
+~
+#15803
+tinkling golden bracelet charms fugitive~
+the Charms of the Fugitive~
+A tinkling golden bracelet dangling with tiny charms is coiled here.~
+gold~
+jewelry GJ AM
+0 0 0 0 0
+45 1 1040 P
+Y
+char 'AC' 0 15
+Y
+char 'saving throw' 0 1
+Y
+char 'intelligence' 0 1
+Y
+char 'wisdom' 0 1
+Y
+char 'dexterity' 0 1
+Y
+char 'damroll' 0 1
+Y
+char 'hitroll' 0 1
+E
+charms~
+Elemental talismen of delicately figured gold hang from a golden braid.
+Each talisman represents an aspect of the storm, ranging from the golden
+bubble of clouds to slender forks of gilded lightning.  Though each
+talisman is weak by itself, their combination is quite potent.
+~
+#15804
+small talon-spread falcon gold jewels magian~
+the Magian Falcon~
+A small talon-spread falcon, crafted of {Ygold{x and {bjewels{x, perches here.~
+gold~
+treasure GK AQ
+0 0 0 0 0
+45 5 1110 P
+Y
+char 'saving throw' 0 -4
+Y
+char 'mana' 0 20
+Y
+char 'wisdom' 0 2
+E
+falcon~
+In ancient days, a rich land was ceded to a group of noble knights in
+exchange for a tithe of one falcon per year, as a sign that the land still
+lay in possession of its new emperor.  The knights were so pleased by the
+trivial nature of their new emperor's demand that they chose to gift him
+with a falcon created of their most precious gems and purest gold, as a sign
+of their esteem.
+The falcon never reached its destination, stolen again and again by those who
+sought its riches.
+~
+#15805
+bracers blue flaming ice~
+a pair of bracers of {cblue {Bflaming {cice{x~
+A pair of bracers carved of ice, shining with blue flame, lie here.~
+ice~
+armor GK AM
+30 30 30 15 0
+45 5 4500 P
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 2
+Y
+char 'saving throw' 0 -3
+E
+bracers~
+Ice from the heart of a glacier, coldly radiant with the frozen light of
+the eternal stars, has been hewn into elegant bracers of burning frost.
+ frost.
+ 
+~
+#15806
+acinth headed mahogany spear Longblaze~
+a {yjacynth headed spear named {yLong{rblaze{x.~
+A spear with a long mahogany shaft and jacinth tip blazes bright on the ground.~
+flower~
+weapon GK AN
+staff(weapon) 9 9 pierce A
+50 8 870 P
+Y
+char 'wisdom' 0 2
+#15807
+silvery runed staff Lightcaster~
+You get a silvery runed staff named Light{ycaster{x.~
+A slender staff of runed silver is thrust into the ground~
+silver~
+staff GK AO
+45 5 5 'lightning bolt' 0
+45 15 4500 P
+#15808
+mist prismatic joyful tears rainbow~
+the joyful tears of the {rR{Ra{Yi{Gn{Bb{bo{mw{x~
+A mist of prismatic tears floats blissfully above the ground.~
+glass~
+potion GK AK
+50 'bless' 'dispel evil' 'protection evil' ''
+50 1 0 P
+Y
+char 'saving throw' 0 -2
+Y
+char 'AC' 0 -2
+Y
+char 'mana' 0 15
+E
+tear~
+The last drops of rain that fall before the sun breaks free of the clouds
+are infused with the misery of the rainbow, thwarted by the roiling thunder
+from displaying its brilliance.  The rainbow sobs throughout the storm, with
+sorrow first, then joy as the tumult breaks and it may span the heavens. 
+These prismatic droplets of its happiness are said to give great luck to any
+pure of heart enough to capture them.
+~
+#15809
+circlet riddledelver lapis lazuli burnished gold~
+the {blapis lazuli{x circlet of the Riddledelver~
+A circlet of burnished {ygold{x and {blapis lazuli{x emits a soft ringing.~
+gold~
+armor GK AE
+13 13 12 2 0
+49 2 4900 P
+Y
+char 'damroll' 0 3
+Y
+char 'hitroll' 0 3
+Y
+char 'intelligence' 0 1
+Y
+char 'wisdom' 0 1
+Y
+char 'saving throw' 0 -5
+E
+circlet~
+Crafted by the bard Camlyrr, this circlet vests its wearer with an almost supernatural ability to divine the most tangled truths.
+~
+#15810
+long slender glass rapier rose hilt famestrider~
+{yFamestrider,{x a {cglass{x rapier with a {mrose hilt{x~
+A long, slender rapier with a glass blade and rose hilt lies here.~
+glass~
+weapon GK AN
+sword 7 13 thrust D
+49 6 2100 P
+E
+rapier~
+A full blown dewy rose has been encased in glass and fused to the long,
+glittering blade extending from the hilt.  It was crafted by the artificer
+and bard Camlyrr under the tutelage of the Autumn Sage, and to touch it
+brings the tingle of life.
+~
+#15811
+dark indigo steel dagger bittertongue~
+a {bdark indigo{x dagger named {bBittertongue{x~
+A dagger forged of indigo steel, named Bittertongue, throbs here.~
+steel~
+weapon GJ AN
+dagger 9 8 slash BH
+49 1 1490 P
+Y
+char 'hitroll' 0 1
+E
+dagger~
+Bittertongue is crafted of indigo steel, long bladed and delicately
+pointed, a weapon to stab vital organs, though with a wickedly gleaming
+edge to slash with.
+~
+#15812
+savagely bright oval fire opal wastes~
+the Opal of the Wastes~
+A savagely bright oval of {Rfire opal{x lies here in the dust.~
+gem~
+gem GT AO
+0 0 0 0 0
+49 1 2300 P
+Y
+char 'hp' 0 20
+Y
+char 'mana' 0 24
+E
+opal~
+This opal was in the possession of the master thief Asperon when he
+battled the succubus Cynebura in what was a green land when they began, now
+the great wasted desert of the south.  A piece of the very soul of that
+earth is trapped within this bri brilliant gem.
+~
+#15813
+pool dark mantling glittering shadowy rainwater~
+mantling of {cglittering {dshadowy {crain{x~
+A pool of dark rainwater glitters with internal motes of light.~
+<Not Entered>~
+armor GJ AI
+12 13 13 2 0
+50 1 5000 P
+Y
+char 'hp' 0 50
+E
+mantling~
+Water caught from the mouths of the clouds, dark with their shadow and
+infused with the sunlight from the sun above, was fused into this elemental
+armoring.
+~
+#15814
+singing bird gold enameling~
+a singing bird of {ygold enameling{x~
+A tiny golden bird, smithed and finely enameled, opens its throat in song.~
+gold~
+staff GK AO
+49 3 3 'charm person' 0
+49 5 4900 P
+E
+bird~
+This is the manner of bird crafted by royal goldsmiths, to be set upon a
+branch to sing, and keep a drowsy Emperor awake.
+~
+#15815
+mail shirt knife edged scorpion tongues~
+a mail shirt sewn of knife edged scorpion tongues~
+A mail shirt, sewn of knife endged scorpion tongues, glints nastily here.~
+steel~
+armor GJ AD
+14 13 12 2 0
+55 11 5500 P
+Y
+char 'dexterity' 0 -4
+Y
+char 'hp' 0 60
+Y
+char 'strength' 0 1
+Y
+char 'saving throw' 0 -1
+E
+shirt~
+Thousands or tens of thousand scorpions were muted to construct this
+rattling shirt of mail.
+~
+#15816
+mantle crumpled swirling nacreous mirk~
+a mantle of {Dswirling{x nacreous {Dmirk{x~
+A mantle of crumpled nacreous mirk is pooled on the ground.~
+<Not Entered>~
+armor GJ AK
+31 31 31 15 0
+55 1 5500 P
+E
+mantle~
+Primal negative energy is fused into this long, flowing cloak of darkness, 
+swirling with cloudy nebulae and inky pinpoints of the black holes of
+space.
+~
+#15817
+massive mace matte adamantite sunbreaker~
+a mace of matte adamantite named Sunbreaker~
+A massive mace, crafted of dull, matte adamantite, thrums on the ground.~
+adamantite~
+weapon GJ AN
+mace 11 8 pound BC
+55 8 1780 P
+E
+mace~
+Said to have been heated by searing, magnified rays of the sun, curdled
+into blackness to sear the hearts of the pure, Sunbreaker is vicious, blood smeared instrument of chaos and destruction.
+~
+#15818
+fang sunset mottled dusk~
+a {Wfang{x of {ysunset m{Do{yt{Dt{yl{De{yd dusk{x~
+A glinting fang shaped shard of sunset mottled dusk is coiled on a chain of star fragments.~
+<Not Entered>~
+jewelry GJ AC
+0 0 0 0 0
+55 1 2400 P
+Y
+char 'constitution' 0 3
+Y
+char 'damroll' 0 2
+Y
+char 'hitroll' 0 5
+#15819
+nine tailed violet lash mindfog~
+a nine tailed {mviolet{x lash named {mMindfog{x~
+A nine tailed violet whip is coiled tightly on the ground.~
+<Not Entered>~
+weapon GK AN
+whip 5 19 whip G
+55 6 1340 P
+E
+lash~
+When Mindfog moves near flesh, long ghostly barbs reach out from it, to
+stun that whom it strikes with its energies.  Created primarily as a
+defensive weapon, it can also kill if the need is there.
+ 
+~
+#15820
+band drowsing lock dark hair~
+a band of drowsing lock~
+A band of drowsing dark hair is coiled on the ground.~
+<Not Entered>~
+jewelry GK AE
+0 0 0 0 0
+55 1 940 P
+Y
+char 'wisdom' 0 3
+E
+brand~
+A coil of gleaming dark hair emits a soft, soothing tone when caressed. It seems infused with serene energies, clarifying the mind and raising the ability of any who touch it to comprehend complex matters with subtlety and ease.
+~
+#15821
+bracelet glittering blue glass spangles~
+a bracelet of glittering {Bblue glass spangles{x~
+A bracelet of glittering {Bblue glass spangles{x, threaded with silver, is coiled here.~
+glass~
+jewelry GK AM
+0 0 0 0 0
+50 1 1800 P
+Y
+char 'constitution' 0 2
+Y
+char 'hitroll' 0 5
+Y
+char 'damroll' 0 5
+E
+bracelet~
+This glass has been magicked into near unbreakability, while still
+retaining a hairthin keen edge.
+~
+#15822
+alabaster staff swans~
+the alabaster staff of Swans~
+An alabaster staff carved with shallow bas relief of swans lies here.~
+stone~
+staff G AO
+50 5 5 'fly' 0
+55 6 5500 P
+E
+staff~
+Wings and glittering dark eyes form a montage on the surface of this long, slender staff.  The stone is highly polished, bearing a grip of filigreed gold and molded creamy calfskin.  A delicate illumination radiates from the pearly orb at the tip.
+~
+#15823
+necklace aery delicate silver breath~
+a necklace of {caery{x silver breath~
+A necklace of delicate silver with the whorls of breath is coiled here.~
+silver~
+jewelry GK AC
+0 0 0 0 0
+55 1 3900 P
+Y
+char 'saving throw' 0 -1
+Y
+char 'mana' 0 40
+Y
+char 'intelligence' 0 2
+E
+necklace~
+The breath of a pure goddess was exhaled onto a vein of primal silver,
+deep within the earth, in the days of its formation.  Much later,
+underdwellers happened upon it, to marvel at its intricacy and loveliness.
+Jewelry formed of the bubbling, filigreed metal is highly prized, both for
+its aesthetic beauty and for its mystic properties.
+~
+#15824
+small unassuming packet smoke knowledge~
+the {DSmoke{x of Knowledge~
+A small, unassuming packet of gray dust lies here.~
+<Not Entered>~
+pill GJ A
+50 'detect hidden' 'detect invis' '' ''
+50 1 2400 P
+#15825
+girdle long twisted coils smoke~
+a girdle of {Dtwisted{x coils of smoke~
+A coil of twisting, writhing smoke leaves dim trails of carbon on the ground.~
+<Not Entered>~
+armor GJ AL
+24 24 24 2 0
+52 1 5200 P
+Y
+char 'constitution' 0 2
+Y
+char 'hp' 0 30
+#15826
+rapier interlocking bone shards Scarweaver~
+a rapier of bone named {RScarweaver{x~
+A rapier of interlocking bone shards rolls about on the ground.~
+bone~
+weapon G AN
+sword 4 25 slash CH
+60 2 2700 P
+E
+rapier~
+Bleached bone forms this long pointed rapier, with smears of blood varying
+from ancient dark streaks to new ruddy drops.  Its tip is wickedly pointed,
+ideal for either transfixing opponents or merely tracing deep ruts of pain
+into their flesh.
+ideal for either transfixing opponents or merely tracing deep ruts of pain into their flesh.
+~
+#15827
+piece copper plate deathfast~
+the {rcopper plate{x of the {DDeathfast{x~
+A piece of copper plate, patinaed with age and decay, lies here~
+copper~
+armor GJ AD
+13 14 12 2 0
+52 25 5200 P
+Y
+char 'moves' 0 25
+Y
+char 'hp' 0 25
+E
+plate~
+The necromancer Zolare created magical armor for his one hundred finest
+troops of undead.  It was formed from copper for its regenerative
+properties.  When Zolare suffered a massive defeat at the hands of the
+paladins of the Hand of Justice Belekrom, many pieces of that armor were
+stolen by Zolare's minions for their own use.
+~
+#15828
+heap silver gold worked flaming silk mantle blazing glory~
+the mantle of {yblazing glory{x~
+A heap of silver and gold worked flaming silk is crumpled here.~
+gold~
+armor GIK AK
+30 15 30 15 0
+55 1 5500 P
+Y
+char 'strength' 0 1
+Y
+char 'hitroll' 0 5
+Y
+char 'damroll' 0 5
+E
+mantle~
+This cloak is worked with heavy threading of {Ygold{x and silver, clasped
+with a bright {Rfire{x opal.  It is said to have been passed from kings and
+warlords and pontiffs, all craving the battle puissance it grants.
+~
+#15829
+elegantly crafted red gold sword Avengerfire~
+an elegantly crafted sword named {yAvenger{Rfire{x~
+An elegantly crafted sword of gleaming red gold casts bright radiance.~
+gold~
+weapon GK AN
+sword 9 12 slash A
+55 5 2700 P
+E
+sword~
+Forged of red gold and alloyed with pure mithril, Avengerfire was imbued
+with the souls of long past paladins to be wielded by the virtuous as they
+struggled against the unrighteous.  It was carried by the immaculate
+warrior Maximillian in his worship of Deliana, as he fought against the
+forces of her evil sister Eringarathe.
+~
+#15830
+suit frosted golden armor~
+a suit of frosted {ygolden armor{x~
+A suit of armor, covered in delicate traceries of golden frost, stands here~
+gold~
+armor GK AD
+15 12 12 2 0
+52 25 5200 P
+Y
+char 'mana' 0 20
+Y
+char 'hp' 0 30
+E
+armor~
+Though steel beneath, the surface of the armor is covered in a filigree of
+pure, soft gold, covered in a transparent protective force.
+~
+#15831
+runed bright amber horn morning~
+the amber horn of the Morning~
+A horn of runed bright amber lies here gleaming.~
+amber~
+staff GK AO
+50 3 3 'heal' 0
+52 5 5200 P
+E
+horn~
+The horn of the Morning is vested with healing energies, both cool and warm from dew and sunrise.
+~
+#15832
+blossom swirling storm petals~
+a {Mblossom{x with {mswirling storm petals{x~
+A long stemmed blossom with petals of swirling storm cloud lies here.~
+flower~
+jewelry G AC
+0 0 0 0 0
+53 1 2000 P
+Y
+char 'mana' 0 60
+E
+petal~
+The blossom flickers with gold and silver veins over its black and white marbled surface, as streaks of electricity and sheet lightning flare over the soft dewy petals.
+~
+#15833
+coil wickedly glittering black wire garotte Dreadsong~
+a coil {Dglittering black wire {xnamed {DDreadsong{x~
+A coil of wickedly glittering black wire lies in the dust.~
+<Not Entered>~
+weapon GJ AN
+whip 7 12 whip CE
+54 2 1340 P
+E
+coil~
+Dreadsong is a vicious garotte with a long history of violence, used to
+slaughter indiscriminate innocents.  It emits a high pitched, keening wail
+when it nears one that is senses is on the brink of death, thus earning its
+gruesome name. 
+~
+#15834
+sheath silky sea foam~
+a sheath {csilky {bsea {cfoam{x~
+A slender sheath of silky sea foam bubbles on the ground.~
+<Not Entered>~
+armor G AD
+13 13 13 2 0
+53 1 5300 P
+Y
+char 'hp' 0 50
+E
+sheath~
+Delicately green tinted sea foam, cool and clinging, forms into a close
+fitting sheath when it touches flesh.
+~
+#15835
+bracelet carved emerald ivy leaves~
+a bracelet of carved {gemerald ivy leaves{x~
+A glinting bracelet of carved {gemerald ivy leaves{x lies in the dust.~
+<Not Entered>~
+jewelry G AM
+0 0 0 0 0
+60 1 6000 P
+Y
+char 'hitroll' 0 5
+Y
+char 'dexterity' 0 2
+Y
+char 'moves' 0 60
+Y
+char 'damroll' 0 5
+E
+bracelet~
+Beaded with dewdrops of opal, the ivy almost looks alive.  Ivy has great
+properties of resilience and limberness, which seem to have been caught into
+the flex of this bracelet.
+~
+#15836
+silver lamp dew~
+a silver lamp of dew~
+A lamp of polished silver, boiling with bright morning dew, gleams here.~
+<Not Entered>~
+light K AO
+0 0 999 0 0
+53 1 5300 P
+Y
+char 'mana' 0 44
+E
+lamp~
+A sparkling silver light, refracted by everpresent dewdrops, shines out from the lamp.
+~
+#15837
+malachite frog amulet~
+a {gmalachite {Gfrog {gamulet{x~
+A small malachite frog, on a coiled silver chain, lies in the dust.~
+<Not Entered>~
+jewelry GK AC
+0 0 0 0 0
+53 1 2100 P
+Y
+char 'wisdom' 0 2
+Y
+char 'mana' 0 45
+#15838
+enormous black pearl eye tranquility~
+the Eye of {BTranquility{x~
+An enormous black pearl gleams softly on the ground.~
+pearl~
+gem GK AO
+0 0 0 0 0
+53 1 2700 P
+Y
+char 'intelligence' 0 2
+Y
+char 'mana' 0 50
+#15839
+carved alabaster mace~
+a carved alabaster mace named {WLifehand{x~
+A mace lies here.~
+<Not Entered>~
+weapon K AN
+mace 5 19 crush I
+61 8 2400 P
+Y
+char 'constitution' 0 2
+Y
+char 'hitroll' 0 3
+Y
+char 'damroll' 0 4
+#15840
+suit plate ethereal armor ghost raider~
+the ethereal armor of the {DGhost Raider{x~
+A suit of ethereal plate, bearing the insignia of the {DGhost Raider{x, stands here.~
+etherealness~
+armor GJ AD
+0 0 0 0 0
+47 1 4700 P
+Y
+char 'constitution' 0 -3
+Y
+char 'affects' 1 1048576
+E
+armor~
+The Ghost Raider was a fearsome bandit leader in her lifetime, and when
+she fell against an onslaught of royal forces, her anger was so great that
+she returned as a spirit.  She rallied the souls of her fallen comrades, and
+exerted great influence over other past bandits.  She was eventually
+trapped by a coalition of priests and magi, though was too powerful to be
+destroyed.
+~
+#15841
+glittering snowflake obsidian halberd twilight~
+a snowflake {Dobsidian{x halberd named {cTwilight{x~
+A halberd with a glittering snowflake obsidian blade is thrust in the ground~
+obsidian~
+weapon GJ AN
+polearm 10 10 thwack C
+55 4 4400 P
+E
+halberd~
+pangles of snowy white flakes glitter on the nacreous obsidian blade of
+this fearsome weapon, named Twilight for it signals the blackening of the
+flesh of its enemies.
+~
+#15842
+girdle decaying ghoul teeth blackened rotting~
+a girdle of {Ddecaying ghoul{x teeth~
+A girdle of {Dblackened, rotting {xteeth, still edged with {rdead flesh{x, lies here.~
+<Not Entered>~
+armor GJ AL
+12 13 12 2 0
+47 6 4700 P
+Y
+char 'saving throw' 0 -1
+Y
+char 'mana' 0 20
+Y
+char 'hp' 0 20
+E
+teeth~
+The necromancer Zolare was so skilled with his control of undead that he
+was able to make them feel pain at his touch, and give them a manner of
+thoughtful consciousness.  When they disobeyed him, he stripped them slowly
+their flesh and teeth, retaining the latter to wear on his person as a
+warning to the others.
+~
+#15843
+veil amber forked lightning~
+a veil of amber forked lightning~
+A veil of lightning trapped in amber flutters electrically.~
+amber~
+armor G AE
+30 30 30 15 0
+49 6 4900 P
+Y
+char 'saving throw' 0 5
+Y
+char 'strength' 0 1
+#15844
+girdle encircling fire~
+a girdle of {Rencircling fire{x~
+A girdle of {rbright {Rblazing fire encircles{x to a scorch on the ground.~
+fire~
+armor G AL
+12 12 13 2 0
+47 1 4700 P
+Y
+char 'hp' 0 45
+E
+girdle~
+A band of elemental fire has been forced into a roiling circle, flaring to
+elegant filigreed points and casting tiny bright sparks
+~
+#15845
+helm stag horns carved jade~
+a helm bearing stag horns carved of {gjade{x~
+A helm bearing stag horns carved of {gjade{x sits here imposingly.~
+jade~
+armor GK AE
+12 13 13 2 0
+47 6 4700 P
+Y
+char 'damroll' 0 5
+Y
+char 'hitroll' 0 5
+Y
+char 'strength' 0 1
+Y
+char 'constitution' 0 1
+E
+helm~
+The horns may have been carved, though on closer examination they look
+real enough to have been petrified or covered in a jade elixir.
+~
+#15846
+subtly pointed bright pike lawspeaker~
+a subtly pointed bright pike named {BLawspeaker{x~
+A brightly gleaming metal pike with a subtle point is thrust into the ground.~
+<Not Entered>~
+weapon GK AN
+polearm 9 8 pierce DI
+47 12 690 P
+E
+lawspeaker~
+Lawspeaker was crafted to smite through the defenses of the wicked, to
+pierce between the plates of cruel wyrms and evil warriors alike.  Its long
+reach embodies the reach of the law, and its subtle point embodies the
+ability of the law to strike true and deep.
+~
+#15847
+shower white hot sparks~
+a shower of {Wwhite hot {Rsparks{x~
+A shower of {Wwhite hot{x sparks cascades down onto the cold ground~
+<Not Entered>~
+armor GK AD
+23 23 13 10 0
+47 1 4700 P
+Y
+char 'mana' 0 30
+E
+sparks~
+Some stuff of unstable magical energy has been fused into the very air,making all motes it contacts excite with burning flares.
+attaining, as well as the prudence to use them with care.
+ 
+~
+#15848
+massive hilted glinting white axe Wintersinger~
+a glinting {Wwhite axe{x named Winter{csinger{x~
+A massive hilted white axe drops frost crystals from its edges.~
+<Not Entered>~
+weapon GJ AN
+axe 5 26 cleave B
+65 14 2700 P
+E
+axe~
+A large slab of opaque white ice has been slivered into prism glinting blades of a double great axe.  When it cleaves through the air, a melodious frosty note emits from the shattering force, altering as it slashes in building harmonic bursts.
+~
+#15849
+mask polished alabaster~
+a mask of polished alabaster~
+A mask of polished alabaster, with golden clasps, lies here.~
+<Not Entered>~
+armor J AE
+12 14 13 7 0
+57 2 5700 P
+Y
+char 'saving throw' 0 -2
+Y
+char 'mana' 0 30
+Y
+char 'hp' 0 20
+E
+mask~
+Ovals of transparent golden crystal are set into the mask to protect the
+eyes.  The mask itself is expressionless and cool to the touch, with clasps
+of gold to allow it to be attached.
+~
+#15850
+massive ruby red moon meru~
+the {rRed Moon of Meru{x~
+A massive {rred ruby{x rolls about on the ground.~
+ruby~
+warp_stone G AO
+0 0 0 0 0
+60 1 5400 P
+Y
+char 'damroll' 0 5
+Y
+char 'hitroll' 0 4
+Y
+char 'dexterity' 0 1
+Y
+char 'strength' 0 1
+E
+ruby~
+This fabulous gem has a long and bloody history, passing from dead hand
+to dead hand, adorning the diadems of underground grotesque idols and the
+crowns of gently smiling queens.  Though it has gone from the depths of
+depravity to the places of cold air and power, silvery and high, it has
+retained a curious neutrality, acquiring neither menace nor virtue.
+~
+#15851
+glittering golden chain demon blooddrop rubies droplets~
+a {Ygolden{x chain of demon blood {rrubies{x~
+A glittering {Ygolden{x chain, fixed with droplets of demon blood {rrubies{x, is coiled here.~
+ruby~
+jewelry GJL AC
+0 0 0 0 0
+57 1 5700 P
+Y
+char 'mana' 0 54
+E
+chain~
+The {rblood{x of demons is suffused with great mystical properties,
+particularly when petrified into this stonelike state.
+~
+#15852
+slender silver poniard summerpoint~
+a slender silver poniard named  {YSummerpoint{x~
+A slender poniard of silver is thrust into the ground.~
+silver~
+weapon GK AN
+dagger 7 13 stab A
+63 1 4000 P
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+E
+poniard~
+Summerpoint flashes the bright fire of the sun, glittering and gleaming
+with life and vitality.  Golden beams play over the mottled silvery
+surface, with occasional hints of dawn and sunset within the metal
+~
+#15853
+large oblong emerald brigands~
+the {gEmerald of the Brigands{x~
+A large oblong emerald casts rays of green fire from its heart.~
+emerald~
+warp_stone F AO
+0 0 0 0 0
+57 1 5700 P
+Y
+char 'moves' 0 40
+Y
+char 'dexterity' 0 2
+E
+emerald~
+While this gem was once taken from the treasurehouse of an emperor, it has
+passed through so many bandit camps that it has lost its original lineage,
+now called the {gEmerald of the Brigands{x.
+~
+#15854
+bracelet braided bright golden hair~
+a bracelet of {Ygolden hair{x~
+A bracelet of braided bright golden hair lies in the dust.~
+<Not Entered>~
+jewelry GK AM
+0 0 0 0 0
+54 1 4100 P
+Y
+char 'hp' 0 25
+Y
+char 'mana' 0 25
+E
+bracelet~
+A bracer of gold lies here shining briliantly.
+~
+#15855
+plain golden flask draught silence~
+a plain {ygolden flask{x~
+A plain flask of beaten gold rolls about on the ground.~
+<Not Entered>~
+potion G A
+57 'heal' 'heal' 'dispel evil' ''
+57 1 5000 P
+E
+flask~
+The draught of silence is a powerful restorative, carried by the Autumn
+Sage to recover those who are injured in her service, said to have been
+brewed by the Mistress of Light Anglides.
+~
+#15856
+coiled whip ruddy frost Soulsnow~
+a whip of {rruddy frost{x named {ySoul{xsnow~
+A coiled whip, formed of flexible ruddy frost, lies here.~
+<Not Entered>~
+weapon GJL AN
+whip 4 22 whip BC
+60 2 6000 P
+E
+whip~
+This whip was formed of arctic frost mingled with the fluid of steaming
+blood, enchanted to take the frigid bite of one and mingle with the free
+motion of the other.
+~
+#15857
+grinning skull sullen beaten gold~
+a grinning skull of sullen beaten {ygold{x~
+A humanoid grinning skull of sullenly gleaming beaten {Ygold{x hovers here.~
+bone~
+treasure GJL AQ
+0 0 0 0 0
+60 2 1550 P
+Y
+char 'mana' 0 40
+Y
+char 'wisdom' 0 2
+Y
+char 'saving throw' 0 -3
+E
+skull~
+It gazes back at you from empty, blackened sockets.
+~
+#15858
+kite shield smeared blood red enameling~
+a kite shield with {rblood red enameling{x~
+A kite shield, smeared with blood red enamel, lies unbuckled here.~
+<Not Entered>~
+armor GJL AJ
+13 14 12 2 0
+60 7 6000 P
+Y
+char 'damroll' 0 5
+Y
+char 'hitroll' 0 5
+Y
+char 'AC' 0 -10
+Y
+char 'strength' 0 1
+Y
+char 'constitution' 0 1
+E
+shield~
+A shield is laying here.
+~
+#15859
+long scarlet-shot black silk tunic~
+a long, {rscarlet-shot {Dblack silk{x tunic~
+A long tunic of scarlet-shot black silk is pooled on the ground.~
+silk~
+armor GJL AD
+14 14 15 5 0
+60 4 6000 P
+Y
+char 'mana' 0 30
+Y
+char 'hp' 0 30
+E
+tunic~
+Threads of ruddy scarlet ripple through the dark silk of this tunic
+~
+#15860
+gleaming double-headed golden axe truthmaker~
+a gleaming {Ygolden axe{x named {YTruthmaker{x~
+A double-headed axe with gleaming golden blades lies here.~
+gold~
+weapon GKL AN
+axe 5 21 smash AI
+60 8 6000 P
+E
+axe~
+Truthmaker is worked with shallow silver runes of purification and power.
+It was forged by the Autumn Sage to fight against imbalance, and contains a
+part of her soul inextricably bound within.
+~
+#15861
+snowy white boots Elderwalker~
+the {Wsnowy white boots{x of the {BElderwalker{x~
+The snowy white boots of the Elderwalker thrum with delicate power.~
+<Not Entered>~
+armor KL AG
+13 14 13 2 0
+60 2 6000 P
+E
+boots~
+The boots of the Elderwalker were made by the hands of the first Autumn Sage, Xianne. When she relinquished the authority, the boots were passed
+on down the line to the present wearer.  Only rarely have they been taken.
+~
+#15862
+tunic opalescent crystal teardrops~
+a tunic of opalescent {ccrystal teardrops{x~
+A tunic of opalescent crystal teardrops flows over the ground.~
+crystal~
+armor GKL AD
+23 23 23 12 0
+60 2 6000 P
+Y
+char 'mana' 0 40
+Y
+char 'saving throw' 0 -2
+E
+tunic~
+The tears of a mortal queen, snatched from the overworld and tricked to
+life in endless twilight, were captured by greedy underworld jewelers to form into lovely and varied garments and adornments for her callous subjects.
+~
+#15863
+skirt meshed delicate golden snowflakes~
+a skirt of delicate {Ygolden {Wsnowflakes{x~
+A skirt meshed of delicately golden snowflakes lie empty here.~
+gold~
+armor GKL AF
+14 13 12 2 0
+60 8 6000 P
+Y
+char 'hp' 0 50
+E
+skirt~
+Underworld goldsmiths labored endlessly to create perfect, unique flakes of
+light, aery gold to remind their mortal, overworld queen of the lands she
+lost forever.
+~
+#0
+
+
+
+#ROOMS
+#15800
+A set of rough hewn steps~
+Steps lead down the uneven, steep sides of this tunnel.  They have been
+cut hastily into the rock, and have weathered even in this protected clime.
+Upward, the stench of the sewers roils, heavy with decay, but downward the
+air is colder and cleaner, sparking with tiny pricks of light.
+~
+0 5 0
+5
+D2
+~
+~
+0 0 1
+D5
+~
+~
+0 0 15801
+S
+#15801
+An arching cavern entrance~
+A smooth hewn floor, sloping upward, leads into a vast, stalactite and
+stalagmite marked cavern.  Within it, the sounds of an age long stalemate
+can be heard.  It is said that within that cavern, a battle rages between
+the forces of balance and the forces of decay, each being so evenly matched
+with its opponent that no true resolution can be reached, save with the 
+intervention of outsiders.  Each creature is vastly powerful, and half of
+them evilly minded, so the faint of heart should not venture within.
+~
+0 1 0
+5
+D2
+~
+~
+0 0 15802
+D4
+~
+~
+0 0 15800
+S
+#15802
+Within the cavern~
+Viciously pointed stalactites and stalagmites thrust from the ceiling
+and floor of this vast, echoing cavern.  Wind surges around the stone
+outcrops, brightly streaked with electrical bursts of mana being flung by
+the combatants.  The cavern extends onward in all directions, nearing the
+curving walls to the east and west.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15801
+D1
+~
+~
+0 0 15822
+D3
+~
+~
+0 0 15803
+S
+#15803
+Along the smooth cavern wall~
+Charged bursts of air splash against the smooth walls of the cavern
+threading between the stalactites and stalagmites.  The stone is chipped and
+scored from the endless combat taking place within.  The ceiling arches
+high overhead, vanishing up into murky darkness.  The cavern edge continues
+on to the south.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 15802
+D2
+~
+~
+0 0 15804
+S
+#15804
+Along the cavern wall~
+Though to the north, the cavern wall is smooth and unbroken, to the west,
+it has been smashed aside by magical energies.  To the south, a massive
+stalagmite blocks the expanse.  To the east, however, it extends onward. 
+The ceiling overhead can barely be glimpsed, so high and gloomy is the
+curve.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15803
+D1
+~
+~
+0 0 15823
+D3
+~
+~
+0 0 15805
+S
+#15805
+A darkened corner in the cavern~
+he cavern distends to a point here, its floor strewn with rubble,
+ceiling shallow and walls uneven.  It appears to have been slowly blasted
+over the centuries, by magical energies, gradually eroding the stone until
+it seems a natural part of the cavern.  Grotesque magical lichens, thriving
+on the energies, have grown over the rock, forced back by more vicious
+combats but always returning.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 15804
+D2
+~
+~
+0 0 15806
+S
+#15806
+An undulation in the cavern wall~
+Ripples are carved deeply into the wall, first smashed rudely and slowly
+smoothed by less direct blasts.  A glittering vein of gleaming silver has
+been revealed beneath the rock, polished to a bright shine by the years of
+ombat it has seen.  To the south and north, the cavern wall continues,
+while to the north, a massive pillar of banded stone blocks view of the
+cavern.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15805
+D2
+~
+~
+0 0 15807
+S
+#15807
+Along the ripple in the cavern wall~
+Long smudges of flaking black blood are smeared over the blackened gray
+rock wall of the cavern.  Overhead, the stone vanishes up into high arching
+gloom.  Buffets of air smash against the cavern edges, prickling over
+exposed flesh with the reverberations of long conflict.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15806
+D1
+~
+~
+0 0 15826
+D2
+~
+~
+0 0 15808
+S
+#15808
+Along the cavern wall~
+The slope of the floor becomes steeper as it leads to a narrowing at the
+south, where a slender tunnel can be seen.  The wall of the cavern is
+stippled with radiant mana consuming lichens, delicate clumps of glowing
+filigree striping over the stone.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15807
+D1
+~
+~
+0 0 15809
+S
+#15809
+Within the cavern~
+The cavern floor angles upward more steeply, rising toward a darkened
+pointed tunnel at the tip.  To the immediate east rises a column of banded
+rock, striped with multicoloured mineral deposits that have slowly formed
+into stone over the ages of combat that have gored and smashed at the bowels
+of the earth.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15826
+D2
+~
+~
+0 0 15810
+D3
+~
+~
+0 0 15808
+S
+#15810
+The western narrowing of the cavern~
+The floor is perfectly smooth and upsloping to a plateau at the south, a
+vantage point from which the entire cavern could be seen.  Unlike the rest
+of the rock, no marks stain the pristine surface, indicating that most of
+the combat took place in the dips below.  Overhead, the murk of the ceiling
+presses coldly downward.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15809
+D1
+~
+~
+0 0 15811
+S
+#15811
+The central narrowing of the cavern~
+To the east and west, the cavern becomes pointed, the tip of the 
+teardrop shape that the rock takes.  A vantage plateau, up the slope to the
+south, can be accessed, while to the north, a massive pillar of striated
+stone blocks movement.  The ceiling is nearer here than at nearly any other
+section of the cavern, though it is still shrouded in clammy gloom.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 15815
+D2
+~
+~
+0 0 15812
+D3
+~
+~
+0 0 15810
+S
+#15812
+An overlook of the cavern~
+From this point, the floor slopes steeply downward in all directions,
+but here it is smooth and high, giving a clear vision of the glittering,
+fungus dotted expanse of the cavern and the triumverate of banded pillars
+near the center.  To the south, the teardrop shape curves to a point, where
+the mana charged winds force vicious and cold into the narrow tunnel. 
+Overhead, icy black mist can more clearly be seen roiling over the ceiling,
+dipping down with frozen fingers to caress bare skin.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15811
+D2
+~
+~
+0 0 15813
+S
+#15813
+A narrow, darkened corridor~
+To the north, the glowing expanse of the cavern stretches out, though the
+downslope and the frigid black mist coating the ceiling block a full view of
+the environs.  To the south, the corridor slopes up even further, the walls
+spidered with golden webs of force keeping the battered rock together, en
+route to a curved chamber within the depths of the earth.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15812
+D2
+~
+~
+0 0 15814
+S
+#15814
+A high, battle scarred plateau~
+Long lines of golden force band over the viciously assaulted walls of
+this chamber of earth.  Behind the barriers, loose chunks of rock can be
+seen around, overhead and underfoot, where the struggles between the Autumn
+Sage and the Maiden of Blood have long laboured, damaging the very earth to
+the point where it radiates infused mana, and reverberates in savage blasts
+of trapped air.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15813
+S
+#15815
+The eastern narrowing of the cavern~
+The vastness of the cavern slopes upward smoothly but steeply, narrowing
+toward a plateau and a dark, narrow corridor to the south.  To the east, the
+cavern wall curves high overhead, vanishing into the oppressive cold murk
+at the ceiling.  Cold bursts of air sing about the rocky edges, prickling
+electrically over exposed flesh.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15816
+D3
+~
+~
+0 0 15811
+S
+#15816
+Within the cavern~
+A smooth curl delineates the cavern wall to the east, while to the west,
+a slow formed pillar of rock marked with glittering minerals blocks
+passage.  To the north, the floor angles downward, sloping more steeply up
+to the south, where a murky tunnel can be seen.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15827
+D1
+~
+~
+0 0 15817
+D2
+~
+~
+0 0 15815
+S
+#15817
+The smoothly curling cavern wall~
+Only the subtlest bulges indicate that this section of cavern was not
+formed naturally.  Smears of blood have splashed over the dull gray stone
+of the wall, and deep ruts gored into the floor by the endless tramp of
+mailed feet.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15818
+D3
+~
+~
+0 0 15816
+S
+#15818
+Along the cavern wall~
+The gray stone wall is smooth and unmarked, though the floor is sticky
+with freshly shed blood.  The rock curves high overhead, vanishing up into
+gloomy blackness above.  To the north, the stone is more ravaged, marked
+with signs of magical combat, and buffeted by endless winds.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15819
+D2
+~
+~
+0 0 15817
+D3
+~
+~
+0 0 15827
+S
+#15819
+Along the cavern wall~
+To the north, a shallow niche has been blasted out of the rock, now
+marked with the carbonization of further power blasts.  To the south, the
+cavern wall is smoother, dotted with glowing patches of the fungus that
+feeds on mana.  A high pillar, banded with metals and gems as well as
+flakes of mineral, blocks view of the cavern to the west.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15820
+D2
+~
+~
+0 0 15818
+S
+#15820
+A niche in the cavern~
+A thin coating of gilt and crushed precious stones clings to the
+battered wall of the cavern.  The marks of vicious magical blasts, as well
+as the deep ruts marked by weaponry, are dug into the dark stone.  Ancient
+and more recent stains of blood are splashed over the uneven floor. 
+~
+0 1 0
+5
+D2
+~
+~
+0 0 15819
+D3
+~
+~
+0 0 15821
+S
+#15821
+Within the cavern~
+The sweeping curved wall of the cavern curls about to the north, dotted
+with globules of the weirdly luminescent mana feeding fungi.  To the south,
+a massive pillar of stone, formed over the ages by the meeting of
+stalagmites and stalactites, blocks the way.  Striations of metals and gems,
+as well as shards of bone, are embedded in the rock underfoot.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15822
+D1
+~
+~
+0 0 15820
+D3
+~
+~
+0 0 15823
+S
+#15822
+Along the cavern wall~
+Charcoal from magical flame stains the jagged cavern wall.  Chunks of
+stone have been knocked loose, crumbling underfoot with age and marked with
+trodden spiderwebs.  Dimly glowing moss, flaring more brightly in the
+presence of magic, crawls up the side of the rock.  As the cavern curves
+about, more blasts have knocked deeper holes in the walls, also blackened
+with power.
+~
+0 1 0
+5
+D2
+~
+~
+0 0 15821
+D3
+~
+~
+0 0 15802
+S
+#15823
+Within the cavern~
+The up rising, wide cave floor stretches out in all directions, with a
+narrow tunnel exit apparent to the nearby north.  To the southwest and
+southeast, stalagtites and stalagmites have met to form thick stone column
+barriers.  Heavy swirls of mana charged wind surge from the south, between
+the pillars.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 15821
+D2
+~
+~
+0 0 15824
+D3
+~
+~
+0 0 15804
+S
+#15824
+Between two striped pillars~
+Smoky black and glittering gems, as well as the natural striation of
+slowly merging stalactites and stalagmites, form elegant patterns within
+the two thick columns of rock to the east and west.  Gusts of wind swirl
+about the pillars, crackling electrically with the mana reverberating in
+the chilly air.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15823
+D2
+~
+~
+0 0 15825
+S
+#15825
+Within the cavern~
+A massive pillar of stone, covered in slow forming droplets of both
+natural mineral and imported precious material, stands wide in the cavern
+to the south.  To the north is a corridor between two similar pillars, the
+conjunction causing a vicious whirling of the dusty clammy air over bare
+skin. 
+~
+0 1 0
+5
+D0
+~
+~
+0 0 15824
+D1
+~
+~
+0 0 15827
+D3
+~
+~
+0 0 15826
+S
+#15826
+Within the cavern~
+Gouges, as though from massive claws, are dug into the dark, upsloping
+floor of the cavern.  Electric wind ripples around the banded stone pillar
+to the north, tearing over its surface and making small whirlwinds of the
+pebbles.  Nearby to the west is the smooth cavern wall, marked with black
+pocks of fire.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 15825
+D2
+~
+~
+0 0 15809
+D3
+~
+~
+0 0 15807
+S
+#15827
+Within the cavern~
+A triangle of stone columns stand in the center of the cavern, their
+curious beauty easily apparent from this part of the floor. Gleaming
+stripes of glittering mineral band the pillars, filigreed with delicate
+glowing moss.  To the south, the cavern continues to upslope, and the cavern
+wall is nearby to the east.
+~
+0 1 0
+5
+D1
+~
+~
+0 0 15818
+D2
+~
+~
+0 0 15816
+D3
+~
+~
+0 0 15825
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+M 0 15800 1 15803 1
+E 0 15803 0 14
+E 0 15802 0 12
+E 0 15801 0 16
+E 0 15800 0 1
+M 0 15801 1 15803 1
+E 0 15807 0 17
+E 0 15806 0 16
+E 0 15805 0 14
+E 0 15804 0 22
+M 0 15803 1 15806 1
+E 0 15814 0 17
+E 0 15808 0 12
+E 0 15810 0 16
+E 0 15809 0 6
+M 0 15802 1 15806 1
+E 0 15813 0 10
+E 0 15812 0 17
+E 0 15811 0 16
+M 0 15804 1 15809 1
+E 0 15817 0 16
+E 0 15816 0 12
+E 0 15818 0 4
+E 0 15815 0 5
+M 0 15805 1 15809 1
+E 0 15820 0 6
+E 0 15819 0 16
+E 0 15821 0 14
+E 0 15822 0 17
+E 0 15823 0 3
+M 0 15812 1 15812 1
+E 0 15851 0 3
+E 0 15850 0 17
+E 0 15849 0 6
+E 0 15848 0 16
+M 0 15813 1 15812 1
+G 0 15855 0
+E 0 15854 0 14
+E 0 15853 0 17
+E 0 15852 0 16
+M 0 15815 1 15813 1
+E 0 15863 0 7
+E 0 15862 0 5
+E 0 15861 0 8
+E 0 15860 0 16
+M 0 15814 1 15813 1
+E 0 15859 0 5
+E 0 15858 0 11
+E 0 15857 0 22
+E 0 15856 0 16
+M 0 15807 1 15817 1
+E 0 15831 0 17
+E 0 15830 0 5
+E 0 15829 0 16
+E 0 15828 0 12
+M 0 15806 1 15817 1
+E 0 15825 0 13
+G 0 15824 0
+E 0 15826 0 16
+E 0 15827 0 5
+M 0 15810 1 15823 1
+E 0 15843 0 6
+E 0 15842 0 13
+E 0 15841 0 16
+E 0 15840 0 5
+M 0 15811 1 15823 1
+E 0 15847 0 5
+E 0 15846 0 16
+E 0 15845 0 6
+E 0 15844 0 13
+M 0 15809 1 15827 1
+E 0 15839 0 16
+E 0 15838 0 17
+E 0 15837 0 3
+E 0 15836 0 0
+M 0 15808 1 15827 1
+E 0 15835 0 14
+E 0 15834 0 5
+E 0 15833 0 16
+E 0 15832 0 3
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

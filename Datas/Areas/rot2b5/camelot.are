@@ -1,0 +1,2077 @@
+#AREADATA
+Name Camelot~
+Builders None~
+VNUMs 3800 3899
+Credits {20 35} Spencer Camelot~
+Security 9
+End
+
+#MOBILES
+#3802
+gardener groundskeeper~
+a Royal Groundskeeper~
+A man works here on the lawn.
+~
+An older man is working here to keep the grounds of Camelot looking beautiful.
+~
+human~
+ABU A V AHMNV 250 0
+20 0 8d10+135 9d10+157 2d9+12 none
+1 2 0 2
+FHI 0 0 0
+stand stand male 10
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3805
+guard castle~
+a castle guard~
+A young man stands here defending Camelot from intruders.
+~
+A well-armored man watches over those who enter and pass through his master's residence.  The man looks upon you with a suspicious gaze; he has learned through experience that adventurers are often troublesome travellers.
+~
+human~
+ABT A 0 AHMNV 850 0
+23 3 3d39+181 7d19+223 4d5+14 pound
+-2 0 0 3
+DEFHIKN 0 0 0
+stand stand male 10
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3807
+boy servant~
+a young servant boy~
+A young boy attends to his duties.
+~
+You see a young lad hurrying to deliver a message to his master.  His eyes dart around as he keeps an eye on you and his surroundings.
+~
+human~
+AHU A V AHMV 0 0
+21 1 10d11+194 8d10+135 3d7+13 none
+2 0 0 3
+FJKN 0 0 0
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJK small unknown
+#3810
+cook chef~
+a royal chef~
+An elderly chef chops onions here.
+~
+You see a man working feverishly to prepare dinner for His Lord, King Arthur of Camelot.
+~
+human~
+AHU A V AHMV 0 0
+24 1 6d21+208 7d19+223 3d7+14 none
+-3 -3 -2 1
+FJKN 0 0 0
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3821
+prisoner~
+a prisoner~
+An enemy of the King rests here in shackles.
+~
+You see a weary woman leaning up against the stone wall.  Her hair is scraggly and she looks gaunt and weak.
+~
+human~
+ABG A X AHMV -500 0
+22 5 3d39+181 3d39+181 3d7+14 punch
+2 -1 -2 3
+FHIK 0 0 0
+stand stand female 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3822
+prisoner~
+a prisoner~
+An enemy of the King rests here in shackles.
+~
+You see a weary man with a scraggly beard leaning up against the stone wall.  His face is gaunt and his legs have withered some from the lack of proper nurishment.
+~
+human~
+ABG A Y AHMV -500 0
+23 5 9d10+157 6d21+208 3d7+13 magic
+-2 -1 -2 3
+FHIK 0 C 0
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3840
+royal guard~
+a royal guard~
+A guard watches you carefully.
+~
+A strong man watches for any sign of disobediance to his Highness, the King.  He stands perfectly straight; only his eyes move, following you closely.  His diligence to his duties is a tribute to his master's skill as a leader.
+~
+human~
+ABT A CDV AHMNV 1000 0
+27 6 10d11+194 7d23+271 4d7+18 crush
+-2 -2 -1 1
+DEFHIKN 0 0 0
+stand stand male 25
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3842
+knight lancelot~
+Sir Lancelot~
+A strong man in shining armor.
+~
+You see Sir Lancelot in his full armor, as he rises to meet you.  He has
+been honored many times by his ruler, King Arthur, for his loyalty to the
+crown.  His victories are well known throughout the land, especially one
+important fact:  Lancelot has never lost a hand to hand duel.
+~
+human~
+ABFG A CDV AHMNV 1000 0
+27 7 6d21+208 6d24+238 5d5+18 wrath
+-1 -1 -6 1
+DEFHIK Q BFLP X
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3844
+knight gawain~
+Sir Gawain~
+A strong man in shining armor.
+~
+You see the galant Sir Gawain smile as he draws his weapon...it's been
+awhile since someone dared enter his private room without his consent.
+Since he fell from Arthur's favor some years back, Gawain has spent his
+time here, in this room, writing of his adventures.  No doubt this piece
+of work would be interesting; perhaps he'll include the tale of your death
+in it.
+~
+human~
+ABFG A CDV AHMNV 1000 0
+29 7 7d24+289 7d27+327 4d6+17 wrath
+-4 -2 -6 3
+DEFHIK Q BFLP X
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3846
+knight galahad~
+Sir Galahad~
+The courageous Sir Galahad stands here.
+~
+Here Sir Galahad sits in his pristine armor.  It would seem the rumors of
+his death were, indeed, greatly exaggerated.  After defeating the vicious
+swarm of enemies from the south, Galahad returned to Camelot to train the
+land's best men to serve the crown.
+~
+human~
+ABFG A CDV AHMNV 1000 0
+30 7 11d13+254 12d14+307 3d11+19 wrath
+-6 -5 -6 1
+DEFHIK Q BFLP X
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3848
+monk preacher turpin~
+a travelling monk~
+An elderly man of the cloth awaits dinner.
+~
+A friend of King Arthur's, Archbishop Turpin, relaxes here and waits for
+his meal.  Turpin has been close friends with Arthur since before hi
+entered the seminary.  This friendship has benefited both men:  Turpin's
+church coffers have grown, and Arthur has received the benefit of divine
+intervention when necessary.
+~
+human~
+ABCG A 0 AHMV 1000 0
+27 0 7d19+223 11d13+254 4d6+16 smash
+-4 -3 -3 1
+FHIK LPQ BCD 0
+stand stand male 0
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3860
+knight~
+a knight in shining armor~
+A courageous knight stands ready to defend his master.
+~
+You see a tall man dressed in the finest, most ornate armor you have ever
+seen.  He seems ready to sacrifice his life for the gentle ruler of this
+land.  The skill of those selected to serve King Arthur in such an important
+place--Camelot--is widely known and feared.
+~
+human~
+ABGT A DTV AHMNV 1000 0
+32 7 12d14+307 4d51+347 5d6+20 none
+-6 -7 -8 -1
+EFHIKN 0 0 0
+stand stand male 75
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#3865
+merlin~
+the great Merlin~
+The powerful Merlin stands working on a potion of some type.
+~
+You look up and see Merlin mixing some liquids on his workbench.  He works
+intently for a minute or so, then slowly raises his gaze to meet yours.  He
+stops working on his project, wipes his hands, and moves to confront you.
+The Great Merlin has dispatched many young adventurers to the after-life;
+perhaps you will be among those "lucky" few.
+~
+human~
+ABGRT A DET AHMNV 1000 0
+32 10 13d16+389 14d14+367 3d11+19 slap
+-8 -6 -6 -2
+FHK BNP CIP L
+stand stand male 150
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#3870
+arthur king~
+King Arthur~
+The imposing figure of King Arthur awaits you in the center of the room.
+~
+You are truly impressed by the presence this man commands.  Standing
+before him, you are awed by his grandiose appearance and firm style.
+You can recall all the tales your father told you about this kind, gentle
+man.  At the sight of his enormous sword, the legendary Excalibur, the
+stories of a weak, old ruler quickly pass from your mind.
+~
+unique~
+ABGT A CDEFTV HN 1000 0
+35 10 7d33+411 7d27+327 2d21+24 blast
+-8 -6 -5 -4
+EFHIKLN 0 BGLOP 0
+stand stand male 325
+0 0 medium unknown
+#0
+
+
+
+#OBJECTS
+#3802
+garden hoe~
+a Garden Hoe~
+A small iron hoe is rusted slightly.~
+~
+weapon G AN
+dagger 3 5 pierce 0
+15 10 875 P
+A
+18 1
+A
+19 1
+#3805
+royal long sword~
+a Royal Long Sword~
+A long sword used by all the castle guards here in Camelot awaits your command.~
+~
+weapon GIK AN
+sword 4 5 slash 0
+18 25 1995 P
+A
+18 2
+#3807
+dirk small dagger~
+a small dirk~
+A small, worn dagger sits here.~
+~
+weapon K AN
+dagger 2 7 thrust 0
+12 7 159 P
+#3810
+spatula~
+a Royal Chef's spatula~
+A spatula dripping with just a taste of pasta on it.  Perhaps a bit too much pepper?...~
+~
+weapon GH AN
+exotic 4 5 slap 0
+17 15 350 P
+A
+18 2
+A
+19 -1
+#3815
+key~
+A bronze key.~
+A bronze key with the crest of King Arthur upon it gleams in the light.~
+~
+key 0 AO
+0 0 0 0 0
+10 1 10 P
+#3817
+key~
+A silver key.~
+A silver key with the crest of King Arthur upon it gleams in the light.~
+~
+key 0 AO
+0 0 0 0 0
+10 1 15 P
+#3838
+ring piety~
+A Ring of Piety~
+A gleaming gold ring begs to be worn.~
+~
+armor AGH AB
+AC D D AC 0
+30 5 3800 P
+A
+12 30
+A
+13 30
+E
+ring piety~
+The ring has an almost holy aura around it...
+~
+#3840
+broad royal sword~
+a Royal Broad Sword~
+A beautiful, gleaming steel sword sits here.  There's not even a speck of blood on it...yet.~
+~
+weapon GIK AN
+sword 3 9 slash 0
+20 25 2100 P
+A
+18 1
+A
+19 1
+E
+royal broad sword~
+This sword is one which is not attained easily.  It is given only to those who have proven their worth and their loyalty to King Arthur.
+~
+#3841
+holy grail~
+The Holy Grail~
+A small wooden chalice sits here.~
+~
+armor ABGI AO
+BC ABC ABC B 0
+30 10 11900 P
+A
+9 -2
+A
+18 2
+A
+19 1
+#3842
+lance~
+Lancelot's Lance~
+A large, finely crafted lance gleams here.  The weapon has the sharpest point imaginable, being created by the best blacksmiths in the land. 
+adamanite.~
+~
+weapon AGIK AN
+staff 2 17 thrust 0
+24 30 7000 P
+A
+18 1
+A
+19 2
+E
+Lancelot's Lance~
+This lance is very well crafted with the crest of Lancelot's family pounded
+into the handle.
+~
+#3843
+belt chastity~
+Belt of Chastity~
+A thin leather belt with two diamonds embedded on either end.~
+~
+armor AGIKM AL
+AC D BC B 0
+25 10 7442 P
+A
+12 15
+E
+Belt of Chastity~
+This belt was given to Lancelot by one of his many "damsels in distress" saved.  I wonder why?...
+~
+#3844
+club virtue~
+The Club of Virtue~
+A beautiful silver club sits here gleaming in the light.~
+~
+weapon FGK AN
+mace 5 5 blast 0
+24 35 8000 P
+A
+24 5
+#3845
+leggings expediency~
+the Leggings of Expediency~
+Well crafted leggings sit before you.~
+~
+armor AGIK AF
+ABC D ABC A 0
+27 15 8500 P
+A
+14 30
+A
+2 1
+#3846
+mace honor~
+The Mace of Honor~
+A gleaming mace sits here, ready to challenge the evil in the world.~
+~
+weapon AGI AN
+mace 4 7 crush 0
+25 25 8300 P
+A
+19 2
+#3847
+cloak purity~
+The Cloak of Purity~
+A fine silk cloak with the crest of King Arthur sits here.~
+~
+armor GIK AC
+C C ABC B 0
+22 15 12400 P
+A
+4 1
+A
+5 1
+A
+12 5
+A
+13 5
+#3848
+turpin holy mace~
+Archbishop Turpin's Holy Mace~
+A heavy iron mace with many nicks and scratches sits in front of you.~
+~
+weapon AGIK AN
+mace 3 11 pound 0
+27 30 8300 P
+A
+19 2
+E
+holy mace~
+This mace has been through many battles.  From the wear it seems to have taken, you can surmise that its previous owner has used it well--and often!
+~
+#3860
+bastard royal sword~
+a Royal Bastard Sword~
+A large sword of the finest quality.  Only those who are prepared to die for their master are awarded this weapon.  There are two small gems imbedded in the hilt.  The symbol of King Arthur rests near the lower end of the blade.~
+~
+weapon AGIK AN
+sword 2 19 slash 0
+29 30 3894 P
+A
+1 1
+A
+18 2
+A
+19 2
+E
+royal bastard sword~
+This adamanite blade is one of the most finely crafted weapons you have come across in your travels.  It seems clear that it was built with the utmost care, and with one focus in mind--the demise of one's opponent.
+~
+#3865
+rod stir~
+a glass stir rod~
+A small rod made of fragile glass sits here.~
+~
+weapon ABGL AN
+dagger 2 19 pierce 0
+29 10 12600 P
+A
+18 4
+A
+19 1
+#3866
+amulet dissipation~
+An Amulet of Dissipation~
+A finely crafted gold amulet gleams here.~
+~
+armor AFIL AC
+ABC BC ABC AC 0
+32 10 11536 P
+A
+12 20
+A
+24 5
+#3870
+sword excalibur~
+excalibur~
+An ornate sword littered with beautiful gems sits here.~
+~
+weapon AGIKL AN
+sword 2 21 cleave 0
+32 30 14200 P
+A
+18 2
+A
+19 2
+A
+5 1
+E
+sword excalibur~
+The legendary Excalibur is even more beautiful than the rumors had let on.  It's no wonder King Arthur guarded it so closely.
+~
+#3871
+plate chestplate justice~
+The Plate of Justice~
+A shiny metal chestplate sits here.~
+~
+armor GIK AD
+BC ABC D BC 0
+34 40 13645 P
+A
+1 2
+E
+plate chestplate justice~
+A beautiful piece of armor sits here.  Surprisingly, there isn't even a scratch on it.  Either King Arthur never pushed it to its limits, or the plate is indeed of the finest quality.
+~
+#3872
+gloves veracity~
+The Gloves of Veracity~
+A pair of sleek bronze gloves sits here.~
+~
+armor GKL AH
+BC BD BC AB 0
+32 15 3900 P
+A
+18 3
+A
+2 1
+#0
+
+
+
+#ROOMS
+#3802
+Beautiful Courtyard~
+You enter the spacious courtyard of Camelot.  It is here that 
+the legendary King Arthur makes his residence and rules the 
+surrounding land.  With the aid of the honorable Knights of the 
+Round Table to assist him, he has made his people happy, 
+prosperous, and safe from enemies.  The courtyard is decorated 
+with beautiful fountains and the walkway is made of the finest 
+stone.
+~
+0 0 1
+D0
+A walkway through the courtyard.
+~
+~
+0 -1 3803
+D2
+~
+~
+0 -1 6002
+S
+#3803
+Beautiful Courtyard~
+The courtyard continues here.  It is clear that the 
+goundskeepers of Camelot take a great deal of pride in their 
+work.  The grass here looks as if it has been tended to 
+carefully.  Over to one side, you can see a beautiful pond.  
+Several ducklings are swimming there with their mother.  This 
+land seems very peaceful and serene.  Throughout the area there 
+are gorgeous rose gardens that permeate the air with a light 
+fragrance.
+~
+0 0 1
+D0
+A walkway through the courtyard.
+~
+~
+0 -1 3804
+D2
+A walkway through the courtyard.
+~
+~
+0 -1 3802
+S
+#3804
+Edge of the Moat~
+Ahead of you lies the wondrous castle of Camelot.  A large moat 
+lies between you and the building, however.  It would seem King 
+Arthur was not expecting guests, for the drawbridge has been 
+raised. 
+~
+0 0 1
+D0
+Pathway to the moat.
+~
+~
+0 1 3805
+D2
+A walkway through the courtyard.
+~
+~
+0 -1 3803
+S
+#3805
+The Moat around Camelot~
+You are above the first line of protection for the castle.  As 
+you look below, you can see numerous small fish swimming about 
+furiously.  As you ponder what type of creature they might be, 
+a small bird sitting by the edge of the moat decides to get a 
+drink.  Moments after it begins to drink, one fish lunges at 
+the bird, grabs it, and drags the floundering animal into the 
+moat.  There, the others hungrily devour it.
+~
+0 0 7
+D0
+Walkway to the castle gate.
+~
+~
+0 -1 3806
+D2
+Pathway to the courtyard.
+~
+~
+0 -1 3804
+S
+#3806
+Near the Castle Gate~
+You finally manage to get past that pesky moat.  Up ahead to 
+the north you can see the beautiful castle of Camelot.  A short 
+bit further and you will pass under the large gate that keeps 
+King Arthur's enemies out of the castle.
+~
+0 0 1
+D0
+Walkway to the castle gate.
+~
+~
+0 -1 3807
+D2
+Pathway to the moat.
+~
+~
+0 -1 3805
+S
+#3807
+In Front of the Castle Gate~
+The only thing stopping you from entering the castle now is a 
+large, closed gate directly in front of you.  On either side, a 
+young guard watches you closely for any actions that would 
+signal a hostile intent.  You can hear shouting from deep 
+inside the castle, though the content of the words is 
+unintelligible.                        
+~
+0 0 1
+D0
+Entrance to Camelot.
+~
+gate~
+0 -1 3808
+D2
+A small pathway.
+~
+~
+0 -1 3806
+S
+#3808
+Inside Camelot~
+You are just inside the castle gate of Camelot.  From here, you 
+can hear the hum of activity from all directions.  Servants are hurrying about 
+their duties.  The hallway here is lit by sparse light from 
+candles on either side of you.
+~
+0 8 1
+D0
+Down the corridor.
+~
+~
+0 -1 3809
+D2
+Out the castle gate.
+~
+~
+0 -1 3807
+S
+#3809
+A Corridor in Camelot~
+You can hear the hum of activity from all directions.  It 
+appears to be dinner time, for the servants are hurrying about 
+their duties.  Ahead, you notice that the hallway opens into a 
+sort of junction.     
+~
+0 8 1
+D0
+A corridor in Camelot.
+~
+~
+0 -1 3810
+D2
+A corridor in Camelot.
+~
+~
+0 -1 3808
+S
+#3810
+Center of Camelot's First Level~
+You are at the center of all the comotion in this wondrous castle.  
+Around you, servants and guards move about their duties 
+religiously.  Each direction seems to look the same...
+~
+0 8 1
+D0
+A corridor in Camelot.
+~
+~
+0 -1 3819
+D1
+A corridor in Camelot.
+~
+~
+0 -1 3815
+D2
+A corridor in Camelot.
+~
+~
+0 -1 3809
+D3
+A corridor in Camelot.
+~
+~
+0 -1 3811
+S
+#3811
+The Western Wing of Camelot~
+The hallway continues on here.  The walls here are decorated 
+with beautiful paintings and the corridor is adorned with 
+several priceless artifacts.  Further ahead, you can see a 
+guard stoically patrolling the area.    
+~
+0 8 1
+D1
+Towards the center of Camelot's Main Level.
+~
+~
+0 -1 3810
+D3
+Down the western corridor.
+~
+~
+0 -1 3812
+S
+#3812
+End of the Western Corridor~
+You have reached the end of this corridor.  On either side, you 
+can see beautifully crafted doors.  From the room to the east, 
+you can hear idle chit-chat taking place.  From the room to the west--nothing.  
+~
+0 8 1
+D0
+Into the lounge.
+~
+door~
+0 -1 3813
+D1
+Down the Western Corridor.
+~
+~
+0 -1 3811
+D2
+Into a storage room.
+~
+door~
+0 -1 3814
+S
+#3813
+The Lounge~
+You've entered the servants' lounge.  Here is where they eat 
+their meals, visit with eachother, and tell tales of all they 
+have seen on the levels above.  On the second and third floors 
+Knights of the Round Table and King Arthur make their 
+residence.   
+~
+0 8 1
+D1
+The Northern Corridor.
+~
+~
+0 -1 3821
+D2
+The Western Corridor.
+~
+~
+0 -1 3812
+S
+#3814
+Storage Room~
+You've entered a small storage room.  Here the floor is covered 
+with old broken bits of gardening equipment, brooms and 
+assorted other items.
+~
+0 13 1
+D0
+The Western Corridor.
+~
+~
+0 -1 3812
+S
+#3815
+The Eastern Corridor~
+You are in the eastern corridor now.  The hallway continues on 
+here.  The walls here are decorated with beautiful paintings 
+and the corridor is adorned with several priceless artifacts.  
+Further ahead, you can see a guard stoically patrolling the 
+area.  To the south, you see a closed door.  There are loud 
+noises coming from behind it; you can barely make out the 
+sounds of pots and pans clanking together.
+~
+0 8 1
+D1
+Down the Eastern Corridor.
+~
+~
+0 -1 3816
+D2
+Into the kitchen.
+~
+~
+0 -1 3825
+D3
+Back to the Center of the Main Level.
+~
+~
+0 -1 3810
+S
+#3816
+the Eastern Corridor~
+You continue down the eastern corridor of Camelot.  The floor 
+here is covered by a beautiful Persian carpet.  The thread is 
+of the finest quality and the design, you recognize, is that of 
+the crest of King Arthur.    
+~
+0 8 1
+D1
+To the end of the hallway.
+~
+~
+0 -1 3817
+D3
+Back towards the center of this level.
+~
+~
+0 -1 3815
+S
+#3817
+End of the Eastern Corridor~
+You have reached the end of this corridor.  To the north, there 
+is a closed door from behind which there are loud voices 
+booming.  Occasaionally, one voice becomes louder...then 
+laughter follows.
+~
+0 8 1
+D0
+Into the Guards' Room.
+~
+door~
+0 3817 3818
+D3
+Back towards the center of this level.
+~
+~
+0 -1 3816
+S
+#3818
+Guards' Room~
+You have entered the guards' room. The room is a place where 
+the guards congregate to discuss the day's activities, which 
+guard patrols which area, etc.  Over to the left, you see a 
+pile of old, used armor lying on the floor.
+~
+0 8 1
+D0
+To the Side Corridor.
+~
+door~
+0 3817 3822
+D2
+To the Eastern Corridor.
+~
+door~
+0 3817 3817
+S
+#3819
+The Northern Corridor~
+This hallway is littered with proof of the victories of 
+Arthur's men.  Beautiful swords, vases, and other artifacts 
+line the corridor.  On each side of you, tall candles in gold candleholders 
+provide light for the hallway.
+~
+0 8 1
+D0
+Further down the Northern Corridor.
+~
+~
+0 -1 3820
+D2
+To the center of this level.
+~
+~
+0 -1 3810
+S
+#3820
+The Northern Corridor~
+This hallway is littered with proof of the victories of 
+Arthur's men.  Beautiful swords, vases, and other artifacts 
+line the corridor.  On each side of you, gold candleholders 
+provide light for the hallway.   
+~
+0 8 1
+D0
+The end of this hallway.
+~
+~
+0 -1 3821
+D2
+Towards the center of this level.
+~
+~
+0 -1 3819
+S
+#3821
+End of the Northern Corridor~
+This is the end of the long Northern Corridor.  To your west, a 
+door lies preventing access to the lounge.  To the east, a 
+small corridor leads towards the main stairwell. 
+~
+0 8 1
+D1
+Down the small sideway.
+~
+~
+0 -1 3822
+D2
+Towards the center of this level.
+~
+~
+0 -1 3820
+D3
+Entrance to the lounge.
+~
+door~
+0 -1 3813
+S
+#3822
+Small Corridor~
+You leave the hustle and bustle of the Northern Corridor and 
+move down this lesser used hallway.  To the south, you hear 
+noises from the guard room.
+~
+0 8 1
+D1
+Down the hallway.
+~
+~
+0 -1 3823
+D2
+Door to the Guards' Room.
+~
+door~
+0 3817 3818
+D3
+To the end of the Northern Corridor.
+~
+~
+0 -1 3821
+S
+#3823
+Down the Small Hallway~
+You continue down the sideway between the main stairwell and 
+the Northern Corridor.   
+~
+0 8 1
+D1
+Towards the stairwell.
+~
+~
+0 -1 3824
+D3
+Towards the Northern Corridor.
+~
+~
+0 -1 3822
+S
+#3824
+Main Stairwell~
+This is the main stairwell.  It leads up to the second level of 
+Camelot, as well as down to the dungeon.  You hear screams of 
+agony from below.  From above, you hear only the sound of armor 
+clanking as someone paces back and forth.   
+~
+0 8 1
+D3
+Towards the Northern Corridor.
+~
+~
+0 -1 3823
+D4
+Up to the Second Level of Camelot.
+~
+~
+0 -1 3850
+D5
+Down into the Dungeon.
+~
+~
+0 -1 3830
+S
+#3825
+Kitchen~
+The kitchen is littered with dirty dishes and pots filled with 
+food.  Here is where all the meals for those who live in the 
+castle are made.  A servant boy hurries past you on an errand 
+to deliver a plate of something to one of the King's guests.  
+There is a small stairway leading up in the back of this room.    
+~
+0 8 1
+D0
+Into the Eastern Corridor.
+~
+door~
+0 -1 3815
+D4
+Up to the second level of Camelot.
+~
+stairwell stairway~
+0 -1 3873
+S
+#3830
+Camelot's Dungeon~
+You've entered the lowest level of Camelot.  The dungeon is 
+dimly lit and a vile stench radiates from the west.  You can 
+hear the moans of prisoners as they suffer here, waiting to 
+die.  
+~
+0 9 1
+D3
+Passageway through the dungeon.
+~
+~
+0 -1 3831
+D4
+Main Stairwell up to Ground Level.
+~
+~
+0 -1 3824
+S
+#3831
+Passageway through the dungeon~
+You are in a dark, damp part of the castle--one many never 
+see.  The stench is unbelievable, and your stomach turns at the 
+sight of decayed rats on the floor.  It's hard to believe that 
+this place is part of the same grand castle only a short few steps away.
+Cell doors are to the north and south.
+~
+0 9 1
+D0
+A small cell.
+~
+cell door~
+0 3815 3835
+D1
+Back towards the stairs up.
+~
+~
+0 -1 3830
+D2
+A small cell.
+~
+cell door~
+0 3815 3840
+D3
+Passageway through the dungeon.
+~
+~
+0 -1 3832
+S
+#3832
+Passageway through the dungeon~
+You are in a dark, damp part of the castle--one many never 
+see.  The stench is unbelievable, and your stomach turns at the 
+sight of decayed rats on the floor.  It's hard to believe that 
+this place is part of the same grand castle only a short few 
+steps away.  Cell doors are to the north and south.
+~
+0 9 1
+D0
+A small cell.
+~
+cell door~
+0 3815 3836
+D1
+Back towards the stairs up.
+~
+~
+0 -1 3831
+D2
+A small cell.
+~
+cell door~
+0 3815 3839
+D3
+Passageway through the dungeon.
+~
+~
+0 -1 3833
+S
+#3833
+Passageway through the dungeon~
+You are in a dark, damp part of the castle--one many never 
+see.  The stench is unbelievable, and your stomach turns at the 
+sight of decayed rats on the floor.  It's hard to believe that 
+this place is part of the same grand castle only a short few 
+steps away. Cell doors are to the north and south.    
+~
+0 9 1
+D0
+A small cell.
+~
+cell door~
+0 3815 3837
+D1
+Back towards the stairs up.
+~
+~
+0 -1 3832
+D2
+A small cell.
+~
+cell door~
+0 3815 3838
+D3
+Passageway through the dungeon.
+~
+~
+0 -1 3834
+S
+#3834
+End of the Dungeon~
+You've finally reached the end of this dark, stench ridden 
+pathway.  There don't seem to be any exits here, though, save 
+the return to the stairway to your east.   
+~
+0 9 1
+D1
+Return to the sairway.
+~
+~
+0 -1 3833
+S
+#3835
+Small Dungeon Cell~
+This cell seems almost burrowed into the stone, much like a 
+small cave.  The darkness makes it very difficult to see 
+anything in detail, though you can make out small shapes on the 
+ground.  Soft screaching sounds echo all around you, and you 
+can see small figures running about the dungeon floor.
+~
+0 1 1
+D2
+Back into the hallway.
+~
+~
+0 -1 3831
+S
+#3836
+Small Dungeon Cell~
+This cell seems almost burrowed into the stone, much like a 
+small cave.  The darkness makes it very difficult to see 
+anything in detail, though you can make out small shapes on the 
+ground.  Soft screaching sounds echo all around you, and you 
+can see small figures running about the dungeon floor.
+~
+0 1 1
+D2
+Back into the hallway.
+~
+~
+0 -1 3832
+S
+#3837
+Small Dungeon Cell~
+This cell seems almost burrowed into the stone, much like a 
+small cave.  The darkness makes it very difficult to see 
+anything in detail, though you can make out small shapes on the 
+ground.  Soft screaching sounds echo all around you, and you 
+can see small figures running about the dungeon floor.
+~
+0 1 1
+D2
+Back into the hallway.
+~
+~
+0 -1 3833
+S
+#3838
+Small Dungeon Cell~
+This cell seems almost burrowed into the stone, much like a 
+small cave.  The darkness makes it very difficult to see 
+anything in detail, though you can make out small shapes on the 
+ground.  Soft screaching sounds echo all around you, and you 
+can see small figures running about the dungeon floor.
+~
+0 1 1
+D0
+Back into the hallway.
+~
+~
+0 -1 3833
+S
+#3839
+Small Dungeon Cell~
+This cell seems almost burrowed into the stone, much like a 
+small cave.  The darkness makes it very difficult to see 
+anything in detail, though you can make out small shapes on the 
+ground.  Soft screaching sounds echo all around you, and you 
+can see small figures running about the dungeon floor.
+~
+0 1 1
+D0
+Back into the hallway.
+~
+~
+0 -1 3832
+S
+#3840
+Small Dungeon Cell~
+This cell seems almost burrowed into the stone, much like a 
+small cave.  The darkness makes it very difficult to see 
+anything in detail, though you can make out small shapes on the 
+ground.  Soft screaching sounds echo all around you, and you 
+can see small figures running about the dungeon floor.
+~
+0 1 1
+D0
+Back into the hallway.
+~
+~
+0 -1 3831
+S
+#3850
+Camelot's Second Level~
+You've reached the second floor of this wondrous castle.  The 
+stairway continues up even further, and it also goes back to 
+the main level.  The end of the hallway here is sparsely 
+decorated, though the stairwell has been carved out of stone 
+expertly.
+~
+0 8 1
+D3
+Down the short hallway.
+~
+~
+0 -1 3851
+D4
+Up to the third floor.
+~
+~
+0 -1 3880
+D5
+Back to the main level.
+~
+~
+0 -1 3824
+S
+#3851
+Short Hallway~
+The hallway here is adorned with beautiful paintings of those 
+who ruled the surrounding lands before King Arthur.  Like him, 
+each of these men have the air of importance and royalty about 
+them.  The pieces of artwork are supported by finely crafted 
+brass frames.
+~
+0 8 1
+D1
+Towards the main stairwell.
+~
+~
+0 -1 3850
+D3
+Down the short hallway.
+~
+~
+0 -1 3852
+S
+#3852
+Short Hallway~
+The hallway here is adorned with beautiful paintings of those 
+who ruled the surrounding lands before King Arthur.  Like him, 
+each of these men have the air of importance and royalty about 
+them.  The pieces of artwork are supported by finely crafted 
+brass frames. 
+~
+0 8 1
+D1
+Towards the main stairwell.
+~
+~
+0 -1 3851
+D3
+Down the short hallway.
+~
+~
+0 -1 3853
+S
+#3853
+Beginning of the Long Corridor~
+You've reached some sort of a junction here.  A beautiful suite 
+lies to the north, while you can see another beautiful room way 
+to the south.  The main stairwell leading back to the main 
+floor lies to the east.  The light here is much brighter than 
+before, no doubt a result of the increased number of candles in 
+the area.
+~
+0 8 1
+D0
+Into a large suite.
+~
+door~
+0 -1 3854
+D1
+Back towards the stairwell.
+~
+~
+0 -1 3852
+D2
+Down the long corridor.
+~
+~
+0 -1 3855
+S
+#3854
+Lancelot's Private Suite~
+You've entered a beautiful room.  A large shaggy carpet covers 
+the tiled floor, and a beautiful painting of Lancelot's wife 
+hangs above the canopied bed.  The painting is bordered by a 
+brightly shining brass frame with rubies in the four corners.
+~
+0 8 1
+D2
+Out of the suite.
+~
+~
+0 -1 3853
+S
+#3855
+Long Corridor~
+This long hallway leads down towards the guest quarters, as 
+well as the rooms the servants use.  The walls are adorned with 
+beautiful tapestries, donated but the wealthiest families 
+around.  All of them have pledged their allegiance to King Arthur.   
+~
+0 8 1
+D0
+Towards Lancelot's Suite.
+~
+~
+0 -1 3853
+D2
+Down the long corridor.
+~
+~
+0 -1 3856
+S
+#3856
+Long Corridor~
+This long hallway leads down towards the guest quarters, as 
+well as the rooms the servants use.  The walls are adorned with 
+beautiful tapestries, donated but the wealthiest families 
+around.  All of them have pledged their allegiance to King Arthur.   
+~
+0 8 1
+D0
+Towards Lancelot's Suite.
+~
+~
+0 -1 3855
+D2
+Down the long corridor.
+~
+~
+0 -1 3857
+S
+#3857
+Long Corridor~
+This long hallway leads down towards the guest quarters, as 
+well as the rooms the servants use.  The walls are adorned with 
+beautiful tapestries, donated but the wealthiest families 
+around.  All of them have pledged their allegiance to King Arthur.   
+~
+0 8 1
+D0
+Towards Lancelot's Suite.
+~
+~
+0 -1 3856
+D2
+Down the long corridor.
+~
+~
+0 -1 3858
+S
+#3858
+Large Junction~
+>From here, the hallway contines in each of the cardinal 
+directions.  You can go north, back towards Lancelot's Suite 
+and the main stairwell, or you can contine south into the area 
+of the servants' quarters.  To the west, you can see another 
+spectacular suite, and to the east are the guest quarters.    
+~
+0 8 1
+D0
+Back towards Lancelot's room.
+~
+~
+0 -1 3857
+D1
+Towards the guest quarters.
+~
+~
+0 -1 3866
+D2
+Towards the servants' quarters.
+~
+~
+0 -1 3861
+D3
+Towards the suite.
+~
+~
+0 -1 3859
+S
+#3859
+Hallway of Honor~
+The hallway here has a golden glow about it.  You realize that 
+the floor is plated with gold here, and a small coffee table 
+next to you has a gorgeous silver sheen to it.  Above you hangs 
+an enormous chandelier swing gently.  
+~
+0 8 1
+D1
+Back toward the junction.
+~
+~
+0 -1 3858
+D3
+Entrance to a suite.
+~
+door~
+0 -1 3860
+S
+#3860
+Gawain's Quarters~
+Here you've entered the private room of Sir Gawain.  You 
+remember from your father that Sir Gawain single-handedly 
+killed several five-headed dragons who were attacking Camelot.  
+Gawain's room is decorated with silk covering the walls, 
+flowers on the end table, and a large portrait of himself on 
+the wall.    
+~
+0 8 1
+D1
+Out of the suite.
+~
+~
+0 -1 3859
+S
+#3861
+Hallway towards the Servant Quarters~
+This hallway is noticable less well decorated, and seems 
+designed only for ease of use.  To the south, you can see the 
+entrances to three servant rooms.   
+~
+0 8 1
+D0
+Back towards the junction.
+~
+~
+0 -1 3858
+D2
+Towards the servant quarters.
+~
+~
+0 -1 3862
+S
+#3862
+Entrance to Servant Quarters~
+Here are three entrances to servant quarters.  The small rooms 
+are suitable for the commoners who inhabit them.  You wonder, 
+though, if you could possibly live in one comfortably.   
+~
+0 8 1
+D0
+Back towards the junction.
+~
+~
+0 -1 3861
+D1
+Into a Servant's room.
+~
+door~
+0 -1 3865
+D2
+Into a Servant's room.
+~
+door~
+0 -1 3864
+D3
+Into a Servant's room.
+~
+door~
+0 -1 3863
+S
+#3863
+Servant's Quarters~
+This room is small!  You wonder how a person could live here at 
+all.  In fact, you are quite sure that this is even smaller 
+than you cousins dormitory room at college!  A small twin bed 
+sits in one corner.  The sheets look as if they haven't been 
+washed in ages.    
+~
+0 8 1
+D1
+Return to hallway.
+~
+~
+0 -1 3862
+S
+#3864
+Servant's Quarters~
+This room is small!  You wonder how a person could live here at 
+all.  In fact, you are quite sure that this is even smaller 
+than you cousins dormitory room at college!  A small twin bed 
+sits in one corner.  The sheets look as if they haven't been 
+washed in ages.    
+~
+0 8 1
+D0
+Return to hallway.
+~
+~
+0 -1 3862
+S
+#3865
+Servant's Quarters~
+This room is small!  You wonder how a person could live here at 
+all.  In fact, you are quite sure that this is even smaller 
+than you cousins dormitory room at college!  A small twin bed 
+sits in one corner.  The sheets look as if they haven't been 
+washed in ages.    
+~
+0 8 1
+D3
+Return to hallway.
+~
+~
+0 -1 3862
+S
+#3866
+Hallway of Honor~
+The hallway continues here towards the guest quarters and the 
+room of Sir Galahad, as well as back towards the Long 
+Corridor.  In addition, there is a room to the north.   
+~
+0 8 1
+D0
+Into a guest's quarters.
+~
+door~
+0 -1 3870
+D1
+Down the hallway.
+~
+~
+0 -1 3867
+D3
+Back towards the junction.
+~
+~
+0 -1 3858
+S
+#3867
+Hallway of Honor~
+The hallway continues here towards the guest quarters and the 
+room of Sir Galahad, as well as back towards the Long 
+Corridor.  In addition, there are entrances to rooms both north 
+and south of you.    
+~
+0 8 1
+D0
+Into a Guest's Quarters.
+~
+door~
+0 -1 3871
+D2
+Into a small room.
+~
+door~
+0 -1 3873
+D3
+Back towards the junction.
+~
+~
+0 -1 3866
+S
+#3868
+End of the Hallway of Honor~
+The end of the Hallway of Honor leads to Sir Galahad's private 
+room.  Also, to the north, there is a small doorway leading 
+into another guest room.  The door to Sir Galahad's room seems 
+to be made of finely crafted stone; you wonder if you even have 
+the strength to open it.    
+~
+0 8 1
+D0
+Into another guest's room.
+~
+door~
+0 -1 3872
+D1
+Into Sir Galahad's room.
+~
+door~
+0 -1 3869
+D3
+Back towards the junction.
+~
+~
+0 -1 3867
+S
+#3869
+Sir Galahad's Suite~
+Galahad's room is decorated all in silver.  There are silver 
+vases, silver tables, even the bedposts are silver.  Such an 
+honor is only bestowed on one of King Arthur's most revered 
+servant...and friend.    
+~
+0 8 1
+D3
+Back into the Hallway of Honor.
+~
+~
+0 -1 3868
+S
+#3870
+Guest's Quarters~
+Though this room is by no means superbly furnished, it is 
+equipped with all the amenities one could ever need.  The bed 
+is covered with a beautiful, knitted comforter.  You can feel 
+that the blanket is still warm.    
+~
+0 8 1
+D2
+Back into the Hallway of Honor.
+~
+~
+0 -1 3866
+S
+#3871
+Guest's Quarters~
+Though this room is by no means superbly furnished, it is 
+equipped with all the amenities one could ever need.  The bed 
+is covered with a beautiful, knitted comforter.  You can only 
+wonder how much effort must go into making such a fine quality 
+item.      
+~
+0 8 1
+D2
+Back into the Hallway of Honor.
+~
+~
+0 -1 3867
+S
+#3872
+Guest's Quarters~
+Though this room is by no means superbly furnished, it is 
+equipped with all the amenities one could ever need.  The bed 
+is covered with a beautiful, knitted comforter.  You can only 
+wonder how much effort must go into making such a fine quality 
+item.      
+~
+0 8 1
+D2
+Back into the Hallway of Honor.
+~
+~
+0 -1 3868
+S
+#3873
+Chef's Lounge~
+You've entered a lounge for the chefs.  Here, the royal cooks 
+can relax and rest after cleaning the exquisite utensils King 
+Arthur uses.   
+~
+0 8 1
+D0
+Back into the Hallway of Honor.
+~
+~
+0 -1 3867
+D5
+Down to the kitchen.
+~
+~
+0 -1 3825
+S
+#3880
+Third Level of Camelot~
+As you reach the landing of the stairwell, you notice 
+immediately that this level is much more heavily guarded than 
+the others.  The lighting here is also much brighter than on 
+any of the other levels.   
+~
+0 8 1
+D3
+Down the Royal Corridor.
+~
+~
+0 -1 3881
+D5
+Back to the Second Level.
+~
+~
+0 -1 3850
+S
+#3881
+The Royal Corridor~
+This hallway is lined with murals depicting the achievements of 
+the famous King Arthur and his troops.  On either side of you 
+there are lifelike statues of former rulers of this land.    
+~
+0 8 1
+D1
+Back to the stairwell.
+~
+~
+0 -1 3880
+D3
+Down the Royal Corridor.
+~
+~
+0 -1 3882
+S
+#3882
+The Royal Corridor~
+This hallway is lined with murals depicting the achievements of 
+the famous King Arthur and his troops.  On either side of you 
+there are lifelike statues of former rulers of this land.    
+~
+0 8 1
+D1
+Back to the stairwell.
+~
+~
+0 -1 3881
+D3
+Down the Royal Corridor.
+~
+~
+0 -1 3883
+S
+#3883
+Curve in Royal Corridor~
+Here the corridor branches and continues either east or south.  
+Travelling east will take you back towards the stairway down 
+and out of Camelot.  To the south lies another long hallway, 
+and, perhaps, the Inner Chambers of King Arthur.  A door lies 
+to the west.    
+~
+0 8 1
+D1
+Back towards the stairwell.
+~
+~
+0 -1 3882
+D2
+Down the Royal Corridor.
+~
+~
+0 -1 3885
+D3
+The entrance to a small room.
+~
+door~
+0 -1 3884
+S
+#3884
+Merlin's Laboratory~
+As you enter the room, you wince at the terrible odor wafting 
+throughout the area.  A green haze floats lazily in the center 
+of the room here making it difficult to see.  The young 
+enchanter Merlin stands before you working behind a counter.  
+There are several beakers and assorted other bits of equipment 
+used to create chemicals on the countertop.     
+~
+0 8 1
+D1
+Exit of Merlin's Lab.
+~
+~
+0 -1 3883
+S
+#3885
+The Royal Corridor~
+This hallway is lined with murals depicting the achievements of 
+the famous King Arthur and his troops.  On either side of you 
+there are lifelike statues of armored knights.  These are the 
+suits of armor worn by the famous Knights of the Round 
+Table.    
+~
+0 8 1
+D0
+Down the Royal Corridor.
+~
+~
+0 -1 3883
+D2
+Down the Royal Corridor.
+~
+~
+0 -1 3886
+S
+#3886
+The Royal Corridor~
+This hallway is lined with murals depicting the achievements of 
+the famous King Arthur and his troops.  On either side of you 
+there are lifelike statues of armored knights.  These are the 
+suits of armor worn by the famous Knights of the Round 
+Table.    
+~
+0 8 1
+D0
+Down the Royal Corridor.
+~
+~
+0 -1 3885
+D2
+Down the Royal Corridor.
+~
+~
+0 -1 3887
+S
+#3887
+The Royal Corridor~
+This hallway is lined with murals depicting the achievements of 
+the famous King Arthur and his troops.  On either side of you 
+there are lifelike statues of armored knights.  These are the 
+suits of armor worn by the famous Knights of the Round 
+Table.    
+~
+0 8 1
+D0
+Down the Royal Corridor.
+~
+~
+0 -1 3886
+D2
+Down the Royal Corridor.
+~
+~
+0 -1 3888
+S
+#3888
+Turn in the Royal Corridor~
+Here the corridor veers east.  You can continue east, or return 
+to the stairwell by going north.    
+~
+0 8 1
+D0
+North down the Royal Corridor.
+~
+~
+0 -1 3887
+D1
+East down the Royal Corridor.
+~
+~
+0 -1 3889
+S
+#3889
+The Royal Corridor~
+This hallway is lined with murals depicting the achievements of 
+the famous King Arthur and his troops.  On either side of you 
+there are lifelike statues of armored knights.  These are the 
+suits of armor worn by the famous Knights of the Round 
+Table.    
+~
+0 8 1
+D1
+Down the Royal Corridor.
+~
+~
+0 -1 3890
+D3
+Down the Royal Corridor.
+~
+~
+0 -1 3888
+S
+#3890
+End of the Royal Corridor~
+You've reached the end of the Royal Corridor.  A pair of gold 
+double doors lies before you to the north.  They seem to almost 
+glow as you approach them.    
+~
+0 8 1
+D0
+Into a large room.
+~
+gold door~
+0 -1 3891
+D3
+Down the Royal Corridor.
+~
+~
+0 -1 3889
+S
+#3891
+Royal Ante-Chamber~
+Here is where King Arthur does all of his work.  A beautiful 
+oak desk sits at the east end of the room overlooking the 
+wondrous scenery of Camelot's Courtyard.  A giant mirror lies 
+directly in front of you, reflecting the image of a worn 
+adventurer.  The only exit appears to be at the south of the room.    
+~
+0 12 1
+D0
+A giant mirror.
+~
+mirror~
+0 -1 3892
+D2
+Back into the Royal Corridor.
+~
+~
+0 -1 3890
+S
+#3892
+Arthur's Private Chambers~
+You've entered the private sleeping chamber of King Arthur.  
+The room is littered with numerous artifacts given to him by 
+those who fall under his rule.  Some, you surmise, did not give 
+up these items easily.  However, your attention is soon drawn 
+to the beautiful sword at Arthur's side.   
+~
+0 8 1
+D2
+Exit from Arthur's Chambers.
+~
+~
+0 -1 3891
+S
+#0
+
+
+
+#SPECIALS
+M 3807 spec_thief
+M 3848 spec_cast_cleric
+M 3865 spec_cast_mage
+S
+
+
+
+#RESETS
+M 0 3802 2 3802 1
+E 0 3802 0 16
+M 0 3802 2 3803 1
+E 0 3802 0 16
+M 0 3805 10 3807 2
+G 0 3817 0
+E 0 3805 0 16
+M 0 3805 10 3807 2
+E 0 3805 0 16
+M 0 3807 6 3808 1
+E 0 3807 0 16
+M 0 3805 10 3810 1
+E 0 3805 0 16
+M 0 3805 10 3812 1
+E 0 3805 0 16
+M 0 3807 6 3813 2
+E 0 3807 0 16
+M 0 3807 6 3813 2
+E 0 3807 0 16
+M 0 3805 10 3817 1
+E 0 3805 0 16
+M 0 3805 10 3818 4
+E 0 3805 0 16
+M 0 3805 10 3818 4
+E 0 3805 0 16
+M 0 3805 10 3818 4
+E 0 3805 0 16
+M 0 3805 10 3818 4
+E 0 3805 0 16
+M 0 3810 3 3825 2
+E 0 3810 0 16
+M 0 3810 3 3825 2
+E 0 3810 0 16
+M 0 3805 10 3830 1
+G 0 3815 0
+E 0 3805 0 16
+M 0 3822 3 3835 1
+M 0 3821 2 3837 1
+M 0 3822 3 3838 1
+M 0 3822 3 3839 1
+M 0 3821 2 3840 1
+M 0 3840 10 3850 1
+E 0 3840 0 16
+M 0 3840 10 3852 1
+E 0 3840 0 16
+M 0 3840 10 3853 2
+E 0 3840 0 16
+M 0 3840 10 3853 2
+E 0 3840 0 16
+M 0 3842 1 3854 1
+E 0 3842 0 16
+E 0 3843 0 13
+E 0 3841 0 17
+M 0 3840 10 3856 1
+E 0 3840 0 16
+M 0 3840 10 3858 1
+E 0 3840 0 16
+M 0 3840 10 3859 2
+E 0 3840 0 16
+M 0 3840 10 3859 2
+E 0 3840 0 16
+M 0 3844 1 3860 1
+E 0 3844 0 16
+E 0 3845 0 7
+M 0 3807 6 3863 1
+E 0 3807 0 16
+M 0 3807 6 3864 1
+E 0 3807 0 16
+M 0 3807 6 3865 1
+E 0 3807 0 16
+M 0 3840 10 3868 2
+E 0 3840 0 16
+M 0 3840 10 3868 2
+E 0 3840 0 16
+M 0 3846 1 3869 1
+E 0 3846 0 16
+E 0 3847 0 4
+M 0 3848 1 3871 1
+E 0 3848 0 16
+E 0 3838 0 2
+M 0 3810 3 3873 1
+E 0 3810 0 16
+M 0 3860 9 3880 1
+E 0 3860 0 16
+M 0 3860 9 3881 1
+E 0 3860 0 16
+M 0 3860 9 3883 2
+E 0 3860 0 16
+M 0 3860 9 3883 2
+E 0 3860 0 16
+M 0 3865 1 3884 1
+E 0 3865 0 16
+E 0 3866 0 3
+M 0 3860 9 3887 1
+E 0 3860 0 16
+M 0 3860 9 3890 2
+E 0 3860 0 16
+M 0 3860 9 3890 2
+E 0 3860 0 16
+M 0 3860 9 3892 2
+E 0 3860 0 16
+M 0 3860 9 3892 2
+E 0 3860 0 16
+M 0 3870 1 3892 1
+E 0 3870 0 16
+E 0 3871 0 5
+E 0 3872 0 9
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

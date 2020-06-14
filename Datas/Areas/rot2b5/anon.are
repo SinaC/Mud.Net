@@ -1,0 +1,8913 @@
+#AREADATA
+Name The City of Anon~
+Builders None~
+VNUMs 12500 12899
+Credits { ALL } Yaegar  The City of Anon~
+Security 9
+End
+
+#MOBILES
+#12500
+Gath healer~
+Gath the Healer~
+Gath, High Priest and Healer of Anon, greets you politely.
+~
+"Greetings, Fair Adventurer. How may I help thee? If thou art but a youngster
+I shall aid thee with my magic for free, but if thou art a veteran, then thou
+wilst have to pay... To see how I may help thee, type HEAL, which will also
+show you the cost of each service".
+
+~
+human~
+ABDGL A 0 AHMNV 1000 0
+99 16 15d80+5187 33d37+5662 3d39+61 none
+-38 -37 -39 -37
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12501
+driud guildmaster~
+the Driud Guildmaster~
+The Driud Guildmaster stands here, patiently watching you.
+~
+"Welcome, my child, to the Guild of the Druids. Should you wish to
+practice a skill or spell that is within my area of expertise, simply
+type PRAC <skillname>. Typing PRAC without an argument will display what
+skills or spells you may learn here".
+~
+human~
+ABGN A 0 AHMNV 1000 0
+10 1 2d21+59 7d7+82 2d4+6 none
+4 6 6 9
+0 0 0 0
+stand stand male 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12502
+jolob smith blacksmith~
+Jolob the Blacksmith~
+Jolob the Blacksmith grunts a greeting as you enter.
+~
+"Well, how can I help ye? If its repairs ye're after, then hand o'er the
+item that be damaged. If not, then I'm afeared there ain't
+nuthin' I can help ye with".
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 22d59+6184 25d45+4979 3d39+62 none
+-37 -39 -39 -36
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12503
+armorer~
+the Armorer~
+The Armorer offers to show you some of his wares.
+~
+"Welcome to my place of business, adventurer. Got something you're after?
+Just type BUY <Item>. If you want to know WHAT you can buy (usually a wise
+move) tpye LIST. If you're just after a specific type of item, say a shield,
+type LIST shield, and I'll show you what I have that matches that
+description. If you want to sell me something, type SELL <item>. If you
+just want to know what it's worth, type VALUE <item> and I'll give you a
+free valuation".
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 33d37+5662 18d71+5917 10d10+61 none
+-40 -40 -39 -36
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12504
+weaponsmith smith~
+the Weaponsmith~
+The Weaponsmith eyes you curiously.
+~
+"Greetings stranger, or have we met before? Never mind. Either way, to
+see what I have for sale, type LIST. if you want to buy an item you see
+there, type BUY <item> (simple, huh?). If you want me to buy something off
+you, type SELL <item>. If you just want a valuation, type VALUE <item> and
+I'll let you know what its worth for free".
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 33d37+5662 33d37+5662 3d39+62 none
+-36 -39 -40 -35
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12505
+mercenary master~
+the Mercenary Master~
+The Mercenary Master grunts as you enter.
+~
+"Want a Mercenary? Then type LIST to see what I sell, then type BUY <name>
+to hire 'im. That's it. Now pay up or get out".
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 25d45+4979 18d71+5917 10d10+61 none
+-40 -39 -40 -35
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12506
+mage~
+the Mage~
+The Mage smiles sweetly and asks how she may be of service.
+~
+"To see what you can buy here," she begins sweetly,"type LIST. If you
+see something you'd like, type BUY <item>. If you have something you
+think I may like to buy, type SELL <item>. Alternatively I can give you
+a free evaluation of the item- simply type VALUE <item>".
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 28d39+4767 18d71+5917 7d16+63 none
+-38 -38 -37 -35
+0 0 0 0
+stand stand female 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12507
+mitzak sage~
+Mitzak the Sage~
+Mitzak the Sage waves at you feebly as you enter his home.
+~
+"Hullo. Come to ID some equipment have you? Well, the process is quite
+simple really. Even dwarves can understand it... hmmph... yes now where was
+I? Ah yes... the process... hmmm... well, simply type GIVE <item> mitzak,
+and then I will identify it, tell you what it does, and hand it back. Easy,
+eh? Hmmph... Anyway..."
+~
+human~
+ABG A CDEF AHMNV 1000 0
+99 16 25d45+4979 30d39+5433 5d23+63 none
+-37 -37 -42 -35
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12508
+pet owner~
+the Pet Shop Owner~
+The Pet Shop Owner smiles politely and waits for your request.
+~
+"Greetings. You wish to buy a pet? Well, to see what I have in stock, type
+LIST. Be sure to note the Level of the items that interest you, as you can
+not buy a pet of higher level than yourself. When you see one that you want
+to buy, simply type BUY <pet>, and if you wish to name it, add the name that
+you want it to have to the same line, i.e, BUY mouse harold".
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 33d37+5662 22d59+6184 10d10+61 none
+-39 -37 -41 -32
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12509
+mage guildmaster~
+the Mage Guildmaster~
+The Mage Guildmaster welcomes you to his office.
+~
+"Welcome, friend, to the Guild of the Mages. Should you wish to practice
+a skill or spell that is within my area of expertise, simply type PRAC
+<skillname>. Typing PRAC without an argument will display what skills or
+spells you may learn here".
+~
+human~
+ABGK A 0 AHMNV 1000 0
+10 1 5d5+43 5d8+67 2d4+7 none
+4 5 4 11
+0 0 0 0
+stand stand male 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12510
+grocer~
+the Grocer~
+The Grocer smiles and welcomes you to her store.
+~
+"To see what you can buy here," she begins sweetly,"type LIST. If you
+see something you'd like, type BUY <item>. If you have something you
+think I may like to buy, type SELL <item>. Alternatively I can give you
+a free evaluation of the item- simply type VALUE <item>".
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 15d80+5187 33d37+5662 3d39+61 none
+-40 -39 -39 -35
+0 0 0 0
+stand stand female 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12511
+dwarf baker~
+the Baker~
+The Baker, a rough-looking dwarf, demands your business.
+~
+"Bread? Course I got bread, STUPID! Thats why it's called a BAKERY. I also
+got pies, rolls an' sandwiches. If ya want an exact list, then type LIST.
+If ya wanna buy something, then type BUY <item>. If ya think ya got sumptin'
+I might wanna buy, type SELL <item>. Now buy up!"
+~
+dwarf~
+ABG A J AHMNV 1000 0
+99 16 15d80+5187 33d37+5662 3d39+62 none
+-39 -40 -41 -34
+0 LQ LQR R
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12512
+bartender~
+the Bartender~
+The Bartender grins smugly as he cleans a glass.
+~
+"Want a drink, friend? Of COURSE you do. Especially if you're one of them
+spellflinging types. To see whats on tap, type LIST. If you see something
+you fancy, well, then type BUY <item>. OK?"
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 22d59+6184 18d71+5917 3d39+61 none
+-41 -39 -39 -35
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12513
+warrior guildmaster~
+the Warrior Guildmaster~
+The Warrior Guildmaster stares at you grimly.
+~
+"You want to train to fight? Good. You want to train to kill? Better. To
+see if I can help you, type PRAC, and that will list what I can teach you
+currently. If you see something you want to learn, type PRAC <skill>. Then
+you can kill KIll KILL!"
+~
+human~
+ABGQ A 0 AHMNV 1000 0
+10 1 5d8+67 4d5+35 2d6+8 none
+4 6 7 8
+0 0 0 0
+stand stand male 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12514
+thief guildmaster~
+the Thieves Guildmaster~
+The Thieves Guildmaster grins impishly at you.
+~
+"Sooooo... How can I help you? You want to learn how to STEAL???? How
+insulting! Are you insinuating that I am a- a THIEF??? Listen, we
+do NOT STEAL! We BORROW... Now with that out of the way, type PRAC to see
+what I can teach you, and PRAC skill to learn one of the skills shown."
+~
+human~
+ABCGO A 0 AHMNV 1000 0
+10 1 4d12+75 5d8+67 2d6+8 none
+4 4 3 8
+0 0 0 0
+stand stand male 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12515
+druid waiter~
+a Druid Waiter~
+A Druid Waiter is here serving drinks.
+~
+A prominent employee of the Guild.
+Honest, Reliable and Courteous (yeah right).
+~
+human~
+ABG A 0 AHMNV 0 0
+60 10 9d59+1266 18d27+1178 5d13+38 none
+-21 -20 -22 -15
+0 0 0 0
+stand stand male 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12516
+mage waiter~
+a Mage Waiter~
+A Mage Waiter is here serving drinks.
+~
+A prominent employee of the Guild.
+Honest, Reliable and Courteous (yeah right).
+~
+human~
+ABG A 0 AHMNV 0 0
+60 10 6d81+1095 8d65+1221 6d10+36 none
+-19 -19 -20 -17
+0 0 0 0
+stand stand male 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12517
+warrior waiter~
+a Warrior Waiter~
+A Warrior Waiter is here serving drinks.
+~
+A prominent employee of the Guild.
+Honest, Reliable and Courteous (yeah right).
+~
+human~
+ABG A 0 AHMNV 0 0
+60 10 17d28+1136 17d28+1136 6d10+36 none
+-20 -20 -18 -15
+0 0 0 0
+stand stand male 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12518
+greasy bartender~
+a Greasy Bartender~
+A Greasy Bartender is here serving drinks.
+~
+A prominent employee of the Guild.
+Honest, Reliable and Courteous (yeah right).
+~
+human~
+ABG A 0 AHMNV 0 0
+60 10 8d65+1221 18d27+1178 6d10+37 none
+-19 -20 -22 -14
+0 0 0 0
+stand stand male 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12519
+mouse~
+the mouse~
+A small field mouse.
+~
+The mouse looks like a cute, little, fierce fighter.
+~
+human~
+AI A 0 AHMV 400 0
+4 0 2d4+16 2d6+21 1d5+3 none
+9 9 10 12
+0 0 0 0
+stand stand none 40
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12520
+badger~
+the badger~
+A loyal, vicious badger growls at you.
+~
+The badger looks like a fierce fighter.
+~
+human~
+AI A 0 AHMV 400 0
+10 1 5d6+51 4d12+75 2d4+7 none
+7 4 4 9
+0 0 0 0
+stand stand none 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12521
+eagle~
+the eagle~
+A large, quick, loyal eagle is here.
+~
+The eagle looks like a fierce fighter.
+~
+human~
+AI A P AHMV 400 0
+15 2 6d10+99 6d10+99 2d6+9 none
+2 3 3 8
+0 0 0 0
+stand stand none 150
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12522
+grizzly bear~
+the grizzly bear~
+A large, loyal grizzly bear is here.
+~
+The grizzly bear looks like a strong, fierce fighter.
+~
+human~
+AI A 0 AHMV 0 0
+20 3 8d10+135 9d11+168 3d5+11 none
+1 -2 -1 3
+0 0 0 0
+stand stand none 200
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12523
+elephant~
+the elephant~
+A HUGE Bull Elephant stomps its feet and lowers its head to charge.
+~
+The elephant is a BAD ASS.
+~
+human~
+AI A 0 AHMV 0 0
+30 5 12d14+307 7d27+327 5d6+20 none
+-4 -5 -6 -2
+0 0 0 0
+stand stand none 300
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12524
+cuervo headsman~
+Cuervo the headsman~
+Cuervo the Headsman stands here eyeing you cautiously.
+~
+Cuervo has lopped more heads off with his trusty guillotine then you EVER
+will with your weapons.
+~
+human~
+ABDG A 0 AHMNV 0 0
+99 16 28d47+6463 15d80+5187 3d39+61 none
+-39 -39 -39 -35
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12525
+aod dealer~
+Aod the dealer~
+Aod the dealer stands in the shadows here.
+~
+Aod the dealer looks just like the hoodlum dealer types you see on TV.
+He's wearing a concert shirt, and Levi's 501 jeans.  His hair is pulled back
+into a ponytail.  A beard and moustache complete the look.  Aod has
+brought some drugs with him from Generic MUD.
+
+<worn on penis>         (Broke In) A Trojan (TM) Condom.
+
+AOD apparently practices safe sex...
+~
+human~
+ACG A DF AHMV 0 0
+60 10 18d27+1178 17d28+1136 7d9+39 none
+-20 -20 -20 -14
+0 0 0 0
+stand stand male 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12526
+vampire guildmaster~
+the Vampire Guildmaster~
+The Vampire Guildmaster greets you telepathically.
+~
+"Greetings," intones the Guildmaster, his thoughts ringing in your head."You
+wish to train in my arts? Very well. Type PRAC to see what you can learn
+from me, then PRAC <skill> to learn any skill that you desire. Say... you
+have a NICE cranium..."
+~
+human~
+ABEG A 0 AHMNV 0 0
+10 1 5d8+67 2d21+59 2d4+6 none
+8 5 5 11
+0 0 0 0
+stand stand male 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12527
+cleric guildmaster~
+the Cleric Guildmaster~
+The Cleric Guildmaster bows before you.
+~
+"Welcome, honorable student, to the most honorable Guild of the Clerics. If
+you wish to learn here, type PRAC to see what I may teach you. If you see
+a skill you'd like to learn, type PRAC <skill> to learn it. Practice well,
+train hard, and dedicate yourself to the higher disciplines of the healing
+arts".
+~
+human~
+ABGP A 0 AHMNV 1000 0
+10 1 4d12+75 4d12+75 2d3+6 none
+5 8 3 9
+0 0 0 0
+stand stand male 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12528
+ranger guildmaster~
+the Ranger Guildmaster~
+The Ranger Guildmaster sqwaks loudly and welcomes you to her nest.
+~
+"*>SCREECH<* You wish to learn Ranger skills? Type PRAC to see what I can
+teach you, and if there is something I can teach you that you wish to learn,
+type PRAC <skill>. *>SQWAAK<*"
+~
+unique~
+ABGY A DFJLT AHMNV 1000 0
+10 1 4d5+35 4d5+35 2d5+8 none
+6 3 7 7
+0 J JLQ LQ
+stand stand female 100
+ABCDEFGHIJKMPV ABCDEFGHIJKP medium unknown
+#12529
+vampire waiter~
+a Vampire Waiter~
+A Vampire Waiter is here serving drinks.
+~
+A prominent employee of the Guild.
+Honest, Reliable and Courteous (yeah right).
+~
+human~
+ABG A 0 AHMNV 0 0
+60 10 22d24+1418 20d26+1313 7d8+36 none
+-20 -20 -21 -17
+0 0 0 0
+stand stand none 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12530
+cleric waiter~
+a Cleric Waiter~
+A Cleric Waiter is here serving drinks.
+~
+A prominent employee of the Guild.
+Honest, Reliable and Courteous (yeah right).
+~
+human~
+ABG A 0 AHMNV 0 0
+60 10 9d59+1266 8d65+1221 7d9+39 none
+-20 -20 -20 -17
+0 0 0 0
+stand stand male 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12531
+ranger waitress~
+a Ranger Waitress~
+A Ranger Waitress is here serving drinks.
+~
+A prominent employee of the Guild.
+Honest, Reliable and Courteous (yeah right).
+~
+human~
+ABG A 0 AHMNV 0 0
+60 10 17d28+1136 8d65+1221 5d13+38 none
+-20 -23 -20 -16
+0 ABCD 0 0
+stand stand female 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12532
+castellan~
+the Castellan of Anon~
+The Castellan of Anon politely welcomes you to his city.
+~
+The Castellan is a tall, lean man of middle years with graying hair and
+a sinewy frame. He is always polite and helpful, but is more than prepared
+to do what it takes to defend his city. A veteran of more than twenty years
+of combat, he is not a man to be toyed with.
+~
+human~
+AG A CD AHMNV 1000 0
+60 10 13d42+1361 8d65+1221 7d9+38 none
+-21 -20 -21 -16
+0 0 0 0
+stand stand male 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12533
+citizen~
+a citizen~
+A citizen of Anon passes by you.
+~
+Anon is not a huge city in terms of population, but there are a fair number
+of residents, such as this fellow.
+~
+human~
+AG A 0 AHMV 0 0
+5 0 3d5+26 5d6+51 2d2+4 none
+7 6 6 11
+0 0 0 0
+stand stand male 50
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12534
+citizen~
+a citizen~
+A citizen of Anon passes by you.
+~
+Anon is not a huge city in terms of population, but there are a fair number
+of residents, such as this lady.
+~
+human~
+AG A 0 AHMV 0 0
+5 0 5d5+43 2d6+21 1d3+3 none
+10 9 11 12
+0 0 0 0
+stand stand female 50
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12535
+child~
+a child~
+A child frolics in the street here.
+~
+There are not that many children in Anon, so those that are present are
+treasured by the locals. However, this endearment certainly isn't shared by
+visitors, who find the spoiled brats insufferable.
+~
+human~
+AG A 0 AHMV 0 0
+3 0 1d3+5 4d5+35 1d3+3 none
+10 9 10 14
+0 0 0 0
+stand stand male 30
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12536
+janitor~
+the janitor~
+A janitor is walking around, cleaning up.
+~
+"Grumble grumble... you don't think I got anything better to do than pick up
+YOUR crap? Grumble grumble... and these BLOODSTAINS! *SIGH*"
+~
+human~
+AG A D AHMV 900 0
+6 1 5d5+43 2d2+12 2d2+4 none
+7 10 9 10
+0 0 0 0
+stand stand male 60
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12537
+footpad~
+a footpad~
+A footpad stalks around looking for an easy victim.
+~
+The footpad skulks about, looking for someone to conk over the head.
+~
+human~
+ACG A 0 AHMV -200 0
+6 1 4d5+35 2d6+21 2d3+5 none
+9 5 5 9
+0 0 0 0
+stand stand male 60
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12538
+drunk~
+a drunk~
+A singing, happy drunk.
+~
+A drunk who seems to be too happy, and to carry too much money. He mumbles some
+thing unintelligible and stumbles away.
+~
+human~
+AG A 0 AHMV 400 0
+4 0 4d5+35 2d4+16 1d3+2 none
+8 11 8 13
+0 0 0 0
+stand stand male 40
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12539
+beggar~
+a beggar~
+A beggar is here, well... begging.
+~
+"Hey mista! Spare a veteran a dime?"
+~
+human~
+ABG A 0 AHMV 400 0
+3 0 2d2+12 1d5+8 1d3+2 none
+8 7 12 14
+0 0 0 0
+stand stand male 30
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12540
+thief~
+a thief~
+A thief adroitly cuts the strings of another fat merchant's purse.
+~
+This clever fellow has robbed dozens of unsuspecting visitors to Anon.
+~
+human~
+AGH A Q ABHMV 0 0
+10 1 2d21+59 4d12+75 2d4+7 none
+5 6 4 9
+0 0 0 0
+stand stand male 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12541
+fido~
+a beastly fido~
+The beastly fido is here looking for food.
+~
+The beastly fido is foaming at the mouth. You smell the aroma of his latest kil
+l.
+~
+human~
+AGH A 0 AHMV 0 0
+5 0 3d5+26 5d6+51 2d3+5 none
+9 8 8 13
+0 0 0 0
+stand stand none 50
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12542
+rat~
+a huge sewer rat~
+A huge sewer rat that probably WOULDN'T taste like pumpkin pie.
+~
+Rats! Eeyew! They come up out of the sewer and steal the children of Anon.
+Good.
+~
+human~
+AGH A 0 AHMV 0 0
+3 0 2d6+21 2d2+12 1d3+2 none
+10 8 8 12
+0 0 0 0
+stand stand none 30
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12543
+cat~
+a cat~
+A stray cat rummages through some trash here.
+~
+The cat suddenly emerges, triumphant, with a half-eaten steak, and runs off.
+~
+human~
+AGH A 0 AHMV 0 0
+2 0 3d5+26 1d2+5 1d3+2 none
+9 11 10 16
+0 0 0 0
+stand stand female 20
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12544
+guard~
+a City Guard~
+A Member of the City Guard warns you to stay out of trouble.
+~
+This fellow is a member of one of the best Law Enforcement Agencies on the
+continent. Dedicated, loyal, efficient, he is the epitome of Truth, Justice
+and the Anon Way :).
+~
+human~
+ADG A C AHMNV 1000 0
+50 8 16d24+835 11d38+904 7d7+31 none
+-16 -16 -13 -9
+0 0 0 0
+stand stand male 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12545
+guard~
+a City Guard~
+A Member of the City Guard warns you to stay out of trouble.
+~
+This lady is a member of one of the best Law Enforcement Agencies on the
+continent. Dedicated, loyal, efficient, she is the epitome of Truth, Justice
+and the Anon Way :).
+~
+human~
+ADG A C AHMNV 1000 0
+50 8 15d25+802 13d31+869 6d8+31 none
+-14 -16 -16 -12
+0 0 0 0
+stand stand female 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12546
+guard~
+a City Guard~
+A Member of the City Guard stands rigidly at attention here.
+~
+This fellow is a member of one of the best Law Enforcement Agencies on the
+continent. Dedicated, loyal, efficient, he is the epitome of Truth, Justice
+and the Anon Way :).
+~
+human~
+ABDG A C AHMNV 1000 0
+50 8 11d38+904 16d24+835 7d7+32 none
+-13 -15 -14 -8
+0 0 0 0
+stand stand male 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12547
+hobbit merc1~
+Hobbit Mercenary~
+A Hobbit Mercenary scowls menacingly at you.
+~
+This Merc looks big and tough. Better be careful.
+~
+human~
+AI A F AHMV 0 0
+15 2 6d11+107 6d11+107 3d5+10 none
+0 1 0 7
+0 0 0 0
+stand stand male 150
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12548
+elven elf merc2~
+Elven Mercenary~
+An Elven Mercenary scowls menacingly at you.
+~
+This Merc looks big and tough. Better be careful.
+~
+elf~
+AI A DJ AHMV 0 0
+20 3 10d11+194 6d21+208 2d9+12 none
+-2 -2 0 5
+0 B BZ Z
+stand stand male 200
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12549
+dwarf dwarven merc3~
+Dwarven Mercenary~
+A Dwarven Mercenary scowls menacingly at you.
+~
+This Merc looks big and tough. Better be careful.
+~
+dwarf~
+AI A J AHMNV 0 0
+25 4 6d24+238 7d19+223 4d5+14 none
+-3 -3 -2 1
+0 LQ LQR R
+stand stand male 250
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12550
+troll trollish merc4~
+Trollish Mercenary~
+A Trollish Mercenary scowls menacingly at you.
+~
+This Merc looks big and tough. Better be careful.
+~
+troll~
+AI A DFJc ABHMNV 0 0
+30 5 11d13+254 7d23+271 5d5+18 none
+-6 -6 -5 -3
+D BE BEHK HK
+stand stand male 300
+ABCDEFGHIJKMUV ABCDEFGHIJKUV medium unknown
+#12551
+giant merc5~
+Hill Giant Mercenary~
+A Hill Giant Mercenary scowls menacingly at you.
+~
+This Merc looks big and tough. Better be careful.
+~
+giant~
+AI A 0 AHMNV 0 0
+35 5 4d51+347 14d14+367 3d12+22 none
+-6 -6 -8 -2
+0 HI HIJP JP
+stand stand male 350
+ABCDEFGHIJKMV ABCDEFGHIJK large unknown
+#12552
+half-dragon dragon merc6~
+Half-Dragon Mercenary~
+A Half-Dragon Mercenary scowls menacingly at you.
+~
+This Merc looks big and tough. Better be careful.
+~
+draconian~
+AI A DFPT AHMV 0 0
+40 6 16d16+508 14d21+623 4d10+24 none
+-12 -9 -8 -4
+LQ HILQ FGHIJ FGJ
+stand stand male 400
+ABCDEFGHIJKMPQV ABCDEFGHIJKPQ medium unknown
+#12553
+salvatore~
+Salvatore~
+Salvatore says, in a broad Scottish accent, "What yer havin'?"
+~
+Salvatore is a broad man of Mediterranean descent in his middle years. He
+goes on to tell you that you can have anything you want, as long as it's
+deep-fried. That includes the pizza...
+~
+human~
+ABDG A 0 AHMNV 1000 0
+99 16 30d39+5433 18d71+5917 5d23+63 none
+-39 -38 -38 -34
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12691
+east wall guard~
+an east wall guard~
+An east wall guard patrols the battlements, ever alert for approaching enemies.
+~
+These dedicated guards are among the elite of the guards of the city,
+selected for their dedication, endurance and keen eyesight. They remain
+eternally vigilant, not wishing for their city to fall under the domination
+of evil forces.
+~
+human~
+ADG A 0 AHMNV 500 0
+50 8 16d24+835 11d38+904 7d7+32 none
+-15 -16 -16 -12
+0 0 0 0
+stand stand male 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12692
+south wall guard~
+a south wall guard~
+A south wall guard patrols the battlements, ever alert for approaching enemies.
+~
+These dedicated guards are among the elite of the guards of the city,
+selected for their dedication, endurance and keen eyesight. They remain
+eternally vigilant, not wishing for their city to fall under the domination
+of evil forces.
+~
+human~
+ADG A 0 AHMNV 500 0
+50 8 16d24+835 11d38+904 7d7+31 none
+-14 -12 -14 -11
+0 0 0 0
+stand stand male 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12693
+north wall guard~
+a north wall guard~
+A north wall guard patrols the battlements, ever alert for approaching enemies.
+~
+These dedicated guards are among the elite of the guards of the city,
+selected for their dedication, endurance and keen eyesight. They remain
+eternally vigilant, not wishing for their city to fall under the domination
+of evil forces.
+~
+human~
+ADG A 0 AHMNV 500 0
+50 8 11d38+904 11d38+904 7d7+32 none
+-15 -14 -13 -9
+0 0 0 0
+stand stand male 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12694
+west wall guard~
+an west wall guard~
+An west wall guard patrols the battlements, ever alert for approaching enemies.
+~
+These dedicated guards are among the elite of the guards of the city,
+selected for their dedication, endurance and keen eyesight. They remain
+eternally vigilant, not wishing for their city to fall under the domination
+of evil forces.
+~
+human~
+ADG A 0 AHMNV 500 0
+50 8 15d25+802 16d24+835 6d8+31 none
+-15 -14 -14 -8
+0 0 0 0
+stand stand male 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12695
+guard captain east wall~
+the east wall guard captain~
+The east wall guard captain stares grimly at you.
+~
+This stern fellow is in charge of the guards on this wall, and has no time
+for idle chit-chat with civilians. Or silly adventurers either. Scars on his
+face and the cold look in his eye bespeak of a man who definitely knows how
+to handle himself in battle.
+~
+human~
+ABDG A CDEF AHMNV 800 0
+55 9 17d26+1015 20d20+946 6d9+34 none
+-14 -15 -15 -14
+0 0 0 0
+stand stand male 550
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12696
+guard captain south wall~
+the south wall guard captain~
+The south wall guard captain stares grimly at you.
+~
+This stern fellow is in charge of the guards on this wall, and has no time
+for idle chit-chat with civilians. Or silly adventurers either. Scars on his
+face and the cold look in his eye bespeak of a man who definitely knows how
+to handle himself in battle.
+~
+human~
+ABDG A CDEF AHMNV 800 0
+55 9 17d26+1015 6d81+1095 6d9+33 none
+-17 -16 -16 -14
+0 0 0 0
+stand stand male 550
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12697
+guard captain north wall~
+the north wall guard captain~
+The north wall guard captain stares grimly at you.
+~
+This stern fellow is in charge of the guards on this wall, and has no time
+for idle chit-chat with civilians. Or silly adventurers either. Scars on his
+face and the cold look in his eye bespeak of a man who definitely knows how
+to handle himself in battle.
+~
+human~
+ABDG A CDEF AHMNV 800 0
+55 9 17d28+1136 17d26+1015 6d9+34 none
+-17 -18 -18 -13
+0 0 0 0
+stand stand male 550
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12698
+guard captain west wall~
+the west wall guard captain~
+The west wall guard captain stares grimly at you.
+~
+This stern fellow is in charge of the guards on this wall, and has no time
+for idle chit-chat with civilians. Or silly adventurers either. Scars on his
+face and the cold look in his eye bespeak of a man who definitely knows how
+to handle himself in battle.
+~
+human~
+ABDG A CDEF AHMNV 800 0
+55 9 16d27+977 20d20+946 7d8+35 none
+-18 -17 -17 -15
+0 0 0 0
+stand stand male 550
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12699
+knight~
+a knight~
+A well-armored knight strolls the battlements.
+~
+The knights of Anon are a well-respected and renowned order that has been
+in existence for 15 generations. However constant wars and incursions of
+chaos have severely depleted their numbers, and now very few remain.
+~
+human~
+ABDG A CDEF AHMNV 1000 0
+58 9 9d59+1266 17d26+1015 4d15+34 none
+-19 -16 -21 -15
+0 0 0 0
+stand stand male 580
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12700
+battle mage~
+an elven battle mage~
+An elven battle mage stands ready.
+~
+While Elves are not by nature particularly interested in war or soldiering,
+there are, as in all races, "black sheep" who feel the call to arms as
+keenly as any Dwarven or Human mercenary. These few become mercenaries or
+adventurers. Some of them, such as this fellow, labor for the forces of
+good, if the price is right.
+~
+human~
+ABDG A CDEFP AHMV 400 0
+56 9 8d59+1054 18d27+1178 4d15+34 none
+-17 -19 -16 -15
+0 0 0 0
+stand stand male 560
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12701
+marshal~
+the marshal~
+The marshal of the guards marches back and forth, inspecting his men.
+~
+This ancient veteran is clad in an immaculate uniform that sports more
+medals than it does material. He marches proudly along, constantly on
+duty, ever eager to make sure order is maintained on HIS walls.
+~
+human~
+ABDG A CDEF AHMNV 800 0
+62 10 9d59+1266 13d42+1361 7d9+38 none
+-21 -20 -23 -18
+0 0 0 0
+stand stand male 620
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12702
+crossbowman~
+a crossbowman~
+A crossbowman patrols here, alert for invaders.
+~
+The crossbowmen of the city of Anon are renowned for their marksmanship
+across the land. Only the very best can ever hope to join their elite
+ranks.
+~
+human~
+ABDG A 0 AHMNV 400 0
+48 8 11d38+904 10d35+705 2d27+29 none
+-14 -15 -15 -10
+0 0 0 0
+stand stand male 480
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12703
+smith~
+the guard smith~
+The wall guard smith grunts at you.
+~
+This doughty dwarf spends all his time repairing damaged equipment. He isn't
+one for much conversation.
+~
+dwarf~
+ABDG A CDEFJ AHMNV 0 0
+59 9 9d59+1266 18d27+1178 6d10+36 none
+-20 -19 -21 -14
+0 LQ LQR R
+stand stand male 590
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12704
+spectre~
+a vile spectre~
+A vile spectre lunges at you.
+~
+This is the evil soul of a vile sergeant-at-arms who imprisoned the young
+girl here who eventually slew him, dying herself in the process. He has been
+condemned to remain here for eternity in punishment for his sins.
+~
+human~
+ABDFG A CDEFP AHMNV -1000 0
+60 10 17d28+1136 8d65+1221 7d9+39 none
+-20 -19 -20 -16
+0 0 0 0
+stand stand none 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12705
+ghost~
+a ghost~
+A nearly-insubstantial ghost flits silently about.
+~
+This is the tormented soul of an innocent peasant girl, captured and dragged
+here by a wicked guard intent on marrying her. She slew him while trying to
+escape, but died herself in the process, slipping in his blood and breaking
+her neck. Her spirit remains here, tormented by its misery.
+~
+human~
+ABDGH A CDEFP ABHMNV 1000 0
+60 10 8d65+1221 6d81+1095 6d10+36 none
+-21 -20 -21 -15
+0 0 0 0
+stand stand none 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12706
+priestess~
+a priestess of Vengeance~
+A priestess of Vengeance is here tending to the sick.
+~
+This kind woman cures the injuries and ailments of the city guards. She
+smiles at you as you enter, and bids you state your injuries so she can
+heal them.
+~
+human~
+ABDGL A CDEF AHMNV 1000 0
+60 10 6d81+1095 13d42+1361 6d10+36 none
+-20 -23 -19 -16
+0 0 0 0
+stand stand female 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12707
+worker~
+a burly worker~
+A burly worker shoves a heavy barrel onto a scow.
+~
+These burly fellows would be a tough foe in a barroom brawl. They have more
+tattoos than skin, it seems, and more hair than the average Kodiak grizzly.
+~
+human~
+ADG A 0 AHMNV 0 0
+8 1 2d21+59 5d5+43 2d3+5 none
+7 5 7 10
+0 0 0 0
+stand stand male 80
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12708
+sailor~
+a sailor~
+A crusty old sailor swigs from his bottle of rum.
+~
+This disreputable-looking fellow is a crew member from one of the scows. He
+is simply waiting till its time to go.
+~
+human~
+ADG A 0 AHMNV 0 0
+7 1 3d5+26 3d5+26 2d4+7 none
+10 6 7 10
+0 0 0 0
+stand stand male 70
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12709
+dock master~
+the dock master~
+The dock master is here checking cargo inventories.
+~
+He is far too busy to speak to you.
+~
+human~
+ABDG A 0 AHMV 400 0
+12 2 6d9+91 5d8+67 2d5+8 none
+4 4 3 7
+0 0 0 0
+stand stand male 120
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12811
+broken toy~
+broken toy~
+Broken toy shivers and suffers.
+~
+Its rude to stare at people.
+~
+human~
+ABDGL A CF AHMNV 1000 0
+99 16 30d39+5433 33d37+5662 9d12+64 none
+-41 -41 -39 -37
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12812
+automaton~
+automaton~
+Automaton is here.
+~
+A gleaming silver construct. Bright yellow eyes glare malevolently from two
+deep black sockets in its bulky cranium.
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 33d37+5662 18d71+5917 5d23+63 none
+-37 -40 -39 -37
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12813
+monkey~
+crazy monkey~
+Crazy monkey with a wooden leg throws tomatoes at you.
+~
+A wounded veteran of some pointless war fought centuries ago on distant, blood
+soaked fields against villainous otherworldly primates of unsure origin and
+diabolical nature.
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 22d59+6184 25d45+4979 3d39+62 none
+-37 -37 -40 -34
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12814
+whirlwind~
+whirlwind~
+Whirlwind whirls.
+~
+A rather unusual abberation from the elemental plane of air with a sentience
+akin to that of an average human of your own dimension.
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 28d47+6463 15d80+5187 3d39+61 none
+-42 -38 -38 -34
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12815
+pig~
+irritated pig~
+Irritated pig, the porcine swine.
+~
+Irritated pig, sole survivor of a fatal meeting between George Orwell's Animal
+Farm and an abattoir.
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 30d39+5433 18d71+5917 3d39+61 none
+-40 -39 -39 -37
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12816
+soul music~
+soul music~
+Sweet soul music.
+~
+"Doooo you like soul music, sweet soul music???"
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 15d80+5187 22d59+6184 5d23+63 none
+-38 -39 -36 -37
+0 0 0 0
+stand stand female 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12817
+insane muppet~
+insane muppet~
+Insane muppet swears at the stars.
+~
+Angry young drop-out from an old TV show who never quite recovered in the
+usual way and instead hangs around low east-end dives in hopes of some vain
+retribution.
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 18d71+5917 22d59+6184 3d39+61 none
+-39 -39 -39 -34
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12818
+sentient elbow~
+sentient elbow~
+Sentient elbow.
+~
+"DAWN OF THE ELBOWS!" its  a funny anime film... never mind
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 33d37+5662 33d37+5662 9d12+64 none
+-36 -40 -39 -33
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12819
+carrot~
+carrot~
+Carrot carrot carrot.
+~
+A carrot is a vegetable.
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 18d71+5917 33d37+5662 7d16+63 none
+-37 -38 -38 -33
+0 0 0 0
+stand stand female 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12820
+vogue~
+vogue~
+Vogue flows.
+~
+Attitude.
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 22d59+6184 22d59+6184 10d10+61 none
+-39 -38 -36 -35
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12821
+bullet~
+shiny silver bullet~
+Shiny silver bullet has been loaded.
+~
+Long, tall, gleaming silver phallic symbol creation of the mind of a rather
+bored script writer decades before TV became popular.
+~
+human~
+ABG A 0 AHMNV 1000 0
+99 16 33d37+5662 28d47+6463 10d10+61 none
+-39 -40 -40 -35
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12822
+potpourri~
+potpourri~
+Potpourri.
+~
+Potpourri? Ask your mother.
+~
+human~
+AI A 0 AHMV 400 0
+4 0 3d5+26 3d5+26 1d5+4 none
+10 9 9 13
+0 0 0 0
+stand stand none 40
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12823
+underwear~
+used underwear~
+Used underwear vibrates strangely.
+~
+Fetid odor.
+~
+human~
+AI A 0 AHMV 400 0
+10 1 5d5+43 5d8+67 2d2+4 none
+3 5 5 8
+0 0 0 0
+stand stand none 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12824
+hovercraft~
+hovercraft full of eels~
+Hovercraft full of eels.
+~
+"My hovercraft is full of eels".
+~
+human~
+AI A P AHMV 400 0
+15 2 6d10+99 6d11+107 3d5+10 none
+3 2 1 6
+0 0 0 0
+stand stand none 150
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12825
+tin can~
+warhol's can~
+Warhol's can.
+~
+Cameo appearance from pop art.
+~
+human~
+AI A 0 AHMV 0 0
+20 3 3d39+181 9d10+157 2d9+11 none
+1 2 0 6
+0 0 0 0
+stand stand none 200
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12826
+bath tub~
+bath tub~
+Bath tub leaks.
+~
+Buy a plug.
+~
+human~
+AI A 0 AHMV 0 0
+30 5 7d23+271 12d14+307 4d7+18 none
+-5 -5 -8 -3
+0 0 0 0
+stand stand none 300
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12827
+salvador~
+Salvador Dali~
+Salvador Dali takes notes.
+~
+"Verily, a truer scene of surrealism was never before seen!"
+~
+human~
+ABDG A 0 AHMNV 0 0
+99 16 33d37+5662 18d71+5917 3d39+62 none
+-37 -38 -38 -36
+0 0 0 0
+stand stand male 990
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12828
+drug~
+drug that killed River Phoenix~
+The drug that killed River Phoenix.
+~
+Don't take it.
+~
+human~
+ACG A DF AHMV 0 0
+60 10 9d59+1266 8d65+1221 6d10+37 none
+-20 -20 -18 -17
+0 0 0 0
+stand stand male 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12829
+vision~
+abstract vision of the future~
+Abstract vision of the future escapes museum. Details Page 12.
+~
+I doubt it will return.
+~
+human~
+AG A CD AHMNV 1000 0
+60 10 8d65+1221 18d27+1178 5d13+38 none
+-18 -19 -18 -13
+0 0 0 0
+stand stand none 600
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12830
+passing craze~
+passing craze~
+A passing craze passes.
+~
+It was out before it was in.
+~
+human~
+AG A 0 AHMV 0 0
+8 1 5d6+51 5d5+43 1d5+4 none
+4 6 7 9
+0 0 0 0
+stand stand male 80
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12831
+vague nausea~
+vague sense of nausea~
+Vague sense of nausea plagues you.
+~
+With all these colors its hardly surprising.
+~
+human~
+AG A 0 AHMV 0 0
+8 1 4d12+75 3d5+26 2d3+5 none
+7 8 6 9
+0 0 0 0
+stand stand female 80
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12832
+world peace~
+world peace~
+World peace.
+~
+There's no such thing, you must be imagining it. Maybe not.
+~
+human~
+AG A 0 AHMV 0 0
+5 0 2d6+21 4d5+35 1d3+2 none
+6 8 8 11
+0 0 0 0
+stand stand male 50
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12833
+vacuum~
+vacuum~
+Vacuums suck.
+~
+Brrrrrrrr....
+~
+human~
+AG A D AHMV 900 0
+6 1 5d6+51 5d5+43 1d5+3 none
+5 8 7 11
+0 0 0 0
+stand stand male 60
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12834
+birth~
+birth~
+Birth occurs.
+~
+You are awed by the miracle of creation.
+~
+human~
+ACG A 0 AHMV -200 0
+6 1 3d5+26 5d5+43 2d3+5 none
+10 9 7 13
+0 0 0 0
+stand stand male 60
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12835
+bowel movement~
+bowel movement~
+Bowel movement disturbs you.
+~
+Smelly substyle.
+~
+human~
+AG A 0 AHMV 400 0
+4 0 2d6+21 1d3+5 1d5+4 none
+9 10 7 12
+0 0 0 0
+stand stand male 40
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12836
+liquid~
+liquid~
+Liquid oozes.
+~
+Ichor of unknown origin.
+~
+human~
+ABG A 0 AHMV 400 0
+3 0 1d5+8 1d5+8 1d3+2 none
+9 10 9 10
+0 0 0 0
+stand stand male 30
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12837
+wind~
+wind~
+Wind is blowin'.
+~
+Check it for answers.
+~
+human~
+AGH A Q ABHMV 0 0
+10 1 4d5+35 2d21+59 2d3+6 none
+2 6 4 8
+0 0 0 0
+stand stand male 100
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12838
+foaming maniac~
+foaming maniac~
+Foaming maniac toothy grins.
+~
+Looks familiar.
+~
+human~
+AGH A 0 AHMV 0 0
+5 0 3d5+26 4d5+35 1d3+3 none
+8 8 7 11
+0 0 0 0
+stand stand none 50
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12839
+prozac~
+prozac~
+Glowing prozac capsule.
+~
+You feel strangely better.
+~
+human~
+AGH A 0 AHMV 0 0
+3 0 4d5+35 2d2+12 1d3+2 none
+10 10 9 12
+0 0 0 0
+stand stand none 30
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12840
+hippy~
+hippy~
+Hippy on trip.
+~
+Wants it all to end.
+~
+human~
+AGH A 0 AHMV 0 0
+2 0 1d2+5 2d2+12 1d3+2 none
+8 10 10 14
+0 0 0 0
+stand stand female 20
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12841
+cowboy~
+cowboy~
+Cowboy is lonesome dove.
+~
+As I... walked down... the streets of Laredo.
+~
+human~
+ADG A C AHMNV 1000 0
+50 8 15d25+802 10d36+737 6d9+33 none
+-12 -13 -17 -9
+0 0 0 0
+stand stand male 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12842
+heroin~
+heroin~
+Heroin entices you.
+~
+Nico enters with Velvet Underground.
+~
+human~
+ADG A C AHMNV 1000 0
+50 8 16d24+835 16d24+835 7d7+31 none
+-16 -16 -17 -10
+0 0 0 0
+stand stand female 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12843
+pillar~
+pillar of strength~
+Pillar of strength.
+~
+Another bland euphemism come to life.
+~
+human~
+ABDG A C AHMNV 1000 0
+50 8 16d24+835 16d24+835 7d7+31 none
+-17 -17 -12 -8
+0 0 0 0
+stand stand male 500
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12844
+rabbit~
+white rabbit~
+White rabbit.
+~
+"Ask Alice, when she's ten feet tall".
+~
+human~
+AI A F AHMV 0 0
+15 2 6d9+91 6d10+99 3d5+10 none
+3 2 2 9
+0 0 0 0
+stand stand male 150
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12845
+mello yello~
+mello yello~
+Mello Yello.
+~
+A concept rather than a manifestation.
+~
+human~
+AI A D AHMV 0 0
+20 3 8d10+135 9d11+168 3d7+14 none
+-1 0 0 5
+0 0 0 0
+stand stand male 200
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12846
+sunshine superman~
+sunshine superman~
+Sunshine superman.
+~
+"Sunshine came softly through my... window today"
+~
+human~
+AI A 0 AHMNV 0 0
+25 4 7d19+223 9d11+168 3d8+15 none
+-3 -3 -1 3
+0 0 0 0
+stand stand male 250
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12847
+giant cat~
+giant cat~
+Giant cat devours London.
+~
+MEOW
+~
+human~
+AI A 0 AHMNV 0 0
+30 5 7d27+327 7d27+327 4d7+18 none
+-2 -5 -4 1
+0 0 0 0
+stand stand male 300
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12848
+peter pan~
+peter pan~
+Peter pan.
+~
+Another result of another bad trip.
+~
+human~
+AI A 0 AHMNV 0 0
+35 5 13d16+389 14d17+458 5d7+23 none
+-8 -5 -6 -4
+0 0 0 0
+stand stand male 350
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#12849
+communism~
+communism~
+Communism.
+~
+"For sale- Communist revolutions".
+~
+human~
+AI A DFP AHMV 0 0
+40 6 17d17+658 14d17+458 5d8+25 none
+-7 -11 -9 -4
+0 0 0 0
+stand stand male 400
+ABCDEFGHIJKMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#12500
+key~
+a tasselled key~
+The Key to the City Gates.
+~
+nothingness~
+key 0 AO
+0 0 0 0 0
+0 1 0 P
+#12501
+key~
+a bronze key~
+The Key to the City Dungeon.
+~
+nothingness~
+key 0 AO
+0 0 0 0 0
+0 1 0 P
+#12502
+barrel beer~
+a Barrel of Argh's beer~
+A beer barrel has been left here.
+~
+nothingness~
+drink 0 A
+30 30 'beer' 0 0
+0 60 50 P
+#12503
+bottle beer~
+a bottle of Yaegar (TM) beer~
+A beer bottle has been left here.~
+nothingness~
+drink 0 A
+4 4 'beer' 0 0
+0 10 20 P
+#12504
+bottle ale~
+a Bottle of Marius (TM) ale~
+A dark bottle of Marius (TM) ale has been left here.~
+nothingness~
+drink 0 A
+5 5 'ale' 0 0
+0 10 24 P
+#12505
+bottle firebreather~
+a Bottle of Rainman firebreather~
+A firebreather has been left here.~
+nothingness~
+drink 0 A
+8 8 'firebreather' 0 0
+0 10 26 P
+#12506
+bottle local~
+a bottle of Mud specialty~
+A dark bottle has been left here.~
+nothingness~
+drink 0 A
+8 8 'local specialty' 0 0
+0 10 25 P
+#12507
+torch~
+a torch~
+A large torch.~
+nothingness~
+light 0 AQ
+0 0 DE 0 0
+0 1 20 P
+#12508
+lantern~
+a hooded brass lantern~
+A hooded brass lantern has been left here.~
+nothingness~
+light 0 AO
+0 0 CFG 0 0
+0 4 39 P
+E
+letters~
+They say, "Use 'hold lantern' to activate."
+~
+E
+lantern~
+It is a large and robust but somewhat battered oil lantern made from brass,
+equipped with a handle to make it handy and a hood to protect its flame.
+Some letters have been scratched on its bottom.
+~
+#12509
+scroll identify~
+a scroll of identify~
+A scroll has carelessly been left here.~
+nothingness~
+scroll G A
+20 'identify' '' '' ''
+0 1 120 P
+#12510
+potion yellow~
+a yellow potion of see invisible~
+A small yellow potion has carelessly been left here.~
+nothingness~
+potion G A
+20 'detect invis' '' '' ''
+10 1 140 P
+E
+potion yellow~
+The potion has a small label 'Detect The Invisible'.
+~
+#12511
+skin water buffalo~
+a buffalo water skin~
+A buffalo water skin is on the floor.~
+nothingness~
+drink 0 A
+25 25 'water' 0 0
+0 5 20 P
+#12512
+jug water~
+a jug of water~
+A large jug of water sloshes on the floor.~
+nothingness~
+drink A A
+60 60 'water' 0 0
+0 85 40 P
+#12513
+club~
+a heavy lead-sheathed club~
+A heavy club sheathed in lead lies here.
+~
+nothingness~
+weapon 0 AN
+mace 2 3 crush 0
+7 30 70 P
+A
+19 4
+A
+18 -2
+#12514
+mace~
+a Sturdy Mace~
+A Sturdy Mace lies here.
+~
+nothingness~
+weapon 0 AN
+exotic 2 7 pound 0
+8 20 80 P
+A
+19 1
+A
+18 1
+#12515
+dagger~
+a Dagger~
+A good backstabbing weapon, this.
+~
+nothingness~
+weapon 0 AN
+dagger 2 3 pierce 0
+6 15 60 P
+A
+19 -2
+A
+18 4
+#12516
+scimitar~
+a Wickedly-Curved Scimitar~
+A Wickedly-Curved Scimitar hums ominously here.
+~
+nothingness~
+weapon BEGJ AN
+sword 3 5 slash 0
+12 25 120 P
+A
+19 4
+A
+18 4
+#12517
+boots~
+a pair of tough leather boots~
+A pair of tough leather boots lie here.~
+nothingness~
+armor 0 AG
+A C B ACDEFGHIJKLMNOPQRSTUVWXYZabcdef A
+9 15 90 P
+A
+5 1
+A
+17 -5
+#12518
+belt~
+a narrow leather belt~
+A narrow leather belt is curled up here.~
+nothingness~
+armor 0 AL
+B C AB 0 A
+10 2 100 P
+A
+23 -2
+A
+2 1
+#12519
+kamikaze headband~
+a kamikaze headband~
+A kamikaze headband.~
+nothingness~
+armor 0 AE
+0 AC AC ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef A
+10 5 100 P
+A
+18 2
+#12520
+scarf~
+a WWI Aviator's Scarf~
+A WWI aviator's scarf is here.~
+nothingness~
+armor 0 AC
+AB C B ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef A
+15 5 150 P
+A
+19 1
+A
+18 1
+#12521
+fountain~
+a city fountain~
+This fountain has been kindly provided by the Castellan of Anon.~
+nothingness~
+fountain 0 0
+10000 10000 'water' 0 0
+1 1000 0 P
+#12522
+ring~
+a gold ring~
+A GOLD RING!
+~
+nothingness~
+key A AB
+0 0 0 0 0
+17 1 170 P
+A
+14 20
+#12523
+cake ~
+a sweet cake~
+A sweet cake.
+~
+nothingness~
+food 0 A
+4 4 0 0 0
+1 1 12 P
+#12524
+roll~
+a roll~
+A bread roll.
+~
+nothingness~
+food 0 A
+5 5 0 0 0
+1 1 15 P
+#12525
+sandwich~
+a sandwich~
+A sandwich would make the perfect snack.
+~
+nothingness~
+food 0 A
+5 5 0 0 0
+1 1 15 P
+#12526
+loaf bread~
+a HUGE loaf of bread~
+This loaf of bread would fill you up for a day!
+~
+nothingness~
+food 0 A
+24 24 0 0 0
+1 3 72 P
+#12527
+coffee cup mug java~
+a cup of coffee~
+A mug o' hot java steams away here.~
+nothingness~
+drink 0 AO
+1 1 'coffee' 0 0
+0 1 15 P
+#12528
+potion~
+a psychedelic potion~
+A psychedelic potion rolls around here.~
+nothingness~
+potion ABG A
+45 'change sex' 'detect hidden' 'bless' ''
+22 2 470 P
+#12529
+guillotine~
+a nasty guillotine~
+A Guillotine with a razor-sharp blade stands ready here.
+~
+nothingness~
+furniture 0 0
+BD EIJKN E 0 0
+1 1000 0 P
+#12530
+mask~
+a Headsman's Black Face Mask~
+The Headsman's mask is here.
+~
+nothingness~
+armor 0 AR
+CE ACE ACE BE A
+99 75 990 P
+A
+13 250
+#12531
+sword longsword~
+the Castellan's Longsword~
+The Castellan's Longsword is lying here in the dirt.
+~
+nothingness~
+weapon G AN
+dagger 4 20 pierce 0
+60 25 600 P
+A
+23 -3
+A
+19 6
+A
+18 6
+A
+17 -15
+#12532
+sap~
+a sap~
+A footpad's sap, used to stun victims.~
+nothingness~
+weapon 0 AN
+exotic 2 5 pound 0
+6 15 60 P
+#12533
+sword longsword~
+an Ornate Longsword~
+An Ornate Longsword is lying here.~
+nothingness~
+weapon G AN
+sword 5 13 slash 0
+50 25 500 P
+A
+19 4
+A
+18 4
+#12534
+breastplate plate~
+an Ornate Breastplate~
+An Ornate Breastplate with a black and gold coat of arms is lying here.~
+nothingness~
+armor 0 AD
+BD BD BD C A
+50 20 500 P
+A
+17 -15
+A
+5 2
+#12535
+bracer~
+an Ornate Bracer~
+An Ornate Bracer with a black and gold coat of arms is lying here.~
+nothingness~
+armor 0 AM
+AD BD D ABC A
+50 15 500 P
+A
+18 2
+A
+2 2
+#12536
+cloak~
+a black cloak with gold trim~
+A Black Cloak with Gold Trim is lying here.~
+nothingness~
+armor 0 AC
+BD ACD BD BC A
+50 10 500 P
+A
+17 -15
+A
+12 25
+#12537
+helm~
+an Ornate Helm~
+An Ornate Helm bearing a black and gold coat of arms lies here.~
+nothingness~
+armor 0 AE
+BD AD CD ABC A
+50 10 500 P
+A
+17 -20
+A
+4 1
+A
+3 1
+#12538
+shield~
+an Ornate Shield~
+A Shield bearing the crest of the House of Vengeance lies here.
+~
+nothingness~
+armor 0 AJ
+AD AD AD D A
+50 20 500 P
+A
+24 -2
+A
+23 -2
+A
+17 -20
+#12539
+spear~
+a Throwing Spear~
+A sturdy Throwing Spear has been thrust into the ground here.
+~
+nothingness~
+weapon G ANO
+staff 5 13 stab 0
+50 20 500 P
+A
+19 2
+A
+18 2
+#12540
+scroll~
+a blank scroll~
+A blank scroll is here.
+~
+nothingness~
+scroll 0 AO
+0 '' '' '' ''
+0 1 10 P
+#12541
+potion~
+a shimmering potion~
+A shimmering potion is here.
+~
+nothingness~
+potion G AO
+30 'invisibility' 'fly' 'infravision' ''
+21 1 650 P
+#12542
+sticker~
+a bright red sticker that reads "DORK"~
+A bright red sticker has been left here. Pick it up!
+~
+nothingness~
+armor AHMb AR
+A C 0 A A
+0 1 0 P
+A
+4 -2
+A
+3 -2
+E
+sticker~
+The wearer of this item has been officially marked by the deity Yaegar as
+a genuine bona fide irredeemable DORK.
+~
+#12543
+tent~
+a sturdy canvas tent~
+A sturdy canvas tent is here.~
+nothingness~
+container S A
+1000 A 0 1000 100
+0 25 450 P
+#12544
+rowboat~
+a sturdy wooden rowboat~
+A sturdy wooden rowboat is moored here.~
+nothingness~
+container ST A
+1000 0 0 1000 100
+0 50 240 P
+#12545
+battered fried fish~
+a piece of battered fried fish~
+A piece of battered fish that has been fried to death.~
+nothingness~
+food 0 A
+4 4 0 0 0
+1 1 12 P
+#12546
+pile steaming chips~
+a pile of steaming chips~
+(Steaming) These chips are wrapped in butcher's paper and look very tasty.~
+nothingness~
+food 0 A
+6 6 0 0 0
+1 1 18 P
+#12547
+chips salt sauce~
+chips with salt and sauce~
+(Steaming) These chips are covered with salt and sauce.~
+nothingness~
+food 0 A
+7 7 0 0 0
+1 1 21 P
+#12548
+black pudding~
+a black pudding~
+A black pudding congeals here.~
+nothingness~
+food 0 A
+4 4 0 0 0
+1 1 12 P
+#12549
+white pudding~
+a white pudding~
+A white pudding, only slightly less disgusting than black pud, sits here.~
+nothingness~
+food 0 A
+4 4 0 0 0
+1 1 12 P
+#12550
+pizza~
+a piece of pizza~
+This pizza looks like no pizza you have ever seen before.~
+nothingness~
+food 0 A
+5 5 0 0 0
+1 1 15 P
+#12551
+lard~
+a lump of lard~
+This lard has been deep-fried.~
+nothingness~
+food 0 A
+1 1 0 0 0
+1 1 3 P
+#12552
+potato scallop~
+a potato scallop~
+You wonder how long this potato scallop has been sitting here.~
+nothingness~
+food 0 A
+2 2 0 0 0
+1 1 6 P
+#12553
+curry sauce~
+some curry sauce~
+This sauce is great with chips. Apparently.~
+nothingness~
+food 0 A
+1 1 0 0 0
+1 1 3 P
+#12554
+chicken kiev~
+chicken kiev~
+This chicken Kiev didn't come from any Kiev you have ever heard of.~
+nothingness~
+food 0 A
+4 4 0 0 0
+1 1 12 P
+#12555
+crumbed drumstick~
+a crumbed drumstick~
+A crumbed drumstick has been sitting here for a few hours.~
+nothingness~
+food 0 A
+4 4 0 0 0
+1 1 12 P
+#12556
+battered sav~
+a battered sav~
+A battered sav lies here.~
+nothingness~
+food 0 A
+2 2 0 0 0
+1 1 6 P
+#12557
+kabana~
+a kabana~
+A fried kabana looks truly disgusting.~
+nothingness~
+food 0 A
+3 3 0 0 0
+1 1 9 P
+#12558
+fish cake~
+a fish cake~
+Yeah, SURE it's fish.~
+nothingness~
+food 0 A
+2 2 0 0 0
+1 1 6 P
+#12559
+haggis~
+it's... HAGGIS~
+This conglomeration looks like a boiled foetus.~
+nothingness~
+food 0 A
+8 8 0 0 0
+1 2 24 P
+E
+haggis~
+You DO know what's in haggis, don't you?
+~
+#12691
+sword longsword~
+an ornate Longsword~
+An ornate Longsword is lying here.~
+nothingness~
+weapon G AN
+sword 3 27 slash 0
+55 25 550 P
+A
+19 4
+A
+18 4
+#12692
+breastplate plate~
+an ornate Breastplate~
+An ornate Breastplate with a black and gold coat of arms is lying here.~
+nothingness~
+armor 0 AD
+ABD BCD CD BC A
+55 20 550 P
+A
+17 -15
+A
+5 2
+#12693
+bracer~
+an ornate Bracer~
+An ornate Bracer with a black and gold coat of arms is lying here.~
+nothingness~
+armor 0 AM
+BD ACD BCD AD A
+55 15 550 P
+A
+18 2
+A
+2 2
+#12694
+cloak~
+a black cloak with gold trim~
+A black cloak with Gold Trim is lying here.~
+nothingness~
+armor 0 AC
+ABD ABD ABD AC A
+55 10 550 P
+A
+17 -15
+A
+12 25
+#12695
+helm~
+an ornate helm~
+An ornate helm bearing a black and gold coat of arms lies here.~
+nothingness~
+armor 0 AE
+CD ABD ACD ABC A
+55 10 550 P
+A
+17 -20
+A
+4 1
+A
+3 1
+#12696
+shield~
+an ornate shield~
+A shield bearing the crest of the House of Vengeance lies here.~
+nothingness~
+armor 0 AJ
+AD CD BD D A
+55 20 550 P
+A
+24 -2
+A
+23 -2
+A
+17 -20
+#12697
+spear~
+a throwing spear~
+A sturdy throwing spear has been thrust into the ground here.~
+nothingness~
+weapon G ANO
+staff 5 14 stab 0
+55 20 550 P
+A
+19 2
+A
+18 2
+#12698
+ring~
+a signet ring~
+A signet ring that identifies the wearer as a trusted wall guard lies here.~
+nothingness~
+armor AB AB
+BD CD ACD BD A
+55 1 550 P
+A
+19 2
+A
+18 2
+A
+17 -25
+A
+2 3
+#12699
+suit plate mail~
+a suit of plate mail~
+A suit of heavy plate mail is piled up here.~
+nothingness~
+armor K AD
+ACD ABCD ABD D A
+58 50 580 P
+A
+17 -45
+A
+2 -2
+#12700
+broadsword~
+a finely-made broadsword~
+A knight's broadsword lies here.~
+nothingness~
+weapon AGK AN
+sword 4 20 slash 0
+58 10 580 P
+A
+19 8
+A
+18 8
+#12701
+shield~
+a knight's shield~
+A knight's shield lies here.~
+nothingness~
+armor K AJ
+ABD ACD ACD ABC A
+58 10 580 P
+A
+24 -3
+A
+23 -3
+A
+17 -20
+#12702
+helm~
+a knight's helm~
+A knight's helm lies here.~
+nothingness~
+armor K AE
+ACD ABD CD BD A
+58 5 580 P
+A
+4 3
+#12703
+gauntlets~
+a pair of mail gauntlets~
+A pair of mail gauntlets lie here.~
+nothingness~
+armor GK AE
+BCD ACD ABD ABC A
+58 4 580 P
+A
+19 3
+A
+18 2
+A
+1 2
+#12704
+ring~
+a holy signet ring~
+A holy signet ring lies here.~
+nothingness~
+armor ABGK AB
+CD ACD BCD D A
+58 10 580 P
+#12705
+marshal uniform~
+the marshal's uniform~
+The marshal's uniform lies here, neatly pressed.~
+nothingness~
+armor 0 AD
+ABD ABCD BCD BD A
+62 5 620 P
+A
+19 3
+A
+18 3
+#12706
+swagger stick~
+the marshal's swagger stick~
+The marshal's swagger stick lies here.~
+nothingness~
+staff ABK AO
+0 1 1 'enchant weapon' 0
+62 1 620 P
+#12707
+beacon~
+a wall beacon~
+This beacon illuminates the walls for guards patrolling at night.~
+nothingness~
+light G AQ
+0 0 ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef 0 0
+10 5 600 P
+#12708
+pot boiling oil~
+a pot of boiling oil~
+A pot of boiling oil bubbles away here.~
+nothingness~
+furniture A 0
+BD EIJKN E 0 0
+1 100 0 P
+E
+pot boiling oil~
+It is far too heavy to lift.~
+#12709
+murderhole murder hole~
+a murder hole~
+A murder hole is in the middle of the floor here.~
+nothingness~
+furniture 0 0
+BD EIJKN E 0 0
+1 1 0 P
+E
+murder hole~
+A small square hole with a series of metal bars across it through which
+boiling oil can be poured onto attackers below.~
+#12710
+crossbow~
+a crossbow~
+A finely-crafted crossbow lies here.~
+nothingness~
+weapon 0 AP
+dagger 6 10 pierce 0
+48 10 480 P
+A
+18 6
+#12711
+chainmail~
+a suit of chainmail~
+A suit of chainmail lies here.~
+nothingness~
+armor 0 AD
+AD BD CD AC A
+48 5 480 P
+A
+5 2
+#12712
+leather leggings~
+a pair of leather leggings~
+A pair of leather leggings lie here.~
+nothingness~
+armor 0 AF
+BD BCD AD BC A
+48 5 480 P
+A
+13 25
+#12713
+leather wristguard~
+a crossbowman's leather wristguard~
+A strip of hardened leather lies here.~
+nothingness~
+armor 0 AM
+BD ABD AD BC A
+48 1 480 P
+#12714
+scroll~
+a torn scroll~
+~
+nothingness~
+scroll 0 AO
+30 'dispel magic' '' '' ''
+21 1 210 P
+#12715
+key~
+an old key~
+An old key lies here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+0 1 0 P
+E
+key~
+This key is inscribed with silvery runes.
+~
+#12716
+scroll~
+an old scroll~
+An old scroll has been left here, neatly rolled and sealed.~
+nothingness~
+scroll G AO
+35 'flamestrike' 'flamestrike' 'flamestrike' ''
+25 1 600 P
+A
+4 3
+E
+scroll~
+The scroll reads-
+
+"Use the power of this scroll to help send the foul sergeant's spectre
+to the oblivion it deserves. Unlock the tower and enter. Be not weak of
+heart nor of sinew- the spectre is ancient and very powerful. Only the
+strongest shall pervail! You will find a key to break the mystic portal,
+use it well"
+~
+#12717
+footlocker~
+a footlocker~
+A footlocker rests near a bed.~
+nothingness~
+container 0 0
+100 A 0 100 100
+1 10 0 P
+E
+footlocker~
+It is bolted to the floor. Perhaps its contents are easier to abscond with.
+~
+#12718
+tapestry~
+an ancient tapestry~
+An ancient tapestry depicting the construction of these walls hangs here.~
+nothingness~
+treasure A AO
+0 0 0 0 0
+0 25 0 P
+#12719
+tapestry~
+an ancient tapestry~
+An ancient tapestry depicting the construction of Midgaard hangs here.~
+nothingness~
+treasure A AO
+0 0 0 0 0
+0 25 0 P
+#12720
+tapestry~
+an ancient tapestry~
+An ancient tapestry depicting the construction of NewThalos hangs here.~
+nothingness~
+treasure A AO
+0 0 0 0 0
+0 25 0 P
+#12721
+tapestry~
+an ancient tapestry~
+An ancient tapestry depicting the construction of Freeport hangs here.~
+nothingness~
+treasure A AO
+0 0 0 0 0
+0 25 0 P
+#12722
+belaying pin~
+a belaying pin~
+A belaying pin lies here.~
+nothingness~
+weapon 0 AN
+exotic 2 7 pound 0
+8 5 80 P
+#12723
+barrel ale~
+a barrel of ale~
+A barrel of ale sits here, ready to be transported.~
+nothingness~
+drink 0 A
+25 25 'ale' 0 0
+8 25 80 P
+#12724
+barrel~
+an empty barrel~
+An empty barrel rests here.~
+nothingness~
+armor 0 AD
+A 0 AB CDEFGHIJKLMNOPQRSTUVWXYZabcdef A
+1 5 10 P
+#12725
+lantern~
+a lantern~
+A lantern sits here.~
+nothingness~
+light 0 AQ
+0 0 DGH 0 0
+0 2 60 P
+#12726
+rope~
+a coiled rope~
+A coil of rope lies here.~
+nothingness~
+armor 0 AL
+0 A A BCDEFGHIJKLMNOPQRSTUVWXYZabcdef A
+1 2 15 P
+A
+5 2
+#12727
+backpack~
+a leather backpack~
+A leather backpack sits here.~
+nothingness~
+container 0 AD
+100 A 0 100 100
+1 2 80 P
+#12728
+cloth~
+a bolt of cloth~
+A bolt of cloth lies on the floor here.~
+nothingness~
+treasure 0 A
+0 0 0 0 0
+0 5 20 P
+#12729
+key~
+a warehouse key~
+A warehouse key is here.~
+nothingness~
+key 0 AO
+0 0 0 0 0
+0 1 0 P
+#12730
+scow~
+a scow~
+A scow is moored here.~
+nothingness~
+container ST 0
+10000 0 0 10000 100
+1 1000 0 P
+#12731
+cutlass~
+a cutlass~
+A cutlass lies here.~
+nothingness~
+armor 0 AN
+B C AB BCDEFGHIJKLMNOPQRSTUVWXYZabcdef A
+7 7 70 P
+#12732
+ring wizardry~
+a ring of wizardry~
+A ring of wizardry has been left here.~
+nothingness~
+armor AG AB
+ABD AD CD AD A
+56 1 560 P
+A
+12 50
+A
+3 2
+#12733
+staff power~
+a staff of power~
+A staff of power rests on the floor here.~
+nothingness~
+staff AG AO
+0 25 25 'lightning bolt' 0
+56 1 560 P
+A
+17 -20
+A
+12 25
+#12734
+robe magi~
+a white robe of the magi~
+A white robe of the magi lies here.~
+nothingness~
+armor AGK AK
+CD BD BCD D 0
+56 5 560 P
+A
+19 1
+A
+18 1
+A
+17 -20
+A
+13 20
+A
+12 20
+A
+2 1
+#12735
+boots speed~
+a pair of boots of speed~
+A pair of boots of speed lie here.~
+nothingness~
+armor AG AG
+BD ABD ACD D A
+56 2 560 P
+A
+17 -10
+A
+14 100
+A
+2 3
+#12736
+invincible plate~
+a suit of invincible plate~
+A suit of invincible plate lies here.~
+nothingness~
+armor BCEFGHJLM AD
+ACD ABD CD AD A
+60 25 600 P
+A
+24 -3
+A
+23 -3
+A
+17 -25
+A
+5 4
+A
+1 4
+#12811
+sponge~
+sponge~
+A sponge sits here.
+~
+nothingness~
+key 0 AO
+0 0 0 0 0
+0 1 0 P
+#12812
+green oil~
+green oil~
+Green oil in a red barrel.~
+nothingness~
+drink 0 A
+30 30 'beer' 0 0
+0 60 40 P
+#12813
+bottle red~
+bottle of red~
+Bottle of red.~
+nothingness~
+drink 0 A
+4 4 'red wine' 0 0
+0 10 10 P
+#12814
+bottle white~
+bottle of white~
+Bottle of white.~
+nothingness~
+drink 0 A
+5 5 'white wine' 0 0
+0 10 12 P
+#12815
+firebreather~
+firebreather~
+Firebreather.~
+nothingness~
+drink 0 A
+8 8 'firebreather' 0 0
+0 10 18 P
+#12816
+liquid orgasm~
+liquid orgasm~
+Liquid orgasm.~
+nothingness~
+drink 0 A
+8 8 'local specialty' 0 0
+0 10 20 P
+#12817
+glowing star~
+glowing star~
+Glowing star.~
+nothingness~
+light A AQ
+0 0 DGH 0 0
+0 1 100 P
+#12818
+aura banality~
+aura of banality~
+Aura of banality.~
+nothingness~
+light AB AO
+0 0 CFG 0 0
+0 4 50 P
+#12819
+eel skin~
+eel skin~
+Eel skin.~
+nothingness~
+scroll G A
+30 'identify' '' '' ''
+10 1 250 P
+#12820
+vial mucous~
+vial of mucous~
+Vial of mucous.~
+nothingness~
+potion G A
+40 'remove curse' 'know alignment' 'poison' ''
+10 1 300 P
+#12821
+dead turtle~
+dead turtle~
+Dead turtle.~
+nothingness~
+drink 0 A
+25 25 'water' 0 0
+0 5 15 P
+#12822
+dead penguin~
+dead penguin~
+Dead penguin.~
+nothingness~
+drink A A
+60 60 'water' 0 0
+0 85 35 P
+#12823
+rusty muffler~
+rusty muffler~
+Rusty muffler.
+~
+nothingness~
+weapon 0 AN
+mace 2 4 crush 0
+4 30 75 P
+A
+18 -2
+#12824
+cracked tea pot~
+cracked tea pot~
+Cracked tea pot.
+~
+nothingness~
+weapon 0 AN
+exotic 1 6 pound 0
+2 20 50 P
+A
+19 -4
+A
+18 -4
+#12825
+canine tooth~
+canine~
+Leopard's canine.
+~
+nothingness~
+weapon 0 AN
+dagger 3 3 pierce 0
+8 15 105 P
+A
+19 -2
+A
+18 -2
+#12826
+tarred brush~
+tarred with the same brush~
+Tarred with the same brush.
+~
+nothingness~
+weapon BG AN
+sword 2 4 slash 0
+5 25 70 P
+A
+19 -5
+A
+18 -2
+#12827
+fluffy slippers~
+fluffy slippers~
+Fluffy bunny slippers.
+~
+nothingness~
+armor 0 AG
+AB C 0 BCDEFGHIJKLMNOPQRSTUVWXYZabcdef A
+6 15 95 P
+A
+2 1
+#12828
+bad smell~
+bad smell ~
+Bad smell perpetuates.
+~
+nothingness~
+armor M AL
+B AB A 0 A
+1 20 10 P
+A
+17 -2
+A
+5 -2
+#12829
+headache~
+frank black's headache~
+Frank Black's headache.~
+nothingness~
+armor 0 AE
+AC ABC AB 0 A
+16 5 235 P
+A
+19 -2
+A
+3 -2
+#12830
+snot~
+slick as snot~
+Slick as snot.~
+nothingness~
+armor 0 AC
+AB AC C B A
+12 5 190 P
+A
+18 2
+#12831
+deep pool~
+deep pool~
+Deep pool amassing purple ooze.~
+nothingness~
+fountain 0 0
+10000 10000 'water' 0 0
+1 1000 0 P
+#12832
+eerie~
+eerie~
+Eerie feeling.~
+nothingness~
+armor B AB
+C C B B A
+19 1 245 P
+#12833
+mush~
+mush~
+Mush.~
+nothingness~
+food 0 A
+6 6 0 0 0
+1 1 18 P
+#12834
+mush~
+mush~
+Mush.~
+nothingness~
+food 0 A
+6 6 0 0 0
+1 1 18 P
+#12835
+mush~
+mush~
+Mush.~
+nothingness~
+food 0 A
+6 6 0 0 0
+1 1 18 P
+#12836
+mush~
+mush~
+Mush.~
+nothingness~
+food 0 A
+6 6 0 0 0
+1 1 18 P
+#12837
+hot diesel~
+hot diesel~
+Hot diesel. Chug it down fast.~
+nothingness~
+drink 0 AO
+1 1 'coffee' 0 0
+1 1 15 P
+#12838
+potion~
+a psychedelic potion~
+A psychedelic potion rolls around here.~
+nothingness~
+potion ABG A
+30 'invisibility' 'heal' 'fly' ''
+21 2 530 P
+#12839
+melting clock~
+melting clock~
+Melting clock is draped over a table.
+~
+nothingness~
+furniture 0 0
+BD EIJKN E 0 0
+1 1000 0 P
+#12840
+dali's hat~
+dali's hat~
+Dali's hat.
+~
+nothingness~
+armor 0 AE
+CE BCE BCE AE A
+99 5 990 P
+A
+13 250
+#12841
+frame~
+picture frame~
+Picture frame.
+~
+nothingness~
+weapon G AN
+dagger 4 20 pierce 0
+60 25 600 P
+#12842
+gasp~
+gasp~
+Gasp!.~
+nothingness~
+weapon 0 AN
+exotic 3 3 pound 0
+6 15 60 P
+#12843
+scroll~
+a blank scroll~
+A blank scroll is here.
+~
+nothingness~
+scroll 0 AO
+1 '' '' '' ''
+1 1 10 P
+#12844
+potion~
+a shimmering potion~
+A shimmering potion is here.
+~
+nothingness~
+potion G AO
+30 'invisibility' 'fly' 'infravision' ''
+21 1 489 P
+#12845
+vortex~
+a whirling vortex~
+A whirling vortex of magical energies is here.~
+nothingness~
+furniture 0 0
+BD EIJKN E 0 0
+1 1000 0 P
+#0
+
+
+
+#ROOMS
+#12500
+The Temple of Anon~
+You are standing before the Temple of Anon, a truly majestic structure
+constructed from pure marble. Tall Corinthian columns flank an impressive
+set of bronze-bound oaken portals, which are never shut save in times of
+trouble. Through these doors you can glimpse the majestic interior of the
+Temple. Atop the pillars rests a plinth bearing an incredibly well-crafted
+frieze which depicts the Immortals of RoT at work creating the World.
+A broad, tree-lined avenue called "Victory Parade" runs past the Temple.
+~
+0 0 1
+D0
+The Interior of the Temple
+~
+~
+0 0 12501
+D1
+Victory Parade East
+~
+~
+0 -1 12505
+D2
+Glory Avenue
+~
+~
+0 -1 12504
+D3
+Victory Parade West
+~
+~
+0 -1 12503
+S
+#12501
+The Interior of the Temple~
+Marvelously sculpted likenesses of the Immortals of RoT line the aisle
+of this sanctuary of the Gods. Tapestries on the walls depict their victories
+over their enemies, and many of the treasures they acquired on such campaigns
+are also displayed here. There is a magnificent altar fashioned of purest
+obsidian to the north, chased with gold and partially covered with white
+cloth. Behind this stands the healer, who will tell you how he can help you
+if you look at him.
+~
+0 1032 1
+D2
+The Temple of Anon
+~
+~
+0 0 12500
+S
+#12503
+Victory Parade West~
+You are walking along Victory Parade West. Guards, citizens and fellow
+adventurers pass you in both directions. Tall buildings rise in all
+directions, the most notable being the magnificent temple, towering high
+directly to the east of here.
+~
+0 8 1
+D1
+The Temple of Anon
+~
+~
+0 -1 12500
+D3
+Victory Parade West
+~
+~
+0 -1 12506
+S
+#12504
+Glory Avenue~
+You are walking along Glory Avenue. Directly to the south it meets Valiant
+Street, and beyond that the Guild of the Druids. To the north it
+enters the grounds of the Temple.
+~
+0 8 1
+D0
+The Temple of Anon
+~
+~
+0 -1 12500
+D2
+Glory Avenue
+~
+~
+0 -1 12507
+S
+#12505
+Victory Parade East~
+You are walking along Victory Parade East. The houses of the more notable
+residents of the city line the road here. High fences and savage guard dogs
+deter you from trespassing however, as does the constant eye of the city
+guards. Stalwart Lane cuts across Victory Parade directly east of here.
+~
+0 8 1
+D1
+Victory Parade East
+~
+~
+0 -1 12508
+D3
+The Temple of Anon
+~
+~
+0 -1 12500
+S
+#12506
+An Intersection in Victory Parade West~
+You have come to an intersection, where Victory Parade west meets with
+Liberty Lane. To the south you can hear the sounds of a hammer striking
+an anvil, while to the north you hear nothing. But clearly visible in
+both directions are the distinctive walls of Guildhalls.
+~
+0 8 1
+D0
+Liberty Lane
+~
+~
+0 -1 12538
+D1
+Victory Parade West
+~
+~
+0 -1 12503
+D2
+Liberty Lane
+~
+~
+0 -1 12540
+D3
+Victory Parade West
+~
+~
+0 -1 12509
+S
+#12507
+Corner of Valiant Street and Glory Avenue~
+You have come to a crossroads, where the north-south running Glory Avenue
+meets the east-west running Valiant Street. Shops line Valiant to the east
+and west, while Glory Avenue runs south toward the Druids' Guild.
+~
+0 8 1
+D0
+Glory Avenue
+~
+~
+0 -1 12504
+D1
+Valiant Street
+~
+~
+0 -1 12567
+D2
+Glory Avenue
+~
+~
+0 -1 12510
+D3
+Valiant Street
+~
+~
+0 -1 12565
+S
+#12508
+Corner of Stalwart Lane and Victory Parade East~
+You have come to a crossroads, where Stalwart Lane meets Victory Parade
+east. Shops and residences line Stalwart Lane to the north and south, while
+the gates of the city loom far to the east. The Temple is just to the west
+of here.
+~
+0 8 1
+D0
+Liberty Lane
+~
+~
+0 -1 12542
+D1
+Victory Parade East
+~
+~
+0 -1 12511
+D2
+Liberty Lane
+~
+~
+0 -1 12544
+D3
+Victory Parade East
+~
+~
+0 -1 12505
+S
+#12509
+Victory Parade West~
+You are walking along Victory Parade West. Tall houses line the road, as
+do small gardens and parks. White birds circle high overhead, their feathers
+dazzling in the sun. Surely they are magical creations of the Elven Mages
+of the city.
+~
+0 8 1
+D1
+Victory Parade West
+~
+~
+0 -1 12506
+D3
+Victory Parade West
+~
+~
+0 -1 12512
+S
+#12510
+Glory Avenue~
+You are walking along Glory Avenue. To the north Valiant Street meets Glory
+Avenue to the east and west, while to the south lies the Druids'
+Guild. The great Temple of the city lies to the north, and you are as
+ever awed by its size and beauty.
+~
+0 8 1
+D0
+Glory Avenue
+~
+~
+0 -1 12507
+D2
+Outside the Druid Guild
+~
+~
+0 -1 12534
+S
+#12511
+Victory Parade East~
+You are walking along Victory Parade East. The imposing cyclopean walls of
+the city loom up ahead. Tall buildings with large, stained-glass windows
+line each side of the street here, and through them you can see the interiors
+of fabulously wealthy homes.
+~
+0 8 1
+D1
+Victory Parade East
+~
+~
+0 -1 12513
+D3
+Victory Parade East
+~
+~
+0 -1 12508
+S
+#12512
+Victory Parade West~
+At this point there is a small city square with a fountain and a statue in
+the center. The fountain is full of clear drinking water and is quite
+palatable. The statue is a likeness of Vengeance, Chief among the Immortals,
+and it depicts him officially opening this city.
+~
+0 8 1
+D1
+Victory Parade West
+~
+~
+0 -1 12509
+D3
+Victory Parade West
+~
+~
+0 -1 12514
+S
+#12513
+Victory Parade East~
+You are walking along Victory Parade East. Children play and scamper at your
+feet, while their mothers watch patiently from the doorways of nearby houses.
+Guards occasionally wander by, keeping their eyes open for any sign of
+disturbance.
+~
+0 8 1
+D1
+Victory Parade East
+~
+~
+0 -1 12515
+D3
+Victory Parade East
+~
+~
+0 -1 12511
+S
+#12514
+Approaching Gate at Victory Parade West~
+You are approaching the western gates of the city, which are constantly
+patrolled by guards. There is no-one else about here, as the concentration
+of residences and shops is nearer to the Temple.
+~
+0 8 1
+D1
+Victory Parade West
+~
+~
+0 -1 12512
+D3
+The Victory Parade West Gate
+~
+~
+0 -1 12516
+S
+#12515
+Approaching Gate at Victory Parade East~
+You are approaching the eastern gates of the city, which are constantly
+patrolled by guards. There is no-one else about here, as the concentration
+of residences and shops is nearer to the Temple.
+~
+0 8 1
+D1
+The Victory Parade East Gate
+~
+~
+0 -1 12517
+D3
+Victory Parade East
+~
+~
+0 -1 12513
+S
+#12516
+Inside the Victory Parade West Gate~
+You have reached the westernmost extent of Victory Parade, the long road that
+bisects the city. Tall, mithril gates rise above you to the west, standing
+open as they always are, save in times of trouble. Guards nod politely at
+you, but remain alert.
+~
+0 8 1
+D0
+~
+~
+0 -1 12691
+D1
+Victory Parade West
+~
+~
+0 -1 12514
+D2
+~
+~
+0 -1 12692
+D3
+Outside the Gates
+~
+~
+0 12500 12518
+S
+#12517
+Inside the Victory Parade East Gate~
+You have reached the easternmost extent of Victory Parade, the long road that
+bisects the city. Tall mithril gates rise above you to the east, standing
+open as they always are, save in times of trouble. Guards nod politely at
+you, but remain alert.
+
+~
+0 8 1
+D0
+~
+~
+0 -1 12703
+D1
+Outside the Gates
+~
+~
+0 12500 12519
+D2
+~
+~
+0 -1 12704
+D3
+Victory Parade East
+~
+~
+0 -1 12515
+S
+#12518
+Outside the Victory Parade West Gate~
+You are standing outside the Gates at the western end of town. They loom
+high above you, tall, gleaming mithril valves designed to keep the most
+persistent of intruders out. Guards wander back and forth both on the
+below and the battlements high above, where they are barely visible through
+the crenelations. Oceanside road leads west.
+
+Paths lead to the north, south and west.
+~
+0 4 2
+D0
+The Circuit Road
+~
+~
+0 -1 12520
+D1
+Victory Parade West
+~
+~
+0 12500 12516
+D2
+The Circuit Road
+~
+~
+0 -1 12533
+D3
+Oceanside Road
+~
+~
+0 -1 12870
+S
+#12519
+Outside the Victory Parade East Gate~
+You are standing outside the Gates at the eastern end of town. They loom
+high above you, tall, gleaming mithril valves designed to keep the most
+persistent of intruders out. Guards wander back and forth both on the
+below and the battlements high above, where they are barely visible through
+the crenelations.
+
+Paths lead to the north, south and east.
+~
+0 4 2
+D0
+The Circuit Road
+~
+~
+0 -1 12526
+D1
+The SouthEast Plains
+~
+~
+0 -1 12871
+D2
+The Circuit Road
+~
+~
+0 -1 12527
+D3
+Victory Parade East
+~
+~
+0 12500 12517
+S
+#12520
+The Circuit Road~
+You are travelling along the Circuit Road, a broad, paved path that circles
+the city, provided by the Rulers for the benefit of travellers who wish to
+bypass the city on their travels.
+~
+0 0 2
+D0
+Northwest Corner of the City
+~
+~
+0 -1 12521
+D2
+Outside the Victory Parade West Gates
+~
+~
+0 -1 12518
+S
+#12521
+Northwest Corner of the Circuit Road~
+You are travelling around the northwest corner of the Circuit Road, a broad,
+paved path that circles the city, provided by the Rulers for the benefit of
+travellers who wish to bypass the city on their journeys.
+~
+0 0 2
+D1
+The Circuit Road
+~
+~
+0 -1 12522
+D2
+The Circuit Road
+~
+~
+0 -1 12520
+S
+#12522
+The Circuit Road~
+You are travelling along the Circuit Road, a broad, paved path that circles
+the city, provided by the Rulers for the benefit of travellers who wish to
+bypass the city on their travels.
+~
+0 0 2
+D1
+The Circuit Road
+~
+~
+0 -1 12523
+D3
+Northwest corner of the Circuit Road
+~
+~
+0 -1 12521
+S
+#12523
+The Circuit Road~
+At this point in the Circuit Road, you see before you the expanse of the
+Sands of Sorrow.  The shifting sands stretch on endlessly to the north,
+hiding treasure and adventure.  Looking back directly south, you can
+see the gleaming rooftop of the magnificent Temple of Anon, towering
+above all else.
+~
+0 0 2
+D1
+The Circuit Road
+~
+~
+0 -1 12524
+D3
+The Circuit Road
+~
+~
+0 -1 12522
+S
+#12524
+The Circuit Road~
+You are travelling along the Circuit Road, a broad, paved path that circles
+the city, provided by the Rulers for the benefit of travellers who wish to
+bypass the city on their travels.
+~
+0 0 2
+D1
+Northeast Corner of the Circuit Road
+~
+~
+0 -1 12525
+D3
+The Circuit Road
+~
+~
+0 -1 12523
+S
+#12525
+Northeast Corner of the Circuit Road~
+You are travelling around the northeast corner of the Circuit Road, a broad,
+paved path that circles the city, provided by the Rulers for the benefit of
+travellers who wish to bypass the city on their journeys.
+~
+0 0 2
+D2
+The Circuit Road
+~
+~
+0 -1 12526
+D3
+The Circuit Road
+~
+~
+0 -1 12524
+S
+#12526
+The Circuit Road~
+You are travelling along the Circuit Road, a broad, paved path that circles
+the city, provided by the Rulers for the benefit of travellers who wish to
+bypass the city on their travels.
+~
+0 0 2
+D0
+Northeast Corner of the City
+~
+~
+0 -1 12525
+D2
+Outside the Victory Parade East Gates
+~
+~
+0 -1 12519
+S
+#12527
+The Circuit Road~
+You are travelling along the Circuit Road, a broad, paved path that circles
+the city, provided by the Rulers for the benefit of travellers who wish to
+bypass the city on their travels.
+~
+0 0 2
+D0
+Outside the Victory Parade East Gates
+~
+~
+0 -1 12519
+D2
+Southeast Corner of the City
+~
+~
+0 -1 12528
+S
+#12528
+Southeast Corner of the Circuit Road~
+You are travelling around the southeast corner of the Circuit Road, a broad,
+paved path that circles the city, provided by the Rulers for the benefit of
+travellers who wish to bypass the city on their journeys. A small path leads
+down the cliff to the ocean below.
+~
+0 0 2
+D0
+The Circuit Road
+~
+~
+0 -1 12527
+D3
+The Circuit Road
+~
+~
+0 -1 12529
+D5
+~
+~
+0 -1 12766
+S
+#12529
+The Circuit Road~
+You are travelling along the Circuit Road, a broad, paved path that circles
+the city, provided by the Rulers for the benefit of travellers who wish to
+bypass the city on their travels.
+~
+0 0 2
+D1
+southeast Corner of the Circuit Road
+~
+~
+0 -1 12528
+D3
+A Rocky Cliff
+~
+~
+0 -1 12530
+S
+#12530
+A Rocky Cliff~
+You stand on a rocky cliff overlooking the southern ocean.
+~
+0 0 2
+D1
+The Circuit Road
+~
+~
+0 -1 12529
+D3
+The Circuit Road
+~
+~
+0 -1 12531
+S
+#12531
+The Circuit Road~
+You are travelling along the Circuit Road, a broad, paved path that circles
+the city, provided by the Rulers for the benefit of travellers who wish to
+bypass the city on their travels.
+~
+0 0 2
+D1
+A Rocky Cliff
+~
+~
+0 -1 12530
+D3
+Southwest Corner of the Circuit Road
+~
+~
+0 -1 12532
+S
+#12532
+Southwest Corner of the Circuit Road~
+You are travelling around the southwest corner of the Circuit Road, a broad,
+paved path that circles the city, provided by the Rulers for the benefit of
+travellers who wish to bypass the city on their journeys.
+~
+0 0 2
+D0
+The Circuit Road
+~
+~
+0 -1 12533
+D1
+The Circuit Road
+~
+~
+0 -1 12531
+S
+#12533
+The Circuit Road~
+You are travelling along the Circuit Road, a broad, paved path that circles
+the city, provided by the Rulers for the benefit of travellers who wish to
+bypass the city on their travels.
+~
+0 0 2
+D0
+Outside the Victory Parade West Gates
+~
+~
+0 -1 12518
+D2
+The Circuit Road
+~
+~
+0 -1 12532
+S
+#12534
+Outside the Druid Guild~
+You are standing outside an impressive wooden structure, surrounded by
+cleverly-pruned topiaries and tall ash, oak and elm trees. The faint scent
+of incense comes from within. The double doors ahead stand open- you may
+enter at any time.
+~
+0 0 1
+D0
+Glory Avenue
+~
+~
+0 -1 12510
+D2
+Inside the Druid Guild
+~
+~
+0 0 12535
+S
+#12535
+Inside the Druid Guild~
+Stepping through the doors, you are suddenly overcome by a sense of peace
+and serenity that you have never felt before. All around you, everything
+seems to be in harmony with its environment- from the intricately carved
+wooden furniture to the carefully polished bronze fittings on the doors
+and windows, everything is in order. You may proceed east to the Druid
+bar, or west to the Guildmaster himself.
+~
+0 8 1
+D0
+Outside the Druid Guild
+~
+~
+0 0 12534
+D1
+The Druid Bar
+~
+~
+0 -1 12537
+D3
+The Guildmaster
+~
+~
+0 -1 12536
+S
+#12536
+The Guildmaster~
+You have entered the sanctum of the Druid Guildmaster. He is always here,
+perpetually ready to impart what wisdom he may to any disciples of his
+faith that may visit, or students of other faiths that have an interest
+in Druid magic. If you are not sure what to do, try looking at the
+Guildmaster.
+~
+0 8 1
+D1
+Inside the Druid Guild
+~
+~
+0 -1 12535
+S
+#12537
+The Druid Bar~
+This is where Druids of all ages and levels of experience come to meet,
+converse, drink and basically relax, free from the worries of the outside
+world for a short time. Polished oak tables are ringed by wooden stools,
+a few of which are currently filled.
+~
+0 8 1
+D3
+Inside the Druid Guild
+~
+~
+0 -1 12535
+S
+#12538
+Liberty Lane~
+You are heading along the northern half of Liberty Lane. To the south runs
+Victory Parade, while to the north lies Justice Street. The Castellan's
+office is to the west.
+~
+0 0 1
+D0
+Justice Street
+~
+~
+0 -1 12546
+D2
+Victory Parade
+~
+~
+0 -1 12506
+D3
+Castellan's Office
+~
+~
+0 0 12539
+S
+#12539
+The Castellan's Office~
+This is the office of the Castellan of the City of Anon, appointed by the
+rulers of the nation to be the steward of this city. He does an excellent
+job, too.
+~
+0 8 1
+D1
+Liberty Lane
+~
+~
+0 0 12538
+S
+#12540
+Liberty Lane~
+You are heading south along Liberty Lane, towards where it meets up with
+Valiant Street. To the north, Victory Parade runs to the east and west,
+directly through the heart of the city. There is a Blacksmith to the west,
+and above it a fish and chips shop.
+~
+0 0 1
+D0
+Victory Parade
+~
+~
+0 -1 12506
+D2
+Corner of Liberty Lane and Valiant Street
+~
+~
+0 -1 12562
+D3
+The Smithy
+~
+~
+0 -1 12541
+S
+#12541
+The Smithy~
+You are greeted with a sudden blast of heat from the furnace as you enter
+the smithy. Wiping sweat from your brow, you gaze about, taking the place
+in. Various items of armor in various stages of repair line the walls. A
+huge, muscular man is using a massive hammer to beat the dents out of a
+suit of rather battered-looking plate mail. If you are unsure what to do,
+try looking at the smith.
+
+There is a chippy upstairs from here.
+~
+0 8 1
+D1
+Liberty Lane
+~
+~
+0 -1 12540
+D4
+Chippy
+~
+~
+0 -1 12690
+S
+#12542
+Stalwart Lane~
+You are marching along the northern half of Stalwart Lane. To the south lies
+Victory Parade, the main road of the City, while to the north runs Justice
+Street. There is an armory to the east here.
+~
+0 0 1
+D0
+Corner of Justice Street and Stalwart Lane
+~
+~
+0 -1 12554
+D1
+The Armory
+~
+~
+0 -1 12543
+D2
+Victory Parade
+~
+~
+0 -1 12508
+S
+#12543
+The Armory~
+You have entered the Armory, an impressive place of business with a range
+of equipment unmatched on the whole continent. Piles of armor gather dust
+in the rear of the shop, while better items are displayed in glass cases
+or on racks. If you don't know what to do, try looking at the armorer.
+~
+0 8 1
+D3
+Stalwart Lane
+~
+~
+0 -1 12542
+S
+#12544
+Stalwart Lane~
+You are advancing along the southern half of Stalwart Lane. To the north
+Victory Parade cuts through Stalwart Lane, dividing it into its two halves,
+while to the south Stalwart Lane ends in Valiant Street. There is a
+Weaponsmith directly east of here.
+~
+0 0 1
+D0
+Victory Parade
+~
+~
+0 -1 12508
+D1
+The Weaponsmith
+~
+~
+0 -1 12545
+D2
+Corner of Stalwart Lane and Valiant Street
+~
+~
+0 -1 12569
+S
+#12545
+The Weaponsmith~
+You have entered the Weaponsmith, a crowded little premise loaded with
+military regalia of all types. The Weaponsmith is an avid collector of
+memorabilia, but his chief business is the buying and selling of weapons.
+If you are rather lost, try looking at him for help.
+~
+0 8 1
+D3
+Liberty Lane
+~
+~
+0 -1 12544
+S
+#12546
+Corner of Liberty Lane and Justice Street~
+You are standing at the corner of Justice Street and Liberty Lane. There
+is a Smithy to the south, and various shops and guilds to the east. A
+dark lane runs to the west.
+~
+0 0 1
+D0
+mercenaries
+~
+~
+0 -1 12547
+D1
+Justice Street
+~
+~
+0 -1 12549
+D2
+Liberty Lane
+~
+~
+0 -1 12538
+D3
+Vampires Guild
+~
+~
+0 -1 12586
+S
+#12547
+Mercenaries Unlimited~
+You have entered a hiring hall for mercenaries. A stout Mercenary Master
+grunts as you enter. If you don't know what to do, try looking at him.
+~
+0 4104 1
+D2
+Justice Street
+~
+~
+0 -1 12546
+S
+#12548
+Merc Store~
+You shouldn't be here. Go Away. Or I'll Tell.
+
+
+
+
+
+
+
+NOW!
+~
+0 12 1
+S
+#12549
+Justice Street~
+Justice Street runs past several businesses here, heading west to a
+junction with Liberty Lane and east past several shops toward Stalwart
+Lane. There is a Magic Shop directly north of here.
+~
+0 0 1
+D0
+The Magic Shop
+~
+~
+0 -1 12550
+D1
+Corner of Honor Avenue and Justice Street
+~
+~
+0 -1 12551
+D3
+Corner of Justice Street and Liberty Lane
+~
+~
+0 -1 12546
+S
+#12550
+The Magic Shop~
+This shop is cram-packed with magical artefacts, items and spell components
+of every type imaginable (and several unimaginable). Forcing your way through
+the clutter, you eventually find an assistant, a raven-haired mage who smiles
+sweetly and welcomes you to her shop. If you don't know what to do here, try
+looking at her.
+~
+0 8 1
+D2
+Justice Street
+~
+~
+0 -1 12549
+S
+#12551
+Corner of Honor Avenue and Justice Street~
+You are standing at the corner of two of the lesser roads in the city. Honor
+Avenue is a short road that ends at a small tower to the north, while
+Justice Street heads east and west past a variety of shops and houses. Far
+to the north, past the tower, rise the impressive crenelated stone battlements
+of the city.
+~
+0 0 1
+D0
+Honor Avenue
+~
+~
+0 -1 12557
+D1
+Justice Street
+~
+~
+0 -1 12552
+D3
+Justice Street
+~
+~
+0 -1 12549
+S
+#12552
+Justice Street~
+You are walking through the northeastern quarter of town, along Justice
+Street. People garbed in rich, colorful accoutrements hurry past, smiling
+briefly when they feel your gaze upon them. To the north there is an
+important-looking building with a large sign that reads - "Mitzak the Sage".
+~
+0 0 1
+D0
+The Sage
+~
+~
+0 -1 12553
+D1
+Corner of Honor Avenue and Justice Street
+~
+~
+0 -1 12554
+D3
+Justice Street
+~
+~
+0 -1 12551
+S
+#12553
+The Sage's Residence~
+You have entered the modest dwelling of Mitzak the Sage, an elderly, bearded
+gent who will identify anything- for a price. Drawing on his extensive
+knowledge of Legend Lore, he will be able to give you exact details of the
+function of any item in your possession. if you are not sure how the process
+works, try looking at him.
+~
+0 12 1
+D2
+Justice Street
+~
+~
+0 -1 12552
+S
+#12554
+Justice Street~
+You are advancing along Justice Street, through a small city square where
+fetes are held every Spring. At other times of the year it is fairly
+deserted, save for the occasional guard or customer for the Pet Shop to the
+north. Stalwart Lane leads south out of the square, running past more shops.
+~
+0 0 1
+D0
+The Pet Shop
+~
+~
+0 -1 12555
+D1
+Justice Street
+~
+~
+0 -1 12593
+D2
+Stalwart Lane
+~
+~
+0 -1 12542
+D3
+Justice Street
+~
+~
+0 -1 12552
+S
+#12555
+The Pet Shop~
+You have entered a virtual Zoo, a crowded shop packed with a menagerie of
+animals of every type, size, shape and description imaginable. However,
+only a few are for sale- the rest are the owner's personal collection, and
+are his pride and joy. To see what to do next, try looking at the owner.
+~
+0 4104 1
+D2
+Justice Street
+~
+~
+0 -1 12554
+S
+#12556
+Pet Store Storage~
+You shouldn't be here. Go Away. Or I'll Tell.
+
+
+
+
+
+
+
+NOW!
+~
+0 4 1
+S
+#12557
+Honor Avenue~
+You are strolling alone Honor Avenue, a broad, tree-lined boulevard with
+several impressive-looking residences to either side. To the north lies the
+entrance to the small tower which you saw earlier and now recognize as the
+Mages Guild, and beyond that loom the cyclopean city walls.
+~
+0 0 1
+D0
+The Mages Guild
+~
+~
+0 -1 12558
+D2
+Corner of Honor Avenue and Justice Street
+~
+~
+0 -1 12551
+S
+#12558
+The Mages Guild~
+You are standing in the forecourt of the tower which holds the chambers of
+the Mages Guild. Here, practitioners of the magic of the realm come to
+advance their knowledge of their art. Upstairs lie the offices of the Guild,
+while downstairs is the Mages Bar.
+~
+0 8 1
+D2
+Honor Avenue
+~
+~
+0 -1 12557
+D4
+The Offices of the Guild
+~
+~
+0 -1 12559
+D5
+The Mages Bar
+~
+~
+0 -1 12561
+S
+#12559
+The Offices of the Guild~
+On this level, the various administrative personnel of the Guild rush to and
+fro, preparing documents and memorandums for the various officials of the
+city, as the mages also act as the official Scribes' Guild, due to their
+fluency in tongue and their adroitness with the quill. Upstairs lies the
+office of the Guildmaster himself, while downstairs is the entrance.
+~
+0 8 1
+D4
+The Office of the Guildmaster
+~
+~
+0 -1 12560
+D5
+The Mages Guild
+~
+~
+0 -1 12558
+S
+#12560
+The Office of the Mage Guildmaster~
+This spacious office is lined on every wall by tall bookcases crammed with
+books on magic and mystical lore, as well as treatises on history, science
+mathematics, philosophy and alchemy. The Guildmaster himself sits behind
+a large oak desk covered in scrolls, quills, papers and jars of ink. He
+looks up as you enter and asks how he may be of service. If you don't know,
+try looking at him.
+~
+0 8 1
+D5
+The offices of the guild
+~
+~
+0 -1 12559
+S
+#12561
+The Mages Bar~
+Mages are notorious drinkers, mainly due to the fact that their power relies
+solely on mana, and the best way to rapidly regain mana is to be rip-roaring
+drunk. Thus it is extremely rare to see an active adventuring mage remotely
+sober.
+~
+0 8 1
+D4
+The Mages Guild
+~
+~
+0 -1 12558
+S
+#12562
+The Corner of Liberty Lane and Valiant Street~
+You are standing at a tree-lined intersection in the southwest quarter of
+town. Liberty Lane runs north from here past shops toward Justice Street.
+There is a Bank to the south.
+~
+0 0 1
+D0
+Liberty Lane
+~
+~
+0 -1 12540
+D1
+Valiant Street
+~
+~
+0 -1 12565
+D2
+The Bank
+~
+~
+0 -1 12563
+D3
+Valiant Street
+~
+~
+0 -1 12572
+S
+#12563
+The Bank~
+You have entered a building obviously built by someone who is fabulously
+wealthy. From the gold handles in the doors to the obsidian service counter
+and platinum wall fittings, everything is expensive and luxurious.
+~
+0 8 1
+E
+sign~
+A sign says-
+ 
+"Hello! Welcome to the Anon Consolidated Bank!
+ 
+    You may DEPOSIT or WITHDRAW platinum coins only, 
+    in equal amounts of 50 coins.  A 4% penalty will 
+    be imposed on all early withdrawals. 
+    Do not leave your PASSBOOK unguarded, and your 
+    money will be safe. 
+    Our operating hours are 8am - 8pm. 
+ 
+ Thank You and have a GOOD day :)"
+
+~
+D0
+Corner of Valiant Street and Liberty Lane
+~
+~
+0 -1 12562
+S
+#12565
+Valiant Street~
+You are walking along Valiant Street, which is met to the west and east by
+Liberty Lane and Glory Avenue respectively. To the south there is a Grocery
+Store.
+~
+0 0 1
+D1
+Corner of Valiant Street and Glory Avenue
+~
+~
+0 -1 12507
+D2
+The Grocery Store
+~
+~
+0 -1 12566
+D3
+Corner of Valiant Street and Liberty Lane
+~
+~
+0 -1 12562
+S
+#12566
+The Grocery Store~
+You have entered a quaint Grocery Store, the shelves of which are lined with
+basic goods of every type. Backpacks, water skins, ropes, lanterns, torches
+and pouches are what the Grocer specialises in, though, and if you need any
+of those goods, you've come to the right place. If you don't know how to
+negotiate a transaction, simply look at the grocer.
+~
+0 8 1
+D0
+Valiant Street
+~
+~
+0 -1 12565
+S
+#12567
+Valiant Street~
+You are walking along Valiant Street, which is met to the west and east by
+Stalwart Lane and Glory Avenue respectively. To the south there is a Bakery,
+from which a delicious aroma wafts.
+~
+0 0 1
+D1
+Corner of Stalwart Street and Glory Avenue
+~
+~
+0 -1 12569
+D2
+The Bakery
+~
+~
+0 -1 12568
+D3
+Corner of Valiant Street and Glory Avenue
+~
+~
+0 -1 12507
+S
+#12568
+The Bakery~
+The delicious aroma you smelt outside pervades this entire store. Cakes,
+pies, rolls and loaves of freshly-baked bread line the racks behind the
+counter. Also behind the counter is a very mean-looking tattooed Dwarf with
+missing teeth and fingers, but with a talent for baking unsurpassed in the
+entire nation. If you don't know what to do next, try looking at the Dwarf
+(if you dare...).
+~
+0 8 1
+D0
+Valiant Street
+~
+~
+0 -1 12567
+S
+#12569
+The Corner of Stalwart Lane and Valiant Street~
+You are standing at a tree-lined intersection in the southeast quarter of
+town. Stalwart Lane runs north from here past shops toward Justice Street.
+There is a seedy-looking Bar to the south.
+~
+0 0 1
+D0
+Stalwart Lane
+~
+~
+0 -1 12544
+D1
+Valiant Street
+~
+~
+0 -1 12579
+D2
+The Bar
+~
+~
+0 -1 12570
+D3
+Valiant Street
+~
+~
+0 -1 12567
+S
+#12570
+The Bar~
+You have entered the main room of the Bar. A slick-looking Bartender with
+greasy black hair attempts to come on to the female patrons here. Seeing
+you he smiles and offers to make you a drink. To see what sort, try looking
+at him. Private booths are available to the south.
+~
+0 8 1
+D0
+Corner of Valiant Street and Stalwart Lane
+~
+~
+0 -1 12569
+D2
+Private Booths
+~
+~
+0 -1 12571
+S
+#12571
+Private Booths~
+This is where the more unsavory customers come to negotiate drug deals,
+slave trading or prostitution. You get a few stares as you enter. Despite
+the rough characters here, no-one ever fights or even lays a blow on another
+as powerful magics prevent it.
+~
+0 1033 1
+D0
+The Bar
+~
+~
+0 -1 12570
+S
+#12572
+Valiant Street~
+You are heading into the Guard Sector of town. Guards wander here and there,
+as does the occasional prisoner, led by two guards of course. The road
+continues east and west.
+~
+0 0 1
+D1
+Corner of Valiant Street and Liberty Lane
+~
+~
+0 -1 12562
+D3
+Valiant Street
+~
+~
+0 -1 12573
+S
+#12573
+Valiant Street~
+You are heading into the Guard Sector of town. Guards wander here and there,
+as does the occasional prisoner, led by two guards of course. The road
+continues east and west.
+~
+0 0 1
+D1
+Valiant Street
+~
+~
+0 -1 12572
+D3
+A Bend in Valiant Street
+~
+~
+0 -1 12574
+S
+#12574
+A Bend in Valiant Street~
+At this point Valiant Street bends, with exits to the east and south. The
+prison lies to the south, as does the Warrior Guild.
+~
+0 0 1
+D1
+Valiant Street
+~
+~
+0 -1 12573
+D2
+Outside the Dungeon
+~
+~
+0 -1 12575
+S
+#12575
+Outside the Dungeon~
+You are standing outside the grounds of His Majesty's Gaol, the prison of
+Anon, where all the perpretrators of heinous acts are kept. To the south
+looms the impressive mini-fortress that is the Warrior Guild.
+~
+0 0 1
+D0
+Valiant Street
+~
+~
+0 -1 12574
+D2
+The Warrior Guild
+~
+~
+0 0 12576
+S
+#12576
+The Warrior Guild~
+Stone walls rise all around you as you enter the training grounds of the
+Warrior Guild. Several young warriors pile eagerly into the bar to the east,
+while other, more mature warriors patiently wait to train with the Master
+to the south.
+~
+0 0 1
+D0
+Valiant Street
+~
+~
+0 0 12575
+D1
+The Warrior Bar
+~
+~
+0 -1 12578
+D2
+The Guildmaster
+~
+~
+0 -1 12577
+S
+#12577
+The Guildmaster's Room~
+A burly Dwarf is here curtly issuing instructions to two trainees. You may
+wish to train as well. If so, and you don't know what to do, try looking at
+the Guildmaster.
+~
+0 8 1
+D0
+The Guild training yard
+~
+~
+0 -1 12576
+S
+#12578
+The Warrior Bar~
+About two dozen hardy warriors drink, smoke, fight and gamble here. The noise
+is only equalled in intensity by the acrid stench of stale beer and burning
+pipeweed. A small Dwarf busies himself collecting empty steins and
+replacing them with fresh ones, being rewarded with the occasional silver
+piece or kick in the rump for his efforts.
+~
+0 8 1
+D3
+The Guild training yard
+~
+~
+0 -1 12576
+S
+#12579
+Valiant Street~
+You have entered a rather seedy area of town, the slums that line the eastern
+half of Valiant Street being legendary the world over. A haven for thieves,
+assassins, backstabbers, footpads and murderers of every description, it is
+a place where a quick mind and a quicker blade will mean the difference
+between life and death.
+~
+0 1 1
+D1
+Valiant Street
+~
+~
+0 -1 12580
+D3
+Corner of Stalwart Lane and Valiant Street
+~
+~
+0 -1 12569
+S
+#12580
+Valiant Street~
+You have entered a rather seedy area of town, the slums that line the eastern
+half of Valiant Street being legendary the world over. A haven for thieves,
+assassins, backstabbers, footpads and murderers of every description, it is
+a place where a quick mind and a quicker blade will mean the difference
+between life and death. You quickly duck the contents of a chamber pot being
+emptied into the street by someone in a higher building, and, cursing, move
+on.
+~
+0 1 1
+D1
+A Bend in Valiant Street
+~
+~
+0 -1 12581
+D3
+Valiant Street
+~
+~
+0 -1 12579
+S
+#12581
+A Bend in Valiant Street~
+At this bend, there is a small grate set in the ground. Looking down through
+it, you notice a complex network of interconnecting tunnels more than big
+enough for you to wander through, but the grate seems to be welded tight.
+~
+0 1 1
+D2
+Outside the Thieves Guild
+~
+~
+0 -1 12582
+D3
+Valiant Street
+~
+~
+0 -1 12580
+S
+#12582
+Outside the Thieves Guild~
+You are standing outside the house of learning for all the rogues of the
+city previously mentioned.
+The entrance to this shady establishment is through a curtained archway
+to the south.
+~
+0 1 1
+D0
+Valiant Street above the Sewer
+~
+~
+0 -1 12581
+D2
+A Curtained Archway
+~
+curtain~
+0 0 12583
+S
+#12583
+Inside the Guild~
+You are standing inside the Thieves Guild, surrounded by whores, pimps,
+thieves, muggers and vagabonds. What a nice place. The Guildmaster lurks
+to the south, while there is a Bar to the west...
+~
+0 9 1
+D0
+Valiant Street
+~
+~
+0 0 12582
+D2
+The Guildmaster
+~
+~
+0 -1 12584
+D3
+Bar
+~
+~
+0 0 12585
+S
+#12584
+The Guildmaster~
+You are in the quarters of the Thieves Guildmaster. A veritable treasure
+trove of items of every possible description is piled to the roof in here.
+The Guildmaster lounges on a settee and stares inquisitively at you. If you
+don't know what to do, try looking at him.
+~
+0 9 1
+D0
+Inside the Guild
+~
+~
+0 -1 12583
+S
+#12585
+The Bar~
+You have entered a seedy bar full of low-lifes of the lowest common
+denominator. A greasy bartender serves drinks to the sullen patrons, while
+in the corner a couple of sailors are roughing up an Elf who refused to pay
+up upon losing the last hand in poker.
+~
+0 9 1
+D1
+Inside the Guild
+~
+~
+0 -1 12583
+S
+#12586
+End of Justice Street~
+Justice Street ends in a small lane here that the Vampires Guild opens onto
+from the north. Back east several shops open onto Justice Avenue, and before
+that Liberty Lane cuts across this street.
+~
+0 0 1
+D0
+The Vampires Guild
+~
+~
+0 -1 12590
+D1
+Justice Street
+~
+~
+0 -1 12546
+S
+#12587
+The Clerics Guild~
+You have entered a Martial Arts Dojo devoid of all furniture or decoration
+save several practice mats and some wooden weapons hung on hooks attached
+to the walls. Several students, clad in white Ghis practice basic Karate
+punches and Judo holds with each other, under the watchful eye of their
+instructor. The Guildmaster resides to the north, and the Guild relaxation
+chambers are to the south.
+~
+0 8 1
+D0
+The Guildmaster
+~
+~
+0 -1 12588
+D2
+The Relaxation Room
+~
+~
+0 -1 12589
+D3
+Justice Street
+~
+~
+0 -1 12595
+S
+#12588
+The Guildmaster's Room~
+The Cleric Guildmaster is here, meditating. As you enter, his eyes flick open
+and he quickly leaps to his feet, bowing before you. If you don't know what
+to do next, try looking at him.
+~
+0 8 1
+D2
+The Clerics Guild
+~
+~
+0 -1 12587
+S
+#12589
+The Relaxation Room~
+Rigid and disciplined as they are, the members of this Guild don't spend much
+time loafing around. However, when the mood takes them, few can outdrink them
+whatever the beverage, and as the mood can take them quite frequently when
+their usage of their mental disciplines drains their mana, this place was
+constructed.
+~
+0 8 1
+D0
+The Clerics Guild
+~
+~
+0 -1 12587
+S
+#12590
+Inside the Vampires Guild~
+You have entered the sparsely-furnished chambers of the Vampire Guildmaster
+of Anon. The Guildmaster himself resides to the north, while the Vampires
+Bar is to the west.
+~
+0 8 1
+D0
+The Guildmaster
+~
+~
+0 -1 12592
+D2
+Justice Street
+~
+~
+0 -1 12586
+D3
+The Bar
+~
+~
+0 -1 12591
+S
+#12591
+The Vampires' Bar~
+Not many Vampires reside in Anon, so this place is usually empty. Combine
+this with the fact that Mind Flayers have a reputation of sucking out and
+eating the brains of other sentient species, and you'll probably understand
+why there are very few non-Vampires in this place at any particular time...
+Like all mana-users, Vampires have a need to be constantly intoxicated, and
+what better place to do this than in their Guild Bar?
+~
+0 8 1
+D1
+The Guild
+~
+~
+0 -1 12590
+S
+#12592
+The Guildmaster~
+You have entered a particuarly small, dark and cramped chamber that is
+devoid of funiture- the powerful psionicist hovering in the center of the
+room has no need for any. If you don't know what to do, try looking at the
+purple-skinned, tentacle-mawed instructor and see what he has to think...
+~
+0 8 1
+D2
+The Guild
+~
+~
+0 -1 12590
+S
+#12593
+Justice Street~
+You are strolling through the fairly deserted northeastern quarter of town.
+Up ahead lies the Dojo where the Cleric Guildmaster trains his students, and
+to the northeast looms the aerie of the Ranger Guildmistress.
+~
+0 0 1
+D1
+Justice Street
+~
+~
+0 -1 12594
+D3
+Corner of Justice Street and Stalwart Lane
+~
+~
+0 -1 12554
+S
+#12594
+Justice Street~
+You are strolling through the fairly deserted northeastern quarter of town.
+Up ahead lies the Dojo where the Cleric Guildmaster trains his students, and
+to the northeast looms the aerie of the Ranger Guildmistress.
+~
+0 0 1
+D1
+Justice Street
+~
+~
+0 -1 12595
+D3
+Justice Street
+~
+~
+0 -1 12593
+S
+#12595
+Outside the Cleric Dojo~
+At this bend in the road, you can head east into the Dojo, north toward the
+tall tower which holds the aerie of the Ranger Guildmistress, or back west
+toward Stalwart Lane.
+~
+0 0 1
+D0
+Outside the Tower
+~
+~
+0 -1 12596
+D1
+The Guild
+~
+~
+0 -1 12587
+D3
+Justice Street
+~
+~
+0 -1 12594
+S
+#12596
+Outside the Tower~
+You are standing beneath the wooden tower which houses the aerie of the Ranger
+Guildmistress. Being generally solitary and outdoor-loving creatures, Rangers
+do not congregate here tending instead to visit at odd hours so as to not
+be forced to endure a wait indoors for training.
+~
+0 0 1
+D0
+Inside the Tower
+~
+~
+0 -1 12597
+D2
+Outside the Dojo
+~
+~
+0 -1 12595
+S
+#12597
+Inside the Tower~
+You have entered the grounds of the Guild. From here you may go up to the
+aerie, or downstairs to the Bar.
+~
+0 8 1
+D2
+Outside the Tower
+~
+~
+0 -1 12596
+D4
+The Aerie
+~
+~
+0 -1 12599
+D5
+The Bar
+~
+~
+0 -1 12598
+S
+#12598
+The Bar~
+As mentioned, Rangers aren't the most social of creatures, but they do enjoy
+a good drink like anyone else. However, they like it best when few other
+people are present, and what few Rangers that are here now will probably get
+up and leave if you enter.
+~
+0 8 1
+D4
+Inside the Tower
+~
+~
+0 -1 12597
+S
+#12599
+The Aerie~
+Here the Ranger Guildmistress rests, in her comfortable nest, waiting for
+new students. If you don't know what to do here, try looking at her.
+~
+0 8 1
+D5
+Inside the Tower
+~
+~
+0 -1 12597
+S
+#12690
+Inside the Chippy~
+You have entered the local chippy. Your nostrils are almsot immediately
+assailed by a pleasant aroma- it's amazing how good hot fat smells, isn't
+it? You see a portly Italian standing behind a large glass counter full of
+fried food. It certainly smells a lot better than it looks. A customer
+standing next to you says- "It looks a lot better than it tastes...". Most
+of the food has probably been sitting under those hot lights for a couple
+of hours. The only thing you can be reasonably sure of is the chips.
+By the way, EVERYTHING is fried.
+~
+0 8 1
+D5
+~
+~
+0 -1 12541
+S
+#12691
+Inside the Guard Tower~
+You are standing inside the northern guard tower at the west gate. This
+tower is a circular affair approximately twenty feet in diameter and forty
+feet high. Straw has been scattered across the stone floor, and some plain
+but functional wooden furniture has been arranged about the room for off-
+duty guards. A spiral staircase winds its way up to the next floor in one
+corner. A fire burns merrily away in a hearth to the east, the smoke
+escaping through a small shaft that runs up one side of the turret.
+~
+0 8 1
+D2
+~
+~
+0 0 12516
+D4
+~
+~
+0 -1 12693
+S
+#12692
+Inside the Guard Tower~
+You are standing inside the southern guard tower at the west gate. This
+tower is a circular affair approximately twenty feet in diameter and forty
+feet high. Straw has been scattered across the stone floor, and some plain
+but functional wooden furniture has been arranged about the room for off-
+duty guards. A set of dominos and a small pile of silver pieces suggest that
+a friendly game between some guards was recently in progress. It seems the
+guards were called away in a hurry, for they left their winnings behind. A
+spiral staircase winds its way up to the next floor in one corner.
+~
+0 8 1
+D0
+~
+~
+0 0 12516
+D4
+~
+~
+0 -1 12698
+S
+#12693
+Inside the North Tower, West Gatehouse~
+You are standing inside the north tower at the west gatehouse. Doors lead
+north into the passages that run through the city walls, and south into the
+gatehouse proper. A staircase winds its way up to the next floor and down
+to street level.
+~
+0 8 1
+D0
+~
+~
+0 0 12694
+D2
+~
+~
+0 0 12707
+D4
+~
+~
+0 -1 12717
+D5
+~
+~
+0 -1 12691
+S
+#12694
+Inside the Western City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the city of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+
+A door leads south into the north tower, west gatehouse.
+~
+0 8 1
+D0
+~
+~
+0 -1 12695
+D2
+~
+~
+0 0 12693
+S
+#12695
+Inside the Western City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the city of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+~
+0 8 1
+D0
+~
+~
+0 -1 12696
+D2
+~
+~
+0 -1 12694
+S
+#12696
+Inside the Western City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the city of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+
+A door leads north into the northwest tower.
+~
+0 8 1
+D0
+~
+~
+0 -1 12697
+D2
+~
+~
+0 -1 12695
+S
+#12697
+Northwest Tower~
+This massive circular tower rises at the northwest corner of the city walls.
+It is sixty feet tall, and thirty feet in diameter, making it just about the
+largest tower you've ever seen. Guards march back and forth past you,
+barely sparing you a second glance as they busily go about their duty. Doors
+to the east and south allow you to enter the passages that run through the
+bowels of the walls, and a staircase allows you to proceed up or down
+through the tower.
+~
+0 12 1
+D1
+~
+~
+0 0 12721
+D2
+~
+~
+0 0 12696
+D4
+~
+~
+0 -1 12747
+D5
+~
+~
+0 -1 12743
+S
+#12698
+Inside the South Tower, West Gatehouse~
+You are standing inside the north tower at the west gatehouse. Doors lead
+north into the passages that run through the city walls, and south into the
+gatehouse proper. A staircase winds its way up to the next floor and down
+to street level. A pile of old weapons lies in one corner, waiting to be
+removed.
+~
+0 8 1
+D0
+~
+~
+0 0 12707
+D2
+~
+~
+0 0 12699
+D4
+~
+~
+0 -1 12718
+D5
+~
+~
+0 -1 12692
+S
+#12699
+Inside the Western City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the city of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+
+A door leads north into the south tower, west gatehouse.
+~
+0 8 1
+D0
+~
+~
+0 0 12698
+D2
+~
+~
+0 -1 12700
+S
+#12700
+Inside the Western City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the city of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+~
+0 8 1
+D0
+~
+~
+0 -1 12699
+D2
+~
+~
+0 -1 12701
+S
+#12701
+Inside the Western City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the city of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+
+A door leads south into the northwest tower.
+~
+0 8 1
+D0
+~
+~
+0 -1 12700
+D2
+~
+~
+0 0 12702
+S
+#12702
+Southwest Tower~
+This massive circular tower rises at the southwest corner of the city walls.
+It is sixty feet tall, and thirty feet in diameter, making it just about the
+largest tower you've ever seen. Guards march back and forth past you,
+barely sparing you a second glance as they busily go about their duty. Doors
+to the east and north allow you to enter the passages that run through the
+bowels of the walls, and a staircase allows you to proceed up or down
+through the tower.
+
+You hear the ringing of metal against metal coming from below, and feel a
+sudden wave of heat, as if from a furnace.
+~
+0 12 1
+D0
+~
+~
+0 0 12701
+D1
+~
+~
+0 0 12732
+D4
+~
+~
+0 -1 12749
+D5
+~
+~
+0 -1 12745
+S
+#12703
+Inside the Guard Tower~
+You are standing inside the northern guard tower at the east gate. This
+tower is a circular affair approximately twenty feet in diameter and forty
+feet high. Straw has been scattered across the stone floor, and some plain
+but functional wooden furniture, deeply scored with dagger cuts, has been
+arranged about the room for off-duty guards. Several pewter mugs half-full
+of the local brew sit about near a game of draughts. A spiral staircase winds
+its way up to the next floor in one corner. A fire burns merrily away in a
+hearth to the east, the smoke escaping through a small shaft that runs up one
+side of the turret.
+~
+0 8 1
+D2
+~
+~
+0 0 12517
+D4
+~
+~
+0 -1 12705
+S
+#12704
+Inside the Guard Tower~
+You are standing inside the southern guard tower at the east gate. This
+tower is a circular affair approximately twenty feet in diameter and forty
+feet high. Straw has been scattered across the stone floor, and some plain
+but functional wooden furniture, deeply scored with dagger cuts, has been
+arranged about the room for off-duty guards. A spiral staircase winds
+its way up to the next floor in one corner. A fire burns merrily away in a
+hearth to the east, the smoke escaping through a small shaft that runs up one
+side of the turret. A small cat purrs contentedly near the fire.
+~
+0 8 1
+D0
+~
+~
+0 0 12517
+D4
+~
+~
+0 -1 12706
+S
+#12705
+Inside the North Tower, East Gatehouse~
+You are standing inside the north tower at the east gatehouse. Doors lead
+north into the passages that run through the city walls, and south into the
+gatehouse proper. A staircase winds its way up to the next floor and down
+to street level. The eastern wall is crossletted, allowing you to gaze out
+upon the southeast plains, and the ocean beyond.
+~
+0 8 1
+D0
+~
+~
+0 0 12709
+D2
+~
+~
+0 0 12708
+D4
+~
+~
+0 -1 12719
+D5
+~
+~
+0 -1 12703
+S
+#12706
+Inside the South Tower, East Gatehouse~
+You are standing inside the south tower at the east gatehouse. Doors lead
+south into the passages that run through the city walls, and north into the
+gatehouse proper. A staircase winds its way up to the next floorand down to
+street level. The eastern wall is crossletted, allowing you to gaze out
+upon the southeast plains, and the ocean beyond. There is some writing on
+the wall here.
+~
+0 8 1
+E
+writing wall~
+The writing says-
+
+"Now my charms are all o'erthrown, and what strength I have's mine own;
+ which is most faint; now, 'tis true, I must be here confined by you, or
+ send to Naples. Let me not, since I have my dukedom got and pardon'd the
+ deceiver dwell in this bare siland by your spell; but release me from my
+ bands with the help fo your good hands. Gentle breath of yours my sails
+ must fill, or else my project fails, which was to please. Now I want spirits
+ to enforce, art to enchant; and my ending is despair, unless I be reliev'd
+ by prayer, which pierces so that it assaults mercy itself and frees all
+ faults. As you from crimes would pardon'd be, let your indulgence set me
+ free". (The Tempest, Epilogue)
+~
+D0
+~
+~
+0 0 12708
+D2
+~
+~
+0 0 12713
+D4
+~
+~
+0 -1 12720
+D5
+~
+~
+0 -1 12704
+S
+#12707
+The Gatehouse~
+You are standing in the gatehouse that houses the great western mithril
+valves of the City of Anon. Massive guard towers lie to the north and south.
+There are murder holes set in the floor at your feet, allowing defenders
+to pour boiling oil upon any who manage to breach the gate. The western wall
+is crossletted for archers, and through it you can see the plains of
+western Anon, and beyond them an impenetrable mountain range.
+~
+0 8 1
+D0
+~
+~
+0 0 12693
+D2
+~
+~
+0 0 12698
+S
+#12708
+The Gatehouse~
+You are standing in the gatehouse that houses the great eastern mithril
+valves of the City of Anon. Massive guard towers lie to the north and south.
+There are murder holes set in the floor at your feet, allowing defenders
+to pour boiling oil upon any who manage to breach the gate. The western wall
+is crossletted for archers, and through it you can see the southeast plains.
+~
+0 8 1
+D0
+~
+~
+0 0 12705
+D2
+~
+~
+0 0 12706
+S
+#12709
+Inside the Eastern City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the City of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+
+A door leads south into the north tower, east gatehouse.
+~
+0 8 1
+D0
+~
+~
+0 -1 12710
+D2
+~
+~
+0 0 12705
+S
+#12710
+Inside the Eastern City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the City of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+~
+0 8 1
+D0
+~
+~
+0 -1 12711
+D2
+~
+~
+0 -1 12709
+S
+#12711
+Inside the Eastern City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the City of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+
+A door leads north into northeast tower.
+~
+0 8 1
+D0
+~
+~
+0 -1 12712
+D2
+~
+~
+0 -1 12710
+S
+#12712
+Northeast Tower~
+This massive circular tower rises at the northeast corner of the city walls.
+It is sixty feet tall, and thirty feet in diameter, making it just about the
+largest tower you've ever seen. Guards march back and forth past you,
+barely sparing you a second glance as they busily go about their duty. Doors
+to the west and south allow you to enter the passages that run through the
+bowels of the walls, and a staircase allows you to proceed up or down
+through the tower.
+~
+0 12 1
+D2
+~
+~
+0 0 12711
+D3
+~
+~
+0 0 12731
+D4
+~
+~
+0 -1 12748
+D5
+~
+~
+0 -1 12744
+S
+#12713
+Inside the Eastern City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the city of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+
+A door leads south into the north tower, east gatehouse.
+~
+0 8 1
+D0
+~
+~
+0 0 12706
+D2
+~
+~
+0 -1 12714
+S
+#12714
+Inside the Eastern City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the city of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+~
+0 8 1
+D0
+~
+~
+0 -1 12713
+D2
+~
+~
+0 -1 12715
+S
+#12715
+Inside the Eastern City Wall~
+You are making you way along a narrow corridor that runs through the
+center of the cyclopean walls of the city of Anon. Crossbow slits at regular
+intervals allow you to look out upon the western plains that lie beyond
+the city. Crossbowmen walk back and forth, talking and joking but ever alert
+for any signs of attack. After a while you begin to feel slightly
+claustrophobic.
+
+A door leads south into southeast tower.
+~
+0 8 1
+D0
+~
+~
+0 -1 12714
+D2
+~
+~
+0 -1 12716
+S
+#12716
+Southeast Tower~
+This massive circular tower rises at the southwest corner of the city walls.
+It is sixty feet tall, and thirty feet in diameter, making it just about the
+largest tower you've ever seen. Guards march back and forth past you,
+barely sparing you a second glance as they busily go about their duty. Doors
+to the west and north allow you to enter the passages that run through the
+bowels of the walls, and a staircase allows you to proceed up or down
+through the tower.
+~
+0 12 1
+D0
+~
+~
+0 0 12715
+D3
+~
+~
+0 0 12742
+D4
+~
+~
+0 -1 12750
+D5
+~
+~
+0 -1 12746
+S
+#12717
+North Tower, Western Gatehouse~
+You are in the north tower, western gatehouse. The staircase you have been
+using continues up and down through the tower. Doors lead north and south
+onto the battlements.
+~
+0 8 1
+D0
+~
+~
+0 0 12761
+D2
+~
+~
+0 0 12759
+D4
+~
+~
+0 -1 12751
+D5
+~
+~
+0 -1 12693
+S
+#12718
+South Tower, Western Gatehouse~
+You are in the south tower, western gatehouse. The staircase you have been
+using continues up and down through the tower. Doors lead north and south
+onto the battlements.
+~
+0 8 1
+D0
+~
+~
+0 0 12759
+D2
+~
+~
+0 0 12762
+D4
+~
+~
+0 -1 12752
+D5
+~
+~
+0 -1 12698
+S
+#12719
+North Tower, Eastern Gatehouse~
+You are in the north tower, eastern gatehouse. The staircase you have been
+using continues up and down through the tower. Doors lead north and south
+onto the battlements.
+~
+0 8 1
+D0
+~
+~
+0 0 12763
+D2
+~
+~
+0 0 12760
+D4
+~
+~
+0 -1 12753
+D5
+~
+~
+0 -1 12705
+S
+#12720
+South Tower, Eastern Gatehouse~
+You are in the south tower, eastern gatehouse. The staircase you have been
+using continues up and down through the tower. Doors lead north and south
+onto the battlements.
+~
+0 8 1
+D0
+~
+~
+0 0 12760
+D2
+~
+~
+0 0 12764
+D4
+~
+~
+0 -1 12754
+D5
+~
+~
+0 -1 12706
+S
+#12721
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+
+A door leads west into northwest tower.
+~
+0 8 1
+D1
+~
+~
+0 -1 12722
+D3
+~
+~
+0 0 12697
+S
+#12722
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12723
+D3
+~
+~
+0 -1 12721
+S
+#12723
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12724
+D3
+~
+~
+0 -1 12722
+S
+#12724
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12725
+D3
+~
+~
+0 -1 12723
+S
+#12725
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12726
+D3
+~
+~
+0 -1 12724
+S
+#12726
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12727
+D3
+~
+~
+0 -1 12725
+S
+#12727
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12728
+D3
+~
+~
+0 -1 12726
+S
+#12728
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12729
+D3
+~
+~
+0 -1 12727
+S
+#12729
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12730
+D3
+~
+~
+0 -1 12728
+S
+#12730
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12731
+D3
+~
+~
+0 -1 12729
+S
+#12731
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast northern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+
+A door leads east into northeast tower.
+~
+0 8 1
+D1
+~
+~
+0 -1 12712
+D3
+~
+~
+0 -1 12730
+S
+#12732
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+
+A door leads west into southwest tower.
+~
+0 8 1
+D1
+~
+~
+0 -1 12733
+D3
+~
+~
+0 0 12702
+S
+#12733
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12734
+D3
+~
+~
+0 -1 12732
+S
+#12734
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12735
+D3
+~
+~
+0 -1 12733
+S
+#12735
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12736
+D3
+~
+~
+0 -1 12734
+S
+#12736
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12737
+D3
+~
+~
+0 -1 12735
+S
+#12737
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12738
+D3
+~
+~
+0 -1 12736
+S
+#12738
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12739
+D3
+~
+~
+0 -1 12737
+S
+#12739
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12740
+D3
+~
+~
+0 -1 12738
+S
+#12740
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12741
+D3
+~
+~
+0 -1 12739
+S
+#12741
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+~
+0 8 1
+D1
+~
+~
+0 -1 12742
+D3
+~
+~
+0 -1 12740
+S
+#12742
+Within the Walls~
+You are advancing along the long narrow passage that runs through the
+center of the vast southern wall of the City of Anon. This passage, like
+the shorter eastern and western versions, is crossletted at regular
+intervals, and regularly patrolled by squads of crossbowmen.
+
+A door to the east leads into southeast tower.
+~
+0 8 1
+D1
+~
+~
+0 -1 12716
+D3
+~
+~
+0 -1 12741
+S
+#12743
+Base of Northwest Tower~
+You have reached the bottom of Northwest tower, the huge tower at the
+northwestern corner of the walls of the City of Anon. It appears to serve
+as some sort of storage area, being as it is full of weapons and armor.
+There are no visible exits, besides the staircase back up.
+~
+0 13 1
+D4
+~
+~
+0 -1 12697
+S
+#12744
+Base of Northeast Tower~
+This room is dusty and full of cobwebs. It probably hasn't been entered in
+ages. Coughing, you make your way through a jumble of debris, looking for
+another exit, but you find none. You do spy several torn scraps of what
+looks like scrolls scattered about, though.
+~
+0 13 1
+D4
+~
+~
+0 -1 12712
+S
+#12745
+Base of Southwest Tower~
+This chamber serves as quarters for the wall guard smith. He spends most of
+his day down here in this smithy, repairing the damaged equipment of the
+guards. He may even repair yours.
+~
+0 8 1
+D4
+~
+~
+0 -1 12702
+S
+#12746
+Base of Southeast Tower~
+This rooms is totally devoid of furniture, and looks to have been swept
+recently. Wonder what it will be used for...?
+~
+0 13 1
+D4
+~
+~
+0 -1 12716
+S
+#12747
+Northwest Tower~
+You are inside the northwest tower of the walls of Anon. Up from here are
+the offices of some of the guard officers and other personnel. Doors lead
+east and south out onto the battlements.
+~
+0 12 1
+D1
+~
+~
+0 0 12777
+D2
+~
+~
+0 0 12767
+D4
+~
+~
+0 -1 12799
+D5
+~
+~
+0 -1 12697
+S
+#12748
+Northeast Tower~
+You are inside the northwest tower of the walls of Anon. From the look of it
+it hasn't been cleaned in ages. A bolted iron trapdoor blocks the staircase
+leading up. How odd...
+~
+0 13 1
+D2
+~
+~
+0 0 12776
+D3
+~
+~
+0 0 12787
+D4
+As you look closer, you notice the door is lined with silver runes...
+~
+door trapdoor up~
+0 12715 12802
+D5
+~
+~
+0 -1 12712
+S
+#12749
+Southwest Tower~
+You are inside the southwest tower of the walls of Anon. Up from here are
+the offices of some of the guard officers and other personnel. Doors lead
+east and north out onto the battlements.
+~
+0 12 1
+D0
+~
+~
+0 0 12770
+D1
+~
+~
+0 0 12788
+D4
+~
+~
+0 -1 12800
+D5
+~
+~
+0 -1 12702
+S
+#12750
+Southeast Tower~
+You are inside the southeast tower of the walls of Anon. Up from here are
+the offices of some of the guard officers and other personnel. Doors lead
+west and north out onto the battlements.
+~
+0 12 1
+D0
+~
+~
+0 0 12773
+D3
+~
+~
+0 0 12798
+D4
+~
+~
+0 -1 12801
+D5
+~
+~
+0 -1 12716
+S
+#12751
+North Tower, West Gatehouse~
+Guards nod briefly at you, with slight curiosity as you advance up into
+this guard tower. This level appears to be the quarters of many of them,
+judging by the neatly-made beds and clothes racks. A trapdoor in the ceiling
+leads up the the roof of the tower.
+~
+0 8 1
+D4
+~
+~
+0 0 12755
+D5
+~
+~
+0 -1 12717
+S
+#12752
+South Tower, West Gatehouse~
+Guards nod briefly at you, with slight curiosity as you advance up into
+this guard tower. This level appears to be the quarters of many of them,
+judging by the neatly-made beds and clothes racks. A trapdoor in the ceiling
+leads up the the roof of the tower.
+~
+0 8 1
+D4
+~
+~
+0 0 12756
+D5
+~
+~
+0 -1 12718
+S
+#12753
+North Tower, East Gatehouse~
+Guards nod briefly at you, with slight curiosity as you advance up into
+this guard tower. This level appears to be the quarters of many of them,
+judging by the neatly-made beds and clothes racks. A trapdoor in the ceiling
+leads up the the roof of the tower.
+~
+0 8 1
+D4
+~
+~
+0 0 12758
+D5
+~
+~
+0 -1 12719
+S
+#12754
+South Tower, East Gatehouse~
+Guards nod briefly at you, with slight curiosity as you advance up into
+this guard tower. This level appears to be the quarters of many of them,
+judging by the neatly-made beds and clothes racks. A trapdoor in the ceiling
+leads up the the roof of the tower.
+~
+0 8 1
+D4
+~
+~
+0 0 12757
+D5
+~
+~
+0 -1 12720
+S
+#12755
+The Roof of the Tower~
+You are standing on the roof of the tower. Looking around, you can see the
+sprawl of Anon to the east, the roof of the temple dominating the scene in
+the mid-center. To the west you can see the vast plains that stretch for
+miles to the distant mountain ranges, where few have dared to travel. To
+the south lies the great expanse of the southern ocean.
+~
+0 0 1
+D5
+~
+~
+0 0 12751
+S
+#12756
+The Roof of the Tower~
+You are standing on the roof of the tower. Looking around, you can see the
+sprawl of Anon to the east, the roof of the temple dominating the scene in
+the mid-center. To the west you can see the vast plains that stretch for
+miles to the distant mountain ranges, where few have dared to travel. To
+the south lies the great expanse of the southern ocean.
+~
+0 0 1
+D5
+~
+~
+0 0 12752
+S
+#12757
+The Roof of the Tower~
+You are standing on the roof of the tower. Looking around, you can see the
+sprawl of Anon to the east, the roof of the temple dominating the scene in
+the mid-center. To the west you can see the vast plains that stretch for
+miles to the distant mountain ranges, where few have dared to travel. To
+the south lies the great expanse of the southern ocean.
+~
+0 0 1
+D5
+~
+~
+0 0 12754
+S
+#12758
+The Roof of the Tower~
+You are standing on the roof of the tower. Looking around, you can see the
+sprawl of Anon to the east, the roof of the temple dominating the scene in
+the mid-center. To the west you can see the vast plains that stretch for
+miles to the distant mountain ranges, where few have dared to travel. To
+the south lies the great expanse of the southern ocean.
+~
+0 0 1
+D5
+~
+~
+0 0 12753
+S
+#12759
+Atop the Gatehouse~
+You are standing on the short section of the battlements that runs between
+the north and south towers of the western gatehouse. Below, you can see
+travellers making their way into and out of the city.
+~
+0 0 1
+D0
+~
+~
+0 0 12717
+D2
+~
+~
+0 0 12718
+S
+#12760
+Atop the Gatehouse~
+You are standing on the short section of the battlements that runs between
+the north and south towers of the eastern gatehouse. Below, you can see
+travellers making their way into and out of the city. Looking west, you
+see smoke rising from the blasted terrain of the southeast plains, and
+wonder if there is another raiding party coming.
+~
+0 0 1
+D0
+~
+~
+0 0 12719
+D2
+~
+~
+0 0 12720
+S
+#12761
+Heading Along the Battlements~
+You are heading along the northern half of the battlements on the western
+wall. Looking west, you can see far across the plains. Smoke rises from
+several settlements, including Solace, Midgaard, the Gnome village and the
+Shire.
+
+A door to the south leads into the north tower, western gatehouse.
+~
+0 0 1
+D0
+~
+~
+0 -1 12765
+D2
+~
+~
+0 0 12717
+S
+#12762
+Heading Along the Battlements~
+You are heading along the southern half of the battlements on the western
+wall. Guards nod at you as you pass, before quickly returning to their
+observation of the land and the city, and you admire their dedication to
+their work.
+
+A door to the north leads into the southern tower, western gatehouse.
+~
+0 0 1
+D0
+~
+~
+0 0 12718
+D2
+~
+~
+0 -1 12768
+S
+#12763
+Heading Along the Battlements~
+You are heading along the northern half of the battlements on the eastern
+wall. Peering over the crenelations, you shudder as you gaze upon the
+desolate wastes of the southeast plains. You cast your eye about to try and
+spot something more pleasing, but only see the old marsh and the acid forest.
+Charming terrain.
+
+A door to the south leads into the northern tower, eastern gatehouse.
+~
+0 0 1
+D0
+~
+~
+0 -1 12774
+D2
+~
+~
+0 0 12719
+S
+#12764
+Heading Along the Battlements~
+You are heading along the southern half of the battlements on the eastern
+wall. Seagulls circle overhead, and you are puzzling at their presence when
+you suddenly remember the southern ocean is just south of town.
+
+A door to the north leads into the southern tower, eastern gatehouse.
+~
+0 0 1
+D0
+~
+~
+0 0 12720
+D2
+~
+~
+0 -1 12771
+S
+#12765
+Heading Along the Battlements~
+You are heading along the northern half of the battlements on the western
+wall. Looking west, you can see far across the plains. Smoke rises from
+several settlements, including Solace, Midgaard, the Gnome village and the
+Shire.
+~
+0 0 1
+D0
+~
+~
+0 -1 12767
+D2
+~
+~
+0 -1 12761
+S
+#12766
+The Anon Docks~
+This collection of buildings serves as the dock for the city on the southern
+ocean. As most of the city's trade comes in by caravan, the docks are not
+very large. Laughter and screams spill from the doorway of a decrepit
+building to the south.
+~
+0 0 1
+D1
+~
+~
+0 -1 12811
+D2
+~
+~
+0 -1 12769
+D3
+~
+~
+0 -1 12772
+D4
+~
+~
+0 -1 12528
+S
+#12767
+Heading Along the Battlements~
+You are heading along the northern half of the battlements on the western
+wall. Looking west, you can see far across the plains. Smoke rises from
+several settlements, including Solace, Midgaard, the Gnome village and the
+Shire.
+
+A door leads into northwest tower north of here.
+~
+0 0 1
+D0
+~
+~
+0 -1 12747
+D2
+~
+~
+0 -1 12765
+S
+#12768
+Heading Along the Battlements~
+You are heading along the southern half of the battlements on the western
+wall. Guards nod at you as you pass, before quickly returning to their
+observation of the land and the city, and you admire their dedication to
+their work.
+~
+0 0 1
+D0
+~
+~
+0 0 12762
+D2
+~
+~
+0 -1 12770
+S
+#12769
+The Pier~
+Several small punts and a couple of larger scows are moored at the jetty
+here. A couple of burly laborers work at moving several heavy barrels onto
+one of the scows. They grunt in greeting as you watch.
+~
+0 0 1
+D0
+~
+~
+0 -1 12766
+S
+#12770
+Heading Along the Battlements~
+You are heading along the southern half of the battlements on the western
+wall. Guards nod at you as you pass, before quickly returning to their
+observation of the land and the city, and you admire their dedication to
+their work.
+
+A door to the south leads into southwest tower.
+~
+0 0 1
+D0
+~
+~
+0 0 12768
+D2
+~
+~
+0 -1 12749
+S
+#12771
+Heading Along the Battlements~
+You are heading along the southern half of the battlements on the eastern
+wall. Seagulls circle overhead, and you are puzzling at their presence when
+you suddenly remember the southern ocean is just south of town.
+~
+0 0 1
+D0
+~
+~
+0 -1 12764
+D2
+~
+~
+0 -1 12773
+S
+#12772
+Warehouses~
+You are standing outside several warehouses. Most of them are boarded up and
+empty. However, there is one to the south that appears to be still in use.
+~
+0 0 1
+D1
+~
+~
+0 -1 12766
+D2
+~
+~
+0 12729 12775
+S
+#12773
+Heading Along the Battlements~
+You are heading along the southern half of the battlements on the eastern
+wall. Seagulls circle overhead, and you are puzzling at their presence when
+you suddenly remember the southern ocean is just south of town.
+
+A door to the south leads into southeast tower.
+~
+0 0 1
+D0
+~
+~
+0 0 12771
+D2
+~
+~
+0 -1 12750
+S
+#12774
+Heading Along the Battlements~
+You are heading along the northern half of the battlements on the eastern
+wall. Peering over the crenelations, you shudder as you gaze upon the
+desolate wastes of the southeast plains. You cast your eye about to try and
+spot something more pleasing, but only see the old marsh and the acid forest.
+Charming terrain.
+~
+0 0 1
+D0
+~
+~
+0 -1 12776
+D2
+~
+~
+0 -1 12763
+S
+#12775
+A Warehouse~
+This warehouse is filled with general goods such as coils of rope, piles of
+cheap cloth, barrels of ale and wine, lanterns, flasks of oil, jars of
+spices and dried meats. There is a sweet aroma in the air.
+~
+0 9 1
+D0
+~
+~
+0 12729 12772
+S
+#12776
+Heading Along the Battlements~
+You are heading along the northern half of the battlements on the eastern
+wall. Peering over the crenelations, you shudder as you gaze upon the
+desolate wastes of the southeast plains. You cast your eye about to try and
+spot something more pleasing, but only see the old marsh and the acid forest.
+Charming terrain.
+
+A door to the north leads into northwest tower. There is a sign tacked to it.
+~
+0 0 1
+D0
+The sign reads- "KEEP OUT! By order of the Marshal"
+~
+door sign~
+0 -1 12748
+D2
+~
+~
+0 0 12774
+S
+#12777
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+
+A door leads west into northwest tower.
+~
+0 0 1
+D1
+~
+~
+0 -1 12778
+D3
+~
+~
+0 0 12747
+S
+#12778
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+~
+0 0 1
+D1
+~
+~
+0 -1 12779
+D3
+~
+~
+0 -1 12777
+S
+#12779
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+~
+0 0 1
+D1
+~
+~
+0 -1 12780
+D3
+~
+~
+0 -1 12778
+S
+#12780
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+~
+0 0 1
+D1
+~
+~
+0 -1 12781
+D3
+~
+~
+0 -1 12779
+S
+#12781
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+~
+0 0 1
+D1
+~
+~
+0 -1 12782
+D3
+~
+~
+0 -1 12780
+S
+#12782
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+~
+0 0 1
+D1
+~
+~
+0 -1 12783
+D3
+~
+~
+0 -1 12781
+S
+#12783
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+~
+0 0 1
+D1
+~
+~
+0 -1 12784
+D3
+~
+~
+0 -1 12782
+S
+#12784
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+~
+0 0 1
+D1
+~
+~
+0 -1 12785
+D3
+~
+~
+0 -1 12783
+S
+#12785
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+~
+0 0 1
+D1
+~
+~
+0 -1 12786
+D3
+~
+~
+0 -1 12784
+S
+#12786
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+~
+0 0 1
+D1
+~
+~
+0 -1 12787
+D3
+~
+~
+0 -1 12785
+S
+#12787
+Heading Along the Battlements~
+You are heading along the huge northern wall of the City of Anon. This wall
+extends for at least twice the distyle of the east and west walls,
+protecting the vulnerable northern aspect of the city from the constant
+attacks by warring raiders from the northern plains. Peering about, you see
+little of note, save the dark stretch of Mirkwood. Who knows what adventures
+may be found in there...?
+
+A door leads east into northeast tower. There is a sign tacked to it.
+~
+0 0 1
+D1
+The sign says- "Keep Out! By order of the Marshal"
+~
+door sign~
+0 -1 12748
+D3
+~
+~
+0 -1 12786
+S
+#12788
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+
+A door to the west leads into southwest tower.
+~
+0 0 1
+D1
+~
+~
+0 -1 12789
+D3
+~
+~
+0 0 12749
+S
+#12789
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+~
+0 0 1
+D1
+~
+~
+0 -1 12790
+D3
+~
+~
+0 -1 12788
+S
+#12790
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+~
+0 0 1
+D1
+~
+~
+0 -1 12791
+D3
+~
+~
+0 -1 12789
+S
+#12791
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+~
+0 0 1
+D1
+~
+~
+0 -1 12792
+D3
+~
+~
+0 -1 12790
+S
+#12792
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+~
+0 0 1
+D1
+~
+~
+0 -1 12793
+D3
+~
+~
+0 -1 12791
+S
+#12793
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+~
+0 0 1
+D1
+~
+~
+0 -1 12794
+D3
+~
+~
+0 -1 12792
+S
+#12794
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+~
+0 0 1
+D1
+~
+~
+0 -1 12795
+D3
+~
+~
+0 -1 12793
+S
+#12795
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+~
+0 0 1
+D1
+~
+~
+0 -1 12796
+D3
+~
+~
+0 -1 12794
+S
+#12796
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+~
+0 0 1
+D1
+~
+~
+0 -1 12797
+D3
+~
+~
+0 -1 12795
+S
+#12797
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+~
+0 0 1
+D1
+~
+~
+0 -1 12798
+D3
+~
+~
+0 -1 12796
+S
+#12798
+Heading Along the Battlements~
+You are strolling along the vast southern wall of the City of Anon, enjoying
+the cool breeze and the scenic view. The guards call this the "easy spot"
+because there has never been an assault from the south on the city, mostly
+due to the presence of the southern ocean, which lies just outside this
+wall. You smile, relax and enjoy the walk.
+
+A door to the east leads into southeast tower.
+~
+0 0 1
+D1
+~
+~
+0 -1 12750
+D3
+~
+~
+0 -1 12797
+S
+#12799
+Northwest Tower~
+This room serves as the quarters of the commanders of the north and west
+wall guards. It is sparsely decorated, featuring only two beds, two wardrobes,
+a mirror and two footlockers. A few weapons are neatly arranged on one wall,
+and a throw rug lies near the staircase.
+~
+0 8 1
+D4
+~
+~
+0 -1 12803
+D5
+~
+~
+0 -1 12747
+S
+#12800
+Southwest Tower~
+This room serves as quarters to the Knights of the Grand and Holy Order of
+Anon assigned to wall guard duty. This room resembles a chapel more than
+anything, with two small cots arranged near an altar bearing a chalice and
+a ewer. A tapestry hangs on one wall, depicting knights receiving blessings
+from Vengeance.
+~
+0 8 1
+D4
+~
+~
+0 -1 12805
+D5
+~
+~
+0 -1 12749
+S
+#12801
+Southeast Tower~
+This room serves as the quarters of the commanders of the south and east
+wall guards. It is sparsely decorated, featuring only two beds, two wardrobes,
+a mirror and two footlockers. A few weapons are neatly arranged on one wall,
+and a throw rug lies near the staircase.
+~
+0 8 1
+D4
+~
+~
+0 -1 12807
+D5
+~
+~
+0 -1 12750
+S
+#12802
+A Dusty Chamber~
+This room has an evil feel to it. The smashed furniture, bloodstains and
+broken bones are bad enough, but in addition there is a definite evil aura
+to this fell domain, as if some foul deed has been perpetrated here. You
+get the distinct feeling that this place is haunted.
+~
+0 8201 1
+D4
+~
+~
+0 -1 12809
+D5
+~
+~
+0 12715 12748
+S
+#12803
+The Top of Northwest Tower~
+This room is the quarters of the Guards Provost-Marshal, Glenwellucan Mad-
+Llleweleucam. He is a rather senile old veteran of more wars than he could
+possibly count. The room is littered with memorabilia, probably worth a
+fortune to a collector, but useless to you. Then again, maybe not...
+~
+0 8 1
+D4
+~
+~
+0 0 12804
+D5
+~
+~
+0 -1 12799
+S
+#12804
+The Roof of Northwest Tower~
+The Marshal uses this area as a relaxation area. There is a deckchair and
+a small table, for use on sunny days- the Marshal sports a very healthy
+tan. An umbrella lies folded up next to a bookcase with several tattered
+magazines.
+~
+0 0 1
+D5
+~
+~
+0 0 12803
+S
+#12805
+The Battlemages' Quarters~
+Here reside the battlemages currently in the employ of the City. As they
+spend little free time doing anything but meditating or learning new spells,
+this room has little of interest. There is a bookcase full of scrolls, but
+none of them are magical.
+~
+0 8 1
+D4
+~
+~
+0 0 12806
+D5
+~
+~
+0 -1 12800
+S
+#12806
+The Roof of Southwest Tower~
+This roof is totally featureless. Peering through the crenelations, you
+get a good view of southwestern Anon, though. Due south lies the cursed
+forest wherein a Witches' Coven is supposed to exist, and beyond that lies
+the fabled elemental canyon.
+~
+0 0 1
+D5
+~
+~
+0 0 12805
+S
+#12807
+The Healing Chambers~
+In this room, generous priests and priestesses of Vengeance give up their
+time to tend to the illnesses of the city guards. They will tend to others'
+injuries as well, for a fee. Such is the way of Vengeance.
+~
+0 8 1
+D4
+~
+~
+0 0 12808
+D5
+~
+~
+0 -1 12801
+S
+#12808
+The Roof of Southeast Tower~
+This roof has been recently swept clean, and a stone altar erected to the
+Gods. The sun is caught by a reflecting crystal so that it shines directly
+onto the altar at all times during the day. The effect is quite splendid.
+You feel totally at ease in this place.
+~
+0 1024 1
+D5
+~
+~
+0 0 12807
+S
+#12809
+A Dusty Chamber~
+This room has an evil feel to it. The smashed furniture, bloodstains and
+broken bones are bad enough, but in addition there is a definite evil aura
+to this fell domain, as if some foul deed has been perpetrated here. You
+get the distinct feeling that this place is haunted.
+~
+0 8201 1
+D4
+~
+~
+0 12715 12810
+D5
+~
+~
+0 12715 12802
+S
+#12810
+The Roof of the Cursed Northeast Tower~
+This roof has not bee visited in a long time. The trapdoor is covered in
+silvery mystic runes, as is the stone around it. A chill wind blows here,
+at all times, and birds have been known to die when flying too close. It
+is truly a cursed place.
+~
+0 8193 1
+D5
+~
+~
+0 12715 12809
+S
+#12811
+Insanity~
+Writhing black masses of steaming tentacles emerge from large round pink
+juicy holes in the sides of tall massive overgrown stone sentinels either side
+of a bright red corvette which lies upside down providing shelter for hapless
+refugees and a skanky British diplomat in high heels next to an oil refinery
+that escaped Thatcherism under red skies clouded with gray raindrops the size
+of refectories that have been filled with disposable lunch bags made in a tiny
+nation somewhere near Angkor and have been left to rot as a result of rabid
+imperialism and soothsayers telling numberless lies to irritated masses who
+are unhappy but don't know why.
+~
+0 0 1
+D0
+~
+~
+0 0 12812
+D1
+~
+~
+0 -1 12815
+D2
+~
+~
+0 -1 12814
+D3
+~
+~
+0 -1 12813
+S
+#12812
+Insanity~
+Gittish Yiddish prophets speak idiocy in banal debates with Semitic spokesmen
+from another race while pawns of governments too big to ignore wax lyrical
+on the laws of man as long as they can exercise command and then there is
+some superior knowledge cast unto the vortex, a whirling cesspool from which
+sprang all that is corruptible and virgin in the world that we no longer know
+nor care to in a format we no longer can comprehend at any level.
+~
+0 1032 1
+D2
+~
+~
+0 0 12811
+S
+#12813
+Insanity~
+Foolish pride makes weak the eager youth who like no other goes to where he
+has gone before but thinks he hasn't and in his naiveity is lost and then
+cast unto great red pillars of salt that stand at either end of a long yellow
+runway.
+~
+0 8 1
+D1
+~
+~
+0 -1 12811
+D3
+~
+~
+0 -1 12816
+S
+#12814
+Insanity~
+Your head hurts/ but still you struggle onwards.
+~
+0 8 1
+D0
+~
+~
+0 -1 12811
+D2
+~
+~
+0 -1 12817
+S
+#12815
+Insanity~
+Irridescent flashes of colors beyond your mortal ken assault your senses in
+a warm and fuzzy globe of incoherence that you struggle to deny because you
+cannot accept the insanity that is the norm on any political platform to
+which you are subsequently subjected.
+~
+0 8 1
+D1
+~
+~
+0 -1 12818
+D3
+~
+~
+0 -1 12811
+S
+#12816
+Insanity~
+"Crying won't help ya, prayin' won't do you no good"
+"Crying won't help ya, prayin' won't do you no good"
+~
+0 8 1
+D0
+~
+~
+0 -1 12830
+D1
+~
+~
+0 -1 12813
+D2
+~
+~
+0 -1 12832
+D3
+~
+~
+0 -1 12819
+S
+#12817
+Insanity~
+A Zoo emerges triumphant from the misty confines of the mortal world, bearing
+with it a cargo of strange animals like none you have ever seen and you marvel
+at their incredible physiology as they are led into a stinking vat of
+processed food and turned into what your pet eats.
+~
+0 8 1
+D0
+~
+~
+0 -1 12814
+D1
+~
+~
+0 -1 12853
+D2
+~
+~
+0 -1 12820
+D3
+~
+~
+0 -1 12851
+S
+#12818
+Insanity~
+A river of blood rushes past you, threatening to carry you off to its source,
+you struggle and reject its evil offering and continue through a diabolical
+wasteland populated by midgets scared to climb down from the trapezes they
+have been hung from.
+~
+0 8 1
+D0
+~
+~
+0 -1 12834
+D1
+~
+~
+0 -1 12821
+D2
+~
+~
+0 -1 12836
+D3
+~
+~
+0 -1 12815
+S
+#12819
+Insanity~
+A myriad of multi-colored birds fly in fixed formation across an ochre sky
+toward a huge nest made of twisted steel girders that lies atop seven hills
+covered with dead Goths and Romans that cause you to look aside in dismay
+lest you be drawn into their conflicts without your written consent.
+~
+0 8 1
+D1
+~
+~
+0 -1 12816
+D3
+~
+~
+0 -1 12822
+S
+#12820
+Insanity~
+Cogito Ego Sum. You hope.
+~
+0 8 1
+D0
+~
+~
+0 -1 12817
+S
+#12821
+Insanity~
+Sudden slashes of bright light cut across a dark velvet tapestry covered
+with a stunningly-well rendered mosaic of an ancient people in an ancient
+land constructing ancient temples to ancient gods and you fight back a strange
+feeling of deja vu as you feel the inhabitants of this world stare back at you
+across the intervening milennia.
+~
+0 8 1
+D1
+~
+~
+0 -1 12823
+D3
+~
+~
+0 -1 12818
+S
+#12822
+Insanity~
+Green fields with the freshest grass you have ever seen lie all about you and
+you pause to reflect upon your life so far.
+~
+0 8 1
+D1
+~
+~
+0 -1 12819
+D3
+~
+~
+0 -1 12824
+S
+#12823
+Insanity~
+A strange high-pitched whining emerges from energetic power tools which
+operate independent of any human controller as they hack and smash at a tiny
+altar carved of the bedrock of the mountains that once surrounded this place
+but were long ago destroyed by callous miners and bored Dwarves.
+~
+0 8 1
+D1
+~
+~
+0 -1 12825
+D3
+~
+~
+0 -1 12821
+S
+#12824
+Insanity~
+Madness surrounds and encompasses you struggle on but find your progress has
+been but all in vain as the area around you continually morphs and adapts
+itself to perpetually puzzle and disturb you with bizarre manifestations you
+cannot possibly comprehend.
+~
+0 8 1
+D1
+~
+~
+0 -1 12822
+D3
+~
+~
+0 -1 12826
+S
+#12825
+Insanity~
+"It's life Jim, but not as we know it".
+~
+0 8 1
+D1
+~
+~
+0 -1 12827
+D3
+~
+~
+0 -1 12823
+S
+#12826
+Insanity~
+Whirling vortices surround you as you enter a pink parabola inscribed upon
+the ground by a huge calloused finger belonging to some angry demon or
+demented deity of realms long forgotten but determined to not lie still for
+eternity.
+~
+0 8 1
+D1
+~
+~
+0 -1 12824
+D3
+~
+~
+0 12811 12828
+S
+#12827
+Insanity~
+You suddenly scream as you are bombarded with a plethora of images from your
+past which have been distorted into forms almost unrecognizable in their
+hideousness and you lurch backward, revolted to the core by this sudden
+apparition and you find yourself hurtling toward the ground at near-light
+speed before you realize you never left it.
+~
+0 8 1
+D1
+~
+~
+0 12811 12829
+D3
+~
+~
+0 -1 12825
+S
+#12828
+Insanity~
+An escape from the Insanity?
+~
+0 4 2
+D1
+~
+~
+0 12811 12826
+D3
+~
+~
+0 -1 12766
+S
+#12829
+Insanity~
+You burst forth into a pleasant green field. The insanity has not managed to
+project itself this far yet, but there is nowhere to go from here but back
+inside... Except a path that leads into a small forest and some mountains.
+~
+0 4 2
+D1
+~
+~
+0 -1 3512
+D3
+~
+~
+0 12811 12827
+S
+#12830
+Insanity~
+A vast plain stretches as far as you can see in all directions, including up
+and down, and you pause to collect your bearings seconds before being
+bombarded by a horde of tiny angry tourists who begin to kick and bite at
+you before asking you to take their photographs, the thought of which makes
+you ill as you gaze upon their horrid bermuda shorts and panama hats doubtless
+bought at some cheap department store in the midwest for $3.99 each.
+~
+0 0 1
+D0
+~
+~
+0 -1 12838
+D2
+~
+~
+0 -1 12816
+D3
+~
+~
+0 0 12831
+S
+#12831
+Insanity~
+A museum that has escaped the madness. Unfortunately, it is currently hosting
+an exhibition of surrealist art. You quickly leave.
+~
+0 8 1
+D1
+~
+~
+0 0 12830
+S
+#12832
+Insanity~
+Screeching, creaking preachers on antiquated pennyfarthing bicycles suddenly
+dismount and enter a quaint English pub seconds before a sudden explosion
+rends them to pieces as you pass and you find yourself dodging a shower of
+gore and you curse yourself for forgetting to bring your umbrella.
+~
+0 0 1
+D0
+~
+~
+0 -1 12816
+D2
+~
+~
+0 -1 12850
+D3
+~
+~
+0 -1 12833
+S
+#12833
+Insanity~
+Piles and piles of scrap metal as far as you can see.
+~
+0 8 1
+D1
+~
+~
+0 -1 12832
+S
+#12834
+Insanity~
+Screaming children are abducted by monstrous creatures from a failed daytime
+soap opera while their parents are distracted by a baby-eating bishop who
+delights them with cute impressions of famous people in between his regular
+devourings of hapless infants scarcely old enough to be out of the cradle.
+~
+0 0 1
+D0
+~
+~
+0 -1 12846
+D1
+~
+~
+0 -1 12835
+D2
+~
+~
+0 -1 12818
+S
+#12835
+Insanity~
+Vicious dogs tear each other apart in a small pit while grown men bet huge
+wads of money on the outcome and a strange monkey giggles insanely from atop
+a high pile of unwanted clothing too good to give to charity and too poor to
+sell for a decent price so they are left to rot.
+~
+0 8 1
+D3
+~
+~
+0 -1 12834
+S
+#12836
+Insanity~
+left
+right
+left
+right
+left
+right
+left
+right
+left
+right
+~
+0 0 1
+D0
+~
+~
+0 -1 12818
+D1
+~
+~
+0 -1 12837
+D2
+~
+~
+0 -1 12855
+S
+#12837
+Insanity~
+A huge stopsign stops you and demands that you pause to reconsider where your
+travels have brought you and you suddenly find hope of escaping this horrid
+nightmare when the sign giggles insanely and disappears, leaving you with
+pocketfuls of leaves and an empty heart.
+~
+0 8 1
+D3
+~
+~
+0 -1 12836
+S
+#12838
+Insanity~
+Screaming Octopii demand to be put back in the water as they are dragged off
+by wicked old men with large baseball bats and pith helmets toward an evil-
+smelling bakery where they are considered a delicacy and then there is a
+sudden explosion and everyone is rained with dying salmon that John West
+rejected.
+~
+0 0 1
+D0
+~
+~
+0 -1 12839
+D1
+~
+~
+0 -1 12841
+D2
+~
+~
+0 -1 12830
+S
+#12839
+Insanity~
+"I'm going slightly mad, I'm going slightly mad"
+~
+0 4104 1
+D2
+~
+~
+0 -1 12838
+S
+#12840
+Merc Store~
+stored here are the impressive array of mercs available for sale next door.
+~
+0 12 1
+S
+#12841
+Insanity~
+"Somehow I don't think we're in Kansas anymore..."
+~
+0 0 1
+D0
+~
+~
+0 -1 12842
+D1
+~
+~
+0 -1 12843
+D3
+~
+~
+0 -1 12838
+S
+#12842
+Insanity~
+You see a tea party staffed by villainous serfs with large axes who promptly
+decapitate anyone stupid enough to complain about the service except for a
+large hare wearing a silly hat with the price tag still attached whom they
+seem to revere and you whom they seem to ignore.
+
+"Hey! I didn't order this!"
+
+*** THWAP ***
+~
+0 8 1
+D2
+~
+~
+0 -1 12841
+S
+#12843
+Insanity~
+Rows and rows of multicolored bricks line this narrow yellow path that is
+covered with raisenettes and silly party hats worn by dying children from
+faraway nations who decided to migrate and become immortal upon their
+imminent demises.
+~
+0 0 1
+D0
+~
+~
+0 -1 12849
+D1
+~
+~
+0 -1 12844
+D3
+~
+~
+0 -1 12841
+S
+#12844
+Insanity~
+Hot air balloons crowded with curious fruit bats soar high below the bottoms
+of small belfries full of bats which seem to annoy the hunchbacked errand
+boy named Quasimodo to no end as he constantly chases them out while wearing
+daisy chains and dancing around a maypole he stole from some kids in another
+land.
+~
+0 0 1
+D0
+~
+~
+0 -1 12845
+D1
+~
+~
+0 -1 12846
+D3
+~
+~
+0 -1 12843
+S
+#12845
+Insanity~
+"The lunatic is on the grass,
+ the lunatic is on the grass,
+ Remembering days, and daisy chains and laughs,
+ Got to keep the loonies on the path"
+~
+0 12 1
+D2
+~
+~
+0 -1 12844
+S
+#12846
+Insanity~
+The moon sings in dulcet tones to a bemused star who wandered too far from
+its home and is now lost in another world it cannot comprehend so it turns
+to you for inspiration, and gets none, not surprisingly.
+~
+0 0 1
+D0
+~
+~
+0 -1 12847
+D1
+~
+~
+0 -1 12860
+D2
+~
+~
+0 -1 12834
+D3
+~
+~
+0 -1 12844
+S
+#12847
+Insanity~
+A small poker-faced lady tells you - "there's someone in my head, but its
+not me". You know how she feels.
+~
+0 4104 1
+D2
+~
+~
+0 -1 12846
+S
+#12848
+Pet Store Storage~
+You shouldn't be here. Go Away. Or I'll Tell.
+~
+0 12 1
+S
+#12849
+Insanity~
+You emerge onto a railroad and are shocked and dismayed to see a huge
+locomotive bearing down upon you, then relieved when it disappears as quickly
+as it came, leaving a faint whiff of burning embers and engine oil.
+~
+0 0 1
+D2
+~
+~
+0 -1 12843
+S
+#12850
+Insanity~
+Screaming banshees from some rmeote Scottish highland descend upon you and
+threaten to drive you mad with their wailings, but you take one look at your
+current surroundings and laugh in their dejected faces as a large mullet
+swims by and devours them.
+~
+0 0 1
+D0
+~
+~
+0 -1 12832
+D1
+~
+~
+0 -1 12851
+D3
+~
+~
+0 -1 12858
+S
+#12851
+Insanity~
+A mythical hero strides forth from the mist that divides us all and declares
+himself ruler of this fell domain, and is suddenly covered with a pile of
+leaves so massive it obscures the sun, and then when the wind blows the leaves
+away he is gone to some other realm.
+~
+0 0 1
+D1
+~
+~
+0 -1 12817
+D2
+~
+~
+0 -1 12852
+D3
+~
+~
+0 -1 12850
+S
+#12852
+Insanity~
+"Living is easy with eyes closed,
+ misunderstanding all you see.
+ It's getting hard to be someone but it all works out,
+ It doesn't matter much to me"
+~
+0 8 1
+D0
+~
+~
+0 -1 12851
+S
+#12853
+Insanity~
+Choking fumes emerge from the rusted tailpipe of an antiquated chariot
+parked outside of a building advertising brotherhood, and you resist the
+urge to jump in the front door of a funeral parlour like a hobo sailor does.
+~
+0 0 1
+D1
+~
+~
+0 -1 12855
+D2
+~
+~
+0 -1 12854
+D3
+~
+~
+0 -1 12817
+S
+#12854
+Insanity~
+Mush/
+~
+0 8 1
+D0
+~
+~
+0 -1 12853
+S
+#12855
+Insanity~
+Bedsheets tied together to form a rope hang from a nearby tenement and you
+are amazed to see some garbled transmissions climbing down it, making their
+convenient escape from a broken transistor radio on the top floor.
+~
+0 0 1
+D0
+~
+~
+0 -1 12836
+D1
+~
+~
+0 -1 12859
+D2
+~
+~
+0 -1 12856
+D3
+~
+~
+0 -1 12853
+S
+#12856
+Insanity~
+A vaudeville act is placed upon a central stage near a large Peavey amp which
+blares out Caliope music to the delight of hundreds of interested fans of
+strange 1950's science fiction movies; you spot Yaegar in the crowd, and
+lurch toward him in an attempt to force him to end this madness, but he grins
+and disappears.
+~
+0 8 1
+D0
+~
+~
+0 -1 12855
+D2
+~
+~
+0 -1 12857
+S
+#12857
+Insanity~
+Bleary-eyed, you stagger on.
+~
+0 1033 1
+D0
+~
+~
+0 -1 12856
+S
+#12858
+Insanity~
+A wall of paper cups prevents further progress to the west.
+.
+.
+.
+.
+.
+
+You shudder and hurry back.
+~
+0 0 1
+D1
+~
+~
+0 -1 12850
+S
+#12859
+Insanity~
+You enter a dead end full of burnt out rock stars who beg for a dime and
+offer to play you a tune that was a hit before your mother was born...
+
+"...though she was born a long, long time ago, your mother should know,
+ your mother should know"
+~
+0 1 1
+D3
+~
+~
+0 -1 12855
+S
+#12860
+Insanity~
+You are being followed by a Moon shadow, though you decline to write a song
+about it because you are fighting off a wave of nausea induced by the sight
+of rotting fish guts heaped up to the east.
+~
+0 0 1
+D3
+~
+~
+0 -1 12846
+S
+#12870
+Oceanside Road~
+You stand on a gravel road that follows the shoreline to the south.
+To your east, the road enters the city gates of Anon.  To your west,
+the gravel becomes stone as the road leads to higher ground.
+~
+0 0 1
+D1
+~
+~
+0 -1 12518
+D3
+~
+~
+0 -1 2319
+S
+#12871
+A Path in the Plains~
+You stand on a small footpath in the southeast plains.  To your
+west, you can make out the east wall of the City of Anon.  To your
+east, a narrow strip of land extends out into the ocean.
+~
+0 0 1
+D1
+~
+~
+0 -1 12872
+D3
+~
+~
+0 -1 12519
+S
+#12872
+A Path in the Plains~
+You stand on a small footpath in the southeast plains. To your
+west, the path continues into the distyle.  North of you, a cliff
+drops into the eastern ocean.  South of you, another cliff overlooks
+the southern ocean. The path bends northward to the east.
+~
+0 0 1
+D1
+~
+~
+0 -1 12873
+D3
+~
+~
+0 -1 12871
+S
+#12873
+A Bend in the Path~
+The path bends here, heading north and west.
+~
+0 0 1
+D0
+~
+~
+0 -1 14012
+D3
+~
+~
+0 -1 12872
+S
+#0
+
+
+
+#SPECIALS
+M 12500 spec_cast_adept
+M 12514 spec_thief
+M 12518 spec_thief
+M 12524 spec_executioner
+M 12536 spec_janitor
+M 12540 spec_thief
+M 12541 spec_fido
+M 12542 spec_fido
+M 12544 spec_guard
+M 12545 spec_guard
+M 12546 spec_guard
+M 12691 spec_guard
+M 12692 spec_guard
+M 12693 spec_guard
+M 12694 spec_guard
+M 12695 spec_guard
+M 12696 spec_guard
+M 12697 spec_guard
+M 12698 spec_guard
+M 12699 spec_cast_cleric
+M 12700 spec_cast_mage
+M 12701 spec_cast_judge
+M 12702 spec_cast_judge
+M 12704 spec_cast_undead
+M 12705 spec_cast_adept
+M 12706 spec_cast_adept
+M 12811 spec_cast_adept
+M 12827 spec_executioner
+M 12833 spec_janitor
+M 12838 spec_fido
+M 12839 spec_fido
+S
+
+
+
+#RESETS
+O 0 12529 0 12500
+O 0 12521 0 12500
+M 0 12524 1 12500 1
+E 0 12530 0 6
+M 0 12544 8 12500 8
+E 0 12533 0 16
+E 0 12534 0 5
+E 0 12535 0 14
+E 0 12535 0 15
+E 0 12536 0 3
+E 0 12537 0 6
+E 0 12538 0 11
+E 0 12539 0 17
+M 0 12500 1 12501 1
+M 0 12543 6 12507 6
+O 0 12521 0 12512
+M 0 12539 3 12512 3
+M 0 12535 3 12513 3
+M 0 12534 3 12514 3
+M 0 12546 8 12516 8
+E 0 12533 0 16
+E 0 12534 0 5
+E 0 12535 0 14
+E 0 12535 0 15
+E 0 12536 0 3
+E 0 12537 0 6
+E 0 12538 0 11
+E 0 12539 0 17
+M 0 12546 8 12517 8
+E 0 12533 0 16
+E 0 12534 0 5
+E 0 12535 0 14
+E 0 12535 0 15
+E 0 12536 0 3
+E 0 12537 0 6
+E 0 12538 0 11
+E 0 12539 0 17
+M 0 12501 1 12536 1
+M 0 12515 1 12537 1
+G 0 12502 0
+G 0 12503 0
+G 0 12504 0
+G 0 12505 0
+G 0 12506 0
+M 0 12532 1 12539 1
+G 0 12501 0
+E 0 12531 0 16
+M 0 12502 1 12541 1
+M 0 12503 1 12543 1
+G 0 12517 0
+G 0 12518 0
+G 0 12519 0
+G 0 12520 0
+G 0 12522 0
+M 0 12504 1 12545 1
+G 0 12513 0
+G 0 12514 0
+G 0 12515 0
+G 0 12516 0
+M 0 12544 8 12546 8
+E 0 12533 0 16
+E 0 12534 0 5
+E 0 12535 0 14
+E 0 12535 0 15
+E 0 12536 0 3
+E 0 12537 0 6
+E 0 12538 0 11
+E 0 12539 0 17
+M 0 12505 1 12547 1
+M 0 12547 1 12548 1
+M 0 12548 1 12548 1
+M 0 12549 1 12548 1
+M 0 12550 1 12548 1
+M 0 12551 1 12548 1
+M 0 12552 1 12548 1
+M 0 12506 1 12550 1
+G 0 12509 0
+G 0 12510 0
+G 0 12528 0
+G 0 12540 0
+G 0 12541 0
+M 0 12541 8 12551 8
+M 0 12507 1 12553 1
+M 0 12545 8 12554 8
+E 0 12533 0 16
+E 0 12534 0 5
+E 0 12535 0 14
+E 0 12535 0 15
+E 0 12536 0 3
+E 0 12537 0 6
+E 0 12538 0 11
+E 0 12539 0 17
+M 0 12508 1 12555 1
+M 0 12519 1 12556 1
+M 0 12520 1 12556 1
+M 0 12521 1 12556 1
+M 0 12522 1 12556 1
+M 0 12523 1 12556 1
+M 0 12509 1 12560 1
+M 0 12516 1 12561 1
+G 0 12502 0
+G 0 12503 0
+G 0 12504 0
+G 0 12505 0
+G 0 12506 0
+M 0 12534 3 12565 3
+M 0 12510 1 12566 1
+G 0 12507 0
+G 0 12508 0
+G 0 12511 0
+G 0 12512 0
+G 0 12543 0
+G 0 12544 0
+M 0 12511 1 12568 1
+G 0 12523 0
+G 0 12524 0
+G 0 12525 0
+G 0 12526 0
+M 0 12544 8 12569 8
+E 0 12533 0 16
+E 0 12534 0 5
+E 0 12535 0 14
+E 0 12535 0 15
+E 0 12536 0 3
+E 0 12537 0 6
+E 0 12538 0 11
+E 0 12539 0 17
+M 0 12512 1 12570 1
+G 0 12502 0
+G 0 12503 0
+G 0 12504 0
+G 0 12505 0
+G 0 12506 0
+G 0 12527 0
+M 0 12538 6 12571 6
+M 0 12536 6 12573 6
+M 0 12533 3 12574 3
+M 0 12545 8 12574 8
+E 0 12533 0 16
+E 0 12534 0 5
+E 0 12535 0 14
+E 0 12535 0 15
+E 0 12536 0 3
+E 0 12537 0 6
+E 0 12538 0 11
+E 0 12539 0 17
+M 0 12513 1 12577 1
+M 0 12517 1 12578 1
+G 0 12502 0
+G 0 12503 0
+G 0 12504 0
+G 0 12505 0
+G 0 12506 0
+M 0 12525 1 12579 1
+G 0 12528 0
+M 0 12537 8 12580 8
+E 0 12532 0 16
+M 0 12542 6 12581 6
+M 0 12540 2 12582 2
+M 0 12514 1 12584 1
+M 0 12518 1 12585 1
+G 0 12502 0
+G 0 12503 0
+G 0 12504 0
+G 0 12505 0
+G 0 12506 0
+M 0 12527 1 12588 1
+M 0 12530 1 12589 1
+G 0 12502 0
+G 0 12503 0
+G 0 12504 0
+G 0 12505 0
+G 0 12506 0
+M 0 12529 1 12591 1
+G 0 12502 0
+G 0 12503 0
+G 0 12504 0
+G 0 12505 0
+G 0 12506 0
+M 0 12526 1 12592 1
+M 0 12533 3 12594 3
+M 0 12531 1 12598 1
+G 0 12502 0
+G 0 12503 0
+G 0 12504 0
+G 0 12505 0
+G 0 12506 0
+M 0 12528 1 12599 1
+M 0 12553 1 12690 1
+G 0 12545 0
+G 0 12546 0
+G 0 12547 0
+G 0 12548 0
+G 0 12549 0
+G 0 12550 0
+G 0 12551 0
+G 0 12552 0
+G 0 12553 0
+G 0 12554 0
+G 0 12555 0
+G 0 12556 0
+G 0 12557 0
+G 0 12558 0
+G 0 12559 0
+O 0 12707 0 12693
+O 0 12707 0 12694
+O 0 12707 0 12696
+M 0 12702 8 12696 8
+E 0 12710 0 16
+E 0 12711 0 5
+E 0 12712 0 7
+E 0 12713 0 14
+O 0 12707 0 12697
+O 0 12707 0 12698
+O 0 12707 0 12699
+O 0 12707 0 12701
+M 0 12702 8 12701 8
+E 0 12710 0 16
+E 0 12711 0 5
+E 0 12712 0 7
+E 0 12713 0 14
+O 0 12707 0 12702
+O 0 12707 0 12705
+O 0 12707 0 12706
+O 0 12708 0 12707
+O 0 12709 0 12707
+O 0 12708 0 12708
+O 0 12709 0 12708
+O 0 12707 0 12709
+O 0 12707 0 12711
+M 0 12702 8 12711 8
+E 0 12710 0 16
+E 0 12711 0 5
+E 0 12712 0 7
+E 0 12713 0 14
+O 0 12707 0 12712
+O 0 12707 0 12713
+O 0 12707 0 12715
+O 0 12707 0 12716
+M 0 12702 8 12716 8
+E 0 12710 0 16
+E 0 12711 0 5
+E 0 12712 0 7
+E 0 12713 0 14
+M 0 12691 4 12718 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+O 0 12707 0 12721
+O 0 12707 0 12724
+M 0 12702 8 12726 8
+E 0 12710 0 16
+E 0 12711 0 5
+E 0 12712 0 7
+E 0 12713 0 14
+O 0 12707 0 12727
+O 0 12707 0 12731
+O 0 12707 0 12732
+O 0 12707 0 12736
+M 0 12702 8 12737 8
+E 0 12710 0 16
+E 0 12711 0 5
+E 0 12712 0 7
+E 0 12713 0 14
+O 0 12707 0 12739
+O 0 12707 0 12742
+O 0 12714 0 12744
+M 0 12703 1 12745 1
+O 0 12707 0 12759
+O 0 12707 0 12760
+M 0 12694 4 12760 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12691 4 12765 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12708 4 12766 4
+E 0 12731 0 16
+M 0 12691 4 12768 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+O 0 12723 0 12769
+O 0 12724 0 12769
+O 0 12730 0 12769
+M 0 12707 4 12769 4
+G 0 12723 0
+E 0 12722 0 16
+M 0 12709 1 12769 1
+G 0 12729 0
+M 0 12694 4 12771 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12694 4 12774 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+O 0 12723 0 12775
+O 0 12724 0 12775
+O 0 12725 0 12775
+O 0 12726 0 12775
+O 0 12727 0 12775
+O 0 12728 0 12775
+M 0 12693 4 12777 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12693 4 12782 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12697 1 12782 1
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12693 4 12787 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12692 4 12788 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12696 1 12791 1
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12692 4 12793 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12692 4 12798 4
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12695 1 12799 1
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12699 1 12800 1
+E 0 12699 0 5
+E 0 12700 0 16
+E 0 12701 0 11
+E 0 12702 0 6
+E 0 12703 0 9
+E 0 12704 0 1
+M 0 12698 1 12801 1
+E 0 12691 0 16
+E 0 12692 0 5
+E 0 12693 0 14
+E 0 12693 0 15
+E 0 12694 0 3
+E 0 12695 0 6
+E 0 12696 0 11
+E 0 12697 0 17
+E 0 12698 0 1
+M 0 12705 1 12802 1
+O 0 12717 0 12803
+P 0 12715 0 12717 1
+P 0 12716 0 12717 1
+O 0 12718 0 12803
+M 0 12701 1 12803 1
+E 0 12705 0 5
+E 0 12706 0 17
+O 0 12719 0 12805
+M 0 12700 1 12805 1
+E 0 12732 0 1
+E 0 12733 0 17
+E 0 12734 0 12
+E 0 12735 0 8
+O 0 12720 0 12807
+M 0 12706 1 12807 1
+O 0 12721 0 12809
+M 0 12704 1 12809 1
+E 0 12736 0 5
+O 0 12839 0 12811
+O 0 12831 0 12811
+M 0 12827 1 12811 1
+E 0 12840 0 6
+M 0 12841 8 12811 8
+O 0 12845 0 12812
+M 0 12811 1 12812 1
+M 0 12840 6 12817 6
+M 0 12837 2 12818 2
+M 0 12833 6 12820 6
+O 0 12831 0 12822
+M 0 12836 3 12822 3
+M 0 12832 3 12823 3
+M 0 12831 3 12824 3
+G 0 12811 0
+M 0 12843 8 12826 8
+M 0 12843 8 12827 8
+M 0 12829 1 12831 1
+E 0 12841 0 16
+M 0 12812 1 12833 1
+M 0 12813 1 12835 1
+G 0 12827 0
+G 0 12828 0
+G 0 12829 0
+G 0 12830 0
+G 0 12832 0
+M 0 12814 1 12837 1
+G 0 12823 0
+G 0 12824 0
+G 0 12825 0
+G 0 12826 0
+M 0 12841 8 12838 8
+M 0 12815 1 12839 1
+M 0 12844 1 12840 1
+M 0 12845 1 12840 1
+M 0 12846 1 12840 1
+M 0 12847 1 12840 1
+M 0 12848 1 12840 1
+M 0 12849 1 12840 1
+M 0 12816 1 12842 1
+G 0 12819 0
+G 0 12820 0
+G 0 12838 0
+G 0 12843 0
+G 0 12844 0
+M 0 12838 8 12843 8
+M 0 12817 1 12845 1
+M 0 12842 8 12846 8
+M 0 12818 1 12847 1
+M 0 12822 1 12848 1
+M 0 12823 1 12848 1
+M 0 12824 1 12848 1
+M 0 12825 1 12848 1
+M 0 12826 1 12848 1
+M 0 12839 6 12850 6
+M 0 12831 3 12851 3
+G 0 12811 0
+M 0 12819 1 12852 1
+G 0 12817 0
+G 0 12818 0
+G 0 12821 0
+G 0 12822 0
+M 0 12820 1 12854 1
+G 0 12833 0
+G 0 12834 0
+G 0 12835 0
+G 0 12836 0
+M 0 12841 8 12855 8
+M 0 12821 1 12856 1
+G 0 12812 0
+G 0 12813 0
+G 0 12814 0
+G 0 12815 0
+G 0 12816 0
+G 0 12837 0
+M 0 12835 6 12857 6
+M 0 12834 6 12858 6
+E 0 12842 0 16
+M 0 12828 1 12859 1
+G 0 12838 0
+M 0 12830 3 12859 3
+G 0 12811 0
+M 0 12830 3 12860 3
+G 0 12811 0
+S
+
+
+
+#SHOPS
+12503 9 0 0 0 0 150 80 0 23
+12504 5 0 0 0 0 150 80 0 23
+12505 0 0 0 0 0 150 80 0 23
+12506 2 3 4 10 26 150 80 0 23
+12508 0 0 0 0 0 150 50 0 23
+12510 15 13 8 1 18 150 80 0 23
+12511 19 0 0 0 0 180 20 0 23
+12512 17 0 0 0 0 180 20 0 23
+12515 17 0 0 0 0 200 0 0 23
+12516 17 0 0 0 0 200 0 0 23
+12517 17 0 0 0 0 200 0 0 23
+12518 17 0 0 0 0 200 0 0 23
+12525 5 9 10 15 18 180 20 0 23
+12529 17 0 0 0 0 200 0 0 23
+12530 17 0 0 0 0 200 0 0 23
+12531 17 0 0 0 0 200 0 0 23
+12553 19 0 0 0 0 180 20 0 23
+12813 9 0 0 0 0 150 50 0 23
+12814 5 0 0 0 0 150 50 0 23
+12815 0 0 0 0 0 150 50 0 23
+12816 2 3 4 10 26 150 50 0 23
+12818 0 0 0 0 0 150 50 0 23
+12819 15 13 8 1 18 150 50 0 23
+12820 19 0 0 0 0 180 20 0 23
+12821 17 0 0 0 0 180 20 0 23
+12828 5 9 10 15 18 180 20 0 23
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

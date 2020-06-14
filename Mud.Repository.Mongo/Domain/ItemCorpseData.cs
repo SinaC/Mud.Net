@@ -7,5 +7,7 @@
         public string CorpseName { get; set; }
 
         public ItemData[] Contains { get; set; }
+
+        public bool HasBeenGeneratedByKillingCharacter { get; set; }
     }
 }

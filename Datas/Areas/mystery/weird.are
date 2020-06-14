@@ -1,0 +1,657 @@
+#AREADATA
+Name Immortals~
+Builders None~
+VNUMs 200 299
+Credits {{ IMM } Seytan  Immortals ~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#295
+another test mob~
+a test mob~
+A test mob is waiting to be slaught.
+~
+~
+human~
+0
+AB 0 0 0 0 0
+100 105 50d15+16300 100d11+110 100d11+110 9d10+81 none
+-80 -80 -80 -53
+W 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#296
+patrolman man patrol~
+a patrolman~
+A patrolman
+~
+A monster testing different races.
+-
+~
+human~
+I
+AG 0 0 1 0 0
+100 0 10d420+3900 100d10+100 0d0+0 20d20+240 none
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+M
+specPatrolMan
+#297
+ogre~
+an ogre~
+An ogre
+~
+A monster testing different races.
+-
+~
+ogre~
+GH
+AG 0 0 0 -350 2101
+100 0 10d420+3900 100d10+100 100d10+100 20d20+240 none
+0 0 0 0
+0 0 E P
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+M
+specOgreMember
+#298
+troll~
+a troll~
+A troll
+~
+A monster testing different races.
+-
+~
+troll~
+D
+AG FJc 0 0 350 2100
+100 0 10d420+3900 100d10+100 0d0+0 20d20+240 none
+0 0 0 0
+0 0 HI RS
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+M
+specTrollMember
+#299
+loraine~
+Loraine~
+Loraine est en train de faire le monstre.
+~
+~
+avariel~
+ACD
+ABC FJT 0 0 -800 0
+110 115 50d20+20522 110d11+110 110d11+110 9d11+90 none
+-89 -89 -89 -59
+0 0 IPQ H
+stand stand female 100
+AHMV ABCDEFGHIJKP medium unknown
+M
+mobTest
+#0
+
+
+
+#OBJECTS
+#200
+stormbringer~
+{RS{xtorm{YB{xringer~
+A black evil sword floats in the air waiting his master~
+energy~
+weapon BEGIJRY AN
+sword 100 12 divine ABCDEGH
+110 1 1000000 P
+#201
+oxtal ring token~
+oxtal's ring~
+The ring glows of an unusual magic power~
+iron~
+jewelry AGJK AB
+0 0 0 0 0
+110 1 10000 P
+Y
+char 'immunities' 1 4
+Y
+char 'immunities' 1 8
+#202
+lunar earring~
+a Moon Shaped earring~
+Whismerhill's earring lies here~
+stone~
+armor GY AR
+0 0 0 0 0
+108 1 10000 P
+Y
+char 'affects' 1 1048576
+#203
+Sapphire earrings~
+a Sapphire Earring~
+Whismerhill's earing lies here~
+sapphire~
+jewelry GY AR
+0 0 0 0 0
+108 0 10000 P
+Y
+char 'affects' 1 268435456
+Y
+char 'affects' 1 128
+#204
+glasses see-through~
+a pair of see-through glasses~
+A pair of glasses lies here~
+crystal~
+armor G AS
+20 20 20 20 0
+106 1 2456 P
+Y
+char 'affects' 1 8
+Y
+char 'affects' 1 16
+Y
+char 'affects' 1 4
+Y
+char 'affects' 1 32
+Y
+char 'affects' 1 33554432
+Y
+char 'affects' 1 64
+#205
+wand domination~
+the wand of domination~
+A strange looking wand lies on the floor.~
+unknown~
+wand AG AO
+150 100 100 'charm person' 0
+99 0 0 P
+#250
+chair~
+a wooden chair~
+A beautiful wooden chair~
+wood~
+furniture 0 0
+1 2000 EK 120 120
+1 250 234 P
+#251
+armchir ~
+an armchair~
+A comfortable leather armchair~
+leather~
+furniture 0 0
+1 2500 EHK 180 185
+110 250 1563 P
+#252
+bookcase~
+a bookcase~
+A very old bookcase is on the east wall~
+wood~
+container 0 0
+10000 ABCD 253 10000 1
+110 1000 14670 P
+#253
+small bronze key~
+a small bronze key~
+A small bonze key is here~
+unknown~
+key 0 AO
+0 0 0 0 0
+1 1 1000 P
+#262
+map~
+a map~
+A map~
+unknown~
+map 0 0
+A 0 0 0 0
+101 1 0 P
+E
+map~
+      
+ *  * 
+ |  | 
+ *--* 
+ |    
+ *--* 
+ |  | 
+ *  * 
+
+  *    represents rooms.
+  - |  represents passages.
+~
+#289
+weapon sinac~
+SinaC's Weapon~
+Don't touch this!!!~
+<Not Entered>~
+weapon HMOTXZab AN
+exotic 30 20 slash AD
+110 10 1 P
+#290
+boudin armor~
+an armor~
+An armor lies here.~
+<Not Entered>~
+armor 0 AD
+300 300 300 300 0
+100 5 5 P
+Y
+char 'hitroll' 0 50
+Y
+char 'damroll' 0 50
+Y
+char 'saving throw' 0 -30
+#291
+staff~
+A staff~
+A long wooden staff lies here.~
+wood~
+staff 0 AO
+0 0 0 '' 0
+0 5 1000 P
+#292
+wand~
+A wand~
+A small wooden wand lies here.~
+wood~
+wand 0 AO
+0 0 0 '' 0
+0 5 1000 P
+#293
+template parchment scroll~
+a piece of parchment~
+A piece of parchment lies here.~
+parchment~
+template 0 AO
+0 '' '' '' ''
+15 5 50000 P
+#294
+iron lever~
+an iron lever~
+An iron lever is on the wall.~
+iron~
+trash 0 AQ
+0 0 0 0 0
+1 1 0 P
+M
+objTest
+#295
+black lotus~
+a Black Lotus~
+A black lotus grows here.~
+flower~
+staff A AO
+100 2 2 'black lotus' 0
+1 50 1500 P
+#296
+stat booster~
+a stat booster~
+A stat booster lies on the ground.~
+air~
+gem AG AQ
+0 0 0 0 0
+1 10 0 P
+Y
+char 'wisdom' 0 20
+Y
+char 'intelligence' 0 20
+Y
+char 'dexterity' 0 20
+Y
+char 'constitution' 0 20
+Y
+char 'strength' 0 20
+#297
+test weapon~
+a short weapon~
+A short weapon lies here.~
+unknown~
+weapon B AN
+dagger 5 5 chomp DH
+1 5 10 P
+Y
+char 'affects' 1 1
+#298
+another item~
+another cool item~
+Another cool item is here.~
+unknown~
+light 0 AO
+0 0 999 0 0
+1 1 0 P
+W
+'fear' 30 1
+W
+'bless' 50 0
+R
+'strength' 20 0
+Z
+'dagger' -50
+Z
+'sneak' 50
+Z
+'hand to hand' 20
+Z
+'acid blast' -30
+Z
+'summon greater golem' -40
+Y
+char 'strength' 0 20
+Y
+char 'classes' 1 4
+Y
+char 'saving throw' 0 -5
+Y
+char 'wisdom' 0 -10
+Y
+char 'classes' 1 8
+Y
+char 'classes' 1 1
+Y
+char 'affects' 1 1
+#299
+cool item test~
+a very cool item~
+A very very cool item.~
+unknown~
+instrument 0 AO
+0 0 0 0 0
+110 1 500 P
+R
+'sex' 1 0
+R
+'classes' 16 0
+R
+'strength' 27 1
+R
+'classes' 8 1
+R
+'parts' 8 0
+R
+'parts' 32768 1
+R
+'race' 0 1
+Y
+char 'affects2' 1 4
+Y
+char 'vulnerabilities' 1 128
+Y
+char 'damroll' 0 50
+Y
+char 'saving throw' 0 5
+Y
+char 'parts' 1 2097152
+Y
+char 'classes' 1 1
+Y
+char 'size' 2 4
+Y
+char 'sex' 2 2
+Y
+char 'affects' 1 8388608
+Y
+char 'affects' 1 1073741824
+Y
+char 'race' 2 5
+#0
+
+
+
+#ROOMS
+#200
+Seytan's Meeting Room~
+When you enter this room, you have to truggle to keep your reason.
+All you see is awful, repugnant and horrific. On the floor you see some heaps
+of human flesh, a corpse without limb and a lot of horrific things.
+~
+0 787460 0
+5
+M 200 H 200 P 100
+S
+#250
+The McLeod's meeting room~
+~
+0 12 0
+5
+D3
+~
+~
+0 0 251
+S
+#251
+A hall~
+You are in a hall
+There's a small door on north wall
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 252
+D1
+~
+~
+0 0 250
+S
+#252
+Oxtal's office~
+You are in a small office.
+~
+0 0 0
+5
+D2
+~
+~
+AB 0 251
+S
+#253
+exit of the maze~
+~
+0 0 0
+5
+D2
+~
+~
+0 0 254
+S
+#254
+maze~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 253
+D2
+~
+~
+0 0 256
+S
+#255
+maze~
+~
+0 4 0
+5
+D2
+~
+~
+0 0 257
+S
+#256
+maze~
+~
+0 4 0
+5
+D0
+~
+~
+0 0 254
+D1
+~
+~
+0 0 257
+D2
+~
+~
+0 0 258
+S
+#257
+maze~
+~
+0 4 0
+5
+D0
+~
+~
+0 0 255
+D3
+~
+~
+0 0 256
+S
+#258
+maze~
+~
+0 4 0
+5
+D0
+~
+~
+0 0 256
+D1
+~
+~
+0 0 259
+D2
+~
+~
+0 0 260
+S
+#259
+maze~
+~
+0 4 0
+5
+D2
+~
+~
+0 0 261
+D3
+~
+~
+0 0 258
+S
+#260
+maze~
+~
+0 4 0
+5
+D0
+~
+~
+0 0 258
+S
+#261
+maze~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 259
+D2
+~
+~
+0 0 262
+S
+#262
+entrance of the maze~
+~
+0 0 0
+5
+D0
+~
+~
+0 0 261
+S
+#299
+SinaC's meeting room~
+You are in a huge sphere of pure light, floating in the void.
+All ways seem to lead here.
+~
+0 4 0
+5
+D0
+~
+~
+0 0 299
+D2
+~
+~
+0 0 299
+Z
+testRoom
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 251 0 1
+D 0 252 2 1
+M 0 295 1 200 1
+O 0 250 0 252
+O 0 250 0 252
+O 0 251 0 252
+O 0 252 0 252
+P 0 299 -1 252 1
+P 0 3163 1 252 1
+M 0 296 20 253 1
+M 0 298 20 253 1
+Z 0 2 4 254 262
+M 0 296 20 254 2
+M 0 296 20 254 2
+M 0 297 20 254 2
+M 0 297 20 254 2
+M 0 297 20 255 2
+M 0 297 20 255 2
+M 0 298 20 256 2
+M 0 298 20 256 2
+M 0 296 20 257 1
+M 0 298 20 257 1
+M 0 297 20 258 2
+M 0 297 20 258 2
+M 0 296 20 258 1
+M 0 297 20 259 1
+M 0 298 20 259 1
+M 0 297 20 260 1
+M 0 298 20 260 1
+M 0 296 20 261 1
+M 0 297 20 261 1
+M 0 297 20 262 1
+M 0 298 20 262 1
+O 0 295 0 299
+M 0 299 1 299 1
+E 0 294 0 22
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

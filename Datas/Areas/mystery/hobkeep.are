@@ -1,0 +1,1872 @@
+#AREADATA
+Name Hobgoblin Keep~
+Builders Sinac~
+VNUMs 16300 16399
+Credits [10 30] Roth    The Hobgoblin Keep~
+Security 5
+Flags 0
+End
+
+
+
+#MOBILES
+#16300
+sentry goblin~
+A goblin sentry~
+A goblin sentry snarls at you as you approach.
+~
+A reddish skin creature wearing a combination of hide and
+leather armor.
+~
+goblin~
+0
+AGH J 0 0 0 0
+10 10 2d7+121 10d10+100 10d10+100 2d4+2 punch
+1 1 1 1
+0 Q L P
+stand stand either 100
+AHMV ABCDEFGHIJK medium unknown
+#16301
+hermit old woman~
+An old woman~
+An old woman is sitting down in a chair.
+~
+A tired old hermit, sitting in her rocking chair watching over her small
+home and brewing equipment.
+~
+human~
+0
+ABe 0 0 0 0 0
+15 15 3d8+264 15d10+100 15d10+100 2d6+4 none
+-1 -1 -1 -1
+0 CD 0 0
+stand stand none 150000
+AHMV ABCDEFGHIJK medium unknown
+#16302
+sentry hobgoblin~
+A sentry~
+A sentry watches you closely.
+~
+A well armored hobgoblin warrior dressed in a combination of hide and
+leather armor and armed with a halberd.
+~
+hobgoblin~
+0
+ABCT J 0 0 0 0
+20 20 4d9+407 20d10+100 20d10+100 2d8+6 pound
+-4 -4 -4 -2
+F 0 LQ 0
+stand stand male 2000
+AHMV ABCDEFGHIJKY medium unknown
+#16303
+hobgoblin plainly~
+A hobgoblin~
+A plainly dressed hobgoblin is wandering about here.
+~
+This hobgoblin seems to be a commoner among the others here.
+~
+hobgoblin~
+0
+AG IJ 0 0 0 0
+15 15 3d8+264 15d10+100 15d10+100 2d6+4 pound
+-1 -1 -1 -1
+F 0 LQ 0
+stand stand either 600
+AHMV ABCDEFGHIJKY medium unknown
+#16304
+hobgoblin mage~
+A hobgoblin mage~
+A scrawny looking hobgoblin turns toward you and growls.
+~
+A hobgoblin dressed in black robes that has red runic symbols around the
+hem of the robes.
+~
+hobgoblin~
+0
+ABR HJ 0 0 0 0
+28 28 10d10+1024 28d10+100 28d10+100 2d10+8 magic
+-8 -8 -8 -5
+0 0 LQ 0
+stand stand none 2000
+AHMV ABCDEFGHIJKY medium unknown
+#16305
+hobgoblin priest~
+A hobgoblin priest~
+A hobgoblin is chanting before an altar here.
+~
+A hobgoblin dressed in white and yellow robes, with a wooden mace
+hanging at her side. Around her neck is silver chains with what
+appears to moonstones attached to it.
+~
+hobgoblin~
+0
+ABQ J 0 0 0 0
+25 25 5d10+550 25d10+100 25d10+100 2d10+7 pound
+-7 -7 -7 -4
+0 0 LQ 0
+stand stand none 0
+AHMV ABCDEFGHIJKY medium unknown
+#16306
+man leather~
+A human~
+A man dressed in leather stands behind a counter.
+~
+A human with brown hair and a beard dressed in a leather outfit is eyeing
+you as you enter his shop. 
+~
+human~
+0
+ABT 0 0 0 0 0
+25 25 5d10+550 25d10+100 25d10+100 2d10+7 punch
+-7 -7 -7 -4
+IK 0 0 0
+stand stand male 700
+AHMV ABCDEFGHIJK medium unknown
+#16307
+crystal statue~
+A crystal statue~
+A crystal statue of a elven maiden stands here.
+~
+You see a very lovely statue of a young female elf, whose dress seems to
+blow from an unfelt wind.  Her hands are extended outward as if to embrace a
+lover.
+~
+human~
+0
+ABae 0 0 0 0 0
+30 30 14d10+1340 30d10+100 30d10+100 3d10+9 none
+-9 -9 -9 -6
+0 CD 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#16308
+barris snaggletooth~
+Barris Snaggletooth~
+Barris Snaggletooth is here, sitting on a crate and counting his earnings for the day.
+~
+Barris Snaggletooth is a well built and well dressed hobgoblin.  He is
+wearing finely made leather clothing and has a impressive looking dagger on
+his side.
+~
+hobgoblin~
+0
+ABe J 0 0 0 0
+0 0 0d0+0 0d0+0 0d0+0 0d0+0 none
+0 0 0 0
+0 CD LQ 0
+stand stand male 150000
+AHMV ABCDEFGHIJKY medium unknown
+#16309
+chief hobgoblin~
+Hobgoblin chief~
+The Chief of the hobgoblins is here.
+~
+The largest hobgoblin you have ever seen, he is wearing thick hide armor,
+with a blood stained axe at his side. 
+~
+hobgoblin~
+0
+ABT HJ 0 0 0 0
+30 35 15d12+2066 30d11+110 30d11+110 5d6+11 none
+-12 -12 -12 -8
+DEFJ 0 LQ 0
+stand stand male 1600
+AHMV ABCDEFGHIJKY medium unknown
+#16310
+large hobgoblin~
+A large hobgoblin~
+A well armored hobgoblin is instructing guards around.
+~
+You see a large creature dressed in fine chainmail armor and
+a red cloak. He is carring a shield and a long sword.
+~
+hobgoblin~
+0
+ABCT J 0 0 0 0
+25 30 6d12+833 25d11+110 25d11+110 4d6+8 none
+-9 -9 -9 -6
+FK 0 LQ 0
+stand stand male 2300
+AHMV ABCDEFGHIJKY medium unknown
+#0
+
+
+
+#OBJECTS
+#16300
+canteen absinthe~
+A small canteen of absinthe~
+A small canteen with a red label is on the floor.~
+glass~
+drink 0 AO
+5 5 'absinthe' 0 0
+5 1 450 P
+#16301
+canteen rum~
+A small canteen of rum~
+A small canteen with a red label is on the floor.~
+glass~
+drink 0 AO
+5 5 'rum' 0 0
+5 1 375 P
+#16302
+canteen firebreather~
+A small canteen of firebreather~
+A small canteen with a red label is on the floor.~
+glass~
+drink 0 AO
+5 5 'firebreather' 0 0
+5 1 300 P
+#16303
+canteen ale~
+A small canteen of ale~
+A small canteen with a red label is on the floor.~
+glass~
+drink 0 AO
+5 5 'ale' 0 0
+5 1 265 P
+#16304
+canteen dark ale~
+A small canteen of dark ale~
+A small canteen with a red label is on the floor.~
+glass~
+drink 0 AO
+5 5 'dark ale' 0 0
+5 1 275 P
+#16305
+canteen mead~
+A small canteen of mead~
+A small canteen with a red label is on the floor.~
+glass~
+drink 0 AO
+5 5 'mead' 0 0
+5 1 200 P
+#16306
+Small Wooden Shield~
+A small shield~
+A small wooden shield is lying on the ground.~
+wood~
+armor 0 AJ
+7 7 7 0 0
+10 3 500 P
+#16307
+light hide armor~
+A suit of light hide armor~
+A piece of hide armor has been tossed to the ground.~
+cloth~
+armor 0 AD
+10 10 10 5 0
+10 4 800 P
+#16308
+small short sword~
+A short sword~
+A small sword has been dropped here.~
+iron~
+weapon 0 AN
+sword 2 8 slash 0
+10 3 900 P
+#16309
+yellow flower~
+A yellow flower~
+A yellow flower with colorful anthers lies here.~
+flower~
+pill 0 AO
+5 'sanctuary' '' '' ''
+1 1 0 P
+#16310
+yellow flower~
+A yellow flower~
+A yellow flower with colorful anthers lies here.~
+flower~
+pill 0 AO
+5 'dispel evil' 'dispel good' 'poison' ''
+1 1 0 P
+#16311
+yellow flower~
+A yellow flower~
+A yellow flower with colorful anthers lies here.~
+flower~
+pill 0 AO
+5 'faerie fire' 'faerie fire' 'faerie fire' 'plague'
+1 1 0 P
+#16312
+yellow flower~
+A yellow flower~
+A yellow flower with colorful anthers lies here.~
+flower~
+pill 0 AO
+5 'change sex' 'chill touch' 'chill touch' 'cause serious'
+1 1 0 P
+#16313
+halberd polearm~
+A halberd~
+A long stick with a metal blade is lying on the ground.~
+steel~
+weapon 0 A
+polearm 8 6 slash F
+20 10 1375 P
+#16314
+leather pants~
+A pair of leather pants~
+An old pair of leather pants have been tossed to the ground.~
+leather~
+armor 0 AF
+5 5 5 0 0
+10 3 750 P
+#16315
+leather boots~
+A pair of leather boots~
+A sturdy pair of boots are lying on the ground.~
+leather~
+armor 0 AG
+2 2 0 2 0
+10 2 600 P
+#16316
+leather bracer~
+A leather bracer~
+A finely crafter piece of leather has be discarded.~
+leather~
+armor 0 AM
+5 5 5 0 0
+10 1 250 P
+#16317
+heavy hide armor~
+A suit of heavy hide armor~
+A piece of hide armor has been tossed to the ground.~
+leather~
+armor 0 AD
+20 20 20 5 0
+20 5 1200 P
+#16318
+cloth cape~
+A thin cloth cape~
+A small cape has been discarded.~
+cloth~
+armor 0 AC
+8 8 8 0 0
+10 1 500 P
+#16319
+mace club~
+A small mace~
+A mace have been tossed to the ground.~
+wood~
+weapon 0 AN
+mace 3 10 pound 0
+25 4 800 P
+#16320
+shield large~
+A large round shield~
+A large round shield in lying here.~
+leather~
+armor 0 AJ
+10 10 10 2 0
+12 5 575 P
+#16321
+draught curing poison~
+a curing draught~
+A potion with a crude writing on its label is lying here.~
+glass~
+potion AG AO
+5 'cure disease' 'cure poison' 'cure light' ''
+10 1 2500 P
+#16322
+huge axe~
+A huge axe~
+A double bladed axe is stuck in the ground.~
+steel~
+weapon 0 AN
+axe 6 10 slice F
+30 10 2000 P
+#0
+
+
+
+#ROOMS
+#16300
+A Trail in the Forest~
+The forest is dark and silent and the vegetation here looks untouched by
+all outside influence.  The forest floor lacks any grass from the thick
+growth of the trees above you.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 16301
+S
+#16301
+A Dark Forest Path~
+The forest is dark and eerie, strange sounds echo throughout the forest. 
+The dense foliage makes it difficult to leave the narrow path that has been
+cut here.  Weird yellow flowers grow throughout the brushes.  The path leads
+to the north and to the south from here.  
+A thin trail meanders to the west.
+~
+0 1 3
+5
+D0
+~
+~
+0 0 16303
+D2
+~
+~
+0 0 16300
+D3
+~
+~
+0 0 16302
+S
+#16302
+A forest trail~
+The forest is dark and silent and the vegetation here looks untouched by
+all outside influence.  The forest floor lacks any grass from the thick
+growth of the trees above you.
+~
+0 1 3
+5
+D1
+~
+~
+0 0 16301
+S
+#16303
+Dark Forest Path~
+The forest is dark and eerie, strange sounds echo throughout the forest. 
+The dense foliage makes it difficult to leave the narrow path that has been
+cut here.  Weird yellow flowers grow throughout the brushes.  The path you
+are standing on turns toward the east, as well lead off to the south.
+~
+0 1 3
+5
+D1
+~
+~
+0 0 16304
+D2
+~
+~
+0 0 16301
+S
+#16304
+A Small Clearing~
+The clearing in peaceful and relaxing.  Familiar sounds of birds sing
+their songs, as the wind whistles through the trees.  Small game can be seen
+just at the edge of the bushes in the clearing from time to time.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 16307
+D1
+~
+~
+0 0 16305
+D3
+~
+~
+0 0 16303
+S
+#16305
+A Dark Forest~
+The forest is dark an eerie.  Strange sounds echo about you.  The dense
+foliage makes it difficult to leave the narrow path that has been cut here. 
+Weird yellow flowers grow throughout the brushes.
+~
+0 1 3
+5
+D1
+~
+~
+0 0 16306
+D3
+~
+~
+0 0 16304
+S
+#16306
+A Dark Forest~
+The forest is dark an eerie.  Strange sounds echo about you.  The dense
+foliage makes it difficult to leave the narrow path that has been cut here. 
+Weird yellow flowers grow throughout the brushes.
+~
+0 1 3
+5
+D3
+~
+~
+0 0 16305
+S
+#16307
+A Dark Forest~
+The forest is dark an eerie.  Strange sounds echo about you.  The dense
+foliage makes it difficult to leave the narrow path that has been cut here. 
+Weird yellow flowers grow throughout the brushes.
+~
+0 1 3
+5
+D0
+~
+~
+0 0 16312
+D1
+~
+~
+0 0 16308
+D2
+~
+~
+0 0 16304
+S
+#16308
+A Dark Forest~
+The forest is dark and eerie, with strange sounds echoing throughout.  The
+dense foliage makes it difficult to leave the narrow path that has been cut
+here.  Strange yellow flowers lie about in the bushes.
+~
+0 1 3
+5
+D0
+~
+~
+0 0 16309
+D3
+~
+~
+0 0 16307
+S
+#16309
+A Dark Forest~
+The forest is dark and eerie, with strange sounds echoing throughout.  The
+dense foliage makes it difficult to leave the narrow path that has been cut
+here.  Strange yellow flowers lie about in the bushes.
+~
+0 1 3
+5
+D1
+~
+~
+0 0 16310
+D2
+~
+~
+0 0 16308
+S
+#16310
+Opening in the Forest~
+The forest here has been cleared out.  Pelts from various animals lay all
+about the ground.  Sounds of barking make you jump as you turn to see a
+large dog tied up just at the edge of the clearing.  You see a small hut at
+the edge of the clearing just south of you.
+~
+0 0 3
+5
+D2
+~
+~
+0 0 16311
+D3
+~
+~
+0 0 16309
+S
+#16311
+Inside the Hut~
+As you enter the hut, you can see a iron furnace near the east wall with
+a cot near it.  Book shelves line the west wall and are stuffed with various
+bone cravings.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16310
+S
+#16312
+A Dark Forest~
+The forest is dark and eerie, with strange sounds echoing throughout.  The
+dense foliage makes it difficult to leave the narrow path that has been cut
+here.  Strange yellow flowers lie about in the bushes.
+~
+0 1 3
+5
+D0
+~
+~
+0 0 16315
+D2
+~
+~
+0 0 16307
+D3
+~
+~
+0 0 16313
+S
+#16313
+A Dark Forest~
+The forest is dark and eerie, with strange sounds echoing throughout.  The
+dense foliage makes it difficult to leave the narrow path that has been cut
+here.  Strange yellow flowers lie about in the bushes.
+~
+0 1 3
+5
+D1
+~
+~
+0 0 16312
+D2
+~
+~
+0 0 16314
+S
+#16314
+A Dark Forest~
+The forest is dark an eerie.  Strange sounds echo about you.  The dense
+foliage makes it difficult to leave the narrow path that has been cut here. 
+Weird yellow flowers grow throughout the brushes.
+~
+0 1 3
+5
+D0
+~
+~
+0 0 16313
+S
+#16315
+A Dark Forest~
+The forest is dark and eerie, with strange sounds echoing throughout.  The
+dense foliage makes it difficult to leave the narrow path that has been cut
+here.  Strange yellow flowers lie about in the bushes.
+~
+0 1 3
+5
+D0
+~
+~
+0 0 16316
+D2
+~
+~
+0 0 16312
+S
+#16316
+A Path in the Forest~
+The area is barren of trees, grass and life.  The area looks like it has
+recently been affected by a rock slide.  The cliff around you looks very
+unstable.  The path continues to descend further into the mountain side.  To
+the north you can see a large structure.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 16317
+D2
+~
+~
+0 0 16315
+S
+#16317
+Dark Entrance~
+Darkness surrounds you as you enter the keep.  Rats scurry to and from
+the shadows.  You have an eerie feeling that something is not right here. 
+The discarded bones from victims trying to enter this place can be seen just
+at the edge of your light source.  The passage looks to continue to the
+north with a wooden door to the east and one to the west.
+~
+0 4 0
+5
+E
+bones~
+The bones have tiny scratch marks on them, almost as if some has been crewing on them.
+~
+D0
+~
+~
+0 0 16322
+D1
+~
+~
+AB 0 16320
+D2
+~
+~
+0 0 16316
+D3
+~
+~
+AB 0 16318
+S
+#16318
+Abandoned Dining Room~
+This room appears to have once been a eloquent dining room.  There are
+tables and chairs scattered throughout the room, many which are turned on
+their sides or upside down.  Everything is covered in cobwebs.  What appears
+to be the remains of a arm lies just below the central table.  What appears
+to be a door in the western wall is covered in cobwebs.
+~
+0 0 0
+5
+E
+arm~
+The arm is vile, the skin is discolored and covered in blisters.
+~
+E
+tables~
+Underneath all of the cobwebs is a finely crafted table.
+~
+E
+chairs~
+A high backed chair, with a highly crafted details in the head rest.
+~
+E
+cobwebs~
+The cobwebs are full of thousand little spiders crawling through them.
+~
+D1
+~
+~
+AB 0 16317
+D3
+~
+~
+0 0 16319
+S
+#16319
+Store Room~
+This small room appears to have been used as a storage room in the past. 
+Boxes are stacked against the northern wall.  Against the western wall is a
+pile of sacks.  Next to them is a small chest with a body laying next to it.
+~
+0 0 0
+5
+E
+chest~
+The inside of the chest is covered in velvet, and empty of any contents.
+~
+E
+boxes~
+The wooden crates have been pried open and are empty of any contents.
+~
+D1
+~
+~
+0 0 16318
+S
+#16320
+Guard Room~
+This dark and musky room is filled with trash.  Tables that once
+furnished this room have been bashed into pieces and discarded along the
+north wall.  What appears to be four beds are on the floor near the south
+wall.  In the back of the room, along the east wall, a wooden door stand
+partially open.
+~
+0 0 0
+5
+E
+tables~
+Shattered pieces of wood is all that remains of these tables.
+~
+E
+beds~
+These beds are made of animal fur, and are filthy. In the bed you find a small pouch with some coins in it.
+~
+D1
+~
+~
+0 0 16321
+D3
+~
+~
+AB 0 16317
+S
+#16321
+Armory~
+This small room is filled with weapon racks and rusty weapons.  In the
+southern corner are four barrels filled with arrows.  Two suits of armor
+stand near the northern wall.
+~
+0 0 0
+5
+E
+barrels~
+These barrel are waist high, and appear to rotten.
+~
+E
+arrows~
+These arrow still bear some fletching, red in colors.  Otherwise the are
+rotted and useless
+~
+E
+armor~
+Once made of finely crafted chainmail, they are now laden with rust,
+propped up on wooden dummies.
+~
+D3
+~
+~
+0 0 16320
+S
+#16322
+Corridor~
+The hallway is partially lit by two wall sconces at each of the four
+corners of this intersection.  The walls have been covered by vines and
+fungus from years of growth.  The floor stones have turned to a greenish
+color from the water that stands here.  The corridor continues to the north,
+south, east and west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16366
+D1
+~
+~
+0 0 16363
+D2
+~
+~
+0 0 16317
+D3
+~
+~
+0 0 16323
+S
+#16323
+Corridor~
+The hallway is partially lit by a sconce on the south wall.  The walls
+have been covered by vines and fungus from years of growth.  The floor
+stones have turned to a greenish color from the water that stands here.  The
+corridor continues to the east and west.  To the north is a wooden door.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 16365
+D1
+~
+~
+0 0 16322
+D3
+~
+~
+0 0 16324
+S
+#16324
+~
+The hallway is partially lit by a sconce on the south wall.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  The
+corridor continues to the north and east, and a staircase leads up.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16328
+D1
+~
+~
+0 0 16323
+D4
+~
+~
+0 0 16325
+S
+#16325
+Guard Tower Corridor~
+The hallway is partially lit by sconces on both sides.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  The stairs
+continue up and back down is the main hall.
+~
+0 0 0
+5
+D4
+~
+~
+0 0 16326
+D5
+~
+~
+0 0 16324
+S
+#16326
+Lower Tower Room~
+You see a circular room, with several narrow opening spaced evenly about
+the outside wall.  The windows extend about from waist height to about head
+height for a normal human.  These are obviously ports from which defenders
+of this castle could fire arrows.  In the center of the room is an iron
+ladder extending from the floor to opening in the ceiling.
+~
+0 0 0
+5
+D4
+~
+~
+0 0 16327
+D5
+~
+~
+0 0 16325
+S
+#16327
+Battlements~
+This area was obviously use for defense.  Several large cauldrons stand
+near the edge of the waist high walls.  Burnt wood can still be seen for
+below the cauldrons.  The remains of a ballista lay here, along with a barrel
+of huge arrows once used for battle.
+~
+0 0 0
+5
+D5
+~
+~
+0 0 16326
+S
+#16328
+Corridor~
+The hallway is partially lit by a sconce on the east wall.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  The
+corridor continues to the north and south.  To the west is a wooden door.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16330
+D2
+~
+~
+0 0 16324
+D3
+~
+~
+AB 0 16329
+S
+#16329
+Pantry~
+Cabinets and shelves line the walls.  Boxes that are half rotten and old
+sacks which have spilled their contents are on the floor.  Other various
+pieces of trash lie on the floor.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 16328
+S
+#16330
+Corridor~
+The hallway is partially lit by a sconce on the east wall.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  The
+corridor continues to the north and south.  To the west is a wooden door.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16332
+D2
+~
+~
+0 0 16328
+D3
+~
+~
+AB 0 16331
+S
+#16331
+Library~
+Bookshelves line the north, south and west walls.  The books that remain
+are moth-eaten.  There is a table in center of the room, sitting on an old
+dusty carpet.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 16330
+S
+#16332
+Corridor~
+The hallway is partially lit by a sconce on the east wall.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  The
+corridor continues to the north and south.  To the west is a wooden door.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16334
+D2
+~
+~
+0 0 16330
+D3
+~
+~
+AB 0 16333
+S
+#16333
+Storeroom~
+The west wall of this room has a ledge seven feet from the floor, with two
+small windows above the ledge.  Three half rotted crates sit on the floor
+below the ledge.  Trash is scattered across the floor.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 16332
+S
+#16334
+Corridor~
+The hallway is partially lit by a sconce on the west wall.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  The
+corridor continues to the south and east, and a staircase leads upwards to
+the guard tower.  To the west is a wooden door.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16339
+D2
+~
+~
+0 0 16332
+D3
+~
+~
+AB 0 16335
+D4
+~
+~
+0 0 16336
+S
+#16335
+Abandoned Chapel~
+The west wall of this room has a ledge about seven feet from the floor,
+with two small windows above the ledge.  There is a small altar below the
+ledge.  The room furniture looks to have been smashed.  The walls have been
+painted with red eyes.  On top of the altar, the remains of a sacrifice can
+be seen.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 16334
+S
+#16336
+Guard Tower Stairs~
+The hallway is partially lit by sconces on both sides.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  The stairs
+continue to up and back down is the main hall.
+~
+0 0 0
+5
+D4
+~
+~
+0 0 16337
+D5
+~
+~
+0 0 16334
+S
+#16337
+Lower Tower Room~
+You see a circular room, with several narrow opening spaced evenly about
+the outside wall.  The windows extend about from waist height to about head
+height for a normal human.  These are obviously ports from which defenders
+of this castle could fire arrows.  In the center of the room is an iron
+ladder extending from the floor to opening in the ceiling.
+~
+0 0 0
+5
+D4
+~
+~
+0 0 16338
+D5
+~
+~
+0 0 16336
+S
+#16338
+Battlements~
+This area was obviously use for defense.  Several large cauldrons stand
+near the edge of the waist high walls.  Burnt wood can still be seen for
+below the cauldrons.  The remains of a ballista lay here, along with a barrel
+of huge arrows once used for battle.
+~
+0 0 0
+5
+D5
+~
+~
+0 0 16337
+S
+#16339
+Corridor~
+The hallway is partially lit by sconces on the north and south walls. 
+The walls have been covered by vines and fungus from years of growth.  The
+floor stones have turned to a greenish color from the water that stands
+here.  The corridor continues to the east and west.  There are wooden doors
+on the north and south sides of the corridor.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 16340
+D1
+~
+~
+0 0 16342
+D2
+~
+~
+AB 0 16374
+D3
+~
+~
+0 0 16334
+S
+#16340
+Small Alcove~
+The walls are covered in wooden planks.  In the center of the rooms is a
+small brass brazier burning.  The smoke that rises from the brazier is
+yellowish.  On the walls are painted various arcane symbols.
+~
+0 0 0
+5
+D2
+~
+~
+AB 0 16339
+D3
+~
+~
+0 0 16341
+S
+#16341
+Mage's Quarters~
+The walls are cover in arcane symbols of all colours and sizes.  A
+brazier sits in each corner, burning with a soft red glow.  There is a huge
+fireplace in the northern wall with a large pot over the fire.  In the north-
+eastern corner is a large pile of bones.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16340
+S
+#16342
+Corridor~
+The hallway is partially lit by sconcea at the corners of this
+intersection.  The walls have been covered by vines and fungus from years of
+growth.  The floor stones have turned to a greenish color from the water
+that stands here.  The corridor continues to the south, east and west.  To
+the north is a wooden door. 
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 16343
+D1
+~
+~
+0 0 16344
+D2
+~
+~
+0 0 16369
+D3
+~
+~
+0 0 16339
+S
+#16343
+Empty Bed Room~
+The room is a large square room.  The bed seems to have been untouched
+for years.  The writing desk along the western wall has paper scattered
+across the top of it, along with other various items.  A large chest sits
+on the floor next to the desk.
+~
+0 0 0
+5
+D2
+~
+~
+AB 0 16342
+S
+#16344
+Corridor~
+The hallway is partially lit by sconces on the north and south walls. 
+The walls have been covered by vines and fungus from years of growth.  The
+floor stones have turned to a greenish color from the water that stands
+here.  The corridor continues to the east and west.  There is are wooden
+doors on the north and south sides of the corridor.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 16345
+D1
+~
+~
+0 0 16347
+D2
+~
+~
+AB 0 16375
+D3
+~
+~
+0 0 16342
+S
+#16345
+Small Alcove~
+The walls are covered in wooden planks.  In the center of the room a
+small silver brazier is burning.  The smoke that rises from the brazier is
+reddish.  On the walls are various hides of creatures.  On the ceiling is
+painted an arcane symbol.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 16346
+D2
+~
+~
+AB 0 16344
+S
+#16346
+Priest's Quarters~
+The room is sparsely furniture.  A small wooden bed is along the north
+wall, with a chest at the foot of the bed.  Aganist the southeast wall is a
+small altar with various holy items on it.  On the wall above the altar is a
+tapestry depicting a battle between humans and the inhabitants of this place
+~
+0 0 0
+5
+D3
+~
+~
+0 0 16345
+S
+#16347
+Corridor~
+The hallway is partially lit by two wall sconces on the west wall.  The
+walls have been covered by vines and fungus from years of growth.  The floor
+stones have turned to a greenish color from the water that stands here.  The
+corridor continues to the south, west and a staircase leads upwards to the
+guard tower.  To the east is a wooden door.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 16348
+D2
+~
+~
+0 0 16352
+D3
+~
+~
+0 0 16344
+D4
+~
+~
+0 0 16349
+S
+#16348
+An Altar~
+There is a small wooden and silver altar on the northern wall.  Above the
+altar is a large banner with crude markings.  There are several benches in
+the room in front of the altar.  Along the east wall is a ledge about seven
+feet from the floor, with two small windows above the ledge.  A small
+brazier burning incenses stands in the southeast corner.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 16347
+S
+#16349
+Guard Tower Stairs~
+The hallway is partially lit by sconces on both sides.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  The stairs
+continue to up and back down is the main hall.
+~
+0 0 0
+5
+D4
+~
+~
+0 0 16350
+D5
+~
+~
+0 0 16347
+S
+#16350
+Lower Tower Room~
+You see a circular room, with several narrow opening spaced evenly about
+the outside wall.  The windows extend about from waist height to about head
+height for a normal human.  These are obviously ports from which defenders
+of this castle could fire arrows.  In the center of the room is an iron
+ladder extending from the floor to opening in the ceiling.
+~
+0 0 0
+5
+D4
+~
+~
+0 0 16351
+D5
+~
+~
+0 0 16349
+S
+#16351
+Battlements~
+This area was obviously use for defense.  Several large cauldrons stand
+near the edge of the waist high walls.  Burnt wood can still be seen for
+below the cauldrons.  The remains of a ballista lay here, along with a barrel
+of huge arrows once used for battle.
+~
+0 0 0
+5
+D5
+~
+~
+0 0 16350
+S
+#16352
+Corridor~
+The hallway is partially lit by two wall sconces on the west wall.  The
+walls have been covered by vines and fungus from years of growth.  The floor
+stones have turned to a greenish color from the water that stands here.  The
+corridor continues to the north and south.  To the east is a wooden door. 
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16347
+D1
+~
+~
+AB 0 16353
+D2
+~
+~
+0 0 16354
+S
+#16353
+Abandoned Store Room~
+Boxes are stacked three high against the east wall.  Barrels are along the
+north wall.  A series of shelves line the south wall with various items on
+them.  Trash is scattered all over the floor.  The only source of light the
+room seems to have is the small window high in the east wall.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 16352
+S
+#16354
+Corridor~
+The hallway is partially lit by two wall sconces on the west wall.  The
+walls have been covered by vines and fungus from years of growth.  The floor
+stones have turned to a greenish color from the water that stands here.  The
+corridor continues to the north and south.  To the east is a wooden door.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16352
+D1
+~
+~
+AB 0 16355
+D2
+~
+~
+0 0 16356
+S
+#16355
+Guard Room~
+Apparently this was a barracks for the previous owners of the castle. 
+Now the new occupants have taken it over and are using it for the own usage.
+Various garments lie discarded on the floor.  Weapons and armor hang from
+hooks.  
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 16354
+S
+#16356
+Corridor~
+The hallway is partially lit by two wall sconces on the west wall.  The
+walls have been covered by vines and fungus from years of growth.  The floor
+stones have turned to a greenish color from the water that stands here.  The
+corridor continues to the north and south.  To the east is a wooden door.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16354
+D1
+~
+~
+AB 0 16357
+D2
+~
+~
+0 0 16358
+S
+#16357
+Lair of the Orcish Lord~
+This foul smelling area is litter with trash.  You see the remains of
+what you hope is animal bones piled about knee high in a corner.  There is a
+bed covered in animal fur along the west wall with a chest at the foot of
+it.  A make-shift table is near the head of the bed with a single half burnt
+candle on it.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 16356
+S
+#16358
+Corridor~
+The hallway is partially lit by a sconce on the south wall.  The walls
+have been covered by vines and fungus from years of growth.  The floor
+stones have turned to a greenish color from the water that stands here.  The
+corridor continues to the north and west, while a staircase extend upward to
+the guard tower above.  To the east is an iron door that has strange
+markings scratched on it.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16356
+D1
+~
+~
+AB 0 16359
+D3
+~
+~
+0 0 16363
+D4
+~
+~
+0 0 16360
+S
+#16359
+Abandoned Study~
+Before you the decaying remains of a once well furnished study. Books on the
+ledges are covered in a thick layer of dust. The desk, from old age, has
+collapsed on one side and most of the items have fallen to the floor.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 16358
+S
+#16360
+Guard Tower Corridor~
+The hallway is partially lit by sconces on both sides.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  The stairs
+continue up and back down is the main hall.
+~
+0 0 0
+5
+D4
+~
+~
+0 0 16361
+D5
+~
+~
+0 0 16358
+S
+#16361
+Lower Tower Room~
+You see a circular room, with several narrow opening spaced evenly about
+the outside wall.  The windows extend about from waist height to about head
+height for a normal human.  These are obviously ports from which defenders
+of this castle could fire arrows.  In the center of the room is an iron
+ladder extending from the floor to opening in the ceiling.
+~
+0 0 0
+5
+D4
+~
+~
+0 0 16362
+D5
+~
+~
+0 0 16360
+S
+#16362
+Battlements~
+This area was obviously use for defense.  Several large cauldrons stand
+near the edge of the waist high walls.  Burnt wood can still be seen for
+below the cauldrons.  The remains of a ballista lay here, along with a barrel
+of huge arrows once used for battle.
+~
+0 0 0
+5
+D5
+~
+~
+0 0 16361
+S
+#16363
+Corridor~
+The hallway is partially lit by a sconce on the south wall.  The walls
+have been covered by vines and fungus from years of growth.  The floor
+stones have turned to a greenish color from the water that stands here.  The
+corridor continues to the east and east.  To the north is a wooden door.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16364
+D1
+~
+~
+0 0 16358
+D3
+~
+~
+0 0 16322
+S
+#16364
+Trading Post~
+This room is small and cramped, the walls are lined with weapons and
+armor.  Boxes are stacked in the middle of the room barely giving you room
+to move around them.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 16363
+S
+#16365
+Abandoned Shop~
+The room is in complete disarray.  Old display cabinets have been over-
+turned and shelves have been ripped from the walls.  Various other items
+furniture seem to have been tossed about in here as well.
+~
+0 0 0
+5
+D2
+~
+~
+AB 0 16323
+S
+#16366
+Corridor~
+The hallway is partially lit by sconces on both sides.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  There is a
+wooden door to the north, while the corridor leads off to the south.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 16367
+D2
+~
+~
+0 0 16322
+S
+#16367
+Southern Courtyard~
+You see a grassy courtyard open to the sky.  Strange white flowers have
+began to over-take the courtyard.  A marble statue stands here covered in
+vines and mold.  The garden continues to the north, while two doors lead off
+to the east and the west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16368
+D1
+~
+~
+AB 0 16372
+D2
+~
+~
+AB 0 16366
+D3
+~
+~
+AB 0 16373
+S
+#16368
+Northern Courtyard~
+You see a grassy courtyard open to the sky.  Strange white flowers have
+began to over-take the courtyard.  Before you is a rotting bench that has
+seen years of neglect and looks ready to fall apart at a simple touch.  The
+garden continues to the south, while two doors lead off to the east and the
+west. 
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 16369
+D1
+~
+~
+AB 0 16371
+D2
+~
+~
+0 0 16367
+D3
+~
+~
+AB 0 16370
+S
+#16369
+Corridor~
+The hallway is partially lit by sconces on both sides.  The walls have
+been covered by vines and fungus from years of growth.  The floor stones
+have turned to a greenish color from the water that stands here.  There is a
+wooden door to the south, while the corridor leads off to the north.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 16342
+D2
+~
+~
+AB 0 16368
+S
+#16370
+Private Bedroom~
+This trashed-filled room contains a bed and a cabinet.  A decaying mural
+is hanging above the bed and a small braizer is to the right of the bed. 
+There is a door to the east. 
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 16368
+S
+#16371
+Private Bedroom~
+This trashed-filled room contains a bed and a cabinet.  A decaying mural
+is hanging above the bed.  There is a door to the west, flanked by two small
+windows about seven feet from the floor.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 16368
+S
+#16372
+Throne Room~
+In the center of the room is a huge stone throne upon a dais. 
+Surrounding the throne are several chests, in which treasure can be seen. 
+In each corner of the room is a small statue.  The walls have been painted
+red.  Two windows about seven feet from the floor flank the door to the
+east.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 16367
+S
+#16373
+Store Room~
+The west wall of this room has a ledge about seven feet from the floor. 
+Two small windows flank the door on the east wall.  Except for some
+trash on the floor, the room appears to be empty.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 16367
+S
+#16374
+Bathing Room~
+There are several wooden tubs in the floor, and what looks like a stove
+in the middle of the room.  The floor is covered in algea from the standing
+water while various clothing items can be seen discarded about the room. 
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 16339
+S
+#16375
+Private Bedroom~
+This trashed-filled room contains a bed and a cabinet.  A decaying mural
+is hanging above the bed and a small braizer is to the right of the bed. 
+There is a door to the north.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 16344
+S
+#0
+
+
+
+#SPECIALS
+M 16304 spec_cast_mage
+M 16305 spec_cast_cleric
+S
+
+
+
+#RESETS
+D 0 16317 1 1
+D 0 16317 3 1
+D 0 16318 1 1
+D 0 16320 3 1
+D 0 16323 0 1
+D 0 16328 3 1
+D 0 16329 1 1
+D 0 16330 3 1
+D 0 16331 1 1
+D 0 16332 3 1
+D 0 16333 1 1
+D 0 16334 3 1
+D 0 16335 1 1
+D 0 16339 0 1
+D 0 16339 2 1
+D 0 16340 2 1
+D 0 16342 0 1
+D 0 16343 2 1
+D 0 16344 0 1
+D 0 16344 2 1
+D 0 16345 2 1
+D 0 16347 1 1
+D 0 16348 3 1
+D 0 16352 1 1
+D 0 16353 3 1
+D 0 16354 1 1
+D 0 16355 3 1
+D 0 16356 1 1
+D 0 16357 3 1
+D 0 16358 1 1
+D 0 16359 3 1
+D 0 16365 2 1
+D 0 16366 0 1
+D 0 16367 1 1
+D 0 16367 2 1
+D 0 16367 3 1
+D 0 16368 0 1
+D 0 16368 1 1
+D 0 16368 3 1
+D 0 16369 2 1
+D 0 16370 1 1
+D 0 16371 3 1
+D 0 16372 3 1
+D 0 16373 1 1
+D 0 16374 0 1
+D 0 16375 0 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

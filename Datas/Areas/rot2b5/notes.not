@@ -1,0 +1,104 @@
+Sender  Valar~
+Date    Sun Jan 16 05:07:35 2005~
+Stamp   1105873655
+To      all~
+Subject MCCP and Doors shown on exits{x~
+Text
+MCCP ( Mud Client Compression Protocol ) is now installed.
+
+Doors are now shown on when autoexits are enabled.
+
+~
+Sender  Raven~
+Date    Sun Jan 16 12:51:54 2005~
+Stamp   1105901514
+To      immortal~
+Subject MCCP{x~
+Text
+MCCP is not allowing me to log on normally, so from now on you will see errai coming on then me until this is fixed, thanks.
+
+~
+Sender  Darkblade~
+Date    Sun Jan 16 16:42:42 2005~
+Stamp   1105915362
+To      Immortal~
+Subject Suggestion{x~
+Text
+Ok here's my idea about player interaction as a general rule we should
+
+make it minimal so as not to interfere with players having fun let the
+
+players wander around don't goto them and spell them up or bother them,
+
+unless they ask for help I think we should leave them alone, however in the
+
+first phase of the mud its ok to talk to them in ooc and its not uncool to
+
+talk to them even after we open we just don't want to seem desparate for
+
+players 
+
+just my two cents
+
+~
+Sender  Darkblade~
+Date    Mon Jan 17 19:37:37 2005~
+Stamp   1106012257
+To      Immortal~
+Subject advertising suggestions{x~
+Text
+I need some input from the imms on what they want the advertisements to
+
+say just write on the sign or post a note about it and I'll include it in
+
+the add 
+
+~
+Sender  Irix~
+Date    Tue Jan 18 07:22:31 2005~
+Stamp   1106054551
+To      immortal~
+Subject Class related ACT flags for mobs{x~
+Text
+Morning All-
+
+ 
+
+I was wondering about not having "class" act flags for mobiles and how this might
+
+be handled some other way I am unaware of.  I know previous RoT versions which
+
+used these types of acts, ie act_mage for casting mage type spells, act_warrior for
+
+skills that a warrior would have, but we do not have them here.  Also, will not
+
+having this act bits set affect the spec functions that normally work with them, ie
+
+spec_cast_mage, will the mobs still cast spells without the act flag?  I have a few
+
+mobs in my area that have spec_cast_undead, but they do not seem to cast anything,
+
+but this could be for other reasons I do not know of.  Was just wondering about this.
+
+ 
+
+Have a good one-
+
+ 
+
+Irix
+
+~
+Sender  Rayne~
+Date    Wed Jan 19 15:25:51 2005~
+Stamp   1106169951
+To      immortal~
+Subject Mobs{x~
+Text
+The mobs have stuff on them but are Black, I cant see them
+
+I can just see the [ ]
+
+please change the colors, thanks
+
+~

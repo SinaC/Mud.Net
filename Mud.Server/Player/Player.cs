@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using Mud.Container;
@@ -8,35 +9,39 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
-using Mud.Server.Blueprints.Quest;
-using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Common;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Admin;
+using Mud.Common;
 
 namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => GetCommands<Player>());
+        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Player>);
 
         private readonly List<string> _delayedTells;
-        private readonly List<CharacterData> _avatarList;
+        private readonly List<PlayableCharacterData> _avatarList;
+        private readonly Dictionary<string, string> _aliases;
 
-        protected readonly Dictionary<string, string> _aliases;
         protected IInputTrap<IPlayer> CurrentStateMachine;
         protected bool DeletionConfirmationNeeded;
 
+        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
-        protected ITimeHandler TimeHandler => DependencyContainer.Current.GetInstance<ITimeHandler>();
+        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
 
         protected Player()
         {
             PlayerState = PlayerStates.Loading;
 
             _delayedTells = new List<string>();
-            _avatarList = new List<CharacterData>();
+            _avatarList = new List<PlayableCharacterData>();
             _aliases = new Dictionary<string, string>();
 
             CurrentStateMachine = null;
@@ -52,10 +57,10 @@ namespace Mud.Server.Player
         }
 
         // Used for promotion
-        public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<CharacterData> avatarList) : this(id, name)
+        public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList) : this(id, name)
         {
             _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>();
-            _avatarList = avatarList?.ToList() ?? new List<CharacterData>();
+            _avatarList = avatarList?.ToList() ?? new List<PlayableCharacterData>();
         }
 
         #region IPlayer
@@ -94,7 +99,12 @@ namespace Mud.Server.Player
                 }
 
                 // Extract command and parameters
-                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(Aliases, commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
+                bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(
+                    isForceOutOfGame => isForceOutOfGame || Impersonating == null 
+                        ? Aliases
+                        : Impersonating?.Aliases,
+                    commandLine,
+                    out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -105,38 +115,6 @@ namespace Mud.Server.Player
                 // Execute command
                 return InnerExecuteCommand(commandLine, command, rawParameters, parameters, forceOutOfGame);
             }
-        }
-
-        public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            if (methodInfo.Attribute is PlayerCommandAttribute playerCommandAttribute)
-            {
-                if (playerCommandAttribute.MustBeImpersonated && Impersonating == null)
-                {
-                    Send($"You must be impersonated to use '{playerCommandAttribute.Name}'.");
-                    return false;
-                }
-
-                if (playerCommandAttribute.CannotBeImpersonated && Impersonating != null)
-                {
-                    Send($"You cannot be impersonated to use '{playerCommandAttribute.Name}'.");
-                    return false;
-                }
-            }
-            if (IsAfk && methodInfo.Attribute.Name != "afk")
-            {
-                Send("%G%AFK%x% removed.");
-                Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
-                IsAfk = !IsAfk;
-                return true;
-            }
-            bool baseExecuteBeforeCommandResult = base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
-            if (baseExecuteBeforeCommandResult && methodInfo.Attribute.Name != "delete")
-            {
-                // once another command then 'delete' is used, reset deletion confirmation
-                DeletionConfirmationNeeded = false;
-            }
-            return baseExecuteBeforeCommandResult;
         }
 
         public override void Send(string message, bool addTrailingNewLine)
@@ -190,7 +168,7 @@ namespace Mud.Server.Player
 
         public IPlayableCharacter Impersonating { get; private set; }
 
-        public IEnumerable<CharacterData> Avatars => _avatarList;
+        public IEnumerable<PlayableCharacterData> Avatars => _avatarList;
 
         public IReadOnlyDictionary<string, string> Aliases => _aliases;
 
@@ -264,14 +242,14 @@ namespace Mud.Server.Player
             SnoopBy = snooper;
         }
 
-        public void AddAvatar(CharacterData characterData)
+        public void AddAvatar(PlayableCharacterData playableCharacterData)
         {
-            _avatarList.Add(characterData);
+            _avatarList.Add(playableCharacterData);
         }
 
         public void StopImpersonating()
         {
-            Impersonating?.ChangeImpersonation(null);
+            Impersonating?.StopImpersonation();
             World.RemoveCharacter(Impersonating); // extract avatar  TODO: linkdead instead of RemoveCharacter ?
             Impersonating = null;
             PlayerState = PlayerStates.Playing;
@@ -315,6 +293,42 @@ namespace Mud.Server.Player
 
         #endregion
 
+        #region ActorBase
+
+        protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (methodInfo.Attribute is PlayerCommandAttribute playerCommandAttribute)
+            {
+                if (playerCommandAttribute.MustBeImpersonated && Impersonating == null)
+                {
+                    Send($"You must be impersonated to use '{playerCommandAttribute.Name}'.");
+                    return false;
+                }
+
+                if (playerCommandAttribute.CannotBeImpersonated && Impersonating != null)
+                {
+                    Send($"You cannot be impersonated to use '{playerCommandAttribute.Name}'.");
+                    return false;
+                }
+            }
+            if (IsAfk && methodInfo.Attribute.Name != "afk")
+            {
+                Send("%G%AFK%x% removed.");
+                Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
+                IsAfk = !IsAfk;
+                return true;
+            }
+            bool baseExecuteBeforeCommandResult = base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
+            if (baseExecuteBeforeCommandResult && methodInfo.Attribute.Name != "delete")
+            {
+                // once another command then 'delete' is used, reset deletion confirmation
+                DeletionConfirmationNeeded = false;
+            }
+            return baseExecuteBeforeCommandResult;
+        }
+
+        #endregion
+
         protected virtual bool InnerExecuteCommand(string commandLine, string command, string rawParameters, CommandParameter[] parameters, bool forceOutOfGame)
         {
             // Execute command
@@ -331,7 +345,7 @@ namespace Mud.Server.Player
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating", DisplayName);
+                Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating", WiznetFlags.Bugs, AdminLevels.Implementor);
                 executedSuccessfully = false;
             }
             if (!executedSuccessfully)
@@ -342,12 +356,13 @@ namespace Mud.Server.Player
         protected string BuildCharacterPrompt(IPlayableCharacter character) // TODO: custom prompt defined by player
         {
             StringBuilder sb = new StringBuilder("<");
-            sb.Append($"{character.HitPoints}/{character[SecondaryAttributeTypes.MaxHitPoints]}Hp");
+            sb.Append($"{character.HitPoints}/{character.MaxHitPoints}Hp");
+            sb.Append($" {character.MovePoints}/{character.MaxMovePoints}Mv");
             foreach (ResourceKinds resourceKinds in character.CurrentResourceKinds)
-                sb.Append($" {character[resourceKinds]}/{character.GetMaxResource(resourceKinds)}{resourceKinds}");
+                sb.Append($" {character[resourceKinds]}/{character.MaxResource(resourceKinds)}{resourceKinds}");
             sb.Append($" {character.ExperienceToLevel}Nxt");
             if (character.Fighting != null)
-                sb.Append($" {(int)(100d*character.Fighting.HitPoints/character.Fighting[SecondaryAttributeTypes.MaxHitPoints])}%");
+                sb.Append($" {((100*character.Fighting.HitPoints)/character.Fighting.MaxHitPoints)}%");
             sb.Append(">");
             return sb.ToString();
         }
@@ -357,16 +372,16 @@ namespace Mud.Server.Player
             PagingLineCount = data.PagingLineCount;
             _aliases.Clear();
             _avatarList.Clear();
-            if (data?.Aliases != null)
+            if (data.Aliases != null)
             {
                 foreach (KeyValuePair<string, string> alias in data.Aliases)
                     _aliases.Add(alias.Key, alias.Value);
             }
 
-            if (data?.Characters != null)
+            if (data.Characters != null)
             {
-                foreach (CharacterData characterData in data.Characters)
-                    _avatarList.Add(characterData);
+                foreach (PlayableCharacterData playableCharacterData in data.Characters)
+                    _avatarList.Add(playableCharacterData);
             }
         }
 
@@ -375,7 +390,7 @@ namespace Mud.Server.Player
             data.Name = Name;
             data.PagingLineCount = PagingLineCount;
             data.Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value);
-            // TODO: copy from Impersonated to CharacterData
+            // TODO: copy from Impersonated to PlayableCharacterData
             data.Characters = _avatarList.ToArray();
         }
 
@@ -386,34 +401,44 @@ namespace Mud.Server.Player
                 Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated while not impersonated.");
                 return;
             }
-            int index = _avatarList.FindIndex(x => FindHelpers.StringEquals(x.Name, Impersonating.Name));
+            int index = _avatarList.FindIndex(x => StringCompareHelpers.StringEquals(x.Name, Impersonating.Name));
             if (index < 0)
             {
-                Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated: unknown avatar {0} for player {1}", Impersonating.Name, DisplayName);
+                Wiznet.Wiznet($"UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.DebugName} for player {DisplayName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return;
             }
 
-            CharacterData updatedCharacterData = Impersonating.MapCharacterData();
+            PlayableCharacterData updatedCharacterData = Impersonating.MapPlayableCharacterData();
             _avatarList[index] = updatedCharacterData; // replace with new character data
         }
 
         [Command("test", "!!Test!!")]
+        [SuppressMessage("ReSharper", "UnusedMember.Global")]
         protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Impersonating != null)
-            {
-                // Add quest to impersonated character is any
-                QuestBlueprint questBlueprint1 = World.GetQuestBlueprint(1);
-                QuestBlueprint questBlueprint2 = World.GetQuestBlueprint(2);
-                INonPlayableCharacter questor = World.NonPlayableCharacters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
-
-                IQuest quest1 = new Quest.Quest(questBlueprint1, Impersonating, questor);
-                Impersonating.AddQuest(quest1);
-                IQuest quest2 = new Quest.Quest(questBlueprint2, Impersonating, questor);
-                Impersonating.AddQuest(quest2);
-            }
+            TableGenerator<Tuple<string,string,int>> generator = new TableGenerator<Tuple<string, string, int>>();
+            generator.AddColumn("Header1", 10, tuple => tuple.Item1);
+            generator.AddColumn("Header2", 15, tuple => tuple.Item2);
+            generator.AddColumn("Header3", 8, tuple => tuple.Item3.ToString());
+            StringBuilder sb = generator.Generate("Test column duplicate", 3, Enumerable.Range(0, 50).Select(x => new Tuple<string, string, int>("Value1_" + x.ToString(), "Value2_" + (50 - x).ToString(), x)));
+            Send(sb);
 
             return true;
+
+            //if (Impersonating != null)
+            //{
+            //    // Add quest to impersonated character is any
+            //    QuestBlueprint questBlueprint1 = World.GetQuestBlueprint(1);
+            //    QuestBlueprint questBlueprint2 = World.GetQuestBlueprint(2);
+            //    INonPlayableCharacter questor = World.NonPlayableCharacters.FirstOrDefault(x => x.Name.ToLowerInvariant().Contains("questor"));
+
+            //    IQuest quest1 = new Quest.Quest(questBlueprint1, Impersonating, questor);
+            //    Impersonating.AddQuest(quest1);
+            //    IQuest quest2 = new Quest.Quest(questBlueprint2, Impersonating, questor);
+            //    Impersonating.AddQuest(quest2);
+            //}
+
+            //return true;
 
             //IQuest quest1 = new Quest.Quest(questBlueprint1, mob1, mob2);
             //mob1.AddQuest(quest1);

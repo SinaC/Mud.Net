@@ -1,0 +1,146 @@
+#AREADATA
+Name Dreams~
+Builders None~
+VNUMs 30000 30299
+Credits [CLOSE] Rot     TBA~
+Security 9
+End
+
+#MOBILES
+#0
+
+
+
+#OBJECTS
+#30000
+dream sword~
+Sword of {WD{0reams~
+A sharp sword is here.~
+steel~
+weapon A AN
+sword 1 5 slice D
+1 10 5 P
+#30001
+dream dagger~
+Dagger of {WD{0reams~
+A sharp dagger is here.~
+steel~
+weapon A AN
+dagger 1 5 pierce D
+1 10 5 P
+#30002
+golden feather~
+a golden feather~
+A beautiful golden feather is here.~
+steel~
+jewelry 0 AE
+0 0 0 0 0
+1 1 5 P
+#30003
+smelly vial potion~
+a smelly potion~
+A smelly vial is here.~
+glass~
+potion 0 A
+40 'blindness' 'energy drain' 'faerie fire' ''
+1 1 5 P
+#30004
+sparks~
+some sparks~
+You see some sparks.~
+glass~
+light A AO
+0 0 CFG 0 0
+1 1 5 P
+#30005
+glaring apple~
+a glaring apple~
+A glaring apple is glaring at you.~
+food~
+food 0 A
+3 4 0 0 0
+1 1 5 P
+#30006
+buzzing alien~
+a buzzing alien~
+A buzzing alien is buzzing here.~
+stone~
+trash B 0
+0 0 0 0 0
+1 1 5 P
+#30007
+small charm~
+a small charm~
+You see a small charm.~
+gold~
+jewelry A AC
+0 0 0 0 0
+1 1 5 P
+#30008
+flower petals~
+hundreds of flower petals~
+Hundreds of flower petals lie here.~
+silk~
+trash A 0
+0 0 0 0 0
+1 1 5 P
+#0
+
+
+
+#ROOMS
+#30000
+A labyrinth~
+You are in a labyrinth of pipes and gears. All around you, you hear
+clanks, bangs, and the rattle of chains.  You smell the oil used to lubricate
+the gears.
+~
+0 8 1
+D0
+~
+~
+0 -1 30000
+D1
+~
+~
+0 -1 30000
+D2
+~
+~
+0 -1 30000
+D3
+~
+~
+0 -1 30000
+D4
+~
+~
+0 -1 30000
+D5
+~
+~
+0 -1 30000
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+S
+
+
+
+#SHOPS
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

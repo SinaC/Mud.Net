@@ -1,0 +1,758 @@
+#AREADATA
+Name Palace of Tulqurin~
+Builders Aamirez~
+VNUMs 23051 23101
+Credits [CLOSE] Aamrez  TBA~
+Security 9
+End
+
+#MOBILES
+#23051
+wyvern sea~
+{&A Sea Wyvern{0~
+{&A Sea Wyvern stands here, {Bgnashing{0 his teeth aggressivly.{0
+~
+~
+wyvern~
+ACFG A FH AGZ 0 0
+102 102 210d35+2061 102d11+95 35d2+75 bite
+-63 -63 -63 -43
+LP K S H
+stand stand male 0
+FVa D medium unknown
+F aff C
+F shd B
+F for ACDEHJKQX
+#23052
+shark~
+{BA {&s{Bh{&a{Br{&k{0~
+{&A s{Bh{&a{Br{&k{& swims around here looking for prey.
+~
+~
+water fowl~
+AG A CDFH AGHMVW 0 0
+102 102 210d35+2061 102d11+95 35d2+75 bite
+-63 -63 -63 -43
+DLMP R S 0
+stand stand male 0
+ACDEFHJKPQVXa A medium unknown
+#23053
+shopkeeper~
+{8A shadowy figure{0~
+{8A shadow moves around in the mist.{0
+~
+~
+human~
+ABO A DFJZac AHMV -1000 0
+10 0 1d1+30000 0d0+0 1d1+15000 stab
+-100 -100 -100 -100
+BEFKN CD 0 0
+stand stand none 0
+0 0 giant unknown
+F for ABCDEFGHIJK
+#23054
+ghost elite guard~
+{DThe {Wghost of {Dan Eli{Wte Gu{Dard{W{0~
+{DThe {Wghost of {Dan Eli{Wte Gu{Dard{W stands here, guarding the palace.{0
+~
+~
+human~
+AB A a AHMV -340 0
+102 102 210d35+2061 102d11+95 35d2+75 slash
+-63 -63 -63 -43
+N 0 0 0
+stand stand none 200
+0 0 large unknown
+F for ABCDEFGHIJK
+#23055
+ghost mage injif~
+{WThe gh{Dost of {RInjif{W, the {RTul{rqurin{W Wizard{0~
+{WThe gh{Dost of {RInjif{W, the {RTul{rqurin{W Wizard is floating here.{0
+~
+~
+human~
+ACFG A T H -1000 0
+83 83 171d28+1677 83d11+95 28d2+62 sting
+-50 -50 -50 -33
+A 0 C H
+stand stand none 0
+0 BD medium unknown
+F shd AMV
+F for ABCDEFGHIJK
+#23056
+etheral shadow~
+{DA{Wn {DEth{Weral {DSha{Wdow{0~
+{DA{Wn {DEth{Weral {DSha{Wdow floats here.{0
+~
+~
+titan~
+AG A DTZ C -400 0
+102 102 205d34+1855 102d9+60 32d3+51 none
+-55 -55 -55 -34
+BP 0 I 0
+stand stand none 0
+ABCDEFGHIJK D medium unknown
+F shd AHMV
+F imm D
+#0
+
+
+
+#OBJECTS
+#23051
+potion shield~
+{!A {8d{ra{8r{rk {8p{!o{rt{8i{!o{rn{0~
+{!A {8d{ra{8r{rk {8p{!o{rt{8i{!o{rn {!lies here.{0~
+unknown~
+potion AGUY AO
+101 'fireshield' 'iceshield' 'sanctuary' 'shockshield'
+75 0 7000 P
+#23052
+wand firebreath~
+{!A Wand of {!Fir{rebr{!eath{0~
+{!A Wand of {!Fir{rebr{!eath {rlies here.{0~
+wood~
+wand ABGHPUYZ AO
+101 10 10 'fire breath' 0
+75 5 15000 P
+#23053
+pill healing~
+{ra pill of {!heal{ring{0~
+{ra pill of {!heal{ring lies here.{0~
+unknown~
+pill HPY A
+101 'heal' 'refresh' 'heal' 'restore mana'
+75 5 10000 P
+#23054
+sword elite tulqurian~
+{WSwo{Drd of the {RTulqur{rinian {WGuard{0~
+{&A large {8sword{& lies here, raditating magic.{0~
+steel~
+weapon A AN
+sword 11 12 slash EF
+101 102 5800 P
+A
+18 9
+A
+19 9
+#23055
+cloak magician tulqurinian~
+{WClo{Dak of the {RTulqur{rinian {WWizard{0~
+{8A Cloa{&k lies here glowing magically.{0~
+magical cloth~
+armor AB AK
+ACF ACF ACF CF 0
+101 102 97 P
+A
+18 10
+A
+19 25
+A
+3 4
+A
+9 100
+#23056
+leg tulqurin shadow~
+{WTulqur{Rin Sha{Ddow Legg{Wings{0~
+A pair of leg bracers lay here on the ground, glowing menacingly.~
+etheral~
+armor A AF
+ACF ACF ACF CF 0
+101 102 97 P
+A
+3 1
+A
+2 2
+A
+13 1000
+A
+12 300
+A
+1 1
+#23057
+headless corpse~
+{RA headless corpse{x~
+{RA headless corpse lies strewn across the floor.{x~
+unknown~
+container 0 P
+0 0 0 0 0
+75 0 0 P
+#0
+
+
+
+#ROOMS
+#23051
+{&Floating on the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 0 6
+D0
+~
+~
+0 0 23057
+D5
+~
+~
+0 0 23052
+S
+#23052
+{&Diving into the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 1 6
+D2
+~
+~
+0 0 23055
+D3
+~
+~
+0 0 23057
+D4
+~
+~
+0 0 23051
+D5
+~
+~
+0 0 23053
+S
+#23053
+{&Floating within the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 1 6
+D0
+~
+~
+0 0 23054
+D1
+~
+~
+0 0 23055
+D2
+~
+~
+0 0 23057
+D3
+~
+~
+0 0 23056
+D4
+~
+~
+0 0 23052
+D5
+~
+~
+0 0 23058
+S
+#23054
+{&Floating within the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 1 6
+D2
+~
+~
+0 0 23053
+D4
+~
+~
+0 0 23055
+S
+#23055
+{&Floating within the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 1 6
+D0
+~
+~
+0 0 23052
+D3
+~
+~
+0 0 23053
+D5
+~
+~
+0 0 23054
+S
+#23056
+{&Floating within the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 1 6
+D1
+~
+~
+0 0 23053
+S
+#23057
+{&Floating within the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 1 6
+D0
+~
+~
+0 0 23053
+D1
+~
+~
+0 0 23052
+D2
+~
+~
+0 0 23051
+S
+#23058
+{&The Floor of the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 1 6
+D0
+~
+~
+0 0 23059
+D2
+~
+~
+0 0 23060
+D4
+~
+~
+0 0 23053
+S
+#23059
+{&The Floor of the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 1 6
+D0
+~
+~
+0 0 23061
+D2
+~
+~
+0 0 23058
+S
+#23060
+{&The Floor of the {BT{&u{Bl{&m{Ba{&i{Bn{&i{Ba{&n{0 {&Ocean{0~
+~
+0 1 6
+D0
+~
+~
+0 0 23058
+S
+#23061
+{rPlane of {!Tul{&qur{!in {&={B-{&- [{B:{b:{&In the Mist{b:{B:{&]{0~
+~
+0 4 0
+D0
+~
+~
+0 0 23062
+D2
+~
+~
+0 0 23071
+S
+#23062
+{rPlane of {!Tul{&qur{!in {&={B-{&- [{B:{b:{&In the Mist{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23063
+D2
+~
+~
+0 0 23061
+D3
+~
+~
+0 0 23066
+S
+#23063
+{rPlane of {!Tul{&qur{!in {&={B-{&- [{B:{b:{&In the Mist{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23065
+D1
+~
+~
+0 0 23064
+D2
+~
+~
+0 0 23062
+D3
+~
+~
+0 0 23065
+D5
+~
+~
+0 0 23064
+S
+#23064
+{rPlane of {!Tul{&qur{!in {&={B-{&- [{B:{b:{&Blackmarket{b:{B:{&]{0~
+~
+0 8192 0
+D0
+~
+~
+0 0 23064
+D2
+~
+~
+0 0 23064
+D3
+~
+~
+0 0 23063
+D4
+~
+~
+0 0 23063
+S
+#23065
+{rPlane of {!Tul{&qur{!in {&={B-{&- [{B:{b:{&In the Mist{b:{B:{&]{0~
+~
+0 1 0
+D0
+~
+~
+0 0 23066
+D1
+~
+~
+0 0 23063
+D2
+~
+~
+0 0 23063
+S
+#23066
+{rBefore the sunken {&Pa{!la{rce of {!Tul{&qur{!in{0~
+~
+0 5 0
+D0
+~
+~
+0 0 23067
+D1
+~
+~
+0 0 23062
+D2
+~
+~
+0 0 23065
+S
+#23067
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Anteroom{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23068
+D2
+~
+~
+0 0 23066
+S
+#23068
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Ballroom{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23069
+D1
+~
+~
+0 0 23072
+D2
+~
+~
+0 0 23067
+S
+#23069
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Staircase{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23076
+D2
+~
+~
+0 0 23068
+D4
+~
+~
+0 0 23070
+S
+#23070
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Broken Stairs{b:{B:{&]{0~
+~
+0 0 0
+D1
+~
+~
+0 0 23071
+D5
+~
+~
+0 0 23069
+S
+#23071
+{rPlane of {!Tul{&qur{!in {&={B-{&- [{B:{b:{&In the Mist{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23061
+D1
+~
+~
+0 0 23065
+S
+#23072
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Hallway{b:{B:{&]{0~
+~
+0 0 0
+D1
+~
+~
+0 0 23074
+D2
+~
+~
+0 0 23073
+D3
+~
+~
+0 0 23068
+S
+#23073
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Guest Room{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23072
+S
+#23074
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Throne Room{b:{B:{&]{0~
+~
+0 0 0
+D2
+~
+~
+0 0 23075
+D3
+~
+~
+0 0 23072
+S
+#23075
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Servant Room{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23074
+S
+#23076
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Courtyard{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23077
+D1
+~
+~
+0 0 23078
+D2
+~
+~
+0 0 23069
+D3
+~
+~
+0 0 23082
+D5
+~
+~
+0 0 23083
+S
+#23077
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Torture Room{b:{B:{&]{0~
+~
+0 0 0
+D1
+~
+~
+0 0 23084
+D2
+~
+~
+0 0 23076
+S
+#23078
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Hallway{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23080
+D1
+~
+~
+0 0 23079
+D2
+~
+~
+0 0 23085
+D3
+~
+~
+0 0 23076
+S
+#23079
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Training Room{b:{B:{&]{0~
+~
+0 0 0
+D3
+~
+~
+0 0 23078
+S
+#23080
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Watchtower{b:{B:{&]{0~
+~
+0 0 0
+D2
+~
+~
+0 0 23078
+D4
+~
+~
+0 0 23081
+S
+#23081
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Watchtower{b:{B:{&]{0~
+~
+0 0 0
+D5
+~
+~
+0 0 23080
+S
+#23082
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Armory{b:{B:{&]{0~
+~
+0 0 0
+D1
+~
+~
+0 0 23076
+S
+#23083
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Durdam's Pit{b:{B:{&]{0~
+~
+0 0 0
+D4
+~
+~
+0 0 23076
+S
+#23084
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Death Warden{b:{B:{&]{0~
+~
+0 0 0
+D3
+~
+~
+0 0 23077
+S
+#23085
+{&Pa{!la{rce of {!Tul{&qur{!in{B {&={B-{&= {&[{B:{b:{&Iln's Chamber{b:{B:{&]{0~
+~
+0 0 0
+D0
+~
+~
+0 0 23078
+S
+#0
+
+
+
+#SPECIALS
+M 23055 spec_cast_mage
+S
+
+
+
+#RESETS
+M 0 23051 20 23051 2
+M 0 23052 20 23051 2
+M 0 23051 20 23052 2
+M 0 23052 20 23052 2
+M 0 23051 20 23053 2
+M 0 23052 20 23053 2
+M 0 23051 20 23053 2
+M 0 23051 20 23057 2
+M 0 23051 20 23058 2
+M 0 23052 20 23058 2
+M 0 23051 20 23058 2
+M 0 23051 20 23059 2
+M 0 23052 20 23059 2
+M 0 23051 20 23059 2
+M 0 23052 20 23060 2
+M 0 23051 20 23060 2
+M 0 23051 20 23060 2
+M 0 23056 5 23061 5
+M 0 23056 5 23062 5
+M 0 23056 5 23063 5
+E 0 23056 0 7
+M 0 23053 1 23064 1
+G 0 23051 0
+G 0 23052 0
+G 0 23053 0
+M 0 23056 5 23064 5
+M 0 23056 5 23065 5
+E 0 23056 0 7
+M 0 23054 1 23067 1
+E 0 23054 0 16
+M 0 23055 1 23068 1
+E 0 23055 0 12
+M 0 23056 5 23069 5
+E 0 23056 0 7
+S
+
+
+
+#SHOPS
+23053 0 4 3 10 5 100 10 0 23
+0
+
+
+
+#MOBPROGS
+#0
+
+#$

@@ -1,12 +1,17 @@
 ﻿using System.Linq;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Player;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [Command("force", "Punish")]
+        [AdminCommand("force", "Punish")]
         [Syntax(
             "[cmd] <character> <command>",
             "[cmd] all <command>")]
@@ -27,7 +32,7 @@ namespace Mud.Server.Admin
                 Send("You force everyone to '{1}'.", command);
                 Wiznet.Wiznet($"{DisplayName} forces everyone to {command}", Domain.WiznetFlags.Punish);
 
-                foreach (ICharacter victimLoop in World.Characters.Where(x => x != this))
+                foreach (ICharacter victimLoop in World.Characters.Where(x => x != Impersonating))
                 {
                     victimLoop.Send("{0} forces you to '{1}'.", DisplayName, command);
                     victimLoop.ProcessCommand(command);
@@ -57,7 +62,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("addlag", "Punish")]
+        [AdminCommand("addlag", "Punish")]
         [Syntax("[cmd] <player name> <tick>")]
 
         protected virtual CommandExecutionResults DoAddLag(string rawParameters, params CommandParameter[] parameters)
@@ -93,7 +98,7 @@ namespace Mud.Server.Admin
             return CommandExecutionResults.Ok;
         }
 
-        [Command("snoop", "Punish")]
+        [AdminCommand("snoop", "Punish")]
         [Syntax("[cmd] <player name>")]
         protected virtual CommandExecutionResults DoSnoop(string rawParameters, params CommandParameter[] parameters)
         {

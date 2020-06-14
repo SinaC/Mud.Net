@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Mud.Container;
 using Mud.Settings;
 using System.IO;
 using System.Xml.Serialization;
@@ -8,8 +7,14 @@ namespace Mud.Repository.Filesystem.Common
 {
     public abstract class RepositoryBase
     {
-        protected IMapper Mapper => DependencyContainer.Current.GetInstance<IMapper>();
-        protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
+        protected IMapper Mapper { get; }
+        protected ISettings Settings { get; }
+
+        public RepositoryBase(IMapper mapper, ISettings settings)
+        {
+            Mapper = mapper;
+            Settings = settings;
+        }
 
         protected T Load<T>(string filename)
         {

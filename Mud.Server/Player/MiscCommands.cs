@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mud.Domain;
-using Mud.Logger;
+using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Character;
+// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Player
 {
@@ -87,8 +89,7 @@ namespace Mud.Server.Player
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             string alias = parameters[0].Value.ToLowerInvariant().Trim();
-            string cmd;
-            if (Aliases.TryGetValue(alias, out cmd))
+            if (Aliases.TryGetValue(alias, out _))
             {
                 _aliases.Remove(alias);
                 Send("Alias removed.");
@@ -118,7 +119,7 @@ namespace Mud.Server.Player
             bool saved = Save();
             if (saved)
             {
-                Send("Saved");
+                Send("Saving. Remember that ROM has automatic saving now.");
                 return CommandExecutionResults.Ok;
             }
             
@@ -178,7 +179,7 @@ namespace Mud.Server.Player
             if (!LoginRepository.CheckPassword(Name, parameters[0].Value))
             {
                 Send("Wrong password. Wait 10 seconds.");
-                SetGlobalCooldown(10* Settings.PulsePerSeconds);
+                SetGlobalCooldown(10* Pulse.PulsePerSeconds);
                 return CommandExecutionResults.InvalidParameter;
             }
             if (parameters[1].Value.Length < 5)
@@ -214,7 +215,7 @@ namespace Mud.Server.Player
             if (!LoginRepository.CheckPassword(Name, parameters[0].Value))
             {
                 Send("Wrong password. Wait 10 seconds.");
-                SetGlobalCooldown(10 * Settings.PulsePerSeconds);
+                SetGlobalCooldown(10 * Pulse.PulsePerSeconds);
                 return CommandExecutionResults.InvalidParameter;
             }
 
@@ -241,9 +242,7 @@ namespace Mud.Server.Player
                 Send("Report which bug?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-            string msg = $"****USER BUG REPORTING -- {DisplayName}: {rawParameters}";
-            Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
-            Wiznet.Wiznet(msg, WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Wiznet($"****USER BUG REPORTING -- {DisplayName}: {rawParameters}", WiznetFlags.Bugs, AdminLevels.Implementor);
             Send("Bug logged.");
             return CommandExecutionResults.Ok;
         }
@@ -257,9 +256,7 @@ namespace Mud.Server.Player
                 Send("Report which typo?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-            string msg = $"****USER TYPO REPORTING -- {DisplayName}: {rawParameters}";
-            Log.Default.WriteLine(LogLevels.Warning, msg); // TODO: specific log file ?
-            Wiznet.Wiznet(msg, WiznetFlags.Typos);
+            Wiznet.Wiznet($"****USER TYPO REPORTING -- {DisplayName}: {rawParameters}", WiznetFlags.Typos);
             Send("Typo logged.");
             return CommandExecutionResults.Ok;
         }

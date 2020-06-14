@@ -1,0 +1,6430 @@
+#AREADATA
+Name Kastalia~
+Builders Sinac~
+VNUMs 15000 15299
+Credits {{75 100} Syntha  Kastalia~
+Security 5
+Flags 0
+End
+
+
+
+#MOBILES
+#15000
+gardener~
+a gardener~
+A gardener works here, quietly tending to the plants.
+~
+The hands of this gardener are caked with dirt, as is much of the exposed
+skin.  They smile kindly at you, however, and move so that they are not
+blocking your path.  With a bit of a stooped back from constant bending
+over, this gardener still looks quite sturdy and healthy.  Tanned skin
+stretches in a few wrinkles from the sun.
+~
+human~
+0
+A 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 beating
+-45 -45 -45 -30
+0 0 0 0
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+#15001
+bear~
+a topiary bear~
+A bear trimmed of lush greenery seems to growl.
+~
+Healthy and green this topiary stands tall and powerful, gleaming a bit
+in the light.
+~
+bear~
+0
+ABT 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+DEOW 0 EI 0
+stand stand none 0
+AGHMV ABCDEFGHIJKUV medium unknown
+#15002
+topiary deer~
+a topiary deer~
+A delicate deer trimmed of lush greenery stands here.
+~
+This topiary is trimmed to be the exact image of a gentle doe, with its
+head cocked slightly to one side as if in curiosity.
+~
+unique~
+0
+AB 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#15003
+topiary jaguar~
+a topiary jaguar~
+A jaguar trimmed of lush greenery stands poised to pounce.
+~
+Utterly realistic and powerful looking, this jaguar even has teeth of
+thick thorns.
+~
+cat~
+0
+A Z 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+FHW 0 0 0
+stand stand none 0
+AGHMV ABCDEFGHIJKQUV medium unknown
+#15004
+falcon topiary~
+a topiary falcon~
+A falcon trimmed of lush greenery soars here.
+~
+Soaring over the pedestal, this sculpture of shrubbery somehow balances
+on a sturdy stem that seems whisper thin.  The leaves that form the feathers
+seem to shake slightly on the breeze.
+~
+song bird~
+0
+AB T 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+FH 0 0 0
+stand stand none 0
+AGHMVW ABCDEFGHIJKP medium unknown
+#15005
+topiary stallion~
+a topiary stallion~
+A powerful stallion trimmed of lush greenery stands here.
+~
+Formed of healthy green shrubbery, this stallion rears up on its hind
+legs, immortalized in this frozen pose of mastery.  It looks as if it could
+leap off the pedastal at any second.
+~
+horse~
+0
+AB 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+CI 0 0 0
+stand stand none 0
+AGHMV ABCDEFGHIJK medium unknown
+#15006
+elderly gardener~
+an elderly gardener~
+An elderly gardener moves about the lawns.
+~
+Though elderly, and stooping with age, the gleam of wisdom in this man's
+eyes show him to be quite the master at what he does.  The light that shines
+in his eyes as he gazes at the plants seems almost magical, and he carries
+the bearing of pride in his work.
+~
+human~
+0
+AH 0 0 0 500 0
+80 85 50d11+12780 80d11+110 80d11+110 7d10+52 thwack
+-56 -56 -56 -37
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#15007
+topiary antelope~
+a topiary antelope~
+An antelope trimmed of lush greenery stands here.
+~
+Graceful and delicate, this antelope appears that it could drop its head
+at any moment to graze on its own green, healthy leaves.
+~
+unique~
+0
+AB 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#15008
+topiary centaur~
+a topiary centaur~
+A centaur trimmed of lush greenery stands here.
+~
+Standing with a bow hanging at his side, this centaur seems poised and
+ever watchful.  The leaves and branches of his body seem healthy and overly
+lush.
+~
+centaur~
+0
+AB 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+H 0 E P
+stand stand none 0
+AHMNVd ABCDEFGHIJK medium unknown
+#15009
+topiary knight~
+a topiary knight~
+A knight trimmed of lush greenery stands here.
+~
+Healthy and lush, the shrub forming this grand knight seems to twine
+artfully into the image of perfection.  Were it not for the pedestal and
+leaves, it would look ready to step out and greet you.
+~
+human~
+0
+AB 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK medium unknown
+#15010
+topiary pixie~
+a topiary pixie~
+A tiny pixie trimmed of lush greenery stands here.
+~
+Though trimmed of shrubbery, this delicate pixie seems as though it is
+ready to fly up off of the pedestal.  The breeze brushing the branches makes
+it look as if it were giggling.
+~
+human~
+0
+AB 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+0 0 0 0
+stand stand none 0
+AHMV ABCDEFGHIJK small unknown
+#15011
+dragon topiary~
+a topiary dragon~
+A powerful dragon trimmed of lush greenery stands here.
+~
+Wings stretched wide, this is just a baby dragon, but it appears
+extremely lifelike in the artistry of the trimming.
+~
+dragon~
+0
+AB JT 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+0 0 BEH FI
+stand stand none 0
+AHMVZ ABCDEFGHIJKPQUVX medium unknown
+#15012
+minotaur topiary~
+a topiary minotaur~
+A minotaur trimmed of lush greenery stands here.
+~
+Bold and arrogant in its bearing, this regal looking minotaur is formed
+of the finest, healthiest shrubs.  It looks entirely real, and ready to
+slowly step from its pedastal.
+~
+minotaur~
+0
+AB 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+0 0 E 0
+stand stand none 0
+AHMVd ABCDEFGHIJKW medium unknown
+#15013
+fishing boy~
+a fishing boy~
+A boy sits at the water's edge, his fishing line dangling into the water.
+~
+He has wide blue eyes and tanned skin, with freckles across his nose.  He
+looks to be the child of a servant, and enjoying his youth to the fullest.
+~
+human~
+0
+AB 0 0 0 500 0
+83 83 50d10+12200 83d10+100 83d10+100 9d7+50 punch
+-53 -53 -53 -35
+0 0 0 0
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+#15014
+swimming child~
+a swimming child~
+A child swims happily through the waters.
+~
+It looks a lot like many children, with tanned skin and a freckled face. 
+Probably is a child of the servants of the house, from the carefree and
+plain attitude with which they jump into the slightly mucky water.
+~
+human~
+0
+AB b 0 0 500 0
+78 78 50d10+11700 78d10+100 78d10+100 9d6+44 punch
+-48 -48 -48 -32
+0 0 0 0
+stand stand either 0
+AHMV ABCDEFGHIJK medium unknown
+#15015
+stablehand~
+a stablehand~
+A stablehand walks past, carrying a saddle and whistling softly.
+~
+This woman looks rather common, with long brown hair that is pulled back
+into a loose bun at the back of her head.  She wears riding pants and seems
+to heft the saddle as if it weighs less than a feather.  Her long legs look
+faintly muscled, and her skin is browned from constant riding in the sun.  
+A stablehand is in excellent condition.
+~
+human~
+0
+A 0 0 0 0 0
+76 76 50d10+11500 76d10+100 76d10+100 9d6+42 punch
+-46 -46 -46 -30
+0 0 0 0
+stand stand female 0
+AHMV ABCDEFGHIJK medium unknown
+#15016
+head groom~
+the head groom~
+The head groom wanders through the stable, eyeing the horses thoughtfully.
+~
+This man is rather tall and strong looking, with a blunted nose that
+looks to have been broken a few time by kicking horses, or perhaps fists. 
+He has a rather common appearance, with short sandy brown hair and weathered
+skin, with strong looking hands.
+~
+human~
+0
+AB 0 0 0 0 0
+85 85 50d10+12400 85d10+100 85d10+100 9d8+53 punch
+-55 -55 -55 -36
+0 0 0 0
+stand stand male 1500
+AHMV ABCDEFGHIJK medium unknown
+#15017
+mare beautiful~
+a mare~
+A beautiful mare whinnies softly at you.
+~
+Lean and sleek, this mare still has corded muscles that bunch and dance
+as she shifts uneasily under your scrutiny.  Her coat shines with a healthy
+glow, colored a soft shade of brown.
+~
+horse~
+0
+AM 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 charge
+-45 -45 -45 -30
+CI 0 0 0
+stand stand female 0
+AGHMV ABCDEFGHIJK medium unknown
+#15018
+stallion~
+a stallion~
+A stallion shuffles uneasily at your presence.
+~
+With a coat of deep mahogany color, this stallion stands tall and proud. 
+Corded muscles bunch and move beneath its smooth, healthy coat.  Its legs
+look powerful, tipped with hooves that look sturdy enough to crush bone.  
+~
+horse~
+0
+AM 0 0 0 0 0
+77 77 50d10+11600 77d10+100 77d10+100 9d6+43 chomp
+-47 -47 -47 -31
+CI 0 0 0
+stand stand male 0
+AGHMV ABCDEFGHIJK medium unknown
+#15019
+stallion black lord~
+the Lord's stallion~
+A stallion of purest black shakes his mane impatiently.
+~
+A magnificent stallion meets your gaze with a prideful stare of his own. 
+His pride is well-brought, it seems, with his shining black coat and
+powerful muscles that bunch and cord as he dances slightly in display.  His
+mane is the same deep black color, and his hooves look utterly powerful.  
+The Lord's stallion is in excellent condition.
+~
+horse~
+0
+AM 0 0 0 0 0
+78 78 50d10+11700 78d10+100 78d10+100 9d6+44 charge
+-48 -48 -48 -32
+CI 0 0 0
+stand stand male 0
+AGHMV ABCDEFGHIJK medium unknown
+#15020
+lady mare white~
+the Lady's mare~
+A snow white mare stands proudly, staring at you.
+~
+The Lady Gwyndalyn's mare stands here, her soft white coat looking as
+pure as the freshly fallen snow.  A few ribbons of gold have been strung
+through her hair, and her hooves are polished to gleam brightly.  Powerfully
+bunched muscles are apparent under her skin, but she gazes calmly at you,
+pride quite apparent in her bearing. 
+~
+horse~
+0
+AM 0 0 0 0 0
+78 78 50d10+11700 78d10+100 78d10+100 9d6+44 bite
+-48 -48 -48 -32
+CI 0 0 0
+stand stand female 0
+AGHMV ABCDEFGHIJK medium unknown
+#15021
+topiary snake~
+a topiary snake~
+A snake trimmed of lush greenery is coiled here.
+~
+Thick and green, this snake seems to wiggle a bit in the breeze.  It
+looks harmless, one of the gardeners must have taken a long time to trim it.
+~
+snake~
+0
+A 0 0 0 0 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 thwack
+-45 -45 -45 -30
+W 0 L I
+stand stand none 0
+AGHMVXYc ABCDEFGHIJKLQVX medium unknown
+#15022
+guard posted~
+a posted guard~
+A guard stands proud, watching about for any sign of trouble.
+~
+This guard wears stiff leather armor, studded with gleaming studs and
+with a few medals of honor here and there.  His hair is short, brown, and
+well-kept, and there isnt a spec of anything out of the ordinary on his
+uniform or person.  
+A posted guard is in excellent condition.
+~
+human~
+D
+AB 0 0 1 1000 0
+90 90 50d10+12900 90d10+100 90d10+100 8d8+58 cleave
+-60 -60 -60 -40
+EV 0 0 0
+stand stand male 2500
+AHMV ABCDEFGHIJK medium unknown
+#15023
+guard houseguard~
+a houseguard~
+A guard sits here, talking and laughing with a friend.
+~
+This guard seems to have not a care in the world.  He talks and laughs
+with his friends in the guardhouse, his eyes twinkling with merriment.  You
+notice as well that he seems to have taken his armor off, he must be off
+duty.  But, his halberd lays close at hand.
+~
+human~
+D
+AB 0 0 1 1000 0
+90 95 50d13+14540 90d11+110 90d11+110 8d10+66 cleave
+-68 -68 -68 -45
+0 0 0 0
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+#15024
+doorman man~
+the doorman~
+A man stands ready to open the door for you, a smile upon his face.
+~
+The doorman stands, his short blonde hair glistening in the sun and his
+twinkling green eyes resting on you with a smile.  He wears simple, yet very
+classy and elegant clothing.
+~
+human~
+0
+ABT 0 0 1 250 0
+76 71 50d10+11000 76d9+85 76d9+85 10d5+38 slap
+-41 -41 -41 -27
+I 0 0 0
+stand stand male 1250
+AHMV ABCDEFGHIJK medium unknown
+#15025
+rosebush bush huge~
+a huge red rosebush~
+A bush with beautiful red roses scratches at you with its thorns.
+~
+This rose bush has to be the largest you've ever seen.  It reaches 10
+feet into the air, with blossoms the size of a human head.  The thorns look
+wickedly long, and the bush seems almost alive as it moves with the breeze.
+~
+unique~
+0
+AB 0 0 0 0 0
+78 78 50d10+11700 78d10+100 78d10+100 9d6+44 beating
+-48 -48 -48 -32
+0 0 0 0
+stand stand none 0
+BE 0 medium unknown
+#15026
+guest~
+a guest~
+A guest sits in the peace of the gazebo, away from the gossip of the manor.
+~
+They look at peace out here in the silent gazebo.  With serene eyes and a
+placid smile, you can tell that this guest would never fit into the
+gossip-filled conversations inside the house.
+~
+human~
+0
+AB 0 0 0 650 0
+80 80 50d10+11900 80d10+100 80d10+100 9d7+47 thwack
+-50 -50 -50 -33
+0 0 0 0
+stand stand either 1000
+AHMV ABCDEFGHIJK medium unknown
+#15027
+woman visiting noblewoman~
+a visiting noblewoman~
+A woman gazes into the mirror as she fixes her hair
+~
+This woman is dressed in the latest fashions, with a low-cut dress she
+simply spills out of.  Her face is haughty, yet not cruel, with sparkling
+blue eyes and painted eyebrows.  Her hair is pulled into the most intricate
+of designs, and looks ready to tumble down at any second.
+~
+human~
+0
+AB 0 0 0 650 0
+80 80 50d10+11900 80d10+100 80d10+100 9d7+47 slap
+-50 -50 -50 -33
+0 0 CD 0
+stand stand female 4728
+AHMV ABCDEFGHIJK medium unknown
+#15028
+man visiting nobleman~
+a visiting nobleman~
+A man lounges lazily here, totally ignoring your presence.
+~
+Dressed in ruffles and silk, this man looks too lazy to ever pick up a
+weapon and use it.  He has curly brown hair and chocolate brown eyes, and
+his skin is pasty pale from being indoors all of his life.
+~
+human~
+0
+AB 0 0 0 650 0
+80 80 50d10+11900 80d10+100 80d10+100 9d7+47 slash
+-50 -50 -50 -33
+0 0 CD 0
+stand stand male 10000
+AHMV ABCDEFGHIJK medium unknown
+#15029
+visiting noblewoman woman~
+a visiting noblewoman~
+A woman gazes into the mirror as she fixes her hair.
+~
+This woman is dressed in the latest fashions, with a low-cut dress she
+simply spills out of.  Her face is haughty, yet not cruel, with sparkling
+blue eyes and painted eyebrows.  Her hair is pulled into the most intricate
+of designs, and looks ready to tumble down at any second.
+~
+human~
+0
+AB 0 0 0 650 0
+80 80 50d10+11900 80d10+100 80d10+100 9d7+47 slap
+-50 -50 -50 -33
+0 0 CD 0
+stand stand female 10000
+AHMV ABCDEFGHIJK medium unknown
+#15030
+elderly gentleman~
+an elderly gentleman~
+An elderly gentleman sits, discussing the old days with a friend.
+~
+Yellowed grey hair barely covers the head of this man, who sits
+comfortably in a chair discussing life and the past with a friend.  His eyes
+show dull and a bit cloudy, but he seems kindly enough as he smiles warmly
+and laughs about the old times.  A pipe rests in his hand, and he uses it to
+gesture as he speaks.
+~
+human~
+0
+ABT 0 0 1 750 0
+92 97 50d13+14892 92d11+110 92d11+110 8d10+69 punch
+-70 -70 -70 -46
+IU 0 0 0
+stand stand male 5000
+AHMV ABCDEFGHIJK medium unknown
+#15031
+astrologer man~
+an astrologer~
+A robed man consults one of the star maps.
+~
+Cloaked in deep blue robes with strange symbols sewn into them, this man
+has bright blue eyes the color of the daytime sky.  Long, curley hair falls
+down his back, and he seems lost in the charts he peers at.  His nose is a
+little crooked, and his ears a bit too big for his head.  
+~
+human~
+0
+ABT 0 0 1 750 0
+90 90 50d10+12900 90d10+100 90d10+100 8d8+58 magic
+-60 -60 -60 -40
+I 0 0 C
+stand stand male 7500
+AHMV ABCDEFGHIJK medium unknown
+#15032
+lady lina~
+the Lady Lina~
+A beautiful lady sits here, engrossed in nearly ten magical tomes at once.
+~
+Hair of soft gold frames a face of palest ivory.  She has deep green eyes
+which sparkle with intelligence as she peers through the books.  A musky
+scent of herbs surrounds her, and a magical amulet hangs around her slender
+neck.  She does not look up from her books, but it is quite obvious that she
+senses your presence by the slight smile that graces her face.
+~
+human~
+O
+AB H 0 1 850 0
+95 95 50d10+13400 95d10+100 95d10+100 8d9+64 magic
+-65 -65 -65 -43
+0 0 CD 0
+stand stand female 13000
+AHMV ABCDEFGHIJK medium unknown
+#15033
+harpist child~
+a harpist~
+A child sits plucking the strings of the harp.
+~
+This child looks a little frustrated, having sat here practising for who
+knows how long.  His deep brown eyes seem troubled, and his little
+fingertips are red and irritated looking
+~
+human~
+0
+AB 0 0 0 500 0
+75 75 50d10+11400 75d10+100 75d10+100 9d6+41 punch
+-45 -45 -45 -30
+0 0 0 0
+stand stand male 250
+AHMV ABCDEFGHIJK medium unknown
+#15034
+lone dancer man~
+a lone dancer~
+A man slowly dips and twirls his lady love.
+~
+Love twinkles deeply in the eyes of this man as he gazes at his love.  He
+seems not to notice you, lost in the moment of romance.
+~
+human~
+0
+AB V 0 0 800 0
+76 76 50d10+11500 76d10+100 76d10+100 9d6+42 pound
+-46 -46 -46 -30
+0 0 0 0
+stand stand male 9000
+AHMV ABCDEFGHIJK medium unknown
+#15035
+lone dancer woman~
+a lone dancer~
+A woman smiles softly at her love, swaying in his arms.
+~
+Her sparkling eyes seem to only see the man she dances with, as her body
+melts against his.  She seems incredibly beautiful, perhaps made so by the
+light of love in her eyes.
+~
+human~
+0
+AB V 0 0 800 0
+76 76 50d10+11500 76d10+100 76d10+100 9d6+42 scratch
+-46 -46 -46 -30
+0 0 0 0
+stand stand female 9000
+AHMV ABCDEFGHIJK medium unknown
+#15036
+name treasure hunter~
+a treasure hunter~
+A man eyes one of the treasure maps greedily.
+~
+This man is intent on breaking open one of the glass cases that covers a
+treasure map.  His eyes glow with greed, and his pockets are already filled
+with the gold hes found in various rooms in the house.  Its odd that the
+guards let him this far into the house, he must be a relative.
+~
+human~
+0
+AB 0 0 0 350 0
+83 83 50d10+12200 83d10+100 83d10+100 9d7+50 pierce
+-53 -53 -53 -35
+0 0 0 0
+stand stand male 56000
+AHMV ABCDEFGHIJK medium unknown
+#15037
+an advisor to the Kastals~
+an advisor to the Kastals~
+An advisor to the Kastals stands here, pondering various problems.
+~
+This man is tall and well-built, with a few scars of battle on his body. 
+What sets him apart from the typical guard is the wisdom that shines in his
+eyes, and you're certain it makes him a fine advisor.
+~
+human~
+0
+ABT V 0 1 1000 0
+90 90 50d10+12900 90d10+100 90d10+100 8d8+58 slash
+-60 -60 -60 -40
+CEIU 0 0 0
+stand stand male 8000
+AHMV ABCDEFGHIJK medium unknown
+#15038
+servant~
+a servant~
+A servant moves silently, cleaning everything in sight.
+~
+Without looking up to acknowledge you, this servant somehow makes it
+clear that they know where you are.  Perhaps its the way they clean up your
+footsteps as you walk on their freshly swept floor.
+~
+human~
+0
+A BU 0 1 0 0
+84 84 50d10+12300 84d10+100 84d10+100 9d7+51 beating
+-54 -54 -54 -36
+0 0 0 0
+stand stand either 0
+AHMV ABCDEFGHIJK medium unknown
+M
+specJanitor
+#15039
+member clergy~
+a clergy member~
+A member of the clergy rests after a long day of worship.
+~
+Tired from a long day, they seem to hardly notice you in the room. 
+Instead, they keep their eyes half shut in a near doze.
+~
+human~
+0
+AQ 0 0 0 750 0
+85 85 50d10+12400 85d10+100 85d10+100 9d8+53 divine
+-55 -55 -55 -36
+0 0 0 CD
+stand stand male 1000
+AHMV ABCDEFGHIJK medium unknown
+#15040
+child clergy student~
+a clergy student~
+A child sits practising his various prayers.
+~
+Quite a plain looking boy, with a short haircut and dedicated eyes.  He
+sits practising to learn all of the prayers and blessings he would need to
+know to become a full member of the clergy.  
+A clergy student is in excellent condition.
+ 
+~
+human~
+0
+AB 0 0 1 650 0
+80 75 50d10+11400 80d9+85 80d9+85 9d6+43 beating
+-45 -45 -45 -30
+0 0 0 0
+stand stand male 0
+AHMV ABCDEFGHIJK medium unknown
+#15041
+man lord malrick~
+Lord Malrick~
+A man sits with his head bowed reverently, worshipping the gods.
+~
+Malrick, the more religious member of the family, sits here praying to
+various gods for support and advice.  His brown hair keeps falling into his
+eyes as he prays, but he does not get the least bit frustrated as he
+continually brushes it back with slender hands.  His eyes are a deep brown,
+and they are cast down to the ground in worship.
+~
+human~
+B
+AB H 0 1 1000 0
+95 100 50d14+15420 95d11+110 95d11+110 8d10+73 wrath
+-74 -74 -74 -49
+0 0 CD 0
+stand stand male 1500
+AHMV ABCDEFGHIJK medium unknown
+#15042
+suit platinum armor~
+a suit of platinum armor~
+A suit of armor stands at attention.
+~
+A suit of full armor stands here, seeming to guard the staircase.  It
+looks quite realistic, with even the stance of a guard.
+~
+unique~
+0
+ABT 0 0 1 1000 0
+100 105 50d15+16300 100d11+110 100d11+110 9d10+81 slash
+-80 -80 -80 -53
+OU 0 D C
+stand stand none 0
+CJM ABCGHI medium platinum
+#15043
+garrick man~
+Garrick Kastal~
+Garrick, the Lord of Kastalia, watches his guests with a fatherly air.
+~
+Tall and sturdy, this man holds within his eyes a gentle expression which
+reflects the true generosity of his soul.  He loves his family deeply, and
+works hard to keep them protected and in good hands.  His wavy black hair is
+pushed out of his brilliant green eyes, and his broad shoulders seem to
+dwarf the back of the chair in which he sits watching his relatives.
+~
+human~
+0
+ABT H 0 1 1000 0
+99 104 50d15+16124 99d11+110 99d11+110 9d10+79 charge
+-78 -78 -78 -52
+I 0 CD 0
+stand stand male 20000
+AHMV ABCDEFGHIJK medium unknown
+#15044
+relative distant~
+a distant relative~
+A relative smokes thoughtfully on a pipe as he listens to the conversation.
+~
+Holding a pipe with strange runes upon it, this man smokes some heavenly
+scented tobacco.  He looks a little average, with short clipped black hair
+and brown eyes, but he seems quite at home listening to the gossip about
+him.
+~
+human~
+O
+AB 0 0 1 800 0
+83 78 50d10+11700 83d9+85 83d9+85 9d7+46 thwack
+-48 -48 -48 -32
+0 0 CD 0
+stand stand male 4500
+AHMV ABCDEFGHIJK medium unknown
+#15045
+distant relative~
+a distant relative~
+A distant relative gossips happily with those around her.
+~
+This woman seems quite animated and cheerful as she gossips about who did
+what, and with whom.  She vaguely resembles the family, but in a plain sort
+of way.  A faintly magical aura seems to glow from her.
+~
+human~
+O
+AB 0 0 1 800 0
+83 78 50d10+11700 83d9+85 83d9+85 9d7+46 slap
+-48 -48 -48 -32
+0 0 CD 0
+stand stand female 4500
+AHMV ABCDEFGHIJK medium unknown
+#15046
+eowyn ghost shimmer~
+the ghost of Eowyn Kastal~
+A strange shimmer glows in the air.
+~
+Its hard to tell much of anything about this being.  It seems to slightly resemble the various paintings around the house of Eowyn Kastal.
+~
+ghost~
+H
+AB HTU 0 0 -500 0
+102 107 50d16+17145 102d11+110 102d11+110 9d10+83 chill
+-81 -81 -81 -54
+0 LQ CDGM NO
+stand stand female 0
+CDHILM ABCGHIJK medium unknown
+#15047
+maudia ghost shimmer~
+the ghost of Maudia Kastal~
+A strange shimmer glows in the air.
+~
+Its hard to tell much of anything about this being.  It seems to slightly resemble the various paintings around the house of Maudia Kastal.
+~
+ghost~
+H
+AB HTU 0 0 -500 0
+102 107 50d16+17145 102d11+110 102d11+110 9d10+83 none
+-81 -81 -81 -54
+0 LQ GM NO
+stand stand female 0
+CDHILM ABCGHIJK medium unknown
+#15048
+kiarron nanny woman~
+Kiarron's nanny~
+A woman follows after Kiarron, looking frustrated.
+~
+Kiarron's nanny looks quite frustrated, it must be a hard job to have to
+follow that hellion around all day.  Her gray hair looks like its thinning,
+she probably keeps pulling on it whenever he gets out of her line of sight
+~
+human~
+B
+AB 0 0 1 850 0
+88 88 50d10+12700 88d10+100 88d10+100 8d8+56 thwack
+-58 -58 -58 -38
+0 0 0 0
+stand stand female 350
+AHMV ABCDEFGHIJK medium unknown
+#15049
+yound lord kiarron child~
+Young Lord Kiarron~
+A child looks up, his hands smeared with paint and food.
+~
+He looks a lot like your normal kid, only much, much more mischievous. 
+He is literally covered in paint and crumbs, leaving smeared handprints all
+over the room.  He giggles happily, quite amused at the mess he is making.
+~
+human~
+0
+AB H 0 0 0 0
+90 90 50d10+12900 90d10+100 90d10+100 8d8+58 bite
+-60 -60 -60 -40
+0 0 0 0
+stand stand male 750
+AHMV ABCDEFGHIJK medium unknown
+#15050
+personal maid~
+Gwyndalyn's personal maid~
+One of Gwyndalyn's personal maids moves about cleaning things.
+~
+She looks rather plain, with mousey brown hair and dull brown eyes.  
+Gwyndalyn's personal maid is in excellent condition.
+~
+human~
+0
+AT 0 0 0 650 0
+85 85 50d10+12400 85d10+100 85d10+100 9d8+53 claw
+-55 -55 -55 -36
+I 0 0 0
+stand stand female 750
+AHMV ABCDEFGHIJK medium unknown
+M
+specJanitor
+#15051
+personal valet~
+Garrick's personal valet~
+Garrick's personal valet moves about here, running errands for his lord.
+~
+A rather dignified looking man, this valet seems to try and rush you
+along your way so that he can continue his work.  He looks a little harried,
+but also looks as if he enjoys his job serving Lord Garrick.
+~
+human~
+0
+AT 0 0 1 750 0
+87 87 50d10+12600 87d10+100 87d10+100 9d8+55 beating
+-57 -57 -57 -38
+0 0 0 0
+stand stand male 650
+AHMV ABCDEFGHIJK medium unknown
+#15052
+lady karynna~
+Lady Karynna~
+The Lady Karynna giggles and flirts with a half-dressed man.
+~
+Half dressed, this beautiful lady seems quite happy to have more company.
+Her tousled hair flows down over her shoulders, upon which the straps of her
+nightgown seem to have trouble remaining in one place.  Her deep blue eyes
+flirt with one and all, but seem most entranced with her suitor.
+~
+human~
+A
+ABH 0 0 1 800 0
+95 95 50d10+13400 95d10+100 95d10+100 8d9+64 suction
+-65 -65 -65 -43
+0 0 0 0
+stand stand female 6500
+AHMV ABCDEFGHIJK medium unknown
+#15053
+lady gwyndalyn~
+Lady Gwyndalyn~
+The Lady Gwyndalyn rests, her pregnant belly straining her gown.
+~
+Beautiful and serene, the Lady Gwyndalyn has a gentle look in her soft
+green eyes.  Her hair is pulled back in an intricate design, and her smooth
+skin shows no marks from any kind of work.  She is pregnant, and seems to
+glow because of it.
+~
+human~
+A
+AB H 0 1 1000 0
+98 98 50d10+13700 98d10+100 98d10+100 8d10+68 magic
+-68 -68 -68 -45
+0 0 CD 0
+stand stand female 8000
+AHMV ABCDEFGHIJK medium unknown
+#0
+
+
+
+#OBJECTS
+#15000
+long handled spade~
+a long-handled spade~
+A spade with a long, wooden handle lays here.~
+wood~
+weapon 0 AN
+polearm 14 9 none 0
+70 8 750 P
+Y
+char 'damroll' 0 6
+Y
+char 'hitroll' 0 6
+#15001
+fishing pole~
+a fishing pole~
+A fishing pole made of bamboo and string lays here.~
+bamboo~
+weapon 0 AN
+mace 10 12 thwack 0
+83 3 80 P
+#15002
+saddle leather ornate expensive~
+an ornate leather saddle~
+A saddle of expensive leather gleams with a polished shine.~
+leather~
+saddle 0 AO
+0 0 0 0 0
+76 30 7500 P
+Y
+char 'AC' 0 -30
+Y
+char 'hp' 0 20
+M
+saddle
+#15003
+sturdy halberd~
+a sturdy halberd~
+A long-handled halberd lays here, with a sturdy, sharp looking blade.~
+steel~
+weapon 0 AN
+polearm 14 13 thwack 0
+90 20 3000 P
+Y
+char 'damroll' 0 8
+Y
+char 'hitroll' 0 3
+#15004
+pile beads silk beaded dress~
+a beaded silk dress~
+A pile of beads and silk beckons from where it lays.~
+silk~
+clothing 0 AD
+0 0 0 0 0
+80 6 4000 P
+Y
+char 'AC' 0 -35
+Y
+char 'damroll' 0 8
+Y
+char 'wisdom' 0 4
+#15005
+tunic silken~
+a silken tunic~
+A silken tunic, embroidered with fancy designs, lies here in a crumpled ball.~
+silk~
+clothing 0 AD
+0 0 0 0 0
+80 4 3000 P
+Y
+char 'strength' 0 4
+Y
+char 'damroll' 0 8
+Y
+char 'AC' 0 -35
+#15006
+star chart rolled-up~
+a rolled-up start chart~
+A rolled up star chart lays here, glowing softly.~
+paper~
+scroll A AO
+90 'windwall' '' '' ''
+90 1 9000 P
+#15007
+flowing robes red gold silk~
+flowing robes of {Rred{x and {Yyellow{x silk~
+Robes of deep red, shot with threads of gold, lay crumpled here.~
+silk~
+clothing GY AK
+0 0 0 0 0
+95 4 9500 P
+Y
+char 'AC' 0 -35
+Y
+char 'hitroll' 0 8
+Y
+char 'damroll' 0 8
+Y
+char 'mana' 0 48
+#15008
+amulet rune-encrusted crescent moon~
+a rune-encrusted amulet~
+An amulet with a rune-encrusted crescent moon hangs on a leather cord.~
+diamond~
+jewelry G AC
+0 0 0 0 0
+95 2 9500 P
+Y
+char 'mana' 0 100
+Y
+char 'wisdom' 0 2
+Y
+char 'intelligence' 0 2
+Y
+char 'saving throw' 0 -8
+#15009
+treasure map rolled-up~
+a treasure map~
+A rolled-up treasure map is here.~
+paper~
+scroll 0 AO
+83 'teleport' '' '' ''
+83 1 10000 P
+#15010
+kastal ring signet~
+a Kastal signet ring~
+A signet ring with the Kastal family symbol is here.~
+emerald~
+jewelry 0 AB
+0 0 0 0 0
+90 2 9000 P
+Y
+char 'damroll' 0 9
+Y
+char 'hitroll' 0 9
+Y
+char 'hp' 0 72
+#15011
+belt knowledge slender leather~
+the belt of knowledge~
+A slender leather belt with strange symbols is here.~
+leather~
+armor 0 AL
+45 45 45 45 0
+79 3 1500 P
+Y
+char 'wisdom' 0 4
+Y
+char 'mana' 0 56
+#15012
+breastplate platinum gold~
+a platinum and gold breastplate~
+A beautiful breastplate, made of platinum with gold highlights, is here.~
+platinum~
+armor GY AD
+60 60 60 60 0
+100 30 10000 P
+R
+'alignment' -350 0
+Y
+char 'hp' 0 50
+Y
+char 'strength' 0 1
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+#15013
+platinum sleeves pair~
+platinum sleeves~
+A pair of platinum sleeves lays here.~
+platinum~
+armor GY AI
+60 60 60 60 0
+100 15 8000 P
+R
+'alignment' -350 0
+Y
+char 'hp' 0 50
+Y
+char 'intelligence' 0 1
+Y
+char 'hitroll' 0 4
+Y
+char 'damroll' 0 4
+#15014
+platinum bracer~
+a platinum bracer~
+A bracer made of platinum lays here.~
+platinum~
+armor GY AM
+60 60 60 60 0
+100 3 8000 P
+R
+'alignment' -350 0
+Y
+char 'hp' 0 50
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+#15015
+platinum neckguard~
+a platinum neckguard~
+A platinum neckguard lays here.~
+platinum~
+armor GY AC
+60 60 60 60 0
+100 5 8000 P
+R
+'alignment' -350 0
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+Y
+char 'hp' 0 50
+#15016
+platinum girth~
+platinum girth~
+A platinum girth lays here.~
+platinum~
+armor GY AL
+60 60 60 60 0
+100 18 8000 P
+R
+'alignment' -350 0
+Y
+char 'dexterity' 0 1
+Y
+char 'hp' 0 50
+Y
+char 'hitroll' 0 4
+Y
+char 'damroll' 0 4
+#15017
+platinum boots pair~
+a pair of platinum boots~
+A pair of platinum boots lay here.~
+platinum~
+armor GY AG
+60 60 60 60 0
+100 19 8000 P
+R
+'alignment' -350 0
+Y
+char 'hitroll' 0 4
+Y
+char 'damroll' 0 4
+Y
+char 'hp' 0 50
+Y
+char 'dexterity' 0 1
+#15018
+platinum gauntlets pair~
+a pair of platinum gauntlets~
+A pair of platinum gauntlets lays here.~
+platinum~
+armor GY AH
+60 60 60 60 0
+100 9 8000 P
+R
+'alignment' -350 0
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+Y
+char 'constitution' 0 1
+Y
+char 'hp' 0 50
+#15019
+platinum leg plates~
+platinum leg plates~
+Platinum leg plates lay here.~
+platinum~
+armor GY AF
+60 60 60 60 0
+100 20 8000 P
+R
+'alignment' -350 0
+Y
+char 'hp' 0 50
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+#15020
+platinum helm~
+a platinum helm~
+A platinum helm lays here.~
+platinum~
+armor GY AE
+60 60 60 60 0
+100 20 8000 P
+R
+'alignment' -350 0
+Y
+char 'wisdom' 0 1
+Y
+char 'hp' 0 50
+Y
+char 'damroll' 0 4
+Y
+char 'hitroll' 0 4
+#15021
+vest studded leather~
+a stiff, studded leather vest~
+A vest of thick, hard leather with shining studs in it lies here.~
+leather~
+armor 0 AD
+56 56 56 56 0
+90 6 2000 P
+Y
+char 'damroll' 0 9
+Y
+char 'hitroll' 0 9
+#15022
+glowing tummy teddybear bear~
+a teddybear with a glowing tummy~
+A little teddybear lays here, with a glowing tummy.~
+cloth~
+light G AO
+0 0 999 0 0
+90 1 800 P
+Y
+char 'AC' 0 -35
+Y
+char 'hitroll' 0 4
+Y
+char 'damroll' 0 4
+#15023
+strappy lace delicate nightgown pile~
+a strappy lace nightgown~
+A delicate pile of lace lays crumpled.~
+silk~
+clothing 0 AD
+0 0 0 0 0
+95 1 8000 P
+Y
+char 'AC' 0 -55
+Y
+char 'dexterity' 0 1
+Y
+char 'hitroll' 0 4
+Y
+char 'damroll' 0 4
+#15024
+sapphire gold bracelet flowers~
+a bracelet with flowers of sapphire~
+A beautiful sapphire and gold bracelet lays here~
+sapphire~
+jewelry GY AM
+0 0 0 0 0
+98 1 12000 P
+Y
+char 'saving throw' 0 -2
+Y
+char 'hp' 0 50
+Y
+char 'mana' 0 76
+#0
+
+
+
+#ROOMS
+#15000
+Before the Hedgemaze~
+A large green wall rises to the north, signifying the borders of a thick
+hedgemaze that guards the entrance to the manor of Kastalia.  The colors are
+a vivid green, and they reach about 20 feet into the air, their thick
+branches lacing together to form an impenetrable wall of thorny hedge.  The
+ground is scattered with smooth gravel, that looks as though it has been
+combed over with a heavy rake.
+~
+0 4 0
+5
+D0
+~
+~
+0 0 15001
+S
+#15001
+Within the Maze~
+Thick green walls of evergreen rise up to mock you as you wander
+aimlessly through the hedgemaze.  The hedges reach up into the sky at least
+20 feet, their upper tips glinting with sunlight but near the bottom dark
+and a bit dreary.  The air is still, the thick scent of evergreen never
+moving or fading from its strong assault on your nostrils.  The hedges are
+confusing, and you find yourself at intersections that all look rather
+similar.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15003
+D0
+~
+~
+0 0 15002
+D2
+~
+~
+0 0 15000
+D1
+~
+~
+0 0 15004
+S
+#15002
+Within the Maze~
+Thick green walls of evergreen rise up to mock you as you wander
+aimlessly through the hedgemaze.  The hedges reach up into the sky at least
+20 feet, their upper tips glinting with sunlight but near the bottom dark
+and a bit dreary.  The air is still, the thick scent of evergreen never
+moving or fading from its strong assault on your nostrils.  The hedges are
+confusing, and you find yourself at intersections that all look rather
+similar.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15001
+D1
+~
+~
+0 0 15006
+D3
+~
+~
+0 0 15005
+S
+#15003
+Within the Maze~
+Thick green walls of evergreen rise up to mock you as you wander
+aimlessly through the hedgemaze.  The hedges reach up into the sky at least
+20 feet, their upper tips glinting with sunlight but near the bottom dark
+and a bit dreary.  The air is still, the thick scent of evergreen never
+moving or fading from its strong assault on your nostrils.  The hedges are
+confusing, and you find yourself at intersections that all look rather
+similar.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15001
+S
+#15004
+Within the Maze~
+Thick green walls of evergreen rise up to mock you as you wander
+aimlessly through the hedgemaze.  The hedges reach up into the sky at least
+20 feet, their upper tips glinting with sunlight but near the bottom dark
+and a bit dreary.  The air is still, the thick scent of evergreen never
+moving or fading from its strong assault on your nostrils.  The hedges are
+confusing, and you find yourself at intersections that all look rather
+similar.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15001
+S
+#15005
+Within the Maze~
+Thick green walls of evergreen rise up to mock you as you wander
+aimlessly through the hedgemaze.  The hedges reach up into the sky at least
+20 feet, their upper tips glinting with sunlight but near the bottom dark
+and a bit dreary.  The air is still, the thick scent of evergreen never
+moving or fading from its strong assault on your nostrils.  The hedges are
+confusing, and you find yourself at intersections that all look rather
+similar.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15002
+S
+#15006
+Within the Maze~
+Thick green walls of evergreen rise up to mock you as you wander
+aimlessly through the hedgemaze.  The hedges reach up into the sky at least
+20 feet, their upper tips glinting with sunlight but near the bottom dark
+and a bit dreary.  The air is still, the thick scent of evergreen never
+moving or fading from its strong assault on your nostrils.  The hedges are
+confusing, and you find yourself at intersections that all look rather
+similar.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15007
+D3
+~
+~
+0 0 15002
+S
+#15007
+Within the Maze~
+Thick green walls of evergreen rise up to mock you as you wander
+aimlessly through the hedgemaze.  The hedges reach up into the sky at least
+20 feet, their upper tips glinting with sunlight but near the bottom dark
+and a bit dreary.  The air is still, the thick scent of evergreen never
+moving or fading from its strong assault on your nostrils.  The hedges are
+confusing, and you find yourself at intersections that all look rather
+similar.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15006
+D3
+~
+~
+0 0 15008
+S
+#15008
+At the Maze Exit~
+Thick green walls of evergreen rise up to at the exit to the hedgemaze. 
+The hedges reach up into the sky, swaying slightly with the breeze near the
+top but sitting still and in shadows near the bottom.  The sun glints off
+the top of the hedges, and a thick scent of evergreen fills the air.  To the
+north a path heads up towards the manor house of Kastalia.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15009
+D1
+~
+~
+0 0 15007
+S
+#15009
+A Wide Gravel Path~
+A wide gravel path leads here between the manor house and the thick
+hedgemaze that guards it.  It seems well travelled, and the gravel is smooth
+and level.  Trimmed grasses line the path, their green colors alternating in
+a pattern that looks almost dizzying with its brightness.  To the distant
+north the house of Kastalia rises, its brick facade and marbled columns
+seeming to glow softly.  Before the manor house, the path is intercepted by
+another, smaller path.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15010
+D2
+~
+~
+0 0 15008
+S
+#15010
+An Intersection of Paths~
+Two well groomed gravel paths come to an intersection here, their smooth
+surfaces seem level and quite often raked by the large gravel rakes you see
+a few of the gardeners carrying.  To the south a ways, a large hedgemaze
+rises up towards the sky and brightly shines with its vivid forest green
+colors, while to the north you can see the manor house of Kastalia.  East
+the stablehouses are found, and to the west the path leads on a bit into a
+topiary garden.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15064
+D1
+~
+~
+0 0 15047
+D2
+~
+~
+0 0 15009
+D3
+~
+~
+0 0 15011
+S
+#15011
+A Wide, Gravelled Path~
+The smooth gravel of the path is well rounded, with no sharp edges to
+poke through soft boots on this path that heads east towards a path
+intersection, and west towards a topiary garden that rises from the ground
+in the distance.  Trimmed, healthy grass glows with a vivid green glimmer as
+it lines the path to the north and south, no weeds or misplaced flowers to
+be seen at all.  Tidy flower gardens can be found in tight circles here and
+there around the edges of the path, each flower tediously cared for and
+breathtaking in their beauty.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15010
+D3
+~
+~
+0 0 15012
+S
+#15012
+A Wide, Gravelled Path~
+A gravel path ends here at the entrance into a large, well-tended topiary
+garden to the west.  The garden is surrounded by a low picket fence, its
+wooden slats painted a bright white in color and gleaming softly in the
+light.  The gravel along the path is all sized about the same, and is a soft
+grey color.  It seems clean and as level as though somebody has dragged a
+large rake across it.  Smooth, healthy grass lines the path to the north and
+south, its tidy surface broken now and then by flower beds, bordered by
+large stones.
+~
+0 4 0
+5
+D1
+~
+~
+0 0 15011
+D3
+~
+~
+0 0 15013
+S
+#15013
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15046
+D1
+~
+~
+0 0 15012
+D2
+~
+~
+0 0 15014
+D3
+~
+~
+0 0 15044
+S
+#15014
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15013
+D3
+~
+~
+0 0 15015
+S
+#15015
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15044
+D1
+~
+~
+0 0 15014
+D3
+~
+~
+0 0 15016
+S
+#15016
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15042
+D1
+~
+~
+0 0 15015
+D3
+~
+~
+0 0 15017
+S
+#15017
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15018
+D1
+~
+~
+0 0 15016
+S
+#15018
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.  To the
+west a small path leads towards the pond.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15041
+D1
+~
+~
+0 0 15042
+D2
+~
+~
+0 0 15017
+D3
+~
+~
+0 0 15019
+S
+#15019
+Path to the Pond~
+The grass grows up to about ankle level on this path which leads north to
+the pond, and east into the topiary garden.  A few trees grow up to shade
+the path, which seems not very often used.  The air seems quiet and still,
+everything about seems quite serene.  The grass is a vivid green, and it
+waves softly in ripples with a gentle breeze that greets you with its soft
+caress.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15020
+D1
+~
+~
+0 0 15018
+S
+#15020
+Path to the Pond~
+A path leads north and south here, its grass a bit overgrown, tangling
+slightly about your ankles.  Everything else about the manor is so tediously
+kept, perhaps the grass here is intended to be less organized.  It certainly
+adds a peaceful, serene feel to the walk that leads its winding way between
+the topiary garden and the isolated pond.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15021
+D2
+~
+~
+0 0 15019
+S
+#15021
+Path to the Pond~
+The path leading between the pond and the rest of the manor curves here,
+stretching west and south.  The grass grows up high, tangling slightly
+around the ankles as you travel along.  A few birds serenade you from their
+perches in the trees, and the faint smell of the pond greets your nostrils
+on a breeze.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15020
+D3
+~
+~
+0 0 15022
+S
+#15022
+Path to the Pond~
+A path leads east and west here, its grass a bit overgrown, tangling
+slightly about your ankles.  Everything else about the manor is so tediously
+kept, perhaps the grass here is intended to be less organized.  It certainly
+adds a peaceful, serene feel to the walk that leads its winding way between
+the topiary garden and the isolated pond.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15021
+D3
+~
+~
+0 0 15023
+S
+#15023
+Path to the Pond~
+The path stretches east and north from here.  A few flowers grow up among
+the tall grasses that skirt the path, as well as a few weeds.  The smell of
+the grass is thick in the air, as well as the slightly fishy smell of the
+pond a ways to the north.  A tree lends its shade to the path here, a few
+leaves falling down now and then to land softly in your path.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15024
+D1
+~
+~
+0 0 15022
+S
+#15024
+Path to the Pond~
+You stand at the northern end of a path that leads north into a lush
+pond.  A soft breeze brushes past now and then, bringing with it the faintly
+muddy, fishy fragrance of the pondwater with it.  Long grasses ripple and
+wave in the breeze, a few wildflowers growing amongst them.  The pond
+stretches to the northwest, soft grasses leading down to the water's edge. 
+The entire area seems to have a serene feel to it.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15025
+D2
+~
+~
+0 0 15023
+S
+#15025
+At the Pond's Edge~
+The long grasses wave in the wind, rippling softly as you move through
+them.  A path leads south towards the manor, while the pond's edge stretches
+to the north and west.  The pond water seems a bit muddy, and waves ripple
+across the surface.  The air smells a bit muddy, and has the faint hint of
+fish to its fragrance.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15032
+D2
+~
+~
+0 0 15024
+D3
+~
+~
+0 0 15026
+S
+#15026
+At the Pond's Edge~
+The pond water laps gently against the ground to the north, the sound of
+the water rippling making a soft cadence.  A few birds swoop down to nibble
+at moss drifting across the surface or to snatch the fish who gets too close
+to the surface.  The grasses are long and vividly green, they wave slowly in
+the breeze.  The path leads east and west around the pond.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15029
+D1
+~
+~
+0 0 15025
+D3
+~
+~
+0 0 15027
+S
+#15027
+At the Pond's Edge~
+The air seems fresh and clear here, with just a faint scent of fish and
+muddy water on the breeze.  A large willow tree sits almost at the water's
+edge, its branches dangling against the water, causing it to ripple
+slightly.  The grasses under the tree are a bit flattened, like someone sits
+here often.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15028
+D1
+~
+~
+0 0 15026
+D3
+~
+~
+0 0 15030
+S
+#15028
+The Pond~
+The pond waters stretch out beneath you, a bit cool to the touch.  They
+swirl with a bit of mud, but the children swimming happily through the water
+seem not to care.  A few fish are visible beneath the water's edge, and lily
+pads float serenely across the surface.  The shore is reachable to the west,
+south, and southwest.
+~
+0 0 6
+5
+D0
+~
+~
+0 0 15035
+D1
+~
+~
+0 0 15029
+D2
+~
+~
+0 0 15027
+D3
+~
+~
+0 0 15031
+S
+#15029
+The Pond~
+The pond waters stretch out beneath you, a bit cool to the touch.  They
+swirl with a bit of mud, but the children swimming happily through the water
+seem not to care.  A few fish are visible beneath the water's edge, and lily
+pads float serenely across the surface.  The shore is reachable to the east,
+southeast, and south.
+~
+0 0 6
+5
+D0
+~
+~
+0 0 15034
+D1
+~
+~
+0 0 15032
+D2
+~
+~
+0 0 15026
+D3
+~
+~
+0 0 15028
+S
+#15030
+At the Pond's Edge~
+The path turns around the pond here, heading north and east from this
+point.  The pond stretches in the sunlight, gleaming softly with a reflected
+glow.  Its waters are a bit muddy, but they seem full of fish that jump from
+the water occassionally, and every so often are captured by a flying
+kingfisher.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15031
+D1
+~
+~
+0 0 15027
+S
+#15031
+At the Pond's Edge~
+The path leads north and south here, leading east down into the pond.  A
+faint breeze brushes through now and then, causing the waters to ripple and
+the tall grasses to wave in the wind.  A few cattails grow up near the edge
+of the pond, as well as some wildflowers.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15036
+D1
+~
+~
+0 0 15028
+D2
+~
+~
+0 0 15030
+S
+#15032
+At the Pond's Edge~
+The pond beckons to you from its resting place to the west, the sun
+glimmering off of the ripples in the water.  The air smells fresh and clean,
+despite the slight smell of fish that hangs on the breeze.  Tall grasses
+dance in the breeze, as well as a few wildflowers and cattails that grow on
+the water's edge.  A short distance to the south the path leads back towards
+the manor.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15033
+D2
+~
+~
+0 0 15025
+D3
+~
+~
+0 0 15029
+S
+#15033
+At the Pond's Edge~
+The path stretches north and south here, the pond water lapping gently at
+the ground to the west.  A small boy sits at the water's edge, his pole
+dangling into the water while he dozes against a large willow tree that
+grows on the path.  The willow branches form a nice curtain around him, and
+he'd almost be unnoticeably except that his fishing pole stretches out over
+the waters.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15040
+D2
+~
+~
+0 0 15032
+D3
+~
+~
+0 0 15034
+S
+#15034
+The Pond~
+The pond waters stretch out beneath you, a bit cool to the touch.  They
+swirl with a bit of mud, but the children swimming happily through the water
+seem not to care.  A few fish are visible beneath the water's edge, and lily
+pads float serenely across the surface.  The shore is reachable to the
+north, northeast, and east.
+~
+0 0 6
+5
+D0
+~
+~
+0 0 15039
+D1
+~
+~
+0 0 15033
+D2
+~
+~
+0 0 15029
+D3
+~
+~
+0 0 15035
+S
+#15035
+The Pond~
+The pond waters stretch out beneath you, a bit cool to the touch.  They
+swirl with a bit of mud, but the children swimming happily through the water
+seem not to care.  A few fish are visible beneath the water's edge, and lily
+pads float serenely across the surface.  The shore is reachable to the
+north, northwest, and west.
+~
+0 0 6
+5
+D0
+~
+~
+0 0 15038
+D1
+~
+~
+0 0 15034
+D2
+~
+~
+0 0 15028
+D3
+~
+~
+0 0 15036
+S
+#15036
+At the Pond's Edge~
+A huge tree grows up at the edge of the pond here, creating a shaded spot
+that looks perfect for a picnic.  Perhaps others have thought so as well;
+the grasses are flattened from frequent picnics here.  The air carries the
+faint scent of fish, and you notice a little boy sitting at the edge of the
+pond, holding a fishing pole in one hand.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15037
+D1
+~
+~
+0 0 15035
+D2
+~
+~
+0 0 15031
+S
+#15037
+At the Pond's Edge~
+The path wraps around a corner of the pond here, tall grass wrapping and
+tangling slightly about your ankles and legs as you walk through.  A field
+of wildflowers surrounds the path, and you can see a few bees buzzing from
+flower to flower in search of nectar.  A few birds swoop down low across the
+pond now and then, searching for food.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15038
+D2
+~
+~
+0 0 15036
+S
+#15038
+At the Pond's Edge~
+The muddy waters of the pond seem to beckon to you for a quick swim. 
+They must not be too deep, for you notice a few children swimming and
+frolicking in the depths.  The tall grasses surrounding the pond wave
+slightly in a breeze, and seem to tangle about your feet as you try to walk
+along the path that stretches east and west.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15039
+D2
+~
+~
+0 0 15035
+D3
+~
+~
+0 0 15037
+S
+#15039
+At the Pond's Edge~
+The sun reflects faintly off of the pond to the south, causing the
+surface to shimmer as if made of glass.  A few fish can be seen swimming
+about just below the surface, as well as a few children swimming happily
+through the water.  The sound of their laughter sings through the air, and
+even the tall grasses at the waters edge seem to wiggle in happiness.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15040
+D2
+~
+~
+0 0 15034
+D3
+~
+~
+0 0 15038
+S
+#15040
+At the Pond's Edge~
+The path corners around the pond here, heading west and south from this
+point.  A beautiful field of wildflowers stretches around the path, showing
+flowers of every shape and size.  Their soft fragrance mixes a bit oddly
+with the faintly fishy scent of the waters.  To the far east, the manor
+house can be seen.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15033
+D3
+~
+~
+0 0 15039
+S
+#15041
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15043
+D2
+~
+~
+0 0 15018
+S
+#15042
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15043
+D1
+~
+~
+0 0 15044
+D2
+~
+~
+0 0 15016
+D3
+~
+~
+0 0 15018
+S
+#15043
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15045
+D2
+~
+~
+0 0 15042
+D3
+~
+~
+0 0 15041
+S
+#15044
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15045
+D1
+~
+~
+0 0 15013
+D2
+~
+~
+0 0 15015
+D3
+~
+~
+0 0 15042
+S
+#15045
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15046
+D2
+~
+~
+0 0 15044
+D3
+~
+~
+0 0 15043
+S
+#15046
+The Topiary Garden~
+A large, well-tended garden stretches out in your gaze.  The huge hedges
+of a vivid green are trimmed and pruned up to look like magnificent
+creatures, each lifelike and looking almost ready to hop off the small
+pedestal they rest upon.  Small stone circles surround the bottoms of the
+topiaries, followed by a circle of tiny, vividly colored flowers.  Beyond
+the layer of flowers another circle of stones completes the borders.  Each
+flower is bright and seems at the optimum of health, no dead leaves or
+browned blossoms hanging from them.  The ground of the large garden is
+covered in the same smooth gravels as the path leading to it.  Along the
+outer edge of the garden a small, white picket fence can be seen.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15013
+D3
+~
+~
+0 0 15045
+S
+#15047
+The Path to the Stables~
+A smooth gravel path leads east and west here.  A short distance to the
+east the wooden building that houses the stables can be seen.  On either
+side of the path thick, bright green grass grows healthily, looking as
+though it is trimmed quite regularly.  A fresh scent fills the air, along
+with the not-so-fresh scent that has drifted west on the wind from the
+stables.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15048
+D3
+~
+~
+0 0 15010
+S
+#15048
+Before the Stables~
+A gravel path ends at the doors to a large stable house.  The walls of
+the stable are grey and weathered a bit, but seem quite sturdy and solid
+despite their age.  A few knotholes and odd grains can be seen.  The scent
+of the stables is a bit thick in the air, but its quite bearable.  The doors
+are wide and have upper and lower sections, with bolts that hang open on
+each section.  The path stretches to the west, while the doors open east.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15049
+D3
+~
+~
+0 0 15047
+S
+#15049
+Entrance to the Stables~
+The dirt floor of the stables is hardpacked and exceedingly clean for a
+dirt floor.  A few large posts rise up, and the beams in the ceiling are
+visible beneath the thick thatching of the roof.  A few harnesses hang from
+large hooks in the wall, as well as some leftover horseshoes and one or two
+saddles.  To the east a hallway stretches north and south along the stalls.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15050
+D3
+~
+~
+AB 0 15048
+S
+#15050
+Hallway in the Stables~
+The hallway stretches north and south between the rather roomy stalls of
+the stable here.  A hard-packed dirt floor stretches beneath you, well swept
+and only covered with a very thin layer of loose dirt.  To the east the
+halfdoor of a stall rests in its closed position, the head of a horse
+hanging a bit curiously over it and peering at you.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15057
+D1
+~
+~
+AB 0 15063
+D2
+~
+~
+0 0 15051
+D3
+~
+~
+0 0 15049
+S
+#15051
+Hallway in the Stables~
+The hallway stretches north and south between the rather roomy stalls of
+the stable here.  A hard-packed dirt floor stretches beneath you, well swept
+and only covered with a very thin layer of loose dirt.  To the east and
+west, the halfdoors of stalls rest in their closed positions, horses leaning
+their heads out and watching you curiously.  The fresh scent of horses fills
+the air, as well as the sounds of their restless motions.  A few horseshoes
+hang on the beams on either sides of the stalls, as well as saddles and a
+few blankets, harnesses and bits.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15050
+D1
+~
+~
+AB 0 15053
+D2
+~
+~
+0 0 15054
+D3
+~
+~
+AB 0 15052
+S
+#15052
+A Horse Stall~
+A fresh pile of hay lines one end of the stall, a few pieces straggling
+out across the rest of the stall from the horse wriggling and prancing a bit
+restlessly.  The walls are built of extremely smooth wood, with not a stray
+splinter to be found that might gouge into a horse's flesh and cause an
+infection.  A few piles of horse manure lay here and there, but it is
+otherwise a very clean and fresh smelling stall.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15051
+S
+#15053
+A Horse Stall~
+A fresh pile of hay lines one end of the stall, a few pieces straggling
+out across the rest of the stall from the horse wriggling and prancing a bit
+restlessly.  The walls are built of extremely smooth wood, with not a stray
+splinter to be found that might gouge into a horse's flesh and cause an
+infection.  A few piles of horse manure lay here and there, but it is
+otherwise a very clean and fresh smelling stall.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 15051
+S
+#15054
+Hallway in the Stables~
+The hallway stretches north and south between the rather roomy stalls of
+the stable here.  A hard-packed dirt floor stretches beneath you, well swept
+and only covered with a very thin layer of loose dirt.  To the east and
+west, the halfdoors of stalls rest in their closed positions, horses leaning
+their heads out and watching you curiously.  The fresh scent of horses fills
+the air, as well as the sounds of their restless motions.  A few horseshoes
+hang on the beams on either sides of the stalls, as well as saddles and a
+few blankets, harnesses and bits.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15051
+D1
+~
+~
+AB 0 15056
+D3
+~
+~
+AB 0 15055
+S
+#15055
+A Horse Stall~
+A fresh pile of hay lines one end of the stall, a few pieces straggling
+out across the rest of the stall from the horse wriggling and prancing a bit
+restlessly.  The walls are built of extremely smooth wood, with not a stray
+splinter to be found that might gouge into a horse's flesh and cause an
+infection.  A few piles of horse manure lay here and there, but it is
+otherwise a very clean and fresh smelling stall.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15054
+S
+#15056
+A Horse Stall~
+A fresh pile of hay lines one end of the stall, a few pieces straggling
+out across the rest of the stall from the horse wriggling and prancing a bit
+restlessly.  The walls are built of extremely smooth wood, with not a stray
+splinter to be found that might gouge into a horse's flesh and cause an
+infection.  A few piles of horse manure lay here and there, but it is
+otherwise a very clean and fresh smelling stall.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 15054
+S
+#15057
+Hallway in the Stables~
+The hallway stretches north and south between the rather roomy stalls of
+the stable here.  A hard-packed dirt floor stretches beneath you, well swept
+and only covered with a very thin layer of loose dirt.  To the east and
+west, the halfdoors of stalls rest in their closed positions, horses leaning
+their heads out and watching you curiously.  The fresh scent of horses fills
+the air, as well as the sounds of their restless motions.  A few horseshoes
+hang on the beams on either sides of the stalls, as well as saddles and a
+few blankets, harnesses and bits.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15060
+D1
+~
+~
+AB 0 15059
+D2
+~
+~
+0 0 15050
+D3
+~
+~
+AB 0 15058
+S
+#15058
+A Horse Stall~
+A fresh pile of hay lines one end of the stall, a few pieces straggling
+out across the rest of the stall from the horse wriggling and prancing a bit
+restlessly.  The walls are built of extremely smooth wood, with not a stray
+splinter to be found that might gouge into a horse's flesh and cause an
+infection.  A few piles of horse manure lay here and there, but it is
+otherwise a very clean and fresh smelling stall.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15057
+S
+#15059
+A Horse Stall~
+A fresh pile of hay lines one end of the stall, a few pieces straggling
+out across the rest of the stall from the horse wriggling and prancing a bit
+restlessly.  The walls are built of extremely smooth wood, with not a stray
+splinter to be found that might gouge into a horse's flesh and cause an
+infection.  A few piles of horse manure lay here and there, but it is
+otherwise a very clean and fresh smelling stall.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 15057
+S
+#15060
+Hallway in the Stables~
+The hallway stretches north and south between the rather roomy stalls of
+the stable here.  A hard-packed dirt floor stretches beneath you, well swept
+and only covered with a very thin layer of loose dirt.  To the east and
+west, the halfdoors of stalls rest in their closed positions, horses leaning
+their heads out and watching you curiously.  The fresh scent of horses fills
+the air, as well as the sounds of their restless motions.  A few horseshoes
+hang on the beams on either sides of the stalls, as well as saddles and a
+few blankets, harnesses and bits.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15062
+D2
+~
+~
+0 0 15057
+D3
+~
+~
+AB 0 15061
+S
+#15061
+A Horse Stall~
+A fresh pile of hay lines one end of the stall, a few pieces straggling
+out across the rest of the stall from the horse wriggling and prancing a bit
+restlessly.  The walls are built of extremely smooth wood, with not a stray
+splinter to be found that might gouge into a horse's flesh and cause an
+infection.  A few piles of horse manure lay here and there, but it is
+otherwise a very clean and fresh smelling stall.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15060
+S
+#15062
+A Horse Stall~
+A fresh pile of hay lines one end of the stall, a few pieces straggling
+out across the rest of the stall from the horse wriggling and prancing a bit
+restlessly.  The walls are built of extremely smooth wood, with not a stray
+splinter to be found that might gouge into a horse's flesh and cause an
+infection.  A few piles of horse manure lay here and there, but it is
+otherwise a very clean and fresh smelling stall.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 15060
+S
+#15063
+A Horse Stall~
+A fresh pile of hay lines one end of the stall, a few pieces straggling
+out across the rest of the stall from the horse wriggling and prancing a bit
+restlessly.  The walls are built of extremely smooth wood, with not a stray
+splinter to be found that might gouge into a horse's flesh and cause an
+infection.  A few piles of horse manure lay here and there, but it is
+otherwise a very clean and fresh smelling stall.
+~
+0 0 0
+5
+D3
+~
+~
+AB 0 15050
+S
+#15064
+A Path Leading to the Manor~
+A wide gravelled path leads north and south here, the smooth stones of
+the gravel gleaming with a clean glow.  The sides of the path are lined with
+trimmed, healthy grass that is a vivid green, and looks as if a gardener
+spends every day tending it.  A short distance south is an intersection of
+paths, while to the north immediately are two guard houses, lining the path
+on either side.  Further north the large, dull red bricks of the manor can
+be seen behind the stately pillars that support it.
+~
+0 4 0
+5
+D0
+~
+~
+0 0 15065
+D2
+~
+~
+0 0 15010
+S
+#15065
+Between the Guard Houses~
+The gravel path stretches between two guard houses of medium size here. 
+The houses are made of sturdy wood, with a few bricks to support them, all a
+bit faded from the weather but still holding up strong.  Their doors are
+open to the east and west, showing their somewhat spartan interiors.  You
+can see the guards eyeing you curiously from inside the house, but they make
+no moves to stop you as you walk past.  The air smells fresh and clean here,
+and in the far distance to the south the hedgemaze standing tall.  A short
+distance to the north the stately manor house of Kastalia rises majestically
+into the air.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15068
+D1
+~
+~
+0 0 15066
+D2
+~
+~
+0 0 15064
+D3
+~
+~
+0 0 15067
+S
+#15066
+A Guard House~
+A guard house of generous size guards the sides of the path.  The door
+sits wide open, allowing an easy view of the path outside.  The room is
+decorated sparsely, with a low wooden counter, benches, and a few
+decorations on the wall.  Large windows look out across the vast green
+lawns, towards the hedge and towards the house itself.  The walls are of
+sturdy wood that looks quite strong despite its apparent age.  The thick
+scent of the thatch roof above sends an almost comforting aura into the
+room.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15065
+S
+#15067
+A Guard House~
+A guard house of generous size guards the sides of the path.  The door
+sits wide open, allowing an easy view of the path outside.  The room is
+decorated sparsely, with a low wooden counter, benches, and a few
+decorations on the wall.  Large windows look out across the vast green
+lawns, towards the hedge and towards the house itself.  The walls are of
+sturdy wood that looks quite strong despite its apparent age.  The thick
+scent of the thatch roof above sends an almost comforting aura into the
+room.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15065
+S
+#15068
+On the Path at the Doors~
+A set of double doors rises up to the immediate north.  Their height must
+reach at least 20 feet up against the walls of the manor, with a faint arch
+to them.  The doors are made of deep mahogany colored wood, and they look
+impossibly heavy and sturdy.  Intricate patterns of gold inlay are swirled
+across the doors, with a few gems firmly imbedded into the dark grains. 
+They seem to twinkle and wink merrily at you in a glimmer of light.  The
+brick walls of the manor rise up around the doors, and to the east and west
+tall pillars that support a roof overhang above stand proudly.  The pillars
+are carved of a smooth white marble, with the faintest of red veins in it
+that matches the colors of the brick perfectly.  A gold and silver plated
+plaque can be seen next to the doors, along with a huge knocking device.  A
+path leads to the east, headed towards the rose gardens.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15088
+D1
+~
+~
+0 0 15069
+D2
+~
+~
+0 0 15065
+S
+#15069
+The Winding Path~
+This smooth gravel path leads off from the main path towards the Lady
+Gwyndalyn's rose gardens.  The gardens are reknowned far and wide for their
+intense beauty and the exotic blend of colors she manages to produce.  The
+path seems quiet, with only the soft crunch of gravel now and then to keep
+you company.  A soft breeze blows from the east, carrying with it the heady
+fragrance of hundreds of roses.  To the north the walls of the manor house
+rise up, and to the southeast the stables can be seen.  The path stretches
+on to the east past the walls of the house.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15070
+D3
+~
+~
+0 0 15068
+S
+#15070
+The Winding Path~
+The path stretches smoothly between the main path to the west, and the
+famous rose gardens of Kastalia to the east.  The gravel is smooth and seems
+well combed of any jagged rocks that might poke up through the soft soles of
+boots.  Well-trimmed grass lines the path, and a few flower beds can be seen
+here and there as you make your way down the path.  Now and then a bird call
+echoes throughout the air, and soft breezes brush past you bringing with
+them the soft scent of roses.  Far in the distance to the south the
+hedgemaze rises almost tauntingly, and to the northwest the manor house sits
+proudly.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15071
+D3
+~
+~
+0 0 15069
+S
+#15071
+The Winding Path~
+The path picks its winding way through the lawns of Kastalia, heading in
+a generally eastish direction towards Lady Gwyndalyn's rose gardens.  A
+breeze brings with it the scent of roses, and you can see the gardens in the
+near distance.  A gazebo rests sedately in the center of what seems to be an
+organized disarray of color and shapes.  To the south, the path winds its
+way lazily towards the main path to the west, and to the east it continues
+towards the garden.  The manor house watches silently over the rest of the
+manor to the distant west, while almost directly south a ways the roof of
+the stables can be seen.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15072
+D2
+~
+~
+0 0 15070
+S
+#15072
+The Entrance to the Rose Gardens~
+To the east, a beautiful rose garden sits proudly in the light.  The
+roses seem tall and amazingly brilliant, and a faintly magical hum seems to
+fill the air.  A gazebo rises in the center of the rose garden, its white
+painted phasepine gleaming faintly.  The thick scent of roses is heavy on
+the air, as well as the buzzing of a few bees that flit from flower to
+flower.  To the west, a gravel path begins and heads in the general
+direction of the manor house.
+ 
+A small sign rests next to the entrance of the garden.
+~
+0 0 0
+5
+E
+sign~
+The sign is painted with this puzzling warning:
+ 
+Please, Dont feed the roses.
+--Gwyndalyn Kastal
+~
+D1
+~
+~
+0 0 15073
+D3
+~
+~
+0 0 15071
+S
+#15073
+The Rose Gardens~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.  The path heads west towards the house,
+and east into the gazebo.  North and south leads into the garden itself.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15084
+D1
+~
+~
+0 0 15085
+D2
+~
+~
+0 0 15074
+D3
+~
+~
+0 0 15072
+S
+#15074
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15073
+D2
+~
+~
+0 0 15075
+S
+#15075
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15074
+D1
+~
+~
+0 0 15076
+S
+#15076
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15077
+D3
+~
+~
+0 0 15075
+S
+#15077
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15078
+D3
+~
+~
+0 0 15076
+S
+#15078
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15079
+D2
+~
+~
+0 0 15077
+S
+#15079
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15080
+D2
+~
+~
+0 0 15078
+S
+#15080
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15081
+D2
+~
+~
+0 0 15079
+S
+#15081
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15080
+D3
+~
+~
+0 0 15082
+S
+#15082
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15081
+D3
+~
+~
+0 0 15083
+S
+#15083
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15082
+D2
+~
+~
+0 0 15084
+S
+#15084
+The Rose Garden~
+Amazingly tall roses reach up five feet into the air, their buds
+measuring a foot across.  Every color of the rainbow is represented in this
+garden, and some colors you have never even imagined before as well.  The
+smell of the roses is almost intoxicating in its headiness, and the soft
+drone of the bees buzzing about fills the air.  The path beneath your feet
+is covered with soft moss, that springs back lightly after each footstep.  A
+breeze brushes through the garden from time to time, causing the rose bushes
+to shift slightly, their vicious looking thorns jutting inches from your
+skin.  Something seems to move among the bushes, perhaps it is just a bird
+who has made its nest in the wildly growing jungle of roses.  A gazebo rests
+in the center of the rose garden.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15083
+D2
+~
+~
+0 0 15073
+S
+#15085
+The Gazebo~
+The gazebo is quite large, and shaped a bit like a crescent moon.  It is
+built of smooth phasepine, and has symbols of the moon in various phases
+etched into it.  From here you can gaze out upon the garden without much
+fear of beestings or getting pricked by stray thorns.  You notice that the
+bushes seem to shift about slightly, almost as if they were moving on their
+own.  
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15087
+D2
+~
+~
+0 0 15086
+D3
+~
+~
+0 0 15073
+S
+#15086
+The Gazebo~
+The gazebo is quite large, and shaped a bit like a crescent moon.  It is
+built of smooth phasepine, and has symbols of the moon in various phases
+etched into it.  From here you can gaze out upon the garden without much
+fear of beestings or getting pricked by stray thorns.  You notice that the
+bushes seem to shift about slightly, almost as if they were moving on their
+own.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15085
+S
+#15087
+The Gazebo~
+The gazebo is quite large, and shaped a bit like a crescent moon.  It is
+built of smooth phasepine, and has symbols of the moon in various phases
+etched into it.  From here you can gaze out upon the garden without much
+fear of beestings or getting pricked by stray thorns.  You notice that the
+bushes seem to shift about slightly, almost as if they were moving on their
+own.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15085
+S
+#15088
+An Entrance Hall~
+The floor stretches seemingly endlessly in this large entrance hall. 
+Smoothed of a finely polished marble, it gleams softly and footsteps echo
+faintly about the hall.  Large marble pillars rise up to the ceiling far
+above now and again, supporting the ceiling above.  The ceiling is painted
+with beautiful frescoes and mosaic designs of the gods.  A door breaks the
+wall to the south, leading outside the manor.  The hallway itself stretches
+east, west, and north from this point.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15091
+D1
+~
+~
+0 0 15101
+D2
+~
+~
+AB 0 15068
+D3
+~
+~
+0 0 15089
+S
+#15089
+An Entrance Hall~
+The entrance hall comes to a corner here, the smooth, wood-panelled walls
+seeming to come together with hardly even a seam.  A large statue stands in
+the corner, in front of a pillar that reaches its marble length up to
+support the painted ceiling overhead.  The floors are made of a smooth
+marble that gleams with a freshly-cleaned glow.  The hall stretches east and
+north, where the echoes of footsteps on marble can be heard.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15090
+D1
+~
+~
+0 0 15088
+S
+#15090
+An Entrance Hall~
+The west wall of the entrance hall stretches beneath your gaze.  Large
+pillars of marble rise up to support the ceiling above, which is adorned
+with mosaics and frescos depicting the gods in their various duties.  The
+wall to the west is completely smooth and shines softly with dark stain, and
+looks as though it was freshly washed down.  A painting adorns the wall, as
+do a few lights that glow with a magical light, shedding brilliance about
+the hall.  The hall stretches on to the north, east, and south.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15093
+D1
+~
+~
+0 0 15091
+D2
+~
+~
+0 0 15089
+S
+#15091
+An Entrance Hall~
+The large entrance hall stretches in every direction around you, its
+smooth marble flooring gleaming with its soft, clean glow.  A few echoes of
+footsteps upon the marble echo about as people move to and fro, accompanied
+by soft laughter that bounces off the smooth wooden walls on the borders of
+the massive hall.  The ceiling reaches high above, supported by a collonade
+of marble pillars.  Beautiful hand painted murals adorn the ceiling, their
+images looking lifelike as they depict the heroic actions of a time long
+ago.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15092
+D1
+~
+~
+0 0 15102
+D2
+~
+~
+0 0 15088
+D3
+~
+~
+0 0 15090
+S
+#15092
+An Entrance Hall~
+You stand at the northern end of the entrance hall to the manor of
+Kastalia.  To the north a large set of double doors leads to the main
+section of the manor, each door reaching 15 feet in height and decorated
+with various gems and silver leafing.  The vast entrance hall stretches
+east, west, and south.  Marble floors that echo soft footsteps like tiny
+tapping noises form the ground, while magnificent artwork decorates the
+ceiling far above.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15111
+D1
+~
+~
+0 0 15103
+D2
+~
+~
+0 0 15091
+D3
+~
+~
+0 0 15093
+S
+#15093
+An Entrance Hall~
+The entrance hall comes to a corner here, with a large door opening to
+lead down a hallway to the west.  The door is made of smooth mahogany, and
+decorated with faint shimmers of gold foil in intricate designs.  The smooth
+marble floor of the entrance hall stretches east and south, its faint
+patterns so small and softly colored that they seem almost a trick of the
+light.  A pillar rises in this corner to support the ceiling, and a few
+echoes of laughter can be heard down the guest hallway beyond the door.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15092
+D2
+~
+~
+0 0 15090
+D3
+~
+~
+AB 0 15094
+S
+#15094
+A Guest Hallway~
+The floor stretching down this hallway is a well worn, but still quite
+sturdy and clean, wood that seems to gleam with a proud shine.  The wooden
+walls are spaced far apart, leaving enough room for people to easily walk
+three abreast down this hall without brushing elbows.  The ceiling is high
+above, arching slightly; it is patterned with softly shining gold leaf.  To
+the east a doorway leads out into the entrance hall, while to the south a
+smaller doorway leads into a guest room.  The hallway stretches west.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15093
+D2
+~
+~
+AB 0 15095
+D3
+~
+~
+0 0 15096
+S
+#15095
+A Guest Room~
+This is a large, well decorated guest room.  The wall is of a smooth,
+dark wood with grains of a slightly darker color.  A few magical lights
+adorn the walls, shedding a soft, magical glow about the room.  In one
+corner can be seen a large cabinet wardrobe, and in another is a small chest
+of drawers.  On top of the chest of drawers is a vase filled with fresh
+flowers, a basin and a pitcher of water.  A soft bed takes up a good portion
+of the room, its pillows freshly fluffed and quilts and blankets piled high
+on its surface.  A large window adorns the southern wall.
+~
+0 0 0
+5
+E
+window~
+The window shows a faint glimpse of the hedgemaze, as well as the topiary
+gardens.
+~
+D0
+~
+~
+AB 0 15094
+S
+#15096
+A Guest Hallway~
+A large guest hallway stretches east and west here in the manor of
+Kastalia.  The wooden floors gleam with a freshly cleaned shine, and the
+walls are adorned here and there with soft lights that light the hall with a
+magical glow.  It seems bright and airy, and the hallway is wide enough to
+walk quite comfortably.  A doorway leads south into a guest room.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15094
+D2
+~
+~
+AB 0 15097
+D3
+~
+~
+0 0 15098
+S
+#15097
+A Guest Room~
+This is a large, well decorated guest room.  The wall is of a smooth,
+dark wood with grains of a slightly darker color.  A few magical lights
+adorn the walls, shedding a soft, magical glow about the room.  In one
+corner can be seen a large cabinet wardrobe, and in another is a small chest
+of drawers.  On top of the chest of drawers is a vase filled with fresh
+flowers, a basin and a pitcher of water.  A soft bed takes up a good portion
+of the room, its pillows freshly fluffed and quilts and blankets piled high
+on its surface.  A large window adorns the southern wall.
+~
+0 0 0
+5
+E
+window~
+Through the window the topiary garden shines brightly with just a faint
+haze of mist about it.
+~
+D0
+~
+~
+AB 0 15096
+S
+#15098
+A Guest Hallway~
+The guest hallway comes to an end here, with rooms breaking off to the
+west and south.  The hallway is wide and airy, and seems filled with a fresh
+scent of clean and flowers.  The arched ceiling above shines softly with a
+few light decorations of gold leaf, and lights that gleam with magical glows
+hang upon the walls.  The floors are wooden and seem to gleam with a freshly
+cleaned shine.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15096
+D2
+~
+~
+AB 0 15099
+D3
+~
+~
+AB 0 15100
+S
+#15099
+A Guest Room~
+This is a large, well decorated guest room.  The wall is of a smooth,
+dark wood with grains of a slightly darker color.  A few magical lights
+adorn the walls, shedding a soft, magical glow about the room.  In one
+corner can be seen a large cabinet wardrobe, and in another is a small chest
+of drawers.  On top of the chest of drawers is a vase filled with fresh
+flowers, a basin and a pitcher of water.  A soft bed takes up a good portion
+of the room, its pillows freshly fluffed and quilts and blankets piled high
+on its surface.  A large window adorns the southern wall.
+~
+0 0 0
+5
+E
+window~
+Through the window one can see the intricate topiary garden, shining in
+the sun's light.
+~
+D0
+~
+~
+AB 0 15098
+S
+#15100
+A Guest Room~
+This is a large, well decorated guest room.  The wall is of a smooth,
+dark wood with grains of a slightly darker color.  A few magical lights
+adorn the walls, shedding a soft, magical glow about the room.  In one
+corner can be seen a large cabinet wardrobe, and in another is a small chest
+of drawers.  On top of the chest of drawers is a vase filled with fresh
+flowers, a basin and a pitcher of water.  A soft bed takes up a good portion
+of the room, its pillows freshly fluffed and quilts and blankets piled high
+on its surface.  A large window adorns the southern wall.  Another window
+adorns the western wall.
+~
+0 0 0
+5
+E
+window~
+Through the windows can be seen the topiary garden to the south, and a
+pond glimmers in the sun to the west.
+~
+D1
+~
+~
+AB 0 15098
+S
+#15101
+An Entrance Hall~
+The large entrance hall comes to a corner here.  The wall to the south is
+the outer wall of the manor, and it holds a large stained glass window that
+shows a view of the outside.  The walls are composed of smooth mahogany that
+seems entirely seamless, coming together to form a corner that looks almost
+carved in its perfection.  Smooth marble flooring stretches out, gleaming
+softly in the lights that adorn the walls.  A beautiful statue stands in the
+corner, watching quietly over the hall.  The hallway stretches north and
+west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15102
+D3
+~
+~
+0 0 15088
+S
+#15102
+An Entrance Hall~
+The east wall of the entrance hall stretches beneath your gaze.  Large
+pillars of marble rise up to support the ceiling above, which is adorned
+with mosaics and frescos depicting the gods in their various duties.  The
+wall to the east is completely smooth and shines softly with dark stain, and
+looks as though it was freshly washed down.  A painting adorns the wall, as
+do a few lights that glow with a magical light, shedding brilliance about
+the hall.  The hall stretches on to the north, west, and south.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15103
+D2
+~
+~
+0 0 15101
+D3
+~
+~
+0 0 15091
+S
+#15103
+An Entrance Hall~
+The entrance hall comes to a corner here, with a large door opening to
+lead down a hallway to the east.  The door is made of smooth mahogany, and
+decorated with faint shimmers of goold foil in intricate designs.  The
+smooth marble floor of the entrance hall stretches west and south, its faint
+pattern so small and softly colored that they seem almost a trick of the
+light.  A pillar rises in this corner to support the ceiling, and a few
+echoes of laughter can be heard down the guest hallway beyond the door.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15104
+D2
+~
+~
+0 0 15102
+D3
+~
+~
+0 0 15092
+S
+#15104
+A Guest Hallway~
+The floor stretching down this hallway is a well worn, but still quite
+sturdy and clean, wood that seems to gleam with a proud light.  The wooden
+walls are spaced far apart, leaving enough room for people to easily walk
+three abreast down this hall without brushing elbows.  The ceiling is high
+above, arching slightly; it is patterned with softly shining gold leaf.  To
+the west a doorway leads out into the entrance hall, while to the south a
+smaller doorway leads into a guest room.  The hallway stretches east.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15106
+D2
+~
+~
+AB 0 15105
+D3
+~
+~
+AB 0 15103
+S
+#15105
+A Guest Room~
+This is a large, well decorated guest room.  The wall is of a smooth,
+dark wood with grains of a slightly darker color.  A few magical lights
+adorn the walls, shedding a soft, magical glow about the room.  In one
+corner can be seen a large cabinet wardrobe, and in another is a small chest
+of drawers.  On top of the chest of drawers is a vase filled with fresh
+flowers, a basin and a pitcher of water.  A soft bed takes up a good portion
+of the room, its pillows freshly fluffed and quilts and blankets piled high
+on its surface.  A large window adorns the southern wall.
+~
+0 0 0
+5
+E
+window~
+The window shows a beautiful view out towards the front of the house,
+showing the hedgemaze just visible in the far distance to the south.
+~
+D0
+~
+~
+AB 0 15104
+S
+#15106
+A Guest Hallway~
+A large guest hallway stretches east and west here in the manor of
+Kastalia.  The wooden floors gleam with a freshly cleaned shine, and the
+walls are adorned here and there with soft lights that light the hall with a
+magical glow.  It seems bright and airy, and the hallway is wide enough to
+walk quite comfortably.  A doorway leads south into a guest room.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15108
+D2
+~
+~
+AB 0 15107
+D3
+~
+~
+0 0 15104
+S
+#15107
+A Guest Room~
+This is a large, well decorated guest room.  The wall is of a smooth,
+dark wood with grains of a slightly darker color.  A few magical lights
+adorn the walls, shedding a soft, magical glow about the room.  In one
+corner can be seen a large cabinet wardrobe, and in another is a small chest
+of drawers.  On top of the chest of drawers is a vase filled with fresh
+flowers, a basin and a pitcher of water.  A soft bed takes up a good portion
+of the room, its pillows freshly fluffed and quilts and blankets piled high
+on its surface.  A large window adorns the southern wall.
+~
+0 0 0
+5
+E
+window~
+The window shows a beautiful view out towards the front of the house,
+showing the hedgemaze just visible in the far distance to the south.
+~
+D0
+~
+~
+AB 0 15106
+S
+#15108
+A Guest Hallway~
+The guest hallway comes to an end here, with two doors breaking off of it
+east and south into guest rooms.  The floor is smooth and clean, and the
+walls are spaced wide apart to make the hallway seem quite vast.  The high,
+arched ceiling overhead is decorated with gold leaf, and seems to shine
+softly.  Muted laughter can be heard from behind the doors.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15110
+D2
+~
+~
+AB 0 15109
+D3
+~
+~
+0 0 15106
+S
+#15109
+A Guest Room~
+This is a large, well decorated guest room.  The wall is of a smooth,
+dark wood with grains of a slightly darker color.  A few magical lights
+adorn the walls, shedding a soft, magical glow about the room.  In one
+corner can be seen a large cabinet wardrobe, and in another is a small chest
+of drawers.  On top of the chest of drawers is a vase filled with fresh
+flowers, a basin and a pitcher of water.  A soft bed takes up a good portion
+of the room, its pillows freshly fluffed and quilts and blankets piled high
+on its surface.  A large window adorns the southern wall.
+~
+0 0 0
+5
+E
+window~
+The large hedgemaze can be seen out the window, as well as the stables to
+the south and east.
+~
+D0
+~
+~
+AB 0 15108
+S
+#15110
+A Guest Room~
+This is a large, well decorated guest room.  The wall is of a smooth,
+dark wood with grains of a slightly darker color.  A few magical lights
+adorn the walls, shedding a soft, magical glow about the room.  In one
+corner can be seen a large cabinet wardrobe, and in another is a small chest
+of drawers.  On top of the chest of drawers is a vase filled with fresh
+flowers, a basin and a pitcher of water.  A soft bed takes up a good portion
+of the room, its pillows freshly fluffed and quilts and blankets piled high
+on its surface.  A large window adorns the southern wall.  Another window
+looks out to the east.
+~
+0 0 0
+5
+E
+window~
+Out the windows you can see the hedgemaze in the far distance to the
+south, and a ways to the east a beautiful garden is visible.
+~
+D3
+~
+~
+AB 0 15108
+S
+#15111
+A Wide Hallway~
+A wide, marble floored hallway stretches north from here, towards a large
+hallway intersection.  Laughter echoes out now and then through the halls,
+and the soft tapping of footsteps on the marble bounces faintly throughout
+the air.  The hallway is airy and seems to have a fresh scent to it.  To the
+south a large set of double doors leads into the entrance hallway.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15112
+D2
+~
+~
+AB 0 15092
+S
+#15112
+A Hallway Intersection~
+Two hallways meet here, each hallway seeming to echo with life and
+merriment.  The hallway to the east and west leads off towards the chapel
+and ballroom, respectively.  A distance to the north the hallway leads
+towards stairs and the dining hall.  South leads out to the doors to the
+manor and the grounds.  The ceiling above is arched slightly, and looks to
+be painted with intricate murals depicting glorious battles of ages long
+ago.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15141
+D1
+~
+~
+0 0 15128
+D2
+~
+~
+0 0 15111
+D3
+~
+~
+0 0 15113
+S
+#15113
+A Wide Hallway~
+A wide hallway stretches east and west here.  The marble floor beneath
+shines softly with a faint gleam, and the arched ceilings above portray a
+vast image of battles long past.  To the east a ways can be seen a large
+intersection, while the hallway disappears west towards a ballroom in the
+far distance.  To the north and south doors lead into sitting rooms.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15127
+D1
+~
+~
+0 0 15112
+D2
+~
+~
+0 0 15114
+D3
+~
+~
+0 0 15115
+S
+#15114
+A sitting Room~
+A large, magically lit sitting room greets your gaze.  The walls are
+smooth and shining, and they are adorned with a few magical lights as well
+as portraits and paintings of various types.  A tapestry hangs on one wall,
+depicting the pond out to the west of the manor.  It seems to shimmer and
+change now and then, as if updating to a current scene.  For now, a small
+boy is snoozing while is bait is nibbled by large fish under the water.  The
+ceiling above is decorated with a lovely gold leaf, as well as the door to
+the south.  A few chairs beckon with comfortable looking cushions, and some
+low tables serve as drinkstands.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15113
+S
+#15115
+A Wide Hallway~
+Doors break off this hallway leading north and south, each somewhat open
+to reveal the insides of the rooms.  To the north the open door reveals a
+room completely covered in star charts, while to the south is the library. 
+East and west the wide hallway stretches on, the marble flooring gleaming
+with its soft glow.  The walls are of a smooth wood that seems ancient, but
+sturdy and somehow proud.  Far to the west the doors to the ballroom can be
+seen.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15126
+D1
+~
+~
+0 0 15113
+D2
+~
+~
+0 0 15116
+D3
+~
+~
+0 0 15118
+S
+#15116
+The Kastal Family Library~
+Books of every shape and size fill this room to the brim.  Shelves lead
+up every available wall, in some cases 20 feet into the air, each
+overflowing with books.  A few ladders rest against the shelves to access
+the higher books, and a few books lay open on tables, piled in some cases
+three to four books high.  A few books are piled in corners as well, and
+next to the large, comfortable chairs that beckon for one to grab a book and
+relax next to the cozy fireplace.  The room is large and airy, with a huge
+arched ceiling above showing a simple mural of a scribe painstakingly
+writing a manuscript.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15115
+D3
+~
+~
+0 0 15117
+S
+#15117
+The Kastal Family Library~
+Books of every shape and size fill this room to the brim.  Shelves lead
+up every available wall, in some cases 20 feet into the air, each
+overflowing with books.  A few ladders rest against the shelves to access
+the higher books, and a few books lay open on tables, piled in some cases
+three to four books high.  A few books are piled in corners as well, and
+next to the large, comfortable chairs that beckon for one to grab a book and
+relax next to the cozy fireplace.  The room is large and airy, with a huge
+arched ceiling above showing a simple mural of a scribe painstakingly
+writing a manuscript.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15116
+S
+#15118
+A Wide Hallway~
+This is the western end of a wide hallway that leads on to the east
+towards the center of the manor.  The marble floors shine, their faint
+patterns so slight that they seem to be a mere trick of the eyes.  The south
+wall is covered with a large hanging tapestry, while the north wall is
+broken by a slightly open door.  Beyond the door the faint tinkling of music
+can be heard; a soft harp plays quietly but with quite a few pauses and
+stops as if somebody is practising.  A pair of large double doors break
+west, their surfaces covered in intricate gold leaf and shining jewels.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15125
+D1
+~
+~
+0 0 15115
+D3
+~
+~
+AB 0 15119
+S
+#15119
+The Kastalia Ballroom~
+A large, supremely grand ballroom meets your gaze.  The floors are smooth
+wood, and they shine with the reflections of huge, magical chandaliers that
+hang from the ceiling 40 feet above.  The din of dozens of conversations
+fills the air as people mill about, and lively music sounds out across the
+room.  The ceiling above is hardly visible, but it is painted with an image
+of the night sky.  Large windows cover almost every inch of the walls,
+showing a beautiful view of the grounds and the pond out to the west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15124
+D1
+~
+~
+AB 0 15118
+D2
+~
+~
+0 0 15120
+D3
+~
+~
+0 0 15122
+S
+#15120
+The Kastalia Ballroom~
+A large, supremely grand ballroom meets your gaze.  The floors are smooth
+wood, and they shine with the reflections of huge, magical chandaliers that
+hang from the ceiling 40 feet above.  The din of dozens of conversations
+fills the air as people mill about, and lively music sounds out across the
+room.  The ceiling above is hardly visible, but it is painted with an image
+of the night sky.  Large windows cover almost every inch of the walls,
+showing a beautiful view of the grounds and the pond out to the west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15119
+D3
+~
+~
+0 0 15121
+S
+#15121
+The Kastalia Ballroom~
+A large, supremely grand ballroom meets your gaze.  The floors are smooth
+wood, and they shine with the reflections of huge, magical chandaliers that
+hang from the ceiling 40 feet above.  The din of dozens of conversations
+fills the air as people mill about, and lively music sounds out across the
+room.  The ceiling above is hardly visible, but it is painted with an image
+of the night sky.  Large windows cover almost every inch of the walls,
+showing a beautiful view of the grounds and the pond out to the west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15122
+D1
+~
+~
+0 0 15120
+S
+#15122
+The Kastalia Ballroom~
+A large, supremely grand ballroom meets your gaze.  The floors are smooth
+wood, and they shine with the reflections of huge, magical chandaliers that
+hang from the ceiling 40 feet above.  The din of dozens of conversations
+fills the air as people mill about, and lively music sounds out across the
+room.  The ceiling above is hardly visible, but it is painted with an image
+of the night sky.  Large windows cover almost every inch of the walls,
+showing a beautiful view of the grounds and the pond out to the west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15123
+D1
+~
+~
+0 0 15119
+D2
+~
+~
+0 0 15121
+S
+#15123
+The Kastalia Ballroom~
+A large, supremely grand ballroom meets your gaze.  The floors are smooth
+wood, and they shine with the reflections of huge, magical chandaliers that
+hang from the ceiling 40 feet above.  The din of dozens of conversations
+fills the air as people mill about, and lively music sounds out across the
+room.  The ceiling above is hardly visible, but it is painted with an image
+of the night sky.  Large windows cover almost every inch of the walls,
+showing a beautiful view of the grounds and the pond out to the west.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15124
+D2
+~
+~
+0 0 15122
+S
+#15124
+The Kastalia Ballroom~
+A large, supremely grand ballroom meets your gaze.  The floors are smooth
+wood, and they shine with the reflections of huge, magical chandaliers that
+hang from the ceiling 40 feet above.  The din of dozens of conversations
+fills the air as people mill about, and lively music sounds out across the
+room.  The ceiling above is hardly visible, but it is painted with an image
+of the night sky.  Large windows cover almost every inch of the walls,
+showing a beautiful view of the grounds and the pond out to the west.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15119
+D3
+~
+~
+0 0 15123
+S
+#15125
+The Music Room~
+The most prominent feature in this room is a large instrument that looks
+much like a piano.  Instead of pedals, however, it has a few small harp-like
+strings that one would pick at with a tool clipped onto one's shoes.  In a
+corner of the room a large harp sits, its strings humming with energy.  A
+few flutes, lutes, and lyres hang from the walls, as well as some strange
+instruments that arent readily identifiable.  The room is large, bright and
+airy, with sheets of music collected in shelves on the walls.  The ceiling
+is painted with large music notes and musical scores.  A window looks north
+over the grounds.
+~
+0 0 0
+5
+E
+window~
+The window looks into the far distance, showing nothing for quite a ways
+but the smooth, trimmed lawns of the manor.
+~
+D2
+~
+~
+0 0 15118
+S
+#15126
+The Room of the Stars~
+This is the room where the denizens of the castle come to study up on
+their astrology, consult the star maps and see what the skies have in store
+for them.  The walls are literally wallpapered with star charts that show
+every constellation and star cluster.  Huge books lay open, their pages well
+worn and marked, teaching of the various meanings of astrology.  The ceiling
+above is painted to look like a night sky, with the stars so bright and
+vivid it seems that one could reach up and grab them down from their resting
+places.  At the window a strange contraption with an eyepiece pokes through
+a hole in the window and aims up at the sky.  A door leads south to the
+hallway.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15115
+S
+#15127
+A Sitting Room~
+A large, magically lit sitting room greets your gaze.  The walls are
+smooth and shining, and they are adorned with a few magical lights as well
+as portraits and paintings of various types.  A tapestry hangs on one wall,
+depicting the pond out to the west of the manor.  It seems to shimmer and
+change now and then, as if updating to a current scene.  For now, a small
+boy is snoozing while is bait is nibbled by large fish under the water.  The
+ceiling above is decorated with a lovely gold leaf, as well as the door to
+the south.  A few chairs beckon with comfortable looking cushions, and some
+low tables serve as drinkstands.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15113
+S
+#15128
+A Wide Hallway~
+A wide hallway stretches east and west here.  To the west a short ways
+can be seen an intersection of hallways, while to the east the hallway
+eventually leads to the Kastal's chapel.  The arched ceilings above are
+decorated with gold leaf, and doors to the north and south lead into quiet
+sitting rooms.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15140
+D1
+~
+~
+0 0 15130
+D2
+~
+~
+0 0 15129
+D3
+~
+~
+0 0 15112
+S
+#15129
+A Sitting Room~
+A large, magically lit sitting room greets your gaze.  The walls are
+smooth and shining, and they are adorned with a few magical lights as well
+as portraits and paintings of various types.  A tapestry hangs on one wall,
+depicting the pond out to the west of the manor.  It seems to shimmer and
+change now and then, as if updating to a current scene.  For now, a small
+boy is snoozing while is bait is nibbled by large fish under the water.  The
+ceiling above is decorated with a lovely gold leaf, as well as the door to
+the south.  A few chairs beckon with comfortable looking cushions, and some
+low tables serve as drinkstands.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15128
+S
+#15130
+A Wide Hallway~
+This hallway stretches east and west.  A short distance to the east the
+wide doors of the chapel can be seen, while to the south a door leads into
+the advisor's room.  To the north a semi-open door shows a room covered with
+maps of every shape and size.  The floor beneath is of a smooth marble and
+it shines softly, reflecting the magically glowing lights on the walls.  The
+ceiling arches above, showing a delicate gold leafing as well as a few
+intricate paintings.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15139
+D1
+~
+~
+0 0 15132
+D2
+~
+~
+0 0 15131
+D3
+~
+~
+0 0 15128
+S
+#15131
+The Advising Room~
+A large table dominates this room.  Built of solid mahogany, it gleams
+softly in the light shining in from a window to the south.  Magically
+glowing torches rest in holders against the walls, their reflections
+mirrored on the smooth surface of the table.  A few chairs are surrounding
+the table; they look rather comfortable and expensive.  The marble floor is
+partially covered in a thick rug, patterned with what seems to be the
+illusion of fairy wings.  A large portrait rests on the wall.
+~
+0 0 0
+5
+E
+portrait~
+The portrait is of a kind, yet sturdy looking gentleman.  The style of
+dress in the portrait seems quite ancient, as with the colors of the paint. 
+A small plaque beneath the picture reads: 
+ 
+Eowyn Kastal
+~
+D0
+~
+~
+0 0 15130
+S
+#15132
+A Wide Hallway~
+Twin doors rise to the east, intricate symbols and runes covering their
+surfaces.  These runes and symbols all seem to be those of a religions
+nature, designating the room to the east to be the Kastal family chapel. 
+The arched ceiling is high above, and it shines softly with intricate gold
+leafing here and there.  To the north and south small doors break off into
+the private rooms of the clergy.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15138
+D1
+~
+~
+AB 0 15134
+D2
+~
+~
+AB 0 15133
+D3
+~
+~
+0 0 15130
+S
+#15133
+The Clergy's Bedroom~
+A decently large bedroom meets your glance.  Two beds line the main
+walls, looking rather simple.  They are covered in soft, knitted blankets
+and have only a single pillow.  A quick touch would reveal that they are not
+soft like normal feather beds, but instead made of a harder substance.  The
+wooden planked walls are bare, but despite their lack of decoration they
+gleam softly with a clean shine.  The marble floors are bare of rug, but
+they too seem freshly cleaned.  A door leads north into the hallway.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15132
+S
+#15134
+The Kastal Family Chapel~
+The chapel here seems solemn and silent, only broken by the occassional
+soft tinkle of bells near the altar to the east.  North and south a few pews
+stretch, and the aisle between them is carpetted in a lush, white rug that
+has faint holy symbols sewn into it.  Huge windows arch, giving the entire
+chapel a bright, airy look.  The ceiling is high, and crossed with a few
+beams.  Between the beams beautiful mosaics have been painted, the holy eyes
+of the figures represented seeming to glow with a magical light that bathes
+the room.  Double doors lead west towards the hallway.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15137
+D1
+~
+~
+0 0 15136
+D2
+~
+~
+0 0 15135
+D3
+~
+~
+AB 0 15132
+S
+#15135
+Among the Pews~
+Three pews stretch out in this silent chapel.  The floor between them is
+padded, so that kneeling does not take as much a toll on the family's knees.
+A large window shines to the south, done in antique seeming stained glass. 
+The images in the glass depict holy wars of ages long past, and scenes of
+the gods bestowing blessings upon the Kastal family.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15134
+S
+#15136
+The Altar to the Gods~
+A large altar stretches here, before a stained glass window that
+stretches 10 feet across and more than 20 feet high.  The altar is of deep
+grey marble, and the swirls of color in the marble seem alive, sliding and
+writhing faintly.  A white and red cloth is draped across the altar, and
+folded upon itself in an intricate design.  A few holy books lay across the
+altar, as well as some scrolls and statues.  A stick of incense burns at
+each end of the altar, sending the musky scent of spices throughout the
+chapel.  The stained glass above the altar shows an image of each god, in
+all of their glory.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15134
+S
+#15137
+Among the pews~
+Three pews stretch out in this silent chapel.  The floor between them is
+padded, so that kneeling does not take as much a toll on the family's knees.
+A large window shines to the north, done in antique seeming stained glass. 
+The images in the glass depict holy wars of ages long past, and scenes of
+the gods bestowing blessings upon the Kastal family.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15134
+S
+#15138
+The Clergy's Bedroom~
+A decently large bedroom meets your glance.  Two beds line the main
+walls, looking rather simple.  They are covered in soft, knitted blankets
+and have only a single pillow.  A quick touch would reveal that they are not
+soft like normal feather beds, but instead made of a harder substance.  The
+wooden planked walls are bare, but despite their lack of decoration they
+gleam softly with a clean shine.  The marble floors are bare of rug, but
+they too seem freshly cleaned.  A single window in the northern wall looks
+out upon the courtyard, and beyond that can be seen the windows of the
+dining hall.  Simple curtains hang across the windows.  A door leads south
+into the hallway.
+~
+0 0 0
+5
+D2
+~
+~
+AB 0 15132
+S
+#15139
+The Map Room~
+This room is covered in maps and geographical books of all kinds.  The
+walls themselves seem to be wallpapered in the maps, showing far off
+destinations, waterways, and even a map of the cosmos.  There are two
+comfortable looking chairs, and a few tables strewn with maps and charcoals
+and blank parchments.  A few of the maps seem to be treasure maps, and they
+are hidden behind thick glass partitions.  An odd rug, painted with map
+designs, covers the floor.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15130
+S
+#15140
+A Sitting Room~
+A large, magically lit sitting room greets your gaze.  The walls are
+smooth and shining, and they are adorned with a few magical lights as well
+as portraits and paintings of various types.  A tapestry hangs on one wall,
+depicting the pond out to the west of the manor.  It seems to shimmer and
+change now and then, as if updating to a current scene.  For now, a small
+boy is snoozing while is bait is nibbled by large fish under the water.  The
+ceiling above is decorated with a lovely gold leaf, as well as the door to
+the south.  A few chairs beckon with comfortable looking cushions, and some
+low tables serve as drinkstands.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15128
+S
+#15141
+A Wide Hallway~
+The marble floors of the hallway stretch north and south here.  A short
+distance to the south is a hallway intersection, while to the north can be
+seen wide staircases.  The walls on either side of the hall are smooth and
+wooden, with beautiful tapestries hanging from them.  A arched ceiling high
+above gleams softly with gold and silver leafing.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15142
+D2
+~
+~
+0 0 15112
+S
+#15142
+Between the Stairways~
+Twin staircases, each grand and immensely majestic looking rise up from
+the east and west towards the upper level of the house.  Here the marble
+flooring alternates colors, forming a beautiful pattern of a rose that can
+really only be viewed completely from above.  To the north, double doors
+lead into the receiving room of the Kastal family, the place where everyone
+meets and pays their respects to the Lord and Lady.  The hum of conversation
+and laughter can be heard through the door, and the air is quite bright and
+fresh.  Everything gleams with a well-tended shine.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15145
+D1
+~
+~
+0 0 15144
+D2
+~
+~
+0 0 15141
+D3
+~
+~
+0 0 15143
+S
+#15143
+A Grand Staircase~
+A grand staircase leads up to the second floor here.  The stairs are
+bordered by a thick railing that seems to be carved of one enormous strip of
+wood.  The handles at the bottom are rounded and seem to fit perfectly all
+hands that grasp them.  The stairs are covered in a thick, wool-like fabric
+that is dyed a deep purple in color.  Full suits of platinum armor stand at
+attention on either side of the staircase, magically held in place in
+positions of stiff guard.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15142
+D4
+~
+~
+0 0 15151
+S
+#15144
+A Grand Staircase~
+A grand staircase leads up to the second floor here.  The stairs are
+bordered by a thick railing that seems to be carved of one enormous strip of
+wood.  The handles at the bottom are rounded and seem to fit perfectly all
+hands that grasp them.  The stairs are covered in a thick, wool-like fabric
+that is dyed a deep purple in color.  Full suits of platinum armor stand at
+attention on either side of the staircase, magically held in place in
+positions of stiff guard.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15142
+D4
+~
+~
+0 0 15152
+S
+#15145
+The Kastal Greeting Area~
+A grand meeting hall stretches forth from this point to the east, west,
+and north.  Intricately carven wood chairs fill the room, all facing a pair
+of chairs to the north.  The ceiling above is vaulted and extremely high, a
+few gold leafings cover it but it mainly shows paintings of clouds.  It
+looks as though there is no ceiling at all, but a gold bordered window that
+peers into the air.  You can tell this is not so, however, for here and
+there lights can be seen casting shadows upon the ceiling.  The floor below
+has a beautifully woven red carpet that leads north to the foot of the twin
+chairs.  Beneath the carpet the floor is of marble, and it shines softly
+with a freshly cleaned gleam.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15148
+D1
+~
+~
+0 0 15150
+D2
+~
+~
+AB 0 15142
+D3
+~
+~
+0 0 15146
+S
+#15146
+The Kastal Greeting Area~
+A grand meeting hall stretches forth from this point to the east and
+north.  Marbled floors shine softly with a fresh gleam, their grey colors
+reflecting the magical lights that glow on the wood-panelled walls.  A din
+of conversation and the faint tinkling of laughter echoes about this hall,
+where it seems every chair is filled with a visiting friend or relative. 
+The vaulted ceiling above is painted to be the very image of a blue sky,
+with a few clouds floating lazily past.  The wall to the south is adorned
+with a single tapestry.
+~
+0 0 0
+5
+E
+tapestry~
+The tapestry is simplistic in its beauty.  It shows the image of a
+pegasus, rearing back on its hindlegs with its wings flared out
+magestically.
+~
+D0
+~
+~
+0 0 15147
+D1
+~
+~
+0 0 15145
+S
+#15147
+The kastal Greeting Area~
+This corner of the meeting hall is filled with the fragrant smoke of
+pipes, and deep, male voices hum quietly in intense conversation.  The
+wooden chairs are turned to view the chairs of the Lord and Lady to the
+west, but the inhabitants seem more drawn into their own conversations.  The
+marble floor here seems a bit dulled from the smoke, and a few pinches of
+herbs have been carelessly dropped on the ground.  A large window in the
+northern hall looks out upon the lawns of Kastalia, which stretch for what
+seems to be miles.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15148
+D2
+~
+~
+0 0 15146
+S
+#15148
+The Kastal Greeting Area~
+Two chairs are raised up here, on a bit of a platform made of smooth
+white marble.  It contrasts sharply with the grey marble of the floor,
+although both shine softly.  A red carpet leads up to the base of the
+platform, and the chairs are carved of deepest mahogany wood, covered in
+beautiful cushions and fabric of deep purple and red.  These are the Lord
+and Lady's chairs, and they face towards the rest of the chairs in the
+meeting hall.  The air is bright with the sound of laughter and
+conversations, and a large window breaks the wall to the north offering a
+view of the immense lawns that stretch into the distance.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15149
+D2
+~
+~
+0 0 15145
+D3
+~
+~
+0 0 15147
+S
+#15149
+The Kastal Greeting Area~
+This corner of the meeting hall is filled with the fragrant smoke of
+pipes, and deep, male voices hum quietly in intense conversation.  The
+wooden chairs are turned to view the chairs of the Lord and Lady to the
+west, but the inhabitants seem more drawn into their own conversations.  The
+marble floor here seems a bit dulled from the smoke, and a few pinches of
+herbs have been carelessly dropped on the ground.  A large window in the
+northern hall looks out upon the lawns of Kastalia, which stretch for what
+seems to be miles.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15150
+D3
+~
+~
+0 0 15148
+S
+#15150
+The Kastal Greeting Area~
+A grand meeting hall stretches forth from this point to the west and
+north.  Marbled floors shine softly with a fresh gleam, their grey colors
+reflecting the magical lights that glow on the wood-paneled walls.  An
+opening in the wall leads east into the dining room, where all is relatively
+silent.  A din of conversation and the faint tinkling of laughter echoes
+about this hall, where it seems every chair is filled with a visiting friend
+or relative.  Portraits hang on the southern wall.
+~
+0 0 0
+5
+E
+portraits~
+One portrait shows a beautiful woman in what seems to be an extremely old
+fashioned gown.  The paints are somewhat faded but her beauty and nobility
+still shines through.  A small plaque on the bottom of the portrait reads: 
+ 
+Maudya Kastal
+~
+D0
+~
+~
+0 0 15149
+D3
+~
+~
+0 0 15145
+S
+#15151
+A Grand Staircase~
+A grand staircase leads down to the first floor here.  The stairs are
+bordered by a thick railing that seems carved of one enormous strip of wood.
+The handles at the top are rounded and seem to fit perfectly to every hand
+that grasps them, almost by magic.  The stairs themselves are covered in a
+thick, purple fabric that looks freshly laid and not a bit worn or stained. 
+The hallway is to the east.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15153
+D5
+~
+~
+0 0 15143
+S
+#15152
+A Grand Staircase~
+A grand staircase leads down to the first floor here.  The stairs are
+bordered by a thick railing that seems carved of one enormous strip of wood.
+The handles at the top are rounded and seem to fit perfectly to every hand
+that grasps them, almost by magic.  The stairs themselves are covered in a
+thick, purple fabric that looks freshly laid and not a bit worn or stained. 
+The hallway is to the west.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15153
+D5
+~
+~
+0 0 15144
+S
+#15153
+A Carpeted Hallway~
+This grand hallway leads north and south between the Lord and Lady's
+private suites.  The carpet is made of a deep purple fabric, that seems
+thick and utterly soft to the touch.  Strange patterns of a lighter purple
+seem to shimmer and shift in the carpet's surface, causing the carpet to
+look new and freshly laid.  Directly to the north a set of double doors
+leads into Lord Garrick's rooms.  To the east and west, staircases lead down
+to the first floor.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15154
+D1
+~
+~
+0 0 15152
+D2
+~
+~
+0 0 15161
+D3
+~
+~
+0 0 15151
+S
+#15154
+Garrick's Suite~
+A grand suite meets your gaze.  Everything in the room seems oversized,
+from the large wardrobe that rests in one corner, to the giant postered bed
+that dominates half of the room.  The floor is covered in deep red carpet
+that is embellished with swirls of royal purple.  The carpet is thick and
+soft, with nary a stain to be seen.  Beneath the carpetting around the
+border of the room, the wooden floorboards can be seen.  They shine with a
+brilliant, clean glow, and seem to be made from the richest mahoganys. 
+Double doors lead south into the hallway, and the room stretches to the
+north, east, and west.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15155
+D1
+~
+~
+0 0 15157
+D2
+~
+~
+AB 0 15153
+D3
+~
+~
+0 0 15156
+S
+#15155
+Garrick's Suite~
+Glass doors colored like stained glass open to the north, leading into a
+grand balcony that stretches its way about the entirety of the manor house. 
+Lord Garrick's suite stretches to the south, east, and west.  To the east, a
+large, four postered bed beckons.  The ceiling above is covered entirely in
+gold leafing and gems of all sorts that shimmer and shine softly.  Magical
+lights hang from beams on the ceiling, shedding a soft glow that mingles
+with the sunlight streaming in through the balcony doors.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15160
+D1
+~
+~
+0 0 15159
+D2
+~
+~
+0 0 15154
+D3
+~
+~
+0 0 15158
+S
+#15156
+Garrick's Suite~
+A few large, overstuffed chairs sit here forming a little semi-circle
+where Lord Garrick can sit and converse with his family members in peace and
+quiet.  The air smells faintly like a spicy tobacco, and the chairs look
+quite comfortable and worn slightly.  A beautiful tapestry hangs on the
+wall, shifting slightly with a faint draft from the ceiling now and then.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15158
+D1
+~
+~
+0 0 15154
+S
+#15157
+Garrick's Suite~
+A large wardrobe dominates this corner of Lord Garrick's suite.  It
+reaches 9 feet in the air, and is carved of a dark, almost black wood.  The
+wood seems quite resilient, and has no scratch nor mar on its surface.  A
+few gems border the door, and some delicate gold and silver leafing has been
+carefully designed onto the wardrobe.  The walls are made of the same deep
+wood, and have simple decorations upon them, including family portraits.
+~
+0 0 0
+5
+E
+portraits~
+One portrait in particular catches your eye.  It shows a man and a woman,
+seated side by side before a rolling hilltop.  They hold hands, and even in
+the faded paints of the picture you can tell that their eyes shine with
+love.  A small plaque on the bottom of the portrait reads: 
+ 
+Eowyn and Maudya
+~
+D0
+~
+~
+0 0 15159
+D3
+~
+~
+0 0 15154
+S
+#15158
+Garrick's Suite~
+A beautiful set of cabinets stands in this corner, open slightly to
+reveal the glint of metal inside of them.  It seems to be where the Lord
+holds some of his weapons, and he has been a bit careless to leave it open
+in such a manner.  To the north a large window looks out upon the balcony
+and the green lawns beyond.  The suite stretches east and south, its immense
+size filled with the strong scent of a spicy tobacco.  To the south, a few
+chairs can be seen.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15155
+D2
+~
+~
+0 0 15156
+S
+#15159
+Garrick's Suite~
+A large bed takes up most of this corner of the suite.  It has high
+posters and a canopy of deep purple hues.  Drapes of a red and purple swirl
+hang around the bed, but they are drawn back into an open position showing
+nobody in the bed at the moment.  The bed is piled with soft pillows and
+thrown with handmade quilts and knitted blankets.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15157
+D3
+~
+~
+0 0 15155
+S
+#15160
+The Balcony~
+This wide balcony stretches out around the entire second level of the
+manor house of the Kastal family.  The edges are supported by a thick
+railing that seems quite sturdy, even when leaned quite heavily upon.  From
+here you can gaze quite a ways into the distance; everything seems peaceful
+and far off in this family sanctuary.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15196
+D2
+~
+~
+AB 0 15155
+D3
+~
+~
+0 0 15203
+S
+#15161
+A Carpeted Hallway~
+Thick, soft carpet leads in the four cardinal directions here.  It swirls
+with a deep purple color, embellished only with lighter purple designs.  The
+ceiling above arches slightly, coated in a beautiful gold leafing that
+shimmers softly, reflecting the magical lights that hang from the beams.  To
+the east and west a smaller hallway stretches.  West will lead towards
+Kiarron and Lina's suites, while to the east are Malrick and Karynna's
+suites.  North heads towards Lord Garrick's suite, and south towards Lady
+Gwyndalyn's.  The air is bright and filled with the fresh scent of flowers,
+and the light murmur of conversation from the rooms.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15153
+D1
+~
+~
+0 0 15169
+D2
+~
+~
+0 0 15162
+D3
+~
+~
+0 0 15183
+S
+#15162
+A Carpeted Hallway~
+This grand hallway leads north and south between the Lord and Lady's
+private suites.  The carpet is made of a deep purple fabric, that seems
+thick and utterly soft to the touch.  Strange patterns of a lighter purple
+seem to shimmer and shift in the carpet's surface, causing the carpet to
+look new and freshly laid.  Directly to the south a set of double doors
+leads into Lady Gwyndalyn's suite.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15161
+D2
+~
+~
+AB 0 15163
+S
+#15163
+Gwyndalyn's Suite~
+A soft scent of flowers fills the air here, and you notice that there are
+vases of them sitting on every available flat surface.  The arched ceiling
+above is painted with delicate designs of flowers, and even the carpet
+beneath your feet carries their designs.  The room is immense, but it seems
+quite cozy and warm, with magical lights hanging from the ceiling that shed
+a gentle light upon the entire room.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15162
+D1
+~
+~
+0 0 15165
+D2
+~
+~
+0 0 15164
+D3
+~
+~
+0 0 15166
+S
+#15164
+Gwyndalyn's Suite~
+Doors lead south onto the magnificent balcony from here, their glass
+stained to appear as the very image of a rose in bloom.  The colors shine
+onto the floor in the pattern of the flower as the sun shines through the
+glass.  In the far distance through the glass the hedgemaze can be seen. 
+The soft scent of flowers fills the air, probably due to the fact that they
+are everywhere in this room.  
+Almost incongrous to the rest of the room are marks and scuffs on the carpet, having almost frayed it in places.  To be in such a state in an otherwise well tended room he marks must indeed be recent.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15163
+D1
+~
+~
+0 0 15210
+D2
+~
+~
+AB 0 15168
+D3
+~
+~
+0 0 15167
+S
+#15165
+Gwyndalyn's Suite~
+A childs crib is here, carved of white phasepine and imbued with the
+symbols of the moon in her various phases.  A small toy lays snuggled in the
+crib, along with a tiny baby that sleeps soundly.  The walls here seem to
+magically shift colors now and then, from a soft white to a soft pink color
+and then back again.  The suite stretches south and west from here.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15210
+D3
+~
+~
+0 0 15163
+S
+#15166
+Gwyndalyn's Suite~
+Lady Gwyndalyn's bed takes up a good portion of this corner.  It is quite
+tall, with a canopy the shade of the purest of white snows, and drapes that
+are fashioned to look like intertwining rose blossoms.  The quilt thrown
+across the bed is also designed with matching roses, and the bed looks soft
+and inviting.  The high ceiling above is silver leafed, and has a few moons
+painted upon it, while the carpetting is designed with flowers.  A single
+rose lays on the pillow of the bed.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15163
+D2
+~
+~
+0 0 15167
+S
+#15167
+Gwyndalyn's Suite~
+A comfortable looking couch is set against the wall here, its cushions
+quite dented and seeming a bit well worn.  A table in front of the couch has
+an assortment of gardening books and children's story books, as well as a
+couple stuffed animals.  The Lady Gwyndalyn must spend a good deal of her
+time sitting here reading, either to herself or to one of the children.  A
+bit of knitting lays discarded on the couch.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15166
+D1
+~
+~
+0 0 15164
+S
+#15168
+The Balcony~
+This wide balcony stretches out around the entire second level of the
+manor house of the Kastal family.  The edges are supported by a thick
+railing that seems quite sturdy, even when leaned quite heavily upon.  From
+here you can gaze quite a ways into the distance; everything seems peaceful
+and far off in this family sanctuary.  A glass door leads into someones
+bedroom.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15164
+D1
+~
+~
+0 0 15199
+D3
+~
+~
+0 0 15200
+S
+#15169
+A Carpeted Hallway~
+A wide, lushly carpeted hallway stretches east and west here.  The carpet
+is thick, and soft, springing back beneath your feet to cushion every step. 
+The vaulted ceiling above has the faint designs of gold leafing upon it,
+which reflect the soft lights of magical torches hanging here and there. 
+Another hallway meets with this one to the west, while to the east the
+hallway leads towards some suites.  To the south, the bottom of some stairs
+can be seen.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15171
+D2
+~
+~
+0 0 15170
+D3
+~
+~
+0 0 15161
+S
+#15170
+The Stairs to the Attic~
+The stairs leading up here somehow seem dark and gloomy, despite the
+warmth and brightness of the surrounding hallway.  The stairs creak as if
+rarely used, and each footstep brings up a poof of dust into the air that is
+causing your nose to itch slightly.  At the top of the stairs a door blocks
+the way into the attic, perhaps that door was put there for a reason.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15169
+D4
+~
+~
+AB 0 15204
+S
+#15171
+A Carpeted Hallway~
+A wide, lushly carpeted hallway stretches east and west here.  The carpet
+is thick, and soft, springing back beneath your feet to cushion every step. 
+The vaulted ceiling above has the faint designs of gold leafing upon it,
+which reflect the soft lights of magical torches hanging here and there. 
+Another hallway meets with this one to the west, while to the east the
+hallway leads towards some suites.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15172
+D3
+~
+~
+0 0 15169
+S
+#15172
+A Carpeted Hallway~
+The hallway stretches east and west here.  The wooden walls shine softly
+with a waxed gleam, as do the floorboards extending beyond the carpet that
+runs down the center of the hall.  The carpet itself is a deep purple color,
+swirled with designs of a lighter purple.  To the north, a door leads into
+Karynna's suite, where the murmur of conversation can be heard through the
+door.  To the south, all is silent from the door leading into Malrick's
+room.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15173
+D1
+~
+~
+0 0 15177
+D2
+~
+~
+AB 0 15179
+D3
+~
+~
+0 0 15171
+S
+#15173
+Karynna's Suite~
+Karynna's suite is quite large, and stretches to the east and west.  To
+the east, a large bed dominates the room.  Faint giggles can be heard from
+that direction, along with a deep voice now and then.  To the west is
+Karynna's wardrobe.  This section of her room is filled with two large
+chairs that face the door north, which steps out onto the balcony.  Sun
+streams in through the almost transparent cloths that hang down over the
+glass.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15176
+D1
+~
+~
+0 0 15175
+D2
+~
+~
+AB 0 15172
+D3
+~
+~
+0 0 15174
+S
+#15174
+Karynna's Suite~
+A large, wooden wardrobe made from the wood of a rare moontree, takes up
+most of this section of the room.  It is designed with soft, flowery looking
+carvings..  A few gems form the petals of the flowers.  It seems quite
+intricately designed, and filled to the brim with clothing that sticks out
+from the semi-open doors.  A thick carpet of pure white covers the floor,
+and the wooden walls are painted a white to match.  On one wall a single,
+purple rose is painted.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15173
+S
+#15175
+Karynna's Suite~
+A beam of sunlight shines through the windows to the north to light upon
+the large, canopied bed here.  Drapes hanging around the bed are pulled to
+the side, their translucent lengths parted to reveal a soft bed with the
+sheets rumpled.  The pillows have two indentations in them, and you notice
+Karynna seems to not be alone in her room..
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15173
+S
+#15176
+The Balcony~
+This wide balcony stretches out around the entire second level of the
+manor house of the Kastal family.  The edges are supported by a thick
+railing that seems quite sturdy, even when leaned quite heavily upon.  From
+here you can gaze quite a ways into the distance; everything seems peaceful
+and far off in this family sanctuary.  A door leads into someone's bedroom.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15196
+D1
+~
+~
+0 0 15197
+D2
+~
+~
+AB 0 15173
+S
+#15177
+A Carpeted Hallway~
+This is the eastern end of a long, carpetted hallway.  To the east a door
+leads out onto the balcony of the manor house, while to the west the hallway
+stretches on.  The walls are wood-panelled and seem to radiate a warm,
+magical heat that keeps the hallway comfortable.  The arched ceiling above
+is decorated with gold leafing, and the carpet beneath is of a deep purple
+color.
+~
+0 0 0
+5
+D1
+~
+~
+AB 0 15178
+D3
+~
+~
+0 0 15172
+S
+#15178
+The Balcony~
+This wide balcony stretches out around the entire second level of the
+manor house of the Kastal family.  The edges are supported by a thick
+railing that seems quite sturdy, even when leaned quite heavily upon.  From
+here you can gaze quite a ways into the distance; everything seems peaceful
+and far off in this family sanctuary.  A door leads into the hallway.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15197
+D2
+~
+~
+0 0 15198
+D3
+~
+~
+AB 0 15177
+S
+#15179
+Malrick's Suite~
+A vast, but very simple room meets your gaze.  The only decoration in the
+entire room is a large mural painted on the ceiling, depicting the image of
+one of the gods of the realm.  She watches serenely over the room from her
+painted surroundings, her eyes seeming to glow with a faint light.  The bed
+is in the eastern corner, while the western corner holds Malrick's wardrobe
+and bookshelves.  A door leads north into the hallway, and one opens south
+out onto the balcony.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15172
+D1
+~
+~
+0 0 15181
+D2
+~
+~
+AB 0 15182
+D3
+~
+~
+0 0 15180
+S
+#15180
+Malrick's Suite~
+A large bookshelf takes up much of this section of Malrick's suite.  All
+of the books seem to deal with various religions, and each seems worn and
+much-used.  A simple wardrobe sits in the corner, an open door revealing
+very plain clothing, all dull colored and sturdy in nature.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15179
+S
+#15181
+Malrick's Suite~
+A rather small bed seems to sit almost humbly against the eastern wall. 
+It is covered with a simple black blanket, and has a single pillow upon it. 
+It even seems rather hard, not like the soft bed you'd expect from a member
+of this noble family.  The floor is bare, and the wooden planks kept well
+swept and clean.  The walls are bare as well, and a single candle rests on a
+table next to the bed, along with a book.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15179
+S
+#15182
+The Balcony~
+This wide balcony stretches out around the entire second level of the
+manor house of the Kastal family.  The edges are supported by a thick
+railing that seems quite sturdy, even when leaned quite heavily upon.  From
+here you can gaze quite a ways into the distance; everything seems peaceful
+and far off in this family sanctuary.  A glass door leads into someones
+bedroom.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15179
+D1
+~
+~
+0 0 15198
+D2
+~
+~
+0 0 15199
+S
+#15183
+A Carpeted Hallway~
+A wide, lushly carpeted hallway stretches east and west here.  The
+carpet is thick, and soft, springing back beneath your feet to cushion every
+step.  The vaulted ceiling above has the faint designs of gold leafing upon
+it, which reflect the soft lights of magical torches hanging here and there.
+Another hallway meets with this one to the east, while to the west the
+hallway leads towards some suites.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15161
+D3
+~
+~
+0 0 15184
+S
+#15184
+A Carpeted Hallway~
+A wide, lushly carpeted hallway stretches east and west here.  The
+carpet is thick, and soft, springing back beneath your feet to cushion every
+step.  The vaulted ceiling above has the faint designs of gold leafing upon
+it, which reflect the soft lights of magical torches hanging here and there.
+Another hallway meets with this one to the east, while to the west the
+hallway leads towards some suites.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15183
+D3
+~
+~
+0 0 15185
+S
+#15185
+A Carpeted Hallway~
+The hallway stretches east and west here.  The wooden walls shine softly
+with a waxed gleam, as do the floorboards extending beyond the carpet that
+runs down the center of the hall.  The carpet itself is a deep purple color,
+swirled with designs of a lighter purple.  To the north, a door leads into
+Lina's suite, where the thick scent of herbs seems to emanate through the
+door.  To the south come the sounds of the child Kiarron laughing joyously.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15188
+D1
+~
+~
+0 0 15184
+D2
+~
+~
+AB 0 15192
+D3
+~
+~
+0 0 15186
+S
+#15186
+~
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15185
+D3
+~
+~
+AB 0 15187
+S
+#15187
+The Balcony~
+This wide balcony stretches out around the entire second level of the
+manor house of the Kastal family.  The edges are supported by a thick
+railing that seems quite sturdy, even when leaned quite heavily upon.  From
+here you can gaze quite a ways into the distance; everything seems peaceful
+and far off in this family sanctuary.  A door leads into the hallway.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15202
+D1
+~
+~
+AB 0 15186
+D2
+~
+~
+0 0 15201
+S
+#15188
+Lina's Suite~
+The carpet in this room has been pushed back for runes to be drawn onto
+the wooden floor.  The ceiling above is covered with runes as well, and
+magic books lay strewn all over the table that sits in the center of Lina's
+suite.  The thick, spicy scent of herbs hangs heavily in the air, and seems
+more strong from the west, while to the east a bed can be seen.  A door
+leads south into the hallway, and another leads north onto the balcony.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15191
+D1
+~
+~
+0 0 15190
+D2
+~
+~
+AB 0 15185
+D3
+~
+~
+0 0 15189
+S
+#15189
+Lina's Suite~
+Books are strewn all over the floor here, and the bookshelf lays almost
+completely empty with only one or two books toppled onto the shelves.  A
+wardrobe lays open, filled with clothes that somehow look unused.  It seems
+as though Lina is too involved in her studies to do much of anything in the
+way of personal maintenance. 
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15188
+S
+#15190
+Lina's Suite~
+The bed here is covered with open books, all showing various uses of
+herbs in combinations with rune magic.  It's a wonder that any sleep gets
+done in this bedroom, as the layer of books covering the bed is almost three
+deep, and it looks a bit dusty.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15188
+S
+#15191
+The Balcony~
+This wide balcony stretches out around the entire second level of the
+manor house of the Kastal family.  The edges are supported by a thick
+railing that seems quite sturdy, even when leaned quite heavily upon.  From
+here you can gaze quite a ways into the distance; everything seems peaceful
+and far off in this family sanctuary.  A door leads into someone's bedroom.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15203
+D2
+~
+~
+AB 0 15188
+D3
+~
+~
+0 0 15202
+S
+#15192
+Kiarron's Suite~
+This is your typical child's room.  Except for the fact that it is filled
+to the brim with toys of every shape, size, color and design.  Small toys,
+big toys, fluffy toys and stick toys all are crowded into this room.  The
+carpet looks liberally smeared with painty hand and footprints, all a
+child's size, and over half of the wall is done this way as well.  A
+child-sized bed lays covered by an enormous stuffed dragon, and a wardrobe
+door is flung open with clothes strewn every which way.  To the south a door
+leads out onto the balcony, and to the north one leads into the hallway.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15185
+D1
+~
+~
+0 0 15194
+D2
+~
+~
+AB 0 15195
+D3
+~
+~
+0 0 15193
+S
+#15193
+Kiarron's Suite~
+This is your typical child's room.  Except for the fact that it is
+filled to the brim with toys of every shape, size, color and design.  Small
+toys, big toys, fluffy toys and stick toys all are crowded into this room. 
+The carpet looks liberally smeared with painty hand and footprints, all a
+child's size, and over half of the wall is done this way as well.  A
+child-sized bed lays covered by an enormous stuffed dragon, and a wardrobe
+door is flung open with clothes strewn every which way.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15192
+S
+#15194
+Kiarron's Suite~
+This is your typical child's room.  Except for the fact that it is
+filled to the brim with toys of every shape, size, color and design.  Small
+toys, big toys, fluffy toys and stick toys all are crowded into this room. 
+The carpet looks liberally smeared with painty hand and footprints, all a
+child's size, and over half of the wall is done this way as well.  A
+child-sized bed lays covered by an enormous stuffed dragon, and a wardrobe
+door is flung open with clothes strewn every which way.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 15192
+S
+#15195
+The Balcony~
+This wide balcony stretches out around the entire second level of the
+manor house of the Kastal family.  The edges are supported by a thick
+railing that seems quite sturdy, even when leaned quite heavily upon.  From
+here you can gaze quite a ways into the distance; everything seems peaceful
+and far off in this family sanctuary.  A door leads into someone's bedroom.
+~
+0 0 0
+5
+D0
+~
+~
+AB 0 15192
+D2
+~
+~
+0 0 15200
+D3
+~
+~
+0 0 15201
+S
+#15196
+A Balcony Corner~
+The wide balcony comes to a corner here, skirting around the edge of the
+manor house.  The sturdy railing seems steady, and the wooden platforms that
+form the floor seem strong, although faded faintly with weather and age. 
+The air is crisp and fresh, and everything seems calm and serene.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15176
+D3
+~
+~
+0 0 15160
+S
+#15197
+A Balcony Corner~
+The wide balcony comes to a corner here, skirting around the edge of the
+manor house.  The sturdy railing seems steady, and the wooden platforms that
+form the floor seem strong, although faded faintly with weather and age. 
+The air is crisp and fresh, and everything seems calm and serene.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15178
+D3
+~
+~
+0 0 15176
+S
+#15198
+A Balcony Corner~
+The wide balcony comes to a corner here, skirting around the edge of the
+manor house.  The sturdy railing seems steady, and the wooden platforms that
+form the floor seem strong, although faded faintly with weather and age. 
+The air is crisp and fresh, and everything seems calm and serene.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15178
+D3
+~
+~
+0 0 15182
+S
+#15199
+A Balcony Corner~
+The wide balcony comes to a corner here, skirting around the edge of the
+manor house.  The sturdy railing seems steady, and the wooden platforms that
+form the floor seem strong, although faded faintly with weather and age. 
+The air is crisp and fresh, and everything seems calm and serene.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15182
+D3
+~
+~
+0 0 15168
+S
+#15200
+A Balcony Corner~
+The wide balcony comes to a corner here, skirting around the edge of the
+manor house.  The sturdy railing seems steady, and the wooden platforms that
+form the floor seem strong, although faded faintly with weather and age. 
+The air is crisp and fresh, and everything seems calm and serene.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15195
+D1
+~
+~
+0 0 15168
+S
+#15201
+A Balcony Corner~
+The wide balcony comes to a corner here, skirting around the edge of the
+manor house.  The sturdy railing seems steady, and the wooden platforms that
+form the floor seem strong, although faded faintly with weather and age. 
+The air is crisp and fresh, and everything seems calm and serene.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15187
+D1
+~
+~
+0 0 15195
+S
+#15202
+A Balcony Corner~
+The wide balcony comes to a corner here, skirting around the edge of the
+manor house.  The sturdy railing seems steady, and the wooden platforms that
+form the floor seem strong, although faded faintly with weather and age. 
+The air is crisp and fresh, and everything seems calm and serene.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15191
+D2
+~
+~
+0 0 15187
+S
+#15203
+A Balcony Corner~
+The wide balcony comes to a corner here, skirting around the edge of the
+manor house.  The sturdy railing seems steady, and the wooden platforms that
+form the floor seem strong, although faded faintly with weather and age. 
+The air is crisp and fresh, and everything seems calm and serene.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15160
+D2
+~
+~
+0 0 15191
+S
+#15204
+The Attic~
+The attic stretches endlessly, the dark shadows seeming to swallow what
+meager light you cast.  Cobwebs hang from the ceiling, and stretch all the
+way to the floor.  A thick layer of dust covers everything, and large crates
+and old furniture make travelling around here quite a hazard.  You begin to
+feel lost as you wander among the relics of Kastalia's past, and soft
+whispers seem to fill the air as a cold draft brushes through the attic. 
+You get the feeling that you're not alone.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15209
+D3
+~
+~
+0 0 15205
+D5
+~
+~
+AB 0 15170
+S
+#15205
+The Attic~
+The attic stretches endlessly, the dark shadows seeming to swallow what
+meager light you cast.  Cobwebs hang from the ceiling, and stretch all the
+way to the floor.  A thick layer of dust covers everything, and large crates
+and old furniture make travelling around here quite a hazard.  You begin to
+feel lost as you wander among the relics of Kastalia's past, and soft
+whispers seem to fill the air as a cold draft brushes through the attic. 
+You get the feeling that you're not alone.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15208
+D1
+~
+~
+0 0 15204
+D3
+~
+~
+0 0 15206
+S
+#15206
+The Attic~
+The attic stretches endlessly, the dark shadows seeming to swallow what
+meager light you cast.  Cobwebs hang from the ceiling, and stretch all the
+way to the floor.  A thick layer of dust covers everything, and large crates
+and old furniture make travelling around here quite a hazard.  You begin to
+feel lost as you wander among the relics of Kastalia's past, and soft
+whispers seem to fill the air as a cold draft brushes through the attic. 
+You get the feeling that you're not alone.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15207
+D1
+~
+~
+0 0 15205
+S
+#15207
+The Attic~
+The attic stretches endlessly, the dark shadows seeming to swallow what
+meager light you cast.  Cobwebs hang from the ceiling, and stretch all the
+way to the floor.  A thick layer of dust covers everything, and large crates
+and old furniture make travelling around here quite a hazard.  You begin to
+feel lost as you wander among the relics of Kastalia's past, and soft
+whispers seem to fill the air as a cold draft brushes through the attic. 
+You get the feeling that you're not alone.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15208
+D2
+~
+~
+0 0 15206
+S
+#15208
+The Attic~
+The attic stretches endlessly, the dark shadows seeming to swallow what
+meager light you cast.  Cobwebs hang from the ceiling, and stretch all the
+way to the floor.  A thick layer of dust covers everything, and large crates
+and old furniture make travelling around here quite a hazard.  You begin to
+feel lost as you wander among the relics of Kastalia's past, and soft
+whispers seem to fill the air as a cold draft brushes through the attic. 
+You get the feeling that you're not alone.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 15209
+D2
+~
+~
+0 0 15205
+D3
+~
+~
+0 0 15207
+S
+#15209
+The Attic~
+The attic stretches endlessly, the dark shadows seeming to swallow what
+meager light you cast.  Cobwebs hang from the ceiling, and stretch all the
+way to the floor.  A thick layer of dust covers everything, and large crates
+and old furniture make travelling around here quite a hazard.  You begin to
+feel lost as you wander among the relics of Kastalia's past, and soft
+whispers seem to fill the air as a cold draft brushes through the attic. 
+You get the feeling that you're not alone.
+~
+0 0 0
+5
+D2
+~
+~
+0 0 15204
+D3
+~
+~
+0 0 15208
+S
+#15210
+Gwyndalyn's Suite~
+A large wardrobe sits in the corner here, the doors firmly shut and
+silver leafing etched in beautiful flowery designs along the surfaces.  The
+carpetting beneath your feet is a soft white color, imprinted with the
+designs of millions of flowers, and the floorboards that peek out from
+beneath the rug are a soft white that shine with a freshly cleaned gleam. 
+Sun shines in through the window along the southern wall.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 15165
+D3
+~
+~
+0 0 15164
+S
+#0
+
+
+
+#SPECIALS
+M 15006 spec_breath_fire
+M 15039 spec_cast_cleric
+S
+
+
+
+#RESETS
+D 0 15048 1 1
+D 0 15049 3 1
+D 0 15050 1 1
+D 0 15051 1 1
+D 0 15051 3 1
+D 0 15052 1 1
+D 0 15053 3 1
+D 0 15054 1 1
+D 0 15054 3 1
+D 0 15055 1 1
+D 0 15056 3 1
+D 0 15057 1 1
+D 0 15057 3 1
+D 0 15058 1 1
+D 0 15059 3 1
+D 0 15060 1 1
+D 0 15060 3 1
+D 0 15061 1 1
+D 0 15062 3 1
+D 0 15063 3 1
+D 0 15068 0 1
+D 0 15088 2 1
+D 0 15092 0 1
+D 0 15093 3 1
+D 0 15094 1 1
+D 0 15094 2 1
+D 0 15095 0 1
+D 0 15096 2 1
+D 0 15097 0 1
+D 0 15098 2 1
+D 0 15098 3 1
+D 0 15099 0 1
+D 0 15100 1 1
+D 0 15103 1 1
+D 0 15104 2 1
+D 0 15104 3 1
+D 0 15105 0 1
+D 0 15106 2 1
+D 0 15107 0 1
+D 0 15108 1 1
+D 0 15108 2 1
+D 0 15109 0 1
+D 0 15110 3 1
+D 0 15111 2 1
+D 0 15118 3 1
+D 0 15119 1 1
+D 0 15132 0 1
+D 0 15132 1 1
+D 0 15132 2 1
+D 0 15133 0 1
+D 0 15134 3 1
+D 0 15138 2 1
+D 0 15142 0 1
+D 0 15145 2 1
+D 0 15153 0 1
+D 0 15154 2 1
+D 0 15155 0 1
+D 0 15160 2 1
+D 0 15162 2 1
+D 0 15163 0 1
+D 0 15164 2 1
+D 0 15168 0 1
+D 0 15170 4 1
+D 0 15172 0 1
+D 0 15172 2 1
+D 0 15173 0 1
+D 0 15173 2 1
+D 0 15176 2 1
+D 0 15177 1 1
+D 0 15178 3 1
+D 0 15179 0 1
+D 0 15179 2 1
+D 0 15182 0 1
+D 0 15185 0 1
+D 0 15185 2 1
+D 0 15186 3 1
+D 0 15187 1 1
+D 0 15188 0 1
+D 0 15188 2 1
+D 0 15191 2 1
+D 0 15192 0 1
+D 0 15192 2 1
+D 0 15195 0 1
+D 0 15204 5 1
+R 0 15001 4
+R 0 15002 3
+M 0 15000 1 15002 1
+E 0 15000 0 16
+R 0 15003 1
+R 0 15004 1
+R 0 15005 1
+M 0 15000 1 15005 1
+E 0 15000 0 16
+R 0 15006 2
+M 0 15000 10 15006 1
+E 0 15000 0 16
+R 0 15007 2
+M 0 15000 10 15008 1
+E 0 15000 0 16
+M 0 15000 10 15011 1
+E 0 15000 0 16
+M 0 15001 1 15013 1
+M 0 15003 1 15014 1
+M 0 15007 1 15015 1
+M 0 15008 1 15016 1
+M 0 15012 1 15017 1
+M 0 15021 1 15018 1
+M 0 15013 4 15026 1
+E 0 15001 0 16
+M 0 15014 4 15028 1
+M 0 15014 4 15029 1
+M 0 15013 4 15031 1
+E 0 15001 0 16
+M 0 15013 4 15033 1
+E 0 15001 0 16
+M 0 15014 4 15034 1
+M 0 15014 4 15035 1
+M 0 15013 4 15038 1
+E 0 15001 0 16
+M 0 15011 1 15041 1
+M 0 15009 1 15042 1
+M 0 15010 1 15043 1
+M 0 15004 1 15044 1
+M 0 15006 2 15044 1
+M 0 15005 1 15045 1
+M 0 15002 1 15046 1
+M 0 15016 1 15050 1
+M 0 15015 3 15051 1
+E 0 15002 0 17
+M 0 15018 3 15053 1
+M 0 15019 1 15055 1
+M 0 15020 1 15056 1
+M 0 15015 3 15057 1
+E 0 15002 0 17
+M 0 15017 3 15058 1
+M 0 15018 3 15059 1
+M 0 15018 3 15061 1
+M 0 15017 3 15062 1
+M 0 15015 3 15063 1
+M 0 15017 3 15063 1
+M 0 15022 1 15065 1
+E 0 15003 0 16
+E 0 15021 0 5
+M 0 15023 1 15066 1
+E 0 15003 0 16
+M 0 15023 1 15066 1
+E 0 15003 0 16
+M 0 15023 1 15067 1
+E 0 15003 0 16
+M 0 15023 1 15067 1
+E 0 15003 0 16
+M 0 15024 1 15068 1
+M 0 15006 2 15070 1
+M 0 15025 12 15073 1
+M 0 15025 12 15074 1
+M 0 15025 12 15075 1
+M 0 15025 12 15076 1
+M 0 15025 12 15077 1
+M 0 15025 12 15078 1
+M 0 15025 12 15079 1
+M 0 15025 12 15080 1
+M 0 15025 12 15081 1
+M 0 15025 12 15082 1
+M 0 15025 12 15083 1
+M 0 15025 12 15084 1
+M 0 15026 3 15085 1
+M 0 15026 3 15086 1
+M 0 15026 3 15087 1
+M 0 15038 15 15092 1
+M 0 15038 15 15094 1
+M 0 15027 2 15095 1
+E 0 15004 0 5
+M 0 15028 8 15097 1
+E 0 15005 0 5
+M 0 15029 2 15099 1
+M 0 15028 8 15100 1
+M 0 15038 15 15104 1
+M 0 15027 2 15105 1
+E 0 15004 0 5
+M 0 15028 8 15107 1
+E 0 15005 0 5
+M 0 15029 2 15109 1
+M 0 15028 8 15110 1
+M 0 15038 15 15112 1
+M 0 15030 8 15114 2
+M 0 15030 8 15114 2
+M 0 15032 1 15117 1
+E 0 15007 0 12
+E 0 15008 0 3
+M 0 15035 1 15119 1
+M 0 15034 1 15119 1
+M 0 15033 1 15125 1
+M 0 15031 1 15126 1
+E 0 15006 0 17
+M 0 15030 8 15127 2
+M 0 15030 8 15127 2
+M 0 15030 8 15129 2
+M 0 15030 8 15129 2
+M 0 15037 4 15131 4
+E 0 15010 0 1
+M 0 15037 4 15131 4
+E 0 15010 0 1
+M 0 15037 4 15131 4
+E 0 15010 0 1
+M 0 15037 4 15131 4
+E 0 15010 0 1
+M 0 15039 2 15133 1
+M 0 15040 4 15134 1
+E 0 15011 0 13
+M 0 15040 4 15135 1
+E 0 15011 0 13
+M 0 15040 4 15136 1
+E 0 15011 0 13
+M 0 15041 1 15136 1
+M 0 15040 4 15137 1
+E 0 15011 0 13
+M 0 15039 2 15138 1
+M 0 15036 1 15139 1
+E 0 15009 0 17
+M 0 15030 8 15140 2
+M 0 15030 8 15140 2
+M 0 15038 15 15142 1
+M 0 15042 4 15143 2
+E 0 15014 0 14
+E 0 15013 0 10
+E 0 15012 0 5
+M 0 15042 4 15143 2
+E 0 15016 0 13
+E 0 15015 0 3
+E 0 15012 0 5
+M 0 15042 4 15144 2
+E 0 15018 0 9
+E 0 15017 0 8
+E 0 15012 0 5
+M 0 15042 4 15144 2
+E 0 15020 0 6
+E 0 15019 0 7
+E 0 15012 0 5
+M 0 15044 3 15145 1
+M 0 15045 3 15145 1
+M 0 15045 3 15146 1
+M 0 15028 8 15146 1
+E 0 15005 0 5
+M 0 15045 3 15147 1
+M 0 15028 8 15147 1
+M 0 15043 1 15148 1
+E 0 15012 0 5
+M 0 15044 3 15149 1
+M 0 15028 8 15149 1
+M 0 15044 3 15150 1
+M 0 15028 8 15150 1
+E 0 15005 0 5
+M 0 15051 1 15154 1
+M 0 15038 15 15161 1
+M 0 15050 5 15163 1
+M 0 15053 1 15164 1
+E 0 15024 0 14
+M 0 15050 5 15165 1
+M 0 15050 5 15166 1
+M 0 15050 5 15167 1
+M 0 15052 1 15175 1
+E 0 15023 0 5
+M 0 15049 1 15192 1
+E 0 15022 0 0
+M 0 15048 1 15192 1
+R 0 15205 3
+R 0 15206 2
+M 0 15047 1 15206 1
+R 0 15207 2
+R 0 15208 3
+R 0 15209 2
+M 0 15046 1 15209 1
+M 0 15050 5 15210 1
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

@@ -1,6 +1,7 @@
 ﻿using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Quest
 {

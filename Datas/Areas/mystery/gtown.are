@@ -1,0 +1,3037 @@
+#AREADATA
+Name Ghost Town~
+Builders None~
+VNUMs 1900 1999
+Credits {{40 65} Yaegar  Ghost Town~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#1900
+spectre~
+a spectre~
+A Spectre screams at you and attacks!
+~
+The spirit of some former minion of this place, this foul Undead creature
+will do its best you meet the same fate as all previous intruders in this
+fell domain- DEATH.
+~
+human~
+0
+AFG DFHT 0 0 -1000 0
+48 8 1d97+2303 1d1+99 0d0+0 1d35+15 none
+-22 -22 -22 -17
+0 0 0 0
+stand stand none 480
+AHMV ABCDEFGHIJK medium 0
+#1901
+wraith~
+a wraith~
+A Wraith strides  silently toward you, death in its glowing red eyes.
+~
+The spirit of some former minion of this place, this foul Undead creature
+will do its best you meet the same fate as all previous intruders in this
+fell domain- DEATH.
+~
+human~
+0
+AFG DFHJT 0 0 -1000 0
+47 7 1d95+2208 1d1+99 0d0+0 1d35+14 none
+-21 -21 -21 -16
+0 0 0 0
+stand stand none 470
+AHMV ABCDEFGHIJK medium 0
+#1902
+wight~
+a wight~
+A ghastly wight, still clad in the armor it wore in life, strikes at you.
+~
+The spirit of some former minion of this place, this foul Undead creature
+will do its best you meet the same fate as all previous intruders in this
+fell domain- DEATH.
+~
+human~
+0
+AFG DFHJ 0 0 -1000 0
+45 7 1d91+2024 1d1+99 0d0+0 1d33+14 none
+-20 -20 -20 -15
+0 0 0 0
+stand stand none 450
+AHMV ABCDEFGHIJK medium 0
+#1903
+ghost~
+a ghost~
+The ghost of some long-dead adventurer howls maniacally at you.
+~
+The spirit of some former minion of this place, this foul Undead creature
+will do its best you meet the same fate as all previous intruders in this
+fell domain- DEATH.
+~
+human~
+0
+AFG DFHTU 0 0 -1000 0
+48 8 1d97+2303 1d1+99 0d0+0 1d35+15 none
+-22 -22 -22 -17
+0 0 0 0
+stand stand none 480
+AHMV ABCDEFGHIJK medium 0
+#1904
+baron evil vampire~
+a vampire~
+An evil vampire rises from the sarcophagus, bares its fangs and attacks!
+~
+The Evil Baron and his two brothers were vampires imprisoned here by Xanan
+centuries ago, who had not the power to slay them utterly, and now thanks
+to your disturbance they have risen again!
+~
+human~
+0
+ABFG DFHJN 0 0 -1000 0
+54 9 1d109+2915 1d1+99 0d0+0 1d39+17 none
+-26 -26 -26 -21
+0 0 0 0
+stand stand none 540
+AHMV ABCDEFGHIJK medium 0
+#1905
+lich insane~
+a lich~
+An insane Lich cackles hideously and unleashes a volley of spells.
+~
+This powerful Undead is actually Xantharus' former master, whom he betrayed
+and slew. But he underestimated his master's power, and now he as returned
+as a Lich, seeking revenge!
+~
+human~
+0
+ABFG DFHT 0 0 -1000 0
+58 9 1d117+3363 1d1+99 0d0+0 1d42+18 none
+-28 -28 -28 -23
+0 0 0 0
+stand stand none 580
+AHMV ABCDEFGHIJK medium 0
+#1906
+demon~
+a lesser demon~
+A Lesser Demon slobbers, drools and cackles insanely!
+~
+This grotesque is a minion of the lower planes drawn here by the intense
+concentration of negative material energy.
+~
+human~
+0
+AFGH DFHJ 0 0 -1000 0
+52 8 1d105+2703 1d1+99 0d0+0 1d38+16 none
+-24 -24 -24 -19
+0 0 0 0
+stand stand none 520
+AHMV ABCDEFGHIJK medium 0
+#1907
+spirit revenant~
+a revenant~
+The spirit of a mortal horribly wronged has returned as a Revenant.
+~
+This poor soul was once a powerful, good priest of Soleil who was betrayed
+by agents of the evil Gomez and tortured and slain by them. His spirit has
+returned here, seeking out the long-dead fellows who slew him. He will 
+ignore all else in his quest, but will not hesitate to attack you if you
+interfere.
+~
+human~
+0
+ADG DFHJN 0 0 0 0
+57 9 1d115+3248 1d1+99 0d0+0 1d41+18 none
+-28 -28 -28 -23
+0 0 0 0
+stand stand none 570
+AHMV ABCDEFGHIJK medium 0
+#1908
+spirit haunt~
+a haunt~
+The spirit of an adventurer slain here long ago is now bound here as a Haunt.
+~
+This spirit was once a powerful warrior who, on a wager, entered Ghost Town.
+He was quickly slain by the inhabitants, but such was his distress at his
+death, his spirit remained behind to haunt the area where he met his end.
+~
+human~
+0
+ABDG DFHTU 0 0 0 0
+48 8 1d97+2303 1d1+99 0d0+0 1d35+15 none
+-22 -22 -22 -17
+0 0 0 0
+stand stand none 480
+AHMV ABCDEFGHIJK medium 0
+#1909
+crypt thing~
+a crypt thing~
+A Crypt Thing cackles evilly and taunts you.
+~
+This fell creature will not attack you, despite its evil- it will merely
+taunt you, though it will not hesitate to defend itself.
+~
+human~
+0
+ABDG DFHJN 0 0 -1000 0
+55 9 1d111+3024 1d1+99 0d0+0 1d40+17 none
+-26 -26 -26 -21
+0 0 0 0
+stand stand none 550
+AHMV ABCDEFGHIJK medium 0
+#1910
+greater demon~
+a greater demon~
+A Greater demon spews forth fire and gas!
+~
+This grotesque is a minion of the lower planes drawn here by the intense
+concentration of negative material energy.
+~
+human~
+0
+ABFG DFHJNT 0 0 -1000 0
+58 9 1d117+3363 1d1+99 0d0+0 1d42+18 none
+-28 -28 -28 -23
+0 0 0 0
+stand stand none 580
+AHMV ABCDEFGHIJK medium 0
+#1911
+undead dragon~
+an undead dragon~
+An Undead Dragon belches forth poisonous fumes!
+~
+This foul Dracolich is the undead spirit of a dragon that served Xantharus
+so well in life that he animated it to continue serving him after its
+death.
+~
+human~
+0
+ABFG DFHJT 0 0 -1000 0
+62 10 1d125+3843 1d1+99 0d0+0 1d45+19 none
+-31 -31 -31 -26
+0 0 0 0
+stand stand none 620
+AHMV ABCDEFGHIJK medium 0
+#1912
+undead monster~
+an undead monster~
+An undead monster shambles forth and attacks!
+~
+The spirit of some former minion of this place, this foul Undead creature
+will do its best you meet the same fate as all previous intruders in this
+fell domain- DEATH.
+~
+human~
+0
+AFG DF 0 0 -1000 0
+45 7 1d91+2024 1d1+99 0d0+0 1d33+14 none
+-20 -20 -20 -15
+0 0 0 0
+stand stand none 450
+AHMV ABCDEFGHIJK medium 0
+#1913
+giant rat~
+a giant rat~
+A GIANT Rat savagely charges you!
+~
+When I say GIANT, I am talking ten feet high...
+~
+human~
+0
+ACFGH DFQ 0 0 -1000 0
+40 6 1d81+1599 1d1+99 0d0+0 1d30+12 none
+-16 -16 -16 -11
+0 0 0 0
+stand stand none 400
+AHMV ABCDEFGHIJK medium 0
+#1914
+giant spider~
+a giant spider~
+A GIANT Spider drops down on you!
+~
+When I say GIANT, I am talking ten feet high...
+~
+human~
+0
+ACFGH DFQ 0 0 -1000 0
+45 7 1d91+2024 1d1+99 0d0+0 1d33+14 none
+-20 -20 -20 -15
+0 0 0 0
+stand stand none 450
+AHMV ABCDEFGHIJK medium 0
+#1915
+lurker above~
+a lurker above~
+A Lurker Above seeks to enfold and suffocate you!
+~
+This foul abberration feeds on any and all that enter its lair- even the
+corporeal undead avoid it...
+~
+human~
+0
+ABFGH JT 0 0 0 0
+50 8 1d101+2499 1d1+99 0d0+0 1d37+15 none
+-23 -23 -23 -18
+0 0 0 0
+stand stand none 500
+AHMV ABCDEFGHIJK medium 0
+#1916
+succubus~
+a succubus~
+A beautiful female smiles charmingly at you, revealing sharp fangs...
+~
+OUCH! Its a Succubus. She will charm you, then waste you. FIGHT!
+~
+human~
+0
+ABDG DFHJT 0 0 -1000 0
+50 8 1d101+2499 1d1+99 0d0+0 1d37+15 none
+-23 -23 -23 -18
+0 0 0 0
+stand stand female 500
+AHMV ABCDEFGHIJK medium 0
+#1917
+necromancer xantharus~
+Xantharus~
+A timid-looking Necromancer begs to be freed.
+~
+This pathetic wretch is none other than Xantharus, the evil mage that brought
+the Undead to this town, destroying it, before losing control of them. He
+has fled here, in the hopes that they won't find him before he finds a way
+to escape his terrible mistake.
+~
+human~
+0
+ABGH K 0 0 -400 0
+50 8 1d101+2499 1d1+99 0d0+0 1d37+15 none
+-23 -23 -23 -18
+0 0 0 0
+stand stand male 500
+AHMV ABCDEFGHIJK medium 0
+#1918
+rotting corpse~
+a rotting corpse~
+A Rotting Corpse staggers clumsily toward you.
+~
+This thing and its fellows are what remains of the citizens of this once-
+fine town, reduced to a horrid state of undeath. Slaying them would be the
+best thing you could do for them...
+~
+human~
+0
+AFG J 0 0 0 0
+40 6 1d81+1599 1d1+99 0d0+0 1d30+12 none
+-16 -16 -16 -11
+0 0 0 0
+stand stand none 400
+AHMV ABCDEFGHIJK medium 0
+#1919
+master~
+the master~
+The Master surveys his domain and laughs evilly.
+~
+Little is known of this mysterious stranger who came here and took control
+after the weak Xantharus lost control of his creations. He is a powerful,
+diabolically evil mage, and will not hesitate to destroy you.
+~
+human~
+0
+ABDFGH CDEFHN 0 0 -1000 0
+60 10 1d121+3599 1d1+99 0d0+0 1d43+19 none
+-30 -30 -30 -25
+0 0 0 0
+stand stand male 600
+AHMV ABCDEFGHIJK medium 0
+#1920
+shambling mound~
+a shambling mound~
+A Shambling Mound... well... shambles toward you.
+~
+RUN! A twelve-foot high pile of garbage is attacking you!
+~
+human~
+0
+AFG N 0 0 0 0
+45 7 1d91+2024 1d1+99 0d0+0 1d33+14 none
+-20 -20 -20 -15
+0 0 0 0
+stand stand none 450
+AHMV ABCDEFGHIJK medium 0
+#1921
+kampflut~
+a kampflut~
+A Kampflut attacks!
+~
+This hideous, animated tree resembles an ancient oak with tentacle-like
+branches and a huge toothed maw. Despite its nasty demeanour, it is not
+evil- it is simply hungry.
+~
+human~
+0
+AFG N 0 0 0 0
+50 8 1d101+2499 1d1+99 0d0+0 1d37+15 none
+-23 -23 -23 -18
+0 0 0 0
+stand stand none 500
+AHMV ABCDEFGHIJK medium 0
+#1922
+black pudding~
+a black pudding~
+A Black Pudding slowly rolls toward you.
+~
+This huge black blob will dissolve weapons and armor it gets the chance,
+then it will devour you!
+~
+human~
+0
+AFG N 0 0 0 0
+52 8 1d105+2703 1d1+99 0d0+0 1d38+16 none
+-24 -24 -24 -19
+0 0 0 0
+stand stand none 520
+AHMV ABCDEFGHIJK medium 0
+#1923
+green slime~
+green slime~
+A patch of Green Slime drips on you, burning your skin!
+~
+Green Slime can dissolve even metal, so imagine what it would do to your
+skin...
+~
+human~
+0
+ABFG 0 0 0 0 0
+40 6 1d81+1599 1d1+99 0d0+0 1d30+12 none
+-16 -16 -16 -11
+0 0 0 0
+stand stand none 400
+AHMV ABCDEFGHIJK medium 0
+#1924
+gray ooze~
+a gray ooze~
+A pile of gray liquid oozes toward you.
+~
+"Oh," I hear you say. "How threatening". Well, just you wait!
+~
+human~
+0
+AFG HJN 0 0 -1000 0
+58 9 1d117+3363 1d1+99 0d0+0 1d42+18 none
+-28 -28 -28 -23
+0 0 0 0
+stand stand none 580
+AHMV ABCDEFGHIJK medium 0
+#1925
+animated tree~
+an animated tree~
+An Animated Tree bashes you with its branches.
+~
+This tree is bad and evil- it is an anti-treant :)
+~
+human~
+0
+AFG 0 0 0 0 0
+45 7 1d91+2024 1d1+99 0d0+0 1d33+14 none
+-20 -20 -20 -15
+0 0 0 0
+stand stand none 450
+AHMV ABCDEFGHIJK medium 0
+#1926
+tree spirit~
+a tree spirit~
+A Tree Spirit offers you shelter in this place of evil.
+~
+This spirit is the only good creature in this place. She can guard you
+while you rest, and perhaps heal your wounds if you pay her enough...
+~
+human~
+0
+ABDGL BCDFHJN 0 0 400 0
+65 10 1d131+4224 1d1+99 0d0+0 1d47+20 none
+-33 -33 -33 -28
+0 0 0 0
+stand stand female 650
+AHMV ABCDEFGHIJK medium 0
+#1927
+death knight~
+a death knight~
+A Death Knight salutes you then attacks!
+~
+This is the spirit of a Paladin corrupted by the evil of the Master, doomed
+to an eternity as an undead servant. Clad in ornate, ancient armor and 
+wielding a shiny silver sword, he would look as he did in life save for his
+rotting face...
+~
+human~
+0
+ABDFG DFHJ 0 0 -1000 0
+60 10 1d121+3599 1d1+99 0d0+0 1d43+19 none
+-30 -30 -30 -25
+0 0 0 0
+stand stand none 600
+AHMV ABCDEFGHIJK medium 0
+#1928
+nightmare~
+a nightmare~
+A Nightmare, loyal steed of the denizens of the Lower Planes, rests here.
+~
+This black, winged equine hell-steed waits patiently for its master to finish 
+its business here before bearing it to its next destination.
+~
+horse~
+0
+ABGM FJT 0 0 -1000 0
+45 7 1d91+2024 1d1+99 0d0+0 1d33+14 none
+-20 -20 -20 -15
+CI 0 0 0
+stand stand none 450
+AGHMV ABCDEFGHIJK medium 0
+#1929
+retriever~
+a retriever~
+A retriever rears on four of its legs and strikes.
+~
+This demonic steed resembles a huge spider with razor sharp blades for legs
+and glowing gems for eyes.
+~
+human~
+0
+ABFG DFHJ 0 0 -1000 0
+58 9 1d117+3363 1d1+99 0d0+0 1d42+18 none
+-28 -28 -28 -23
+0 0 0 0
+stand stand none 580
+AHMV ABCDEFGHIJK medium 0
+#1930
+cambion scout~
+a cambion scout~
+A Cambion Scout eyes you cautiously.
+~
+This half-man, half-demon creature is a scout for Orcus, Prince of the 
+Undead. He is here on a covert mission, and thus will avoid trouble if at
+all possible. He is attempting to ascertain the degree of power of the
+master, and inform his master if the strange man poses a significant threat
+to his domination of all things Undead.
+~
+human~
+0
+ACDGH DEFHJQ 0 0 -1000 0
+50 8 1d101+2499 1d1+99 0d0+0 1d37+15 none
+-23 -23 -23 -18
+0 0 0 0
+stand stand male 500
+AHMV ABCDEFGHIJK medium 0
+#1931
+orcus~
+Orcus~
+Orcus, Prince of the Undead, glowers menacingly at you.
+~
+Whoa. You are standing before Orcus. He resembles a bloated man twenty
+feet tall with a bull's nose and eyes, and goat's horns and hooves. He
+grips a rod with a goat's head in one hoof, and glares suspiciously at you.
+He is not really meant to be here, and thus will avoid attracting attention
+of the powers of the Prime Material Plane by avoiding combat.
+~
+human~
+0
+ABDGH BCDEFHJN 0 0 -1000 0
+65 10 222d10+1750 1d1+99 0d0+0 7d10+16 none
+-33 -33 -33 -28
+0 0 0 0
+stand stand none 650
+AHMV ABCDEFGHIJK medium 0
+#1932
+water weird~
+a water weird~
+A Water Weird lunges at you!
+~
+This watery snake resides in the well, which it will fight to defend.
+~
+human~
+0
+ABFG HN 0 0 0 0
+50 8 1d101+2499 1d1+99 0d0+0 1d37+15 none
+-23 -23 -23 -18
+0 0 0 0
+stand stand none 500
+AHMV ABCDEFGHIJK medium 0
+#1933
+giant spider~
+a giant spider~
+A GIANT Spider drops down on you!
+~
+When I say GIANT, I am talking ten feet high...
+~
+human~
+0
+ABCFGH DFQ 0 0 -1000 0
+48 8 1d97+2303 1d1+99 0d0+0 1d35+15 none
+-22 -22 -22 -17
+0 0 0 0
+stand stand none 480
+AHMV ABCDEFGHIJK medium 0
+#1934
+baron vampire~
+a baron vampire~
+The Baron vampire rises from the sarcophagus, bares its fangs and attacks!
+~
+The Evil Baron and his two brothers were vampires imprisoned here by Xanan
+centuries ago, who had not the power to slay them utterly, and now thanks
+to your disturbance they have risen again!
+~
+human~
+0
+ABFG DFHJN 0 0 -1000 0
+60 10 1d121+3599 1d1+99 0d0+0 1d43+19 none
+-30 -30 -30 -25
+0 0 0 0
+stand stand none 600
+AHMV ABCDEFGHIJK medium 0
+#0
+
+
+
+#OBJECTS
+#1900
+rod orcus~
+the Rod of Orcus~
+The Rod of Orcus glows evilly here.
+~
+nothingness~
+staff BEGH AO
+39 100 100 'invisibility' 0
+70 500 15000 P
+Y
+char 'intelligence' 0 2
+Y
+char 'wisdom' 0 2
+Y
+char 'constitution' 0 2
+Y
+char 'mana' 0 250
+Y
+char 'AC' 0 -50
+Y
+char 'hitroll' 0 25
+Y
+char 'damroll' 0 25
+Y
+char 'saving throw' 0 -10
+#1901
+hand vecna~
+the Hand of Vecna~
+The Hand of Vecna lies here.
+~
+nothingness~
+armor EHJMQ AH
+0 0 0 0 1
+58 5 3900 P
+Y
+char 'dexterity' 0 3
+Y
+char 'intelligence' 0 3
+Y
+char 'mana' 0 100
+Y
+char 'hitroll' 0 3
+Y
+char 'damroll' 0 3
+Y
+char 'saving throw' 0 -3
+#1902
+eye vecna~
+the Eye of Vecna~
+The Eye of Vecna glows evilly here.
+~
+nothingness~
+armor AEJM AE
+0 0 0 0 1
+61 1 3900 P
+Y
+char 'intelligence' 0 3
+Y
+char 'wisdom' 0 3
+Y
+char 'mana' 0 50
+#1903
+sword kas~
+the Sword of Kas~
+The Sword of Kas beckons to you!
+~
+nothingness~
+weapon BEGJM AN
+dagger 6 10 pierce 0
+50 20 3900 P
+Y
+char 'AC' 0 20
+Y
+char 'hitroll' 0 25
+Y
+char 'damroll' 0 25
+#1904
+circlet~
+a circlet~
+A Circlet lies here, gathering dust.
+~
+nothingness~
+armor GM AE
+0 0 0 0 1
+39 25 3900 P
+Y
+char 'intelligence' 0 -3
+Y
+char 'wisdom' 0 -3
+#1905
+hoard~
+a treasure hoard~
+A treasure hoard is scattered here.
+~
+nothingness~
+treasure 0 AO
+0 0 0 0 0
+39 150 3900 P
+#1906
+chest~
+a chest~
+A chest sits here.
+~
+nothingness~
+container 0 A
+150 D 0 150 100
+39 100 3900 P
+#1907
+robes flesh~
+robes of Flesh~
+Robes made of human flesh are piled here.
+~
+nothingness~
+armor EJ AK
+0 0 0 0 1
+43 25 3900 P
+Y
+char 'mana' 0 150
+Y
+char 'hp' 0 25
+Y
+char 'saving throw' 0 -3
+#1908
+rod bone~
+a Rod of Bone~
+A Rod fashioned from a human femur lies here.
+~
+nothingness~
+weapon EJ AN
+mace 6 10 crush 0
+59 25 3900 P
+Y
+char 'mana' 0 15
+Y
+char 'AC' 0 -10
+Y
+char 'hitroll' 0 4
+Y
+char 'damroll' 0 4
+#1909
+bones~
+a pile of bones~
+A pile of bones lies here.
+~
+nothingness~
+trash 0 A
+0 0 0 0 0
+39 50 3900 P
+#1910
+gem~
+a Power Gem~
+A Mana Power Gem pulses strongly here.
+~
+nothingness~
+staff AG AO
+39 20 20 'sanctuary' 0
+39 10 3900 P
+Y
+char 'mana' 0 50
+#1911
+cloak~
+a black cloak~
+A black cloak is piled here.
+~
+nothingness~
+armor 0 AK
+0 0 0 0 1
+39 10 150 P
+#1912
+sword~
+(Diabolical) a Dark Sword~
+A Dark Sword hums evilly here.
+~
+nothingness~
+weapon BCEJ AN
+sword 6 11 none 0
+60 35 3900 P
+Y
+char 'strength' 0 1
+Y
+char 'constitution' 0 1
+Y
+char 'AC' 0 -20
+Y
+char 'hitroll' 0 2
+Y
+char 'damroll' 0 4
+#1913
+armor~
+a Suit of Dark Armor~
+A Suit of Dark Armor lies here.
+~
+nothingness~
+armor CEJ AD
+0 0 0 0 1
+41 25 3900 P
+Y
+char 'AC' 0 -10
+Y
+char 'hitroll' 0 6
+Y
+char 'damroll' 0 6
+#1914
+helm~
+a Dark Helm~
+A Dark Helm seeks to possess you!
+~
+nothingness~
+armor CHM AE
+0 0 0 0 1
+39 75 4000 P
+Y
+char 'intelligence' 0 -3
+Y
+char 'wisdom' 0 -3
+#1915
+jar~
+a jar~
+A glass jar sits here.
+~
+nothingness~
+container 0 AO
+25 A 0 25 100
+39 10 3900 P
+#1916
+poison~
+some poison~
+Some poison lies here.
+~
+nothingness~
+food 0 A
+1 1 0 A 0
+39 1 4100 P
+#1917
+unholy symbol~
+an Unholy Symbol~
+The Unholy Symbol of some priest devoted to evil lies here.
+~
+nothingness~
+light EJ A
+0 0 999 0 0
+42 5 6811 P
+Y
+char 'dexterity' 0 3
+Y
+char 'saving throw' 0 -2
+#1918
+holy symbol~
+a holy Symbol~
+The Holy Symbol of some priest devoted to good lies here.
+~
+nothingness~
+light AK A
+0 0 999 0 0
+46 5 3900 P
+Y
+char 'constitution' 0 3
+Y
+char 'saving throw' 0 -2
+#1919
+corpse~
+a corpse~
+The corpse of some unfortunate adventurer is lying here.
+~
+nothingness~
+trash 0 A
+0 0 0 0 0
+39 75 475 P
+#1920
+key~
+a key~
+A black key is here.
+~
+nothingness~
+key B AO
+0 0 0 0 0
+39 5 3900 P
+#1921
+jar blood~
+a jar of human blood~
+A jar of human blood sits here.
+~
+nothingness~
+potion BEJ AO
+39 'poison' 'weaken' 'curse' ''
+39 5 3900 P
+#1922
+portal~
+a shimmering portal~
+A shimmering portal rests here.~
+nothingness~
+portal A 0
+0 0 0 1392 0
+0 1 0 P
+#0
+
+
+
+#ROOMS
+#1900
+A Dusty Trail~
+You are heading along a dusty trail that runs toward the town ahead. There
+is a horrid stench detectable even here. You see a sign up ahead.
+~
+0 4 2
+5
+E
+sign~
+W E L C O M E    T O    G H O S T T O W N
+
+                       Population : 0
+
+--- This area brought to you by Yaegar on behalf of AnonyMud ---
+
+~
+D0
+~
+~
+0 -1 1901
+D2
+~
+~
+0 0 9584
+S
+#1901
+The Town~
+You have reached the Ghost Town, a place rumored to be inhabited by the
+most ghastly of undead, as well as their fell minions. Should you proceed,
+you may find yourself unable to return home by conventional means, and
+instead have to travel through until you find another means of escape. Your
+choice.
+~
+0 4 1
+5
+D0
+~
+~
+0 -1 1902
+D2
+~
+~
+0 -1 1900
+S
+#1902
+The Main Street~
+Stepping onto this street, you immediately feel a wave of fear and dread
+wash over you. Shaking, you collect yourself and prepare to advance into
+this literally god-forsaken area. Houses line the street to the left and
+right. Up ahead lies a small town square.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1906
+D1
+~
+~
+AB 0 1904
+D3
+~
+~
+AB 0 1903
+S
+#1903
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D1
+~
+~
+AB 0 1902
+S
+#1904
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D3
+~
+~
+AB 0 1902
+S
+#1905
+The Town Square~
+You have come to the Town Square. You can proceed in several directions from
+here across the square, which is now nothing more than a flat square of
+scorched earth and decimated vegetation, or down one of the side streets.
+There is a well in the middle of the square.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1908
+D1
+~
+~
+0 -1 1906
+S
+#1906
+The Town Square~
+You have come to the Town Square. You can proceed in several directions from
+here across the square, which is now nothing more than a flat square of
+scorched earth and decimated vegetation, or down one of the side streets.
+There is a well in the middle of the square.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1909
+D1
+~
+~
+0 -1 1907
+D2
+~
+~
+0 -1 1902
+D3
+~
+~
+0 -1 1905
+S
+#1907
+The Town Square~
+You have come to the Town Square. You can proceed in several directions from
+here across the square, which is now nothing more than a flat square of
+scorched earth and decimated vegetation, or down one of the side streets.
+There is a well in the middle of the square.
+~
+0 1992 1
+5
+D0
+~
+~
+0 -1 1910
+D3
+~
+~
+0 -1 1906
+S
+#1908
+The Town Square~
+You have come to the Town Square. You can proceed in several directions from
+here across the square, which is now nothing more than a flat square of
+scorched earth and decimated vegetation, or down one of the side streets.
+There is a well in the middle of the square.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1911
+D1
+~
+~
+0 -1 1909
+D2
+~
+~
+0 -1 1905
+D3
+~
+~
+0 -1 1914
+S
+#1909
+The Well in the Town Square~
+You are standing in the middle of the town square, at the well. Paths stretch
+past houses and shops in every direction. There must still be some water in
+the well, as a small amount of grass has managed to grow around it.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1912
+D1
+~
+~
+0 -1 1910
+D2
+~
+~
+0 -1 1906
+D3
+~
+~
+0 -1 1908
+S
+#1910
+The Town Square~
+You have come to the Town Square. You can proceed in several directions from
+here across the square, which is now nothing more than a flat square of
+scorched earth and decimated vegetation, or down one of the side streets.
+There is a well in the middle of the square.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1913
+D1
+~
+~
+0 -1 1924
+D2
+~
+~
+0 -1 1907
+D3
+~
+~
+0 -1 1909
+S
+#1911
+The Town Square~
+You have come to the Town Square. You can proceed in several directions from
+here across the square, which is now nothing more than a flat square of
+scorched earth and decimated vegetation, or down one of the side streets.
+There is a well in the middle of the square.
+~
+0 1480 1
+5
+D1
+~
+~
+0 -1 1912
+D2
+~
+~
+0 -1 1908
+S
+#1912
+The Town Square~
+You have come to the Town Square. You can proceed in several directions from
+here across the square, which is now nothing more than a flat square of
+scorched earth and decimated vegetation, or down one of the side streets.
+There is a well in the middle of the square.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1934
+D1
+~
+~
+0 -1 1913
+D2
+~
+~
+0 -1 1909
+D3
+~
+~
+0 -1 1911
+S
+#1913
+The Town Square~
+You have come to the Town Square. You can proceed in several directions from
+here across the square, which is now nothing more than a flat square of
+scorched earth and decimated vegetation, or down one of the side streets.
+There is a well in the middle of the square.
+~
+0 1480 1
+5
+D2
+~
+~
+0 -1 1910
+D3
+~
+~
+0 -1 1912
+S
+#1914
+A Side Street~
+You are advancing along a side street that runs west away from the Town
+Square. Houses lie to the north and south.
+~
+0 456 1
+5
+D0
+~
+~
+AB 0 1915
+D1
+~
+~
+0 -1 1908
+D2
+~
+~
+AB 0 1916
+D3
+~
+~
+0 -1 1917
+S
+#1915
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D2
+~
+~
+AB 0 1914
+S
+#1916
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D0
+~
+~
+AB 0 1914
+S
+#1917
+A Side Street~
+You are advancing along a side street that runs west away from the Town
+Square. Houses lie to the north and south.
+~
+0 456 1
+5
+D0
+~
+~
+AB 0 1918
+D1
+~
+~
+0 -1 1914
+D2
+~
+~
+AB 0 1919
+D3
+~
+~
+0 -1 1920
+S
+#1918
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D2
+~
+~
+AB 0 1917
+S
+#1919
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D0
+~
+~
+AB 0 1917
+S
+#1920
+A Side Street~
+You have reached the end of a side street that runs west away from the Town
+Square. Houses lie to the north, west and south.
+~
+0 456 1
+5
+D0
+~
+~
+AB 0 1921
+D1
+~
+~
+0 -1 1917
+D2
+~
+~
+AB 0 1922
+D3
+~
+~
+AB 0 1923
+S
+#1921
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D2
+~
+~
+AB 0 1920
+S
+#1922
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D0
+~
+~
+AB 0 1920
+S
+#1923
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D1
+~
+~
+AB 0 1920
+S
+#1924
+A Side Street~
+You are advancing along a side street that runs east away from the Town
+Square. Houses lie to the north and south.
+~
+0 1992 1
+5
+D0
+~
+~
+AB 0 1925
+D1
+~
+~
+0 -1 1927
+D2
+~
+~
+AB 0 1926
+D3
+~
+~
+0 -1 1910
+S
+#1925
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D2
+~
+~
+AB 0 1924
+S
+#1926
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D0
+~
+~
+AB 0 1924
+S
+#1927
+A Side Street~
+You are advancing along a side street that runs east away from the Town
+Square. Houses lie to the north and south.
+~
+0 1992 1
+5
+D0
+~
+~
+AB 0 1928
+D1
+~
+~
+0 -1 1930
+D2
+~
+~
+AB 0 1929
+D3
+~
+~
+0 -1 1924
+S
+#1928
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D2
+~
+~
+AB 0 1927
+S
+#1929
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D0
+~
+~
+AB 0 1927
+S
+#1930
+A Side Street~
+You have reached the end of a side street that runs east away from the Town
+Square. Houses lie to the north, east and south.
+~
+0 1992 1
+5
+D0
+~
+~
+AB 0 1931
+D1
+~
+~
+AB 0 1933
+D2
+~
+~
+AB 0 1932
+D3
+~
+~
+0 -1 1927
+S
+#1931
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D2
+~
+~
+AB 0 1930
+S
+#1932
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D0
+~
+~
+AB 0 1930
+S
+#1933
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D3
+~
+~
+AB 0 1930
+S
+#1934
+Main Street~
+You are heading along Main Street, which heads south to the Town Square and
+North toward an intersection. Houses line the street.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1937
+D1
+~
+~
+AB 0 1936
+D2
+~
+~
+0 -1 1912
+D3
+~
+~
+AB 0 1935
+S
+#1935
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D1
+~
+~
+AB 0 1934
+S
+#1936
+A Ruined House~
+The interior of this house reeks of death. The dried blood smeared on the
+walls and the piles of bones on the floor bespeak of the fate of the former
+inhabitants of this residence. The current inhabitants may not be so easy
+to kill...
+~
+0 8200 0
+5
+D3
+~
+~
+AB 0 1934
+S
+#1937
+An Intersection~
+You are standing at an intersection devoid of houses. A park looms to the
+northwest of here, while the former residences of the Mayor lie directly
+west. You aren't sure where the northern path goes, as that area is
+enshrouded in dark fog...
+~
+0 968 1
+5
+D0
+~
+~
+0 -1 1955
+D2
+~
+~
+0 -1 1934
+D3
+~
+~
+0 -1 1938
+S
+#1938
+The Road to the Mayor's House~
+This road was at one time spacious and beautiful, but is now cluttered with
+debris and overgrown with tough, gray weeds that have sprouted through the
+carefully-laid cobblestones. There are junctions to the east and west of
+here.
+~
+0 456 1
+5
+D1
+~
+~
+0 -1 1937
+D3
+~
+~
+0 -1 1939
+S
+#1939
+A Junction~
+At this point, a dirt track runs north toward a dismal-looking garden that
+once flourished with the most beautiful flora on the continent, but is now
+home to the same sickly-gray weeds that sprout through the footpath, as well
+as some very tall, sinister-looking trees.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1971
+D1
+~
+~
+0 -1 1938
+D3
+~
+~
+0 -1 1940
+S
+#1940
+Outside the Mayor's House~
+The path ends at a decrepit manse that once served as home for the Mayor
+of this town. Since the incursion of the undead, it has fallen into
+disrepair, though not to the state that the other dwellings have, leading
+you to suspect that perhaps someone (or thing) important now resides here...
+~
+0 1992 1
+5
+D1
+~
+~
+0 -1 1939
+D3
+~
+~
+AB 0 1941
+S
+#1941
+The Hallway~
+You are advancing along a dimly-lit hall lined with garish paintings depicting
+rather macabre-looking members of some decadent family. To the west lies
+a crooked stairway that leads up to the next level. Doors lie to the north and
+south of here.
+~
+0 8201 0
+5
+D0
+~
+~
+AB 0 1943
+D1
+~
+~
+AB 0 1940
+D2
+~
+~
+AB 0 1942
+D3
+~
+~
+0 -1 1944
+S
+#1942
+A Room in the Mayor's Manse~
+This room reeks of decay, perhaps mainly due to the decaying corpses lying
+about. Blood has been smeared all over the walls, and a sickly-looking vine
+has crawled in through the broken panes of the windows. You gag and try
+not to vomit.
+~
+0 8201 0
+5
+D0
+~
+~
+AB 0 1941
+S
+#1943
+A Room in the Mayor's Manse~
+This room reeks of decay, perhaps mainly due to the decaying corpses lying
+about. Blood has been smeared all over the walls, and a sickly-looking vine
+has crawled in through the broken panes of the windows. You gag and try
+not to vomit.
+~
+0 8201 0
+5
+D2
+~
+~
+AB 0 1941
+S
+#1944
+The Hallway~
+You are advancing along a dimly-lit hall lined with garish paintings depicting
+rather macabre-looking members of some decadent family. To the west lies
+a crooked stairway that leads up to the next level. Doors lie to the north and
+south of here.
+~
+0 8201 0
+5
+D0
+~
+~
+AB 0 1946
+D1
+~
+~
+0 0 1941
+D2
+~
+~
+AB 0 1945
+D3
+~
+~
+0 -1 1947
+S
+#1945
+A Room in the Mayor's Manse~
+This room reeks of decay, perhaps mainly due to the decaying corpses lying
+about. Blood has been smeared all over the walls, and a sickly-looking vine
+has crawled in through the broken panes of the windows. You gag and try
+not to vomit.
+~
+0 8201 0
+5
+D0
+~
+~
+AB 0 1944
+S
+#1946
+A Room in the Mayor's Manse~
+This room reeks of decay, perhaps mainly due to the decaying corpses lying
+about. Blood has been smeared all over the walls, and a sickly-looking vine
+has crawled in through the broken panes of the windows. You gag and try
+not to vomit.
+~
+0 8201 0
+5
+D2
+~
+~
+AB 0 1944
+S
+#1947
+The Stairway~
+This crooked staircase looks very unstable, and this, coupled with the 
+dreadful stench emanating from upstairs, makes you reluctant to proceed...
+~
+0 8201 0
+5
+D1
+~
+~
+0 -1 1944
+D4
+~
+~
+0 -1 1948
+S
+#1948
+The Stairway~
+At the top of the stairs you pause to catch your breath, and are immediately
+sorry as horrid-smelling air fills your lungs. Coughing, you fight to 
+breathe, and steel yourself to continue.
+~
+0 8201 0
+5
+D1
+~
+~
+0 -1 1949
+D5
+~
+~
+0 -1 1947
+S
+#1949
+The Hallway~
+You are advancing along a dimly-lit hall lined with garish paintings depicting
+rather macabre-looking members of some decadent family. Doors lie to the north 
+and south of here. The hall ends at an impressive portal to the east.
+~
+0 8201 0
+5
+D0
+~
+~
+AB 0 1950
+D1
+~
+~
+AB 0 1952
+D2
+~
+~
+AB 0 1951
+D3
+~
+~
+0 -1 1948
+S
+#1950
+A Room in the Mayor's Manse~
+This room reeks of decay, perhaps mainly due to the decaying corpses lying
+about. Blood has been smeared all over the walls, and a sickly-looking vine
+has crawled in through the broken panes of the windows. You gag and try
+not to vomit.
+~
+0 8201 0
+5
+D2
+~
+~
+AB 0 1949
+S
+#1951
+A Room in the Mayor's Manse~
+This room reeks of decay, perhaps mainly due to the decaying corpses lying
+about. Blood has been smeared all over the walls, and a sickly-looking vine
+has crawled in through the broken panes of the windows. You gag and try
+not to vomit.
+~
+0 8201 0
+5
+D0
+~
+~
+AB 0 1949
+S
+#1952
+The Mayor's Study~
+As you enter this room, you are amazed to notice a complete absence of the
+stench you detected earlier. In addition, you are further amazed to notice
+the surprisingly good condition of this study, a comfortable den lined with
+shelves full of ancient texts. A large oak desk dominates the room, and
+behind this sits a plush leather chair. Wonder whose domain this is...?
+~
+0 8200 0
+5
+D0
+~
+~
+AB 0 1953
+D2
+~
+~
+AB 0 1954
+D3
+~
+~
+AB 0 1949
+S
+#1953
+A Bedroom~
+In this room lies an ornately-carved four poster bed with satin sheets. 
+Opposite it lies a comfortable divan, upon which the maidens of the master
+of this domain usually recline. A painting on one wall catches your eye.
+~
+0 8201 0
+5
+E
+painting~
+It is a painting of one Count Philippe Gaspar duGascoigne, a handsome but
+evil-looking gentleman of middle years.
+~
+D2
+~
+~
+AB 0 1952
+S
+#1954
+A Bedroom~
+This bedroom is as ruinous as its northern counterpart was lavish, as 
+decayed and despoiled as it was well-presented and comfortable. The furniture,
+while obviously once fine, is now ruined beyond repair. Blood stains coat
+the walls, and a corpse hangs by a rope from the chandelier in the center
+of the room. Whoever lives here must have a disagreeable personality to say
+the very least...
+~
+0 8201 0
+5
+D0
+~
+~
+AB 0 1952
+S
+#1955
+A Murky Mist~
+You are plowing through a thick mist that has suddenly enshrouded the trail.
+You can still make it out beneath your feet, but only barely. Howls, screams
+and shouts of anger and terror ring out on all sides, and you feel fear 
+clutching at your heart.
+~
+0 457 1
+5
+D1
+~
+~
+0 -1 1956
+D2
+~
+~
+0 -1 1937
+S
+#1956
+A Murky Mist~
+You are plowing through a thick mist that has suddenly enshrouded the trail.
+You can still make it out beneath your feet, but only barely. Howls, screams
+and shouts of anger and terror ring out on all sides, and you feel fear 
+clutching at your heart.
+~
+0 457 1
+5
+D0
+~
+~
+0 -1 1959
+D2
+~
+~
+0 -1 1957
+D3
+~
+~
+0 -1 1955
+S
+#1957
+A Small House~
+The mist clears suddenly, and you find yourself standing outside a rather
+creepy little stone dwelling, with no windows, but a stout oak door 
+directly to the east.
+~
+0 456 1
+5
+D0
+~
+~
+0 -1 1956
+D1
+~
+~
+AB 0 1958
+S
+#1958
+Temporary Residence of a Demon~
+OH NO!
+
+You have inadvertently stumbled upon the temporary Prime Material Plane lair
+of ORCUS! If he isn't here, leave quickly. If he is...
+
+There is a shimmering portal to his home dimension to the east.
+~
+0 8200 0
+5
+D3
+~
+~
+AB 0 1957
+S
+#1959
+A Murky Mist~
+You are plowing through a thick mist that has suddenly enshrouded the trail.
+You can still make it out beneath your feet, but only barely. Howls, screams
+and shouts of anger and terror ring out on all sides, and you feel fear 
+clutching at your heart.
+~
+0 457 1
+5
+D0
+~
+~
+0 -1 1963
+D1
+~
+~
+0 -1 1960
+D2
+~
+~
+0 -1 1956
+S
+#1960
+A Clearing~
+You have reached an area devoid of mist, the front yard of a ruined cottage
+whose door lies to the east. Peering through the windows, you imagine you
+can see shapes moving about.
+~
+0 1992 1
+5
+D1
+~
+~
+AB 0 1961
+D3
+~
+~
+0 -1 1959
+S
+#1961
+The Interior of the Cottage~
+This cottage is, as all the other residences of this place, a ruined mess.
+Broken furniture and decaying corpses litter the floor. To the east, you
+can see a staircase leading down.
+~
+0 1993 0
+5
+D1
+~
+~
+0 -1 1962
+D3
+~
+~
+AB 0 1960
+S
+#1962
+A Staircase~
+This staircase is an ancient stone structure that looks far older than the
+other structures in the village. You peer down in an attempt to ascertain
+what may below, but can see only darkness.
+~
+0 1997 0
+5
+D3
+~
+~
+0 -1 1961
+S
+#1963
+A Murky Mist~
+You are plowing through a thick mist that has suddenly enshrouded the trail.
+You can still make it out beneath your feet, but only barely. Howls, screams
+and shouts of anger and terror ring out on all sides, and you feel fear 
+clutching at your heart.
+~
+0 457 1
+5
+D0
+~
+~
+0 -1 1964
+D2
+~
+~
+0 -1 1959
+S
+#1964
+A Murky Mist~
+You are plowing through a thick mist that has suddenly enshrouded the trail.
+You can still make it out beneath your feet, but only barely. Howls, screams
+and shouts of anger and terror ring out on all sides, and you feel fear 
+clutching at your heart. You think you can make out a small stone building
+to the east.
+~
+0 969 1
+5
+D0
+~
+~
+0 -1 1995
+D1
+~
+~
+0 -1 1965
+D2
+~
+~
+0 -1 1963
+S
+#1965
+Outside The Crypt~
+The small stone building is actually a crypt, which is in good condition,
+not surprising considering the nature of the current inhabitants of this
+ghoulish town. A large iron door looms to the east, and you notice runes
+inscribed into its surface in silver.
+~
+0 460 1
+5
+E
+runes door~
+The runes on the door read-
+
+  "Here is the final resting place of the Evil Baron Shereck, former
+   tyrant of the Barony of Palem, and his two foul brothers. Imprisoned
+   here by the powerful magic of Xanad, the ArchMage of Anon, their
+   rest may not be disturbed by their undead allies. Pray, whoever reads
+   this, do not breach this portal, for you will once again unleash their
+   undead madness upon the world."
+~
+D1
+~
+~
+AB 0 1966
+D3
+~
+~
+0 -1 1964
+S
+#1966
+Inside The Crypt~
+The interior of the crypt is dark, damp and cramped. It looks as though
+no-one has been here in centuries. A layer of dust ankle-deep makes progress
+difficult, as do the hanging cobwebs, with strands as thick as your wrist.
+You hope you don't run into the spinner of these webs.
+~
+0 8321 0
+5
+D3
+~
+~
+AB 0 1965
+D5
+~
+~
+0 -1 1967
+S
+#1967
+The Crypt Proper~
+Three doors and a staircase allow escape from this area, and that is a
+prominent urge you have right now as you glance about the hellish murals
+on the walls, and the rotting corpses hanging in metal frames from the 
+arched ceiling.
+~
+0 8321 0
+5
+D0
+~
+~
+AB 0 1968
+D1
+~
+~
+AB 0 1970
+D2
+~
+~
+AB 0 1969
+D4
+~
+~
+0 -1 1966
+S
+#1968
+A Room In the Crypt~
+These three resting places that lead off the Crypt's main chamber are all
+identical- a raised stone sarcophagus with a bas-relief of the image of its
+occupant in life embossed on the lid. Other than that, the place is bare. Or
+is it...?
+~
+0 8321 0
+5
+D2
+~
+~
+AB 0 1967
+S
+#1969
+A Room In the Crypt~
+These three resting places that lead off the Crypt's main chamber are all
+identical- a raised stone sarcophagus with a bas-relief of the image of its
+occupant in life embossed on the lid. Other than that, the place is bare. Or
+is it...?
+~
+0 8321 0
+5
+D0
+~
+~
+AB 0 1967
+S
+#1970
+A Room In the Crypt~
+These three resting places that lead off the Crypt's main chamber are all
+identical- a raised stone sarcophagus with a bas-relief of the image of its
+occupant in life embossed on the lid. Other than that, the place is bare. Or
+is it...?
+~
+0 8321 0
+5
+D3
+~
+~
+AB 0 1967
+S
+#1971
+The Path To The Garden~
+This path runs past some very ugly, dead plants that look like they've had
+the life drained from them by some disturbingly healthy looking plants with
+thorns that look like teeth...
+~
+0 1992 3
+5
+D0
+~
+~
+0 -1 1972
+D2
+~
+~
+0 -1 1939
+S
+#1972
+The Path To The Garden~
+This path runs past some very ugly, dead plants that look like they've had
+the life drained from them by some disturbingly healthy looking plants with
+thorns that look like teeth. You suddenly curse as you nearly fall into a
+small hole in the center of the path which was partially covered by a nest
+of branches.
+~
+0 1996 3
+5
+D0
+~
+~
+0 -1 1973
+D2
+~
+~
+0 -1 1971
+D5
+~
+~
+0 -1 1974
+S
+#1973
+The Path To The Garden~
+This path runs past some very ugly, dead plants that look like they've had
+the life drained from them by some disturbingly healthy looking plants with
+thorns that look like teeth. The garden gates are directly ahead... Peering
+through, you become reluctant to enter. It looks like a virtual maze...
+~
+0 1996 3
+5
+D0
+~
+~
+A 0 1977
+D2
+~
+~
+0 -1 1972
+S
+#1974
+A Bolthole~
+Here the cowardly necromancer Xantharus lurks, terrified of the evil he
+brought to his village. He would do anything to escape, but is currently
+too petrified to leave his hole.
+~
+0 457 0
+5
+D4
+~
+~
+0 -1 1972
+S
+#1975
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1993 3
+5
+D1
+~
+~
+0 -1 1976
+D0
+~
+~
+0 -1 1980
+S
+#1976
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1481 3
+5
+D1
+~
+~
+0 -1 1977
+D0
+~
+~
+0 -1 1981
+D3
+~
+~
+0 -1 1975
+S
+#1977
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1481 3
+5
+D3
+~
+~
+0 -1 1976
+D0
+~
+~
+0 -1 1982
+D1
+~
+~
+0 -1 1978
+S
+#1978
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1993 3
+5
+D0
+~
+~
+0 -1 1983
+D1
+~
+~
+0 -1 1979
+D3
+~
+~
+0 -1 1977
+S
+#1979
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 457 3
+5
+D0
+~
+~
+0 -1 1984
+D3
+~
+~
+0 -1 1978
+S
+#1980
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1993 3
+5
+D1
+~
+~
+0 -1 1981
+D2
+~
+~
+0 -1 1975
+D0
+~
+~
+0 -1 1985
+S
+#1981
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 457 3
+5
+D2
+~
+~
+0 -1 1976
+D1
+~
+~
+0 -1 1982
+D3
+~
+~
+0 -1 1980
+D0
+~
+~
+0 -1 1986
+S
+#1982
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 457 3
+5
+D1
+~
+~
+0 -1 1983
+D2
+~
+~
+0 -1 1977
+D0
+~
+~
+0 -1 1987
+D3
+~
+~
+0 -1 1981
+S
+#1983
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1993 3
+5
+D3
+~
+~
+0 -1 1982
+D2
+~
+~
+0 -1 1978
+D0
+~
+~
+0 -1 1988
+D1
+~
+~
+0 -1 1984
+S
+#1984
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1993 3
+5
+D3
+~
+~
+0 -1 1983
+D2
+~
+~
+0 -1 1979
+D0
+~
+~
+0 -1 1989
+S
+#1985
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1481 3
+5
+D2
+~
+~
+0 -1 1980
+D0
+~
+~
+0 -1 1990
+D1
+~
+~
+0 -1 1986
+S
+#1986
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 457 3
+5
+D1
+~
+~
+0 -1 1987
+D2
+~
+~
+0 -1 1981
+D0
+~
+~
+0 -1 1991
+D3
+~
+~
+0 -1 1985
+S
+#1987
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1481 3
+5
+D0
+~
+~
+0 -1 1992
+D2
+~
+~
+0 -1 1982
+D3
+~
+~
+0 -1 1986
+D1
+~
+~
+0 -1 1988
+S
+#1988
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1993 3
+5
+D0
+~
+~
+0 -1 1993
+D1
+~
+~
+0 -1 1989
+D3
+~
+~
+0 -1 1987
+D2
+~
+~
+0 -1 1983
+S
+#1989
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1481 3
+5
+D3
+~
+~
+0 -1 1988
+D2
+~
+~
+0 -1 1984
+D0
+~
+~
+0 -1 1994
+S
+#1990
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1993 3
+5
+D1
+~
+~
+0 -1 1991
+D2
+~
+~
+0 -1 1985
+S
+#1991
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1993 3
+5
+D2
+~
+~
+0 -1 1986
+D1
+~
+~
+0 -1 1992
+D3
+~
+~
+0 -1 1990
+S
+#1992
+The Garden~
+You suddenly enter a brightly-lit glade full of towering oaks and fresh,
+green grass. Here the powers of good have managed to create a foothold in 
+this realm of darkness, to aid those stranded or trapped here. You may rest
+in peace (if you'll pardon the inappropriate euphemism) for as long as you
+wish here.
+~
+0 9220 3
+5
+D1
+~
+~
+0 -1 1993
+D2
+~
+~
+0 -1 1987
+D3
+~
+~
+0 -1 1991
+S
+#1993
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1481 3
+5
+D1
+~
+~
+0 -1 1994
+D2
+~
+~
+0 -1 1988
+D3
+~
+~
+0 -1 1992
+S
+#1994
+The Garden~
+You find yourself lost in a tangled maze of thorny bushes and rotted trees
+that all seem to move as if with a life of their own. Howls and screams of
+pain and delight occasionally rent the still air- otherwise you are engulfed
+by a silent dimness that only exaggerates the already-eerie quality of
+your surroundings.
+~
+0 1993 3
+5
+D2
+~
+~
+0 -1 1989
+D3
+~
+~
+0 -1 1993
+S
+#1995
+A Murky Mist~
+You are plowing through a thick mist that has suddenly enshrouded the trail.
+You can still make it out beneath your feet, but only barely. Howls, screams
+and shouts of anger and terror ring out on all sides, and you feel fear 
+clutching at your heart. You think you can make out a small stone building
+to the east. A gaping hole looms out of the fog in the ground to the right.
+~
+0 1993 1
+5
+D0
+~
+~
+0 -1 1997
+D2
+~
+~
+0 -1 1964
+D5
+~
+~
+0 -1 1996
+S
+#1996
+The Dragon's Lair~
+Dragons of all types, alive or undead, keep certain habits, and one of them
+is how they decorate their lair. So when you enter and see treasure splashed
+everywhere, along with a generous helping of blood and fried corpses, you are
+at least 90% sure you have entered the lair of one...
+~
+0 457 0
+5
+D4
+~
+~
+0 -1 1995
+S
+#1997
+A Murky Mist~
+You are plowing through a thick mist that has suddenly enshrouded the trail.
+You can still make it out beneath your feet, but only barely. Howls, screams
+and shouts of anger and terror ring out on all sides, and you feel fear 
+clutching at your heart. You think you can make out a small stone building
+to the east.
+~
+0 1993 1
+5
+D0
+~
+~
+0 -1 1998
+D2
+~
+~
+0 -1 1995
+S
+#1998
+A Murky Mist~
+You are plowing through a thick mist that has suddenly enshrouded the trail.
+You can still make it out beneath your feet, but only barely. Howls, screams
+and shouts of anger and terror ring out on all sides, and you feel fear 
+clutching at your heart. You think you can make out a small stone building
+to the east. You aren't sure, but you think you can see a dark tunnel up
+ahead.
+~
+0 1993 1
+5
+D0
+~
+~
+0 -1 1999
+D2
+~
+~
+0 -1 1997
+S
+#1999
+A Dark Tunnel~
+Can it be? YES! An escape route! From this tunnel emanates the sweet smell 
+of green grass and fresh air. You can clamber through and escape, though
+the tunnel is so narrow you doubt you'd be able to return through it.
+~
+0 1997 1
+5
+D2
+~
+~
+0 -1 1998
+D5
+~
+~
+0 0 3100
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 1902 1 1
+D 0 1902 3 1
+D 0 1903 1 1
+D 0 1904 3 1
+D 0 1914 0 1
+D 0 1914 2 1
+D 0 1915 2 1
+D 0 1916 0 1
+D 0 1917 0 1
+D 0 1917 2 1
+D 0 1918 2 1
+D 0 1919 0 1
+D 0 1920 0 1
+D 0 1920 2 1
+D 0 1920 3 1
+D 0 1921 2 1
+D 0 1922 0 1
+D 0 1923 1 1
+D 0 1924 0 1
+D 0 1924 2 1
+D 0 1925 2 1
+D 0 1926 0 1
+D 0 1927 0 1
+D 0 1927 2 1
+D 0 1928 2 1
+D 0 1929 0 1
+D 0 1930 0 1
+D 0 1930 1 1
+D 0 1930 2 1
+D 0 1931 2 1
+D 0 1932 0 1
+D 0 1933 3 1
+D 0 1934 1 1
+D 0 1934 3 1
+D 0 1935 1 1
+D 0 1936 3 1
+D 0 1940 3 1
+D 0 1941 0 1
+D 0 1941 1 1
+D 0 1941 2 1
+D 0 1942 0 1
+D 0 1943 2 1
+D 0 1944 0 1
+D 0 1944 2 1
+D 0 1945 0 1
+D 0 1946 2 1
+D 0 1949 0 1
+D 0 1949 1 1
+D 0 1949 2 1
+D 0 1950 2 1
+D 0 1951 0 1
+D 0 1952 0 1
+D 0 1952 2 1
+D 0 1952 3 1
+D 0 1953 2 1
+D 0 1954 0 1
+D 0 1957 1 1
+D 0 1958 3 1
+D 0 1960 1 1
+D 0 1961 3 1
+D 0 1965 1 1
+D 0 1966 3 1
+D 0 1967 0 1
+D 0 1967 1 1
+D 0 1967 2 1
+D 0 1968 2 1
+D 0 1969 0 1
+D 0 1970 3 1
+O 0 1909 0 1903
+O 0 1909 0 1904
+M 0 1902 1 1904 1
+M 0 1918 8 1906 8
+M 0 1932 1 1909 1
+M 0 1912 8 1912 8
+O 0 1909 0 1915
+M 0 1914 3 1915 3
+O 0 1909 0 1916
+M 0 1913 3 1916 3
+O 0 1909 0 1918
+M 0 1913 3 1918 3
+O 0 1909 0 1919
+M 0 1902 1 1919 1
+O 0 1909 0 1921
+M 0 1902 1 1921 1
+O 0 1909 0 1922
+M 0 1914 3 1922 3
+O 0 1909 0 1923
+M 0 1906 2 1923 2
+O 0 1909 0 1925
+M 0 1913 3 1925 3
+O 0 1909 0 1926
+M 0 1901 2 1926 2
+O 0 1909 0 1928
+M 0 1901 2 1928 2
+O 0 1909 0 1929
+M 0 1914 3 1929 3
+O 0 1909 0 1931
+M 0 1908 1 1931 1
+O 0 1919 0 1931
+O 0 1909 0 1932
+M 0 1901 2 1932 2
+O 0 1909 0 1933
+M 0 1906 2 1933 2
+M 0 1903 1 1934 1
+M 0 1900 1 1935 1
+M 0 1900 1 1936 1
+M 0 1930 1 1939 1
+E 0 1903 0 16
+E 0 1917 0 17
+M 0 1928 1 1942 1
+M 0 1929 1 1943 1
+M 0 1927 1 1945 1
+E 0 1912 0 16
+E 0 1913 0 5
+E 0 1914 0 6
+M 0 1915 1 1946 1
+M 0 1909 1 1950 1
+E 0 1904 0 6
+M 0 1910 1 1951 1
+M 0 1919 1 1952 1
+E 0 1907 0 12
+E 0 1908 0 16
+E 0 1910 0 17
+G 0 1920 0
+M 0 1916 1 1953 1
+O 0 1915 0 1953
+P 0 1916 -1 1915 1
+O 0 1906 0 1953
+P 0 1905 -1 1906 1
+M 0 1905 1 1954 1
+E 0 1901 0 9
+E 0 1902 0 6
+O 0 1922 0 1958
+M 0 1931 1 1958 1
+E 0 1900 0 17
+M 0 1923 2 1965 2
+M 0 1933 2 1966 2
+M 0 1923 2 1967 2
+M 0 1904 2 1968 2
+E 0 1911 0 12
+G 0 1921 0
+M 0 1904 2 1968 2
+E 0 1911 0 12
+G 0 1921 0
+M 0 1934 1 1970 1
+E 0 1911 0 12
+G 0 1921 0
+M 0 1917 1 1974 1
+G 0 1918 0
+M 0 1920 4 1975 4
+R 0 1975 4
+R 0 1976 4
+R 0 1977 4
+M 0 1921 4 1978 4
+R 0 1978 4
+R 0 1979 4
+R 0 1980 4
+M 0 1922 2 1981 2
+R 0 1981 4
+R 0 1982 4
+R 0 1983 4
+M 0 1924 2 1984 2
+R 0 1984 4
+R 0 1985 4
+R 0 1986 4
+M 0 1925 8 1987 8
+R 0 1987 4
+R 0 1988 4
+R 0 1989 4
+M 0 1907 1 1990 1
+R 0 1990 4
+R 0 1991 4
+M 0 1926 1 1992 1
+M 0 1911 1 1996 1
+O 0 1905 0 1996
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$

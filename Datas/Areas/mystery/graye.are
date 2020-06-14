@@ -1,0 +1,1909 @@
+#AREADATA
+Name Graye~
+Builders None~
+VNUMs 4500 4599
+Credits {{ All } Bill    Graye~
+Security 9
+Flags 0
+End
+
+
+
+#MOBILES
+#4501
+brownie forest~
+the forest brownie~
+A forest brownie scampers about here.
+~
+The forest brownie winks at you and scurries away.
+Quite an amicable fellow.
+~
+unique~
+0
+ACGH BT 0 0 800 0
+12 9 150d1+20 0d0+0 0d0+0 2d7+1 pound
+0 0 0 0
+0 0 0 0
+stand stand male 300
+AHMV ABCDEF medium 0
+#4502
+wolf~
+the wolf~
+A wolf trots by, looking for a rabbit
+~
+The wolf looks rather hungry.  You see him trying to decide
+if YOU taste like rabbit.
+~
+wolf~
+0
+ACG T 0 0 -300 0
+5 16 50d1+10 0d0+0 0d0+0 3d3+1 pound
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEF medium 0
+#4503
+rabbit brown~
+the brown rabbit~
+A brown rabbit hops along merrily.
+~
+The rabbit looks up at you with big brown eyes,
+then scoots away..hey..there goes lunch!
+~
+unique~
+0
+AH 0 0 0 400 0
+3 18 30d1+5 0d0+0 0d0+0 1d3+0 pound
+0 0 0 0
+0 0 0 0
+stand stand none 0
+AHMV ABCDEF medium 0
+#4504
+tomal woodsman~
+Tomal~
+A woodsman watches you, a stalk of grass hanging from his mouth
+~
+The woodsman chuckles and says, 'Howdy stranger- the name is 
+Tomal..howya doing?'
+~
+unique~
+0
+ACG H 0 0 800 0
+23 0 400d1+10 0d0+0 0d0+0 3d8+2 pound
+0 0 0 0
+0 0 0 0
+stand stand male 1000
+AHMV ABCDEF medium 0
+#4505
+demon guardian~
+the guardian demon~
+A shadowy form steps out of the mist.
+~
+You see a nightmarish array of teeth and claws, the 
+guardian demon is determined to rip your guts out.
+~
+unique~
+0
+ABF CDEU 0 0 -1000 0
+25 0 500d1+50 0d0+0 0d0+0 5d5+10 pound
+0 0 0 0
+0 0 0 0
+stand stand none 10000
+AHMV ABCDEF medium 0
+#4506
+guard graye guardsman~
+The Graye guardsman~
+The Graye guardsman is posted here.
+~
+The guardsman smiles at you kindly.  He says, 'better stick
+with me guy-- its a dangerous world out there.'
+~
+unique~
+0
+AB H 0 0 900 0
+20 0 200d1+50 0d0+0 0d0+0 3d6+7 pound
+0 0 0 0
+0 0 0 0
+stand stand male 20000
+AHMV ABCDEF medium 0
+#4507
+demon imp~
+the demon imp~
+A tiny demon snarls at you.
+~
+It seems like a relatively harmless little demon, but 
+those sharp teeth might hurt if they were wrapped around
+your arm.
+~
+unique~
+0
+ACF T 0 0 -800 0
+8 13 50d1+1 0d0+0 0d0+0 3d3+8 pound
+0 0 0 0
+0 0 0 0
+stand stand none 1
+AHMV ABCDEF medium 0
+#4508
+minor demon~
+the minor demon~
+A minor demon jumps out of the shadows at you!
+~
+The demon resembles little, but a sinewy mass of flesh,
+tendons, and teeth.  It glares at you with pure fury in
+it's eyes.
+~
+unique~
+0
+AF BU 0 0 -900 0
+13 8 150d1+20 0d0+0 0d0+0 2d7+2 pound
+0 0 0 0
+0 0 0 0
+stand stand none 1
+AHMV ABCDEF medium 0
+#4509
+citizen graye man~
+The Graye Citizen~
+A citizen of Graye rushes by here, looking over his shoulder.
+~
+The citizen looks rather nervous- You would too if your town was
+beseiged by demons.
+~
+unique~
+0
+AH H 0 0 700 0
+15 6 150d1+30 0d0+0 0d0+0 2d8+2 pound
+0 0 0 0
+0 0 0 0
+stand stand male 1000
+AHMV ABCDEF medium 0
+#4510
+citizen gray woman~
+The Graye Citizen~
+A citizen of Graye rushes by here, looking over her shoulder.
+~
+The citizen looks rather nervous- You would too if your town was
+beseiged by demons.
+~
+unique~
+0
+AH H 0 0 700 0
+15 6 150d1+20 0d0+0 0d0+0 2d7+1 pound
+0 0 0 0
+0 0 0 0
+stand stand female 3000
+AHMV ABCDEF medium 0
+#4511
+demon major~
+A major demon~
+A major demon lurks about here.
+~
+You look deep into the eyes of the beast.  You sense no absolutely 
+no intellect, only raw power and rage.
+~
+unique~
+0
+ACF BH 0 0 -900 0
+22 0 350d1+20 0d0+0 0d0+0 3d8+5 pound
+0 0 0 0
+0 0 0 0
+stand stand none 5000
+AHMV ABCDEF medium 0
+#4512
+guardian rift~
+The rift guardian~
+A shadow wraith drifts into your way.
+~
+All you see is a fog-like apparition, with two glowing
+red eyes...
+~
+unique~
+0
+ABF BH 0 0 -900 0
+24 0 800d1+50 0d0+0 0d0+0 3d7+5 pound
+0 0 0 0
+0 0 0 0
+stand stand none 10000
+AHMV ABCDEF medium 0
+#4513
+guard jail~
+The jail guard~
+A jail guard patrols here, whipping the prisoners.
+~
+The guard seems to be..well...mostly human.  He is covered
+in boils and tufts of hair.  He glares at you with his one
+good eye and says, 'Put down that weapon..prisoner!'
+~
+unique~
+0
+ABCF H 0 0 -800 0
+20 1 250d1+10 0d0+0 0d0+0 3d6+5 pound
+0 0 0 0
+0 0 0 0
+stand stand male 5000
+AHMV ABCDEF medium 0
+#4514
+rymat~
+Rymat~
+The King's Advisor is here, weeping.
+~
+He looks at you and begs, 'please! they have taken him! I
+can see that you are a great adventurer..please bring him
+back to us!'  The advisor turns from you and continues to
+sob uncontrollably.
+~
+unique~
+0
+AB H 0 0 900 0
+22 0 350d1+50 0d0+0 0d0+0 3d8+4 pound
+0 0 0 0
+0 0 0 0
+stand stand male 1000
+AHMV ABCDEF medium 0
+#4515
+irgon arch demon~
+The Arch-Demon Irgon~
+The Arch-Demon Irgon emerges from the shadows.
+~
+Irgon frowns down upon you.  His oily black skin reflects
+the torchlight.  A thick white claw points at you, and
+he utters, 'prepare to die.'
+~
+pit-fiend~
+0
+ABF BHc 0 0 -900 0
+28 0 1000d1+50 0d0+0 0d0+0 5d5+7 pound
+0 0 0 0
+0 H DM IN
+stand stand male 50000
+ACHMV ABCEFGHIJKP large 0
+#4516
+scrytin demon~
+Scrytin~
+Scrytin, the demon lord's apprentice, smiles at you.
+~
+Scrytin looks at you kindly, and suddenly you feel very 
+peacefull and relaxed.  You stare directly into his eyes,
+and feel yourself slipping deeper and deeper...NOOO!!
+Scrytin growls, 'Won't become a minion of mine eh?..then
+you shall DIE!'
+~
+unique~
+0
+AF H 0 0 -999 0
+30 0 1500d1+50 0d0+0 0d0+0 4d8+15 pound
+0 0 0 0
+0 0 0 0
+stand stand male 100000
+AHMV ABCDEF medium 0
+#4517
+relnar king~
+Relnar~
+The good king Relnar is here.
+~
+You look into the eyes of the descendant of Graye, and
+know now why his city is so prosperous and happy.
+~
+unique~
+0
+AB H 0 0 999 0
+30 0 1000d1+50 0d0+0 0d0+0 4d8+5 pound
+0 0 0 0
+0 0 0 0
+stand stand male 100000
+AHMV ABCDEF medium 0
+#0
+
+
+
+#OBJECTS
+#4501
+key secret~
+a secret key~
+A secret key lies here.~
+iron~
+key AB AO
+B 0 0 0 0
+1 1 100 P
+E
+key secret~
+It is a itty bitty secret key.~
+#4502
+key trapdoor~
+a trapdoor key~
+A key to a trapdoor has been left here.~
+iron~
+key AB AO
+B 0 0 0 0
+1 1 100 P
+E
+key trap trapdoor~
+It is a tiny key meant to open a trapdoor.~
+#4503
+key ebony~
+an ebony key~
+An intricate ebony key is here.~
+ebony~
+key AB AO
+B 0 0 0 0
+1 1 100 P
+E
+key ebony~
+Look's like it would open an ebony door.~
+#4504
+key ivory~
+an ivory key~
+An ivory key has been left here.~
+ivory~
+key AB AO
+B 0 0 0 0
+1 1 100 P
+E
+key ivory~
+Look like it would open an ivory door.~
+#4505
+book chronicles~
+the chronicles of Graye~
+The chronicles of Graye rest on the desk here.~
+paper~
+trash A A
+0 0 0 0 0
+22 1 100 P
+Y
+char 'wisdom' 0 2
+E
+book chronicles~
+You open the book and begin to read:
+
+	Many ages ago, the great paladin knight Graye defeated
+the Demon lord, and his disciples Irgon and Scrytin, and banished
+them to to bowels of the earth from which they came.  Years passed
+and Graye's descendants prospered.  The city of Graye has been ruled
+for many hundreds of years by wise kings, directly descended from 
+Graye himself.
+
+The book goes on to list dozens of names of kings..
+~
+#4506
+desk~
+a desk~
+Relnar's desk is in the corner.~
+wood~
+container 0 0
+50 AC 0 0 0
+0 500 1 P
+E
+desk~
+It is a fine oak desk with a drawer.
+~
+#4507
+sapling wand~
+a sapling~
+A green stick lies here.~
+wood~
+wand AB AO
+15 1 1 'bless' 0
+13 1 1000 P
+Y
+char 'dexterity' 0 1
+E
+sapling wand~
+It is a fresh green stick.
+~
+#4508
+cloak woodsman~
+a woodsman's cloak~
+A woodsman's cloak is crumpled up here.~
+cloth~
+container 0 AK
+60 AC 0 5 0
+20 2 1000 P
+Y
+char 'AC' 0 8
+Y
+char 'dexterity' 0 1
+E
+cloak woodsman~
+It has alot of pockets.
+~
+#4509
+belt woodsman~
+a woodsman's belt~
+A woodsman's belt lies coiled here.
+~
+cloth~
+armor 0 AL
+7 0 0 0 0
+17 2 1000 P
+Y
+char 'moves' 0 10
+E
+belt woodsman~
+What a nice leather belt!
+~
+#4510
+water boots walking~
+walking water boots~
+A pair of water walking boots have been left here.~
+cloth~
+armor 0 AG
+0 0 0 0 0
+23 3 100 P
+Y
+char 'affects2' 1 1
+E
+boots walking~
+I bet you could go anywhere wearing these.
+~
+#4511
+helmet plumed~
+a helmet emblazoned with the mark of Graye~
+A plumed helmet lies on the ground here.
+~
+iron~
+armor ABK AE
+10 0 0 0 0
+10 5 1000 P
+Y
+char 'hitroll' 0 2
+E
+helmet plumed~
+It's a nice thing to wear on your head.
+~
+#4512
+cape crimson emblazoned~
+a cape emblazoned with the mark of Graye~
+A crimson cape lies on the ground here.
+~
+cloth~
+armor ABK AC
+6 0 0 0 0
+13 2 1000 P
+Y
+char 'hp' 0 10
+E
+cape crimson emblazoned~
+It's a nice thing to wear around your neck.
+~
+#4513
+sword long longsword crimson emblazoned~
+a longsword of Graye~
+A crimson emblazoned longsword is stuck in the ground here.
+~
+iron~
+weapon ABK AN
+exotic 4 4 stab 0
+20 15 10000 P
+E
+sword long longsword crimson emblazoned~
+It is a finely balanced weapon..standard eq for Graye guards.
+~
+#4514
+claw bloodied~
+a bloodied claw~
+A severed claw lies on the ground here, making a puddle.
+~
+flesh~
+staff ABJ AO
+15 5 5 'poison' 0
+14 5 1000 P
+Y
+char 'hitroll' 0 2
+E
+claw bloodied~
+It seems to have been severed off a demons corpse.
+~
+#4515
+mist arm armbands~
+armbands of mist~
+Armbands of pure mist lie hoover here.
+~
+air~
+armor ABJ AI
+11 0 0 0 0
+5 5 10000 P
+Y
+char 'hitroll' 0 2
+Y
+char 'saving throw' 0 2
+E
+mist arm armbands~
+They are fascinating..all mist...cool.
+~
+#4516
+whip bloodied~
+a bloodied whip~
+A whip, encrusted with dried blood, is coiled up here.
+~
+leather~
+weapon ABJ AN
+exotic 4 5 stab 0
+20 15 10000 P
+E
+whip bloodied~
+It looks well used.
+~
+#4517
+candle black~
+the black candle~
+A black candle rests here, making sooty smoke.
+~
+unknown~
+light ABJ AO
+0 0 250 0 0
+32 3 50000 R
+Y
+char 'hitroll' 0 3
+Y
+char 'damroll' 0 1
+E
+candle black~
+It just RADIATES evil.
+~
+#4518
+shield scrytin~
+scrytin's Shield~
+The dark shield of Scrytin rests here.~
+steel~
+armor ABJ AJ
+10 10 10 10 0
+14 10 5000 P
+Y
+char 'mana' 0 10
+Y
+char 'AC' 0 -10
+E
+shield scrytin~
+It is a powerful shield.
+~
+#4519
+visor graye~
+graye's Visor~
+The legendary visor of Graye rests here.~
+steel~
+armor ABK AE
+10 0 0 0 0
+21 8 100000 P
+Y
+char 'damroll' 0 3
+Y
+char 'AC' 0 -15
+E
+visor graye~
+It is finely crafted and old.
+~
+#4520
+breastplate plate graye~
+graye's Breastplate~
+The legendary breastplate of Graye rests here.~
+adamantite~
+armor ABK AD
+15 12 10 14 0
+15 10 4000 P
+Y
+char 'hitroll' 0 4
+Y
+char 'AC' 0 -15
+E
+breastplate plate graye~
+It is finely crafted and old.
+~
+#4521
+note personal journal~
+a personal journal~
+A personal journal, written by the king is here.~
+paper~
+trash 0 A
+0 0 0 0 0
+5 1 1 P
+E
+note personal journal~
+The last entry reads:
+
+	I fear my magic is not enough..every day the demons
+get stronger...my people are living in fear..we cannot go 
+on like this.  Noone save myself knows of the secret passage
+beneath the throne room, perhaps I should take it and confront
+the enemy?   But I cannot leave my people here alone..and the
+legasy of Graye must never fall into enemy hands.  What is that!
+The sounds of fighting?! In the Castle?!  I must...
+
+The next few sentences are unintelligible..they say something
+about a spell being cast on this room to bar the demon's entry
+and something about defending his castle.
+~
+#4522
+note hastily scrawled~
+a hastily scrawled note~
+A hastily scrawled note lies here.~
+paper~
+trash 0 A
+0 0 0 0 0
+5 1 1 P
+E
+note hastily scrawled~
+The note reads:
+
+	Thank you kind adventurer!  I heard the sound's of
+your battle with Scrytin, and while he was distracted I was
+able to cast a powerful spell.  You will find a magical key
+on the ground here, disguised as a rock, and you will also
+find that I have magically formed an exit back to my study from
+here.  The key will unlock some secret floorboards, and what
+you find under there will be your reward.  I must stay here
+and help my countrymen from their chains.  Thank You for
+what you have done.
+
+                         Signed,
+                                 King Relnar
+~
+#4523
+key magic rock~
+an inconspicuous rock~
+An inconspicuous rock is tucked in a corner here.~
+stone~
+key 0 A
+B 0 0 0 0
+1 1 1 P
+E
+key magic rock~
+Huh..somethin kinda funny about that rock.
+~
+#0
+
+
+
+#ROOMS
+#4500
+A path near the grail~
+Near the grail.
+~
+0 4 0
+5
+D3
+~
+~
+0 0 4501
+S
+#4501
+A path near the grail~
+Near the grail
+~
+0 4 0
+5
+D0
+~
+~
+0 0 4502
+D1
+~
+~
+0 0 4500
+S
+#4502
+The Great Field~
+You are standing in a great field of tall grass.  The 
+smell of fresh dirt and sunlight surrounds you.  The air is 
+filled with the sound of chirping birds happily building their
+nests in the depths of the knotted grass.  A wagon trail runs
+in an east-south direction.
+~
+0 0 2
+5
+D2
+~
+~
+0 0 4501
+D3
+~
+~
+0 0 4503
+S
+#4503
+The Forest's Edge~
+The grassland fades to spotted scrub here, and finally 
+merges into a great line of trees.  To the far north a stormcloud
+hangs in the air ominously, but strangely enough it is still quite
+pleasant out.  Crickets chirp merrily, and the sun's rays warm your
+skin.  The wagon trail leads eastwards back into the grassland, 
+and dissapears westwards into the forest.
+~
+0 0 3
+5
+D1
+~
+~
+0 0 4502
+D3
+~
+~
+0 0 4504
+S
+#4504
+Entrance to the Forest of Graye~
+The trail passes into the shade here, and the temperature
+drops quite suddenly.  Great broad leaf trees gather the descending
+sunlight, and cover the leaf-strewn forest floor with dappled sunlight.
+The wagon trail becomes much wider here, showing signs of recent heavy
+use.  The wagon trail runs from west to east here, and it looks possible
+to venture into the forest to the north and south.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4506
+D1
+~
+~
+0 0 4503
+D2
+~
+~
+0 0 4507
+D3
+~
+~
+0 0 4511
+S
+#4505
+The Forest of Graye~
+You in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D2
+~
+~
+0 0 4506
+D3
+~
+~
+0 0 4509
+S
+#4506
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4505
+D2
+~
+~
+0 0 4504
+D3
+~
+~
+0 0 4510
+S
+#4507
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4504
+D2
+~
+~
+0 0 4508
+D3
+~
+~
+0 0 4512
+S
+#4508
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4507
+D3
+~
+~
+0 0 4513
+S
+#4509
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+There is a sheer cliff face to the west, rising up above the forest.
+There is a sign nailed neatly on the cliff wall.
+~
+0 0 3
+5
+E
+cliff sheer face~
+The face of the cliff seems impossible to scale.
+~
+E
+sign~
+The sign reads:
+
+******************************
+*                            *
+*       The Graye Area       *   
+*         Written By:        *
+*      Aten of GenericMUD    *
+*         April 1994         *
+*                            *
+*                            *
+*                            *
+******************************
+~
+D1
+~
+~
+0 0 4505
+D2
+~
+~
+0 0 4510
+S
+#4510
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+There is a sheer cliff face to the west, rising above the forest.
+~
+0 0 3
+5
+E
+cliff sheer face~
+The face of the cliff seems impossible to scale~
+D0
+~
+~
+0 0 4509
+D1
+~
+~
+0 0 4506
+D2
+~
+~
+0 0 4511
+S
+#4511
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+The wagon trail ends abruptly here.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4510
+D1
+~
+~
+0 0 4504
+D2
+~
+~
+0 0 4512
+D3
+~
+~
+0 0 4514
+S
+#4512
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4511
+D1
+~
+~
+0 0 4507
+D2
+~
+~
+0 0 4513
+D3
+~
+~
+0 0 4515
+S
+#4513
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4512
+D1
+~
+~
+0 0 4508
+S
+#4514
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+There is a sheer cliff face to the north, rising above the forest.
+~
+0 0 3
+5
+E
+cliff sheer face~
+The cliff face seems impossible to scale~
+D1
+~
+~
+0 0 4511
+D2
+~
+~
+0 0 4515
+D3
+~
+~
+0 0 4517
+S
+#4515
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4514
+D1
+~
+~
+0 0 4512
+D2
+~
+~
+0 0 4516
+D3
+~
+~
+0 0 4518
+S
+#4516
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4515
+D1
+~
+~
+0 0 4513
+D3
+~
+~
+0 0 4519
+S
+#4517
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+There is a cliff face to the north.
+~
+0 0 3
+5
+E
+cliff face~
+It seems that if you put your toe right here, and your left hand
+over here, that you just might be able to climb it.
+~
+D1
+~
+~
+0 0 4514
+D2
+~
+~
+0 0 4518
+D4
+~
+~
+0 0 4520
+S
+#4518
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4517
+D1
+~
+~
+0 0 4515
+D2
+~
+~
+0 0 4519
+S
+#4519
+The Forest of Graye~
+You are in a hardwood forest, walking through noisy leaves.
+~
+0 0 3
+5
+D0
+~
+~
+0 0 4518
+D1
+~
+~
+0 0 4516
+S
+#4520
+The Cliff Wall~
+You inch your way upwards, hand over hand, searching out 
+more footholds.  Sweat stings your eyes, and your breathing becomes
+ragged.  You can still drop safely to the forest floor, or madly
+continue upwards.
+~
+0 0 5
+5
+D4
+~
+~
+0 0 4521
+D5
+~
+~
+0 0 4517
+S
+#4521
+The Overhang~
+You progress upwards is stopped by what appears to be
+an overhang.  It would be a nice place to stop an rest..if you
+weren't underneath it.  You glance around for an alternate path..
+~
+0 0 5
+5
+D1
+~
+~
+0 0 4522
+D5
+~
+~
+0 0 4520
+S
+#4522
+Hanging By a Thread~
+As you reach for your next handhold, the rock comes loose 
+and tumbles down, down, down to the ground.  You barely manage to
+save yourself by clinging desperately to the rock face with your 
+other hand.  Returning back west is out of the question, but you
+might be able to pull yourself upwards onto a very thin ledge.
+~
+0 0 5
+5
+E
+ledge thin~
+The ledge is very narrow, perhaps two feet at it's widest part.~
+D4
+~
+~
+0 0 4523
+S
+#4523
+The Thin Ledge~
+You are standing on a very thin ledge, just wide enough
+for your feet to stand on it widthwise.  The ledge widens to the
+west and east.
+~
+0 0 5
+5
+D3
+The ledge widens considerably over there.~
+~
+0 0 4524
+S
+#4524
+The Ledge~
+You find yourself on a very wide ledge.  You could stretch
+out here and take a nap if you wanted too.  To the south you get a
+fantastic view of the entire forest.  There is perhaps another 
+forty feet to the top of the cliff, all of which appears to be an
+easy climb.
+~
+0 0 5
+5
+D1
+~
+~
+0 0 4523
+D4
+~
+~
+0 0 4526
+S
+#4526
+Top of the Cliff~
+You reach the top of the cliff and struggle to your feet.
+You spend several moments just turning around, taking in all that 
+you see.  To the south and east you see the forest sweeping outwards
+from the cliff wall, and to the north you see a clearing surrounding
+a small town.
+~
+0 0 2
+5
+D0
+~
+~
+0 0 4528
+D5
+~
+~
+0 0 4524
+S
+#4527
+The Clearing~
+You are in a wide clearing between the city walls and
+the forest.  You see men atop the walls pointing at you and 
+gesturing frantically.
+~
+0 0 2
+5
+D0
+~
+~
+0 0 4530
+D1
+~
+~
+0 0 4528
+D3
+The forest looks VERY dark.~
+~
+0 0 4533
+S
+#4528
+The Clearing~
+You are in a wide clearing between the city walls and
+the forest.  You see men atop the walls pointing at you and 
+gesturing frantically.
+~
+0 0 2
+5
+D0
+~
+~
+0 0 4531
+D1
+~
+~
+0 0 4529
+D2
+~
+~
+0 0 4526
+D3
+~
+~
+0 0 4527
+S
+#4529
+The Clearing~
+You are in a wide clearing between the city walls and
+the forest.  You see men atop the walls pointing at you and 
+gesturing frantically.
+~
+0 0 2
+5
+D0
+~
+~
+0 0 4532
+D1
+~
+~
+0 0 4536
+D3
+~
+~
+0 0 4528
+S
+#4530
+The Clearing~
+You are in a wide clearing between the city walls and
+the forest.  You see men atop the walls pointing at you and 
+gesturing frantically.
+~
+0 0 2
+5
+D2
+~
+~
+0 0 4527
+D3
+The forest looks VERY dark.~
+~
+0 0 4534
+S
+#4531
+Entrance to the City of Graye~
+You are standing before the great gate of Graye.  Crimson
+plumed soldiers raise the portcullis and urge you the enter quickly.
+~
+0 0 2
+5
+D0
+Looks like safety.~
+~
+0 0 4537
+S
+#4532
+The Clearing~
+You are in a wide clearing between the city walls and
+the forest.  You see men atop the walls pointing at you and 
+gesturing frantically.
+~
+0 0 2
+5
+D1
+The forest look VERY dark.~
+~
+0 0 4535
+D2
+~
+~
+0 0 4529
+S
+#4533
+The Demon's Wood~
+You find yourself among the twisted, gnarled trunks of
+giant thorn trees.  Mist covers the forest floor and everything
+is completely silent.
+~
+0 1 3
+5
+D0
+~
+~
+0 0 4534
+D1
+Safety!~
+~
+0 0 4527
+S
+#4534
+The Demon's Wood~
+You find yourself among the twisted, gnarled trunks of
+giant thorn trees.  Mist covers the forest floor and everything 
+is completely silent.
+~
+0 1 3
+5
+D1
+Safety!~
+~
+0 0 4530
+D2
+~
+~
+0 0 4533
+S
+#4535
+The Demon's Wood~
+You find yourself among the twisted, gnarled trunks of
+giant thorn trees.  Mist covers the forest floor, and everything 
+is completely silent.
+~
+0 1 3
+5
+D2
+~
+~
+0 0 4536
+D3
+Safety!~
+~
+0 0 4532
+S
+#4536
+The Demon's Wood~
+You find yourself among the twisted, gnarled trunks of
+giant thorn trees.  Mist covers the forest floor, and everything
+is completely silent.
+~
+0 1 3
+5
+D0
+~
+~
+0 0 4535
+D3
+Safety!~
+~
+0 0 4529
+S
+#4537
+The City Street~
+Simple houses line both sides of the street, and guards are
+posted at every junction.  There is a castle to the north, and more
+streets to the east and west.  There is a large sign posted on a
+wall here.
+~
+0 0 1
+5
+E
+sign large~
+There is a sign posted here, it says:
+
+          ATTENTION CITIZENS OF GRAYE!
+
+Due to the demons beseiging our city, their
+night-time raids, and their recent kidnapping
+of King Relnar, we ask all citizens to observe
+the 7 pm curfew!  Those out on the streets after
+dark run the risk of being mistaken for the enemy 
+and killed!
+
+signed,
+
+The Graye Guard
+~
+D0
+You see the castle.~
+~
+0 0 4541
+D1
+~
+~
+0 0 4539
+D3
+~
+~
+0 0 4538
+S
+#4538
+The City Streets~
+Small houses line both sides of the street, and
+armed guards are posted at every junction.  You see a 
+small poster pasted to the wall here.
+~
+0 0 1
+5
+E
+poster small~
+The poster reads:
+
+Great rewards will be given to anyone who can 
+rescue the benevolent King Relnar.
+~
+D1
+~
+~
+0 0 4537
+S
+#4539
+The City Streets~
+Small houses line both sides of the street, and 
+armed guards are posted at every junction.
+~
+0 0 1
+5
+D3
+~
+~
+0 0 4537
+S
+#4540
+Inside the Castle~
+Everything here is a mess.  Furniture has been overturned,
+paintings slashed, even the gold inlaid tiles have been torn up.
+~
+0 0 1
+5
+D1
+~
+~
+0 0 4541
+S
+#4541
+Entrance to Relnar's Castle~
+You stand before the ajar gate of the castle.  You here
+complete silence from inside.  City life continues to bustle around
+you.
+~
+0 0 1
+5
+D0
+~
+~
+0 0 4544
+D1
+~
+~
+0 0 4542
+D2
+~
+~
+0 0 4537
+D3
+~
+~
+0 0 4540
+S
+#4542
+Inside the Castle~
+Everything here is a mess.  Furniture has been overturned,
+paintings slashed, even the gold inlaid tiles have been torn up.
+~
+0 0 0
+5
+D3
+~
+~
+0 0 4541
+S
+#4543
+Relnar's Study~
+As soon as you enter this room, you feel it.  A magical
+aura of goodness fills this room, and everything is in a neat 
+and tidy condition.
+~
+0 0 0
+5
+D1
+~
+~
+0 0 4544
+D5
+You see some loose floorboards.~
+floorboards secret~
+ABCF 4523 4559
+S
+#4544
+The Throne Room~
+King Relnar's throne sits here, empty.  There are rooms to 
+the east and west.
+~
+0 4 0
+5
+D1
+~
+~
+0 0 4545
+D2
+~
+~
+0 0 4541
+D3
+~
+~
+0 0 4543
+D5
+Aha! a secret door!~
+secret~
+ABCF 4501 4546
+S
+#4545
+Rymat's Chamber~
+You find yourself in a small undecorated chamber.  There is
+a bed, desk, and finely crafted washbasin.
+~
+0 0 0
+5
+E
+bed~
+It is a tidy, well made bed.~
+E
+desk~
+It is a bare desk, no drawers or anything.~
+E
+basin wash washbasin~
+It is a very nice washbasin.~
+D0
+~
+~
+ABCF 4503 4556
+D3
+~
+~
+0 0 4544
+S
+#4546
+The Tunnel~
+The tunnel has a bare dirt floor, and its sides are of
+rough-hewn rock.  Magical torches are set in each side of the
+tunnel wall, providing light.
+~
+0 4 0
+5
+E
+torch torches magical~
+They provide light with a soft magical glow.~
+D0
+~
+~
+0 0 4547
+D4
+Aha! a secret door!~
+secret~
+ABCF 4501 4544
+S
+#4547
+The Tunnel~
+The tunnel begins to curve upwards.
+~
+0 4 0
+5
+D0
+~
+~
+0 0 4548
+D2
+~
+~
+0 0 4546
+S
+#4548
+Tunnel's End~
+You reach the end of the tunnel.  Just above you, sunlight
+peeks around the edge of a trapdoor.
+~
+0 4 0
+5
+D2
+~
+~
+0 0 4547
+D4
+It is a trapdoor, cleverly hidden.~
+door trap trapdoor~
+ABCF 4502 4549
+S
+#4549
+The Valley of Demons~
+You emerge from the tunnel, and take a look around you.
+To the far south you can just barely see one of the castle's towers
+over the trees.  To the north, the land sloped downward, and thick, 
+gnarled thorn trees prevent movement to the east or west.
+~
+0 4 4
+5
+D0
+~
+~
+0 0 4550
+D5
+It is a trapdoor, cleverly hidden.~
+door trap trapdoor~
+ABCF 4502 4548
+S
+#4550
+The Valley of Demons~
+You are heading deeper and deeper into a valley.  The walls 
+climb up on either side of you, soon becoming nearly vertical.  Your
+path is slowed by thick choking vegetation grabbing your boots.
+The path back to the south disappears in darkness, and your path 
+continues to dip as you head to the north.
+~
+0 0 4
+5
+D0
+~
+~
+0 0 4551
+D2
+~
+~
+0 0 4549
+S
+#4551
+The Valley Floor~
+You have reached the very bottom of the valley.  The hills 
+climb steeply to the east and west.  A sudden gust of wind brings 
+you the smell of sulphur from the north.
+~
+0 0 4
+5
+D0
+~
+~
+0 0 4552
+D2
+~
+~
+0 0 4550
+S
+#4552
+The Rift~
+A great yawning rift breaks the earth's surface here.  
+Tendrils of smoke waft their way upwards, stinging your nose 
+sharply.  You sense that a great evil is near.
+~
+0 0 4
+5
+D2
+~
+~
+0 0 4551
+D5
+You can't see much..climable though.~
+~
+0 0 4553
+S
+#4553
+Inside the Rift~
+There is a ledge here, and a tunnel which leads into the 
+earth.  Far below you, lava churns and bubbles.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 4554
+D4
+I wouldn't try to climb that! What if you fell?!~
+~
+0 0 4558
+S
+#4554
+The Tunnel~
+The tunnel leads north and south, and to either side 
+of you are great cells.  Peeking in a smudged window, you 
+see human prisoners, many of them wearing the uniform of the
+Graye Guard.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 4545
+D2
+~
+~
+0 0 4553
+S
+#4555
+Irgon's Guard Room~
+You find yourself in a small guard room.  Chambers to the 
+east and west house prisoners, and an ebony door blocks the 
+way north.  Instruments of torture line the walls, and blood is
+splattered everywhere.
+~
+0 1 0
+5
+D0
+An ebony door is there.~
+door ebony~
+ABCF 4503 4556
+D2
+~
+~
+0 0 4554
+S
+#4556
+Scrytin's Chamber of Doom~
+This chamber is COVERED in blood.  The Arch-Demon Scrytin
+has made this foul place his abode.  There is an Ivory door to the 
+east.
+~
+0 1 0
+5
+D1
+There is an ivory door there.~
+ivory door~
+ABCF 4504 4557
+D2
+~
+~
+ABCF 4503 4545
+S
+#4557
+Relnar's Cell~
+You stumble into a tiny cell, lit by a single candle.
+~
+0 0 0
+5
+D3
+There is an ivory door there.~
+ivory door~
+ABCF 4504 4556
+S
+#4558
+The Lava~
+You slip..
+                  ..
+                    ..
+                       hot
+                           Hot
+                               HOT!!
+~
+0 4 0
+5
+S
+#4559
+The secret passage~
+You step into the musty passage and let your eyes grow
+accustomed to the light.  Stone walls block every direction 
+save north.
+~
+0 1 0
+5
+D0
+~
+~
+0 0 4560
+D4
+~
+~
+ABC 0 4543
+S
+#4560
+The Catacombs~
+You walk along the passage, and notice the remains of 
+all the previous kings of Graye are buried on either side of you.
+You can see in the room, but there is no discernable source of 
+light.  The passage continues on to the north and south.
+~
+0 0 0
+5
+D0
+~
+~
+0 0 4561
+D2
+~
+~
+0 0 4559
+S
+#4561
+The Tomb of Graye~
+You enter a huge circular room.  A guilded gold coffin
+rests in the center atop at stone tablet.  Treasure is piled
+high against all the walls.  You have found the final resting
+place of the paladin knight Graye.
+~
+0 0 0
+5
+E
+coffin~
+The coffin holds the remains of Graye.  His gift to you
+is not within it.
+~
+E
+stone tablet~
+It is a giant stone tablet supporting the coffin of Graye.
+~
+D2
+~
+~
+0 0 4560
+S
+#0
+
+
+
+#SPECIALS
+S
+
+
+
+#RESETS
+D 0 4543 5 2
+D 0 4544 5 2
+D 0 4545 0 2
+D 0 4546 4 2
+D 0 4548 4 2
+D 0 4549 5 2
+D 0 4555 0 2
+D 0 4556 1 2
+D 0 4556 2 2
+D 0 4557 3 2
+D 0 4559 4 2
+M 0 4501 5 4505 5
+E 0 4507 0 17
+M 0 4501 5 4508 5
+E 0 4507 0 17
+M 0 4502 10 4509 10
+M 0 4502 10 4510 10
+M 0 4502 10 4511 10
+M 0 4503 5 4513 5
+M 0 4501 5 4514 5
+E 0 4507 0 17
+M 0 4502 10 4514 10
+M 0 4504 1 4515 1
+E 0 4508 0 12
+E 0 4509 0 13
+E 0 4510 0 8
+M 0 4501 5 4516 5
+E 0 4507 0 17
+M 0 4503 5 4516 5
+M 0 4501 5 4517 5
+E 0 4507 0 17
+M 0 4502 10 4517 10
+M 0 4503 5 4519 5
+M 0 4505 4 4533 4
+M 0 4505 4 4534 4
+M 0 4505 4 4535 4
+M 0 4505 4 4536 4
+M 0 4506 5 4537 5
+E 0 4511 0 6
+E 0 4512 0 3
+E 0 4513 0 16
+M 0 4506 5 4537 5
+E 0 4511 0 6
+E 0 4512 0 3
+E 0 4513 0 16
+M 0 4506 5 4537 5
+E 0 4511 0 6
+E 0 4512 0 3
+E 0 4513 0 16
+M 0 4506 5 4538 5
+M 0 4509 4 4538 4
+M 0 4510 4 4538 4
+M 0 4506 5 4539 5
+M 0 4509 4 4539 4
+M 0 4510 4 4539 4
+O 0 4506 0 4543
+P 0 4505 1 4506 1
+P 0 4521 1 4506 1
+P 0 4502 1 4506 1
+P 0 4501 1 4506 1
+M 0 4517 1 4544 1
+G 0 4501 0
+M 0 4513 2 4545 2
+E 0 4516 0 16
+M 0 4514 1 4545 1
+M 0 4515 1 4545 1
+E 0 4517 0 0
+E 0 4503 0 17
+M 0 4507 3 4550 3
+M 0 4508 3 4550 3
+M 0 4511 1 4550 1
+E 0 4514 0 17
+M 0 4507 3 4551 3
+M 0 4508 3 4551 3
+M 0 4512 1 4552 1
+E 0 4515 0 10
+M 0 4513 2 4554 2
+E 0 4516 0 16
+M 0 4516 1 4556 1
+E 0 4518 0 11
+E 0 4504 0 17
+O 0 4522 0 4557
+O 0 4523 0 4557
+O 0 4520 0 4561
+O 0 4519 0 4561
+S
+
+
+
+#SHOPS
+0
+
+
+
+#$
