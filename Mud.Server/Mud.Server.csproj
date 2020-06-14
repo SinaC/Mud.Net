@@ -74,46 +74,26 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ability\AbilityAttribute.cs" />
-    <Compile Include="Ability\AbilityManager.cs" />
-    <Compile Include="Ability\Ability.cs" />
-    <Compile Include="Ability\AbilityUsage.cs" />
-    <Compile Include="Ability\KnownAbility.cs" />
-    <Compile Include="Ability\MysteryPassives.cs" />
-    <Compile Include="Ability\Rom24Effects.cs" />
-    <Compile Include="Ability\Rom24Passives.cs" />
-    <Compile Include="Ability\Rom24Skills.cs" />
-    <Compile Include="Ability\Rom24Spells.cs" />
     <Compile Include="Ability\TestSpells.cs" />
+    <Compile Include="ActionInput.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
     <Compile Include="Admin\MiscCommands.cs" />
     <Compile Include="Admin\PunishCommands.cs" />
     <Compile Include="Area\Area.cs" />
+    <Compile Include="AssemblyHelper.cs" />
     <Compile Include="Aura\Aura.cs" />
-    <Compile Include="Affect\CharacterAttributeAffect.cs" />
-    <Compile Include="Affect\CharacterFlagsAffect.cs" />
-    <Compile Include="Affect\CharacterIRVAffect.cs" />
-    <Compile Include="Affect\CharacterSizeAffect.cs" />
-    <Compile Include="Affect\CharacterSexAffect.cs" />
-    <Compile Include="Affect\PlagueSpreadAndDamageAffect.cs" />
-    <Compile Include="Affect\PoisonDamageAffect.cs" />
-    <Compile Include="Affect\FlagAffectBase.cs" />
-    <Compile Include="Affect\ItemFlagsAffect.cs" />
-    <Compile Include="Affect\ItemWeaponFlagsAffect.cs" />
     <Compile Include="Aura\PeriodicAura.cs" />
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\ImpersonateCommand.cs" />
     <Compile Include="Admin\IncarnateCommand.cs" />
     <Compile Include="Admin\InfoCommands.cs" />
-    <Compile Include="Affect\RoomFlagsAffect.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
     <Compile Include="Character\PlayableCharacter\InfoCommands.cs" />
     <Compile Include="Character\PlayableCharacter\MiscCommands.cs" />
     <Compile Include="Character\PlayableCharacter\ShopCommands.cs" />
     <Compile Include="Group\Group.cs" />
-    <Compile Include="Helpers\MiscHelpers.cs" />
     <Compile Include="Item\ItemClothing.cs" />
     <Compile Include="Item\ItemBoat.cs" />
     <Compile Include="Item\ItemCastSpellsChargeBase.cs" />
@@ -188,7 +168,6 @@
     <Compile Include="Class\Warrior.cs" />
     <Compile Include="Helpers\TableGenerators.cs" />
     <Compile Include="Entity\EntityBase.cs" />
-    <Compile Include="Helpers\FindHelpers.cs" />
     <Compile Include="Item\ItemArmor.cs" />
     <Compile Include="Item\ItemCorpse.cs" />
     <Compile Include="Item\ItemFountain.cs" />
@@ -230,6 +209,10 @@
     <Compile Include="World\World.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{FA516A9E-EA0B-4F74-A5AA-23DE3D109ADC}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
@@ -254,6 +237,14 @@
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
       <Name>Mud.Network</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj">
+      <Project>{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}</Project>
+      <Name>Mud.Server.Ability</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj">
+      <Project>{80EA18BC-ABA5-40F7-8483-6B94750CD704}</Project>
+      <Name>Mud.Server.Affects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
@@ -269,6 +260,14 @@
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
       <Name>Mud.Server.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
+      <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
+      <Name>Mud.Server.Random</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj">
+      <Project>{8A3A8267-B6A3-441B-BCF1-925B09FF920E}</Project>
+      <Name>Mud.Server.Rom24</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>

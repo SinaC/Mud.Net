@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Domain;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
@@ -56,7 +55,7 @@ namespace Mud.Server.Interfaces.Character
         void GainExperience(long experience); // add/substract experience
 
         // Ability
-        bool CheckAbilityImprove(IKnownAbility knownAbility, bool abilityUsedSuccessfully, int multiplier);
+        bool CheckAbilityImprove(string abilityName, bool abilityUsedSuccessfully, int multiplier);
 
         // Immortality
         void ChangeImmortalState(bool isImmortal);

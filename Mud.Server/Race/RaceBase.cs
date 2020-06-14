@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Race;
 
 namespace Mud.Server.Race

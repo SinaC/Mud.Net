@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Mud.Server.Common;
+using Mud.Common;
 using Mud.Server.Interfaces.Race;
 
 namespace Mud.Server.Race

@@ -2,6 +2,36 @@
 {
     public static class ExitDirectionsExtensions
     {
+
+        public static string ShortExitDirections(this ExitDirections exitDirections)
+        {
+            switch (exitDirections)
+            {
+                case ExitDirections.North:
+                    return "N";
+                case ExitDirections.East:
+                    return "E";
+                case ExitDirections.South:
+                    return "S";
+                case ExitDirections.West:
+                    return "W";
+                case ExitDirections.Up:
+                    return "U";
+                case ExitDirections.Down:
+                    return "D";
+                case ExitDirections.NorthEast:
+                    return "ne";
+                case ExitDirections.NorthWest:
+                    return "nw";
+                case ExitDirections.SouthEast:
+                    return "se";
+                case ExitDirections.SouthWest:
+                    return "sw";
+                default:
+                    return "?";
+            }
+        }
+
         public static ExitDirections ReverseDirection(this ExitDirections direction)
         {
             switch (direction)

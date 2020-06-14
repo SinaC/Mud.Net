@@ -121,7 +121,7 @@ namespace Mud.Server.Character
         [Command("rom24", "!!Test!!")]
         protected virtual bool DoRom24(string rawParameters, params CommandParameter[] parameters)
         {
-            AbilityManager.Cast(this, rawParameters, parameters);
+            //AbilityManager.Cast(this, rawParameters, parameters);
             //Rom24Spells rom24Spells = new Rom24Spells(DependencyContainer.Current.GetInstance<ISettings>(), DependencyContainer.Current.GetInstance<IWorld>(), DependencyContainer.Current.GetInstance<IAbilityManager>(), DependencyContainer.Current.GetInstance<IRandomManager>());
 
             //// no param: Earthquake

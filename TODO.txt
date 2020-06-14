@@ -1,8 +1,16 @@
 NEXT:
+integrate new abilities system into rom24_spells branch
+redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
+
+move ClassBase/Manager and RaceBase/Manager into specific project and move races/classes to Rom24 project
+move Weapon effect from OneHit to Rom24
+find a elegant way to apply PoisonDamageAffect without referencing Rom24
+use StringComparer.InvariantCultureIgnoreCase in Dictionary<string, ???> constructor
+add ICharacterManager -> once done, rename every method to remove Item/Character/Room
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 
-poison/plage affect serialization
+module to enable load on demand of skills/spells/commands/...
 
 SHORT TERM TODO:
 grove.are: the second jar will never appear
@@ -18,6 +26,8 @@ commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
 
+poison/plague affect serialization
+remove position incap, mortal, stunned -> probably remove UpdatePosition, replaced stunned with a 'timer'
 offensive flags: rescue, bite, crush, ...
 clan/guild, auction house, help, socials, wimpy, note
 commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,

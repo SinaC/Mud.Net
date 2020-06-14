@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
@@ -121,8 +122,8 @@ namespace Mud.Server.Race
             AddAbility(1, "Fourth wield", null, 0, CostAmountOperators.None, 0); // only if warrior
 
             // Test race with all spells
-            foreach (IAbility ability in AbilityManager.Spells)
-                AddAbility(1, ability.Name, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);
+            foreach (IAbilityInfo abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))
+                AddAbility(1, abilityInfo.Name, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);
         }
     }
 }

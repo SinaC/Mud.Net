@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mud.Server.Ability</RootNamespace>
+    <AssemblyName>Mud.Server.Ability</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbilityAttribute.cs" />
+    <Compile Include="AbilityInfo.cs" />
+    <Compile Include="AbilityLearned.cs" />
+    <Compile Include="AbilityManager.cs" />
+    <Compile Include="AbilityUsage.cs" />
+    <Compile Include="Spell\CharacterBuffSpellBase.cs" />
+    <Compile Include="Spell\CharacterDebuffSpellBase.cs" />
+    <Compile Include="Spell\CharacterFlagsSpellBase.cs" />
+    <Compile Include="Spell\CureSpellBase.cs" />
+    <Compile Include="Spell\DamageSpellBase.cs" />
+    <Compile Include="Spell\DamageTableSpellBase.cs" />
+    <Compile Include="Spell\DefensiveSpellBase.cs" />
+    <Compile Include="Skill\FightingSkillBase.cs" />
+    <Compile Include="Spell\HealSpellBase.cs" />
+    <Compile Include="Skill\ItemCastSpellSkillBase.cs" />
+    <Compile Include="Spell\ItemCreationSpellBase.cs" />
+    <Compile Include="Skill\ItemInventorySkillBase.cs" />
+    <Compile Include="Spell\ItemInventorySpellBase.cs" />
+    <Compile Include="Spell\ItemOrDefensiveSpellBase.cs" />
+    <Compile Include="Spell\ItemOrOffensiveSpellBase.cs" />
+    <Compile Include="Skill\NoTargetSkillBase.cs" />
+    <Compile Include="Spell\NoTargetSpellBase.cs" />
+    <Compile Include="Skill\OffensiveSkillBase.cs" />
+    <Compile Include="Spell\OffensiveSpellBase.cs" />
+    <Compile Include="Spell\OptionalItemInventorySpellBase.cs" />
+    <Compile Include="Passive\PassiveBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skill\SkillActionInput.cs" />
+    <Compile Include="Skill\SkillBase.cs" />
+    <Compile Include="Spell\SpellActionInput.cs" />
+    <Compile Include="Spell\SpellBase.cs" />
+    <Compile Include="Spell\TransportationSpellBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
+      <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
+      <Name>Mud.Container</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
+      <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
+      <Name>Mud.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
+      <Project>{4E337998-ECAB-493B-9FAA-01366EE90EFF}</Project>
+      <Name>Mud.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj">
+      <Project>{80EA18BC-ABA5-40F7-8483-6B94750CD704}</Project>
+      <Name>Mud.Server.Affects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
+      <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
+      <Name>Mud.Server.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
+      <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
+      <Name>Mud.Server.Input</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
+      <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
+      <Name>Mud.Server.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
+      <Project>{0221cf37-eec1-4144-91c4-00176a735d34}</Project>
+      <Name>Mud.Server.Random</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+      <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
+      <Name>Mud.Settings</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using Mud.Server.Input;
+﻿using Mud.Server.Input;
+using System.Linq;
 
 namespace Mud.POC.Tests.Abilities
 {

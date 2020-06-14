@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Domain;
 using Mud.Domain.Extensions;
@@ -13,6 +14,7 @@ using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -116,7 +118,7 @@ namespace Mud.Server.Admin
             "[cmd] <race>")]
         protected virtual CommandExecutionResults DoSpells(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayed = DisplayAbilitiesList(AbilityKinds.Spell, parameters);
+            bool displayed = DisplayAbilitiesList(AbilityTypes.Spell, parameters);
 
             if (!displayed)
                 return CommandExecutionResults.SyntaxError;
@@ -130,7 +132,7 @@ namespace Mud.Server.Admin
             "[cmd] <race>")]
         protected virtual CommandExecutionResults DoSkills(string rawParameters, params CommandParameter[] parameters)
         {
-            bool displayed = DisplayAbilitiesList(AbilityKinds.Spell, parameters);
+            bool displayed = DisplayAbilitiesList(AbilityTypes.Spell, parameters);
 
             if (!displayed)
                 return CommandExecutionResults.SyntaxError;
@@ -190,16 +192,16 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("#Players: {0}", PlayerManager.Players.Count());
             sb.AppendFormatLine("#Areas: {0}", World.Areas.Count());
             sb.AppendLine("Blueprints:");
-            sb.AppendFormatLine("   #Rooms: {0}", World.RoomBlueprints.Count);
+            sb.AppendFormatLine("   #Rooms: {0}", RoomManager.RoomBlueprints.Count);
             sb.AppendFormatLine("   #Characters: {0}", World.CharacterBlueprints.Count);
-            sb.AppendFormatLine("   #Items: {0}", World.ItemBlueprints.Count);
+            sb.AppendFormatLine("   #Items: {0}", ItemManager.ItemBlueprints.Count);
             sb.AppendFormatLine("   #Quests: {0}", World.QuestBlueprints.Count);
             sb.AppendLine("Entities:");
-            sb.AppendFormatLine("   #Rooms: {0}", World.Rooms.Count());
+            sb.AppendFormatLine("   #Rooms: {0}", RoomManager.Rooms.Count());
             sb.AppendFormatLine("   #Characters: {0}", World.Characters.Count());
             sb.AppendFormatLine("   #NPC: {0}", World.NonPlayableCharacters.Count());
             sb.AppendFormatLine("   #PC: {0}", World.PlayableCharacters.Count());
-            sb.AppendFormatLine("   #Items: {0}", World.Items.Count());
+            sb.AppendFormatLine("   #Items: {0}", ItemManager.Items.Count());
             Send(sb);
             return CommandExecutionResults.Ok;
         }
@@ -220,7 +222,7 @@ namespace Mud.Server.Admin
             else
             {
                 int id = parameters[0].AsNumber;
-                room = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+                room = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
             if (room == null)
             {
@@ -431,7 +433,7 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.SyntaxError;
 
             IItem item = Impersonating == null
-                ? FindHelpers.FindByName(World.Items, parameters[0])
+                ? FindHelpers.FindByName(ItemManager.Items, parameters[0])
                 : FindHelpers.FindItemHere(Impersonating, parameters[0]);
             if (item == null)
             {
@@ -469,17 +471,17 @@ namespace Mud.Server.Admin
             sb.AppendFormatLine("Cost: {0} Weight: {1}", item.Cost, item.Weight);
             sb.AppendFormatLine("CarryCount: {0} TotalWeight: {1}", item.CarryCount, item.TotalWeight);
             if (item.DecayPulseLeft > 0)
-                sb.AppendFormatLine("Decay in {0}", StringHelpers.FormatDelay(item.DecayPulseLeft / Pulse.PulsePerSeconds));
+                sb.AppendFormatLine("Decay in {0}", (item.DecayPulseLeft / Pulse.PulsePerSeconds).FormatDelay());
             sb.AppendFormatLine("Flags: {0} (base: {1})", item.ItemFlags, item.BaseItemFlags);
             //
             if (item is IItemArmor armor)
                 sb.AppendFormatLine("Bash: {0} Pierce: {1} Slash: {2} Exotic: {3}", armor.Bash, armor.Pierce, armor.Slash, armor.Exotic);
             //
             if (item is IItemCastSpellsCharge castSpellsCharge)
-                sb.AppendFormatLine("Level: {0} Current: {1} Max: {2} Spell: {3} Already recharge: {4}", castSpellsCharge.SpellLevel, castSpellsCharge.CurrentChargeCount, castSpellsCharge.MaxChargeCount, castSpellsCharge.Spell?.Name ?? "-", castSpellsCharge.AlreadyRecharged);
+                sb.AppendFormatLine("Level: {0} Current: {1} Max: {2} Spell: {3} Already recharge: {4}", castSpellsCharge.SpellLevel, castSpellsCharge.CurrentChargeCount, castSpellsCharge.MaxChargeCount, castSpellsCharge.SpellName ?? "-", castSpellsCharge.AlreadyRecharged);
             //
             if (item is IItemCastSpellsNoCharge castSpellsNoCharge)
-                sb.AppendFormatLine("Level: {0} Spell1: {1} Spell2: {2} Spell3: {3} Spell4: {4}", castSpellsNoCharge.SpellLevel, castSpellsNoCharge.FirstSpell?.Name ?? "-", castSpellsNoCharge.SecondSpell?.Name ?? "-", castSpellsNoCharge.ThirdSpell?.Name ?? "-", castSpellsNoCharge.FourthSpell?.Name ?? "-");
+                sb.AppendFormatLine("Level: {0} Spell1: {1} Spell2: {2} Spell3: {3} Spell4: {4}", castSpellsNoCharge.SpellLevel, castSpellsNoCharge.FirstSpellName ?? "-", castSpellsNoCharge.SecondSpellName ?? "-", castSpellsNoCharge.ThirdSpellName ?? "-", castSpellsNoCharge.FourthSpellName ?? "-");
             //
             if (item is IItemContainer container)
                 sb.AppendFormatLine("Item count: {0} Weight: {1} MaxWeight: {2} Flags: {3} Key: {4} MaxWeightPerItem: {5} Weight multiplier: {6}", 
@@ -525,7 +527,7 @@ namespace Mud.Server.Admin
             }
             //
             if (item is IItemLight light)
-                sb.AppendFormatLine("Time left: {0}", light.IsInfinite ? "Infinite" : StringHelpers.FormatDelay(light.TimeLeft * 60));
+                sb.AppendFormatLine("Time left: {0}", light.IsInfinite ? "Infinite" : (light.TimeLeft * 60).FormatDelay());
             //
             if (item is IItemMoney money)
                 sb.AppendFormatLine("Silver: {0} Gold: {1}", money.SilverCoins, money.GoldCoins);
@@ -581,7 +583,7 @@ namespace Mud.Server.Admin
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"Searching items '{parameters[0].Value}'");
-            List<IItem> items = FindHelpers.FindAllByName(World.Items, parameters[0]).OrderBy(x => x.Blueprint?.Id).ToList();
+            List<IItem> items = FindHelpers.FindAllByName(ItemManager.Items, parameters[0]).OrderBy(x => x.Blueprint?.Id).ToList();
             if (items.Count == 0)
                 sb.AppendLine("No matches");
             else
@@ -676,7 +678,7 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.SyntaxError;
 
             int id = parameters[0].AsNumber;
-            ItemBlueprintBase blueprint = World.GetItemBlueprint(id);
+            ItemBlueprintBase blueprint = ItemManager.GetItemBlueprint(id);
             if (blueprint == null)
             {
                 Send("Not found.");
@@ -777,7 +779,7 @@ namespace Mud.Server.Admin
             else
             {
                 int id = parameters[0].AsNumber;
-                room = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+                room = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
             if (room == null)
             {
@@ -811,7 +813,7 @@ namespace Mud.Server.Admin
                             continue;
                         }
 
-                        RoomBlueprint roomBlueprint = World.GetRoomBlueprint(characterReset.RoomId);
+                        RoomBlueprint roomBlueprint = RoomManager.GetRoomBlueprint(characterReset.RoomId);
                         if (roomBlueprint == null)
                         {
                             sb.AppendFormatLine("Load Char - Bad Room {0}", characterReset.RoomId);
@@ -825,7 +827,7 @@ namespace Mud.Server.Admin
 
                     case ItemInRoomReset itemInRoomReset: // 'O'
                     {
-                        ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemInRoomReset.ItemId);
+                        ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(itemInRoomReset.ItemId);
                         if (itemBlueprint == null)
                         {
                             sb.AppendFormatLine("Load Item - Bad Item {0}", itemInRoomReset.ItemId);
@@ -834,7 +836,7 @@ namespace Mud.Server.Admin
 
                         previousItem = itemBlueprint;
 
-                        RoomBlueprint roomBlueprint = World.GetRoomBlueprint(itemInRoomReset.RoomId);
+                        RoomBlueprint roomBlueprint = RoomManager.GetRoomBlueprint(itemInRoomReset.RoomId);
                         if (roomBlueprint == null)
                         {
                             sb.AppendFormatLine("Load Item - Bad Room {0}", itemInRoomReset.RoomId);
@@ -847,7 +849,7 @@ namespace Mud.Server.Admin
 
                     case ItemInItemReset itemInItemReset: // 'P'
                     {
-                        ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemInItemReset.ItemId);
+                        ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(itemInItemReset.ItemId);
                         if (itemBlueprint == null)
                         {
                             sb.AppendFormatLine("Put Item - Bad Item {0}", itemInItemReset.ItemId);
@@ -856,7 +858,7 @@ namespace Mud.Server.Admin
 
                         previousItem = itemBlueprint;
 
-                        ItemBlueprintBase containerBlueprint = World.GetItemBlueprint(itemInItemReset.ContainerId);
+                        ItemBlueprintBase containerBlueprint = ItemManager.GetItemBlueprint(itemInItemReset.ContainerId);
                         if (containerBlueprint == null)
                         {
                             sb.AppendFormatLine("Put Item - Bad To Item {0}", itemInItemReset.ContainerId);
@@ -869,7 +871,7 @@ namespace Mud.Server.Admin
 
                     case ItemInCharacterReset itemInCharacterReset: // 'G'
                     {
-                        ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemInCharacterReset.ItemId);
+                        ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(itemInCharacterReset.ItemId);
                         if (itemBlueprint == null)
                         {
                             sb.AppendFormatLine("Give Item - Bad Item {0}", itemInCharacterReset.ItemId);
@@ -890,7 +892,7 @@ namespace Mud.Server.Admin
 
                     case ItemInEquipmentReset itemInEquipmentReset: // 'E'
                     {
-                        ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(itemInEquipmentReset.ItemId);
+                        ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(itemInEquipmentReset.ItemId);
                         if (itemBlueprint == null)
                         {
                             sb.AppendFormatLine("Equip Item - Bad Item {0}", itemInEquipmentReset.ItemId);
@@ -981,7 +983,7 @@ namespace Mud.Server.Admin
                         $"Max practice percentage: %W%{matchingClass.MaxPracticePercentage}%x%",
                         $"Hp/level: min: %W%{matchingClass.MinHitPointGainPerLevel}%x% max: %W%{matchingClass.MaxHitPointGainPerLevel}%x%"
                     },
-                    matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                    matchingClass.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Name));
                 Page(sb);
                 return CommandExecutionResults.Ok;
             }
@@ -1005,7 +1007,7 @@ namespace Mud.Server.Admin
                         $"Attributes start: %c%{string.Join(" ", EnumHelpers.GetValues<BasicAttributes>().Select(x => $"{matchingRace.GetStartAttribute((CharacterAttributes)x),3}"))}%x%",
                         $"Attributes max:   %B%{string.Join(" ", EnumHelpers.GetValues<BasicAttributes>().Select(x => $"{matchingRace.GetMaxAttribute((CharacterAttributes)x),3}"))}%x%",
                     },
-                    matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Ability.Name));
+                    matchingRace.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Name));
                 Page(sb);
                 return CommandExecutionResults.Ok;
             }
@@ -1015,16 +1017,16 @@ namespace Mud.Server.Admin
 
         //*********************** Helpers ***************************
 
-        private bool DisplayAbilitiesList(AbilityKinds? filterOnAbilityKind, params CommandParameter[] parameters)
+        private bool DisplayAbilitiesList(AbilityTypes? filterOnAbilityType, params CommandParameter[] parameters)
         {
             string title;
-            if (filterOnAbilityKind.HasValue)
+            if (filterOnAbilityType.HasValue)
             {
-                switch (filterOnAbilityKind.Value)
+                switch (filterOnAbilityType.Value)
                 {
-                    case AbilityKinds.Passive: title = "Passives"; break;
-                    case AbilityKinds.Spell: title = "Spells"; break;
-                    case AbilityKinds.Skill: title = "Skills"; break;
+                    case AbilityTypes.Passive: title = "Passives"; break;
+                    case AbilityTypes.Spell: title = "Spells"; break;
+                    case AbilityTypes.Skill: title = "Skills"; break;
                     default: title = "???"; break;
                 }
             }
@@ -1034,7 +1036,6 @@ namespace Mud.Server.Admin
             {
                 // no filter
                 StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate(title, AbilityManager.Abilities
-                    .Where(x => !x.AbilityFlags.HasFlag(AbilityFlags.CannotBeUsed))
                     .OrderBy(x => x.Name));
                 Page(sb);
                 return true;
@@ -1046,7 +1047,7 @@ namespace Mud.Server.Admin
             {
                 StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {matchingClass.DisplayName}", matchingClass.Abilities
                     .OrderBy(x => x.Level)
-                    .ThenBy(x => x.Ability.Name));
+                    .ThenBy(x => x.Name));
                 Page(sb);
                 return true;
             }
@@ -1057,7 +1058,7 @@ namespace Mud.Server.Admin
             {
                 StringBuilder sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {matchingRace.DisplayName}", matchingRace.Abilities
                     .OrderBy(x => x.Level)
-                    .ThenBy(x => x.Ability.Name));
+                    .ThenBy(x => x.Name));
                 Page(sb);
                 return true;
             }
@@ -1153,7 +1154,7 @@ namespace Mud.Server.Admin
                 StringBuilder sb = new StringBuilder(500);
                 while (true)
                 {
-                    sb.Insert(0, StringHelpers.ShortExitDirections(previous.Item2));
+                    sb.Insert(0, previous.Item2.ShortExitDirections());
                     if (previous.Item1 == origin)
                         break;
                     if (!previousRoom.TryGetValue(previous.Item1, out previous))

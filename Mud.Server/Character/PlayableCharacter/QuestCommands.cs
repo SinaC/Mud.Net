@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Common;
-using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Quest;
@@ -295,7 +295,7 @@ namespace Mud.Server.Character.PlayableCharacter
             else
                 sb.Append($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
             if (quest.Blueprint.TimeLimit > 0)
-                sb.Append($" Time left: {StringHelpers.FormatDelay(quest.PulseLeft / Pulse.PulsePerSeconds)}");
+                sb.Append($" Time left: {(quest.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
             sb.AppendLine();
             if (!quest.IsCompleted)
                 BuildQuestObjectives(sb, quest);

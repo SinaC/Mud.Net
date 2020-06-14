@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Affect;
+using Mud.Logger;
+using Mud.Server.Ability.Spell;
+using Mud.Server.Affects;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
@@ -15,6 +18,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Item;
+using Mud.Server.Rom24.Affects;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
@@ -337,10 +341,10 @@ namespace Mud.Server.Character
                     {
                         silver += moneyInRoom.SilverCoins;
                         gold += moneyInRoom.GoldCoins;
-                        World.RemoveItem(moneyInRoom);
+                        ItemManager.RemoveItem(moneyInRoom);
                     }
                     // recreate new money item
-                    World.AddItemMoney(Guid.NewGuid(), silver, gold, Room);
+                    ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, Room);
                     Act(ActOptions.ToRoom, "{0:N} drops some coins", this);
                     Send("Ok.");
                     return CommandExecutionResults.Ok;
@@ -666,14 +670,13 @@ namespace Mud.Server.Character
             {
                 Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", this);
                 // search poison affect
-                IAbility poison = AbilityManager["Poison"];
-                IAura poisonAura = GetAura(poison);
+                IAura poisonAura = GetAura("Poison");
                 int duration = amount * 3;
                 int level = RandomManager.Fuzzy(amount);
                 if (poisonAura != null)
                     poisonAura.Update(level, TimeSpan.FromMinutes(duration));
                 else
-                    World.AddAura(this, poison, drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                    AuraManager.AddAura(this, "Poison", drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                         new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
                         new PoisonDamageAffect());
                 Recompute();
@@ -887,8 +890,7 @@ namespace Mud.Server.Character
                 {
                     Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", this);
                     // search poison affect
-                    IAbility poison = AbilityManager["Poison"];
-                    IAura poisonAura = GetAura(poison);
+                    IAura poisonAura = GetAura("Poison");
                     int level = RandomManager.Fuzzy(food.FullHours);
                     int duration = food.FullHours * 2;
                     if (poisonAura != null)
@@ -896,21 +898,21 @@ namespace Mud.Server.Character
                         poisonAura.Update(level, TimeSpan.FromMinutes(duration));
                     }
                     else
-                        World.AddAura(this, poison, food, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                        AuraManager.AddAura(this, "Poison", food, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                             new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
                             new PoisonDamageAffect());
                     Recompute();
                 }
-                World.RemoveItem(food);
+                ItemManager.RemoveItem(food);
                 return CommandExecutionResults.Ok;
             }
             if (pill != null)
             {
-                AbilityManager.CastFromItem(pill.FirstSpell, pill.SpellLevel, this, this, null, null);
-                AbilityManager.CastFromItem(pill.SecondSpell, pill.SpellLevel, this, this, null, null);
-                AbilityManager.CastFromItem(pill.ThirdSpell, pill.SpellLevel, this, this, null, null);
-                AbilityManager.CastFromItem(pill.FourthSpell, pill.SpellLevel, this, this, null, null);
-                World.RemoveItem(pill);
+                CastSpell(pill, pill.FirstSpellName, pill.SpellLevel, string.Empty, new CommandParameter("", false));
+                CastSpell(pill, pill.SecondSpellName, pill.SpellLevel, string.Empty, new CommandParameter("", false));
+                CastSpell(pill, pill.ThirdSpellName, pill.SpellLevel, string.Empty, new CommandParameter("", false));
+                CastSpell(pill, pill.FourthSpellName, pill.SpellLevel, string.Empty, new CommandParameter("", false));
+                ItemManager.RemoveItem(pill);
                 return CommandExecutionResults.Ok;
             }
             return CommandExecutionResults.Ok;
@@ -948,17 +950,41 @@ namespace Mud.Server.Character
 
             Act(ActOptions.ToRoom, "{0:N} quaff{0:v} {1}.", this, potion);
 
-            AbilityManager.CastFromItem(potion.FirstSpell, potion.SpellLevel, this, this, null, null);
-            AbilityManager.CastFromItem(potion.SecondSpell, potion.SpellLevel, this, this, null, null);
-            AbilityManager.CastFromItem(potion.ThirdSpell, potion.SpellLevel, this, this, null, null);
-            AbilityManager.CastFromItem(potion.FourthSpell, potion.SpellLevel, this, this, null, null);
-            World.RemoveItem(potion);
+            CastSpell(potion, potion.FirstSpellName, potion.SpellLevel, string.Empty, new CommandParameter("", false));
+            CastSpell(potion, potion.SecondSpellName, potion.SpellLevel, string.Empty, new CommandParameter("", false));
+            CastSpell(potion, potion.ThirdSpellName, potion.SpellLevel, string.Empty, new CommandParameter("", false));
+            CastSpell(potion, potion.FourthSpellName, potion.SpellLevel, string.Empty, new CommandParameter("", false));
+            ItemManager.RemoveItem(potion);
             return CommandExecutionResults.Ok;
         }
 
         //********************************************************************
         // Helpers
         //********************************************************************
+        private string CastSpell(IItem item, string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
+        {
+            if (string.IsNullOrWhiteSpace(spellName))
+                return null; // not really an error but don't continue
+            var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
+            if (abilityInfo == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, item.DebugName);
+                return "Something goes wrong.";
+            }
+            var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
+            if (spellInstance == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated.", spellName, item.DebugName);
+                return "Something goes wrong.";
+            }
+            var spellActionInput = new SpellActionInput(abilityInfo, this, spellLevel, new CastFromItemOptions { Item = item }, rawParameters, parameters);
+            string spellInstanceGuards = spellInstance.Setup(spellActionInput);
+            if (spellInstanceGuards != null)
+                return spellInstanceGuards;
+            spellInstance.Execute();
+            return null;
+        }
+
         protected virtual bool WearItem(IItem item, bool replace) // equivalent to wear_obj in act_obj.C:1467
         {
             // check level
@@ -1053,18 +1079,18 @@ namespace Mud.Server.Character
 
         private string GetWeaponConfidence(IItemWeapon weapon)
         {
-            var weaponLearnInfo = GetWeaponLearnInfo(weapon);
-            if (weaponLearnInfo.learned >= 100)
+            var weaponLearnInfo = GetWeaponLearnedInfo(weapon);
+            if (weaponLearnInfo.percentage >= 100)
                 return "{0:N} feels like a part of you!";
-            if (weaponLearnInfo.learned > 85)
+            if (weaponLearnInfo.percentage > 85)
                 return "You feel quite confident with {0:N}.";
-            if (weaponLearnInfo.learned > 70)
+            if (weaponLearnInfo.percentage > 70)
                 return "You are skilled with {0:N}.";
-            if (weaponLearnInfo.learned > 50)
+            if (weaponLearnInfo.percentage > 50)
                 return "Your skill with {0:N} is adequate.";
-            if (weaponLearnInfo.learned > 25)
+            if (weaponLearnInfo.percentage > 25)
                 return "{0:N} feels a little clumsy in your hands.";
-            if (weaponLearnInfo.learned > 1)
+            if (weaponLearnInfo.percentage > 1)
                 return "You fumble and almost drop {0:N}.";
             return "You don't even know which end is up on {0:N}.";
         }
@@ -1086,7 +1112,7 @@ namespace Mud.Server.Character
             if (item.ItemFlags.HasFlag(ItemFlags.MeltOnDrop))
             {
                 Act(ActOptions.ToAll, "{0} dissolves into smoke.", item);
-                World.RemoveItem(item);
+                ItemManager.RemoveItem(item);
             }
 
             return true;
@@ -1120,7 +1146,7 @@ namespace Mud.Server.Character
             if (item is IItemMoney money)
             {
                 UpdateMoney(money.SilverCoins, money.GoldCoins);
-                World.RemoveItem(money);
+                ItemManager.RemoveItem(money);
             }
             else
                 item.ChangeContainer(this);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 
@@ -30,9 +31,12 @@ namespace Mud.Server.Input
                 return false;
             }
 
-            // Extract command and raw parameters
-            ExtractCommand(commandLine, out command, out rawParameters);
+            // Split into command and remaining tokens
+            var extractedCommandInfo = ExtractCommand(commandLine);
 
+            command = extractedCommandInfo.command;
+            rawParameters = extractedCommandInfo.rawParameters;
+            IEnumerable<string> tokens = extractedCommandInfo.tokens;
             // Check if forcing OutOfGame
             if (command.StartsWith("/"))
             {
@@ -50,18 +54,17 @@ namespace Mud.Server.Input
                 if (aliases.TryGetValue(command, out alias))
                 {
                     Log.Default.WriteLine(LogLevels.Debug, "Alias found : {0} -> {1}", command, alias);
-                    commandLine = alias;
                     // Extract command and raw parameters
-                    ExtractCommand(commandLine, out command, out rawParameters);
+                    var aliasExtractedCommandInfo = ExtractCommand(alias);
+                    rawParameters = aliasExtractedCommandInfo.rawParameters;
+                    tokens = aliasExtractedCommandInfo.tokens;
                 }
             }
 
-            // Split parameters
-            string[] splitted = SplitParameters(rawParameters).ToArray();
             // Parse parameter
-            parameters = splitted.Select(ParseParameter).ToArray();
+            parameters = tokens.Select(ParseParameter).ToArray();
 
-            if (parameters.Any(x => x == CommandParameter.InvalidCommand))
+            if (parameters.Any(x => x == CommandParameter.InvalidCommandParameter))
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Invalid command parameters");
                 return false;
@@ -70,17 +73,20 @@ namespace Mud.Server.Input
             return true;
         }
 
-        public static bool ExtractCommand(string commandLine, out string command, out string rawParameters)
+        private static (string command, string rawParameters, IEnumerable<string> tokens) ExtractCommand(string commandLine)
         {
             Log.Default.WriteLine(LogLevels.Trace, "Extracting command [{0}]", commandLine);
 
-            // Extract command
-            int spaceIndex = commandLine.IndexOf(' ');
-            command = spaceIndex == -1 ? commandLine : commandLine.Substring(0, spaceIndex);
-            // Extract raw parameters
-            rawParameters = spaceIndex == -1 ? string.Empty : commandLine.Substring(spaceIndex + 1);
+            // Split
+            var tokens = SplitParameters(commandLine).ToArray();
 
-            return true;
+            // First token is the command
+            string command = tokens[0];
+
+            // Group remaining tokens
+            string rawParameters = string.Join(" ", tokens.Skip(1).Select(x => x.Quoted()));
+
+            return (command, rawParameters, tokens.Skip(1));
         }
 
         public static IEnumerable<string> SplitParameters(string parameters)
@@ -116,18 +122,18 @@ namespace Mud.Server.Input
         public static CommandParameter ParseParameter(string parameter)
         {
             if (string.IsNullOrWhiteSpace(parameter))
-                return CommandParameter.EmptyCommand;
+                return CommandParameter.EmptyCommandParameter;
             int dotIndex = parameter.IndexOf('.');
             if (dotIndex < 0)
             {
                 bool isAll = string.Equals(parameter, "all", StringComparison.InvariantCultureIgnoreCase);
                 return
                     isAll
-                        ? CommandParameter.IsAllCommand
+                        ? CommandParameter.IsAllCommandParameter
                         : new CommandParameter(parameter, 1);
             }
             if (dotIndex == 0)
-                return CommandParameter.InvalidCommand; // only . is invalid
+                return CommandParameter.InvalidCommandParameter; // only . is invalid
             string countAsString = parameter.Substring(0, dotIndex);
             string value = parameter.Substring(dotIndex + 1);
             bool isCountAll = string.Equals(countAsString, "all", StringComparison.InvariantCultureIgnoreCase);
@@ -137,7 +143,7 @@ namespace Mud.Server.Input
             if (!int.TryParse(countAsString, out count)) // string.string is not splitted
                 return new CommandParameter(value, 1);
             if (count <= 0 || string.IsNullOrWhiteSpace(value)) // negative count or empty value is invalid
-                return CommandParameter.InvalidCommand;
+                return CommandParameter.InvalidCommandParameter;
             return new CommandParameter(value, count);
         }
 
@@ -147,7 +153,7 @@ namespace Mud.Server.Input
             if (!commandParameters.Any())
                 return string.Empty;
 
-            string joined = string.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value : $"{x.Count}.{x.Value}"));
+            string joined = string.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value.Quoted() : $"{x.Count}.{x.Value.Quoted()}"));
             return joined;
         }
 
@@ -160,12 +166,6 @@ namespace Mud.Server.Input
 
         public static IReadOnlyTrie<CommandMethodInfo> GetCommands(Type type)
         {
-            //var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-            //    .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
-            //    .SelectMany(x => x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer()),
-            //        (methodInfo, attribute) => new TrieEntry<CommandMethodInfo>(attribute.Name, new CommandMethodInfo(attribute, methodInfo)));
-            //Trie<CommandMethodInfo> trie = new Trie<CommandMethodInfo>(commands);
-            //return trie;
             Type commandAttributeType = typeof(CommandAttribute);
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
                .Where(x => x.GetCustomAttributes(commandAttributeType, false).Any())

@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
+using Mud.Server.Random;
 using Mud.Server.Tests.Mocking;
 using Mud.Settings;
 
@@ -13,6 +15,8 @@ namespace Mud.Server.Tests
     public abstract class TestBase
     {
         protected IWorld World => Container.DependencyContainer.Current.GetInstance<IWorld>();
+        protected IRoomManager RoomManager => Container.DependencyContainer.Current.GetInstance<IRoomManager>();
+        protected IItemManager ItemManager => Container.DependencyContainer.Current.GetInstance<IItemManager>();
 
         [TestInitialize]
         public void TestInitialize()
@@ -30,6 +34,8 @@ namespace Mud.Server.Tests
             Container.DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IWorld>(new WorldMock());
             Container.DependencyContainer.Current.RegisterInstance<IWiznet>(new WiznetMock());
+            Container.DependencyContainer.Current.RegisterInstance<IRoomManager>(new RoomManagerMock());
+            Container.DependencyContainer.Current.RegisterInstance<IItemManager>(new ItemManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
         }
     }

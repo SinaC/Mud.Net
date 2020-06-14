@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Helpers
@@ -75,35 +74,6 @@ namespace Mud.Server.Helpers
             return "(none)"; // TODO
         }
 
-        public static string ShortExitDirections(ExitDirections exitDirections)
-        {
-            switch (exitDirections)
-            {
-                case ExitDirections.North:
-                    return "N";
-                case ExitDirections.East:
-                    return "E";
-                case ExitDirections.South:
-                    return "S";
-                case ExitDirections.West:
-                    return "W";
-                case ExitDirections.Up:
-                    return "U";
-                case ExitDirections.Down:
-                    return "D";
-                case ExitDirections.NorthEast:
-                    return "ne";
-                case ExitDirections.NorthWest:
-                    return "nw";
-                case ExitDirections.SouthEast:
-                    return "se";
-                case ExitDirections.SouthWest:
-                    return "sw";
-                default:
-                    return "?";
-            }
-        }
-
         public static string DamagePhraseSelf(int damage)
         {
             if (damage == 0) return "miss";
@@ -156,91 +126,6 @@ namespace Mud.Server.Helpers
             if (damage <= 300) return "%r%<*>%y%<*>%g%<*>%b%<*>%y% NUKES %b%<*>%g%<*>%y%<*>%r%<*>%x%";
             if (damage <= 400) return "%b%--*-- --*-- RUPTURES --*-- --*--%x%";
             return "does %b%U%r%N%g%S%y%P%c%E%m%A%r%K%b%A%g%B%y%L%c%E %x%things to";
-        }
-
-        public static string FormatDelay(int delayInSeconds)
-        {
-            if (delayInSeconds < 60)
-                return delayInSeconds + " second" + (delayInSeconds != 1 ? "s" : string.Empty);
-            int minutes = (delayInSeconds + 60 - 1)/60; // -> ceil(x/60)
-            if (minutes < 60)
-                return minutes + " minute" + (minutes != 1 ? "s" : string.Empty);
-            int hours = (minutes + 60 - 1)/60; // -> ceil(x/60)
-            if (hours < 24)
-                return hours + " hour" + (hours != 1 ? "s" : string.Empty);
-            int days = (hours + 24 - 1)/24;
-            return days + " day" + (days != 1 ? "s" : string.Empty);
-        }
-
-        public static string FormatDelayShort(int delayInSeconds)
-        {
-            if (delayInSeconds < 60)
-                return delayInSeconds + " sec";
-            int minutes = (delayInSeconds + 60 - 1) / 60; // -> ceil(x/60)
-            if (minutes < 60)
-                return minutes + " min";
-            int hours = (minutes + 60 - 1) / 60; // -> ceil(x/60)
-            if (hours < 24)
-                return hours + " hour" + (hours != 1 ? "s" : string.Empty);
-            int days = (hours + 24 - 1) / 24;
-            return days + " day" + (days != 1 ? "s" : string.Empty);
-        }
-
-        public static string PrettyPrint(this AffectOperators op)
-        {
-            switch (op)
-            {
-                case AffectOperators.Add: return "by";
-                case AffectOperators.Or: return "by adding";
-                case AffectOperators.Assign: return "by setting to";
-                case AffectOperators.Nor: return "by removing";
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, "AffectOperators.PrettyPrint: Invalid operator {0}", op);
-                    return op.ToString();
-            }
-        }
-
-        public static string ShortName(this BasicAttributes attribute)
-        {
-            switch (attribute)
-            {
-                case BasicAttributes.Strength: return "Str";
-                case BasicAttributes.Intelligence: return "Int";
-                case BasicAttributes.Wisdom: return "Wis";
-                case BasicAttributes.Dexterity: return "Dex";
-                case BasicAttributes.Constitution: return "Con";
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, "BasicAttributes.ShortName: Invalid attribute {0}", attribute);
-                    return attribute.ToString();
-            }
-        }
-
-        public static string PrettyPrint(this SkyStates state)
-        {
-            switch (state)
-            {
-                case SkyStates.Cloudless: return "cloudless";
-                case SkyStates.Cloudy: return "cloudy";
-                case SkyStates.Raining: return "rainy";
-                case SkyStates.Lightning: return "lit by flashes of lightning";
-                default:
-                    Log.Default.WriteLine(LogLevels.Error, "SkyStates.PrettyPrint: Invalid sky state {0}", state);
-                    return state.ToString();
-            }
-        }
-
-        public static string PrettyPrint(this AutoFlags flag)
-        {
-            switch (flag)
-            {
-                case AutoFlags.Assist: return "autoassist";
-                case AutoFlags.Exit: return "autoexit";
-                case AutoFlags.Sacrifice: return "autosacrifice";
-                case AutoFlags.Gold: return "autogold";
-                case AutoFlags.Split: return "autosplit";
-                case AutoFlags.Loot: return "autoloot";
-                default: return "???";
-            }
         }
 
         public static string ItemType(this ItemBlueprintBase blueprint) => blueprint.GetType().Name.Replace("Item", string.Empty).Replace("Blueprint", string.Empty);

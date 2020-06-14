@@ -4,12 +4,12 @@ using Moq;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Character.NonPlayableCharacter;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Table;
+using Mud.Server.Random;
 
 namespace Mud.Server.Tests
 {

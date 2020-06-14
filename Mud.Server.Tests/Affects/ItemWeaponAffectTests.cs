@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Area;
-using Mud.Server.Affect;
+using Mud.Server.Affects;
 
 namespace Mud.Server.Tests.Affects
 {

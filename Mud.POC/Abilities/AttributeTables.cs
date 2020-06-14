@@ -1,4 +1,4 @@
-﻿using Mud.Server.Common;
+﻿using Mud.Common;
 
 namespace Mud.POC.Abilities
 {

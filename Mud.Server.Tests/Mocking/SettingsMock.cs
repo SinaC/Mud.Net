@@ -64,5 +64,7 @@ namespace Mud.Server.Tests.Mocking
         public int NullRoomId => throw new NotImplementedException();
 
         public int DefaultDeathRoomId => throw new NotImplementedException();
+
+        public int MudSchoolRoomId => throw new NotImplementedException();
     }
 }

@@ -11,6 +11,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Quest;
+using Mud.Common;
 
 // ReSharper disable UnusedMember.Global
 
@@ -46,7 +47,7 @@ namespace Mud.Server.Character.PlayableCharacter
             Log.Default.WriteLine(LogLevels.Debug, "Manually destroying item {0} in {1}", item.DebugName, DebugName);
             Send($"You destroy {item.RelativeDisplayName(this)}.");
 
-            World.RemoveItem(item);
+            ItemManager.RemoveItem(item);
             Recompute();
 
             return CommandExecutionResults.Ok;
@@ -180,7 +181,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
             Act(ActOptions.ToAll, "{0:N} sacrifices {1:v} to Mota.", this, item);
             Wiznet.Wiznet($"{DebugName} sacrifices {item.DebugName} as a burnt offering.", WiznetFlags.Saccing);
-            World.RemoveItem(item);
+            ItemManager.RemoveItem(item);
             //
             long silver = Math.Max(1, item.Level * 3);
             if (!(item is IItemCorpse))

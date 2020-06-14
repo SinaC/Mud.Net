@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 
@@ -67,10 +68,10 @@ namespace Mud.Server.Class
         public Druid()
         {
             // Test class with all skills + Passive
-            foreach (IAbility ability in AbilityManager.Skills)
-                AddAbility(20, ability.Name, null, 0, CostAmountOperators.None, 1);
-            foreach (IAbility ability in AbilityManager.Passives)
-                AddAbility(10, ability.Name, null, 0, CostAmountOperators.None, 1);
+            foreach (IAbilityInfo abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
+                AddAbility(20, abilityInfo.Name, null, 0, CostAmountOperators.None, 1);
+            foreach (IAbilityInfo abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive))
+                AddAbility(10, abilityInfo.Name, null, 0, CostAmountOperators.None, 1);
         }
     }
 }

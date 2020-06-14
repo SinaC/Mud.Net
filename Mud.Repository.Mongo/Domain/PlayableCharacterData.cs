@@ -25,13 +25,13 @@ namespace Mud.Repository.Mongo.Domain
 
         public CurrentQuestData[] CurrentQuests { get; set; }
 
-        public KnownAbilityData[] KnownAbilities { get; set; }
+        public LearnedAbilityData[] LearnedAbilities { get; set; }
 
         public Dictionary<int, int> Conditions { get; set; }
 
         public Dictionary<string,string> Aliases { get; set; }
 
-        public Dictionary<int,int> Cooldowns { get; set; }
+        public Dictionary<string, int> Cooldowns { get; set; }
 
         public CharacterData[] Pets { get; set; }
     }

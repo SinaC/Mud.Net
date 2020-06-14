@@ -487,54 +487,6 @@ namespace Mud.Domain
         Nor     = 3
     }
 
-    [Flags]
-    public enum AbilityFlags
-    {
-        None                = 0x00000000,
-        AuraIsHidden        = 0x00000001,
-        CannotMiss          = 0x00000002,
-        CannotBeReflected   = 0x00000004,
-        CannotBeUsed        = 0x00000008,
-        CanBeDispelled      = 0x00000010,
-    }
-
-    public enum AbilityKinds
-    {
-        Passive = 0,
-        Spell   = 1, // invoked with cast
-        Skill   = 2, // invoked with use or command
-    }
-
-    public enum AbilityTargets
-    {
-        // No target
-        None                                = 0,
-        // Fighting if no parameter, character in room if parameter specified
-        CharacterOffensive                  = 1,
-        // Itself if no parameter, character in room if parameter specified
-        CharacterDefensive                  = 2,
-        // Itself if no parameter, check if parameter == itself if parameter specified
-        CharacterSelf                       = 3,
-        // Item in inventory
-        ItemInventory                       = 4,
-        // Fighting if no parameter, character in room, then item in room, then in inventory, then in equipment if parameter specified
-        ItemHereOrCharacterOffensive        = 5,
-        // Itself if no parameter, character in room or item in inventory if parameter specified
-        ItemInventoryOrCharacterDefensive   = 6,
-        // Target will be 'computed' by spell
-        Custom                              = 7,
-        // Optional item in inventory
-        OptionalItemInventory               = 8,
-        // Armor in inventory
-        ArmorInventory                      = 9,
-        // Weapon in inventory
-        WeaponInventory                     = 10,
-        // Victim is source.Fighting
-        CharacterFighting                   = 11,
-        // Victim is somewhere in the world
-        CharacterWorldwide                  = 12,
-    }
-
     public enum Sizes
     {
         Tiny,

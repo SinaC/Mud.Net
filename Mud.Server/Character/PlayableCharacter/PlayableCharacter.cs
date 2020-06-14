@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -10,7 +11,6 @@ using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Common;
 using Mud.Server.Input;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -133,7 +133,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (EquippedItemData equippedItemData in data.Equipments)
                 {
                     // Create in inventory
-                    var item = World.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
+                    var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
 
                     // Try to equip it
                     EquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
@@ -160,7 +160,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (data.Inventory != null)
             {
                 foreach (ItemData itemData in data.Inventory)
-                    World.AddItem(Guid.NewGuid(), itemData, this);
+                    ItemManager.AddItem(Guid.NewGuid(), itemData, this);
             }
             // Quests
             if (data.CurrentQuests != null)
@@ -174,27 +174,18 @@ namespace Mud.Server.Character.PlayableCharacter
                 foreach (AuraData auraData in data.Auras)
                     AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
             }
-            // Known abilities
-            if (data.KnownAbilities != null)
+            // Learn abilities
+            if (data.LearnedAbilities != null)
             {
-                foreach (KnownAbilityData knownAbilityData in data.KnownAbilities)
+                foreach (LearnedAbilityData learnedAbilityData in data.LearnedAbilities)
                 {
-                    IAbility ability = AbilityManager[knownAbilityData.AbilityId];
-                    if (ability == null)
-                        Wiznet.Wiznet($"KnownAbility ability id {knownAbilityData.AbilityId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    IAbilityInfo abilityInfo = AbilityManager[learnedAbilityData.Name];
+                    if (abilityInfo == null)
+                        Wiznet.Wiznet($"LearnedAbility:  Ability {learnedAbilityData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                     else
                     {
-                        KnownAbility knownAbility = new KnownAbility
-                        {
-                            Ability = ability,
-                            ResourceKind = knownAbilityData.ResourceKind,
-                            CostAmount = knownAbilityData.CostAmount,
-                            CostAmountOperator = knownAbilityData.CostAmountOperator,
-                            Level = knownAbilityData.Level,
-                            Learned = knownAbilityData.Learned,
-                            Rating = knownAbilityData.Rating
-                        };
-                        AddKnownAbility(knownAbility);
+                        AbilityLearned abilityLearned = new AbilityLearned(learnedAbilityData, abilityInfo);
+                        AddLearnedAbility(abilityLearned);
                     }
                 }
             }
@@ -207,13 +198,13 @@ namespace Mud.Server.Character.PlayableCharacter
             // Cooldowns
             if (data.Cooldowns != null)
             {
-                foreach (KeyValuePair<int, int> cooldown in data.Cooldowns)
+                foreach (KeyValuePair<string, int> cooldown in data.Cooldowns)
                 {
-                    IAbility ability = AbilityManager[cooldown.Key];
-                    if (ability == null)
-                        Wiznet.Wiznet($"Cooldown ability id {cooldown.Key} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    IAbilityInfo abilityInfo = AbilityManager[cooldown.Key];
+                    if (abilityInfo == null)
+                        Wiznet.Wiznet($"Cooldown: ability {cooldown.Key} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                     else
-                        SetCooldown(ability, cooldown.Value);
+                        SetCooldown(cooldown.Key, cooldown.Value);
                 }
             }
             // Pets
@@ -351,13 +342,9 @@ namespace Mud.Server.Character.PlayableCharacter
             if (Fighting != victim)
                 return;
             // 2/ off hand attack
-            var dualWield = GetLearnInfo("Dual wield");
-            int dualWieldChance = dualWield.learned;
-            if (offHand != null && RandomManager.Chance(dualWieldChance))
-            {
+            var dualWield = AbilityManager.CreateInstance<IPassive>("Dual Wield");
+            if (offHand != null && dualWield.IsTriggered(this, victim, true, out _, out _))
                 OneHit(victim, offHand, multiHitModifier);
-                CheckAbilityImprove(dualWield.knownAbility, true, 4);
-            }
             if (Fighting != victim)
                 return;
             if (multiHitModifier?.MaxAttackCount <= 1)
@@ -370,60 +357,49 @@ namespace Mud.Server.Character.PlayableCharacter
             if (multiHitModifier?.MaxAttackCount <= 2)
                 return;
             // 4/ main hand second attack
-            var secondAttackLearnInfo = GetLearnInfo("Second attack");
-            int secondAttackChance = secondAttackLearnInfo.learned/2;
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-                secondAttackChance /= 2;
-            if (RandomManager.Chance(secondAttackChance))
-            {
+            var secondAttack = AbilityManager.CreateInstance<IPassive>("Second Attack");
+            if (secondAttack.IsTriggered(this, victim, true, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
-                CheckAbilityImprove(secondAttackLearnInfo.knownAbility, true, 5);
-            }
             if (Fighting != victim)
                 return;
             if (multiHitModifier?.MaxAttackCount <= 3)
                 return;
             // 5/ main hand third attack
-            var thirdAttackLearnInfo = GetLearnInfo("Third attack");
-            int thirdAttackChance = thirdAttackLearnInfo.learned/4;
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-                thirdAttackChance = 0;
-            if (RandomManager.Chance(thirdAttackChance))
-            {
+            var thirdAttack = AbilityManager.CreateInstance<IPassive>("Third Attack");
+            if (thirdAttack.IsTriggered(this, victim, true, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
-                CheckAbilityImprove(thirdAttackLearnInfo.knownAbility, true, 6);
-            }
             if (Fighting != victim)
                 return;
             if (multiHitModifier?.MaxAttackCount <= 4)
                 return;
             // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
-            var thirdWieldLearnInfo = GetLearnInfo("Third wield");
-            var thirdWieldChance = thirdWieldLearnInfo.learned / 6;
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-                thirdWieldChance = 0;
-            if (RandomManager.Chance(thirdWieldChance))
-            {
-                OneHit(victim, mainHand, multiHitModifier);
-                CheckAbilityImprove(thirdWieldLearnInfo.knownAbility, true, 6);
-            }
-            if (Fighting != victim)
-                return;
-            if (multiHitModifier?.MaxAttackCount <= 5)
-                return;
-            var FourthWieldLearnInfo = GetLearnInfo("Fourth wield");
-            var FourthWieldChance = FourthWieldLearnInfo.learned / 8;
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-                FourthWieldChance = 0;
-            if (RandomManager.Chance(FourthWieldChance))
-            {
-                OneHit(victim, mainHand, multiHitModifier);
-                CheckAbilityImprove(FourthWieldLearnInfo.knownAbility, true, 6);
-            }
-            if (Fighting != victim)
-                return;
-            if (multiHitModifier?.MaxAttackCount <= 6)
-                return;
+            // TODO: only if wielding 3 or 4 weapons
+            //var thirdWieldLearnInfo = GetLearnInfo("Third wield");
+            //var thirdWieldChance = thirdWieldLearnInfo.learned / 6;
+            //if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+            //    thirdWieldChance = 0;
+            //if (RandomManager.Chance(thirdWieldChance))
+            //{
+            //    OneHit(victim, mainHand, multiHitModifier);
+            //    CheckAbilityImprove(thirdWieldLearnInfo.knownAbility, true, 6);
+            //}
+            //if (Fighting != victim)
+            //    return;
+            //if (multiHitModifier?.MaxAttackCount <= 5)
+            //    return;
+            //var FourthWieldLearnInfo = GetLearnInfo("Fourth wield");
+            //var FourthWieldChance = FourthWieldLearnInfo.learned / 8;
+            //if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+            //    FourthWieldChance = 0;
+            //if (RandomManager.Chance(FourthWieldChance))
+            //{
+            //    OneHit(victim, mainHand, multiHitModifier);
+            //    CheckAbilityImprove(FourthWieldLearnInfo.knownAbility, true, 6);
+            //}
+            //if (Fighting != victim)
+            //    return;
+            //if (multiHitModifier?.MaxAttackCount <= 6)
+            //    return;
         }
 
         public override void KillingPayoff(ICharacter victim, IItemCorpse corpse) // Gain xp/gold/reputation/...
@@ -480,11 +456,11 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Abilities
-        public override (int learned, IKnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon)
+        public override (int percentage, IAbilityLearned abilityLearned) GetWeaponLearnedInfo(IItemWeapon weapon)
         {
-            IAbility ability = null;
+            string abilityName = null;
             if (weapon == null)
-                ability = AbilityManager["Hand to hand"];
+                abilityName = "Hand to hand";
             else
             {
                 switch (weapon.Type)
@@ -493,31 +469,31 @@ namespace Mud.Server.Character.PlayableCharacter
                         // no ability
                         break;
                     case WeaponTypes.Sword:
-                        ability = AbilityManager["Sword"];
+                        abilityName = "Sword";
                         break;
                     case WeaponTypes.Dagger:
-                        ability = AbilityManager["Dagger"];
+                        abilityName = "Dagger";
                         break;
                     case WeaponTypes.Spear:
-                        ability = AbilityManager["Spear"];
+                        abilityName = "Spear";
                         break;
                     case WeaponTypes.Mace:
-                        ability = AbilityManager["Mace"];
+                        abilityName = "Mace";
                         break;
                     case WeaponTypes.Axe:
-                        ability = AbilityManager["Axe"];
+                        abilityName = "Axe";
                         break;
                     case WeaponTypes.Flail:
-                        ability = AbilityManager["Flail"];
+                        abilityName = "Flail";
                         break;
                     case WeaponTypes.Whip:
-                        ability = AbilityManager["Whip"];
+                        abilityName = "Whip";
                         break;
                     case WeaponTypes.Polearm:
-                        ability = AbilityManager["Polearm"];
+                        abilityName = "Polearm";
                         break;
                     case WeaponTypes.Staff:
-                        ability = AbilityManager["Staff(weapon)"];
+                        abilityName = "Staff(weapon)";
                         break;
                     default:
                         Wiznet.Wiznet($"PlayableCharacter.GetWeaponLearned: Invalid WeaponType {weapon.Type}", WiznetFlags.Bugs, AdminLevels.Implementor);
@@ -526,29 +502,29 @@ namespace Mud.Server.Character.PlayableCharacter
             }
 
             // no ability -> 3*level
-            if (ability == null)
+            if (abilityName == null)
             {
                 int learned = (3 * Level).Range(0, 100);
                 return (learned, null);
             }
             // ability, check %
-            var learnInfo = GetLearnInfo(ability);
+            var learnInfo = GetAbilityLearnedInfo(abilityName);
             return learnInfo;
         }
 
-        public override (int learned, IKnownAbility knownAbility) GetLearnInfo(IAbility ability)
+        public override (int percentage, IAbilityLearned abilityLearned) GetAbilityLearnedInfo(string abilityName)
         {
-            IKnownAbility knownAbility = this[ability];
+            IAbilityLearned learnedAbility = GetAbilityLearned(abilityName);
             int learned = 0;
-            if (knownAbility != null && knownAbility.Level <= Level)
-                learned = knownAbility.Learned;
+            if (learnedAbility != null && learnedAbility.Level <= Level)
+                learned = learnedAbility.Learned;
 
             // TODO: if daze /=2 for spell and *2/3 if otherwise
 
             if (this[Conditions.Drunk] > 10)
                 learned = (learned * 9 ) / 10;
 
-            return (learned.Range(0, 100), knownAbility);
+            return (learned.Range(0, 100), learnedAbility);
         }
 
         #endregion
@@ -708,7 +684,7 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Room
-        public IRoom RecallRoom => World.DefaultRecallRoom; // TODO: could be different from default one
+        public IRoom RecallRoom => RoomManager.DefaultRecallRoom; // TODO: could be different from default one
 
         // Impersonation
         public bool StopImpersonation()
@@ -734,8 +710,8 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             get
             {
-                var hand2HandLearnInfo = GetLearnInfo("Hand to hand");
-                int learned = hand2HandLearnInfo.learned;
+                var hand2HandLearnInfo = GetAbilityLearnedInfo("Hand to hand");
+                int learned = hand2HandLearnInfo.percentage;
                 return RandomManager.Range(1 + 4 * learned / 100, 2 * Level / 3 * learned / 100);
             }
         }
@@ -778,24 +754,24 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Ability
-        public bool CheckAbilityImprove(IKnownAbility knownAbility, bool abilityUsedSuccessfully, int multiplier)
+        public bool CheckAbilityImprove(string abilityName, bool abilityUsedSuccessfully, int multiplier)
         {
+            var abilityLearned = GetAbilityLearned(abilityName);
             // Know ability ?
-            if (knownAbility == null
-                || knownAbility.Ability == null
-                || knownAbility.Learned == 0
-                || knownAbility.Learned == 100)
-                return false; // ability not known
+            if (abilityLearned == null
+                || abilityLearned.Learned == 0
+                || abilityLearned.Learned >= 100)
+                return false; // ability not known and already at max
             // check to see if the character has a chance to learn
             if (multiplier <= 0)
             {
                 Wiznet.Wiznet($"PlayableCharacter.CheckAbilityImprove: multiplier had invalid value {multiplier}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 multiplier = 1;
             }
-            int difficultyMultiplier = knownAbility.Rating;
+            int difficultyMultiplier = abilityLearned.Rating;
             if (difficultyMultiplier <= 0)
             {
-                Wiznet.Wiznet($"PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {multiplier} for KnownAbility {knownAbility.Ability.Name} Player {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"PlayableCharacter.CheckAbilityImprove: difficulty multiplier had invalid value {multiplier} for KnownAbility {abilityLearned.Name} Player {DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 difficultyMultiplier = 1;
             }
             // TODO: percentage depends on intelligence replace CurrentAttributes(CharacterAttributes.Intelligence) with values from 3 to 85
@@ -805,23 +781,23 @@ namespace Mud.Server.Character.PlayableCharacter
             // now that the character has a CHANCE to learn, see if they really have
             if (abilityUsedSuccessfully)
             {
-                chance = (100 - knownAbility.Learned).Range(5, 95);
+                chance = (100 - abilityLearned.Learned).Range(5, 95);
                 if (RandomManager.Chance(chance))
                 {
-                    Send("You have become better at {0}!", knownAbility.Ability.Name);
-                    knownAbility.Learned++;
+                    Send("You have become better at {0}!", abilityLearned.Name);
+                    abilityLearned.IncrementLearned(1);
                     GainExperience(2 * difficultyMultiplier);
                     return true;
                 }
             }
             else
             {
-                chance = (knownAbility.Learned / 2).Range(5, 30);
+                chance = (abilityLearned.Learned / 2).Range(5, 30);
                 if (RandomManager.Chance(chance))
                 {
-                    Send("You learn from your mistakes, and your {0} skill improves.!", knownAbility.Ability.Name);
-                    int learned = RandomManager.Range(1, 3);
-                    knownAbility.Learned = Math.Min(knownAbility.Learned + learned, 100);
+                    Send("You learn from your mistakes, and your {0} skill improves.!", abilityLearned.Name);
+                    int increment = RandomManager.Range(1, 3);
+                    abilityLearned.IncrementLearned(increment);
                     GainExperience(2 * difficultyMultiplier);
                     return true;
                 }
@@ -874,9 +850,9 @@ namespace Mud.Server.Character.PlayableCharacter
                 Resistances = BaseResistances,
                 Vulnerabilities = BaseVulnerabilities,
                 Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
-                KnownAbilities = KnownAbilities.Select(x => x.MapKnownAbilityData()).ToArray(),
+                LearnedAbilities = LearnedAbilities.Select(x => x.MapLearnedAbilityData()).ToArray(),
                 Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
-                Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key.Id, x => x.Value),
+                Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key, x => x.Value),
                 Pets = Pets.Select(x => x.MapPetData()).ToArray(),
             };
             return data;
@@ -916,20 +892,20 @@ namespace Mud.Server.Character.PlayableCharacter
             // class bonus
             hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
             // fast healing
-            (int learned, IKnownAbility knownAbility) fastHealing = GetLearnInfo("Fast healing");
-            if (RandomManager.Chance(fastHealing.learned))
+            var fastHealing = AbilityManager.CreateInstance<IPassive>("Fast Healing");
+            if (fastHealing != null && fastHealing.IsTriggered(this, this, false, out _, out int fastHealingLearnPercentage) == true)
             {
-                hitGain += (fastHealing.learned * hitGain) / 100;
+                hitGain += (fastHealingLearnPercentage * hitGain) / 100;
                 if (HitPoints < MaxHitPoints)
-                    CheckAbilityImprove(fastHealing.knownAbility, true, 8);
+                    CheckAbilityImprove("Fast Healing", true, 8);
             }
             // meditation
-            (int learned, IKnownAbility knownAbility) meditation = GetLearnInfo("Meditation");
-            if (RandomManager.Chance(meditation.learned))
+            var meditation = AbilityManager.CreateInstance<IPassive>("Meditation");
+            if (meditation != null && fastHealing.IsTriggered(this, this, false, out _, out int meditationLearnPercentage) == true)
             {
-                manaGain += (meditation.learned * manaGain) / 100;
+                manaGain += (meditationLearnPercentage * manaGain) / 100;
                 if (this[ResourceKinds.Mana] < MaxResource(ResourceKinds.Mana))
-                    CheckAbilityImprove(meditation.knownAbility, true, 8);
+                    CheckAbilityImprove("Meditation", true, 8);
             }
             // position
             switch (Position)
@@ -1093,7 +1069,7 @@ namespace Mud.Server.Character.PlayableCharacter
             _pets.Clear();
             if (ImpersonatedBy != null) // If impersonated, no real death
             {
-                IRoom room = World.DefaultDeathRoom ?? World.DefaultRecallRoom;
+                IRoom room = RoomManager.DefaultDeathRoom ?? RoomManager.DefaultRecallRoom;
                 ChangeRoom(room);
                 Recompute(); // don't reset hp
             }
@@ -1278,12 +1254,12 @@ namespace Mud.Server.Character.PlayableCharacter
 
             Send("You gain {0} hit point{1}, {2} mana, {3} move, and {4} practice{5}.", addHitpoints, addHitpoints == 1 ? "" : "s", addMana, addMove, addPractice, addPractice == 1 ? "" : "s");
             // Inform about new abilities
-            IKnownAbility[] newAbilities = KnownAbilities.Where(x => x.Level == Level && x.Learned == 0).ToArray();
+            IAbilityLearned[] newAbilities = LearnedAbilities.Where(x => x.Level == Level && x.Learned == 0).ToArray();
             if (newAbilities.Any())
             {
                 StringBuilder sb = new StringBuilder("You can now gain following abilities: %C%");
-                foreach (KnownAbility knownAbility in newAbilities)
-                    sb.AppendLine(knownAbility.Ability.Name);
+                foreach (IAbilityLearned abilityLearned in newAbilities)
+                    sb.AppendLine(abilityLearned.Name);
                 sb.Append("%x%");
                 Send(sb);
             }
