@@ -2,7 +2,7 @@
 {
     public class LearnedAbilityData
     {
-        public string AbilityName { get; set; }
+        public string Name { get; set; }
 
         public int ResourceKind { get; set; }
 
