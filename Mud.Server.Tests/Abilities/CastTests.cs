@@ -1,15 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Mud.Common;
-using Mud.Container;
-using Mud.Server.Ability;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Actor;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Random;
-using Mud.Server.Rom24.Spells;
-
-namespace Mud.Server.Tests.Abilities
+﻿namespace Mud.Server.Tests.Abilities
 {
     //[TestClass]
     //public class CastTests : TestBase

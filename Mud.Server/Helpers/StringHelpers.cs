@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Helpers

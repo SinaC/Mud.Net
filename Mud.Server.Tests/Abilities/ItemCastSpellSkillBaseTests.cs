@@ -1,18 +1,12 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Ability.Spell;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Affect;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
@@ -34,9 +28,7 @@ namespace Mud.Server.Tests.Abilities
             ItemCastSpellSkillBaseTestsSkill skill = new ItemCastSpellSkillBaseTestsSkill(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object, "Fireball", 50);
 
             abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            //DependencyContainer.Current.Register(typeof(Fireball));
-            Fireball fireball = new Fireball(randomManagerMock.Object);
-            DependencyContainer.Current.RegisterInstance(fireball);
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(randomManagerMock.Object));
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> userMock = new Mock<ICharacter>();
@@ -44,6 +36,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             targetMock.SetupGet(x => x.Name).Returns("target");
+            targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new[] { userMock.Object, targetMock.Object});
 

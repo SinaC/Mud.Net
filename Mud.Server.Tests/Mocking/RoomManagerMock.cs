@@ -6,16 +6,14 @@ using Mud.Server.Interfaces.Room;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Tests.Mocking
 {
     public class RoomManagerMock : IRoomManager
     {
-        private readonly List<RoomBlueprint> _roomBlueprints;
+        private readonly List<RoomBlueprint> _roomBlueprints = new List<RoomBlueprint>();
 
-        private readonly List<IRoom> _rooms;
+        private readonly List<IRoom> _rooms = new List<IRoom>();
 
         public IEnumerable<IRoom> Rooms => _rooms;
 
@@ -36,7 +34,7 @@ namespace Mud.Server.Tests.Mocking
 
         public void AddRoomBlueprint(RoomBlueprint blueprint)
         {
-            throw new NotImplementedException();
+            _roomBlueprints.Add(blueprint);
         }
 
         public IRoom GetRandomRoom(ICharacter character)

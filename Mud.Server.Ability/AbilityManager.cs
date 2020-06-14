@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Container;
 using Mud.Logger;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using System;
 using System.Collections.Generic;
@@ -54,13 +55,14 @@ namespace Mud.Server.Ability
             return instance;
         }
 
-        public AbilityManager()
+        public AbilityManager(IAssemblyHelper assemblyHelper)
         {
             _abilities = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
             // Get abilities and register them in IOC
             Type iAbility = typeof(IAbility);
-            foreach (var abilityType in Assembly.GetExecutingAssembly().GetTypes()
-                .Where(x => x.IsClass && !x.IsAbstract && iAbility.IsAssignableFrom(x)))
+            foreach (var abilityType in assemblyHelper.ExecutingAssembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t)))
+            //var asm = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetReferencedAssemblies()).DistinctBy(x => x.FullName);
+            //foreach (var abilityType in asm.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
             {
                 AbilityInfo abilityInfo = new AbilityInfo(abilityType);
                 if (_abilities.ContainsKey(abilityInfo.Name))

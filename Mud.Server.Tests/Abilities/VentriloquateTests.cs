@@ -1,22 +1,14 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Common;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Ability;
-using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Common;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Affect;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
+using System.Reflection;
 
 namespace Mud.Server.Tests.Abilities
 {
@@ -31,8 +23,11 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
+            casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             
@@ -53,8 +48,11 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
+            casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 
@@ -74,8 +72,11 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
+            casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 
@@ -95,8 +96,11 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
+            casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 
@@ -116,10 +120,14 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
+            casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             targetMock.SetupGet(x => x.Name).Returns("target");
+            targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, targetMock.Object });
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 
@@ -139,10 +147,14 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
+            casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             targetMock.SetupGet(x => x.Name).Returns("target");
+            targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, targetMock.Object });
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 

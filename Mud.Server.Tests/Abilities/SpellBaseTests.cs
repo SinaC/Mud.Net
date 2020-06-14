@@ -1,26 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Common;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Ability;
-using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Affect;
-using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Skills;
-using Mud.Server.Rom24.Spells;
 
 namespace Mud.Server.Tests.Abilities
 {

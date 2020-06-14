@@ -1,11 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
+using Mud.Server.Random;
 using Mud.Server.Tests.Mocking;
 using Mud.Settings;
 
@@ -36,6 +36,7 @@ namespace Mud.Server.Tests
             Container.DependencyContainer.Current.RegisterInstance<IWiznet>(new WiznetMock());
             Container.DependencyContainer.Current.RegisterInstance<IRoomManager>(new RoomManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IItemManager>(new ItemManagerMock());
+            Container.DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
         }
     }
 }

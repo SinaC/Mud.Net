@@ -3,17 +3,11 @@ using System.Collections.Generic;
 using Mud.Domain;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 

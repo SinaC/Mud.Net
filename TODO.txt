@@ -10,6 +10,8 @@ add ICharacterManager -> once done, rename every method to remove Item/Character
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 
+module to enable load on demand of skills/spells/commands/...
+
 SHORT TERM TODO:
 grove.are: the second jar will never appear
 O 0 8902   2 8915	* a spice jar

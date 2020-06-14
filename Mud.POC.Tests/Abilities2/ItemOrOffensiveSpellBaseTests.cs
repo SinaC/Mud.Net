@@ -5,8 +5,6 @@ using Mud.Common;
 using Mud.POC.Abilities2;
 using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
-using Mud.Server.Input;
 using Mud.Server.Random;
 
 namespace Mud.POC.Tests.Abilities2

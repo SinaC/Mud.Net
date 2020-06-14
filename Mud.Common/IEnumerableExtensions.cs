@@ -13,6 +13,8 @@ namespace Mud.Common
             yield return item;
         }
 
+        public static IEnumerable<T> DistinctBy<T>(this IEnumerable<T> source, Func<T, object> propertySelector) => source.GroupBy(propertySelector).Select(x => x.First());
+
         //http://stackoverflow.com/questions/22152160/linq-fill-function
         public static IEnumerable<T> Fill<T>(this IEnumerable<T> source, int length)
         {

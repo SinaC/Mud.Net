@@ -11,7 +11,6 @@ using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Player

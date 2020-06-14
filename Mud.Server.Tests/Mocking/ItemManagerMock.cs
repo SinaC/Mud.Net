@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Mud.Container;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -8,13 +9,13 @@ using Mud.Server.Item;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Tests.Mocking
 {
     public class ItemManagerMock : IItemManager
     {
+        private IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+
         private readonly List<ItemBlueprintBase> _itemBlueprints = new List<ItemBlueprintBase>();
 
         private readonly List<IItem> _items = new List<IItem>();
@@ -96,7 +97,7 @@ namespace Mud.Server.Tests.Mocking
                     break;
                 case ItemPortalBlueprint portalBlueprint:
                     {
-                        IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
+                        IRoom destination = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
                         item = new ItemPortal(guid, portalBlueprint, destination, container);
                     }
                     break;
@@ -197,7 +198,7 @@ namespace Mud.Server.Tests.Mocking
                     break;
                 case ItemPortalBlueprint portalBlueprint:
                     {
-                        IRoom destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
+                        IRoom destination = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
                         item = new ItemPortal(guid, portalBlueprint, itemData as ItemPortalData, destination, container);
                     }
                     break;

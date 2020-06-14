@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Mud.Common;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Class

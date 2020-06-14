@@ -31,7 +31,6 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Table;
-using Mud.Server.Common;
 using Mud.Server.Server;
 using Mud.Settings;
 using Mud.Server.Interfaces.Aura;
@@ -39,6 +38,8 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Ability;
 using Mud.Server.Random;
 using Mud.Common;
+using System.Reflection;
+using Mud.Server.Rom24.Spells;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -57,6 +58,11 @@ namespace Mud.Server.WPFTestApplication
         private static IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
         private static IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
+        internal class AssemblyHelper : IAssemblyHelper
+        {
+            public Assembly ExecutingAssembly => typeof(AcidBlast).Assembly;
+        }
+
         public ServerWindow()
         {
             _serverWindowInstance = this;
@@ -69,6 +75,7 @@ namespace Mud.Server.WPFTestApplication
             Log.Default.Initialize(settings.LogPath, "server.log");
 
             // Initialize IOC container
+            //DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(new AssemblyHelper());
             DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAuraManager
@@ -80,7 +87,8 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
             DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
             DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-            DependencyContainer.Current.Register<IAbilityManager, AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Current.Register<IAbilityManager, AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper()));
             DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);

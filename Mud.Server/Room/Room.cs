@@ -11,7 +11,6 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Affect;

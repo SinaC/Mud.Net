@@ -1,22 +1,13 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Common;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Ability;
-using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Affect;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Spells;
 
 namespace Mud.Server.Tests.Abilities
 {
@@ -35,6 +26,8 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
 
@@ -56,8 +49,11 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             Mock<ICharacter> victimMock = new Mock<ICharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
+            victimMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, victimMock.Object });
             casterMock.SetupGet(x => x.Fighting).Returns(victimMock.Object);
@@ -81,6 +77,8 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
 
@@ -102,8 +100,11 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             Mock<ICharacter> victimMock = new Mock<ICharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
+            victimMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
 
@@ -125,8 +126,11 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             Mock<ICharacter> victimMock = new Mock<ICharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
+            victimMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             victimMock.Setup(x => x.IsSafe(casterMock.Object)).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(new []{casterMock.Object, victimMock.Object});
@@ -148,6 +152,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<IPlayableCharacter> victimMock = new Mock<IPlayableCharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
+            victimMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             Mock<INonPlayableCharacter> casterMock = new Mock<INonPlayableCharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
@@ -155,6 +160,8 @@ namespace Mud.Server.Tests.Abilities
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x.CharacterFlags).Returns(CharacterFlags.Charm);
             casterMock.SetupGet(x => x.Master).Returns(victimMock.Object);
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { casterMock.Object, victimMock.Object });
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
 
@@ -176,8 +183,11 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             Mock<ICharacter> victimMock = new Mock<ICharacter>();
             victimMock.SetupGet(x => x.Name).Returns("target");
+            victimMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new[] { casterMock.Object, victimMock.Object });
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);

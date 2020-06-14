@@ -1,11 +1,4 @@
-﻿using System;
-using Mud.Domain;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Common;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Character;
-
-namespace Mud.Server.Ability
+﻿namespace Mud.Server.Ability
 {
     //public partial class AbilityManager
     //{

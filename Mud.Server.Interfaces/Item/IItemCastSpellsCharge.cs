@@ -1,6 +1,4 @@
-﻿using Mud.Server.Interfaces.Ability;
-
-namespace Mud.Server.Interfaces.Item
+﻿namespace Mud.Server.Interfaces.Item
 {
     public interface IItemCastSpellsCharge : IItem
     {

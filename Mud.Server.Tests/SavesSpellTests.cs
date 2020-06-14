@@ -3,7 +3,6 @@ using Moq;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Character.NonPlayableCharacter;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;

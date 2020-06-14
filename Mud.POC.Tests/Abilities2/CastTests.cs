@@ -1,13 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Mud.Common;
 using Mud.Container;
 using Mud.POC.Abilities2;
-using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.POC.Abilities2.Rom24Skills;
 using Mud.POC.Abilities2.Rom24Spells;
-using Mud.Server.Common;
 using Mud.Server.Random;
 
 namespace Mud.POC.Tests.Abilities2

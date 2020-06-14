@@ -5,8 +5,6 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Common;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -37,7 +35,10 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
+            armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 0); // must be below 25/5
@@ -71,7 +72,10 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
+            armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 7); // must be between 25/5 and 25/3
@@ -105,7 +109,10 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
+            armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 20); // must be between 25/3 and 25
@@ -140,7 +147,10 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
+            armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 50); // must be between 25 and 90
@@ -175,7 +185,10 @@ namespace Mud.Server.Tests.Abilities
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
+            armorMock.SetupGet(x => x.Keywords).Returns("armor".Yield());
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns(true);
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 100); // must be greater than 90

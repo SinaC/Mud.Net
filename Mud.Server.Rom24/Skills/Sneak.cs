@@ -1,23 +1,12 @@
 ﻿using Mud.Domain;
-using Mud.Domain.Extensions;
-using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
-using Mud.Server.Common;
 using Mud.Server.Input;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Passives;
-using Mud.Server.Rom24.Spells;
 using System;
-using System.Linq;
-using System.Text;
 
 namespace Mud.Server.Rom24.Skills
 {

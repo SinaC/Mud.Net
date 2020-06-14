@@ -6,14 +6,11 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Ability.Spell;
-using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
@@ -37,7 +34,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-            DependencyContainer.Current.Register(typeof(Earthquake), () => new Earthquake(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -76,7 +73,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            DependencyContainer.Current.Register(typeof(Fireball), () => new Fireball(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -113,7 +110,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Armor)));
-            DependencyContainer.Current.Register(typeof(Armor), () => new Armor(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -153,7 +150,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            DependencyContainer.Current.Register(typeof(Fireproof), () => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -192,7 +189,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            DependencyContainer.Current.Register(typeof(Curse), () => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -231,7 +228,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            DependencyContainer.Current.Register(typeof(Invisibility), () => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -270,7 +267,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-            DependencyContainer.Current.Register(typeof(Earthquake), () => new Earthquake(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -281,6 +278,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
+            targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
@@ -313,7 +311,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            DependencyContainer.Current.Register(typeof(Fireball), () => new Fireball(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -324,6 +322,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
+            targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
@@ -356,7 +355,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Armor)));
-            DependencyContainer.Current.Register(typeof(Armor), () => new Armor(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -367,6 +366,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
+            targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
@@ -399,7 +399,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            DependencyContainer.Current.Register(typeof(Fireproof), () => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -410,6 +410,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
+            targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
@@ -441,7 +442,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            DependencyContainer.Current.Register(typeof(Curse), () => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
  
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -452,6 +453,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
+            targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
@@ -486,7 +488,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            DependencyContainer.Current.Register(typeof(Invisibility), () => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -497,6 +499,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
+            targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
@@ -529,7 +532,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-            DependencyContainer.Current.Register(typeof(Earthquake), () => new Earthquake(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -543,6 +546,7 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
+            itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -572,7 +576,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            DependencyContainer.Current.Register(typeof(Fireball), () => new Fireball(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -586,6 +590,7 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
+            itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -614,7 +619,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Armor)));
-            DependencyContainer.Current.Register(typeof(Armor), () => new Armor(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -628,6 +633,7 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
+            itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -655,7 +661,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            DependencyContainer.Current.Register(typeof(Fireproof), () => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -669,6 +675,7 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
+            itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -702,7 +709,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            DependencyContainer.Current.Register(typeof(Curse), () => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -716,6 +723,7 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
+            itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -747,7 +755,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            DependencyContainer.Current.Register(typeof(Invisibility), () => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -761,6 +769,7 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
+            itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");

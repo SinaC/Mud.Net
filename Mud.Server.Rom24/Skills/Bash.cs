@@ -4,7 +4,6 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Passives;
 
@@ -91,9 +90,10 @@ namespace Mud.Server.Rom24.Skills
                 return true;
             }
             Victim.AbilityDamage(User, 0, SchoolTypes.Bash, "bash", false); // starts a fight
-            Victim.Act(ActOptions.ToRoom, "{0:N} fall{0:v} flat on {0:s} face!", User);
+            User.Send("You fall flat on your face!");
+            User.Act(ActOptions.ToRoom, "{0:N} fall{0:v} flat on {0:s} face!", User);
             Victim.Act(ActOptions.ToCharacter, "You evade {0:p} bash, causing {0:m} to fall flat on {0:s} face.", User);
-            Victim.ChangePosition(Positions.Resting);
+            User.ChangePosition(Positions.Resting);
             // TODO: check_killer(ch,Victim);
             return false;
         }

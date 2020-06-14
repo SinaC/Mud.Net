@@ -2310,12 +2310,17 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void AddLearnedAbility(IAbilityUsage abilityUsage)
+        protected void AddLearnedAbility(IAbilityUsage abilityUsage, bool naturalBorn)
         {
             if (!_learnedAbilities.ContainsKey(abilityUsage.Name))
             {
                 var abilityLearned = new AbilityLearned(abilityUsage);
                 _learnedAbilities.Add(abilityLearned.Name, abilityLearned);
+                if (naturalBorn)
+                {
+                    abilityLearned.Update(1, 1);
+                    abilityLearned.IncrementLearned(100);
+                }
             }
         }
 
@@ -2360,12 +2365,7 @@ namespace Mud.Server.Character
                 else
                 {
                     Log.Default.WriteLine(LogLevels.Debug, "Adding AbilityLearned from AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Name);
-                    AddLearnedAbility(abilityUsage);
-                }
-                if (naturalBorn)
-                {
-                    abilityLearnedInfo.abilityLearned.Update(1, 1);
-                    abilityLearnedInfo.abilityLearned.IncrementLearned(100);
+                    AddLearnedAbility(abilityUsage, naturalBorn);
                 }
             }
         }

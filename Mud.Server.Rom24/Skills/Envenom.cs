@@ -8,8 +8,6 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Passives;
-using Mud.Server.Rom24.Spells;
 using System;
 
 namespace Mud.Server.Rom24.Rom24Skills
