@@ -1,5 +1,5 @@
 ﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2.Rom24Skills
@@ -35,7 +35,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
             return true;
         }
 
-        protected override string SetTargets(SkillActionInput skillActionInput)
+        protected override string SetTargets(ISkillActionInput skillActionInput)
         {
             string baseSetTargets = base.SetTargets(skillActionInput);
             if (baseSetTargets != null)

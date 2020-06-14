@@ -1,9 +1,10 @@
 ﻿using Mud.Domain;
-using Mud.Server.Abilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mud.Server.Common;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Ability;
+using Mud.Common;
 
 namespace Mud.Server.Tests.Mocking
 {
@@ -26,7 +27,7 @@ namespace Mud.Server.Tests.Mocking
 
         public string DisplayName => Name;
 
-        public IEnumerable<AbilityUsage> Abilities => Enumerable.Empty<AbilityUsage>();
+        public IEnumerable<IAbilityUsage> Abilities => Enumerable.Empty<IAbilityUsage>();
 
         public IEnumerable<EquipmentSlots> EquipmentSlots => EnumHelpers.GetValues<EquipmentSlots>().SelectMany(x => Enumerable.Repeat(x, 2)); // two of each
 

@@ -1,6 +1,8 @@
 ﻿using System;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Item
 {

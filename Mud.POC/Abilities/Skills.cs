@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.POC.Abilities
 {

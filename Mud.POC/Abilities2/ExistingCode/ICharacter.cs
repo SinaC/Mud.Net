@@ -72,9 +72,9 @@ namespace Mud.POC.Abilities2.ExistingCode
 
         bool IsSameGroupOrPet(ICharacter character);
 
-        IEnumerable<AbilityLearned> LearnedAbilities { get; }
-        (int percentage, AbilityLearned abilityLearned) GetAbilityLearned(string abilityName); // percentage is dynamically computed
-        (int percentage, AbilityLearned abilityLearned) GetWeaponLearned(IItemWeapon weapon); // percentage is dynamically computed
+        IEnumerable<IAbilityLearned> LearnedAbilities { get; }
+        (int percentage, IAbilityLearned abilityLearned) GetAbilityLearned(string abilityName); // percentage is dynamically computed
+        (int percentage, IAbilityLearned abilityLearned) GetWeaponLearned(IItemWeapon weapon); // percentage is dynamically computed
 
         int CooldownPulseLeft(string abilityName);
         void SetCooldown(string abilityName, int seconds);

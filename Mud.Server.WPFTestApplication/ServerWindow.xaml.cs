@@ -20,9 +20,26 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Common;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.World;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Table;
 using Mud.Server.Server;
 using Mud.Settings;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Ability;
+using Mud.Server.Random;
+using Mud.Common;
+using System.Reflection;
+using Mud.Server.Rom24.Spells;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -38,6 +55,13 @@ namespace Mud.Server.WPFTestApplication
         private static IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         private static IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
         private static IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        private static IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        private static IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+
+        internal class AssemblyHelper : IAssemblyHelper
+        {
+            public Assembly ExecutingAssembly => typeof(AcidBlast).Assembly;
+        }
 
         public ServerWindow()
         {
@@ -51,20 +75,25 @@ namespace Mud.Server.WPFTestApplication
             Log.Default.Initialize(settings.LogPath, "server.log");
 
             // Initialize IOC container
+            //DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(new AssemblyHelper());
             DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAuraManager
+            DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IItemManager
+            DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IRoomManager
             DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
             DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
             DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
             DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
             DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-            DependencyContainer.Current.Register<IAbilityManager, Abilities.AbilityManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IClassManager, Classes.ClassManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IRaceManager, Races.RaceManager>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Current.Register<IAbilityManager, AbilityManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper()));
+            DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector cant choose which one to chose
-            DependencyContainer.Current.Register<ITableValues, Tables.TableValues>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
 
             if (settings.UseMongo)
             {
@@ -371,21 +400,21 @@ namespace Mud.Server.WPFTestApplication
             // Rooms
             foreach (RoomBlueprint blueprint in importer.Rooms)
             {
-                World.AddRoomBlueprint(blueprint);
+                RoomManager.AddRoomBlueprint(blueprint);
                 IArea area = World.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
                 if (area == null)
                 {
                     Log.Default.WriteLine(LogLevels.Error, "Area id {0} not found", blueprint.AreaId);
                 }
                 else
-                    World.AddRoom(Guid.NewGuid(), blueprint, area);
+                    RoomManager.AddRoom(Guid.NewGuid(), blueprint, area);
             }
 
-            foreach (IRoom room in World.Rooms)
+            foreach (IRoom room in RoomManager.Rooms)
             {
                 foreach(ExitBlueprint exitBlueprint in room.Blueprint.Exits.Where(x => x != null))
                 {
-                    IRoom to = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == exitBlueprint.Destination);
+                    IRoom to = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == exitBlueprint.Destination);
                     if (to == null)
                         Log.Default.WriteLine(LogLevels.Warning, "Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
                     else
@@ -399,7 +428,7 @@ namespace Mud.Server.WPFTestApplication
 
             // Items
             foreach(ItemBlueprintBase blueprint in importer.Items)
-                World.AddItemBlueprint(blueprint);
+                ItemManager.AddItemBlueprint(blueprint);
 
             // Custom blueprint to test
             ItemQuestBlueprint questItem1Blueprint = new ItemQuestBlueprint
@@ -409,7 +438,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = "Quest item 1",
                 Description = "The quest item 1 has been left here."
             };
-            World.AddItemBlueprint(questItem1Blueprint);
+            ItemManager.AddItemBlueprint(questItem1Blueprint);
             ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
             {
                 Id = 80001,
@@ -417,7 +446,7 @@ namespace Mud.Server.WPFTestApplication
                 ShortDescription = "Quest item 2",
                 Description = "The quest item 2 has been left here."
             };
-            World.AddItemBlueprint(questItem2Blueprint);
+            ItemManager.AddItemBlueprint(questItem2Blueprint);
             CharacterNormalBlueprint construct = new CharacterNormalBlueprint
             {
                 Id = 80000,
@@ -455,7 +484,7 @@ namespace Mud.Server.WPFTestApplication
             World.AddCharacterBlueprint(construct);
 
             // MANDATORY ITEMS
-            if (World.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
             {
                 ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
                 {
@@ -463,9 +492,9 @@ namespace Mud.Server.WPFTestApplication
                     NoTake = true,
                     Name = "corpse"
                 };
-                World.AddItemBlueprint(corpseBlueprint);
+                ItemManager.AddItemBlueprint(corpseBlueprint);
             }
-            if (World.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId) == null)
+            if (ItemManager.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId) == null)
             {
                 ItemMoneyBlueprint moneyBlueprint = new ItemMoneyBlueprint
                 {
@@ -473,10 +502,10 @@ namespace Mud.Server.WPFTestApplication
                     NoTake = true,
                     Name = "coins"
                 };
-                World.AddItemBlueprint(moneyBlueprint);
+                ItemManager.AddItemBlueprint(moneyBlueprint);
             }
             // MANDATORY ROOM
-            RoomBlueprint voidBlueprint = World.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
+            RoomBlueprint voidBlueprint = RoomManager.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
             if (voidBlueprint == null)
             {
                 IArea area = World.Areas.First();
@@ -487,20 +516,20 @@ namespace Mud.Server.WPFTestApplication
                     Name = "The void",
                     RoomFlags = RoomFlags.ImpOnly | RoomFlags.NoRecall | RoomFlags.NoScan | RoomFlags.NoWhere | RoomFlags.Private
                 };
-                World.AddRoomBlueprint(voidBlueprint);
-                World.AddRoom(Guid.NewGuid(), voidBlueprint, area);
+                RoomManager.AddRoomBlueprint(voidBlueprint);
+                RoomManager.AddRoom(Guid.NewGuid(), voidBlueprint, area);
             }
 
             // Add dummy mobs and items to allow impersonate :)
-            IRoom templeOfMota = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001);
-            IRoom templeSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3005);
-            IRoom marketSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3014);
-            IRoom commonSquare = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3025);
+            IRoom templeOfMota = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001);
+            IRoom templeSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3005);
+            IRoom marketSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3014);
+            IRoom commonSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3025);
 
             if (templeOfMota == null || templeSquare == null || marketSquare == null || commonSquare == null)
                 return;
 
-            World.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
+            ItemManager.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
 
             // Quest
             QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>

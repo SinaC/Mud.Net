@@ -7,6 +7,16 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Input;
 using System.Collections.Generic;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Table;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Admin
 {
@@ -20,6 +30,8 @@ namespace Mud.Server.Admin
         protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
         protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
         protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
+        protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 
         public Admin(Guid id, string name) 
             : base(id, name)

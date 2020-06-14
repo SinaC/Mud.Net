@@ -3,7 +3,7 @@ using Moq;
 using Mud.Container;
 using Mud.POC.Abilities2;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using System.Linq;
 
 namespace Mud.POC.Tests.Abilities2
@@ -24,7 +24,7 @@ namespace Mud.POC.Tests.Abilities2
         {
             AbilityManager abilityManager = new AbilityManager();
 
-            AbilityInfo abilityInfo = abilityManager["Acid Blast"];
+            IAbilityInfo abilityInfo = abilityManager["Acid Blast"];
 
             Assert.IsNotNull(abilityInfo);
         }
@@ -34,7 +34,7 @@ namespace Mud.POC.Tests.Abilities2
         {
             AbilityManager abilityManager = new AbilityManager();
 
-            AbilityInfo abilityInfo = abilityManager["Pouet"];
+            IAbilityInfo abilityInfo = abilityManager["Pouet"];
 
             Assert.IsNull(abilityInfo);
         }
@@ -44,7 +44,7 @@ namespace Mud.POC.Tests.Abilities2
         {
             AbilityManager abilityManager = new AbilityManager();
 
-            foreach (AbilityInfo abilityInfo in abilityManager.Abilities)
+            foreach (IAbilityInfo abilityInfo in abilityManager.Abilities)
             {
                 var instanceProducer = DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false);
                 Assert.IsNotNull(instanceProducer);
@@ -56,7 +56,7 @@ namespace Mud.POC.Tests.Abilities2
         {
             AbilityManager abilityManager = new AbilityManager();
 
-            AbilityInfo abilityInfo = abilityManager["Acid Blast"];
+            IAbilityInfo abilityInfo = abilityManager["Acid Blast"];
 
             // Acid Blast needs IRandomManager and IWiznet
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();

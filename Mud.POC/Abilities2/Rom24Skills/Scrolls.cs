@@ -1,9 +1,10 @@
 ﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using Mud.Server.Input;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
@@ -36,7 +37,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
             return true;
         }
 
-        protected override string SetTargets(SkillActionInput skillActionInput)
+        protected override string SetTargets(ISkillActionInput skillActionInput)
         {
             if (skillActionInput.Parameters.Length == 0)
                 return "Recite what?";

@@ -6,6 +6,12 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Random;
 
 namespace Mud.Server.Item
 {
@@ -16,6 +22,7 @@ namespace Mud.Server.Item
         private readonly bool _hasBeenGeneratedByKillingCharacter;
 
         private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+        private IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
         public ItemCorpse(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
             : base(guid, blueprint, BuildName(victim.DisplayName, false, blueprint), BuildShortDescription(victim.DisplayName, false, blueprint), BuildDescription(victim.DisplayName, false, blueprint), room)
@@ -51,7 +58,7 @@ namespace Mud.Server.Item
                     pcVictim.UpdateMoney(-silver, -gold);
                 }
 
-                World.AddItemMoney(Guid.NewGuid(), silver, gold, this);
+                ItemManager.AddItemMoney(Guid.NewGuid(), silver, gold, this);
             }
 
             // Fill corpse with inventory
@@ -64,7 +71,7 @@ namespace Mud.Server.Item
                 else if (result == PerformActionOnItemResults.MoveToRoom)
                     item.ChangeContainer(victim.Room);
                 else
-                    World.RemoveItem(item);
+                    ItemManager.RemoveItem(item);
             }
             // Fill corpse with equipment
             IReadOnlyCollection<IItem> equipment = new ReadOnlyCollection<IItem>(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList());
@@ -82,7 +89,7 @@ namespace Mud.Server.Item
                     item.ChangeContainer(victim.Room);
                 }
                 else
-                    World.RemoveItem(item);
+                    ItemManager.RemoveItem(item);
             }
 
             // Check victim loot table (only if victim is NPC)
@@ -92,7 +99,7 @@ namespace Mud.Server.Item
                 if (loots != null && loots.Any())
                 {
                     foreach (int loot in loots)
-                        World.AddItem(Guid.NewGuid(), loot, this);
+                        ItemManager.AddItem(Guid.NewGuid(), loot, this);
                 }
             }
         }
@@ -124,7 +131,7 @@ namespace Mud.Server.Item
             if (itemCorpseData.Contains?.Length > 0)
             {
                 foreach (ItemData itemData in itemCorpseData.Contains)
-                    World.AddItem(Guid.NewGuid(), itemData, this);
+                    ItemManager.AddItem(Guid.NewGuid(), itemData, this);
             }
         }
 
@@ -211,7 +218,7 @@ namespace Mud.Server.Item
             else if (item is IItemScroll)
                 item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(1000, 2500)));
             if (item.ItemFlags.HasFlag((ItemFlags.VisibleDeath)))
-                item.RemoveBaseItemFlags(ItemFlags.VisibleDeath);
+                item.RemoveBaseItemFlags(ItemFlags.VisibleDeath, false);
             bool isFloating = item.WearLocation == WearLocations.Float;
             if (isFloating)
             {
@@ -229,14 +236,16 @@ namespace Mud.Server.Item
                     return PerformActionOnItemResults.Destroy;
                 }
                 victim.Act(ActOptions.ToRoom, "{0} falls to the floor.", item);
+                item.Recompute();
                 return PerformActionOnItemResults.MoveToRoom;
             }
             if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
             {
                 int duration = RandomManager.Range(5, 10);
                 item.SetTimer(TimeSpan.FromMinutes(duration));
-                item.RemoveBaseItemFlags(ItemFlags.RotDeath);
+                item.RemoveBaseItemFlags(ItemFlags.RotDeath, false);
             }
+            item.Recompute();
             return PerformActionOnItemResults.MoveToCorpse;
         }
 

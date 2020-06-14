@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
-using Mud.Server.Common;
 
 namespace Mud.Server.Input
 {

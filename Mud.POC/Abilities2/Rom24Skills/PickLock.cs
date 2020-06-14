@@ -1,7 +1,7 @@
 ﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using Mud.Server.Input;
 using System.Linq;
 
@@ -20,7 +20,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
         {
         }
 
-        public override string Setup(SkillActionInput skillActionInput)
+        public override string Setup(ISkillActionInput skillActionInput)
         {
             string baseSetup = base.Setup(skillActionInput);
             if (baseSetup != null)
@@ -51,7 +51,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
             return true;
         }
 
-        protected override string SetTargets(SkillActionInput skillActionInput)
+        protected override string SetTargets(ISkillActionInput skillActionInput)
         {
             if (skillActionInput.Parameters.Length == 0)
                 return "Pick what?";

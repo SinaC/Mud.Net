@@ -1,7 +1,7 @@
 ﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -56,7 +56,7 @@ namespace Mud.POC.Abilities2
                 Invoke(victim);
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
             {

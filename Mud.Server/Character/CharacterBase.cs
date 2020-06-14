@@ -3,19 +3,34 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Abilities;
-using Mud.Server.Aura;
+using Mud.Server.Ability;
+using Mud.Server.Affects;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Table;
+using Mud.Server.Random;
+using Mud.Server.Rom24.Affects;
+using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Character
 {
@@ -33,13 +48,15 @@ namespace Mud.Server.Character
         private readonly int[] _currentAttributes;
         private readonly int[] _maxResources;
         private readonly int[] _currentResources;
-        private readonly Dictionary<IAbility, int> _cooldownsPulseLeft;
-        private readonly List<KnownAbility> _knownAbilities;
+        private readonly Dictionary<string, int> _cooldownsPulseLeft;
+        private readonly Dictionary<string, IAbilityLearned> _learnedAbilities;
 
         protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
         protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
+        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)
@@ -50,8 +67,8 @@ namespace Mud.Server.Character
             _currentAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
             _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
-            _cooldownsPulseLeft = new Dictionary<IAbility, int>(new CompareIAbility());
-            _knownAbilities = new List<KnownAbility>(); // handled by RecomputeKnownAbilities
+            _cooldownsPulseLeft = new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
+            _learnedAbilities = new Dictionary<string, IAbilityLearned>(StringComparer.InvariantCultureIgnoreCase); // handled by RecomputeKnownAbilities
 
             Position = Positions.Standing;
             Form = Forms.Normal;
@@ -250,12 +267,11 @@ namespace Mud.Server.Character
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds { get; private set; }
 
+        // Abilities
+        public IEnumerable<IAbilityLearned> LearnedAbilities => _learnedAbilities.Values;
+
         // Form
         public Forms Form { get; private set; }
-
-        // Abilities
-
-        public IEnumerable<KnownAbility> KnownAbilities => _knownAbilities;
 
         // Followers
         public ICharacter Leader { get; protected set; }
@@ -289,7 +305,7 @@ namespace Mud.Server.Character
             if (character is INonPlayableCharacter npcCharacter)
             {
                 npcCharacter.RemoveBaseCharacterFlags(CharacterFlags.Charm);
-                npcCharacter.RemoveAuras(x => x.Ability.Name == "Charm Person", true);
+                npcCharacter.RemoveAuras(x => x.AbilityName == "Charm Person", true);
                 npcCharacter.ChangeMaster(null);
             }
         }
@@ -329,6 +345,11 @@ namespace Mud.Server.Character
                 string phrase = FormatActOneLine(to, format, arguments);
                 to.Send(phrase);
             }
+        }
+
+        public string ActPhrase(string format, params object[] arguments)
+        {
+            return FormatActOneLine(this, format, arguments);
         }
 
         // Equipments
@@ -392,8 +413,8 @@ namespace Mud.Server.Character
                 && !CharacterFlags.HasFlag(CharacterFlags.DetectHidden)
                 && victim.Fighting == null)
             {
-                var sneakInfo = victim.GetLearnInfo("Sneak"); // TODO: this can be quite slow and CanSee is often used
-                int chance = sneakInfo.learned;
+                var sneakInfo = victim.GetAbilityLearnedInfo("Sneak"); // TODO: this can be quite slow and CanSee is often used
+                int chance = sneakInfo.percentage;
                 chance += (3 * victim[BasicAttributes.Dexterity]) / 2;
                 chance -= this[BasicAttributes.Intelligence] * 2;
                 chance -= Level - (3* victim.Level)/ 2;
@@ -818,12 +839,12 @@ namespace Mud.Server.Character
             // Random portal will fix it's destination once used
             if (portal.PortalFlags.HasFlag(PortalFlags.Random) && portal.Destination == null)
             {
-                destination = World.GetRandomRoom(this);
+                destination = RoomManager.GetRandomRoom(this);
                 portal.ChangeDestination(destination);
             }
             // Buggy portal has a low chance to lead somewhere else
             if (portal.PortalFlags.HasFlag(PortalFlags.Buggy) && RandomManager.Chance(5))
-                destination = World.GetRandomRoom(this);
+                destination = RoomManager.GetRandomRoom(this);
 
             if (destination == null
                 || destination == Room
@@ -880,7 +901,7 @@ namespace Mud.Server.Character
                     Act(ActOptions.ToRoom, "{0:N} fades out of existence.", portal);
                 if (wasRoom.People.Any())
                     Act(ActOptions.ToAll, "{0:N} fades out of existence.", portal);
-                World.RemoveItem(portal);
+                ItemManager.RemoveItem(portal);
                 return true;
             }
 
@@ -979,9 +1000,8 @@ namespace Mud.Server.Character
 
         public abstract void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
 
-        public DamageResults AbilityDamage(ICharacter source, IAbility ability, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using an ability
+        public DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source' using an ability
         {
-            string damageNoun = ability?.DamageNoun?.ToLowerInvariant() ?? ability?.Name?.ToLowerInvariant() ?? "spell";
             return Damage(source, damage, damageType, damageNoun, display);
         }
 
@@ -1167,12 +1187,12 @@ namespace Mud.Server.Character
             }
 
             if (this == source)
-                return DamageResults.Damaged;
+                return DamageResults.Done;
 
             // TODO: take care of link-dead people
             HandleWimpy(damage);
 
-            return DamageResults.Damaged;
+            return DamageResults.Done;
         }
 
         public ResistanceLevels CheckResistance(SchoolTypes damageType)
@@ -1497,55 +1517,44 @@ namespace Mud.Server.Character
         }
         
         // Abilities
-        public abstract (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon);
+        public abstract (int percentage, IAbilityLearned abilityLearned) GetWeaponLearnedInfo(IItemWeapon weapon);
 
-        public abstract (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability);
+        public abstract (int percentage, IAbilityLearned abilityLearned) GetAbilityLearnedInfo(string abilityName);
 
-        public (int learned, KnownAbility knownAbility) GetLearnInfo(string abilityName) 
-        {
-            IAbility ability = AbilityManager[abilityName];
-            if (ability == null)
-            {
-                Wiznet.Wiznet($"GetLearned on unknown ability {abilityName}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return (0, null);
-            }
-            return GetLearnInfo(ability);
-        }
-
-        public IDictionary<IAbility, int> AbilitiesInCooldown => _cooldownsPulseLeft;
+        public IDictionary<string, int> AbilitiesInCooldown => _cooldownsPulseLeft;
 
         public bool HasAbilitiesInCooldown => _cooldownsPulseLeft.Any();
 
-        public int CooldownPulseLeft(IAbility ability)
+        public int CooldownPulseLeft(string abilityName)
         {
             int pulseLeft;
-            if (_cooldownsPulseLeft.TryGetValue(ability, out pulseLeft))
+            if (_cooldownsPulseLeft.TryGetValue(abilityName, out pulseLeft))
                 return pulseLeft;
             return int.MinValue;
         }
 
-        public void SetCooldown(IAbility ability)
+        public void SetCooldown(string abilityName, int cooldown)
         {
-            _cooldownsPulseLeft[ability] = ability.Cooldown;
+            _cooldownsPulseLeft[abilityName] = cooldown;
         }
 
-        public bool DecreaseCooldown(IAbility ability, int pulseCount)
+        public bool DecreaseCooldown(string abilityName, int pulseCount)
         {
             int pulseLeft;
-            if (_cooldownsPulseLeft.TryGetValue(ability, out pulseLeft))
+            if (_cooldownsPulseLeft.TryGetValue(abilityName, out pulseLeft))
             {
                 pulseLeft = Math.Max(0, pulseLeft - pulseCount);
-                _cooldownsPulseLeft[ability] = pulseLeft;
+                _cooldownsPulseLeft[abilityName] = pulseLeft;
                 return pulseLeft == 0;
             }
             return false;
         }
 
-        public void ResetCooldown(IAbility ability, bool verbose)
+        public void ResetCooldown(string abilityName, bool verbose)
         {
-            _cooldownsPulseLeft.Remove(ability);
+            _cooldownsPulseLeft.Remove(abilityName);
             if (verbose)
-                Send("%c%{0} is available.%x%", ability.Name);
+                Send("%c%{0} is available.%x%", abilityName);
         }
 
         // Equipment
@@ -1603,7 +1612,7 @@ namespace Mud.Server.Character
         }
 
         // Affects
-        public void ApplyAffect(CharacterFlagsAffect affect)
+        public void ApplyAffect(ICharacterFlagsAffect affect)
         {
             switch (affect.Operator)
             {
@@ -1620,7 +1629,7 @@ namespace Mud.Server.Character
             }
         }
 
-        public void ApplyAffect(CharacterIRVAffect affect)
+        public void ApplyAffect(ICharacterIRVAffect affect)
         {
             switch (affect.Location)
             {
@@ -1672,7 +1681,7 @@ namespace Mud.Server.Character
             }
         }
 
-        public void ApplyAffect(CharacterAttributeAffect affect)
+        public void ApplyAffect(ICharacterAttributeAffect affect)
         {
             if (affect.Location == CharacterAttributeAffectLocations.None)
                 return;
@@ -1760,12 +1769,12 @@ namespace Mud.Server.Character
             }
         }
 
-        public void ApplyAffect(CharacterSexAffect affect)
+        public void ApplyAffect(ICharacterSexAffect affect)
         {
             Sex = affect.Value;
         }
 
-        public void ApplyAffect(CharacterSizeAffect affect)
+        public void ApplyAffect(ICharacterSizeAffect affect)
         {
             Size = affect.Value;
         }
@@ -1863,7 +1872,7 @@ namespace Mud.Server.Character
                     Log.Default.WriteLine(LogLevels.Warning, "Act with option ToGroup used on generic CharacterBase");
                     return Enumerable.Empty<ICharacter>(); // defined only for PlayableCharacter
                 case ActOptions.ToCharacter:
-                    return Enumerable.Repeat(this, 1);
+                    return this.Yield();
                 default:
                     Wiznet.Wiznet($"Act with invalid option: {option}", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return Enumerable.Empty<ICharacter>();
@@ -1883,10 +1892,6 @@ namespace Mud.Server.Character
             Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.Deaths);
 
             StopFighting(true);
-            // Remove periodic auras
-            IReadOnlyCollection<IPeriodicAura> periodicAuras = new ReadOnlyCollection<IPeriodicAura>(PeriodicAuras.ToList()); // clone
-            foreach (IPeriodicAura pa in periodicAuras)
-                RemovePeriodicAura(pa);
             // Remove auras
             RemoveAuras(_ => true, false);
 
@@ -1894,14 +1899,14 @@ namespace Mud.Server.Character
             ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry
 
             // Create corpse
-            ItemCorpseBlueprint itemCorpseBlueprint = World.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
+            ItemCorpseBlueprint itemCorpseBlueprint = ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
             IItemCorpse corpse = null;
             if (itemCorpseBlueprint != null)
             {
                 if (characterKiller != null)
-                    corpse = World.AddItemCorpse(Guid.NewGuid(), Room, this, characterKiller);
+                    corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room, this, characterKiller);
                 else
-                    corpse = World.AddItemCorpse(Guid.NewGuid(), Room, this);
+                    corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room, this);
             }
             else
             {
@@ -1952,8 +1957,8 @@ namespace Mud.Server.Character
                 return;
             SchoolTypes damageType = wield?.DamageType ?? NoWeaponDamageType;
             // get weapon skill
-            var weaponLearnInfo = GetWeaponLearnInfo(wield);
-            int learned = weaponLearnInfo.learned;
+            var weaponLearnedInfo = GetWeaponLearnedInfo(wield);
+            int learned = weaponLearnedInfo.percentage;
             // Calculate to-hit-armor-class-0 versus armor.
             (int thac0_00, int thac0_32) thac0Values = GetThac0();
             int thac0 = IntExtensions.Lerp(thac0Values.thac0_00, thac0Values.thac0_32, Level, 32);
@@ -1995,8 +2000,8 @@ namespace Mud.Server.Character
             if (diceroll == 0
                 || (diceroll != 19 && diceroll < thac0 - victimAc))
             {
-                if (hitModifier?.Ability != null)
-                    victim.AbilityDamage(this, hitModifier.Ability, 0, damageType, true);
+                if (hitModifier?.AbilityName != null)
+                    victim.AbilityDamage(this, 0, damageType, hitModifier.DamageNoun ?? "hit", true);
                 else
                     victim.HitDamage(this, wield, 0, damageType, true);
                 return;
@@ -2007,18 +2012,16 @@ namespace Mud.Server.Character
             int damage = wield == null
                 ? NoWeaponBaseDamage
                 : GetWeaponBaseDamage(wield, learned);
-            (this as IPlayableCharacter)?.CheckAbilityImprove(weaponLearnInfo.knownAbility, true, 5); // TODO: don't like this cast
-            // bonus
-            var enhancedDamageLearnInfo = GetLearnInfo("Enhanced damage");
-            if (enhancedDamageLearnInfo.learned > 0)
+            if (weaponLearnedInfo.abilityLearned != null)
             {
-                int enhancedDamageDiceRoll = RandomManager.Range(1, 100);
-                if (enhancedDamageDiceRoll <= enhancedDamageLearnInfo.learned)
-                {
-                    (this as IPlayableCharacter)?.CheckAbilityImprove(enhancedDamageLearnInfo.knownAbility, true, 6); // TODO: don't like this cast
-                    damage += 2 * (damage * enhancedDamageDiceRoll) / 300;
-                }
+                IPassive weaponAbility = AbilityManager.CreateInstance<IPassive>(weaponLearnedInfo.abilityLearned.Name);
+                if (weaponAbility != null)
+                    weaponAbility.IsTriggered(this, victim, true, out _, out _); // TODO: maybe we should test return value (imagine a big bad boss which add CD to every skill)
             }
+            // bonus
+            var enhancedDamage = AbilityManager.CreateInstance<IPassive>("Enhanced Damage");
+            if (enhancedDamage != null && enhancedDamage.IsTriggered(this, victim, true, out var enhancedDamageDiceRoll, out _))
+                    damage += 2 * (damage * enhancedDamageDiceRoll) / 300;
 
             if (victim.Position <= Positions.Sleeping)
                 damage *= 2;
@@ -2032,20 +2035,19 @@ namespace Mud.Server.Character
 
             // perform damage
             DamageResults damageResult;
-            if (hitModifier?.Ability != null)
-                damageResult = victim.AbilityDamage(this, hitModifier.Ability, damage, damageType, true);
+            if (hitModifier?.AbilityName != null)
+                damageResult = victim.AbilityDamage(this, damage, damageType, hitModifier.DamageNoun ?? "hit", true);
             else
                 damageResult = victim.HitDamage(this, wield, damage, damageType, true);
             if (Fighting != victim)
                 return;
 
             // funky weapon ?
-            if (damageResult == DamageResults.Damaged && wield != null)
+            if (damageResult == DamageResults.Done && wield != null)
             {
                 if (wield.WeaponFlags.HasFlag(WeaponFlags.Poison))
                 {
-                    IAbility poison = AbilityManager["Poison"];
-                    IAura poisonAura = victim.GetAura(poison);
+                    IAura poisonAura = victim.GetAura("Poison");
                     int level = poisonAura?.Level ?? wield.Level;
                     if (!victim.SavesSpell(level/2, SchoolTypes.Poison))
                     {
@@ -2065,7 +2067,7 @@ namespace Mud.Server.Character
                         else
                         {
                             int duration = level / 2;
-                            World.AddAura(victim, poison, this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                            AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                                 new CharacterFlagsAffect {Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or},
                                 new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add},
                                 new PoisonDamageAffect());
@@ -2095,7 +2097,7 @@ namespace Mud.Server.Character
                     victim.Act(ActOptions.ToRoom, "{0} is burned by {1}.", victim, wield);
                     victim.Act(ActOptions.ToCharacter, "{0} sears your flesh.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Fire, null, false);
-                    AbilityManager.FireEffect(victim, this, wield.Level/2, specialDamage);
+                    new FireEffect(RandomManager, AuraManager, ItemManager).Apply(victim, this, "Flaming weapon", wield.Level/2, specialDamage);
                 }
 
                 if (Fighting != victim)
@@ -2107,7 +2109,7 @@ namespace Mud.Server.Character
                     victim.Act(ActOptions.ToRoom, "{0} freezes {1}.", wield, victim);
                     victim.Act(ActOptions.ToCharacter, "The cold touch of $p surrounds you with ice.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Cold, null, false);
-                    AbilityManager.ColdEffect(victim, this, wield.Level / 2, specialDamage);
+                    new ColdEffect(RandomManager, AuraManager, ItemManager).Apply(victim, this, "Frost weapon", wield.Level / 2, specialDamage);
                 }
 
                 if (Fighting != victim)
@@ -2119,19 +2121,12 @@ namespace Mud.Server.Character
                     victim.Act(ActOptions.ToRoom, "{0:N} is struck by lightning from {1}.", victim, wield);
                     victim.Act(ActOptions.ToCharacter, "You are shocked by $p.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Lightning, null, false);
-                    AbilityManager.ShockEffect(victim, this, wield.Level / 2, specialDamage);
+                    new ShockEffect(RandomManager, AuraManager, ItemManager).Apply(victim, this, "Shocking weapon", wield.Level / 2, specialDamage);
                 }
 
                 if (Fighting != victim)
                     return;
             }
-        }
-
-        protected KnownAbility this[IAbility ability] => _knownAbilities.SingleOrDefault(x => x.Ability == ability);
-
-        protected void SetCooldown(IAbility ability, int pulseLeft)
-        {
-            _cooldownsPulseLeft[ability] = pulseLeft;
         }
 
         protected void ResetCooldowns()
@@ -2315,10 +2310,24 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void AddKnownAbility(KnownAbility knownAbility)
+        protected void AddLearnedAbility(IAbilityUsage abilityUsage, bool naturalBorn)
         {
-            if (knownAbility.Ability != null && _knownAbilities.All(x => x.Ability?.Id != knownAbility.Ability.Id))
-                _knownAbilities.Add(knownAbility);
+            if (!_learnedAbilities.ContainsKey(abilityUsage.Name))
+            {
+                var abilityLearned = new AbilityLearned(abilityUsage);
+                _learnedAbilities.Add(abilityLearned.Name, abilityLearned);
+                if (naturalBorn)
+                {
+                    abilityLearned.Update(1, 1);
+                    abilityLearned.IncrementLearned(100);
+                }
+            }
+        }
+
+        protected void AddLearnedAbility(AbilityLearned abilityLearned)
+        {
+            if (!_learnedAbilities.ContainsKey(abilityLearned.Name))
+                _learnedAbilities.Add(abilityLearned.Name, abilityLearned);
         }
 
         protected void ApplyAuras(IEntity entity)
@@ -2334,56 +2343,31 @@ namespace Mud.Server.Character
             }
         }
 
-        protected void MergeAbilities(IEnumerable<AbilityUsage> abilities, bool naturalBorn)
+        protected IAbilityLearned GetAbilityLearned(string abilityName)
+        {
+            if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
+                return null;
+            return abilityLearned;
+        }
+
+        protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn)
         {
             // If multiple identical abilities, keep only one with lowest level
-            foreach (AbilityUsage abilityUsage in abilities)
+            foreach (IAbilityUsage abilityUsage in abilities)
             {
-                KnownAbility knownAbility = this[abilityUsage.Ability];
-                if (knownAbility != null)
+                var abilityLearnedInfo = GetAbilityLearnedInfo(abilityUsage.Name);
+                if (abilityLearnedInfo.abilityLearned != null)
                 {
                     //Log.Default.WriteLine(LogLevels.Debug, "Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
-                    knownAbility.Level = Math.Min(knownAbility.Level, abilityUsage.Level);
-                    knownAbility.Rating = Math.Min(knownAbility.Rating, abilityUsage.Rating);
-                    knownAbility.CostAmount = Math.Min(knownAbility.CostAmount, abilityUsage.CostAmount);
+                    abilityLearnedInfo.abilityLearned.Update(Math.Min(abilityUsage.Level, abilityUsage.Level), Math.Min(abilityUsage.Rating, abilityUsage.Rating), Math.Min(abilityUsage.CostAmount, abilityUsage.CostAmount));
                     // TODO: what should be we if multiple resource kind or operator ?
                 }
                 else
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "Adding KnownAbility from AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
-                    knownAbility = new KnownAbility
-                    {
-                        Ability = abilityUsage.Ability,
-                        Level = abilityUsage.Level,
-                        Learned = 0, // can be gained but not yet learned
-                        ResourceKind = abilityUsage.ResourceKind,
-                        CostAmount = abilityUsage.CostAmount,
-                        CostAmountOperator = abilityUsage.CostAmountOperator,
-                        Rating = abilityUsage.Rating
-                    };
-                    AddKnownAbility(knownAbility);
-                }
-                if (naturalBorn)
-                {
-                    knownAbility.Level = 1;
-                    knownAbility.Rating = 1;
-                    knownAbility.Learned = 100;
+                    Log.Default.WriteLine(LogLevels.Debug, "Adding AbilityLearned from AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Name);
+                    AddLearnedAbility(abilityUsage, naturalBorn);
                 }
             }
-        }
-
-        private class CompareIAbility : IEqualityComparer<IAbility>
-        {
-            public bool Equals(IAbility x, IAbility y)
-            {
-                if (x == null && y == null)
-                    return true;
-                if (x == null || y == null)
-                    return false;
-                return x.Id == y.Id;
-            }
-
-            public int GetHashCode(IAbility obj) => obj.Id;
         }
     }
 }

@@ -3,14 +3,17 @@ using System.Linq;
 using AutoBogus;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Character.PlayableCharacter;
-using Mud.Server.Common;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Quest;
 
 namespace Mud.Server.Tests
@@ -46,7 +49,7 @@ namespace Mud.Server.Tests
                 Vulnerabilities = AutoFaker.Generate<IRVFlags>(),
                 Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
                 Auras = AutoFaker.Generate<AuraData[]>(),
-                KnownAbilities = AutoFaker.Generate<KnownAbilityData[]>(), // AbilityManagerMock will generate Ability at runtime // TODO: find a way to automatically (int)AutoFaker.Generate<ushort>() on int fields
+                LearnedAbilities = AutoFaker.Generate<LearnedAbilityData[]>(), // AbilityManagerMock will generate Ability at runtime // TODO: find a way to automatically (int)AutoFaker.Generate<ushort>() on int fields
                 Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>())
             };
 
@@ -80,17 +83,17 @@ namespace Mud.Server.Tests
             Assert.AreEqual(playableCharacterData.Attributes.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<CharacterAttributes>().Sum(x => (int)x ^ playableCharacter.BaseAttribute(x)));
             Assert.AreEqual(playableCharacterData.Auras.Length, playableCharacter.Auras.Count());
             Assert.AreEqual(playableCharacterData.Auras.SelectMany(x => x.Affects).Count(), playableCharacter.Auras.SelectMany(x => x.Affects).Count()); // can't test AffectData because AutoFaker doesn't handle abstract class
-            Assert.AreEqual(playableCharacterData.KnownAbilities.Length, playableCharacter.KnownAbilities.Count());
+            Assert.AreEqual(playableCharacterData.LearnedAbilities.Length, playableCharacter.LearnedAbilities.Count());
             //Assert.AreEqual(ArithmeticOverflow!!!
-            //    playableCharacterData.KnownAbilities.Sum(x => (int)x.AbilityId ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating),
-            //    playableCharacter.KnownAbilities.Sum(x => (int)x.Ability.Id ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating));
-            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().AbilityId, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Ability.Id);
-            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().ResourceKind, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().ResourceKind);
-            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().CostAmount, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().CostAmount);
-            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().CostAmountOperator, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().CostAmountOperator);
-            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Learned, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Learned);
-            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Level, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Level);
-            Assert.AreEqual(playableCharacterData.KnownAbilities.OrderBy(x => x.AbilityId).First().Rating, playableCharacter.KnownAbilities.OrderBy(x => x.Ability.Id).First().Rating);
+            //    playableCharacterData.LearnedAbilities.Sum(x => (int)x.AbilityId ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating),
+            //    playableCharacter.LearnedAbilities.Sum(x => (int)x.Ability.Id ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating));
+            Assert.AreEqual(playableCharacterData.LearnedAbilities.OrderBy(x => x.Name).First().Name, playableCharacter.LearnedAbilities.OrderBy(x => x.Name).First().Name);
+            Assert.AreEqual(playableCharacterData.LearnedAbilities.OrderBy(x => x.Name).First().ResourceKind, playableCharacter.LearnedAbilities.OrderBy(x => x.Name).First().ResourceKind);
+            Assert.AreEqual(playableCharacterData.LearnedAbilities.OrderBy(x => x.Name).First().CostAmount, playableCharacter.LearnedAbilities.OrderBy(x => x.Name).First().CostAmount);
+            Assert.AreEqual(playableCharacterData.LearnedAbilities.OrderBy(x => x.Name).First().CostAmountOperator, playableCharacter.LearnedAbilities.OrderBy(x => x.Name).First().CostAmountOperator);
+            Assert.AreEqual(playableCharacterData.LearnedAbilities.OrderBy(x => x.Name).First().Learned, playableCharacter.LearnedAbilities.OrderBy(x => x.Name).First().Learned);
+            Assert.AreEqual(playableCharacterData.LearnedAbilities.OrderBy(x => x.Name).First().Level, playableCharacter.LearnedAbilities.OrderBy(x => x.Name).First().Level);
+            Assert.AreEqual(playableCharacterData.LearnedAbilities.OrderBy(x => x.Name).First().Rating, playableCharacter.LearnedAbilities.OrderBy(x => x.Name).First().Rating);
             Assert.AreEqual(playableCharacterData.Conditions.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<Conditions>().Sum(x => (int)x ^ playableCharacter[x]));
         }
 
@@ -100,17 +103,17 @@ namespace Mud.Server.Tests
             // TODO: Can't mock IWorld because World.AddItem is used when deserializing inventory
             var world = World;
             ItemContainerBlueprint containerBlueprint1 = new ItemContainerBlueprint { Id = 999, Name = "Container", ShortDescription = "ContainerShort", Description = "ContainerDesc", MaxWeight = 100, WeightMultiplier = 50 };
-            world.AddItemBlueprint(containerBlueprint1);
+            ItemManager.AddItemBlueprint(containerBlueprint1);
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5 };
-            world.AddItemBlueprint(lightBlueprint);
+            ItemManager.AddItemBlueprint(lightBlueprint);
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 };
-            world.AddItemBlueprint(portalBlueprint);
+            ItemManager.AddItemBlueprint(portalBlueprint);
             ItemContainerBlueprint containerBlueprint2 = new ItemContainerBlueprint { Id = 888, Name = "Container2", ShortDescription = "Container2Short", Description = "Container2Desc", MaxWeight = 100, WeightMultiplier = 50 };
-            world.AddItemBlueprint(containerBlueprint2);
+            ItemManager.AddItemBlueprint(containerBlueprint2);
             ItemJewelryBlueprint jewelryBlueprint = new ItemJewelryBlueprint { Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc" };
-            world.AddItemBlueprint(jewelryBlueprint);
+            ItemManager.AddItemBlueprint(jewelryBlueprint);
             ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150 };
-            world.AddItemBlueprint(armorBlueprint);
+            ItemManager.AddItemBlueprint(armorBlueprint);
 
             //AutoFaker cannot be used because BluePrint for each Item/Quest must be created
             //PlayableCharacterData playableCharacterData = AutoFaker.Generate<CharacterData>();
@@ -188,15 +191,15 @@ namespace Mud.Server.Tests
             // TODO: Can't mock IWorld because World.AddItem is used when deserializing equipment
             var world = World;
             ItemLightBlueprint lightBlueprint = new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", DurationHours = 5, WearLocation = WearLocations.Light};
-            world.AddItemBlueprint(lightBlueprint);
+            ItemManager.AddItemBlueprint(lightBlueprint);
             ItemContainerBlueprint containerBlueprint = new ItemContainerBlueprint { Id = 888, Name = "Container2", ShortDescription = "Container2Short", Description = "Container2Desc", MaxWeight = 100, WeightMultiplier = 50, WearLocation = WearLocations.Hold};
-            world.AddItemBlueprint(containerBlueprint);
+            ItemManager.AddItemBlueprint(containerBlueprint);
             ItemJewelryBlueprint jewelryBlueprint = new ItemJewelryBlueprint { Id = 3, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc", WearLocation = WearLocations.Ring};
-            world.AddItemBlueprint(jewelryBlueprint);
+            ItemManager.AddItemBlueprint(jewelryBlueprint);
             ItemArmorBlueprint armorBlueprint = new ItemArmorBlueprint { Id = 4, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150, WearLocation = WearLocations.Chest};
-            world.AddItemBlueprint(armorBlueprint);
+            ItemManager.AddItemBlueprint(armorBlueprint);
             ItemPortalBlueprint portalBlueprint = new ItemPortalBlueprint { Id = 2, Name = "Portal", ShortDescription = "PortalShort", Description = "PortalDesc", Destination = 1 };
-            world.AddItemBlueprint(portalBlueprint);
+            ItemManager.AddItemBlueprint(portalBlueprint);
 
             //AutoFaker cannot be used because BluePrint for each Item/Quest must be created
             //PlayableCharacterData playableCharacterData = AutoFaker.Generate<CharacterData>();
@@ -297,12 +300,12 @@ namespace Mud.Server.Tests
         {
             var world = World;
             RoomBlueprint roomBlueprint = new RoomBlueprint {Id = 1, Name = "room1"};
-            world.AddRoomBlueprint(roomBlueprint);
-            IRoom room = world.AddRoom(Guid.NewGuid(), roomBlueprint, new Mock<IArea>().Object);
+            RoomManager.AddRoomBlueprint(roomBlueprint);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), roomBlueprint, new Mock<IArea>().Object);
             CharacterNormalBlueprint mobBlueprint = new CharacterNormalBlueprint { Id = 1, Name = "mob1", ShortDescription = "Mob1Short", Description = "Mob1Desc" };
             world.AddCharacterBlueprint(mobBlueprint);
             ItemQuestBlueprint questItemBlueprint = new ItemQuestBlueprint { Id = 1, Name="item1", ShortDescription = "Item1Short", Description = "Item1Desc"};
-            world.AddItemBlueprint(questItemBlueprint);
+            ItemManager.AddItemBlueprint(questItemBlueprint);
             QuestBlueprint questBlueprint1 = new QuestBlueprint
             {
                 Id = 1,

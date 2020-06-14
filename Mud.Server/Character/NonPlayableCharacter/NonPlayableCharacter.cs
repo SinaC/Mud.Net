@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Abilities;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Quest;
 
 namespace Mud.Server.Character.NonPlayableCharacter
@@ -149,7 +153,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 foreach (EquippedItemData equippedItemData in petData.Equipments)
                 {
                     // Create in inventory
-                    var item = World.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
+                    var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
 
                     // Try to equip it
                     EquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
@@ -176,7 +180,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             if (petData.Inventory != null)
             {
                 foreach (ItemData itemData in petData.Inventory)
-                    World.AddItem(Guid.NewGuid(), itemData, this);
+                    ItemManager.AddItem(Guid.NewGuid(), itemData, this);
             }
             // Auras
             if (petData.Auras != null)
@@ -298,7 +302,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 return;
 
             IItemWeapon mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
-            // main attack
+            IItemWeapon offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
+            // main hand attack
             OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -311,56 +316,61 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 foreach (ICharacter character in clone)
                     OneHit(character, mainHand, multiHitModifier);
             }
+            // off hand attack
+            var dualWield = AbilityManager.CreateInstance<IPassive>("Dual Wield");
+            if (offHand != null && dualWield?.IsTriggered(this, victim, false, out _, out _) == true)
+                OneHit(victim, offHand, multiHitModifier);
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= 2)
+                return;
             // main hand haste attack
             if ((CharacterFlags.HasFlag(CharacterFlags.Haste) || OffensiveFlags.HasFlag(OffensiveFlags.Fast))
                 && !CharacterFlags.HasFlag(CharacterFlags.Slow))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
-            if (multiHitModifier?.MaxAttackCount <= 2)
-                return;
-            // main hand second attack
-            var secondAttackLearnInfo = GetLearnInfo("Second attack");
-            int secondAttackChance = secondAttackLearnInfo.learned / 2;
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow) && !OffensiveFlags.HasFlag(OffensiveFlags.Fast))
-                secondAttackChance /= 2;
-            if (RandomManager.Chance(secondAttackChance))
-                OneHit(victim, mainHand, multiHitModifier);
-            if (Fighting != victim)
-                return;
             if (multiHitModifier?.MaxAttackCount <= 3)
                 return;
-            // main hand third attack
-            var thirdAttackLearnInfo = GetLearnInfo("Third attack");
-            int thirdAttackChance = thirdAttackLearnInfo.learned / 4;
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow) && !OffensiveFlags.HasFlag(OffensiveFlags.Fast))
-                thirdAttackChance = 0;
-            if (RandomManager.Chance(thirdAttackChance))
+            // main hand second attack
+            var secondAttack = AbilityManager.CreateInstance<IPassive>("Second Attack");
+            if (secondAttack?.IsTriggered(this, victim, false, out _, out _) == true)
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
             if (multiHitModifier?.MaxAttackCount <= 4)
                 return;
-            var thirdWieldLearnInfo = GetLearnInfo("Third wield");
-            var thirdWieldChance = thirdWieldLearnInfo.learned / 6;
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-                thirdWieldChance = 0;
-            if (RandomManager.Chance(thirdWieldChance))
+            // main hand third attack
+            var thirdAttack = AbilityManager.CreateInstance<IPassive>("Third Attack");
+            if (thirdAttack?.IsTriggered(this, victim, false, out _, out _) == true)
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
             if (multiHitModifier?.MaxAttackCount <= 5)
                 return;
-            var FourthWieldLearnInfo = GetLearnInfo("Fourth wield");
-            var FourthWieldChance = FourthWieldLearnInfo.learned / 8;
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
-                FourthWieldChance = 0;
-            if (RandomManager.Chance(FourthWieldChance))
-                OneHit(victim, mainHand, multiHitModifier);
-            if (Fighting != victim)
-                return;
-            if (multiHitModifier?.MaxAttackCount <= 6)
-                return;
+            // TODO: only if wielding 3 or 4 weapons
+            //// 3rd hand
+            //var thirdWieldLearnInfo = GetLearnInfo("Third wield");
+            //var thirdWieldChance = thirdWieldLearnInfo.learned / 6;
+            //if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+            //    thirdWieldChance = 0;
+            //if (RandomManager.Chance(thirdWieldChance))
+            //    OneHit(victim, mainHand, multiHitModifier);
+            //if (Fighting != victim)
+            //    return;
+            //if (multiHitModifier?.MaxAttackCount <= 5)
+            //    return;
+            //// 4th hand
+            //var FourthWieldLearnInfo = GetLearnInfo("Fourth wield");
+            //var FourthWieldChance = FourthWieldLearnInfo.learned / 8;
+            //if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+            //    FourthWieldChance = 0;
+            //if (RandomManager.Chance(FourthWieldChance))
+            //    OneHit(victim, mainHand, multiHitModifier);
+            //if (Fighting != victim)
+            //    return;
+            //if (multiHitModifier?.MaxAttackCount <= 6)
+            //    return;
             // fun stuff
             // TODO: if wait > 0 return
             int number = 0;//int number = RandomManager.Range(0, 8);
@@ -490,7 +500,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
         #region CharacterBase
 
         // Abilities
-        public override (int learned, KnownAbility knownAbility) GetWeaponLearnInfo(IItemWeapon weapon)
+        public override (int percentage, IAbilityLearned abilityLearned) GetWeaponLearnedInfo(IItemWeapon weapon)
         {
             int learned;
             if (weapon == null)
@@ -513,16 +523,16 @@ namespace Mud.Server.Character.NonPlayableCharacter
             return (learned, null);
         }
 
-        public override (int learned, KnownAbility knownAbility) GetLearnInfo(IAbility ability) // TODO: replace with npc class
+        public override (int percentage, IAbilityLearned abilityLearned) GetAbilityLearnedInfo(string abilityName) // TODO: replace with npc class
         {
-            KnownAbility knownAbility = this[ability];
+            IAbilityLearned abilityLearned = GetAbilityLearned(abilityName);
             //int learned = 0;
             //if (knownAbility != null && knownAbility.Level <= Level)
             //    learned = knownAbility.Learned;
 
             // TODO: spells
             int learned = 0;
-            switch (ability.Name)
+            switch (abilityName)
             {
                 case "Sneak":
                 case "Hide":
@@ -602,7 +612,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             // TODO: if daze /=2 for spell and *2/3 if otherwise
 
             learned = learned.Range(0, 100);
-            return (learned, knownAbility);
+            return (learned, abilityLearned);
         }
 
 

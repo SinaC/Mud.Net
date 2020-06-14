@@ -1,6 +1,9 @@
-﻿using Mud.Domain;
-using Mud.Server.Common;
+﻿using Mud.Common;
+using Mud.Domain;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
 using System;
 using System.Linq;
 // ReSharper disable UnusedMember.Global

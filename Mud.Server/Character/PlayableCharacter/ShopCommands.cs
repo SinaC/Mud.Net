@@ -1,9 +1,10 @@
-﻿using Mud.Domain;
+﻿using Mud.Common;
+using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
-using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
 using System;
 using System.Linq;
 using System.Text;
@@ -129,7 +130,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (item.ItemFlags.HasFlag(ItemFlags.Inventory))
             {
                 for (int i = 0; i < count; i++)
-                    World.AddItem(Guid.NewGuid(), item.Blueprint, this);
+                    ItemManager.AddItem(Guid.NewGuid(), item.Blueprint, this);
             }
             // Items previously sold to keeper are 'given' to buyer
             else
@@ -197,7 +198,7 @@ namespace Mud.Server.Character.PlayableCharacter
             keeperInfo.shopKeeper.DeductCost(cost);
 
             if (item is IItemTrash)
-                World.RemoveItem(item);
+                ItemManager.RemoveItem(item);
             else
             {
                 item.ChangeContainer(keeperInfo.shopKeeper);

@@ -1,16 +1,24 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Player
 {
     public partial class Player
     {
+        private IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+
         [Command("impersonate", "Avatar")]
         [Syntax(
             "[cmd]",
@@ -58,10 +66,10 @@ namespace Mud.Server.Player
             }
 
             // TODO: move room extraction in World.AddPlayableCharacter and remove Room parameter
-            IRoom location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == playableCharacterData.RoomId);
+            IRoom location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == playableCharacterData.RoomId);
             if (location == null)
             {
-                location = World.Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRoomId);
+                location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRoomId);
                 Wiznet.Wiznet($"Invalid roomId {playableCharacterData.RoomId} for character {playableCharacterData.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             IPlayableCharacter avatar = World.AddPlayableCharacter(Guid.NewGuid(), playableCharacterData, this, location);
@@ -114,13 +122,13 @@ namespace Mud.Server.Player
         {
             IClassManager classManager = DependencyContainer.Current.GetInstance<IClassManager>();
             IRaceManager raceManager = DependencyContainer.Current.GetInstance<IRaceManager>();
-            IWorld world = DependencyContainer.Current.GetInstance<IWorld>();
+            IRoomManager roomManager = DependencyContainer.Current.GetInstance<IRoomManager>();
             TableGenerator<PlayableCharacterData> generator = new TableGenerator<PlayableCharacterData>();
             generator.AddColumn("Name", 14, data => data.Name.UpperFirstLetter());
             generator.AddColumn("Level", 7, data => data.Level.ToString());
             generator.AddColumn("Class", 12, data => classManager[data.Class]?.DisplayName ?? "none");
             generator.AddColumn("Race", 12, data => raceManager[data.Race]?.DisplayName ?? "none");
-            generator.AddColumn("Location", 40, data => world.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
+            generator.AddColumn("Location", 40, data => roomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == data.RoomId)?.DisplayName ?? "In the void");
             return generator;
         });
     }

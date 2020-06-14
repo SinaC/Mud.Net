@@ -1,7 +1,7 @@
 ﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Rom24Passives;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2.Rom24Skills
@@ -17,7 +17,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
         {
         }
 
-        public override string Setup(SkillActionInput skillActionInput)
+        public override string Setup(ISkillActionInput skillActionInput)
         {
             string baseSetup = base.Setup(skillActionInput);
             if (baseSetup != null)

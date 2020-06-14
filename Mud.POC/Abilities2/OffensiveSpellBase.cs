@@ -1,4 +1,4 @@
-﻿using Mud.Server.Common;
+﻿using Mud.Server.Random;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.Helpers;
@@ -42,7 +42,7 @@ namespace Mud.POC.Abilities2
 
         public IEnumerable<IEntity> ValidTargets(ICharacter caster) => caster.Room.People.Where(x => x != caster && caster.CanSee(x) && IsTargetValid(caster, x));
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
             {

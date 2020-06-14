@@ -1,7 +1,7 @@
 ﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Rom24Effects;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.POC.Abilities2.Rom24Spells
 {
@@ -18,7 +18,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
             AuraManager = auraManager;
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             string baseSetTargets = base.SetTargets(spellActionInput);
             if (baseSetTargets != null)

@@ -1,7 +1,7 @@
 ﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.POC.Abilities2
 {
@@ -14,7 +14,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             Victim = FindHelpers.FindChararacterInWorld(Caster, spellActionInput.Parameters[0]);
             if (Victim == null || !IsVictimValid())

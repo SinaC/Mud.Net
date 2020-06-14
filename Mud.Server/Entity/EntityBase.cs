@@ -5,19 +5,27 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
+using Mud.Common;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
-using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Entity
 {
     public abstract class EntityBase : ActorBase, IEntity
     {
-        private readonly List<IPeriodicAura> _periodicAuras;
         private readonly List<IAura> _auras;
+
+        protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
 
         protected EntityBase(Guid guid, string name, string description)
         {
@@ -29,7 +37,6 @@ namespace Mud.Server.Entity
             Keywords = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Description = description;
 
-            _periodicAuras = new List<IPeriodicAura>();
             _auras = new List<IAura>();
         }
 
@@ -83,8 +90,6 @@ namespace Mud.Server.Entity
         public IAdmin IncarnatedBy { get; protected set; }
 
         // Auras
-        public IEnumerable<IPeriodicAura> PeriodicAuras => _periodicAuras;
-
         public IEnumerable<IAura> Auras => _auras;
 
         // Incarnation
@@ -122,8 +127,6 @@ namespace Mud.Server.Entity
                 Log.Default.WriteLine(LogLevels.Warning, "IEntity.Reset: {0} is not valid anymore", DebugName);
                 return;
             }
-            // Remove periodic auras on character
-            _periodicAuras.Clear();
         }
 
         public abstract void Recompute();
@@ -137,67 +140,7 @@ namespace Mud.Server.Entity
                 return null;
             }
 
-            return _auras.FirstOrDefault(x => x.Ability?.Name == abilityName);
-        }
-
-        public IAura GetAura(IAbility ability)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "IEntity.GetAura: {0} is not valid anymore", DebugName);
-                return null;
-            }
-
-            return _auras.FirstOrDefault(x => x.Ability == ability);
-        }
-
-        public void AddPeriodicAura(IPeriodicAura aura)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "IEntity.AddPeriodicAura: {0} is not valid anymore", DebugName);
-                return;
-            }
-            //IPeriodicAura same = _periodicAuras.FirstOrDefault(x => ReferenceEquals(x.Ability, aura.Ability) && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
-            IPeriodicAura same = _periodicAuras.FirstOrDefault(x => x.Ability == aura.Ability && x.AuraType == aura.AuraType && x.School == aura.School && x.Source == aura.Source);
-            if (same != null)
-            {
-                Log.Default.WriteLine(LogLevels.Info, "IEntity.AddPeriodicAura: Refresh: {0} {1}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
-                same.Refresh(aura);
-            }
-            else
-            {
-                Log.Default.WriteLine(LogLevels.Info, "IEntity.AddPeriodicAura: Add: {0} {1}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
-                _periodicAuras.Add(aura);
-                Send("You are now affected by {0}.", aura.Ability?.Name ?? "Something");
-                if (aura.Source != null && aura.Source != this)
-                {
-                    ICharacter characterSource = aura.Source as ICharacter;
-                    characterSource?.Act(ActOptions.ToCharacter, "{0} is now affected by {1}", this, aura.Ability?.Name ?? "Something");
-                    if (aura.AuraType == PeriodicAuraTypes.Damage && characterSource != null && this is ICharacter characterThis)
-                    {
-                        if (characterThis.Fighting == null)
-                            characterThis.StartFighting(characterSource);
-                        if (characterSource.Fighting == null)
-                            characterSource.StartFighting(characterThis);
-                    }
-                }
-            }
-        }
-
-        public void RemovePeriodicAura(IPeriodicAura aura)
-        {
-            Log.Default.WriteLine(LogLevels.Info, "IEntity.RemovePeriodicAura: {0} {1}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name);
-            bool removed = _periodicAuras.Remove(aura);
-            if (!removed)
-                Log.Default.WriteLine(LogLevels.Warning, "IEntity.RemovePeriodicAura: Trying to remove unknown PeriodicAura");
-            else
-            {
-                Send("{0} vanishes.", aura.Ability == null ? "Something" : aura.Ability.Name);
-                if (aura.Source != null && aura.Source != this && aura.Source is ICharacter characterSource)
-                    characterSource.Act(ActOptions.ToCharacter, "{0} vanishes on {1}.", aura.Ability == null ? "Something" : aura.Ability.Name, this);
-                aura.ResetSource();
-            }
+            return _auras.FirstOrDefault(x => x.AbilityName == abilityName);
         }
 
         public void AddAura(IAura aura, bool recompute)
@@ -207,7 +150,7 @@ namespace Mud.Server.Entity
                 Log.Default.WriteLine(LogLevels.Warning, "IEntity.AddAura: {0} is not valid anymore", DebugName);
                 return;
             }
-            Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Add: {0} {1}| recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+            Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Add: {0} {1}| recompute: {2}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
             _auras.Add(aura);
             if (recompute)
                 Recompute();
@@ -215,22 +158,23 @@ namespace Mud.Server.Entity
 
         public void RemoveAura(IAura aura, bool recompute)
         {
-            Log.Default.WriteLine(LogLevels.Info, "IEntity.RemoveAura: {0} {1} | recompute: {2}", DebugName, aura.Ability == null ? "<<??>>" : aura.Ability.Name, recompute);
+            Log.Default.WriteLine(LogLevels.Info, "IEntity.RemoveAura: {0} {1} | recompute: {2}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
             bool removed = _auras.Remove(aura);
             if (!removed)
                 Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemoveAura: Trying to remove unknown aura");
             else
             {
                 // TODO: replace with virtual method
-                if (this is ICharacter && !string.IsNullOrWhiteSpace(aura.Ability?.CharacterWearOffMessage))
-                    Send(aura.Ability.CharacterWearOffMessage);
-                else if (this is IItem item && !string.IsNullOrWhiteSpace(aura.Ability?.ItemWearOffMessage))
+                var abilityInfo = AbilityManager[aura.AbilityName];
+                if (this is ICharacter && abilityInfo.HasCharacterWearOffMessage)
+                    Send(abilityInfo.CharacterWearOffMessage);
+                else if (this is IItem item && abilityInfo.HasItemWearOffMessage)
                 {
                     ICharacter holder = item.ContainedInto as ICharacter ?? item.EquippedBy; 
-                    holder?.Act(ActOptions.ToCharacter, aura.Ability.ItemWearOffMessage, this);
+                    holder?.Act(ActOptions.ToCharacter, abilityInfo.ItemWearOffMessage, this);
                 }
                 // TODO: remove this crappy thing, replace with wear off func
-                if (aura.Ability?.Name == "Charm Person" && this is INonPlayableCharacter npc)
+                if (aura.AbilityName == "Charm Person" && this is INonPlayableCharacter npc)
                     npc.ChangeMaster(null);
 
             }
@@ -557,13 +501,6 @@ namespace Mud.Server.Entity
                 // TODO: can see destination room ?
                 // no specific format
                 result.Append(exit.Keywords.FirstOrDefault() ?? "door");
-                return;
-            }
-            // Ability ?
-            if (argument is IAbility ability)
-            {
-                // no specific format
-                result.Append(ability.Name);
                 return;
             }
             // Other (int, string, ...)

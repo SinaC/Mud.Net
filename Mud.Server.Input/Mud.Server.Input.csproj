@@ -79,6 +79,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
       <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
       <Name>Mud.DataStructures</Name>
@@ -90,10 +94,6 @@
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
-      <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
-      <Name>Mud.Server.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

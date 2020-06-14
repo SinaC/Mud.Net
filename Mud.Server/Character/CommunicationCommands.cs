@@ -1,7 +1,9 @@
 ﻿using System.Linq;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Character;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character

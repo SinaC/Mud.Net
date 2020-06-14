@@ -5,7 +5,7 @@ using Mud.POC.Abilities2;
 using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Rom24Spells;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.POC.Tests.Abilities2
 {
@@ -65,7 +65,7 @@ namespace Mud.POC.Tests.Abilities2
                 return true;
             }
 
-            protected override string SetTargets(SkillActionInput skillActionInput)
+            protected override string SetTargets(ISkillActionInput skillActionInput)
             {
                 return SetupSpell(SpellName, SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
             }

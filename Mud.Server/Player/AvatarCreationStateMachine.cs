@@ -2,10 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
-using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.World;
 
 namespace Mud.Server.Player
 {
@@ -33,6 +38,7 @@ namespace Mud.Server.Player
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
         protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 
         public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
@@ -154,7 +160,7 @@ namespace Mud.Server.Player
             if (classes.Count == 1)
             {
                 _class = classes[0];
-                IRoom startingRoom = World.Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota"); // todo: mud school
+                IRoom startingRoom = RoomManager.MudSchoolRoom; // todo: mud school
                 PlayableCharacterData playableCharacterData = new PlayableCharacterData
                 {
                     CreationTime = TimeHandler.CurrentTime,

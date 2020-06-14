@@ -3,7 +3,7 @@ using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Rom24Effects;
 using Mud.POC.Abilities2.Rom24Spells;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.POC.Abilities2.Rom24BreathSpells
 {

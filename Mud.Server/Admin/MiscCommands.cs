@@ -1,8 +1,11 @@
 ﻿using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Quest;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
@@ -83,7 +86,7 @@ namespace Mud.Server.Admin
         {
             sb.AppendFormat($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
             if (quest.Blueprint.TimeLimit > 0)
-                sb.Append($" Time left : {StringHelpers.FormatDelay(quest.PulseLeft / Pulse.PulsePerSeconds)}");
+                sb.Append($" Time left : {(quest.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
             sb.AppendLine();
             foreach (IQuestObjective objective in quest.Objectives)
                 sb.AppendFormatLine($"     {objective.CompletionState}");

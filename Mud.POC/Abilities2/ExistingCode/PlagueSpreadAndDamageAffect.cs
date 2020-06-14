@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using Mud.Container;
 using Mud.POC.Abilities2.Domain;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.POC.Abilities2.ExistingCode
 {

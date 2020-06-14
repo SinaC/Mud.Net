@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Character;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Mud.Server.Group

@@ -6,8 +6,9 @@ using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.POC.Affects;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using Mud.Server.Input;
+using Mud.Common;
 
 namespace Mud.POC.Abilities
 {

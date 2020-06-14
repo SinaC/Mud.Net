@@ -1,6 +1,7 @@
 ﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Common;
+using Mud.Server.Random;
 using System;
 
 namespace Mud.POC.Abilities2
@@ -10,7 +11,7 @@ namespace Mud.POC.Abilities2
         protected IRandomManager RandomManager { get; }
 
         protected bool IsSetupExecuted { get; private set; }
-        protected AbilityInfo AbilityInfo { get; private set; }
+        protected IAbilityInfo AbilityInfo { get; private set; }
         protected ICharacter User { get; private set; }
         protected int Learned { get; private set; }
 
@@ -21,7 +22,7 @@ namespace Mud.POC.Abilities2
 
         #region ISkill
 
-        public virtual string Setup(SkillActionInput skillActionInput)
+        public virtual string Setup(ISkillActionInput skillActionInput)
         {
             IsSetupExecuted = true;
 
@@ -85,7 +86,7 @@ namespace Mud.POC.Abilities2
 
         #region IGameAction
 
-        public string Guards(ActionInput actionInput)
+        public string Guards(IActionInput actionInput)
         {
             if (actionInput.Actor == null)
                 return "Cannot use a skill without an actor.";
@@ -99,14 +100,14 @@ namespace Mud.POC.Abilities2
             return setupResult;
         }
 
-        public void Execute(ActionInput actionInput)
+        public void Execute(IActionInput actionInput)
         {
             Execute();
         }
 
         #endregion
 
-        protected abstract string SetTargets(SkillActionInput skillActionInput);
+        protected abstract string SetTargets(ISkillActionInput skillActionInput);
         protected abstract bool Invoke(); // return true if skill has been used with success, false if failed
     }
 }

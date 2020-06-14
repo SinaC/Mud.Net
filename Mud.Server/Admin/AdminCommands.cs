@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
@@ -10,6 +11,13 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Room;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
@@ -109,7 +117,7 @@ namespace Mud.Server.Admin
             if (parameters.Length == 0 || !parameters[0].IsNumber)
                 return CommandExecutionResults.SyntaxError;
 
-            ItemBlueprintBase itemBlueprint = World.GetItemBlueprint(parameters[0].AsNumber);
+            ItemBlueprintBase itemBlueprint = ItemManager.GetItemBlueprint(parameters[0].AsNumber);
             if (itemBlueprint == null)
             {
                 Send("No item with that id.");
@@ -119,7 +127,7 @@ namespace Mud.Server.Admin
             IContainer container = itemBlueprint.NoTake
                 ? Impersonating.Room
                 : Impersonating as IContainer;
-            IItem item = World.AddItem(Guid.NewGuid(), itemBlueprint, container);
+            IItem item = ItemManager.AddItem(Guid.NewGuid(), itemBlueprint, container);
             if (item == null)
             {
                 Send("Item cannot be created.");
@@ -183,7 +191,7 @@ namespace Mud.Server.Admin
                 // Purge items (with NoPurge flag)
                 IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(Impersonating.Room.Content.Where(x => !x.ItemFlags.HasFlag(ItemFlags.NoPurge)).ToList()); // clone
                 foreach (IItem itemToPurge in items)
-                    World.RemoveItem(itemToPurge);
+                    ItemManager.RemoveItem(itemToPurge);
                 Impersonating.Act(ActOptions.ToRoom, "{0} purge{0:v} the room!", Impersonating);
                 Send("Ok.");
                 return CommandExecutionResults.Ok;
@@ -230,7 +238,7 @@ namespace Mud.Server.Admin
             Wiznet.Wiznet($"{DisplayName} purges {item.DebugName}.", WiznetFlags.Punish);
 
             Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}.", Impersonating, item);
-            World.RemoveItem(item);
+            ItemManager.RemoveItem(item);
 
             return CommandExecutionResults.Ok;
         }

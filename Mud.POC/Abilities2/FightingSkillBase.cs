@@ -1,5 +1,5 @@
 ﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.POC.Abilities2
 {
@@ -12,7 +12,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(SkillActionInput skillActionInput)
+        protected override string SetTargets(ISkillActionInput skillActionInput)
         {
             Victim = User.Fighting;
             if (Victim == null)

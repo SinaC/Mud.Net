@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
+using Mud.Server.Affects;
 using Mud.Server.Common;
-using Mud.Server.Helpers;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Aura
 {
     public class Aura : IAura
     {
-        private const int NoAbilityId = -1;
-
         private IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
         private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
@@ -23,10 +26,10 @@ namespace Mud.Server.Aura
             IsValid = true;
         }
 
-        public Aura(IAbility ability, IEntity source, AuraFlags flags, int level, TimeSpan duration, params IAffect[] affects)
+        public Aura(string abilityName, IEntity source, AuraFlags flags, int level, TimeSpan duration, params IAffect[] affects)
             : this()
         {
-            Ability = ability;
+            AbilityName = abilityName;
             Source = source;
             AuraFlags = flags;
             Level = level;
@@ -37,15 +40,8 @@ namespace Mud.Server.Aura
         public Aura(AuraData auraData)
             : this()
         {
-            if (auraData.AbilityId == NoAbilityId)
-                Ability = null;
-            else
-            {
-                Ability = AbilityManager[auraData.AbilityId];
-                if (Ability == null)
-                    Wiznet.Wiznet($"Aura ability id {auraData.AbilityId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
-            }
             // TODO: source
+            AbilityName = auraData.AbilityName;
             AuraFlags = auraData.AuraFlags;
             Level = auraData.Level;
             PulseLeft = auraData.PulseLeft;
@@ -74,6 +70,7 @@ namespace Mud.Server.Aura
                         case ItemWeaponFlagsAffectData itemWeaponFlagsAffectData:
                             _affects.Add(new ItemWeaponFlagsAffect(itemWeaponFlagsAffectData));
                             break;
+                            // TODO: poison/plague
                         default:
                             Wiznet.Wiznet($"Unexpected AuraAffect type {affectData.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
                             break;
@@ -90,7 +87,7 @@ namespace Mud.Server.Aura
 
         public int PulseLeft { get; private set; }
 
-        public IAbility Ability { get; private set; }
+        public string AbilityName { get; private set; }
 
         public IEntity Source { get; private set; }
 
@@ -137,7 +134,6 @@ namespace Mud.Server.Aura
         public void OnRemoved()
         {
             IsValid = false;
-            Ability = null;
             Source = null;
         }
 
@@ -151,11 +147,11 @@ namespace Mud.Server.Aura
 
             // TODO: better formatting with spacing like in score
             sb.AppendFormatLine("%B%{0,15}%x% (lvl {1}) {2} {3}",
-                    Ability?.Name.MaxLength(15) ?? "Inherent",
+                    AbilityName.MaxLength(15) ?? "Inherent",
                     Level,
                     AuraFlags.HasFlag(AuraFlags.Permanent)
                         ? "%R%Permanent%x%"
-                        : $"%G%{StringHelpers.FormatDelay(PulseLeft / Pulse.PulsePerSeconds)}%x% left",
+                        : $"%G%{(PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}%x% left",
                     AuraFlags == AuraFlags.None
                         ? ""
                         : AuraFlags.ToString());
@@ -172,7 +168,7 @@ namespace Mud.Server.Aura
         {
             return new AuraData
             {
-                AbilityId = Ability?.Id ?? NoAbilityId,
+                AbilityName = AbilityName,
                 Level = Level,
                 PulseLeft = PulseLeft,
                 AuraFlags = AuraFlags,

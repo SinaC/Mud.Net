@@ -1,7 +1,16 @@
 NEXT:
-wands and staves on POC.Abilities2
+integrate new abilities system into rom24_spells branch
+redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
+
+move ClassBase/Manager and RaceBase/Manager into specific project and move races/classes to Rom24 project
+move Weapon effect from OneHit to Rom24
+find a elegant way to apply PoisonDamageAffect without referencing Rom24
+use StringComparer.InvariantCultureIgnoreCase in Dictionary<string, ???> constructor
+add ICharacterManager -> once done, rename every method to remove Item/Character/Room
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
+
+module to enable load on demand of skills/spells/commands/...
 
 SHORT TERM TODO:
 grove.are: the second jar will never appear
@@ -13,12 +22,11 @@ dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 diffe
 O 0 6506   1 6534	* long, black stick
 E 1 6506  10   17	*   long, black stick
 
-move server interface to a new project Server.Interfaces -> Affect found in Apply method on IItem, ICharacter, ... are not interfaces and cannot be moved to Server.Interfaces project
-
 commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
 
+poison/plague affect serialization
 remove position incap, mortal, stunned -> probably remove UpdatePosition, replaced stunned with a 'timer'
 offensive flags: rescue, bite, crush, ...
 clan/guild, auction house, help, socials, wimpy, note

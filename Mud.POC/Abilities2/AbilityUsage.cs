@@ -2,7 +2,7 @@
 
 namespace Mud.POC.Abilities2
 {
-    public class AbilityUsage
+    public class AbilityUsage : IAbilityUsage
     {
         public string Name { get; set; }
 

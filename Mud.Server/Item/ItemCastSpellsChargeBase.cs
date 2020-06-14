@@ -1,6 +1,8 @@
-﻿using Mud.Domain;
+﻿using System;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
-using System;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Item
 {
@@ -14,7 +16,7 @@ namespace Mud.Server.Item
             SpellLevel = blueprint.SpellLevel;
             MaxChargeCount = blueprint.MaxChargeCount;
             CurrentChargeCount = blueprint.CurrentChargeCount;
-            Spell = GetSpell(blueprint.Spell);
+            SpellName = blueprint.Spell;
             AlreadyRecharged = blueprint.AlreadyRecharged;
         }
 
@@ -24,7 +26,7 @@ namespace Mud.Server.Item
             SpellLevel = blueprint.SpellLevel;
             MaxChargeCount = data.MaxChargeCount;
             CurrentChargeCount = data.CurrentChargeCount;
-            Spell = GetSpell(blueprint.Spell);
+            SpellName = blueprint.Spell;
             AlreadyRecharged = data.AlreadyRecharged;
         }
 
@@ -33,7 +35,7 @@ namespace Mud.Server.Item
         public int SpellLevel { get; }
         public int CurrentChargeCount { get; protected set; }
         public int MaxChargeCount { get; protected set; }
-        public IAbility Spell { get; }
+        public string SpellName { get; }
         public bool AlreadyRecharged { get; protected set; }
 
         public void Use()
@@ -49,17 +51,5 @@ namespace Mud.Server.Item
         }
 
         #endregion
-
-        protected IAbility GetSpell(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                return null;
-            IAbility ability = AbilityManager[name];
-            if (ability == null)
-                Wiznet.Wiznet($"{GetType().Name}.GetSpell: unknown ability {name} for blueprint id {Blueprint.Id}", WiznetFlags.Bugs, AdminLevels.Implementor);
-            else if (ability.Kind != AbilityKinds.Spell)
-                Wiznet.Wiznet($"{GetType().Name}.GetSpell: ability {name} is not a spell for blueprint id {Blueprint.Id}", WiznetFlags.Bugs, AdminLevels.Implementor);
-            return ability;
-        }
     }
 }

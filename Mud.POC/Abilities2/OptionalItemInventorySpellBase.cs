@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.POC.Abilities2
 {
@@ -14,7 +14,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
             {

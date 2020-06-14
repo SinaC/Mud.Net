@@ -1,6 +1,6 @@
 ﻿using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using Mud.Server.Input;
 using System;
 
@@ -20,7 +20,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
             AuraManager = auraManager;
         }
 
-        public override string Setup(SkillActionInput skillActionInput)
+        public override string Setup(ISkillActionInput skillActionInput)
         {
             string baseSetup = base.Setup(skillActionInput);
             if (baseSetup != null)

@@ -82,8 +82,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities2\IActionInput.cs" />
+    <Compile Include="Abilities2\IAbilityLearned.cs" />
     <Compile Include="Abilities2\ExistingCode\IItemShield.cs" />
+    <Compile Include="Abilities2\IAbilityInfo.cs" />
+    <Compile Include="Abilities2\IAbilityUsage.cs" />
     <Compile Include="Abilities2\IPassive.cs" />
+    <Compile Include="Abilities2\ISkillActionInput.cs" />
     <Compile Include="Abilities2\ITargetedAction.cs" />
     <Compile Include="Abilities2\PassiveBase.cs" />
     <Compile Include="Abilities2\Rom24Passives\Haggle.cs" />
@@ -134,6 +139,7 @@
     <Compile Include="Abilities2\Rom24Skills\Recall.cs" />
     <Compile Include="Abilities2\Rom24Skills\Scrolls.cs" />
     <Compile Include="Abilities2\Rom24Skills\Trip.cs" />
+    <Compile Include="Abilities2\ISpellActionInput.cs" />
     <Compile Include="Abilities2\SpellActionInput.cs" />
     <Compile Include="Abilities2\Use.cs" />
     <Compile Include="Abilities2\Cast.cs" />
@@ -435,6 +441,10 @@
     <Compile Include="TestTableGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
@@ -459,9 +469,13 @@
       <Project>{3E2BD396-17B9-423E-9114-9E215B468267}</Project>
       <Name>Mud.Server.Input</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
-      <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
-      <Name>Mud.Server</Name>
+    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
+      <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
+      <Name>Mud.Server.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
+      <Project>{0221cf37-eec1-4144-91c4-00176a735d34}</Project>
+      <Name>Mud.Server.Random</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

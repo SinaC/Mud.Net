@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+using Mud.Server.Random;
 using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2
@@ -17,7 +17,7 @@ namespace Mud.POC.Abilities2
 
         public IEnumerable<IEntity> ValidTargets(ICharacter caster) => caster.Inventory.Where(caster.CanSee);
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
             {
@@ -48,7 +48,7 @@ namespace Mud.POC.Abilities2
 
         public IEnumerable<IEntity> ValidTargets(ICharacter caster) => caster.Inventory.OfType<TItem>().Where(caster.CanSee);
 
-        protected override string SetTargets(SpellActionInput spellActionInput)
+        protected override string SetTargets(ISpellActionInput spellActionInput)
         {
             if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
             {

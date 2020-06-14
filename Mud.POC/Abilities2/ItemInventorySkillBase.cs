@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Mud.POC.Abilities2.Helpers;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Common;
+using Mud.Server.Random;
 
 namespace Mud.POC.Abilities2
 {
@@ -14,7 +14,7 @@ namespace Mud.POC.Abilities2
         {
         }
 
-        protected override string SetTargets(SkillActionInput skillActionInput)
+        protected override string SetTargets(ISkillActionInput skillActionInput)
         {
             if (skillActionInput.Parameters.Length < 1)
                 return "What should the skill be cast upon?";

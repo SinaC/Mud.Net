@@ -1,7 +1,12 @@
-﻿using Mud.Domain;
-using Mud.Server.Abilities;
+﻿using Mud.Common;
+using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Server.Common;
 using Mud.Server.Input;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
 using System;
 using System.Linq;
 
@@ -9,17 +14,17 @@ namespace Mud.Server.Helpers
 {
     public static class TableGenerators
     {
-        public static readonly Lazy<TableGenerator<KnownAbility>> KnownAbilityTableGenerator = new Lazy<TableGenerator<KnownAbility>>(() =>
+        public static readonly Lazy<TableGenerator<IAbilityLearned>> LearnedAbilitiesTableGenerator = new Lazy<TableGenerator<IAbilityLearned>>(() =>
         {
             // Merge resource and cost if free cost ability
-            TableGenerator<KnownAbility> generator = new TableGenerator<KnownAbility>();
+            TableGenerator<IAbilityLearned> generator = new TableGenerator<IAbilityLearned>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
-            generator.AddColumn("Name", 23, x => x.Ability.Name, new TableGenerator<KnownAbility>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbilityLearned>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Cost", 10, x =>
             {
                 if (x.Learned == 0)
                     return "n/a";
-                if (x.Ability.Kind == AbilityKinds.Passive)
+                if (x.AbilityInfo.Type == AbilityTypes.Passive)
                     return "%m%passive%x%";
                 if (x.CostAmountOperator == CostAmountOperators.Percentage)
                 {
@@ -46,8 +51,8 @@ namespace Mud.Server.Helpers
                     else
                         return $"{x.Learned}%";
                 });
-            generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
-            generator.AddColumn("Cooldown", 10, x => x.Ability.Cooldown > 0 ? StringHelpers.FormatDelayShort(x.Ability.Cooldown) : "---");
+            generator.AddColumn("Type", 10, x => x.AbilityInfo.Type.ToString());
+            generator.AddColumn("Cooldown", 10, x => x.AbilityInfo.Cooldown.HasValue ? x.AbilityInfo.Cooldown.Value.FormatDelayShort() : "---");
             return generator;
         });
 
@@ -109,32 +114,30 @@ namespace Mud.Server.Helpers
             return generator;
         });
 
-        public static readonly Lazy<TableGenerator<IAbility>> FullInfoAbilityTableGenerator = new Lazy<TableGenerator<IAbility>>(() =>
+        public static readonly Lazy<TableGenerator<IAbilityInfo>> FullInfoAbilityTableGenerator = new Lazy<TableGenerator<IAbilityInfo>>(() =>
         {
             // Merge resource and cost if free cost ability
-            TableGenerator<IAbility> generator = new TableGenerator<IAbility>();
-            generator.AddColumn("Id", 6, x => x.Id.ToString());
-            generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbility>.ColumnOptions { AlignLeft = true });
-            generator.AddColumn("Type", 9, x => x.Kind.ToString());
-            generator.AddColumn("Target", 10, x => ConvertAbilityTargets(x.Target));
+            TableGenerator<IAbilityInfo> generator = new TableGenerator<IAbilityInfo>();
+            generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbilityInfo>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Type", 9, x => x.Type.ToString());
             generator.AddColumn("GCD", 5, x => x.PulseWaitTime.ToString());
-            generator.AddColumn("Flags", 12, x => ConvertAbilityFlags(x.AbilityFlags));
+            generator.AddColumn("Cooldown", 10, x => x.Cooldown.HasValue ? x.Cooldown.Value.FormatDelayShort() : "---");
             generator.AddColumn("WearOff", 20, x => x.CharacterWearOffMessage?.ToString() ?? string.Empty);
             generator.AddColumn("ItemWearOff", 20, x => x.ItemWearOffMessage?.ToString() ?? string.Empty);
             generator.AddColumn("DispelRoom", 20, x => x.DispelRoomMessage?.ToString() ?? string.Empty);
             return generator;
         });
 
-        public static readonly Lazy<TableGenerator<AbilityUsage>> FullInfoAbilityUsageTableGenerator = new Lazy<TableGenerator<AbilityUsage>>(() =>
+        public static readonly Lazy<TableGenerator<IAbilityUsage>> FullInfoAbilityUsageTableGenerator = new Lazy<TableGenerator<IAbilityUsage>>(() =>
         {
             // Merge resource and cost if free cost ability
-            TableGenerator<AbilityUsage> generator = new TableGenerator<AbilityUsage>();
+            TableGenerator<IAbilityUsage> generator = new TableGenerator<IAbilityUsage>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
-            generator.AddColumn("Name", 23, x => x.Ability.Name, new TableGenerator<AbilityUsage>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbilityUsage>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Resource", 10,
                 x =>
                 {
-                    if (x.Ability.Kind == AbilityKinds.Passive)
+                    if (x.AbilityInfo.Type == AbilityTypes.Passive)
                         return "%m%passive ability%x%";
                     if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                     {
@@ -145,11 +148,11 @@ namespace Mud.Server.Helpers
                     }
                     return "%W%free cost ability%x%";
                 },
-                new TableGenerator<AbilityUsage>.ColumnOptions
+                new TableGenerator<IAbilityUsage>.ColumnOptions
                 {
                     GetMergeLengthFunc = x =>
                     {
-                        if (x.Ability.Kind == AbilityKinds.Passive)
+                        if (x.AbilityInfo.Type == AbilityTypes.Passive)
                             return 1;
                         if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                             return 0;
@@ -157,48 +160,14 @@ namespace Mud.Server.Helpers
                     }
                 });
             generator.AddColumn("Cost", 8, x => x.CostAmount.ToString(),
-                new TableGenerator<AbilityUsage>.ColumnOptions
+                new TableGenerator<IAbilityUsage>.ColumnOptions
                 {
                     GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "%" : " "
                 });
-            generator.AddColumn("Type", 10, x => x.Ability.Kind.ToString());
-            generator.AddColumn("Diff", 5, x => x.Rating.ToString());
-            generator.AddColumn("Flags", 20, x => ConvertAbilityFlags(x.Ability.AbilityFlags));
+            generator.AddColumn("Type", 10, x => x.AbilityInfo.Type.ToString());
+            generator.AddColumn("Rating", 8, x => x.Rating.ToString());
             return generator;
         });
-
-        private static string ConvertAbilityFlags(AbilityFlags flags)
-        {
-            string s = string.Empty;
-            if (flags.HasFlag(AbilityFlags.AuraIsHidden)) s += "Hidden";
-            if (flags.HasFlag(AbilityFlags.CannotMiss)) s += "NoMiss";
-            if (flags.HasFlag(AbilityFlags.CannotBeReflected)) s += "NoReflect";
-            if (flags.HasFlag(AbilityFlags.CannotBeUsed)) s += "NotUsed";
-            if (flags.HasFlag(AbilityFlags.CanBeDispelled)) s += "Dispel";
-
-            return s;
-        }
-
-        private static string ConvertAbilityTargets(AbilityTargets target)
-        {
-            switch (target)
-            {
-                case AbilityTargets.None:return "";
-                case AbilityTargets.CharacterOffensive: return "Off";
-                case AbilityTargets.CharacterDefensive: return "Def";
-                case AbilityTargets.CharacterSelf: return "Self";
-                case AbilityTargets.ItemInventory: return "Item";
-                case AbilityTargets.ItemHereOrCharacterOffensive: return "IOff";
-                case AbilityTargets.ItemInventoryOrCharacterDefensive: return "IDef";
-                case AbilityTargets.Custom: return "Custom";
-                case AbilityTargets.OptionalItemInventory: return "Item?";
-                case AbilityTargets.ArmorInventory: return "Armor";
-                case AbilityTargets.WeaponInventory:return "Weapon";
-                case AbilityTargets.CharacterFighting: return "Fighting";
-                case AbilityTargets.CharacterWorldwide: return "World";
-                default: return target.ToString();
-            }
-        }
 
         private static string ConvertBool(bool value) => value ? "%y%yes%x%" : "no";
 

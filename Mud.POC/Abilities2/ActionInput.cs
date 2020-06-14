@@ -3,7 +3,7 @@ using Mud.Server.Input;
 
 namespace Mud.POC.Abilities2
 {
-    public class ActionInput
+    public class ActionInput : IActionInput
     {
         public IActor Actor { get; }
         public string CommandLine { get; }

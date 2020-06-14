@@ -1,11 +1,14 @@
 ﻿using System.Linq;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Item;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
@@ -831,9 +834,9 @@ namespace Mud.Server.Character
             CharacterFlags &= ~CharacterFlags.Invisible;
             CharacterFlags &= ~CharacterFlags.Sneak;
             CharacterFlags &= ~CharacterFlags.Hide;
-            RemoveAuras(x => x.Ability == AbilityManager["Invisibility"]
-                             || x.Ability == AbilityManager["Sneak"]
-                             || x.Ability == AbilityManager["Hide"], true);
+            RemoveAuras(x => x.AbilityName == "Invisibility"
+                             || x.AbilityName == "Sneak"
+                             || x.AbilityName == "Hide", true);
             Send("You are now visible");
             return CommandExecutionResults.Ok;
         }

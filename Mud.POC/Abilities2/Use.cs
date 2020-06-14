@@ -9,7 +9,7 @@ namespace Mud.POC.Abilities2
     {
         protected IAbilityManager AbilityManager { get; }
 
-        protected AbilityInfo AbilityInfo { get; set; }
+        protected IAbilityInfo AbilityInfo { get; set; }
         protected ICharacter User { get; set; }
         protected SkillActionInput SkillActionInput { get; set; }
         protected ISkill SkillInstance { get; set; }
@@ -19,7 +19,7 @@ namespace Mud.POC.Abilities2
             AbilityManager = abilityManager;
         }
 
-        public string Guards(ActionInput actionInput)
+        public string Guards(IActionInput actionInput)
         {
             if (actionInput.Actor == null)
                 return "Cannot use a skill without an actor!";
@@ -43,7 +43,7 @@ namespace Mud.POC.Abilities2
             return skillInstanceGuards;
         }
 
-        public void Execute(ActionInput actionInput)
+        public void Execute(IActionInput actionInput)
         {
             SkillInstance.Execute();
         }
