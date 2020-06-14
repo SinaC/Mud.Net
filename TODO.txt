@@ -1,5 +1,4 @@
 NEXT:
-integrate new abilities system into rom24_spells branch
 redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
 
 move ClassBase/Manager and RaceBase/Manager into specific project and move races/classes to Rom24 project
@@ -10,21 +9,11 @@ add ICharacterManager -> once done, rename every method to remove Item/Character
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 
-module to enable load on demand of skills/spells/commands/...
-
-SHORT TERM TODO:
-grove.are: the second jar will never appear
-O 0 8902   2 8915	* a spice jar
-P 1 8903   1 8902  1	*   some black powder
-O 0 8902   2 8915	* a spice jar
-P 1 8904   1 8902  1	*   some small yellow kernels
-dwarven.are: the first stick is set to local 1 but we detect 2 intances (2 different containers in fact: room for the first one and mob for the second one)
-O 0 6506   1 6534	* long, black stick
-E 1 6506  10   17	*   long, black stick
-
 commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
+
+module/plugin to enable load on demand of skills/spells/commands/...
 
 poison/plague affect serialization
 remove position incap, mortal, stunned -> probably remove UpdatePosition, replaced stunned with a 'timer'
