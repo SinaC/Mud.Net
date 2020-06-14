@@ -72,56 +72,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminData.cs" />
-    <Compile Include="AffectDataBase.cs" />
-    <Compile Include="AuraData.cs" />
-    <Compile Include="CharacterAttributeAffectData.cs" />
     <Compile Include="CharacterData.cs" />
-    <Compile Include="Extensions\AffectOperatorsExtensions.cs" />
-    <Compile Include="Extensions\AutoFlagsExtensions.cs" />
-    <Compile Include="Extensions\BasicAttributesExtensions.cs" />
-    <Compile Include="Extensions\EquipmentSlotsExtensions.cs" />
-    <Compile Include="Extensions\SkyStatesExtensions.cs" />
-    <Compile Include="Extensions\WearLocationsExtensions.cs" />
-    <Compile Include="PetData.cs" />
-    <Compile Include="PlagueSpreadAndDamageAffectData.cs" />
-    <Compile Include="PlayableCharacterData.cs" />
-    <Compile Include="CharacterFlagsAffectData.cs" />
-    <Compile Include="CharacterIRVAffectData.cs" />
-    <Compile Include="CharacterSizeAffectData.cs" />
-    <Compile Include="CharacterSexAffectData.cs" />
     <Compile Include="CurrentQuestObjectiveData.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EquipedItemData.cs" />
-    <Compile Include="ItemCastSpellsChargeData.cs" />
     <Compile Include="ItemCorpseData.cs" />
     <Compile Include="ItemContainerData.cs" />
     <Compile Include="ItemData.cs" />
     <Compile Include="ExitDirections.cs" />
     <Compile Include="Extensions\ExitDirectionsExtensions.cs" />
-    <Compile Include="ItemDrinkContainerData.cs" />
-    <Compile Include="ItemFlagsAffectData.cs" />
-    <Compile Include="ItemFoodData.cs" />
-    <Compile Include="ItemLightData.cs" />
-    <Compile Include="ItemPortalData.cs" />
-    <Compile Include="ItemStaffData.cs" />
-    <Compile Include="ItemWandData.cs" />
-    <Compile Include="ItemWeaponData.cs" />
-    <Compile Include="ItemWeaponFlagsAffectData.cs" />
-    <Compile Include="LearnedAbilityData.cs" />
     <Compile Include="PlayerData.cs" />
-    <Compile Include="PoisonDamageAffectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CurrentQuestData.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
-      <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
-      <Name>Mud.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
-      <Project>{4E337998-ECAB-493B-9FAA-01366EE90EFF}</Project>
-      <Name>Mud.Logger</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

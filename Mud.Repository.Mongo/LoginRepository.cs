@@ -3,8 +3,6 @@ using System.Linq;
 using MongoDB.Driver;
 using Mud.Repository.Mongo.Domain;
 using Mud.Repository.Mongo.Common;
-using AutoMapper;
-using Mud.Settings;
 
 namespace Mud.Repository.Mongo
 {
@@ -12,8 +10,7 @@ namespace Mud.Repository.Mongo
     //http://stackoverflow.com/questions/26573668/set-mongodb-to-serialize-a-class-as-bsondocument
     public class LoginRepository : RepositoryBase<LoginData>, ILoginRepository
     {
-        public LoginRepository(IMapper mapper, ISettings settings) 
-            : base(mapper, settings, "Login")
+        public LoginRepository() : base("Login")
         {
         }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 
@@ -11,32 +10,44 @@ namespace Mud.Server.Input
 {
     public static class CommandHelpers
     {
-        public static bool ExtractCommandAndParameters(string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters)
+        public static bool ExtractCommandAndParameters(string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
         {
-            return ExtractCommandAndParameters(null, commandLine, out command, out rawParameters, out parameters, out _);
+            return ExtractCommandAndParameters(null, commandLine, out command, out rawParameters, out parameters, out forceOutOfGame);
         }
 
-        public static bool ExtractCommandAndParameters(Func<bool, IReadOnlyDictionary<string,string>> aliasesFunc, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
+        public static bool ExtractCommandAndParameters(IReadOnlyDictionary<string,string> aliases, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
         {
             Log.Default.WriteLine(LogLevels.Trace, "Extracting command and parameters [{0}]", commandLine);
 
-            // No command ?
+            //// Extract command
+            //int spaceIndex = commandLine.IndexOf(' ');
+            //command = spaceIndex == -1 ? commandLine : commandLine.Substring(0, spaceIndex);
+            //// Extract raw parameters
+            //rawParameters = spaceIndex == -1 ? String.Empty : commandLine.Substring(spaceIndex + 1);
+            // Extract command and raw parameters
+            ExtractCommand(commandLine, out command, out rawParameters);
+
+            // Substitute by alias if found
+            if (aliases != null)
+            {
+                string alias;
+                if (aliases.TryGetValue(command, out alias))
+                {
+                    Log.Default.WriteLine(LogLevels.Debug, "Alias found : {0} -> {1}", command, alias);
+                    commandLine = alias;
+                    // Extract command and raw parameters
+                    ExtractCommand(commandLine, out command, out rawParameters);
+                }
+            }
+
             if (string.IsNullOrWhiteSpace(commandLine))
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Empty command");
-                command = null;
-                rawParameters = null;
-                parameters = null;
                 forceOutOfGame = false;
+                parameters = null;
                 return false;
             }
 
-            // Split into command and remaining tokens
-            var extractedCommandInfo = ExtractCommand(commandLine);
-
-            command = extractedCommandInfo.command;
-            rawParameters = extractedCommandInfo.rawParameters;
-            IEnumerable<string> tokens = extractedCommandInfo.tokens;
             // Check if forcing OutOfGame
             if (command.StartsWith("/"))
             {
@@ -46,25 +57,12 @@ namespace Mud.Server.Input
             else
                 forceOutOfGame = false;
 
-            // Substitute by alias if found
-            IReadOnlyDictionary<string, string> aliases = aliasesFunc?.Invoke(forceOutOfGame);
-            if (aliases != null)
-            {
-                string alias;
-                if (aliases.TryGetValue(command, out alias))
-                {
-                    Log.Default.WriteLine(LogLevels.Debug, "Alias found : {0} -> {1}", command, alias);
-                    // Extract command and raw parameters
-                    var aliasExtractedCommandInfo = ExtractCommand(alias);
-                    rawParameters = aliasExtractedCommandInfo.rawParameters;
-                    tokens = aliasExtractedCommandInfo.tokens;
-                }
-            }
-
+            // Split parameters
+            string[] splitted = SplitParameters(rawParameters).ToArray();
             // Parse parameter
-            parameters = tokens.Select(ParseParameter).ToArray();
+            parameters = splitted.Select(ParseParameter).ToArray();
 
-            if (parameters.Any(x => x == CommandParameter.InvalidCommandParameter))
+            if (parameters.Any(x => x == CommandParameter.InvalidCommand))
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Invalid command parameters");
                 return false;
@@ -73,20 +71,17 @@ namespace Mud.Server.Input
             return true;
         }
 
-        private static (string command, string rawParameters, IEnumerable<string> tokens) ExtractCommand(string commandLine)
+        public static bool ExtractCommand(string commandLine, out string command, out string rawParameters)
         {
             Log.Default.WriteLine(LogLevels.Trace, "Extracting command [{0}]", commandLine);
 
-            // Split
-            var tokens = SplitParameters(commandLine).ToArray();
+            // Extract command
+            int spaceIndex = commandLine.IndexOf(' ');
+            command = spaceIndex == -1 ? commandLine : commandLine.Substring(0, spaceIndex);
+            // Extract raw parameters
+            rawParameters = spaceIndex == -1 ? string.Empty : commandLine.Substring(spaceIndex + 1);
 
-            // First token is the command
-            string command = tokens[0];
-
-            // Group remaining tokens
-            string rawParameters = string.Join(" ", tokens.Skip(1).Select(x => x.Quoted()));
-
-            return (command, rawParameters, tokens.Skip(1));
+            return true;
         }
 
         public static IEnumerable<string> SplitParameters(string parameters)
@@ -122,18 +117,18 @@ namespace Mud.Server.Input
         public static CommandParameter ParseParameter(string parameter)
         {
             if (string.IsNullOrWhiteSpace(parameter))
-                return CommandParameter.EmptyCommandParameter;
+                return CommandParameter.EmptyCommand;
             int dotIndex = parameter.IndexOf('.');
             if (dotIndex < 0)
             {
                 bool isAll = string.Equals(parameter, "all", StringComparison.InvariantCultureIgnoreCase);
                 return
                     isAll
-                        ? CommandParameter.IsAllCommandParameter
+                        ? CommandParameter.IsAllCommand
                         : new CommandParameter(parameter, 1);
             }
             if (dotIndex == 0)
-                return CommandParameter.InvalidCommandParameter; // only . is invalid
+                return CommandParameter.InvalidCommand; // only . is invalid
             string countAsString = parameter.Substring(0, dotIndex);
             string value = parameter.Substring(dotIndex + 1);
             bool isCountAll = string.Equals(countAsString, "all", StringComparison.InvariantCultureIgnoreCase);
@@ -143,7 +138,7 @@ namespace Mud.Server.Input
             if (!int.TryParse(countAsString, out count)) // string.string is not splitted
                 return new CommandParameter(value, 1);
             if (count <= 0 || string.IsNullOrWhiteSpace(value)) // negative count or empty value is invalid
-                return CommandParameter.InvalidCommandParameter;
+                return CommandParameter.InvalidCommand;
             return new CommandParameter(value, count);
         }
 
@@ -153,7 +148,7 @@ namespace Mud.Server.Input
             if (!commandParameters.Any())
                 return string.Empty;
 
-            string joined = string.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value.Quoted() : $"{x.Count}.{x.Value.Quoted()}"));
+            string joined = string.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value : $"{x.Count}.{x.Value}"));
             return joined;
         }
 
@@ -166,9 +161,14 @@ namespace Mud.Server.Input
 
         public static IReadOnlyTrie<CommandMethodInfo> GetCommands(Type type)
         {
-            Type commandAttributeType = typeof(CommandAttribute);
+            //var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
+            //    .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
+            //    .SelectMany(x => x.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer()),
+            //        (methodInfo, attribute) => new TrieEntry<CommandMethodInfo>(attribute.Name, new CommandMethodInfo(attribute, methodInfo)));
+            //Trie<CommandMethodInfo> trie = new Trie<CommandMethodInfo>(commands);
+            //return trie;
             var commands = type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-               .Where(x => x.GetCustomAttributes(commandAttributeType, false).Any())
+               .Where(x => x.GetCustomAttributes(typeof(CommandAttribute), false).Any())
                .Select(x => new { methodInfo = x, attributes = GetCommandAttributes(x) })
                .SelectMany(x => x.attributes.commandAttributes,
                    (x, commandAttribute) => new TrieEntry<CommandMethodInfo>(commandAttribute.Name, new CommandMethodInfo(commandAttribute, x.methodInfo, x.attributes.syntaxCommandAttribute)));

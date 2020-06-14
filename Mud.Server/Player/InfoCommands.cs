@@ -1,10 +1,7 @@
 ﻿using System.Text;
-using Mud.Common;
+using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Player;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Player
 {
@@ -62,7 +59,6 @@ namespace Mud.Server.Player
         {
             if (parameters.Length == 0)
             {
-                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (PagingLineCount == 0)
                     Send("You do not page long messages.");
                 else

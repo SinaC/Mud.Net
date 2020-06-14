@@ -2,21 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Aura;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Room;
-
-// ReSharper disable UnusedMember.Global
+using Mud.Server.Item;
 
 namespace Mud.Server.Character
 {
@@ -29,7 +21,7 @@ namespace Mud.Server.Character
         // 4/ else if an item can be found in inventory+room (matching 1st parameter), display item description or extra description
         // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
         // 6/ else, if 1st parameter is a direction, display if there is an exit/door
-        [CharacterCommand("look", "Information", Priority = 0, MinPosition = Positions.Resting)]
+        [Command("look", "Information", Priority = 0)]
         [Syntax(
             "[cmd]",
             "[cmd] in <container>",
@@ -40,30 +32,7 @@ namespace Mud.Server.Character
             "[cmd] <direction>")]
         protected virtual CommandExecutionResults DoLook(string rawParameters, params CommandParameter[] parameters)
         {
-            // 0: sleeping/blind/dark room
-            if (Position < Positions.Sleeping)
-            {
-                Send("You can't see anything but stars!");
-                return CommandExecutionResults.NoExecution;
-            }
-            if (Position == Positions.Sleeping)
-            {
-                Send("You can't see anything, you're sleeping!");
-                return CommandExecutionResults.NoExecution;
-            }
-            if (CharacterFlags.HasFlag(CharacterFlags.Blind))
-            {
-                Send("You can't see a thing!");
-                return CommandExecutionResults.NoExecution;
-            }
-            if (Room.IsDark)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("It is pitch black ... ");
-                AppendCharacters(sb, Room);
-                Send(sb);
-                return CommandExecutionResults.Ok;
-            }
+            // TODO: 0/ sleeping/blind/dark room (see act_info.C:1413 -> 1436)
 
             // 1: room+exits+chars+items
             if (string.IsNullOrWhiteSpace(rawParameters))
@@ -84,7 +53,7 @@ namespace Mud.Server.Character
                     Send("Look in what?");
                     return CommandExecutionResults.SyntaxErrorNoDisplay;
                 }
-                // search in room, then in inventory(unequipped), then in equipment
+                // search in room, then in inventory(unequiped), then in equipement
                 IItem containerItem = FindHelpers.FindItemHere(this, parameters[1]);
                 if (containerItem == null)
                 {
@@ -93,37 +62,13 @@ namespace Mud.Server.Character
                 }
 
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto.DebugName);
-
-                // drink container
-                if (containerItem is IItemDrinkContainer itemDrinkContainer)
-                {
-                    if (itemDrinkContainer.IsEmpty)
-                        Send("It's empty.");
-                    else
-                    {
-                        string left = itemDrinkContainer.LiquidLeft < itemDrinkContainer.MaxLiquid / 4
-                            ? "less than half-"
-                            : (itemDrinkContainer.LiquidLeft < (3 * itemDrinkContainer.MaxLiquid) / 4
-                                ? "about half-"
-                                : "more than half-");
-                        var liquidInfo = TableValues.LiquidInfo(itemDrinkContainer.LiquidName);
-                        Send("It's {0}filled with a {1} liquid.", left, liquidInfo.color);
-                    }
-                    return CommandExecutionResults.Ok;
-                }
-                // other container
                 IContainer container = containerItem as IContainer;
                 if (container == null)
                 {
                     Send("This is not a container.");
                     return CommandExecutionResults.InvalidTarget;
                 }
-                // closed ?
-                if (containerItem is ICloseable closeable && closeable.IsClosed)
-                {
-                    Send("It's closed.");
-                    return CommandExecutionResults.Ok;
-                }
+                // TODO: drink container
                 StringBuilder sb = new StringBuilder();
                 AppendContainerContent(sb, container);
                 Send(sb);
@@ -157,13 +102,12 @@ namespace Mud.Server.Character
             {
                 // TODO: try to use ElementAtOrDefault
                 int count = 0;
-                foreach (var extraDescription in Room.ExtraDescriptions)
+                foreach (KeyValuePair<string, string> extraDescription in Room.ExtraDescriptions)
                 {
-                    if (parameters[0].Tokens.All(x => StringCompareHelpers.StringStartsWith(extraDescription.Key, x))
+                    if (parameters[0].Tokens.All(x => FindHelpers.StringStartsWith(extraDescription.Key, x))
                             && ++count == parameters[0].Count)
                     {
-                        foreach(string desc in extraDescription)
-                            Send(desc, false);
+                        Send(extraDescription.Value, false);
                         return CommandExecutionResults.Ok;
                     }
                 }
@@ -173,7 +117,7 @@ namespace Mud.Server.Character
             if (ExitDirectionsExtensions.TryFindDirection(parameters[0].Value, out direction))
             {
                 Log.Default.WriteLine(LogLevels.Debug, "DoLook(6): direction");
-                IExit exit = Room[direction];
+                IExit exit = Room.Exit(direction);
                 if (exit?.Destination == null)
                     Send("Nothing special there.");
                 else
@@ -195,7 +139,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.TargetNotFound;
         }
 
-        [CharacterCommand("exits", "Information", MinPosition = Positions.Resting)]
+        [Command("exits", "Information")]
         protected virtual CommandExecutionResults DoExits(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -204,9 +148,8 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("examine", "Information", MinPosition = Positions.Resting)]
+        [Command("examine", "Information")]
         [Syntax(
-            "[cmd] item",
             "[cmd] <container>",
             "[cmd] <corpse>")]
         protected virtual CommandExecutionResults DoExamine(string rawParameters, params CommandParameter[] parameters)
@@ -237,54 +180,17 @@ namespace Mud.Server.Character
             //
             Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
             StringBuilder sbItem = new StringBuilder();
-                switch (item)
-                {
-                    case IContainer container:
-                        if (container is IItemContainer itemContainer && itemContainer.IsClosed)
-                            sbItem.AppendLine("It's closed.");
-                        else
-                            AppendContainerContent(sbItem, container);
-                        break;
-                    case IItemMoney money:
-                        if (money.SilverCoins == 0 && money.GoldCoins == 0)
-                            sbItem.AppendLine("Odd...there's no coins in the pile.");
-                        else if (money.SilverCoins == 0 && money.GoldCoins > 0)
-                        {
-                            if (money.GoldCoins == 1)
-                                sbItem.AppendLine("Wow. one gold coin.");
-                            else
-                                sbItem.AppendFormatLine("There are {0} gold coins in the pile.", money.GoldCoins);
-                        }
-                        else if (money.SilverCoins > 0 && money.GoldCoins == 0)
-                        {
-                            if (money.SilverCoins == 1)
-                                sbItem.AppendLine("Wow. one silver coin.");
-                            else
-                                sbItem.AppendFormatLine("There are {0} silver coins in the pile.", money.SilverCoins);
-                        }
-                        else
-                            sbItem.AppendFormatLine("There are {0} gold and {1} silver coins in the pile.", money.SilverCoins, money.GoldCoins);
-                        break;
-                    default:
-                        sbItem.AppendLine(FormatItem(item, true));
-                        break;
-                }
-
+            if (item is IContainer container) // if container, display content
+                AppendContainerContent(sbItem, container);
+            else
+                sbItem.AppendLine(FormatItem(item, true));
             Send(sbItem);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("scan", "Information", MinPosition = Positions.Standing)]
+        [Command("scan", "Information")]
         protected virtual CommandExecutionResults DoScan(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Room == null)
-                return CommandExecutionResults.Error;
-            if (Room.RoomFlags.HasFlag(RoomFlags.NoScan))
-            {
-                Send("Your vision is clouded by a mysterious force.");
-                return CommandExecutionResults.InvalidTarget;
-            }
-
             StringBuilder sb = new StringBuilder(1024);
             // Current room
             sb.AppendLine("Right here you see:");
@@ -299,23 +205,15 @@ namespace Mud.Server.Character
                 IRoom currentRoom = Room; // starting point
                 for (int distance = 1; distance < 4; distance++)
                 {
-                    IExit exit = currentRoom[direction];
-                    if (exit == null)
-                        break; // stop in that direction if no exit found
-                    IRoom destination = exit?.Destination;
+                    IRoom destination = currentRoom.GetRoom(direction);
                     if (destination == null)
-                        break; // stop in that direction if exit without linked room found
-                    if (destination.RoomFlags.HasFlag(RoomFlags.NoScan))
-                        break; // no need to scan further
-                    if (exit.IsClosed)
-                        break; // can't see thru closed door
+                        break; // stop in that direction if no exit found
                     StringBuilder roomScan = ScanRoom(destination);
                     if (roomScan.Length > 0)
                     {
                         sb.AppendFormatLine("%c%{0} %r%{1}%x% from here you see:", distance, direction);
                         sb.Append(roomScan);
                     }
-
                     currentRoom = destination;
                 }
             }
@@ -323,34 +221,47 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("affects", "Information")]
-        [CharacterCommand("auras", "Information")]
+        [Command("affects", "Information")]
         protected virtual CommandExecutionResults DoAffects(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
-            if (Auras.Any())
+            if (_auras.Any() || _periodicAuras.Any())
             {
                 sb.AppendLine("%c%You are affected by the following auras:%x%");
                 // Auras
-                foreach (IAura aura in Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
-                    aura.Append(sb);            }
-            else
-                sb.AppendLine("%c%You are not affected by any spells.%x%");
-            Page(sb);
-            return CommandExecutionResults.Ok;
-        }
-
-        [CharacterCommand("saffects", "Information")]
-        [CharacterCommand("sauras", "Information")]
-        protected virtual CommandExecutionResults DoShortAffects(string rawParameters, params CommandParameter[] parameters)
-        {
-            StringBuilder sb = new StringBuilder();
-            if (Auras.Any())
-            {
-                sb.AppendLine("%c%You are affected by the following auras:%x%");
-                // Auras
-                foreach (IAura aura in Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
-                    aura.Append(sb, true);
+                foreach (IAura aura in _auras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
+                {
+                    if (aura.Modifier == AuraModifiers.None)
+                        sb.AppendFormatLine("%B%{0}%x% for %c%{1}%x%",
+                            aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                            StringHelpers.FormatDelay(aura.SecondsLeft));
+                    else
+                        sb.AppendFormatLine("%B%{0}%x% modifies %W%{1}%x% by %m%{2}{3}%x% for %c%{4}%x%",
+                            aura.Ability == null ? "Unknown" : aura.Ability.Name,
+                            aura.Modifier,
+                            aura.Amount,
+                            aura.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
+                            StringHelpers.FormatDelay(aura.SecondsLeft));
+                }
+                // Periodic auras
+                foreach (IPeriodicAura pa in _periodicAuras.Where(x => x.Ability == null || (x.Ability.Flags & AbilityFlags.AuraIsHidden) != AbilityFlags.AuraIsHidden))
+                {
+                    if (pa.AuraType == PeriodicAuraTypes.Damage)
+                        sb.AppendFormatLine("%B%{0}%x% %W%deals {1}{2}%x% {3} damage every %g%{4}%x% for %c%{5}%x%",
+                            pa.Ability == null ? "Unknown" : pa.Ability.Name,
+                            pa.Amount,
+                            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
+                            StringHelpers.SchoolTypeColor(pa.School),
+                            StringHelpers.FormatDelay(pa.TickDelay),
+                            StringHelpers.FormatDelay(pa.SecondsLeft));
+                    else
+                        sb.AppendFormatLine("%B%{0}%x% %W%heals {1}{2}%x% hp every %g%{3}%x% for %c%{4}%x%",
+                            pa.Ability == null ? "Unknown" : pa.Ability.Name,
+                            pa.Amount,
+                            pa.AmountOperator == AmountOperators.Fixed ? string.Empty : "%",
+                            StringHelpers.FormatDelay(pa.TickDelay),
+                            StringHelpers.FormatDelay(pa.SecondsLeft));
+                }
             }
             else
                 sb.AppendLine("%c%You are not affected by any spells.%x%");
@@ -358,89 +269,50 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("score", "Information", Priority = 2)]
+        [Command("score", "Information", Priority = 2)]
         protected virtual CommandExecutionResults DoScore(string rawParameters, params CommandParameter[] parameters)
         {
-            IPlayableCharacter pc = this as IPlayableCharacter;
+            // TODO: score all will display everything (every resources, every stats)
+            IPlayableCharacter playableCharacter = this as IPlayableCharacter;
+
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("+--------------------------------------------------------+"); // length 1 + 56 + 1
-            sb.AppendLine("|" + DisplayName.CenterText(56) + "|");
-            sb.AppendLine("+------------------------------+-------------------------+");
-            sb.AppendLine("| %W%Attributes%x%                   |                         |");
-            sb.AppendFormatLine("| %c%Strength     : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,14}%x% |", this[CharacterAttributes.Strength], BaseAttribute(CharacterAttributes.Strength), Race?.DisplayName ?? "(none)");
-            sb.AppendFormatLine("| %c%Intelligence : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,14}%x% |", this[CharacterAttributes.Intelligence], BaseAttribute(CharacterAttributes.Intelligence), Class?.DisplayName ?? "(none)");
-            sb.AppendFormatLine("| %c%Wisdom       : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,14}%x% |", this[CharacterAttributes.Wisdom], BaseAttribute(CharacterAttributes.Wisdom), Sex);
-            sb.AppendFormatLine("| %c%Dexterity    : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,14}%x% |", this[CharacterAttributes.Dexterity], BaseAttribute(CharacterAttributes.Dexterity), Level);
-            if (pc != null)
-                sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,14}%x% |", this[CharacterAttributes.Constitution], BaseAttribute(CharacterAttributes.Constitution), pc.ExperienceToLevel);
+            sb.AppendLine();
+            sb.AppendLine("+--------------------------------------------------------+"); // length = 56
+            string form = string.Empty;
+            if (Form != Forms.Normal)
+                form = $"%m% [Form: {Form}]%x%";
+            if (playableCharacter != null)
+                sb.AppendLine("|" + StringExtensions.CenterText(DisplayName + " (" + playableCharacter.DisplayName + ")" + form, form == string.Empty ? 56 : 62) + "|");
             else
-                sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% |                       |", this[CharacterAttributes.Constitution], BaseAttribute(CharacterAttributes.Constitution), Level);
-            sb.AppendLine("+------------------------------+-------------------------+");
-            sb.AppendLine("| %W%Resources%x%                    | %W%Defensive%x%              |");
-            sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", HitPoints, MaxHitPoints, this[Armors.Bash]);
-            sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", MovePoints, this.MaxMovePoints, this[Armors.Pierce]);
-            List<string> resources = new List<string>();
-            foreach (ResourceKinds resourceKind in CurrentResourceKinds)
-                resources.Add($"%g%{resourceKind,-7}: %W%[{this[resourceKind],8}/{MaxResource(resourceKind),8}]%x%");
-            if (resources.Count < 3)
-                resources.AddRange(Enumerable.Repeat("                            ", 3 - resources.Count));
-            sb.AppendFormatLine("| {0} | %g%Slash        : %W%[{1,6}]%x% |", resources[0], this[Armors.Slash]);
-            sb.AppendFormatLine("| {0} | %g%Exotic       : %W%[{1,6}]%x% |", resources[1], this[Armors.Exotic]);
-            sb.AppendFormatLine("| {0} | %g%Saves        : %W%[{1,6}]%x% |", resources[2], this[CharacterAttributes.SavingThrow]);
-            sb.AppendLine("+------------------------------+-------------------------+");
-            if (pc != null)
-                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% | %g%Train: %W%{2,3}%x%   %g%Pract: %W%{3,3}%x% |", HitRoll, DamRoll, pc.Trains, pc.Practices);
+                sb.AppendLine("|" + StringExtensions.CenterText(DisplayName + form, form == string.Empty ? 56 : 62) + "|");
+            sb.AppendLine("+---------------------------+----------------------------+");
+            sb.AppendLine("| %W%Attributes%x%                |                            |");
+            sb.AppendFormatLine("| %c%Strength  : %W%[{0,5}/{1,5}]%x% | %c%Race   : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Strength], GetBasePrimaryAttribute(PrimaryAttributeTypes.Strength), Race?.DisplayName ?? "(none)");
+            sb.AppendFormatLine("| %c%Agility   : %W%[{0,5}/{1,5}]%x% | %c%Class  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Agility], GetBasePrimaryAttribute(PrimaryAttributeTypes.Agility), Class?.DisplayName ?? "(none)");
+            sb.AppendFormatLine("| %c%Stamina   : %W%[{0,5}/{1,5}]%x% | %c%Sex    : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Stamina], GetBasePrimaryAttribute(PrimaryAttributeTypes.Stamina), Sex);
+            sb.AppendFormatLine("| %c%Intellect : %W%[{0,5}/{1,5}]%x% | %c%Level  : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Intellect], GetBasePrimaryAttribute(PrimaryAttributeTypes.Intellect), Level);
+            if (playableCharacter != null)
+                sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% | %c%NxtLvl : %W%{2,17}%x% |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit), playableCharacter.ExperienceToLevel);
             else
-                sb.AppendFormatLine("| %g%Hit:  %W%{0,6}%x%    %g%Dam:  %W%{1,6}%x% |                       |", HitRoll, DamRoll);
+                sb.AppendFormatLine("| %c%Spirit    : %W%[{0,5}/{1,5}]%x% |                       |", this[PrimaryAttributeTypes.Spirit], GetBasePrimaryAttribute(PrimaryAttributeTypes.Spirit));
+            sb.AppendLine("+---------------------------+--+-------------------------+");
+            sb.AppendLine("| %W%Resources%x%                    | %W%Offensive%x%               |");
+            // TODO: don't display both Attack Power and Spell Power
+            sb.AppendFormatLine("| %g%Hit    : %W%[{0,8}/{1,8}]%x% | %g%Attack Power : %W%[{2,6}]%x% |", HitPoints, this[SecondaryAttributeTypes.MaxHitPoints], this[SecondaryAttributeTypes.AttackPower]);
+            List<string> resources = CurrentResourceKinds.Fill(3).Select(x => x == ResourceKinds.None
+                ? "                            "
+                : $"%g%{x,-7}:     %W%[{this[x],6}/{GetMaxResource(x),6}]%x%").ToList();
+            sb.AppendFormatLine("| {0} | %g%Spell Power  : %W%[{1,6}]%x% |", resources[0], this[SecondaryAttributeTypes.SpellPower]);
+            sb.AppendFormatLine("| {0} | %g%Attack Speed : %W%[{1,6}]%x% |", resources[1], this[SecondaryAttributeTypes.AttackSpeed]);
+            sb.AppendFormatLine("| {0} | %g%Armor        : %W%[{1,6}]%x% |", resources[2], this[SecondaryAttributeTypes.Armor]);
             sb.AppendLine("+------------------------------+-------------------------+");
-            if (pc != null)
-            {
-                if (pc.IsImmortal)
-                    sb.AppendLine("You are %G%IMMORTAL%x%");
-                else
-                    sb.AppendLine("You are %R%MORTAL%x%");
-            }
-            // TODO: resistances, gold, item, weight, conditions
-            //if (!IS_NPC(ch) && ch->pcdata->condition[COND_DRUNK] > 10)
-            //    send_to_char("You are drunk.\n\r", ch);
-            //if (!IS_NPC(ch) && ch->pcdata->condition[COND_THIRST] == 0)
-            //    send_to_char("You are thirsty.\n\r", ch);
-            //if (!IS_NPC(ch) && ch->pcdata->condition[COND_HUNGER] == 0)
-            //    send_to_char("You are hungry.\n\r", ch);
-            // positions
-            //switch (ch->position)
-            //{
-            //    case POS_DEAD:
-            //        send_to_char("You are DEAD!!\n\r", ch);
-            //        break;
-            //    case POS_MORTAL:
-            //        send_to_char("You are mortally wounded.\n\r", ch);
-            //        break;
-            //    case POS_INCAP:
-            //        send_to_char("You are incapacitated.\n\r", ch);
-            //        break;
-            //    case POS_STUNNED:
-            //        send_to_char("You are stunned.\n\r", ch);
-            //        break;
-            //    case POS_SLEEPING:
-            //        send_to_char("You are sleeping.\n\r", ch);
-            //        break;
-            //    case POS_RESTING:
-            //        send_to_char("You are resting.\n\r", ch);
-            //        break;
-            //    case POS_SITTING:
-            //        send_to_char("You are sitting.\n\r", ch);
-            //        break;
-            //    case POS_STANDING:
-            //        send_to_char("You are standing.\n\r", ch);
-            //        break;
-            //    case POS_FIGHTING:
-            //        send_to_char("You are fighting.\n\r", ch);
-            //        break;
-            //}
-
+            sb.AppendLine("| %W%Defensive%x%                    |                         |");
+            sb.AppendFormatLine("| %g%Dodge              : %W%[{0,5}]%x% |                         |", this[SecondaryAttributeTypes.Dodge]);
+            sb.AppendFormatLine("| %g%Parry              : %W%[{0,5}]%x% |                         |", this[SecondaryAttributeTypes.Parry]);
+            sb.AppendFormatLine("| %g%Block              : %W%[{0,5}]%x% |                         |", this[SecondaryAttributeTypes.Block]);
+            sb.AppendLine("+------------------------------+-------------------------+");
+            // TODO: resistances, gold, item, weight
             Send(sb);
-
             //Name[Form]
 
             //Attributes
@@ -475,46 +347,32 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("where", "Information", MinPosition = Positions.Resting)]
+        [Command("where", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <player name>")]
         protected virtual CommandExecutionResults DoWhere(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Room == null)
-                return CommandExecutionResults.Error;
-            if (Room.RoomFlags.HasFlag(RoomFlags.NoWhere))
-            {
-                Send("You don't recognize where you are.");
-                return CommandExecutionResults.InvalidTarget;
-            }
-
             StringBuilder sb = new StringBuilder();
             sb.AppendFormatLine($"[{Room.Area.DisplayName}].");
             //
-            IEnumerable<IPlayableCharacter> playableCharacters;
+            IEnumerable<IPlayer> players;
             string notFound;
             if (parameters.Length == 0)
             {
                 sb.AppendLine("Players near you:");
-                playableCharacters = Room.Area.PlayableCharacters.Where(CanSee);
+                players = Room.Area.Players.Where(x => CanSee(x.Impersonating));
                 notFound = "None";
             }
             else
             {
-                playableCharacters = Room.Area.PlayableCharacters.Where(x => x.Room != null
-                                                                             && !x.Room.RoomFlags.HasFlag(RoomFlags.NoWhere)
-                                                                             && !x.Room.IsPrivate
-                                                                             && !x.CharacterFlags.HasFlag(CharacterFlags.Sneak) 
-                                                                             && !x.CharacterFlags.HasFlag(CharacterFlags.Hide) 
-                                                                             && CanSee(x)
-                                                                             && StringCompareHelpers.StringListsStartsWith(x.Keywords, parameters[0].Tokens));
+                players = Room.Area.Players.Where(x => CanSee(x.Impersonating) && FindHelpers.StringListStartsWith(x.Impersonating.Keywords, parameters[0].Tokens));
                 notFound = $"You didn't find any {parameters[0]}.";
             }
             bool found = false;
-            foreach (IPlayableCharacter playableCharacter in playableCharacters)
+            foreach (IPlayer player in players)
             {
-                sb.AppendFormatLine("{0,-28} {1}", playableCharacter.DisplayName, playableCharacter.Room.DisplayName);
+                sb.AppendFormatLine("{0,-28} {1}", player.Impersonating.DisplayName, player.Impersonating.Room.DisplayName);
                 found = true;
             }
             if (!found)
@@ -523,17 +381,17 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("inventory", "Information")]
+        [Command("inventory", "Information")]
         protected virtual CommandExecutionResults DoInventory(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("You are carrying:");
-            AppendItems(sb, Inventory, true, true);
+            AppendItems(sb, Content, true, true);
             Send(sb);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("equipment", "Information")]
+        [Command("equipment", "Information")]
         protected virtual CommandExecutionResults DoEquipment(string rawParameters, params CommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
@@ -542,15 +400,14 @@ namespace Mud.Server.Character
                 sb.AppendLine("Nothing");
             else
             {
-                foreach (EquippedItem equippedItem in Equipments)
+                foreach (EquipedItem equipedItem in Equipments)
                 {
-                    string where = EquipmentSlotsToString(equippedItem);
+                    string where = EquipmentSlotsToString(equipedItem);
                     sb.Append(where);
-                    // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
-                    if (equippedItem.Item == null)
+                    if (equipedItem.Item == null)
                         sb.AppendLine("nothing");
                     else
-                        sb.AppendLine(FormatItem(equippedItem.Item, true));
+                        sb.AppendLine(FormatItem(equipedItem.Item, true));
                 }
             }
 
@@ -558,7 +415,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("consider", "Information", MinPosition = Positions.Resting)]
+        [Command("consider", "Information")]
         [Syntax("[cmd] <character>")]
         protected virtual CommandExecutionResults DoConsider(string rawParameters, params CommandParameter[] parameters)
         {
@@ -575,201 +432,123 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.TargetNotFound;
             }
 
-            if (whom.IsSafe(this))
-            {
-                Send("Don't even think about it.");
-                return CommandExecutionResults.InvalidTarget;
-            }
-
             if (whom == this)
             {
                 Send("You are such a badass.");
                 return CommandExecutionResults.InvalidTarget;
             }
 
-            int diff = whom.Level - Level;
-            if (diff <= -10)
-                Act(ActOptions.ToCharacter, "You can kill {0} naked and weaponless.", whom);
-            else if (diff <= -5)
-                Act(ActOptions.ToCharacter, "{0:N} is no match for you.", whom);
-            else if (diff <= -2)
-                Act(ActOptions.ToCharacter, "{0:N} looks like an easy kill.", whom);
-            else if (diff <= 1)
-                Send("The perfect match!");
-            else if (diff <= 4)
-                Act(ActOptions.ToCharacter, "{0:N} says 'Do you fell lucky punk?'.", whom);
-            else if (diff <= 9)
-                Act(ActOptions.ToCharacter, "{0:N} laughs at you mercilessly.", whom);
-            else
-                Send("Death will thank you for your gift.");
-            return CommandExecutionResults.Ok;
-        }
+            CombatHelpers.CombatDifficulties difficulty = CombatHelpers.GetConColor(Level, whom.Level);
 
-        [CharacterCommand("weather", "Information", MinPosition = Positions.Resting)]
-        [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoWeather(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (Room == null)
-                return CommandExecutionResults.Error;
-            if (Room.RoomFlags.HasFlag(RoomFlags.Indoors))
+            switch (difficulty)
             {
-                Send("You can't see the weather indoors.");
-                return CommandExecutionResults.InvalidTarget;
+                case CombatHelpers.CombatDifficulties.Grey:
+                    Act(ActOptions.ToCharacter, "You can kill {0} naked and weaponless.", whom);
+                    break;
+                case CombatHelpers.CombatDifficulties.Green:
+                    Act(ActOptions.ToCharacter, "{0:N} looks like an easy kill.", whom);
+                    break;
+                case CombatHelpers.CombatDifficulties.Yellow:
+                    Send("The perfect match!");
+                    break;
+                case CombatHelpers.CombatDifficulties.Orange:
+                    Act(ActOptions.ToCharacter, "{0:N} says 'Do you fell lucky punk?'.", whom);
+                    break;
+                case CombatHelpers.CombatDifficulties.Red:
+                    Act(ActOptions.ToCharacter, "{0:N} laughs at you mercilessly.", whom);
+                    break;
+                case CombatHelpers.CombatDifficulties.Skull:
+                    Send("Death will thank you for your gift.");
+                    break;
+                default:
+                    Act(ActOptions.ToCharacter, "You failed to consider killing {0}.", whom);
+                    Log.Default.WriteLine(LogLevels.Error, "DoConsider: unhandled CombatDifficulties: {0}", difficulty);
+                    break;
             }
 
-            string change = TimeManager.PressureChange >= 0
-                ? "a warm southerly breeze blows"
-                : "a cold northern gust blows";
-            Send("The sky is {0} and {1}.", TimeManager.SkyState.PrettyPrint(), change);
-
-            if (TimeManager.IsMoonNight())
-            {
-                for (int i = 0; i < TimeManager.MoonCount; i++)
-                    if (TimeManager.IsMoonVisible(i))
-                        Send(TimeManager.MoonInfo(i));
-            }
-
-            return CommandExecutionResults.Ok;
-        }
-
-        [CharacterCommand("time", "Information")]
-        [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoTime(string rawParameters, params CommandParameter[] parameters)
-        {
-            Send(TimeManager.TimeInfo());
             return CommandExecutionResults.Ok;
         }
 
         // Helpers
         private void AppendRoom(StringBuilder sb, IRoom room) // equivalent to act_info.C:do_look("auto")
         {
-            IPlayableCharacter playableCharacter = this as IPlayableCharacter;
             // Room name
-            if (playableCharacter?.IsImmortal == true)
+            if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
                 sb.AppendFormatLine($"%c%{room.DisplayName} [{room.Blueprint?.Id.ToString() ?? "???"}]%x%");
             else
                 sb.AppendFormatLine("%c%{0}%x%", room.DisplayName);
             // Room description
             sb.Append(room.Description);
             // Exits
-            if (playableCharacter != null && playableCharacter.AutoFlags.HasFlag(AutoFlags.Exit))
-                AppendExits(sb, true);
+            AppendExits(sb, true);
             AppendItems(sb, Room.Content.Where(CanSee), false, false);
-            AppendCharacters(sb, Room);
-        }
-
-        private void AppendCharacters(StringBuilder sb, IRoom room)
-        {
-            foreach (ICharacter victim in room.People.Where(x => x != this))
+            foreach (ICharacter victim in Room.People.Where(x => x != this))
             {
                 //  (see act_info.C:714 show_char_to_char)
                 if (CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
-                    AppendCharacterInRoom(sb, victim);
-                else if (room.IsDark && victim.CharacterFlags.HasFlag(CharacterFlags.Infrared))
-                    sb.AppendLine("You see glowing red eyes watching YOU!");
+                {
+                    // TODO: display flags (see act_info.C:387 -> 478)
+                    // TODO: display long description and stop
+                    // TODO: display position (see act_info.C:505 -> 612)
+
+                    // last case of POS_STANDING
+                    sb.Append(victim.RelativeDisplayName(this));
+                    switch (victim.Position)
+                    {
+                        case Positions.Stunned:
+                            sb.Append(" is lying here stunned.");
+                            break;
+                        case Positions.Sleeping:
+                            sb.Append(" is sleeping here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
+                            break;
+                        case Positions.Resting:
+                            sb.Append(" is resting here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
+                            break;
+                        case Positions.Sitting:
+                            sb.Append(" is sitting here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
+                            break;
+                        case Positions.Standing:
+                            sb.Append(" is here."); // TODO: check furniture (add in ICharacter IItemFurniture On { get; } )
+                            break;
+                        case Positions.Fighting:
+                            sb.Append(" is here, fighting ");
+                            if (victim.Fighting == null)
+                            {
+                                Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", victim.DebugName);
+                                sb.Append("thing air??");
+                            }
+                            else if (victim.Fighting == this)
+                                sb.Append("YOU!");
+                            else if (victim.Room == victim.Fighting.Room)
+                                sb.AppendFormat("{0}.", victim.Fighting.RelativeDisplayName(this));
+                            else
+                            {
+                                Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", victim.DebugName, victim.Fighting.DebugName);
+                                sb.Append("someone who left??");
+                            }
+                            break;
+                    }
+                    sb.AppendLine();
+                }
+                else
+                    ; // TODO: INFRARED (see act_info.C:728)
             }
         }
 
         private void AppendContainerContent(StringBuilder sb, IContainer container)
         {
+            // TODO: check if closed
             sb.AppendFormatLine("{0} holds:", container.RelativeDisplayName(this));
             AppendItems(sb, container.Content, true, true);
-        }
-
-        private void AppendCharacterInRoom(StringBuilder sb, ICharacter victim)
-        {
-            // display flags
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm))
-                sb.Append("%C%(Charmed)%x%");
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Flying))
-                sb.Append("%c%(Flying)%x%");
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Invisible))
-                sb.Append("%y%(Invis)%x%");
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Hide))
-                sb.Append("%b%(Hide)%x%");
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sneak))
-                sb.Append("%R%(Sneaking)%x%");
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.PassDoor))
-                sb.Append("%c%(Translucent)%x%");
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.FaerieFire))
-                sb.Append("%m%(Pink Aura)%x%");
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.DetectEvil))
-                sb.Append("%r%(Red Aura)%x%");
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.DetectGood))
-                sb.Append("%Y%(Golden Aura)%x%");
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sanctuary))
-                sb.Append("%W%(White Aura)%x%");
-            // TODO: killer/thief
-            // TODO: display long description and stop if position = start position for NPC
-
-            // last case of POS_STANDING
-            sb.Append(victim.RelativeDisplayName(this));
-            switch (victim.Position)
-            {
-                case Positions.Stunned:
-                    sb.Append(" is lying here stunned.");
-                    break;
-                case Positions.Sleeping:
-                    AppendPositionFurniture(sb, "sleeping", victim.Furniture);
-                    break;
-                case Positions.Resting:
-                    AppendPositionFurniture(sb, "resting", victim.Furniture);
-                    break;
-                case Positions.Sitting:
-                    AppendPositionFurniture(sb, "sitting", victim.Furniture);
-                    break;
-                case Positions.Standing:
-                    if (Furniture != null)
-                        AppendPositionFurniture(sb, "standing", victim.Furniture);
-                    else
-                        sb.Append(" is here");
-                    break;
-                case Positions.Fighting:
-                    sb.Append(" is here, fighting ");
-                    if (victim.Fighting == null)
-                    {
-                        Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", victim.DebugName);
-                        sb.Append("thing air??");
-                    }
-                    else if (victim.Fighting == this)
-                        sb.Append("YOU!");
-                    else if (victim.Room == victim.Fighting.Room)
-                        sb.AppendFormat("{0}.", victim.Fighting.RelativeDisplayName(this));
-                    else
-                    {
-                        Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", victim.DebugName, victim.Fighting.DebugName);
-                        sb.Append("someone who left??");
-                    }
-                    break;
-            }
-            sb.AppendLine();
-        }
-
-        private void AppendPositionFurniture(StringBuilder sb, string verb, IItemFurniture furniture)
-        {
-            if (furniture == null)
-                sb.AppendFormat(" is {0} here.", verb);
-            else
-            {
-                if (Furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                    sb.AppendFormat(" is {0} at {1}", verb, Furniture.DisplayName);
-                else if (Furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                    sb.AppendFormat(" is {0} on {1}", verb, Furniture.DisplayName);
-                else if (Furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                    sb.AppendFormat(" is {0} in {1}", verb, Furniture.DisplayName);
-                else
-                    sb.AppendFormat(" is {0} here.", verb);
-            }
         }
 
         private void AppendCharacter(StringBuilder sb, ICharacter victim, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
         {
             //
             string condition = "is here.";
-            int maxHitPoints = victim.MaxHitPoints;
-            if (maxHitPoints > 0)
+            if (victim[SecondaryAttributeTypes.MaxHitPoints] > 0)
             {
-                int percent = (100*victim.HitPoints)/ maxHitPoints;
+                int percent = (100*victim.HitPoints)/victim[SecondaryAttributeTypes.MaxHitPoints];
                 if (percent >= 100)
                     condition = "is in excellent condition.";
                 else if (percent >= 90)
@@ -793,10 +572,10 @@ namespace Mud.Server.Character
             if (victim.Equipments.Any(x => x.Item != null))
             {
                 sb.AppendLine($"{victim.RelativeDisplayName(this)} is using:");
-                foreach (EquippedItem equippedItem in victim.Equipments.Where(x => x.Item != null))
+                foreach (EquipedItem equipedItem in victim.Equipments.Where(x => x.Item != null))
                 {
-                    string where = EquipmentSlotsToString(equippedItem);
-                    string what = FormatItem(equippedItem.Item, true);
+                    string where = EquipmentSlotsToString(equipedItem);
+                    string what = FormatItem(equipedItem.Item, true);
                     sb.AppendLine($"{where}{what}");
                 }
             }
@@ -805,8 +584,8 @@ namespace Mud.Server.Character
             {
                 sb.AppendLine("You peek at the inventory:");
                 IEnumerable<IItem> items = this == victim
-                    ? victim.Inventory
-                    : victim.Inventory.Where(CanSee); // don't display 'invisible item' when inspecting someone else
+                    ? victim.Content
+                    : victim.Content.Where(CanSee); // don't display 'invisible item' when inspecting someone else
                 AppendItems(sb, items, true, true);
             }
         }
@@ -834,16 +613,13 @@ namespace Mud.Server.Character
         {
             if (compact)
                 sb.Append("[Exits:");
-            else if (this is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
-                sb.AppendFormatLine($"Obvious exits from room {Room.Blueprint?.Id.ToString() ?? "???"}:");
             else
                 sb.AppendLine("Obvious exits:");
             bool exitFound = false;
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
-                IExit exit = Room[direction];
-                IRoom destination = exit?.Destination;
-                if (destination != null && CanSee(exit))
+                IExit exit = Room.Exit(direction);
+                if (exit?.Destination != null && CanSee(exit))
                 {
                     if (compact)
                     {
@@ -860,21 +636,18 @@ namespace Mud.Server.Character
                     }
                     else
                     {
-                        sb.Append(direction.DisplayName());
+                        sb.Append(StringExtensions.UpperFirstLetter(direction.ToString()));
                         sb.Append(" - ");
-                        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                         if (exit.IsClosed)
                             sb.Append("A closed door");
-                        else if (destination.IsDark)
-                            sb.Append("Too dark to tell");
                         else
-                            sb.Append(exit.Destination.DisplayName);
+                            sb.Append(exit.Destination.DisplayName); // TODO: too dark to tell
                         if (exit.IsClosed)
                             sb.Append(" (CLOSED)");
                         if (exit.IsHidden)
                             sb.Append(" [HIDDEN]");
-                        if (this is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
-                            sb.Append($" (room {exit.Destination.Blueprint?.Id.ToString() ?? "???"})");
+                        if (this is IPlayableCharacter playableCharacter && playableCharacter.ImpersonatedBy is IAdmin)
+                            sb.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
                         sb.AppendLine();
                     }
                     exitFound = true;
@@ -882,7 +655,6 @@ namespace Mud.Server.Character
             }
             if (!exitFound)
             {
-                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (compact)
                     sb.AppendLine(" none");
                 else
@@ -896,23 +668,23 @@ namespace Mud.Server.Character
         {
             description = null;
             int count = 0;
-            foreach (IItem item in Inventory.Where(CanSee)
+            foreach (IItem item in Content.Where(CanSee)
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item))
                 .Concat(Room.Content.Where(CanSee)))
             {
                 // Search in item extra description keywords
                 if (item.ExtraDescriptions != null)
                 {
-                    foreach (var extraDescription in item.ExtraDescriptions)
-                        if (parameter.Tokens.All(x => StringCompareHelpers.StringStartsWith(extraDescription.Key, x))
+                    foreach (KeyValuePair<string, string> extraDescription in item.ExtraDescriptions)
+                        if (parameter.Tokens.All(x => FindHelpers.StringStartsWith(extraDescription.Key, x))
                             && ++count == parameter.Count)
                         {
-                            description = extraDescription.FirstOrDefault(); // TODO: really what we want ?
+                            description = extraDescription.Value;
                             return true;
                         }
                 }
                 // Search in item keywords
-                if (StringCompareHelpers.StringListsStartsWith(item.Keywords, parameter.Tokens)
+                if (FindHelpers.StringListStartsWith(item.Keywords, parameter.Tokens)
                     && ++count == parameter.Count)
                 {
                     description = FormatItem(item, false) + Environment.NewLine;
@@ -942,7 +714,7 @@ namespace Mud.Server.Character
         {
             StringBuilder peopleInRoom = new StringBuilder();
             foreach (ICharacter victim in room.People.Where(CanSee))
-                peopleInRoom.AppendFormatLine(" - {0}", victim.RelativeDisplayName(this));
+                peopleInRoom.AppendFormatLine(" - {0}", victim.RelativeDisplayName(this)); // TODO: use RelativeDisplayName ???
             return peopleInRoom;
         }
 
@@ -950,47 +722,20 @@ namespace Mud.Server.Character
         {
             // TODO: StringBuilder as param ?
             StringBuilder sb = new StringBuilder();
-            // Weapon flags
-            if (item is IItemWeapon weapon)
-            {
-                if (weapon.WeaponFlags.HasFlag(WeaponFlags.Flaming)) sb.Append("%R%(Flaming)%x%");
-                if (weapon.WeaponFlags.HasFlag(WeaponFlags.Frost)) sb.Append("%C%(Frost)%x%");
-                if (weapon.WeaponFlags.HasFlag(WeaponFlags.Vampiric)) sb.Append("%D%(Vampiric)%x%");
-                if (weapon.WeaponFlags.HasFlag(WeaponFlags.Sharp)) sb.Append("%B%(Sharp)%x%");
-                if (weapon.WeaponFlags.HasFlag(WeaponFlags.Vorpal)) sb.Append("%B%(Vorpal)%x%");
-                // Two-handed not handled
-                if (weapon.WeaponFlags.HasFlag(WeaponFlags.Shocking)) sb.Append("%Y%(Sparkling)%x%");
-                if (weapon.WeaponFlags.HasFlag(WeaponFlags.Poison)) sb.Append("%G%(Envenomed)%x%");
-                if (weapon.WeaponFlags.HasFlag(WeaponFlags.Holy)) sb.Append("%C%(Holy)%x%");
-            }
-
-            // Item flags
-            if (item.ItemFlags.HasFlag(ItemFlags.Invis) && CharacterFlags.HasFlag(CharacterFlags.DetectInvis))
-                sb.Append("%y%(Invis)%x%");
-            if (item.ItemFlags.HasFlag(ItemFlags.Evil) && CharacterFlags.HasFlag(CharacterFlags.DetectEvil))
-                sb.Append("%R%(Evil)%x%");
-            if (item.ItemFlags.HasFlag(ItemFlags.Bless) && CharacterFlags.HasFlag(CharacterFlags.DetectGood))
-                sb.Append("%C%(Blessed)%x%");
-            if (item.ItemFlags.HasFlag(ItemFlags.Magic) && CharacterFlags.HasFlag(CharacterFlags.DetectMagic))
-                sb.Append("%b%(Magical)%x%");
             if (item.ItemFlags.HasFlag(ItemFlags.Glowing))
                 sb.Append("%Y%(Glowing)%x%");
             if (item.ItemFlags.HasFlag(ItemFlags.Humming))
                 sb.Append("%y%(Humming)%x%");
-
-            // Description
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (shortDisplay)
                 sb.Append(item.RelativeDisplayName(this));
             else
                 sb.Append(item.RelativeDescription(this));
-
             return sb.ToString();
         }
 
-        private string EquipmentSlotsToString(EquippedItem equippedItem)
+        private string EquipmentSlotsToString(EquipedItem equipedItem)
         {
-            switch (equippedItem.Slot)
+            switch (equipedItem.Slot)
             {
                 case EquipmentSlots.Light:
                     return "%C%<used as light>          %x%";
@@ -998,6 +743,8 @@ namespace Mud.Server.Character
                     return "%C%<worn on head>           %x%";
                 case EquipmentSlots.Amulet:
                     return "%C%<worn on neck>           %x%";
+                case EquipmentSlots.Shoulders:
+                    return "%C%<worn around shoulders>  %x%";
                 case EquipmentSlots.Chest:
                     return "%C%<worn on chest>          %x%";
                 case EquipmentSlots.Cloak:
@@ -1016,21 +763,21 @@ namespace Mud.Server.Character
                     return "%C%<worn on legs>           %x%";
                 case EquipmentSlots.Feet:
                     return "%C%<worn on feet>           %x%";
+                case EquipmentSlots.Trinket:
+                    return "%C%<worn as trinket>        %x%";
                 case EquipmentSlots.MainHand:
                     return "%C%<wielded>                %x%";
                 case EquipmentSlots.OffHand:
-                    if (equippedItem.Item != null)
+                    if (equipedItem.Item != null)
                     {
-                        if (equippedItem.Item is IItemShield)
+                        if (equipedItem.Item is IItemShield)
                             return "%C%<worn as shield>         %x%";
-                        if (equippedItem.Item.WearLocation == WearLocations.Hold)
+                        if (equipedItem.Item.WearLocation == WearLocations.Hold)
                             return "%C%<held>                   %x%";
                     }
                     return "%c%<offhand>                %x%";
-                case EquipmentSlots.Float:
-                    return "%C%<floating nearby>        %x%";
                 default:
-                    Wiznet.Wiznet($"DoEquipment: missing WearLocation {equippedItem.Slot}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", equipedItem.Slot);
                     break;
             }
             return "%C%<unknown>%x%";

@@ -24,19 +24,14 @@
         bool PerformSanityCheck { get; }
         bool DumpOnInitialize { get; }
 
-        int CoinsBlueprintId { get; }
         int CorpseBlueprintId { get; }
-        int MushroomBlueprintId { get; }
-        int LightBallBlueprintId { get; }
-        int SpringBlueprintId { get; }
-        int PortalBlueprintId { get; }
-        int RoseBlueprintId { get; }
-        int FloatingDiscBlueprintId { get; }
         int DefaultRoomId { get; }
-        int DefaultRecallRoomId { get; }
-        int NullRoomId { get; }
-        int DefaultDeathRoomId { get; }
-        int MudSchoolRoomId { get; }
+
+        int PulsePerSeconds { get; }
+        int PulsePerMinutes { get; }
+        int PulseDelay { get; }
+        // automatic combat (in pulse per seconds)
+        int PulseViolence { get; }
 
         bool CheckLoginPassword { get; }
 

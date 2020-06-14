@@ -1,20 +1,49 @@
-﻿using Mud.Common;
-using Mud.Server.Random;
+﻿using Mud.Container;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Mud.Server.Common
 {
-    // ReSharper disable once InconsistentNaming
     public static class IEnumerableExtensions
     {
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, IRandomManager randomManager)
+        //http://stackoverflow.com/questions/22152160/linq-fill-function
+        public static IEnumerable<T> Fill<T>(this IEnumerable<T> source, int length)
         {
-            return source.Shuffle(randomManager.Next);
+            int i = 0;
+            // use "Take" in case "length" is smaller than the source's length.
+            foreach (var item in source.Take(length))
+            {
+                yield return item;
+                i++;
+            }
+            for (; i < length; i++)
+                yield return default;
         }
 
-        public static T Random<T>(this IEnumerable<T> source, IRandomManager randomManager)
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
         {
-            return randomManager.Random(source);
+            return source.Shuffle(DependencyContainer.Current.GetInstance<IRandomManager>().Randomizer);
+        }
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (rng == null) throw new ArgumentNullException(nameof(rng));
+
+            return source.ShuffleIterator(rng);
+        }
+
+        private static IEnumerable<T> ShuffleIterator<T>(this IEnumerable<T> source, Random rng)
+        {
+            var buffer = source.ToList();
+            for (int i = 0; i < buffer.Count; i++)
+            {
+                int j = rng.Next(i, buffer.Count);
+                yield return buffer[j];
+
+                buffer[j] = buffer[i];
+            }
         }
     }
 }

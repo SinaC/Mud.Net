@@ -2,15 +2,11 @@
 using System.Linq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Quest;
 using Mud.Server.Quest;
 
 namespace Mud.Server.Item
 {
-    public class ItemQuest : ItemBase<ItemQuestBlueprint, ItemData>, IItemQuest
+    public class ItemQuest : ItemBase<ItemQuestBlueprint>, IItemQuest
     {
         public ItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)

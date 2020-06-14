@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using Mud.Domain;
 
@@ -32,19 +31,13 @@ namespace Mud.Server.Blueprints.Item
         public string Description { get; set; }
 
         [DataMember]
-        public int Level { get; set; }
-
-        [DataMember]
         public int Weight { get; set; }
 
         [DataMember]
         public int Cost { get; set; }
 
         [DataMember]
-        public bool NoTake { get; set; }
-
-        [DataMember]
-        public Lookup<string, string> ExtraDescriptions { get; set; } // keyword -> descriptions
+        public Dictionary<string, string> ExtraDescriptions { get; set; } // keyword -> description
 
         // TODO: flags, level, ...
 
@@ -54,14 +47,17 @@ namespace Mud.Server.Blueprints.Item
         [DataMember]
         public ItemFlags ItemFlags { get; set; }
 
-        public static Lookup<string,string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
+        public static Dictionary<string,string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
         {
-            return (Lookup<string,string>)extraDescriptions.SelectMany(x => x.Key.Split(' ')).ToLookup(x => x);
-        }
-
-        public bool Equals(ItemBlueprintBase other)
-        {
-            return other != null && Id == other.Id;
+            Dictionary<string,string> result = new Dictionary<string, string>();
+            if (extraDescriptions == null)
+                return result;
+            foreach (KeyValuePair<string, string> kv in extraDescriptions)
+            {
+                foreach(string keyword in kv.Key.Split(' '))
+                    result.Add(keyword, kv.Value);
+            }
+            return result;
         }
 
         public override bool Equals(object obj)

@@ -1,95 +1,91 @@
 ﻿using System.Linq;
-using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Room;
-// ReSharper disable UnusedMember.Global
+using Mud.Server.Item;
 
 namespace Mud.Server.Character
 {
     public partial class CharacterBase
     {
-        [CharacterCommand("north", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [Command("north", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoNorth(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.North, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("east", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [Command("east", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoEast(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.East, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("south", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [Command("south", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoSouth(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.South, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("west", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [Command("west", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoWest(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.West, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("up", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [Command("up", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoUp(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.Up, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("down", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+        [Command("down", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoDown(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.Down, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("northeast", "Movement", Priority = 2, MinPosition = Positions.Standing)]
-        [CharacterCommand("ne", "Movement", Priority = 1, MinPosition = Positions.Standing)]
+        [Command("northeast", "Movement", Priority = 1)]
+        [Command("ne", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoNorthEast(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.NorthEast, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("northwest", "Movement", Priority = 2, MinPosition = Positions.Standing)]
-        [CharacterCommand("nw", "Movement", Priority = 1, MinPosition = Positions.Standing)]
+        [Command("northwest", "Movement", Priority = 1)]
+        [Command("nw", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoNorthWest(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.NorthWest, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("southeast", "Movement", Priority = 2, MinPosition = Positions.Standing)]
-        [CharacterCommand("se", "Movement", Priority = 1, MinPosition = Positions.Standing)]
+        [Command("southeast", "Movement", Priority = 1)]
+        [Command("se", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoSouthEast(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.SouthEast, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("southwest", "Movement", Priority = 2, MinPosition = Positions.Standing)]
-        [CharacterCommand("sw", "Movement", Priority = 1, MinPosition = Positions.Standing)]
+        [Command("southwest", "Movement", Priority = 1)]
+        [Command("sw", "Movement", Priority = 0)]
         protected virtual CommandExecutionResults DoSouthWest(string rawParameters, params CommandParameter[] parameters)
         {
             Move(ExitDirections.SouthWest, true);
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("open", "Movement", MinPosition = Positions.Resting)]
+        [Command("open", "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
@@ -103,38 +99,25 @@ namespace Mud.Server.Character
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
                 Room.Content.Where(CanSee)
-                .Concat(Inventory.Where(CanSee))
+                .Concat(Content.Where(CanSee))
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
                 parameters[0]);
             if (item != null)
             {
-                if (item is IItemCloseable itemCloseable)
+                if (item is IItemPortal itemPortal)
                 {
-                    if (!itemCloseable.IsCloseable)
-                    {
-                        Send("You can't do that.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
-                    if (!itemCloseable.IsClosed)
-                    {
-                        Send("It's already opened.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
-                    if (itemCloseable.IsLocked)
-                    {
-                        Send("It's locked.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
+                    // TODO: no open/close/lock/unlock on portal for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return CommandExecutionResults.Error;
                 }
-                else
+                if (item is IItemContainer itemContainer)
                 {
-                    Send("You can't do that.");
-                    return CommandExecutionResults.InvalidTarget;
+                    // TODO: no open/close/lock/unlock on container for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return CommandExecutionResults.Error;
                 }
-                itemCloseable.Open();
-                Send("Ok.");
-                Act(ActOptions.ToRoom, "{0:N} opens {1}.", this, itemCloseable);
-                return CommandExecutionResults.Ok;
+                Send("That's not a container.");
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // No item found, search door
@@ -155,11 +138,11 @@ namespace Mud.Server.Character
 
             // Open this side side
             exit.Open();
-            Send("Ok.");
             Act(ActOptions.ToRoom, "{0:N} opens the {1}.", this, exit);
+            Send("Ok.");
 
             // Open the other side
-            IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
+            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
             if (otherSideExit != null)
             {
                 otherSideExit.Open();
@@ -170,7 +153,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("close", "Movement", MinPosition = Positions.Resting)]
+        [Command("close", "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
@@ -184,33 +167,25 @@ namespace Mud.Server.Character
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
                 Room.Content.Where(CanSee)
-                .Concat(Inventory.Where(CanSee))
+                .Concat(Content.Where(CanSee))
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
                 parameters[0]);
             if (item != null)
             {
-                if (item is IItemCloseable itemCloseable)
+                if (item is IItemPortal itemPortal)
                 {
-                    if (!itemCloseable.IsCloseable)
-                    {
-                        Send("You can't do that.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
-                    if (itemCloseable.IsClosed)
-                    {
-                        Send("It's already closed.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
+                    // TODO: no open/close/lock/unlock on portal for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return CommandExecutionResults.Error;
                 }
-                else
+                if (item is IItemContainer itemContainer)
                 {
-                    Send("You can't do that.");
-                    return CommandExecutionResults.InvalidTarget;
+                    // TODO: no open/close/lock/unlock on container for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return CommandExecutionResults.Error;
                 }
-                itemCloseable.Close();
-                Send("Ok.");
-                Act(ActOptions.ToRoom, "{0:N} closes {1}.", this, itemCloseable);
-                return CommandExecutionResults.Ok;
+                Send("That's not a container.");
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // No item found, search door
@@ -226,11 +201,11 @@ namespace Mud.Server.Character
 
             // Close this side
             exit.Close();
-            Send("Ok.");
             Act(ActOptions.ToRoom, "{0:N} closes {1}.", this, exit);
+            Send("Ok.");
 
             // Close the other side
-            IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
+            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
             if (otherSideExit != null)
             {
                 otherSideExit.Close();
@@ -241,7 +216,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("unlock", "Movement", MinPosition = Positions.Resting)]
+        [Command("unlock", "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
@@ -256,49 +231,25 @@ namespace Mud.Server.Character
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
                 Room.Content.Where(CanSee)
-                .Concat(Inventory.Where(CanSee))
+                .Concat(Content.Where(CanSee))
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
                 parameters[0]);
             if (item != null)
             {
-                if (item is IItemCloseable itemCloseable)
+                if (item is IItemPortal itemPortal)
                 {
-                    if (!itemCloseable.IsCloseable)
-                    {
-                        Send("You can't do that.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
-                    if (!itemCloseable.IsClosed)
-                    {
-                        Send("It's not closed.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
-                    if (itemCloseable.KeyId <= 0)
-                    {
-                        Send("It can't be unlocked.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
-                    bool closeableItemKeyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == itemCloseable.KeyId);
-                    if (!closeableItemKeyFound && (this as IPlayableCharacter)?.IsImmortal != true)
-                    {
-                        Send("You lack the key.");
-                        return CommandExecutionResults.NoExecution;
-                    }
-                    if (!itemCloseable.IsLocked)
-                    {
-                        Send("It's already unlocked.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
+                    // TODO: no open/close/lock/unlock on portal for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return CommandExecutionResults.Error;
                 }
-                else
+                if (item is IItemContainer itemContainer)
                 {
-                    Send("You can't do that.");
-                    return CommandExecutionResults.InvalidTarget;
+                    // TODO: no open/close/lock/unlock on container for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return CommandExecutionResults.Error;
                 }
-                itemCloseable.Unlock();
-                Send("*Click*");
-                Act(ActOptions.ToRoom, "{0:N} unlocks {1}.", this, itemCloseable);
-                return CommandExecutionResults.Ok;
+                Send("That's not a container.");
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // No item found, search door
@@ -317,7 +268,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
             // search key
-            bool keyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
+            bool keyFound = Content.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
             if (!keyFound)
             {
                 Send("You lack the key.");
@@ -334,7 +285,7 @@ namespace Mud.Server.Character
             Act(ActOptions.ToRoom, "{0:N} unlocks the {1}.", this, exit);
 
             // Unlock other side
-            IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
+            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
             if (otherSideExit != null)
                 otherSideExit.Unlock();
             else
@@ -343,7 +294,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("lock", "Movement", MinPosition = Positions.Resting)]
+        [Command("lock", "Movement")]
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
@@ -358,49 +309,25 @@ namespace Mud.Server.Character
             // Search item: in room, then inventory, then in equipment
             IItem item = FindHelpers.FindByName(
                 Room.Content.Where(CanSee)
-                .Concat(Inventory.Where(CanSee))
+                .Concat(Content.Where(CanSee))
                 .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item)),
                 parameters[0]);
             if (item != null)
             {
-                if (item is IItemCloseable itemCloseable)
+                if (item is IItemPortal itemPortal)
                 {
-                    if (!itemCloseable.IsCloseable)
-                    {
-                        Send("You can't do that.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
-                    if (!itemCloseable.IsClosed)
-                    {
-                        Send("It's not closed.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
-                    if (!itemCloseable.IsLockable || itemCloseable.KeyId <= 0)
-                    {
-                        Send("It can't be locked.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
-                    bool closeableItemKeyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == itemCloseable.KeyId);
-                    if (!closeableItemKeyFound && (this as IPlayableCharacter)?.IsImmortal != true)
-                    {
-                        Send("You lack the key.");
-                        return CommandExecutionResults.NoExecution;
-                    }
-                    if (itemCloseable.IsLocked)
-                    {
-                        Send("It's already locked.");
-                        return CommandExecutionResults.InvalidTarget;
-                    }
+                    // TODO: no open/close/lock/unlock on portal for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return CommandExecutionResults.Error;
                 }
-                else
+                if (item is IItemContainer itemContainer)
                 {
-                    Send("You can't do that.");
-                    return CommandExecutionResults.InvalidTarget;
+                    // TODO: no open/close/lock/unlock on container for now
+                    Send(StringHelpers.NotYetImplemented);
+                    return CommandExecutionResults.Error;
                 }
-                itemCloseable.Lock();
-                Send("*Click*");
-                Act(ActOptions.ToRoom, "{0:N} locks {1}.", this, itemCloseable);
-                return CommandExecutionResults.Ok;
+                Send("That's not a container.");
+                return CommandExecutionResults.InvalidTarget;
             }
 
             // No item found, search door
@@ -419,7 +346,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
             // search key
-            bool keyFound = Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
+            bool keyFound = Content.OfType<IItemKey>().Any(x => x.Blueprint.Id == exit.Blueprint.Key);
             if (!keyFound)
             {
                 Send("You lack the key.");
@@ -436,7 +363,7 @@ namespace Mud.Server.Character
             Act(ActOptions.ToRoom, "{0:N} locks the {1}.", this, exit);
 
             // Unlock other side
-            IExit otherSideExit = exit.Destination[exitDirection.ReverseDirection()];
+            IExit otherSideExit = exit.Destination.Exit(exitDirection.ReverseDirection());
             if (otherSideExit != null)
                 otherSideExit.Lock();
             else
@@ -445,7 +372,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("stand", "Movement", MinPosition = Positions.Sleeping)]
+        [Command("stand", "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
@@ -523,7 +450,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("sit", "Movement", MinPosition = Positions.Sleeping)]
+        [Command("sit", "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
@@ -608,7 +535,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("rest", "Movement", MinPosition = Positions.Sleeping)]
+        [Command("rest", "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
@@ -693,7 +620,7 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("sleep", "Movement", MinPosition = Positions.Sleeping)]
+        [Command("sleep", "Movement")]
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
@@ -761,147 +688,30 @@ namespace Mud.Server.Character
             return CommandExecutionResults.Ok;
         }
 
-        [CharacterCommand("wake", "Movement", MinPosition = Positions.Sleeping)]
-        [Syntax(
-            "[cmd]",
-            "[cmd] <character>")]
-        protected virtual CommandExecutionResults DoWake(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length == 0)
-                return DoStand(rawParameters, parameters);
-            if (Position <= Positions.Sleeping)
-            {
-                Send("You are asleep yourself!");
-                return CommandExecutionResults.NoExecution;
-            }
-            ICharacter victim = FindHelpers.FindByName(Room.People, parameters[0]);
-            if (victim == null)
-            {
-                Send(StringHelpers.CharacterNotFound);
-                return CommandExecutionResults.TargetNotFound;
-            }
-            if (victim.Position > Positions.Sleeping)
-            {
-                Act(ActOptions.ToCharacter, "{0:N} is already awake.", victim);
-                return CommandExecutionResults.InvalidTarget;
-            }
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Sleep))
-            {
-                Act(ActOptions.ToCharacter, "You can't wake {0:m}!", victim);
-                return CommandExecutionResults.InvalidTarget;
-            }
-            victim.Act(ActOptions.ToCharacter, "{0:N} wakes you.", this);
-            //TODO victim.DoStand(string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
-            return CommandExecutionResults.NoExecution;
-        }
-
-        [CharacterCommand("enter", "Movement", MinPosition = Positions.Standing)]
+        [Command("enter", "Movement")]
         [Syntax("[cmd] <portal>")]
         protected virtual CommandExecutionResults DoEnter(string rawParameters, params CommandParameter[] parameters)
         {
-            if (Fighting != null)
-                return CommandExecutionResults.NoExecution;
             if (parameters.Length == 0)
             {
                 Send("Nope, can't do it.");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
+
             IItem item = FindHelpers.FindItemHere(this, parameters[0]);
             if (item == null)
             {
                 Send(StringHelpers.ItemNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
-            IItemPortal portal = item as IItemPortal;
-            if (portal == null)
+
+            if (!(item is IItemPortal portal))
             {
                 Send("You can't seem to find a way in.");
                 return CommandExecutionResults.InvalidTarget;
             }
 
-            // Let's go
-            bool entered = Enter(portal);
-
-            return entered 
-                ? CommandExecutionResults.Ok
-                : CommandExecutionResults.NoExecution;
-        }
-
-        [CharacterCommand("visible", "Movement", MinPosition = Positions.Sleeping)]
-        [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoVisible(string rawParameters, params CommandParameter[] parameter)
-        {
-            CharacterFlags &= ~CharacterFlags.Invisible;
-            CharacterFlags &= ~CharacterFlags.Sneak;
-            CharacterFlags &= ~CharacterFlags.Hide;
-            RemoveAuras(x => x.AbilityName == "Invisibility"
-                             || x.AbilityName == "Sneak"
-                             || x.AbilityName == "Hide", true);
-            Send("You are now visible");
-            return CommandExecutionResults.Ok;
-        }
-
-        [CharacterCommand("follow", "Group", "Movement")]
-        [Syntax(
-            "[cmd]",
-            "[cmd] <character>")]
-        protected virtual CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length == 0)
-            {
-                if (Leader == null)
-                {
-                    Send("You are not following anyone.");
-                    return CommandExecutionResults.NoExecution;
-                }
-                Act(ActOptions.ToCharacter, "You are following {0:N}.", Leader);
-                return CommandExecutionResults.Ok;
-            }
-
-            // search target
-            ICharacter target = FindHelpers.FindByName(Room.People, parameters[0]);
-            if (target == null)
-            {
-                Send("They aren't here.");
-                return CommandExecutionResults.TargetNotFound;
-            }
-
-            // follow ourself -> cancel follow
-            if (target == this)
-            {
-                if (Leader == null)
-                {
-                    Send("You already follow yourself.");
-                    return CommandExecutionResults.InvalidTarget;
-                }
-
-                Leader.RemoveFollower(this);
-                return CommandExecutionResults.Ok;
-            }
-
-            // check cycle
-            ICharacter next = target.Leader;
-            while (next != null)
-            {
-                if (next == this)
-                {
-                    Act(ActOptions.ToCharacter, "You can't follow {0:N}.", target);
-                    return CommandExecutionResults.InvalidTarget; // found a cycle
-                }
-                next = next.Leader;
-            }
-
-            target.Leader?.RemoveFollower(this);
-            target.AddFollower(this);
-            return CommandExecutionResults.Ok;
-        }
-
-        [CharacterCommand("nofollow", "Group", "Movement")]
-        [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoNofollow(string rawParameters, params CommandParameter[] parameters)
-        {
-            foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
-                RemoveFollower(follower);
+            Enter(portal);
 
             return CommandExecutionResults.Ok;
         }
@@ -915,14 +725,13 @@ namespace Mud.Server.Character
             {
                 //  if open north -> I see no door north here.
                 //  if open black door -> I see no black door here.
-                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (wasAskingForDirection)
                     Send($"I see no door {parameter.Value} here.");
                 else
                     Send($"I see no {parameter.Value} here.");
                 return null;
             }
-            IExit exit = Room[exitDirection];
+            IExit exit = Room.Exit(exitDirection);
             if (exit == null)
                 return null;
             if (!exit.IsDoor)
@@ -944,8 +753,8 @@ namespace Mud.Server.Character
             //exit = Room.Exits.FirstOrDefault(x => x?.Destination != null && x.IsDoor && x.Keywords.Any(k => FindHelpers.StringStartsWith(k, parameter.Value)));
             foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
             {
-                IExit exit = Room[direction];
-                if (exit?.Destination != null && exit.IsDoor && exit.Keywords.Any(k => StringCompareHelpers.StringStartsWith(k, parameter.Value)))
+                IExit exit = Room.Exit(direction);
+                if (exit?.Destination != null && exit.IsDoor && exit.Keywords.Any(k => FindHelpers.StringStartsWith(k, parameter.Value)))
                 {
                     exitDirection = direction;
                     return true;

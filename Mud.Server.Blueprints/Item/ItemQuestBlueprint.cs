@@ -9,6 +9,7 @@ namespace Mud.Server.Blueprints.Item
             WearLocation = WearLocations.None;
             Weight = 0;
             Cost = 0;
+            // TODO: Cannot be dropped (but can be destroyed)
         }
     }
 }

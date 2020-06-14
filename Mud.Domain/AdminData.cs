@@ -2,7 +2,7 @@
 {
     public class AdminData : PlayerData
     {
-        public AdminLevels AdminLevel { get; set; }
+        public AdminLevels Level { get; set; }
         public WiznetFlags WiznetFlags { get; set; }
 
         // TODO: extra fields

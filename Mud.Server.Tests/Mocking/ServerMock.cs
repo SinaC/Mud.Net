@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Network;
-using Mud.Server.Interfaces;
 
 namespace Mud.Server.Tests.Mocking
 {

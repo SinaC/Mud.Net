@@ -8,7 +8,5 @@ namespace Mud.Server.Blueprints.Item
         public int DiceCount { get; set; }
         public int DiceValue { get; set; }
         public SchoolTypes DamageType { get; set; }
-        public WeaponFlags Flags { get; set; }
-        public string DamageNoun { get; set; }
     }
 }

@@ -67,55 +67,26 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Area\AreaBlueprint.cs" />
     <Compile Include="Character\CharacterNormalBlueprint.cs" />
     <Compile Include="Character\CharacterBlueprintBase.cs" />
     <Compile Include="Character\CharacterQuestorBlueprint.cs" />
-    <Compile Include="Character\CharacterShopBlueprint.cs" />
-    <Compile Include="Item\ItemBoatBlueprint.cs" />
-    <Compile Include="Item\ItemClothingBlueprint.cs" />
-    <Compile Include="Item\ItemGemBlueprint.cs" />
-    <Compile Include="Item\ItemJukeboxBlueprint.cs" />
-    <Compile Include="Item\ItemMapBlueprint.cs" />
-    <Compile Include="Item\ItemMoneyBlueprint.cs" />
-    <Compile Include="Item\ItemTrashBlueprint.cs" />
-    <Compile Include="Item\ItemTreasureBlueprint.cs" />
-    <Compile Include="Reset\CharacterReset.cs" />
-    <Compile Include="Item\ItemCastSpellsChargeBlueprintBase.cs" />
-    <Compile Include="Item\ItemCastSpellsNoChargeBlueprintBase.cs" />
-    <Compile Include="Item\ItemDrinkContainerBlueprint.cs" />
-    <Compile Include="Item\ItemFoodBlueprint.cs" />
-    <Compile Include="Item\ItemFountainBlueprint.cs" />
     <Compile Include="Item\ItemKeyBlueprint.cs" />
-    <Compile Include="Item\ItemScrollBlueprint.cs" />
-    <Compile Include="Item\ItemPotionBlueprint.cs" />
-    <Compile Include="Item\ItemPillBlueprint.cs" />
     <Compile Include="Item\ItemPortalBlueprint.cs" />
     <Compile Include="Item\ItemQuestBlueprint.cs" />
-    <Compile Include="Item\ItemStaffBlueprint.cs" />
-    <Compile Include="Item\ItemWandBlueprint.cs" />
-    <Compile Include="Item\ItemWarpStoneBlueprint.cs" />
     <Compile Include="Quest\QuestBlueprint.cs" />
     <Compile Include="Quest\QuestItemObjectiveBlueprint.cs" />
     <Compile Include="Quest\QuestKillLootTable.cs" />
     <Compile Include="Quest\QuestKillLootTableEntry.cs" />
     <Compile Include="Quest\QuestKillObjectiveBlueprint.cs" />
     <Compile Include="Quest\QuestLocationObjectiveBlueprint.cs" />
-    <Compile Include="Reset\DoorReset.cs" />
-    <Compile Include="Reset\ItemInCharacterReset.cs" />
-    <Compile Include="Reset\ItemInEquipmentReset.cs" />
-    <Compile Include="Reset\ItemInItemReset.cs" />
-    <Compile Include="Reset\ItemInRoomReset.cs" />
-    <Compile Include="Reset\RandomizeExitsReset.cs" />
-    <Compile Include="Reset\ResetBase.cs" />
     <Compile Include="Room\ExitBlueprint.cs" />
     <Compile Include="Item\ItemArmorBlueprint.cs" />
     <Compile Include="Item\ItemBlueprintBase.cs" />
@@ -146,9 +117,9 @@
       <Project>{4E337998-ECAB-493B-9FAA-01366EE90EFF}</Project>
       <Name>Mud.Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
-      <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
-      <Name>Mud.Server.Random</Name>
+    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
+      <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
+      <Name>Mud.Server.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

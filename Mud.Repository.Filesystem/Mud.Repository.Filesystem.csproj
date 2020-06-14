@@ -70,51 +70,30 @@
     <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminRepository.cs" />
     <Compile Include="AutoMapperProfile.cs" />
-    <Compile Include="Domain\AdminData.cs" />
-    <Compile Include="Domain\AffectDataBase.cs" />
-    <Compile Include="Domain\AuraData.cs" />
-    <Compile Include="Domain\CharacterAttributeAffectData.cs" />
-    <Compile Include="Domain\CharacterData.cs" />
-    <Compile Include="Domain\PetData.cs" />
-    <Compile Include="Domain\PlagueSpreadAndDamageAffectData.cs" />
-    <Compile Include="Domain\PlayableCharacterData.cs" />
-    <Compile Include="Domain\CharacterFlagsAffectData.cs" />
-    <Compile Include="Domain\CharacterIRVAffectData.cs" />
-    <Compile Include="Domain\CharacterSexAffectData.cs" />
-    <Compile Include="Domain\CharacterSizeAffectData.cs" />
-    <Compile Include="Domain\CurrentQuestData.cs" />
-    <Compile Include="Domain\CurrentQuestObjectiveData.cs" />
-    <Compile Include="Domain\EquippedItemData.cs" />
-    <Compile Include="Domain\ItemCastSpellsChargeData.cs" />
-    <Compile Include="Domain\ItemContainerData.cs" />
-    <Compile Include="Domain\ItemCorpseData.cs" />
-    <Compile Include="Domain\ItemData.cs" />
-    <Compile Include="Domain\ItemDrinkContainerData.cs" />
-    <Compile Include="Domain\ItemFlagsAffectData.cs" />
-    <Compile Include="Domain\ItemFoodData.cs" />
-    <Compile Include="Domain\ItemLightData.cs" />
-    <Compile Include="Domain\ItemPortalData.cs" />
-    <Compile Include="Domain\ItemStaffData.cs" />
-    <Compile Include="Domain\ItemWandData.cs" />
-    <Compile Include="Domain\ItemWeaponData.cs" />
-    <Compile Include="Domain\ItemWeaponFlagsAffectData.cs" />
-    <Compile Include="Domain\LearnedAbilityData.cs" />
-    <Compile Include="Domain\LoginData.cs" />
-    <Compile Include="Domain\PairData.cs" />
-    <Compile Include="Domain\PlayerData.cs" />
-    <Compile Include="Domain\PoisonDamageAffectData.cs" />
+    <Compile Include="DataContracts\AdminData.cs" />
+    <Compile Include="DataContracts\CharacterData.cs" />
+    <Compile Include="DataContracts\CurrentQuestData.cs" />
+    <Compile Include="DataContracts\CurrentQuestObjectiveData.cs" />
+    <Compile Include="DataContracts\EquipedItemData.cs" />
+    <Compile Include="DataContracts\ItemContainerData.cs" />
+    <Compile Include="DataContracts\ItemCorpseData.cs" />
+    <Compile Include="DataContracts\ItemData.cs" />
+    <Compile Include="DataContracts\LoginData.cs" />
+    <Compile Include="DataContracts\PairData.cs" />
+    <Compile Include="DataContracts\PlayerData.cs" />
     <Compile Include="LoginRepository.cs" />
-    <Compile Include="Domain\LoginRepositoryData.cs" />
+    <Compile Include="DataContracts\LoginRepositoryData.cs" />
     <Compile Include="PlayerRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\RepositoryBase.cs" />

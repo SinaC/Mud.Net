@@ -2,8 +2,6 @@
 using System.Text;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
-using Mud.Server.Interfaces.Player;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Player
 {

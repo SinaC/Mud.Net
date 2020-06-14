@@ -78,8 +78,8 @@
     <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=4.9.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.9.2\lib\net45\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -149,10 +149,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
-      <Project>{FA516A9E-EA0B-4F74-A5AA-23DE3D109ADC}</Project>
-      <Name>Mud.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
@@ -168,10 +164,6 @@
     <ProjectReference Include="..\Mud.Importer.Rom\Mud.Importer.Rom.csproj">
       <Project>{5be3b1dc-2039-450c-ad58-ab35620ffc4e}</Project>
       <Name>Mud.Importer.Rom</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Importer.Rot\Mud.Importer.Rot.csproj">
-      <Project>{4c7bc035-7c0c-4d18-b225-efc3556e51fd}</Project>
-      <Name>Mud.Importer.Rot</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Importer\Mud.Importer.csproj">
       <Project>{3a7f2847-d754-4eb1-ad57-805df4f9241f}</Project>
@@ -201,10 +193,6 @@
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
       <Name>Mud.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj">
-      <Project>{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}</Project>
-      <Name>Mud.Server.Ability</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
@@ -212,18 +200,6 @@
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
       <Name>Mud.Server.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
-      <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
-      <Name>Mud.Server.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
-      <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
-      <Name>Mud.Server.Random</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj">
-      <Project>{8a3a8267-b6a3-441b-bcf1-925b09ff920e}</Project>
-      <Name>Mud.Server.Rom24</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>

@@ -26,10 +26,5 @@
       <Password>brol</Password>
       <IsAdmin>false</IsAdmin>
     </LoginData>
-    <LoginData>
-      <Username>xiinobis</Username>
-      <Password>broluxes</Password>
-      <IsAdmin>false</IsAdmin>
-    </LoginData>
   </Logins>
 </LoginRepositoryData>

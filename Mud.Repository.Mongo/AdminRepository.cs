@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
 using MongoDB.Driver;
 using Mud.Repository.Mongo.Common;
-using Mud.Settings;
 
 namespace Mud.Repository.Mongo
 {
     public class AdminRepository : RepositoryBase<Domain.AdminData>, IAdminRepository
     {
-        public AdminRepository(IMapper mapper, ISettings settings)
-            : base(mapper, settings, "Admin")
+        public AdminRepository() 
+            : base("Admin")
         {
         }
 

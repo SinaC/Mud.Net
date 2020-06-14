@@ -1,7 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Blueprints.Reset;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Mud.Server.Blueprints.Room
@@ -13,41 +10,31 @@ namespace Mud.Server.Blueprints.Room
         public int Id { get; set; }
 
         [DataMember]
-        public int AreaId { get; set; }
-
-        [DataMember]
         public string Name { get; set; }
 
         [DataMember]
         public string Description { get; set; }
 
         [DataMember]
-        public Lookup<string, string> ExtraDescriptions { get; set; } // keyword -> descriptions
+        public Dictionary<string, string> ExtraDescriptions { get; set; } // keyword -> description
 
         [DataMember]
-        public RoomFlags RoomFlags { get; set; } = RoomFlags.None;
+        public ExitBlueprint[] Exits { get; set; } // TODO: fixed length or list (+ add direction in ExitBlueprint)
 
-        [DataMember]
-        public SectorTypes SectorType { get; set; } = SectorTypes.City;
+        // TODO: flags, healrate, sector, ...
 
-        [DataMember]
-        public int HealRate { get; set; } = 100;
-
-        [DataMember]
-        public int ResourceRate { get; set; } = 100;
-
-        [DataMember]
-        public Sizes? MaxSize { get; set; } = null;
-
-        [DataMember]
-        public ExitBlueprint[] Exits { get; set; }
-
-        [DataMember]
-        public List<ResetBase> Resets { get; set; } = new List<ResetBase>();
-
-        public static Lookup<string, string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
+        public static Dictionary<string, string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
         {
-            return (Lookup<string, string>)extraDescriptions.SelectMany(x => x.Key.Split(' ')).ToLookup(x => x);
+            Dictionary<string, string> result = new Dictionary<string, string>();
+            if (extraDescriptions == null)
+                return result;
+            foreach (KeyValuePair<string, string> kv in extraDescriptions)
+            {
+                foreach (string keyword in kv.Key.Split(' '))
+                    result.Add(keyword, kv.Value);
+            }
+            return result;
+            ;
         }
     }
 }

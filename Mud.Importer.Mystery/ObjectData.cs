@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Mud.Importer.Mystery
 {
@@ -13,7 +12,7 @@ namespace Mud.Importer.Mystery
         public string ItemType { get; set; } // lookup table
         public long ExtraFlags { get; set; } // flags
         public long WearFlags { get; set; } // flags
-        public object[] Values { get; set; } // length: 5
+        public object[] Values { get; set; } // should be long
         public int Level { get; set; }
         public int Weight { get; set; }
         public long Cost { get; set; }
@@ -72,36 +71,36 @@ namespace Mud.Importer.Mystery
     //#define ITEM_TEMPLATE                40
     //#define ITEM_SADDLE                  41
     //#define ITEM_ROPE                    42
-    //{	ITEM_LIGHT,	"light"		},
-    //{	ITEM_SCROLL,	"scroll"	},
-    //{	ITEM_WAND,	"wand"		},
-    //{     ITEM_STAFF,	"staff"		},
-    //{     ITEM_WEAPON,	"weapon"	},
-    //{     ITEM_TREASURE,	"treasure"	},
-    //{     ITEM_ARMOR,	"armor"		},
-    //{	ITEM_POTION,	"potion"	},
-    //{	ITEM_CLOTHING,	"clothing"	},
-    //{     ITEM_FURNITURE,	"furniture"	},
-    //{	ITEM_TRASH,	"trash"		},
-    //{	ITEM_CONTAINER,	"container"	},
-    //{	ITEM_DRINK_CON, "drink"		},
-    //{	ITEM_KEY,	"key"		},
-    //{	ITEM_FOOD,	"food"		},
-    //{	ITEM_MONEY,	"money"		},
-    //{	ITEM_BOAT,	"boat"		},
-    //{	ITEM_CORPSE_NPC,"npc_corpse"	},
-    //{	ITEM_CORPSE_PC,	"pc_corpse"	},
-    //{     ITEM_FOUNTAIN,	"fountain"	},
-    //{	ITEM_PILL,	"pill"		},
-    //{	ITEM_MAP,	"map"		},
-    //{	ITEM_PORTAL,	"portal"	},
-    //{	ITEM_WARP_STONE,"warp_stone"	},
-    //{     ITEM_COMPONENT, "component"     },
-    //{	ITEM_GEM,	"gem"		},
-    //{	ITEM_JEWELRY,	"jewelry"	},
-    //{     ITEM_INSTRUMENT, "instrument"   },
-    //{     ITEM_WINDOW,     "window"       },
-    //{     ITEM_TEMPLATE,   "template"     },
-    //{     ITEM_SADDLE,     "saddle"       },
-    //{     ITEM_ROPE,       "rope"         },
+  //{	ITEM_LIGHT,	"light"		},
+  //{	ITEM_SCROLL,	"scroll"	},
+  //{	ITEM_WAND,	"wand"		},
+  //{     ITEM_STAFF,	"staff"		},
+  //{     ITEM_WEAPON,	"weapon"	},
+  //{     ITEM_TREASURE,	"treasure"	},
+  //{     ITEM_ARMOR,	"armor"		},
+  //{	ITEM_POTION,	"potion"	},
+  //{	ITEM_CLOTHING,	"clothing"	},
+  //{     ITEM_FURNITURE,	"furniture"	},
+  //{	ITEM_TRASH,	"trash"		},
+  //{	ITEM_CONTAINER,	"container"	},
+  //{	ITEM_DRINK_CON, "drink"		},
+  //{	ITEM_KEY,	"key"		},
+  //{	ITEM_FOOD,	"food"		},
+  //{	ITEM_MONEY,	"money"		},
+  //{	ITEM_BOAT,	"boat"		},
+  //{	ITEM_CORPSE_NPC,"npc_corpse"	},
+  //{	ITEM_CORPSE_PC,	"pc_corpse"	},
+  //{     ITEM_FOUNTAIN,	"fountain"	},
+  //{	ITEM_PILL,	"pill"		},
+  //{	ITEM_MAP,	"map"		},
+  //{	ITEM_PORTAL,	"portal"	},
+  //{	ITEM_WARP_STONE,"warp_stone"	},
+  //{     ITEM_COMPONENT, "component"     },
+  //{	ITEM_GEM,	"gem"		},
+  //{	ITEM_JEWELRY,	"jewelry"	},
+  //{     ITEM_INSTRUMENT, "instrument"   },
+  //{     ITEM_WINDOW,     "window"       },
+  //{     ITEM_TEMPLATE,   "template"     },
+  //{     ITEM_SADDLE,     "saddle"       },
+  //{     ITEM_ROPE,       "rope"         },
 }

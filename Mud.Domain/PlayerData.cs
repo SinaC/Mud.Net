@@ -10,6 +10,6 @@ namespace Mud.Domain
 
         public Dictionary<string, string> Aliases { get; set; }
 
-        public PlayableCharacterData[] Characters { get; set; }
+        public CharacterData[] Characters { get; set; }
     }
 }

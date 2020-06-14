@@ -29,7 +29,7 @@
             </Grid.ColumnDefinitions>
 
             <TextBox Grid.Column="0" x:Name="InputTextBox"
-                     PreviewKeyDown="InputTextBox_OnPreviewKeyDown"/>
+                     KeyDown="InputTextBox_OnKeyDown"/>
             <Button Grid.Column="1" x:Name="SendButton"
                     Click="SendButton_OnClick">
                 <TextBlock Text="Send"/>

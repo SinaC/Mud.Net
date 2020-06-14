@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
-using Mud.Server.Blueprints.Item;
 
 namespace Mud.Server.Helpers
 {
@@ -13,7 +12,6 @@ namespace Mud.Server.Helpers
         public static string ItemInventoryNotFound = "You do not have that item.";
         public static string QuestPrefix = "%R%(QUEST)%x%";
         public static string PagingInstructions = "[Paging : (Enter), (N)ext, (P)revious, (Q)uit, (A)ll]";
-        public static string CantFindIt = "You can't find it.";
 
         //https://genderneutralpronoun.wordpress.com/tag/ze-and-zir/
         public static readonly IDictionary<Sex, string> Subjects = new Dictionary<Sex, string>
@@ -37,14 +35,18 @@ namespace Mud.Server.Helpers
             {Sex.Female, "her"},
         };
 
-        public static string ResourceColor(this ResourceKinds resource)
+        public static string ResourceColor(ResourceKinds resource)
         {
             switch (resource)
             {
                 case ResourceKinds.Mana:
                     return "%B%Mana%x%";
-                case ResourceKinds.Psy:
-                    return "%y%Psy%x%";
+                case ResourceKinds.Energy:
+                    return "%y%Energy%x%";
+                case ResourceKinds.Rage:
+                    return "%r%Rage%x%";
+                case ResourceKinds.Runic:
+                    return "%c%Runic%x%";
                 default:
                     return string.Empty;
             }
@@ -52,26 +54,54 @@ namespace Mud.Server.Helpers
 
         public static string SchoolTypeColor(SchoolTypes schoolType)
         {
-            //switch (schoolType)
-            //{
-            //    case SchoolTypes.Arcane:
-            //        return "%B%Arcane%x%";
-            //    case SchoolTypes.Fire:
-            //        return "%R%Fire%x%";
-            //    case SchoolTypes.Frost:
-            //        return "%C%Frost%x%";
-            //    case SchoolTypes.Holy:
-            //        return "%Y%Holy%x%";
-            //    case SchoolTypes.Nature:
-            //        return "%G%Nature%x%";
-            //    case SchoolTypes.Physical:
-            //        return "%W%Physical%x%";
-            //    case SchoolTypes.Shadow:
-            //        return "%M%Shadow%x%";
-            //    default:
-            //        return "(none)";
-            //}
-            return "(none)"; // TODO
+            switch (schoolType)
+            {
+                case SchoolTypes.Arcane:
+                    return "%B%Arcane%x%";
+                case SchoolTypes.Fire:
+                    return "%R%Fire%x%";
+                case SchoolTypes.Frost:
+                    return "%C%Frost%x%";
+                case SchoolTypes.Holy:
+                    return "%Y%Holy%x%";
+                case SchoolTypes.Nature:
+                    return "%G%Nature%x%";
+                case SchoolTypes.Physical:
+                    return "%W%Physical%x%";
+                case SchoolTypes.Shadow:
+                    return "%M%Shadow%x%";
+                default:
+                    return "(none)";
+            }
+        }
+
+        public static string ShortExitDirections(ExitDirections exitDirections)
+        {
+            switch (exitDirections)
+            {
+                case ExitDirections.North:
+                    return "N";
+                case ExitDirections.East:
+                    return "E";
+                case ExitDirections.South:
+                    return "S";
+                case ExitDirections.West:
+                    return "W";
+                case ExitDirections.Up:
+                    return "U";
+                case ExitDirections.Down:
+                    return "D";
+                case ExitDirections.NorthEast:
+                    return "ne";
+                case ExitDirections.NorthWest:
+                    return "nw";
+                case ExitDirections.SouthEast:
+                    return "se";
+                case ExitDirections.SouthWest:
+                    return "sw";
+                default:
+                    return "?";
+            }
         }
 
         public static string DamagePhraseSelf(int damage)
@@ -128,6 +158,32 @@ namespace Mud.Server.Helpers
             return "does %b%U%r%N%g%S%y%P%c%E%m%A%r%K%b%A%g%B%y%L%c%E %x%things to";
         }
 
-        public static string ItemType(this ItemBlueprintBase blueprint) => blueprint.GetType().Name.Replace("Item", string.Empty).Replace("Blueprint", string.Empty);
+        public static string FormatDelay(int delay)
+        {
+            if (delay < 60)
+                return delay + " second" + (delay != 1 ? "s" : string.Empty);
+            int minutes = (delay + 60 - 1)/60; // -> ceil(x/60)
+            if (minutes < 60)
+                return minutes + " minute" + (minutes != 1 ? "s" : string.Empty);
+            int hours = (minutes + 60 - 1)/60; // -> ceil(x/60)
+            if (hours < 24)
+                return hours + " hour" + (hours != 1 ? "s" : string.Empty);
+            int days = (hours + 24 - 1)/24;
+            return days + " day" + (days != 1 ? "s" : string.Empty);
+        }
+
+        public static string FormatDelayShort(int delay)
+        {
+            if (delay < 60)
+                return delay + " sec";
+            int minutes = (delay + 60 - 1) / 60; // -> ceil(x/60)
+            if (minutes < 60)
+                return minutes + " min";
+            int hours = (minutes + 60 - 1) / 60; // -> ceil(x/60)
+            if (hours < 24)
+                return hours + " hour" + (hours != 1 ? "s" : string.Empty);
+            int days = (hours + 24 - 1) / 24;
+            return days + " day" + (days != 1 ? "s" : string.Empty);
+        }
     }
 }

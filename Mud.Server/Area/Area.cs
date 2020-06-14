@@ -1,13 +1,5 @@
-﻿using System;
-using Mud.Container;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Mud.Logger;
-using Mud.Server.Blueprints.Area;
-using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Area
 {
@@ -15,41 +7,27 @@ namespace Mud.Server.Area
     {
         private readonly List<IRoom> _rooms;
 
-        private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
-
-        public Area(Guid id, AreaBlueprint blueprint)
+        public Area(string displayName, int minLevel, int maxLevel, string builders, string credits)
         {
-            Id = id;
-
-            Blueprint = blueprint;
-            DisplayName = blueprint.Name;
-            Builders = blueprint.Builders;
-            Credits = blueprint.Credits;
+            DisplayName = displayName;
+            MinLevel = minLevel;
+            MaxLevel = maxLevel;
+            Builders = builders;
+            Credits = credits;
 
             _rooms = new List<IRoom>();
         }
 
         #region IArea
 
-        public Guid Id { get; }
-
-        public AreaBlueprint Blueprint { get; }
-
         public string DisplayName { get; }
+        public int MinLevel { get; }
+        public int MaxLevel { get; }
         public string Builders { get; }
         public string Credits { get; }
         public IEnumerable<IRoom> Rooms => _rooms;
         public IEnumerable<IPlayer> Players => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>().Select(x => x.ImpersonatedBy);
         public IEnumerable<ICharacter> Characters => _rooms.SelectMany(x => x.People);
-        public IEnumerable<IPlayableCharacter> PlayableCharacters => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>();
-
-        public void ResetArea()
-        {
-            Log.Default.WriteLine(LogLevels.Debug, "Resetting {0}", DisplayName);
-            foreach (IRoom room in _rooms)
-                room.ResetRoom();
-            Wiznet.Wiznet($"{DisplayName} has just been reset.", Domain.WiznetFlags.Resets);
-        }
 
         public bool AddRoom(IRoom room)
         {
