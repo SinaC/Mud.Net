@@ -25,60 +25,6 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [AdminCommand("promote", "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
-        [Syntax("[cmd] <player name> <level>")]
-        protected virtual CommandExecutionResults DoPromote(string rawParameters, params CommandParameter[] parameters)
-        {
-            if (parameters.Length < 2)
-                return CommandExecutionResults.SyntaxError;
-
-            // whom
-            IPlayer player = FindHelpers.FindByName(PlayerManager.Players, parameters[0], true);
-            if (player == null)
-            {
-                Send(StringHelpers.CharacterNotFound);
-                return CommandExecutionResults.TargetNotFound;
-            }
-            if (player == this)
-            {
-                Send("You cannot promote yourself.");
-                return CommandExecutionResults.InvalidTarget;
-            }
-
-            if (player is IAdmin)
-            {
-                Send("{0} is already Admin", player.DisplayName);
-                return CommandExecutionResults.InvalidTarget;
-            }
-
-            // what
-            AdminLevels level;
-            if (!EnumHelpers.TryFindByName(parameters[1].Value, out level))
-            {
-                Send("{0} is not a valid admin levels. Values are : {1}", parameters[1].Value, string.Join(", ", EnumHelpers.GetValues<AdminLevels>().Select(x => x.ToString())));
-                return CommandExecutionResults.InvalidParameter;
-            }
-
-            ServerAdminCommand.Promote(player, level);
-            return CommandExecutionResults.Ok;
-        }
-
-        [AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
-        [Syntax("[cmd] <delay>")]
-        protected virtual CommandExecutionResults DoShutdown(string rawParameters, params CommandParameter[] parameters)
-        {
-            int seconds;
-            if (parameters.Length == 0 || !int.TryParse(parameters[0].Value, out seconds))
-                return CommandExecutionResults.SyntaxError;
-            if (seconds < 30)
-            {
-                Send("You cannot shutdown that fast.");
-                return CommandExecutionResults.InvalidParameter;
-            }
-            ServerAdminCommand.Shutdown(seconds);
-            return CommandExecutionResults.Ok;
-        }
-
         [AdminCommand("cload", "Admin", Priority = 10, MustBeImpersonated = true)]
         [AdminCommand("mload", "Admin", Priority = 10, MustBeImpersonated = true)]
         [Syntax("[cmd] <id>")]

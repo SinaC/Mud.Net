@@ -4,7 +4,7 @@ using Mud.Server.Input;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Admin
+namespace Mud.Server.Admin.Communication
 {
     [AdminCommand("atalk", "Communication")]
     [AdminCommand("admintalk", "Communication")]

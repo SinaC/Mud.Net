@@ -78,8 +78,10 @@
     <Compile Include="Actor\Commands.cs" />
     <Compile Include="Actor\Syntax.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
-    <Compile Include="Admin\AdminTalk.cs" />
+    <Compile Include="Admin\Administration\Shutdown.cs" />
+    <Compile Include="Admin\Communication\AdminTalk.cs" />
     <Compile Include="Admin\MiscCommands.cs" />
+    <Compile Include="Admin\Administration\Promote.cs" />
     <Compile Include="Admin\PunishCommands.cs" />
     <Compile Include="Area\Area.cs" />
     <Compile Include="AssemblyHelper.cs" />
