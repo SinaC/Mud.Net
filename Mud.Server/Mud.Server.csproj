@@ -74,7 +74,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ability\TestSpells.cs" />
+    <Compile Include="Abilities\TestSpells.cs" />
     <Compile Include="ActionInput.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\CommunicationCommands.cs" />
@@ -112,34 +112,6 @@
     <Compile Include="Item\ItemTreasure.cs" />
     <Compile Include="Item\ItemWand.cs" />
     <Compile Include="Item\ItemWarpstone.cs" />
-    <Compile Include="Race\NonPlayableRace\Griffon.cs" />
-    <Compile Include="Race\NonPlayableRace\Fish.cs" />
-    <Compile Include="Race\NonPlayableRace\Horse.cs" />
-    <Compile Include="Race\NonPlayableRace\Cyclops.cs" />
-    <Compile Include="Race\NonPlayableRace\Pixie.cs" />
-    <Compile Include="Race\NonPlayableRace\Wyvern.cs" />
-    <Compile Include="Race\NonPlayableRace\Wolf.cs" />
-    <Compile Include="Race\NonPlayableRace\WaterFowl.cs" />
-    <Compile Include="Race\NonPlayableRace\SongBird.cs" />
-    <Compile Include="Race\NonPlayableRace\Bat.cs" />
-    <Compile Include="Race\NonPlayableRace\Rabbit.cs" />
-    <Compile Include="Race\NonPlayableRace\Snake.cs" />
-    <Compile Include="Race\NonPlayableRace\SchoolMonster.cs" />
-    <Compile Include="Race\NonPlayableRace\Rat.cs" />
-    <Compile Include="Race\NonPlayableRace\Pig.cs" />
-    <Compile Include="Race\NonPlayableRace\Modron.cs" />
-    <Compile Include="Race\NonPlayableRace\Lizard.cs" />
-    <Compile Include="Race\NonPlayableRace\Fox.cs" />
-    <Compile Include="Race\NonPlayableRace\Kobold.cs" />
-    <Compile Include="Race\NonPlayableRace\Fido.cs" />
-    <Compile Include="Race\NonPlayableRace\Dragon.cs" />
-    <Compile Include="Race\NonPlayableRace\Doll.cs" />
-    <Compile Include="Race\NonPlayableRace\Dog.cs" />
-    <Compile Include="Race\NonPlayableRace\Centipede.cs" />
-    <Compile Include="Race\NonPlayableRace\Cat.cs" />
-    <Compile Include="Race\NonPlayableRace\Bear.cs" />
-    <Compile Include="Race\NonPlayableRace\Bee.cs" />
-    <Compile Include="Race\RaceBase.cs" />
     <Compile Include="Server\TimeManager.cs" />
     <Compile Include="Table\TableValues.cs" />
     <Compile Include="Character\CharacterBase.cs" />
@@ -159,13 +131,7 @@
     <Compile Include="Character\PlayableCharacter\QuestCommands.cs" />
     <Compile Include="Character\SkillCommands.cs" />
     <Compile Include="Character\TestCommands.cs" />
-    <Compile Include="Class\ClassBase.cs" />
-    <Compile Include="Class\ClassManager.cs" />
-    <Compile Include="Class\Cleric.cs" />
-    <Compile Include="Class\Druid.cs" />
-    <Compile Include="Class\Mage.cs" />
-    <Compile Include="Class\Thief.cs" />
-    <Compile Include="Class\Warrior.cs" />
+    <Compile Include="Classes\Druid.cs" />
     <Compile Include="Helpers\TableGenerators.cs" />
     <Compile Include="Entity\EntityBase.cs" />
     <Compile Include="Item\ItemArmor.cs" />
@@ -191,13 +157,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Quest\Quest.cs" />
     <Compile Include="Quest\QuestObjective.cs" />
-    <Compile Include="Race\Dwarf.cs" />
-    <Compile Include="Race\Elf.cs" />
-    <Compile Include="Race\Human.cs" />
-    <Compile Include="Race\Insectoid.cs" />
-    <Compile Include="Race\PlayableRaceBase.cs" />
-    <Compile Include="Race\RaceManager.cs" />
-    <Compile Include="Race\Giant.cs" />
+    <Compile Include="Races\Insectoid.cs" />
     <Compile Include="Room\Exit.cs" />
     <Compile Include="Room\Room.cs" />
     <Compile Include="Server\LoginStateMachine.cs" />
@@ -249,6 +209,10 @@
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj">
+      <Project>{e4077e94-96ea-4999-ae8f-f93b519e4411}</Project>
+      <Name>Mud.Server.Class</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
       <Name>Mud.Server.Common</Name>
@@ -260,6 +224,10 @@
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
       <Name>Mud.Server.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj">
+      <Project>{9760a8e7-084e-4574-93e5-3473745e502d}</Project>
+      <Name>Mud.Server.Race</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
       <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>

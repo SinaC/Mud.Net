@@ -73,8 +73,8 @@ namespace Mud.Server.Ability.Skill
                 pcUser?.ImpersonatedBy?.SetGlobalCooldown(AbilityInfo.PulseWaitTime.Value);
 
             // 10) set cooldown
-            if (AbilityInfo.Cooldown.HasValue && AbilityInfo.Cooldown.Value > 0)
-                User.SetCooldown(AbilityInfo.Name, AbilityInfo.Cooldown.Value);
+            if (AbilityInfo.CooldownInSeconds.HasValue && AbilityInfo.CooldownInSeconds.Value > 0)
+                User.SetCooldown(AbilityInfo.Name, TimeSpan.FromSeconds(AbilityInfo.CooldownInSeconds.Value));
 
             // 11) check improve true
             if (pcUser != null)

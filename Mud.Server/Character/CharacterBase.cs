@@ -1533,9 +1533,9 @@ namespace Mud.Server.Character
             return int.MinValue;
         }
 
-        public void SetCooldown(string abilityName, int cooldown)
+        public void SetCooldown(string abilityName, TimeSpan timeSpan)
         {
-            _cooldownsPulseLeft[abilityName] = cooldown;
+            _cooldownsPulseLeft[abilityName] = Pulse.FromTimeSpan(timeSpan);
         }
 
         public bool DecreaseCooldown(string abilityName, int pulseCount)

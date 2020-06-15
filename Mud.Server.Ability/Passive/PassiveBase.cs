@@ -1,6 +1,7 @@
 ﻿using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
+using System;
 
 namespace Mud.Server.Ability.Passive
 {
@@ -37,8 +38,8 @@ namespace Mud.Server.Ability.Passive
                 return false;
 
             // 4) set cooldown
-            if (abilityInfo.Cooldown.HasValue && abilityInfo.Cooldown.Value > 0)
-                user.SetCooldown(abilityInfo.Name, abilityInfo.Cooldown.Value);
+            if (abilityInfo.CooldownInSeconds.HasValue && abilityInfo.CooldownInSeconds.Value > 0)
+                user.SetCooldown(abilityInfo.Name, TimeSpan.FromSeconds(abilityInfo.CooldownInSeconds.Value));
 
             // 5) check improve true
             if (checkImprove)

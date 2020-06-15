@@ -6,13 +6,35 @@ using Mud.Server.Interfaces.Ability;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Mud.Server.Ability
 {
     public class AbilityManager : IAbilityManager
     {
         private readonly Dictionary<string, IAbilityInfo> _abilities;
+
+        public AbilityManager(IAssemblyHelper assemblyHelper)
+        {
+            _abilities = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
+            // Get abilities and register them in IOC
+            Type iAbility = typeof(IAbility);
+            //foreach (var abilityType in assemblyHelper.ExecutingAssembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t)))
+            foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
+            //var asm = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetReferencedAssemblies()).DistinctBy(x => x.FullName);
+            //foreach (var abilityType in asm.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
+            {
+                AbilityInfo abilityInfo = new AbilityInfo(abilityType);
+                if (_abilities.ContainsKey(abilityInfo.Name))
+                    Log.Default.WriteLine(LogLevels.Error, "Duplicate ability {0}", abilityInfo.Name);
+                else
+                {
+                    _abilities.Add(abilityInfo.Name, abilityInfo);
+                    DependencyContainer.Current.Register(abilityType);
+                }
+            }
+        }
+
+        #region IAbilityManager
 
         public IEnumerable<IAbilityInfo> Abilities => _abilities.Values;
 
@@ -55,24 +77,6 @@ namespace Mud.Server.Ability
             return instance;
         }
 
-        public AbilityManager(IAssemblyHelper assemblyHelper)
-        {
-            _abilities = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
-            // Get abilities and register them in IOC
-            Type iAbility = typeof(IAbility);
-            foreach (var abilityType in assemblyHelper.ExecutingAssembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t)))
-            //var asm = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetReferencedAssemblies()).DistinctBy(x => x.FullName);
-            //foreach (var abilityType in asm.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
-            {
-                AbilityInfo abilityInfo = new AbilityInfo(abilityType);
-                if (_abilities.ContainsKey(abilityInfo.Name))
-                    Log.Default.WriteLine(LogLevels.Error, "Duplicate ability {0}", abilityInfo.Name);
-                else
-                {
-                    _abilities.Add(abilityInfo.Name, abilityInfo);
-                    DependencyContainer.Current.Register(abilityType);
-                }
-            }
-        }
+        #endregion
     }
 }

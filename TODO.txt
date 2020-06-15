@@ -1,7 +1,6 @@
 NEXT:
 redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
 
-move ClassBase/Manager and RaceBase/Manager into specific project and move races/classes to Rom24 project
 move Weapon effect from OneHit to Rom24
 find a elegant way to apply PoisonDamageAffect without referencing Rom24
 use StringComparer.InvariantCultureIgnoreCase in Dictionary<string, ???> constructor

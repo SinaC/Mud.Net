@@ -11,6 +11,7 @@ using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Common;
 using Mud.Server.Input;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -204,7 +205,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     if (abilityInfo == null)
                         Wiznet.Wiznet($"Cooldown: ability {cooldown.Key} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                     else
-                        SetCooldown(cooldown.Key, cooldown.Value);
+                        SetCooldown(cooldown.Key, Pulse.FromPulse(cooldown.Value));
                 }
             }
             // Pets

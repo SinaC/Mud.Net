@@ -9,14 +9,14 @@ namespace Mud.Server.Ability
         public abstract AbilityTypes Type { get; }
         public string Name { get; set; }
         public AbilityEffects Effects { get; set; }
-        public int Cooldown { get; set; }
+        public int CooldownInSeconds { get; set; }
         public int LearnDifficultyMultiplier { get; set; }
 
         protected AbilityBaseAttribute(string name, AbilityEffects effects)
         {
             Name = name;
             Effects = effects;
-            Cooldown = -1;
+            CooldownInSeconds = -1;
             LearnDifficultyMultiplier = 1;
         }
     }

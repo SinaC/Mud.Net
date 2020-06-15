@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using Mud.Common;
 using Mud.Container;
 using Mud.Server.Ability;
 using Mud.Server.Interfaces;
@@ -18,7 +19,7 @@ namespace Mud.Server.Tests.Abilities
         public void Ctor_AbilitiesFound()
         {
             Mock<IAssemblyHelper> assemblyHelperMock = new Mock<IAssemblyHelper>();
-            assemblyHelperMock.SetupGet(x => x.ExecutingAssembly).Returns(typeof(AcidBlast).Assembly);
+            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(AcidBlast).Assembly.Yield());
             AbilityManager abilityManager = new AbilityManager(assemblyHelperMock.Object);
 
             Assert.IsTrue(abilityManager.Abilities.Count() > 0);
@@ -28,7 +29,7 @@ namespace Mud.Server.Tests.Abilities
         public void Indexer_ExistingAbility()
         {
             Mock<IAssemblyHelper> assemblyHelperMock = new Mock<IAssemblyHelper>();
-            assemblyHelperMock.SetupGet(x => x.ExecutingAssembly).Returns(typeof(AcidBlast).Assembly);
+            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(AcidBlast).Assembly.Yield());
             AbilityManager abilityManager = new AbilityManager(assemblyHelperMock.Object);
 
             IAbilityInfo abilityInfo = abilityManager["Acid Blast"];
@@ -40,7 +41,7 @@ namespace Mud.Server.Tests.Abilities
         public void Indexer_NonExistingAbility()
         {
             Mock<IAssemblyHelper> assemblyHelperMock = new Mock<IAssemblyHelper>();
-            assemblyHelperMock.SetupGet(x => x.ExecutingAssembly).Returns(typeof(AcidBlast).Assembly);
+            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(AcidBlast).Assembly.Yield());
             AbilityManager abilityManager = new AbilityManager(assemblyHelperMock.Object);
 
             IAbilityInfo abilityInfo = abilityManager["Pouet"];
@@ -52,7 +53,7 @@ namespace Mud.Server.Tests.Abilities
         public void DependencyContainer_Filled()
         {
             Mock<IAssemblyHelper> assemblyHelperMock = new Mock<IAssemblyHelper>();
-            assemblyHelperMock.SetupGet(x => x.ExecutingAssembly).Returns(typeof(AcidBlast).Assembly);
+            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(AcidBlast).Assembly.Yield());
             AbilityManager abilityManager = new AbilityManager(assemblyHelperMock.Object);
 
             foreach (IAbilityInfo abilityInfo in abilityManager.Abilities)
@@ -66,7 +67,7 @@ namespace Mud.Server.Tests.Abilities
         public void DependencyContainer_CreateAbilityInstance()
         {
             Mock<IAssemblyHelper> assemblyHelperMock = new Mock<IAssemblyHelper>();
-            assemblyHelperMock.SetupGet(x => x.ExecutingAssembly).Returns(typeof(AcidBlast).Assembly);
+            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(AcidBlast).Assembly.Yield());
             AbilityManager abilityManager = new AbilityManager(assemblyHelperMock.Object);
 
             IAbilityInfo abilityInfo = abilityManager["Acid Blast"];

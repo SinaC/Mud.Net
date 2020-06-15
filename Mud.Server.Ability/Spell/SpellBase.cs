@@ -169,8 +169,8 @@ namespace Mud.Server.Ability.Spell
                 pcCaster?.ImpersonatedBy?.SetGlobalCooldown(AbilityInfo.PulseWaitTime.Value);
 
             // 6) set cooldown if any
-            if (AbilityInfo.Cooldown.HasValue && AbilityInfo.Cooldown.Value > 0)
-                Caster.SetCooldown(AbilityInfo.Name, AbilityInfo.Cooldown.Value);
+            if (AbilityInfo.CooldownInSeconds.HasValue && AbilityInfo.CooldownInSeconds.Value > 0)
+                Caster.SetCooldown(AbilityInfo.Name, TimeSpan.FromSeconds(AbilityInfo.CooldownInSeconds.Value));
 
             // 7) check improve true
             pcCaster?.CheckAbilityImprove(AbilityInfo.Name, true, AbilityInfo.LearnDifficultyMultiplier);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -181,7 +182,7 @@ namespace Mud.Server.Interfaces.Character
         IDictionary<string, int> AbilitiesInCooldown { get; }
         bool HasAbilitiesInCooldown { get; }
         int CooldownPulseLeft(string abilityName); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
-        void SetCooldown(string abilityName, int cooldown);
+        void SetCooldown(string abilityName, TimeSpan timeSpan);
         bool DecreaseCooldown(string abilityName, int pulseCount); // return true if timed out
         void ResetCooldown(string abilityName, bool verbose);
 

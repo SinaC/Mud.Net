@@ -15,7 +15,7 @@ namespace Mud.Server.Ability
         public string Name { get; }
         public AbilityEffects Effects { get; }
         public int? PulseWaitTime { get; }
-        public int? Cooldown { get; }
+        public int? CooldownInSeconds { get; }
         public int LearnDifficultyMultiplier { get; }
         public Type AbilityExecutionType { get; }
 
@@ -43,9 +43,9 @@ namespace Mud.Server.Ability
             Name = pascalCaseName;
             Effects = abilityBaseAttribute.Effects;
             PulseWaitTime = (abilityBaseAttribute as ActiveAbilityBaseAttribute)?.PulseWaitTime;
-            Cooldown = abilityBaseAttribute.Cooldown <= 0
+            CooldownInSeconds = abilityBaseAttribute.CooldownInSeconds <= 0
                 ? (int?)null
-                : abilityBaseAttribute.Cooldown;
+                : abilityBaseAttribute.CooldownInSeconds;
             LearnDifficultyMultiplier = abilityBaseAttribute.LearnDifficultyMultiplier;
 
             AdditionalInfoAttributes = abilityExecutionType.GetCustomAttributes<AbilityAdditionalInfoAttribute>().ToArray();
