@@ -9,12 +9,13 @@ using Mud.POC.Affects;
 using Mud.Server.Random;
 using Mud.Server.Input;
 using Mud.Common;
+using Mud.Server.Command;
 
 namespace Mud.POC.Abilities
 {
     public partial class PlayableCharacter : IPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(() => CommandHelpers.GetCommands(typeof(PlayableCharacter)));
+        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(() => CommandManager.GetCommands(typeof(PlayableCharacter)));
 
         private IRandomManager RandomManager { get; }
         private IAbilityManager AbilityManager { get; }
@@ -44,7 +45,7 @@ namespace Mud.POC.Abilities
             Position = position;
         }
 
-        public IReadOnlyTrie<CommandMethodInfo> Commands => PlayableCharacterCommands.Value;
+        public IReadOnlyTrie<CommandExecutionInfo> Commands => PlayableCharacterCommands.Value;
 
         public string Name { get; }
         public string DebugName { get; }
@@ -216,26 +217,26 @@ namespace Mud.POC.Abilities
             if (Commands != null)
             {
                 command = command.ToLowerInvariant(); // lower command
-                List<TrieEntry<CommandMethodInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
-                TrieEntry<CommandMethodInfo> entry = methodInfos.OrderBy(x => x.Value.Attribute.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
-                if (entry.Value?.Attribute?.NoShortcut == true && command != entry.Key) // if command doesn't accept shortcut, inform player
+                List<TrieEntry<CommandExecutionInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
+                TrieEntry<CommandExecutionInfo> entry = methodInfos.OrderBy(x => x.Value.CommandAttribute.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
+                if (entry.Value?.CommandAttribute?.NoShortcut == true && command != entry.Key) // if command doesn't accept shortcut, inform player
                 {
                     Send("If you want to {0}, spell it out.", entry.Key.ToUpper());
                     return true;
                 }
-                else if (entry.Value?.MethodInfo != null)
+                else if (entry.Value is CommandMethodInfo cmi && cmi.MethodInfo != null)
                 {
                     if (true)
                     {
                         bool beforeExecute = true;
                         if (!beforeExecute)
                         {
-                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
+                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {cmi.MethodInfo.Name} and parameters {rawParameters}");
                             return false;
                         }
-                        MethodInfo methodInfo = entry.Value.MethodInfo;
+                        MethodInfo methodInfo = cmi.MethodInfo;
                         object rawExecutionResult;
-                        if (entry.Value.Attribute?.AddCommandInParameters == true)
+                        if (entry.Value.CommandAttribute?.AddCommandInParameters == true)
                         {
                             // Insert command as first parameter
                             CommandParameter[] enhancedParameters = new CommandParameter[(parameters?.Length ?? 0) + 1];
@@ -263,7 +264,7 @@ namespace Mud.POC.Abilities
                         bool afterExecute = true;
                         if (!afterExecute)
                         {
-                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteAfterCommand returned false for command {entry.Value.MethodInfo.Name} and parameters {rawParameters}");
+                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteAfterCommand returned false for command {cmi.MethodInfo.Name} and parameters {rawParameters}");
                             return false;
                         }
                         return true;

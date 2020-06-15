@@ -1,7 +1,7 @@
 ﻿using Mud.Server.Input;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Ability.Spell
 {

@@ -1,8 +1,8 @@
 ﻿using Mud.Common;
 using Mud.Server.Common;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Random;
 using System;
 

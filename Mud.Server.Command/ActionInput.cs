@@ -1,10 +1,9 @@
 ﻿using Mud.Server.Input;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Actor;
+using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server
+namespace Mud.Server.Command
 {
-    // TODO: move in a specific project with command parsing
     public class ActionInput : IActionInput
     {
         public IActor Actor { get; }
@@ -12,21 +11,24 @@ namespace Mud.Server
         public string Command { get; }
         public string RawParameters { get; }
         public CommandParameter[] Parameters { get; }
+        public ICommandInfo CommandInfo { get; }
 
         public object Context { get; set; }
 
-        public ActionInput(IActor actor, string commmandLine)
+        public ActionInput(ICommandInfo commandInfo, IActor actor, string commandLine)
         {
+            CommandInfo = commandInfo;
             Actor = actor;
-            CommandLine = commmandLine;
-            CommandHelpers.ExtractCommandAndParameters(commmandLine, out var command, out var rawParameters, out var parameters); // TODO: move code to this class
+            CommandLine = commandLine;
+            CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters); // TODO: move code to this class
             Command = command;
             RawParameters = rawParameters;
             Parameters = parameters;
         }
 
-        public ActionInput(IActor actor, string commandLine, string command, string rawParameters, params CommandParameter[] parameters)
+        public ActionInput(ICommandInfo commandInfo, IActor actor, string commandLine, string command, string rawParameters, params CommandParameter[] parameters)
         {
+            CommandInfo = commandInfo;
             Actor = actor;
             CommandLine = commandLine;
             Command = command;

@@ -30,7 +30,7 @@ namespace Mud.Server.Input
         }
     }
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class CharacterCommandAttribute : CommandAttribute
     {
         public Positions MinPosition { get; set; }
@@ -42,7 +42,7 @@ namespace Mud.Server.Input
         }
     }
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class PlayableCharacterCommandAttribute : CharacterCommandAttribute // Must be impersonated
     {
         public PlayableCharacterCommandAttribute(string name, params string[] categories)
@@ -51,7 +51,7 @@ namespace Mud.Server.Input
         }
     }
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class PlayerCommandAttribute : CommandAttribute
     {
         public bool MustBeImpersonated { get; set; }
@@ -63,7 +63,7 @@ namespace Mud.Server.Input
         }
     }
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class AdminCommandAttribute : PlayerCommandAttribute
     {
         public AdminLevels MinLevel { get; set; }
@@ -74,7 +74,7 @@ namespace Mud.Server.Input
         }
     }
 
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false)]
     public class SyntaxAttribute : Attribute
     {
         public string[] Syntax { get; }

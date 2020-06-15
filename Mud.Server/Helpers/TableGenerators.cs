@@ -177,12 +177,12 @@ namespace Mud.Server.Helpers
         {
             TableGenerator<CommandMethodInfo> generator = new TableGenerator<CommandMethodInfo>();
             generator.AddColumn("Method", 20, x => x.MethodInfo.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions { MergeIdenticalValue = true });
-            generator.AddColumn("Command", 20, x => x.Attribute.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions { AlignLeft = true });
-            generator.AddColumn("Categories", 20, x => string.Join(",", x.Attribute.Categories));
-            generator.AddColumn("Prio", 5, x => ConvertPriority(x.Attribute.Priority));
-            generator.AddColumn("S?", 5, x => ConvertBool(x.Attribute.NoShortcut));
-            generator.AddColumn("H?", 5, x => ConvertBool(x.Attribute.Hidden));
-            generator.AddColumn("F?", 5, x => ConvertBool(x.Attribute.AddCommandInParameters));
+            generator.AddColumn("Command", 20, x => x.CommandAttribute.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Categories", 20, x => string.Join(",", x.CommandAttribute.Categories));
+            generator.AddColumn("Prio", 5, x => ConvertPriority(x.CommandAttribute.Priority));
+            generator.AddColumn("S?", 5, x => ConvertBool(x.CommandAttribute.NoShortcut));
+            generator.AddColumn("H?", 5, x => ConvertBool(x.CommandAttribute.Hidden));
+            generator.AddColumn("F?", 5, x => ConvertBool(x.CommandAttribute.AddCommandInParameters));
             generator.AddColumn("R?", 3, x => x.MethodInfo.ReturnType == typeof(CommandExecutionResults) ? "" : "%R%X%x%");
             return generator;
         });

@@ -6,7 +6,8 @@ namespace Mud.Server.Interfaces.Actor
 {
     public interface IActor
     {
-        IReadOnlyTrie<CommandMethodInfo> Commands { get; } // list of commands accessible to Actor (used by ExecuteCommand)
+        IReadOnlyTrie<CommandExecutionInfo> Commands { get; } // list of commands accessible to Actor (used by ExecuteCommand)
+        bool IsCommandAvailable(CommandAttribute command);
 
         bool ProcessCommand(string commandLine); // split commandLine into command and parameters, then call ExecuteCommand
         bool ExecuteCommand(string command, string rawParameters, params CommandParameter[] parameters); // search command in Commands, then execute it

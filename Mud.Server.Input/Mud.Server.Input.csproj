@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandAttribute.cs" />
+    <Compile Include="CommandExecutionInfo.cs" />
     <Compile Include="CommandHelpers.cs" />
     <Compile Include="CommandMethodInfo.cs" />
     <Compile Include="CommandParameter.cs" />

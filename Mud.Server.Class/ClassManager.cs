@@ -17,8 +17,8 @@ namespace Mud.Server.Class
             // Get classes using reflection
             Type iClassType = typeof(IClass);
             _classes = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
-                .Where(x => x.IsClass && !x.IsAbstract && iClassType.IsAssignableFrom(x))
-                .Select(x => Activator.CreateInstance(x, abilityManager)) // don't use DependencyContainer
+                .Where(t => t.IsClass && !t.IsAbstract && iClassType.IsAssignableFrom(t))
+                .Select(t => Activator.CreateInstance(t, abilityManager)) // don't use DependencyContainer
                 .OfType<IClass>())
                 .ToList();
         }

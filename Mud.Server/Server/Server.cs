@@ -36,6 +36,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
 using Mud.Common;
+using Mud.Server.Command;
 
 namespace Mud.Server.Server
 {
@@ -829,7 +830,7 @@ namespace Mud.Server.Server
         {
             for (char c = 'a'; c <= 'z'; c++)
             {
-                CommandMethodInfo[] query = CommandHelpers.GetCommands(t).GetByPrefix(c.ToString()).OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value).ToArray();
+                CommandMethodInfo[] query = CommandManager.GetCommands(t).GetByPrefix(c.ToString()).Select(x => x.Value).OfType<CommandMethodInfo>().OrderBy(x => x.CommandAttribute.Priority).ToArray();
 
                 if (query.Length == 0)
                     Log.Default.WriteLine(LogLevels.Debug, $"No commands for {t.Name} prefix '{c}'"); // Dump in log

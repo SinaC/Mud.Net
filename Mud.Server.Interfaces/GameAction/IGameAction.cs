@@ -1,4 +1,4 @@
-﻿namespace Mud.Server.Interfaces
+﻿namespace Mud.Server.Interfaces.GameAction
 {
     public interface IGameAction
     {

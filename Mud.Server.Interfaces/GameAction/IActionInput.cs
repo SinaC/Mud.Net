@@ -1,7 +1,7 @@
 ﻿using Mud.Server.Input;
 using Mud.Server.Interfaces.Actor;
 
-namespace Mud.Server.Interfaces
+namespace Mud.Server.Interfaces.GameAction
 {
     public interface IActionInput
     {
@@ -10,7 +10,9 @@ namespace Mud.Server.Interfaces
         string Command { get; }
         string RawParameters { get; }
         CommandParameter[] Parameters { get; }
+        ICommandInfo CommandInfo { get; }
 
         object Context { get; set; }
+
     }
 }

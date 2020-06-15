@@ -23,7 +23,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 {
     public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<NonPlayableCharacter>);
+        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<NonPlayableCharacter>);
 
         private IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         private IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
@@ -202,7 +202,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => NonPlayableCharacterCommands.Value;
+        public override IReadOnlyTrie<CommandExecutionInfo> Commands => NonPlayableCharacterCommands.Value;
 
         public override void Send(string message, bool addTrailingNewLine)
         {
@@ -318,7 +318,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             }
             // off hand attack
             var dualWield = AbilityManager.CreateInstance<IPassive>("Dual Wield");
-            if (offHand != null && dualWield?.IsTriggered(this, victim, false, out _, out _) == true)
+            if (offHand != null && dualWield != null && dualWield.IsTriggered(this, victim, false, out _, out _))
                 OneHit(victim, offHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -334,7 +334,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 return;
             // main hand second attack
             var secondAttack = AbilityManager.CreateInstance<IPassive>("Second Attack");
-            if (secondAttack?.IsTriggered(this, victim, false, out _, out _) == true)
+            if (secondAttack != null && secondAttack.IsTriggered(this, victim, false, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -342,7 +342,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 return;
             // main hand third attack
             var thirdAttack = AbilityManager.CreateInstance<IPassive>("Third Attack");
-            if (thirdAttack?.IsTriggered(this, victim, false, out _, out _) == true)
+            if (thirdAttack != null && thirdAttack.IsTriggered(this, victim, false, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;

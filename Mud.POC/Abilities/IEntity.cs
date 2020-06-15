@@ -10,6 +10,6 @@ namespace Mud.POC.Abilities
         string DebugName { get; }
         IEnumerable<string> Keywords { get; } // name tokenize
 
-        IReadOnlyTrie<CommandMethodInfo> Commands { get; }
+        IReadOnlyTrie<CommandExecutionInfo> Commands { get; }
     }
 }

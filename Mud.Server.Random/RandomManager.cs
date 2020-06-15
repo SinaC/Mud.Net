@@ -98,9 +98,7 @@ namespace Mud.Server.Random
                     current = element;
             }
             if (count == 0)
-            {
-                throw new InvalidOperationException("Sequence was empty");
-            }
+                return default;
             return current;
         }
 
@@ -121,7 +119,7 @@ namespace Mud.Server.Random
                 if (random < range)
                     return occurancy.Value;
             }
-            Debug.Assert(false, "Random");
+            Debug.Assert(false, "RandomOccurancy");
             return default;
         }
 

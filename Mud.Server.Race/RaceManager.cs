@@ -17,7 +17,6 @@ namespace Mud.Server.Race
             // Get races using reflection
             Type iRaceType = typeof (IRace);
             Type iPlayableRaceType = typeof(IPlayableRace);
-            //_races = assemblyHelper.ExecutingAssembly.GetTypes()
             _races = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
                 .Where(t => t.IsClass && !t.IsAbstract && iRaceType.IsAssignableFrom(t))
                 .Select(t => CreateInstance(t, iPlayableRaceType.IsAssignableFrom(t), abilityManager)))

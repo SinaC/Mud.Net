@@ -22,7 +22,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin : Player.Player, IAdmin
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Admin>);
+        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<Admin>);
 
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
@@ -51,7 +51,7 @@ namespace Mud.Server.Admin
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => AdminCommands.Value;
+        public override IReadOnlyTrie<CommandExecutionInfo> Commands => AdminCommands.Value;
 
         //public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
         //{
@@ -65,10 +65,7 @@ namespace Mud.Server.Admin
         //    return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
         //}
 
-        protected override bool IsCommandAvailable(CommandAttribute attribute)
-        {
-            return !(attribute is AdminCommandAttribute adminCommandAttribute) || Level >= adminCommandAttribute.MinLevel;
-        }
+        public override bool IsCommandAvailable(CommandAttribute attribute) => !(attribute is AdminCommandAttribute adminCommandAttribute) || Level >= adminCommandAttribute.MinLevel;
 
         #endregion
 

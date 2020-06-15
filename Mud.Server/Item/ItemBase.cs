@@ -23,7 +23,7 @@ namespace Mud.Server.Item
         where TBlueprint : ItemBlueprintBase
         where TData: ItemData
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
+        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
 
         protected ItemBase(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
             : base(guid, name, description)
@@ -79,7 +79,7 @@ namespace Mud.Server.Item
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => ItemCommands.Value;
+        public override IReadOnlyTrie<CommandExecutionInfo> Commands => ItemCommands.Value;
 
         #endregion
 

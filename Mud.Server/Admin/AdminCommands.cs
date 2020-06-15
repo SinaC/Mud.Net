@@ -8,6 +8,7 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Command;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
@@ -461,13 +462,13 @@ namespace Mud.Server.Admin
                 type = typeof(Room.Room);
             else
                 return CommandExecutionResults.SyntaxError;
-            IReadOnlyTrie<CommandMethodInfo> commands = CommandHelpers.GetCommands(type);
+            IReadOnlyTrie<CommandExecutionInfo> commands = CommandManager.GetCommands(type);
             // Filter?
             var query = parameters.Length > 1
                 // Filter using Trie, then order by priority
-                ? commands.GetByPrefix(parameters[1].Value).OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value)
+                ? commands.GetByPrefix(parameters[1].Value).OfType<CommandMethodInfo>().OrderBy(x => x.CommandAttribute.Priority)
                 // No filter and order by MethodInfo name
-                : commands.Values.OrderBy(x => x.MethodInfo.Name);
+                : commands.Values.OfType<CommandMethodInfo>().OrderBy(x => x.MethodInfo.Name);
             // Display
             StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {type.Name}", query);
             Page(sb);

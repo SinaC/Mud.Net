@@ -39,7 +39,7 @@ namespace Mud.Server.Character
         private const int MinAlignment = -1000;
         private const int MaxAlignment = 1000;
 
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<CharacterBase>);
+        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<CharacterBase>);
 
         private readonly List<IItem> _inventory;
         private readonly List<EquippedItem> _equipments;
@@ -80,7 +80,7 @@ namespace Mud.Server.Character
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => CharacterBaseCommands.Value;
+        public override IReadOnlyTrie<CommandExecutionInfo> Commands => CharacterBaseCommands.Value;
 
         #endregion
 
@@ -1793,7 +1793,7 @@ namespace Mud.Server.Character
             }
 
             // Check minimum position
-            if (methodInfo.Attribute is CharacterCommandAttribute characterCommandAttribute)
+            if (methodInfo.CommandAttribute is CharacterCommandAttribute characterCommandAttribute)
             {
                 if (Position < characterCommandAttribute.MinPosition)
                 {

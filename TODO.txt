@@ -1,5 +1,12 @@
 NEXT:
-redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
+one class by command -> rename Command to GameAction
+	continue CommandManager
+	Command's instances should be created from DependencyContainer
+	how can we achieve command redefined in inherited class, such as DoWho or DoDelete
+	move ExecuteBeforeCommand, ExecuteAfterCommand into CommandBase (see CharacterBase for example)
+	create one class by command
+	AdminCommand, PlayerCommand, ...
+	move parsing code from Server.Input to Server.Commands
 
 move Weapon effect from OneHit to Rom24
 find a elegant way to apply PoisonDamageAffect without referencing Rom24
@@ -11,6 +18,9 @@ make a map of calls done when a NPC is Removed/StopFollowing/...
 commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
+
+redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
+
 
 module/plugin to enable load on demand of skills/spells/commands/...
 

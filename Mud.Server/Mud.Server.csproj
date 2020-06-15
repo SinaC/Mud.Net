@@ -75,9 +75,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abilities\TestSpells.cs" />
-    <Compile Include="ActionInput.cs" />
+    <Compile Include="Actor\Commands.cs" />
+    <Compile Include="Actor\Syntax.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
-    <Compile Include="Admin\CommunicationCommands.cs" />
+    <Compile Include="Admin\AdminTalk.cs" />
     <Compile Include="Admin\MiscCommands.cs" />
     <Compile Include="Admin\PunishCommands.cs" />
     <Compile Include="Area\Area.cs" />
@@ -212,6 +213,10 @@
     <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj">
       <Project>{e4077e94-96ea-4999-ae8f-f93b519e4411}</Project>
       <Name>Mud.Server.Class</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Command\Mud.Server.Command.csproj">
+      <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
+      <Name>Mud.Server.Command</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>

@@ -18,10 +18,7 @@ namespace Mud.Server.Ability
             _abilities = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
             // Get abilities and register them in IOC
             Type iAbility = typeof(IAbility);
-            //foreach (var abilityType in assemblyHelper.ExecutingAssembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t)))
             foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
-            //var asm = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetReferencedAssemblies()).DistinctBy(x => x.FullName);
-            //foreach (var abilityType in asm.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
             {
                 AbilityInfo abilityInfo = new AbilityInfo(abilityType);
                 if (_abilities.ContainsKey(abilityInfo.Name))

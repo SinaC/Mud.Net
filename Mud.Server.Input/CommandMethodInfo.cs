@@ -2,24 +2,14 @@
 
 namespace Mud.Server.Input
 {
-    public class CommandMethodInfo
+    public class CommandMethodInfo : CommandExecutionInfo
     {
-        public static SyntaxAttribute DefaultSyntaxCommandAttribute = new SyntaxAttribute("[cmd]");
-
-        public CommandAttribute Attribute { get; }
         public MethodInfo MethodInfo { get; }
-        public SyntaxAttribute Syntax { get; }
 
-        public CommandMethodInfo(CommandAttribute attribute, MethodInfo methodInfo)
-            : this(attribute, methodInfo, DefaultSyntaxCommandAttribute)
+        public CommandMethodInfo(MethodInfo methodInfo, CommandAttribute attribute, SyntaxAttribute syntax)
+            : base(attribute, syntax)
         {
-        }
-
-        public CommandMethodInfo(CommandAttribute attribute, MethodInfo methodInfo, SyntaxAttribute syntax)
-        {
-            Attribute = attribute;
             MethodInfo = methodInfo;
-            Syntax = syntax ?? DefaultSyntaxCommandAttribute;
         }
     }
 }

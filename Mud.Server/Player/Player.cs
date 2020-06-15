@@ -21,7 +21,7 @@ namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Player>);
+        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<Player>);
 
         private readonly List<string> _delayedTells;
         private readonly List<PlayableCharacterData> _avatarList;
@@ -67,7 +67,7 @@ namespace Mud.Server.Player
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => PlayerCommands.Value;
+        public override IReadOnlyTrie<CommandExecutionInfo> Commands => PlayerCommands.Value;
 
         public override bool ProcessCommand(string commandLine)
         {
@@ -297,7 +297,7 @@ namespace Mud.Server.Player
 
         protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
         {
-            if (methodInfo.Attribute is PlayerCommandAttribute playerCommandAttribute)
+            if (methodInfo.CommandAttribute is PlayerCommandAttribute playerCommandAttribute)
             {
                 if (playerCommandAttribute.MustBeImpersonated && Impersonating == null)
                 {
@@ -311,7 +311,7 @@ namespace Mud.Server.Player
                     return false;
                 }
             }
-            if (IsAfk && methodInfo.Attribute.Name != "afk")
+            if (IsAfk && methodInfo.CommandAttribute.Name != "afk")
             {
                 Send("%G%AFK%x% removed.");
                 Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
@@ -319,7 +319,7 @@ namespace Mud.Server.Player
                 return true;
             }
             bool baseExecuteBeforeCommandResult = base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
-            if (baseExecuteBeforeCommandResult && methodInfo.Attribute.Name != "delete")
+            if (baseExecuteBeforeCommandResult && methodInfo.CommandAttribute.Name != "delete")
             {
                 // once another command then 'delete' is used, reset deletion confirmation
                 DeletionConfirmationNeeded = false;

@@ -1,9 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Container;
+using Mud.Server.Command;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
+using Mud.Server.Interfaces.GameAction;
 using System.Linq;
 
 namespace Mud.Server.Tests.Abilities
@@ -32,9 +34,9 @@ namespace Mud.Server.Tests.Abilities
             return (parameters, commandParameters);
         }
 
-        protected ActionInput BuildActionInput(IActor actor, string parameters)
+        protected IActionInput BuildActionInput<T>(IActor actor, string parameters)
         {
-            return new ActionInput(actor, parameters);
+            return new ActionInput(CommandInfo.Create(typeof(T)), actor, parameters);
         }
 
         protected IAbilityLearned BuildAbilityLearned(string name)

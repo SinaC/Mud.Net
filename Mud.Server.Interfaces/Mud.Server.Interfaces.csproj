@@ -76,12 +76,13 @@
     <Compile Include="Class\IClass.cs" />
     <Compile Include="Class\IClassManager.cs" />
     <Compile Include="Effect\IEffect.cs" />
-    <Compile Include="IActionInput.cs" />
+    <Compile Include="GameAction\IActionInput.cs" />
     <Compile Include="IAssemblyHelper.cs" />
     <Compile Include="ICloseable.cs" />
     <Compile Include="Entity\IContainer.cs" />
     <Compile Include="Entity\IEntity.cs" />
-    <Compile Include="IGameAction.cs" />
+    <Compile Include="GameAction\ICommandInfo.cs" />
+    <Compile Include="GameAction\IGameAction.cs" />
     <Compile Include="ITargetedAction.cs" />
     <Compile Include="Item\IItemManager.cs" />
     <Compile Include="Room\IExit.cs" />

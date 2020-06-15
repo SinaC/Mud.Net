@@ -53,7 +53,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -91,7 +91,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -129,7 +129,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -169,7 +169,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -208,7 +208,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -247,7 +247,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -290,7 +290,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap target");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -334,7 +334,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap target");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -378,7 +378,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap target");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -422,7 +422,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap target");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -465,7 +465,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap target");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -511,7 +511,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap target");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -555,7 +555,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap item");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -599,7 +599,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap item");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -642,7 +642,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap item");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -684,7 +684,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap item");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -732,7 +732,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap item");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -778,7 +778,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
 
             Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "zap item");
+            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
