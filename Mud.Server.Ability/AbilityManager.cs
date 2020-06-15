@@ -16,7 +16,7 @@ namespace Mud.Server.Ability
         public AbilityManager(IAssemblyHelper assemblyHelper)
         {
             _abilities = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
-            // Get abilities and register them in IOC
+            // Get abilities
             Type iAbility = typeof(IAbility);
             foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
             {
@@ -24,10 +24,7 @@ namespace Mud.Server.Ability
                 if (_abilities.ContainsKey(abilityInfo.Name))
                     Log.Default.WriteLine(LogLevels.Error, "Duplicate ability {0}", abilityInfo.Name);
                 else
-                {
                     _abilities.Add(abilityInfo.Name, abilityInfo);
-                    DependencyContainer.Current.Register(abilityType);
-                }
             }
         }
 

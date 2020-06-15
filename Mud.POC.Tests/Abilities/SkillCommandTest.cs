@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace Mud.POC.Tests.Abilities
 {
+    [Ignore]
     [TestClass]
     public class SkillCommandTest : AbilityTestBase
     {

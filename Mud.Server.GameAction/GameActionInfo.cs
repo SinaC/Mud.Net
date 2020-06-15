@@ -1,11 +1,12 @@
 ﻿using Mud.Server.Input;
 using Mud.Server.Interfaces.GameAction;
 using System;
+using System.Linq;
 using System.Reflection;
 
-namespace Mud.Server.Command
+namespace Mud.Server.GameAction
 {
-    public class CommandInfo : CommandExecutionInfo, ICommandInfo
+    public class GameActionInfo : CommandExecutionInfo, IGameActionInfo
     {
         public Type CommandExecutionType { get; }
 
@@ -18,17 +19,17 @@ namespace Mud.Server.Command
 
         public string[] Syntax => SyntaxAttribute.Syntax;
 
-        public CommandInfo(Type commandExecutionType, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
+        public GameActionInfo(Type commandExecutionType, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
             : base(commandAttribute, syntaxAttribute)
         {
             CommandExecutionType = commandExecutionType;
         }
 
-        public static CommandInfo Create(Type type) // TODO: replace with ctor when CommandExecutionInfo and CommandMethodInfo will be removed
+        public static IGameActionInfo Create(Type type) // TODO: replace with ctor when CommandExecutionInfo and CommandMethodInfo will be removed
         {
-            CommandAttribute commandAttribute = type.GetCustomAttribute<CommandAttribute>();
+            CommandAttribute commandAttribute = type.GetCustomAttributes<CommandAttribute>().FirstOrDefault();
             SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? CommandExecutionInfo.DefaultSyntaxCommandAttribute;
-            return new CommandInfo(type, commandAttribute, syntaxAttribute);
+            return new GameActionInfo(type, commandAttribute, syntaxAttribute);
         }
     }
 }

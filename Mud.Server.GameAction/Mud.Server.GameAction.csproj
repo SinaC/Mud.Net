@@ -7,8 +7,8 @@
     <ProjectGuid>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.Server.Command</RootNamespace>
-    <AssemblyName>Mud.Server.Command</AssemblyName>
+    <RootNamespace>Mud.Server.GameAction</RootNamespace>
+    <AssemblyName>Mud.Server.GameAction</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -45,9 +45,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionInput.cs" />
-    <Compile Include="CommandBase.cs" />
-    <Compile Include="CommandInfo.cs" />
-    <Compile Include="CommandManager.cs" />
+    <Compile Include="GameActionBase.cs" />
+    <Compile Include="GameActionInfo.cs" />
+    <Compile Include="GameActionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

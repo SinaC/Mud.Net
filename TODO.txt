@@ -1,7 +1,6 @@
 NEXT:
 one class by command -> rename Command to GameAction
 	continue CommandManager
-	Command's instances should be created from DependencyContainer
 	how can we achieve command redefined in inherited class, such as DoWho or DoDelete
 	move ExecuteBeforeCommand, ExecuteAfterCommand into CommandBase (see CharacterBase for example)
 	create one class by command

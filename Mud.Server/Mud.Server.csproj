@@ -214,9 +214,9 @@
       <Project>{e4077e94-96ea-4999-ae8f-f93b519e4411}</Project>
       <Name>Mud.Server.Class</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Command\Mud.Server.Command.csproj">
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
       <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
-      <Name>Mud.Server.Command</Name>
+      <Name>Mud.Server.GameAction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>

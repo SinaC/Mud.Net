@@ -8,8 +8,8 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Command;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Admin;
@@ -462,7 +462,7 @@ namespace Mud.Server.Admin
                 type = typeof(Room.Room);
             else
                 return CommandExecutionResults.SyntaxError;
-            IReadOnlyTrie<CommandExecutionInfo> commands = CommandManager.GetCommands(type);
+            IReadOnlyTrie<CommandExecutionInfo> commands = GameAction.GameActionManager.GetCommands(type);
             // Filter?
             var query = parameters.Length > 1
                 // Filter using Trie, then order by priority

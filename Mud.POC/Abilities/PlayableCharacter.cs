@@ -9,13 +9,13 @@ using Mud.POC.Affects;
 using Mud.Server.Random;
 using Mud.Server.Input;
 using Mud.Common;
-using Mud.Server.Command;
+using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities
 {
     public partial class PlayableCharacter : IPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(() => CommandManager.GetCommands(typeof(PlayableCharacter)));
+        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(() => GameActionManager.GetCommands(typeof(PlayableCharacter)));
 
         private IRandomManager RandomManager { get; }
         private IAbilityManager AbilityManager { get; }

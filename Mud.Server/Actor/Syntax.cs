@@ -1,4 +1,4 @@
-﻿using Mud.Server.Command;
+﻿using Mud.Server.GameAction;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
@@ -11,7 +11,7 @@ namespace Mud.Server.Actor
     [Syntax(
             "[cmd] all",
             "[cmd] <command>")]
-    public class Syntax : CommandBase<IActor>
+    public class Syntax : GameActionBase<IActor>
     {
         public string CommandName { get; protected set; }
 

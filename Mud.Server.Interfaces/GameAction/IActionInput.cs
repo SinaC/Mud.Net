@@ -10,7 +10,7 @@ namespace Mud.Server.Interfaces.GameAction
         string Command { get; }
         string RawParameters { get; }
         CommandParameter[] Parameters { get; }
-        ICommandInfo CommandInfo { get; }
+        IGameActionInfo CommandInfo { get; }
 
         object Context { get; set; }
 

@@ -8,7 +8,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
-using System.Reflection;
 
 namespace Mud.Server.Tests.Abilities
 {

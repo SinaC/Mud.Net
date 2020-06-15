@@ -3,18 +3,14 @@ using Mud.Server.Interfaces.GameAction;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Mud.Server.Command
+namespace Mud.Server.GameAction
 {
-    public abstract class CommandBase<TActor> : IGameAction
+    public abstract class GameActionBase<TActor> : IGameAction
         where TActor: class, IActor
     {
-        protected ICommandInfo CommandInfo { get; private set; }
+        protected IGameActionInfo CommandInfo { get; private set; }
 
         public TActor Actor { get; protected set; }
-
-        public CommandBase()
-        {
-        }
 
         public abstract void Execute(IActionInput actionInput);
 

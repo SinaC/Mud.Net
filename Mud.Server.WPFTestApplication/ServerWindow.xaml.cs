@@ -40,6 +40,8 @@ using Mud.Server.Random;
 using Mud.Common;
 using System.Reflection;
 using Mud.Server.Rom24.Spells;
+using Mud.Server.Interfaces.GameAction;
+using Mud.Server.GameAction;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -63,6 +65,13 @@ namespace Mud.Server.WPFTestApplication
             public IEnumerable<Assembly> AllReferencedAssemblies => new Assembly[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly};
         }
 
+        internal void RegisterAllTypes(IAssemblyHelper assemblyHelper)
+        {
+            Type iRegistrable = typeof(IRegistrable);
+            foreach (var registrable in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
+                DependencyContainer.Current.Register(registrable);
+        }
+
         public ServerWindow()
         {
             _serverWindowInstance = this;
@@ -74,8 +83,14 @@ namespace Mud.Server.WPFTestApplication
             // Initialize log
             Log.Default.Initialize(settings.LogPath, "server.log");
 
+            // Register all needed types
+            RegisterAllTypes(new AssemblyHelper());
+
             // Initialize IOC container
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
             DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(new AssemblyHelper());
+            DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
+            DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
             DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAuraManager
@@ -87,11 +102,9 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
             DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
             DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-            DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
             DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector cant choose which one to chose
             DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
 
             if (settings.UseMongo)

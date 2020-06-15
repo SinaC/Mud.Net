@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Mud.Common;
 using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Command;
+using Mud.Server.GameAction;
 using Mud.Server.Input;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
@@ -26,6 +24,7 @@ namespace Mud.Server.Actor
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
+        protected IGameActionManager GameActionManager => DependencyContainer.Current.GetInstance<IGameActionManager>();
 
         #region IActor
 
@@ -82,7 +81,7 @@ namespace Mud.Server.Actor
                         }
                         else if (executionResult == CommandExecutionResults.SyntaxError)
                         {
-                            StringBuilder syntax = CommandBase<IActor>.BuildCommandSyntax(entry.Key, entry.Value.SyntaxAttribute.Syntax, false);
+                            StringBuilder syntax = GameActionBase<IActor>.BuildCommandSyntax(entry.Key, entry.Value.SyntaxAttribute.Syntax, false);
                             Send(syntax);
                         }
                         bool afterExecute = ExecuteAfterCommand(cmi, rawParameters, parameters);
@@ -100,18 +99,12 @@ namespace Mud.Server.Actor
                         return false;
                     }
                 }
-                else if (entry.Value is CommandInfo ci && ci.CommandExecutionType != null)
+                else if (entry.Value is GameActionInfo ci && ci.CommandExecutionType != null)
                 {
                     if (IsCommandAvailable(entry.Value?.CommandAttribute))
                     {
                         Type executionType = ci.CommandExecutionType;
-                        IGameAction gameAction;
-                        // Try to find in DependencyContainer
-                        if (DependencyContainer.Current.GetRegistration(executionType) != null)
-                            gameAction = DependencyContainer.Current.GetInstance(executionType) as IGameAction;
-                        // If not found in DependencyContainer, use Activator to create instance
-                        else
-                            gameAction = Activator.CreateInstance(executionType) as IGameAction;
+                        IGameAction gameAction = GameActionManager.CreateInstance(entry.Key);
                         if (gameAction != null)
                         {
                             ActionInput actionInput = new ActionInput(ci, this, string.Empty/*TODO*/, command, rawParameters, parameters);
@@ -175,7 +168,7 @@ namespace Mud.Server.Actor
 
         protected static IReadOnlyTrie<CommandExecutionInfo> GetCommands<T>()
             where T : ActorBase
-            => CommandManager.GetCommands(typeof(T));
+            => GameAction.GameActionManager.GetCommands(typeof(T));
 
         private CommandExecutionResults ConvertToCommandExecutionResults(string command, object rawResult)
         {

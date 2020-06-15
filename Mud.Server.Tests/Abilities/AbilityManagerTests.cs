@@ -8,7 +8,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
 using System.Linq;
-using System.Reflection;
 
 namespace Mud.Server.Tests.Abilities
 {
@@ -47,20 +46,6 @@ namespace Mud.Server.Tests.Abilities
             IAbilityInfo abilityInfo = abilityManager["Pouet"];
 
             Assert.IsNull(abilityInfo);
-        }
-
-        [TestMethod]
-        public void DependencyContainer_Filled()
-        {
-            Mock<IAssemblyHelper> assemblyHelperMock = new Mock<IAssemblyHelper>();
-            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(AcidBlast).Assembly.Yield());
-            AbilityManager abilityManager = new AbilityManager(assemblyHelperMock.Object);
-
-            foreach (IAbilityInfo abilityInfo in abilityManager.Abilities)
-            {
-                var instanceProducer = DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false);
-                Assert.IsNotNull(instanceProducer);
-            }
         }
 
         [TestMethod]

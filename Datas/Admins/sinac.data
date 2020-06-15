@@ -21,7 +21,7 @@
       <Sex>1</Sex>
       <Size>2</Size>
       <HitPoints>109</HitPoints>
-      <MovePoints>45</MovePoints>
+      <MovePoints>9</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -131,7 +131,20 @@
             <Level>16</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>64</ItemFlags>
-            <Auras />
+            <Auras>
+              <AuraData>
+                <AbilityName>Envenom</AbilityName>
+                <Level>12</Level>
+                <PulseLeft>1640</PulseLeft>
+                <AuraFlags>2</AuraFlags>
+                <Affects>
+                  <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
+                    <Operator>1</Operator>
+                    <Modifier>128</Modifier>
+                  </AffectDataBase>
+                </Affects>
+              </AuraData>
+            </Auras>
             <WeaponFlags>0</WeaponFlags>
           </Item>
         </EquippedItemData>
@@ -159,14 +172,6 @@
         </EquippedItemData>
       </Equipments>
       <Inventory>
-        <ItemData xsi:type="ItemLightData">
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-          <TimeLeft>29998</TimeLeft>
-        </ItemData>
         <ItemData>
           <ItemId>3353</ItemId>
           <Level>5</Level>
@@ -188,13 +193,21 @@
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
+        </ItemData>
+        <ItemData xsi:type="ItemLightData">
+          <ItemId>3365</ItemId>
+          <Level>8</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>65</ItemFlags>
+          <Auras />
+          <TimeLeft>29998</TimeLeft>
         </ItemData>
       </Inventory>
       <Auras>
         <AuraData>
           <AbilityName>Berserk</AbilityName>
-          <Level>39</Level>
-          <PulseLeft>868</PulseLeft>
+          <Level>27</Level>
+          <PulseLeft>708</PulseLeft>
           <AuraFlags>2</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -287,8 +300,8 @@
       <GoldCoins>0</GoldCoins>
       <Experience>100000</Experience>
       <Alignment>0</Alignment>
-      <Trains>41</Trains>
-      <Practices>79</Practices>
+      <Trains>40</Trains>
+      <Practices>76</Practices>
       <AutoFlags>63</AutoFlags>
       <CurrentQuests />
       <LearnedAbilities>
@@ -298,7 +311,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
-          <Learned>0</Learned>
+          <Learned>94</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -1530,7 +1543,7 @@
       <Cooldowns>
         <PairDataOfStringInt32>
           <Key>Test</Key>
-          <Value>1704</Value>
+          <Value>1544</Value>
         </PairDataOfStringInt32>
       </Cooldowns>
       <Pets>
@@ -1541,7 +1554,7 @@
           <Level>40</Level>
           <Sex>0</Sex>
           <Size>0</Size>
-          <HitPoints>574</HitPoints>
+          <HitPoints>360</HitPoints>
           <MovePoints>1000</MovePoints>
           <CurrentResources>
             <PairDataOfInt32Int32>

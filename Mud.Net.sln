@@ -81,7 +81,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Class", "Mud.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Race", "Mud.Server.Race\Mud.Server.Race.csproj", "{9760A8E7-084E-4574-93E5-3473745E502D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Command", "Mud.Server.Command\Mud.Server.Command.csproj", "{FCD8AD1B-893C-475C-82E3-77F957772FE3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.GameAction", "Mud.Server.GameAction\Mud.Server.GameAction.csproj", "{FCD8AD1B-893C-475C-82E3-77F957772FE3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

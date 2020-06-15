@@ -2,7 +2,7 @@
 
 namespace Mud.Server.Interfaces.GameAction
 {
-    public interface ICommandInfo
+    public interface IGameActionInfo
     {
         string Name { get; }
         int Priority { get; }

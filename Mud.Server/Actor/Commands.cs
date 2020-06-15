@@ -1,5 +1,5 @@
 ﻿using Mud.Common;
-using Mud.Server.Command;
+using Mud.Server.GameAction;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
@@ -16,7 +16,7 @@ namespace Mud.Server.Actor
             "[cmd]",
             "[cmd] all",
             "[cmd] <category>")]
-    public class Commands : CommandBase<IActor>
+    public class Commands : GameActionBase<IActor>
     {
         private const int columnCount = 6;
 

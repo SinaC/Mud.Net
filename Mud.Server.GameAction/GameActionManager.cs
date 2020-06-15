@@ -9,31 +9,67 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Mud.Server.Command
+namespace Mud.Server.GameAction
 {
-    // TODO: not anymore a static class and implement ICommandManager
-    // TODO: add interface with IEnumerable<ICommandInfo> GameActions and CreateInstance
-    public class CommandManager
+    // TODO: not anymore a static class
+    public class GameActionManager : IGameActionManager
     {
-        public CommandManager(IAssemblyHelper assemblyHelper)
-        {
-            Dictionary<string, CommandInfo> commandInfos = new Dictionary<string, CommandInfo>();
+        private Dictionary<string, IGameActionInfo> _gameActions;
 
-            // Get commands and register them in IOC
+        public GameActionManager(IAssemblyHelper assemblyHelper)
+        {
+            _gameActions = new Dictionary<string, IGameActionInfo>();
+            // Get commands
             Type iGameActionType = typeof(IGameAction);
             foreach (var gameActionType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
                  .Where(t => t.IsClass && !t.IsAbstract && iGameActionType.IsAssignableFrom(t))))
             {
-                CommandInfo commandInfo = CommandInfo.Create(gameActionType);
-                if (commandInfos.ContainsKey(commandInfo.Name))
-                    Log.Default.WriteLine(LogLevels.Error, "Duplicate command {0}", commandInfo.Name);
+                IGameActionInfo commandInfo = GameActionInfo.Create(gameActionType);
+                if (_gameActions.ContainsKey(commandInfo.Name))
+                    Log.Default.WriteLine(LogLevels.Error, "Duplicate game action {0}", commandInfo.Name);
                 else
-                {
-                    commandInfos.Add(commandInfo.Name, commandInfo);
-                    DependencyContainer.Current.Register(gameActionType); // !! TODO: skills will be registered twice
-                }
+                    _gameActions.Add(commandInfo.Name, commandInfo);
             }
         }
+
+        #region IGameActionManager
+
+        public IEnumerable<IGameActionInfo> GameActions => _gameActions.Values;
+
+        public IGameActionInfo this[string name]
+        {
+            get 
+            {
+                if (!_gameActions.TryGetValue(name, out var gameActionInfo))
+                    return null;
+                return gameActionInfo;
+            }
+        }
+
+
+        public IGameAction CreateInstance(string name)
+        {
+            IGameActionInfo gameActionInfo = this[name];
+            if (gameActionInfo == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} doesn't exist.", name);
+                return default;
+            }
+            if (DependencyContainer.Current.GetRegistration(gameActionInfo.CommandExecutionType, false) == null)
+            {     
+                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} not found in DependencyContainer.", name);
+                return default;
+            }
+            IGameAction instance = DependencyContainer.Current.GetInstance(gameActionInfo.CommandExecutionType) as IGameAction;
+            if (instance == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be instantiated or is not {1}.", name, typeof(IGameAction).Name);
+                return default;
+            }
+            return instance;
+        }
+
+        #endregion
 
         public static IReadOnlyTrie<CommandExecutionInfo> GetCommands(Type type)
         {
@@ -61,7 +97,7 @@ namespace Mud.Server.Command
                 //.Where(t => t.GetGenericParameterConstraints().Any(c => t.IsAssignableFrom(c)))
                 .Select(x => new { executionType = x, attributes = GetCommandAndSyntaxAttributes(x) })
                 .SelectMany(x => x.attributes.commandAttributes,
-                   (x, commandAttribute) => new TrieEntry<CommandExecutionInfo>(commandAttribute.Name, new CommandInfo(x.executionType, commandAttribute, x.attributes.syntaxCommandAttribute)));
+                   (x, commandAttribute) => new TrieEntry<CommandExecutionInfo>(commandAttribute.Name, new GameActionInfo(x.executionType, commandAttribute, x.attributes.syntaxCommandAttribute)));
         }
 
         private static (IEnumerable<CommandAttribute> commandAttributes, SyntaxAttribute syntaxCommandAttribute) GetCommandAndSyntaxAttributes(MethodInfo methodInfo)

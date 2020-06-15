@@ -684,6 +684,7 @@ namespace Mud.Server.Tests
             ItemPortalData itemData = new ItemPortalData
             {
                 ItemId = portalBlueprint.Id,
+                DestinationRoomId = room2.Blueprint.Id,
                 DecayPulseLeft = AutoFaker.Generate<int>(),
                 ItemFlags = AutoFaker.Generate<ItemFlags>(),
                 PortalFlags = AutoFaker.Generate<PortalFlags>(),

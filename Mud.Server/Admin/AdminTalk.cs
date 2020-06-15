@@ -1,5 +1,5 @@
 ﻿using Mud.Container;
-using Mud.Server.Command;
+using Mud.Server.GameAction;
 using Mud.Server.Input;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
@@ -9,7 +9,7 @@ namespace Mud.Server.Admin
     [AdminCommand("atalk", "Communication")]
     [AdminCommand("admintalk", "Communication")]
     [Syntax("[cmd] <message>")]
-    public class AdminTalk : CommandBase<IAdmin>
+    public class AdminTalk : GameActionBase<IAdmin>
     {
         public string What { get; protected set; }
 
