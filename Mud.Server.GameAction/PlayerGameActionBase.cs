@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.GameAction;
+﻿using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.GameAction
@@ -7,11 +8,15 @@ namespace Mud.Server.GameAction
         where TPlayer : class, IPlayer
         where TPlayerGameActionInfo: class, IPlayerGameActionInfo
     {
+        public IPlayableCharacter Impersonating { get; protected set; }
+
         public override string Guards(IActionInput actionInput)
         {
             string baseGuards = base.Guards(actionInput);
             if (baseGuards != null)
                 return baseGuards;
+
+            Impersonating = Actor.Impersonating;
 
             if (GameActionInfo.MustBeImpersonated && Actor.Impersonating == null)
                 return $"You must be impersonated to use '{GameActionInfo.Name}'.";

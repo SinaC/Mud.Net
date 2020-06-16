@@ -77,11 +77,13 @@
     <Compile Include="Abilities\TestSpells.cs" />
     <Compile Include="Actor\Commands.cs" />
     <Compile Include="Actor\Syntax.cs" />
-    <Compile Include="Admin\AdminCommands.cs" />
     <Compile Include="Admin\Administration\Cload.cs" />
     <Compile Include="Admin\Administration\Goto.cs" />
+    <Compile Include="Admin\Administration\Immortal.cs" />
     <Compile Include="Admin\Administration\Oload.cs" />
+    <Compile Include="Admin\Administration\Peace.cs" />
     <Compile Include="Admin\Administration\Purge.cs" />
+    <Compile Include="Admin\Administration\ResetArea.cs" />
     <Compile Include="Admin\Administration\Restore.cs" />
     <Compile Include="Admin\Administration\SanityCheck.cs" />
     <Compile Include="Admin\Administration\Shutdown.cs" />
@@ -89,6 +91,12 @@
     <Compile Include="Admin\Administration\Transfer.cs" />
     <Compile Include="Admin\Administration\XpBonus.cs" />
     <Compile Include="Admin\Communication\AdminTalk.cs" />
+    <Compile Include="Admin\Incarnate.cs" />
+    <Compile Include="Admin\Information\Cstat.cs" />
+    <Compile Include="Admin\Information\Ostat.cs" />
+    <Compile Include="Admin\Information\Rstat.cs" />
+    <Compile Include="Admin\Information\Stat.cs" />
+    <Compile Include="Admin\Information\Wiznet.cs" />
     <Compile Include="Player\Information\Areas.cs" />
     <Compile Include="Player\Information\Who.cs" />
     <Compile Include="Admin\MiscCommands.cs" />
@@ -101,7 +109,6 @@
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\ImpersonateCommand.cs" />
-    <Compile Include="Admin\IncarnateCommand.cs" />
     <Compile Include="Admin\InfoCommands.cs" />
     <Compile Include="Character\AbilityCommands.cs" />
     <Compile Include="Character\PlayableCharacter\InfoCommands.cs" />

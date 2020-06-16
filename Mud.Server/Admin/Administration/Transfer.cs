@@ -40,7 +40,7 @@ namespace Mud.Server.Admin.Administration
             IRoom where;
             if (Actor.Impersonating != null)
                 where = actionInput.Parameters.Length == 1
-                    ? Actor.Impersonating.Room
+                    ? Impersonating.Room
                     : FindHelpers.FindLocation(Actor.Impersonating, actionInput.Parameters[1]);
             else
                 where = FindHelpers.FindLocation(actionInput.Parameters[1]);

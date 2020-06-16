@@ -119,6 +119,16 @@ namespace Mud.Server.Admin
 
         public WiznetFlags WiznetFlags { get; private set; }
 
+        public void AddWiznet(WiznetFlags wiznetFlags)
+        {
+            WiznetFlags |= wiznetFlags;
+        }
+
+        public void RemoveWiznet(WiznetFlags wiznetFlags)
+        {
+            WiznetFlags &= ~wiznetFlags;
+        }
+
         public IEntity Incarnating { get; private set; }
 
         public void StopIncarnating()

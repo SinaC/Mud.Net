@@ -47,7 +47,7 @@ namespace Mud.Server.Admin.Administration
         public override void Execute(IActionInput actionInput)
         {
             IContainer container = ItemBlueprint.NoTake
-                ? Actor.Impersonating.Room
+                ? Impersonating.Room
                 : Actor.Impersonating as IContainer;
             IItem item = ItemManager.AddItem(Guid.NewGuid(), ItemBlueprint, container);
             if (item == null)
@@ -59,7 +59,7 @@ namespace Mud.Server.Admin.Administration
 
             Wiznet.Wiznet($"{Actor.DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
 
-            Actor.Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1}!", Actor.Impersonating, item);
+            Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1}!", Actor.Impersonating, item);
             Actor.Send("Ok.");
         }
     }

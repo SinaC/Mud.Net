@@ -46,7 +46,7 @@ namespace Mud.Server.Admin.Administration
             // All -> room
             if (actionInput.Parameters[0].IsAll)
             {
-                Target = Actor.Impersonating.Room;
+                Target = Impersonating.Room;
                 return null;
             }
 
@@ -105,7 +105,7 @@ namespace Mud.Server.Admin.Administration
             IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(room.Content.Where(x => !x.ItemFlags.HasFlag(ItemFlags.NoPurge)).ToList()); // clone
             foreach (IItem itemToPurge in items)
                 ItemManager.RemoveItem(itemToPurge);
-            Actor.Impersonating.Act(ActOptions.ToRoom, "{0} purge{0:v} the room!", Actor.Impersonating);
+            Impersonating.Act(ActOptions.ToRoom, "{0} purge{0:v} the room!", Actor.Impersonating);
             Actor.Send("Ok.");
         }
 
@@ -134,7 +134,7 @@ namespace Mud.Server.Admin.Administration
         {
             Wiznet.Wiznet($"{Actor.DisplayName} purges item {item.DebugName}.", WiznetFlags.Punish);
 
-            Actor.Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}.", Actor.Impersonating, item);
+            Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}.", Actor.Impersonating, item);
             ItemManager.RemoveItem(item);
             Actor.Send("Ok.");
         }

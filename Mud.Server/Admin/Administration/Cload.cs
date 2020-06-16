@@ -45,7 +45,7 @@ namespace Mud.Server.Admin.Administration
 
         public override void Execute(IActionInput actionInput)
         {
-            INonPlayableCharacter character = World.AddNonPlayableCharacter(Guid.NewGuid(), CharacterBlueprint, Actor.Impersonating.Room);
+            INonPlayableCharacter character = World.AddNonPlayableCharacter(Guid.NewGuid(), CharacterBlueprint, Impersonating.Room);
             if (character == null)
             {
                 Wiznet.Wiznet($"DoCload: character with id {BlueprintId} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
@@ -55,7 +55,7 @@ namespace Mud.Server.Admin.Administration
 
             Wiznet.Wiznet($"{Actor.DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
 
-            Actor.Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1:n}!", Actor.Impersonating, character);
+            Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1:n}!", Actor.Impersonating, character);
             Actor.Send("Ok.");
         }
     }

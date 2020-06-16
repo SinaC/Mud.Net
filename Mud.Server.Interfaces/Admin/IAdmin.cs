@@ -9,6 +9,8 @@ namespace Mud.Server.Interfaces.Admin
         AdminLevels Level { get; }
 
         WiznetFlags WiznetFlags { get; }
+        void AddWiznet(WiznetFlags wiznetFlags);
+        void RemoveWiznet(WiznetFlags wiznetFlags);
 
         IEntity Incarnating { get; }
 

@@ -29,7 +29,7 @@ namespace Mud.Server.Admin.Administration
             if (actionInput.Parameters.Length == 0)
                 return BuildCommandSyntax();
 
-            Whom = FindHelpers.FindByName(Actor.Impersonating.Room.People, actionInput.Parameters[0]);
+            Whom = FindHelpers.FindByName(Impersonating.Room.People, actionInput.Parameters[0]);
             if (Whom == null)
                 return StringHelpers.CharacterNotFound;
             if (Whom == Actor.Impersonating)

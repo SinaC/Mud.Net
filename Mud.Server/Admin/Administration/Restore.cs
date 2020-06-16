@@ -60,9 +60,9 @@ namespace Mud.Server.Admin.Administration
         {
             if (IsRoom)
             {
-                foreach (ICharacter loopVictim in Actor.Impersonating.Room.People)
+                foreach (ICharacter loopVictim in Impersonating.Room.People)
                     RestoreOneCharacter(loopVictim);
-                Wiznet.Wiznet($"{Actor.DisplayName} has restored room {Actor.Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
+                Wiznet.Wiznet($"{Actor.DisplayName} has restored room {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
                 Actor.Send("Room restored.");
                 return;
             }
