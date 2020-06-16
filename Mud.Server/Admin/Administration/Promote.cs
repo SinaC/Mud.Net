@@ -19,7 +19,7 @@ namespace Mud.Server.Admin.Administration
         private IServerAdminCommand ServerAdminCommand { get; }
 
         public AdminLevels Level { get; protected set; }
-        public IPlayer Player { get; protected set; }
+        public IPlayer Whom { get; protected set; }
 
         public Promote(IPlayerManager playerManager, IServerAdminCommand serverAdminCommand)
         {
@@ -37,13 +37,13 @@ namespace Mud.Server.Admin.Administration
                 return BuildCommandSyntax();
 
             // whom
-            Player = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0], true);
-            if (Player == null)
+            Whom = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0], true);
+            if (Whom == null)
                 return StringHelpers.CharacterNotFound;
-            if (Player == this)
+            if (Whom == this)
                 return "You cannot promote yourself.";
-            if (Player is IAdmin)
-                return $"{Player.DisplayName} is already Admin";
+            if (Whom is IAdmin)
+                return $"{Whom.DisplayName} is already Admin";
 
             // what
             AdminLevels level;
@@ -56,7 +56,7 @@ namespace Mud.Server.Admin.Administration
 
         public override void Execute(IActionInput actionInput)
         {
-            ServerAdminCommand.Promote(Player, Level);
+            ServerAdminCommand.Promote(Whom, Level);
         }
     }
 }

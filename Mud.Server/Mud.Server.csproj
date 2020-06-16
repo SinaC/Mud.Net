@@ -78,7 +78,16 @@
     <Compile Include="Actor\Commands.cs" />
     <Compile Include="Actor\Syntax.cs" />
     <Compile Include="Admin\AdminCommands.cs" />
+    <Compile Include="Admin\Administration\Cload.cs" />
+    <Compile Include="Admin\Administration\Goto.cs" />
+    <Compile Include="Admin\Administration\Oload.cs" />
+    <Compile Include="Admin\Administration\Purge.cs" />
+    <Compile Include="Admin\Administration\Restore.cs" />
+    <Compile Include="Admin\Administration\SanityCheck.cs" />
     <Compile Include="Admin\Administration\Shutdown.cs" />
+    <Compile Include="Admin\Administration\Slay.cs" />
+    <Compile Include="Admin\Administration\Transfer.cs" />
+    <Compile Include="Admin\Administration\XpBonus.cs" />
     <Compile Include="Admin\Communication\AdminTalk.cs" />
     <Compile Include="Player\Information\Areas.cs" />
     <Compile Include="Player\Information\Who.cs" />
