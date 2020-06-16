@@ -7,8 +7,9 @@ using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Common;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
 // ReSharper disable UnusedMember.Global
 
@@ -24,7 +25,7 @@ namespace Mud.Server.Character.PlayableCharacter
             "[cmd] get <quest name>",
             "[cmd] get all",
             "[cmd] list")]
-        protected virtual CommandExecutionResults DoQuest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuest(string rawParameters, params ICommandParameter[] parameters)
         {
             // no param -> quest info
             if (parameters.Length == 0)
@@ -66,29 +67,29 @@ namespace Mud.Server.Character.PlayableCharacter
             // quest abandon id
             if ("abandon".StartsWith(parameters[0].Value))
             {
-                var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
-                return DoQuestAbandon(subCommandParameters.rawParameters, subCommandParameters.parameters);
+                var subICommandParameters = CommandHelpers.SkipParameters(parameters, 1);
+                return DoQuestAbandon(subICommandParameters.rawParameters, subICommandParameters.parameters);
             }
 
             // quest complete id
             if ("complete".StartsWith(parameters[0].Value))
             {
-                var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
-                return DoQuestComplete(subCommandParameters.rawParameters, subCommandParameters.parameters);
+                var subICommandParameters = CommandHelpers.SkipParameters(parameters, 1);
+                return DoQuestComplete(subICommandParameters.rawParameters, subICommandParameters.parameters);
             }
 
             // quest get all|title
             if ("get".StartsWith(parameters[0].Value))
             {
-                var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
-                return DoQuestGet(subCommandParameters.rawParameters, subCommandParameters.parameters);
+                var subICommandParameters = CommandHelpers.SkipParameters(parameters, 1);
+                return DoQuestGet(subICommandParameters.rawParameters, subICommandParameters.parameters);
             }
 
             // quest list
             if ("list".StartsWith(parameters[0].Value))
             {
-                var subCommandParameters = CommandHelpers.SkipParameters(parameters, 1);
-                return DoQuestList(subCommandParameters.rawParameters, subCommandParameters.parameters);
+                var subICommandParameters = CommandHelpers.SkipParameters(parameters, 1);
+                return DoQuestList(subICommandParameters.rawParameters, subICommandParameters.parameters);
             }
 
             return CommandExecutionResults.SyntaxError;
@@ -99,7 +100,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [Syntax(
             "[cmd] <id>",
             "[cmd] all")]
-        protected virtual CommandExecutionResults DoQuestComplete(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestComplete(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -150,7 +151,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [PlayableCharacterCommand("qabandon", "Quest", Priority = 3, MinPosition = Positions.Standing)]
         [PlayableCharacterCommand("questabandon", "Quest", Priority = 3, MinPosition = Positions.Standing)]
         [Syntax("[cmd] <id>")]
-        protected virtual CommandExecutionResults DoQuestAbandon(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestAbandon(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -177,7 +178,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [Syntax(
             "[cmd] <quest name>",
             "[cmd] all")]
-        protected virtual CommandExecutionResults DoQuestGet(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestGet(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -235,7 +236,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         [PlayableCharacterCommand("qlist", "Quest", Priority = 5, MinPosition = Positions.Standing)]
         [PlayableCharacterCommand("questlist", "Quest", Priority = 5, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoQuestList(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestList(string rawParameters, params ICommandParameter[] parameters)
         {
             // Display quests available in this.Room
             StringBuilder sb = new StringBuilder();

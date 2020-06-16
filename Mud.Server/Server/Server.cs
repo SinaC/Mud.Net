@@ -15,7 +15,6 @@ using Mud.Network;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Settings;
 using System.Reflection;
 using Mud.Server.Blueprints.Quest;
@@ -37,6 +36,7 @@ using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
 using Mud.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Server
 {
@@ -196,7 +196,7 @@ namespace Mud.Server.Server
 
         #region IPlayerManager
 
-        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
+        public IPlayer GetPlayer(ICommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
 
         public IEnumerable<IPlayer> Players => _players.Keys;
 
@@ -228,7 +228,7 @@ namespace Mud.Server.Server
 
         #region IAdminManager
 
-        public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
+        public IAdmin GetAdmin(ICommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
 
         public IEnumerable<IAdmin> Admins => _players.Keys.OfType<IAdmin>();
 

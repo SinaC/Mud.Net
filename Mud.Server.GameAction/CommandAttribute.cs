@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Mud.Domain;
 
-namespace Mud.Server.Input
+namespace Mud.Server.GameAction
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
     public class CommandAttribute : Attribute

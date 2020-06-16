@@ -12,16 +12,16 @@ using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 
@@ -31,78 +31,13 @@ namespace Mud.Server.Admin
 {
     public partial class Admin
     {
-        [AdminCommand("who", "Information")]
-
-        protected override CommandExecutionResults DoWho(string rawParameters, params CommandParameter[] parameters)
-        {
-            StringBuilder sb = new StringBuilder();
-            //
-            sb.AppendLine("Players:");
-            foreach (IPlayer player in PlayerManager.Players.Where(x => !(x is IAdmin))) // only player
-            {
-                switch (player.PlayerState)
-                {
-                    case PlayerStates.Impersonating:
-                        if (player.Impersonating != null)
-                            sb.AppendFormatLine("[ IG] {0} playing {1} [lvl: {2} Class: {3} Race: {4}] {5}",
-                                player.DisplayName,
-                                player.Impersonating.DisplayName,
-                                player.Impersonating.Level,
-                                player.Impersonating.Class?.DisplayName ?? "(none)",
-                                player.Impersonating.Race?.DisplayName ?? "(none)",
-                                player.Impersonating.IsImmortal ? "{IMMORTAL}" : string.Empty);
-                        else
-                            sb.AppendFormatLine("[ IG] {0} playing something", player.DisplayName);
-                        break;
-                    default:
-                        sb.AppendFormatLine("[OOG] {0}", player.DisplayName);
-                        break;
-                }
-            }
-            //
-            sb.AppendFormatLine("Admins:");
-            foreach (IAdmin admin in AdminManager.Admins)
-            {
-                switch (admin.PlayerState)
-                {
-                    case PlayerStates.Impersonating:
-                        if (admin.Impersonating != null)
-                            sb.AppendFormatLine("[ IG] {0} playing {1} [lvl: {2} Class: {3} Race: {4}] {5}",
-                                admin.DisplayName,
-                                admin.Impersonating.DisplayName,
-                                admin.Impersonating.Level,
-                                admin.Impersonating.Class?.DisplayName ?? "(none)",
-                                admin.Impersonating.Race?.DisplayName ?? "(none)",
-                                admin.Impersonating.IsImmortal ? "{IMMORTAL}" : string.Empty);
-                        else if (admin.Incarnating != null)
-                            sb.AppendFormatLine("[ IG] [{0}] {1} incarnating {2}", admin.Level, admin.DisplayName, admin.Incarnating.DisplayName);
-                        else
-                            sb.AppendFormatLine("[ IG] [{0}] {1} neither playing nor incarnating !!!", admin.Level, admin.DisplayName);
-                        break;
-                    default:
-                        sb.AppendFormatLine("[OOG] [{0}] {1} {2}", admin.Level, admin.DisplayName, admin.PlayerState);
-                        break;
-                }
-            }
-            //
-            Page(sb);
-            return CommandExecutionResults.Ok;
-        }
-
-        [AdminCommand("areas", "Information", Priority = 10)]
-        protected override CommandExecutionResults DoAreas(string rawParameters, params CommandParameter[] parameters)
-        {
-            StringBuilder sb = TableGenerators.FullInfoAreaTableGenerator.Value.Generate("Areas", World.Areas);
-            Page(sb);
-            return CommandExecutionResults.Ok;
-        }
 
         [AdminCommand("abilities", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <class>",
             "[cmd] <race>")]
-        protected virtual CommandExecutionResults DoAbilities(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAbilities(string rawParameters, params ICommandParameter[] parameters)
         {
             bool displayed = DisplayAbilitiesList(null, parameters);
 
@@ -116,7 +51,7 @@ namespace Mud.Server.Admin
             "[cmd]",
             "[cmd] <class>",
             "[cmd] <race>")]
-        protected virtual CommandExecutionResults DoSpells(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSpells(string rawParameters, params ICommandParameter[] parameters)
         {
             bool displayed = DisplayAbilitiesList(AbilityTypes.Spell, parameters);
 
@@ -144,7 +79,7 @@ namespace Mud.Server.Admin
             "[cmd]",
             "[cmd] all",
             "[cmd] <field>")]
-        protected virtual CommandExecutionResults DoWiznet(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWiznet(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -185,7 +120,7 @@ namespace Mud.Server.Admin
         }
 
         [AdminCommand("stat", "Information")]
-        protected virtual CommandExecutionResults DoStat(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoStat(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormatLine("#Admins: {0}", AdminManager.Admins.Count());
@@ -208,7 +143,7 @@ namespace Mud.Server.Admin
 
         [AdminCommand("rstat", "Information")]
         [Syntax("[cmd] <id>")]
-        protected virtual CommandExecutionResults DoRstat(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoRstat(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0 && Impersonating == null)
                 return CommandExecutionResults.SyntaxError;
@@ -281,7 +216,7 @@ namespace Mud.Server.Admin
         [AdminCommand("cstat", "Information")]
         [AdminCommand("mstat", "Information")]
         [Syntax("[cmd] <character>")]
-        protected virtual CommandExecutionResults DoCstat(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoCstat(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
@@ -427,7 +362,7 @@ namespace Mud.Server.Admin
         [AdminCommand("istat", "Information")]
         [AdminCommand("ostat", "Information")]
         [Syntax("[cmd] <item>")]
-        protected virtual CommandExecutionResults DoIstat(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoIstat(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
@@ -552,7 +487,7 @@ namespace Mud.Server.Admin
         [AdminCommand("cfind", "Information")]
         [AdminCommand("mfind", "Information")]
         [Syntax("[cmd] <character>")]
-        protected virtual CommandExecutionResults DoCfind(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoCfind(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
@@ -576,7 +511,7 @@ namespace Mud.Server.Admin
         [AdminCommand("ifind", "Information")]
         [AdminCommand("ofind", "Information")]
         [Syntax("[cmd] <item>")]
-        protected virtual CommandExecutionResults DoIfind(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoIfind(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
@@ -600,7 +535,7 @@ namespace Mud.Server.Admin
         [AdminCommand("cinfo", "Information")]
         [AdminCommand("minfo", "Information")]
         [Syntax("[cmd] <id>")]
-        protected virtual CommandExecutionResults DoCinfo(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoCinfo(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
@@ -669,7 +604,7 @@ namespace Mud.Server.Admin
         [AdminCommand("iinfo", "Information")]
         [AdminCommand("oinfo", "Information")]
         [Syntax("[cmd] <id>")]
-        protected virtual CommandExecutionResults DoIinfo(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoIinfo(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
@@ -765,7 +700,7 @@ namespace Mud.Server.Admin
         [Syntax(
             "[cmd] <id>",
             "[cmd] (if impersonated)")]
-        protected virtual CommandExecutionResults DoResets(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoResets(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0 && Impersonating == null)
                 return CommandExecutionResults.SyntaxError;
@@ -923,7 +858,7 @@ namespace Mud.Server.Admin
 
         [AdminCommand("path", "Information", MustBeImpersonated = true)]
         [Syntax("[cmd] <location>")]
-        protected virtual CommandExecutionResults DoPath(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoPath(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
@@ -946,7 +881,7 @@ namespace Mud.Server.Admin
             "[cmd] class",
             "[cmd] <race>",
             "[cmd] <class>")]
-        protected virtual CommandExecutionResults DoInfo(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoInfo(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
@@ -1017,7 +952,7 @@ namespace Mud.Server.Admin
 
         //*********************** Helpers ***************************
 
-        private bool DisplayAbilitiesList(AbilityTypes? filterOnAbilityType, params CommandParameter[] parameters)
+        private bool DisplayAbilitiesList(AbilityTypes? filterOnAbilityType, params ICommandParameter[] parameters)
         {
             string title;
             if (filterOnAbilityType.HasValue)

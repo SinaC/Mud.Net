@@ -1,5 +1,5 @@
 ﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Input;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.Abilities2
 {
@@ -9,7 +9,7 @@ namespace Mud.POC.Abilities2
         string CommandLine { get; }
         string Command { get; }
         string RawParameters { get; }
-        CommandParameter[] Parameters { get; }
+        ICommandParameter[] Parameters { get; }
 
         object Context { get; set; }
     }

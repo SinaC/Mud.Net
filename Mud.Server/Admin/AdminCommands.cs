@@ -11,11 +11,10 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
-using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
@@ -408,13 +407,13 @@ namespace Mud.Server.Admin
                 type = typeof(Room.Room);
             else
                 return CommandExecutionResults.SyntaxError;
-            IReadOnlyTrie<CommandExecutionInfo> commands = GameAction.GameActionManager.GetCommands(type);
+            IReadOnlyTrie<ICommandExecutionInfo> commands = GameAction.GameActionManager.GetCommands(type);
             // Filter?
             var query = parameters.Length > 1
                 // Filter using Trie, then order by priority
-                ? commands.GetByPrefix(parameters[1].Value).OfType<CommandMethodInfo>().OrderBy(x => x.CommandAttribute.Priority)
+                ? commands.GetByPrefix(parameters[1].Value).OfType<ICommandMethodInfo>().OrderBy(x => x.Priority)
                 // No filter and order by MethodInfo name
-                : commands.Values.OfType<CommandMethodInfo>().OrderBy(x => x.MethodInfo.Name);
+                : commands.Values.OfType<ICommandMethodInfo>().OrderBy(x => x.MethodInfo.Name);
             // Display
             StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {type.Name}", query);
             Page(sb);

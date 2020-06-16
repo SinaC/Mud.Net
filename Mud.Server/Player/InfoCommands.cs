@@ -1,8 +1,9 @@
 ﻿using System.Text;
 using Mud.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 // ReSharper disable UnusedMember.Global
 
@@ -10,55 +11,12 @@ namespace Mud.Server.Player
 {
     public partial class Player
     {
-        [Command("who", "Information")]
-        protected virtual CommandExecutionResults DoWho(string rawParameters, params CommandParameter[] parameters)
-        {
-            // TODO: title, additional informations
-            StringBuilder sb = new StringBuilder();
-            //
-            sb.AppendFormatLine("Players:");
-            foreach (IPlayer player in PlayerManager.Players)
-            {
-                IAdmin admin = player as IAdmin;
-                string adminLevel = admin == null ? "" : $"[{admin.Level}]";
-                switch (player.PlayerState)
-                {
-                    case PlayerStates.Impersonating:
-                        if (player.Impersonating != null)
-                            sb.AppendFormatLine("[ IG]{0} {1} playing {2} [lvl: {3} Class: {4} Race: {5}]",
-                                adminLevel,
-                                player.DisplayName,
-                                player.Impersonating.DisplayName,
-                                player.Impersonating.Level,
-                                player.Impersonating.Class?.DisplayName ?? "(none)",
-                                player.Impersonating.Race?.DisplayName ?? "(none)");
-                        else
-                            sb.AppendFormatLine("[ IG] {0} {1} playing something", adminLevel, player.DisplayName);
-                        break;
-                    default:
-                        sb.AppendFormatLine("[OOG] {0} {1}", adminLevel, player.DisplayName);
-                        break;
-                }
-            }
-            //
-            Page(sb);
-            return CommandExecutionResults.Ok;
-        }
-
-        [Command("areas", "Information", Priority = 10)]
-        protected virtual CommandExecutionResults DoAreas(string rawParameters, params CommandParameter[] parameters)
-        {
-            StringBuilder sb = TableGenerators.AreaTableGenerator.Value.Generate("Areas", World.Areas);
-            Page(sb);
-            return CommandExecutionResults.Ok;
-        }
-
         [Command("scroll", "Information")]
         [Command("page", "Information")]
         [Syntax(
             "[cmd]",
             "[cmd] <number>")]
-        protected virtual CommandExecutionResults DoPage(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoPage(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Mud.Server.Input
+namespace Mud.Server.Common
 {
     public interface IInputTrap<in TActor>
     {

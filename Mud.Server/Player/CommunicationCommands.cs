@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using System.Text;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 // ReSharper disable UnusedMember.Global
 
@@ -11,7 +12,7 @@ namespace Mud.Server.Player
     {
         [Command("tell", "Communication")]
         [Syntax("[cmd] <player name> <message>")]
-        protected virtual CommandExecutionResults DoTell(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoTell(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
@@ -33,7 +34,7 @@ namespace Mud.Server.Player
 
         [Command("reply", "Communication")]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoReply(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoReply(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -56,7 +57,7 @@ namespace Mud.Server.Player
         [Command("gossip", "Communication")]
         [Command("ooc", "Communication")]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoGossip(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGossip(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -75,7 +76,7 @@ namespace Mud.Server.Player
 
         [Command("question", "Communication")]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoQuestion(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuestion(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -95,7 +96,7 @@ namespace Mud.Server.Player
 
         [Command("answer", "Communication")]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoAnswer(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAnswer(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -114,14 +115,14 @@ namespace Mud.Server.Player
         }
 
         [Command("afk", "Communication")]
-        protected virtual CommandExecutionResults DoAfk(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAfk(string rawParameters, params ICommandParameter[] parameters)
         {
             ToggleAfk();
             return CommandExecutionResults.Ok;
         }
 
         [Command("replay", "Communication")]
-        protected virtual CommandExecutionResults DoReplay(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoReplay(string rawParameters, params ICommandParameter[] parameters)
         {
             if (DelayedTells.Any())
             {

@@ -2,7 +2,7 @@
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Rom24Spells;
 using Mud.Server.Random;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using System;
 
 namespace Mud.POC.Abilities2.Rom24Skills

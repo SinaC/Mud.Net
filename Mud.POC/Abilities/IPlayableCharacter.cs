@@ -1,4 +1,4 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.Abilities
 {
@@ -11,6 +11,6 @@ namespace Mud.POC.Abilities
 
         void GainExperience(long experience); // add/substract experience
 
-        bool ExecuteCommand(string command, string rawParameters, CommandParameter[] parameters);
+        bool ExecuteCommand(string command, string rawParameters, ICommandParameter[] parameters);
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Mud.Network;
-using Mud.Server.Input;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Interfaces.Admin
 {
     public interface IAdminManager
     {
-        IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch);
+        IAdmin GetAdmin(ICommandParameter parameter, bool perfectMatch);
         IEnumerable<IAdmin> Admins { get; }
 
         // TODO: remove

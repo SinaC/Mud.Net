@@ -5,9 +5,10 @@ using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Common;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
@@ -23,7 +24,7 @@ namespace Mud.Server.Player
         [Syntax(
             "[cmd]",
             "[cmd] <avatar name>")]
-        protected virtual CommandExecutionResults DoImpersonate(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoImpersonate(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Impersonating?.Fighting != null)
             {

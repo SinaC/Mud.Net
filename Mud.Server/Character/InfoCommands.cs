@@ -7,12 +7,13 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
@@ -38,7 +39,7 @@ namespace Mud.Server.Character
             "[cmd] <item>",
             "[cmd] <keyword>",
             "[cmd] <direction>")]
-        protected virtual CommandExecutionResults DoLook(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoLook(string rawParameters, params ICommandParameter[] parameters)
         {
             // 0: sleeping/blind/dark room
             if (Position < Positions.Sleeping)
@@ -196,7 +197,7 @@ namespace Mud.Server.Character
         }
 
         [CharacterCommand("exits", "Information", MinPosition = Positions.Resting)]
-        protected virtual CommandExecutionResults DoExits(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoExits(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             AppendExits(sb, false);
@@ -209,7 +210,7 @@ namespace Mud.Server.Character
             "[cmd] item",
             "[cmd] <container>",
             "[cmd] <corpse>")]
-        protected virtual CommandExecutionResults DoExamine(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoExamine(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -275,7 +276,7 @@ namespace Mud.Server.Character
         }
 
         [CharacterCommand("scan", "Information", MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoScan(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoScan(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Room == null)
                 return CommandExecutionResults.Error;
@@ -325,7 +326,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("affects", "Information")]
         [CharacterCommand("auras", "Information")]
-        protected virtual CommandExecutionResults DoAffects(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAffects(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             if (Auras.Any())
@@ -342,7 +343,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("saffects", "Information")]
         [CharacterCommand("sauras", "Information")]
-        protected virtual CommandExecutionResults DoShortAffects(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoShortAffects(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             if (Auras.Any())
@@ -359,7 +360,7 @@ namespace Mud.Server.Character
         }
 
         [CharacterCommand("score", "Information", Priority = 2)]
-        protected virtual CommandExecutionResults DoScore(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoScore(string rawParameters, params ICommandParameter[] parameters)
         {
             IPlayableCharacter pc = this as IPlayableCharacter;
             StringBuilder sb = new StringBuilder();
@@ -479,7 +480,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] <player name>")]
-        protected virtual CommandExecutionResults DoWhere(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWhere(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Room == null)
                 return CommandExecutionResults.Error;
@@ -524,7 +525,7 @@ namespace Mud.Server.Character
         }
 
         [CharacterCommand("inventory", "Information")]
-        protected virtual CommandExecutionResults DoInventory(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoInventory(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("You are carrying:");
@@ -534,7 +535,7 @@ namespace Mud.Server.Character
         }
 
         [CharacterCommand("equipment", "Information")]
-        protected virtual CommandExecutionResults DoEquipment(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoEquipment(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("You are using:");
@@ -560,7 +561,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("consider", "Information", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <character>")]
-        protected virtual CommandExecutionResults DoConsider(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoConsider(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -607,7 +608,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("weather", "Information", MinPosition = Positions.Resting)]
         [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoWeather(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWeather(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Room == null)
                 return CommandExecutionResults.Error;
@@ -634,7 +635,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("time", "Information")]
         [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoTime(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoTime(string rawParameters, params ICommandParameter[] parameters)
         {
             Send(TimeManager.TimeInfo());
             return CommandExecutionResults.Ok;
@@ -892,7 +893,7 @@ namespace Mud.Server.Character
                 sb.AppendLine("]");
         }
 
-        private bool FindItemByExtraDescriptionOrName(CommandParameter parameter, out string description) // Find by extra description then name (search in inventory, then equipment, then in room)
+        private bool FindItemByExtraDescriptionOrName(ICommandParameter parameter, out string description) // Find by extra description then name (search in inventory, then equipment, then in room)
         {
             description = null;
             int count = 0;
@@ -923,7 +924,7 @@ namespace Mud.Server.Character
         }
 
         //// Following method should be equivalent to FindItemByExtraDescriptionOrName
-        //public string Test2(CommandParameter parameter)
+        //public string Test2(ICommandParameter parameter)
         //{
         //    KeyValuePair<string, string> description = Content.Where(CanSee)
         //        .Concat(Equipments.Where(x => x.Item != null && CanSee(x.Item)).Select(x => x.Item))

@@ -1,6 +1,7 @@
 ﻿using Mud.Domain;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.GameAction;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character.PlayableCharacter
@@ -9,7 +10,7 @@ namespace Mud.Server.Character.PlayableCharacter
     {
         [PlayableCharacterCommand("pray", "Communication", MinPosition = Positions.Dead)]
         [Syntax("[cmd] <msg>")]
-        protected virtual CommandExecutionResults DoPray(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoPray(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

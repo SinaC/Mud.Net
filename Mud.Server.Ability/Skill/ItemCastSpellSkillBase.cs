@@ -1,10 +1,10 @@
 ﻿using Mud.Logger;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
-using Mud.Server.Input;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ namespace Mud.Server.Ability.Skill
                 spell.Execute();
         }
 
-        protected string SetupSpell(string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
+        protected string SetupSpell(string spellName, int spellLevel, string rawParameters, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(spellName))
                 return null; // not really an error but don't continue
@@ -58,7 +58,7 @@ namespace Mud.Server.Ability.Skill
             return null;
         }
 
-        protected string SetupSpellForEachAvailableTargets(string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
+        protected string SetupSpellForEachAvailableTargets(string spellName, int spellLevel, string rawParameters, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(spellName))
                 return null; // not really an error but don't continue
@@ -98,7 +98,7 @@ namespace Mud.Server.Ability.Skill
             return "Something goes wrong";
         }
 
-        protected string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, out IEntity target, string rawParameters, params CommandParameter[] parameters)
+        protected string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, out IEntity target, string rawParameters, params ICommandParameter[] parameters)
         {
             target = null;
             if (string.IsNullOrWhiteSpace(spellName))

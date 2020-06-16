@@ -1,6 +1,7 @@
 ﻿using System.Linq;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 // ReSharper disable UnusedMember.Global
 
@@ -10,7 +11,7 @@ namespace Mud.Server.Character
     // TODO: remove   test commands
     {
         [Command("test", "!!Test!!")]
-        protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual bool DoTest(string rawParameters, params ICommandParameter[] parameters)
         {
             return true;
             //Send("Character: DoTest");

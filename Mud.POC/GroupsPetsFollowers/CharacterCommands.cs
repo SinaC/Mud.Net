@@ -1,6 +1,7 @@
 ﻿using System.Linq;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Common;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.GroupsPetsFollowers
 {
@@ -10,7 +11,7 @@ namespace Mud.POC.GroupsPetsFollowers
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
-        public CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters)
+        public CommandExecutionResults DoFollow(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -62,7 +63,7 @@ namespace Mud.POC.GroupsPetsFollowers
 
         [CharacterCommand("Nofollow", "Group", "Follow")]
         [Syntax("[cmd]")]
-        public CommandExecutionResults DoNofollow(string rawParameters, params CommandParameter[] parameters)
+        public CommandExecutionResults DoNofollow(string rawParameters, params ICommandParameter[] parameters)
         {
             foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
                 RemoveFollower(follower);

@@ -4,9 +4,10 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 // ReSharper disable UnusedMember.Global
@@ -16,42 +17,42 @@ namespace Mud.Server.Character
     public partial class CharacterBase
     {
         [CharacterCommand("north", "Movement", Priority = 0, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoNorth(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoNorth(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.North, true);
             return CommandExecutionResults.Ok;
         }
 
         [CharacterCommand("east", "Movement", Priority = 0, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoEast(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoEast(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.East, true);
             return CommandExecutionResults.Ok;
         }
 
         [CharacterCommand("south", "Movement", Priority = 0, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoSouth(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSouth(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.South, true);
             return CommandExecutionResults.Ok;
         }
 
         [CharacterCommand("west", "Movement", Priority = 0, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoWest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWest(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.West, true);
             return CommandExecutionResults.Ok;
         }
 
         [CharacterCommand("up", "Movement", Priority = 0, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoUp(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoUp(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.Up, true);
             return CommandExecutionResults.Ok;
         }
 
         [CharacterCommand("down", "Movement", Priority = 0, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoDown(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDown(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.Down, true);
             return CommandExecutionResults.Ok;
@@ -59,7 +60,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("northeast", "Movement", Priority = 2, MinPosition = Positions.Standing)]
         [CharacterCommand("ne", "Movement", Priority = 1, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoNorthEast(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoNorthEast(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.NorthEast, true);
             return CommandExecutionResults.Ok;
@@ -67,7 +68,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("northwest", "Movement", Priority = 2, MinPosition = Positions.Standing)]
         [CharacterCommand("nw", "Movement", Priority = 1, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoNorthWest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoNorthWest(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.NorthWest, true);
             return CommandExecutionResults.Ok;
@@ -75,7 +76,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("southeast", "Movement", Priority = 2, MinPosition = Positions.Standing)]
         [CharacterCommand("se", "Movement", Priority = 1, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoSouthEast(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSouthEast(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.SouthEast, true);
             return CommandExecutionResults.Ok;
@@ -83,7 +84,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("southwest", "Movement", Priority = 2, MinPosition = Positions.Standing)]
         [CharacterCommand("sw", "Movement", Priority = 1, MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoSouthWest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSouthWest(string rawParameters, params ICommandParameter[] parameters)
         {
             Move(ExitDirections.SouthWest, true);
             return CommandExecutionResults.Ok;
@@ -93,7 +94,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
-        protected virtual CommandExecutionResults DoOpen(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoOpen(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -174,7 +175,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
-        protected virtual CommandExecutionResults DoClose(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoClose(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -245,7 +246,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
-        protected virtual CommandExecutionResults DoUnlock(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoUnlock(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -347,7 +348,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd] <container|portal>",
             "[cmd] <direction|door>")]
-        protected virtual CommandExecutionResults DoLock(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoLock(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -449,7 +450,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
-        protected virtual CommandExecutionResults DoStand(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoStand(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
             {
@@ -527,7 +528,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
-        protected virtual CommandExecutionResults DoSit(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSit(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
             {
@@ -612,7 +613,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
-        protected virtual CommandExecutionResults DoRest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoRest(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
             {
@@ -697,7 +698,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] <furniture>")]
-        protected virtual CommandExecutionResults DoSleep(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSleep(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Position == Positions.Fighting)
             {
@@ -765,7 +766,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
-        protected virtual CommandExecutionResults DoWake(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWake(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return DoStand(rawParameters, parameters);
@@ -791,13 +792,13 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.InvalidTarget;
             }
             victim.Act(ActOptions.ToCharacter, "{0:N} wakes you.", this);
-            //TODO victim.DoStand(string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+            //TODO victim.DoStand(string.Empty, Enumerable.Empty<ICommandParameter>().ToArray());
             return CommandExecutionResults.NoExecution;
         }
 
         [CharacterCommand("enter", "Movement", MinPosition = Positions.Standing)]
         [Syntax("[cmd] <portal>")]
-        protected virtual CommandExecutionResults DoEnter(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoEnter(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Fighting != null)
                 return CommandExecutionResults.NoExecution;
@@ -829,7 +830,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("visible", "Movement", MinPosition = Positions.Sleeping)]
         [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoVisible(string rawParameters, params CommandParameter[] parameter)
+        protected virtual CommandExecutionResults DoVisible(string rawParameters, params ICommandParameter[] parameter)
         {
             CharacterFlags &= ~CharacterFlags.Invisible;
             CharacterFlags &= ~CharacterFlags.Sneak;
@@ -845,7 +846,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
-        protected virtual CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoFollow(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -898,7 +899,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("nofollow", "Group", "Movement")]
         [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoNofollow(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoNofollow(string rawParameters, params ICommandParameter[] parameters)
         {
             foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
                 RemoveFollower(follower);
@@ -907,7 +908,7 @@ namespace Mud.Server.Character
         }
 
         // Helpers
-        private IExit VerboseFindDoor(CommandParameter parameter, out ExitDirections exitDirection)
+        private IExit VerboseFindDoor(ICommandParameter parameter, out ExitDirections exitDirection)
         {
             bool wasAskingForDirection;
             bool found = FindDoor(parameter, out exitDirection, out wasAskingForDirection);
@@ -933,7 +934,7 @@ namespace Mud.Server.Character
             return exit;
         }
 
-        private bool FindDoor(CommandParameter parameter, out ExitDirections exitDirection, out bool wasAskingForDirection)
+        private bool FindDoor(ICommandParameter parameter, out ExitDirections exitDirection, out bool wasAskingForDirection)
         {
             if (ExitDirectionsExtensions.TryFindDirection(parameter.Value, out exitDirection))
             {

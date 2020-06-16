@@ -7,7 +7,7 @@ using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.POC.Affects;
 using Mud.Server.Random;
-using Mud.Server.Input;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Common;
 using Mud.Server.GameAction;
 
@@ -15,7 +15,7 @@ namespace Mud.POC.Abilities
 {
     public partial class PlayableCharacter : IPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(() => GameActionManager.GetCommands(typeof(PlayableCharacter)));
+        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(() => GameActionManager.GetCommands(typeof(PlayableCharacter)));
 
         private IRandomManager RandomManager { get; }
         private IAbilityManager AbilityManager { get; }
@@ -45,7 +45,7 @@ namespace Mud.POC.Abilities
             Position = position;
         }
 
-        public IReadOnlyTrie<CommandExecutionInfo> Commands => PlayableCharacterCommands.Value;
+        public IReadOnlyTrie<ICommandExecutionInfo> Commands => PlayableCharacterCommands.Value;
 
         public string Name { get; }
         public string DebugName { get; }
@@ -211,15 +211,15 @@ namespace Mud.POC.Abilities
 
 
         //
-        public bool ExecuteCommand(string command, string rawParameters, CommandParameter[] parameters)
+        public bool ExecuteCommand(string command, string rawParameters, ICommandParameter[] parameters)
         {
             // Search for command and invoke it
             if (Commands != null)
             {
                 command = command.ToLowerInvariant(); // lower command
-                List<TrieEntry<CommandExecutionInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
-                TrieEntry<CommandExecutionInfo> entry = methodInfos.OrderBy(x => x.Value.CommandAttribute.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
-                if (entry.Value?.CommandAttribute?.NoShortcut == true && command != entry.Key) // if command doesn't accept shortcut, inform player
+                List<TrieEntry<ICommandExecutionInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
+                TrieEntry<ICommandExecutionInfo> entry = methodInfos.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
+                if (entry.Value?.NoShortcut == true && command != entry.Key) // if command doesn't accept shortcut, inform player
                 {
                     Send("If you want to {0}, spell it out.", entry.Key.ToUpper());
                     return true;
@@ -236,7 +236,7 @@ namespace Mud.POC.Abilities
                         }
                         MethodInfo methodInfo = cmi.MethodInfo;
                         object rawExecutionResult;
-                        if (entry.Value.CommandAttribute?.AddCommandInParameters == true)
+                        if (entry.Value?.AddCommandInParameters == true)
                         {
                             // Insert command as first parameter
                             CommandParameter[] enhancedParameters = new CommandParameter[(parameters?.Length ?? 0) + 1];

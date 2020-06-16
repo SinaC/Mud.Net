@@ -1,7 +1,5 @@
 ﻿using Mud.Common;
 using Mud.Server.GameAction;
-using Mud.Server.Input;
-using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using System;
 using System.Collections.Generic;
@@ -54,13 +52,13 @@ namespace Mud.Server.Actor
 
         private void DisplayCategories()
         {
-            IEnumerable<KeyValuePair<string, CommandExecutionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.CommandAttribute.Hidden && Actor.IsCommandAvailable(x.Value.CommandAttribute));
+            IEnumerable<KeyValuePair<string, ICommandExecutionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.Hidden);
 
             StringBuilder categoriesSb = new StringBuilder();
             categoriesSb.AppendLine("Available categories:%W%");
             int index = 0;
             foreach (var category in filteredCommands
-                .SelectMany(x => x.Value.CommandAttribute.Categories.Where(c => !string.IsNullOrWhiteSpace(c)))
+                .SelectMany(x => x.Value.Categories.Where(c => !string.IsNullOrWhiteSpace(c)))
                 .Distinct()
                 .OrderBy(x => x))
             {
@@ -77,28 +75,28 @@ namespace Mud.Server.Actor
 
         private void DisplayCommands()
         {
-            IEnumerable<KeyValuePair<string, CommandExecutionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.CommandAttribute.Hidden && Actor.IsCommandAvailable(x.Value.CommandAttribute));
+            IEnumerable<KeyValuePair<string, ICommandExecutionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.Hidden);
 
             // Grouped by category
             // if a command has multiple categories, it will appear in each category
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Available commands:");
             foreach (var cmdByCategory in filteredCommands
-                .SelectMany(x => x.Value.CommandAttribute.Categories.Where(CategoryFilter), (kv, category) => new { category, cmi = kv.Value })
+                .SelectMany(x => x.Value.Categories.Where(CategoryFilter), (kv, category) => new { category, cmi = kv.Value })
                 .GroupBy(x => x.category, (category, group) => new { category, commands = group.Select(x => x.cmi) })
                 .OrderBy(g => g.category))
             {
                 if (!string.IsNullOrEmpty(cmdByCategory.category))
                     sb.AppendLine("%W%" + cmdByCategory.category + ":%x%");
                 int index = 0;
-                foreach (CommandExecutionInfo ci in cmdByCategory.commands.OfType<CommandExecutionInfo>()
-                    .OrderBy(x => x.CommandAttribute.Priority)
-                    .ThenBy(x => x.CommandAttribute.Name))
+                foreach (ICommandExecutionInfo ci in cmdByCategory.commands.OfType<ICommandExecutionInfo>()
+                    .OrderBy(x => x.Priority)
+                    .ThenBy(x => x.Name))
                 {
                     if ((++index % columnCount) == 0)
-                        sb.AppendFormatLine("{0,-14}", ci.CommandAttribute.Name);
+                        sb.AppendFormatLine("{0,-14}", ci.Name);
                     else
-                        sb.AppendFormat("{0,-14}", ci.CommandAttribute.Name);
+                        sb.AppendFormat("{0,-14}", ci.Name);
                 }
                 if (index > 0 && index % columnCount != 0)
                     sb.AppendLine();

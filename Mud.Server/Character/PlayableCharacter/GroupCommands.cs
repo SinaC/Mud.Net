@@ -5,9 +5,10 @@ using System.Text;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character.PlayableCharacter
@@ -18,7 +19,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [Syntax(
             "[cmd] <pet|charmie> command",
             "[cmd] all command")]
-        protected virtual CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoOrder(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
@@ -76,7 +77,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
-        protected virtual CommandExecutionResults DoGroup(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGroup(string rawParameters, params ICommandParameter[] parameters)
         {
             // no parameter: display group/pets info
             if (parameters.Length == 0)
@@ -174,7 +175,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         [Command("leave", "Group")]
         [Syntax("[cmd] <member>")]
-        protected virtual CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoLeave(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Group == null)
             {
@@ -193,7 +194,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 1000)]
         [PlayableCharacterCommand("gsay", "Group", "Communication")]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoGroupSay(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGroupSay(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

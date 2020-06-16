@@ -3,9 +3,10 @@ using System.Text;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.PlayableCharacter
 {
@@ -13,7 +14,7 @@ namespace Mud.Server.Character.PlayableCharacter
     {
         [PlayableCharacterCommand("affects", "Information")]
         [PlayableCharacterCommand("auras", "Information")]
-        protected override CommandExecutionResults DoAffects(string rawParameters, params CommandParameter[] parameters)
+        protected override CommandExecutionResults DoAffects(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             if (Auras.Any())
@@ -40,7 +41,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         [PlayableCharacterCommand("saffects", "Information")]
         [PlayableCharacterCommand("sauras", "Information")]
-        protected override CommandExecutionResults DoShortAffects(string rawParameters, params CommandParameter[] parameters)
+        protected override CommandExecutionResults DoShortAffects(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             if (Auras.Any())
@@ -66,7 +67,7 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         [PlayableCharacterCommand("auto", "Information")]
-        protected virtual CommandExecutionResults DoAuto(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAuto(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

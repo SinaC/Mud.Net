@@ -15,7 +15,6 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Affect;
@@ -23,6 +22,7 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
@@ -39,7 +39,7 @@ namespace Mud.Server.Character
         private const int MinAlignment = -1000;
         private const int MaxAlignment = 1000;
 
-        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<CharacterBase>);
+        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<CharacterBase>);
 
         private readonly List<IItem> _inventory;
         private readonly List<EquippedItem> _equipments;
@@ -80,7 +80,7 @@ namespace Mud.Server.Character
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandExecutionInfo> Commands => CharacterBaseCommands.Value;
+        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => CharacterBaseCommands.Value;
 
         #endregion
 
@@ -1777,55 +1777,6 @@ namespace Mud.Server.Character
         public void ApplyAffect(ICharacterSizeAffect affect)
         {
             Size = affect.Value;
-        }
-
-        #endregion
-
-        #region ActorBase
-
-        protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            // When hiding, anything will break it
-            if (CharacterFlags.HasFlag(CharacterFlags.Hide))
-            {
-                RemoveBaseCharacterFlags(CharacterFlags.Hide);
-                Recompute();
-            }
-
-            // Check minimum position
-            if (methodInfo.CommandAttribute is CharacterCommandAttribute characterCommandAttribute)
-            {
-                if (Position < characterCommandAttribute.MinPosition)
-                {
-                    switch (Position)
-                    {
-                        case Positions.Dead:
-                            Send("Lie still; you are DEAD.");
-                            return false;
-                        case Positions.Mortal:
-                        case Positions.Incap:
-                            Send("You are hurt far too bad for that.");
-                            return false;
-                        case Positions.Stunned:
-                            Send("You are too stunned to do that.");
-                            return false;
-                        case Positions.Sleeping:
-                            Send("In your dreams, or what?");
-                            return false;
-                        case Positions.Resting:
-                            Send("Nah... You feel too relaxed...");
-                            return false;
-                        case Positions.Sitting:
-                            Send("Better stand up first.");
-                            return false;
-                        case Positions.Fighting:
-                            Send("No way!  You are still fighting!");
-                            return false;
-                    }
-                }
-            }
-
-            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
         }
 
         #endregion

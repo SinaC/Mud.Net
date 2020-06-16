@@ -5,7 +5,6 @@ using Mud.Repository;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Input;
 using System.Collections.Generic;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Class;
@@ -17,12 +16,13 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Admin
 {
     public partial class Admin : Player.Player, IAdmin
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<Admin>);
+        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> AdminCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<Admin>);
 
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
@@ -51,21 +51,7 @@ namespace Mud.Server.Admin
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandExecutionInfo> Commands => AdminCommands.Value;
-
-        //public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        //{
-        //    AdminCommandAttribute adminCommandAttribute = methodInfo.Attribute as AdminCommandAttribute;
-        //    if (adminCommandAttribute?.MinLevel > Level)
-        //    {
-        //        Send($"You're a not allowed to use '{adminCommandAttribute.Name}'.");
-        //        Log.Default.WriteLine(LogLevels.Info, $"{DisplayName} [Level:{Level}] tried to use {adminCommandAttribute.Name} [Level:{adminCommandAttribute.MinLevel}]");
-        //        return false;
-        //    }
-        //    return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
-        //}
-
-        public override bool IsCommandAvailable(CommandAttribute attribute) => !(attribute is AdminCommandAttribute adminCommandAttribute) || Level >= adminCommandAttribute.MinLevel;
+        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => AdminCommands.Value;
 
         #endregion
 
@@ -143,7 +129,7 @@ namespace Mud.Server.Admin
 
         #endregion
 
-        protected override bool InnerExecuteCommand(string commandLine, string command, string rawParameters, CommandParameter[] parameters, bool forceOutOfGame)
+        protected override bool InnerExecuteCommand(string commandLine, string command, string rawParameters, ICommandParameter[] parameters, bool forceOutOfGame)
         {
             // Execute command
             bool executedSuccessfully;

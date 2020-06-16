@@ -2,8 +2,9 @@
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using System;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Mud.Server.Character.PlayableCharacter
     public partial class PlayableCharacter
     {
         [PlayableCharacterCommand("list", "Shop")]
-        protected virtual CommandExecutionResults DoList(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoList(string rawParameters, params ICommandParameter[] parameters)
         {
             var keeperInfo = FindKeeper();
             if (keeperInfo == default)
@@ -47,7 +48,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         [PlayableCharacterCommand("buy", "Shop")]
         [Syntax("[cmd] [number] <item>")]
-        protected virtual CommandExecutionResults DoBuy(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoBuy(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
@@ -56,7 +57,7 @@ namespace Mud.Server.Character.PlayableCharacter
             int count = parameters.Length >= 2
                 ? parameters[0].AsNumber
                 : 1;
-            CommandParameter itemParameter = parameters.Length >= 2
+            ICommandParameter itemParameter = parameters.Length >= 2
                 ? parameters[1]
                 : parameters[0];
 
@@ -142,7 +143,7 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         [PlayableCharacterCommand("sell", "Shop")]
-        protected virtual CommandExecutionResults DoSell(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSell(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -210,14 +211,14 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         [PlayableCharacterCommand("appraise", "Shop", "Identify")]
-        protected virtual CommandExecutionResults DoAppraise(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAppraise(string rawParameters, params ICommandParameter[] parameters)
         {
             // TODO: identify
             return CommandExecutionResults.Error;
         }
 
         [PlayableCharacterCommand("value", "Shop")]
-        protected virtual CommandExecutionResults DoValue(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoValue(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

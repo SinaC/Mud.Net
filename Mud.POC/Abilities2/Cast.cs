@@ -1,6 +1,6 @@
 ﻿using Mud.Container;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities2
 {

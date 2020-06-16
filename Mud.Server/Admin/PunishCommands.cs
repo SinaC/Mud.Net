@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 // ReSharper disable UnusedMember.Global
 
@@ -15,7 +16,7 @@ namespace Mud.Server.Admin
         [Syntax(
             "[cmd] <character> <command>",
             "[cmd] all <command>")]
-        protected virtual CommandExecutionResults DoForce(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoForce(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length < 2)
                 return CommandExecutionResults.SyntaxError;

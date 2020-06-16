@@ -9,19 +9,20 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
-using Mud.Server.Input;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Admin;
 using Mud.Common;
+using Mud.Server.Interfaces.GameAction;
+using Mud.Server.GameAction;
 
 namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<Player>);
+        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<Player>);
 
         private readonly List<string> _delayedTells;
         private readonly List<PlayableCharacterData> _avatarList;
@@ -67,7 +68,7 @@ namespace Mud.Server.Player
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandExecutionInfo> Commands => PlayerCommands.Value;
+        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => PlayerCommands.Value;
 
         public override bool ProcessCommand(string commandLine)
         {
@@ -104,7 +105,7 @@ namespace Mud.Server.Player
                         ? Aliases
                         : Impersonating?.Aliases,
                     commandLine,
-                    out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame);
+                    out string command, out string rawParameters, out ICommandParameter[] parameters, out bool forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -311,43 +312,7 @@ namespace Mud.Server.Player
 
         #endregion
 
-        #region ActorBase
-
-        protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            if (methodInfo.CommandAttribute is PlayerCommandAttribute playerCommandAttribute)
-            {
-                if (playerCommandAttribute.MustBeImpersonated && Impersonating == null)
-                {
-                    Send($"You must be impersonated to use '{playerCommandAttribute.Name}'.");
-                    return false;
-                }
-
-                if (playerCommandAttribute.CannotBeImpersonated && Impersonating != null)
-                {
-                    Send($"You cannot be impersonated to use '{playerCommandAttribute.Name}'.");
-                    return false;
-                }
-            }
-            if (IsAfk && methodInfo.CommandAttribute.Name != "afk")
-            {
-                Send("%G%AFK%x% removed.");
-                Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
-                IsAfk = !IsAfk;
-                return true;
-            }
-            bool baseExecuteBeforeCommandResult = base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
-            if (baseExecuteBeforeCommandResult && methodInfo.CommandAttribute.Name != "delete")
-            {
-                // once another command then 'delete' is used, reset deletion confirmation
-                DeletionConfirmationNeeded = false;
-            }
-            return baseExecuteBeforeCommandResult;
-        }
-
-        #endregion
-
-        protected virtual bool InnerExecuteCommand(string commandLine, string command, string rawParameters, CommandParameter[] parameters, bool forceOutOfGame)
+        protected virtual bool InnerExecuteCommand(string commandLine, string command, string rawParameters, ICommandParameter[] parameters, bool forceOutOfGame)
         {
             // Execute command
             bool executedSuccessfully;
@@ -432,7 +397,7 @@ namespace Mud.Server.Player
 
         [Command("test", "!!Test!!")]
         [SuppressMessage("ReSharper", "UnusedMember.Global")]
-        protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual bool DoTest(string rawParameters, params ICommandParameter[] parameters)
         {
             TableGenerator<Tuple<string,string,int>> generator = new TableGenerator<Tuple<string, string, int>>();
             generator.AddColumn("Header1", 10, tuple => tuple.Item1);

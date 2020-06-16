@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Mud.Server.Interfaces.GameAction;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace Mud.Server.Input
+namespace Mud.Server.GameAction
 {
-    public class CommandParameter
+    public class CommandParameter : ICommandParameter
     {
-        public static readonly CommandParameter EmptyCommandParameter = new CommandParameter();
+        public static readonly CommandParameter EmptyCommandParameter = new CommandParameter(string.Empty, false);
         public static readonly CommandParameter InvalidCommandParameter = new CommandParameter();
         public static readonly CommandParameter IsAllCommandParameter = new CommandParameter(string.Empty, true);
 

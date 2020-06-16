@@ -1,4 +1,4 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -10,7 +10,7 @@ namespace Mud.Server.Ability.Spell
     {
         public ICharacter Caster { get; }
         public string RawParameters { get; }
-        public CommandParameter[] Parameters { get; }
+        public ICommandParameter[] Parameters { get; }
         public IAbilityInfo AbilityInfo { get; }
         public int Level { get; }
         public CastFromItemOptions CastFromItemOptions { get; }
@@ -27,7 +27,7 @@ namespace Mud.Server.Ability.Spell
             CastFromItemOptions = null;
         }
 
-        public SpellActionInput(IAbilityInfo abilityInfo, ICharacter caster, int level, CastFromItemOptions castFromItemOptions, string rawParameters, params CommandParameter[] parameters)
+        public SpellActionInput(IAbilityInfo abilityInfo, ICharacter caster, int level, CastFromItemOptions castFromItemOptions, string rawParameters, params ICommandParameter[] parameters)
         {
             Caster = caster;
             RawParameters = rawParameters;

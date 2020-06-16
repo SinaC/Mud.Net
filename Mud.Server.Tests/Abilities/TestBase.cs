@@ -2,7 +2,6 @@
 using Moq;
 using Mud.Container;
 using Mud.Server.GameAction;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
@@ -28,7 +27,7 @@ namespace Mud.Server.Tests.Abilities
             DependencyContainer.SetManualContainer(_originalContainer);
         }
 
-        protected (string rawParameters, CommandParameter[] parameters) BuildParameters(string parameters)
+        protected (string rawParameters, ICommandParameter[] parameters) BuildParameters(string parameters)
         {
             var commandParameters = CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter).ToArray();
             return (parameters, commandParameters);

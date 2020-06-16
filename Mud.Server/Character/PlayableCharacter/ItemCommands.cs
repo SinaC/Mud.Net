@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using System.Linq;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Item;
@@ -12,6 +11,8 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Quest;
 using Mud.Common;
+using Mud.Server.Interfaces.GameAction;
+using Mud.Server.GameAction;
 
 // ReSharper disable UnusedMember.Global
 
@@ -22,7 +23,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [PlayableCharacterCommand("destroy", "Item", Priority = 50, NoShortcut = true, MinPosition = Positions.Standing)]
         [Syntax("[cmd] <item>")]
         // Destroy item
-        protected virtual CommandExecutionResults DoDestroy(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDestroy(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -59,7 +60,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [Syntax(
             "[cmd] all",
             "[cmd] <item>")]
-        protected virtual CommandExecutionResults DoSacrifice(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSacrifice(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0 || StringCompareHelpers.StringEquals(Name, parameters[0].Value))
             {
@@ -92,7 +93,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         [PlayableCharacterCommand("split", "Item", MinPosition = Positions.Standing, Priority = 600)]
         [Syntax("[cmd] <silver amount> <gold amount>")]
-        protected virtual CommandExecutionResults DoSplit(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSplit(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

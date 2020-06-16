@@ -1,8 +1,9 @@
 ﻿using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Race;
 using System;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Mud.Server.Character.PlayableCharacter
             "[cmd] <attribute>",
             "[cmd] <resource> (mana/psy)",
             "[cmd] hp")]
-        protected virtual CommandExecutionResults DoTrain(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoTrain(string rawParameters, params ICommandParameter[] parameters)
         {
             INonPlayableCharacter trainer = Room.NonPlayableCharacters.FirstOrDefault(x => CanSee(x) && x.ActFlags.HasFlag(ActFlags.Train));
             if (trainer == null)

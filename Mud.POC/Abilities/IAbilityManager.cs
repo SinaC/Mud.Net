@@ -1,4 +1,5 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 using System.Collections.Generic;
 
 namespace Mud.POC.Abilities
@@ -11,11 +12,11 @@ namespace Mud.POC.Abilities
         IEnumerable<IAbility> Skills { get; }
         IEnumerable<IAbility> Passives { get; }
 
-        CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters);
-        CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters);
-        UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters);
+        CastResults Cast(ICharacter caster, string rawParameters, params ICommandParameter[] parameters);
+        CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params ICommandParameter[] parameters);
+        UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params ICommandParameter[] parameters);
 
-        AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters);
+        AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params ICommandParameter[] parameters);
         AbilityTargetResults GetItemAbilityTarget(IAbility ability, ICharacter caster, ref IEntity target);
     }
 

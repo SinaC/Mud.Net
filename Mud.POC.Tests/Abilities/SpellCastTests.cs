@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.Abilities;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Random;
 namespace Mud.POC.Tests.Abilities
 {
@@ -27,7 +28,7 @@ namespace Mud.POC.Tests.Abilities
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
             var characterMock = new Mock<ICharacter>();
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("pouet");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("pouet");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.InvalidParameter, result);
@@ -40,7 +41,7 @@ namespace Mud.POC.Tests.Abilities
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
             var characterMock = new Mock<ICharacter>();
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.InvalidParameter, result);
@@ -55,7 +56,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Level = 1, ResourceKind = null, Learned = 0 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.InvalidParameter, result);
@@ -70,7 +71,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x.Level).Returns(5);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Learned = 1, Level = 20 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.InvalidParameter, result);
@@ -85,7 +86,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Whip"], Learned = 1, Level = 20 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("whip");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("whip");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.InvalidParameter, result);
@@ -100,7 +101,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Disarm"], Learned = 1, Level = 20 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("Disarm");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("Disarm");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.InvalidParameter, result);
@@ -118,7 +119,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x.Level).Returns(100);
             characterMock.SetupGet(x => x.KnownAbilities).Returns(new[] { new KnownAbility { Ability = abilityManager["Mass invis"], Learned = 1, Level = 1 } });
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.Failed, result);
@@ -138,7 +139,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x.CurrentResourceKinds).Returns(new[] {ResourceKinds.Mana});
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(0); // not enough mana
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.NotEnoughResource, result);
@@ -158,7 +159,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x.CurrentResourceKinds).Returns(new[] { ResourceKinds.Psy });
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.CantUseRequiredResource, result);
@@ -180,7 +181,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(mana);
             characterMock.Setup(x => x.UpdateResource(It.IsAny<ResourceKinds>(), It.IsAny<int>())).Callback<ResourceKinds, int>((kind, cost) => mana += cost);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.Failed, result);
@@ -203,7 +204,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(mana);
             characterMock.Setup(x => x.UpdateResource(It.IsAny<ResourceKinds>(), It.IsAny<int>())).Callback<ResourceKinds, int>((kind, cost) => mana += cost);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.Ok, result);
@@ -226,7 +227,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(mana);
             characterMock.Setup(x => x.UpdateResource(It.IsAny<ResourceKinds>(), It.IsAny<int>())).Callback<ResourceKinds, int>((kind, cost) => mana += cost);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.Ok, result);
@@ -251,7 +252,7 @@ namespace Mud.POC.Tests.Abilities
             characterMock.Setup(x => x.GetMaxResource(It.IsAny<ResourceKinds>())).Returns<int>(kind => maxMana);
             characterMock.Setup(x => x.UpdateResource(It.IsAny<ResourceKinds>(), It.IsAny<int>())).Callback<ResourceKinds, int>((kind, cost) => mana += cost);
 
-            (string rawParameters, CommandParameter[] parameters) args = BuildParameters("'Mass invis'");
+            (string rawParameters, ICommandParameter[] parameters) args = BuildParameters("'Mass invis'");
             CastResults result = abilityManager.Cast(characterMock.Object, args.rawParameters, args.parameters);
 
             Assert.AreEqual(CastResults.Ok, result);

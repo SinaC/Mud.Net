@@ -1,9 +1,10 @@
 ﻿using System.Linq;
 using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
@@ -12,7 +13,7 @@ namespace Mud.Server.Character
     {
         [CharacterCommand("say", "Communication", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoSay(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSay(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -26,7 +27,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("yell", "Communication", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoYell(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoYell(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -40,7 +41,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("emote", "Communication", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoEmote(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoEmote(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -54,7 +55,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("whisper", "Communication", MinPosition = Positions.Standing)]
         [Syntax("[cmd] <character> <message>")]
-        protected virtual CommandExecutionResults DoWhisper(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWhisper(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length <= 1)
             {
@@ -82,7 +83,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("shout", "Communication", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoShout(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoShout(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

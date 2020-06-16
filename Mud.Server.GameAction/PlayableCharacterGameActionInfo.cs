@@ -1,5 +1,4 @@
-﻿using Mud.Server.Input;
-using Mud.Server.Interfaces.GameAction;
+﻿using Mud.Server.Interfaces.GameAction;
 using System;
 
 namespace Mud.Server.GameAction

@@ -1,8 +1,9 @@
-﻿using System.Reflection;
+﻿using Mud.Server.Interfaces.GameAction;
+using System.Reflection;
 
-namespace Mud.Server.Input
+namespace Mud.Server.GameAction
 {
-    public class CommandMethodInfo : CommandExecutionInfo
+    public class CommandMethodInfo : CommandExecutionInfo, ICommandMethodInfo
     {
         public MethodInfo MethodInfo { get; }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -12,7 +13,7 @@ namespace Mud.Server.Character.PlayableCharacter
             "[cmd]",
             "[cmd] <word>",
             "[cmd] <word> <substitution>")]
-        protected virtual CommandExecutionResults DoAlias(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAlias(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -76,7 +77,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [Command("unmacro", "Misc")]
         [Command("unalias", "Misc")]
         [Syntax("[cmd] <word>")]
-        protected virtual CommandExecutionResults DoUnAlias(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoUnAlias(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

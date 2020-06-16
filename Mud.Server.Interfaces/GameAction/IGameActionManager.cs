@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mud.Server.Interfaces.Actor;
+using System.Collections.Generic;
 
 namespace Mud.Server.Interfaces.GameAction
 {
@@ -8,5 +9,7 @@ namespace Mud.Server.Interfaces.GameAction
         IGameActionInfo this[string name] { get; }
 
         IGameAction CreateInstance(string name);
+
+        IActionInput CreateActionInput(IGameActionInfo commandInfo, IActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters);
     }
 }

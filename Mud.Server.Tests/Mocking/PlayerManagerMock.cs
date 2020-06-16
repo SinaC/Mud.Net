@@ -1,5 +1,5 @@
 ﻿using Mud.Network;
-using Mud.Server.Input;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ namespace Mud.Server.Tests.Mocking
             return player;
         }
 
-        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch)
+        public IPlayer GetPlayer(ICommandParameter parameter, bool perfectMatch)
         {
             throw new NotImplementedException();
         }

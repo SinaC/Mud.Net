@@ -1,5 +1,6 @@
 ﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.Abilities2
 {
@@ -7,7 +8,7 @@ namespace Mud.POC.Abilities2
     {
         public ICharacter Caster { get; }
         public string RawParameters { get; }
-        public CommandParameter[] Parameters { get; }
+        public ICommandParameter[] Parameters { get; }
         public IAbilityInfo AbilityInfo { get; }
         public int Level { get; }
         public CastFromItemOptions CastFromItemOptions { get; }
@@ -24,7 +25,7 @@ namespace Mud.POC.Abilities2
             CastFromItemOptions = null;
         }
 
-        public SpellActionInput(IAbilityInfo abilityInfo, ICharacter caster, int level, CastFromItemOptions castFromItemOptions, string rawParameters, params CommandParameter[] parameters)
+        public SpellActionInput(IAbilityInfo abilityInfo, ICharacter caster, int level, CastFromItemOptions castFromItemOptions, string rawParameters, params ICommandParameter[] parameters)
         {
             Caster = caster;
             RawParameters = rawParameters;

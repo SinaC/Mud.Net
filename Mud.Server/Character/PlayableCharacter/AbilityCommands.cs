@@ -4,9 +4,10 @@ using System.Text;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character.PlayableCharacter
@@ -19,7 +20,7 @@ namespace Mud.Server.Character.PlayableCharacter
             "[cmd] skills|spells",
             "[cmd] convert|revert",
             "[cmd] <ability>")]
-        protected virtual CommandExecutionResults DoGain(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGain(string rawParameters, params ICommandParameter[] parameters)
         {
             INonPlayableCharacter trainer = Room.NonPlayableCharacters.FirstOrDefault(x => CanSee(x) && x.ActFlags.HasFlag(ActFlags.Gain));
             if (trainer == null)
@@ -107,7 +108,7 @@ namespace Mud.Server.Character.PlayableCharacter
         [Syntax(
             "[cmd]",
             "[cmd] <ability>")]
-        protected virtual CommandExecutionResults DoPractice(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoPractice(string rawParameters, params ICommandParameter[] parameters)
         {
             // list
             if (parameters.Length == 0) // no practicer needed to see list

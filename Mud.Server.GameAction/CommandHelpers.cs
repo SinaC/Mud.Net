@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using Mud.Common;
 using Mud.Logger;
+using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Input
+namespace Mud.Server.GameAction
 {
     public static class CommandHelpers
     {
-        public static bool ExtractCommandAndParameters(string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters)
+        public static bool ExtractCommandAndParameters(string commandLine, out string command, out string rawParameters, out ICommandParameter[] parameters)
         {
             return ExtractCommandAndParameters(null, commandLine, out command, out rawParameters, out parameters, out _);
         }
 
-        public static bool ExtractCommandAndParameters(Func<bool, IReadOnlyDictionary<string,string>> aliasesFunc, string commandLine, out string command, out string rawParameters, out CommandParameter[] parameters, out bool forceOutOfGame)
+        public static bool ExtractCommandAndParameters(Func<bool, IReadOnlyDictionary<string,string>> aliasesFunc, string commandLine, out string command, out string rawParameters, out ICommandParameter[] parameters, out bool forceOutOfGame)
         {
             Log.Default.WriteLine(LogLevels.Trace, "Extracting command and parameters [{0}]", commandLine);
 
@@ -117,7 +118,7 @@ namespace Mud.Server.Input
                 yield return sb.ToString();
         }
 
-        public static CommandParameter ParseParameter(string parameter)
+        public static ICommandParameter ParseParameter(string parameter)
         {
             if (string.IsNullOrWhiteSpace(parameter))
                 return CommandParameter.EmptyCommandParameter;
@@ -145,9 +146,9 @@ namespace Mud.Server.Input
             return new CommandParameter(value, count);
         }
 
-        public static string JoinParameters(IEnumerable<CommandParameter> parameters)
+        public static string JoinParameters(IEnumerable<ICommandParameter> parameters)
         {
-            CommandParameter[] commandParameters = parameters as CommandParameter[] ?? parameters.ToArray();
+            ICommandParameter[] commandParameters = parameters as ICommandParameter[] ?? parameters.ToArray();
             if (!commandParameters.Any())
                 return string.Empty;
 
@@ -155,9 +156,9 @@ namespace Mud.Server.Input
             return joined;
         }
 
-        public static (string rawParameters, CommandParameter[] parameters) SkipParameters(IEnumerable<CommandParameter> inputParameters, int count)
+        public static (string rawParameters, ICommandParameter[] parameters) SkipParameters(IEnumerable<ICommandParameter> inputParameters, int count)
         {
-            CommandParameter[] parameters = inputParameters.Skip(count).ToArray();
+            ICommandParameter[] parameters = inputParameters.Skip(count).ToArray();
             string rawParameter = JoinParameters(parameters);
             return (rawParameter, parameters);
         }

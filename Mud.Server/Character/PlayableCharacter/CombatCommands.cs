@@ -1,8 +1,9 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character.PlayableCharacter
@@ -11,7 +12,7 @@ namespace Mud.Server.Character.PlayableCharacter
     {
         [PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true, MinPosition = Positions.Fighting)]
         [Syntax("[cmd] <character>")]
-        protected virtual CommandExecutionResults DoMurder(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoMurder(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

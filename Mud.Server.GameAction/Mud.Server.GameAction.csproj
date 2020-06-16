@@ -50,6 +50,11 @@
     <Compile Include="AdminGameActionInfo.cs" />
     <Compile Include="CharacterGameActionBase.cs" />
     <Compile Include="CharacterGameAction.cs" />
+    <Compile Include="CommandAttribute.cs" />
+    <Compile Include="CommandExecutionInfo.cs" />
+    <Compile Include="CommandHelpers.cs" />
+    <Compile Include="CommandMethodInfo.cs" />
+    <Compile Include="CommandParameter.cs" />
     <Compile Include="GameActionBase.cs" />
     <Compile Include="GameActionInfo.cs" />
     <Compile Include="GameActionManager.cs" />
@@ -62,6 +67,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{FA516A9E-EA0B-4F74-A5AA-23DE3D109ADC}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
@@ -77,10 +86,6 @@
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3E2BD396-17B9-423E-9114-9E215B468267}</Project>
-      <Name>Mud.Server.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01D3F406-AEDA-4C60-951A-6B1133AEC859}</Project>

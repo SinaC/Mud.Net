@@ -1,8 +1,9 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
 // ReSharper disable UnusedMember.Global
 
@@ -12,7 +13,7 @@ namespace Mud.Server.Character
     {
         [CharacterCommand("kill", "Combat", Priority = 1, MinPosition = Positions.Fighting)]
         [Syntax("[cmd] <character>")]
-        protected virtual CommandExecutionResults DoKill(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoKill(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -76,7 +77,7 @@ namespace Mud.Server.Character
         }
 
         [CharacterCommand("flee", "Combat", MinPosition = Positions.Standing)]
-        protected virtual CommandExecutionResults DoFlee(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoFlee(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Fighting == null)
             {

@@ -1,8 +1,8 @@
 ﻿using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
-using Mud.Server.Input;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using System;
 using System.Collections.Generic;
@@ -72,6 +72,12 @@ namespace Mud.Server.GameAction
             return instance;
         }
 
+        public IActionInput CreateActionInput(IGameActionInfo commandInfo, IActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
+        {
+            // TODO
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         private IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
@@ -108,33 +114,33 @@ namespace Mud.Server.GameAction
             }
         }
 
-        public static IReadOnlyTrie<CommandExecutionInfo> GetCommands(Type type)
+        public static IReadOnlyTrie<ICommandExecutionInfo> GetCommands(Type type)
         {
             var commands = GetCommandsFromType(type).Union(GetCommandsFromAssembly(type.Assembly));
-            Trie<CommandExecutionInfo> trie = new Trie<CommandExecutionInfo>(commands);
+            Trie<ICommandExecutionInfo> trie = new Trie<ICommandExecutionInfo>(commands);
             return trie;
         }
 
-        private static IEnumerable<TrieEntry<CommandExecutionInfo>> GetCommandsFromType(Type type)
+        private static IEnumerable<TrieEntry<ICommandExecutionInfo>> GetCommandsFromType(Type type)
         {
             Type commandAttributeType = typeof(CommandAttribute);
             return type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
                .Where(x => x.GetCustomAttributes(commandAttributeType, false).Any())
                .Select(x => new { methodInfo = x, attributes = GetCommandAndSyntaxAttributes(x) })
                .SelectMany(x => x.attributes.commandAttributes,
-                   (x, commandAttribute) => new TrieEntry<CommandExecutionInfo>(commandAttribute.Name, new CommandMethodInfo(x.methodInfo, commandAttribute, x.attributes.syntaxCommandAttribute)));
+                   (x, commandAttribute) => new TrieEntry<ICommandExecutionInfo>(commandAttribute.Name, new CommandMethodInfo(x.methodInfo, commandAttribute, x.attributes.syntaxCommandAttribute)));
         }
 
-        private static IEnumerable<TrieEntry<CommandExecutionInfo>> GetCommandsFromAssembly(Assembly assembly)
+        private static IEnumerable<TrieEntry<ICommandExecutionInfo>> GetCommandsFromAssembly(Assembly assembly)
         {
             Type commandAttributeType = typeof(CommandAttribute);
             return assembly.GetTypes()
                 .Where(t => t.GetCustomAttributes(commandAttributeType, false).Any())
-                // TODO check if x inherits from CommandBase<Type>
+                // TODO check if x inherits from GameActionBase<Type,>
                 //.Where(t => t.GetGenericParameterConstraints().Any(c => t.IsAssignableFrom(c)))
                 .Select(x => new { executionType = x, attributes = GetCommandAndSyntaxAttributes(x) })
                 .SelectMany(x => x.attributes.commandAttributes,
-                   (x, commandAttribute) => new TrieEntry<CommandExecutionInfo>(commandAttribute.Name, CreateGameActionInfoStatic(x.executionType, commandAttribute, x.attributes.syntaxCommandAttribute)));
+                   (x, commandAttribute) => new TrieEntry<ICommandExecutionInfo>(commandAttribute.Name, CreateGameActionInfoStatic(x.executionType, commandAttribute, x.attributes.syntaxCommandAttribute)));
         }
 
         private static (IEnumerable<CommandAttribute> commandAttributes, SyntaxAttribute syntaxCommandAttribute) GetCommandAndSyntaxAttributes(MethodInfo methodInfo)

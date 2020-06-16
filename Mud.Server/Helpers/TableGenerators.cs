@@ -2,10 +2,11 @@
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Common;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Race;
 using System;
 using System.Linq;
@@ -173,16 +174,16 @@ namespace Mud.Server.Helpers
 
         private static string ConvertPriority(int priority) => priority != CommandAttribute.DefaultPriority ? $"%y%{priority}%x%" : $"{priority}";
 
-        public static readonly Lazy<TableGenerator<CommandMethodInfo>> CommandMethodInfoTableGenerator = new Lazy<TableGenerator<CommandMethodInfo>>(() =>
+        public static readonly Lazy<TableGenerator<ICommandMethodInfo>> CommandMethodInfoTableGenerator = new Lazy<TableGenerator<ICommandMethodInfo>>(() =>
         {
-            TableGenerator<CommandMethodInfo> generator = new TableGenerator<CommandMethodInfo>();
-            generator.AddColumn("Method", 20, x => x.MethodInfo.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions { MergeIdenticalValue = true });
-            generator.AddColumn("Command", 20, x => x.CommandAttribute.Name, new TableGenerator<CommandMethodInfo>.ColumnOptions { AlignLeft = true });
-            generator.AddColumn("Categories", 20, x => string.Join(",", x.CommandAttribute.Categories));
-            generator.AddColumn("Prio", 5, x => ConvertPriority(x.CommandAttribute.Priority));
-            generator.AddColumn("S?", 5, x => ConvertBool(x.CommandAttribute.NoShortcut));
-            generator.AddColumn("H?", 5, x => ConvertBool(x.CommandAttribute.Hidden));
-            generator.AddColumn("F?", 5, x => ConvertBool(x.CommandAttribute.AddCommandInParameters));
+            TableGenerator<ICommandMethodInfo> generator = new TableGenerator<ICommandMethodInfo>();
+            generator.AddColumn("Method", 20, x => x.MethodInfo.Name, new TableGenerator<ICommandMethodInfo>.ColumnOptions { MergeIdenticalValue = true });
+            generator.AddColumn("Command", 20, x => x.Name, new TableGenerator<ICommandMethodInfo>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Categories", 20, x => string.Join(",", x.Categories));
+            generator.AddColumn("Prio", 5, x => ConvertPriority(x.Priority));
+            generator.AddColumn("S?", 5, x => ConvertBool(x.NoShortcut));
+            generator.AddColumn("H?", 5, x => ConvertBool(x.Hidden));
+            generator.AddColumn("F?", 5, x => ConvertBool(x.AddCommandInParameters));
             generator.AddColumn("R?", 3, x => x.MethodInfo.ReturnType == typeof(CommandExecutionResults) ? "" : "%R%X%x%");
             return generator;
         });

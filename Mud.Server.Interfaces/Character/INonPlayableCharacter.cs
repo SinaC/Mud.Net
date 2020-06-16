@@ -1,6 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Input;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Interfaces.Character
 {
@@ -23,7 +23,7 @@ namespace Mud.Server.Interfaces.Character
         // Pet/charmies
         IPlayableCharacter Master { get; } // character allowed to order us
         void ChangeMaster(IPlayableCharacter master);
-        bool Order(string rawParameters, params CommandParameter[] parameters);
+        bool Order(string rawParameters, params ICommandParameter[] parameters);
 
         // Mapping
         PetData MapPetData();

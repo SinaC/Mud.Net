@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using Mud.Logger;
 using Mud.Server.Common;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 // ReSharper disable UnusedMember.Global
 
@@ -16,7 +17,7 @@ namespace Mud.Server.Admin
             "[cmd] room <name|id>",
             "[cmd] item name",
             "[cmd] mob name")]
-        protected virtual CommandExecutionResults DoIncarnate(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoIncarnate(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

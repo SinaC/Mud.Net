@@ -1,4 +1,5 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Admin
@@ -9,7 +10,7 @@ namespace Mud.Server.Admin
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
-        protected override CommandExecutionResults DoImpersonate(string rawParameters, params CommandParameter[] parameters)
+        protected override CommandExecutionResults DoImpersonate(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Incarnating != null)
                 Send("You are already incarnating {0}.", Incarnating.DisplayName);
@@ -20,7 +21,7 @@ namespace Mud.Server.Admin
 
         [AdminCommand("immortal", "Avatar", Priority = 500, MustBeImpersonated = true)]
         [Syntax("[cmd]")]
-        protected virtual CommandExecutionResults DoImmortal(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoImmortal(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Impersonating.IsImmortal)
             {

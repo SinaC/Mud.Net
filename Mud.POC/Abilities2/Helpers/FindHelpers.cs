@@ -1,14 +1,14 @@
 ﻿using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Input;
 using System.Collections.Generic;
 using System.Linq;
 using Mud.Common;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.Abilities2.Helpers
 {
     public static class FindHelpers
     {
-        public static TEntity FindByName<TEntity>(IEnumerable<TEntity> entities, CommandParameter parameter)
+        public static TEntity FindByName<TEntity>(IEnumerable<TEntity> entities, ICommandParameter parameter)
             where TEntity : IEntity
              => entities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
 
@@ -20,14 +20,14 @@ namespace Mud.POC.Abilities2.Helpers
                 : list.Where(x => StringCompareHelpers.StringListStartsWith(x.Keywords, parameter));
         }
 
-        public static IItem FindItemHere(ICharacter character, CommandParameter parameter)
+        public static IItem FindItemHere(ICharacter character, ICommandParameter parameter)
             => FindByName(
                 character.Room.Content.Where(character.CanSee)
                     .Concat(character.Inventory.Where(character.CanSee))
                     .Concat(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)).Select(x => x.Item)),
                 parameter);
 
-        public static ICharacter FindChararacterInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_char_world in handler.C:3511
+        public static ICharacter FindChararacterInWorld(ICharacter asker, ICommandParameter parameter) // equivalent to get_char_world in handler.C:3511
         {
             // In room
             ICharacter inRoom = FindByName(asker.Room.People.Where(asker.CanSee), parameter);

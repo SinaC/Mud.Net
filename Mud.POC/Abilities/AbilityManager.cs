@@ -1,11 +1,12 @@
 ﻿using Mud.Logger;
 using Mud.Server.Random;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Mud.Common;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.Abilities
 {
@@ -63,7 +64,7 @@ namespace Mud.POC.Abilities
         public IEnumerable<IAbility> Skills => _abilities.Where(x => x.Kind == AbilityKinds.Skill);
         public IEnumerable<IAbility> Passives => _abilities.Where(x => x.Kind == AbilityKinds.Passive);
 
-        public CastResults Cast(ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        public CastResults Cast(ICharacter caster, string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -160,7 +161,7 @@ namespace Mud.POC.Abilities
             return CastResults.Ok;
         }
 
-        public CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        public CastResults CastFromItem(IAbility ability, ICharacter caster, IEntity target, string rawParameters, params ICommandParameter[] parameters)
         {
             // 1) check if target is compatible
             AbilityTargetResults targetResult = GetItemAbilityTarget(ability, caster, ref target);
@@ -175,7 +176,7 @@ namespace Mud.POC.Abilities
             return CastResults.Ok;
         }
 
-        public UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params CommandParameter[] parameters)
+        public UseResults Use(IAbility ability, ICharacter caster, string rawParameters, params ICommandParameter[] parameters)
         {
             // 1) check if it's a skill
             if (ability == null || ability.Kind != AbilityKinds.Skill)
@@ -196,7 +197,7 @@ namespace Mud.POC.Abilities
                 : UseResults.Error;
         }
 
-        public AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params CommandParameter[] parameters)
+        public AbilityTargetResults GetAbilityTarget(IAbility ability, ICharacter caster, out IEntity target, string rawParameters, params ICommandParameter[] parameters)
         {
             target = null;
             switch (ability.Target)
@@ -493,7 +494,7 @@ namespace Mud.POC.Abilities
 
         #endregion
 
-        private object InvokeSpell(IAbility ability, int level, ICharacter caster, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        private object InvokeSpell(IAbility ability, int level, ICharacter caster, IEntity target, string rawParameters, params ICommandParameter[] parameters)
         {
             if (ability == null)
                 return null;
@@ -533,7 +534,7 @@ namespace Mud.POC.Abilities
             return null;
         }
 
-        private object InvokeSkill(IAbility ability, ICharacter source, IEntity target, string rawParameters, params CommandParameter[] parameters)
+        private object InvokeSkill(IAbility ability, ICharacter source, IEntity target, string rawParameters, params ICommandParameter[] parameters)
         {
             if (ability == null)
                 return null;
@@ -573,7 +574,7 @@ namespace Mud.POC.Abilities
             return null;
         }
 
-        private KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, CommandParameter parameter)
+        private KnownAbility Search(IEnumerable<KnownAbility> knownAbilities, int level, Func<IAbility, bool> abilityFilterFunc, ICommandParameter parameter)
         {
             return knownAbilities.Where(x =>
                 abilityFilterFunc(x.Ability)
@@ -624,7 +625,7 @@ namespace Mud.POC.Abilities
         }
 
         // TODO: use FindHelpers.
-        private T FindByName<T>(IEnumerable<T> list, CommandParameter parameter, bool perfectMatch = false)
+        private T FindByName<T>(IEnumerable<T> list, ICommandParameter parameter, bool perfectMatch = false)
             where T : IEntity
         {
             return perfectMatch
@@ -632,7 +633,7 @@ namespace Mud.POC.Abilities
                 : list.Where(x => StringCompareHelpers.StringListsStartsWith(x.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
         }
 
-        private IItem FindItemHere(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
+        private IItem FindItemHere(ICharacter character, ICommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
         {
             return FindByName(
                 character.Room.Content

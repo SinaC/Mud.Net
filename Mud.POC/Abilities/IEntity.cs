@@ -1,5 +1,5 @@
 ﻿using Mud.DataStructures.Trie;
-using Mud.Server.Input;
+using Mud.Server.Interfaces.GameAction;
 using System.Collections.Generic;
 
 namespace Mud.POC.Abilities
@@ -10,6 +10,6 @@ namespace Mud.POC.Abilities
         string DebugName { get; }
         IEnumerable<string> Keywords { get; } // name tokenize
 
-        IReadOnlyTrie<CommandExecutionInfo> Commands { get; }
+        IReadOnlyTrie<ICommandExecutionInfo> Commands { get; }
     }
 }

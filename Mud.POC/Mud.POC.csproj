@@ -469,10 +469,6 @@
       <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
       <Name>Mud.Server.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3E2BD396-17B9-423E-9114-9E215B468267}</Project>
-      <Name>Mud.Server.Input</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
       <Name>Mud.Server.Interfaces</Name>

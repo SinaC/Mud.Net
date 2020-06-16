@@ -266,9 +266,9 @@
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
       <Name>Mud.Server.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
-      <Name>Mud.Server.Input</Name>
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
+      <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
+      <Name>Mud.Server.GameAction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>

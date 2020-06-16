@@ -1,5 +1,4 @@
-﻿using Mud.Server.Input;
-using Mud.Server.Interfaces.Actor;
+﻿using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.GameAction
@@ -10,7 +9,7 @@ namespace Mud.Server.GameAction
         public string CommandLine { get; }
         public string Command { get; }
         public string RawParameters { get; }
-        public CommandParameter[] Parameters { get; }
+        public ICommandParameter[] Parameters { get; }
         public IGameActionInfo GameActionInfo { get; }
 
         public object Context { get; set; }
@@ -26,7 +25,7 @@ namespace Mud.Server.GameAction
             Parameters = parameters;
         }
 
-        public ActionInput(IGameActionInfo commandInfo, IActor actor, string commandLine, string command, string rawParameters, params CommandParameter[] parameters)
+        public ActionInput(IGameActionInfo commandInfo, IActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
         {
             GameActionInfo = commandInfo;
             Actor = actor;

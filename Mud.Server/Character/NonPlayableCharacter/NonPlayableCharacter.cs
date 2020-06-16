@@ -9,11 +9,12 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
@@ -23,7 +24,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 {
     public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<NonPlayableCharacter>);
+        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<NonPlayableCharacter>);
 
         private IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         private IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
@@ -202,7 +203,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandExecutionInfo> Commands => NonPlayableCharacterCommands.Value;
+        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => NonPlayableCharacterCommands.Value;
 
         public override void Send(string message, bool addTrailingNewLine)
         {
@@ -377,7 +378,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             switch (number)
             {
                 case 0: if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
-                        DoBash(string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+                        DoBash(string.Empty, Enumerable.Empty<ICommandParameter>().ToArray());
                     break;
                 case 1: if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk) && !CharacterFlags.HasFlag(CharacterFlags.Berserk))
                         DoBerserk(string.Empty, null);
@@ -452,7 +453,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             Master = master;
         }
 
-        public bool Order(string rawParameters, params CommandParameter[] parameters)
+        public bool Order(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Master == null)
                 return false;

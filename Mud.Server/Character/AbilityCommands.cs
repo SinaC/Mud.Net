@@ -7,9 +7,10 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.GameAction;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
@@ -18,7 +19,7 @@ namespace Mud.Server.Character
     {
         [CharacterCommand("cast", "Ability", Priority = 2, MinPosition = Positions.Fighting)]
         [Syntax("[cmd] <ability> <target>")]
-        protected virtual CommandExecutionResults DoCast(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoCast(string rawParameters, params ICommandParameter[] parameters)
         {
             //CastResults result = AbilityManager.Cast(this, rawParameters, parameters);
             //return result == CastResults.Ok // TODO;: better mapping
@@ -67,7 +68,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] all")]
-        protected virtual CommandExecutionResults DoAbilities(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAbilities(string rawParameters, params ICommandParameter[] parameters)
         {
             bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display abilities below level or all ?
 
@@ -80,7 +81,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] all")]
-        protected virtual CommandExecutionResults DoSpells(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSpells(string rawParameters, params ICommandParameter[] parameters)
         {
             bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display spells below level or all ?
 
@@ -93,7 +94,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] all")]
-        protected virtual CommandExecutionResults DoSkills(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSkills(string rawParameters, params ICommandParameter[] parameters)
         {
             bool displayAll = parameters.Length > 0 && parameters[0].IsAll; // Display skills+passive below level or all ?
 
@@ -107,7 +108,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] <ability>")]
-        protected virtual CommandExecutionResults DoCooldowns(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoCooldowns(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {

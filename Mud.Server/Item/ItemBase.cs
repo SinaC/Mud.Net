@@ -9,11 +9,11 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
@@ -23,7 +23,7 @@ namespace Mud.Server.Item
         where TBlueprint : ItemBlueprintBase
         where TData: ItemData
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
+        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> ItemCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
 
         protected ItemBase(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
             : base(guid, name, description)
@@ -79,7 +79,7 @@ namespace Mud.Server.Item
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandExecutionInfo> Commands => ItemCommands.Value;
+        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => ItemCommands.Value;
 
         #endregion
 

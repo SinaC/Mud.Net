@@ -9,13 +9,14 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Item;
 using Mud.Server.Rom24.Affects;
@@ -32,7 +33,7 @@ namespace Mud.Server.Character
         // Wear item
         // Wear all
         // Wear all.item
-        protected virtual CommandExecutionResults DoWear(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWear(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -42,7 +43,7 @@ namespace Mud.Server.Character
             // wear all, wear all.item
             if (parameters[0].IsAll)
             {
-                CommandParameter whatParameter = parameters[0];
+                ICommandParameter whatParameter = parameters[0];
                 // We have to clone list because it'll be modified when wearing an item
                 IReadOnlyCollection<IItem> list = !string.IsNullOrWhiteSpace(whatParameter.Value)
                     // get all.item
@@ -81,7 +82,7 @@ namespace Mud.Server.Character
         [CharacterCommand("wield", "Item", "Equipment", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <weapon>")]
         // Wield item
-        protected virtual CommandExecutionResults DoWield(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoWield(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -113,7 +114,7 @@ namespace Mud.Server.Character
         [CharacterCommand("hold", "Item", "Equipment", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <item>")]
         // Hold item
-        protected virtual CommandExecutionResults DoHold(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoHold(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -140,7 +141,7 @@ namespace Mud.Server.Character
         [CharacterCommand("remove", "Item", "Equipment", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <item>")]
         // Remove item
-        protected virtual CommandExecutionResults DoRemove(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoRemove(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -173,14 +174,14 @@ namespace Mud.Server.Character
         // Get all.item
         // Get all [from] container
         // Get all.item [from] container
-        protected virtual CommandExecutionResults DoGet(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGet(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
                 Send("Get what?");
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
-            CommandParameter whatParameter = parameters[0];
+            ICommandParameter whatParameter = parameters[0];
             // get item, get all, get all.item
             if (parameters.Length == 1)
             {
@@ -222,7 +223,7 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.Ok;
             }
             // get item [from] container, get all [from] container, get all.item [from] container
-            CommandParameter whereParameter = StringCompareHelpers.StringEquals(parameters[1].Value, "from") ? parameters[2] : parameters[1];
+            ICommandParameter whereParameter = StringCompareHelpers.StringEquals(parameters[1].Value, "from") ? parameters[2] : parameters[1];
             if (whereParameter.IsAll)
             {
                 Send("You can't do that");
@@ -291,7 +292,7 @@ namespace Mud.Server.Character
         // Drop item
         // Drop all
         // Drop all.item
-        protected virtual CommandExecutionResults DoDrop(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDrop(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -354,7 +355,7 @@ namespace Mud.Server.Character
             // drop all, drop all.item
             if (parameters[0].IsAll)
             {
-                CommandParameter whatParameter = parameters[0];
+                ICommandParameter whatParameter = parameters[0];
                 // list must be cloned because it'll be modified when dropping an item
                 IReadOnlyCollection<IItem> list = !string.IsNullOrWhiteSpace(whatParameter.Value)
                     // drop all.item
@@ -394,7 +395,7 @@ namespace Mud.Server.Character
             "[cmd] <item> <character>",
             "[cmd] <amount> coin|coins|silver|gold <character>")]
         // Give item victim
-        protected virtual CommandExecutionResults DoGive(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoGive(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
@@ -521,7 +522,7 @@ namespace Mud.Server.Character
         // Put item [in] container
         // Put all.item container
         // Put all.item [in] container
-        protected virtual CommandExecutionResults DoPut(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoPut(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
@@ -530,8 +531,8 @@ namespace Mud.Server.Character
             }
 
             // Extract parameters
-            CommandParameter whatParameter = parameters[0];
-            CommandParameter whereParameter = StringCompareHelpers.StringEquals(parameters[1].Value, "in") ? parameters[2] : parameters[1];
+            ICommandParameter whatParameter = parameters[0];
+            ICommandParameter whereParameter = StringCompareHelpers.StringEquals(parameters[1].Value, "in") ? parameters[2] : parameters[1];
 
             // search container
             if (whereParameter.IsAll)
@@ -593,7 +594,7 @@ namespace Mud.Server.Character
         [Syntax(
             "[cmd]",
             "[cmd] <container>")]
-        protected virtual CommandExecutionResults DoDrink(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDrink(string rawParameters, params ICommandParameter[] parameters)
         {
             IItemDrinkable drinkable;
             // fountain in room
@@ -690,7 +691,7 @@ namespace Mud.Server.Character
             "[cmd] <container> out",
             "[cmd] <container> <container>",
             "[cmd] <container> <character>")]
-        protected virtual CommandExecutionResults DoPour(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoPour(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length < 2)
             {
@@ -791,7 +792,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("fill", "Drink", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <container>")]
-        protected virtual CommandExecutionResults DoFill(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoFill(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -841,7 +842,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("eat", "Food", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <food|pill>")]
-        protected virtual CommandExecutionResults DoEat(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoEat(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -908,10 +909,10 @@ namespace Mud.Server.Character
             }
             if (pill != null)
             {
-                CastSpell(pill, pill.FirstSpellName, pill.SpellLevel, string.Empty, new CommandParameter("", false));
-                CastSpell(pill, pill.SecondSpellName, pill.SpellLevel, string.Empty, new CommandParameter("", false));
-                CastSpell(pill, pill.ThirdSpellName, pill.SpellLevel, string.Empty, new CommandParameter("", false));
-                CastSpell(pill, pill.FourthSpellName, pill.SpellLevel, string.Empty, new CommandParameter("", false));
+                CastSpell(pill, pill.FirstSpellName, pill.SpellLevel, string.Empty, CommandParameter.EmptyCommandParameter);
+                CastSpell(pill, pill.SecondSpellName, pill.SpellLevel, string.Empty, CommandParameter.EmptyCommandParameter);
+                CastSpell(pill, pill.ThirdSpellName, pill.SpellLevel, string.Empty, CommandParameter.EmptyCommandParameter);
+                CastSpell(pill, pill.FourthSpellName, pill.SpellLevel, string.Empty, CommandParameter.EmptyCommandParameter);
                 ItemManager.RemoveItem(pill);
                 return CommandExecutionResults.Ok;
             }
@@ -920,7 +921,7 @@ namespace Mud.Server.Character
 
         [CharacterCommand("quaff", "Drink", MinPosition = Positions.Resting)]
         [Syntax("[cmd] <potion>")]
-        protected virtual CommandExecutionResults DoQuaff(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuaff(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -950,10 +951,10 @@ namespace Mud.Server.Character
 
             Act(ActOptions.ToRoom, "{0:N} quaff{0:v} {1}.", this, potion);
 
-            CastSpell(potion, potion.FirstSpellName, potion.SpellLevel, string.Empty, new CommandParameter("", false));
-            CastSpell(potion, potion.SecondSpellName, potion.SpellLevel, string.Empty, new CommandParameter("", false));
-            CastSpell(potion, potion.ThirdSpellName, potion.SpellLevel, string.Empty, new CommandParameter("", false));
-            CastSpell(potion, potion.FourthSpellName, potion.SpellLevel, string.Empty, new CommandParameter("", false));
+            CastSpell(potion, potion.FirstSpellName, potion.SpellLevel, string.Empty, CommandParameter.EmptyCommandParameter);
+            CastSpell(potion, potion.SecondSpellName, potion.SpellLevel, string.Empty, CommandParameter.EmptyCommandParameter);
+            CastSpell(potion, potion.ThirdSpellName, potion.SpellLevel, string.Empty, CommandParameter.EmptyCommandParameter);
+            CastSpell(potion, potion.FourthSpellName, potion.SpellLevel, string.Empty, CommandParameter.EmptyCommandParameter);
             ItemManager.RemoveItem(potion);
             return CommandExecutionResults.Ok;
         }
@@ -961,7 +962,7 @@ namespace Mud.Server.Character
         //********************************************************************
         // Helpers
         //********************************************************************
-        private string CastSpell(IItem item, string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
+        private string CastSpell(IItem item, string spellName, int spellLevel, string rawParameters, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(spellName))
                 return null; // not really an error but don't continue

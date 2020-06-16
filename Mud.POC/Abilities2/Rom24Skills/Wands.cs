@@ -3,8 +3,9 @@ using Mud.Logger;
 using Mud.POC.Abilities2.Domain;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Random;
-using Mud.Server.Input;
 using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2.Rom24Skills
@@ -67,7 +68,7 @@ namespace Mud.POC.Abilities2.Rom24Skills
             // return SetupSpell(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
         }
 
-        private string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
+        private string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, string rawParameters, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(spellName))
                 return null; // not really an error but don't continue

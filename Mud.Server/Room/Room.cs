@@ -12,12 +12,13 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Entity;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
@@ -26,7 +27,7 @@ namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<Room>);
+        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> RoomCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<Room>);
 
         private ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         private IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
@@ -58,7 +59,7 @@ namespace Mud.Server.Room
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandExecutionInfo> Commands => RoomCommands.Value;
+        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => RoomCommands.Value;
 
         #endregion
 
@@ -519,7 +520,7 @@ namespace Mud.Server.Room
 
         [Command("test", "!!Test!!")]
         // ReSharper disable once UnusedMember.Global
-        protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
+        protected virtual bool DoTest(string rawParameters, params ICommandParameter[] parameters)
         {
             Send("Room: DoTest");
             return true;
@@ -527,7 +528,7 @@ namespace Mud.Server.Room
 
         [Command("look", "Information")]
         // ReSharper disable once UnusedMember.Global
-        protected virtual CommandExecutionResults DoLook(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoLook(string rawParameters, params ICommandParameter[] parameters)
         {
             //TODO: better 'UI'
             StringBuilder sb = new StringBuilder();

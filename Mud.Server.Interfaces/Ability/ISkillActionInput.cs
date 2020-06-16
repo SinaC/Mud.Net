@@ -1,5 +1,5 @@
-﻿using Mud.Server.Input;
-using Mud.Server.Interfaces.Character;
+﻿using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Interfaces.Ability
 {
@@ -7,7 +7,7 @@ namespace Mud.Server.Interfaces.Ability
     {
         ICharacter User { get; }
         string RawParameters { get; }
-        CommandParameter[] Parameters { get; }
+        ICommandParameter[] Parameters { get; }
         IAbilityInfo AbilityInfo { get; }
     }
 }

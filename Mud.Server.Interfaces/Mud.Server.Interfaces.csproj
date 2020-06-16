@@ -79,6 +79,9 @@
     <Compile Include="GameAction\IActionInput.cs" />
     <Compile Include="GameAction\IAdminGameActionInfo.cs" />
     <Compile Include="GameAction\ICharacterGameActionInfo.cs" />
+    <Compile Include="GameAction\ICommandExecutionInfo.cs" />
+    <Compile Include="GameAction\ICommandMethodInfo.cs" />
+    <Compile Include="GameAction\ICommandParameter.cs" />
     <Compile Include="GameAction\IGameActionManager.cs" />
     <Compile Include="GameAction\IPlayableCharacterGameActionInfo.cs" />
     <Compile Include="GameAction\IPlayerGameActionInfo.cs" />
@@ -164,10 +167,6 @@
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
-      <Name>Mud.Server.Input</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

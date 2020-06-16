@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.Abilities;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Random;
 using System.Linq;
 
@@ -36,7 +37,7 @@ namespace Mud.POC.Tests.Abilities
             IPlayableCharacter source = new PlayableCharacter(randomManagerMock.Object, abilityManager, tableManagerMock.Object, new[] { new KnownAbility { Ability = abilityManager["kick"], Level = 1, Learned = 100, Rating = 1 } }, 1000, 1000, 10, Positions.Standing);
 
             string commandLine = "kick";
-            CommandHelpers.ExtractCommandAndParameters(commandLine, out string command, out string rawParameters, out CommandParameter[] parameters);
+            CommandHelpers.ExtractCommandAndParameters(commandLine, out string command, out string rawParameters, out ICommandParameter[] parameters);
             bool executed = source.ExecuteCommand(command, rawParameters, parameters);
 
             Assert.IsTrue(executed);

@@ -2,8 +2,9 @@
 using System.Linq;
 using Mud.Domain;
 using Mud.Server.Common;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 // ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Player
@@ -17,7 +18,7 @@ namespace Mud.Server.Player
             "[cmd]",
             "[cmd] <word>",
             "[cmd] <word> <substitution>")]
-        protected virtual CommandExecutionResults DoAlias(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAlias(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -81,7 +82,7 @@ namespace Mud.Server.Player
         [Command("unmacro", "Misc")]
         [Command("unalias", "Misc")]
         [Syntax("[cmd] <word>")]
-        protected virtual CommandExecutionResults DoUnAlias(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoUnAlias(string rawParameters, params ICommandParameter[] parameters)
         {
             if (parameters.Length == 0)
             {
@@ -100,7 +101,7 @@ namespace Mud.Server.Player
         }
 
         [Command("save", "Misc", Priority = 999 /*low priority*/, NoShortcut = true)]
-        protected virtual CommandExecutionResults DoSave(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoSave(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Impersonating != null)
             {
@@ -128,7 +129,7 @@ namespace Mud.Server.Player
         }
 
         [Command("quit", "Misc", Priority = 999/*low priority*/, NoShortcut = true)]
-        protected virtual CommandExecutionResults DoQuit(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoQuit(string rawParameters, params ICommandParameter[] parameters)
         {
             // TODO
             // cannot quit while affected by an harmful aura/ periodic aura
@@ -158,7 +159,7 @@ namespace Mud.Server.Player
 
         [Command("password", "Misc", Priority = 999, NoShortcut = true)]
         [Syntax("[cmd] <old-password> <new-password>")]
-        protected virtual CommandExecutionResults DoPassword(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoPassword(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Impersonating != null)
             {
@@ -193,7 +194,7 @@ namespace Mud.Server.Player
 
         [Command("delete", "Misc", Priority = 999, NoShortcut = true)]
         [Syntax("[cmd] <password>")]
-        protected virtual CommandExecutionResults DoDelete(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDelete(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Impersonating != null)
             {
@@ -235,7 +236,7 @@ namespace Mud.Server.Player
 
         [Command("bug", "Misc", Priority = 50)]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoBug(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoBug(string rawParameters, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(rawParameters))
             {
@@ -249,7 +250,7 @@ namespace Mud.Server.Player
 
         [Command("typo", "Misc", Priority = 50)]
         [Syntax("[cmd] <message>")]
-        protected virtual CommandExecutionResults DoTypo(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoTypo(string rawParameters, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(rawParameters))
             {

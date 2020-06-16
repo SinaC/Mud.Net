@@ -137,9 +137,13 @@
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
       <Name>Mud.Server.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3E2BD396-17B9-423E-9114-9E215B468267}</Project>
-      <Name>Mud.Server.Input</Name>
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
+      <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
+      <Name>Mud.Server.GameAction</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
+      <Project>{01D3F406-AEDA-4C60-951A-6B1133AEC859}</Project>
+      <Name>Mud.Server.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
       <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>

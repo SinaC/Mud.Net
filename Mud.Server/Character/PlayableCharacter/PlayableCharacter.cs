@@ -12,12 +12,12 @@ using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
-using Mud.Server.Input;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
@@ -33,7 +33,7 @@ namespace Mud.Server.Character.PlayableCharacter
         public static readonly int MinCondition = 0;
         public static readonly int MaxCondition = 48;
 
-        private static readonly Lazy<IReadOnlyTrie<CommandExecutionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandExecutionInfo>>(GetCommands<PlayableCharacter>);
+        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<PlayableCharacter>);
 
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
@@ -243,7 +243,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandExecutionInfo> Commands => PlayableCharacterCommands.Value;
+        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => PlayableCharacterCommands.Value;
 
         public override void Send(string message, bool addTrailingNewLine)
         {
@@ -857,23 +857,6 @@ namespace Mud.Server.Character.PlayableCharacter
                 Pets = Pets.Select(x => x.MapPetData()).ToArray(),
             };
             return data;
-        }
-
-        #endregion
-
-        #region ActorBase
-
-        protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            if (methodInfo.CommandAttribute is PlayableCharacterCommandAttribute playableCharacterCommandAttribute)
-            {
-                if (ImpersonatedBy == null)
-                {
-                    Send($"You must be impersonated to use '{playableCharacterCommandAttribute.Name}'.");
-                    return false;
-                }
-            }
-            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
         }
 
         #endregion
