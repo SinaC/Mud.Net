@@ -77,7 +77,11 @@
     <Compile Include="Class\IClassManager.cs" />
     <Compile Include="Effect\IEffect.cs" />
     <Compile Include="GameAction\IActionInput.cs" />
+    <Compile Include="GameAction\IAdminGameActionInfo.cs" />
+    <Compile Include="GameAction\ICharacterGameActionInfo.cs" />
     <Compile Include="GameAction\IGameActionManager.cs" />
+    <Compile Include="GameAction\IPlayableCharacterGameActionInfo.cs" />
+    <Compile Include="GameAction\IPlayerGameActionInfo.cs" />
     <Compile Include="IAssemblyHelper.cs" />
     <Compile Include="ICloseable.cs" />
     <Compile Include="Entity\IContainer.cs" />

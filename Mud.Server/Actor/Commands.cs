@@ -16,7 +16,7 @@ namespace Mud.Server.Actor
             "[cmd]",
             "[cmd] all",
             "[cmd] <category>")]
-    public class Commands : GameActionBase<IActor>
+    public class Commands : ActorGameAction
     {
         private const int columnCount = 6;
 

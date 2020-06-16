@@ -81,7 +81,7 @@ namespace Mud.Server.Actor
                         }
                         else if (executionResult == CommandExecutionResults.SyntaxError)
                         {
-                            StringBuilder syntax = GameActionBase<IActor>.BuildCommandSyntax(entry.Key, entry.Value.SyntaxAttribute.Syntax, false);
+                            StringBuilder syntax = GameActionBase<IActor,IGameActionInfo>.BuildCommandSyntax(entry.Key, entry.Value.SyntaxAttribute.Syntax, false);
                             Send(syntax);
                         }
                         bool afterExecute = ExecuteAfterCommand(cmi, rawParameters, parameters);

@@ -5,10 +5,11 @@ using System.Text;
 
 namespace Mud.Server.GameAction
 {
-    public abstract class GameActionBase<TActor> : IGameAction
+    public abstract class GameActionBase<TActor, TGameActionInfo> : IGameAction
         where TActor: class, IActor
+        where TGameActionInfo: class, IGameActionInfo
     {
-        protected IGameActionInfo CommandInfo { get; private set; }
+        protected TGameActionInfo GameActionInfo { get; private set; }
 
         public TActor Actor { get; protected set; }
 
@@ -16,9 +17,9 @@ namespace Mud.Server.GameAction
 
         public virtual string Guards(IActionInput actionInput)
         {
-            CommandInfo = actionInput.CommandInfo;
-            if (CommandInfo == null)
-                return "Internal error: CommandInfo is null.";
+            GameActionInfo = actionInput.GameActionInfo as TGameActionInfo;
+            if (GameActionInfo == null)
+                return $"Internal error: GameActionInfo is null or not of type {typeof(TGameActionInfo).Name}.";
             Actor = actionInput.Actor as TActor;
             if (Actor == null)
                 return $"This command must be executed by {typeof(TActor).Name}";
@@ -41,7 +42,7 @@ namespace Mud.Server.GameAction
 
         protected string BuildCommandSyntax()
         {
-            return BuildCommandSyntax(CommandInfo.Name, CommandInfo.Syntax, false).ToString();
+            return BuildCommandSyntax(GameActionInfo.Name, GameActionInfo.Syntax, false).ToString();
         }
     }
 }

@@ -187,6 +187,24 @@ namespace Mud.Server.Player
 
         public IEnumerable<string> DelayedTells => _delayedTells; // Tell stored while AFK
 
+        public void ToggleAfk()
+        {
+            if (IsAfk)
+            {
+                Send("%G%AFK%x% removed.");
+                if (DelayedTells.Any())
+                    Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
+            }
+            else
+                Send("You are now in %G%AFK%x% mode.");
+            IsAfk = !IsAfk;
+        }
+
+        public void ResetDeletionConfirmation()
+        {
+            DeletionConfirmationNeeded = false;
+        }
+
         public void DecreaseGlobalCooldown() // decrease one by one
         {
             GlobalCooldown = Math.Max(GlobalCooldown - 1, 0);

@@ -24,11 +24,15 @@ namespace Mud.Server.GameAction
             foreach (var gameActionType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
                  .Where(t => t.IsClass && !t.IsAbstract && iGameActionType.IsAssignableFrom(t))))
             {
-                IGameActionInfo commandInfo = GameActionInfo.Create(gameActionType);
-                if (_gameActions.ContainsKey(commandInfo.Name))
-                    Log.Default.WriteLine(LogLevels.Error, "Duplicate game action {0}", commandInfo.Name);
-                else
-                    _gameActions.Add(commandInfo.Name, commandInfo);
+                var commandAndSyntaxAttributes = GetCommandAndSyntaxAttributes(gameActionType);
+                foreach (var commandAttribute in commandAndSyntaxAttributes.commandAttributes)
+                {
+                    IGameActionInfo commandInfo = CreateGameActionInfo(gameActionType, commandAttribute, commandAndSyntaxAttributes.syntaxCommandAttribute);
+                    if (_gameActions.ContainsKey(commandInfo.Name))
+                        Log.Default.WriteLine(LogLevels.Error, "Duplicate game action {0}", commandInfo.Name);
+                    else
+                        _gameActions.Add(commandInfo.Name, commandInfo);
+                }
             }
         }
 
@@ -45,7 +49,6 @@ namespace Mud.Server.GameAction
                 return gameActionInfo;
             }
         }
-
 
         public IGameAction CreateInstance(string name)
         {
@@ -70,6 +73,40 @@ namespace Mud.Server.GameAction
         }
 
         #endregion
+
+        private IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
+        {
+            switch (commandAttribute)
+            {
+                case AdminCommandAttribute adminCommandAttribute:
+                    return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute);
+                case PlayerCommandAttribute playerCommandAttribute:
+                    return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute);
+                case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
+                    return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute);
+                case CharacterCommandAttribute characterCommandAttribute:
+                    return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute);
+                default:
+                    return new GameActionInfo(type, commandAttribute, syntaxAttribute);
+            }
+        }
+
+        private static GameActionInfo CreateGameActionInfoStatic(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
+        {
+            switch (commandAttribute)
+            {
+                case AdminCommandAttribute adminCommandAttribute:
+                    return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute);
+                case PlayerCommandAttribute playerCommandAttribute:
+                    return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute);
+                case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
+                    return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute);
+                case CharacterCommandAttribute characterCommandAttribute:
+                    return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute);
+                default:
+                    return new GameActionInfo(type, commandAttribute, syntaxAttribute);
+            }
+        }
 
         public static IReadOnlyTrie<CommandExecutionInfo> GetCommands(Type type)
         {
@@ -97,7 +134,7 @@ namespace Mud.Server.GameAction
                 //.Where(t => t.GetGenericParameterConstraints().Any(c => t.IsAssignableFrom(c)))
                 .Select(x => new { executionType = x, attributes = GetCommandAndSyntaxAttributes(x) })
                 .SelectMany(x => x.attributes.commandAttributes,
-                   (x, commandAttribute) => new TrieEntry<CommandExecutionInfo>(commandAttribute.Name, new GameActionInfo(x.executionType, commandAttribute, x.attributes.syntaxCommandAttribute)));
+                   (x, commandAttribute) => new TrieEntry<CommandExecutionInfo>(commandAttribute.Name, CreateGameActionInfoStatic(x.executionType, commandAttribute, x.attributes.syntaxCommandAttribute)));
         }
 
         private static (IEnumerable<CommandAttribute> commandAttributes, SyntaxAttribute syntaxCommandAttribute) GetCommandAndSyntaxAttributes(MethodInfo methodInfo)

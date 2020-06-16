@@ -14,7 +14,7 @@ namespace Mud.Server.Admin.Administration
 {
     [AdminCommand("promote", "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
     [Syntax("[cmd] <player name> <level>")]
-    public class Promote : GameActionBase<IAdmin>
+    public class Promote : AdminGameAction
     {
         private IPlayerManager PlayerManager { get; }
         private IServerAdminCommand ServerAdminCommand { get; }

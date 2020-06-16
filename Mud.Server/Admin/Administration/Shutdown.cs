@@ -9,7 +9,7 @@ namespace Mud.Server.Admin.Administration
 {
     [AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
     [Syntax("[cmd] <delay>")]
-    public class Shutdown : GameActionBase<IAdmin>
+    public class Shutdown : AdminGameAction
     {
         private IServerAdminCommand ServerAdminCommand { get; }
 

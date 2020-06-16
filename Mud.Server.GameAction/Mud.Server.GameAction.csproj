@@ -45,9 +45,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionInput.cs" />
+    <Compile Include="ActorGameAction.cs" />
+    <Compile Include="AdminGameAction.cs" />
+    <Compile Include="AdminGameActionInfo.cs" />
+    <Compile Include="CharacterGameActionBase.cs" />
+    <Compile Include="CharacterGameAction.cs" />
     <Compile Include="GameActionBase.cs" />
     <Compile Include="GameActionInfo.cs" />
     <Compile Include="GameActionManager.cs" />
+    <Compile Include="CharacterGameActionInfo.cs" />
+    <Compile Include="PlayableCharacterGameAction.cs" />
+    <Compile Include="PlayableCharacterGameActionInfo.cs" />
+    <Compile Include="PlayerGameAction.cs" />
+    <Compile Include="PlayerGameActionBase.cs" />
+    <Compile Include="PlayerGameActionInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -58,6 +69,10 @@
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
       <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
       <Name>Mud.DataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
+      <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
+      <Name>Mud.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>

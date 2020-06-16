@@ -11,7 +11,7 @@ namespace Mud.Server.Actor
     [Syntax(
             "[cmd] all",
             "[cmd] <command>")]
-    public class Syntax : GameActionBase<IActor>
+    public class Syntax : ActorGameAction
     {
         public string CommandName { get; protected set; }
 

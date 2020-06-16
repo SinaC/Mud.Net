@@ -116,15 +116,7 @@ namespace Mud.Server.Player
         [Command("afk", "Communication")]
         protected virtual CommandExecutionResults DoAfk(string rawParameters, params CommandParameter[] parameters)
         {
-            if (IsAfk)
-            {
-                Send("%G%AFK%x% removed.");
-                if (DelayedTells.Any())
-                    Send("%r%You have received tells: Type %Y%'replay'%r% to see them.%x%");
-            }
-            else
-                Send("You are now in %G%AFK%x% mode.");
-            IsAfk = !IsAfk;
+            ToggleAfk();
             return CommandExecutionResults.Ok;
         }
 

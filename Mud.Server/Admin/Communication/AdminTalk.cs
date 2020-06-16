@@ -9,7 +9,7 @@ namespace Mud.Server.Admin.Communication
     [AdminCommand("atalk", "Communication")]
     [AdminCommand("admintalk", "Communication")]
     [Syntax("[cmd] <message>")]
-    public class AdminTalk : GameActionBase<IAdmin>
+    public class AdminTalk : AdminGameAction
     {
         public string What { get; protected set; }
 

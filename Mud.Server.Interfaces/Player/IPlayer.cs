@@ -50,6 +50,9 @@ namespace Mud.Server.Interfaces.Player
 
         bool IsAfk { get; }
         IEnumerable<string> DelayedTells { get; } // Tell stored while AFK
+        void ToggleAfk();
+
+        void ResetDeletionConfirmation();
 
         void DecreaseGlobalCooldown(); // decrease one by one
         void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse)

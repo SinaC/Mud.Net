@@ -11,13 +11,13 @@ namespace Mud.Server.GameAction
         public string Command { get; }
         public string RawParameters { get; }
         public CommandParameter[] Parameters { get; }
-        public IGameActionInfo CommandInfo { get; }
+        public IGameActionInfo GameActionInfo { get; }
 
         public object Context { get; set; }
 
         public ActionInput(IGameActionInfo commandInfo, IActor actor, string commandLine)
         {
-            CommandInfo = commandInfo;
+            GameActionInfo = commandInfo;
             Actor = actor;
             CommandLine = commandLine;
             CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters); // TODO: move code to this class
@@ -28,7 +28,7 @@ namespace Mud.Server.GameAction
 
         public ActionInput(IGameActionInfo commandInfo, IActor actor, string commandLine, string command, string rawParameters, params CommandParameter[] parameters)
         {
-            CommandInfo = commandInfo;
+            GameActionInfo = commandInfo;
             Actor = actor;
             CommandLine = commandLine;
             Command = command;
