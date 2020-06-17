@@ -1,8 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.Abilities;
-using Mud.Server.GameAction;
-using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Random;
 
 namespace Mud.POC.Tests.Abilities

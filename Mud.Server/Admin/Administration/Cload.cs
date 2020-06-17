@@ -3,7 +3,6 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.World;
 using System;
 
 namespace Mud.Server.Admin.Administration
@@ -13,15 +12,15 @@ namespace Mud.Server.Admin.Administration
     [Syntax("[cmd] <id>")]
     public class Cload : AdminGameAction
     {
-        private IWorld World { get; }
+        private ICharacterManager CharacterManager { get; }
         private IWiznet Wiznet { get; }
 
         public int BlueprintId { get; protected set; }
         public CharacterBlueprintBase CharacterBlueprint { get; protected set; }
 
-        public Cload(IWorld world, IWiznet wiznet)
+        public Cload(ICharacterManager characterManager, IWiznet wiznet)
         {
-            World = world;
+            CharacterManager = characterManager;
             Wiznet = wiznet;
         }
 
@@ -36,7 +35,7 @@ namespace Mud.Server.Admin.Administration
 
             BlueprintId = actionInput.Parameters[0].AsNumber;
 
-            CharacterBlueprint = World.GetCharacterBlueprint(BlueprintId);
+            CharacterBlueprint = CharacterManager.GetCharacterBlueprint(BlueprintId);
             if (CharacterBlueprint == null)
                 return "No character with that id.";
 
@@ -45,7 +44,7 @@ namespace Mud.Server.Admin.Administration
 
         public override void Execute(IActionInput actionInput)
         {
-            INonPlayableCharacter character = World.AddNonPlayableCharacter(Guid.NewGuid(), CharacterBlueprint, Impersonating.Room);
+            INonPlayableCharacter character = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterBlueprint, Impersonating.Room);
             if (character == null)
             {
                 Wiznet.Wiznet($"DoCload: character with id {BlueprintId} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);

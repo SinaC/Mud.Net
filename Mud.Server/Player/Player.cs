@@ -36,6 +36,7 @@ namespace Mud.Server.Player
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
         protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
 
         protected Player()
         {
@@ -269,7 +270,7 @@ namespace Mud.Server.Player
         public void StopImpersonating()
         {
             Impersonating?.StopImpersonation();
-            World.RemoveCharacter(Impersonating); // extract avatar  TODO: linkdead instead of RemoveCharacter ?
+            CharacterManager.RemoveCharacter(Impersonating); // extract avatar  TODO: linkdead instead of RemoveCharacter ?
             Impersonating = null;
             PlayerState = PlayerStates.Playing;
         }

@@ -4,7 +4,6 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
 
 namespace Mud.Server.Admin.Administration
 {
@@ -14,14 +13,14 @@ namespace Mud.Server.Admin.Administration
             "[cmd] <character> <location>")]
     public class Transfer : AdminGameAction
     {
-        private IWorld World { get; }
+        private ICharacterManager CharacterManager { get; }
 
         public IRoom Where { get; protected set; }
         public ICharacter Whom { get; protected set; }
 
-        public Transfer(IWorld world)
+        public Transfer(ICharacterManager characterManager)
         {
-            World = world;
+            CharacterManager = characterManager;
         }
 
         public override string Guards(IActionInput actionInput)
@@ -51,7 +50,7 @@ namespace Mud.Server.Admin.Administration
 
             ICharacter whom = Actor.Impersonating != null
                 ? FindHelpers.FindChararacterInWorld(Actor.Impersonating, actionInput.Parameters[0])
-                : FindHelpers.FindByName(World.Characters, actionInput.Parameters[0]);
+                : FindHelpers.FindByName(CharacterManager.Characters, actionInput.Parameters[0]);
             if (whom == null)
                 return StringHelpers.CharacterNotFound;
 

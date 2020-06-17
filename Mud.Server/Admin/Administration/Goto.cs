@@ -1,6 +1,5 @@
 ﻿using Mud.Server.Common;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
 using System.Linq;
@@ -11,7 +10,6 @@ namespace Mud.Server.Admin.Administration
     [Syntax("[cmd] <location>")]
     public class Goto : AdminGameAction
     {
-        public IPlayableCharacter Impersonating { get; protected set; }
         public IRoom Where { get; protected set; }
 
         public override string Guards(IActionInput actionInput)

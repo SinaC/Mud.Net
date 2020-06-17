@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.POC.GroupsPetsFollowers;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.GameAction;
 using System.Linq;
 // ReSharper disable UnusedVariable
 

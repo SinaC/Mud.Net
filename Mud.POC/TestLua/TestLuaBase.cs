@@ -4,6 +4,7 @@ using Mud.Container;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
@@ -13,13 +14,15 @@ namespace Mud.POC.TestLua
     public abstract class TestLuaBase
     {
         protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        protected IAreaManager AreaManager => DependencyContainer.Current.GetInstance<IAreaManager>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
 
         public abstract void Test();
 
         protected void CreateWorld()
         {
-            World.AddArea(Guid.NewGuid(),  new AreaBlueprint { Name ="area", Builders = "sinac", Credits = "sinac"});
+            AreaManager.AddArea(Guid.NewGuid(),  new AreaBlueprint { Name ="area", Builders = "sinac", Credits = "sinac"});
             RoomManager.AddRoomBlueprint(new RoomBlueprint
             {
                 Name = "battle room",
@@ -28,7 +31,7 @@ namespace Mud.POC.TestLua
                 ExtraDescriptions = null,
                 Exits = null,
             });
-            World.AddCharacterBlueprint(new CharacterNormalBlueprint
+            CharacterManager.AddCharacterBlueprint(new CharacterNormalBlueprint
             {
                 Name = "supahmob",
                 Level = 50,
@@ -40,7 +43,7 @@ namespace Mud.POC.TestLua
                 LootTable = null,
                 ScriptTableName = "mob1"
             });
-            World.AddCharacterBlueprint(new CharacterNormalBlueprint
+            CharacterManager.AddCharacterBlueprint(new CharacterNormalBlueprint
             {
                 Name = "weakmob",
                 Level = 50,
@@ -53,9 +56,9 @@ namespace Mud.POC.TestLua
                 ScriptTableName = "mob2"
             });
 
-            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), RoomManager.GetRoomBlueprint(1), World.Areas.First());
-            ICharacter bigBadMob = World.AddNonPlayableCharacter(Guid.NewGuid(), World.GetCharacterBlueprint(1), room);
-            ICharacter weakMob = World.AddNonPlayableCharacter(Guid.NewGuid(), World.GetCharacterBlueprint(2), room);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), RoomManager.GetRoomBlueprint(1), AreaManager.Areas.First());
+            ICharacter bigBadMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(1), room);
+            ICharacter weakMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(2), room);
         }
     }
 }

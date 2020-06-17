@@ -1,5 +1,4 @@
-﻿using Mud.Server.GameAction;
-using Mud.Server.Interfaces.GameAction;
+﻿using Mud.Server.Interfaces.GameAction;
 using System.Collections.Generic;
 
 namespace Mud.POC.Abilities

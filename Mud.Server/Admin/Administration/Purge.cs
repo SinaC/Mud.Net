@@ -7,7 +7,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,16 +20,16 @@ namespace Mud.Server.Admin.Administration
     "[cmd] <item>")]
     public class Purge : AdminGameAction
     {
+        private ICharacterManager CharacterManager { get; }
         private IItemManager ItemManager { get; }
-        private IWorld World { get; }
         private IWiznet Wiznet { get; }
 
         public IEntity Target { get; protected set; }
 
-        public Purge(IItemManager itemManager, IWorld world, IWiznet wiznet)
+        public Purge(ICharacterManager characterManager, IItemManager itemManager, IWiznet wiznet)
         {
             ItemManager = itemManager;
-            World = world;
+            CharacterManager = characterManager;
             Wiznet = wiznet;
         }
 
@@ -100,7 +99,7 @@ namespace Mud.Server.Admin.Administration
             // Purge non playable characters (without NoPurge flag) (TODO: what if npc was wearing NoPurge items?)
             IReadOnlyCollection<INonPlayableCharacter> nonPlayableCharacters = new ReadOnlyCollection<INonPlayableCharacter>(room.NonPlayableCharacters.Where(x => !x.ActFlags.HasFlag(ActFlags.NoPurge)).ToList()); // clone
             foreach (INonPlayableCharacter nonPlayableCharacter in nonPlayableCharacters)
-                World.RemoveCharacter(nonPlayableCharacter);
+                CharacterManager.RemoveCharacter(nonPlayableCharacter);
             // Purge items (without NoPurge flag)
             IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(room.Content.Where(x => !x.ItemFlags.HasFlag(ItemFlags.NoPurge)).ToList()); // clone
             foreach (IItem itemToPurge in items)
@@ -114,7 +113,7 @@ namespace Mud.Server.Admin.Administration
             Wiznet.Wiznet($"{Actor.DisplayName} purges npc {nonPlayableCharacterVictim.DebugName}.", WiznetFlags.Punish);
 
             nonPlayableCharacterVictim.Act(ActOptions.ToRoom, "{0} purge{0:v} {1}.", Actor.Impersonating, nonPlayableCharacterVictim);
-            World.RemoveCharacter(nonPlayableCharacterVictim);
+            CharacterManager.RemoveCharacter(nonPlayableCharacterVictim);
             Actor.Send("Ok.");
         }
 
@@ -126,7 +125,7 @@ namespace Mud.Server.Admin.Administration
             playableCharacterVictim.StopFighting(true);
             if (playableCharacterVictim.ImpersonatedBy != null)
                 playableCharacterVictim.StopImpersonation();
-            World.RemoveCharacter(playableCharacterVictim);
+            CharacterManager.RemoveCharacter(playableCharacterVictim);
             Actor.Send("Ok.");
         }
 

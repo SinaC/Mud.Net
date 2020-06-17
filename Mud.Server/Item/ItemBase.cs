@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Mud.Common;
+using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -24,6 +25,8 @@ namespace Mud.Server.Item
         where TData: ItemData
     {
         private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> ItemCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
+
+        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 
         protected ItemBase(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
             : base(guid, name, description)
@@ -142,7 +145,7 @@ namespace Mud.Server.Item
         {
             base.OnRemoved();
             ContainedInto?.GetFromContainer(this);
-            ContainedInto = World.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+            ContainedInto = RoomManager.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
         }
 
         public override void OnCleaned() // called when removing definitively an entity from the game

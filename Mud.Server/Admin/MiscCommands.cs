@@ -27,7 +27,7 @@ namespace Mud.Server.Admin
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
 
-            IPlayableCharacter whom = FindHelpers.FindByName(World.PlayableCharacters.Where(x => x.ImpersonatedBy != null), parameters[0]);
+            IPlayableCharacter whom = FindHelpers.FindByName(CharacterManager.PlayableCharacters.Where(x => x.ImpersonatedBy != null), parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);
@@ -59,7 +59,7 @@ namespace Mud.Server.Admin
             if (parameters.Length == 0)
                 return CommandExecutionResults.SyntaxError;
 
-            IPlayableCharacter whom = FindHelpers.FindByName(World.PlayableCharacters.Where(x => x.ImpersonatedBy != null), parameters[0]);
+            IPlayableCharacter whom = FindHelpers.FindByName(CharacterManager.PlayableCharacters.Where(x => x.ImpersonatedBy != null), parameters[0]);
             if (whom == null)
             {
                 Send(StringHelpers.CharacterNotFound);

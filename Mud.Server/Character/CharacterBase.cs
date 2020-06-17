@@ -57,6 +57,7 @@ namespace Mud.Server.Character
         protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
 
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)
@@ -105,7 +106,7 @@ namespace Mud.Server.Character
             Leader?.RemoveFollower(this);
 
             // Release followers
-            foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
+            foreach (ICharacter follower in CharacterManager.Characters.Where(x => x.Leader == this))
                 RemoveFollower(follower);
         }
 
@@ -987,7 +988,7 @@ namespace Mud.Server.Character
             UpdatePosition();
             if (both)
             {
-                foreach (ICharacter victim in World.Characters.Where(x => x.Fighting == this))
+                foreach (ICharacter victim in CharacterManager.Characters.Where(x => x.Fighting == this))
                     victim.StopFighting(false);
             }
             return true;

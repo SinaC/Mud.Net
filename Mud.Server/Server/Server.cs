@@ -78,6 +78,8 @@ namespace Mud.Server.Server
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+        protected IQuestManager QuestManager => DependencyContainer.Current.GetInstance<IQuestManager>();
 
         public Server()
         {
@@ -769,7 +771,7 @@ namespace Mud.Server.Server
 
         private void SanityCheckQuests()
         {
-            foreach (QuestBlueprint questBlueprint in World.QuestBlueprints)
+            foreach (QuestBlueprint questBlueprint in QuestManager.QuestBlueprints)
             {
                 if (questBlueprint.ItemObjectives?.Length == 0 && questBlueprint.KillObjectives?.Length == 0 && questBlueprint.LocationObjectives?.Length == 0)
                     Log.Default.WriteLine(LogLevels.Error, "Quest id {0} doesn't have any objectives.", questBlueprint.Id);
@@ -781,7 +783,7 @@ namespace Mud.Server.Server
                         Log.Default.WriteLine(LogLevels.Error, "Quest id {0} has objectives with duplicate id {1} count {2}", questBlueprint.Id, duplicateId.objectiveId, duplicateId.count);
                 }
             }
-            Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {0}", World.QuestBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {0}", QuestManager.QuestBlueprints.Count);
         }
 
         private void SanityCheckRooms()
@@ -806,8 +808,8 @@ namespace Mud.Server.Server
 
         private void SanityCheckCharacters()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {0}", World.CharacterBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Characters: {0}", World.Characters.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {0}", CharacterManager.CharacterBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Characters: {0}", CharacterManager.Characters.Count());
         }
 
         private void DumpCommands()
@@ -899,7 +901,7 @@ namespace Mud.Server.Server
 
         private void HandleAggressiveNonPlayableCharacters()
         {
-            IReadOnlyCollection<IPlayableCharacter> pcClone = new ReadOnlyCollection<IPlayableCharacter>(World.PlayableCharacters.Where(x => x.Room != null).ToList()); // TODO: !immortal
+            IReadOnlyCollection<IPlayableCharacter> pcClone = new ReadOnlyCollection<IPlayableCharacter>(CharacterManager.PlayableCharacters.Where(x => x.Room != null).ToList()); // TODO: !immortal
             foreach (IPlayableCharacter pc in pcClone)
             {
                 IReadOnlyCollection<INonPlayableCharacter> aggressorClone = new ReadOnlyCollection<INonPlayableCharacter>(pc.Room.NonPlayableCharacters.Where(x => !IsInvalidAggressor(x, pc)).ToList());
@@ -951,7 +953,7 @@ namespace Mud.Server.Server
 
         private void HandleAuras(int pulseCount) 
         {
-            foreach (ICharacter character in World.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+            foreach (ICharacter character in CharacterManager.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
             {
                 try
                 {
@@ -1037,7 +1039,7 @@ namespace Mud.Server.Server
 
         private void HandleCooldowns(int pulseCount) 
         {
-            foreach (ICharacter character in World.Characters.Where(x => x.HasAbilitiesInCooldown))
+            foreach (ICharacter character in CharacterManager.Characters.Where(x => x.HasAbilitiesInCooldown))
             {
                 try
                 {
@@ -1083,7 +1085,7 @@ namespace Mud.Server.Server
         private void HandleViolence(int pulseCount)
         {
             //Log.Default.WriteLine(LogLevels.Debug, "HandleViolence: {0}", DateTime.Now);
-            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(CharacterManager.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
             foreach (ICharacter character in clone)
             {
                 INonPlayableCharacter npcCharacter = character as INonPlayableCharacter;
@@ -1203,7 +1205,7 @@ namespace Mud.Server.Server
 
         private void HandleCharacters(int pulseCount)
         {
-            foreach (ICharacter character in World.Characters)
+            foreach (ICharacter character in CharacterManager.Characters)
             {
                 try
                 {
@@ -1276,7 +1278,7 @@ namespace Mud.Server.Server
 
         private void HandleNonPlayableCharacters(int pulseCount)
         {
-            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
+            foreach (INonPlayableCharacter npc in CharacterManager.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
             {
                 try
                 {
@@ -1434,7 +1436,7 @@ namespace Mud.Server.Server
             if (!string.IsNullOrWhiteSpace(timeUpdate))
             {
                 // inform non-sleeping and outdoors players
-                foreach (IPlayableCharacter character in World.PlayableCharacters.Where(x => 
+                foreach (IPlayableCharacter character in CharacterManager.PlayableCharacters.Where(x => 
                     x.Position > Positions.Sleeping 
                     && x.Room != null 
                     && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)

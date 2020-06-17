@@ -73,7 +73,7 @@ namespace Mud.Server.Player
                 location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRoomId);
                 Wiznet.Wiznet($"Invalid roomId {playableCharacterData.RoomId} for character {playableCharacterData.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
-            IPlayableCharacter avatar = World.AddPlayableCharacter(Guid.NewGuid(), playableCharacterData, this, location);
+            IPlayableCharacter avatar = CharacterManager.AddPlayableCharacter(Guid.NewGuid(), playableCharacterData, this, location);
             Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);
             Impersonating = avatar;
             PlayerState = PlayerStates.Impersonating;

@@ -1,4 +1,5 @@
 ﻿using Moq;
+using Mud.Domain;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
@@ -9,7 +10,7 @@ using System.Linq;
 
 namespace Mud.Server.Tests.Mocking
 {
-    public class RoomManagerMock : IRoomManager
+    internal class RoomManagerMock : IRoomManager
     {
         private readonly List<RoomBlueprint> _roomBlueprints = new List<RoomBlueprint>();
 
@@ -24,6 +25,13 @@ namespace Mud.Server.Tests.Mocking
         public IRoom MudSchoolRoom => new Mock<IRoom>().Object;
 
         public IReadOnlyCollection<RoomBlueprint> RoomBlueprints => _roomBlueprints;
+
+        public IRoom NullRoom => new Mock<IRoom>().Object;
+
+        public IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction)
+        {
+            throw new NotImplementedException();
+        }
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)
         {

@@ -138,12 +138,15 @@
     <Compile Include="CharacterDeserializationTests.cs" />
     <Compile Include="ItemDeserializationTests.cs" />
     <Compile Include="Mocking\AbilityManagerMock.cs" />
+    <Compile Include="Mocking\AreaManagerMock.cs" />
+    <Compile Include="Mocking\CharacterManagerMock.cs" />
     <Compile Include="Mocking\ClassManagerMock.cs" />
     <Compile Include="Mocking\ClientMock.cs" />
     <Compile Include="CommandParsingTests.cs" />
     <Compile Include="Mocking\ItemManagerMock.cs" />
     <Compile Include="Mocking\LogMock.cs" />
     <Compile Include="Mocking\PlayerManagerMock.cs" />
+    <Compile Include="Mocking\QuestManagerMock.cs" />
     <Compile Include="Mocking\RaceManagerMock.cs" />
     <Compile Include="Mocking\RoomManagerMock.cs" />
     <Compile Include="Mocking\ServerMock.cs" />

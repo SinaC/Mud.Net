@@ -2,7 +2,6 @@
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.World;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,13 +13,13 @@ namespace Mud.Server.Admin.Information
     [Syntax("[cmd] <character>")]
     public class Cfind : AdminGameAction
     {
-        private IWorld World { get; }
+        private ICharacterManager CharacterManager { get; }
 
         public ICommandParameter Pattern { get; protected set; }
 
-        public Cfind(IWorld world)
+        public Cfind(ICharacterManager characterManager)
         {
-            World = world;
+            CharacterManager = characterManager;
         }
 
         public override string Guards(IActionInput actionInput)
@@ -38,7 +37,7 @@ namespace Mud.Server.Admin.Information
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"Searching characters '{Pattern.Value}'");
-            List<INonPlayableCharacter> characters = FindHelpers.FindAllByName(World.NonPlayableCharacters, Pattern).OrderBy(x => x.Blueprint?.Id).ToList();
+            List<INonPlayableCharacter> characters = FindHelpers.FindAllByName(CharacterManager.NonPlayableCharacters, Pattern).OrderBy(x => x.Blueprint?.Id).ToList();
             if (characters.Count == 0)
                 sb.AppendLine("No matches");
             else

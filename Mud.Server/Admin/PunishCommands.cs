@@ -33,7 +33,7 @@ namespace Mud.Server.Admin
                 Send("You force everyone to '{1}'.", command);
                 Wiznet.Wiznet($"{DisplayName} forces everyone to {command}", Domain.WiznetFlags.Punish);
 
-                foreach (ICharacter victimLoop in World.Characters.Where(x => x != Impersonating))
+                foreach (ICharacter victimLoop in CharacterManager.Characters.Where(x => x != Impersonating))
                 {
                     victimLoop.Send("{0} forces you to '{1}'.", DisplayName, command);
                     victimLoop.ProcessCommand(command);
@@ -41,7 +41,7 @@ namespace Mud.Server.Admin
                 return CommandExecutionResults.Ok;
             }
             ICharacter victim = Impersonating == null
-                ? FindHelpers.FindByName(World.Characters, parameters[0])
+                ? FindHelpers.FindByName(CharacterManager.Characters, parameters[0])
                 : FindHelpers.FindChararacterInWorld(Impersonating, parameters[0]);
             if (victim == null)
             {

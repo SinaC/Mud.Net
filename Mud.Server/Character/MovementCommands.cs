@@ -901,7 +901,7 @@ namespace Mud.Server.Character
         [Syntax("[cmd]")]
         protected virtual CommandExecutionResults DoNofollow(string rawParameters, params ICommandParameter[] parameters)
         {
-            foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
+            foreach (ICharacter follower in CharacterManager.Characters.Where(x => x.Leader == this))
                 RemoveFollower(follower);
 
             return CommandExecutionResults.Ok;

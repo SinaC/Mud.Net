@@ -47,7 +47,7 @@ end");
 
             // TODO: replace 'scripts' with parameter in ICharacter and initialize this in AddCharacter or in Character ctor
             List<CharacterScript> scripts = new List<CharacterScript>();
-            foreach (INonPlayableCharacter character in World.NonPlayableCharacters.Where(x => x.Blueprint.ScriptTableName != null))
+            foreach (INonPlayableCharacter character in CharacterManager.NonPlayableCharacters.Where(x => x.Blueprint.ScriptTableName != null))
             {
                 string scriptName = character.Blueprint.ScriptTableName;
                 var mobScript = lua[scriptName];
@@ -59,13 +59,13 @@ end");
             }
 
             //
-            ICharacter supahmob = World.Characters.First();
+            ICharacter supahmob = CharacterManager.Characters.First();
             CharacterScript supahmobScript = scripts.FirstOrDefault(x => x.Character == supahmob);
-            ICharacter weakmob = World.Characters.Skip(1).First();
+            ICharacter weakmob = CharacterManager.Characters.Skip(1).First();
             CharacterScript weakmobScript = scripts.FirstOrDefault(x => x.Character == weakmob);
 
             // Call script from appropriate functions in Server (OnTick)
-            foreach (ICharacter character in World.Characters)
+            foreach (ICharacter character in CharacterManager.Characters)
             {
                 CharacterScript script = scripts.FirstOrDefault(x => x.Character == character);
                 script?.OnTick();

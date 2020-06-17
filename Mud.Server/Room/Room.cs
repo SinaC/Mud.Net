@@ -31,6 +31,7 @@ namespace Mud.Server.Room
 
         private ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         private IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        private ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
 
         private readonly List<ICharacter> _people;
         private readonly List<IItem> _content;
@@ -250,16 +251,16 @@ namespace Mud.Server.Room
                 {
                     case CharacterReset characterReset: // 'M'
                         {
-                            CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(characterReset.CharacterId);
+                            CharacterBlueprintBase blueprint = CharacterManager.GetCharacterBlueprint(characterReset.CharacterId);
                             if (blueprint != null)
                             {
-                                int globalCount = characterReset.LocalLimit == -1 ? int.MinValue : World.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
+                                int globalCount = characterReset.LocalLimit == -1 ? int.MinValue : CharacterManager.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
                                 if (globalCount < characterReset.GlobalLimit)
                                 {
                                     int localCount = characterReset.LocalLimit == -1 ? int.MinValue : NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
                                     if (localCount < characterReset.LocalLimit)
                                     {
-                                        lastCharacter = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, this);
+                                        lastCharacter = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, this);
                                         Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: M: Mob {characterReset.CharacterId} added");
                                         wasPreviousLoaded = true;
                                     }

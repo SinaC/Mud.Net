@@ -2,8 +2,8 @@
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.World;
 using System.Linq;
 using System.Text;
 
@@ -14,13 +14,13 @@ namespace Mud.Server.Admin.Information
     [Syntax("[cmd] <id>")]
     public class Cinfo : AdminGameAction
     {
-        private IWorld World { get; }
+        private ICharacterManager CharacterManager { get; }
 
         public CharacterBlueprintBase Blueprint { get; protected set; }
 
-        public Cinfo(IWorld world)
+        public Cinfo(ICharacterManager characterManager)
         {
-            World = world;
+            CharacterManager = characterManager;
         }
 
         public override string Guards(IActionInput actionInput)
@@ -36,7 +36,7 @@ namespace Mud.Server.Admin.Information
                 return BuildCommandSyntax();
 
             int id = actionInput.Parameters[0].AsNumber;
-            Blueprint = World.GetCharacterBlueprint(id);
+            Blueprint = CharacterManager.GetCharacterBlueprint(id);
             if (Blueprint == null)
                 return "Not found.";
 
