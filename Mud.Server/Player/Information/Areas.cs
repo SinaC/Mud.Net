@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Mud.Server.Player.Information
 {
-    [AdminCommand("areas", "Information", Priority = 10)]
+    [PlayerCommand("areas", "Information", Priority = 10)]
     public class Areas : PlayerGameAction
     {
         private IAreaManager AreaManager { get; }

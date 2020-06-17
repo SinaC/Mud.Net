@@ -20,7 +20,7 @@ namespace Mud.Server.Player
     {
         private IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 
-        [Command("impersonate", "Avatar")]
+        [Command("impersonate", "Avatar", Priority = 100)]
         [Syntax(
             "[cmd]",
             "[cmd] <avatar name>")]
