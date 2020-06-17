@@ -20,7 +20,6 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Item;
 using Mud.Server.Rom24.Affects;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
 {

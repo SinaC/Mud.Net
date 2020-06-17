@@ -1,16 +1,10 @@
-﻿using System;
+﻿using Mud.Server.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
 namespace Mud.Server.Common
 {
-    public interface IInputTrap<in TActor>
-    {
-        bool IsFinalStateReached { get; }
-
-        void ProcessInput(TActor actor, string input);
-    }
-
     public abstract class InputTrapBase<TActor, TState> : IInputTrap<TActor>
     {
         protected Dictionary<TState, Func<TActor, string, TState>> StateMachine;

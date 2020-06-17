@@ -27,7 +27,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
             bool found = DispelManager.TryDispels(Level, Victim);
 
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (found)
                 Caster.Send("Ok.");
             else

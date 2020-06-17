@@ -8,16 +8,14 @@ using System.Text;
 
 namespace Mud.Server.Player.Information
 {
-    [AdminCommand("who", "Information")]
-    public class Who : AdminGameAction
+    [PlayerCommand("who", "Information")]
+    public class Who : PlayerGameAction
     {
         private IPlayerManager PlayerManager { get; }
-        private IAdminManager AdminManager { get; }
 
-        public Who(IPlayerManager playerManager, IAdminManager adminManager)
+        public Who(IPlayerManager playerManager)
         {
             PlayerManager = playerManager;
-            AdminManager = adminManager;
         }
 
         public override void Execute(IActionInput actionInput)
@@ -44,34 +42,6 @@ namespace Mud.Server.Player.Information
                     default:
                         sb.AppendFormatLine("[OOG] {0}", player.DisplayName);
                         break;
-                }
-            }
-            //
-            if (Actor is IAdmin)
-            {
-                sb.AppendFormatLine("Admins:");
-                foreach (IAdmin admin in AdminManager.Admins)
-                {
-                    switch (admin.PlayerState)
-                    {
-                        case PlayerStates.Impersonating:
-                            if (admin.Impersonating != null)
-                                sb.AppendFormatLine("[ IG] {0} playing {1} [lvl: {2} Class: {3} Race: {4}] {5}",
-                                    admin.DisplayName,
-                                    admin.Impersonating.DisplayName,
-                                    admin.Impersonating.Level,
-                                    admin.Impersonating.Class?.DisplayName ?? "(none)",
-                                    admin.Impersonating.Race?.DisplayName ?? "(none)",
-                                    admin.Impersonating.IsImmortal ? "{IMMORTAL}" : string.Empty);
-                            else if (admin.Incarnating != null)
-                                sb.AppendFormatLine("[ IG] [{0}] {1} incarnating {2}", admin.Level, admin.DisplayName, admin.Incarnating.DisplayName);
-                            else
-                                sb.AppendFormatLine("[ IG] [{0}] {1} neither playing nor incarnating !!!", admin.Level, admin.DisplayName);
-                            break;
-                        default:
-                            sb.AppendFormatLine("[OOG] [{0}] {1} {2}", admin.Level, admin.DisplayName, admin.PlayerState);
-                            break;
-                    }
                 }
             }
             //

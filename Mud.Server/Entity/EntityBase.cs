@@ -37,6 +37,8 @@ namespace Mud.Server.Entity
             Keywords = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Description = description;
 
+            Incarnatable = true; // TODO: test purpose
+
             _auras = new List<IAura>();
         }
 

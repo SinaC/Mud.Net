@@ -11,7 +11,7 @@ namespace Mud.Server.GameAction
     {
         protected TGameActionInfo GameActionInfo { get; private set; }
 
-        public TActor Actor { get; protected set; }
+        public TActor Actor { get; private set; }
 
         public abstract void Execute(IActionInput actionInput);
 
@@ -19,7 +19,7 @@ namespace Mud.Server.GameAction
         {
             GameActionInfo = actionInput.GameActionInfo as TGameActionInfo;
             if (GameActionInfo == null)
-                return $"Internal error: GameActionInfo is null or not of type {typeof(TGameActionInfo).Name}.";
+                return $"Internal error: GameActionInfo is null or not of type {typeof(TGameActionInfo).Name}. GameActionInfo type is {actionInput.GameActionInfo.GetType().Name}.";
             Actor = actionInput.Actor as TActor;
             if (Actor == null)
                 return $"This command must be executed by {typeof(TActor).Name}";

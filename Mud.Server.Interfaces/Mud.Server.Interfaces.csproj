@@ -93,6 +93,7 @@
     <Compile Include="Entity\IEntity.cs" />
     <Compile Include="GameAction\IGameActionInfo.cs" />
     <Compile Include="GameAction\IGameAction.cs" />
+    <Compile Include="IInputTrap.cs" />
     <Compile Include="IRegistrable.cs" />
     <Compile Include="ITargetedAction.cs" />
     <Compile Include="Item\IItemManager.cs" />

@@ -30,14 +30,18 @@ namespace Mud.Server.Interfaces.Player
         int GlobalCooldown { get; } // delay (in Pulse) before next action    check WAIT_STATE
 
         int PagingLineCount { get; }
+        void SetPagingLineCount(int count);
 
         PlayerStates PlayerState { get; }
 
         IPlayableCharacter Impersonating { get; }
+        void UpdateCharacterDataFromImpersonated();
 
         IEnumerable<Domain.PlayableCharacterData> Avatars { get; }
 
-        IReadOnlyDictionary<string,string> Aliases { get; }
+        IReadOnlyDictionary<string, string> Aliases { get; }
+        void SetAlias(string alias, string command);
+        void RemoveAlias(string alias);
 
         IPlayer LastTeller { get; }
 
@@ -52,8 +56,6 @@ namespace Mud.Server.Interfaces.Player
         IEnumerable<string> DelayedTells { get; } // Tell stored while AFK
         void ToggleAfk();
 
-        void ResetDeletionConfirmation();
-
         void DecreaseGlobalCooldown(); // decrease one by one
         void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse)
 
@@ -67,7 +69,14 @@ namespace Mud.Server.Interfaces.Player
         void SetSnoopBy(IAdmin snooper);
 
         void AddAvatar(Domain.PlayableCharacterData playableCharacterData);
+        void StartImpersonating(IPlayableCharacter avatar);
         void StopImpersonating();
+
+        bool DeletionConfirmationNeeded { get; }
+        void SetDeletionConfirmationNeeded();
+        void ResetDeletionConfirmationNeeded();
+
+        void SetStateMachine(IInputTrap<IPlayer> inputTrap);
 
         void OnDisconnected();
 

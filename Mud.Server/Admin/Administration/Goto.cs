@@ -21,8 +21,6 @@ namespace Mud.Server.Admin.Administration
             if (actionInput.Parameters.Length == 0)
                 return BuildCommandSyntax();
 
-            Impersonating = Actor.Impersonating;
-
             Where = FindHelpers.FindLocation(Impersonating, actionInput.Parameters[0]);
             if (Where == null)
                 return "No such location.";

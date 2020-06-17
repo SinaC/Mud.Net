@@ -13,7 +13,6 @@ using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.World;
 using Mud.Settings;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Actor
 {

@@ -1009,7 +1009,6 @@ namespace Mud.Server.Character
         public DamageResults HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
         {
             string damageNoun;
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (wield == null)
                 damageNoun = source.NoWeaponDamageNoun;
             else

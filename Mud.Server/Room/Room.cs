@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Mud.Common;
 using Mud.Container;
 using Mud.DataStructures.Trie;
@@ -12,7 +11,6 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Entity;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
@@ -517,31 +515,6 @@ namespace Mud.Server.Room
                     affect.Apply(this);
                 }
             }
-        }
-
-        [Command("test", "!!Test!!")]
-        // ReSharper disable once UnusedMember.Global
-        protected virtual bool DoTest(string rawParameters, params ICommandParameter[] parameters)
-        {
-            Send("Room: DoTest");
-            return true;
-        }
-
-        [Command("look", "Information")]
-        // ReSharper disable once UnusedMember.Global
-        protected virtual CommandExecutionResults DoLook(string rawParameters, params ICommandParameter[] parameters)
-        {
-            //TODO: better 'UI'
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("People:");
-            foreach (ICharacter character in _people)
-                sb.AppendFormatLine($"{character.DisplayName}");
-            sb.AppendLine("Items:");
-            foreach (IItem item in _content)
-                sb.AppendFormatLine($"{item.DisplayName}");
-            //
-            Send(sb);
-            return CommandExecutionResults.Ok;
         }
     }
 }

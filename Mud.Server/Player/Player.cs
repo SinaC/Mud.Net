@@ -29,7 +29,6 @@ namespace Mud.Server.Player
         private readonly Dictionary<string, string> _aliases;
 
         protected IInputTrap<IPlayer> CurrentStateMachine;
-        protected bool DeletionConfirmationNeeded;
 
         protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
@@ -166,13 +165,46 @@ namespace Mud.Server.Player
 
         public int PagingLineCount { get; protected set; }
 
+        public void SetPagingLineCount(int count)
+        {
+            PagingLineCount = count;
+        }
+
         public PlayerStates PlayerState { get; protected set; }
 
         public IPlayableCharacter Impersonating { get; private set; }
 
+        public void UpdateCharacterDataFromImpersonated()
+        {
+            if (Impersonating == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated while not impersonated.");
+                return;
+            }
+            int index = _avatarList.FindIndex(x => StringCompareHelpers.StringEquals(x.Name, Impersonating.Name));
+            if (index < 0)
+            {
+                Wiznet.Wiznet($"UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.DebugName} for player {DisplayName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return;
+            }
+
+            PlayableCharacterData updatedCharacterData = Impersonating.MapPlayableCharacterData();
+            _avatarList[index] = updatedCharacterData; // replace with new character data
+        }
+
         public IEnumerable<PlayableCharacterData> Avatars => _avatarList;
 
         public IReadOnlyDictionary<string, string> Aliases => _aliases;
+
+        public void SetAlias(string alias, string command)
+        {
+            _aliases[alias] = command;
+        }
+
+        public void RemoveAlias(string alias)
+        {
+            _aliases.Remove(alias);
+        }
 
         public IPlayer LastTeller { get; private set; }
 
@@ -200,11 +232,6 @@ namespace Mud.Server.Player
             else
                 Send("You are now in %G%AFK%x% mode.");
             IsAfk = !IsAfk;
-        }
-
-        public void ResetDeletionConfirmation()
-        {
-            DeletionConfirmationNeeded = false;
         }
 
         public void DecreaseGlobalCooldown() // decrease one by one
@@ -267,12 +294,36 @@ namespace Mud.Server.Player
             _avatarList.Add(playableCharacterData);
         }
 
+        public void StartImpersonating(IPlayableCharacter avatar)
+        {
+            Impersonating = avatar;
+            PlayerState = PlayerStates.Impersonating;
+            avatar.AutoLook();
+        }
+
         public void StopImpersonating()
         {
             Impersonating?.StopImpersonation();
             CharacterManager.RemoveCharacter(Impersonating); // extract avatar  TODO: linkdead instead of RemoveCharacter ?
             Impersonating = null;
             PlayerState = PlayerStates.Playing;
+        }
+
+        public bool DeletionConfirmationNeeded { get; protected set; }
+
+        public void SetDeletionConfirmationNeeded()
+        {
+            DeletionConfirmationNeeded = true;
+        }
+
+        public void ResetDeletionConfirmationNeeded()
+        {
+            DeletionConfirmationNeeded = false;
+        }
+
+        public void SetStateMachine(IInputTrap<IPlayer> inputTrap)
+        {
+            CurrentStateMachine = inputTrap;
         }
 
         public virtual void OnDisconnected()
@@ -376,24 +427,6 @@ namespace Mud.Server.Player
             data.Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value);
             // TODO: copy from Impersonated to PlayableCharacterData
             data.Characters = _avatarList.ToArray();
-        }
-
-        protected void UpdateCharacterDataFromImpersonated()
-        {
-            if (Impersonating == null)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated while not impersonated.");
-                return;
-            }
-            int index = _avatarList.FindIndex(x => StringCompareHelpers.StringEquals(x.Name, Impersonating.Name));
-            if (index < 0)
-            {
-                Wiznet.Wiznet($"UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.DebugName} for player {DisplayName}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return;
-            }
-
-            PlayableCharacterData updatedCharacterData = Impersonating.MapPlayableCharacterData();
-            _avatarList[index] = updatedCharacterData; // replace with new character data
         }
 
         [Command("test", "!!Test!!")]

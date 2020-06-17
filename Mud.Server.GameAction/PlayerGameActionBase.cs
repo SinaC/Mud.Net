@@ -8,7 +8,7 @@ namespace Mud.Server.GameAction
         where TPlayer : class, IPlayer
         where TPlayerGameActionInfo: class, IPlayerGameActionInfo
     {
-        public IPlayableCharacter Impersonating { get; protected set; }
+        public IPlayableCharacter Impersonating { get; private set; }
 
         public override string Guards(IActionInput actionInput)
         {
@@ -29,7 +29,7 @@ namespace Mud.Server.GameAction
 
             if (GameActionInfo.Name.ToLowerInvariant() != "delete")
                 // once another command then 'delete' is used, reset deletion confirmation
-                Actor.ResetDeletionConfirmation();
+                Actor.ResetDeletionConfirmationNeeded();
 
             return null;
         }

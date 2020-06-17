@@ -11,7 +11,6 @@ using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
 {

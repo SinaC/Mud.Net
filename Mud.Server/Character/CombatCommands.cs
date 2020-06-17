@@ -5,7 +5,6 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
 {

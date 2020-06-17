@@ -33,7 +33,6 @@ namespace Mud.Server.Rom24.Spells
             // unlike dispel magic, no save roll
             bool found = DispelManager.TryDispels(Level + 2, Victim);
 
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (found)
                 Caster.Send("Ok.");
             else

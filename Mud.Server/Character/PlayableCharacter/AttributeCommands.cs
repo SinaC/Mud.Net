@@ -7,7 +7,6 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Race;
 using System;
 using System.Linq;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character.PlayableCharacter
 {

@@ -10,7 +10,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
 {
@@ -916,7 +915,6 @@ namespace Mud.Server.Character
             {
                 //  if open north -> I see no door north here.
                 //  if open black door -> I see no black door here.
-                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (wasAskingForDirection)
                     Send($"I see no door {parameter.Value} here.");
                 else

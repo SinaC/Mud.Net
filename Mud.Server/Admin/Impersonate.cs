@@ -3,7 +3,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Admin
 {
-    [Command("impersonate", "Avatar", Priority = 0)]
+    [AdminCommand("impersonate", "Avatar", Priority = 0)]
     [Syntax(
         "[cmd]",
         "[cmd] <character>")]

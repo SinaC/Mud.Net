@@ -17,7 +17,6 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character
 {
@@ -547,7 +546,6 @@ namespace Mud.Server.Character
                 {
                     string where = EquipmentSlotsToString(equippedItem);
                     sb.Append(where);
-                    // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                     if (equippedItem.Item == null)
                         sb.AppendLine("nothing");
                     else
@@ -863,7 +861,6 @@ namespace Mud.Server.Character
                     {
                         sb.Append(direction.DisplayName());
                         sb.Append(" - ");
-                        // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                         if (exit.IsClosed)
                             sb.Append("A closed door");
                         else if (destination.IsDark)
@@ -883,7 +880,6 @@ namespace Mud.Server.Character
             }
             if (!exitFound)
             {
-                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (compact)
                     sb.AppendLine(" none");
                 else
@@ -980,7 +976,6 @@ namespace Mud.Server.Character
                 sb.Append("%y%(Humming)%x%");
 
             // Description
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (shortDisplay)
                 sb.Append(item.RelativeDisplayName(this));
             else

@@ -11,7 +11,6 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
-// ReSharper disable UnusedMember.Global
 
 namespace Mud.Server.Character.PlayableCharacter
 {
@@ -276,7 +275,6 @@ namespace Mud.Server.Character.PlayableCharacter
             AddQuest(quest);
             //
             Act(ActOptions.ToRoom, "{0} get{0:v} quest '{1}'.", this, questBlueprint.Title);
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (questBlueprint.TimeLimit > 0)
                 Send($"You get quest '{questBlueprint.Title}'. Better hurry, you have {questBlueprint.TimeLimit} minutes to complete this quest!");
             else
@@ -290,7 +288,6 @@ namespace Mud.Server.Character.PlayableCharacter
         private void BuildQuestSummary(StringBuilder sb, IQuest quest, int? id)
         {
             // TODO: Table ?
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (id >= 0)
                 sb.Append($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
             else
@@ -307,7 +304,6 @@ namespace Mud.Server.Character.PlayableCharacter
             foreach (IQuestObjective objective in quest.Objectives)
             {
                 // TODO: 2 columns ?
-                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (objective.IsCompleted)
                     sb.AppendLine($"     %g%{objective.CompletionState}%x%");
                 else

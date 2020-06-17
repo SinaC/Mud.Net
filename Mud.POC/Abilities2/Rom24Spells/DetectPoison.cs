@@ -17,7 +17,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
         protected override void Invoke()
         {
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (Item.IsPoisoned)
                 Caster.Send("You smell poisonous fumes.");
             else

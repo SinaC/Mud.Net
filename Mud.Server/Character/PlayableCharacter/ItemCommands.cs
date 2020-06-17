@@ -14,8 +14,6 @@ using Mud.Common;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.GameAction;
 
-// ReSharper disable UnusedMember.Global
-
 namespace Mud.Server.Character.PlayableCharacter
 {
     public partial class PlayableCharacter
