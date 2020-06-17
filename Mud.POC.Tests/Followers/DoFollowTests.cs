@@ -2,7 +2,6 @@
 using Moq;
 using Mud.POC.GroupsPetsFollowers;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.Tests.Followers
 {

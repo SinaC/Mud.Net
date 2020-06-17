@@ -69,10 +69,12 @@
     <Compile Include="Admin\IAdminManager.cs" />
     <Compile Include="Affect\IAffect.cs" />
     <Compile Include="Area\IArea.cs" />
+    <Compile Include="Area\IAreaManager.cs" />
     <Compile Include="Aura\IAura.cs" />
     <Compile Include="Aura\IAuraManager.cs" />
     <Compile Include="Aura\IDispelManager.cs" />
     <Compile Include="Character\ICharacter.cs" />
+    <Compile Include="Character\ICharacterManager.cs" />
     <Compile Include="Class\IClass.cs" />
     <Compile Include="Class\IClassManager.cs" />
     <Compile Include="Effect\IEffect.cs" />
@@ -94,6 +96,7 @@
     <Compile Include="IRegistrable.cs" />
     <Compile Include="ITargetedAction.cs" />
     <Compile Include="Item\IItemManager.cs" />
+    <Compile Include="Quest\IQuestManager.cs" />
     <Compile Include="Room\IExit.cs" />
     <Compile Include="IGroup.cs" />
     <Compile Include="Item\IItem.cs" />

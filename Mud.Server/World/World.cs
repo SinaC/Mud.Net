@@ -21,6 +21,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Item;
@@ -30,83 +31,15 @@ using Mud.Settings;
 
 namespace Mud.Server.World
 {
-    public class World : IWorld, IRoomManager, IItemManager, IAuraManager
+    public class World : IWorld, IAreaManager, IRoomManager, ICharacterManager, IItemManager, IAuraManager, IQuestManager
     {
-        // Null room is used to avoid setting char.room to null when deleting and is used as container when deleting item
-        private IRoom _nullRoom; // save a reference for further use
+        #region IQuestManager
 
-        private readonly List<TreasureTable<int>> _treasureTables;
         private readonly Dictionary<int, QuestBlueprint> _questBlueprints;
-        private readonly Dictionary<int, AreaBlueprint> _areaBlueprints;
-        private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
-        private readonly Dictionary<int, CharacterBlueprintBase> _characterBlueprints;
-        private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
-        private readonly List<IArea> _areas;
-        private readonly List<IRoom> _rooms;
-        private readonly List<ICharacter> _characters;
-        private readonly List<IItem> _items;
 
-        private IWiznet Wiznet { get; }
-        private IRandomManager RandomManager { get; }
-        private ISettings Settings { get; }
-
-        public World(IWiznet wiznet, IRandomManager randomManager, ISettings settings)
-        {
-            Wiznet = wiznet;
-            RandomManager = randomManager;
-            Settings = settings;
-
-            _treasureTables = new List<TreasureTable<int>>();
-            _questBlueprints = new Dictionary<int, QuestBlueprint>();
-            _areaBlueprints = new Dictionary<int, AreaBlueprint>();
-            _roomBlueprints = new Dictionary<int, RoomBlueprint>();
-            _characterBlueprints = new Dictionary<int, CharacterBlueprintBase>();
-            _itemBlueprints = new Dictionary<int, ItemBlueprintBase>();
-            _areas = new List<IArea>();
-            _rooms = new List<IRoom>();
-            _characters = new List<ICharacter>();
-            _items = new List<IItem>();
-        }
-
-        #region IWorld
-
-        public IRoom NullRoom => _nullRoom = _nullRoom ?? Rooms.Single(x => x.Blueprint.Id == Settings.NullRoomId);
-
-        // Treasure tables
-        public IReadOnlyCollection<TreasureTable<int>> TreasureTables => _treasureTables;
-
-        public void AddTreasureTable(TreasureTable<int> table)
-        {
-            // TODO: check if already exists ?
-            _treasureTables.Add(table);
-        }
-
-        // Blueprints
         public IReadOnlyCollection<QuestBlueprint> QuestBlueprints => _questBlueprints.Values.ToList().AsReadOnly();
 
-        public IReadOnlyCollection<AreaBlueprint> AreaBlueprints => _areaBlueprints.Values.ToList().AsReadOnly();
-
-        public IReadOnlyCollection<RoomBlueprint> RoomBlueprints => _roomBlueprints.Values.ToList().AsReadOnly();
-
-        public IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints => _characterBlueprints.Values.ToList().AsReadOnly();
-
-        public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints => _itemBlueprints.Values.ToList().AsReadOnly();
-
         public QuestBlueprint GetQuestBlueprint(int id) => GetBlueprintById(_questBlueprints, id);
-
-        public AreaBlueprint GetAreaBlueprint(int id) => GetBlueprintById(_areaBlueprints, id);
-
-        public RoomBlueprint GetRoomBlueprint(int id) => GetBlueprintById(_roomBlueprints, id);
-
-        public CharacterBlueprintBase GetCharacterBlueprint(int id) => GetBlueprintById(_characterBlueprints, id);
-
-        public ItemBlueprintBase GetItemBlueprint(int id) => GetBlueprintById(_itemBlueprints, id);
-
-        public TBlueprint GetCharacterBlueprint<TBlueprint>(int id)
-            where TBlueprint : CharacterBlueprintBase => GetCharacterBlueprint(id) as TBlueprint;
-
-        public TBlueprint GetItemBlueprint<TBlueprint>(int id)
-            where TBlueprint : ItemBlueprintBase => GetItemBlueprint(id) as TBlueprint;
 
         public void AddQuestBlueprint(QuestBlueprint blueprint)
         {
@@ -116,6 +49,48 @@ namespace Mud.Server.World
                 _questBlueprints.Add(blueprint.Id, blueprint);
         }
 
+        #endregion
+
+        #region IWorld
+
+        private readonly List<TreasureTable<int>> _treasureTables;
+
+        public IReadOnlyCollection<TreasureTable<int>> TreasureTables => _treasureTables;
+
+        public void AddTreasureTable(TreasureTable<int> table)
+        {
+            // TODO: check if already exists ?
+            _treasureTables.Add(table);
+        }
+
+        public void FixWorld()
+        {
+            FixItems();
+            FixResets();
+        }
+
+        public void ResetWorld()
+        {
+            foreach (IArea area in _areas)
+            {
+                // TODO: handle age + at load time, force age to arbitrary high value to ensure reset are computed
+                //if (area.PlayableCharacters.Any())
+                {
+                    area.ResetArea();
+                }
+            }
+        }
+
+        #endregion
+
+        #region IAreaManager
+
+        private readonly Dictionary<int, AreaBlueprint> _areaBlueprints;
+        private readonly List<IArea> _areas;
+
+        public IReadOnlyCollection<AreaBlueprint> AreaBlueprints => _areaBlueprints.Values.ToList().AsReadOnly();
+        public AreaBlueprint GetAreaBlueprint(int id) => GetBlueprintById(_areaBlueprints, id);
+
         public void AddAreaBlueprint(AreaBlueprint blueprint)
         {
             if (_areaBlueprints.ContainsKey(blueprint.Id))
@@ -123,6 +98,29 @@ namespace Mud.Server.World
             else
                 _areaBlueprints.Add(blueprint.Id, blueprint);
         }
+
+        public IEnumerable<IArea> Areas => _areas;
+
+        public IArea AddArea(Guid guid, AreaBlueprint blueprint)
+        {
+            IArea area = new Area.Area(guid, blueprint);
+            _areas.Add(area);
+            return area;
+        }
+
+        #endregion
+
+        #region IRoomManager
+        // Null room is used to avoid setting char.room to null when deleting and is used as container when deleting item
+        private IRoom _nullRoom; // save a reference for further use
+
+        private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
+        private readonly List<IRoom> _rooms;
+        public IRoom NullRoom => _nullRoom = _nullRoom ?? Rooms.Single(x => x.Blueprint.Id == Settings.NullRoomId);
+
+        public IReadOnlyCollection<RoomBlueprint> RoomBlueprints => _roomBlueprints.Values.ToList().AsReadOnly();
+
+        public RoomBlueprint GetRoomBlueprint(int id) => GetBlueprintById(_roomBlueprints, id);
 
         public void AddRoomBlueprint(RoomBlueprint blueprint)
         {
@@ -132,37 +130,9 @@ namespace Mud.Server.World
                 _roomBlueprints.Add(blueprint.Id, blueprint);
         }
 
-        public void AddCharacterBlueprint(CharacterBlueprintBase blueprint)
-        {
-            if (_characterBlueprints.ContainsKey(blueprint.Id))
-                Wiznet.Wiznet($"Character blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
-            else
-                _characterBlueprints.Add(blueprint.Id, blueprint);
-        }
-
-        public void AddItemBlueprint(ItemBlueprintBase blueprint)
-        {
-            if (_itemBlueprints.ContainsKey(blueprint.Id))
-                Wiznet.Wiznet($"Item blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
-            else
-                _itemBlueprints.Add(blueprint.Id, blueprint);
-        }
-
-        //
-        public IEnumerable<IArea> Areas => _areas;
-
         public IEnumerable<IRoom> Rooms => _rooms.Where(x => x.IsValid);
 
-        public IEnumerable<ICharacter> Characters => _characters.Where(x => x.IsValid);
-
-        public IEnumerable<INonPlayableCharacter> NonPlayableCharacters => Characters.OfType<INonPlayableCharacter>();
-
-        public IEnumerable<IPlayableCharacter> PlayableCharacters => Characters.OfType<IPlayableCharacter>();
-
-        public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
-
         public IRoom DefaultRecallRoom => _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
-
         public IRoom DefaultDeathRoom => _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultDeathRoomId);
         public IRoom MudSchoolRoom => _rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.MudSchoolRoomId);
 
@@ -176,13 +146,6 @@ namespace Mud.Server.World
                 && !x.RoomFlags.HasFlag(RoomFlags.Private)
                 && !x.RoomFlags.HasFlag(RoomFlags.Solitary)
                 && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.HasFlag(RoomFlags.Law))));
-        }
-
-        public IArea AddArea(Guid guid, AreaBlueprint blueprint)
-        {
-            IArea area = new Area.Area(guid, blueprint);
-            _areas.Add(area);
-            return area;
         }
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)
@@ -203,6 +166,48 @@ namespace Mud.Server.World
             from.Exits[(int)direction] = from2To;
             return from2To;
         }
+
+        public void RemoveRoom(IRoom room)
+        {
+            //// Remove auras
+            //IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(room.Auras.ToList()); // clone
+            //foreach (IAura aura in auras)
+            //{
+            //    aura.OnRemoved();
+            //    room.RemoveAura(aura, false);
+            //}
+            //// no need to recompute
+            ////
+            //room.OnRemoved();
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region ICharacterManager
+
+        private readonly Dictionary<int, CharacterBlueprintBase> _characterBlueprints;
+        private readonly List<ICharacter> _characters;
+
+        public IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints => _characterBlueprints.Values.ToList().AsReadOnly();
+
+        public CharacterBlueprintBase GetCharacterBlueprint(int id) => GetBlueprintById(_characterBlueprints, id);
+        public TBlueprint GetCharacterBlueprint<TBlueprint>(int id)
+            where TBlueprint : CharacterBlueprintBase => GetCharacterBlueprint(id) as TBlueprint;
+
+        public void AddCharacterBlueprint(CharacterBlueprintBase blueprint)
+        {
+            if (_characterBlueprints.ContainsKey(blueprint.Id))
+                Wiznet.Wiznet($"Character blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            else
+                _characterBlueprints.Add(blueprint.Id, blueprint);
+        }
+
+        public IEnumerable<ICharacter> Characters => _characters.Where(x => x.IsValid);
+
+        public IEnumerable<INonPlayableCharacter> NonPlayableCharacters => Characters.OfType<INonPlayableCharacter>();
+
+        public IEnumerable<IPlayableCharacter> PlayableCharacters => Characters.OfType<IPlayableCharacter>();
 
         public IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData playableCharacterData, IPlayer player, IRoom room) // PC
         {
@@ -231,6 +236,64 @@ namespace Mud.Server.World
             character.Recompute();
             return character;
         }
+
+        public void RemoveCharacter(ICharacter character)
+        {
+            character.StopFighting(true);
+
+            // Remove auras
+            IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // clone
+            foreach (IAura aura in auras)
+            {
+                aura.OnRemoved();
+                character.RemoveAura(aura, false);
+            }
+            // no need to recompute
+
+            // Remove content
+            if (character.Inventory.Any())
+            {
+                IReadOnlyCollection<IItem> clonedInventory = new ReadOnlyCollection<IItem>(character.Inventory.ToList()); // clone because GetFromContainer change Content collection
+                foreach (IItem item in clonedInventory)
+                    RemoveItem(item);
+                // Remove equipments
+                if (character.Equipments.Any(x => x.Item != null))
+                {
+                    IReadOnlyCollection<IItem> equipment = new ReadOnlyCollection<IItem>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList()); // clone
+                    foreach (IItem item in equipment)
+                        RemoveItem(item);
+                }
+            }
+            // Move to NullRoom
+            character.ChangeRoom(NullRoom);
+            //
+            character.OnRemoved();
+            //_characters.Remove(character); will be removed in cleanup step
+        }
+
+        #endregion
+
+        #region IItemManager
+
+        private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
+        private readonly List<IItem> _items;
+
+        public IReadOnlyCollection<ItemBlueprintBase> ItemBlueprints => _itemBlueprints.Values.ToList().AsReadOnly();
+
+        public ItemBlueprintBase GetItemBlueprint(int id) => GetBlueprintById(_itemBlueprints, id);
+
+        public TBlueprint GetItemBlueprint<TBlueprint>(int id)
+            where TBlueprint : ItemBlueprintBase => GetItemBlueprint(id) as TBlueprint;
+
+        public void AddItemBlueprint(ItemBlueprintBase blueprint)
+        {
+            if (_itemBlueprints.ContainsKey(blueprint.Id))
+                Wiznet.Wiznet($"Item blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            else
+                _itemBlueprints.Add(blueprint.Id, blueprint);
+        }
+
+        public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
 
         public IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim)
         {
@@ -333,19 +396,19 @@ namespace Mud.Server.World
                     item = new ItemPotion(guid, potionBlueprint, container);
                     break;
                 case ItemPortalBlueprint portalBlueprint:
-                {
-                    IRoom destination = null;
-                    if (portalBlueprint.Destination != ItemPortal.NoDestinationRoomId)
                     {
-                        destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
-                        if (destination == null)
+                        IRoom destination = null;
+                        if (portalBlueprint.Destination != ItemPortal.NoDestinationRoomId)
                         {
-                            destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
-                            Wiznet.Wiznet($"World.AddItem: PortalBlueprint {blueprint.Id} unknown destination {portalBlueprint.Destination} setting to recall {Settings.DefaultRecallRoomId}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                            destination = Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
+                            if (destination == null)
+                            {
+                                destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
+                                Wiznet.Wiznet($"World.AddItem: PortalBlueprint {blueprint.Id} unknown destination {portalBlueprint.Destination} setting to recall {Settings.DefaultRecallRoomId}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                            }
                         }
-                    }
-                    item = new ItemPortal(guid, portalBlueprint, destination, container);
-                    break;
+                        item = new ItemPortal(guid, portalBlueprint, destination, container);
+                        break;
                     }
                 case ItemQuestBlueprint questBlueprint:
                     item = new ItemQuest(guid, questBlueprint, container);
@@ -432,7 +495,7 @@ namespace Mud.Server.World
                     item = new ItemGem(guid, gemBlueprint, itemData, container);
                     break;
                 case ItemJewelryBlueprint jewelryBlueprint:
-                    item = new ItemJewelry (guid, jewelryBlueprint, itemData, container);
+                    item = new ItemJewelry(guid, jewelryBlueprint, itemData, container);
                     break;
                 case ItemJukeboxBlueprint jukeboxBlueprint:
                     item = new ItemJukebox(guid, jukeboxBlueprint, itemData, container);
@@ -528,79 +591,6 @@ namespace Mud.Server.World
             return item;
         }
 
-        public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, TimeSpan duration, AuraFlags auraFlags, bool recompute, params IAffect[] affects)
-        {
-            IAura aura = new Aura.Aura(abilityName, source, auraFlags, level, duration, affects);
-            target.AddAura(aura, recompute);
-            return aura;
-        }
-
-        //public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
-        //{
-        //    IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Heal, source, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
-        //    target.AddPeriodicAura(periodicAura);
-        //    return periodicAura;
-        //}
-
-        //public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
-        //{
-        //    IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Damage, source, school, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
-        //    target.AddPeriodicAura(periodicAura);
-        //    return periodicAura;
-        //}
-
-        public void FixWorld()
-        {
-            FixItems();
-            FixResets();
-        }
-
-        public void ResetWorld()
-        {
-            foreach (IArea area in _areas)
-            {
-                // TODO: handle age + at load time, force age to arbitrary high value to ensure reset are computed
-                //if (area.PlayableCharacters.Any())
-                {
-                    area.ResetArea();
-                }
-            }
-        }
-
-        public void RemoveCharacter(ICharacter character)
-        {
-            character.StopFighting(true);
-
-            // Remove auras
-            IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // clone
-            foreach (IAura aura in auras)
-            {
-                aura.OnRemoved();
-                character.RemoveAura(aura, false);
-            }
-            // no need to recompute
-
-            // Remove content
-            if (character.Inventory.Any())
-            {
-                IReadOnlyCollection<IItem> clonedInventory = new ReadOnlyCollection<IItem>(character.Inventory.ToList()); // clone because GetFromContainer change Content collection
-                foreach (IItem item in clonedInventory)
-                    RemoveItem(item);
-                // Remove equipments
-                if (character.Equipments.Any(x => x.Item != null))
-                {
-                    IReadOnlyCollection<IItem> equipment = new ReadOnlyCollection<IItem>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item).ToList()); // clone
-                    foreach (IItem item in equipment)
-                        RemoveItem(item);
-                }
-            }
-            // Move to NullRoom
-            character.ChangeRoom(NullRoom);
-            //
-            character.OnRemoved();
-            //_characters.Remove(character); will be removed in cleanup step
-        }
-
         public void RemoveItem(IItem item)
         {
             item.ChangeContainer(NullRoom); // move to NullRoom
@@ -625,19 +615,53 @@ namespace Mud.Server.World
             //_items.Remove(item); will be removed in cleanup step
         }
 
-        public void RemoveRoom(IRoom room)
+        #endregion
+
+        #region IAuraManager
+
+        //public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
+        //{
+        //    IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Heal, source, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
+        //    target.AddPeriodicAura(periodicAura);
+        //    return periodicAura;
+        //}
+
+        //public IPeriodicAura AddPeriodicAura(IEntity target, IAbility ability, IEntity source, SchoolTypes school, int amount, AmountOperators amountOperator, int level, bool tickVisible, int tickDelay, int totalTicks)
+        //{
+        //    IPeriodicAura periodicAura = new PeriodicAura(ability, PeriodicAuraTypes.Damage, source, school, amount, amountOperator, level, tickVisible, tickDelay, totalTicks);
+        //    target.AddPeriodicAura(periodicAura);
+        //    return periodicAura;
+        //}
+
+        public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, TimeSpan duration, AuraFlags auraFlags, bool recompute, params IAffect[] affects)
         {
-            //// Remove auras
-            //IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(room.Auras.ToList()); // clone
-            //foreach (IAura aura in auras)
-            //{
-            //    aura.OnRemoved();
-            //    room.RemoveAura(aura, false);
-            //}
-            //// no need to recompute
-            ////
-            //room.OnRemoved();
-            throw new NotImplementedException();
+            IAura aura = new Aura.Aura(abilityName, source, auraFlags, level, duration, affects);
+            target.AddAura(aura, recompute);
+            return aura;
+        }
+
+        #endregion
+
+        private IWiznet Wiznet { get; }
+        private IRandomManager RandomManager { get; }
+        private ISettings Settings { get; }
+
+        public World(IWiznet wiznet, IRandomManager randomManager, ISettings settings)
+        {
+            Wiznet = wiznet;
+            RandomManager = randomManager;
+            Settings = settings;
+
+            _treasureTables = new List<TreasureTable<int>>();
+            _questBlueprints = new Dictionary<int, QuestBlueprint>();
+            _areaBlueprints = new Dictionary<int, AreaBlueprint>();
+            _roomBlueprints = new Dictionary<int, RoomBlueprint>();
+            _characterBlueprints = new Dictionary<int, CharacterBlueprintBase>();
+            _itemBlueprints = new Dictionary<int, ItemBlueprintBase>();
+            _areas = new List<IArea>();
+            _rooms = new List<IRoom>();
+            _characters = new List<ICharacter>();
+            _items = new List<IItem>();
         }
 
         public void Cleanup() // remove invalid entities
@@ -660,14 +684,11 @@ namespace Mud.Server.World
             // TODO: room
         }
 
-        #endregion
-
         private T GetBlueprintById<T>(IDictionary<int, T> blueprints, int id)
         {
             blueprints.TryGetValue(id, out var blueprint);
             return blueprint;
         }
-
 
         private void FixItems()
         {

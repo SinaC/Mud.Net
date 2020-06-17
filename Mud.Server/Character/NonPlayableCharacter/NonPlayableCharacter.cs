@@ -260,7 +260,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             ResetCooldowns();
             DeleteInventory();
             DeleteEquipments();
-            Room = World.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+            Room = RoomManager.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
         }
 
         public override void OnCleaned() // called when removing definitively an entity from the game
@@ -665,7 +665,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         protected override void HandleDeath()
         {
-            World.RemoveCharacter(this);
+            CharacterManager.RemoveCharacter(this);
         }
 
         protected override void HandleWimpy(int damage)

@@ -5,7 +5,6 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.World;
 using System.Linq;
 
 namespace Mud.Server.Admin.Administration
@@ -17,7 +16,7 @@ namespace Mud.Server.Admin.Administration
             "[cmd] (if impersonated)")]
     public class Restore : AdminGameAction
     {
-        private IWorld World { get; }
+        private ICharacterManager CharacterManager { get; }
         private IPlayerManager PlayerManager { get; }
         private IWiznet Wiznet { get; }
 
@@ -25,9 +24,9 @@ namespace Mud.Server.Admin.Administration
         public bool IsAll { get; set; }
         public IPlayableCharacter Whom { get; protected set; }
 
-        public Restore(IWorld world, IPlayerManager playerManager, IWiznet wiznet)
+        public Restore(ICharacterManager characterManager, IPlayerManager playerManager, IWiznet wiznet)
         {
-            World = world;
+            CharacterManager = characterManager;
             PlayerManager = playerManager;
         }
 
@@ -69,7 +68,7 @@ namespace Mud.Server.Admin.Administration
 
             if (IsAll)
             {
-                foreach (IPlayableCharacter loopVictim in World.PlayableCharacters)
+                foreach (IPlayableCharacter loopVictim in CharacterManager.PlayableCharacters)
                     RestoreOneCharacter(loopVictim);
                 Wiznet.Wiznet($"{Actor.DisplayName} has restored all active players.", WiznetFlags.Restore);
                 Actor.Send("All active players restored.");

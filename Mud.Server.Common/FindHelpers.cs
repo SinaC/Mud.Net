@@ -10,15 +10,14 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
 
 namespace Mud.Server.Common
 {
     // TODO: don't use GetInstance
     public static class FindHelpers
     {
-        private static IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         private static IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        private static ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
         private static IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
         //// Search in room content, then in inventory, then in equipment
@@ -136,7 +135,7 @@ namespace Mud.Server.Common
                 return RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
 
-            ICharacter victim = FindByName(World.Characters, parameter);
+            ICharacter victim = FindByName(CharacterManager.Characters, parameter);
             if (victim != null)
                 return victim.Room;
 
@@ -180,11 +179,11 @@ namespace Mud.Server.Common
 
             // In world
             //  players
-            IPlayableCharacter inWorldPlayer = FindByName(World.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            IPlayableCharacter inWorldPlayer = FindByName(CharacterManager.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
             if (inWorldPlayer != null)
                 return inWorldPlayer;
             //  characters
-            INonPlayableCharacter inWorldCharacter = FindByName(World.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
+            INonPlayableCharacter inWorldCharacter = FindByName(CharacterManager.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
             return inWorldCharacter;
         }
 
@@ -201,7 +200,7 @@ namespace Mud.Server.Common
                 return inAreaCharacter;
 
             // In world
-            INonPlayableCharacter inWorldCharacter = FindByName(World.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
+            INonPlayableCharacter inWorldCharacter = FindByName(CharacterManager.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
             return inWorldCharacter;
         }
 
@@ -218,7 +217,7 @@ namespace Mud.Server.Common
                 return inAreaPlayer;
 
             // In world
-            IPlayableCharacter inWorldPlayer = FindByName(World.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            IPlayableCharacter inWorldPlayer = FindByName(CharacterManager.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
             return inWorldPlayer;
         }
 

@@ -4,10 +4,10 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
 using System.Linq;
 using System.Text;
 
@@ -19,16 +19,16 @@ namespace Mud.Server.Admin.Information
     "[cmd] (if impersonated)")]
     public class Resets : AdminGameAction
     {
-        private IWorld World { get; }
         private IRoomManager RoomManager { get; }
+        private ICharacterManager CharacterManager { get; }
         private IItemManager ItemManager { get; }
 
         public IRoom Room { get; protected set; }
 
-        public Resets(IWorld world, IRoomManager roomManager, IItemManager itemManager)
+        public Resets(IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager)
         {
-            World = world;
             RoomManager = roomManager;
+            CharacterManager = characterManager;
             ItemManager = itemManager;
         }
 
@@ -78,7 +78,7 @@ namespace Mud.Server.Admin.Information
                 {
                     case CharacterReset characterReset: // 'M'
                         {
-                            CharacterBlueprintBase characterBlueprint = World.GetCharacterBlueprint(characterReset.CharacterId);
+                            CharacterBlueprintBase characterBlueprint = CharacterManager.GetCharacterBlueprint(characterReset.CharacterId);
                             if (characterBlueprint == null)
                             {
                                 sb.AppendFormatLine("Load Char - Bad Character {0}", characterReset.CharacterId);

@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace Mud.Server.Tests.Mocking
 {
-    public class ItemManagerMock : IItemManager
+    internal class ItemManagerMock : IItemManager
     {
         private IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 

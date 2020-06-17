@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mud.Server.Interfaces.GameAction
+﻿namespace Mud.Server.Interfaces.GameAction
 {
     public interface ICommandExecutionInfo
     {

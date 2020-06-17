@@ -38,7 +38,7 @@ namespace Mud.Server.Admin.Information
         public override void Execute(IActionInput actionInput)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Searching items 'Pattern.Value}'");
+            sb.AppendLine($"Searching items '{Pattern.Value}'");
             List<IItem> items = FindHelpers.FindAllByName(ItemManager.Items, Pattern).OrderBy(x => x.Blueprint?.Id).ToList();
             if (items.Count == 0)
                 sb.AppendLine("No matches");

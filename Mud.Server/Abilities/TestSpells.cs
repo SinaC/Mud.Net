@@ -6,7 +6,6 @@ using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
 using System;
 
@@ -45,13 +44,13 @@ namespace Mud.Server.Ability
     {
         public const string SpellName = "Construct";
 
-        private IWorld World { get; }
+        private ICharacterManager CharacterManager { get; }
         private IAuraManager AuraManager { get; }
 
-        public SpellConstruct(IRandomManager randomManager, IWorld world, IAuraManager auraManager)
+        public SpellConstruct(IRandomManager randomManager, ICharacterManager characterManager, IAuraManager auraManager)
             : base(randomManager)
         {
-            World = world;
+            CharacterManager = characterManager;
             AuraManager = auraManager;
         }
 
@@ -59,8 +58,8 @@ namespace Mud.Server.Ability
         {
             if (Caster is IPlayableCharacter pcCaster)
             {
-                CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(80000);
-                INonPlayableCharacter construct = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
+                CharacterBlueprintBase blueprint = CharacterManager.GetCharacterBlueprint(80000);
+                INonPlayableCharacter construct = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
                 pcCaster.AddPet(construct);
                 AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
                     new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });

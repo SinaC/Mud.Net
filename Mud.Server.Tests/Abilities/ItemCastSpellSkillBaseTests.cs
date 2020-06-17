@@ -4,6 +4,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -49,6 +50,7 @@ namespace Mud.Server.Tests.Abilities
             targetMock.Verify(x => x.AbilityDamage(userMock.Object, It.IsAny<int>(), SchoolTypes.Fire, "fireball", It.IsAny<bool>()), Times.Once);
         }
 
+        [Command("ItemCastSpellSkillBaseTestsSkill")]
         [Skill(SkillName, AbilityEffects.None)]
         internal class ItemCastSpellSkillBaseTestsSkill : ItemCastSpellSkillBase<IItemScroll>
         {

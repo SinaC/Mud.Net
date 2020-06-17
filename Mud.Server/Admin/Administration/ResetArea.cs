@@ -2,7 +2,6 @@
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.World;
 using System.Linq;
 
 namespace Mud.Server.Admin.Administration
@@ -13,13 +12,13 @@ namespace Mud.Server.Admin.Administration
             "[cmd] (if impersonated)")]
     public class ResetArea : AdminGameAction
     {
-        private IWorld World { get; }
+        private IAreaManager AreaManager { get; }
 
         public IArea Area { get; protected set; }
 
-        public ResetArea(IWorld world)
+        public ResetArea(IAreaManager areaManager)
         {
-            World = world;
+            AreaManager = areaManager;
         }
 
         public override string Guards(IActionInput actionInput)
@@ -35,7 +34,7 @@ namespace Mud.Server.Admin.Administration
             if (actionInput.Parameters.Length == 0)
                 area = Impersonating.Room.Area;
             else
-                area = World.Areas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.DisplayName, actionInput.Parameters[0].Value));
+                area = AreaManager.Areas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.DisplayName, actionInput.Parameters[0].Value));
 
             if (area == null)
                 return "Area not found.";

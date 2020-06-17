@@ -1,10 +1,10 @@
 ﻿using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
 using System.Linq;
 
 namespace Mud.Server.Admin
@@ -18,16 +18,16 @@ namespace Mud.Server.Admin
     public class Incarnate : AdminGameAction
     {
         private IRoomManager RoomManager { get; }
-        private IWorld World { get; }
+        private ICharacterManager CharacterManager { get; }
         private IItemManager ItemManager { get; }
         private IWiznet Wiznet { get; }
 
         public IEntity Target { get; protected set; }
 
-        public Incarnate(IRoomManager roomManager, IWorld world, IItemManager itemManager, IWiznet wiznet)
+        public Incarnate(IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IWiznet wiznet)
         {
             RoomManager = roomManager;
-            World = world;
+            CharacterManager = characterManager;
             ItemManager = itemManager;
             Wiznet = wiznet;
         }
@@ -63,7 +63,7 @@ namespace Mud.Server.Admin
             else if ("item".StartsWith(kind))
                 Target = FindHelpers.FindByName(ItemManager.Items, actionInput.Parameters[1]);
             else if ("mob".StartsWith(kind))
-                Target = FindHelpers.FindByName(World.Characters, actionInput.Parameters[1]);
+                Target = FindHelpers.FindByName(CharacterManager.Characters, actionInput.Parameters[1]);
             if (Target == null)
                 return "Target not found.";
 

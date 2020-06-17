@@ -8,7 +8,6 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.World;
 using System.Linq;
 using System.Text;
 
@@ -19,13 +18,13 @@ namespace Mud.Server.Admin.Information
     [Syntax("[cmd] <character>")]
     public class Cstat : AdminGameAction
     {
-        private IWorld World { get; }
+        private ICharacterManager CharacterManager { get; }
 
         public ICharacter Whom { get; protected set; }
 
-        public Cstat(IWorld world)
+        public Cstat(ICharacterManager characterManager)
         {
-            World = world;
+            CharacterManager = characterManager;
         }
 
         public override string Guards(IActionInput actionInput)
@@ -38,7 +37,7 @@ namespace Mud.Server.Admin.Information
                 return BuildCommandSyntax();
 
             Whom = Impersonating == null
-                ? FindHelpers.FindByName(World.Characters, actionInput.Parameters[0])
+                ? FindHelpers.FindByName(CharacterManager.Characters, actionInput.Parameters[0])
                 : FindHelpers.FindChararacterInWorld(Impersonating, actionInput.Parameters[0]);
             if (Whom == null)
                 return StringHelpers.NotFound;

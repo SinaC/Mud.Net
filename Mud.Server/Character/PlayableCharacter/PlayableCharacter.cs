@@ -54,7 +54,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
             ImpersonatedBy = player;
 
-            Room = World.NullRoom; // add in null room to avoid problem if an initializer needs a room
+            Room = RoomManager.NullRoom; // add in null room to avoid problem if an initializer needs a room
 
             // Extract informations from PlayableCharacterData
             CreationTime = data.CreationTime;
@@ -213,14 +213,14 @@ namespace Mud.Server.Character.PlayableCharacter
             {
                 foreach (PetData petData in data.Pets)
                 {
-                    CharacterNormalBlueprint blueprint = World.GetCharacterBlueprint<CharacterNormalBlueprint>(petData.BlueprintId);
+                    CharacterNormalBlueprint blueprint = CharacterManager.GetCharacterBlueprint<CharacterNormalBlueprint>(petData.BlueprintId);
                     if (blueprint == null)
                     {
                         Wiznet.Wiznet($"Pet blueprint id {petData.BlueprintId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                     }
                     else
                     {
-                        INonPlayableCharacter pet = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, petData, room);
+                        INonPlayableCharacter pet = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, petData, room);
                         AddPet(pet);
                     }
                 }
@@ -306,7 +306,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     pet.Act(ActOptions.ToRoom, "{0:N} slowly fades away.", pet);
                 RemoveFollower(pet);
                 pet.ChangeMaster(null);
-                World.RemoveCharacter(pet);
+                CharacterManager.RemoveCharacter(pet);
             }
             _pets.Clear();
 
@@ -316,7 +316,7 @@ namespace Mud.Server.Character.PlayableCharacter
             ResetCooldowns();
             DeleteInventory();
             DeleteEquipments();
-            Room = World.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+            Room = RoomManager.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
         }
 
         #endregion
@@ -1048,7 +1048,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     pet.Act(ActOptions.ToRoom, "{0:N} slowly fades away.", pet);
                 RemoveFollower(pet);
                 pet.ChangeMaster(null);
-                World.RemoveCharacter(pet);
+                CharacterManager.RemoveCharacter(pet);
             }
             _pets.Clear();
             if (ImpersonatedBy != null) // If impersonated, no real death
@@ -1059,7 +1059,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             else // If not impersonated, remove from game // TODO: this can be a really bad idea
             {
-                World.RemoveCharacter(this);
+                CharacterManager.RemoveCharacter(this);
             }
         }
 
