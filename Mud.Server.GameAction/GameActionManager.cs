@@ -5,13 +5,17 @@ using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
 namespace Mud.Server.GameAction
 {
     // TODO: not anymore a static class
+    // TODO: find a way to store multiple command with the same name (delete exists for player and for admin, skills exists for character and admin)
+    // TODO: find a way to create the Trie with the correct command in case of duplicate name
     public class GameActionManager : IGameActionManager
     {
         private Dictionary<string, IGameActionInfo> _gameActions;
@@ -27,11 +31,11 @@ namespace Mud.Server.GameAction
                 var commandAndSyntaxAttributes = GetCommandAndSyntaxAttributes(gameActionType);
                 foreach (var commandAttribute in commandAndSyntaxAttributes.commandAttributes)
                 {
-                    IGameActionInfo commandInfo = CreateGameActionInfo(gameActionType, commandAttribute, commandAndSyntaxAttributes.syntaxCommandAttribute);
-                    if (_gameActions.ContainsKey(commandInfo.Name))
-                        Log.Default.WriteLine(LogLevels.Error, "Duplicate game action {0}", commandInfo.Name);
+                    IGameActionInfo gameActionInfo = CreateGameActionInfo(gameActionType, commandAttribute, commandAndSyntaxAttributes.syntaxCommandAttribute);
+                    if (_gameActions.ContainsKey(gameActionInfo.Name))
+                        Log.Default.WriteLine(LogLevels.Error, "Duplicate game action {0}", gameActionInfo.Name);
                     else
-                        _gameActions.Add(commandInfo.Name, commandInfo);
+                        _gameActions.Add(gameActionInfo.Name, gameActionInfo);
                 }
             }
         }
@@ -50,32 +54,28 @@ namespace Mud.Server.GameAction
             }
         }
 
-        public IGameAction CreateInstance(string name)
+        public IGameAction CreateInstance(IGameActionInfo gameActionInfo)
         {
-            IGameActionInfo gameActionInfo = this[name];
-            if (gameActionInfo == null)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} doesn't exist.", name);
-                return default;
-            }
             if (DependencyContainer.Current.GetRegistration(gameActionInfo.CommandExecutionType, false) == null)
             {     
-                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} not found in DependencyContainer.", name);
+                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} not found in DependencyContainer.", gameActionInfo.Name);
                 return default;
             }
             IGameAction instance = DependencyContainer.Current.GetInstance(gameActionInfo.CommandExecutionType) as IGameAction;
             if (instance == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be instantiated or is not {1}.", name, typeof(IGameAction).Name);
+                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be instantiated or is not {1}.", gameActionInfo.Name, typeof(IGameAction).Name);
                 return default;
             }
             return instance;
         }
 
-        public IActionInput CreateActionInput(IGameActionInfo commandInfo, IActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
+        public IActionInput CreateActionInput<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
+            where TActor: IActor
         {
             // TODO
-            throw new NotImplementedException();
+            ActionInput actionInput = new ActionInput(gameActionInfo, actor, string.Empty/*TODO*/, command, rawParameters, parameters);
+            return actionInput;
         }
 
         #endregion
@@ -116,7 +116,9 @@ namespace Mud.Server.GameAction
 
         public static IReadOnlyTrie<ICommandExecutionInfo> GetCommands(Type type)
         {
-            var commands = GetCommandsFromType(type).Union(GetCommandsFromAssembly(type.Assembly));
+            var commands = GetCommandsFromType(type).Union(GetCommandsFromAssembly(type.Assembly, type))
+                .GroupBy(x => x.Key) // TODO: remove this
+                .Select(x => x.First());
             Trie<ICommandExecutionInfo> trie = new Trie<ICommandExecutionInfo>(commands);
             return trie;
         }
@@ -131,14 +133,28 @@ namespace Mud.Server.GameAction
                    (x, commandAttribute) => new TrieEntry<ICommandExecutionInfo>(commandAttribute.Name, new CommandMethodInfo(x.methodInfo, commandAttribute, x.attributes.syntaxCommandAttribute)));
         }
 
-        private static IEnumerable<TrieEntry<ICommandExecutionInfo>> GetCommandsFromAssembly(Assembly assembly)
+        private static IEnumerable<TrieEntry<ICommandExecutionInfo>> GetCommandsFromAssembly(Assembly assembly, Type type)
         {
+            Type iGameActionType = typeof(IGameAction);
             Type commandAttributeType = typeof(CommandAttribute);
-            return assembly.GetTypes()
-                .Where(t => t.GetCustomAttributes(commandAttributeType, false).Any())
-                // TODO check if x inherits from GameActionBase<Type,>
-                //.Where(t => t.GetGenericParameterConstraints().Any(c => t.IsAssignableFrom(c)))
-                .Select(x => new { executionType = x, attributes = GetCommandAndSyntaxAttributes(x) })
+
+            //foreach(var group in assembly.GetTypes().Where(t => !t.IsAbstract && iGameActionType.IsAssignableFrom(t) && t.GetCustomAttributes(commandAttributeType, false).Any()).GroupBy(x => x.Name).OrderBy(x => x.Key))
+            //    PolymorphismSimulator(type, group);
+
+            //return assembly.GetTypes()
+            //    .Where(t => !t.IsAbstract && iGameActionType.IsAssignableFrom(t) && t.GetCustomAttributes(commandAttributeType, false).Any())
+            //    // TODO check if x inherits from GameActionBase<Type,>
+            //    //.Where(t => t.GetGenericParameterConstraints().Any(c => t.IsAssignableFrom(c)))
+            //    .Select(t => new { executionType = t, attributes = GetCommandAndSyntaxAttributes(t) })
+            //    .SelectMany(x => x.attributes.commandAttributes,
+            //       (x, commandAttribute) => new TrieEntry<ICommandExecutionInfo>(commandAttribute.Name, CreateGameActionInfoStatic(x.executionType, commandAttribute, x.attributes.syntaxCommandAttribute)));
+            return  assembly.GetTypes()
+                .Where(t => !t.IsAbstract && iGameActionType.IsAssignableFrom(t) && t.GetCustomAttributes(commandAttributeType, false).Any())
+                .GroupBy(t => t.Name)
+                .OrderBy(g => g.Key)
+                .Select(g => PolymorphismSimulator(type, g))
+                .Where(x => x != null)
+                .Select(t => new { executionType = t, attributes = GetCommandAndSyntaxAttributes(t) })
                 .SelectMany(x => x.attributes.commandAttributes,
                    (x, commandAttribute) => new TrieEntry<ICommandExecutionInfo>(commandAttribute.Name, CreateGameActionInfoStatic(x.executionType, commandAttribute, x.attributes.syntaxCommandAttribute)));
         }
@@ -157,6 +173,41 @@ namespace Mud.Server.GameAction
             SyntaxAttribute syntaxCommandAttribute = type.GetCustomAttribute(typeof(SyntaxAttribute)) as SyntaxAttribute ?? CommandExecutionInfo.DefaultSyntaxCommandAttribute;
 
             return (commandAttributes, syntaxCommandAttribute);
+        }
+
+        private static Type PolymorphismSimulator(Type actorType, IGrouping<string, Type> typeByNames)
+        {
+            Type[] actorTypeImplementedInterfaces = actorType.GetInterfaces().Reverse().ToArray(); // interfaces are sorted from most to less nested -> reverse to get top level interface
+            Type bestType = null;
+            int bestLevel = int.MaxValue;
+            foreach (Type t in typeByNames)
+            {
+                bool doneWithThisType = false;
+                Type baseType = t.BaseType;
+                while (baseType != null)
+                {
+                    if (baseType.GenericTypeArguments?.Length > 0)
+                    {
+                        for (int i = 0; i < actorTypeImplementedInterfaces.Length; i++)
+                            if (actorTypeImplementedInterfaces[i] == baseType.GenericTypeArguments[0])
+                            {
+                                if (i < bestLevel)
+                                {
+                                    bestType = t;
+                                    bestLevel = i;
+                                }
+                                doneWithThisType = true;
+                                break;
+                            }
+                    }
+
+                    if (doneWithThisType)
+                        break;
+                    baseType = baseType.BaseType;
+                }
+            }
+            Debug.Print(actorType.Name + ": "+ typeByNames.Key + " => " + bestType?.FullName ?? "???");
+            return bestType;
         }
     }
 }

@@ -99,7 +99,7 @@ namespace Mud.Server.Character
         }
 
         [Command("act", "!!Test!!")]
-        protected virtual bool DoAct(string rawParameters, params CommandParameter[] parameters)
+        protected virtual bool DoAct(string rawParameters, params ICommandParameter[] parameters)
         {
             ICharacter victim = Room.People.FirstOrDefault(x => x != this);
             if (victim == null)
@@ -120,7 +120,7 @@ namespace Mud.Server.Character
         }
 
         [Command("rom24", "!!Test!!")]
-        protected virtual bool DoRom24(string rawParameters, params CommandParameter[] parameters)
+        protected virtual bool DoRom24(string rawParameters, params ICommandParameter[] parameters)
         {
             //AbilityManager.Cast(this, rawParameters, parameters);
             //Rom24Spells rom24Spells = new Rom24Spells(DependencyContainer.Current.GetInstance<ISettings>(), DependencyContainer.Current.GetInstance<IWorld>(), DependencyContainer.Current.GetInstance<IAbilityManager>(), DependencyContainer.Current.GetInstance<IRandomManager>());

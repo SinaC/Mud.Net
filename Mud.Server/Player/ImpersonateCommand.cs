@@ -83,7 +83,7 @@ namespace Mud.Server.Player
         }
 
         [Command("listavatar", "Avatar")]
-        protected virtual CommandExecutionResults DoList(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoList(string rawParameters, params ICommandParameter[] parameters)
         {
             if (!_avatarList.Any())
             {
@@ -96,7 +96,7 @@ namespace Mud.Server.Player
         }
 
         [PlayerCommand("createavatar", "Avatar", CannotBeImpersonated = true)]
-        protected virtual CommandExecutionResults DoCreateAvatar(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoCreateAvatar(string rawParameters, params ICommandParameter[] parameters)
         {
             if (_avatarList.Count >= Settings.MaxAvatarCount)
             {
@@ -111,7 +111,7 @@ namespace Mud.Server.Player
 
         [PlayerCommand("deleteavatar", "Avatar", CannotBeImpersonated = true)]
         [Syntax("[cmd] <avatar name>")]
-        protected virtual CommandExecutionResults DoDeleteAvatar(string rawParameters, params CommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoDeleteAvatar(string rawParameters, params ICommandParameter[] parameters)
         {
             //TODO UniquenessManager.RemoveAvatarName(avatarName)
             throw new NotImplementedException();

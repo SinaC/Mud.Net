@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common;
+﻿using Mud.Logger;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -78,7 +79,20 @@ namespace Mud.Server.Admin
 
                 Actor.Send("%M%You stop incarnating %C%{0}%x%.", Actor.Incarnating.DisplayName);
                 Actor.StopIncarnating();
+
+                return;
             }
+
+            bool incarnated = Actor.StartIncarnating(Target);
+            if (incarnated)
+            {
+                string msg = $"{Actor.DisplayName} starts incarnating {Target.DebugName}.";
+                Wiznet.Wiznet(msg, Domain.WiznetFlags.Incarnate);
+
+                Actor.Send("%M%You start incarnating %C%{0}%x%.", Target.DisplayName);
+            }
+            else
+                Actor.Send($"Something prevented you from being incarnating {Target.DisplayName}.");
         }
     }
 }

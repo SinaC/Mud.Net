@@ -131,6 +131,17 @@ namespace Mud.Server.Admin
 
         public IEntity Incarnating { get; private set; }
 
+        public bool StartIncarnating(IEntity entity)
+        {
+            bool incarnated = entity.ChangeIncarnation(this);
+            if (incarnated)
+            {
+                Incarnating = entity;
+                PlayerState = PlayerStates.Impersonating;
+            }
+            return incarnated;
+        }
+
         public void StopIncarnating()
         {
             Incarnating?.ChangeIncarnation(null);
@@ -143,7 +154,7 @@ namespace Mud.Server.Admin
         {
             // Execute command
             bool executedSuccessfully;
-            if (forceOutOfGame || Impersonating == null)
+            if (forceOutOfGame || (Impersonating == null && Incarnating == null))
             {
                 Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
                 executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
@@ -153,9 +164,14 @@ namespace Mud.Server.Admin
                 Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
                 executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
             }
+            else if (Incarnating != null) // incarnating
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Incarnating.DebugName, commandLine);
+                executedSuccessfully = Incarnating.ExecuteCommand(command, rawParameters, parameters);
+            }
             else
             {
-               Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating nor incarnating", WiznetFlags.Bugs, AdminLevels.Implementor);
                 executedSuccessfully = false;
             }
             if (!executedSuccessfully)

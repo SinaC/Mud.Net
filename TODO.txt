@@ -1,8 +1,8 @@
 NEXT:
 one class by command -> rename Command to GameAction
 	continue CommandManager
-	how can we achieve command redefined in inherited class, such as DoWho or DoDelete
 	create one class by command
+	change Dictionary in GameActionManager into Lookup
 	move parsing code from Server.Input to Server.Commands
 
 move Weapon effect from OneHit to Rom24

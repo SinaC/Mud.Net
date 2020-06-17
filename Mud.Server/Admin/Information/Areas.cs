@@ -4,10 +4,10 @@ using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
-namespace Mud.Server.Player.Information
+namespace Mud.Server.Admin.Information
 {
     [AdminCommand("areas", "Information", Priority = 10)]
-    public class Areas : PlayerGameAction
+    public class Areas : AdminGameAction
     {
         private IAreaManager AreaManager { get; }
 
@@ -19,7 +19,7 @@ namespace Mud.Server.Player.Information
         public override void Execute(IActionInput actionInput)
         {
             StringBuilder sb;
-            sb = TableGenerators.AreaTableGenerator.Value.Generate("Areas", AreaManager.Areas);
+            sb = TableGenerators.FullInfoAreaTableGenerator.Value.Generate("Areas", AreaManager.Areas);
             Actor.Page(sb);
         }
     }

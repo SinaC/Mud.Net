@@ -13,7 +13,7 @@ namespace Mud.Server.Interfaces.Admin
         void RemoveWiznet(WiznetFlags wiznetFlags);
 
         IEntity Incarnating { get; }
-
+        bool StartIncarnating(IEntity entity);
         void StopIncarnating();
     }
 }

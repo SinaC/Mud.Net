@@ -77,13 +77,13 @@ namespace Mud.Server.Actor
                     }
                     return true;
                 }
-                else if (entry.Value is GameActionInfo ci && ci.CommandExecutionType != null)
+                else if (entry.Value is IGameActionInfo gai && gai.CommandExecutionType != null)
                 {
-                    Type executionType = ci.CommandExecutionType;
-                    IGameAction gameAction = GameActionManager.CreateInstance(entry.Key);
+                    Type executionType = gai.CommandExecutionType;
+                    IGameAction gameAction = GameActionManager.CreateInstance(gai);
                     if (gameAction != null)
                     {
-                        ActionInput actionInput = new ActionInput(ci, this, string.Empty/*TODO*/, command, rawParameters, parameters);
+                        IActionInput actionInput = GameActionManager.CreateActionInput(gai, this, null/*TODO*/, entry.Key, rawParameters, parameters);
                         string guardsResult = gameAction.Guards(actionInput);
                         if (guardsResult != null)
                         {
