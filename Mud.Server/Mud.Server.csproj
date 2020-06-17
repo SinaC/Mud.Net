@@ -92,8 +92,13 @@
     <Compile Include="Admin\Administration\XpBonus.cs" />
     <Compile Include="Admin\Communication\AdminTalk.cs" />
     <Compile Include="Admin\Incarnate.cs" />
+    <Compile Include="Admin\Information\Oinfo.cs" />
+    <Compile Include="Admin\Information\Cinfo.cs" />
+    <Compile Include="Admin\Information\Ofind.cs" />
+    <Compile Include="Admin\Information\Cfind.cs" />
     <Compile Include="Admin\Information\Cstat.cs" />
     <Compile Include="Admin\Information\Ostat.cs" />
+    <Compile Include="Admin\Information\Resets.cs" />
     <Compile Include="Admin\Information\Rstat.cs" />
     <Compile Include="Admin\Information\Stat.cs" />
     <Compile Include="Admin\Information\Wiznet.cs" />
