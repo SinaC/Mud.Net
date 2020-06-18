@@ -1,4 +1,6 @@
 NEXT:
+add IEquippedItem, move EquippedItem from ICharacter to Server and inherits from IEquippedItem, change every reference from EquippedItem to IEquippedItem
+
 one class by command -> rename Command to GameAction
 	call Player.Impersonate from Admin.Impersonate
 	continue CommandManager
@@ -58,6 +60,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+ExtraDescriptions fixed
 Rescue skill
 race form, parts
 plague spread to other people in room

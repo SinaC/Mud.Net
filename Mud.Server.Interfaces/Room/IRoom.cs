@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
@@ -45,6 +46,9 @@ namespace Mud.Server.Interfaces.Room
 
         void IncreaseLight();
         void DecreaseLight();
+
+        StringBuilder Append(StringBuilder sb, ICharacter viewer);
+        StringBuilder AppendExits(StringBuilder sb, ICharacter viewer, bool compact);
 
         void ResetRoom();
 

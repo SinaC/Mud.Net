@@ -14,7 +14,7 @@ namespace Mud.Server.Character.PlayableCharacter
     {
         [PlayableCharacterCommand("affects", "Information")]
         [PlayableCharacterCommand("auras", "Information")]
-        protected override CommandExecutionResults DoAffects(string rawParameters, params ICommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoAffects(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             if (Auras.Any())
@@ -41,7 +41,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         [PlayableCharacterCommand("saffects", "Information")]
         [PlayableCharacterCommand("sauras", "Information")]
-        protected override CommandExecutionResults DoShortAffects(string rawParameters, params ICommandParameter[] parameters)
+        protected virtual CommandExecutionResults DoShortAffects(string rawParameters, params ICommandParameter[] parameters)
         {
             StringBuilder sb = new StringBuilder();
             if (Auras.Any())

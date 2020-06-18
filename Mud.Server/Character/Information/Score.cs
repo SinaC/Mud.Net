@@ -93,5 +93,6 @@ namespace Mud.Server.Character.Information
             //}
 
             Actor.Send(sb);
+        }
     }
 }

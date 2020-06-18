@@ -885,7 +885,7 @@ namespace Mud.Server.Character
             if (AutomaticallyDisplayRoom)
             {
                 StringBuilder sb = new StringBuilder();
-                AppendRoom(sb, Room);
+                Room.Append(sb, this);
                 Send(sb);
             }
 
@@ -933,7 +933,7 @@ namespace Mud.Server.Character
             if (this is IPlayableCharacter || IncarnatedBy != null)
             {
                 StringBuilder sb = new StringBuilder();
-                AppendRoom(sb, Room);
+                Room.Append(sb, this);
                 Send(sb);
             }
         }
@@ -1658,6 +1658,128 @@ namespace Mud.Server.Character
             return null;
         }
 
+        // Display
+        public StringBuilder Append(StringBuilder sb, ICharacter viewer, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
+        {
+            //
+            string condition = "is here.";
+            int maxHitPoints = MaxHitPoints;
+            if (maxHitPoints > 0)
+            {
+                int percent = (100 * HitPoints) / maxHitPoints;
+                if (percent >= 100)
+                    condition = "is in excellent condition.";
+                else if (percent >= 90)
+                    condition = "has a few scratches.";
+                else if (percent >= 75)
+                    condition = "has some small wounds and bruises.";
+                else if (percent >= 50)
+                    condition = "has quite a few wounds.";
+                else if (percent >= 30)
+                    condition = "has some big nasty wounds and scratches.";
+                else if (percent >= 15)
+                    condition = "looks pretty hurt.";
+                else if (percent >= 0)
+                    condition = "is in awful condition.";
+                else
+                    condition = "is bleeding to death.";
+            }
+            sb.AppendLine($"{RelativeDisplayName(viewer)} {condition}");
+
+            //
+            if (Equipments.Any(x => x.Item != null))
+            {
+                sb.AppendLine($"{RelativeDisplayName(viewer)} is using:");
+                foreach (EquippedItem equippedItem in Equipments.Where(x => x.Item != null))
+                {
+                    sb.Append(equippedItem.EquipmentSlotsToString());
+                    equippedItem.Item.Append(sb, viewer, true);
+                    sb.AppendLine();
+                }
+            }
+
+            if (peekInventory)
+            {
+                sb.AppendLine("You peek at the inventory:");
+                IEnumerable<IItem> items = viewer == this
+                    ? Inventory
+                    : Inventory.Where(x => viewer.CanSee(x)); // don't display 'invisible item' when inspecting someone else
+                ItemsHelpers.AppendItems(sb, items, this, true, true);
+            }
+
+            return sb;
+        }
+
+        public StringBuilder AppendInRoom(StringBuilder sb, ICharacter viewer)
+        {
+            // display flags
+            if (CharacterFlags.HasFlag(CharacterFlags.Charm))
+                sb.Append("%C%(Charmed)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Flying))
+                sb.Append("%c%(Flying)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Invisible))
+                sb.Append("%y%(Invis)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Hide))
+                sb.Append("%b%(Hide)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Sneak))
+                sb.Append("%R%(Sneaking)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.PassDoor))
+                sb.Append("%c%(Translucent)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.FaerieFire))
+                sb.Append("%m%(Pink Aura)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.DetectEvil))
+                sb.Append("%r%(Red Aura)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.DetectGood))
+                sb.Append("%Y%(Golden Aura)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Sanctuary))
+                sb.Append("%W%(White Aura)%x%");
+            // TODO: killer/thief
+            // TODO: display long description and stop if position = start position for NPC
+
+            // last case of POS_STANDING
+            sb.Append(RelativeDisplayName(viewer));
+            switch (Position)
+            {
+                case Positions.Stunned:
+                    sb.Append(" is lying here stunned.");
+                    break;
+                case Positions.Sleeping:
+                    AppendPositionFurniture(sb, "sleeping", Furniture);
+                    break;
+                case Positions.Resting:
+                    AppendPositionFurniture(sb, "resting", Furniture);
+                    break;
+                case Positions.Sitting:
+                    AppendPositionFurniture(sb, "sitting", Furniture);
+                    break;
+                case Positions.Standing:
+                    if (Furniture != null)
+                        AppendPositionFurniture(sb, "standing", Furniture);
+                    else
+                        sb.Append(" is here");
+                    break;
+                case Positions.Fighting:
+                    sb.Append(" is here, fighting ");
+                    if (Fighting == null)
+                    {
+                        Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", DebugName);
+                        sb.Append("thing air??");
+                    }
+                    else if (Fighting == viewer)
+                        sb.Append("YOU!");
+                    else if (Room == Fighting.Room)
+                        sb.AppendFormat("{0}.", Fighting.RelativeDisplayName(viewer));
+                    else
+                    {
+                        Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", DebugName, Fighting.DebugName);
+                        sb.Append("someone who left??");
+                    }
+                    break;
+            }
+            sb.AppendLine();
+            return sb;
+        }
+
         // Affects
         public void ApplyAffect(ICharacterFlagsAffect affect)
         {
@@ -2339,6 +2461,15 @@ namespace Mud.Server.Character
                     affect.Apply(this);
                 }
             }
+        }
+
+        protected StringBuilder AppendPositionFurniture(StringBuilder sb, string verb, IItemFurniture furniture)
+        {
+            if (furniture == null)
+                sb.AppendFormat(" is {0} here.", verb);
+            else
+                furniture.AppendPosition(sb, verb);
+            return sb;
         }
 
         protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn)

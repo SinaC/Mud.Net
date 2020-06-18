@@ -28,6 +28,7 @@ namespace Mud.Server.Admin.Administration
         {
             CharacterManager = characterManager;
             PlayerManager = playerManager;
+            Wiznet = wiznet;
         }
 
         public override string Guards(IActionInput actionInput)

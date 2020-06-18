@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 namespace Mud.Server.Character.Information
 {
     [CharacterCommand("equipment", "Information")]
-    public class Equipment : InformationCharacterGameActionBase
+    public class Equipment : CharacterGameAction
     {
         public override void Execute(IActionInput actionInput)
         {
@@ -19,7 +19,7 @@ namespace Mud.Server.Character.Information
             {
                 foreach (EquippedItem equippedItem in Actor.Equipments)
                 {
-                    string where = EquipmentSlotsToString(equippedItem);
+                    string where = equippedItem.EquipmentSlotsToString();
                     sb.Append(where);
                     if (equippedItem.Item == null)
                         sb.AppendLine("nothing");

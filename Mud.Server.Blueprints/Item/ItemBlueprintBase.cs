@@ -56,7 +56,7 @@ namespace Mud.Server.Blueprints.Item
 
         public static Lookup<string,string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
         {
-            return (Lookup<string,string>)extraDescriptions.SelectMany(x => x.Key.Split(' ')).ToLookup(x => x);
+            return (Lookup<string, string>)extraDescriptions.SelectMany(x => x.Key.Split(' '), (kv, key) => new { key, desc = kv.Value }).ToLookup(x => x.key, x => x.desc);
         }
 
         public bool Equals(ItemBlueprintBase other)

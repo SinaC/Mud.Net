@@ -134,7 +134,6 @@
     <Compile Include="Character\Information\Equipment.cs" />
     <Compile Include="Character\Information\Examine.cs" />
     <Compile Include="Character\Information\Exits.cs" />
-    <Compile Include="Character\Information\InformationCharacterGameActionBase.cs" />
     <Compile Include="Character\Information\Inventory.cs" />
     <Compile Include="Character\Information\Look.cs" />
     <Compile Include="Character\Information\Scan.cs" />
@@ -144,6 +143,7 @@
     <Compile Include="Character\Information\Time.cs" />
     <Compile Include="Character\Information\Weather.cs" />
     <Compile Include="Character\Information\Where.cs" />
+    <Compile Include="Helpers\ItemsHelpers.cs" />
     <Compile Include="Player\Account\AccountGameActionBase.cs" />
     <Compile Include="Player\Account\Delete.cs" />
     <Compile Include="Player\Account\Password.cs" />
@@ -207,7 +207,6 @@
     <Compile Include="Character\PlayableCharacter\CommunicationCommands.cs" />
     <Compile Include="Character\PlayableCharacter\CombatCommands.cs" />
     <Compile Include="Character\PlayableCharacter\GroupCommands.cs" />
-    <Compile Include="Character\InfoCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
     <Compile Include="Character\ItemCommands.cs" />
     <Compile Include="Character\NonPlayableCharacter\NonPlayableCharacter.cs" />

@@ -47,7 +47,7 @@ namespace Mud.Server.Blueprints.Room
 
         public static Lookup<string, string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
         {
-            return (Lookup<string, string>)extraDescriptions.SelectMany(x => x.Key.Split(' ')).ToLookup(x => x);
+            return (Lookup<string, string>)extraDescriptions.SelectMany(x => x.Key.Split(' '), (kv, key) => new { key, desc = kv.Value }).ToLookup(x => x.key, x => x.desc);
         }
     }
 }

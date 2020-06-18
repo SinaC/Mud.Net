@@ -1,8 +1,10 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
@@ -15,7 +17,7 @@ namespace Mud.Server.Character.Information
         "[cmd] item",
         "[cmd] <container>",
         "[cmd] <corpse>")]
-    public class Examine : InformationCharacterGameActionBase
+    public class Examine : CharacterGameAction
     {
         public IEntity Target { get; protected set; }
 
@@ -41,9 +43,9 @@ namespace Mud.Server.Character.Information
         {
             if (Target is ICharacter victim)
             {
-                Actor.Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, victim);
+                Actor.Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", Actor, victim);
                 StringBuilder sb = new StringBuilder();
-                AppendCharacter(sb, victim, true);
+                victim.Append(sb, Actor, true);
                 // TODO: display race and size
                 Actor.Send(sb);
                 return;
@@ -51,7 +53,7 @@ namespace Mud.Server.Character.Information
 
             if (Target is IItem item)
             {
-                Actor.Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", this, item);
+                Actor.Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", Actor, item);
                 StringBuilder sb = new StringBuilder();
                 switch (item)
                 {
@@ -59,7 +61,10 @@ namespace Mud.Server.Character.Information
                         if (container is IItemContainer itemContainer && itemContainer.IsClosed)
                             sb.AppendLine("It's closed.");
                         else
-                            AppendContainerContent(sb, container);
+                        {
+                            sb.AppendFormatLine("{0} holds:", container.RelativeDisplayName(Actor));
+                            ItemsHelpers.AppendItems(sb, container.Content.Where(x => Actor.CanSee(x)), Actor, true, true);
+                        }
                         break;
                     case IItemMoney money:
                         if (money.SilverCoins == 0 && money.GoldCoins == 0)

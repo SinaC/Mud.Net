@@ -38,10 +38,10 @@ namespace Mud.Server.Admin.Information
             if (actionInput.Parameters.Length == 0)
                 return BuildCommandSyntax();
 
-            IItem item = Impersonating == null
+            What = Impersonating == null
                 ? FindHelpers.FindByName(ItemManager.Items, actionInput.Parameters[0])
                 : FindHelpers.FindItemHere(Impersonating, actionInput.Parameters[0]);
-            if (item == null)
+            if (What == null)
                 return StringHelpers.NotFound;
             return null;
         }

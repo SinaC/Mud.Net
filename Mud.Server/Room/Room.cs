@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Mud.Common;
 using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Entity;
+using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
@@ -237,6 +240,85 @@ namespace Mud.Server.Room
         public void DecreaseLight()
         {
             Light = Math.Max(0, Light - 1);
+        }
+
+        public StringBuilder Append(StringBuilder sb, ICharacter viewer)
+        {
+            IPlayableCharacter playableCharacter = viewer as IPlayableCharacter;
+            // Room name
+            if (playableCharacter?.IsImmortal == true)
+                sb.AppendFormatLine($"%c%{DisplayName} [{Blueprint?.Id.ToString() ?? "???"}]%x%");
+            else
+                sb.AppendFormatLine("%c%{0}%x%", DisplayName);
+            // Room description
+            sb.Append(Description);
+            // Exits
+            if (playableCharacter != null && playableCharacter.AutoFlags.HasFlag(AutoFlags.Exit))
+                AppendExits(sb, viewer, true);
+            ItemsHelpers.AppendItems(sb, Content.Where(x => viewer.CanSee(x)), viewer, false, false);
+            AppendCharacters(sb, viewer);
+            return sb;
+        }
+
+        public StringBuilder AppendExits(StringBuilder sb, ICharacter viewer, bool compact)
+        {
+            if (compact)
+                sb.Append("[Exits:");
+            else if (viewer is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+                sb.AppendFormatLine($"Obvious exits from room {Blueprint?.Id.ToString() ?? "???"}:");
+            else
+                sb.AppendLine("Obvious exits:");
+            bool exitFound = false;
+            foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
+            {
+                IExit exit = this[direction];
+                IRoom destination = exit?.Destination;
+                if (destination != null && viewer.CanSee(exit))
+                {
+                    if (compact)
+                    {
+                        sb.Append(" ");
+                        if (exit.IsHidden)
+                            sb.Append("[");
+                        if (exit.IsClosed)
+                            sb.Append("(");
+                        sb.AppendFormat("{0}", direction.ToString().ToLowerInvariant());
+                        if (exit.IsClosed)
+                            sb.Append(")");
+                        if (exit.IsHidden)
+                            sb.Append("]");
+                    }
+                    else
+                    {
+                        sb.Append(direction.DisplayName());
+                        sb.Append(" - ");
+                        if (exit.IsClosed)
+                            sb.Append("A closed door");
+                        else if (destination.IsDark)
+                            sb.Append("Too dark to tell");
+                        else
+                            sb.Append(exit.Destination.DisplayName);
+                        if (exit.IsClosed)
+                            sb.Append(" (CLOSED)");
+                        if (exit.IsHidden)
+                            sb.Append(" [HIDDEN]");
+                        if (viewer is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+                            sb.Append($" (room {exit.Destination.Blueprint?.Id.ToString() ?? "???"})");
+                        sb.AppendLine();
+                    }
+                    exitFound = true;
+                }
+            }
+            if (!exitFound)
+            {
+                if (compact)
+                    sb.AppendLine(" none");
+                else
+                    sb.AppendLine("None.");
+            }
+            if (compact)
+                sb.AppendLine("]");
+            return sb;
         }
 
         public void ResetRoom()
@@ -515,6 +597,20 @@ namespace Mud.Server.Room
                     affect.Apply(this);
                 }
             }
+        }
+
+        protected StringBuilder AppendCharacters(StringBuilder sb, ICharacter viewer)
+        {
+            foreach (ICharacter victim in People.Where(x => x != viewer))
+            {
+                //  (see act_info.C:714 show_char_to_char)
+                if (viewer.CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
+                    victim.AppendInRoom(sb, viewer);
+                else if (IsDark && victim.CharacterFlags.HasFlag(CharacterFlags.Infrared))
+                    sb.AppendLine("You see glowing red eyes watching YOU!");
+            }
+
+            return sb;
         }
     }
 }

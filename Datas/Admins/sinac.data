@@ -21,7 +21,7 @@
       <Sex>1</Sex>
       <Size>2</Size>
       <HitPoints>109</HitPoints>
-      <MovePoints>29</MovePoints>
+      <MovePoints>107</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -134,8 +134,8 @@
             <Auras>
               <AuraData>
                 <AbilityName>Envenom</AbilityName>
-                <Level>7</Level>
-                <PulseLeft>1556</PulseLeft>
+                <Level>5</Level>
+                <PulseLeft>1456</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -203,35 +203,7 @@
           <Auras />
         </ItemData>
       </Inventory>
-      <Auras>
-        <AuraData>
-          <AbilityName>Berserk</AbilityName>
-          <Level>19</Level>
-          <PulseLeft>624</PulseLeft>
-          <AuraFlags>2</AuraFlags>
-          <Affects>
-            <AffectDataBase xsi:type="CharacterFlagsAffectData">
-              <Operator>1</Operator>
-              <Modifier>67108864</Modifier>
-            </AffectDataBase>
-            <AffectDataBase xsi:type="CharacterAttributeAffectData">
-              <Operator>0</Operator>
-              <Location>9</Location>
-              <Modifier>8</Modifier>
-            </AffectDataBase>
-            <AffectDataBase xsi:type="CharacterAttributeAffectData">
-              <Operator>0</Operator>
-              <Location>10</Location>
-              <Modifier>8</Modifier>
-            </AffectDataBase>
-            <AffectDataBase xsi:type="CharacterAttributeAffectData">
-              <Operator>0</Operator>
-              <Location>16</Location>
-              <Modifier>80</Modifier>
-            </AffectDataBase>
-          </Affects>
-        </AuraData>
-      </Auras>
+      <Auras />
       <CharacterFlags>2097152</CharacterFlags>
       <Immunities>0</Immunities>
       <Resistances>68688</Resistances>
@@ -295,7 +267,7 @@
         </PairDataOfInt32Int32>
       </Attributes>
       <CreationTime>2020-06-14T19:17:42.1765039+02:00</CreationTime>
-      <RoomId>3029</RoomId>
+      <RoomId>3001</RoomId>
       <SilverCoins>480</SilverCoins>
       <GoldCoins>0</GoldCoins>
       <Experience>100000</Experience>
@@ -1543,7 +1515,7 @@
       <Cooldowns>
         <PairDataOfStringInt32>
           <Key>Test</Key>
-          <Value>1460</Value>
+          <Value>1360</Value>
         </PairDataOfStringInt32>
       </Cooldowns>
       <Pets>
@@ -1578,20 +1550,7 @@
           </MaxResources>
           <Equipments />
           <Inventory />
-          <Auras>
-            <AuraData>
-              <AbilityName>Construct</AbilityName>
-              <Level>41</Level>
-              <PulseLeft>-1</PulseLeft>
-              <AuraFlags>6</AuraFlags>
-              <Affects>
-                <AffectDataBase xsi:type="CharacterFlagsAffectData">
-                  <Operator>1</Operator>
-                  <Modifier>262144</Modifier>
-                </AffectDataBase>
-              </Affects>
-            </AuraData>
-          </Auras>
+          <Auras />
           <CharacterFlags>2097152</CharacterFlags>
           <Immunities>0</Immunities>
           <Resistances>192</Resistances>
@@ -1663,7 +1622,7 @@
           <Level>40</Level>
           <Sex>0</Sex>
           <Size>0</Size>
-          <HitPoints>342</HitPoints>
+          <HitPoints>446</HitPoints>
           <MovePoints>1000</MovePoints>
           <CurrentResources>
             <PairDataOfInt32Int32>
@@ -1687,20 +1646,7 @@
           </MaxResources>
           <Equipments />
           <Inventory />
-          <Auras>
-            <AuraData>
-              <AbilityName>Construct</AbilityName>
-              <Level>41</Level>
-              <PulseLeft>-1</PulseLeft>
-              <AuraFlags>6</AuraFlags>
-              <Affects>
-                <AffectDataBase xsi:type="CharacterFlagsAffectData">
-                  <Operator>1</Operator>
-                  <Modifier>262144</Modifier>
-                </AffectDataBase>
-              </Affects>
-            </AuraData>
-          </Auras>
+          <Auras />
           <CharacterFlags>2097152</CharacterFlags>
           <Immunities>0</Immunities>
           <Resistances>192</Resistances>

@@ -36,17 +36,16 @@ namespace Mud.Server.Admin.Information
             if (actionInput.Parameters.Length >= 1 && !actionInput.Parameters[0].IsNumber)
                 return BuildCommandSyntax();
 
-            IRoom room;
             if (Actor.Impersonating != null)
-                room = Impersonating.Room;
+                Room = Impersonating.Room;
             else
             {
                 int id = actionInput.Parameters[0].AsNumber;
-                room = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
+                Room = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
-            if (room == null)
+            if (Room == null)
                 return "It doesn't exist.";
-            if (room.IsPrivate)
+            if (Room.IsPrivate)
                 return "That room is private right now.";
             return null;
         }
