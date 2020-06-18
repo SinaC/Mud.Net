@@ -144,6 +144,17 @@
     <Compile Include="Character\Information\Time.cs" />
     <Compile Include="Character\Information\Weather.cs" />
     <Compile Include="Character\Information\Where.cs" />
+    <Compile Include="Character\Item\CastSpellCharacterGameActionBase.cs" />
+    <Compile Include="Character\Item\Drink.cs" />
+    <Compile Include="Character\Item\Drop.cs" />
+    <Compile Include="Character\Item\Eat.cs" />
+    <Compile Include="Character\Item\Fill.cs" />
+    <Compile Include="Character\Item\Give.cs" />
+    <Compile Include="Character\Item\Pour.cs" />
+    <Compile Include="Character\Item\Put.cs" />
+    <Compile Include="Character\Item\Quaff.cs" />
+    <Compile Include="Character\Item\Wear.cs" />
+    <Compile Include="Character\Item\WearCharacterGameActionBase.cs" />
     <Compile Include="Helpers\ItemsHelpers.cs" />
     <Compile Include="Player\Account\AccountGameActionBase.cs" />
     <Compile Include="Player\Account\Delete.cs" />
