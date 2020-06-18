@@ -1,5 +1,7 @@
 NEXT:
 add IEquippedItem, move EquippedItem from ICharacter to Server and inherits from IEquippedItem, change every reference from EquippedItem to IEquippedItem
+EquippedItem should be responsible for displaying itself
+EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
 
 one class by command -> rename Command to GameAction
 	call Player.Impersonate from Admin.Impersonate
@@ -36,10 +38,6 @@ prevent kill stealing: a player fights a mob, brings it to 1% and another player
 linkdead
 Move CanSee in IEntity
 each time operator IS or AS is used, this should be replaced with an overridable method
-DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
-IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
-EquippedItem should be responsible for displaying itself
-EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
 pull/push
 Multiple wear location
 Reset 'R'
