@@ -158,7 +158,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                     var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
 
                     // Try to equip it
-                    EquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
+                    IEquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
                     if (equippedItem != null)
                     {
                         if (item.WearLocation != WearLocations.None)

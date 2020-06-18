@@ -5,6 +5,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Character;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;

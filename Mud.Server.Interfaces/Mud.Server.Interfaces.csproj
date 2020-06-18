@@ -75,6 +75,7 @@
     <Compile Include="Aura\IDispelManager.cs" />
     <Compile Include="Character\ICharacter.cs" />
     <Compile Include="Character\ICharacterManager.cs" />
+    <Compile Include="Character\IEquippedItem.cs" />
     <Compile Include="Class\IClass.cs" />
     <Compile Include="Class\IClassManager.cs" />
     <Compile Include="Effect\IEffect.cs" />

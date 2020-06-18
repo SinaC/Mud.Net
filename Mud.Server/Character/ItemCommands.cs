@@ -148,14 +148,14 @@ namespace Mud.Server.Character
                 return CommandExecutionResults.SyntaxErrorNoDisplay;
             }
             //
-            EquippedItem equipmentSlot = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
-            if (equipmentSlot?.Item == null)
+            IEquippedItem equippedItem = FindHelpers.FindByName(Equipments.Where(x => x.Item != null && CanSee(x.Item)), x => x.Item, parameters[0]);
+            if (equippedItem?.Item == null)
             {
                 Send(StringHelpers.ItemInventoryNotFound);
                 return CommandExecutionResults.TargetNotFound;
             }
             //
-            bool removed = RemoveItem(equipmentSlot);
+            bool removed = RemoveItem(equippedItem);
             if (!removed)
                 return CommandExecutionResults.InvalidTarget;
             Recompute();
@@ -1002,7 +1002,7 @@ namespace Mud.Server.Character
                 return false;
             }
             // search slot
-            EquippedItem equipmentSlot = SearchEquipmentSlot(item, replace);
+            IEquippedItem equipmentSlot = SearchEquipmentSlot(item, replace);
             if (equipmentSlot == null)
             {
                 if (replace) // we don't want to spam if character is trying to wear all, replace is set to true only when wearing one item
@@ -1153,7 +1153,7 @@ namespace Mud.Server.Character
             return true;
         }
 
-        protected virtual bool RemoveItem(EquippedItem equipmentSlot)
+        protected virtual bool RemoveItem(IEquippedItem equipmentSlot)
         {
             //
             if (equipmentSlot.Item.ItemFlags.HasFlag(ItemFlags.NoRemove))
