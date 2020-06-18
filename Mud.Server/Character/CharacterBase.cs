@@ -42,7 +42,7 @@ namespace Mud.Server.Character
         private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<CharacterBase>);
 
         private readonly List<IItem> _inventory;
-        private readonly List<EquippedItem> _equipments;
+        private readonly List<IEquippedItem> _equipments;
         // TODO: replace int[] with Dictionary<enum,int> ?
         private readonly int[] _baseAttributes;
         private readonly int[] _currentAttributes;
@@ -63,7 +63,7 @@ namespace Mud.Server.Character
             : base(guid, name, description)
         {
             _inventory = new List<IItem>();
-            _equipments = new List<EquippedItem>();
+            _equipments = new List<IEquippedItem>();
             _baseAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
             _currentAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
@@ -135,7 +135,7 @@ namespace Mud.Server.Character
 
         public ICharacter Fighting { get; protected set; }
 
-        public IEnumerable<EquippedItem> Equipments => _equipments;
+        public IEnumerable<IEquippedItem> Equipments => _equipments;
         public IEnumerable<IItem> Inventory => Content;
         public virtual int MaxCarryWeight => TableValues.CarryBonus(this) * 10 + Level * 25;
         public virtual int MaxCarryNumber => Equipments.Count() + 2 * this[BasicAttributes.Dexterity] + Level;
@@ -1610,7 +1610,7 @@ namespace Mud.Server.Character
         public T GetEquipment<T>(EquipmentSlots slot)
             where T : IItem => Equipments.Where(x => x.Slot == slot && x.Item is T).Select(x => x.Item).OfType<T>().FirstOrDefault();
 
-        public EquippedItem SearchEquipmentSlot(IItem item, bool replace)
+        public IEquippedItem SearchEquipmentSlot(IItem item, bool replace)
         {
             switch (item.WearLocation)
             {
@@ -2303,14 +2303,14 @@ namespace Mud.Server.Character
             }
         }
 
-        protected EquippedItem SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
+        protected IEquippedItem SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
         {
             if (replace) // search empty slot, if not found, return first matching slot
                 return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == equipmentSlot);
             return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null);
         }
 
-        protected EquippedItem SearchTwoHandedWeaponEquipmentSlot(bool replace)
+        protected IEquippedItem SearchTwoHandedWeaponEquipmentSlot(bool replace)
         {
             // Search empty mainhand + empty offhand (no autoreplace) // TODO can wield 2H on one hand if size giant or specific ability
             var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
@@ -2320,7 +2320,7 @@ namespace Mud.Server.Character
             return null;
         }
 
-        protected EquippedItem SearchOneHandedWeaponEquipmentSlot(bool replace)
+        protected IEquippedItem SearchOneHandedWeaponEquipmentSlot(bool replace)
         {
             // Search empty mainhand, then empty offhand only if mainhand is not wielding a 2H
             if (replace)
@@ -2347,7 +2347,7 @@ namespace Mud.Server.Character
             }
         }
 
-        protected EquippedItem SearchOffhandEquipmentSlot(bool replace)
+        protected IEquippedItem SearchOffhandEquipmentSlot(bool replace)
         {
             // This can lead to strange looking equipments:
             // wield 1-H weapon -> first main hand

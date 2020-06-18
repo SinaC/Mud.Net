@@ -131,6 +131,7 @@
     <Compile Include="Character\Communication\Yell.cs" />
     <Compile Include="Character\Communication\Say.cs" />
     <Compile Include="Character\Combat\Consider.cs" />
+    <Compile Include="Character\EquippedItem.cs" />
     <Compile Include="Character\Information\Equipment.cs" />
     <Compile Include="Character\Information\Examine.cs" />
     <Compile Include="Character\Information\Exits.cs" />

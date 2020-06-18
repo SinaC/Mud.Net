@@ -27,7 +27,7 @@ namespace Mud.Server.Rom24.Spells
             {
                 bool recompute = false;
                 // Check equipments
-                foreach (EquippedItem equippedItem in Victim.Equipments.Where(x => x.Item != null))
+                foreach (IEquippedItem equippedItem in Victim.Equipments.Where(x => x.Item != null))
                 {
                     IItem item = equippedItem.Item;
                     if (!item.ItemFlags.HasFlag(ItemFlags.BurnProof)

@@ -496,7 +496,7 @@ namespace Mud.Server.Room
                                             // try to equip
                                             if (item.WearLocation != WearLocations.None)
                                             {
-                                                EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
+                                                IEquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
                                                 if (equippedItem != null)
                                                 {
                                                     equippedItem.Item = item;
