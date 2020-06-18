@@ -262,6 +262,25 @@ namespace Mud.Server.Item
             Level++;
         }
 
+        public virtual StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay)
+        {
+            // Item flags
+            if (ItemFlags.HasFlag(ItemFlags.Invis) && viewer.CharacterFlags.HasFlag(CharacterFlags.DetectInvis)) sb.Append("%y%(Invis)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Evil) && viewer.CharacterFlags.HasFlag(CharacterFlags.DetectEvil)) sb.Append("%R%(Evil)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Bless) && viewer.CharacterFlags.HasFlag(CharacterFlags.DetectGood)) sb.Append("%C%(Blessed)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Magic) && viewer.CharacterFlags.HasFlag(CharacterFlags.DetectMagic)) sb.Append("%b%(Magical)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Glowing)) sb.Append("%Y%(Glowing)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Humming)) sb.Append("%y%(Humming)%x%");
+
+            // Description
+            if (shortDisplay)
+                sb.Append(RelativeDisplayName(viewer));
+            else
+                sb.Append(RelativeDescription(viewer));
+            //
+            return sb;
+        }
+
         public void ApplyAffect(IItemFlagsAffect affect)
         {
             switch (affect.Operator)

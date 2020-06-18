@@ -21,7 +21,6 @@ namespace Mud.Server.Admin.Information
 
         public abstract AbilityTypes? AbilityTypesFilter { get; }
 
-
         protected AbilitiesAdminGameActionBase(IAbilityManager abilityManager, IClassManager classManager, IRaceManager raceManager)
         {
             AbilityManager = abilityManager;

@@ -137,7 +137,7 @@ namespace Mud.Server.Aura
             Source = null;
         }
 
-        public void Append(StringBuilder sb, bool shortDisplay = false)
+        public StringBuilder Append(StringBuilder sb, bool shortDisplay = false)
         {
             // TODO // if lvl < 10: only ability
             // TODO // if lvl < 15: only ability and duration
@@ -162,6 +162,8 @@ namespace Mud.Server.Aura
                     affect.Append(sb);
                     sb.AppendLine();
                 }
+
+            return sb;
         }
 
         public virtual AuraData MapAuraData()

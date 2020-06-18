@@ -17,7 +17,6 @@ namespace Mud.Server.Helpers
     {
         public static readonly Lazy<TableGenerator<IAbilityLearned>> LearnedAbilitiesTableGenerator = new Lazy<TableGenerator<IAbilityLearned>>(() =>
         {
-            // Merge resource and cost if free cost ability
             TableGenerator<IAbilityLearned> generator = new TableGenerator<IAbilityLearned>();
             generator.AddColumn("Lvl", 5, x => x.Level.ToString());
             generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbilityLearned>.ColumnOptions { AlignLeft = true });
@@ -42,7 +41,7 @@ namespace Mud.Server.Helpers
                         return "???";
                 }
                 else
-                    return "%W%free cost ability%x%";
+                    return "%W%free%x%";
             });
             generator.AddColumn("Pra%", 6, 
                 x =>
@@ -117,7 +116,6 @@ namespace Mud.Server.Helpers
 
         public static readonly Lazy<TableGenerator<IAbilityInfo>> FullInfoAbilityTableGenerator = new Lazy<TableGenerator<IAbilityInfo>>(() =>
         {
-            // Merge resource and cost if free cost ability
             TableGenerator<IAbilityInfo> generator = new TableGenerator<IAbilityInfo>();
             generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbilityInfo>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Type", 9, x => x.Type.ToString());
@@ -139,7 +137,7 @@ namespace Mud.Server.Helpers
                 x =>
                 {
                     if (x.AbilityInfo.Type == AbilityTypes.Passive)
-                        return "%m%passive ability%x%";
+                        return "%m%passive%x%";
                     if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                     {
                         if (x.ResourceKind.HasValue)

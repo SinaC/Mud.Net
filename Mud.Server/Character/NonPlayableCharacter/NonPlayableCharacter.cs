@@ -9,6 +9,7 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Character.Combat;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Ability;
@@ -658,9 +659,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
         protected override void AfterMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
         {
             if (IncarnatedBy != null)
-            {
                 AutoLook();
-            }
         }
 
         protected override void HandleDeath()
@@ -674,7 +673,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             {
                 if ((ActFlags.HasFlag(ActFlags.Wimpy) && HitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
                     || (CharacterFlags.HasFlag(CharacterFlags.Charm) && Master != null && Master.Room != Room))
-                    DoFlee(null, null);
+                    Flee();
             }
         }
 

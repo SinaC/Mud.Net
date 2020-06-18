@@ -1515,11 +1515,58 @@ namespace Mud.Server.Character
             }
             return false;
         }
-        
+
+        public bool Flee()
+        {
+            if (Fighting == null)
+                return false;
+
+            IRoom from = Room;
+
+            // Try 6 times to find an exit
+            for (int attempt = 0; attempt < 6; attempt++)
+            {
+                ExitDirections randomExit = RandomManager.Random<ExitDirections>();
+                IExit exit = Room.Exits[(int) randomExit];
+                IRoom destination = exit?.Destination;
+                if (destination != null && !exit.IsClosed
+                                        && !(this is INonPlayableCharacter && destination.RoomFlags.HasFlag(RoomFlags.NoMob)))
+                {
+                    // Try to move without checking if in combat or not
+                    Move(randomExit, false);
+                    if (Room != from) // successful only if effectively moved away
+                    {
+                        //
+                        StopFighting(true);
+                        //
+                        Send("You flee from combat!");
+                        Act(from.People, "{0} has fled!", this);
+
+                        if (this is IPlayableCharacter pc)
+                        {
+                            Send("You lost 10 exp.");
+                            pc.GainExperience(-10);
+                        }
+
+                        return true;
+                    }
+                }
+            }
+            Send("PANIC! You couldn't escape!");
+            return false;
+        }
+
         // Abilities
         public abstract (int percentage, IAbilityLearned abilityLearned) GetWeaponLearnedInfo(IItemWeapon weapon);
 
         public abstract (int percentage, IAbilityLearned abilityLearned) GetAbilityLearnedInfo(string abilityName);
+
+        public IAbilityLearned GetAbilityLearned(string abilityName)
+        {
+            if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
+                return null;
+            return abilityLearned;
+        }
 
         public IDictionary<string, int> AbilitiesInCooldown => _cooldownsPulseLeft;
 
@@ -2292,13 +2339,6 @@ namespace Mud.Server.Character
                     affect.Apply(this);
                 }
             }
-        }
-
-        protected IAbilityLearned GetAbilityLearned(string abilityName)
-        {
-            if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
-                return null;
-            return abilityLearned;
         }
 
         protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn)

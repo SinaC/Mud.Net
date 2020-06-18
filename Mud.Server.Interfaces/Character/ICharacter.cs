@@ -175,10 +175,12 @@ namespace Mud.Server.Interfaces.Character
         bool SavesSpell(int level, SchoolTypes damageType);
         bool IsSafeSpell(ICharacter caster, bool area);
         bool IsSafe(ICharacter aggressor);
+        bool Flee();
 
         // Abilities
         (int percentage, IAbilityLearned abilityLearned) GetWeaponLearnedInfo(IItemWeapon weapon);
         (int percentage, IAbilityLearned abilityLearned) GetAbilityLearnedInfo(string abilityName); // percentage is dynamically computed and can be different than abilityLearned.Learned
+        IAbilityLearned GetAbilityLearned(string abilityName);
         IDictionary<string, int> AbilitiesInCooldown { get; }
         bool HasAbilitiesInCooldown { get; }
         int CooldownPulseLeft(string abilityName); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)

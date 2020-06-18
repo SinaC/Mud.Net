@@ -1,5 +1,8 @@
 ﻿using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Room;
+using Mud.Settings;
 
 namespace Mud.Server.Admin
 {
@@ -9,6 +12,19 @@ namespace Mud.Server.Admin
         "[cmd] <character>")]
     public class Impersonate : AdminGameAction
     {
+        private IRoomManager RoomManager { get; }
+        private ICharacterManager CharacterManager { get; }
+        private ISettings Settings { get; }
+        private IWiznet Wiznet { get; }
+
+        public Impersonate(IRoomManager roomManager, ICharacterManager characterManager, ISettings settings, IWiznet wiznet)
+        {
+            RoomManager = roomManager;
+            CharacterManager = characterManager;
+            Settings = settings;
+            Wiznet = wiznet;
+        }
+
         public override string Guards(IActionInput actionInput)
         {
             string baseGuards = base.Guards(actionInput);
@@ -23,13 +39,14 @@ namespace Mud.Server.Admin
 
         public override void Execute(IActionInput actionInput)
         {
-            // TODO:
-            // playerCommand = new Player.Impersonate();
-            // build player game action
-            // playerCommand.Guards();
-            // if no guards
-            //      playerCommand .Execute();
-            //return base.DoImpersonate(rawParameters, parameters);
+            Player.Avatar.Impersonate impersonate = new Player.Avatar.Impersonate(RoomManager, CharacterManager, Settings, Wiznet);
+
+            string guards = impersonate.Guards(actionInput);
+
+            if (guards != null)
+                Actor.Send(guards);
+            else
+                impersonate.Execute(actionInput);
         }
     }
 }

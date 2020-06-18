@@ -46,6 +46,16 @@ namespace Mud.Server.GameAction
             return instance;
         }
 
+        //public IGameActionInfo GetGameActionInfo(string name, Type actorType)
+        //{
+        //    if (!_gameActions.Contains(name))
+        //        return null;
+        //    Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
+        //    var gameActionInfos = _gameActions[name];
+        //    var gameActionInfo = PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, name, gameActionInfos, x => x.CommandExecutionType);
+        //    return gameActionInfo;
+        //}
+
         public IActionInput CreateActionInput<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
             where TActor: IActor
         {
@@ -113,17 +123,13 @@ namespace Mud.Server.GameAction
             Type iGameActionType = typeof(IGameAction);
             Type commandAttributeType = typeof(CommandAttribute);
 
-            Type[] actorTypeSortedImplementedInterfaces = actorType.GetInterfaces()
-                .Select(i => new { implementedInterface = i, level = GetNestedLevel(i) })
-                .OrderByDescending(x => x.level)
-                .Select(x => x.implementedInterface)
-                .ToArray();
+            Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
 
             return assembly.GetTypes()
                 .Where(t => !t.IsAbstract && iGameActionType.IsAssignableFrom(t) && t.GetCustomAttributes(commandAttributeType, false).Any())
                 .GroupBy(t => t.Name)
                 .OrderBy(g => g.Key)
-                .Select(g => PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, g))
+                .Select(g => PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x))
                 .Where(x => x != null)
                 .Select(t => new { executionType = t, attributes = GetCommandAndSyntaxAttributes(t) })
                 .SelectMany(x => x.attributes.commandAttributes,
@@ -146,14 +152,58 @@ namespace Mud.Server.GameAction
             return (commandAttributes, syntaxCommandAttribute);
         }
 
-        private static Type PolymorphismSimulator(Type actorType, Type[] actorTypeSortedImplementedInterfaces, IGrouping<string, Type> typeByNames)
+        private static Type[] GetSortedImplementedInterfaces(Type actorType)
         {
-            Type bestType = null;
+            return actorType.GetInterfaces()
+                .Select(i => new { implementedInterface = i, level = GetNestedLevel(i) })
+                .OrderByDescending(x => x.level)
+                .Select(x => x.implementedInterface)
+                .ToArray();
+        }
+
+        //private static Type PolymorphismSimulator(Type actorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<Type> typeByNames)
+        //{
+        //    Type bestType = null;
+        //    int bestLevel = int.MaxValue;
+        //    foreach (Type t in typeByNames) // foreach type on the same command name, search the one with the highest level of class nesting
+        //    {
+        //        bool doneWithThisType = false;
+        //        Type baseType = t.BaseType;
+        //        while (baseType != null)
+        //        {
+        //            if (baseType.GenericTypeArguments?.Length > 0)
+        //            {
+        //                for (int i = 0; i < actorTypeSortedImplementedInterfaces.Length; i++)
+        //                    if (actorTypeSortedImplementedInterfaces[i] == baseType.GenericTypeArguments[0])
+        //                    {
+        //                        if (i < bestLevel)
+        //                        {
+        //                            bestType = t;
+        //                            bestLevel = i;
+        //                        }
+        //                        doneWithThisType = true;
+        //                        break;
+        //                    }
+        //            }
+
+        //            if (doneWithThisType)
+        //                break;
+        //            baseType = baseType.BaseType;
+        //        }
+        //    }
+        //    Debug.Print(actorType.Name + ": "+ name + " => " + bestType?.FullName ?? "???");
+        //    return bestType;
+        //}
+
+        private static T PolymorphismSimulator<T>(Type actorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<T> collection, Func<T,Type> selectorFunc)
+            where T: class
+        {
+            T best = default;
             int bestLevel = int.MaxValue;
-            foreach (Type t in typeByNames) // foreach type on the same command name, search the one with the highest level of class nesting
+            foreach (T t in collection) // foreach type on the same command name, search the one with the highest level of class nesting
             {
                 bool doneWithThisType = false;
-                Type baseType = t.BaseType;
+                Type baseType = selectorFunc(t).BaseType;
                 while (baseType != null)
                 {
                     if (baseType.GenericTypeArguments?.Length > 0)
@@ -163,7 +213,7 @@ namespace Mud.Server.GameAction
                             {
                                 if (i < bestLevel)
                                 {
-                                    bestType = t;
+                                    best = t;
                                     bestLevel = i;
                                 }
                                 doneWithThisType = true;
@@ -176,8 +226,8 @@ namespace Mud.Server.GameAction
                     baseType = baseType.BaseType;
                 }
             }
-            Debug.Print(actorType.Name + ": "+ typeByNames.Key + " => " + bestType?.FullName ?? "???");
-            return bestType;
+            Debug.Print(actorType.Name + ": " + name + " => " + (best == default ? "???" : selectorFunc(best).FullName));
+            return best;
         }
 
         private static int GetNestedLevel(Type type)

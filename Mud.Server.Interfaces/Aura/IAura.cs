@@ -32,7 +32,7 @@ namespace Mud.Server.Interfaces.Aura
         void OnRemoved(); // set IsValid, Ability, Source
 
         // Display
-        void Append(StringBuilder sb, bool shortDisplay = false);
+        StringBuilder Append(StringBuilder sb, bool shortDisplay = false);
 
         // Serialization
         AuraData MapAuraData();
