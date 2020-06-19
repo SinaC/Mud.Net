@@ -3,8 +3,8 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Player.Information
 {
-    [PlayerCommand("scroll", "Information")]
     [PlayerCommand("page", "Information")]
+    [Alias("scroll")]
     [Syntax(
             "[cmd]",
             "[cmd] <number>")]

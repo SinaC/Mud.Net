@@ -8,15 +8,15 @@ using System.Text;
 namespace Mud.Server.Admin.Information
 {
     [AdminCommand("iinfo", "Information")]
-    [AdminCommand("oinfo", "Information")]
+    [Alias("oinfo")]
     [Syntax("[cmd] <id>")]
-    public class Oinfo : AdminGameAction
+    public class Iinfo : AdminGameAction
     {
         private IItemManager ItemManager { get; }
 
         public ItemBlueprintBase Blueprint { get; protected set; }
 
-        public Oinfo(IItemManager itemManager)
+        public Iinfo(IItemManager itemManager)
         {
             ItemManager = itemManager;
         }

@@ -7,8 +7,9 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Information
 {
-    [CharacterCommand("saffects", "Information")]
-    [CharacterCommand("sauras", "Information")]
+    [CharacterCommand("shortaffects", "Information")]
+    [Alias("saffects")]
+    [Alias("sauras")]
     public class ShortAffects : CharacterGameAction
     {
         public override void Execute(IActionInput actionInput)

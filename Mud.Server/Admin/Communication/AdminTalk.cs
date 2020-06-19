@@ -5,8 +5,8 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Admin.Communication
 {
-    [AdminCommand("atalk", "Communication")]
     [AdminCommand("admintalk", "Communication")]
+    [Alias("atalk")]
     [Syntax("[cmd] <message>")]
     public class AdminTalk : AdminGameAction
     {

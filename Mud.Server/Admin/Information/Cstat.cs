@@ -14,7 +14,7 @@ using System.Text;
 namespace Mud.Server.Admin.Information
 {
     [AdminCommand("cstat", "Information")]
-    [AdminCommand("mstat", "Information")]
+    [Alias("mstat")]
     [Syntax("[cmd] <character>")]
     public class Cstat : AdminGameAction
     {

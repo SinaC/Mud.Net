@@ -4,9 +4,9 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.PlayableCharacter.Communication
 {
-    [PlayableCharacterCommand("gtell", "Group", "Communication")]
     [PlayableCharacterCommand("groupsay", "Group", "Communication", Priority = 1000)]
-    [PlayableCharacterCommand("gsay", "Group", "Communication")]
+    [Alias("gtell")]
+    [Alias("gsay")]
     [Syntax("[cmd] <message>")]
     public class GroupSay : PlayableCharacterGameAction
     {

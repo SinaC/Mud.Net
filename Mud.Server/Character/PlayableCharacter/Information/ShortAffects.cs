@@ -9,8 +9,9 @@ using System.Text;
 
 namespace Mud.Server.Character.PlayableCharacter.Information
 {
-    [PlayableCharacterCommand("saffects", "Information")]
-    [PlayableCharacterCommand("sauras", "Information")]
+    [PlayableCharacterCommand("shortaffects", "Information")]
+    [Alias("saffects")]
+    [Alias("sauras")]
     public class ShortAffects : PlayableCharacterGameAction
     {
         public override void Execute(IActionInput actionInput)

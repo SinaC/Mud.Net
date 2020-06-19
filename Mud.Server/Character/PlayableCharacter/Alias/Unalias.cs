@@ -4,8 +4,8 @@ using Mud.Server.Interfaces.GameAction;
 namespace Mud.Server.Character.PlayableCharacter.Alias
 {
     // TODO: exactly the same code in Mud.Server.Player.Alias
-    [PlayableCharacterCommand("unmacro", "Misc")]
     [PlayableCharacterCommand("unalias", "Misc")]
+    [Alias("unmacro")]
     [Syntax("[cmd] <word>")]
     public class Unalias : PlayableCharacterGameAction
     {

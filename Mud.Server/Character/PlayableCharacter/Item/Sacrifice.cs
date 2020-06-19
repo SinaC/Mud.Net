@@ -10,9 +10,9 @@ using System.Linq;
 
 namespace Mud.Server.Character.PlayableCharacter.Item
 {
-    [PlayableCharacterCommand("tap", "Item", MinPosition = Positions.Standing)]
-    [PlayableCharacterCommand("junk", "Item", MinPosition = Positions.Standing)]
     [PlayableCharacterCommand("sacrifice", "Item", MinPosition = Positions.Standing)]
+    [Alias("tap")]
+    [Alias("junk")]
     [Syntax(
             "[cmd] all",
             "[cmd] <item>")]

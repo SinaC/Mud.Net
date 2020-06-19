@@ -8,8 +8,8 @@ using System.Text;
 
 namespace Mud.Server.Actor
 {
-    [Command("cmd", Priority = 0)]
     [Command("commands", Priority = 0)]
+    [Alias("cmd")]
     [Syntax(
             "[cmd]",
             "[cmd] all",
@@ -21,15 +21,6 @@ namespace Mud.Server.Actor
         public bool ShouldDisplayCategories { get; protected set; }
         public Func<string, bool> CategoryFilter { get; protected set; }
 
-        public override void Execute(IActionInput actionInput)
-        {
-            // Display categories
-            if (ShouldDisplayCategories)
-                DisplayCategories();
-            else
-                DisplayCommands();
-        }
-
         public override string Guards(IActionInput actionInput)
         {
             string baseGuards = base.Guards(actionInput);
@@ -38,7 +29,7 @@ namespace Mud.Server.Actor
 
             if (actionInput.Parameters.Length == 0)
                 ShouldDisplayCategories = true;
-            else 
+            else
             {
                 ShouldDisplayCategories = false;
                 // If a parameter is specified, filter on category unless parameter is 'all'
@@ -50,27 +41,35 @@ namespace Mud.Server.Actor
             return null;
         }
 
+        public override void Execute(IActionInput actionInput)
+        {
+            // Display categories
+            if (ShouldDisplayCategories)
+                DisplayCategories();
+            else
+                DisplayCommands();
+        }
+
         private void DisplayCategories()
         {
             IEnumerable<KeyValuePair<string, IGameActionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.Hidden);
 
-            StringBuilder categoriesSb = new StringBuilder();
-            categoriesSb.AppendLine("Available categories:%W%");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Available categories:%W%");
             int index = 0;
             foreach (var category in filteredCommands
                 .SelectMany(x => x.Value.Categories.Where(c => !string.IsNullOrWhiteSpace(c)))
                 .Distinct()
                 .OrderBy(x => x))
             {
+                sb.AppendFormat("{0,-14}", category);
                 if ((++index % columnCount) == 0)
-                    categoriesSb.AppendFormatLine("{0,-14}", category);
-                else
-                    categoriesSb.AppendFormat("{0,-14}", category);
+                    sb.AppendLine();
             }
             if (index > 0 && index % columnCount != 0)
-                categoriesSb.AppendLine();
-            categoriesSb.Append("%x%");
-            Actor.Send(categoriesSb);
+                sb.AppendLine();
+            sb.Append("%x%");
+            Actor.Page(sb);
         }
 
         private void DisplayCommands()
@@ -82,21 +81,20 @@ namespace Mud.Server.Actor
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Available commands:");
             foreach (var cmdByCategory in filteredCommands
-                .SelectMany(x => x.Value.Categories.Where(CategoryFilter), (kv, category) => new { category, cmi = kv.Value })
-                .GroupBy(x => x.category, (category, group) => new { category, commands = group.Select(x => x.cmi) })
+                .SelectMany(x => x.Value.Categories.Where(CategoryFilter), (kv, category) => new { category, name = kv.Key, priority = kv.Value.Priority })
+                .GroupBy(x => x.category, (category, group) => new { category, commands = group})
                 .OrderBy(g => g.category))
             {
                 if (!string.IsNullOrEmpty(cmdByCategory.category))
                     sb.AppendLine("%W%" + cmdByCategory.category + ":%x%");
                 int index = 0;
-                foreach (IGameActionInfo ci in cmdByCategory.commands
-                    .OrderBy(x => x.Priority)
-                    .ThenBy(x => x.Name))
+                foreach (var cmdInfo in cmdByCategory.commands
+                    .OrderBy(x => x.priority)
+                    .ThenBy(x => x.name))
                 {
+                    sb.AppendFormat("{0,-14}", cmdInfo.name);
                     if ((++index % columnCount) == 0)
-                        sb.AppendFormatLine("{0,-14}", ci.Name);
-                    else
-                        sb.AppendFormat("{0,-14}", ci.Name);
+                        sb.AppendLine();
                 }
                 if (index > 0 && index % columnCount != 0)
                     sb.AppendLine();

@@ -11,8 +11,8 @@ using System.Linq;
 
 namespace Mud.Server.Character.PlayableCharacter.Quest
 {
-    [PlayableCharacterCommand("qget", "Quest", Priority = 4, MinPosition = Positions.Standing)]
     [PlayableCharacterCommand("questget", "Quest", Priority = 4, MinPosition = Positions.Standing)]
+    [Alias("qget")]
     [Syntax(
             "[cmd] <quest name>",
             "[cmd] all")]

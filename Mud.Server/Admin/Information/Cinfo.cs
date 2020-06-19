@@ -10,7 +10,7 @@ using System.Text;
 namespace Mud.Server.Admin.Information
 {
     [AdminCommand("cinfo", "Information")]
-    [AdminCommand("minfo", "Information")]
+    [Alias("minfo")]
     [Syntax("[cmd] <id>")]
     public class Cinfo : AdminGameAction
     {

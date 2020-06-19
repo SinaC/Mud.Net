@@ -4,8 +4,8 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Movement
 {
-    [CharacterCommand("northeast", "Movement", Priority = 2, MinPosition = Positions.Standing)]
-    [CharacterCommand("ne", "Movement", Priority = 1, MinPosition = Positions.Standing)]
+    [CharacterCommand("northeast", "Movement", Priority = 1, MinPosition = Positions.Standing)]
+    [Alias("ne")]
     public class NorthEast : CharacterGameAction
     {
         public override void Execute(IActionInput actionInput)

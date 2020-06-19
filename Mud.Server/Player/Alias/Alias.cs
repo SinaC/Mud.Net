@@ -6,8 +6,8 @@ using System.Linq;
 namespace Mud.Server.Player.Alias
 {
     // TODO: exactly the same code in Mud.Server.Character.PlayableCharacter.Alias
-    [PlayerCommand("macro", "Misc")]
     [PlayerCommand("alias", "Misc")]
+    [Alias("macro")]
     [Syntax(
             "[cmd]",
             "[cmd] <word>",
