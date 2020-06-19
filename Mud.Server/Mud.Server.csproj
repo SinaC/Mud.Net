@@ -191,6 +191,9 @@
     <Compile Include="Character\PlayableCharacter\Group\Group.cs" />
     <Compile Include="Character\PlayableCharacter\Group\Leave.cs" />
     <Compile Include="Character\PlayableCharacter\Group\Order.cs" />
+    <Compile Include="Character\PlayableCharacter\Information\Affects.cs" />
+    <Compile Include="Character\PlayableCharacter\Information\Auto.cs" />
+    <Compile Include="Character\PlayableCharacter\Information\ShortAffects.cs" />
     <Compile Include="Helpers\ItemsHelpers.cs" />
     <Compile Include="Player\Account\AccountGameActionBase.cs" />
     <Compile Include="Player\Account\Delete.cs" />
@@ -223,7 +226,6 @@
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\Impersonate.cs" />
-    <Compile Include="Character\PlayableCharacter\InfoCommands.cs" />
     <Compile Include="Character\PlayableCharacter\MiscCommands.cs" />
     <Compile Include="Character\PlayableCharacter\ShopCommands.cs" />
     <Compile Include="Group\Group.cs" />
@@ -366,9 +368,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Character\PlayableCharacter\Information\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

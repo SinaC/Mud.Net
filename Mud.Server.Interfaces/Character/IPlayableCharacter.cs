@@ -23,6 +23,8 @@ namespace Mud.Server.Interfaces.Character
         void UpdateTrainsAndPractices(int trainsAmount, int practicesAmount);
 
         AutoFlags AutoFlags { get; }
+        void AddAutoFlags(AutoFlags autoFlags);
+        void RemoveAutoFlags(AutoFlags autoFlags);
 
         // Conditions: drunk, full, thirst, hunger
         int this[Conditions condition] { get; }

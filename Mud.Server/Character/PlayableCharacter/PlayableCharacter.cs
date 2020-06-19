@@ -556,6 +556,16 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public AutoFlags AutoFlags { get; protected set; }
 
+        public void AddAutoFlags(AutoFlags autoFlags)
+        {
+            AutoFlags |= autoFlags;
+        }
+
+        public void RemoveAutoFlags(AutoFlags autoFlags)
+        {
+            AutoFlags &= ~autoFlags;
+        }
+
         public int this[Conditions condition]
         {
             get
