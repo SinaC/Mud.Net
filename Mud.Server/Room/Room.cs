@@ -321,6 +321,30 @@ namespace Mud.Server.Room
             return sb;
         }
 
+        public (IExit exit, ExitDirections exitDirection) VerboseFindDoor(ICharacter character, ICommandParameter parameter)
+        {
+            bool found = FindDoor(character, parameter, out var exitDirection, out var wasAskingForDirection);
+            if (!found)
+            {
+                //  if open north -> I see no door north here.
+                //  if open black door -> I see no black door here.
+                if (wasAskingForDirection)
+                    character.Send($"I see no door {parameter.Value} here.");
+                else
+                    character.Send($"I see no {parameter.Value} here.");
+                return (null, ExitDirections.North);
+            }
+            IExit exit = this[exitDirection];
+            if (exit == null)
+                return (null, ExitDirections.North);
+            if (!exit.IsDoor)
+            {
+                character.Send("You can't do that.");
+                return (null, ExitDirections.North);
+            }
+            return (exit, exitDirection);
+        }
+
         public void ResetRoom()
         {
             INonPlayableCharacter lastCharacter = null;
@@ -611,6 +635,27 @@ namespace Mud.Server.Room
             }
 
             return sb;
+        }
+
+        protected bool FindDoor(ICharacter character, ICommandParameter parameter, out ExitDirections exitDirection, out bool wasAskingForDirection)
+        {
+            if (ExitDirectionsExtensions.TryFindDirection(parameter.Value, out exitDirection))
+            {
+                wasAskingForDirection = true;
+                return true;
+            }
+            wasAskingForDirection = false;
+            //exit = Room.Exits.FirstOrDefault(x => x?.Destination != null && x.IsDoor && x.Keywords.Any(k => FindHelpers.StringStartsWith(k, parameter.Value)));
+            foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
+            {
+                IExit exit = this[direction];
+                if (exit?.Destination != null && exit.IsDoor && exit.Keywords.Any(k => StringCompareHelpers.StringStartsWith(k, parameter.Value)))
+                {
+                    exitDirection = direction;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

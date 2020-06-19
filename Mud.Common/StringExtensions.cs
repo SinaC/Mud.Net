@@ -30,7 +30,7 @@ namespace Mud.Common
 
         public static string MaxLength(this string input, int length) => input?.Substring(0, Math.Min(length, input.Length));
 
-        public static string ToPascalCase(this string s) => string.Join(" ", s.Split(' ').Select(token => char.ToUpperInvariant(token[0]) + token.Substring(1)));
+        public static string ToPascalCase(this string s) => string.Join(" ", s.Split(' ').Select(token => token == "of" ? token : char.ToUpperInvariant(token[0]) + token.Substring(1)));
 
         public static string Quoted(this string s)
             => s == null

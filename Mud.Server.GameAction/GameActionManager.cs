@@ -67,22 +67,10 @@ namespace Mud.Server.GameAction
 
         private IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
         {
-            switch (commandAttribute)
-            {
-                case AdminCommandAttribute adminCommandAttribute:
-                    return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute);
-                case PlayerCommandAttribute playerCommandAttribute:
-                    return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute);
-                case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
-                    return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute);
-                case CharacterCommandAttribute characterCommandAttribute:
-                    return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute);
-                default:
-                    return new GameActionInfo(type, commandAttribute, syntaxAttribute);
-            }
+            return CreateGameActionInfoStatic(type, commandAttribute, syntaxAttribute);
         }
 
-        private static GameActionInfo CreateGameActionInfoStatic(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
+        private static IGameActionInfo CreateGameActionInfoStatic(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
         {
             switch (commandAttribute)
             {

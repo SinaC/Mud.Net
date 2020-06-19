@@ -34,5 +34,15 @@ namespace Mud.Server.GameAction
             RawParameters = rawParameters;
             Parameters = parameters;
         }
+
+        public ActionInput(IActionInput actionInput, IActor actor) // clone but changes actor
+        {
+            GameActionInfo = actionInput.GameActionInfo;
+            Actor = actor;
+            CommandLine = actionInput.CommandLine;
+            Command = actionInput.Command;
+            RawParameters = actionInput.RawParameters;
+            Parameters = actionInput.Parameters;
+        }
     }
 }
