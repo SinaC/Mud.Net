@@ -21,7 +21,7 @@
       <Sex>1</Sex>
       <Size>2</Size>
       <HitPoints>109</HitPoints>
-      <MovePoints>96</MovePoints>
+      <MovePoints>49</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -51,7 +51,7 @@
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>65</ItemFlags>
             <Auras />
-            <TimeLeft>29997</TimeLeft>
+            <TimeLeft>29996</TimeLeft>
           </Item>
         </EquippedItemData>
         <EquippedItemData>
@@ -134,8 +134,8 @@
             <Auras>
               <AuraData>
                 <AbilityName>Envenom</AbilityName>
-                <Level>4</Level>
-                <PulseLeft>1444</PulseLeft>
+                <Level>1</Level>
+                <PulseLeft>1124</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -172,35 +172,35 @@
         </EquippedItemData>
       </Equipments>
       <Inventory>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
         </ItemData>
-        <ItemData xsi:type="ItemLightData">
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
-          <Auras />
-          <TimeLeft>29998</TimeLeft>
-        </ItemData>
-        <ItemData>
-          <ItemId>3353</ItemId>
-          <Level>5</Level>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
           <ItemFlags>0</ItemFlags>
           <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
         </ItemData>
-        <ItemData xsi:type="ItemLightData">
-          <ItemId>3365</ItemId>
-          <Level>8</Level>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>65</ItemFlags>
+          <ItemFlags>0</ItemFlags>
           <Auras />
-          <TimeLeft>29998</TimeLeft>
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
         </ItemData>
       </Inventory>
       <Auras />
@@ -267,9 +267,9 @@
         </PairDataOfInt32Int32>
       </Attributes>
       <CreationTime>2020-06-14T19:17:42.1765039+02:00</CreationTime>
-      <RoomId>3025</RoomId>
-      <SilverCoins>480</SilverCoins>
-      <GoldCoins>0</GoldCoins>
+      <RoomId>3020</RoomId>
+      <SilverCoins>695</SilverCoins>
+      <GoldCoins>10</GoldCoins>
       <Experience>100000</Experience>
       <Alignment>0</Alignment>
       <Trains>40</Trains>
@@ -1500,22 +1500,22 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>38</Value>
+          <Value>44</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>43</Value>
+          <Value>42</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>43</Value>
+          <Value>48</Value>
         </PairDataOfInt32Int32>
       </Conditions>
       <Aliases />
       <Cooldowns>
         <PairDataOfStringInt32>
           <Key>Test</Key>
-          <Value>1348</Value>
+          <Value>1028</Value>
         </PairDataOfStringInt32>
       </Cooldowns>
       <Pets>

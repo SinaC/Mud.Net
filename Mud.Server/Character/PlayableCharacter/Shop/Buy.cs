@@ -35,7 +35,7 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
                 return BuildCommandSyntax();
             if (actionInput.Parameters.Length >= 2 && !actionInput.Parameters[0].IsNumber)
                 return BuildCommandSyntax();
-            int count = actionInput.Parameters.Length >= 2
+            Count = actionInput.Parameters.Length >= 2
                 ? actionInput.Parameters[0].AsNumber
                 : 1;
             ICommandParameter itemParameter = actionInput.Parameters.Length >= 2
@@ -46,14 +46,14 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
             int cost = GetBuyCost(Keeper.shopBlueprint, What);
             if (What == null || cost <= 0)
                 return Actor.ActPhrase("{0:N} tells you 'I don't sell that -- try 'list''.", Keeper.shopKeeper);
-            if (count <= 0 || count > 10)
+            if (Count <= 0 || Count > 10)
                 return "Number must be between 1 and 10";
             // can afford ?
-            TotalCost = cost * count;
+            TotalCost = cost * Count;
             long wealth = Actor.SilverCoins + Actor.GoldCoins * 100;
             if (TotalCost > wealth)
             {
-                if (count == 1)
+                if (Count == 1)
                     return Actor.ActPhrase("{0:N} tells you 'You can't afford to buy {1}'.", Keeper.shopKeeper, What);
                 else
                 {
@@ -62,20 +62,20 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
                     if (affordableCount > 0)
                         return Actor.ActPhrase("{0:N} tells you 'You can only afford {1} of these'.", Keeper.shopKeeper, affordableCount);
                     else
-                        return Actor.ActPhrase("{0:N} tells you '{1}? You must be kidding - you can't even afford a single one, let alone {2}!'", Keeper.shopKeeper, What, count);
+                        return Actor.ActPhrase("{0:N} tells you '{1}? You must be kidding - you can't even afford a single one, let alone {2}!'", Keeper.shopKeeper, What, Count);
                 }
             }
             // can use item ?
             if (What.Level > Actor.Level)
                 return Actor.ActPhrase("{0:N} tells you 'You can't use {1} yet'.", Keeper.shopKeeper, What);
             // can carry more items ?
-            if (Actor.CarryNumber + What.CarryCount * count > Actor.MaxCarryNumber)
+            if (Actor.CarryNumber + What.CarryCount * Count > Actor.MaxCarryNumber)
                 return "You can't carry that many items.";
             // can carry more weight ?
-            if (Actor.CarryWeight + What.TotalWeight * count > Actor.MaxCarryWeight)
+            if (Actor.CarryWeight + What.TotalWeight * Count > Actor.MaxCarryWeight)
                 return "You can't carry that much weight.";
             // check for object sold to the keeper
-            if (count > 1 && !What.ItemFlags.HasFlag(ItemFlags.Inventory))
+            if (Count > 1 && !What.ItemFlags.HasFlag(ItemFlags.Inventory))
                 return Actor.ActPhrase("{0:N} tells you 'Sorry - {1} is something I have only one of'.", Keeper.shopKeeper, What);
             return null;
         }

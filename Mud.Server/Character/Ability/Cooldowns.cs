@@ -35,19 +35,20 @@ namespace Mud.Server.Character.Ability
         {
             if (AbilityLearned == null)
             {
-                if (Actor.AbilitiesInCooldown.Any())
+                if (!Actor.AbilitiesInCooldown.Any())
                 {
-                    StringBuilder sb = new StringBuilder();
-                    sb.AppendLine("%c%Following abilities are in cooldown:%x%");
-                    foreach (var cooldown in Actor.AbilitiesInCooldown
-                        .Select(x => new { AbilityName = x.Key, SecondsLeft = x.Value / Pulse.PulsePerSeconds })
-                        .OrderBy(x => x.SecondsLeft))
-                    {
-                        sb.AppendFormatLine("%B%{0}%x% is in cooldown for %W%{1}%x%.", cooldown.AbilityName, cooldown.SecondsLeft.FormatDelay());
-                    }
-                    Actor.Send(sb);
+                    Actor.Send("%c%No abilities in cooldown.%x%");
+                    return;
                 }
-                Actor.Send("%c%No abilities in cooldown.%x%");
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("%c%Following abilities are in cooldown:%x%");
+                foreach (var cooldown in Actor.AbilitiesInCooldown
+                    .Select(x => new { AbilityName = x.Key, SecondsLeft = x.Value / Pulse.PulsePerSeconds })
+                    .OrderBy(x => x.SecondsLeft))
+                {
+                    sb.AppendFormatLine("%B%{0}%x% is in cooldown for %W%{1}%x%.", cooldown.AbilityName, cooldown.SecondsLeft.FormatDelay());
+                }
+                Actor.Send(sb);
                 return;
             }
             int pulseLeft = Actor.CooldownPulseLeft(AbilityLearned.Name);
