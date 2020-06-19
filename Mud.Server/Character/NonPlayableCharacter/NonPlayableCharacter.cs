@@ -70,18 +70,18 @@ namespace Mud.Server.Character.NonPlayableCharacter
             // TODO: see db.C:Create_Mobile
             // TODO: following values must be extracted from blueprint
             int baseValue = Math.Min(25, 11 + Level / 4);
-            SetBaseAttributes(CharacterAttributes.Strength, baseValue, false);
-            SetBaseAttributes(CharacterAttributes.Intelligence, baseValue, false);
-            SetBaseAttributes(CharacterAttributes.Wisdom, baseValue, false);
-            SetBaseAttributes(CharacterAttributes.Dexterity, baseValue, false);
-            SetBaseAttributes(CharacterAttributes.Constitution, baseValue, false);
+            SetBaseAttributes(CharacterAttributes.Strength, baseValue, false); // TODO
+            SetBaseAttributes(CharacterAttributes.Intelligence, baseValue, false); // TODO
+            SetBaseAttributes(CharacterAttributes.Wisdom, baseValue, false); // TODO
+            SetBaseAttributes(CharacterAttributes.Dexterity, baseValue, false); // TODO
+            SetBaseAttributes(CharacterAttributes.Constitution, baseValue, false); // TODO
             // TODO: use Act/Off/size to change values
             int maxHitPoints = RandomManager.Dice(blueprint.HitPointDiceCount, blueprint.HitPointDiceValue) + blueprint.HitPointDiceBonus;
             SetBaseAttributes(CharacterAttributes.MaxHitPoints, maxHitPoints, false); // OK
-            SetBaseAttributes(CharacterAttributes.SavingThrow, 0, false);
+            SetBaseAttributes(CharacterAttributes.SavingThrow, 0, false); // TODO
             SetBaseAttributes(CharacterAttributes.HitRoll, blueprint.HitRollBonus, false); // OK
-            SetBaseAttributes(CharacterAttributes.DamRoll, Level, false);
-            SetBaseAttributes(CharacterAttributes.MaxMovePoints, 1000, false);
+            SetBaseAttributes(CharacterAttributes.DamRoll, Level, false); // TODO
+            SetBaseAttributes(CharacterAttributes.MaxMovePoints, 1000, false); // TODO
             SetBaseAttributes(CharacterAttributes.ArmorBash, blueprint.ArmorBash, false); // OK
             SetBaseAttributes(CharacterAttributes.ArmorPierce, blueprint.ArmorPierce, false); // OK
             SetBaseAttributes(CharacterAttributes.ArmorSlash, blueprint.ArmorSlash, false); // OK

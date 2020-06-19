@@ -139,8 +139,10 @@ namespace Mud.Server.Interfaces.Character
 
         // Attributes
         int BaseAttribute(CharacterAttributes attribute);
-        int MaxResource(ResourceKinds resource);
-        void UpdateResource(ResourceKinds resource, int amount);
+        void UpdateBaseAttribute(CharacterAttributes attribute, int amount);
+        int MaxResource(ResourceKinds resourceKind);
+        void UpdateMaxResource(ResourceKinds resourceKind, int amount);
+        void UpdateResource(ResourceKinds resourceKind, int amount);
         void UpdateHitPoints(int amount);
         void UpdateMovePoints(int amount);
         void UpdateAlignment(int amount);

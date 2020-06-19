@@ -523,20 +523,54 @@ namespace Mud.Server.Character
             return _baseAttributes[index];
         }
 
-        public int MaxResource(ResourceKinds resource)
+        public void UpdateBaseAttribute(CharacterAttributes attribute, int amount)
         {
-            int index = (int)resource;
+            int index = (int)attribute;
+            if (index >= _baseAttributes.Length)
+            {
+                Wiznet.Wiznet($"Trying to set base attribute for attribute {attribute} (index {index}) but base attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return;
+            }
+            _baseAttributes[index] += amount;
+            if (index >= _currentAttributes.Length)
+            {
+                Wiznet.Wiznet($"Trying to set base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return;
+            }
+            _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
+        }
+
+        public int MaxResource(ResourceKinds resourceKind)
+        {
+            int index = (int)resourceKind;
             if (index >= _maxResources.Length)
             {
-                Wiznet.Wiznet($"Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"Trying to get max resource for resource {resourceKind} (index {index}) but max resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return 0;
             }
             return _maxResources[index];
         }
 
-        public void UpdateResource(ResourceKinds resource, int amount)
+        public void UpdateMaxResource(ResourceKinds resourceKind, int amount)
         {
-            this[resource] = (this[resource] + amount).Range(0, _maxResources[(int)resource]);
+            int index = (int)resourceKind;
+            if (index >= _maxResources.Length)
+            {
+                Wiznet.Wiznet($"Trying to get max resource for resource {resourceKind} (index {index}) but max resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return;
+            }
+            _maxResources[index] += amount;
+            if (index >= _currentResources.Length)
+            {
+                Wiznet.Wiznet($"Trying to set current resource for resource {resourceKind} (index {index}) but current resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return;
+            }
+            _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
+        }
+
+        public void UpdateResource(ResourceKinds resourceKind, int amount)
+        {
+            this[resourceKind] = (this[resourceKind] + amount).Range(0, _maxResources[(int)resourceKind]);
         }
 
         public void UpdateHitPoints(int amount)
@@ -2459,7 +2493,7 @@ namespace Mud.Server.Character
             {
                 if (index >= _currentAttributes.Length)
                 {
-                    Wiznet.Wiznet($"Trying to base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Wiznet($"Trying to set base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return;
                 }
                 _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);

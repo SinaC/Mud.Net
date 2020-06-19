@@ -184,6 +184,7 @@
     <Compile Include="Character\Movement\North.cs" />
     <Compile Include="Character\PlayableCharacter\Ability\Gain.cs" />
     <Compile Include="Character\PlayableCharacter\Ability\Practice.cs" />
+    <Compile Include="Character\PlayableCharacter\Attribute\Train.cs" />
     <Compile Include="Helpers\ItemsHelpers.cs" />
     <Compile Include="Player\Account\AccountGameActionBase.cs" />
     <Compile Include="Player\Account\Delete.cs" />
@@ -249,7 +250,6 @@
     <Compile Include="Character\PlayableCharacter\GroupCommands.cs" />
     <Compile Include="Character\NonPlayableCharacter\NonPlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\ItemCommands.cs" />
-    <Compile Include="Character\PlayableCharacter\AttributeCommands.cs" />
     <Compile Include="Character\PlayableCharacter\PlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\QuestCommands.cs" />
     <Compile Include="Classes\Druid.cs" />

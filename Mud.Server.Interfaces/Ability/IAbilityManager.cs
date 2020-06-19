@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mud.Server.Interfaces.GameAction;
+using System.Collections.Generic;
 
 namespace Mud.Server.Interfaces.Ability
 {
@@ -8,6 +9,7 @@ namespace Mud.Server.Interfaces.Ability
         IAbilityInfo this[string abilityName] { get; }
 
         IAbilityInfo Search(string pattern, AbilityTypes type);
+        IAbilityInfo Search(ICommandParameter parameter);
 
         TAbility CreateInstance<TAbility>(string abilityName)
             where TAbility : class, IAbility;

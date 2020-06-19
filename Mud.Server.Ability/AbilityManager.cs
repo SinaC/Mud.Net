@@ -3,6 +3,7 @@ using Mud.Container;
 using Mud.Logger;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.GameAction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Mud.Server.Ability
 {
     public class AbilityManager : IAbilityManager
     {
-        private readonly Dictionary<string, IAbilityInfo> _abilities;
+        private readonly Dictionary<string, IAbilityInfo> _abilities; // TODO: trie to optimize Search ?
 
         public AbilityManager(IAssemblyHelper assemblyHelper)
         {
@@ -45,7 +46,12 @@ namespace Mud.Server.Ability
         public IAbilityInfo Search(string pattern, AbilityTypes type)
         {
             // TODO: use Trie ?
-            return Abilities.Where(x => x.Type == type).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, pattern));
+            return Abilities.FirstOrDefault(x => x.Type == type && StringCompareHelpers.StringStartsWith(x.Name, pattern));
+        }
+
+        public IAbilityInfo Search(ICommandParameter parameter)
+        {
+            return Abilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
         }
 
         public TAbility CreateInstance<TAbility>(string abilityName)

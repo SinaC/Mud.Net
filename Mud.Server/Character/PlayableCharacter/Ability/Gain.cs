@@ -1,15 +1,14 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Ability;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Character.PlayableCharacter.Ability
 {
@@ -21,6 +20,8 @@ namespace Mud.Server.Character.PlayableCharacter.Ability
             "[cmd] <ability>")]
     public class Gain : PlayableCharacterGameAction
     {
+        private IAbilityManager AbilityManager { get; }
+
         public enum Actions
         {
             DisplayAll,
@@ -36,6 +37,11 @@ namespace Mud.Server.Character.PlayableCharacter.Ability
         public IAbilityLearned AbilityLearned { get; protected set; }
 
         public Actions Action {get; protected set;}
+
+        public Gain(IAbilityManager abilityManager)
+        {
+            AbilityManager = abilityManager;
+        }
 
         public override string Guards(IActionInput actionInput)
         {
@@ -86,6 +92,9 @@ namespace Mud.Server.Character.PlayableCharacter.Ability
             }
             // Gain ability
             // TODO: search among all abilities even if can't be learned, not yet be learned, already learned ?
+            IAbilityInfo abilityInfo = AbilityManager.Search(actionInput.Parameters[0]);
+            if (abilityInfo == null)
+                return Actor.ActPhrase("{0:N} tells you 'I do not understand...'", Trainer);
             AbilityLearned = Actor.LearnedAbilities.FirstOrDefault(x => x.CanBeGained(Actor) && StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value));
             if (AbilityLearned == null)
                 return Actor.ActPhrase("{0:N} tells you 'This is beyond your powers.'", Trainer);
