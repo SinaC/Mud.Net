@@ -9,10 +9,6 @@ namespace Mud.Server.GameAction
     {
         public static SyntaxAttribute DefaultSyntaxCommandAttribute = new SyntaxAttribute("[cmd]");
 
-        public CommandAttribute CommandAttribute { get; }
-
-        public SyntaxAttribute SyntaxAttribute { get; }
-
         public string Name { get; }
         public int Priority { get; }
         public bool Hidden { get; }
@@ -35,9 +31,6 @@ namespace Mud.Server.GameAction
             Categories = commandAttribute.Categories;
 
             Syntax = syntaxAttribute.Syntax;
-
-            CommandAttribute = commandAttribute;
-            SyntaxAttribute = syntaxAttribute;
         }
 
         public GameActionInfo(Type commandExecutionType, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
