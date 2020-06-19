@@ -14,8 +14,14 @@ namespace Mud.Server.Player.Alias
             "[cmd] <word> <substitution>")]
     public class Alias : PlayerGameAction
     {
-        public bool DisplayAll { get; protected set; }
-        public bool DisplayAlias { get; protected set; }
+        public enum Actions
+        {
+            DisplayAll,
+            Display,
+            Assign
+        }
+
+        public Actions Action { get; protected set; }
         public string TargetAlias { get; protected set; }
         public string Command { get; protected set; }
 
@@ -27,7 +33,7 @@ namespace Mud.Server.Player.Alias
 
             if (actionInput.Parameters.Length == 0)
             {
-                DisplayAll = true;
+                Action = Actions.DisplayAll;
                 return null;
             }
 
@@ -37,7 +43,7 @@ namespace Mud.Server.Player.Alias
                 string cmd;
                 if (!Actor.Aliases.TryGetValue(TargetAlias, out cmd))
                     return "That alias is not defined.";
-                DisplayAlias = true;
+                Action = Actions.Display;
                 Command = cmd;
                 return null;
             }
@@ -49,40 +55,45 @@ namespace Mud.Server.Player.Alias
             if (TargetAlias.StartsWith("delete"))
                 return "That shall not be done.";
 
+            Action = Actions.Assign;
             Command = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1)); // merge parameters except first one
             return null;
         }
 
         public override void Execute(IActionInput actionInput)
         {
-            if (DisplayAll)
+            switch (Action)
             {
-                if (Actor.Aliases.Count == 0)
-                    Actor.Send("You have no aliases defined.");
-                else
-                {
-                    Actor.Send("Your current aliases are:");
-                    foreach (KeyValuePair<string, string> aliasToDisplay in Actor.Aliases.OrderBy(x => x.Key))
-                        Actor.Send("     {0}: {1}", aliasToDisplay.Key, aliasToDisplay.Value);
-                }
-                return;
-            }
+                case Actions.DisplayAll:
+                    {
+                        if (Actor.Aliases.Count == 0)
+                            Actor.Send("You have no aliases defined.");
+                        else
+                        {
+                            Actor.Send("Your current aliases are:");
+                            foreach (KeyValuePair<string, string> aliasToDisplay in Actor.Aliases.OrderBy(x => x.Key))
+                                Actor.Send("     {0}: {1}", aliasToDisplay.Key, aliasToDisplay.Value);
+                        }
+                        return;
+                    }
 
-            if (DisplayAlias)
-            {
-                Actor.Send($"{TargetAlias} is aliases to {Command}.");
-                return;
-            }
-
-            if (Actor.Aliases.ContainsKey(TargetAlias))
-            {
-                Actor.SetAlias(TargetAlias, Command);
-                Actor.Send($"{TargetAlias} is now realiased to '{Command}'.");
-            }
-            else
-            {
-                Actor.SetAlias(TargetAlias, Command);
-                Actor.Send($"{TargetAlias} is now aliased to '{Command}'.");
+                case Actions.Display:
+                    {
+                        Actor.Send($"{TargetAlias} is aliases to {Command}.");
+                        return;
+                    }
+                case Actions.Assign:
+                    if (Actor.Aliases.ContainsKey(TargetAlias))
+                    {
+                        Actor.SetAlias(TargetAlias, Command);
+                        Actor.Send($"{TargetAlias} is now realiased to '{Command}'.");
+                    }
+                    else
+                    {
+                        Actor.SetAlias(TargetAlias, Command);
+                        Actor.Send($"{TargetAlias} is now aliased to '{Command}'.");
+                    }
+                    return;
             }
         }
     }
