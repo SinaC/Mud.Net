@@ -15,19 +15,21 @@ namespace Mud.POC.Abilities
 {
     public partial class PlayableCharacter : IPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(() => GameActionManager.GetCommands(typeof(PlayableCharacter)));
+        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(() => Mud.Server.GameAction.GameActionManager.GetCommands(typeof(PlayableCharacter)));
 
         private IRandomManager RandomManager { get; }
         private IAbilityManager AbilityManager { get; }
         private IAttributeTableManager AttributeTableManager { get; }
+        private IGameActionManager GameActionManager { get; }
 
         private List<KnownAbility> _knownAbilities;
 
-        public PlayableCharacter(IRandomManager randomManager, IAbilityManager abilityManager, IAttributeTableManager attributeTableManager)
+        public PlayableCharacter(IRandomManager randomManager, IAbilityManager abilityManager, IAttributeTableManager attributeTableManager, IGameActionManager gameActionManager)
         {
             RandomManager = randomManager;
             AbilityManager = abilityManager;
             AttributeTableManager = attributeTableManager;
+            GameActionManager = gameActionManager;
             Experience = 1000;
             HitPoints = 1000;
             Level = 1;
@@ -35,8 +37,8 @@ namespace Mud.POC.Abilities
             _knownAbilities = new List<KnownAbility>();
         }
 
-        public PlayableCharacter(IRandomManager randomManager, IAbilityManager abilityManager, IAttributeTableManager attributeTableManager, IEnumerable<KnownAbility> knownAbilities, long experience, int hp, int level, Positions position)
-            :this(randomManager, abilityManager, attributeTableManager)
+        public PlayableCharacter(IRandomManager randomManager, IAbilityManager abilityManager, IAttributeTableManager attributeTableManager, IGameActionManager gameActionManager, IEnumerable<KnownAbility> knownAbilities, long experience, int hp, int level, Positions position)
+            :this(randomManager, abilityManager, attributeTableManager, gameActionManager)
         {
             _knownAbilities = knownAbilities.ToList();
             Experience = experience;
@@ -45,7 +47,7 @@ namespace Mud.POC.Abilities
             Position = position;
         }
 
-        public IReadOnlyTrie<ICommandExecutionInfo> Commands => PlayableCharacterCommands.Value;
+        public IReadOnlyTrie<IGameActionInfo> Commands => PlayableCharacterCommands.Value;
 
         public string Name { get; }
         public string DebugName { get; }
@@ -217,62 +219,32 @@ namespace Mud.POC.Abilities
             if (Commands != null)
             {
                 command = command.ToLowerInvariant(); // lower command
-                List<TrieEntry<ICommandExecutionInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
-                TrieEntry<ICommandExecutionInfo> entry = methodInfos.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
+                List<TrieEntry<IGameActionInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
+                TrieEntry<IGameActionInfo> entry = methodInfos.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
                 if (entry.Value?.NoShortcut == true && command != entry.Key) // if command doesn't accept shortcut, inform player
                 {
                     Send("If you want to {0}, spell it out.", entry.Key.ToUpper());
                     return true;
                 }
-                else if (entry.Value is CommandMethodInfo cmi && cmi.MethodInfo != null)
+                if (entry.Value is IGameActionInfo gai && gai.CommandExecutionType != null)
                 {
-                    if (true)
+                    Type executionType = gai.CommandExecutionType;
+                    IGameAction gameAction = GameActionManager.CreateInstance(gai);
+                    if (gameAction != null)
                     {
-                        bool beforeExecute = true;
-                        if (!beforeExecute)
+                        IActionInput actionInput = GameActionManager.CreateActionInput(gai, (Mud.Server.Interfaces.Actor.IActor)null/*todo*/, null/*TODO*/, entry.Key, rawParameters, parameters);
+                        string guardsResult = gameAction.Guards(actionInput);
+                        if (guardsResult != null)
                         {
-                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteBeforeCommand returned false for command {cmi.MethodInfo.Name} and parameters {rawParameters}");
+                            Send(guardsResult);
                             return false;
                         }
-                        MethodInfo methodInfo = cmi.MethodInfo;
-                        object rawExecutionResult;
-                        if (entry.Value?.AddCommandInParameters == true)
-                        {
-                            // Insert command as first parameter
-                            CommandParameter[] enhancedParameters = new CommandParameter[(parameters?.Length ?? 0) + 1];
-                            if (parameters != null)
-                                Array.ConstrainedCopy(parameters, 0, enhancedParameters, 1, parameters.Length);
-                            enhancedParameters[0] = new CommandParameter(command, 1);
-                            string enhancedRawParameters = command + " " + rawParameters;
-                            //
-                            rawExecutionResult = methodInfo.Invoke(this, new object[] { enhancedRawParameters, enhancedParameters });
-                        }
-                        else
-                            rawExecutionResult = methodInfo.Invoke(this, new object[] { rawParameters, parameters });
-                        CommandExecutionResults executionResult = ConvertToCommandExecutionResults(entry.Key, rawExecutionResult);
-                        // !!no AfterCommand executed if Error has been returned by Command
-                        if (executionResult == CommandExecutionResults.Error)
-                        {
-                            Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
-                            return false;
-                        }
-                        else if (executionResult == CommandExecutionResults.SyntaxError)
-                        {
-                            StringBuilder syntax = new StringBuilder("syntax: "+entry.Value);
-                            Send(syntax.ToString());
-                        }
-                        bool afterExecute = true;
-                        if (!afterExecute)
-                        {
-                            Log.Default.WriteLine(LogLevels.Info, $"ExecuteAfterCommand returned false for command {cmi.MethodInfo.Name} and parameters {rawParameters}");
-                            return false;
-                        }
+                        gameAction.Execute(actionInput);
                         return true;
                     }
                     else
                     {
-                        Log.Default.WriteLine(LogLevels.Warning, $"Command {command} not found");
-                        Send("Command not found.");
+                        Log.Default.WriteLine(LogLevels.Error, "Command: {0} not found.", command);
                         return false;
                     }
                 }

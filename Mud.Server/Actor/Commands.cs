@@ -52,7 +52,7 @@ namespace Mud.Server.Actor
 
         private void DisplayCategories()
         {
-            IEnumerable<KeyValuePair<string, ICommandExecutionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.Hidden);
+            IEnumerable<KeyValuePair<string, IGameActionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.Hidden);
 
             StringBuilder categoriesSb = new StringBuilder();
             categoriesSb.AppendLine("Available categories:%W%");
@@ -75,7 +75,7 @@ namespace Mud.Server.Actor
 
         private void DisplayCommands()
         {
-            IEnumerable<KeyValuePair<string, ICommandExecutionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.Hidden);
+            IEnumerable<KeyValuePair<string, IGameActionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.Hidden);
 
             // Grouped by category
             // if a command has multiple categories, it will appear in each category
@@ -89,7 +89,7 @@ namespace Mud.Server.Actor
                 if (!string.IsNullOrEmpty(cmdByCategory.category))
                     sb.AppendLine("%W%" + cmdByCategory.category + ":%x%");
                 int index = 0;
-                foreach (ICommandExecutionInfo ci in cmdByCategory.commands.OfType<ICommandExecutionInfo>()
+                foreach (IGameActionInfo ci in cmdByCategory.commands
                     .OrderBy(x => x.Priority)
                     .ThenBy(x => x.Name))
                 {

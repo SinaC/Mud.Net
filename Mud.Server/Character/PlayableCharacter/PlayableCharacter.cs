@@ -34,7 +34,7 @@ namespace Mud.Server.Character.PlayableCharacter
         public static readonly int MinCondition = 0;
         public static readonly int MaxCondition = 48;
 
-        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<PlayableCharacter>);
+        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(GetCommands<PlayableCharacter>);
 
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
@@ -244,7 +244,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         #region IActor
 
-        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => PlayableCharacterCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> Commands => PlayableCharacterCommands.Value;
 
         public override void Send(string message, bool addTrailingNewLine)
         {

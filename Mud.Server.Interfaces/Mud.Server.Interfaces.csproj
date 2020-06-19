@@ -82,8 +82,6 @@
     <Compile Include="GameAction\IActionInput.cs" />
     <Compile Include="GameAction\IAdminGameActionInfo.cs" />
     <Compile Include="GameAction\ICharacterGameActionInfo.cs" />
-    <Compile Include="GameAction\ICommandExecutionInfo.cs" />
-    <Compile Include="GameAction\ICommandMethodInfo.cs" />
     <Compile Include="GameAction\ICommandParameter.cs" />
     <Compile Include="GameAction\IGameActionManager.cs" />
     <Compile Include="GameAction\IPlayableCharacterGameActionInfo.cs" />

@@ -1,6 +1,5 @@
 NEXT:
 one class by command -> rename Command to GameAction
-	create one class by command
 	replace command chain such as Murder+Yell and Quest+QuestXXX with a new method in GameActionManager.Execute<TActor:IActor>(string name, TActor actor, params)
 	unit test for each command!!!
 	rename Guards to Setup
@@ -9,7 +8,6 @@ one class by command -> rename Command to GameAction
 	make IGameAction generic on TActor: IActor, same goes for IActionInput
 	continue CommandManager
 	move parsing code from Server.Input to Server.Commands
-
 
 move Weapon effect from OneHit to Rom24
 find a elegant way to apply PoisonDamageAffect without referencing Rom24

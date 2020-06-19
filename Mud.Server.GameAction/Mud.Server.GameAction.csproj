@@ -51,9 +51,7 @@
     <Compile Include="CharacterGameActionBase.cs" />
     <Compile Include="CharacterGameAction.cs" />
     <Compile Include="CommandAttribute.cs" />
-    <Compile Include="CommandExecutionInfo.cs" />
     <Compile Include="CommandHelpers.cs" />
-    <Compile Include="CommandMethodInfo.cs" />
     <Compile Include="CommandParameter.cs" />
     <Compile Include="GameActionBase.cs" />
     <Compile Include="GameActionInfo.cs" />

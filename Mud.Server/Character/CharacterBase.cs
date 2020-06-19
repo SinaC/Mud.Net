@@ -39,7 +39,7 @@ namespace Mud.Server.Character
         private const int MinAlignment = -1000;
         private const int MaxAlignment = 1000;
 
-        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<CharacterBase>);
+        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(GetCommands<CharacterBase>);
 
         private readonly List<IItem> _inventory;
         private readonly List<IEquippedItem> _equipments;
@@ -81,7 +81,7 @@ namespace Mud.Server.Character
 
         #region IActor
 
-        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => CharacterBaseCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> Commands => CharacterBaseCommands.Value;
 
         #endregion
 

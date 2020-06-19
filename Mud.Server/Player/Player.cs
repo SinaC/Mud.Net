@@ -22,7 +22,7 @@ namespace Mud.Server.Player
 {
     public partial class Player : ActorBase, IPlayer
     {
-        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<Player>);
+        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> PlayerCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(GetCommands<Player>);
 
         private readonly List<string> _delayedTells;
         private readonly List<PlayableCharacterData> _avatarList;
@@ -68,7 +68,7 @@ namespace Mud.Server.Player
 
         #region IActor
 
-        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => PlayerCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> Commands => PlayerCommands.Value;
 
         public override bool ProcessCommand(string commandLine)
         {

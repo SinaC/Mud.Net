@@ -26,7 +26,7 @@ namespace Mud.Server.Actor
 
         #region IActor
 
-        public abstract IReadOnlyTrie<ICommandExecutionInfo> Commands { get; }
+        public abstract IReadOnlyTrie<IGameActionInfo> Commands { get; }
 
         public abstract bool ProcessCommand(string commandLine);
         public abstract void Send(string message, bool addTrailingNewLine);
@@ -38,45 +38,14 @@ namespace Mud.Server.Actor
             if (Commands != null)
             {
                 command = command.ToLowerInvariant(); // lower command
-                List<TrieEntry<ICommandExecutionInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
-                TrieEntry<ICommandExecutionInfo> entry = methodInfos.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
+                List<TrieEntry<IGameActionInfo>> methodInfos = Commands.GetByPrefix(command).ToList();
+                TrieEntry<IGameActionInfo> entry = methodInfos.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting commands
                 if (entry.Value?.NoShortcut == true && command != entry.Key) // if command doesn't accept shortcut, inform player
                 {
                     Send("If you want to {0}, spell it out.", entry.Key.ToUpper());
                     return true;
                 }
-                else if (entry.Value is ICommandMethodInfo cmi && cmi.MethodInfo != null)
-                {
-                    MethodInfo methodInfo = cmi.MethodInfo;
-                    object rawExecutionResult;
-                    if (entry.Value?.AddCommandInParameters == true)
-                    {
-                        // Insert command as first parameter
-                        ICommandParameter[] enhancedParameters = new ICommandParameter[(parameters?.Length ?? 0) + 1];
-                        if (parameters != null)
-                            Array.ConstrainedCopy(parameters, 0, enhancedParameters, 1, parameters.Length);
-                        enhancedParameters[0] = new CommandParameter(command, 1);
-                        string enhancedRawParameters = command + " " + rawParameters;
-                        //
-                        rawExecutionResult = methodInfo.Invoke(this, new object[] { enhancedRawParameters, enhancedParameters });
-                    }
-                    else
-                        rawExecutionResult = methodInfo.Invoke(this, new object[] { rawParameters, parameters });
-                    CommandExecutionResults executionResult = ConvertToCommandExecutionResults(entry.Key, rawExecutionResult);
-                    // !!no AfterCommand executed if Error has been returned by Command
-                    if (executionResult == CommandExecutionResults.Error)
-                    {
-                        Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
-                        return false;
-                    }
-                    else if (executionResult == CommandExecutionResults.SyntaxError)
-                    {
-                        StringBuilder syntax = GameActionBase<IActor,IGameActionInfo>.BuildCommandSyntax(entry.Key, entry.Value.Syntax, false);
-                        Send(syntax);
-                    }
-                    return true;
-                }
-                else if (entry.Value is IGameActionInfo gai && gai.CommandExecutionType != null)
+                if (entry.Value is IGameActionInfo gai && gai.CommandExecutionType != null)
                 {
                     Type executionType = gai.CommandExecutionType;
                     IGameAction gameAction = GameActionManager.CreateInstance(gai);
@@ -128,22 +97,8 @@ namespace Mud.Server.Actor
 
         #endregion
 
-        protected static IReadOnlyTrie<ICommandExecutionInfo> GetCommands<T>()
+        protected static IReadOnlyTrie<IGameActionInfo> GetCommands<T>()
             where T : ActorBase
             => GameAction.GameActionManager.GetCommands(typeof(T));
-
-        private CommandExecutionResults ConvertToCommandExecutionResults(string command, object rawResult)
-        {
-            if (rawResult == null)
-                return CommandExecutionResults.Ok;
-            if (rawResult is bool boolResult)
-                return boolResult
-                    ? CommandExecutionResults.Ok
-                    : CommandExecutionResults.Error;
-            if (rawResult is CommandExecutionResults commandExecutionResult)
-                return commandExecutionResult;
-            Wiznet.Wiznet($"Command {command} return type {rawResult.GetType().Name} is not convertible to CommandExecutionResults", WiznetFlags.Bugs, AdminLevels.Implementor);
-            return CommandExecutionResults.Ok;
-        }
     }
 }

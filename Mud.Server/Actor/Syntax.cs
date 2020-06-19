@@ -19,7 +19,7 @@ namespace Mud.Server.Actor
 
             bool found = false;
             StringBuilder sb = new StringBuilder();
-            foreach (var group in commands.Select(x => x.Value).OfType<ICommandMethodInfo>().GroupBy(x => x.MethodInfo.Name).OrderBy(x => x.Key)) // group by command
+            foreach (var group in commands.Select(x => x.Value).GroupBy(x => x.Name).OrderBy(x => x.Key)) // group by command
             {
                 string[] namesByPriority = group.OrderBy(x => x.Priority).Select(x => x.Name).ToArray(); // order by priority
                 string title = string.Join(", ", namesByPriority.Select(x => $"%C%{x}%x%"));

@@ -263,6 +263,7 @@
     <Compile Include="Item\ItemWarpstone.cs" />
     <Compile Include="Player\Misc\Typo.cs" />
     <Compile Include="Player\Misc\Bug.cs" />
+    <Compile Include="Player\Test.cs" />
     <Compile Include="Room\Look.cs" />
     <Compile Include="Server\TimeManager.cs" />
     <Compile Include="Table\TableValues.cs" />

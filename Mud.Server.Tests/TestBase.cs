@@ -1,8 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Race;
@@ -45,6 +47,7 @@ namespace Mud.Server.Tests
             Container.DependencyContainer.Current.RegisterInstance<IItemManager>(new ItemManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IQuestManager>(new QuestManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
+            Container.DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper()));
         }
     }
 }

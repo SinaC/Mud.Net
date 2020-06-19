@@ -22,7 +22,7 @@ namespace Mud.Server.Admin
 {
     public partial class Admin : Player.Player, IAdmin
     {
-        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> AdminCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<Admin>);
+        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> AdminCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(GetCommands<Admin>);
 
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
@@ -51,7 +51,7 @@ namespace Mud.Server.Admin
 
         #region IActor
 
-        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => AdminCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> Commands => AdminCommands.Value;
 
         #endregion
 

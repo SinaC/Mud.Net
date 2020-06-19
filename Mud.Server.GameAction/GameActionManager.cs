@@ -87,26 +87,14 @@ namespace Mud.Server.GameAction
             }
         }
 
-        public static IReadOnlyTrie<ICommandExecutionInfo> GetCommands(Type type)
+        public static IReadOnlyTrie<IGameActionInfo> GetCommands(Type type)
         {
-            var commands = GetCommandsFromType(type).Union(GetCommandsFromAssembly(type.Assembly, type))
-                .GroupBy(x => x.Key) // TODO: remove this when GetCommandsFromType will be deleted
-                .Select(x => x.First());
-            Trie<ICommandExecutionInfo> trie = new Trie<ICommandExecutionInfo>(commands);
+            var commands = GetCommandsFromAssembly(type.Assembly, type);
+            Trie<IGameActionInfo> trie = new Trie<IGameActionInfo>(commands);
             return trie;
         }
 
-        private static IEnumerable<TrieEntry<ICommandExecutionInfo>> GetCommandsFromType(Type type)
-        {
-            Type commandAttributeType = typeof(CommandAttribute);
-            return type.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
-               .Where(x => x.GetCustomAttributes(commandAttributeType, false).Any())
-               .Select(x => new { methodInfo = x, attributes = GetCommandAndSyntaxAttributes(x) })
-               .SelectMany(x => x.attributes.commandAttributes,
-                   (x, commandAttribute) => new TrieEntry<ICommandExecutionInfo>(commandAttribute.Name, new CommandMethodInfo(x.methodInfo, commandAttribute, x.attributes.syntaxAttribute)));
-        }
-
-        private static IEnumerable<TrieEntry<ICommandExecutionInfo>> GetCommandsFromAssembly(Assembly assembly, Type actorType)
+        private static IEnumerable<TrieEntry<IGameActionInfo>> GetCommandsFromAssembly(Assembly assembly, Type actorType)
         {
             Type iGameActionType = typeof(IGameAction);
             Type commandAttributeType = typeof(CommandAttribute);
@@ -121,13 +109,13 @@ namespace Mud.Server.GameAction
                 .Where(x => x != null)
                 .Select(t => new { executionType = t, attributes = GetCommandAndSyntaxAttributes(t) })
                 .SelectMany(x => x.attributes.commandAttributes,
-                   (x, commandAttribute) => new TrieEntry<ICommandExecutionInfo>(commandAttribute.Name, CreateGameActionInfoStatic(x.executionType, commandAttribute, x.attributes.syntaxAttribute)));
+                   (x, commandAttribute) => new TrieEntry<IGameActionInfo>(commandAttribute.Name, CreateGameActionInfoStatic(x.executionType, commandAttribute, x.attributes.syntaxAttribute)));
         }
 
         private static (IEnumerable<CommandAttribute> commandAttributes, SyntaxAttribute syntaxAttribute) GetCommandAndSyntaxAttributes(MethodInfo methodInfo)
         {
             IEnumerable<CommandAttribute> commandAttributes = methodInfo.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer());
-            SyntaxAttribute syntaxCommandAttribute = methodInfo.GetCustomAttribute(typeof(SyntaxAttribute)) as SyntaxAttribute ?? CommandExecutionInfo.DefaultSyntaxCommandAttribute;
+            SyntaxAttribute syntaxCommandAttribute = methodInfo.GetCustomAttribute(typeof(SyntaxAttribute)) as SyntaxAttribute ?? GameActionInfo.DefaultSyntaxCommandAttribute;
 
             return (commandAttributes, syntaxCommandAttribute);
         }
@@ -135,7 +123,7 @@ namespace Mud.Server.GameAction
         private static (IEnumerable<CommandAttribute> commandAttributes, SyntaxAttribute syntaxAttribute) GetCommandAndSyntaxAttributes(Type type)
         {
             IEnumerable<CommandAttribute> commandAttributes = type.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer());
-            SyntaxAttribute syntaxCommandAttribute = type.GetCustomAttribute(typeof(SyntaxAttribute)) as SyntaxAttribute ?? CommandExecutionInfo.DefaultSyntaxCommandAttribute;
+            SyntaxAttribute syntaxCommandAttribute = type.GetCustomAttribute(typeof(SyntaxAttribute)) as SyntaxAttribute ?? GameActionInfo.DefaultSyntaxCommandAttribute;
 
             return (commandAttributes, syntaxCommandAttribute);
         }

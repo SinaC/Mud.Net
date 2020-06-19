@@ -24,7 +24,7 @@ namespace Mud.Server.Item
         where TBlueprint : ItemBlueprintBase
         where TData: ItemData
     {
-        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> ItemCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
+        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> ItemCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
 
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 
@@ -82,7 +82,7 @@ namespace Mud.Server.Item
 
         #region IActor
 
-        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => ItemCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> Commands => ItemCommands.Value;
 
         #endregion
 

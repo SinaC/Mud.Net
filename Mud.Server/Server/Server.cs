@@ -832,13 +832,13 @@ namespace Mud.Server.Server
         {
             for (char c = 'a'; c <= 'z'; c++)
             {
-                CommandMethodInfo[] query = GameActionManager.GetCommands(t).GetByPrefix(c.ToString()).Select(x => x.Value).OfType<CommandMethodInfo>().OrderBy(x => x.CommandAttribute.Priority).ToArray();
+                IGameActionInfo[] query = GameActionManager.GetCommands(t).GetByPrefix(c.ToString()).Select(x => x.Value).OrderBy(x => x.Priority).ToArray();
 
                 if (query.Length == 0)
                     Log.Default.WriteLine(LogLevels.Debug, $"No commands for {t.Name} prefix '{c}'"); // Dump in log
                 else
                 {
-                    StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
+                    StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
                     Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
                 }
             }

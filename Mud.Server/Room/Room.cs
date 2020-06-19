@@ -28,7 +28,7 @@ namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly Lazy<IReadOnlyTrie<ICommandExecutionInfo>> RoomCommands = new Lazy<IReadOnlyTrie<ICommandExecutionInfo>>(GetCommands<Room>);
+        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> RoomCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(GetCommands<Room>);
 
         private ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         private IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
@@ -61,7 +61,7 @@ namespace Mud.Server.Room
 
         #region IActor
 
-        public override IReadOnlyTrie<ICommandExecutionInfo> Commands => RoomCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> Commands => RoomCommands.Value;
 
         #endregion
 
