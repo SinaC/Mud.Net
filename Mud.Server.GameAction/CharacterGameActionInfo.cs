@@ -1,6 +1,8 @@
 ﻿using Mud.Domain;
 using Mud.Server.Interfaces.GameAction;
 using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Mud.Server.GameAction
 {
@@ -12,6 +14,13 @@ namespace Mud.Server.GameAction
             : base(commandExecutionType, characterCommandAttribute, syntaxAttribute)
         {
             MinPosition = characterCommandAttribute.MinPosition;
+        }
+
+        public new static ICharacterGameActionInfo Create(Type type) // TODO: replace with ctor when CommandExecutionInfo and CommandMethodInfo will be removed
+        {
+            CharacterCommandAttribute commandAttribute = type.GetCustomAttributes<CharacterCommandAttribute>().FirstOrDefault();
+            SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? CommandExecutionInfo.DefaultSyntaxCommandAttribute;
+            return new CharacterGameActionInfo(type, commandAttribute, syntaxAttribute);
         }
     }
 }
