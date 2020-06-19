@@ -1,13 +1,13 @@
 ﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Player.Alias
+namespace Mud.Server.Character.PlayableCharacter.Alias
 {
-    // TODO: exactly the same code in Mud.Server.Character.PlayableCharacter.Alias
-    [PlayerCommand("unmacro", "Misc")]
-    [PlayerCommand("unalias", "Misc")]
+    // TODO: exactly the same code in Mud.Server.Player.Alias
+    [PlayableCharacterCommand("unmacro", "Misc")]
+    [PlayableCharacterCommand("unalias", "Misc")]
     [Syntax("[cmd] <word>")]
-    public class Unalias : PlayerGameAction
+    public class Unalias : PlayableCharacterGameAction
     {
         public string TargetAlias { get; protected set; }
 

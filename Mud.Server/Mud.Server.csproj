@@ -184,6 +184,8 @@
     <Compile Include="Character\Movement\North.cs" />
     <Compile Include="Character\PlayableCharacter\Ability\Gain.cs" />
     <Compile Include="Character\PlayableCharacter\Ability\Practice.cs" />
+    <Compile Include="Character\PlayableCharacter\Alias\Alias.cs" />
+    <Compile Include="Character\PlayableCharacter\Alias\Unalias.cs" />
     <Compile Include="Character\PlayableCharacter\Attribute\Train.cs" />
     <Compile Include="Character\PlayableCharacter\Combat\Murder.cs" />
     <Compile Include="Character\PlayableCharacter\Communication\GroupSay.cs" />
@@ -194,6 +196,9 @@
     <Compile Include="Character\PlayableCharacter\Information\Affects.cs" />
     <Compile Include="Character\PlayableCharacter\Information\Auto.cs" />
     <Compile Include="Character\PlayableCharacter\Information\ShortAffects.cs" />
+    <Compile Include="Character\PlayableCharacter\Item\Destroy.cs" />
+    <Compile Include="Character\PlayableCharacter\Item\Sacrifice.cs" />
+    <Compile Include="Character\PlayableCharacter\Item\Split.cs" />
     <Compile Include="Helpers\ItemsHelpers.cs" />
     <Compile Include="Player\Account\AccountGameActionBase.cs" />
     <Compile Include="Player\Account\Delete.cs" />
@@ -226,7 +231,6 @@
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\Impersonate.cs" />
-    <Compile Include="Character\PlayableCharacter\MiscCommands.cs" />
     <Compile Include="Character\PlayableCharacter\ShopCommands.cs" />
     <Compile Include="Group\Group.cs" />
     <Compile Include="Item\ItemClothing.cs" />
@@ -254,7 +258,6 @@
     <Compile Include="Table\TableValues.cs" />
     <Compile Include="Character\CharacterBase.cs" />
     <Compile Include="Character\NonPlayableCharacter\NonPlayableCharacter.cs" />
-    <Compile Include="Character\PlayableCharacter\ItemCommands.cs" />
     <Compile Include="Character\PlayableCharacter\PlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\QuestCommands.cs" />
     <Compile Include="Classes\Druid.cs" />

@@ -533,6 +533,16 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public IReadOnlyDictionary<string, string> Aliases => _aliases;
 
+        public void SetAlias(string alias, string command)
+        {
+            _aliases[alias] = command;
+        }
+
+        public void RemoveAlias(string alias)
+        {
+            _aliases.Remove(alias);
+        }
+
         public DateTime CreationTime { get; protected set; }
 
         public long ExperienceToLevel =>
@@ -833,6 +843,91 @@ namespace Mud.Server.Character.PlayableCharacter
             else if (!IsImmortal && isImmortal)
                 Wiznet.Wiznet($"{DebugName} is now immortal.", WiznetFlags.Immortal, AdminLevels.God);
             IsImmortal = isImmortal;
+        }
+
+        // Misc
+        public bool SacrificeItem(IItem item)
+        {
+            if (item.ItemFlags.HasFlag(ItemFlags.NoSacrifice) || item.NoTake)
+            {
+                Act(ActOptions.ToCharacter, "{0} is not an acceptable sacrifice.", item);
+                return false;
+            }
+            if (item is IItemCorpse itemCorpse && itemCorpse.IsPlayableCharacterCorpse && itemCorpse.Content.Any())
+            {
+                Send("Mota wouldn't like that.");
+                return false;
+            }
+            if (item is IItemFurniture itemFurniture)
+            {
+                ICharacter user = itemFurniture.People.FirstOrDefault();
+                if (user != null)
+                {
+                    Act(ActOptions.ToCharacter, "{0:N} appears to be using {1}.", user, itemFurniture);
+                    return false;
+                }
+            }
+
+            Act(ActOptions.ToAll, "{0:N} sacrifices {1:v} to Mota.", this, item);
+            Wiznet.Wiznet($"{DebugName} sacrifices {item.DebugName} as a burnt offering.", WiznetFlags.Saccing);
+            ItemManager.RemoveItem(item);
+            //
+            long silver = Math.Max(1, item.Level * 3);
+            if (!(item is IItemCorpse))
+                silver = Math.Min(silver, item.Cost);
+            if (silver <= 0)
+            {
+                Send("Mota doesn't give you anything for your sacrifice.");
+                Wiznet.Wiznet($"DoSacrifice: {item.DebugName} gives zero or negative money {silver}!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            }
+            else if (silver == 1)
+                Send("Mota gives you one silver coin for your sacrifice.");
+            else
+                Send("Mota gives you {0} silver coins for your sacrifice.", silver);
+            if (silver > 0)
+                SilverCoins += silver;
+            // autosplit
+            if (silver > 0 && AutoFlags.HasFlag(AutoFlags.Split))
+                SplitMoney(silver, 0);
+
+            return true;
+        }
+
+        public bool SplitMoney(long amountSilver, long amountGold)
+        {
+            IPlayableCharacter[] members = (Group?.Members ?? this.Yield()).ToArray();
+            if (members.Length < 2)
+                return false;
+            long extraSilver = Math.DivRem(amountSilver, members.Length, out long shareSilver);
+            long extraGold = Math.DivRem(amountGold, members.Length, out long shareGold);
+            if (shareSilver == 0 || shareGold == 0)
+            {
+                Send("Don't even bother, cheapstake.");
+                return false;
+            }
+            // Remove money from ours, extra money excluded
+            if (shareSilver > 0)
+                Send("You split {0} silver coins. Your share is {1} silver.", amountSilver, shareSilver + extraSilver);
+            if (shareGold > 0)
+                Send("You split {0} gold coins. Your share is {1} gold.", amountGold, shareGold + extraGold);
+            UpdateMoney(-amountSilver + extraSilver, -amountGold + extraGold);
+            UpdateMoney(extraSilver, extraGold);
+            // Give share money to group member (including ourself)
+            foreach (IPlayableCharacter member in members)
+            {
+                if (member != this)
+                {
+                    if (shareGold == 0)
+                        Act(ActOptions.ToCharacter, "{0:N} splits {1} silver coins. Your share is {2} silver.", this, amountSilver, shareSilver);
+                    else if (shareSilver == 0)
+                        Act(ActOptions.ToCharacter, "{0:N} splits {1} gold coins. Your share is {2} gold.", this, amountGold, shareGold);
+                    else
+                        Act(ActOptions.ToCharacter, "{0:N} splits {1} silver and {2} gold coins, giving you {3} silver and {4} gold.", this, amountSilver, amountGold, shareSilver, shareGold);
+                }
+                UpdateMoney(shareSilver, shareGold);
+            }
+
+            return true;
         }
 
         // Mapping

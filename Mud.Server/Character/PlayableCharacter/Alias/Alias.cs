@@ -3,16 +3,16 @@ using Mud.Server.Interfaces.GameAction;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mud.Server.Player.Alias
+namespace Mud.Server.Character.PlayableCharacter.Alias
 {
-    // TODO: exactly the same code in Mud.Server.Character.PlayableCharacter.Alias
-    [PlayerCommand("macro", "Misc")]
-    [PlayerCommand("alias", "Misc")]
+    // TODO: exactly the same code in Mud.Server.Player.Alias
+    [PlayableCharacterCommand("macro", "Misc")]
+    [PlayableCharacterCommand("alias", "Misc")]
     [Syntax(
             "[cmd]",
             "[cmd] <word>",
             "[cmd] <word> <substitution>")]
-    public class Alias : PlayerGameAction
+    public class Alias : PlayableCharacterGameAction
     {
         public bool DisplayAll { get; protected set; }
         public bool DisplayAlias { get; protected set; }

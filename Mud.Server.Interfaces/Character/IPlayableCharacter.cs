@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
@@ -12,6 +13,8 @@ namespace Mud.Server.Interfaces.Character
         DateTime CreationTime { get; }
 
         IReadOnlyDictionary<string, string> Aliases { get; }
+        void SetAlias(string alias, string command);
+        void RemoveAlias(string alias);
 
         long ExperienceToLevel { get; }
         bool IsImmortal { get; }
@@ -62,6 +65,10 @@ namespace Mud.Server.Interfaces.Character
 
         // Immortality
         void ChangeImmortalState(bool isImmortal);
+
+        // Misc
+        bool SacrificeItem(IItem item);
+        bool SplitMoney(long amountSilver, long amountGold);
 
         // Mapping
         PlayableCharacterData MapPlayableCharacterData();
