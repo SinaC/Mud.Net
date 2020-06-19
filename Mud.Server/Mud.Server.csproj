@@ -251,7 +251,6 @@
     <Compile Include="Character\PlayableCharacter\AttributeCommands.cs" />
     <Compile Include="Character\PlayableCharacter\PlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\QuestCommands.cs" />
-    <Compile Include="Character\SkillCommands.cs" />
     <Compile Include="Classes\Druid.cs" />
     <Compile Include="Helpers\TableGenerators.cs" />
     <Compile Include="Entity\EntityBase.cs" />

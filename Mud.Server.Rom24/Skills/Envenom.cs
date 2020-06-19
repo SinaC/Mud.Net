@@ -13,6 +13,10 @@ using System;
 namespace Mud.Server.Rom24.Rom24Skills
 {
     [Command("envenom", "Abilities", "Skills", "Enchantments")]
+    [Syntax(
+            "[cmd] <weapon>",
+            "[cmd] <food>",
+            "[cmd] <drink container>")]
     [Skill(SkillName, AbilityEffects.Enchantment, PulseWaitTime = 36, LearnDifficultyMultiplier = 4)]
     [AbilityItemWearOffMessage("The poison on {0} dries up.")]
     public class Envenom : ItemInventorySkillBase

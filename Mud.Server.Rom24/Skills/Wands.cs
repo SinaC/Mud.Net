@@ -11,6 +11,7 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Skills
 {
     [Command("zap", "Abilities", "Skills")]
+    Syntax("[cmd] <wand> [<target>]")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Wands : ItemCastSpellSkillBase<IItemWand>
     {

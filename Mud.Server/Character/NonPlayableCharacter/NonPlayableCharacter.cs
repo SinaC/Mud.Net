@@ -9,7 +9,6 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Character.Combat;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Ability;

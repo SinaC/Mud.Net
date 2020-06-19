@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Information

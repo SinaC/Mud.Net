@@ -15,6 +15,10 @@ using System.Linq;
 namespace Mud.Server.Rom24.Skills
 {
     [Command("pick", "Skills")]
+    [Syntax(
+            "[cmd] <direction>",
+            "[cmd] <door>",
+            "[cmd] <container>|<portal>")]
     [Skill(SkillName, AbilityEffects.None, LearnDifficultyMultiplier = 2)]
     public class PickLock : SkillBase
     {

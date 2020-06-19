@@ -1,5 +1,4 @@
-﻿using System;
-using Mud.Server.Interfaces.Actor;
+﻿using Mud.Server.Interfaces.Actor;
 using System.Collections.Generic;
 
 namespace Mud.Server.Interfaces.GameAction

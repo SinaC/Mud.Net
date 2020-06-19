@@ -7,7 +7,6 @@ using Mud.Server.Helpers;
 using System.Linq;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Quest;
 using Mud.Common;
