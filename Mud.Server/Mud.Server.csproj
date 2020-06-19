@@ -186,6 +186,11 @@
     <Compile Include="Character\PlayableCharacter\Ability\Practice.cs" />
     <Compile Include="Character\PlayableCharacter\Attribute\Train.cs" />
     <Compile Include="Character\PlayableCharacter\Combat\Murder.cs" />
+    <Compile Include="Character\PlayableCharacter\Communication\GroupSay.cs" />
+    <Compile Include="Character\PlayableCharacter\Communication\Pray.cs" />
+    <Compile Include="Character\PlayableCharacter\Group\Group.cs" />
+    <Compile Include="Character\PlayableCharacter\Group\Leave.cs" />
+    <Compile Include="Character\PlayableCharacter\Group\Order.cs" />
     <Compile Include="Helpers\ItemsHelpers.cs" />
     <Compile Include="Player\Account\AccountGameActionBase.cs" />
     <Compile Include="Player\Account\Delete.cs" />
@@ -246,8 +251,6 @@
     <Compile Include="Server\TimeManager.cs" />
     <Compile Include="Table\TableValues.cs" />
     <Compile Include="Character\CharacterBase.cs" />
-    <Compile Include="Character\PlayableCharacter\CommunicationCommands.cs" />
-    <Compile Include="Character\PlayableCharacter\GroupCommands.cs" />
     <Compile Include="Character\NonPlayableCharacter\NonPlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\ItemCommands.cs" />
     <Compile Include="Character\PlayableCharacter\PlayableCharacter.cs" />
@@ -363,7 +366,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Character\PlayableCharacter\Information\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -631,9 +631,10 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public void ChangeGroup(IGroup group)
         {
-            if (Group != null && group != null)
-                return; // cannot change from one group to another
-            Group = group;
+            if (Group != null && group == null)
+                Group = group;
+            if (Group == null && group != null)
+                Group = group;
         }
 
         public bool IsSameGroup(IPlayableCharacter character)
