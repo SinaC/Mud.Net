@@ -20,6 +20,7 @@ namespace Mud.Server.Interfaces.Character
         long Experience { get; }
         int Trains { get; }
         int Practices { get; }
+        void UpdateTrainsAndPractices(int trainsAmount, int practicesAmount);
 
         AutoFlags AutoFlags { get; }
 

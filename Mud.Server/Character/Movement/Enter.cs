@@ -28,7 +28,7 @@ namespace Mud.Server.Character.Movement
                 return StringHelpers.ItemNotFound;
             What = item as IItemPortal;
             if (What == null)
-                return "You can't seem to find a way in.");
+                return "You can't seem to find a way in.";
             return null;
         }
 

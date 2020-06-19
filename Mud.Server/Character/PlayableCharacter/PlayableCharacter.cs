@@ -548,6 +548,12 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public int Practices { get; protected set; }
 
+        public void UpdateTrainsAndPractices(int trainsAmount, int practicesAmount)
+        {
+            Trains = Math.Max(0, Trains + trainsAmount);
+            Practices = Math.Max(0, Practices + practicesAmount);
+        }
+
         public AutoFlags AutoFlags { get; protected set; }
 
         public int this[Conditions condition]

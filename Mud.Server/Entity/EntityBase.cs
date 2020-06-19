@@ -12,6 +12,7 @@ using Mud.Logger;
 using Mud.Server.Actor;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -503,6 +504,11 @@ namespace Mud.Server.Entity
                 // TODO: can see destination room ?
                 // no specific format
                 result.Append(exit.Keywords.FirstOrDefault() ?? "door");
+                return;
+            }
+            if (argument is IAbilityLearned abilityLearned)
+            {
+                result.Append(abilityLearned.Name);
                 return;
             }
             // Other (int, string, ...)
