@@ -13,7 +13,7 @@ namespace Mud.POC.Abilities
 {
     public partial class PlayableCharacter : IPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(() => Mud.Server.GameAction.GameActionManager.GetCommands(typeof(PlayableCharacter)));
+        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(() => null);
 
         private IRandomManager RandomManager { get; }
         private IAbilityManager AbilityManager { get; }

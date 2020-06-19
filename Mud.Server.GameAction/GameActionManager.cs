@@ -98,18 +98,21 @@ namespace Mud.Server.GameAction
             }
         }
 
-        public static IReadOnlyTrie<IGameActionInfo> GetCommands(Type type)
+        public static IReadOnlyTrie<IGameActionInfo> GetCommands<TActor>()
+            where TActor: IActor
         {
-            var commands = GetCommandsFromAssembly(type.Assembly, type);
+            var commands = GetCommandsFromAssembly<TActor>(typeof(TActor).Assembly);
             Trie<IGameActionInfo> trie = new Trie<IGameActionInfo>(commands);
             return trie;
         }
 
-        private static IEnumerable<TrieEntry<IGameActionInfo>> GetCommandsFromAssembly(Assembly assembly, Type actorType)
+        private static IEnumerable<TrieEntry<IGameActionInfo>> GetCommandsFromAssembly<TActor>(Assembly assembly)
+            where TActor : IActor
         {
             Type iGameActionType = typeof(IGameAction);
             Type commandAttributeType = typeof(CommandAttribute);
 
+            Type actorType = typeof(TActor);
             Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
 
             return assembly.GetTypes()

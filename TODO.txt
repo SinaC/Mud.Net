@@ -6,7 +6,6 @@ one class by command -> rename Command to GameAction
 	Only one Command attribute but multiple Alias attribute (AliasAttribute with 2 fields, name and priority)
 	make IGameAction generic on TActor: IActor, same goes for IActionInput
 	continue CommandManager
-	move parsing code from Server.Input to Server.Commands
 
 move Weapon effect from OneHit to Rom24
 find a elegant way to apply PoisonDamageAffect without referencing Rom24

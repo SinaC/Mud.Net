@@ -820,29 +820,29 @@ namespace Mud.Server.Server
             //DumpCommandByType(typeof(PlayableCharacter));
             //DumpCommandByType(typeof(Item.ItemBase<>));
             //DumpCommandByType(typeof(Room.Room));
-            Type actorBaseType = typeof(Actor.ActorBase);
-            var actorTypes = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(x => x.IsClass && !x.IsAbstract && actorBaseType.IsAssignableFrom(x))
-                .ToList();
-            foreach (Type actorType in actorTypes)
-                DumpCommandByType(actorType);
+            //Type actorBaseType = typeof(Actor.ActorBase);
+            //var actorTypes = Assembly.GetExecutingAssembly().GetTypes()
+            //    .Where(x => x.IsClass && !x.IsAbstract && actorBaseType.IsAssignableFrom(x))
+            //    .ToList();
+            //foreach (Type actorType in actorTypes)
+            //    DumpCommandByType(actorType);
         }
 
-        private void DumpCommandByType(Type t)
-        {
-            for (char c = 'a'; c <= 'z'; c++)
-            {
-                IGameActionInfo[] query = GameActionManager.GetCommands(t).GetByPrefix(c.ToString()).Select(x => x.Value).OrderBy(x => x.Priority).ToArray();
+        //private void DumpCommandByType(Type t)
+        //{
+        //    for (char c = 'a'; c <= 'z'; c++)
+        //    {
+        //        IGameActionInfo[] query = GameActionManager.GetCommands(t).GetByPrefix(c.ToString()).Select(x => x.Value).OrderBy(x => x.Priority).ToArray();
 
-                if (query.Length == 0)
-                    Log.Default.WriteLine(LogLevels.Debug, $"No commands for {t.Name} prefix '{c}'"); // Dump in log
-                else
-                {
-                    StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
-                    Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
-                }
-            }
-        }
+        //        if (query.Length == 0)
+        //            Log.Default.WriteLine(LogLevels.Debug, $"No commands for {t.Name} prefix '{c}'"); // Dump in log
+        //        else
+        //        {
+        //            StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
+        //            Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+        //        }
+        //    }
+        //}
 
         private void DumpClasses()
         {
