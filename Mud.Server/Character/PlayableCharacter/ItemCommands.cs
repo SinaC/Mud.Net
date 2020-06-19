@@ -137,25 +137,6 @@ namespace Mud.Server.Character.PlayableCharacter
                 : CommandExecutionResults.NoExecution;
         }
 
-        //
-        protected override bool GetItem(IItem item, IContainer container)
-        {
-            long silver = 0, gold = 0;
-            if (item is IItemMoney money)
-            {
-                silver = money.SilverCoins;
-                gold = money.GoldCoins;
-            }
-
-            bool got = base.GetItem(item, container);
-            // autosplit
-            if (got && AutoFlags.HasFlag(AutoFlags.Split)
-                    && (silver > 0 || gold > 0))
-                SplitMoney(silver, gold);
-            return true;
-        }
-
-
         protected bool SacrificeItem(IItem item)
         {
             if (item.ItemFlags.HasFlag(ItemFlags.NoSacrifice) || item.NoTake)

@@ -45,6 +45,7 @@ namespace Mud.Server.Character.Item
                     : Actor.Inventory.Where(x => Actor.CanSee(x)).ToArray();
                 if (!What.Any())
                     return StringHelpers.ItemInventoryNotFound;
+                Replace = false;
                 return null;
             }
             // wear item
@@ -52,6 +53,7 @@ namespace Mud.Server.Character.Item
             if (item == null)
                 return StringHelpers.ItemInventoryNotFound;
             What = item.Yield().ToArray();
+            Replace = true;
             return null;
         }
 

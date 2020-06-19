@@ -1658,6 +1658,42 @@ namespace Mud.Server.Character
             return null;
         }
 
+        // Misc
+        public virtual bool GetItem(IItem item, IContainer container) // equivalent to get_obj in act_obj.C:211
+        {
+            //
+            if (item.NoTake)
+            {
+                Send("You can't take that.");
+                return false;
+            }
+            if (CarryNumber + item.CarryCount > MaxCarryNumber)
+            {
+                Act(ActOptions.ToCharacter, "{0:N}: you can't carry that many items.", item);
+                return false;
+            }
+            if (CarryWeight + item.TotalWeight > MaxCarryWeight)
+            {
+                Act(ActOptions.ToCharacter, "{0:N}: you can't carry that much weight.", item);
+                return false;
+            }
+
+            // TODO: from pit ?
+            if (container != null)
+                Act(ActOptions.ToAll, "{0:N} get{0:v} {1} from {2}.", this, item, container);
+            else
+                Act(ActOptions.ToAll, "{0:N} get{0:v} {1}.", this, item);
+
+            if (item is IItemMoney money)
+            {
+                UpdateMoney(money.SilverCoins, money.GoldCoins);
+                ItemManager.RemoveItem(money);
+            }
+            else
+                item.ChangeContainer(this);
+            return true;
+        }
+
         // Display
         public StringBuilder Append(StringBuilder sb, ICharacter viewer, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
         {

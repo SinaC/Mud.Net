@@ -195,6 +195,9 @@ namespace Mud.Server.Interfaces.Character
             where T : IItem;
         IEquippedItem SearchEquipmentSlot(IItem item, bool replace);
 
+        // Misc
+        bool GetItem(IItem item, IContainer container);
+
         // Display
         StringBuilder Append(StringBuilder sb, ICharacter viewer, bool peekInventory);
         StringBuilder AppendInRoom(StringBuilder sb, ICharacter viewer);

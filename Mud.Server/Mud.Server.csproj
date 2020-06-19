@@ -149,12 +149,16 @@
     <Compile Include="Character\Item\Drop.cs" />
     <Compile Include="Character\Item\Eat.cs" />
     <Compile Include="Character\Item\Fill.cs" />
+    <Compile Include="Character\Item\Get.cs" />
     <Compile Include="Character\Item\Give.cs" />
     <Compile Include="Character\Item\Pour.cs" />
     <Compile Include="Character\Item\Put.cs" />
     <Compile Include="Character\Item\Quaff.cs" />
+    <Compile Include="Character\Item\Remove.cs" />
     <Compile Include="Character\Item\Wear.cs" />
     <Compile Include="Character\Item\WearCharacterGameActionBase.cs" />
+    <Compile Include="Character\Item\Hold.cs" />
+    <Compile Include="Character\Item\Wield.cs" />
     <Compile Include="Helpers\ItemsHelpers.cs" />
     <Compile Include="Player\Account\AccountGameActionBase.cs" />
     <Compile Include="Player\Account\Delete.cs" />
@@ -220,7 +224,6 @@
     <Compile Include="Character\PlayableCharacter\CombatCommands.cs" />
     <Compile Include="Character\PlayableCharacter\GroupCommands.cs" />
     <Compile Include="Character\MovementCommands.cs" />
-    <Compile Include="Character\ItemCommands.cs" />
     <Compile Include="Character\NonPlayableCharacter\NonPlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\ItemCommands.cs" />
     <Compile Include="Character\PlayableCharacter\AttributeCommands.cs" />

@@ -1,13 +1,14 @@
 NEXT:
-add IEquippedItem, move EquippedItem from ICharacter to Server and inherits from IEquippedItem, change every reference from EquippedItem to IEquippedItem
-EquippedItem should be responsible for displaying itself
-EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
-
 one class by command -> rename Command to GameAction
-	call Player.Impersonate from Admin.Impersonate
-	continue CommandManager
 	create one class by command
+	unit test for each command!!!
+	rename Guards to Setup
+	remove parameters from Execute
+	Only one Command attribute but multiple Alias attribute (AliasAttribute with 2 fields, name and priority)
+	make IGameAction generic on TActor: IActor, same goes for IActionInput
+	continue CommandManager
 	move parsing code from Server.Input to Server.Commands
+
 
 move Weapon effect from OneHit to Rom24
 find a elegant way to apply PoisonDamageAffect without referencing Rom24

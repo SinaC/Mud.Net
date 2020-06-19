@@ -17,6 +17,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
@@ -862,6 +863,23 @@ namespace Mud.Server.Character.PlayableCharacter
         #endregion
 
         #region CharacterBase
+
+        public override bool GetItem(IItem item, IContainer container)
+        {
+            long silver = 0, gold = 0;
+            if (item is IItemMoney money)
+            {
+                silver = money.SilverCoins;
+                gold = money.GoldCoins;
+            }
+
+            bool got = base.GetItem(item, container);
+            // autosplit
+            if (got && AutoFlags.HasFlag(AutoFlags.Split)
+                    && (silver > 0 || gold > 0))
+                SplitMoney(silver, gold);
+            return true;
+        }
 
         protected override bool AutomaticallyDisplayRoom => true;
 
