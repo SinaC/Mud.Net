@@ -204,6 +204,12 @@
     <Compile Include="Character\PlayableCharacter\Quest\QuestComplete.cs" />
     <Compile Include="Character\PlayableCharacter\Quest\QuestGet.cs" />
     <Compile Include="Character\PlayableCharacter\Quest\QuestList.cs" />
+    <Compile Include="Character\PlayableCharacter\Shop\Appraise.cs" />
+    <Compile Include="Character\PlayableCharacter\Shop\Buy.cs" />
+    <Compile Include="Character\PlayableCharacter\Shop\List.cs" />
+    <Compile Include="Character\PlayableCharacter\Shop\Sell.cs" />
+    <Compile Include="Character\PlayableCharacter\Shop\ShopPlayableCharacterGameActionBase.cs" />
+    <Compile Include="Character\PlayableCharacter\Shop\Value.cs" />
     <Compile Include="Helpers\ItemsHelpers.cs" />
     <Compile Include="Player\Account\AccountGameActionBase.cs" />
     <Compile Include="Player\Account\Delete.cs" />
@@ -236,7 +242,6 @@
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\Impersonate.cs" />
-    <Compile Include="Character\PlayableCharacter\ShopCommands.cs" />
     <Compile Include="Group\Group.cs" />
     <Compile Include="Item\ItemClothing.cs" />
     <Compile Include="Item\ItemBoat.cs" />
@@ -375,9 +380,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Character\PlayableCharacter\Shop\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

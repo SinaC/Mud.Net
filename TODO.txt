@@ -1,7 +1,7 @@
 NEXT:
 one class by command -> rename Command to GameAction
 	create one class by command
-	test command chain (see Murder calling Yell or Quest calling QuestXXX)
+	replace command chain such as Murder+Yell and Quest+QuestXXX with a new method in GameActionManager.Execute<TActor:IActor>(string name, TActor actor, params)
 	unit test for each command!!!
 	rename Guards to Setup
 	remove parameters from Execute

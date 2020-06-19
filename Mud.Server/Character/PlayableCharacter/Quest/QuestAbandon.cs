@@ -22,10 +22,10 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
             if (actionInput.Parameters.Length == 0)
                 return "Abandon which quest?";
             int id = actionInput.Parameters[0].AsNumber;
-            IQuest quest = id > 0 
+            What = id > 0 
                 ? Actor.Quests.ElementAtOrDefault(id - 1)
                 : null;
-            if (quest == null)
+            if (What == null)
                 return "No such quest.";
             return null;
         }

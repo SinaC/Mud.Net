@@ -131,6 +131,7 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
                 case Actions.Abandon:
                     {
                         QuestAbandon questAbandon = new QuestAbandon();
+                        // TODO: using actionInput.GameActionInfo is not correct because it will use Quest command metadata, luckily they are not used
                         IActionInput questAbandonActionInput = new ActionInput(actionInput.GameActionInfo, Actor, null /*TODO*/, "questabandon", Parameters.rawParameters, Parameters.parameters);
                         string questAbandonGuards = questAbandon.Guards(questAbandonActionInput);
                         if (questAbandonGuards != null)
