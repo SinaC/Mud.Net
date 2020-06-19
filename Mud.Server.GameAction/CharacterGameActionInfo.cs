@@ -15,12 +15,5 @@ namespace Mud.Server.GameAction
         {
             MinPosition = characterCommandAttribute.MinPosition;
         }
-
-        public new static ICharacterGameActionInfo Create(Type type) // TODO: replace with ctor when CommandExecutionInfo and CommandMethodInfo will be removed
-        {
-            CharacterCommandAttribute commandAttribute = type.GetCustomAttributes<CharacterCommandAttribute>().FirstOrDefault();
-            SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? DefaultSyntaxCommandAttribute;
-            return new CharacterGameActionInfo(type, commandAttribute, syntaxAttribute);
-        }
     }
 }

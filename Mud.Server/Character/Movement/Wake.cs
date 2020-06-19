@@ -14,7 +14,14 @@ namespace Mud.Server.Character.Movement
             "[cmd] <character>")]
     public class Wake : CharacterGameAction
     {
+        private IGameActionManager GameActionManager { get; }
+
         public ICharacter Whom { get; protected set; }
+
+        public Wake(IGameActionManager gameActionManager)
+        {
+            GameActionManager = gameActionManager;
+        }
 
         public override string Guards(IActionInput actionInput)
         {
@@ -42,24 +49,17 @@ namespace Mud.Server.Character.Movement
         {
             if (Whom == null)
             {
-                Stand stand = new Stand();
-                string standGuards = stand.Guards(actionInput);
-                if (standGuards != null)
-                    Actor.Send(standGuards);
-                else
-                    stand.Execute(actionInput);
+                string executionResults = GameActionManager.Execute<Stand, ICharacter>(Actor, "stand", string.Empty, CommandParameter.EmptyCommandParameter);
+                if (executionResults != null)
+                    Actor.Send(executionResults);
             }
             else
             {
                 Whom.Act(ActOptions.ToCharacter, "{0:N} wakes you.", Actor);
-                IActionInput whomActionInput = new ActionInput(actionInput, Whom);
-                Stand stand = new Stand();
-                stand.Guards(whomActionInput);
-                string standGuards = stand.Guards(whomActionInput);
-                if (standGuards != null)
-                    Actor.Send(standGuards);
-                else
-                    stand.Execute(whomActionInput);
+
+                string executionResults = GameActionManager.Execute<Stand, ICharacter>(Whom, "stand", string.Empty, CommandParameter.EmptyCommandParameter);
+                if (executionResults != null)
+                    Actor.Send(executionResults);
             }
         }
     }

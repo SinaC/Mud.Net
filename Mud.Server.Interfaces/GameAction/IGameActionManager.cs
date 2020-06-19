@@ -7,11 +7,9 @@ namespace Mud.Server.Interfaces.GameAction
     {
         IEnumerable<IGameActionInfo> GameActions { get; }
 
-        //IGameActionInfo GetGameActionInfo(string name, Type actorType);
-
-        IGameAction CreateInstance(IGameActionInfo gameActionInfo);
-
-        IActionInput CreateActionInput<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
+        string Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
+            where TActor: IActor;
+        string Execute<TGameAction, TActor>(TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
             where TActor : IActor;
     }
 }

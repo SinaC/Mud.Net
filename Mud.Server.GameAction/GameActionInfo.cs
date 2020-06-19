@@ -46,6 +46,7 @@ namespace Mud.Server.GameAction
             CommandExecutionType = commandExecutionType;
         }
 
+        // TODO: remove: only used in Tests
         public static IGameActionInfo Create(Type type) // TODO: replace with ctor when CommandExecutionInfo and CommandMethodInfo will be removed
         {
             CommandAttribute commandAttribute = type.GetCustomAttributes<CommandAttribute>().FirstOrDefault();

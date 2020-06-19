@@ -2,13 +2,11 @@
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Character.PlayableCharacter.Quest
 {
@@ -24,6 +22,8 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
             "[cmd] list")]
     public class Quest : PlayableCharacterGameAction
     {
+        private IGameActionManager GameActionManager { get; }
+
         public enum Actions
         {
             DisplayAll,
@@ -37,6 +37,11 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
         public Actions Action { get; protected set; }
         public IQuest What { get; protected set; }
         public (string rawParameters, ICommandParameter[] parameters) Parameters { get; protected set; }
+
+        public Quest(IGameActionManager gameActionManager)
+        {
+            GameActionManager = gameActionManager;
+        }
 
         public override string Guards(IActionInput actionInput)
         {
@@ -130,47 +135,30 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
                     }
                 case Actions.Abandon:
                     {
-                        QuestAbandon questAbandon = new QuestAbandon();
-                        // TODO: using actionInput.GameActionInfo is not correct because it will use Quest command metadata, luckily they are not used
-                        IActionInput questAbandonActionInput = new ActionInput(actionInput.GameActionInfo, Actor, null /*TODO*/, "questabandon", Parameters.rawParameters, Parameters.parameters);
-                        string questAbandonGuards = questAbandon.Guards(questAbandonActionInput);
-                        if (questAbandonGuards != null)
-                            Actor.Send(questAbandonGuards);
-                        else
-                            questAbandon.Execute(questAbandonActionInput);
+                        string executionResults = GameActionManager.Execute<QuestAbandon, IPlayableCharacter>(Actor, "questabandon", Parameters.rawParameters, Parameters.parameters);
+                        if (executionResults != null)
+                            Actor.Send(executionResults);
                         return;
                     }
                 case Actions.Complete:
                     {
-                        QuestComplete questComplete = new QuestComplete();
-                        IActionInput questCompleteActionInput = new ActionInput(actionInput.GameActionInfo, Actor, null /*TODO*/, "questcomplete", Parameters.rawParameters, Parameters.parameters);
-                        string questCompleteGuards = questComplete.Guards(questCompleteActionInput);
-                        if (questCompleteGuards != null)
-                            Actor.Send(questCompleteGuards);
-                        else
-                            questComplete.Execute(questCompleteActionInput);
+                        string executionResults = GameActionManager.Execute<QuestComplete, IPlayableCharacter>(Actor, "questcomplete", Parameters.rawParameters, Parameters.parameters);
+                        if (executionResults != null)
+                            Actor.Send(executionResults);
                         return;
                     }
                 case Actions.Get:
                     {
-                        QuestGet questGet = new QuestGet();
-                        IActionInput questGetActionInput = new ActionInput(actionInput.GameActionInfo, Actor, null /*TODO*/, "questget", Parameters.rawParameters, Parameters.parameters);
-                        string questGetGuards = questGet.Guards(questGetActionInput);
-                        if (questGetGuards != null)
-                            Actor.Send(questGetGuards);
-                        else
-                            questGet.Execute(questGetActionInput);
+                        string executionResults = GameActionManager.Execute<QuestGet, IPlayableCharacter>(Actor, "questget", Parameters.rawParameters, Parameters.parameters);
+                        if (executionResults != null)
+                            Actor.Send(executionResults);
                         return;
                     }
                 case Actions.List:
                     {
-                        QuestList questList = new QuestList();
-                        IActionInput questListActionInput = new ActionInput(actionInput.GameActionInfo, Actor, null /*TODO*/, "questlist", Parameters.rawParameters, Parameters.parameters);
-                        string questListGuards = questList.Guards(questListActionInput);
-                        if (questListGuards != null)
-                            Actor.Send(questListGuards);
-                        else
-                            questList.Execute(questListActionInput);
+                        string executionResults = GameActionManager.Execute<QuestList, IPlayableCharacter>(Actor, "questlist", Parameters.rawParameters, Parameters.parameters);
+                        if (executionResults != null)
+                            Actor.Send(executionResults);
                         return;
                     }
             }

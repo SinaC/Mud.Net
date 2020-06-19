@@ -14,6 +14,7 @@ namespace Mud.Server.Helpers
         public static string QuestPrefix = "%R%(QUEST)%x%";
         public static string PagingInstructions = "[Paging : (Enter), (N)ext, (P)revious, (Q)uit, (A)ll]";
         public static string CantFindIt = "You can't find it.";
+        public static string SomethingGoesWrong = "Something goes wrong.";
 
         //https://genderneutralpronoun.wordpress.com/tag/ze-and-zir/
         public static readonly IDictionary<Sex, string> Subjects = new Dictionary<Sex, string>

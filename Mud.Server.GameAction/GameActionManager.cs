@@ -30,37 +30,46 @@ namespace Mud.Server.GameAction
 
         public IEnumerable<IGameActionInfo> GameActions => _gameActions.SelectMany(x => x);
 
-        public IGameAction CreateInstance(IGameActionInfo gameActionInfo)
-        {
-            if (DependencyContainer.Current.GetRegistration(gameActionInfo.CommandExecutionType, false) == null)
-            {     
-                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} not found in DependencyContainer.", gameActionInfo.Name);
-                return default;
-            }
-            IGameAction instance = DependencyContainer.Current.GetInstance(gameActionInfo.CommandExecutionType) as IGameAction;
-            if (instance == null)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be instantiated or is not {1}.", gameActionInfo.Name, typeof(IGameAction).Name);
-                return default;
-            }
-            return instance;
-        }
-
-        //public IGameActionInfo GetGameActionInfo(string name, Type actorType)
+        //public IGameActionInfo GetGameActionInfo<TActor>(string name)
+        //    where TActor : IActor
         //{
         //    if (!_gameActions.Contains(name))
-        //        return null;
-        //    Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
+        //        return default;
+        //    Type actorType = typeof(TActor);
         //    var gameActionInfos = _gameActions[name];
-        //    var gameActionInfo = PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, name, gameActionInfos, x => x.CommandExecutionType);
-        //    return gameActionInfo;
+        //    Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
+        //    return PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, name, gameActionInfos, x => x.CommandExecutionType);
         //}
 
-        public IActionInput CreateActionInput<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
+        public string Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
             where TActor: IActor
         {
-            ActionInput actionInput = new ActionInput(gameActionInfo, actor, string.Empty/*TODO*/, command, rawParameters, parameters);
-            return actionInput;
+            if (DependencyContainer.Current.GetRegistration(gameActionInfo.CommandExecutionType, false) == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} not found in DependencyContainer.", gameActionInfo.Name);
+                return "Something goes wrong.";
+            }
+            IGameAction gameAction = DependencyContainer.Current.GetInstance(gameActionInfo.CommandExecutionType) as IGameAction;
+            if (gameAction == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be instantiated or is not {1}.", gameActionInfo.Name, typeof(IGameAction).Name);
+                return "Something goes wrong.";
+            }
+            string commandLine = command + " " + rawParameters;
+            IActionInput actionInput = new ActionInput(gameActionInfo, actor, commandLine, command, rawParameters, parameters);
+            string guardsResult = gameAction.Guards(actionInput);
+            if (guardsResult != null)
+                return guardsResult;
+            gameAction.Execute(actionInput);
+            return null;
+        }
+
+        public string Execute<TGameAction, TActor>(TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
+            where TActor : IActor
+        {
+            Type gameActionType = typeof(TGameAction);
+            IGameActionInfo gameActionInfo = GameActions.First(x => x.CommandExecutionType == gameActionType); // TODO: single when there will be only one GameActionInfo per command
+            return Execute(gameActionInfo, actor, command, rawParameters, parameters);
         }
 
         #endregion
@@ -69,6 +78,8 @@ namespace Mud.Server.GameAction
         {
             return CreateGameActionInfoStatic(type, commandAttribute, syntaxAttribute);
         }
+
+        //
 
         private static IGameActionInfo CreateGameActionInfoStatic(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute)
         {
@@ -112,14 +123,6 @@ namespace Mud.Server.GameAction
                    (x, commandAttribute) => new TrieEntry<IGameActionInfo>(commandAttribute.Name, CreateGameActionInfoStatic(x.executionType, commandAttribute, x.attributes.syntaxAttribute)));
         }
 
-        private static (IEnumerable<CommandAttribute> commandAttributes, SyntaxAttribute syntaxAttribute) GetCommandAndSyntaxAttributes(MethodInfo methodInfo)
-        {
-            IEnumerable<CommandAttribute> commandAttributes = methodInfo.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer());
-            SyntaxAttribute syntaxCommandAttribute = methodInfo.GetCustomAttribute(typeof(SyntaxAttribute)) as SyntaxAttribute ?? GameActionInfo.DefaultSyntaxCommandAttribute;
-
-            return (commandAttributes, syntaxCommandAttribute);
-        }
-
         private static (IEnumerable<CommandAttribute> commandAttributes, SyntaxAttribute syntaxAttribute) GetCommandAndSyntaxAttributes(Type type)
         {
             IEnumerable<CommandAttribute> commandAttributes = type.GetCustomAttributes(typeof(CommandAttribute)).OfType<CommandAttribute>().Distinct(new CommandAttributeEqualityComparer());
@@ -136,40 +139,6 @@ namespace Mud.Server.GameAction
                 .Select(x => x.implementedInterface)
                 .ToArray();
         }
-
-        //private static Type PolymorphismSimulator(Type actorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<Type> typeByNames)
-        //{
-        //    Type bestType = null;
-        //    int bestLevel = int.MaxValue;
-        //    foreach (Type t in typeByNames) // foreach type on the same command name, search the one with the highest level of class nesting
-        //    {
-        //        bool doneWithThisType = false;
-        //        Type baseType = t.BaseType;
-        //        while (baseType != null)
-        //        {
-        //            if (baseType.GenericTypeArguments?.Length > 0)
-        //            {
-        //                for (int i = 0; i < actorTypeSortedImplementedInterfaces.Length; i++)
-        //                    if (actorTypeSortedImplementedInterfaces[i] == baseType.GenericTypeArguments[0])
-        //                    {
-        //                        if (i < bestLevel)
-        //                        {
-        //                            bestType = t;
-        //                            bestLevel = i;
-        //                        }
-        //                        doneWithThisType = true;
-        //                        break;
-        //                    }
-        //            }
-
-        //            if (doneWithThisType)
-        //                break;
-        //            baseType = baseType.BaseType;
-        //        }
-        //    }
-        //    Debug.Print(actorType.Name + ": "+ name + " => " + bestType?.FullName ?? "???");
-        //    return bestType;
-        //}
 
         private static T PolymorphismSimulator<T>(Type actorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<T> collection, Func<T,Type> selectorFunc)
             where T: class

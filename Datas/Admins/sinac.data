@@ -21,7 +21,7 @@
       <Sex>1</Sex>
       <Size>2</Size>
       <HitPoints>109</HitPoints>
-      <MovePoints>49</MovePoints>
+      <MovePoints>22</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -135,7 +135,7 @@
               <AuraData>
                 <AbilityName>Envenom</AbilityName>
                 <Level>1</Level>
-                <PulseLeft>1124</PulseLeft>
+                <PulseLeft>1080</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -267,7 +267,7 @@
         </PairDataOfInt32Int32>
       </Attributes>
       <CreationTime>2020-06-14T19:17:42.1765039+02:00</CreationTime>
-      <RoomId>3020</RoomId>
+      <RoomId>3025</RoomId>
       <SilverCoins>695</SilverCoins>
       <GoldCoins>10</GoldCoins>
       <Experience>100000</Experience>
@@ -1515,7 +1515,7 @@
       <Cooldowns>
         <PairDataOfStringInt32>
           <Key>Test</Key>
-          <Value>1028</Value>
+          <Value>984</Value>
         </PairDataOfStringInt32>
       </Cooldowns>
       <Pets>

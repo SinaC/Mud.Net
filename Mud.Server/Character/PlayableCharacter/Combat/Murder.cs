@@ -1,24 +1,25 @@
 ﻿using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Character.Communication;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Character.PlayableCharacter.Combat
 {
     [PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true, MinPosition = Positions.Fighting)]
     [Syntax("[cmd] <character>")]
-    public class Murder : CharacterGameAction
+    public class Murder : PlayableCharacterGameAction
     {
+        private IGameActionManager GameActionManager { get; }
+
         public ICharacter Whom { get; protected set; }
+
+        public Murder(IGameActionManager gameActionManager)
+        {
+            GameActionManager = gameActionManager;
+        }
 
         public override string Guards(IActionInput actionInput)
         {
@@ -61,18 +62,14 @@ namespace Mud.Server.Character.PlayableCharacter.Combat
         public override void Execute(IActionInput actionInput)
         {
             // GCD
-            (Actor as IPlayableCharacter)?.ImpersonatedBy?.SetGlobalCooldown(1);
+            Actor.ImpersonatedBy?.SetGlobalCooldown(1);
             //TODO: check_killer( ch, victim );
 
             string msg = $"Help! I am being attacked by {Actor.DisplayName}!";
-            Yell yell = new Yell();
-            ICharacterGameActionInfo yellGameActionInfo = CharacterGameActionInfo.Create(typeof(Yell));
-            IActionInput yellActionInput = new ActionInput(yellGameActionInfo, Whom, null/*TODO*/, "yell", msg, new CommandParameter(msg, false));
-            string yellGuards = yell.Guards(yellActionInput);
-            if (yellGuards != null)
-                Log.Default.WriteLine(LogLevels.Error, "Murder: Yell.Guards returned {0}", yellGuards);
-            else
-                yell.Execute(yellActionInput);
+
+            string executionResults = GameActionManager.Execute<Yell, ICharacter>(Whom, "yell", msg, new CommandParameter(msg, false));
+            if (executionResults != null)
+                Actor.Send(executionResults);
 
             // Starts fight
             Actor.MultiHit(Whom);

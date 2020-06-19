@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.POC.Affects;
@@ -228,25 +226,14 @@ namespace Mud.POC.Abilities
                 }
                 if (entry.Value is IGameActionInfo gai && gai.CommandExecutionType != null)
                 {
-                    Type executionType = gai.CommandExecutionType;
-                    IGameAction gameAction = GameActionManager.CreateInstance(gai);
-                    if (gameAction != null)
+                    // TODO: awful casting
+                    string executionResults = GameActionManager.Execute(gai, (Mud.Server.Interfaces.Actor.IActor)null, command, rawParameters, parameters);
+                    if (executionResults != null)
                     {
-                        IActionInput actionInput = GameActionManager.CreateActionInput(gai, (Mud.Server.Interfaces.Actor.IActor)null/*todo*/, null/*TODO*/, entry.Key, rawParameters, parameters);
-                        string guardsResult = gameAction.Guards(actionInput);
-                        if (guardsResult != null)
-                        {
-                            Send(guardsResult);
-                            return false;
-                        }
-                        gameAction.Execute(actionInput);
-                        return true;
-                    }
-                    else
-                    {
-                        Log.Default.WriteLine(LogLevels.Error, "Command: {0} not found.", command);
+                        Send(executionResults);
                         return false;
                     }
+                    return true;
                 }
                 else
                 {
