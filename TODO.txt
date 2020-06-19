@@ -1,6 +1,7 @@
 NEXT:
 one class by command -> rename Command to GameAction
 	create one class by command
+	test command chain (see Murder calling Yell or Quest calling QuestXXX)
 	unit test for each command!!!
 	rename Guards to Setup
 	remove parameters from Execute

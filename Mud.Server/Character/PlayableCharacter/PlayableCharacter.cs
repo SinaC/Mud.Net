@@ -168,7 +168,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (data.CurrentQuests != null)
             {
                 foreach (CurrentQuestData questData in data.CurrentQuests)
-                    _quests.Add(new Quest.Quest(questData, this));
+                    _quests.Add(new Mud.Server.Quest.Quest(questData, this));
             }
             // Auras
             if (data.Auras != null)

@@ -199,6 +199,11 @@
     <Compile Include="Character\PlayableCharacter\Item\Destroy.cs" />
     <Compile Include="Character\PlayableCharacter\Item\Sacrifice.cs" />
     <Compile Include="Character\PlayableCharacter\Item\Split.cs" />
+    <Compile Include="Character\PlayableCharacter\Quest\Quest.cs" />
+    <Compile Include="Character\PlayableCharacter\Quest\QuestAbandon.cs" />
+    <Compile Include="Character\PlayableCharacter\Quest\QuestComplete.cs" />
+    <Compile Include="Character\PlayableCharacter\Quest\QuestGet.cs" />
+    <Compile Include="Character\PlayableCharacter\Quest\QuestList.cs" />
     <Compile Include="Helpers\ItemsHelpers.cs" />
     <Compile Include="Player\Account\AccountGameActionBase.cs" />
     <Compile Include="Player\Account\Delete.cs" />
@@ -259,7 +264,6 @@
     <Compile Include="Character\CharacterBase.cs" />
     <Compile Include="Character\NonPlayableCharacter\NonPlayableCharacter.cs" />
     <Compile Include="Character\PlayableCharacter\PlayableCharacter.cs" />
-    <Compile Include="Character\PlayableCharacter\QuestCommands.cs" />
     <Compile Include="Classes\Druid.cs" />
     <Compile Include="Helpers\TableGenerators.cs" />
     <Compile Include="Entity\EntityBase.cs" />
@@ -371,7 +375,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Character\PlayableCharacter\Shop\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
