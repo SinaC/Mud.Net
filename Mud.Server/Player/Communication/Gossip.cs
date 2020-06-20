@@ -4,7 +4,7 @@ using Mud.Server.Interfaces.Player;
 namespace Mud.Server.Player.Communication
 {
     [PlayerCommand("gossip", "Communication")]
-    [PlayerCommand("ooc", "Communication")]
+    [Alias("ooc")]
     [Syntax("[cmd] <message>")]
     public class Gossip : CommunicationGameActionBase
     {

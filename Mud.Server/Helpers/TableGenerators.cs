@@ -175,14 +175,31 @@ namespace Mud.Server.Helpers
         public static readonly Lazy<TableGenerator<IGameActionInfo>> GameActionInfoTableGenerator = new Lazy<TableGenerator<IGameActionInfo>>(() =>
         {
             TableGenerator<IGameActionInfo> generator = new TableGenerator<IGameActionInfo>();
-            generator.AddColumn("Method", 20, x => x.Name, new TableGenerator<IGameActionInfo>.ColumnOptions { MergeIdenticalValue = true });
+            //generator.AddColumn("Method", 50, x => GetMethodName(x));
+            generator.AddColumn("Method", 50, x => x.CommandExecutionType.FullName);
             generator.AddColumn("Command", 20, x => x.Name, new TableGenerator<IGameActionInfo>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Categories", 20, x => string.Join(",", x.Categories));
+            generator.AddColumn("Aliases", 10, x => string.Join(",", x.Aliases));
             generator.AddColumn("Prio", 5, x => ConvertPriority(x.Priority));
             generator.AddColumn("S?", 5, x => ConvertBool(x.NoShortcut));
             generator.AddColumn("H?", 5, x => ConvertBool(x.Hidden));
             generator.AddColumn("F?", 5, x => ConvertBool(x.AddCommandInParameters));
             return generator;
         });
+
+        private static string GetMethodName(IGameActionInfo gameActionInfo)
+        {
+            //=> gameActionInfo.CommandExecutionType.BaseType.Name + "/" + gameActionInfo.CommandExecutionType.Name;
+            Type baseType = gameActionInfo.CommandExecutionType.BaseType;
+            while (true)
+            {
+                if (!baseType.Name.Contains("Base"))
+                    break;
+                baseType = baseType.BaseType;
+                if (baseType == null)
+                    return gameActionInfo.CommandExecutionType.Name;
+            }
+            return baseType.Name + "/" + gameActionInfo.CommandExecutionType.Name;
+        }
     }
 }

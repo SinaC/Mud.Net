@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace Mud.Server.Character.PlayableCharacter.Quest
 {
-    [PlayableCharacterCommand("qabandon", "Quest", Priority = 3, MinPosition = Positions.Standing)]
     [PlayableCharacterCommand("questabandon", "Quest", Priority = 3, MinPosition = Positions.Standing)]
+    [Alias("qabandon")]
     [Syntax("[cmd] <id>")]
     public class QuestAbandon : PlayableCharacterGameAction
     {

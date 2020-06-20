@@ -7,8 +7,8 @@ using System.Linq;
 
 namespace Mud.Server.Character.PlayableCharacter.Quest
 {
-    [PlayableCharacterCommand("qcomplete", "Quest", Priority = 2, MinPosition = Positions.Standing)]
     [PlayableCharacterCommand("questcomplete", "Quest", Priority = 2, MinPosition = Positions.Standing)]
+    [Alias("qcomplete")]
     [Syntax(
            "[cmd] <id>",
            "[cmd] all")]

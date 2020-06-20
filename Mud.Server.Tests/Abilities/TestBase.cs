@@ -33,9 +33,14 @@ namespace Mud.Server.Tests.Abilities
             return (parameters, commandParameters);
         }
 
-        protected IActionInput BuildActionInput<T>(IActor actor, string parameters)
+        protected IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
+            where TGameAction:IGameAction
         {
-            return new ActionInput(GameActionInfo.Create(typeof(T)), actor, parameters);
+            var attributes = GameActionManager.GetGameActionAttributes(typeof(TGameAction));
+            var gameActionInfo = GameActionManager.CreateGameActionInfo(typeof(TGameAction), attributes.commandAttribute, attributes.syntaxAttribute, attributes.aliasAttributes);
+
+            CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters);
+            return new ActionInput(gameActionInfo, actor, commandLine, command, rawParameters, parameters);
         }
 
         protected IAbilityLearned BuildAbilityLearned(string name)

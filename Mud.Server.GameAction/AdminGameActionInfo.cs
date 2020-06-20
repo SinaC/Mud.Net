@@ -1,6 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Interfaces.GameAction;
 using System;
+using System.Collections.Generic;
 
 namespace Mud.Server.GameAction
 {
@@ -8,8 +9,8 @@ namespace Mud.Server.GameAction
     {
         public AdminLevels MinLevel { get; }
 
-        public AdminGameActionInfo(Type commandExecutionType, AdminCommandAttribute adminCommandAttribute, SyntaxAttribute syntaxAttribute)
-            : base(commandExecutionType, adminCommandAttribute, syntaxAttribute)
+        public AdminGameActionInfo(Type commandExecutionType, AdminCommandAttribute adminCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes)
+            : base(commandExecutionType, adminCommandAttribute, syntaxAttribute, aliasAttributes)
         {
             MinLevel = adminCommandAttribute.MinLevel;
         }

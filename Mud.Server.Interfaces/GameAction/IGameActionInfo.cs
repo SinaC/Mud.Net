@@ -13,6 +13,8 @@ namespace Mud.Server.Interfaces.GameAction
 
         string[] Syntax { get; }
 
+        string[] Aliases { get; }
+
         Type CommandExecutionType { get; }
     }
 }

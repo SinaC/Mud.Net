@@ -15,16 +15,16 @@ using System.Text;
 namespace Mud.Server.Admin.Information
 {
     [AdminCommand("istat", "Information")]
-    [AdminCommand("ostat", "Information")]
+    [Alias("ostat")]
     [Syntax("[cmd] <item>")]
-    public class Ostat : AdminGameAction
+    public class Istat : AdminGameAction
     {
         private IItemManager ItemManager { get; }
         private ITableValues TableValues { get; }
 
         public IItem What { get; protected set; }
 
-        public Ostat(IItemManager itemManager, ITableValues tableValues)
+        public Istat(IItemManager itemManager, ITableValues tableValues)
         {
             ItemManager = itemManager;
             TableValues = tableValues;

@@ -8,7 +8,7 @@ using System;
 namespace Mud.Server.Admin.Administration
 {
     [AdminCommand("cload", "Admin", MustBeImpersonated = true)]
-    [AdminCommand("mload", "Admin", MustBeImpersonated = true)]
+    [Alias("mload")]
     [Syntax("[cmd] <id>")]
     public class Cload : AdminGameAction
     {

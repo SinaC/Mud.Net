@@ -11,15 +11,15 @@ using System.Text;
 namespace Mud.Server.Admin.Information
 {
     [AdminCommand("ifind", "Information")]
-    [AdminCommand("ofind", "Information")]
+    [Alias("ofind")]
     [Syntax("[cmd] <item>")]
-    public class Ofind : AdminGameAction
+    public class Ifind : AdminGameAction
     {
         private IItemManager ItemManager { get; }
 
         public ICommandParameter Pattern { get; protected set; }
 
-        public Ofind(IItemManager itemManager)
+        public Ifind(IItemManager itemManager)
         {
             ItemManager = itemManager;
         }

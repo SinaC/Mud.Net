@@ -8,8 +8,8 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Ability
 {
-    [CharacterCommand("cd", "Ability")]
     [CharacterCommand("cooldowns", "Ability")]
+    [Alias("cd")]
     [Syntax(
         "[cmd]",
         "[cmd] <ability>")]

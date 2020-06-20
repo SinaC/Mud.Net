@@ -10,7 +10,7 @@ using System.Text;
 namespace Mud.Server.Character.PlayableCharacter.Information
 {
     [PlayableCharacterCommand("affects", "Information")]
-    [PlayableCharacterCommand("auras", "Information")]
+    [Alias("auras")]
     public class Affects : PlayableCharacterGameAction
     {
         public override void Execute(IActionInput actionInput)

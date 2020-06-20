@@ -11,7 +11,7 @@ using System.Linq;
 namespace Mud.Server.Character.Item
 {
     [CharacterCommand("get", "Item", "Inventory", MinPosition = Positions.Resting)]
-    [CharacterCommand("take", "Item", "Inventory", MinPosition = Positions.Resting)]
+    [Alias("take")]
     [Syntax(
         "[cmd] <item>",
         "[cmd] <item> <container>")]

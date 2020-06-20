@@ -10,7 +10,7 @@ using System;
 namespace Mud.Server.Admin.Administration
 {
     [AdminCommand("iload", "Admin", MustBeImpersonated = true)]
-    [AdminCommand("oload", "Admin", MustBeImpersonated = true)]
+    [Alias("oload")]
     [Syntax("[cmd] <id>")]
     public class Oload : AdminGameAction
     {

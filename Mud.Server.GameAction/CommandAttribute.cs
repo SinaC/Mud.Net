@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using Mud.Domain;
 
 namespace Mud.Server.GameAction
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class CommandAttribute : Attribute
     {
         public const int DefaultPriority = 500;
@@ -22,15 +21,15 @@ namespace Mud.Server.GameAction
             Name = name.ToLowerInvariant();
             Priority = DefaultPriority;
             Hidden = false;
-            Categories = categories?.Length == 0 
-                ? new [] { DefaultCategory }
+            Categories = categories?.Length == 0
+                ? new[] { DefaultCategory }
                 : categories;
             NoShortcut = false;
             AddCommandInParameters = false;
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class CharacterCommandAttribute : CommandAttribute
     {
         public Positions MinPosition { get; set; }
@@ -42,7 +41,7 @@ namespace Mud.Server.GameAction
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class PlayableCharacterCommandAttribute : CharacterCommandAttribute // Must be impersonated
     {
         public PlayableCharacterCommandAttribute(string name, params string[] categories)
@@ -51,7 +50,7 @@ namespace Mud.Server.GameAction
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class PlayerCommandAttribute : CommandAttribute
     {
         public bool MustBeImpersonated { get; set; }
@@ -63,7 +62,7 @@ namespace Mud.Server.GameAction
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class AdminCommandAttribute : PlayerCommandAttribute
     {
         public AdminLevels MinLevel { get; set; }
@@ -74,7 +73,7 @@ namespace Mud.Server.GameAction
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class SyntaxAttribute : Attribute
     {
         public string[] Syntax { get; }
@@ -82,6 +81,17 @@ namespace Mud.Server.GameAction
         public SyntaxAttribute(params string[] syntax)
         {
             Syntax = syntax;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+    public class AliasAttribute : Attribute
+    {
+        public string Alias { get; }
+
+        public AliasAttribute(string alias)
+        {
+            Alias = alias;
         }
     }
 
@@ -95,22 +105,5 @@ namespace Mud.Server.GameAction
         InvalidTarget, // target cannot be used for this command
         NoExecution, //
         Error // will display an error in log and AfterCommand will not be executed
-    }
-
-    public class CommandAttributeEqualityComparer : IEqualityComparer<CommandAttribute>
-    {
-        public bool Equals(CommandAttribute x, CommandAttribute y)
-        {
-            if (x == null && y == null)
-                return true;
-            if (x == null || y == null)
-                return false;
-            return x.Name == y.Name;
-        }
-
-        public int GetHashCode(CommandAttribute obj)
-        {
-            return obj.Name.GetHashCode();
-        }
     }
 }

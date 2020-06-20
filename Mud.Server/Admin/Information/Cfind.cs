@@ -9,7 +9,7 @@ using System.Text;
 namespace Mud.Server.Admin.Information
 {
     [AdminCommand("cfind", "Information")]
-    [AdminCommand("mfind", "Information")]
+    [Alias("mfind")]
     [Syntax("[cmd] <character>")]
     public class Cfind : AdminGameAction
     {

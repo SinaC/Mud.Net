@@ -14,18 +14,6 @@ namespace Mud.Server.GameAction
 
         public object Context { get; set; }
 
-        // TODO: remove only used in Tests
-        public ActionInput(IGameActionInfo commandInfo, IActor actor, string commandLine)
-        {
-            GameActionInfo = commandInfo;
-            Actor = actor;
-            CommandLine = commandLine;
-            CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters); // TODO: move code to this class
-            Command = command;
-            RawParameters = rawParameters;
-            Parameters = parameters;
-        }
-
         public ActionInput(IGameActionInfo commandInfo, IActor actor, string commandLine, string command, string rawParameters, params ICommandParameter[] parameters)
         {
             GameActionInfo = commandInfo;
