@@ -1,10 +1,10 @@
 NEXT:
 one class by command -> rename Command to GameAction
+	continue CommandManager: transform static methods into methods
 	unit test for each command!!!
 	rename Guards to Setup
 	remove parameters from Execute
 	make IGameAction generic on TActor: IActor, same goes for IActionInput
-	continue CommandManager
 
 move Weapon effect from OneHit to Rom24
 find a elegant way to apply PoisonDamageAffect without referencing Rom24
