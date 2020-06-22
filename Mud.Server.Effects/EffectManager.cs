@@ -12,12 +12,12 @@ namespace Mud.Server.Effects
 {
     public class EffectManager : IEffectManager
     {
-        public Dictionary<string, Type> _effectByNames;
+        public Dictionary<string, Type> _effectsByName;
 
         public EffectManager(IAssemblyHelper assemblyHelper)
         {
             Type iEffectType = typeof(IEffect);
-            _effectByNames = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iEffectType.IsAssignableFrom(t)))
+            _effectsByName = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iEffectType.IsAssignableFrom(t)))
                 .Select(t => new { executionType = t, attribute = t.GetCustomAttribute<EffectAttribute>() })
                 .Where(x => x.attribute != null)
                 .ToDictionary(x => x.attribute.Name, x => x.executionType);
@@ -26,7 +26,7 @@ namespace Mud.Server.Effects
         public IEffect<TEntity> CreateInstance<TEntity>(string name)
             where TEntity : IEntity
         {
-            if (!_effectByNames.TryGetValue(name, out var effectType))
+            if (!_effectsByName.TryGetValue(name, out var effectType))
             {
                 Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} not found.", name);
                 return null;

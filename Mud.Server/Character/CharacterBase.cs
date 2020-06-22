@@ -27,8 +27,6 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Affects;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Character
 {
@@ -54,6 +52,7 @@ namespace Mud.Server.Character
         protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
         protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
         protected IEffectManager EffectManager => DependencyContainer.Current.GetInstance<IEffectManager>();
+        protected IAffectManager AffectManager => DependencyContainer.Current.GetInstance<IAffectManager>();
 
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)
@@ -2247,10 +2246,11 @@ namespace Mud.Server.Character
                         else
                         {
                             int duration = level / 2;
+                            IAffect poisonAffect = AffectManager.CreateInstance("Poison");
                             AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                                 new CharacterFlagsAffect {Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or},
                                 new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add},
-                                new PoisonDamageAffect());
+                                poisonAffect);
                         }
                     }
                 }

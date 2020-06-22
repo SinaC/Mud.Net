@@ -33,7 +33,8 @@ namespace Mud.Server.Rom24.Spells
                 if (Victim == Caster)
                     Caster.Send("You feel momentarily ill, but it passes.");
                 else
-                    Caster.Send("{0:N} seems to be unaffected.", Victim);
+                    Caster.Act(ActOptions.ToCharacter, "{0:N} seems to be unaffected.", Victim);
+                return;
             }
 
             AuraManager.AddAura(Victim, SpellName, Caster, (3 * Level) / 4, TimeSpan.FromMinutes(Level), AuraFlags.None, true,

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Mud.Server.Interfaces.Affect
+﻿namespace Mud.Server.Interfaces.Affect
 {
-    class IAffectManager
+    public interface IAffectManager
     {
+        IAffect CreateInstance(string name);
     }
 }

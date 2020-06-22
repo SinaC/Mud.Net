@@ -10,7 +10,7 @@ namespace Mud.Server.Rom24.Spells
     [Spell(SpellName, AbilityEffects.Debuff)]
     [AbilityCharacterWearOffMessage("You can see again.")]
     [AbilityDispellable("{0:N} is no longer blinded.")]
-    public class Blindness : DefensiveSpellBase
+    public class Blindness : OffensiveSpellBase
     {
         public const string SpellName = "Blindness";
 

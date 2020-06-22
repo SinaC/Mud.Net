@@ -18,6 +18,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -115,6 +116,7 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IDispelManager, Aura.DispelManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IEffectManager, Effects.EffectManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IAffectManager, Affects.AffectManager>(SimpleInjector.Lifestyle.Singleton);
 
             if (settings.UseMongo)
             {

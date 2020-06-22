@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AffectAttribute.cs" />
+    <Compile Include="AffectManager.cs" />
     <Compile Include="CharacterAttributeAffect.cs" />
     <Compile Include="CharacterFlagsAffect.cs" />
     <Compile Include="CharacterIRVAffect.cs" />
@@ -57,14 +62,25 @@
       <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
       <Name>Mud.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
+      <Project>{B9D5A4DD-8418-4E00-BC90-582359F7F05D}</Project>
+      <Name>Mud.Container</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
       <Name>Mud.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
+      <Project>{4E337998-ECAB-493B-9FAA-01366EE90EFF}</Project>
+      <Name>Mud.Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
       <Name>Mud.Server.Interfaces</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

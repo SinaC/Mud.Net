@@ -10,6 +10,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Affects
 {
+    [Affect("Plague")]
     public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect
     {
         private IRandomManager RandomManager { get; }
