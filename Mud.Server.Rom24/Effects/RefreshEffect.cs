@@ -9,7 +9,6 @@ namespace Mud.Server.Rom24.Effects
         public void Apply(ICharacter victim, IEntity source, string abilityName, int level, int _)
         {
             victim.UpdateMovePoints(level);
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (victim.MovePoints == victim.MaxMovePoints)
                 victim.Send("You feel fully refreshed!");
             else

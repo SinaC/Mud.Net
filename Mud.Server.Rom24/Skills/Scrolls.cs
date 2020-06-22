@@ -2,7 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -12,7 +12,8 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("recite", "Abilities", "Skills")]
+    [CharacterCommand("recite", "Abilities", "Skills")]
+    [Syntax("[cmd] <scroll> [<target>]")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Scrolls : ItemCastSpellSkillBase<IItemScroll>
     {

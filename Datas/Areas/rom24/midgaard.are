@@ -115,7 +115,7 @@ A sailor stands here, waiting to train you.
 He looks like a strong, fit sailor.
 ~
 human~
-ABJTV 0 900 0
+ABJTVb 0 900 0
 23 5 1d1+999 1d1+99 1d4+23 beating
 -15 -15 -15 -15
 FHJN ABCD 0 0

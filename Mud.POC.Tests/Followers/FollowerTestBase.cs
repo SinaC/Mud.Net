@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.POC.GroupsPetsFollowers;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.Tests.Followers
 {
@@ -14,13 +15,13 @@ namespace Mud.POC.Tests.Followers
             World.Instance.Clear();
         }
 
-        protected (string rawParameters, CommandParameter[] parameters) BuildParameters(string parameters)
+        protected (string rawParameters, ICommandParameter[] parameters) BuildParameters(string parameters)
         {
             var commandParameters = CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter).ToArray();
             return (parameters, commandParameters);
         }
 
-        protected (string rawParameters, CommandParameter[] parameters) BuildParametersSkipFirst(string parameters)
+        protected (string rawParameters, ICommandParameter[] parameters) BuildParametersSkipFirst(string parameters)
         {
             return CommandHelpers.SkipParameters(CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter), 1);
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
@@ -67,7 +66,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -119,7 +118,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -175,7 +174,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -231,7 +230,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -289,7 +288,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -350,7 +349,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Setup(x => x.GetEquipment<IItemStaff>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => staffMock.Object);
 
             Staves skill = new Staves(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "brandish");
+            var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);

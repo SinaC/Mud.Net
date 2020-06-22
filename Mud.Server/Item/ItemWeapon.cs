@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Text;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
@@ -91,6 +93,21 @@ namespace Mud.Server.Item
         #endregion
 
         #region ItemBase
+
+        public override StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay)
+        {
+            if (WeaponFlags.HasFlag(WeaponFlags.Flaming)) sb.Append("%R%(Flaming)%x%");
+            if (WeaponFlags.HasFlag(WeaponFlags.Frost)) sb.Append("%C%(Frost)%x%");
+            if (WeaponFlags.HasFlag(WeaponFlags.Vampiric)) sb.Append("%D%(Vampiric)%x%");
+            if (WeaponFlags.HasFlag(WeaponFlags.Sharp)) sb.Append("%B%(Sharp)%x%");
+            if (WeaponFlags.HasFlag(WeaponFlags.Vorpal)) sb.Append("%B%(Vorpal)%x%");
+            // Two-handed not handled
+            if (WeaponFlags.HasFlag(WeaponFlags.Shocking)) sb.Append("%Y%(Sparkling)%x%");
+            if (WeaponFlags.HasFlag(WeaponFlags.Poison)) sb.Append("%G%(Envenomed)%x%");
+            if (WeaponFlags.HasFlag(WeaponFlags.Holy)) sb.Append("%C%(Holy)%x%");
+            //
+            return base.Append(sb, viewer, shortDisplay);
+        }
 
         public override ItemData MapItemData()
         {

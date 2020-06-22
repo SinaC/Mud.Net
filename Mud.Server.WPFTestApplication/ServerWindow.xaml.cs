@@ -40,6 +40,9 @@ using Mud.Server.Random;
 using Mud.Common;
 using System.Reflection;
 using Mud.Server.Rom24.Spells;
+using Mud.Server.Interfaces.GameAction;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -54,13 +57,22 @@ namespace Mud.Server.WPFTestApplication
         private static IServerAdminCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerAdminCommand>();
         private static IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
         private static IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
-        private static IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        private static IAreaManager AreaManager => DependencyContainer.Current.GetInstance<IAreaManager>();
         private static IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        private static ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
         private static IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        private static IQuestManager QuestManager => DependencyContainer.Current.GetInstance<IQuestManager>();
 
         internal class AssemblyHelper : IAssemblyHelper
         {
-            public Assembly ExecutingAssembly => typeof(AcidBlast).Assembly;
+            public IEnumerable<Assembly> AllReferencedAssemblies => new Assembly[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly};
+        }
+
+        internal void RegisterAllTypes(IAssemblyHelper assemblyHelper)
+        {
+            Type iRegistrable = typeof(IRegistrable);
+            foreach (var registrable in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
+                DependencyContainer.Current.Register(registrable);
         }
 
         public ServerWindow()
@@ -74,25 +86,31 @@ namespace Mud.Server.WPFTestApplication
             // Initialize log
             Log.Default.Initialize(settings.LogPath, "server.log");
 
+            // Register all needed types
+            RegisterAllTypes(new AssemblyHelper());
+
             // Initialize IOC container
-            //DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(new AssemblyHelper());
+            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
+            DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(new AssemblyHelper());
+            DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
+            DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
             DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IQuestManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IQuestManager
             DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAuraManager
             DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IItemManager
+            DependencyContainer.Current.Register<ICharacterManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements ICharacterManager
             DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IRoomManager
+            DependencyContainer.Current.Register<IAreaManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAreaManager
             DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
             DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
             DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
             DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
             DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-            //DependencyContainer.Current.Register<IAbilityManager, AbilityManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper()));
             DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector cant choose which one to chose
             DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
 
             if (settings.UseMongo)
@@ -393,15 +411,15 @@ namespace Mud.Server.WPFTestApplication
             // Area
             foreach (AreaBlueprint blueprint in importer.Areas)
             {
-                World.AddAreaBlueprint(blueprint);
-                World.AddArea(Guid.NewGuid(), blueprint);
+                AreaManager.AddAreaBlueprint(blueprint);
+                AreaManager.AddArea(Guid.NewGuid(), blueprint);
             }
 
             // Rooms
             foreach (RoomBlueprint blueprint in importer.Rooms)
             {
                 RoomManager.AddRoomBlueprint(blueprint);
-                IArea area = World.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
+                IArea area = AreaManager.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
                 if (area == null)
                 {
                     Log.Default.WriteLine(LogLevels.Error, "Area id {0} not found", blueprint.AreaId);
@@ -418,13 +436,13 @@ namespace Mud.Server.WPFTestApplication
                     if (to == null)
                         Log.Default.WriteLine(LogLevels.Warning, "Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
                     else
-                        World.AddExit(room, to, exitBlueprint, exitBlueprint.Direction);
+                        RoomManager.AddExit(room, to, exitBlueprint, exitBlueprint.Direction);
                 }
             }
 
             // Characters
             foreach (CharacterBlueprintBase blueprint in importer.Characters)
-                World.AddCharacterBlueprint(blueprint);
+                CharacterManager.AddCharacterBlueprint(blueprint);
 
             // Items
             foreach(ItemBlueprintBase blueprint in importer.Items)
@@ -481,7 +499,7 @@ namespace Mud.Server.WPFTestApplication
                 Resistances = IRVFlags.Slash | IRVFlags.Fire,
                 Vulnerabilities = IRVFlags.Acid,
             };
-            World.AddCharacterBlueprint(construct);
+            CharacterManager.AddCharacterBlueprint(construct);
 
             // MANDATORY ITEMS
             if (ItemManager.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
@@ -508,7 +526,7 @@ namespace Mud.Server.WPFTestApplication
             RoomBlueprint voidBlueprint = RoomManager.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
             if (voidBlueprint == null)
             {
-                IArea area = World.Areas.First();
+                IArea area = AreaManager.Areas.First();
                 Log.Default.WriteLine(LogLevels.Error, "NullRoom not found -> creation of null room with id {0} in area {1}", DependencyContainer.Current.GetInstance<ISettings>().NullRoomId, area.DisplayName);
                 voidBlueprint = new RoomBlueprint
                 {
@@ -591,7 +609,7 @@ namespace Mud.Server.WPFTestApplication
                 }
                 // TODO: rewards
             };
-            World.AddQuestBlueprint(questBlueprint1);
+            QuestManager.AddQuestBlueprint(questBlueprint1);
 
             QuestBlueprint questBlueprint2 = new QuestBlueprint
             {
@@ -627,7 +645,7 @@ namespace Mud.Server.WPFTestApplication
                 },
                 // TODO: rewards
             };
-            World.AddQuestBlueprint(questBlueprint2);
+            QuestManager.AddQuestBlueprint(questBlueprint2);
 
             CharacterQuestorBlueprint mob10Blueprint = new CharacterQuestorBlueprint
             {
@@ -643,8 +661,8 @@ namespace Mud.Server.WPFTestApplication
                     questBlueprint2
                 }
             };
-            World.AddCharacterBlueprint(mob10Blueprint);
-            ICharacter mob10 = World.AddNonPlayableCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);
+            CharacterManager.AddCharacterBlueprint(mob10Blueprint);
+            ICharacter mob10 = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);
         }
     }
 }

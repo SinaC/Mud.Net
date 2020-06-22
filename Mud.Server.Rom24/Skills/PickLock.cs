@@ -3,7 +3,7 @@ using Mud.Domain.Extensions;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -14,7 +14,11 @@ using System.Linq;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("pick", "Skills")]
+    [CharacterCommand("pick", "Skills")]
+    [Syntax(
+            "[cmd] <direction>",
+            "[cmd] <door>",
+            "[cmd] <container>|<portal>")]
     [Skill(SkillName, AbilityEffects.None, LearnDifficultyMultiplier = 2)]
     public class PickLock : SkillBase
     {

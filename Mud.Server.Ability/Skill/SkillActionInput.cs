@@ -1,7 +1,6 @@
-﻿using Mud.Server.Input;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
+﻿using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Ability.Skill
 {
@@ -9,7 +8,7 @@ namespace Mud.Server.Ability.Skill
     {
         public ICharacter User { get; }
         public string RawParameters { get; }
-        public CommandParameter[] Parameters { get; }
+        public ICommandParameter[] Parameters { get; }
         public IAbilityInfo AbilityInfo { get; }
 
         public SkillActionInput(IActionInput actionInput, IAbilityInfo abilityInfo, ICharacter user)
@@ -20,7 +19,7 @@ namespace Mud.Server.Ability.Skill
             AbilityInfo = abilityInfo;
         }
 
-        public SkillActionInput(IAbilityInfo abilityInfo, ICharacter user, string rawParameters, params CommandParameter[] parameters)
+        public SkillActionInput(IAbilityInfo abilityInfo, ICharacter user, string rawParameters, params ICommandParameter[] parameters)
         {
             User = user;
             RawParameters = rawParameters;

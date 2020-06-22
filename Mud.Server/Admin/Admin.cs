@@ -1,38 +1,20 @@
 ﻿using System;
 using System.Text;
-using Mud.Container;
-using Mud.Repository;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
-using Mud.Server.Input;
 using System.Collections.Generic;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.Race;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.GameAction;
+using System.Linq;
 
 namespace Mud.Server.Admin
 {
     public partial class Admin : Player.Player, IAdmin
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> AdminCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Admin>);
-
-        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
-        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
-        protected IServerAdminCommand ServerAdminCommand => DependencyContainer.Current.GetInstance<IServerAdminCommand>();
-        protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
-        protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
-        protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
-        protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
-        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
-
         public Admin(Guid id, string name) 
             : base(id, name)
         {
@@ -45,67 +27,26 @@ namespace Mud.Server.Admin
             Level = level;
         }
 
+        public Admin(Guid id, AdminData data)
+            : base(id, data)
+        {
+            Level = data.AdminLevel;
+            WiznetFlags = data.WiznetFlags;
+        }
+
         #region IAdmin
 
         #region IPlayer
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => AdminCommands.Value;
-
-        //public override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        //{
-        //    AdminCommandAttribute adminCommandAttribute = methodInfo.Attribute as AdminCommandAttribute;
-        //    if (adminCommandAttribute?.MinLevel > Level)
-        //    {
-        //        Send($"You're a not allowed to use '{adminCommandAttribute.Name}'.");
-        //        Log.Default.WriteLine(LogLevels.Info, $"{DisplayName} [Level:{Level}] tried to use {adminCommandAttribute.Name} [Level:{adminCommandAttribute.MinLevel}]");
-        //        return false;
-        //    }
-        //    return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
-        //}
-
-        protected override bool IsCommandAvailable(CommandAttribute attribute)
-        {
-            return !(attribute is AdminCommandAttribute adminCommandAttribute) || Level >= adminCommandAttribute.MinLevel;
-        }
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<Admin>();
 
         #endregion
 
         public override string Prompt => Incarnating != null
             ? BuildIncarnatePrompt()
             : base.Prompt;
-
-        public override bool Load(string name)
-        {
-            AdminData data = AdminRepository.Load(name);
-            // Load player data
-            LoadPlayerData(data);
-            // Load admin datas
-            Level = data?.AdminLevel ?? AdminLevels.Angel;
-            WiznetFlags = data?.WiznetFlags ?? 0;
-            //
-            PlayerState = PlayerStates.Playing;
-            return true;
-        }
-
-        public override bool Save()
-        {
-            if (Impersonating != null)
-                UpdateCharacterDataFromImpersonated();
-            //
-            AdminData data = new AdminData();
-            // Fill player data
-            FillPlayerData(data);
-            // Fill admin data
-            data.AdminLevel = Level;
-            data.WiznetFlags = WiznetFlags;
-            //
-            AdminRepository.Save(data);
-            //
-            Log.Default.WriteLine(LogLevels.Info, $"Admin {DisplayName} saved");
-            return true;
-        }
 
         public override void OnDisconnected()
         {
@@ -116,6 +57,25 @@ namespace Mud.Server.Admin
             {
                 StopIncarnating();
             }
+        }
+
+        public override PlayerData MapPlayerData()
+        {
+            if (Impersonating != null)
+                UpdateCharacterDataFromImpersonated();
+            //
+            AdminData data = new AdminData
+            {
+                Name = Name,
+                PagingLineCount = PagingLineCount,
+                Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
+                Characters = Avatars.ToArray(),
+                //
+                AdminLevel = Level,
+                WiznetFlags = WiznetFlags,
+            };
+            //
+            return data;
         }
 
         public override StringBuilder PerformSanityCheck()
@@ -136,7 +96,28 @@ namespace Mud.Server.Admin
 
         public WiznetFlags WiznetFlags { get; private set; }
 
+        public void AddWiznet(WiznetFlags wiznetFlags)
+        {
+            WiznetFlags |= wiznetFlags;
+        }
+
+        public void RemoveWiznet(WiznetFlags wiznetFlags)
+        {
+            WiznetFlags &= ~wiznetFlags;
+        }
+
         public IEntity Incarnating { get; private set; }
+
+        public bool StartIncarnating(IEntity entity)
+        {
+            bool incarnated = entity.ChangeIncarnation(this);
+            if (incarnated)
+            {
+                Incarnating = entity;
+                PlayerState = PlayerStates.Impersonating;
+            }
+            return incarnated;
+        }
 
         public void StopIncarnating()
         {
@@ -146,11 +127,11 @@ namespace Mud.Server.Admin
 
         #endregion
 
-        protected override bool InnerExecuteCommand(string commandLine, string command, string rawParameters, CommandParameter[] parameters, bool forceOutOfGame)
+        protected override bool InnerExecuteCommand(string commandLine, string command, string rawParameters, ICommandParameter[] parameters, bool forceOutOfGame)
         {
             // Execute command
             bool executedSuccessfully;
-            if (forceOutOfGame || Impersonating == null)
+            if (forceOutOfGame || (Impersonating == null && Incarnating == null))
             {
                 Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
                 executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
@@ -160,9 +141,14 @@ namespace Mud.Server.Admin
                 Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
                 executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
             }
+            else if (Incarnating != null) // incarnating
+            {
+                Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Incarnating.DebugName, commandLine);
+                executedSuccessfully = Incarnating.ExecuteCommand(command, rawParameters, parameters);
+            }
             else
             {
-               Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating nor incarnating", WiznetFlags.Bugs, AdminLevels.Implementor);
                 executedSuccessfully = false;
             }
             if (!executedSuccessfully)

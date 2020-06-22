@@ -15,9 +15,7 @@ using Mud.Network;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Settings;
-using System.Reflection;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Interfaces;
@@ -36,6 +34,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
 using Mud.Common;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Server
 {
@@ -72,11 +71,14 @@ namespace Mud.Server.Server
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
+        protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
         protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+        protected IQuestManager QuestManager => DependencyContainer.Current.GetInstance<IQuestManager>();
 
         public Server()
         {
@@ -195,7 +197,7 @@ namespace Mud.Server.Server
 
         #region IPlayerManager
 
-        public IPlayer GetPlayer(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
+        public IPlayer GetPlayer(ICommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys, parameter, perfectMatch);
 
         public IEnumerable<IPlayer> Players => _players.Keys;
 
@@ -227,7 +229,7 @@ namespace Mud.Server.Server
 
         #region IAdminManager
 
-        public IAdmin GetAdmin(CommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
+        public IAdmin GetAdmin(ICommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
 
         public IEnumerable<IAdmin> Admins => _players.Keys.OfType<IAdmin>();
 
@@ -336,7 +338,8 @@ namespace Mud.Server.Server
             PlayerRepository.Delete(player.Name);
 
             // Save admin
-            admin.Save();
+            AdminData adminData = admin.MapPlayerData() as AdminData;
+            AdminRepository.Save(adminData);
 
             // Save login
             LoginRepository.ChangeAdminStatus(admin.Name, true);
@@ -349,8 +352,32 @@ namespace Mud.Server.Server
 
         #region IServerPlayerCommand
 
+        public void Save(IPlayer player)
+        {
+            PlayingClient playingClient;
+            _players.TryGetValue(player, out playingClient);
+            if (playingClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "Save: client not found");
+            else
+            {
+                if (playingClient.Player is IAdmin admin)
+                {
+                    AdminData data = admin.MapPlayerData() as AdminData;
+                    AdminRepository.Save(data);
+                    Log.Default.WriteLine(LogLevels.Info, $"Admin {playingClient.Player.DisplayName} saved");
+                }
+                else
+                {
+                    PlayerData data = playingClient.Player.MapPlayerData();
+                    PlayerRepository.Save(data);
+                    Log.Default.WriteLine(LogLevels.Info, $"Player {playingClient.Player.DisplayName} saved");
+                }
+            }
+        }
+
         public void Quit(IPlayer player)
         {
+            Save(player);
             PlayingClient playingClient;
             _players.TryGetValue(player, out playingClient);
             if (playingClient == null)
@@ -439,7 +466,7 @@ namespace Mud.Server.Server
             {
                 Log.Default.WriteLine(LogLevels.Info, "Player was already connected, disconnect previous client and reuse player");
 
-                // Save player
+                // Keep player
                 playerOrAdmin = previousPlayerPair.Key; // TODO: pause client ????
                 // Remove client and player from players/clients
                 lock (_playingClientLockObject)
@@ -468,10 +495,6 @@ namespace Mud.Server.Server
                 // Welcome
                 client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
             }
-            // TODO: if new player, avatar creation state machine
-            if (isNewPlayer)
-            {
-            }
 
             // Remove login state machine
             LoginStateMachine loginStateMachine;
@@ -489,17 +512,25 @@ namespace Mud.Server.Server
             // Add playing handlers
             client.DataReceived += ClientPlayingOnDataReceived;
 
-            bool loadPlayerOrAdmin = false;
             // Create a new player/admin only if not reconnecting
             if (playerOrAdmin == null)
             {
-                playerOrAdmin = isAdmin 
-                    ? new Admin.Admin(Guid.NewGuid(), username) 
-                    : new Player.Player(Guid.NewGuid(), username);
+                //playerOrAdmin = isAdmin 
+                //    ? new Admin.Admin(Guid.NewGuid(), username) 
+                //    : new Player.Player(Guid.NewGuid(), username);
+                if (isAdmin)
+                {
+                    AdminData data = AdminRepository.Load(username);
+                    playerOrAdmin = new Admin.Admin(Guid.NewGuid(), data);
+                }
+                else
+                {
+                    PlayerData data = PlayerRepository.Load(username);
+                    playerOrAdmin = new Player.Player(Guid.NewGuid(), data);
+                }
                 //
                 playerOrAdmin.SendData += PlayerOnSendData;
                 playerOrAdmin.PageData += PlayerOnPageData;
-                loadPlayerOrAdmin = true;
             }
             //
             PlayingClient newPlayingClient = new PlayingClient
@@ -515,14 +546,17 @@ namespace Mud.Server.Server
 
             // Save if isNewPlayer
             if (isNewPlayer)
-                playerOrAdmin.Save();
+                Save(playerOrAdmin);
 
             // Prompt
             client.WriteData(playerOrAdmin.Prompt);
 
-            // Load player/admin (if needed)
-            if (loadPlayerOrAdmin)
-                playerOrAdmin.Load(username);
+            // TODO: if new player, avatar creation state machine
+            if (isNewPlayer)
+            {
+            }
+
+            playerOrAdmin.ChangePlayerState(PlayerStates.Playing);
         }
 
         public void LoginStateMachineOnLoginFailed(IClient client)
@@ -768,7 +802,7 @@ namespace Mud.Server.Server
 
         private void SanityCheckQuests()
         {
-            foreach (QuestBlueprint questBlueprint in World.QuestBlueprints)
+            foreach (QuestBlueprint questBlueprint in QuestManager.QuestBlueprints)
             {
                 if (questBlueprint.ItemObjectives?.Length == 0 && questBlueprint.KillObjectives?.Length == 0 && questBlueprint.LocationObjectives?.Length == 0)
                     Log.Default.WriteLine(LogLevels.Error, "Quest id {0} doesn't have any objectives.", questBlueprint.Id);
@@ -780,7 +814,7 @@ namespace Mud.Server.Server
                         Log.Default.WriteLine(LogLevels.Error, "Quest id {0} has objectives with duplicate id {1} count {2}", questBlueprint.Id, duplicateId.objectiveId, duplicateId.count);
                 }
             }
-            Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {0}", World.QuestBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {0}", QuestManager.QuestBlueprints.Count);
         }
 
         private void SanityCheckRooms()
@@ -805,8 +839,8 @@ namespace Mud.Server.Server
 
         private void SanityCheckCharacters()
         {
-            Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {0}", World.CharacterBlueprints.Count);
-            Log.Default.WriteLine(LogLevels.Info, "#Characters: {0}", World.Characters.Count());
+            Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {0}", CharacterManager.CharacterBlueprints.Count);
+            Log.Default.WriteLine(LogLevels.Info, "#Characters: {0}", CharacterManager.Characters.Count());
         }
 
         private void DumpCommands()
@@ -817,29 +851,29 @@ namespace Mud.Server.Server
             //DumpCommandByType(typeof(PlayableCharacter));
             //DumpCommandByType(typeof(Item.ItemBase<>));
             //DumpCommandByType(typeof(Room.Room));
-            Type actorBaseType = typeof(Actor.ActorBase);
-            var actorTypes = Assembly.GetExecutingAssembly().GetTypes()
-                .Where(x => x.IsClass && !x.IsAbstract && actorBaseType.IsAssignableFrom(x))
-                .ToList();
-            foreach (Type actorType in actorTypes)
-                DumpCommandByType(actorType);
+            //Type actorBaseType = typeof(Actor.ActorBase);
+            //var actorTypes = Assembly.GetExecutingAssembly().GetTypes()
+            //    .Where(x => x.IsClass && !x.IsAbstract && actorBaseType.IsAssignableFrom(x))
+            //    .ToList();
+            //foreach (Type actorType in actorTypes)
+            //    DumpCommandByType(actorType);
         }
 
-        private void DumpCommandByType(Type t)
-        {
-            for (char c = 'a'; c <= 'z'; c++)
-            {
-                CommandMethodInfo[] query = CommandHelpers.GetCommands(t).GetByPrefix(c.ToString()).OrderBy(x => x.Value.Attribute.Priority).Select(x => x.Value).ToArray();
+        //private void DumpCommandByType(Type t)
+        //{
+        //    for (char c = 'a'; c <= 'z'; c++)
+        //    {
+        //        IGameActionInfo[] query = GameActionManager.GetCommands(t).GetByPrefix(c.ToString()).Select(x => x.Value).OrderBy(x => x.Priority).ToArray();
 
-                if (query.Length == 0)
-                    Log.Default.WriteLine(LogLevels.Debug, $"No commands for {t.Name} prefix '{c}'"); // Dump in log
-                else
-                {
-                    StringBuilder sb = TableGenerators.CommandMethodInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
-                    Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
-                }
-            }
-        }
+        //        if (query.Length == 0)
+        //            Log.Default.WriteLine(LogLevels.Debug, $"No commands for {t.Name} prefix '{c}'"); // Dump in log
+        //        else
+        //        {
+        //            StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
+        //            Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+        //        }
+        //    }
+        //}
 
         private void DumpClasses()
         {
@@ -898,7 +932,7 @@ namespace Mud.Server.Server
 
         private void HandleAggressiveNonPlayableCharacters()
         {
-            IReadOnlyCollection<IPlayableCharacter> pcClone = new ReadOnlyCollection<IPlayableCharacter>(World.PlayableCharacters.Where(x => x.Room != null).ToList()); // TODO: !immortal
+            IReadOnlyCollection<IPlayableCharacter> pcClone = new ReadOnlyCollection<IPlayableCharacter>(CharacterManager.PlayableCharacters.Where(x => x.Room != null).ToList()); // TODO: !immortal
             foreach (IPlayableCharacter pc in pcClone)
             {
                 IReadOnlyCollection<INonPlayableCharacter> aggressorClone = new ReadOnlyCollection<INonPlayableCharacter>(pc.Room.NonPlayableCharacters.Where(x => !IsInvalidAggressor(x, pc)).ToList());
@@ -950,7 +984,7 @@ namespace Mud.Server.Server
 
         private void HandleAuras(int pulseCount) 
         {
-            foreach (ICharacter character in World.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+            foreach (ICharacter character in CharacterManager.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
             {
                 try
                 {
@@ -1036,7 +1070,7 @@ namespace Mud.Server.Server
 
         private void HandleCooldowns(int pulseCount) 
         {
-            foreach (ICharacter character in World.Characters.Where(x => x.HasAbilitiesInCooldown))
+            foreach (ICharacter character in CharacterManager.Characters.Where(x => x.HasAbilitiesInCooldown))
             {
                 try
                 {
@@ -1082,7 +1116,7 @@ namespace Mud.Server.Server
         private void HandleViolence(int pulseCount)
         {
             //Log.Default.WriteLine(LogLevels.Debug, "HandleViolence: {0}", DateTime.Now);
-            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(World.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
+            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(CharacterManager.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
             foreach (ICharacter character in clone)
             {
                 INonPlayableCharacter npcCharacter = character as INonPlayableCharacter;
@@ -1202,7 +1236,7 @@ namespace Mud.Server.Server
 
         private void HandleCharacters(int pulseCount)
         {
-            foreach (ICharacter character in World.Characters)
+            foreach (ICharacter character in CharacterManager.Characters)
             {
                 try
                 {
@@ -1275,7 +1309,7 @@ namespace Mud.Server.Server
 
         private void HandleNonPlayableCharacters(int pulseCount)
         {
-            foreach (INonPlayableCharacter npc in World.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
+            foreach (INonPlayableCharacter npc in CharacterManager.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
             {
                 try
                 {
@@ -1433,7 +1467,7 @@ namespace Mud.Server.Server
             if (!string.IsNullOrWhiteSpace(timeUpdate))
             {
                 // inform non-sleeping and outdoors players
-                foreach (IPlayableCharacter character in World.PlayableCharacters.Where(x => 
+                foreach (IPlayableCharacter character in CharacterManager.PlayableCharacters.Where(x => 
                     x.Position > Positions.Sleeping 
                     && x.Room != null 
                     && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)

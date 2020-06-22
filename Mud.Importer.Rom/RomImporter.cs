@@ -10,7 +10,6 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
-// ReSharper disable InconsistentNaming
 
 namespace Mud.Importer.Rom
 {

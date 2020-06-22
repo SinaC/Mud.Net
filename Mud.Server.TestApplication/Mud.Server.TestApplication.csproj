@@ -148,17 +148,33 @@
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj">
+      <Project>{e4077e94-96ea-4999-ae8f-f93b519e4411}</Project>
+      <Name>Mud.Server.Class</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
       <Name>Mud.Server.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
+      <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
+      <Name>Mud.Server.GameAction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
       <Name>Mud.Server.Interfaces</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj">
+      <Project>{9760a8e7-084e-4574-93e5-3473745e502d}</Project>
+      <Name>Mud.Server.Race</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
       <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
       <Name>Mud.Server.Random</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj">
+      <Project>{8A3A8267-B6A3-441B-BCF1-925B09FF920E}</Project>
+      <Name>Mud.Server.Rom24</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>

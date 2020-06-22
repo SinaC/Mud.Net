@@ -303,7 +303,7 @@ namespace Mud.Server.Tests
             RoomManager.AddRoomBlueprint(roomBlueprint);
             IRoom room = RoomManager.AddRoom(Guid.NewGuid(), roomBlueprint, new Mock<IArea>().Object);
             CharacterNormalBlueprint mobBlueprint = new CharacterNormalBlueprint { Id = 1, Name = "mob1", ShortDescription = "Mob1Short", Description = "Mob1Desc" };
-            world.AddCharacterBlueprint(mobBlueprint);
+            CharacterManager.AddCharacterBlueprint(mobBlueprint);
             ItemQuestBlueprint questItemBlueprint = new ItemQuestBlueprint { Id = 1, Name="item1", ShortDescription = "Item1Short", Description = "Item1Desc"};
             ItemManager.AddItemBlueprint(questItemBlueprint);
             QuestBlueprint questBlueprint1 = new QuestBlueprint
@@ -341,14 +341,14 @@ namespace Mud.Server.Tests
                     }
                 }
             };
-            world.AddQuestBlueprint(questBlueprint1);
+            QuestManager.AddQuestBlueprint(questBlueprint1);
             CharacterQuestorBlueprint questorBlueprint = new CharacterQuestorBlueprint
             {
                 Id = 999, Name = "Questor", ShortDescription = "QuestorShort", Description = "QuestDesc",
                 QuestBlueprints = new [] { questBlueprint1 },
             };
-            world.AddCharacterBlueprint(questorBlueprint);
-            world.AddNonPlayableCharacter(Guid.NewGuid(), questorBlueprint, room);
+            CharacterManager.AddCharacterBlueprint(questorBlueprint);
+            CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), questorBlueprint, room);
 
             //AutoFaker cannot be used because BluePrint for each Item/Quest must be created
             //PlayableCharacterData playableCharacterData = AutoFaker.Generate<CharacterData>();

@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -10,7 +10,8 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("zap", "Abilities", "Skills")]
+    [CharacterCommand("zap", "Abilities", "Skills")]
+    [Syntax("[cmd] <wand> [<target>]")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Wands : ItemCastSpellSkillBase<IItemWand>
     {

@@ -1,17 +1,20 @@
 NEXT:
-redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
+one class by command
+	unit test for each command!!!
+	make IGameAction generic on TActor: IActor, same goes for IActionInput
 
-move ClassBase/Manager and RaceBase/Manager into specific project and move races/classes to Rom24 project
 move Weapon effect from OneHit to Rom24
 find a elegant way to apply PoisonDamageAffect without referencing Rom24
 use StringComparer.InvariantCultureIgnoreCase in Dictionary<string, ???> constructor
-add ICharacterManager -> once done, rename every method to remove Item/Character/Room
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 
 commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
+
+redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
+
 
 module/plugin to enable load on demand of skills/spells/commands/...
 
@@ -28,12 +31,7 @@ Add ctor to every manager with other manager as parameter to easy unit tests
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead
 Move CanSee in IEntity
-Move AddAura in aura manager
 each time operator IS or AS is used, this should be replaced with an overridable method
-DoLook/DoExamine should be heavily modified to use Room.Display  Character.Display  (almost every functions in InfoCommands.cs)
-IItem: Display(short/long) (used instead of FormatItem in InfoCommands.cs)
-EquippedItem should be responsible for displaying itself
-EquippedItem: Display (used instead of EquipmentSlotsToString on InfoCommands.cs)
 pull/push
 Multiple wear location
 Reset 'R'
@@ -54,6 +52,7 @@ AbilityTargets not yet handled:
 	SpellVentriloquate(IAbility ability, int level, ICharacter caster, ICharacter victim, string parameter) // victim + raw parameter
 
 DONE:
+ExtraDescriptions fixed
 Rescue skill
 race form, parts
 plague spread to other people in room

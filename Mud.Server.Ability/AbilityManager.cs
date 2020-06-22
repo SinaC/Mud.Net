@@ -3,16 +3,33 @@ using Mud.Container;
 using Mud.Logger;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.GameAction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 
 namespace Mud.Server.Ability
 {
     public class AbilityManager : IAbilityManager
     {
-        private readonly Dictionary<string, IAbilityInfo> _abilities;
+        private readonly Dictionary<string, IAbilityInfo> _abilities; // TODO: trie to optimize Search ?
+
+        public AbilityManager(IAssemblyHelper assemblyHelper)
+        {
+            _abilities = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
+            // Get abilities
+            Type iAbility = typeof(IAbility);
+            foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
+            {
+                AbilityInfo abilityInfo = new AbilityInfo(abilityType);
+                if (_abilities.ContainsKey(abilityInfo.Name))
+                    Log.Default.WriteLine(LogLevels.Error, "Duplicate ability {0}", abilityInfo.Name);
+                else
+                    _abilities.Add(abilityInfo.Name, abilityInfo);
+            }
+        }
+
+        #region IAbilityManager
 
         public IEnumerable<IAbilityInfo> Abilities => _abilities.Values;
 
@@ -29,7 +46,12 @@ namespace Mud.Server.Ability
         public IAbilityInfo Search(string pattern, AbilityTypes type)
         {
             // TODO: use Trie ?
-            return Abilities.Where(x => x.Type == type).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, pattern));
+            return Abilities.FirstOrDefault(x => x.Type == type && StringCompareHelpers.StringStartsWith(x.Name, pattern));
+        }
+
+        public IAbilityInfo Search(ICommandParameter parameter)
+        {
+            return Abilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
         }
 
         public TAbility CreateInstance<TAbility>(string abilityName)
@@ -55,24 +77,6 @@ namespace Mud.Server.Ability
             return instance;
         }
 
-        public AbilityManager(IAssemblyHelper assemblyHelper)
-        {
-            _abilities = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
-            // Get abilities and register them in IOC
-            Type iAbility = typeof(IAbility);
-            foreach (var abilityType in assemblyHelper.ExecutingAssembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t)))
-            //var asm = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.GetReferencedAssemblies()).DistinctBy(x => x.FullName);
-            //foreach (var abilityType in asm.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
-            {
-                AbilityInfo abilityInfo = new AbilityInfo(abilityType);
-                if (_abilities.ContainsKey(abilityInfo.Name))
-                    Log.Default.WriteLine(LogLevels.Error, "Duplicate ability {0}", abilityInfo.Name);
-                else
-                {
-                    _abilities.Add(abilityInfo.Name, abilityInfo);
-                    DependencyContainer.Current.Register(abilityType);
-                }
-            }
-        }
+        #endregion
     }
 }

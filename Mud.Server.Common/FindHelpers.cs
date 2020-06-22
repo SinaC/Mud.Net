@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Mud.Common;
 using Mud.Container;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
 
 namespace Mud.Server.Common
 {
     // TODO: don't use GetInstance
     public static class FindHelpers
     {
-        private static IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         private static IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        private static ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
         private static IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
 
         //// Search in room content, then in inventory, then in equipment
@@ -40,7 +39,7 @@ namespace Mud.Server.Common
         //}
 
         // Concat room content, inventory and equipment, then search
-        public static IItem FindItemHere(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
+        public static IItem FindItemHere(ICharacter character, ICommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
         {
             return FindByName(
                 character.Room.Content.Where(character.CanSee)
@@ -48,7 +47,7 @@ namespace Mud.Server.Common
                     .Concat(character.Equipments.Where(x => x.Item != null && character.CanSee(x.Item)).Select(x => x.Item)),
                 parameter, perfectMatch);
         }
-        public static T FindItemHere<T>(ICharacter character, CommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
+        public static T FindItemHere<T>(ICharacter character, ICommandParameter parameter, bool perfectMatch = false) // equivalent to get_obj_here in handler.C:3680
             where T:IItem
         {
             return FindByName(
@@ -66,7 +65,7 @@ namespace Mud.Server.Common
                 : list.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, name));
         }
 
-        public static IPlayer FindByName(IEnumerable<IPlayer> list, CommandParameter parameter, bool perfectMatch = false)
+        public static IPlayer FindByName(IEnumerable<IPlayer> list, ICommandParameter parameter, bool perfectMatch = false)
         {
             return perfectMatch
                 ? list.Where(x => StringCompareHelpers.StringEquals(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1)
@@ -80,7 +79,7 @@ namespace Mud.Server.Common
                 : list.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, name));
         }
 
-        public static IAdmin FindByName(IEnumerable<IAdmin> list, CommandParameter parameter, bool perfectMatch = false)
+        public static IAdmin FindByName(IEnumerable<IAdmin> list, ICommandParameter parameter, bool perfectMatch = false)
         {
             return perfectMatch
                 ? list.Where(x => StringCompareHelpers.StringEquals(x.Name, parameter.Value)).ElementAtOrDefault(parameter.Count - 1)
@@ -88,7 +87,7 @@ namespace Mud.Server.Common
         }
 
         // Entity
-        public static T FindByName<T>(IEnumerable<T> list, CommandParameter parameter, bool perfectMatch = false)
+        public static T FindByName<T>(IEnumerable<T> list, ICommandParameter parameter, bool perfectMatch = false)
             where T : IEntity
         {
             return perfectMatch
@@ -96,7 +95,7 @@ namespace Mud.Server.Common
                 : list.Where(x => StringCompareHelpers.StringListsStartsWith(x.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
         }
 
-        public static IEnumerable<T> FindAllByName<T>(IEnumerable<T> list, CommandParameter parameter, bool perfectMatch = false)
+        public static IEnumerable<T> FindAllByName<T>(IEnumerable<T> list, ICommandParameter parameter, bool perfectMatch = false)
             where T : IEntity
         {
             return perfectMatch
@@ -119,7 +118,7 @@ namespace Mud.Server.Common
         //        : list.Where(x => StringStartsWith(x.Name, parameter.Value));
         //}
 
-        public static T FindByName<T, TEntity>(IEnumerable<T> collection, Func<T, TEntity> getItemFunc, CommandParameter parameter, bool perfectMatch = false)
+        public static T FindByName<T, TEntity>(IEnumerable<T> collection, Func<T, TEntity> getItemFunc, ICommandParameter parameter, bool perfectMatch = false)
             where TEntity : IEntity
         {
             return perfectMatch
@@ -128,7 +127,7 @@ namespace Mud.Server.Common
         }
 
         // FindLocation
-        public static IRoom FindLocation(CommandParameter parameter)
+        public static IRoom FindLocation(ICommandParameter parameter)
         {
             if (parameter.IsNumber)
             {
@@ -136,7 +135,7 @@ namespace Mud.Server.Common
                 return RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
 
-            ICharacter victim = FindByName(World.Characters, parameter);
+            ICharacter victim = FindByName(CharacterManager.Characters, parameter);
             if (victim != null)
                 return victim.Room;
 
@@ -144,7 +143,7 @@ namespace Mud.Server.Common
             return item?.ContainedInto as IRoom;
         }
 
-        public static IRoom FindLocation(ICharacter asker, CommandParameter parameter)
+        public static IRoom FindLocation(ICharacter asker, ICommandParameter parameter)
         {
             if (parameter.IsNumber)
             {
@@ -161,7 +160,7 @@ namespace Mud.Server.Common
         }
 
         // FindCharacter
-        public static ICharacter FindChararacterInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_char_world in handler.C:3511
+        public static ICharacter FindChararacterInWorld(ICharacter asker, ICommandParameter parameter) // equivalent to get_char_world in handler.C:3511
         {
             // In room
             ICharacter inRoom = FindByName(asker.Room.People.Where(asker.CanSee), parameter);
@@ -180,15 +179,15 @@ namespace Mud.Server.Common
 
             // In world
             //  players
-            IPlayableCharacter inWorldPlayer = FindByName(World.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            IPlayableCharacter inWorldPlayer = FindByName(CharacterManager.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
             if (inWorldPlayer != null)
                 return inWorldPlayer;
             //  characters
-            INonPlayableCharacter inWorldCharacter = FindByName(World.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
+            INonPlayableCharacter inWorldCharacter = FindByName(CharacterManager.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
             return inWorldCharacter;
         }
 
-        public static INonPlayableCharacter FindNonPlayableChararacterInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_char_world in handler.C:3511
+        public static INonPlayableCharacter FindNonPlayableChararacterInWorld(ICharacter asker, ICommandParameter parameter) // equivalent to get_char_world in handler.C:3511
         {
             // In room
             INonPlayableCharacter inRoom = FindByName(asker.Room.NonPlayableCharacters.Where(asker.CanSee), parameter);
@@ -201,11 +200,11 @@ namespace Mud.Server.Common
                 return inAreaCharacter;
 
             // In world
-            INonPlayableCharacter inWorldCharacter = FindByName(World.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
+            INonPlayableCharacter inWorldCharacter = FindByName(CharacterManager.Characters.OfType<INonPlayableCharacter>().Where(asker.CanSee), parameter);
             return inWorldCharacter;
         }
 
-        public static IPlayableCharacter FindPlayableChararacterInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_char_world in handler.C:3511
+        public static IPlayableCharacter FindPlayableChararacterInWorld(ICharacter asker, ICommandParameter parameter) // equivalent to get_char_world in handler.C:3511
         {
             // In room
             IPlayableCharacter inRoom = FindByName(asker.Room.PlayableCharacters.Where(asker.CanSee), parameter);
@@ -218,12 +217,12 @@ namespace Mud.Server.Common
                 return inAreaPlayer;
 
             // In world
-            IPlayableCharacter inWorldPlayer = FindByName(World.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
+            IPlayableCharacter inWorldPlayer = FindByName(CharacterManager.Characters.OfType<IPlayableCharacter>().Where(x => x.ImpersonatedBy != null && asker.CanSee(x)), parameter);
             return inWorldPlayer;
         }
 
         // FindItem
-        public static IItem FindItemInWorld(ICharacter asker, CommandParameter parameter) // equivalent to get_obj_world in handler.C:3702
+        public static IItem FindItemInWorld(ICharacter asker, ICommandParameter parameter) // equivalent to get_obj_world in handler.C:3702
         {
             IItem hereItem = FindItemHere(asker, parameter);
             if (hereItem != null)

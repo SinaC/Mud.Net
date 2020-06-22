@@ -2,7 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
@@ -10,7 +10,7 @@ using System;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("sneak", "Abilities", "Skills")]
+    [CharacterCommand("sneak", "Abilities", "Skills")]
     [Skill(SkillName, AbilityEffects.Buff, LearnDifficultyMultiplier = 3)]
     public class Sneak : NoTargetSkillBase
     {

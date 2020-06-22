@@ -341,6 +341,7 @@
     <Compile Include="Abilities\AbilityManager.cs" />
     <Compile Include="Abilities\AbilityUsage.cs" />
     <Compile Include="Abilities\AttributeTables.cs" />
+    <Compile Include="Abilities\CommandAttributes.cs" />
     <Compile Include="Abilities\Enums.cs" />
     <Compile Include="Abilities\IAbility.cs" />
     <Compile Include="Abilities\IAbilityManager.cs" />
@@ -399,6 +400,7 @@
     <Compile Include="Abilities\CombatCommands.cs" />
     <Compile Include="GroupsPetsFollowers\CharacterBase.cs" />
     <Compile Include="GroupsPetsFollowers\CharacterCommands.cs" />
+    <Compile Include="GroupsPetsFollowers\CommandAttributes.cs" />
     <Compile Include="GroupsPetsFollowers\Group.cs" />
     <Compile Include="GroupsPetsFollowers\ICharacter.cs" />
     <Compile Include="GroupsPetsFollowers\IGroup.cs" />
@@ -461,13 +463,13 @@
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
+      <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
+      <Name>Mud.Server.GameAction</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{D1A7D787-0FE7-4281-9458-D2C8F728E404}</Project>
       <Name>Mud.Server.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3E2BD396-17B9-423E-9114-9E215B468267}</Project>
-      <Name>Mud.Server.Input</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>

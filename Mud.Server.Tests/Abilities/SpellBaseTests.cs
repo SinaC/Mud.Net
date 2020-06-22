@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Common;
@@ -189,13 +190,13 @@ namespace Mud.Server.Tests.Abilities
             spell.Execute();
 
             casterMock.Verify(x => x.UpdateResource(ResourceKinds.Mana, -50), Times.Once);
-            casterMock.Verify(x => x.SetCooldown(SpellName, 10), Times.Once);
+            casterMock.Verify(x => x.SetCooldown(SpellName, TimeSpan.FromSeconds(10)), Times.Once);
             casterMock.Verify(x => x.CheckAbilityImprove(It.IsAny<string>(), true, 3), Times.Once);
             playerMock.Verify(x => x.SetGlobalCooldown(20), Times.Once);
         }
 
         // Spell without specific Setup nor invoke
-        [Spell(SpellName, AbilityEffects.None, Cooldown = 10, LearnDifficultyMultiplier = 3, PulseWaitTime = 20)]
+        [Spell(SpellName, AbilityEffects.None, CooldownInSeconds = 10, LearnDifficultyMultiplier = 3, PulseWaitTime = 20)]
         internal class SpellBaseTestsSpell : SpellBase
         {
             public SpellBaseTestsSpell(IRandomManager randomManager)

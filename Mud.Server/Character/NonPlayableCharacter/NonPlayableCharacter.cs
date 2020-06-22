@@ -8,12 +8,14 @@ using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Ability.Skill;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
@@ -23,8 +25,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
 {
     public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<NonPlayableCharacter>);
-
         private IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         private IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
 
@@ -68,18 +68,18 @@ namespace Mud.Server.Character.NonPlayableCharacter
             // TODO: see db.C:Create_Mobile
             // TODO: following values must be extracted from blueprint
             int baseValue = Math.Min(25, 11 + Level / 4);
-            SetBaseAttributes(CharacterAttributes.Strength, baseValue, false);
-            SetBaseAttributes(CharacterAttributes.Intelligence, baseValue, false);
-            SetBaseAttributes(CharacterAttributes.Wisdom, baseValue, false);
-            SetBaseAttributes(CharacterAttributes.Dexterity, baseValue, false);
-            SetBaseAttributes(CharacterAttributes.Constitution, baseValue, false);
+            SetBaseAttributes(CharacterAttributes.Strength, baseValue, false); // TODO
+            SetBaseAttributes(CharacterAttributes.Intelligence, baseValue, false); // TODO
+            SetBaseAttributes(CharacterAttributes.Wisdom, baseValue, false); // TODO
+            SetBaseAttributes(CharacterAttributes.Dexterity, baseValue, false); // TODO
+            SetBaseAttributes(CharacterAttributes.Constitution, baseValue, false); // TODO
             // TODO: use Act/Off/size to change values
             int maxHitPoints = RandomManager.Dice(blueprint.HitPointDiceCount, blueprint.HitPointDiceValue) + blueprint.HitPointDiceBonus;
             SetBaseAttributes(CharacterAttributes.MaxHitPoints, maxHitPoints, false); // OK
-            SetBaseAttributes(CharacterAttributes.SavingThrow, 0, false);
+            SetBaseAttributes(CharacterAttributes.SavingThrow, 0, false); // TODO
             SetBaseAttributes(CharacterAttributes.HitRoll, blueprint.HitRollBonus, false); // OK
-            SetBaseAttributes(CharacterAttributes.DamRoll, Level, false);
-            SetBaseAttributes(CharacterAttributes.MaxMovePoints, 1000, false);
+            SetBaseAttributes(CharacterAttributes.DamRoll, Level, false); // TODO
+            SetBaseAttributes(CharacterAttributes.MaxMovePoints, 1000, false); // TODO
             SetBaseAttributes(CharacterAttributes.ArmorBash, blueprint.ArmorBash, false); // OK
             SetBaseAttributes(CharacterAttributes.ArmorPierce, blueprint.ArmorPierce, false); // OK
             SetBaseAttributes(CharacterAttributes.ArmorSlash, blueprint.ArmorSlash, false); // OK
@@ -156,7 +156,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                     var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
 
                     // Try to equip it
-                    EquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
+                    IEquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
                     if (equippedItem != null)
                     {
                         if (item.WearLocation != WearLocations.None)
@@ -202,7 +202,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => NonPlayableCharacterCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<NonPlayableCharacter>();
 
         public override void Send(string message, bool addTrailingNewLine)
         {
@@ -259,7 +259,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             ResetCooldowns();
             DeleteInventory();
             DeleteEquipments();
-            Room = World.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+            Room = RoomManager.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
         }
 
         public override void OnCleaned() // called when removing definitively an entity from the game
@@ -318,7 +318,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             }
             // off hand attack
             var dualWield = AbilityManager.CreateInstance<IPassive>("Dual Wield");
-            if (offHand != null && dualWield?.IsTriggered(this, victim, false, out _, out _) == true)
+            if (offHand != null && dualWield != null && dualWield.IsTriggered(this, victim, false, out _, out _))
                 OneHit(victim, offHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -334,7 +334,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 return;
             // main hand second attack
             var secondAttack = AbilityManager.CreateInstance<IPassive>("Second Attack");
-            if (secondAttack?.IsTriggered(this, victim, false, out _, out _) == true)
+            if (secondAttack != null && secondAttack.IsTriggered(this, victim, false, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -342,7 +342,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 return;
             // main hand third attack
             var thirdAttack = AbilityManager.CreateInstance<IPassive>("Third Attack");
-            if (thirdAttack?.IsTriggered(this, victim, false, out _, out _) == true)
+            if (thirdAttack != null && thirdAttack.IsTriggered(this, victim, false, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -377,34 +377,34 @@ namespace Mud.Server.Character.NonPlayableCharacter
             switch (number)
             {
                 case 0: if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
-                        DoBash(string.Empty, Enumerable.Empty<CommandParameter>().ToArray());
+                        UseSkill("Bash", string.Empty, CommandParameter.EmptyCommandParameter);
                     break;
                 case 1: if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk) && !CharacterFlags.HasFlag(CharacterFlags.Berserk))
-                        DoBerserk(string.Empty, null);
+                        UseSkill("Berserk", string.Empty, CommandParameter.EmptyCommandParameter);
                     break;
                 case 2: if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)
                         || ActFlags.HasFlag(ActFlags.Warrior) // TODO: check if weapon skill is not hand to hand
                         || ActFlags.HasFlag(ActFlags.Thief))
-                        DoDisarm(string.Empty, null);
+                        UseSkill("Disarm", string.Empty, CommandParameter.EmptyCommandParameter);
                     break;
                 case 3: if (OffensiveFlags.HasFlag(OffensiveFlags.Kick))
-                        DoKick(string.Empty, null);
+                        UseSkill("Kick", string.Empty, CommandParameter.EmptyCommandParameter);
                     break;
                 case 4: if (OffensiveFlags.HasFlag(OffensiveFlags.DirtKick))
-                        DoDirt(string.Empty, null);
+                        UseSkill("Dirt Kicking", string.Empty, CommandParameter.EmptyCommandParameter);
                     break;
                 case 5: if (OffensiveFlags.HasFlag(OffensiveFlags.Tail))
                         ; // TODO: see raceabilities.C:639
                     break;
                 case 6: if (OffensiveFlags.HasFlag(OffensiveFlags.Trip))
-                        DoTrip(null, null);
+                        UseSkill("Trip", string.Empty, CommandParameter.EmptyCommandParameter);
                     break;
                 case 7: if (OffensiveFlags.HasFlag(OffensiveFlags.Crush))
                         ; // TODO: see raceabilities.C:525
                     break;
                 case 8:
                     if (OffensiveFlags.HasFlag(OffensiveFlags.Backstab))
-                        DoBackstab(string.Empty, null); // TODO: this will never works because we cannot backstab while in combat
+                        UseSkill("Backstab", string.Empty, CommandParameter.EmptyCommandParameter); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
                     break;
             }
         }
@@ -452,7 +452,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             Master = master;
         }
 
-        public bool Order(string rawParameters, params CommandParameter[] parameters)
+        public bool Order(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Master == null)
                 return false;
@@ -657,14 +657,12 @@ namespace Mud.Server.Character.NonPlayableCharacter
         protected override void AfterMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
         {
             if (IncarnatedBy != null)
-            {
                 AutoLook();
-            }
         }
 
         protected override void HandleDeath()
         {
-            World.RemoveCharacter(this);
+            CharacterManager.RemoveCharacter(this);
         }
 
         protected override void HandleWimpy(int damage)
@@ -673,7 +671,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             {
                 if ((ActFlags.HasFlag(ActFlags.Wimpy) && HitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
                     || (CharacterFlags.HasFlag(CharacterFlags.Charm) && Master != null && Master.Room != Room))
-                    DoFlee(null, null);
+                    Flee();
             }
         }
 
@@ -698,5 +696,26 @@ namespace Mud.Server.Character.NonPlayableCharacter
         }
 
         #endregion
+
+        protected bool UseSkill(string skillName, string rawParameters, params ICommandParameter[] parameters)
+        {
+            Log.Default.WriteLine(LogLevels.Info, "{0} tries to use {1} on {2}.", DebugName, skillName, Fighting?.DebugName ?? "???");
+            var abilityInfo = AbilityManager.Search(skillName, AbilityTypes.Skill);
+            if (abilityInfo == null)
+            {
+                Send("This skill doesn't exist.");
+                return false;
+            }
+            ISkill skillInstance = AbilityManager.CreateInstance<ISkill>(abilityInfo.Name);
+            var skillActionInput = new SkillActionInput(abilityInfo, this, rawParameters, parameters);
+            string setupResult = skillInstance.Setup(skillActionInput);
+            if (setupResult != null)
+            {
+                Send(setupResult);
+                return false;
+            }
+            skillInstance.Execute();
+            return true;
+        }
     }
 }

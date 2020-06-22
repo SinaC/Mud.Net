@@ -1,4 +1,5 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 using System.Collections.Generic;
 
 namespace Mud.POC.GroupsPetsFollowers
@@ -18,8 +19,8 @@ namespace Mud.POC.GroupsPetsFollowers
         void RemovePet(INonPlayableCharacter pet);
 
         // TEST PURPOSE
-        CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters); // order to one pet or all to do something
-        CommandExecutionResults DoGroup(string rawParameters, params CommandParameter[] parameters); // display group info, add member
-        CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters); // leave a group
+        CommandExecutionResults DoOrder(string rawParameters, params ICommandParameter[] parameters); // order to one pet or all to do something
+        CommandExecutionResults DoGroup(string rawParameters, params ICommandParameter[] parameters); // display group info, add member
+        CommandExecutionResults DoLeave(string rawParameters, params ICommandParameter[] parameters); // leave a group
     }
 }

@@ -11,12 +11,13 @@ using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Input;
+using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
@@ -32,11 +33,9 @@ namespace Mud.Server.Character.PlayableCharacter
         public static readonly int MinCondition = 0;
         public static readonly int MaxCondition = 48;
 
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> PlayableCharacterCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<PlayableCharacter>);
-
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
-        protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
+        protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
 
         private readonly List<IQuest> _quests;
         private readonly int[] _conditions;
@@ -53,7 +52,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
             ImpersonatedBy = player;
 
-            Room = World.NullRoom; // add in null room to avoid problem if an initializer needs a room
+            Room = RoomManager.NullRoom; // add in null room to avoid problem if an initializer needs a room
 
             // Extract informations from PlayableCharacterData
             CreationTime = data.CreationTime;
@@ -136,7 +135,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     var item = ItemManager.AddItem(Guid.NewGuid(), equippedItemData.Item, this);
 
                     // Try to equip it
-                    EquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
+                    IEquippedItem equippedItem = SearchEquipmentSlot(equippedItemData.Slot, false);
                     if (equippedItem != null)
                     {
                         if (item.WearLocation != WearLocations.None)
@@ -166,7 +165,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (data.CurrentQuests != null)
             {
                 foreach (CurrentQuestData questData in data.CurrentQuests)
-                    _quests.Add(new Quest.Quest(questData, this));
+                    _quests.Add(new Mud.Server.Quest.Quest(questData, this));
             }
             // Auras
             if (data.Auras != null)
@@ -204,7 +203,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     if (abilityInfo == null)
                         Wiznet.Wiznet($"Cooldown: ability {cooldown.Key} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                     else
-                        SetCooldown(cooldown.Key, cooldown.Value);
+                        SetCooldown(cooldown.Key, Pulse.FromPulse(cooldown.Value));
                 }
             }
             // Pets
@@ -212,14 +211,14 @@ namespace Mud.Server.Character.PlayableCharacter
             {
                 foreach (PetData petData in data.Pets)
                 {
-                    CharacterNormalBlueprint blueprint = World.GetCharacterBlueprint<CharacterNormalBlueprint>(petData.BlueprintId);
+                    CharacterNormalBlueprint blueprint = CharacterManager.GetCharacterBlueprint<CharacterNormalBlueprint>(petData.BlueprintId);
                     if (blueprint == null)
                     {
                         Wiznet.Wiznet($"Pet blueprint id {petData.BlueprintId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                     }
                     else
                     {
-                        INonPlayableCharacter pet = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, petData, room);
+                        INonPlayableCharacter pet = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, petData, room);
                         AddPet(pet);
                     }
                 }
@@ -242,7 +241,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => PlayableCharacterCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<PlayableCharacter>();
 
         public override void Send(string message, bool addTrailingNewLine)
         {
@@ -305,7 +304,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     pet.Act(ActOptions.ToRoom, "{0:N} slowly fades away.", pet);
                 RemoveFollower(pet);
                 pet.ChangeMaster(null);
-                World.RemoveCharacter(pet);
+                CharacterManager.RemoveCharacter(pet);
             }
             _pets.Clear();
 
@@ -315,7 +314,7 @@ namespace Mud.Server.Character.PlayableCharacter
             ResetCooldowns();
             DeleteInventory();
             DeleteEquipments();
-            Room = World.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+            Room = RoomManager.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
         }
 
         #endregion
@@ -343,7 +342,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 return;
             // 2/ off hand attack
             var dualWield = AbilityManager.CreateInstance<IPassive>("Dual Wield");
-            if (offHand != null && dualWield.IsTriggered(this, victim, true, out _, out _))
+            if (offHand != null && dualWield != null && dualWield.IsTriggered(this, victim, true, out _, out _))
                 OneHit(victim, offHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -358,7 +357,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 return;
             // 4/ main hand second attack
             var secondAttack = AbilityManager.CreateInstance<IPassive>("Second Attack");
-            if (secondAttack.IsTriggered(this, victim, true, out _, out _))
+            if (secondAttack != null && secondAttack.IsTriggered(this, victim, true, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -366,7 +365,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 return;
             // 5/ main hand third attack
             var thirdAttack = AbilityManager.CreateInstance<IPassive>("Third Attack");
-            if (thirdAttack.IsTriggered(this, victim, true, out _, out _))
+            if (thirdAttack != null && thirdAttack.IsTriggered(this, victim, true, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -531,6 +530,16 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public IReadOnlyDictionary<string, string> Aliases => _aliases;
 
+        public void SetAlias(string alias, string command)
+        {
+            _aliases[alias] = command;
+        }
+
+        public void RemoveAlias(string alias)
+        {
+            _aliases.Remove(alias);
+        }
+
         public DateTime CreationTime { get; protected set; }
 
         public long ExperienceToLevel =>
@@ -546,7 +555,23 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public int Practices { get; protected set; }
 
+        public void UpdateTrainsAndPractices(int trainsAmount, int practicesAmount)
+        {
+            Trains = Math.Max(0, Trains + trainsAmount);
+            Practices = Math.Max(0, Practices + practicesAmount);
+        }
+
         public AutoFlags AutoFlags { get; protected set; }
+
+        public void AddAutoFlags(AutoFlags autoFlags)
+        {
+            AutoFlags |= autoFlags;
+        }
+
+        public void RemoveAutoFlags(AutoFlags autoFlags)
+        {
+            AutoFlags &= ~autoFlags;
+        }
 
         public int this[Conditions condition]
         {
@@ -623,9 +648,10 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public void ChangeGroup(IGroup group)
         {
-            if (Group != null && group != null)
-                return; // cannot change from one group to another
-            Group = group;
+            if (Group != null && group == null)
+                Group = group;
+            if (Group == null && group != null)
+                Group = group;
         }
 
         public bool IsSameGroup(IPlayableCharacter character)
@@ -722,7 +748,7 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             if (Level < Settings.MaxLevel)
             {
-                bool recompute = false;
+                bool levelGained = false;
                 Experience = Math.Max(ExperienceByLevel * (Level-1), Experience + experience); // don't go below current level
                 // Raise level
                 if (experience > 0)
@@ -730,7 +756,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     // In case multiple level are gain, check max level
                     while (ExperienceToLevel <= 0 && Level < Settings.MaxLevel)
                     {
-                        recompute = true;
+                        levelGained = true;
                         Level++;
                         Wiznet.Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
                         Send("You raise a level!!");
@@ -738,7 +764,7 @@ namespace Mud.Server.Character.PlayableCharacter
                         AdvanceLevel();
                     }
                 }
-                if (recompute)
+                if (levelGained)
                 {
                     RecomputeKnownAbilities();
                     Recompute();
@@ -748,7 +774,8 @@ namespace Mud.Server.Character.PlayableCharacter
                     MovePoints = MaxMovePoints;
                     foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>())
                         this[resourceKind] = MaxResource(resourceKind);
-                    ImpersonatedBy?.Save(); // Force a save when a level is gained
+                    if (ImpersonatedBy != null)
+                        ServerPlayerCommand.Save(ImpersonatedBy);
                 }
             }
         }
@@ -816,6 +843,91 @@ namespace Mud.Server.Character.PlayableCharacter
             IsImmortal = isImmortal;
         }
 
+        // Misc
+        public bool SacrificeItem(IItem item)
+        {
+            if (item.ItemFlags.HasFlag(ItemFlags.NoSacrifice) || item.NoTake)
+            {
+                Act(ActOptions.ToCharacter, "{0} is not an acceptable sacrifice.", item);
+                return false;
+            }
+            if (item is IItemCorpse itemCorpse && itemCorpse.IsPlayableCharacterCorpse && itemCorpse.Content.Any())
+            {
+                Send("Mota wouldn't like that.");
+                return false;
+            }
+            if (item is IItemFurniture itemFurniture)
+            {
+                ICharacter user = itemFurniture.People.FirstOrDefault();
+                if (user != null)
+                {
+                    Act(ActOptions.ToCharacter, "{0:N} appears to be using {1}.", user, itemFurniture);
+                    return false;
+                }
+            }
+
+            Act(ActOptions.ToAll, "{0:N} sacrifices {1:v} to Mota.", this, item);
+            Wiznet.Wiznet($"{DebugName} sacrifices {item.DebugName} as a burnt offering.", WiznetFlags.Saccing);
+            ItemManager.RemoveItem(item);
+            //
+            long silver = Math.Max(1, item.Level * 3);
+            if (!(item is IItemCorpse))
+                silver = Math.Min(silver, item.Cost);
+            if (silver <= 0)
+            {
+                Send("Mota doesn't give you anything for your sacrifice.");
+                Wiznet.Wiznet($"DoSacrifice: {item.DebugName} gives zero or negative money {silver}!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            }
+            else if (silver == 1)
+                Send("Mota gives you one silver coin for your sacrifice.");
+            else
+                Send("Mota gives you {0} silver coins for your sacrifice.", silver);
+            if (silver > 0)
+                SilverCoins += silver;
+            // autosplit
+            if (silver > 0 && AutoFlags.HasFlag(AutoFlags.Split))
+                SplitMoney(silver, 0);
+
+            return true;
+        }
+
+        public bool SplitMoney(long amountSilver, long amountGold)
+        {
+            IPlayableCharacter[] members = (Group?.Members ?? this.Yield()).ToArray();
+            if (members.Length < 2)
+                return false;
+            long extraSilver = Math.DivRem(amountSilver, members.Length, out long shareSilver);
+            long extraGold = Math.DivRem(amountGold, members.Length, out long shareGold);
+            if (shareSilver == 0 || shareGold == 0)
+            {
+                Send("Don't even bother, cheapstake.");
+                return false;
+            }
+            // Remove money from ours, extra money excluded
+            if (shareSilver > 0)
+                Send("You split {0} silver coins. Your share is {1} silver.", amountSilver, shareSilver + extraSilver);
+            if (shareGold > 0)
+                Send("You split {0} gold coins. Your share is {1} gold.", amountGold, shareGold + extraGold);
+            UpdateMoney(-amountSilver + extraSilver, -amountGold + extraGold);
+            UpdateMoney(extraSilver, extraGold);
+            // Give share money to group member (including ourself)
+            foreach (IPlayableCharacter member in members)
+            {
+                if (member != this)
+                {
+                    if (shareGold == 0)
+                        Act(ActOptions.ToCharacter, "{0:N} splits {1} silver coins. Your share is {2} silver.", this, amountSilver, shareSilver);
+                    else if (shareSilver == 0)
+                        Act(ActOptions.ToCharacter, "{0:N} splits {1} gold coins. Your share is {2} gold.", this, amountGold, shareGold);
+                    else
+                        Act(ActOptions.ToCharacter, "{0:N} splits {1} silver and {2} gold coins, giving you {3} silver and {4} gold.", this, amountSilver, amountGold, shareSilver, shareGold);
+                }
+                UpdateMoney(shareSilver, shareGold);
+            }
+
+            return true;
+        }
+
         // Mapping
         public PlayableCharacterData MapPlayableCharacterData()
         {
@@ -860,24 +972,24 @@ namespace Mud.Server.Character.PlayableCharacter
 
         #endregion
 
-        #region ActorBase
-
-        protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            if (methodInfo.Attribute is PlayableCharacterCommandAttribute playableCharacterCommandAttribute)
-            {
-                if (ImpersonatedBy == null)
-                {
-                    Send($"You must be impersonated to use '{playableCharacterCommandAttribute.Name}'.");
-                    return false;
-                }
-            }
-            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
-        }
-
-        #endregion
-
         #region CharacterBase
+
+        public override bool GetItem(IItem item, IContainer container)
+        {
+            long silver = 0, gold = 0;
+            if (item is IItemMoney money)
+            {
+                silver = money.SilverCoins;
+                gold = money.GoldCoins;
+            }
+
+            bool got = base.GetItem(item, container);
+            // autosplit
+            if (got && AutoFlags.HasFlag(AutoFlags.Split)
+                    && (silver > 0 || gold > 0))
+                SplitMoney(silver, gold);
+            return true;
+        }
 
         protected override bool AutomaticallyDisplayRoom => true;
 
@@ -1064,7 +1176,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     pet.Act(ActOptions.ToRoom, "{0:N} slowly fades away.", pet);
                 RemoveFollower(pet);
                 pet.ChangeMaster(null);
-                World.RemoveCharacter(pet);
+                CharacterManager.RemoveCharacter(pet);
             }
             _pets.Clear();
             if (ImpersonatedBy != null) // If impersonated, no real death
@@ -1075,7 +1187,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             else // If not impersonated, remove from game // TODO: this can be a really bad idea
             {
-                World.RemoveCharacter(this);
+                CharacterManager.RemoveCharacter(this);
             }
         }
 

@@ -2,7 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -12,7 +12,11 @@ using System;
 
 namespace Mud.Server.Rom24.Rom24Skills
 {
-    [Command("envenom", "Abilities", "Skills", "Enchantments")]
+    [CharacterCommand("envenom", "Abilities", "Skills", "Enchantments")]
+    [Syntax(
+            "[cmd] <weapon>",
+            "[cmd] <food>",
+            "[cmd] <drink container>")]
     [Skill(SkillName, AbilityEffects.Enchantment, PulseWaitTime = 36, LearnDifficultyMultiplier = 4)]
     [AbilityItemWearOffMessage("The poison on {0} dries up.")]
     public class Envenom : ItemInventorySkillBase

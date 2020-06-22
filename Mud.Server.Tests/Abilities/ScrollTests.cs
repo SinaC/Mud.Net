@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Common;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
@@ -53,7 +52,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -92,7 +91,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -130,7 +129,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -170,7 +169,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -209,7 +208,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -248,7 +247,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -291,7 +290,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll target");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -335,7 +334,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll target");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -379,7 +378,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll target");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -423,7 +422,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll target");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -466,7 +465,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll target");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -512,7 +511,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll target");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -555,7 +554,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll item");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -598,7 +597,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll item");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -640,7 +639,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll item");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -681,7 +680,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll item");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -727,7 +726,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll item");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -772,7 +771,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
             Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput(userMock.Object, "recite scroll item");
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);

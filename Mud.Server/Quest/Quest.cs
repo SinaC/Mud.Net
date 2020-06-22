@@ -29,6 +29,8 @@ namespace Mud.Server.Quest
         protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+        protected IQuestManager QuestManager => DependencyContainer.Current.GetInstance<IQuestManager>();
 
         public Quest(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
         {
@@ -46,21 +48,21 @@ namespace Mud.Server.Quest
             Character = character;
 
             // Extract informations from QuestData
-            QuestBlueprint questBlueprint = World.GetQuestBlueprint(questData.QuestId);
+            QuestBlueprint questBlueprint = QuestManager.GetQuestBlueprint(questData.QuestId);
             // TODO: quid if blueprint is null?
             Blueprint = questBlueprint;
             StartTime = questData.StartTime;
             PulseLeft = questData.PulseLeft;
             CompletionTime = questData.CompletionTime;
 
-            CharacterQuestorBlueprint characterQuestorBlueprint = World.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
+            CharacterQuestorBlueprint characterQuestorBlueprint = CharacterManager.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
             if (characterQuestorBlueprint == null)
             {
                 Wiznet.Wiznet($"Quest giver blueprint id {questData.GiverId} not found!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
             else
             {
-                Giver = World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? World.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
+                Giver = CharacterManager.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? CharacterManager.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
                 if (Giver == null)
                 {
                     Wiznet.Wiznet($"Quest giver blueprint id {questData.GiverId} room blueprint Id {questData.GiverRoomId} not found!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
@@ -317,7 +319,7 @@ namespace Mud.Server.Quest
             {
                 foreach (QuestKillObjectiveBlueprint killObjective in Blueprint.KillObjectives)
                 {
-                    CharacterBlueprintBase characterBlueprint = World.GetCharacterBlueprint(killObjective.CharacterBlueprintId);
+                    CharacterBlueprintBase characterBlueprint = CharacterManager.GetCharacterBlueprint(killObjective.CharacterBlueprintId);
                     if (characterBlueprint != null)
                         _objectives.Add(new KillQuestObjective
                         {

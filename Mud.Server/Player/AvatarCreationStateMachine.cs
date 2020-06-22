@@ -5,12 +5,12 @@ using System.Text.RegularExpressions;
 using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
-using Mud.Server.Input;
+using Mud.Server.Common;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
 
 namespace Mud.Server.Player
 {
@@ -33,7 +33,7 @@ namespace Mud.Server.Player
         private IPlayableRace _race;
         private IClass _class;
 
-        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
+        protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
@@ -61,6 +61,7 @@ namespace Mud.Server.Player
 
         private AvatarCreationStates ProcessNameChoice(IPlayer player, string input)
         {
+            player.ChangePlayerState(PlayerStates.CreatingAvatar);
             if (!string.IsNullOrWhiteSpace(input))
             {
                 if (input == "quit")
@@ -202,7 +203,7 @@ namespace Mud.Server.Player
                     // known abilities will be created in PlayableCharacter ctor
                 };
                 player.AddAvatar(playableCharacterData);
-                player.Save();
+                ServerPlayerCommand.Save(player);
                 UniquenessManager.AddAvatarName(_name);
                 // TODO: better wording
                 player.Send("Your avatar is created. Name: {0} Sex: {1} Race: {2} Class: {3}.", _name.UpperFirstLetter(), _sex, _race.DisplayName, _class.DisplayName);
@@ -215,6 +216,7 @@ namespace Mud.Server.Player
 
         private AvatarCreationStates ProcessImmediateImpersonate(IPlayer player, string input)
         {
+            player.ChangePlayerState(PlayerStates.Playing);
             if (input == "y" || input == "yes")
             {
                 // Impersonate
@@ -230,12 +232,14 @@ namespace Mud.Server.Player
 
         private AvatarCreationStates ProcessCreationComplete(IPlayer player, string input)
         {
+            player.ChangePlayerState(PlayerStates.Playing);
             // fall-thru
             return AvatarCreationStates.CreationComplete;
         }
 
         private AvatarCreationStates ProcessQuit(IPlayer player, string input)
         {
+            player.ChangePlayerState(PlayerStates.Playing);
             // fall-thru
             return AvatarCreationStates.Quit;
         }

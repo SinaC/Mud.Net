@@ -1,5 +1,6 @@
 ﻿using Moq;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.GameAction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace Mud.Server.Tests.Mocking
         public IEnumerable<IAbilityInfo> Abilities => _abilityInfos;
 
         public IAbilityInfo Search(string pattern, AbilityTypes type) => Abilities.FirstOrDefault(x => x.Type == type && x.Name.StartsWith(pattern, StringComparison.InvariantCultureIgnoreCase));
+
+        public IAbilityInfo Search(ICommandParameter parameter) => Abilities.FirstOrDefault(x => x.Name.StartsWith(parameter.Value, StringComparison.InvariantCultureIgnoreCase));
 
         TAbility IAbilityManager.CreateInstance<TAbility>(string abilityName) => throw new NotImplementedException();
     }

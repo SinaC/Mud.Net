@@ -9,7 +9,7 @@ namespace Mud.POC.TestLua
     {
         public ICharacter GetCharacter() // referenced here (***)
         {
-            return World.Characters.First();
+            return CharacterManager.Characters.First();
         }
 
         public interface ITestCharacter

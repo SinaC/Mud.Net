@@ -1,7 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
@@ -17,6 +22,8 @@ namespace Mud.Server.Tests
         protected IWorld World => Container.DependencyContainer.Current.GetInstance<IWorld>();
         protected IRoomManager RoomManager => Container.DependencyContainer.Current.GetInstance<IRoomManager>();
         protected IItemManager ItemManager => Container.DependencyContainer.Current.GetInstance<IItemManager>();
+        protected ICharacterManager CharacterManager => Container.DependencyContainer.Current.GetInstance<ICharacterManager>();
+        protected IQuestManager QuestManager => Container.DependencyContainer.Current.GetInstance<IQuestManager>();
 
         [TestInitialize]
         public void TestInitialize()
@@ -35,8 +42,12 @@ namespace Mud.Server.Tests
             Container.DependencyContainer.Current.RegisterInstance<IWorld>(new WorldMock());
             Container.DependencyContainer.Current.RegisterInstance<IWiznet>(new WiznetMock());
             Container.DependencyContainer.Current.RegisterInstance<IRoomManager>(new RoomManagerMock());
+            Container.DependencyContainer.Current.RegisterInstance<IAreaManager>(new AreaManagerMock());
+            Container.DependencyContainer.Current.RegisterInstance<ICharacterManager>(new CharacterManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IItemManager>(new ItemManagerMock());
+            Container.DependencyContainer.Current.RegisterInstance<IQuestManager>(new QuestManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
+            Container.DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper()));
         }
     }
 }

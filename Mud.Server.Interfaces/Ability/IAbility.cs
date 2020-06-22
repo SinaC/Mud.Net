@@ -1,6 +1,6 @@
 ﻿namespace Mud.Server.Interfaces.Ability
 {
-    public interface IAbility
+    public interface IAbility : IRegistrable
     {
     }
 }

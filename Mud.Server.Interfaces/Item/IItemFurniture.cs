@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using Mud.Domain;
 using Mud.Server.Interfaces.Character;
 
@@ -19,5 +20,7 @@ namespace Mud.Server.Interfaces.Item
         bool CanSit { get; }
         bool CanRest { get; }
         bool CanSleep { get; }
+
+        StringBuilder AppendPosition(StringBuilder sb, string verb);
     }
 }

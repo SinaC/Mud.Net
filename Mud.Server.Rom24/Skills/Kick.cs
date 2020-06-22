@@ -1,14 +1,15 @@
 ﻿using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("kick", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("kick", "Abilities", "Skills", "Combat")]
+    [Syntax("[cmd] <victim>")]
     [Skill(SkillName, AbilityEffects.Damage)]
     public class Kick : FightingSkillBase
     {

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Mud.Common;
+using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -9,11 +10,11 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
@@ -23,7 +24,7 @@ namespace Mud.Server.Item
         where TBlueprint : ItemBlueprintBase
         where TData: ItemData
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> ItemCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<ItemBase<TBlueprint, TData>>);
+        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 
         protected ItemBase(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
             : base(guid, name, description)
@@ -79,7 +80,7 @@ namespace Mud.Server.Item
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => ItemCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemBase<TBlueprint, TData>>();
 
         #endregion
 
@@ -142,7 +143,7 @@ namespace Mud.Server.Item
         {
             base.OnRemoved();
             ContainedInto?.GetFromContainer(this);
-            ContainedInto = World.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
+            ContainedInto = RoomManager.NullRoom; // this will avoid a lot of problem, will be set to null in Cleanup phase
         }
 
         public override void OnCleaned() // called when removing definitively an entity from the game
@@ -257,6 +258,25 @@ namespace Mud.Server.Item
         public void IncreaseLevel()
         {
             Level++;
+        }
+
+        public virtual StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay)
+        {
+            // Item flags
+            if (ItemFlags.HasFlag(ItemFlags.Invis) && viewer.CharacterFlags.HasFlag(CharacterFlags.DetectInvis)) sb.Append("%y%(Invis)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Evil) && viewer.CharacterFlags.HasFlag(CharacterFlags.DetectEvil)) sb.Append("%R%(Evil)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Bless) && viewer.CharacterFlags.HasFlag(CharacterFlags.DetectGood)) sb.Append("%C%(Blessed)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Magic) && viewer.CharacterFlags.HasFlag(CharacterFlags.DetectMagic)) sb.Append("%b%(Magical)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Glowing)) sb.Append("%Y%(Glowing)%x%");
+            if (ItemFlags.HasFlag(ItemFlags.Humming)) sb.Append("%y%(Humming)%x%");
+
+            // Description
+            if (shortDisplay)
+                sb.Append(RelativeDisplayName(viewer));
+            else
+                sb.Append(RelativeDescription(viewer));
+            //
+            return sb;
         }
 
         public void ApplyAffect(IItemFlagsAffect affect)

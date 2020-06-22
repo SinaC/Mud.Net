@@ -1,4 +1,4 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.GroupsPetsFollowers
 {
@@ -22,7 +22,7 @@ namespace Mud.POC.GroupsPetsFollowers
             Master = master;
         }
 
-        public void Order(string rawParameters, params CommandParameter[] parameters)
+        public void Order(string rawParameters, params ICommandParameter[] parameters)
         {
             if (Master == null)
                 return;

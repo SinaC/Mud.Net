@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Character;
@@ -45,6 +46,8 @@ namespace Mud.Server.Interfaces.Item
         void Disenchant();
 
         void IncreaseLevel();
+
+        StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay);
 
         // Affects
         void ApplyAffect(IItemFlagsAffect affect);

@@ -1,10 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Container;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
+using Mud.Server.Interfaces.GameAction;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Mud.Server.Tests.Abilities
 {
@@ -26,15 +30,42 @@ namespace Mud.Server.Tests.Abilities
             DependencyContainer.SetManualContainer(_originalContainer);
         }
 
-        protected (string rawParameters, CommandParameter[] parameters) BuildParameters(string parameters)
+        protected (string rawParameters, ICommandParameter[] parameters) BuildParameters(string parameters)
         {
             var commandParameters = CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter).ToArray();
             return (parameters, commandParameters);
         }
 
-        protected ActionInput BuildActionInput(IActor actor, string parameters)
+        protected IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
+            where TGameAction:IGameAction
         {
-            return new ActionInput(actor, parameters);
+            Type type = typeof(TGameAction);
+            CommandAttribute commandAttribute = type.GetCustomAttribute<CommandAttribute>();
+            SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
+            IEnumerable<AliasAttribute> aliasAttributes = type.GetCustomAttributes<AliasAttribute>();
+
+            IGameActionInfo gameActionInfo;
+            switch (commandAttribute)
+            {
+                case AdminCommandAttribute adminCommandAttribute:
+                    gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes);
+                    break;
+                case PlayerCommandAttribute playerCommandAttribute:
+                    gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes);
+                    break;
+                case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
+                    gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes);
+                    break;
+                case CharacterCommandAttribute characterCommandAttribute:
+                    gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes);
+                    break;
+                default:
+                    gameActionInfo = new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes);
+                    break;
+            }
+
+            CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters);
+            return new ActionInput(gameActionInfo, actor, commandLine, command, rawParameters, parameters);
         }
 
         protected IAbilityLearned BuildAbilityLearned(string name)

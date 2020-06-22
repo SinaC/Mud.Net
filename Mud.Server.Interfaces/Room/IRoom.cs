@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
@@ -7,6 +8,7 @@ using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Interfaces.Room
 {
@@ -45,6 +47,11 @@ namespace Mud.Server.Interfaces.Room
 
         void IncreaseLight();
         void DecreaseLight();
+
+        StringBuilder Append(StringBuilder sb, ICharacter viewer);
+        StringBuilder AppendExits(StringBuilder sb, ICharacter viewer, bool compact);
+
+        (IExit exit, ExitDirections exitDirection) VerboseFindDoor(ICharacter character, ICommandParameter parameter);
 
         void ResetRoom();
 

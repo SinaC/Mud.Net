@@ -20,7 +20,6 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke()
         {
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (Item.IsPoisoned)
                 Caster.Send("You smell poisonous fumes.");
             else

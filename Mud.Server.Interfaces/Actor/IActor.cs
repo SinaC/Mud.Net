@@ -1,15 +1,15 @@
 ﻿using System.Text;
 using Mud.DataStructures.Trie;
-using Mud.Server.Input;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Interfaces.Actor
 {
     public interface IActor
     {
-        IReadOnlyTrie<CommandMethodInfo> Commands { get; } // list of commands accessible to Actor (used by ExecuteCommand)
+        IReadOnlyTrie<IGameActionInfo> GameActions { get; } // list of commands accessible to Actor (used by ExecuteCommand)
 
         bool ProcessCommand(string commandLine); // split commandLine into command and parameters, then call ExecuteCommand
-        bool ExecuteCommand(string command, string rawParameters, params CommandParameter[] parameters); // search command in Commands, then execute it
+        bool ExecuteCommand(string command, string rawParameters, params ICommandParameter[] parameters); // search command in Commands, then execute it
 
         void Send(string message, bool addTrailingNewLine); // send message to Actor
         void Send(string format, params object[] parameters); // send overload (this function will automatically add a trailing newline)

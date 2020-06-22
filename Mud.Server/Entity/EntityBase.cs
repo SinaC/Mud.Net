@@ -10,14 +10,16 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
+using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
+using Mud.Settings;
 
 namespace Mud.Server.Entity
 {
@@ -25,7 +27,9 @@ namespace Mud.Server.Entity
     {
         private readonly List<IAura> _auras;
 
-        protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
+        protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
+        protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
+        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         protected EntityBase(Guid guid, string name, string description)
         {
@@ -36,6 +40,8 @@ namespace Mud.Server.Entity
             Name = name;
             Keywords = name.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Description = description;
+
+            Incarnatable = true; // TODO: test purpose
 
             _auras = new List<IAura>();
         }
@@ -501,6 +507,11 @@ namespace Mud.Server.Entity
                 // TODO: can see destination room ?
                 // no specific format
                 result.Append(exit.Keywords.FirstOrDefault() ?? "door");
+                return;
+            }
+            if (argument is IAbilityLearned abilityLearned)
+            {
+                result.Append(abilityLearned.Name);
                 return;
             }
             // Other (int, string, ...)

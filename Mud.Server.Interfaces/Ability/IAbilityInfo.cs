@@ -8,7 +8,7 @@ namespace Mud.Server.Interfaces.Ability
         string Name { get; }
         AbilityEffects Effects { get; }
         int? PulseWaitTime { get; }
-        int? Cooldown { get; }
+        int? CooldownInSeconds { get; }
         int LearnDifficultyMultiplier { get; }
 
         Type AbilityExecutionType { get; }

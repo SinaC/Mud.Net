@@ -1,5 +1,6 @@
 ﻿using System.Text;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.GroupsPetsFollowers
 {
@@ -31,8 +32,8 @@ namespace Mud.POC.GroupsPetsFollowers
 
         // TEST PURPOSE
         IWorld World { get; }
-        CommandExecutionResults DoFollow(string rawParameters, params CommandParameter[] parameters);
-        CommandExecutionResults DoNofollow(string rawParameters, params CommandParameter[] parameters);
+        CommandExecutionResults DoFollow(string rawParameters, params ICommandParameter[] parameters);
+        CommandExecutionResults DoNofollow(string rawParameters, params ICommandParameter[] parameters);
     }
 
     public enum ActOptions

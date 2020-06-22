@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace Mud.Common
 {
-    // ReSharper disable once InconsistentNaming
     public static class IEnumerableExtensions
     {
         public static IEnumerable<T> Yield<T>(this T item)

@@ -7,28 +7,8 @@
       <IsAdmin>true</IsAdmin>
     </LoginData>
     <LoginData>
-      <Username>player</Username>
-      <Password>password</Password>
-      <IsAdmin>false</IsAdmin>
-    </LoginData>
-    <LoginData>
-      <Username>pouet</Username>
-      <Password>pouet</Password>
-      <IsAdmin>false</IsAdmin>
-    </LoginData>
-    <LoginData>
-      <Username>tsekwa</Username>
-      <Password>tsekwa</Password>
-      <IsAdmin>false</IsAdmin>
-    </LoginData>
-    <LoginData>
-      <Username>brol</Username>
-      <Password>brol</Password>
-      <IsAdmin>false</IsAdmin>
-    </LoginData>
-    <LoginData>
       <Username>xiinobis</Username>
-      <Password>broluxes</Password>
+      <Password>password</Password>
       <IsAdmin>false</IsAdmin>
     </LoginData>
   </Logins>

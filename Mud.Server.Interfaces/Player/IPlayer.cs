@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.Actor;
+﻿using Mud.Domain;
+using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using System;
@@ -30,14 +31,19 @@ namespace Mud.Server.Interfaces.Player
         int GlobalCooldown { get; } // delay (in Pulse) before next action    check WAIT_STATE
 
         int PagingLineCount { get; }
+        void SetPagingLineCount(int count);
 
         PlayerStates PlayerState { get; }
+        void ChangePlayerState(PlayerStates playerState);
 
         IPlayableCharacter Impersonating { get; }
+        void UpdateCharacterDataFromImpersonated();
 
-        IEnumerable<Domain.PlayableCharacterData> Avatars { get; }
+        IEnumerable<PlayableCharacterData> Avatars { get; }
 
-        IReadOnlyDictionary<string,string> Aliases { get; }
+        IReadOnlyDictionary<string, string> Aliases { get; }
+        void SetAlias(string alias, string command);
+        void RemoveAlias(string alias);
 
         IPlayer LastTeller { get; }
 
@@ -50,12 +56,10 @@ namespace Mud.Server.Interfaces.Player
 
         bool IsAfk { get; }
         IEnumerable<string> DelayedTells { get; } // Tell stored while AFK
+        void ToggleAfk();
 
         void DecreaseGlobalCooldown(); // decrease one by one
         void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse)
-
-        bool Load(string name);
-        bool Save();
 
         void SetLastTeller(IPlayer teller);
         void AddDelayedTell(string sentence);
@@ -64,10 +68,19 @@ namespace Mud.Server.Interfaces.Player
         void SetSnoopBy(IAdmin snooper);
 
         void AddAvatar(Domain.PlayableCharacterData playableCharacterData);
+        void StartImpersonating(IPlayableCharacter avatar);
         void StopImpersonating();
+
+        bool DeletionConfirmationNeeded { get; }
+        void SetDeletionConfirmationNeeded();
+        void ResetDeletionConfirmationNeeded();
+
+        void SetStateMachine(IInputTrap<IPlayer> inputTrap);
 
         void OnDisconnected();
 
         StringBuilder PerformSanityCheck();
+
+        PlayerData MapPlayerData();
     }
 }

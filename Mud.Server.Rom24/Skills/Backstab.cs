@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -9,7 +9,8 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("backstab", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("backstab", "Abilities", "Skills", "Combat")]
+    [Syntax("[cmd] <victim>")]
     [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 24)]
     public class Backstab : OffensiveSkillBase
     {

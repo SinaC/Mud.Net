@@ -49,6 +49,10 @@
     <Compile Include="BreathSpells\FrostBreath.cs" />
     <Compile Include="BreathSpells\GasBreath.cs" />
     <Compile Include="BreathSpells\LightningBreath.cs" />
+    <Compile Include="Classes\Cleric.cs" />
+    <Compile Include="Classes\Mage.cs" />
+    <Compile Include="Classes\Thief.cs" />
+    <Compile Include="Classes\Warrior.cs" />
     <Compile Include="Effects\AcidEffect.cs" />
     <Compile Include="Effects\BlessEffect.cs" />
     <Compile Include="Effects\BlindnessEffect.cs" />
@@ -83,6 +87,37 @@
     <Compile Include="Passives\ThirdAttack.cs" />
     <Compile Include="Passives\Whip.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Races\Dwarf.cs" />
+    <Compile Include="Races\Elf.cs" />
+    <Compile Include="Races\Giant.cs" />
+    <Compile Include="Races\Human.cs" />
+    <Compile Include="Races\NonPlayableRaces\Bat.cs" />
+    <Compile Include="Races\NonPlayableRaces\Bear.cs" />
+    <Compile Include="Races\NonPlayableRaces\Bee.cs" />
+    <Compile Include="Races\NonPlayableRaces\Cat.cs" />
+    <Compile Include="Races\NonPlayableRaces\Centipede.cs" />
+    <Compile Include="Races\NonPlayableRaces\Cyclops.cs" />
+    <Compile Include="Races\NonPlayableRaces\Dog.cs" />
+    <Compile Include="Races\NonPlayableRaces\Doll.cs" />
+    <Compile Include="Races\NonPlayableRaces\Dragon.cs" />
+    <Compile Include="Races\NonPlayableRaces\Fido.cs" />
+    <Compile Include="Races\NonPlayableRaces\Fish.cs" />
+    <Compile Include="Races\NonPlayableRaces\Fox.cs" />
+    <Compile Include="Races\NonPlayableRaces\Griffon.cs" />
+    <Compile Include="Races\NonPlayableRaces\Horse.cs" />
+    <Compile Include="Races\NonPlayableRaces\Kobold.cs" />
+    <Compile Include="Races\NonPlayableRaces\Lizard.cs" />
+    <Compile Include="Races\NonPlayableRaces\Modron.cs" />
+    <Compile Include="Races\NonPlayableRaces\Pig.cs" />
+    <Compile Include="Races\NonPlayableRaces\Pixie.cs" />
+    <Compile Include="Races\NonPlayableRaces\Rabbit.cs" />
+    <Compile Include="Races\NonPlayableRaces\Rat.cs" />
+    <Compile Include="Races\NonPlayableRaces\SchoolMonster.cs" />
+    <Compile Include="Races\NonPlayableRaces\Snake.cs" />
+    <Compile Include="Races\NonPlayableRaces\SongBird.cs" />
+    <Compile Include="Races\NonPlayableRaces\WaterFowl.cs" />
+    <Compile Include="Races\NonPlayableRaces\Wolf.cs" />
+    <Compile Include="Races\NonPlayableRaces\Wyvern.cs" />
     <Compile Include="Skills\Backstab.cs" />
     <Compile Include="Skills\Bash.cs" />
     <Compile Include="Skills\Berserk.cs" />
@@ -223,17 +258,25 @@
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj">
+      <Project>{e4077e94-96ea-4999-ae8f-f93b519e4411}</Project>
+      <Name>Mud.Server.Class</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
       <Name>Mud.Server.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
-      <Name>Mud.Server.Input</Name>
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
+      <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
+      <Name>Mud.Server.GameAction</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
       <Name>Mud.Server.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj">
+      <Project>{9760a8e7-084e-4574-93e5-3473745e502d}</Project>
+      <Name>Mud.Server.Race</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
       <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
@@ -244,9 +287,6 @@
       <Name>Mud.Settings</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Classes\" />
-    <Folder Include="Races\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

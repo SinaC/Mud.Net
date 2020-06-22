@@ -1,13 +1,14 @@
 ﻿using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("rescue", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("rescue", "Abilities", "Skills", "Combat")]
+    [Syntax("[cmd] <victim>")]
     [Skill(SkillName, AbilityEffects.None)]
     public class Rescue : OffensiveSkillBase
     {

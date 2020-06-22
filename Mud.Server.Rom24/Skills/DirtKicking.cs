@@ -2,7 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -11,7 +11,8 @@ using System;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("dirt", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("dirt", "Abilities", "Skills", "Combat")]
+    [Syntax("[cmd] <victim>")]
     [Skill(SkillName, AbilityEffects.Damage | AbilityEffects.Debuff, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     [AbilityCharacterWearOffMessage("You rub the dirt out of your eyes.")]
     public class DirtKicking : OffensiveSkillBase

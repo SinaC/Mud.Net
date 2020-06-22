@@ -1,8 +1,9 @@
-﻿using Mud.Server.Input;
+﻿using Mud.Server.GameAction;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Common;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.GroupsPetsFollowers
 {
@@ -12,7 +13,7 @@ namespace Mud.POC.GroupsPetsFollowers
         [Syntax(
             "[cmd] <pet> command",
             "[cmd] all command")]
-        public CommandExecutionResults DoOrder(string rawParameters, params CommandParameter[] parameters) // order to one pet or all to do something
+        public CommandExecutionResults DoOrder(string rawParameters, params ICommandParameter[] parameters) // order to one pet or all to do something
         {
             if (parameters.Length < 2)
             {
@@ -56,7 +57,7 @@ namespace Mud.POC.GroupsPetsFollowers
         [Syntax(
             "[cmd]",
             "[cmd] <character>")]
-        public CommandExecutionResults DoGroup(string rawParameters, params CommandParameter[] parameters) // display group info, add member
+        public CommandExecutionResults DoGroup(string rawParameters, params ICommandParameter[] parameters) // display group info, add member
         {
             // no parameter: display group/pets info
             if (parameters.Length == 0)
@@ -153,7 +154,7 @@ namespace Mud.POC.GroupsPetsFollowers
 
         [Command("Leave", "Group")]
         [Syntax("[cmd] <member>")]
-        public CommandExecutionResults DoLeave(string rawParameters, params CommandParameter[] parameters) // leave a group
+        public CommandExecutionResults DoLeave(string rawParameters, params ICommandParameter[] parameters) // leave a group
         {
             if (Group == null)
             {

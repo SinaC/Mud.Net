@@ -69,21 +69,34 @@
     <Compile Include="Admin\IAdminManager.cs" />
     <Compile Include="Affect\IAffect.cs" />
     <Compile Include="Area\IArea.cs" />
+    <Compile Include="Area\IAreaManager.cs" />
     <Compile Include="Aura\IAura.cs" />
     <Compile Include="Aura\IAuraManager.cs" />
     <Compile Include="Aura\IDispelManager.cs" />
     <Compile Include="Character\ICharacter.cs" />
+    <Compile Include="Character\ICharacterManager.cs" />
+    <Compile Include="Character\IEquippedItem.cs" />
     <Compile Include="Class\IClass.cs" />
     <Compile Include="Class\IClassManager.cs" />
     <Compile Include="Effect\IEffect.cs" />
-    <Compile Include="IActionInput.cs" />
+    <Compile Include="GameAction\IActionInput.cs" />
+    <Compile Include="GameAction\IAdminGameActionInfo.cs" />
+    <Compile Include="GameAction\ICharacterGameActionInfo.cs" />
+    <Compile Include="GameAction\ICommandParameter.cs" />
+    <Compile Include="GameAction\IGameActionManager.cs" />
+    <Compile Include="GameAction\IPlayableCharacterGameActionInfo.cs" />
+    <Compile Include="GameAction\IPlayerGameActionInfo.cs" />
     <Compile Include="IAssemblyHelper.cs" />
     <Compile Include="ICloseable.cs" />
     <Compile Include="Entity\IContainer.cs" />
     <Compile Include="Entity\IEntity.cs" />
-    <Compile Include="IGameAction.cs" />
+    <Compile Include="GameAction\IGameActionInfo.cs" />
+    <Compile Include="GameAction\IGameAction.cs" />
+    <Compile Include="IInputTrap.cs" />
+    <Compile Include="IRegistrable.cs" />
     <Compile Include="ITargetedAction.cs" />
     <Compile Include="Item\IItemManager.cs" />
+    <Compile Include="Quest\IQuestManager.cs" />
     <Compile Include="Room\IExit.cs" />
     <Compile Include="IGroup.cs" />
     <Compile Include="Item\IItem.cs" />
@@ -157,10 +170,6 @@
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Input\Mud.Server.Input.csproj">
-      <Project>{3e2bd396-17b9-423e-9114-9e215b468267}</Project>
-      <Name>Mud.Server.Input</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

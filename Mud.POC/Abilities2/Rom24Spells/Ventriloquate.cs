@@ -2,7 +2,7 @@
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Random;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Spells
@@ -27,7 +27,6 @@ namespace Mud.POC.Abilities2.Rom24Spells
 
             foreach (ICharacter character in Caster.Room.People.Where(x => x != Victim && x.Position > Positions.Sleeping))
             {
-                // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
                 if (character.SavesSpell(Level, SchoolTypes.Other))
                     character.Send(phraseFail);
                 else

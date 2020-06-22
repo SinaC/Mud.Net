@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Mud.Server.GameAction</RootNamespace>
+    <AssemblyName>Mud.Server.GameAction</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionInput.cs" />
+    <Compile Include="ActorGameAction.cs" />
+    <Compile Include="AdminGameAction.cs" />
+    <Compile Include="AdminGameActionInfo.cs" />
+    <Compile Include="CharacterGameActionBase.cs" />
+    <Compile Include="CharacterGameAction.cs" />
+    <Compile Include="CommandAttribute.cs" />
+    <Compile Include="CommandHelpers.cs" />
+    <Compile Include="CommandParameter.cs" />
+    <Compile Include="GameActionBase.cs" />
+    <Compile Include="GameActionInfo.cs" />
+    <Compile Include="GameActionManager.cs" />
+    <Compile Include="CharacterGameActionInfo.cs" />
+    <Compile Include="PlayableCharacterGameAction.cs" />
+    <Compile Include="PlayableCharacterGameActionInfo.cs" />
+    <Compile Include="PlayerGameAction.cs" />
+    <Compile Include="PlayerGameActionBase.cs" />
+    <Compile Include="PlayerGameActionInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{FA516A9E-EA0B-4F74-A5AA-23DE3D109ADC}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
+      <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
+      <Name>Mud.Container</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
+      <Name>Mud.DataStructures</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
+      <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
+      <Name>Mud.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
+      <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
+      <Name>Mud.Logger</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
+      <Project>{01D3F406-AEDA-4C60-951A-6B1133AEC859}</Project>
+      <Name>Mud.Server.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

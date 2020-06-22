@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -35,7 +37,7 @@ namespace Mud.Server.Interfaces.Character
         IRoom Room { get; }
         ICharacter Fighting { get; }
 
-        IEnumerable<EquippedItem> Equipments { get; }
+        IEnumerable<IEquippedItem> Equipments { get; }
         IEnumerable<IItem> Inventory { get; } // same as IContainer.Content
         int MaxCarryWeight { get; }
         int MaxCarryNumber { get; }
@@ -137,8 +139,10 @@ namespace Mud.Server.Interfaces.Character
 
         // Attributes
         int BaseAttribute(CharacterAttributes attribute);
-        int MaxResource(ResourceKinds resource);
-        void UpdateResource(ResourceKinds resource, int amount);
+        void UpdateBaseAttribute(CharacterAttributes attribute, int amount);
+        int MaxResource(ResourceKinds resourceKind);
+        void UpdateMaxResource(ResourceKinds resourceKind, int amount);
+        void UpdateResource(ResourceKinds resourceKind, int amount);
         void UpdateHitPoints(int amount);
         void UpdateMovePoints(int amount);
         void UpdateAlignment(int amount);
@@ -174,14 +178,16 @@ namespace Mud.Server.Interfaces.Character
         bool SavesSpell(int level, SchoolTypes damageType);
         bool IsSafeSpell(ICharacter caster, bool area);
         bool IsSafe(ICharacter aggressor);
+        bool Flee();
 
         // Abilities
         (int percentage, IAbilityLearned abilityLearned) GetWeaponLearnedInfo(IItemWeapon weapon);
         (int percentage, IAbilityLearned abilityLearned) GetAbilityLearnedInfo(string abilityName); // percentage is dynamically computed and can be different than abilityLearned.Learned
+        IAbilityLearned GetAbilityLearned(string abilityName);
         IDictionary<string, int> AbilitiesInCooldown { get; }
         bool HasAbilitiesInCooldown { get; }
         int CooldownPulseLeft(string abilityName); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)
-        void SetCooldown(string abilityName, int cooldown);
+        void SetCooldown(string abilityName, TimeSpan timeSpan);
         bool DecreaseCooldown(string abilityName, int pulseCount); // return true if timed out
         void ResetCooldown(string abilityName, bool verbose);
 
@@ -189,7 +195,14 @@ namespace Mud.Server.Interfaces.Character
         IItem GetEquipment(EquipmentSlots slot); // return item found in first non-empty specified slot
         T GetEquipment<T>(EquipmentSlots slot) // return specific item found in first non-empty specified slot
             where T : IItem;
-        EquippedItem SearchEquipmentSlot(IItem item, bool replace);
+        IEquippedItem SearchEquipmentSlot(IItem item, bool replace);
+
+        // Misc
+        bool GetItem(IItem item, IContainer container);
+
+        // Display
+        StringBuilder Append(StringBuilder sb, ICharacter viewer, bool peekInventory);
+        StringBuilder AppendInRoom(StringBuilder sb, ICharacter viewer);
 
         // Affects
         void ApplyAffect(ICharacterFlagsAffect affect);
@@ -197,26 +210,6 @@ namespace Mud.Server.Interfaces.Character
         void ApplyAffect(ICharacterAttributeAffect affect);
         void ApplyAffect(ICharacterSexAffect affect);
         void ApplyAffect(ICharacterSizeAffect affect);
-    }
-
-    public class EquippedItem
-    {
-        public EquipmentSlots Slot { get; }
-        public IItem Item { get; set; }
-
-        public EquippedItem(EquipmentSlots slot)
-        {
-            Slot = slot;
-        }
-
-        public EquippedItemData MapEquippedData()
-        {
-            return new EquippedItemData
-            {
-                Slot = Slot,
-                Item = Item.MapItemData()
-            };
-        }
     }
 
     public interface IMultiHitModifier : IHitModifier

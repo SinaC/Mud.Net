@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.GroupsPetsFollowers;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.Tests.Pets
 {
@@ -30,7 +31,7 @@ namespace Mud.POC.Tests.Pets
             CommandExecutionResults result = player1.DoOrder(args.rawParameters, args.parameters);
 
             Assert.AreEqual(CommandExecutionResults.SyntaxErrorNoDisplay, result);
-            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Never);
+            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Never);
         }
 
         [TestMethod]
@@ -44,7 +45,7 @@ namespace Mud.POC.Tests.Pets
             CommandExecutionResults result = player1.DoOrder(args.rawParameters, args.parameters);
 
             Assert.AreEqual(CommandExecutionResults.SyntaxErrorNoDisplay, result);
-            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Never);
+            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Never);
         }
 
         [TestMethod]
@@ -58,7 +59,7 @@ namespace Mud.POC.Tests.Pets
             CommandExecutionResults result = player1.DoOrder(args.rawParameters, args.parameters);
 
             Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
-            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Never);
+            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Never);
         }
 
         [TestMethod]
@@ -75,8 +76,8 @@ namespace Mud.POC.Tests.Pets
             CommandExecutionResults result = player1.DoOrder(args.rawParameters, args.parameters);
 
             Assert.AreEqual(CommandExecutionResults.TargetNotFound, result);
-            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Never);
-            pet2.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Never);
+            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Never);
+            pet2.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Never);
         }
 
         [TestMethod]
@@ -90,7 +91,7 @@ namespace Mud.POC.Tests.Pets
             CommandExecutionResults result = player1.DoOrder(args.rawParameters, args.parameters);
 
             Assert.AreEqual(CommandExecutionResults.Ok, result);
-            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Once);
+            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Once);
         }
 
         [TestMethod]
@@ -104,7 +105,7 @@ namespace Mud.POC.Tests.Pets
             CommandExecutionResults result = player1.DoOrder(args.rawParameters, args.parameters);
 
             Assert.AreEqual(CommandExecutionResults.Ok, result);
-            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Once);
+            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Once);
         }
 
         [TestMethod]
@@ -122,9 +123,9 @@ namespace Mud.POC.Tests.Pets
             CommandExecutionResults result = player1.DoOrder(args.rawParameters, args.parameters);
 
             Assert.AreEqual(CommandExecutionResults.Ok, result);
-            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Once);
-            pet2.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Once);
-            pet3.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<CommandParameter[]>()), Times.Once);
+            pet1.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Once);
+            pet2.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Once);
+            pet3.Verify(x => x.Order(It.IsAny<string>(), It.IsAny<ICommandParameter[]>()), Times.Once);
         }
 
     }

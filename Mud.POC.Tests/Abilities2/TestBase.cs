@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.Container;
-using Mud.POC.Abilities2;
 using Mud.POC.Abilities2.ExistingCode;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 using System.Linq;
 
 namespace Mud.POC.Tests.Abilities2
@@ -25,15 +25,15 @@ namespace Mud.POC.Tests.Abilities2
             DependencyContainer.SetManualContainer(_originalContainer);
         }
 
-        protected (string rawParameters, CommandParameter[] parameters) BuildParameters(string parameters)
+        protected (string rawParameters, ICommandParameter[] parameters) BuildParameters(string parameters)
         {
             var commandParameters = CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter).ToArray();
             return (parameters, commandParameters);
         }
 
-        protected ActionInput BuildActionInput(IActor actor, string parameters)
+        protected POC.Abilities2.ActionInput BuildActionInput(IActor actor, string parameters)
         {
-            return new ActionInput(actor, parameters);
+            return new POC.Abilities2.ActionInput(actor, parameters);
         }
     }
 }

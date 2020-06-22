@@ -1,5 +1,5 @@
 ﻿using Mud.Logger;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities
 {

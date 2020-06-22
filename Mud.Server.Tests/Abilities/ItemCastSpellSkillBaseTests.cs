@@ -1,10 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Common;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -40,7 +40,7 @@ namespace Mud.Server.Tests.Abilities
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(new[] { userMock.Object, targetMock.Object});
 
-            var actionInput = BuildActionInput(userMock.Object, "whatever target");
+            var actionInput = BuildActionInput<ItemCastSpellSkillBaseTestsSkill>(userMock.Object, "whatever target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
             string result = skill.Setup(skillActionInput);
 
@@ -50,6 +50,7 @@ namespace Mud.Server.Tests.Abilities
             targetMock.Verify(x => x.AbilityDamage(userMock.Object, It.IsAny<int>(), SchoolTypes.Fire, "fireball", It.IsAny<bool>()), Times.Once);
         }
 
+        [Command("ItemCastSpellSkillBaseTestsSkill")]
         [Skill(SkillName, AbilityEffects.None)]
         internal class ItemCastSpellSkillBaseTestsSkill : ItemCastSpellSkillBase<IItemScroll>
         {

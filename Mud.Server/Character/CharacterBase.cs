@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Mud.Common;
 using Mud.Container;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Ability;
@@ -15,7 +14,6 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
-using Mud.Server.Input;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Affect;
@@ -24,7 +22,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
@@ -39,10 +36,8 @@ namespace Mud.Server.Character
         private const int MinAlignment = -1000;
         private const int MaxAlignment = 1000;
 
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<CharacterBase>);
-
         private readonly List<IItem> _inventory;
-        private readonly List<EquippedItem> _equipments;
+        private readonly List<IEquippedItem> _equipments;
         // TODO: replace int[] with Dictionary<enum,int> ?
         private readonly int[] _baseAttributes;
         private readonly int[] _currentAttributes;
@@ -51,18 +46,18 @@ namespace Mud.Server.Character
         private readonly Dictionary<string, int> _cooldownsPulseLeft;
         private readonly Dictionary<string, IAbilityLearned> _learnedAbilities;
 
-        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
-        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
         protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+        protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
 
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)
         {
             _inventory = new List<IItem>();
-            _equipments = new List<EquippedItem>();
+            _equipments = new List<IEquippedItem>();
             _baseAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
             _currentAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
             _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
@@ -77,12 +72,6 @@ namespace Mud.Server.Character
         #region ICharacter
 
         #region IEntity
-
-        #region IActor
-
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => CharacterBaseCommands.Value;
-
-        #endregion
 
         // TODO: override RelativeDescription ?
 
@@ -105,7 +94,7 @@ namespace Mud.Server.Character
             Leader?.RemoveFollower(this);
 
             // Release followers
-            foreach (ICharacter follower in World.Characters.Where(x => x.Leader == this))
+            foreach (ICharacter follower in CharacterManager.Characters.Where(x => x.Leader == this))
                 RemoveFollower(follower);
         }
 
@@ -134,7 +123,7 @@ namespace Mud.Server.Character
 
         public ICharacter Fighting { get; protected set; }
 
-        public IEnumerable<EquippedItem> Equipments => _equipments;
+        public IEnumerable<IEquippedItem> Equipments => _equipments;
         public IEnumerable<IItem> Inventory => Content;
         public virtual int MaxCarryWeight => TableValues.CarryBonus(this) * 10 + Level * 25;
         public virtual int MaxCarryNumber => Equipments.Count() + 2 * this[BasicAttributes.Dexterity] + Level;
@@ -522,20 +511,54 @@ namespace Mud.Server.Character
             return _baseAttributes[index];
         }
 
-        public int MaxResource(ResourceKinds resource)
+        public void UpdateBaseAttribute(CharacterAttributes attribute, int amount)
         {
-            int index = (int)resource;
+            int index = (int)attribute;
+            if (index >= _baseAttributes.Length)
+            {
+                Wiznet.Wiznet($"Trying to set base attribute for attribute {attribute} (index {index}) but base attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return;
+            }
+            _baseAttributes[index] += amount;
+            if (index >= _currentAttributes.Length)
+            {
+                Wiznet.Wiznet($"Trying to set base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return;
+            }
+            _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
+        }
+
+        public int MaxResource(ResourceKinds resourceKind)
+        {
+            int index = (int)resourceKind;
             if (index >= _maxResources.Length)
             {
-                Wiznet.Wiznet($"Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet($"Trying to get max resource for resource {resourceKind} (index {index}) but max resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return 0;
             }
             return _maxResources[index];
         }
 
-        public void UpdateResource(ResourceKinds resource, int amount)
+        public void UpdateMaxResource(ResourceKinds resourceKind, int amount)
         {
-            this[resource] = (this[resource] + amount).Range(0, _maxResources[(int)resource]);
+            int index = (int)resourceKind;
+            if (index >= _maxResources.Length)
+            {
+                Wiznet.Wiznet($"Trying to get max resource for resource {resourceKind} (index {index}) but max resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return;
+            }
+            _maxResources[index] += amount;
+            if (index >= _currentResources.Length)
+            {
+                Wiznet.Wiznet($"Trying to set current resource for resource {resourceKind} (index {index}) but current resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                return;
+            }
+            _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
+        }
+
+        public void UpdateResource(ResourceKinds resourceKind, int amount)
+        {
+            this[resourceKind] = (this[resourceKind] + amount).Range(0, _maxResources[(int)resourceKind]);
         }
 
         public void UpdateHitPoints(int amount)
@@ -884,7 +907,7 @@ namespace Mud.Server.Character
             if (AutomaticallyDisplayRoom)
             {
                 StringBuilder sb = new StringBuilder();
-                AppendRoom(sb, Room);
+                Room.Append(sb, this);
                 Send(sb);
             }
 
@@ -932,7 +955,7 @@ namespace Mud.Server.Character
             if (this is IPlayableCharacter || IncarnatedBy != null)
             {
                 StringBuilder sb = new StringBuilder();
-                AppendRoom(sb, Room);
+                Room.Append(sb, this);
                 Send(sb);
             }
         }
@@ -987,7 +1010,7 @@ namespace Mud.Server.Character
             UpdatePosition();
             if (both)
             {
-                foreach (ICharacter victim in World.Characters.Where(x => x.Fighting == this))
+                foreach (ICharacter victim in CharacterManager.Characters.Where(x => x.Fighting == this))
                     victim.StopFighting(false);
             }
             return true;
@@ -1008,7 +1031,6 @@ namespace Mud.Server.Character
         public DamageResults HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
         {
             string damageNoun;
-            // ReSharper disable once ConvertIfStatementToConditionalTernaryExpression
             if (wield == null)
                 damageNoun = source.NoWeaponDamageNoun;
             else
@@ -1515,11 +1537,58 @@ namespace Mud.Server.Character
             }
             return false;
         }
-        
+
+        public bool Flee()
+        {
+            if (Fighting == null)
+                return false;
+
+            IRoom from = Room;
+
+            // Try 6 times to find an exit
+            for (int attempt = 0; attempt < 6; attempt++)
+            {
+                ExitDirections randomExit = RandomManager.Random<ExitDirections>();
+                IExit exit = Room.Exits[(int) randomExit];
+                IRoom destination = exit?.Destination;
+                if (destination != null && !exit.IsClosed
+                                        && !(this is INonPlayableCharacter && destination.RoomFlags.HasFlag(RoomFlags.NoMob)))
+                {
+                    // Try to move without checking if in combat or not
+                    Move(randomExit, false);
+                    if (Room != from) // successful only if effectively moved away
+                    {
+                        //
+                        StopFighting(true);
+                        //
+                        Send("You flee from combat!");
+                        Act(from.People, "{0} has fled!", this);
+
+                        if (this is IPlayableCharacter pc)
+                        {
+                            Send("You lost 10 exp.");
+                            pc.GainExperience(-10);
+                        }
+
+                        return true;
+                    }
+                }
+            }
+            Send("PANIC! You couldn't escape!");
+            return false;
+        }
+
         // Abilities
         public abstract (int percentage, IAbilityLearned abilityLearned) GetWeaponLearnedInfo(IItemWeapon weapon);
 
         public abstract (int percentage, IAbilityLearned abilityLearned) GetAbilityLearnedInfo(string abilityName);
+
+        public IAbilityLearned GetAbilityLearned(string abilityName)
+        {
+            if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
+                return null;
+            return abilityLearned;
+        }
 
         public IDictionary<string, int> AbilitiesInCooldown => _cooldownsPulseLeft;
 
@@ -1533,9 +1602,9 @@ namespace Mud.Server.Character
             return int.MinValue;
         }
 
-        public void SetCooldown(string abilityName, int cooldown)
+        public void SetCooldown(string abilityName, TimeSpan timeSpan)
         {
-            _cooldownsPulseLeft[abilityName] = cooldown;
+            _cooldownsPulseLeft[abilityName] = Pulse.FromTimeSpan(timeSpan);
         }
 
         public bool DecreaseCooldown(string abilityName, int pulseCount)
@@ -1563,7 +1632,7 @@ namespace Mud.Server.Character
         public T GetEquipment<T>(EquipmentSlots slot)
             where T : IItem => Equipments.Where(x => x.Slot == slot && x.Item is T).Select(x => x.Item).OfType<T>().FirstOrDefault();
 
-        public EquippedItem SearchEquipmentSlot(IItem item, bool replace)
+        public IEquippedItem SearchEquipmentSlot(IItem item, bool replace)
         {
             switch (item.WearLocation)
             {
@@ -1609,6 +1678,164 @@ namespace Mud.Server.Character
                     return SearchEquipmentSlot(EquipmentSlots.Float, replace);
             }
             return null;
+        }
+
+        // Misc
+        public virtual bool GetItem(IItem item, IContainer container) // equivalent to get_obj in act_obj.C:211
+        {
+            //
+            if (item.NoTake)
+            {
+                Send("You can't take that.");
+                return false;
+            }
+            if (CarryNumber + item.CarryCount > MaxCarryNumber)
+            {
+                Act(ActOptions.ToCharacter, "{0:N}: you can't carry that many items.", item);
+                return false;
+            }
+            if (CarryWeight + item.TotalWeight > MaxCarryWeight)
+            {
+                Act(ActOptions.ToCharacter, "{0:N}: you can't carry that much weight.", item);
+                return false;
+            }
+
+            // TODO: from pit ?
+            if (container != null)
+                Act(ActOptions.ToAll, "{0:N} get{0:v} {1} from {2}.", this, item, container);
+            else
+                Act(ActOptions.ToAll, "{0:N} get{0:v} {1}.", this, item);
+
+            if (item is IItemMoney money)
+            {
+                UpdateMoney(money.SilverCoins, money.GoldCoins);
+                ItemManager.RemoveItem(money);
+            }
+            else
+                item.ChangeContainer(this);
+            return true;
+        }
+
+        // Display
+        public StringBuilder Append(StringBuilder sb, ICharacter viewer, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
+        {
+            //
+            string condition = "is here.";
+            int maxHitPoints = MaxHitPoints;
+            if (maxHitPoints > 0)
+            {
+                int percent = (100 * HitPoints) / maxHitPoints;
+                if (percent >= 100)
+                    condition = "is in excellent condition.";
+                else if (percent >= 90)
+                    condition = "has a few scratches.";
+                else if (percent >= 75)
+                    condition = "has some small wounds and bruises.";
+                else if (percent >= 50)
+                    condition = "has quite a few wounds.";
+                else if (percent >= 30)
+                    condition = "has some big nasty wounds and scratches.";
+                else if (percent >= 15)
+                    condition = "looks pretty hurt.";
+                else if (percent >= 0)
+                    condition = "is in awful condition.";
+                else
+                    condition = "is bleeding to death.";
+            }
+            sb.AppendLine($"{RelativeDisplayName(viewer)} {condition}");
+
+            //
+            if (Equipments.Any(x => x.Item != null))
+            {
+                sb.AppendLine($"{RelativeDisplayName(viewer)} is using:");
+                foreach (EquippedItem equippedItem in Equipments.Where(x => x.Item != null))
+                {
+                    sb.Append(equippedItem.EquipmentSlotsToString());
+                    equippedItem.Item.Append(sb, viewer, true);
+                    sb.AppendLine();
+                }
+            }
+
+            if (peekInventory)
+            {
+                sb.AppendLine("You peek at the inventory:");
+                IEnumerable<IItem> items = viewer == this
+                    ? Inventory
+                    : Inventory.Where(x => viewer.CanSee(x)); // don't display 'invisible item' when inspecting someone else
+                ItemsHelpers.AppendItems(sb, items, this, true, true);
+            }
+
+            return sb;
+        }
+
+        public StringBuilder AppendInRoom(StringBuilder sb, ICharacter viewer)
+        {
+            // display flags
+            if (CharacterFlags.HasFlag(CharacterFlags.Charm))
+                sb.Append("%C%(Charmed)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Flying))
+                sb.Append("%c%(Flying)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Invisible))
+                sb.Append("%y%(Invis)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Hide))
+                sb.Append("%b%(Hide)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Sneak))
+                sb.Append("%R%(Sneaking)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.PassDoor))
+                sb.Append("%c%(Translucent)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.FaerieFire))
+                sb.Append("%m%(Pink Aura)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.DetectEvil))
+                sb.Append("%r%(Red Aura)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.DetectGood))
+                sb.Append("%Y%(Golden Aura)%x%");
+            if (CharacterFlags.HasFlag(CharacterFlags.Sanctuary))
+                sb.Append("%W%(White Aura)%x%");
+            // TODO: killer/thief
+            // TODO: display long description and stop if position = start position for NPC
+
+            // last case of POS_STANDING
+            sb.Append(RelativeDisplayName(viewer));
+            switch (Position)
+            {
+                case Positions.Stunned:
+                    sb.Append(" is lying here stunned.");
+                    break;
+                case Positions.Sleeping:
+                    AppendPositionFurniture(sb, "sleeping", Furniture);
+                    break;
+                case Positions.Resting:
+                    AppendPositionFurniture(sb, "resting", Furniture);
+                    break;
+                case Positions.Sitting:
+                    AppendPositionFurniture(sb, "sitting", Furniture);
+                    break;
+                case Positions.Standing:
+                    if (Furniture != null)
+                        AppendPositionFurniture(sb, "standing", Furniture);
+                    else
+                        sb.Append(" is here");
+                    break;
+                case Positions.Fighting:
+                    sb.Append(" is here, fighting ");
+                    if (Fighting == null)
+                    {
+                        Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", DebugName);
+                        sb.Append("thing air??");
+                    }
+                    else if (Fighting == viewer)
+                        sb.Append("YOU!");
+                    else if (Room == Fighting.Room)
+                        sb.AppendFormat("{0}.", Fighting.RelativeDisplayName(viewer));
+                    else
+                    {
+                        Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", DebugName, Fighting.DebugName);
+                        sb.Append("someone who left??");
+                    }
+                    break;
+            }
+            sb.AppendLine();
+            return sb;
         }
 
         // Affects
@@ -1777,55 +2004,6 @@ namespace Mud.Server.Character
         public void ApplyAffect(ICharacterSizeAffect affect)
         {
             Size = affect.Value;
-        }
-
-        #endregion
-
-        #region ActorBase
-
-        protected override bool ExecuteBeforeCommand(CommandMethodInfo methodInfo, string rawParameters, params CommandParameter[] parameters)
-        {
-            // When hiding, anything will break it
-            if (CharacterFlags.HasFlag(CharacterFlags.Hide))
-            {
-                RemoveBaseCharacterFlags(CharacterFlags.Hide);
-                Recompute();
-            }
-
-            // Check minimum position
-            if (methodInfo.Attribute is CharacterCommandAttribute characterCommandAttribute)
-            {
-                if (Position < characterCommandAttribute.MinPosition)
-                {
-                    switch (Position)
-                    {
-                        case Positions.Dead:
-                            Send("Lie still; you are DEAD.");
-                            return false;
-                        case Positions.Mortal:
-                        case Positions.Incap:
-                            Send("You are hurt far too bad for that.");
-                            return false;
-                        case Positions.Stunned:
-                            Send("You are too stunned to do that.");
-                            return false;
-                        case Positions.Sleeping:
-                            Send("In your dreams, or what?");
-                            return false;
-                        case Positions.Resting:
-                            Send("Nah... You feel too relaxed...");
-                            return false;
-                        case Positions.Sitting:
-                            Send("Better stand up first.");
-                            return false;
-                        case Positions.Fighting:
-                            Send("No way!  You are still fighting!");
-                            return false;
-                    }
-                }
-            }
-
-            return base.ExecuteBeforeCommand(methodInfo, rawParameters, parameters);
         }
 
         #endregion
@@ -2183,14 +2361,14 @@ namespace Mud.Server.Character
             }
         }
 
-        protected EquippedItem SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
+        protected IEquippedItem SearchEquipmentSlot(EquipmentSlots equipmentSlot, bool replace)
         {
             if (replace) // search empty slot, if not found, return first matching slot
                 return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null) ?? Equipments.FirstOrDefault(x => x.Slot == equipmentSlot);
             return Equipments.FirstOrDefault(x => x.Slot == equipmentSlot && x.Item == null);
         }
 
-        protected EquippedItem SearchTwoHandedWeaponEquipmentSlot(bool replace)
+        protected IEquippedItem SearchTwoHandedWeaponEquipmentSlot(bool replace)
         {
             // Search empty mainhand + empty offhand (no autoreplace) // TODO can wield 2H on one hand if size giant or specific ability
             var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
@@ -2200,7 +2378,7 @@ namespace Mud.Server.Character
             return null;
         }
 
-        protected EquippedItem SearchOneHandedWeaponEquipmentSlot(bool replace)
+        protected IEquippedItem SearchOneHandedWeaponEquipmentSlot(bool replace)
         {
             // Search empty mainhand, then empty offhand only if mainhand is not wielding a 2H
             if (replace)
@@ -2227,7 +2405,7 @@ namespace Mud.Server.Character
             }
         }
 
-        protected EquippedItem SearchOffhandEquipmentSlot(bool replace)
+        protected IEquippedItem SearchOffhandEquipmentSlot(bool replace)
         {
             // This can lead to strange looking equipments:
             // wield 1-H weapon -> first main hand
@@ -2303,7 +2481,7 @@ namespace Mud.Server.Character
             {
                 if (index >= _currentAttributes.Length)
                 {
-                    Wiznet.Wiznet($"Trying to base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Wiznet($"Trying to set base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
                     return;
                 }
                 _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
@@ -2343,11 +2521,13 @@ namespace Mud.Server.Character
             }
         }
 
-        protected IAbilityLearned GetAbilityLearned(string abilityName)
+        protected StringBuilder AppendPositionFurniture(StringBuilder sb, string verb, IItemFurniture furniture)
         {
-            if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
-                return null;
-            return abilityLearned;
+            if (furniture == null)
+                sb.AppendFormat(" is {0} here.", verb);
+            else
+                furniture.AppendPosition(sb, verb);
+            return sb;
         }
 
         protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn)

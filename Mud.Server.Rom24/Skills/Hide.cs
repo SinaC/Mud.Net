@@ -1,13 +1,13 @@
 ﻿using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("hide", "Abilities", "Skills")]
+    [CharacterCommand("hide", "Abilities", "Skills")]
     [Skill(SkillName, AbilityEffects.Buff, LearnDifficultyMultiplier = 3)]
     public class Hide : NoTargetSkillBase
     {

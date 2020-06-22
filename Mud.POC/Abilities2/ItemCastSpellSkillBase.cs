@@ -2,8 +2,8 @@
 using Mud.Logger;
 using Mud.POC.Abilities2.ExistingCode;
 using Mud.Server.Random;
-using Mud.Server.Input;
 using System.Collections.Generic;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.POC.Abilities2
 {
@@ -30,7 +30,7 @@ namespace Mud.POC.Abilities2
                 spell.Execute();
         }
 
-        protected string SetupSpell(string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
+        protected string SetupSpell(string spellName, int spellLevel, string rawParameters, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(spellName))
                 return null; // not really an error but don't continue
@@ -59,7 +59,7 @@ namespace Mud.POC.Abilities2
             return null;
         }
 
-        protected string SetupSpellForEachAvailableTargets(string spellName, int spellLevel, string rawParameters, params CommandParameter[] parameters)
+        protected string SetupSpellForEachAvailableTargets(string spellName, int spellLevel, string rawParameters, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(spellName))
                 return null; // not really an error but don't continue

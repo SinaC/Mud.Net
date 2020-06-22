@@ -6,18 +6,20 @@ using Mud.Common;
 using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Entity;
-using Mud.Server.Input;
+using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
@@ -26,10 +28,9 @@ namespace Mud.Server.Room
 {
     public class Room : EntityBase, IRoom
     {
-        private static readonly Lazy<IReadOnlyTrie<CommandMethodInfo>> RoomCommands = new Lazy<IReadOnlyTrie<CommandMethodInfo>>(GetCommands<Room>);
-
         private ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         private IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
+        private ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
 
         private readonly List<ICharacter> _people;
         private readonly List<IItem> _content;
@@ -58,7 +59,7 @@ namespace Mud.Server.Room
 
         #region IActor
 
-        public override IReadOnlyTrie<CommandMethodInfo> Commands => RoomCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<Room>();
 
         #endregion
 
@@ -239,6 +240,109 @@ namespace Mud.Server.Room
             Light = Math.Max(0, Light - 1);
         }
 
+        public StringBuilder Append(StringBuilder sb, ICharacter viewer)
+        {
+            IPlayableCharacter playableCharacter = viewer as IPlayableCharacter;
+            // Room name
+            if (playableCharacter?.IsImmortal == true)
+                sb.AppendFormatLine($"%c%{DisplayName} [{Blueprint?.Id.ToString() ?? "???"}]%x%");
+            else
+                sb.AppendFormatLine("%c%{0}%x%", DisplayName);
+            // Room description
+            sb.Append(Description);
+            // Exits
+            if (playableCharacter != null && playableCharacter.AutoFlags.HasFlag(AutoFlags.Exit))
+                AppendExits(sb, viewer, true);
+            ItemsHelpers.AppendItems(sb, Content.Where(x => viewer.CanSee(x)), viewer, false, false);
+            AppendCharacters(sb, viewer);
+            return sb;
+        }
+
+        public StringBuilder AppendExits(StringBuilder sb, ICharacter viewer, bool compact)
+        {
+            if (compact)
+                sb.Append("[Exits:");
+            else if (viewer is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+                sb.AppendFormatLine($"Obvious exits from room {Blueprint?.Id.ToString() ?? "???"}:");
+            else
+                sb.AppendLine("Obvious exits:");
+            bool exitFound = false;
+            foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
+            {
+                IExit exit = this[direction];
+                IRoom destination = exit?.Destination;
+                if (destination != null && viewer.CanSee(exit))
+                {
+                    if (compact)
+                    {
+                        sb.Append(" ");
+                        if (exit.IsHidden)
+                            sb.Append("[");
+                        if (exit.IsClosed)
+                            sb.Append("(");
+                        sb.AppendFormat("{0}", direction.ToString().ToLowerInvariant());
+                        if (exit.IsClosed)
+                            sb.Append(")");
+                        if (exit.IsHidden)
+                            sb.Append("]");
+                    }
+                    else
+                    {
+                        sb.Append(direction.DisplayName());
+                        sb.Append(" - ");
+                        if (exit.IsClosed)
+                            sb.Append("A closed door");
+                        else if (destination.IsDark)
+                            sb.Append("Too dark to tell");
+                        else
+                            sb.Append(exit.Destination.DisplayName);
+                        if (exit.IsClosed)
+                            sb.Append(" (CLOSED)");
+                        if (exit.IsHidden)
+                            sb.Append(" [HIDDEN]");
+                        if (viewer is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+                            sb.Append($" (room {exit.Destination.Blueprint?.Id.ToString() ?? "???"})");
+                        sb.AppendLine();
+                    }
+                    exitFound = true;
+                }
+            }
+            if (!exitFound)
+            {
+                if (compact)
+                    sb.AppendLine(" none");
+                else
+                    sb.AppendLine("None.");
+            }
+            if (compact)
+                sb.AppendLine("]");
+            return sb;
+        }
+
+        public (IExit exit, ExitDirections exitDirection) VerboseFindDoor(ICharacter character, ICommandParameter parameter)
+        {
+            bool found = FindDoor(character, parameter, out var exitDirection, out var wasAskingForDirection);
+            if (!found)
+            {
+                //  if open north -> I see no door north here.
+                //  if open black door -> I see no black door here.
+                if (wasAskingForDirection)
+                    character.Send($"I see no door {parameter.Value} here.");
+                else
+                    character.Send($"I see no {parameter.Value} here.");
+                return (null, ExitDirections.North);
+            }
+            IExit exit = this[exitDirection];
+            if (exit == null)
+                return (null, ExitDirections.North);
+            if (!exit.IsDoor)
+            {
+                character.Send("You can't do that.");
+                return (null, ExitDirections.North);
+            }
+            return (exit, exitDirection);
+        }
+
         public void ResetRoom()
         {
             INonPlayableCharacter lastCharacter = null;
@@ -249,16 +353,16 @@ namespace Mud.Server.Room
                 {
                     case CharacterReset characterReset: // 'M'
                         {
-                            CharacterBlueprintBase blueprint = World.GetCharacterBlueprint(characterReset.CharacterId);
+                            CharacterBlueprintBase blueprint = CharacterManager.GetCharacterBlueprint(characterReset.CharacterId);
                             if (blueprint != null)
                             {
-                                int globalCount = characterReset.LocalLimit == -1 ? int.MinValue : World.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
+                                int globalCount = characterReset.LocalLimit == -1 ? int.MinValue : CharacterManager.NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
                                 if (globalCount < characterReset.GlobalLimit)
                                 {
                                     int localCount = characterReset.LocalLimit == -1 ? int.MinValue : NonPlayableCharacters.Count(x => x.Blueprint.Id == characterReset.CharacterId);
                                     if (localCount < characterReset.LocalLimit)
                                     {
-                                        lastCharacter = World.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, this);
+                                        lastCharacter = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, this);
                                         Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: M: Mob {characterReset.CharacterId} added");
                                         wasPreviousLoaded = true;
                                     }
@@ -414,7 +518,7 @@ namespace Mud.Server.Room
                                             // try to equip
                                             if (item.WearLocation != WearLocations.None)
                                             {
-                                                EquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
+                                                IEquippedItem equippedItem = lastCharacter.SearchEquipmentSlot(item, false);
                                                 if (equippedItem != null)
                                                 {
                                                     equippedItem.Item = item;
@@ -517,29 +621,39 @@ namespace Mud.Server.Room
             }
         }
 
-        [Command("test", "!!Test!!")]
-        // ReSharper disable once UnusedMember.Global
-        protected virtual bool DoTest(string rawParameters, params CommandParameter[] parameters)
+        protected StringBuilder AppendCharacters(StringBuilder sb, ICharacter viewer)
         {
-            Send("Room: DoTest");
-            return true;
+            foreach (ICharacter victim in People.Where(x => x != viewer))
+            {
+                //  (see act_info.C:714 show_char_to_char)
+                if (viewer.CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
+                    victim.AppendInRoom(sb, viewer);
+                else if (IsDark && victim.CharacterFlags.HasFlag(CharacterFlags.Infrared))
+                    sb.AppendLine("You see glowing red eyes watching YOU!");
+            }
+
+            return sb;
         }
 
-        [Command("look", "Information")]
-        // ReSharper disable once UnusedMember.Global
-        protected virtual CommandExecutionResults DoLook(string rawParameters, params CommandParameter[] parameters)
+        protected bool FindDoor(ICharacter character, ICommandParameter parameter, out ExitDirections exitDirection, out bool wasAskingForDirection)
         {
-            //TODO: better 'UI'
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("People:");
-            foreach (ICharacter character in _people)
-                sb.AppendFormatLine($"{character.DisplayName}");
-            sb.AppendLine("Items:");
-            foreach (IItem item in _content)
-                sb.AppendFormatLine($"{item.DisplayName}");
-            //
-            Send(sb);
-            return CommandExecutionResults.Ok;
+            if (ExitDirectionsExtensions.TryFindDirection(parameter.Value, out exitDirection))
+            {
+                wasAskingForDirection = true;
+                return true;
+            }
+            wasAskingForDirection = false;
+            //exit = Room.Exits.FirstOrDefault(x => x?.Destination != null && x.IsDoor && x.Keywords.Any(k => FindHelpers.StringStartsWith(k, parameter.Value)));
+            foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
+            {
+                IExit exit = this[direction];
+                if (exit?.Destination != null && exit.IsDoor && exit.Keywords.Any(k => StringCompareHelpers.StringStartsWith(k, parameter.Value)))
+                {
+                    exitDirection = direction;
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

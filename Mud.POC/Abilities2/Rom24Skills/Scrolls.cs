@@ -1,7 +1,7 @@
 ﻿using Mud.POC.Abilities2.ExistingCode;
 using Mud.POC.Abilities2.Helpers;
 using Mud.Server.Random;
-using Mud.Server.Input;
+using Mud.Server.GameAction;
 using System.Linq;
 using System.Text;
 using Mud.Common;
