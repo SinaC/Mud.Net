@@ -6,9 +6,7 @@ namespace Mud.Server.GameAction
 {
     public class CommandParameter : ICommandParameter
     {
-        public static readonly CommandParameter EmptyCommandParameter = new CommandParameter(string.Empty, false);
         public static readonly CommandParameter InvalidCommandParameter = new CommandParameter();
-        public static readonly CommandParameter IsAllCommandParameter = new CommandParameter(string.Empty, true);
 
         public bool IsAll { get; } // all.xxx
         public int Count { get; }

@@ -98,6 +98,11 @@ namespace Mud.Server.Interfaces.Character
         int this[ResourceKinds resource] { get; }
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
 
+        BodyForms BaseBodyForms { get; }
+        BodyForms BodyForms { get; }
+        BodyParts BaseBodyParts { get; }
+        BodyParts BodyParts { get; }
+
         // Abilities
         IEnumerable<IAbilityLearned> LearnedAbilities { get; }
 
@@ -172,7 +177,7 @@ namespace Mud.Server.Interfaces.Character
         DamageResults HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using a weapon
         DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using 'damageNoun'
         ResistanceLevels CheckResistance(SchoolTypes damageType);
-        void Slay(IPlayableCharacter killer);
+        IItemCorpse RawKilled(ICharacter killer, bool payoff);
         void KillingPayoff(ICharacter victim, IItemCorpse corpse);
         void DeathPayoff(ICharacter killer);
         bool SavesSpell(int level, SchoolTypes damageType);

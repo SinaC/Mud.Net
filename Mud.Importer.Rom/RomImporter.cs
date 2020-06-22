@@ -988,7 +988,7 @@ namespace Mud.Importer.Rom
 
         private WeaponTypes ConvertWeaponType(ObjectData objectData)
         {
-            string weaponType = (string) objectData.Values[0];
+            string weaponType = (string)objectData.Values[0];
             switch (weaponType)
             {
                 case "exotic": return WeaponTypes.Exotic;
@@ -1009,7 +1009,7 @@ namespace Mud.Importer.Rom
 
         private (SchoolTypes schoolType, WeaponFlags weaponFlags, string damageNoun) ConvertWeaponDamageTypeFlagsAndNoun(ObjectData objectData)
         {
-            string attackTable = (string) objectData.Values[3];
+            string attackTable = (string)objectData.Values[3];
             SchoolTypes schoolType = SchoolTypes.None;
             string damageNoun = attackTable;
             (string name, string noun, int damType) attackTableEntry = AttackTable.FirstOrDefault(x => x.name == attackTable);
@@ -1246,6 +1246,8 @@ namespace Mud.Importer.Rom
                     Resistances = ConvertIRV(mobileData.ResFlags),
                     Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
                     Race = mobileData.Race,
+                    BodyForms = ConvertBodyForms(mobileData.Form),
+                    BodyParts = ConvertBodyParts(mobileData.Parts),
                 };
             else
                 return new CharacterShopBlueprint
@@ -1283,6 +1285,9 @@ namespace Mud.Importer.Rom
                     Immunities = ConvertIRV(mobileData.ImmFlags),
                     Resistances = ConvertIRV(mobileData.ResFlags),
                     Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
+                    Race = mobileData.Race,
+                    BodyForms = ConvertBodyForms(mobileData.Form),
+                    BodyParts = ConvertBodyParts(mobileData.Parts),
                     //
                     BuyBlueprintTypes = ConvertBuyTypes(mobileData.Shop).ToList(),
                     ProfitBuy = mobileData.Shop.ProfitBuy,
@@ -1494,6 +1499,70 @@ namespace Mud.Importer.Rom
             }
         }
 
+        private BodyForms ConvertBodyForms(long input)
+        {
+            BodyForms forms = BodyForms.None;
+
+            if (IsSet(input, FORM_EDIBLE)) forms |= BodyForms.Edible;
+            if (IsSet(input, FORM_POISON)) forms |= BodyForms.Poison;
+            if (IsSet(input, FORM_MAGICAL)) forms |= BodyForms.Magical;
+            if (IsSet(input, FORM_INSTANT_DECAY)) forms |= BodyForms.InstantDecay;
+            if (IsSet(input, FORM_OTHER)) forms |= BodyForms.Other;
+            if (IsSet(input, FORM_ANIMAL)) forms |= BodyForms.Animal;
+            if (IsSet(input, FORM_SENTIENT)) forms |= BodyForms.Sentient;
+            if (IsSet(input, FORM_UNDEAD)) forms |= BodyForms.Undead;
+            if (IsSet(input, FORM_CONSTRUCT)) forms |= BodyForms.Construct;
+            if (IsSet(input, FORM_MIST)) forms |= BodyForms.Mist;
+            if (IsSet(input, FORM_INTANGIBLE)) forms |= BodyForms.Intangible;
+            if (IsSet(input, FORM_BIPED)) forms |= BodyForms.Biped;
+            if (IsSet(input, FORM_CENTAUR)) forms |= BodyForms.Centaur;
+            if (IsSet(input, FORM_INSECT)) forms |= BodyForms.Insect;
+            if (IsSet(input, FORM_SPIDER)) forms |= BodyForms.Spider;
+            if (IsSet(input, FORM_CRUSTACEAN)) forms |= BodyForms.Crustacean;
+            if (IsSet(input, FORM_WORM)) forms |= BodyForms.Worm;
+            if (IsSet(input, FORM_BLOB)) forms |= BodyForms.Blob;
+            if (IsSet(input, FORM_MAMMAL)) forms |= BodyForms.Mammal;
+            if (IsSet(input, FORM_BIRD)) forms |= BodyForms.Bird;
+            if (IsSet(input, FORM_REPTILE)) forms |= BodyForms.Reptile;
+            if (IsSet(input, FORM_SNAKE)) forms |= BodyForms.Snake;
+            if (IsSet(input, FORM_DRAGON)) forms |= BodyForms.Dragon;
+            if (IsSet(input, FORM_AMPHIBIAN)) forms |= BodyForms.Amphibian;
+            if (IsSet(input, FORM_FISH)) forms |= BodyForms.Fish;
+            if (IsSet(input, FORM_COLD_BLOOD)) forms |= BodyForms.ColdBlood;
+
+            return forms;
+        }
+
+        private BodyParts ConvertBodyParts(long input)
+        {
+            BodyParts parts = BodyParts.None;
+
+            if (IsSet(input, PART_HEAD)) parts |= BodyParts.Head;
+            if (IsSet(input, PART_ARMS)) parts |= BodyParts.Arms;
+            if (IsSet(input, PART_LEGS)) parts |= BodyParts.Legs;
+            if (IsSet(input, PART_HEART)) parts |= BodyParts.Heart;
+            if (IsSet(input, PART_BRAINS)) parts |= BodyParts.Brains;
+            if (IsSet(input, PART_GUTS)) parts |= BodyParts.Guts;
+            if (IsSet(input, PART_HANDS)) parts |= BodyParts.Hands;
+            if (IsSet(input, PART_FEET)) parts |= BodyParts.Feet;
+            if (IsSet(input, PART_FINGERS)) parts |= BodyParts.Fingers;
+            if (IsSet(input, PART_EAR)) parts |= BodyParts.Ear;
+            if (IsSet(input, PART_EYE)) parts |= BodyParts.Eye;
+            if (IsSet(input, PART_LONG_TONGUE)) parts |= BodyParts.LongTongue;
+            if (IsSet(input, PART_EYESTALKS)) parts |= BodyParts.Eyestalks;
+            if (IsSet(input, PART_TENTACLES)) parts |= BodyParts.Tentacles;
+            if (IsSet(input, PART_FINS)) parts |= BodyParts.Fins;
+            if (IsSet(input, PART_WINGS)) parts |= BodyParts.Wings;
+            if (IsSet(input, PART_TAIL)) parts |= BodyParts.Tail;
+            if (IsSet(input, PART_CLAWS)) parts |= BodyParts.Claws;
+            if (IsSet(input, PART_FANGS)) parts |= BodyParts.Fangs;
+            if (IsSet(input, PART_HORNS)) parts |= BodyParts.Horns;
+            if (IsSet(input, PART_SCALES)) parts |= BodyParts.Scales;
+            if (IsSet(input, PART_TUSKS)) parts |= BodyParts.Tusks;
+
+            return parts;
+        }
+
         // Immunites, Resistances, Vulnerabilities
         private const long IMM_SUMMON = RomLoader.A;
         private const long IMM_CHARM = RomLoader.B;
@@ -1628,6 +1697,60 @@ namespace Mud.Importer.Rom
         private const int ITEM_GEM = 32;
         private const int ITEM_JEWELRY = 33;
         private const int ITEM_JUKEBOX = 34;
+
+        // body form
+        private const long FORM_EDIBLE = RomLoader.A;
+        private const long FORM_POISON = RomLoader.B;
+        private const long FORM_MAGICAL = RomLoader.C;
+        private const long FORM_INSTANT_DECAY = RomLoader.D;
+        private const long FORM_OTHER = RomLoader.E;  /* defined by material bit */
+        // actual form
+        private const long FORM_ANIMAL = RomLoader.G;
+        private const long FORM_SENTIENT = RomLoader.H;
+        private const long FORM_UNDEAD = RomLoader.I;
+        private const long FORM_CONSTRUCT = RomLoader.J;
+        private const long FORM_MIST = RomLoader.K;
+        private const long FORM_INTANGIBLE = RomLoader.L;
+        private const long FORM_BIPED = RomLoader.M;
+        private const long FORM_CENTAUR = RomLoader.N;
+        private const long FORM_INSECT = RomLoader.O;
+        private const long FORM_SPIDER = RomLoader.P;
+        private const long FORM_CRUSTACEAN = RomLoader.Q;
+        private const long FORM_WORM = RomLoader.R;
+        private const long FORM_BLOB = RomLoader.S;
+        private const long FORM_MAMMAL = RomLoader.V;
+        private const long FORM_BIRD = RomLoader.W;
+        private const long FORM_REPTILE = RomLoader.X;
+        private const long FORM_SNAKE = RomLoader.Y;
+        private const long FORM_DRAGON = RomLoader.Z;
+        private const long FORM_AMPHIBIAN = RomLoader.aa;
+        private const long FORM_FISH = RomLoader.bb;
+        private const long FORM_COLD_BLOOD = RomLoader.cc;
+
+        // body parts
+        private const long PART_HEAD = RomLoader.A;
+        private const long PART_ARMS = RomLoader.B;
+        private const long PART_LEGS = RomLoader.C;
+        private const long PART_HEART = RomLoader.D;
+        private const long PART_BRAINS = RomLoader.E;
+        private const long PART_GUTS = RomLoader.F;
+        private const long PART_HANDS = RomLoader.G;
+        private const long PART_FEET = RomLoader.H;
+        private const long PART_FINGERS = RomLoader.I;
+        private const long PART_EAR = RomLoader.J;
+        private const long PART_EYE = RomLoader.K;
+        private const long PART_LONG_TONGUE = RomLoader.L;
+        private const long PART_EYESTALKS = RomLoader.M;
+        private const long PART_TENTACLES = RomLoader.N;
+        private const long PART_FINS = RomLoader.O;
+        private const long PART_WINGS = RomLoader.P;
+        private const long PART_TAIL = RomLoader.Q;
+        // for combat
+        private const long PART_CLAWS = RomLoader.U;
+        private const long PART_FANGS = RomLoader.V;
+        private const long PART_HORNS = RomLoader.W;
+        private const long PART_SCALES = RomLoader.X;
+        private const long PART_TUSKS = RomLoader.Y;
 
         #endregion
 

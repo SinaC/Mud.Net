@@ -257,6 +257,11 @@ namespace Mud.Server.Character
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds { get; private set; }
 
+        public BodyForms BaseBodyForms { get; protected set; }
+        public BodyForms BodyForms { get; protected set; }
+        public BodyParts BaseBodyParts { get; protected set; }
+        public BodyParts BodyParts { get; protected set; }
+
         // Abilities
         public IEnumerable<IAbilityLearned> LearnedAbilities => _learnedAbilities.Values;
 
@@ -1082,7 +1087,6 @@ namespace Mud.Server.Character
                 && ((CharacterFlags.HasFlag(CharacterFlags.ProtectEvil) && source.IsEvil)
                     || (CharacterFlags.HasFlag(CharacterFlags.ProtectGood) && source.IsGood)))
                 damage -= damage / 4;
-            // old code was testing parry/dodge/shield block -> is done on OneHit
             ResistanceLevels resistanceLevel = CheckResistance(damageType);
             switch (resistanceLevel)
             {
@@ -1318,9 +1322,51 @@ namespace Mud.Server.Character
             return resistance;
         }
 
-        public void Slay(IPlayableCharacter killer)
+        public IItemCorpse RawKilled(ICharacter killer, bool payoff)
         {
-            RawKilled(killer, false);
+            if (!IsValid)
+            {
+                Log.Default.WriteLine(LogLevels.Warning, "RawKilled: {0} is not valid anymore", DebugName);
+                return null;
+            }
+
+            ICharacter characterKiller = killer as ICharacter;
+
+            Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.Deaths);
+
+            StopFighting(true);
+            // Remove auras
+            RemoveAuras(_ => true, false);
+
+            // Death cry
+            ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry
+
+            // Create corpse
+            ItemCorpseBlueprint itemCorpseBlueprint = ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
+            IItemCorpse corpse = null;
+            if (itemCorpseBlueprint != null)
+            {
+                if (characterKiller != null)
+                    corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room, this, characterKiller);
+                else
+                    corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room, this);
+            }
+            else
+            {
+                Wiznet.Wiznet($"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist !!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            }
+
+            // Gain/lose xp/reputation auto loot/gold/sac
+            if (payoff)
+            {
+                characterKiller?.KillingPayoff(this, corpse);
+                DeathPayoff(characterKiller);
+            }
+
+            //
+            HandleDeath();
+
+            return corpse;
         }
 
         public abstract void KillingPayoff(ICharacter victim, IItemCorpse corpse);
@@ -2052,53 +2098,6 @@ namespace Mud.Server.Character
             }
         }
 
-        protected virtual IItemCorpse RawKilled(IEntity killer, bool payoff)
-        {
-            if (!IsValid)
-            {
-                Log.Default.WriteLine(LogLevels.Warning, "RawKilled: {0} is not valid anymore", DebugName);
-                return null;
-            }
-
-            ICharacter characterKiller = killer as ICharacter;
-
-            Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.Deaths);
-
-            StopFighting(true);
-            // Remove auras
-            RemoveAuras(_ => true, false);
-
-            // Death cry
-            ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry
-
-            // Create corpse
-            ItemCorpseBlueprint itemCorpseBlueprint = ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
-            IItemCorpse corpse = null;
-            if (itemCorpseBlueprint != null)
-            {
-                if (characterKiller != null)
-                    corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room, this, characterKiller);
-                else
-                    corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room, this);
-            }
-            else
-            {
-                Wiznet.Wiznet($"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist !!!", WiznetFlags.Bugs, AdminLevels.Implementor);
-            }
-
-            // Gain/lose xp/reputation   damage.C:32   was done before removing auras and stop fighting
-            if (payoff)
-            {
-                characterKiller?.KillingPayoff(this, corpse);
-                DeathPayoff(characterKiller);
-            }
-
-            //
-            HandleDeath();
-
-            return corpse;
-        }
-
         protected abstract void HandleDeath();
 
         protected abstract void HandleWimpy(int damage);
@@ -2179,9 +2178,75 @@ namespace Mud.Server.Character
                     victim.HitDamage(this, wield, 0, damageType, true);
                 return;
             }
-            // TODO check parry/dodge/shield block (was in Damage function before)
-            // TODO vorpal -> decapitate insta-kill (see fight.C:1642)
+            // parry
+            IPassive parry = AbilityManager.CreateInstance<IPassive>("Parry");
+            if (parry != null && parry.IsTriggered(victim, this, true, out _, out _))
+            {
+                victim.Act(ActOptions.ToCharacter, "You parry {0}'s attack.", this);
+                Act(ActOptions.ToCharacter, "{0:N} parries your attack.", victim);
+                return;
+            }
+            // dodge
+            IPassive dodge = AbilityManager.CreateInstance<IPassive>("Dodge");
+            if (dodge != null && dodge.IsTriggered(victim, this, true, out _, out _))
+            {
+                victim.Act(ActOptions.ToCharacter, "You dodge {0}'s attack.", this);
+                Act(ActOptions.ToCharacter, "{0:N} dodges your attack.", victim);
+                return;
+            }
+            // shield block
+            IPassive shiedBlock = AbilityManager.CreateInstance<IPassive>("Shield Block");
+            if (shiedBlock != null && shiedBlock.IsTriggered(victim, this, true, out _, out _))
+            {
+                victim.Act(ActOptions.ToCharacter, "You block {0}'s attack with your shield.", this);
+                Act(ActOptions.ToCharacter, "{0:N} blocks your attack with a shield.", victim);
+                return;
+            }
+            // vorpal -> kill in one hit !
+            // immune: no chance
+            // resistant: 0.1%
+            // normal: 0.2%
+            // vulnerable: 0.5%
             // calculate weapon (or not) damage
+            if (wield != null && wield.WeaponFlags.HasFlag(WeaponFlags.Vorpal)
+                && victim.BodyParts.HasFlag(BodyParts.Head)
+                && !(victim is IPlayableCharacter pcVictim && pcVictim.IsImmortal))
+            {
+                int chance;
+                ResistanceLevels resistanceLevel = CheckResistance(damageType);
+                switch (resistanceLevel)
+                {
+                    case ResistanceLevels.Immune:
+                        chance = 0;
+                        break;
+                    case ResistanceLevels.Resistant:
+                        chance = 1;
+                        break;
+                    case ResistanceLevels.Vulnerable:
+                        chance = 5;
+                        break;
+                    case ResistanceLevels.Normal:
+                        chance = 2;
+                        break;
+                    default:
+                        chance = 0;
+                        break;
+                }
+                if (chance > 0 && RandomManager.Range(0, 999) < chance)
+                {
+                    Log.Default.WriteLine(LogLevels.Debug, "Vorpal: who {0} what {1} by {2}", victim, wield, this);
+                    ActToNotVictim(victim, "The %M%vorpal%x% of {0} strikes {1}.", wield, this);
+                    Act(ActOptions.ToCharacter, "The %M%vorpal%x% of your weapon strikes {0}.", victim);
+                    victim.Act(ActOptions.ToCharacter, "The %M%Vorpal%x% of {0} strikes and KILLS you.", wield);
+                    Act(ActOptions.ToRoom, "{0:N} is dead!!", victim);
+
+                    // TODO: beheaded ?
+
+                    victim.RawKilled(this, true);
+                    return; // must stop here because victim is dead, corpse has been created (an eventually looted/sacced)
+                }
+            }
+
             int damage = wield == null
                 ? NoWeaponBaseDamage
                 : GetWeaponBaseDamage(wield, learned);
@@ -2194,7 +2259,7 @@ namespace Mud.Server.Character
             // bonus
             var enhancedDamage = AbilityManager.CreateInstance<IPassive>("Enhanced Damage");
             if (enhancedDamage != null && enhancedDamage.IsTriggered(this, victim, true, out var enhancedDamageDiceRoll, out _))
-                    damage += 2 * (damage * enhancedDamageDiceRoll) / 300;
+                damage += 2 * (damage * enhancedDamageDiceRoll) / 300;
 
             if (victim.Position <= Positions.Sleeping)
                 damage *= 2;
@@ -2445,6 +2510,8 @@ namespace Mud.Server.Character
                 _currentAttributes[i] = _baseAttributes[i];
             Sex = BaseSex;
             Size = BaseSize;
+            BodyForms = BaseBodyForms;
+            BodyParts = BaseBodyParts;
         }
 
         protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)

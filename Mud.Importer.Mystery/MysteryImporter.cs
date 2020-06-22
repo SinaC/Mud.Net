@@ -1275,6 +1275,8 @@ namespace Mud.Importer.Mystery
                     Resistances = ConvertMysteryIRV(mobileData.ResFlags),
                     Vulnerabilities = ConvertMysteryIRV(mobileData.VulnFlags),
                     Race = mobileData.Race,
+                    BodyForms = ConvertBodyForms(mobileData.Form),
+                    BodyParts = ConvertBodyParts(mobileData.Parts),
                     //Class = mobileData.Classes
                 };
             else
@@ -1313,6 +1315,10 @@ namespace Mud.Importer.Mystery
                     Immunities = ConvertMysteryIRV(mobileData.ImmFlags),
                     Resistances = ConvertMysteryIRV(mobileData.ResFlags),
                     Vulnerabilities = ConvertMysteryIRV(mobileData.VulnFlags),
+                    Race = mobileData.Race,
+                    BodyForms = ConvertBodyForms(mobileData.Form),
+                    BodyParts = ConvertBodyParts(mobileData.Parts),
+                    //Class = mobileData.Classes
                     //
                     BuyBlueprintTypes = ConvertBuyTypes(mobileData.Shop).ToList(),
                     ProfitBuy = mobileData.Shop.ProfitBuy,
@@ -1547,6 +1553,74 @@ namespace Mud.Importer.Mystery
             }
         }
 
+
+        private BodyForms ConvertBodyForms(long input)
+        {
+            BodyForms forms = BodyForms.None;
+
+            if (IsSet(input, FORM_EDIBLE)) forms |= BodyForms.Edible;
+            if (IsSet(input, FORM_POISON)) forms |= BodyForms.Poison;
+            if (IsSet(input, FORM_MAGICAL)) forms |= BodyForms.Magical;
+            if (IsSet(input, FORM_INSTANT_DECAY)) forms |= BodyForms.InstantDecay;
+            if (IsSet(input, FORM_OTHER)) forms |= BodyForms.Other;
+            if (IsSet(input, FORM_ANIMAL)) forms |= BodyForms.Animal;
+            if (IsSet(input, FORM_SENTIENT)) forms |= BodyForms.Sentient;
+            if (IsSet(input, FORM_UNDEAD)) forms |= BodyForms.Undead;
+            if (IsSet(input, FORM_CONSTRUCT)) forms |= BodyForms.Construct;
+            if (IsSet(input, FORM_MIST)) forms |= BodyForms.Mist;
+            if (IsSet(input, FORM_INTANGIBLE)) forms |= BodyForms.Intangible;
+            if (IsSet(input, FORM_BIPED)) forms |= BodyForms.Biped;
+            if (IsSet(input, FORM_CENTAUR)) forms |= BodyForms.Centaur;
+            if (IsSet(input, FORM_INSECT)) forms |= BodyForms.Insect;
+            if (IsSet(input, FORM_SPIDER)) forms |= BodyForms.Spider;
+            if (IsSet(input, FORM_CRUSTACEAN)) forms |= BodyForms.Crustacean;
+            if (IsSet(input, FORM_WORM)) forms |= BodyForms.Worm;
+            if (IsSet(input, FORM_BLOB)) forms |= BodyForms.Blob;
+            if (IsSet(input, FORM_MAMMAL)) forms |= BodyForms.Mammal;
+            if (IsSet(input, FORM_BIRD)) forms |= BodyForms.Bird;
+            if (IsSet(input, FORM_REPTILE)) forms |= BodyForms.Reptile;
+            if (IsSet(input, FORM_SNAKE)) forms |= BodyForms.Snake;
+            if (IsSet(input, FORM_DRAGON)) forms |= BodyForms.Dragon;
+            if (IsSet(input, FORM_AMPHIBIAN)) forms |= BodyForms.Amphibian;
+            if (IsSet(input, FORM_FISH)) forms |= BodyForms.Fish;
+            if (IsSet(input, FORM_COLD_BLOOD)) forms |= BodyForms.ColdBlood;
+            //FORM_FUR
+            //FORM_FOUR_ARMS
+
+            return forms;
+        }
+
+        private BodyParts ConvertBodyParts(long input)
+        {
+            BodyParts parts = BodyParts.None;
+
+            if (IsSet(input, PART_HEAD)) parts |= BodyParts.Head;
+            if (IsSet(input, PART_ARMS)) parts |= BodyParts.Arms;
+            if (IsSet(input, PART_LEGS)) parts |= BodyParts.Legs;
+            if (IsSet(input, PART_HEART)) parts |= BodyParts.Heart;
+            if (IsSet(input, PART_BRAINS)) parts |= BodyParts.Brains;
+            if (IsSet(input, PART_GUTS)) parts |= BodyParts.Guts;
+            if (IsSet(input, PART_HANDS)) parts |= BodyParts.Hands;
+            if (IsSet(input, PART_FEET)) parts |= BodyParts.Feet;
+            if (IsSet(input, PART_FINGERS)) parts |= BodyParts.Fingers;
+            if (IsSet(input, PART_EAR)) parts |= BodyParts.Ear;
+            if (IsSet(input, PART_EYE)) parts |= BodyParts.Eye;
+            if (IsSet(input, PART_LONG_TONGUE)) parts |= BodyParts.LongTongue;
+            if (IsSet(input, PART_EYESTALKS)) parts |= BodyParts.Eyestalks;
+            if (IsSet(input, PART_TENTACLES)) parts |= BodyParts.Tentacles;
+            if (IsSet(input, PART_FINS)) parts |= BodyParts.Fins;
+            if (IsSet(input, PART_WINGS)) parts |= BodyParts.Wings;
+            if (IsSet(input, PART_TAIL)) parts |= BodyParts.Tail;
+            // PART_BODY
+            if (IsSet(input, PART_CLAWS)) parts |= BodyParts.Claws;
+            if (IsSet(input, PART_FANGS)) parts |= BodyParts.Fangs;
+            if (IsSet(input, PART_HORNS)) parts |= BodyParts.Horns;
+            if (IsSet(input, PART_SCALES)) parts |= BodyParts.Scales;
+            if (IsSet(input, PART_TUSKS)) parts |= BodyParts.Tusks;
+
+            return parts;
+        }
+
         // Immunites, Resistances, Vulnerabilities
         private const long IRV_SUMMON               = MysteryLoader.A;
         private const long IRV_CHARM                = MysteryLoader.B;
@@ -1715,6 +1789,66 @@ namespace Mud.Importer.Mystery
         private const int ITEM_TEMPLATE = 40;
         private const int ITEM_SADDLE = 41;
         private const int ITEM_ROPE = 42;
+
+        // body form
+        private const long FORM_EDIBLE = MysteryLoader.A;
+        private const long FORM_POISON = MysteryLoader.B;
+        private const long FORM_MAGICAL = MysteryLoader.C;
+        private const long FORM_INSTANT_DECAY = MysteryLoader.D;
+        private const long FORM_OTHER = MysteryLoader.E;  /* defined by material bit */
+        // actual form
+        private const long FORM_ANIMAL = MysteryLoader.G;
+        private const long FORM_SENTIENT = MysteryLoader.H;
+        private const long FORM_UNDEAD = MysteryLoader.I;
+        private const long FORM_CONSTRUCT = MysteryLoader.J;
+        private const long FORM_MIST = MysteryLoader.K;
+        private const long FORM_INTANGIBLE = MysteryLoader.L;
+        private const long FORM_BIPED = MysteryLoader.M;
+        private const long FORM_CENTAUR = MysteryLoader.N;
+        private const long FORM_INSECT = MysteryLoader.O;
+        private const long FORM_SPIDER = MysteryLoader.P;
+        private const long FORM_CRUSTACEAN = MysteryLoader.Q;
+        private const long FORM_WORM = MysteryLoader.R;
+        private const long FORM_BLOB = MysteryLoader.S;
+        private const long FORM_MAMMAL = MysteryLoader.V;
+        private const long FORM_BIRD = MysteryLoader.W;
+        private const long FORM_REPTILE = MysteryLoader.X;
+        private const long FORM_SNAKE = MysteryLoader.Y;
+        private const long FORM_DRAGON = MysteryLoader.Z;
+        private const long FORM_AMPHIBIAN = MysteryLoader.aa;
+        private const long FORM_FISH = MysteryLoader.bb;
+        private const long FORM_COLD_BLOOD = MysteryLoader.cc;
+        // Added by SinaC 2001
+        private const long FORM_FUR = MysteryLoader.dd;
+        // SinaC 2003
+        private const long FORM_FOUR_ARMS = MysteryLoader.ee;
+
+        // body parts
+        private const long PART_HEAD = MysteryLoader.A;
+        private const long PART_ARMS = MysteryLoader.B;
+        private const long PART_LEGS = MysteryLoader.C;
+        private const long PART_HEART = MysteryLoader.D;
+        private const long PART_BRAINS = MysteryLoader.E;
+        private const long PART_GUTS = MysteryLoader.F;
+        private const long PART_HANDS = MysteryLoader.G;
+        private const long PART_FEET = MysteryLoader.H;
+        private const long PART_FINGERS = MysteryLoader.I;
+        private const long PART_EAR = MysteryLoader.J;
+        private const long PART_EYE = MysteryLoader.K;
+        private const long PART_LONG_TONGUE = MysteryLoader.L;
+        private const long PART_EYESTALKS = MysteryLoader.M;
+        private const long PART_TENTACLES = MysteryLoader.N;
+        private const long PART_FINS = MysteryLoader.O;
+        private const long PART_WINGS = MysteryLoader.P;
+        private const long PART_TAIL = MysteryLoader.Q;
+        // PART_BODY: SinaC 2003  set for almost every races except blob and things we don't want to see with armor
+        private const long PART_BODY = MysteryLoader.R;
+        // for combat
+        private const long PART_CLAWS = MysteryLoader.U;
+        private const long PART_FANGS = MysteryLoader.V;
+        private const long PART_HORNS = MysteryLoader.W;
+        private const long PART_SCALES = MysteryLoader.X;
+        private const long PART_TUSKS = MysteryLoader.Y;
 
         #endregion
 

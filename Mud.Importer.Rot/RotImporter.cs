@@ -1251,6 +1251,8 @@ namespace Mud.Importer.Rot
                     Resistances = ConvertIRV(mobileData.ResFlags),
                     Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
                     Race = mobileData.Race,
+                    BodyForms = ConvertBodyForms(mobileData.Form),
+                    BodyParts = ConvertBodyParts(mobileData.Parts),
                 };
             }
             else 
@@ -1290,6 +1292,9 @@ namespace Mud.Importer.Rot
                     Immunities = ConvertIRV(mobileData.ImmFlags),
                     Resistances = ConvertIRV(mobileData.ResFlags),
                     Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
+                    Race = mobileData.Race,
+                    BodyForms = ConvertBodyForms(mobileData.Form),
+                    BodyParts = ConvertBodyParts(mobileData.Parts),
                     //
                     BuyBlueprintTypes = ConvertBuyTypes(mobileData.Shop).ToList(),
                     ProfitBuy = mobileData.Shop.ProfitBuy,
@@ -1463,6 +1468,71 @@ namespace Mud.Importer.Rot
             if (IsSet(input, ASSIST_VNUM)) assist |= AssistFlags.Vnum;
 
             return (off, assist);
+        }
+
+
+        private BodyForms ConvertBodyForms(long input)
+        {
+            BodyForms forms = BodyForms.None;
+
+            if (IsSet(input, FORM_EDIBLE)) forms |= BodyForms.Edible;
+            if (IsSet(input, FORM_POISON)) forms |= BodyForms.Poison;
+            if (IsSet(input, FORM_MAGICAL)) forms |= BodyForms.Magical;
+            if (IsSet(input, FORM_INSTANT_DECAY)) forms |= BodyForms.InstantDecay;
+            if (IsSet(input, FORM_OTHER)) forms |= BodyForms.Other;
+            if (IsSet(input, FORM_ANIMAL)) forms |= BodyForms.Animal;
+            if (IsSet(input, FORM_SENTIENT)) forms |= BodyForms.Sentient;
+            if (IsSet(input, FORM_UNDEAD)) forms |= BodyForms.Undead;
+            if (IsSet(input, FORM_CONSTRUCT)) forms |= BodyForms.Construct;
+            if (IsSet(input, FORM_MIST)) forms |= BodyForms.Mist;
+            if (IsSet(input, FORM_INTANGIBLE)) forms |= BodyForms.Intangible;
+            if (IsSet(input, FORM_BIPED)) forms |= BodyForms.Biped;
+            if (IsSet(input, FORM_CENTAUR)) forms |= BodyForms.Centaur;
+            if (IsSet(input, FORM_INSECT)) forms |= BodyForms.Insect;
+            if (IsSet(input, FORM_SPIDER)) forms |= BodyForms.Spider;
+            if (IsSet(input, FORM_CRUSTACEAN)) forms |= BodyForms.Crustacean;
+            if (IsSet(input, FORM_WORM)) forms |= BodyForms.Worm;
+            if (IsSet(input, FORM_BLOB)) forms |= BodyForms.Blob;
+            if (IsSet(input, FORM_MAMMAL)) forms |= BodyForms.Mammal;
+            if (IsSet(input, FORM_BIRD)) forms |= BodyForms.Bird;
+            if (IsSet(input, FORM_REPTILE)) forms |= BodyForms.Reptile;
+            if (IsSet(input, FORM_SNAKE)) forms |= BodyForms.Snake;
+            if (IsSet(input, FORM_DRAGON)) forms |= BodyForms.Dragon;
+            if (IsSet(input, FORM_AMPHIBIAN)) forms |= BodyForms.Amphibian;
+            if (IsSet(input, FORM_FISH)) forms |= BodyForms.Fish;
+            if (IsSet(input, FORM_COLD_BLOOD)) forms |= BodyForms.ColdBlood;
+
+            return forms;
+        }
+
+        private BodyParts ConvertBodyParts(long input)
+        {
+            BodyParts parts = BodyParts.None;
+
+            if (IsSet(input, PART_HEAD)) parts |= BodyParts.Head;
+            if (IsSet(input, PART_ARMS)) parts |= BodyParts.Arms;
+            if (IsSet(input, PART_LEGS)) parts |= BodyParts.Legs;
+            if (IsSet(input, PART_HEART)) parts |= BodyParts.Heart;
+            if (IsSet(input, PART_BRAINS)) parts |= BodyParts.Brains;
+            if (IsSet(input, PART_GUTS)) parts |= BodyParts.Guts;
+            if (IsSet(input, PART_HANDS)) parts |= BodyParts.Hands;
+            if (IsSet(input, PART_FEET)) parts |= BodyParts.Feet;
+            if (IsSet(input, PART_FINGERS)) parts |= BodyParts.Fingers;
+            if (IsSet(input, PART_EAR)) parts |= BodyParts.Ear;
+            if (IsSet(input, PART_EYE)) parts |= BodyParts.Eye;
+            if (IsSet(input, PART_LONG_TONGUE)) parts |= BodyParts.LongTongue;
+            if (IsSet(input, PART_EYESTALKS)) parts |= BodyParts.Eyestalks;
+            if (IsSet(input, PART_TENTACLES)) parts |= BodyParts.Tentacles;
+            if (IsSet(input, PART_FINS)) parts |= BodyParts.Fins;
+            if (IsSet(input, PART_WINGS)) parts |= BodyParts.Wings;
+            if (IsSet(input, PART_TAIL)) parts |= BodyParts.Tail;
+            if (IsSet(input, PART_CLAWS)) parts |= BodyParts.Claws;
+            if (IsSet(input, PART_FANGS)) parts |= BodyParts.Fangs;
+            if (IsSet(input, PART_HORNS)) parts |= BodyParts.Horns;
+            if (IsSet(input, PART_SCALES)) parts |= BodyParts.Scales;
+            if (IsSet(input, PART_TUSKS)) parts |= BodyParts.Tusks;
+
+            return parts;
         }
 
         private IEnumerable<Type> ConvertBuyTypes(ShopData shopData)
@@ -1672,6 +1742,60 @@ namespace Mud.Importer.Rot
         private const int ITEM_PIT = 37;
         private const int ITEM_PASSBOOK = 38;
         private const int ITEM_VEHICLE = 39;
+
+        // body form
+        private const long FORM_EDIBLE = RotLoader.A;
+        private const long FORM_POISON = RotLoader.B;
+        private const long FORM_MAGICAL = RotLoader.C;
+        private const long FORM_INSTANT_DECAY = RotLoader.D;
+        private const long FORM_OTHER = RotLoader.E;  /* defined by material bit */
+        // actual form
+        private const long FORM_ANIMAL = RotLoader.G;
+        private const long FORM_SENTIENT = RotLoader.H;
+        private const long FORM_UNDEAD = RotLoader.I;
+        private const long FORM_CONSTRUCT = RotLoader.J;
+        private const long FORM_MIST = RotLoader.K;
+        private const long FORM_INTANGIBLE = RotLoader.L;
+        private const long FORM_BIPED = RotLoader.M;
+        private const long FORM_CENTAUR = RotLoader.N;
+        private const long FORM_INSECT = RotLoader.O;
+        private const long FORM_SPIDER = RotLoader.P;
+        private const long FORM_CRUSTACEAN = RotLoader.Q;
+        private const long FORM_WORM = RotLoader.R;
+        private const long FORM_BLOB = RotLoader.S;
+        private const long FORM_MAMMAL = RotLoader.V;
+        private const long FORM_BIRD = RotLoader.W;
+        private const long FORM_REPTILE = RotLoader.X;
+        private const long FORM_SNAKE = RotLoader.Y;
+        private const long FORM_DRAGON = RotLoader.Z;
+        private const long FORM_AMPHIBIAN = RotLoader.aa;
+        private const long FORM_FISH = RotLoader.bb;
+        private const long FORM_COLD_BLOOD = RotLoader.cc;
+
+        // body parts
+        private const long PART_HEAD = RotLoader.A;
+        private const long PART_ARMS = RotLoader.B;
+        private const long PART_LEGS = RotLoader.C;
+        private const long PART_HEART = RotLoader.D;
+        private const long PART_BRAINS = RotLoader.E;
+        private const long PART_GUTS = RotLoader.F;
+        private const long PART_HANDS = RotLoader.G;
+        private const long PART_FEET = RotLoader.H;
+        private const long PART_FINGERS = RotLoader.I;
+        private const long PART_EAR = RotLoader.J;
+        private const long PART_EYE = RotLoader.K;
+        private const long PART_LONG_TONGUE = RotLoader.L;
+        private const long PART_EYESTALKS = RotLoader.M;
+        private const long PART_TENTACLES = RotLoader.N;
+        private const long PART_FINS = RotLoader.O;
+        private const long PART_WINGS = RotLoader.P;
+        private const long PART_TAIL = RotLoader.Q;
+        // for combat
+        private const long PART_CLAWS = RotLoader.U;
+        private const long PART_FANGS = RotLoader.V;
+        private const long PART_HORNS = RotLoader.W;
+        private const long PART_SCALES = RotLoader.X;
+        private const long PART_TUSKS = RotLoader.Y;
 
         #endregion
 

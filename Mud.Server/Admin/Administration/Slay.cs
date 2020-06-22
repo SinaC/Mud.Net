@@ -44,7 +44,7 @@ namespace Mud.Server.Admin.Administration
             Wiznet.Wiznet($"{Actor.DisplayName} slayed {Whom.DebugName}.", WiznetFlags.Punish);
 
             Whom.Act(ActOptions.ToAll, "{0:N} slay{0:v} {1} in cold blood!", Actor.Impersonating, Whom);
-            Whom.Slay(Actor.Impersonating);
+            Whom.RawKilled(Actor.Impersonating, false);
         }
     }
 }
