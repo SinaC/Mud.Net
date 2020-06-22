@@ -25,8 +25,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
 {
     public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
-        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> NonPlayableCharacterCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(GetCommands<NonPlayableCharacter>);
-
         private IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         private IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
 
@@ -204,7 +202,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #region IActor
 
-        public override IReadOnlyTrie<IGameActionInfo> Commands => NonPlayableCharacterCommands.Value;
+        public override IReadOnlyTrie<IGameActionInfo> Commands => GameActionManager.GetGameActions<NonPlayableCharacter>();
 
         public override void Send(string message, bool addTrailingNewLine)
         {

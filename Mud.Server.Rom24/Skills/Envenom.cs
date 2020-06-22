@@ -12,7 +12,7 @@ using System;
 
 namespace Mud.Server.Rom24.Rom24Skills
 {
-    [Command("envenom", "Abilities", "Skills", "Enchantments")]
+    [CharacterCommand("envenom", "Abilities", "Skills", "Enchantments")]
     [Syntax(
             "[cmd] <weapon>",
             "[cmd] <food>",

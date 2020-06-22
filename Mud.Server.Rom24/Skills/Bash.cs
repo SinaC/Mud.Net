@@ -9,7 +9,7 @@ using Mud.Server.Rom24.Passives;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("bash", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("bash", "Abilities", "Skills", "Combat")]
     [Syntax("[cmd] <victim>")]
     [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 20)]
     public class Bash : OffensiveSkillBase

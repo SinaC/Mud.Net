@@ -10,7 +10,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("recall", "Abilities", "Skills", "Transportation")]
+    [CharacterCommand("recall", "Abilities", "Skills", "Transportation")]
     [Skill(SkillName, AbilityEffects.Transportation, LearnDifficultyMultiplier = 6)]
     public class Recall : NoTargetSkillBase
     {

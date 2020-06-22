@@ -9,7 +9,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("backstab", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("backstab", "Abilities", "Skills", "Combat")]
     [Syntax("[cmd] <victim>")]
     [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 24)]
     public class Backstab : OffensiveSkillBase

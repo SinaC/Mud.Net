@@ -15,30 +15,24 @@ namespace Mud.Server.GameAction
     // TODO: not anymore a static class
     public class GameActionManager : IGameActionManager
     {
-        private readonly Dictionary<Type, IGameActionInfo> _gameActions;
+        private readonly Dictionary<Type, IGameActionInfo> _gameActionInfos;
+        private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
         public GameActionManager(IAssemblyHelper assemblyHelper)
         {
+            _gameActionInfosTrieByActorType = new Dictionary<Type, IReadOnlyTrie<IGameActionInfo>>(); // will be filled when a call to GetGameActions will be called
+
             Type iGameActionType = typeof(IGameAction);
-            _gameActions = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iGameActionType.IsAssignableFrom(t)))
+
+            // Gather all game action
+            _gameActionInfos = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iGameActionType.IsAssignableFrom(t)))
                 .Select(t => new { executionType = t, attributes = GetGameActionAttributes(t) })
                 .ToDictionary(typeAndAttributes => typeAndAttributes.executionType, typeAndAttributes => CreateGameActionInfo(typeAndAttributes.executionType, typeAndAttributes.attributes.commandAttribute, typeAndAttributes.attributes.syntaxAttribute, typeAndAttributes.attributes.aliasAttributes));
         }
 
         #region IGameActionManager
 
-        public IEnumerable<IGameActionInfo> GameActions => _gameActions.Values;
-
-        //public IGameActionInfo GetGameActionInfo<TActor>(string name)
-        //    where TActor : IActor
-        //{
-        //    if (!_gameActions.Contains(name))
-        //        return default;
-        //    Type actorType = typeof(TActor);
-        //    var gameActionInfos = _gameActions[name];
-        //    Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
-        //    return PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, name, gameActionInfos, x => x.CommandExecutionType);
-        //}
+        public IEnumerable<IGameActionInfo> GameActions => _gameActionInfos.Values;
 
         public string Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
             where TActor: IActor
@@ -67,7 +61,7 @@ namespace Mud.Server.GameAction
             where TActor : IActor
         {
             Type gameActionType = typeof(TGameAction);
-            if (!_gameActions.TryGetValue(gameActionType, out var gameActionInfo))
+            if (!_gameActionInfos.TryGetValue(gameActionType, out var gameActionInfo))
             {
                 Log.Default.WriteLine(LogLevels.Error, "GameAction type {0} not found in GameActionManager.", gameActionType.FullName);
                 return "Something goes wrong.";
@@ -75,19 +69,48 @@ namespace Mud.Server.GameAction
             return Execute(gameActionInfo, actor, command, rawParameters, parameters);
         }
 
-        #endregion
-
-        //
-
-        public static IReadOnlyTrie<IGameActionInfo> GetCommands<TActor>()
+        public IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()
             where TActor : IActor
         {
-            var commands = GetCommandsFromAssembly<TActor>(typeof(TActor).Assembly);
-            Trie<IGameActionInfo> trie = new Trie<IGameActionInfo>(commands);
+            Type actorType = typeof(TActor);
+
+            if (_gameActionInfosTrieByActorType.TryGetValue(actorType, out var readonlyTrie))
+                return readonlyTrie;
+            var gameActions = GetGameActionsByActorType<TActor>();
+            Trie<IGameActionInfo> trie = new Trie<IGameActionInfo>(gameActions);
+            _gameActionInfosTrieByActorType.Add(actorType, trie);
             return trie;
         }
 
-        public static IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes)
+        #endregion
+
+        private IEnumerable<TrieEntry<IGameActionInfo>> GetGameActionsByActorType<TActor>()
+            where TActor : IActor
+        {
+            Type iGameActionType = typeof(IGameAction);
+            Type commandAttributeType = typeof(CommandAttribute);
+
+            Type actorType = typeof(TActor);
+            Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
+
+            var gameActionInfos = _gameActionInfos
+                .Values
+                .GroupBy(t => t.Name)
+                .OrderBy(g => g.Key)
+                .Select(g => PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x.CommandExecutionType))
+                .Where(x => x != null);
+            // return one entry using CommandAttribute.Name and one entry by AliasAttribute.Alias
+            foreach (var gameActionInfo in gameActionInfos)
+            {
+                // return command
+                yield return new TrieEntry<IGameActionInfo>(gameActionInfo.Name, gameActionInfo);
+                // return aliases
+                foreach (string alias in gameActionInfo.Aliases)
+                    yield return new TrieEntry<IGameActionInfo>(alias, gameActionInfo);
+            }
+        }
+
+        private IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes)
         {
             switch (commandAttribute)
             {
@@ -104,44 +127,16 @@ namespace Mud.Server.GameAction
             }
         }
 
-        private static IEnumerable<TrieEntry<IGameActionInfo>> GetCommandsFromAssembly<TActor>(Assembly assembly)
-            where TActor : IActor
-        {
-            Type iGameActionType = typeof(IGameAction);
-            Type commandAttributeType = typeof(CommandAttribute);
-
-            Type actorType = typeof(TActor);
-            Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
-
-            var typesAndAttributes = assembly.GetTypes()
-                .Where(t => !t.IsAbstract && iGameActionType.IsAssignableFrom(t) && t.GetCustomAttributes(commandAttributeType, false).Any())
-                .GroupBy(t => t.Name)
-                .OrderBy(g => g.Key)
-                .Select(g => PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x))
-                .Where(x => x != null)
-                .Select(t => new { executionType = t, attributes = GetGameActionAttributes(t) });
-            // return one entry using CommandAttribute.Name and one entry by AliasAttribute.Alias
-            foreach (var typeAndAttributes in typesAndAttributes)
-            {
-                IGameActionInfo gameActionInfo = CreateGameActionInfo(typeAndAttributes.executionType, typeAndAttributes.attributes.commandAttribute, typeAndAttributes.attributes.syntaxAttribute, typeAndAttributes.attributes.aliasAttributes);
-                // return command
-                yield return new TrieEntry<IGameActionInfo>(typeAndAttributes.attributes.commandAttribute.Name, gameActionInfo);
-                // return aliases
-                foreach (AliasAttribute aliasAttribute in typeAndAttributes.attributes.aliasAttributes)
-                    yield return new TrieEntry<IGameActionInfo>(aliasAttribute.Alias, gameActionInfo);
-            }
-        }
-
-        public static (CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes) GetGameActionAttributes(Type type)
+        private (CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes) GetGameActionAttributes(Type type)
         {
             CommandAttribute commandAttribute = type.GetCustomAttribute<CommandAttribute>();
-            SyntaxAttribute syntaxCommandAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
+            SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
             IEnumerable<AliasAttribute> aliasAttributes = type.GetCustomAttributes<AliasAttribute>();
 
-            return (commandAttribute, syntaxCommandAttribute, aliasAttributes);
+            return (commandAttribute, syntaxAttribute, aliasAttributes);
         }
 
-        private static Type[] GetSortedImplementedInterfaces(Type actorType)
+        private Type[] GetSortedImplementedInterfaces(Type actorType)
         {
             return actorType.GetInterfaces()
                 .Select(i => new { implementedInterface = i, level = GetNestedLevel(i) })
@@ -150,7 +145,7 @@ namespace Mud.Server.GameAction
                 .ToArray();
         }
 
-        private static T PolymorphismSimulator<T>(Type actorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<T> collection, Func<T,Type> selectorFunc)
+        private T PolymorphismSimulator<T>(Type actorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<T> collection, Func<T,Type> selectorFunc)
             where T: class
         {
             T best = default;
@@ -185,7 +180,7 @@ namespace Mud.Server.GameAction
             return best;
         }
 
-        private static int GetNestedLevel(Type type)
+        private int GetNestedLevel(Type type)
         {
             if (type == null)
                 return 0;

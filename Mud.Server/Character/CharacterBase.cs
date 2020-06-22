@@ -39,8 +39,6 @@ namespace Mud.Server.Character
         private const int MinAlignment = -1000;
         private const int MaxAlignment = 1000;
 
-        private static readonly Lazy<IReadOnlyTrie<IGameActionInfo>> CharacterBaseCommands = new Lazy<IReadOnlyTrie<IGameActionInfo>>(GetCommands<CharacterBase>);
-
         private readonly List<IItem> _inventory;
         private readonly List<IEquippedItem> _equipments;
         // TODO: replace int[] with Dictionary<enum,int> ?
@@ -78,12 +76,6 @@ namespace Mud.Server.Character
         #region ICharacter
 
         #region IEntity
-
-        #region IActor
-
-        public override IReadOnlyTrie<IGameActionInfo> Commands => CharacterBaseCommands.Value;
-
-        #endregion
 
         // TODO: override RelativeDescription ?
 

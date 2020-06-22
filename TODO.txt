@@ -1,6 +1,5 @@
 NEXT:
 one class by command -> rename Command to GameAction
-	continue CommandManager: transform static methods into methods
 	unit test for each command!!!
 	rename Guards to Setup
 	remove parameters from Execute

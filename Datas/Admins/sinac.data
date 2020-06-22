@@ -135,7 +135,7 @@
               <AuraData>
                 <AbilityName>Envenom</AbilityName>
                 <Level>1</Level>
-                <PulseLeft>1080</PulseLeft>
+                <PulseLeft>1068</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -1515,7 +1515,7 @@
       <Cooldowns>
         <PairDataOfStringInt32>
           <Key>Test</Key>
-          <Value>984</Value>
+          <Value>972</Value>
         </PairDataOfStringInt32>
       </Cooldowns>
       <Pets>

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.Actor;
+﻿using Mud.DataStructures.Trie;
+using Mud.Server.Interfaces.Actor;
 using System.Collections.Generic;
 
 namespace Mud.Server.Interfaces.GameAction
@@ -10,6 +11,9 @@ namespace Mud.Server.Interfaces.GameAction
         string Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
             where TActor: IActor;
         string Execute<TGameAction, TActor>(TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
+            where TActor : IActor;
+
+        IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()
             where TActor : IActor;
     }
 }

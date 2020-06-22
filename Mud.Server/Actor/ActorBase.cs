@@ -80,9 +80,5 @@ namespace Mud.Server.Actor
         }
 
         #endregion
-
-        protected static IReadOnlyTrie<IGameActionInfo> GetCommands<T>()
-            where T : IActor
-            => GameAction.GameActionManager.GetCommands<T>();
     }
 }

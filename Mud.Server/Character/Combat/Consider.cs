@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Combat
 {
-    [CharacterCommand("consider", "Information", MinPosition = Positions.Resting)]
+    [CharacterCommand("consider", "Information", "Combat", MinPosition = Positions.Resting)]
     [Syntax("[cmd] <character>")]
     public class Consider : CharacterGameAction
     {

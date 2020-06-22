@@ -10,7 +10,7 @@ using System;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("sneak", "Abilities", "Skills")]
+    [CharacterCommand("sneak", "Abilities", "Skills")]
     [Skill(SkillName, AbilityEffects.Buff, LearnDifficultyMultiplier = 3)]
     public class Sneak : NoTargetSkillBase
     {

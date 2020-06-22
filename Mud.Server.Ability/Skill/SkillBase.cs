@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -8,7 +9,7 @@ using System;
 
 namespace Mud.Server.Ability.Skill
 {
-    public abstract class SkillBase : ISkill, IGameAction
+    public abstract class SkillBase : CharacterGameAction, ISkill
     {
         protected IRandomManager RandomManager { get; }
 
@@ -85,21 +86,19 @@ namespace Mud.Server.Ability.Skill
 
         #region IGameAction
 
-        public string Guards(IActionInput actionInput)
+        public override string Guards(IActionInput actionInput)
         {
-            if (actionInput.Actor == null)
-                return "Cannot use a skill without an actor.";
-            // check if actor is Character
-            var user = actionInput.Actor as ICharacter;
-            if (user == null)
-                return "Only character are allowed to use skills.";
+            string baseGuards = base.Guards(actionInput);
+            if (baseGuards != null)
+                return baseGuards;
+
             var abilityInfo = new AbilityInfo(GetType());
-            var skillActionInput = new SkillActionInput(actionInput, abilityInfo, user);
+            var skillActionInput = new SkillActionInput(actionInput, abilityInfo, Actor);
             string setupResult = Setup(skillActionInput);
             return setupResult;
         }
 
-        public void Execute(IActionInput actionInput)
+        public override void Execute(IActionInput actionInput)
         {
             Execute();
         }

@@ -12,7 +12,7 @@ using System;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [Command("berserk", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("berserk", "Abilities", "Skills", "Combat")]
     [Skill(SkillName, AbilityEffects.Buff, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     [AbilityCharacterWearOffMessage("You feel your pulse slow down.")]
     public class Berserk : NoTargetSkillBase
