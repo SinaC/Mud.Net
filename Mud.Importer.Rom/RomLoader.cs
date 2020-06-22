@@ -169,12 +169,14 @@ namespace Mud.Importer.Rom
         private void ParseOldArea()
         {
             Log.Default.WriteLine(LogLevels.Trace, "Old area section");
-            AreaData area = new AreaData();
-            area.FileName = ReadString();
-            area.Name = ReadString();
-            area.Credits = ReadString();
-            area.MinVNum = (int)ReadNumber();
-            area.MaxVNum = (int)ReadNumber();
+            AreaData area = new AreaData
+            {
+                FileName = ReadString(),
+                Name = ReadString(),
+                Credits = ReadString(),
+                MinVNum = (int) ReadNumber(),
+                MaxVNum = (int) ReadNumber()
+            };
             Log.Default.WriteLine(LogLevels.Trace, "Area [{0}] parsed", area.Name);
 
             area.VNum = 10 + _areas.Count;

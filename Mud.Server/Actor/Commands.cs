@@ -17,7 +17,7 @@ namespace Mud.Server.Actor
             "[cmd] <prefix>")]
     public class Commands : ActorGameAction
     {
-        private const int columnCount = 6;
+        private const int ColumnCount = 6;
 
         public bool ShouldDisplayCategories { get; protected set; }
         public ICommandParameter Parameter { get; protected set; }
@@ -60,10 +60,10 @@ namespace Mud.Server.Actor
                 .OrderBy(x => x))
             {
                 sb.AppendFormat("{0,-14}", category);
-                if ((++index % columnCount) == 0)
+                if ((++index % ColumnCount) == 0)
                     sb.AppendLine();
             }
-            if (index > 0 && index % columnCount != 0)
+            if (index > 0 && index % ColumnCount != 0)
                 sb.AppendLine();
             sb.Append("%x%");
             Actor.Page(sb);
@@ -76,6 +76,7 @@ namespace Mud.Server.Actor
             Func<string, bool> nameFilter;
             Func<string, bool> categoryFilter;
 
+            var keyValuePairs = filteredGameActions as KeyValuePair<string, IGameActionInfo>[] ?? filteredGameActions.ToArray();
             if (Parameter.IsAll)
             {
                 nameFilter = x => true;
@@ -84,7 +85,7 @@ namespace Mud.Server.Actor
             else
             {
                 // if parameter match a category, display category
-                string[] categories = filteredGameActions.SelectMany(x => x.Value.Categories).ToArray();
+                string[] categories = keyValuePairs.SelectMany(x => x.Value.Categories).ToArray();
                 string matchingCategory = categories.FirstOrDefault(x => StringCompareHelpers.StringEquals(x, Parameter.Value));
                 if (matchingCategory != null)
                 {
@@ -103,10 +104,10 @@ namespace Mud.Server.Actor
             // if a command has multiple categories, it will appear in each category
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Available commands:");
-            foreach (var gameActionByCategory in filteredGameActions
+            foreach (var gameActionByCategory in keyValuePairs
                 .SelectMany(x => GetNames(x.Value).Where(n => nameFilter(n)), (kv, name) => new { name, kv.Value })
                 .GroupBy(x => x.name, (name, group) => new { name, group.First().Value })
-                .SelectMany(x => x.Value.Categories.Where(categoryFilter), (kv, category) => new { category, name = kv.name, priority = kv.Value.Priority })
+                .SelectMany(x => x.Value.Categories.Where(categoryFilter), (kv, category) => new { category, kv.name, priority = kv.Value.Priority })
                 .GroupBy(x => x.category, (category, group) => new { category, commands = group })
                 .OrderBy(g => g.category))
             {
@@ -118,10 +119,10 @@ namespace Mud.Server.Actor
                     .ThenBy(x => x.name))
                 {
                     sb.AppendFormat("{0,-14}", gameActionInfo.name);
-                    if ((++index % columnCount) == 0)
+                    if ((++index % ColumnCount) == 0)
                         sb.AppendLine();
                 }
-                if (index > 0 && index % columnCount != 0)
+                if (index > 0 && index % ColumnCount != 0)
                     sb.AppendLine();
             }
             Actor.Page(sb);

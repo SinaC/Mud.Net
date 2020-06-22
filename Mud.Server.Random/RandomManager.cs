@@ -84,7 +84,7 @@ namespace Mud.Server.Random
         public T Random<T>()
             where T : Enum
         {
-            return Random<T>(EnumHelpers.GetValues<T>());
+            return Random(EnumHelpers.GetValues<T>());
         }
 
         public T Random<T>(IEnumerable<T> values) // https://stackoverflow.com/questions/648196/random-row-from-linq-to-sql/648240#648240

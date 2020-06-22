@@ -27,7 +27,7 @@ namespace Mud.Server.Rom24.Spells
         protected override string CasterAffectMessage => "{0:N} is protected by your magic.";
         protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo
             => (Level, TimeSpan.FromHours(24),
-             new[]
+             new IAffect[]
              { 
                  new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -20, Operator = AffectOperators.Add }
              });

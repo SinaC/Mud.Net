@@ -3,7 +3,7 @@ using Mud.Domain;
 
 namespace Mud.Server.GameAction
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class CommandAttribute : Attribute
     {
         public const int DefaultPriority = 500;
@@ -29,7 +29,7 @@ namespace Mud.Server.GameAction
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class CharacterCommandAttribute : CommandAttribute
     {
         public Positions MinPosition { get; set; }
@@ -41,7 +41,7 @@ namespace Mud.Server.GameAction
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class PlayableCharacterCommandAttribute : CharacterCommandAttribute // Must be impersonated
     {
         public PlayableCharacterCommandAttribute(string name, params string[] categories)
@@ -50,7 +50,7 @@ namespace Mud.Server.GameAction
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class PlayerCommandAttribute : CommandAttribute
     {
         public bool MustBeImpersonated { get; set; }
@@ -62,7 +62,7 @@ namespace Mud.Server.GameAction
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class AdminCommandAttribute : PlayerCommandAttribute
     {
         public AdminLevels MinLevel { get; set; }
@@ -73,7 +73,7 @@ namespace Mud.Server.GameAction
         }
     }
 
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class SyntaxAttribute : Attribute
     {
         public string[] Syntax { get; }
@@ -93,17 +93,5 @@ namespace Mud.Server.GameAction
         {
             Alias = alias;
         }
-    }
-
-    public enum CommandExecutionResults 
-    {
-        Ok,
-        SyntaxError, // will display command syntax
-        SyntaxErrorNoDisplay, // will NOT display command syntax
-        TargetNotFound, // item/character/room/... has not been found
-        InvalidParameter, // parameter invalid such as negative number
-        InvalidTarget, // target cannot be used for this command
-        NoExecution, //
-        Error // will display an error in log and AfterCommand will not be executed
     }
 }

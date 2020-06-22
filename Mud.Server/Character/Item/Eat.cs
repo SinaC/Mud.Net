@@ -54,8 +54,7 @@ namespace Mud.Server.Character.Item
             if (Food == null && Pill == null)
                 return "That's not edible.";
 
-            IPlayableCharacter pc = Actor as IPlayableCharacter;
-            if (pc?[Conditions.Full] > 40 && pc?.IsImmortal != true)
+            if (Actor is IPlayableCharacter pc && pc[Conditions.Full] > 40 && pc.IsImmortal != true)
                 return "You are too full to eat more.";
 
             return null;
@@ -67,8 +66,7 @@ namespace Mud.Server.Character.Item
 
             if (Food != null)
             {
-                IPlayableCharacter pc = Actor as IPlayableCharacter;
-                if (pc != null)
+                if (Actor is IPlayableCharacter pc)
                 {
                     int hunger = pc[Conditions.Hunger];
                     pc.GainCondition(Conditions.Full, Food.FullHours);

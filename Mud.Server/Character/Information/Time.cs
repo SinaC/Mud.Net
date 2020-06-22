@@ -1,4 +1,5 @@
 ﻿using Mud.Server.GameAction;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Information

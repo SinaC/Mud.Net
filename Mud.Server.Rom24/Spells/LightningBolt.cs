@@ -16,7 +16,7 @@ namespace Mud.Server.Rom24.Spells
         {
         }
 
-        protected override int[] Table => new int[]
+        protected override int[] Table => new []
         {
              0,
              0,  0,  0,  0,  0,  0,  0,  0, 25, 28,

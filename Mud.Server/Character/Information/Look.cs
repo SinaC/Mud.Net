@@ -155,7 +155,7 @@ namespace Mud.Server.Character.Information
             {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("It is pitch black ... ");
-                foreach (ICharacter victim in Actor.Room.People.Where(x => x != this))
+                foreach (ICharacter victim in Actor.Room.People.Where(x => x != Actor))
                 {
                     //  (see act_info.C:714 show_char_to_char)
                     if (Actor.CanSee(victim)) // see act_info.C:375 show_char_to_char_0)

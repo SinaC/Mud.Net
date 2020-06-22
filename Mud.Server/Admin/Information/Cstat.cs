@@ -111,7 +111,7 @@ namespace Mud.Server.Admin.Information
                 sb.AppendFormatLine("Level: {0} Experience: {1} NextLevel: {2}", playableWhom.Level, playableWhom.Experience, playableWhom.ExperienceToLevel);
             else
                 sb.AppendFormatLine("Level: {0}", Whom.Level);
-            if (playableWhom != null)
+            if (nonPlayableWhom != null)
                 sb.AppendFormatLine("Damage: {0}d{1}+{2} {3} {4}", nonPlayableWhom.DamageDiceCount, nonPlayableWhom.DamageDiceValue, nonPlayableWhom.DamageDiceBonus, nonPlayableWhom.DamageType, nonPlayableWhom.DamageNoun);
             sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", Whom.HitPoints, Whom.MaxHitPoints);
             sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", Whom.MovePoints, Whom.MaxMovePoints);

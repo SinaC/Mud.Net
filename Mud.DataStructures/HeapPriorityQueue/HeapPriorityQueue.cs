@@ -86,7 +86,7 @@ namespace Mud.DataStructures.HeapPriorityQueue
         {
             if (IsEmpty())
             {
-                return default(T);
+                return default;
             }
 
             return _queue[0].Value;
@@ -101,7 +101,7 @@ namespace Mud.DataStructures.HeapPriorityQueue
         {
             if (IsEmpty())
             {
-                return default(T);
+                return default;
             }
 
             KeyValueEntry<int, T> result = _queue[0];

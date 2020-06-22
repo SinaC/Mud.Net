@@ -40,7 +40,7 @@ namespace Mud.Server.Character.PlayableCharacter.Combat
             if (Whom.IsSafe(Actor))
                 return "Not on that victim.";
 
-            IPlayableCharacter playableActor = Actor as IPlayableCharacter;
+            IPlayableCharacter playableActor = Actor;
             if (Whom.Fighting != null)
             {
                 // if not in same group, don't allow kill stealing
@@ -49,9 +49,10 @@ namespace Mud.Server.Character.PlayableCharacter.Combat
                     return "Kill stealing is not permitted.";
             }
 
-            INonPlayableCharacter nonPlayableActor = Actor as INonPlayableCharacter;
-            if (Actor.CharacterFlags.HasFlag(CharacterFlags.Charm) && nonPlayableActor?.Master == Whom)
-                return Actor.ActPhrase("{0:N} is your beloved master.", Whom);
+            // this is impossible with new game action system
+            //INonPlayableCharacter nonPlayableActor = Actor as INonPlayableCharacter;
+            //if (Actor.CharacterFlags.HasFlag(CharacterFlags.Charm) && nonPlayableActor?.Master == Whom)
+            //    return Actor.ActPhrase("{0:N} is your beloved master.", Whom);
 
             if (Actor.Position == Positions.Fighting)
                 return "You do the best you can!";

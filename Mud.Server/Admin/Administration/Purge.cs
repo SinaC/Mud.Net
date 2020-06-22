@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.Room;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Admin.Administration
 {
@@ -67,7 +68,7 @@ namespace Mud.Server.Admin.Administration
             Target = FindHelpers.FindItemHere(Actor.Impersonating, actionInput.Parameters[0]);
             if (Target == null)
                 return StringHelpers.ItemNotFound;
-            if ((Target as IItem).ItemFlags.HasFlag(ItemFlags.NoPurge))
+            if (((IItem) Target).ItemFlags.HasFlag(ItemFlags.NoPurge))
                 return "It can't be purged.";
 
             return null;

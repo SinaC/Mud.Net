@@ -1779,9 +1779,8 @@ namespace Mud.Importer.Rot
 
         private int ConvertObjectToInt32(object value)
         {
-            if (value is long)
+            if (value is long value64Bits)
             {
-                long value64Bits = (long)value;
                 long value32Bits;
                 if (value64Bits > int.MaxValue)
                     value32Bits = value64Bits + 2 * ((long)int.MinValue);
@@ -1789,8 +1788,8 @@ namespace Mud.Importer.Rot
                     value32Bits = (int)value64Bits;
                 return (int)value32Bits;
             }
-            else if (value is int)
-                return (int)value;
+            else if (value is int value32Bits)
+                return value32Bits;
             RaiseConvertException("Unable to convert object value to int32");
             return 0;
         }

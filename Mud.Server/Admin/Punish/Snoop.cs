@@ -1,6 +1,7 @@
 ﻿using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
@@ -48,13 +49,13 @@ namespace Mud.Server.Admin.Punish
 
         public override void Execute(IActionInput actionInput)
         {
-            if (Whom == this)
+            if (Whom == Actor)
             {
                 Actor.Send("Cancelling all snoops.");
                 Wiznet.Wiznet($"{Actor.DisplayName} stops being such as snoop.", Domain.WiznetFlags.Punish | Domain.WiznetFlags.Snoops);
                 foreach (IPlayer player in PlayerManager.Players)
                 {
-                    if (player.SnoopBy == this)
+                    if (player.SnoopBy == Actor)
                         player.SetSnoopBy(null);
                 }
                 return;

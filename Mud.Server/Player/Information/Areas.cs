@@ -2,7 +2,6 @@
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.GameAction;
-using System.Text;
 
 namespace Mud.Server.Player.Information
 {
@@ -18,8 +17,7 @@ namespace Mud.Server.Player.Information
 
         public override void Execute(IActionInput actionInput)
         {
-            StringBuilder sb;
-            sb = TableGenerators.AreaTableGenerator.Value.Generate("Areas", AreaManager.Areas);
+            var sb = TableGenerators.AreaTableGenerator.Value.Generate("Areas", AreaManager.Areas);
             Actor.Page(sb);
         }
     }

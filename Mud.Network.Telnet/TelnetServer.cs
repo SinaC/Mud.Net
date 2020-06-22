@@ -39,7 +39,7 @@ namespace Mud.Network.Telnet
         private ServerStatus _status;
         private readonly List<ClientTelnetStateObject> _clients;
 
-        public int Port { get; private set; }
+        public int Port { get; }
 
         public TelnetServer(int port)
         {

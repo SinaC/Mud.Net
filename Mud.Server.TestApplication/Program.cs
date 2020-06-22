@@ -651,8 +651,8 @@ namespace Mud.Server.TestApplication
             CreateMidgaard();
 
             INetworkServer telnetServer = new TelnetServer(11000);
-           DependencyContainer.Current.GetInstance<IServer>().Initialize(new List<INetworkServer> { telnetServer});
-           DependencyContainer.Current.GetInstance<IServer>().Start();
+            DependencyContainer.Current.GetInstance<IServer>().Initialize(new List<INetworkServer> {telnetServer});
+            DependencyContainer.Current.GetInstance<IServer>().Start();
 
             bool stopped = false;
             while (!stopped)
@@ -683,6 +683,7 @@ namespace Mud.Server.TestApplication
                                 foreach (IPlayer p in DependencyContainer.Current.GetInstance<IPlayerManager>().Players)
                                     Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
                             }
+
                             // TODO: characters/rooms/items
                         }
                     }
@@ -690,8 +691,8 @@ namespace Mud.Server.TestApplication
                 else
                     Thread.Sleep(100);
             }
-            
-           DependencyContainer.Current.GetInstance<IServer>().Stop();
+
+            DependencyContainer.Current.GetInstance<IServer>().Stop();
         }
 
         private static void TestWorldOffline()

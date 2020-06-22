@@ -342,6 +342,7 @@
     <Compile Include="Abilities\AbilityUsage.cs" />
     <Compile Include="Abilities\AttributeTables.cs" />
     <Compile Include="Abilities\CommandAttributes.cs" />
+    <Compile Include="Abilities\CommandExecutionResults.cs" />
     <Compile Include="Abilities\Enums.cs" />
     <Compile Include="Abilities\IAbility.cs" />
     <Compile Include="Abilities\IAbilityManager.cs" />
@@ -401,6 +402,7 @@
     <Compile Include="GroupsPetsFollowers\CharacterBase.cs" />
     <Compile Include="GroupsPetsFollowers\CharacterCommands.cs" />
     <Compile Include="GroupsPetsFollowers\CommandAttributes.cs" />
+    <Compile Include="GroupsPetsFollowers\CommandExecutionResults.cs" />
     <Compile Include="GroupsPetsFollowers\Group.cs" />
     <Compile Include="GroupsPetsFollowers\ICharacter.cs" />
     <Compile Include="GroupsPetsFollowers\IGroup.cs" />

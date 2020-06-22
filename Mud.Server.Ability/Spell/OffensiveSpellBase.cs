@@ -49,9 +49,7 @@ namespace Mud.Server.Ability.Spell
         {
             if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
             {
-                Victim = spellActionInput.CastFromItemOptions.PredefinedTarget as ICharacter;
-                if (Victim == null)
-                    Victim = Caster.Fighting;
+                Victim = spellActionInput.CastFromItemOptions.PredefinedTarget as ICharacter ?? Caster.Fighting;
                 if (Victim == null)
                     return "You can't do that.";
                 return null;

@@ -53,7 +53,7 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void SaySpell()
         {
-            return;
+            // NOP
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Logger;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 
@@ -65,8 +66,7 @@ namespace Mud.Server.Character
                 case EquipmentSlots.Float:
                     return "%C%<floating nearby>        %x%";
                 default:
-                    // TODO:
-                    //Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", equippedItem.Slot);
+                    Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", Slot);
                     break;
             }
             return "%C%<unknown>%x%";

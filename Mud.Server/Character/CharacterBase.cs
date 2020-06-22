@@ -30,7 +30,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Character
 {
-    public abstract partial class CharacterBase : EntityBase, ICharacter
+    public abstract class CharacterBase : EntityBase, ICharacter
     {
         private const int MinAlignment = -1000;
         private const int MaxAlignment = 1000;
@@ -322,7 +322,6 @@ namespace Mud.Server.Character
             //
             foreach (ICharacter target in targets)
             {
-                // TODO: optimization ?  FormatActOneLine will always return the same string for every target different than 'this' --> no anymore true with QuestObjective
                 string phrase = FormatActOneLine(target, format, arguments);
                 target.Send(phrase);
             }
@@ -347,7 +346,7 @@ namespace Mud.Server.Character
         {
             if (item is IItemLight itemLight && itemLight.IsLighten)
                 Room.DecreaseLight();
-            foreach (EquippedItem equipmentSlot in _equipments.Where(x => x.Item == item))
+            foreach (IEquippedItem equipmentSlot in _equipments.Where(x => x.Item == item))
                 equipmentSlot.Item = null;
             return true;
         }
@@ -431,9 +430,7 @@ namespace Mud.Server.Character
                 return false;
 
             // blind except if potion
-            if (CharacterFlags.HasFlag(CharacterFlags.Blind)
-            //TODO can see potion
-            )
+            if (CharacterFlags.HasFlag(CharacterFlags.Blind) && item is IItemPotion)
                 return false;
 
             // Light
@@ -689,11 +686,11 @@ namespace Mud.Server.Character
                 ApplyAuras(Room);
 
             // 2) Apply equipment auras
-            foreach (EquippedItem equipment in Equipments.Where(x => x.Item != null))
+            foreach (IEquippedItem equipment in Equipments.Where(x => x.Item != null))
                 ApplyAuras(equipment.Item);
 
             // 3) Apply equipment armor
-            foreach (EquippedItem equippedItem in Equipments.Where(x => x.Item is IItemArmor || x.Item is IItemShield))
+            foreach (IEquippedItem equippedItem in Equipments.Where(x => x.Item is IItemArmor || x.Item is IItemShield))
             {
                 if (equippedItem.Item is IItemArmor armor)
                 {
@@ -720,11 +717,11 @@ namespace Mud.Server.Character
             if (this is IPlayableCharacter)
             {
                 bool shouldRecompute = false;
-                foreach (EquippedItem equipedItem in Equipments.Where(x => x.Slot == EquipmentSlots.MainHand && x.Item is IItemWeapon))
+                foreach (IEquippedItem equipedItem in Equipments.Where(x => x.Slot == EquipmentSlots.MainHand && x.Item is IItemWeapon))
                 {
                     if (equipedItem.Item is IItemWeapon weapon) // always true
                     {
-                        if (this is IPlayableCharacter && weapon.TotalWeight > TableValues.WieldBonus(this) * 10) // TODO: same check in WearItem in ItemCommands.cs
+                        if (this is IPlayableCharacter && weapon.TotalWeight > TableValues.WieldBonus(this) * 10) // TODO: same check in WearItem
                         {
                             Act(ActOptions.ToAll, "{0:N} can't use {1} anymore.", this, weapon);
                             weapon.ChangeEquippedBy(null, false);
@@ -1102,7 +1099,6 @@ namespace Mud.Server.Character
 
             if (display)
             {
-                // TODO: see dam_message
                 string phraseOther; // {0}: source {1}: victim {2}: damage display {3}: damage noun {4}: damage value
                 string phraseSource; // {0}: victim {1}: damage display {2}: damage noun {3}: damage value
                 string phraseVictim = string.Empty; // {0}: source {1}: damage display {2}: damage noun {3}: damage value
@@ -1749,7 +1745,7 @@ namespace Mud.Server.Character
             if (Equipments.Any(x => x.Item != null))
             {
                 sb.AppendLine($"{RelativeDisplayName(viewer)} is using:");
-                foreach (EquippedItem equippedItem in Equipments.Where(x => x.Item != null))
+                foreach (IEquippedItem equippedItem in Equipments.Where(x => x.Item != null))
                 {
                     sb.Append(equippedItem.EquipmentSlotsToString());
                     equippedItem.Item.Append(sb, viewer, true);
@@ -1762,7 +1758,7 @@ namespace Mud.Server.Character
                 sb.AppendLine("You peek at the inventory:");
                 IEnumerable<IItem> items = viewer == this
                     ? Inventory
-                    : Inventory.Where(x => viewer.CanSee(x)); // don't display 'invisible item' when inspecting someone else
+                    : Inventory.Where(viewer.CanSee); // don't display 'invisible item' when inspecting someone else
                 ItemsHelpers.AppendItems(sb, items, this, true, true);
             }
 
@@ -2034,8 +2030,6 @@ namespace Mud.Server.Character
 
         protected virtual void EnterFollow(IRoom wasRoom, IRoom destination, IItemPortal portal)
         {
-            if (wasRoom == destination)
-                return;
             // Followers will not automatically enter portal
         }
 

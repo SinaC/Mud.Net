@@ -16,14 +16,7 @@ namespace Mud.Server.Admin.Information
     [Syntax("[cmd] <location>")]
     public class Path : AdminGameAction
     {
-        private IRoomManager RoomManager { get; }
-
         public IRoom Where { get; protected set; }
-
-        public Path(IRoomManager roomManager)
-        {
-            RoomManager = roomManager;
-        }
 
         public override string Guards(IActionInput actionInput)
         {

@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace Mud.Server.Admin
 {
-    public partial class Admin : Player.Player, IAdmin
+    public class Admin : Player.Player, IAdmin
     {
         public Admin(Guid id, string name) 
             : base(id, name)
@@ -92,7 +92,7 @@ namespace Mud.Server.Admin
 
         #endregion
 
-        public AdminLevels Level { get; private set; }
+        public AdminLevels Level { get; }
 
         public WiznetFlags WiznetFlags { get; private set; }
 

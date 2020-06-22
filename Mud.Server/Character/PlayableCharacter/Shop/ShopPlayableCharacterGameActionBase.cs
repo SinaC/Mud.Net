@@ -5,6 +5,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using System.Linq;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Character.PlayableCharacter.Shop
 {
@@ -14,7 +15,7 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
 
         public (INonPlayableCharacter shopKeeper, CharacterShopBlueprint shopBlueprint) Keeper { get; protected set; }
 
-        public ShopPlayableCharacterGameActionBase(ITimeManager timeManager)
+        protected ShopPlayableCharacterGameActionBase(ITimeManager timeManager)
         {
             TimeManager = timeManager;
         }
@@ -44,6 +45,11 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
             // TODO: undesirables: killer/thief
 
             CharacterShopBlueprint shopBlueprint = shopKeeper.Blueprint as CharacterShopBlueprint;
+            if (shopBlueprint == null)
+            {
+                Actor.Send("You can't do that here."); // should never happen
+                return default;
+            }
 
             if (TimeManager.Hour < shopBlueprint.OpenHour)
             {

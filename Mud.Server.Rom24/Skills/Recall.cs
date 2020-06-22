@@ -55,6 +55,8 @@ namespace Mud.Server.Rom24.Skills
         protected override bool Invoke()
         {
             IPlayableCharacter pcUser = User as IPlayableCharacter;
+            if (pcUser == null)
+                return false;
 
             if (pcUser.Fighting != null)
             {

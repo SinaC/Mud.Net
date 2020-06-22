@@ -12,6 +12,7 @@ using Mud.Server.Interfaces.Table;
 using Mud.Server.Random;
 using System;
 using System.Linq;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Character.Item
 {
@@ -62,7 +63,7 @@ namespace Mud.Server.Character.Item
             // from here, we are sure we have a drinkable item
             IPlayableCharacter pc = Actor as IPlayableCharacter;
             // drunk ?
-            if (pc?[Conditions.Drunk] > 10)
+            if (pc != null && pc[Conditions.Drunk] > 10)
                 return "You fail to reach your mouth.  *Hic*";
 
             // get liquid info
@@ -76,7 +77,7 @@ namespace Mud.Server.Character.Item
             if (Drinkable.IsEmpty)
                 return "It is already empty.";
             // full ?
-            if (pc?[Conditions.Full] > 45 && pc?.IsImmortal != true)
+            if (pc != null && pc[Conditions.Full] > 45 && pc.IsImmortal != true)
                 return "You're too full to drink more.";
 
             return null;

@@ -7,6 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
 using System.Linq;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Character.Item
 {

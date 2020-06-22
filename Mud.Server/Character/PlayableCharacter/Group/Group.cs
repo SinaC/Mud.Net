@@ -64,7 +64,7 @@ namespace Mud.Server.Character.PlayableCharacter.Group
                 return "They aren't here.";
 
             // can't group ourself
-            if (Whom == this)
+            if (Whom == Actor)
                 return "You can't group yourself.";
 
             // we are not in a group -> add
@@ -77,7 +77,7 @@ namespace Mud.Server.Character.PlayableCharacter.Group
             }
             // we are in a group -> add or remove
             // only the leader can add or remove
-            if (Actor.Group.Leader != this)
+            if (Actor.Group.Leader != Actor)
                 return "You are not the group leader.";
             // if target is already in a group -> remove or nop
             if (Whom.Group != null)

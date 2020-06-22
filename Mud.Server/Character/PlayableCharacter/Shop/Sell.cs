@@ -7,6 +7,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using System;
 using System.Linq;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Character.PlayableCharacter.Shop
 {

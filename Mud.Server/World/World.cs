@@ -14,6 +14,7 @@ using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
@@ -323,7 +324,7 @@ namespace Mud.Server.World
             goldCoins = Math.Max(0, goldCoins);
             if (silverCoins == 0 && goldCoins == 0)
             {
-                Wiznet.Wiznet($"World.AddItemMoney: 0 silver and 0 gold.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Wiznet("World.AddItemMoney: 0 silver and 0 gold.", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return null;
             }
             int blueprintId = Settings.CoinsBlueprintId;

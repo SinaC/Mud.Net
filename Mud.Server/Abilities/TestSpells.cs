@@ -9,8 +9,9 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using System;
+using Mud.Server.Ability;
 
-namespace Mud.Server.Ability
+namespace Mud.Server.Abilities
 {
     [Spell(SpellName, AbilityEffects.Buff, CooldownInSeconds = 10*60, PulseWaitTime = 10 * Pulse.PulsePerSeconds)]
     public class SpellTest : ItemOrDefensiveSpellBase

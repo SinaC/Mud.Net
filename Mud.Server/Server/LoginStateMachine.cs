@@ -7,6 +7,7 @@ using Mud.Repository;
 using Mud.Network;
 using Mud.Common;
 using Mud.Server.Common;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Server
 {

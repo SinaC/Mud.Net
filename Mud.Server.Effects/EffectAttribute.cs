@@ -2,7 +2,7 @@
 
 namespace Mud.Server.Effects
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class EffectAttribute : Attribute
     {
         public string Name { get; }

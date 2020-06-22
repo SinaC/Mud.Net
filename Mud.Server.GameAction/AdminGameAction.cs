@@ -12,10 +12,7 @@ namespace Mud.Server.GameAction
                 return "Command not found";
 
             string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
-
-            return null;
+            return baseGuards;
         }
     }
 }

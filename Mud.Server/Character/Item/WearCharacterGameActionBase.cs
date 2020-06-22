@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;

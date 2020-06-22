@@ -19,8 +19,8 @@
 
         int IWritable1.Property
         {
-            set { Property = value; }
-            get { return Property; }
+            set => Property = value;
+            get => Property;
         }
     }
 

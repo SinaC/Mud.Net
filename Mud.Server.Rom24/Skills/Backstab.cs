@@ -88,7 +88,7 @@ namespace Mud.Server.Rom24.Skills
             {
                 if (weapon != null)
                 {
-                    if (weapon?.Type != WeaponTypes.Dagger)
+                    if (weapon.Type != WeaponTypes.Dagger)
                         return baseDamage * (2 + level / 10);
                     else
                         return baseDamage * (2 + level / 8);

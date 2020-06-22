@@ -27,7 +27,7 @@ using Mud.Server.Quest;
 
 namespace Mud.Server.Character.PlayableCharacter
 {
-    public partial class PlayableCharacter : CharacterBase, IPlayableCharacter
+    public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         public static readonly int NoCondition = -1;
         public static readonly int MinCondition = 0;
@@ -649,7 +649,7 @@ namespace Mud.Server.Character.PlayableCharacter
         public void ChangeGroup(IGroup group)
         {
             if (Group != null && group == null)
-                Group = group;
+                Group = null;
             if (Group == null && group != null)
                 Group = group;
         }
@@ -1005,7 +1005,7 @@ namespace Mud.Server.Character.PlayableCharacter
             hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
             // fast healing
             var fastHealing = AbilityManager.CreateInstance<IPassive>("Fast Healing");
-            if (fastHealing != null && fastHealing.IsTriggered(this, this, false, out _, out int fastHealingLearnPercentage) == true)
+            if (fastHealing != null && fastHealing.IsTriggered(this, this, false, out _, out int fastHealingLearnPercentage))
             {
                 hitGain += (fastHealingLearnPercentage * hitGain) / 100;
                 if (HitPoints < MaxHitPoints)
@@ -1013,7 +1013,7 @@ namespace Mud.Server.Character.PlayableCharacter
             }
             // meditation
             var meditation = AbilityManager.CreateInstance<IPassive>("Meditation");
-            if (meditation != null && fastHealing.IsTriggered(this, this, false, out _, out int meditationLearnPercentage) == true)
+            if (meditation != null && meditation.IsTriggered(this, this, false, out _, out int meditationLearnPercentage))
             {
                 manaGain += (meditationLearnPercentage * manaGain) / 100;
                 if (this[ResourceKinds.Mana] < MaxResource(ResourceKinds.Mana))
@@ -1218,12 +1218,12 @@ namespace Mud.Server.Character.PlayableCharacter
 
         private (int experience, int alignment) ComputeExperienceAndAlignment(ICharacter victim, int totalLevel)
         {
-            int experience = 0;
+            int experience;
             int alignment = 0;
 
             int levelDiff = victim.Level - Level;
             // compute base experience
-            int baseExp = 0;
+            int baseExp;
             switch (levelDiff)
             {
                 default: baseExp = 0; break;

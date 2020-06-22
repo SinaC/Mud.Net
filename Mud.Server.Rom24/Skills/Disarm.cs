@@ -56,9 +56,9 @@ namespace Mud.Server.Rom24.Skills
         {
 
             // find weapon learned
-            int UserLearned = User.GetWeaponLearnedInfo(UserWield).percentage;
-            int VictimLearned = Victim.GetWeaponLearnedInfo(UserWield).percentage;
-            int UserOnVictimWeaponLearned = User.GetWeaponLearnedInfo(VictimWield).percentage;
+            int userLearned = User.GetWeaponLearnedInfo(UserWield).percentage;
+            int victimLearned = Victim.GetWeaponLearnedInfo(UserWield).percentage;
+            int userOnVictimWeaponLearned = User.GetWeaponLearnedInfo(VictimWield).percentage;
 
             int chance = Learned;
             // modifiers
@@ -66,8 +66,8 @@ namespace Mud.Server.Rom24.Skills
             if (UserWield == null)
                 chance = (chance * Hand2HandLearned) / 150;
             else
-                chance = chance * UserLearned / 100;
-            chance += (UserOnVictimWeaponLearned / 2 - VictimLearned) / 2;
+                chance = chance * userLearned / 100;
+            chance += (userOnVictimWeaponLearned / 2 - victimLearned) / 2;
             // dex vs. strength
             chance += User[CharacterAttributes.Dexterity];
             chance -= 2 * Victim[CharacterAttributes.Strength];

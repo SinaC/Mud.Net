@@ -73,11 +73,8 @@ namespace Mud.Server.Rom24.Skills
             {
                 IItemCloseable itemCloseable = item as IItemCloseable;
                 string checkItem = CheckCloseable(itemCloseable);
-                if (checkItem != null)
-                    return checkItem;
-
                 // item found and can be picked
-                return null;
+                return checkItem;
             }
 
             // search exit
@@ -88,11 +85,8 @@ namespace Mud.Server.Rom24.Skills
                 if (exit == null)
                     return "Nothing special there.";
                 string checkExit = CheckCloseable(exit);
-                if (checkExit != null)
-                    return checkExit;
-
                 // exit found and can be picked
-                return null;
+                return checkExit;
             }
 
             return "You cannot pick that";

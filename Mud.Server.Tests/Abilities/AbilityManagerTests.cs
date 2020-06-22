@@ -21,7 +21,7 @@ namespace Mud.Server.Tests.Abilities
             assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(AcidBlast).Assembly.Yield());
             AbilityManager abilityManager = new AbilityManager(assemblyHelperMock.Object);
 
-            Assert.IsTrue(abilityManager.Abilities.Count() > 0);
+            Assert.IsTrue(abilityManager.Abilities.Any());
         }
 
         [TestMethod]

@@ -48,7 +48,6 @@ namespace Mud.Server.Rom24.Spells
             Caster.Act(ActOptions.ToAll, "{0} fades out of sight.", item);
             AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), AuraFlags.None, true,
                 new ItemFlagsAffect { Modifier = ItemFlags.Invis, Operator = AffectOperators.Or });
-            return;
         }
     }
 }

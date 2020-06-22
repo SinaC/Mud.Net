@@ -39,7 +39,6 @@ namespace Mud.Server.Rom24.Spells
                     victim.Act(ActOptions.ToAll, "{0:P} {1} glows blue.", victim, carriedItem);
                     break;
                 }
-            return;
         }
 
         protected override void Invoke(IItem item)

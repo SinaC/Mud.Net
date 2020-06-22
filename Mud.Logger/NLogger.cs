@@ -19,9 +19,9 @@ namespace Mud.Logger
             var target = LogManager.Configuration.FindTargetByName(fileTargetName);
             if (target == null)
                 throw new ApplicationException($"Couldn't find target {fileTargetName} in NLog config");
-            FileTarget fileTarget = null;
-            if (target is AsyncTargetWrapper)
-                fileTarget = ((AsyncTargetWrapper)target).WrappedTarget as FileTarget;
+            FileTarget fileTarget;
+            if (target is AsyncTargetWrapper asyncTargetWrapper)
+                fileTarget = asyncTargetWrapper.WrappedTarget as FileTarget;
             else
                 fileTarget = target as FileTarget;
             if (fileTarget == null)

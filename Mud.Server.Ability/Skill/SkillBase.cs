@@ -78,8 +78,7 @@ namespace Mud.Server.Ability.Skill
                 User.SetCooldown(AbilityInfo.Name, TimeSpan.FromSeconds(AbilityInfo.CooldownInSeconds.Value));
 
             // 11) check improve true
-            if (pcUser != null)
-                pcUser?.CheckAbilityImprove(AbilityInfo.Name, result, AbilityInfo.LearnDifficultyMultiplier);
+            pcUser?.CheckAbilityImprove(AbilityInfo.Name, result, AbilityInfo.LearnDifficultyMultiplier);
         }
 
         #endregion
