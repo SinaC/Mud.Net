@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using System;
 
-namespace Mud.Server.Rom24.Rom24Skills
+namespace Mud.Server.Rom24.Skills
 {
     [CharacterCommand("envenom", "Abilities", "Skills", "Enchantments")]
     [Syntax(
@@ -40,16 +40,15 @@ namespace Mud.Server.Rom24.Rom24Skills
             if (Learned < 1)
                 return "Are you crazy? You'd poison yourself!";
 
-            var poisonable = Item as IItemPoisonable;
-            if (poisonable != null)
+            if (Item is IItemPoisonable poisonable)
             {
                 if (poisonable.ItemFlags.HasFlag(ItemFlags.Bless) || poisonable.ItemFlags.HasFlag(ItemFlags.BurnProof))
                     return User.ActPhrase("You fail to poison {0}.", poisonable);
                 // poisonable found
                 return null;
             }
-            var weapon = Item as IItemWeapon;
-            if (weapon != null)
+
+            if (Item is IItemWeapon weapon)
             {
                 if (weapon.DamageType == SchoolTypes.Bash)
                     return "You can only envenom edged weapons.";

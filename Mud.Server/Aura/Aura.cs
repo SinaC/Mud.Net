@@ -7,6 +7,7 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Affects;
 using Mud.Server.Common;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -87,7 +88,7 @@ namespace Mud.Server.Aura
 
         public int PulseLeft { get; private set; }
 
-        public string AbilityName { get; private set; }
+        public string AbilityName { get; }
 
         public IEntity Source { get; private set; }
 

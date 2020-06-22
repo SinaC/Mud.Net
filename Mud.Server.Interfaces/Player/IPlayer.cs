@@ -67,7 +67,7 @@ namespace Mud.Server.Interfaces.Player
 
         void SetSnoopBy(IAdmin snooper);
 
-        void AddAvatar(Domain.PlayableCharacterData playableCharacterData);
+        void AddAvatar(PlayableCharacterData playableCharacterData);
         void StartImpersonating(IPlayableCharacter avatar);
         void StopImpersonating();
 

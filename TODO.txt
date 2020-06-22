@@ -1,6 +1,7 @@
 NEXT:
-remove Rom24 dependency in Server
-poison/plague affect serialization
+parry/dodge/shield block
+replace AutoLook with Room.Append
+mstat should display inventory/equipment
 
 one class by command
 	unit test for each command!!!

@@ -34,7 +34,7 @@ namespace Mud.POC.Tests.Abilities2
             casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns<string>(x => (100, acidBlastLearned));
             victimMock.SetupGet(x => x.Name).Returns("target");
             victimMock.Setup(x => x.SavesSpell(It.IsAny<int>(), It.IsAny<SchoolTypes>())).Returns<int, SchoolTypes>((level, damageType) => false);
-            roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { casterMock.Object, victimMock.Object });
+            roomMock.SetupGet(x => x.People).Returns(new [] { casterMock.Object, victimMock.Object });
             casterMock.SetupGet(x => x.LearnedAbilities).Returns(acidBlastLearned.Yield());
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             //

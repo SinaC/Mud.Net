@@ -67,7 +67,7 @@ namespace Mud.Server.WPFTestApplication
 
         internal class AssemblyHelper : IAssemblyHelper
         {
-            public IEnumerable<Assembly> AllReferencedAssemblies => new Assembly[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly};
+            public IEnumerable<Assembly> AllReferencedAssemblies => new [] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly};
         }
 
         internal void RegisterAllTypes(IAssemblyHelper assemblyHelper)
@@ -112,7 +112,7 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
             DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IUniquenessManager, UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IDispelManager, Aura.DispelManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IEffectManager, Effects.EffectManager>(SimpleInjector.Lifestyle.Singleton);
@@ -576,7 +576,7 @@ namespace Mud.Server.WPFTestApplication
                 Experience = 50000,
                 Gold = 20,
                 ShouldQuestItemBeDestroyed = true,
-                KillObjectives = new QuestKillObjectiveBlueprint[]
+                KillObjectives = new []
                 {
                     new QuestKillObjectiveBlueprint
                     {
@@ -585,7 +585,7 @@ namespace Mud.Server.WPFTestApplication
                         Count = 3
                     }
                 },
-                ItemObjectives = new QuestItemObjectiveBlueprint[]
+                ItemObjectives = new []
                 {
                     new QuestItemObjectiveBlueprint
                     {
@@ -600,7 +600,7 @@ namespace Mud.Server.WPFTestApplication
                         Count = 2
                     }
                 },
-                LocationObjectives = new QuestLocationObjectiveBlueprint[]
+                LocationObjectives = new []
                 {
                     new QuestLocationObjectiveBlueprint
                     {
@@ -625,7 +625,7 @@ namespace Mud.Server.WPFTestApplication
                 Experience = 10000,
                 Gold = 20,
                 TimeLimit = 5,
-                LocationObjectives = new QuestLocationObjectiveBlueprint[]
+                LocationObjectives = new []
                 {
                     new QuestLocationObjectiveBlueprint
                     {
@@ -660,7 +660,7 @@ namespace Mud.Server.WPFTestApplication
                 Description = "Tenth mob (neutral questor) is here",
                 Sex = Sex.Neutral,
                 Level = 60,
-                QuestBlueprints = new QuestBlueprint[]
+                QuestBlueprints = new []
                 {
                     questBlueprint1,
                     questBlueprint2

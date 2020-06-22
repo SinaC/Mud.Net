@@ -193,11 +193,11 @@ namespace Mud.Server.Helpers
             Type baseType = gameActionInfo.CommandExecutionType.BaseType;
             while (true)
             {
+                if (baseType == null)
+                    return gameActionInfo.CommandExecutionType.Name;
                 if (!baseType.Name.Contains("Base"))
                     break;
                 baseType = baseType.BaseType;
-                if (baseType == null)
-                    return gameActionInfo.CommandExecutionType.Name;
             }
             return baseType.Name + "/" + gameActionInfo.CommandExecutionType.Name;
         }

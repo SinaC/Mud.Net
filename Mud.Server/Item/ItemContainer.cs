@@ -82,7 +82,7 @@ namespace Mud.Server.Item
 
         #region IItem
 
-        public override int TotalWeight => base.Weight + _content.Sum(x => x.TotalWeight) * WeightMultiplier;
+        public override int TotalWeight => Weight + _content.Sum(x => x.TotalWeight) * WeightMultiplier;
 
         public override int CarryCount => _content.Sum(x => x.CarryCount);
 

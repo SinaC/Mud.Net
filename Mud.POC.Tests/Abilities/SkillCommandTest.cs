@@ -22,7 +22,7 @@ namespace Mud.POC.Tests.Abilities
             IAbilityManager abilityManager = new AbilityManager(randomManagerMock.Object);
             IPlayableCharacter source = new PlayableCharacter(randomManagerMock.Object, abilityManager, tableManagerMock.Object, new Mock<IGameActionManager>().Object, new[] { new KnownAbility { Ability = abilityManager["kick"], Level = 1, Learned = 100, Rating = 1 } }, 1000, 1000, 10, Positions.Standing);
 
-            Assert.IsTrue(source.Commands.Count() > 0);
+            Assert.IsTrue(source.Commands.Any());
             Assert.IsTrue(source.Commands.Any(x => x.Key == "kick"));
         }
 

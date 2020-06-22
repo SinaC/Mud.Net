@@ -62,7 +62,7 @@ namespace Mud.Server.Character.Movement
             // Change position
             if (What == null)
                 Actor.Act(ActOptions.ToAll, "{0:N} go{0:v} to sleep.", Actor);
-            if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
                 Actor.Act(ActOptions.ToAll, "{0:N} go{0:v} sleep at {1}.", Actor, What);
             else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
                 Actor.Act(ActOptions.ToAll, "{0:N} go{0:v} sleep on {1}.", Actor, What);

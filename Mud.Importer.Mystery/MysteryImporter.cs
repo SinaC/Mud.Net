@@ -1079,14 +1079,14 @@ namespace Mud.Importer.Mystery
 
         private ContainerFlags ConvertContainerFlags(ObjectData objectData)
         {
-            ContainerFlags flags = Domain.ContainerFlags.None;
+            ContainerFlags flags = ContainerFlags.None;
             long v1 = System.Convert.ToInt64(objectData.Values[1]);
-            if (!IsSet(v1, CONT_CLOSEABLE)) flags |= Domain.ContainerFlags.NoClose;
-            if (IsSet(v1, CONT_PICKPROOF)) flags |= Domain.ContainerFlags.PickProof;
-            if (IsSet(v1, CONT_CLOSED)) flags |= Domain.ContainerFlags.Closed;
-            if (IsSet(v1, CONT_LOCKED)) flags |= Domain.ContainerFlags.Locked;
+            if (!IsSet(v1, CONT_CLOSEABLE)) flags |= ContainerFlags.NoClose;
+            if (IsSet(v1, CONT_PICKPROOF)) flags |= ContainerFlags.PickProof;
+            if (IsSet(v1, CONT_CLOSED)) flags |= ContainerFlags.Closed;
+            if (IsSet(v1, CONT_LOCKED)) flags |= ContainerFlags.Locked;
             long v2 = System.Convert.ToInt64(objectData.Values[2]);
-            if (v2 <= 0) flags |= Domain.ContainerFlags.NoLock;
+            if (v2 <= 0) flags |= ContainerFlags.NoLock;
             return flags;
         }
 

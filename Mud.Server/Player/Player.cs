@@ -17,7 +17,7 @@ using Mud.Server.GameAction;
 
 namespace Mud.Server.Player
 {
-    public partial class Player : ActorBase, IPlayer
+    public class Player : ActorBase, IPlayer
     {
         private readonly List<string> _delayedTells;
         private readonly List<PlayableCharacterData> _avatarList;

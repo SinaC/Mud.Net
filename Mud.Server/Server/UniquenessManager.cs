@@ -1,6 +1,7 @@
 ﻿using Mud.Logger;
 using Mud.Repository;
 using System.Collections.Generic;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Server
 {

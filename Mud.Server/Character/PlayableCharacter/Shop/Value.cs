@@ -5,6 +5,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using System.Linq;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Character.PlayableCharacter.Shop
 {

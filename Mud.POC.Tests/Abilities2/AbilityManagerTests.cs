@@ -16,7 +16,7 @@ namespace Mud.POC.Tests.Abilities2
         {
             AbilityManager abilityManager = new AbilityManager();
 
-            Assert.IsTrue(abilityManager.Abilities.Count() > 0);
+            Assert.IsTrue(abilityManager.Abilities.Any());
         }
 
         [TestMethod]

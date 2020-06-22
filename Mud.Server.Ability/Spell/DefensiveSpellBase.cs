@@ -24,9 +24,7 @@ namespace Mud.Server.Ability.Spell
         {
             if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
             {
-                Victim = spellActionInput.CastFromItemOptions.PredefinedTarget as ICharacter;
-                if (Victim == null)
-                    Victim = Caster;
+                Victim = spellActionInput.CastFromItemOptions.PredefinedTarget as ICharacter ?? Caster;
                 return null;
             }
 

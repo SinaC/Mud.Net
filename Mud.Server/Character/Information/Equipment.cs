@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Information
@@ -16,7 +17,7 @@ namespace Mud.Server.Character.Information
                 sb.AppendLine("Nothing");
             else
             {
-                foreach (EquippedItem equippedItem in Actor.Equipments)
+                foreach (IEquippedItem equippedItem in Actor.Equipments)
                 {
                     string where = equippedItem.EquipmentSlotsToString();
                     sb.Append(where);

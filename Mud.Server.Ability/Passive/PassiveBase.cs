@@ -9,7 +9,7 @@ namespace Mud.Server.Ability.Passive
     {
         protected IRandomManager RandomManager { get; }
 
-        public PassiveBase(IRandomManager randomManager)
+        protected PassiveBase(IRandomManager randomManager)
         {
             RandomManager = randomManager;
         }

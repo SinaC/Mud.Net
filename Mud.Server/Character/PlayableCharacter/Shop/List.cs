@@ -4,6 +4,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using System.Linq;
 using System.Text;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Character.PlayableCharacter.Shop
 {
@@ -21,7 +22,7 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
             if (baseGuards != null)
                 return baseGuards;
 
-            if (!Keeper.shopKeeper.Inventory.Where(x => Actor.CanSee(x)).Any())
+            if (!Keeper.shopKeeper.Inventory.Any(x => Actor.CanSee(x)))
                 return "You can't buy anything here.";
             return null;
         }

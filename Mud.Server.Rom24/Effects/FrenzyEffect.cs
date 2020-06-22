@@ -45,7 +45,7 @@ namespace Mud.Server.Rom24.Effects
                     || (characterSource.IsNeutral && !victim.IsNeutral)
                     || (characterSource.IsEvil && !victim.IsEvil))
                 {
-                    sourceCharacter?.Act(ActOptions.ToCharacter, "Your god doesn't seem to like {0:N}.", victim);
+                    sourceCharacter.Act(ActOptions.ToCharacter, "Your god doesn't seem to like {0:N}.", victim);
                     return;
                 }
             }

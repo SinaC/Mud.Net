@@ -14,6 +14,7 @@ using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
@@ -253,7 +254,7 @@ namespace Mud.Server.Room
             // Exits
             if (playableCharacter != null && playableCharacter.AutoFlags.HasFlag(AutoFlags.Exit))
                 AppendExits(sb, viewer, true);
-            ItemsHelpers.AppendItems(sb, Content.Where(x => viewer.CanSee(x)), viewer, false, false);
+            ItemsHelpers.AppendItems(sb, Content.Where(viewer.CanSee), viewer, false, false);
             AppendCharacters(sb, viewer);
             return sb;
         }

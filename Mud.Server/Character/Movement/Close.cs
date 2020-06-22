@@ -50,7 +50,7 @@ namespace Mud.Server.Character.Movement
             if (door.exit == null)
                 return ""; // no specific message
             if (door.exit.IsClosed)
-                Actor.Send("It's already closed."); ;
+                Actor.Send("It's already closed.");
             What = door.exit;
             ExitDirection = door.exitDirection;
             return null;

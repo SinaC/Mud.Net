@@ -42,11 +42,9 @@ namespace Mud.Server.Character.Information
                 for (int distance = 1; distance < 4; distance++)
                 {
                     IExit exit = currentRoom[direction];
-                    if (exit == null)
-                        break; // stop in that direction if no exit found
                     IRoom destination = exit?.Destination;
                     if (destination == null)
-                        break; // stop in that direction if exit without linked room found
+                        break; // stop in that direction if no exit found or no linked room found
                     if (destination.RoomFlags.HasFlag(RoomFlags.NoScan))
                         break; // no need to scan further
                     if (exit.IsClosed)

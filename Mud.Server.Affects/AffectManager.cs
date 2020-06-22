@@ -11,7 +11,7 @@ namespace Mud.Server.Affects
 {
     public class AffectManager : IAffectManager
     {
-        public Dictionary<string, Type> _affectsByName;
+        private readonly Dictionary<string, Type> _affectsByName;
 
         public AffectManager(IAssemblyHelper assemblyHelper)
         {

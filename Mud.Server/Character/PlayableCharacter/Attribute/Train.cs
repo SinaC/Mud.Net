@@ -93,14 +93,21 @@ namespace Mud.Server.Character.PlayableCharacter.Attribute
                     return;
                 case Actions.Attribute:
                     {
-                        Actor.UpdateBaseAttribute(Attribute.Value, 1);
-                        Actor.Act(ActOptions.ToAll, "{0:p} {1} increases!", Actor, Attribute.Value.ToString());
+                        if (Attribute.HasValue)
+                        {
+                            Actor.UpdateBaseAttribute(Attribute.Value, 1);
+                            Actor.Act(ActOptions.ToAll, "{0:p} {1} increases!", Actor, Attribute.Value.ToString());
+                        }
+
                         return;
                     }
                     case Actions.Resource:
                     {
-                        Actor.UpdateMaxResource(ResourceKind.Value, 10);
-                        Actor.Act(ActOptions.ToAll, "{0:p} power increases!", Actor);
+                        if (ResourceKind.HasValue)
+                        {
+                            Actor.UpdateMaxResource(ResourceKind.Value, 10);
+                            Actor.Act(ActOptions.ToAll, "{0:p} power increases!", Actor);
+                        }
                     }
                     return;
                 case Actions.Hp:

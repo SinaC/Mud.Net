@@ -16,7 +16,7 @@ namespace Mud.Server.Player.Communication
 
         public string What { get; protected set; }
 
-        public CommunicationGameActionBase(IPlayerManager playerManager)
+        protected CommunicationGameActionBase(IPlayerManager playerManager)
         {
             PlayerManager = playerManager;
         }
@@ -39,7 +39,7 @@ namespace Mud.Server.Player.Communication
             Actor.Send(ActorSendPattern, What);
 
             string other = String.Format(OtherSendPattern, Actor.DisplayName, What);
-            foreach (IPlayer player in PlayerManager.Players.Where(x => x != this))
+            foreach (IPlayer player in PlayerManager.Players.Where(x => x != Actor))
                 player.Send(other);
         }
     }

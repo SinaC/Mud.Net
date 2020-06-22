@@ -40,7 +40,7 @@ namespace Mud.Server.Admin.Administration
             Whom = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0], true);
             if (Whom == null)
                 return StringHelpers.CharacterNotFound;
-            if (Whom == this)
+            if (Whom == Actor)
                 return "You cannot promote yourself.";
             if (Whom is IAdmin)
                 return $"{Whom.DisplayName} is already Admin";

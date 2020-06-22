@@ -21,10 +21,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Add_NoDuplicate_NoIteration_Test()
         {
-            ModifiableList<int> list = new ModifiableList<int>();
+            ModifiableList<int> list = new ModifiableList<int> {10, 12};
 
-            list.Add(10);
-            list.Add(12);
 
             Assert.AreEqual(2, list.Count);
         }
@@ -32,13 +30,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Add_Duplicate_NoIteration_Test()
         {
-            ModifiableList<int> list = new ModifiableList<int> 
-            {
-                10,
-                12
-            };
+            ModifiableList<int> list = new ModifiableList<int> {10, 12, 10};
 
-            list.Add(10);
 
             Assert.AreEqual(3, list.Count);
         }

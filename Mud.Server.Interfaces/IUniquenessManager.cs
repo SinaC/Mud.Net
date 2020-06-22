@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mud.Server
+namespace Mud.Server.Interfaces
 {
     public interface IUniquenessManager
     {

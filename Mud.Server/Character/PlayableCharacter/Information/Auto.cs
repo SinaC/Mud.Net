@@ -5,6 +5,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using System.Linq;
 using System.Text;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Character.PlayableCharacter.Information
 {

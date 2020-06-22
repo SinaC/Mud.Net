@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Mud.Domain;
+using Mud.Server.Interfaces;
 
 namespace Mud.Server.Tests.Mocking
 {

@@ -83,8 +83,8 @@ namespace Mud.Server.Tests
 
     internal class Class3
     {
-        public IId Id { get; private set; }
-        public IAdditional Additional { get; private set; }
+        public IId Id { get; }
+        public IAdditional Additional { get; }
 
         public Class3(IId id, IAdditional additional)
         {

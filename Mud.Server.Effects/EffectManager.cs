@@ -12,7 +12,7 @@ namespace Mud.Server.Effects
 {
     public class EffectManager : IEffectManager
     {
-        public Dictionary<string, Type> _effectsByName;
+        private readonly Dictionary<string, Type> _effectsByName;
 
         public EffectManager(IAssemblyHelper assemblyHelper)
         {

@@ -47,7 +47,7 @@ namespace Mud.Repository.Mongo.Common
 
         public virtual async Task<IEnumerable<TDocument>> GetAllAsync(CancellationToken cancellationToken)
         {
-            var results = await Collection.FindAsync(Builders<TDocument>.Filter.Empty);
+            var results = await Collection.FindAsync(Builders<TDocument>.Filter.Empty, cancellationToken: cancellationToken);
             return await results.ToListAsync(cancellationToken);
         }
 

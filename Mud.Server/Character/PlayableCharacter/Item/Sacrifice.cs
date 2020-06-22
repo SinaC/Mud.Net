@@ -18,14 +18,7 @@ namespace Mud.Server.Character.PlayableCharacter.Item
             "[cmd] <item>")]
     public class Sacrifice : PlayableCharacterGameAction
     {
-        private IItemManager ItemManager { get; }
-
         public IItem[] What { get; protected set; }
-
-        public Sacrifice(IItemManager itemManager)
-        {
-            ItemManager = itemManager;
-        }
 
         public override string Guards(IActionInput actionInput)
         {

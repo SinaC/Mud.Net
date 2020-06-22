@@ -1,7 +1,7 @@
 ﻿using System;
 using Mud.Domain;
 
-namespace Mud.Server
+namespace Mud.Server.Interfaces
 {
     public interface ITimeManager
     {

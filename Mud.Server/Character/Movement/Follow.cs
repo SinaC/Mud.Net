@@ -35,7 +35,7 @@ namespace Mud.Server.Character.Movement
                 return "They aren't here.";
 
             // follow ourself -> cancel follow
-            if (Whom == this)
+            if (Whom == Actor)
             {
                 if (Actor.Leader == null)
                     return "You already follow yourself.";
@@ -46,7 +46,7 @@ namespace Mud.Server.Character.Movement
             ICharacter next = Whom.Leader;
             while (next != null)
             {
-                if (next == this)
+                if (next == Actor)
                     return Actor.ActPhrase("You can't follow {0:N}.", Whom);
                 next = next.Leader;
             }

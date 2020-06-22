@@ -45,9 +45,7 @@ namespace Mud.Server.Character.Ability
             var newParameters = CommandHelpers.SkipParameters(actionInput.Parameters, 1);
             var spellActionInput = new SpellActionInput(abilityInfo, Actor, Actor.Level, null, newParameters.rawParameters, newParameters.parameters);
             string spellInstanceGuards = SpellInstance.Setup(spellActionInput);
-            if (spellInstanceGuards != null)
-                return spellInstanceGuards;
-            return null;
+            return spellInstanceGuards;
         }
 
         public override void Execute(IActionInput actionInput)

@@ -98,6 +98,6 @@ namespace Mud.Server.Character.Movement
             }
         }
 
-        private bool HasKey(int keyId) => Actor.Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == keyId) || (this as IPlayableCharacter)?.IsImmortal == true;
+        private bool HasKey(int keyId) => Actor.Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == keyId) || (Actor as IPlayableCharacter)?.IsImmortal == true;
     }
 }

@@ -310,7 +310,7 @@ namespace Mud.DataStructures.Trie
             }
 
             TrieNode node;
-            value = default(TValue);
+            value = default;
 
             if (!TryGetNode(key, out node))
             {

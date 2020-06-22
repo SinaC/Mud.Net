@@ -146,7 +146,6 @@ namespace Mud.Repository.Filesystem
             {
                 Log.Default.WriteLine(LogLevels.Error, "LoadIfNeeded: unable to load. Exception: {0}", ex);
             }
-            return;
         }
 
         private void Save()
@@ -172,7 +171,6 @@ namespace Mud.Repository.Filesystem
             {
                 Log.Default.WriteLine(LogLevels.Error, "Save: unable to save. Exception: {0}", ex);
             }
-            return;
         }
     }
 }

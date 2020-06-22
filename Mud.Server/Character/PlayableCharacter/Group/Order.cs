@@ -29,14 +29,14 @@ namespace Mud.Server.Character.PlayableCharacter.Group
 
             // Select target(s)
             if (actionInput.Parameters[0].IsAll)
-                Whom = Actor.Room.NonPlayableCharacters.Where(x => x.Master == this && x.CharacterFlags.HasFlag(Domain.CharacterFlags.Charm)).ToArray();
+                Whom = Actor.Room.NonPlayableCharacters.Where(x => x.Master == Actor && x.CharacterFlags.HasFlag(Domain.CharacterFlags.Charm)).ToArray();
             else
             {
                 INonPlayableCharacter target = FindHelpers.FindByName(Actor.Room.NonPlayableCharacters.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
                 if (target == null)
                     return StringHelpers.CharacterNotFound;
 
-                if (target.Master != this || !target.CharacterFlags.HasFlag(Domain.CharacterFlags.Charm))
+                if (target.Master != Actor || !target.CharacterFlags.HasFlag(Domain.CharacterFlags.Charm))
                     return "Do it yourself!";
                 Whom = target.Yield().ToArray();
             }
