@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Container;
-using Mud.Repository;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -26,7 +25,6 @@ namespace Mud.Server.Player
 
         protected IInputTrap<IPlayer> CurrentStateMachine;
 
-        protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
         protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
@@ -52,10 +50,30 @@ namespace Mud.Server.Player
         }
 
         // Used for promote
-        public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList) : this(id, name)
+        public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
+            : this(id, name)
         {
             _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>();
             _avatarList = avatarList?.ToList() ?? new List<PlayableCharacterData>();
+        }
+
+        public Player(Guid id, PlayerData data)
+            : this(id, data.Name)
+        {
+            PagingLineCount = data.PagingLineCount;
+            _aliases.Clear();
+            _avatarList.Clear();
+            if (data.Aliases != null)
+            {
+                foreach (KeyValuePair<string, string> alias in data.Aliases)
+                    _aliases.Add(alias.Key, alias.Value);
+            }
+
+            if (data.Characters != null)
+            {
+                foreach (PlayableCharacterData playableCharacterData in data.Characters)
+                    _avatarList.Add(playableCharacterData);
+            }
         }
 
         #region IPlayer
@@ -166,6 +184,11 @@ namespace Mud.Server.Player
 
         public PlayerStates PlayerState { get; protected set; }
 
+        public void ChangePlayerState(PlayerStates playerState)
+        {
+            PlayerState = playerState;
+        }
+
         public IPlayableCharacter Impersonating { get; private set; }
 
         public void UpdateCharacterDataFromImpersonated()
@@ -238,31 +261,6 @@ namespace Mud.Server.Player
             GlobalCooldown = pulseCount;
         }
 
-        public virtual bool Load(string name)
-        {
-            PlayerData data = PlayerRepository.Load(name);
-            // Load player data
-            LoadPlayerData(data);
-            //
-            PlayerState = PlayerStates.Playing;
-            return true;
-        }
-
-        public virtual bool Save()
-        {
-            if (Impersonating != null)
-                UpdateCharacterDataFromImpersonated();
-            //
-            PlayerData data = new PlayerData();
-            // Fill player data
-            FillPlayerData(data);
-            //
-            PlayerRepository.Save(data);
-            //
-            Log.Default.WriteLine(LogLevels.Info, $"Player {DisplayName} saved");
-            return true;
-        }
-
         public void SetLastTeller(IPlayer teller)
         {
             LastTeller = teller;
@@ -333,6 +331,20 @@ namespace Mud.Server.Player
             }
         }
 
+        public virtual PlayerData MapPlayerData()
+        {
+            if (Impersonating != null)
+                UpdateCharacterDataFromImpersonated();
+            PlayerData data = new PlayerData
+            {
+                Name = Name,
+                PagingLineCount = PagingLineCount,
+                Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
+                Characters = _avatarList.ToArray(),
+            };
+            return data;
+        }
+
         public virtual StringBuilder PerformSanityCheck()
         {
             StringBuilder sb = new StringBuilder();
@@ -394,33 +406,6 @@ namespace Mud.Server.Player
                 sb.Append($" {((100*character.Fighting.HitPoints)/character.Fighting.MaxHitPoints)}%");
             sb.Append(">");
             return sb.ToString();
-        }
-
-        protected void LoadPlayerData(PlayerData data)
-        {
-            PagingLineCount = data.PagingLineCount;
-            _aliases.Clear();
-            _avatarList.Clear();
-            if (data.Aliases != null)
-            {
-                foreach (KeyValuePair<string, string> alias in data.Aliases)
-                    _aliases.Add(alias.Key, alias.Value);
-            }
-
-            if (data.Characters != null)
-            {
-                foreach (PlayableCharacterData playableCharacterData in data.Characters)
-                    _avatarList.Add(playableCharacterData);
-            }
-        }
-
-        protected void FillPlayerData(PlayerData data)
-        {
-            data.Name = Name;
-            data.PagingLineCount = PagingLineCount;
-            data.Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value);
-            // TODO: copy from Impersonated to PlayableCharacterData
-            data.Characters = _avatarList.ToArray();
         }
     }
 }

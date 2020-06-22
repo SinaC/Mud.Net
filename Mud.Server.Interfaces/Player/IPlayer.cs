@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.Actor;
+﻿using Mud.Domain;
+using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using System;
@@ -33,11 +34,12 @@ namespace Mud.Server.Interfaces.Player
         void SetPagingLineCount(int count);
 
         PlayerStates PlayerState { get; }
+        void ChangePlayerState(PlayerStates playerState);
 
         IPlayableCharacter Impersonating { get; }
         void UpdateCharacterDataFromImpersonated();
 
-        IEnumerable<Domain.PlayableCharacterData> Avatars { get; }
+        IEnumerable<PlayableCharacterData> Avatars { get; }
 
         IReadOnlyDictionary<string, string> Aliases { get; }
         void SetAlias(string alias, string command);
@@ -59,9 +61,6 @@ namespace Mud.Server.Interfaces.Player
         void DecreaseGlobalCooldown(); // decrease one by one
         void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse)
 
-        bool Load(string name);
-        bool Save();
-
         void SetLastTeller(IPlayer teller);
         void AddDelayedTell(string sentence);
         void ClearDelayedTells();
@@ -81,5 +80,7 @@ namespace Mud.Server.Interfaces.Player
         void OnDisconnected();
 
         StringBuilder PerformSanityCheck();
+
+        PlayerData MapPlayerData();
     }
 }

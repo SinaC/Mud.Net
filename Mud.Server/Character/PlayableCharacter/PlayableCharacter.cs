@@ -35,6 +35,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
+        protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
 
         private readonly List<IQuest> _quests;
         private readonly int[] _conditions;
@@ -747,7 +748,7 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             if (Level < Settings.MaxLevel)
             {
-                bool recompute = false;
+                bool levelGained = false;
                 Experience = Math.Max(ExperienceByLevel * (Level-1), Experience + experience); // don't go below current level
                 // Raise level
                 if (experience > 0)
@@ -755,7 +756,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     // In case multiple level are gain, check max level
                     while (ExperienceToLevel <= 0 && Level < Settings.MaxLevel)
                     {
-                        recompute = true;
+                        levelGained = true;
                         Level++;
                         Wiznet.Wiznet($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
                         Send("You raise a level!!");
@@ -763,7 +764,7 @@ namespace Mud.Server.Character.PlayableCharacter
                         AdvanceLevel();
                     }
                 }
-                if (recompute)
+                if (levelGained)
                 {
                     RecomputeKnownAbilities();
                     Recompute();
@@ -773,7 +774,8 @@ namespace Mud.Server.Character.PlayableCharacter
                     MovePoints = MaxMovePoints;
                     foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>())
                         this[resourceKind] = MaxResource(resourceKind);
-                    ImpersonatedBy?.Save(); // Force a save when a level is gained
+                    if (ImpersonatedBy != null)
+                        ServerPlayerCommand.Save(ImpersonatedBy);
                 }
             }
         }

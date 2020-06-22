@@ -1,6 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
@@ -14,15 +15,17 @@ namespace Mud.Server.Admin.Administration
     public class XpBonus : AdminGameAction
     {
         private IPlayerManager PlayerManager { get; }
+        private IServerPlayerCommand ServerPlayerCommand { get; }
         private ISettings Settings { get; }
         private IWiznet Wiznet { get; }
 
         public IPlayableCharacter Whom { get; protected set; }
         public int Experience { get; protected set; }
 
-        public XpBonus(IPlayerManager playerManager, ISettings settings, IWiznet wiznet)
+        public XpBonus(IPlayerManager playerManager, IServerPlayerCommand serverPlayerCommand , ISettings settings, IWiznet wiznet)
         {
             PlayerManager = playerManager;
+            ServerPlayerCommand = serverPlayerCommand;
             Settings = settings;
             Wiznet = wiznet;
         }
@@ -61,7 +64,7 @@ namespace Mud.Server.Admin.Administration
             Whom.GainExperience(Experience);
 
             //
-            Whom.ImpersonatedBy.Save();
+            ServerPlayerCommand.Save(Whom.ImpersonatedBy);
         }
     }
 }

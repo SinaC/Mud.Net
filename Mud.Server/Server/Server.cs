@@ -71,6 +71,7 @@ namespace Mud.Server.Server
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
         protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
+        protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
         protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
@@ -337,7 +338,8 @@ namespace Mud.Server.Server
             PlayerRepository.Delete(player.Name);
 
             // Save admin
-            admin.Save();
+            AdminData adminData = admin.MapPlayerData() as AdminData;
+            AdminRepository.Save(adminData);
 
             // Save login
             LoginRepository.ChangeAdminStatus(admin.Name, true);
@@ -350,8 +352,32 @@ namespace Mud.Server.Server
 
         #region IServerPlayerCommand
 
+        public void Save(IPlayer player)
+        {
+            PlayingClient playingClient;
+            _players.TryGetValue(player, out playingClient);
+            if (playingClient == null)
+                Log.Default.WriteLine(LogLevels.Error, "Save: client not found");
+            else
+            {
+                if (playingClient.Player is IAdmin admin)
+                {
+                    AdminData data = admin.MapPlayerData() as AdminData;
+                    AdminRepository.Save(data);
+                    Log.Default.WriteLine(LogLevels.Info, $"Admin {playingClient.Player.DisplayName} saved");
+                }
+                else
+                {
+                    PlayerData data = playingClient.Player.MapPlayerData();
+                    PlayerRepository.Save(data);
+                    Log.Default.WriteLine(LogLevels.Info, $"Player {playingClient.Player.DisplayName} saved");
+                }
+            }
+        }
+
         public void Quit(IPlayer player)
         {
+            Save(player);
             PlayingClient playingClient;
             _players.TryGetValue(player, out playingClient);
             if (playingClient == null)
@@ -440,7 +466,7 @@ namespace Mud.Server.Server
             {
                 Log.Default.WriteLine(LogLevels.Info, "Player was already connected, disconnect previous client and reuse player");
 
-                // Save player
+                // Keep player
                 playerOrAdmin = previousPlayerPair.Key; // TODO: pause client ????
                 // Remove client and player from players/clients
                 lock (_playingClientLockObject)
@@ -469,10 +495,6 @@ namespace Mud.Server.Server
                 // Welcome
                 client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
             }
-            // TODO: if new player, avatar creation state machine
-            if (isNewPlayer)
-            {
-            }
 
             // Remove login state machine
             LoginStateMachine loginStateMachine;
@@ -490,17 +512,25 @@ namespace Mud.Server.Server
             // Add playing handlers
             client.DataReceived += ClientPlayingOnDataReceived;
 
-            bool loadPlayerOrAdmin = false;
             // Create a new player/admin only if not reconnecting
             if (playerOrAdmin == null)
             {
-                playerOrAdmin = isAdmin 
-                    ? new Admin.Admin(Guid.NewGuid(), username) 
-                    : new Player.Player(Guid.NewGuid(), username);
+                //playerOrAdmin = isAdmin 
+                //    ? new Admin.Admin(Guid.NewGuid(), username) 
+                //    : new Player.Player(Guid.NewGuid(), username);
+                if (isAdmin)
+                {
+                    AdminData data = AdminRepository.Load(username);
+                    playerOrAdmin = new Admin.Admin(Guid.NewGuid(), data);
+                }
+                else
+                {
+                    PlayerData data = PlayerRepository.Load(username);
+                    playerOrAdmin = new Player.Player(Guid.NewGuid(), data);
+                }
                 //
                 playerOrAdmin.SendData += PlayerOnSendData;
                 playerOrAdmin.PageData += PlayerOnPageData;
-                loadPlayerOrAdmin = true;
             }
             //
             PlayingClient newPlayingClient = new PlayingClient
@@ -516,14 +546,17 @@ namespace Mud.Server.Server
 
             // Save if isNewPlayer
             if (isNewPlayer)
-                playerOrAdmin.Save();
+                Save(playerOrAdmin);
 
             // Prompt
             client.WriteData(playerOrAdmin.Prompt);
 
-            // Load player/admin (if needed)
-            if (loadPlayerOrAdmin)
-                playerOrAdmin.Load(username);
+            // TODO: if new player, avatar creation state machine
+            if (isNewPlayer)
+            {
+            }
+
+            playerOrAdmin.ChangePlayerState(PlayerStates.Playing);
         }
 
         public void LoginStateMachineOnLoginFailed(IClient client)

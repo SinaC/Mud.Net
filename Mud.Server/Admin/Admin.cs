@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Text;
-using Mud.Container;
-using Mud.Repository;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -11,13 +9,12 @@ using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using System.Linq;
 
 namespace Mud.Server.Admin
 {
     public partial class Admin : Player.Player, IAdmin
     {
-        protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
-
         public Admin(Guid id, string name) 
             : base(id, name)
         {
@@ -28,6 +25,13 @@ namespace Mud.Server.Admin
             : base(id, name, aliases, avatarList)
         {
             Level = level;
+        }
+
+        public Admin(Guid id, AdminData data)
+            : base(id, data)
+        {
+            Level = data.AdminLevel;
+            WiznetFlags = data.WiznetFlags;
         }
 
         #region IAdmin
@@ -44,37 +48,6 @@ namespace Mud.Server.Admin
             ? BuildIncarnatePrompt()
             : base.Prompt;
 
-        public override bool Load(string name)
-        {
-            AdminData data = AdminRepository.Load(name);
-            // Load player data
-            LoadPlayerData(data);
-            // Load admin datas
-            Level = data?.AdminLevel ?? AdminLevels.Angel;
-            WiznetFlags = data?.WiznetFlags ?? 0;
-            //
-            PlayerState = PlayerStates.Playing;
-            return true;
-        }
-
-        public override bool Save()
-        {
-            if (Impersonating != null)
-                UpdateCharacterDataFromImpersonated();
-            //
-            AdminData data = new AdminData();
-            // Fill player data
-            FillPlayerData(data);
-            // Fill admin data
-            data.AdminLevel = Level;
-            data.WiznetFlags = WiznetFlags;
-            //
-            AdminRepository.Save(data);
-            //
-            Log.Default.WriteLine(LogLevels.Info, $"Admin {DisplayName} saved");
-            return true;
-        }
-
         public override void OnDisconnected()
         {
             base.OnDisconnected();
@@ -84,6 +57,25 @@ namespace Mud.Server.Admin
             {
                 StopIncarnating();
             }
+        }
+
+        public override PlayerData MapPlayerData()
+        {
+            if (Impersonating != null)
+                UpdateCharacterDataFromImpersonated();
+            //
+            AdminData data = new AdminData
+            {
+                Name = Name,
+                PagingLineCount = PagingLineCount,
+                Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
+                Characters = Avatars.ToArray(),
+                //
+                AdminLevel = Level,
+                WiznetFlags = WiznetFlags,
+            };
+            //
+            return data;
         }
 
         public override StringBuilder PerformSanityCheck()

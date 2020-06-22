@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
@@ -16,6 +17,7 @@ namespace Mud.Server.Player.Avatar
         "[cmd] <avatar name>")]
     public class Impersonate : PlayerGameAction
     {
+        private IServerPlayerCommand ServerPlayerCommand { get; }
         private IRoomManager RoomManager { get; }
         private ICharacterManager CharacterManager { get; }
         private ISettings Settings { get; }
@@ -23,8 +25,9 @@ namespace Mud.Server.Player.Avatar
 
         public PlayableCharacterData Whom { get; protected set; }
 
-        public Impersonate(IRoomManager roomManager, ICharacterManager characterManager, ISettings settings, IWiznet wiznet)
+        public Impersonate(IServerPlayerCommand serverPlayerCommand, IRoomManager roomManager, ICharacterManager characterManager, ISettings settings, IWiznet wiznet)
         {
+            ServerPlayerCommand = serverPlayerCommand;
             RoomManager = roomManager;
             CharacterManager = characterManager;
             Settings = settings;
@@ -64,7 +67,7 @@ namespace Mud.Server.Player.Avatar
                 Actor.Send("You stop impersonating {0}.", Impersonating.DisplayName);
                 Actor.UpdateCharacterDataFromImpersonated();
                 Actor.StopImpersonating();
-                Actor.Save();
+                ServerPlayerCommand.Save(Actor);
                 return;
             }
 
@@ -72,7 +75,7 @@ namespace Mud.Server.Player.Avatar
             {
                 Actor.UpdateCharacterDataFromImpersonated();
                 Actor.StopImpersonating();
-                Actor.Save();
+                ServerPlayerCommand.Save(Actor);
             }
 
             IRoom location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == Whom.RoomId);

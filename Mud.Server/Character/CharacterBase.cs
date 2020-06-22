@@ -51,6 +51,7 @@ namespace Mud.Server.Character
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
         protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+        protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
 
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)

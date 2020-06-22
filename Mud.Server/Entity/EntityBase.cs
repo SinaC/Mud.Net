@@ -27,7 +27,6 @@ namespace Mud.Server.Entity
     {
         private readonly List<IAura> _auras;
 
-        protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();

@@ -1,8 +1,6 @@
 NEXT:
 one class by command
 	unit test for each command!!!
-	rename Guards to Setup
-	remove parameters from Execute
 	make IGameAction generic on TActor: IActor, same goes for IActionInput
 
 move Weapon effect from OneHit to Rom24
