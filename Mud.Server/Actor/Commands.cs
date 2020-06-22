@@ -1,8 +1,6 @@
 ﻿using Mud.Common;
-using Mud.Server.Character.Communication;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Rom24.Races.NonPlayableRaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,12 +49,12 @@ namespace Mud.Server.Actor
 
         private void DisplayCategories()
         {
-            IEnumerable<KeyValuePair<string, IGameActionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.Hidden);
+            IEnumerable<KeyValuePair<string, IGameActionInfo>> filteredFameActions = Actor.GameActions.Where(x => !x.Value.Hidden);
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Available categories:%W%");
             int index = 0;
-            foreach (var category in filteredCommands
+            foreach (var category in filteredFameActions
                 .SelectMany(x => x.Value.Categories.Where(c => !string.IsNullOrWhiteSpace(c)))
                 .Distinct()
                 .OrderBy(x => x))
@@ -73,7 +71,7 @@ namespace Mud.Server.Actor
 
         private void DisplayCommands()
         {
-            IEnumerable<KeyValuePair<string, IGameActionInfo>> filteredCommands = Actor.Commands.Where(x => !x.Value.Hidden);
+            IEnumerable<KeyValuePair<string, IGameActionInfo>> filteredGameActions = Actor.GameActions.Where(x => !x.Value.Hidden);
 
             Func<string, bool> nameFilter;
             Func<string, bool> categoryFilter;
@@ -86,7 +84,7 @@ namespace Mud.Server.Actor
             else
             {
                 // if parameter match a category, display category
-                string[] categories = filteredCommands.SelectMany(x => x.Value.Categories).ToArray();
+                string[] categories = filteredGameActions.SelectMany(x => x.Value.Categories).ToArray();
                 string matchingCategory = categories.FirstOrDefault(x => StringCompareHelpers.StringEquals(x, Parameter.Value));
                 if (matchingCategory != null)
                 {
@@ -105,21 +103,21 @@ namespace Mud.Server.Actor
             // if a command has multiple categories, it will appear in each category
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Available commands:");
-            foreach (var cmdByCategory in filteredCommands
+            foreach (var gameActionByCategory in filteredGameActions
                 .SelectMany(x => GetNames(x.Value).Where(n => nameFilter(n)), (kv, name) => new { name, kv.Value })
                 .GroupBy(x => x.name, (name, group) => new { name, group.First().Value })
                 .SelectMany(x => x.Value.Categories.Where(categoryFilter), (kv, category) => new { category, name = kv.name, priority = kv.Value.Priority })
                 .GroupBy(x => x.category, (category, group) => new { category, commands = group })
                 .OrderBy(g => g.category))
             {
-                if (!string.IsNullOrEmpty(cmdByCategory.category))
-                    sb.AppendLine("%W%" + cmdByCategory.category + ":%x%");
+                if (!string.IsNullOrEmpty(gameActionByCategory.category))
+                    sb.AppendLine("%W%" + gameActionByCategory.category + ":%x%");
                 int index = 0;
-                foreach (var cmdInfo in cmdByCategory.commands
+                foreach (var gameActionInfo in gameActionByCategory.commands
                     .OrderBy(x => x.priority)
                     .ThenBy(x => x.name))
                 {
-                    sb.AppendFormat("{0,-14}", cmdInfo.name);
+                    sb.AppendFormat("{0,-14}", gameActionInfo.name);
                     if ((++index % columnCount) == 0)
                         sb.AppendLine();
                 }

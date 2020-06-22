@@ -1,7 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,7 +32,7 @@ namespace Mud.Server.Actor
 
         public override void Execute(IActionInput actionInput)
         {
-            var commands = Actor.Commands.GetByPrefix(CommandName).Where(x => !x.Value.Hidden);
+            var commands = Actor.GameActions.GetByPrefix(CommandName).Where(x => !x.Value.Hidden);
 
             bool found = false;
             StringBuilder sb = new StringBuilder();

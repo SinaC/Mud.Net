@@ -7,29 +7,16 @@ using Mud.Domain;
 using Mud.Logger;
 using System.Collections.Generic;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.Race;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Admin
 {
     public partial class Admin : Player.Player, IAdmin
     {
-        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
-        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
-        protected IServerAdminCommand ServerAdminCommand => DependencyContainer.Current.GetInstance<IServerAdminCommand>();
-        protected IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
         protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
-        protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
-        protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
-        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
 
         public Admin(Guid id, string name) 
             : base(id, name)
@@ -49,7 +36,7 @@ namespace Mud.Server.Admin
 
         #region IActor
 
-        public override IReadOnlyTrie<IGameActionInfo> Commands => GameActionManager.GetGameActions<Admin>();
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<Admin>();
 
         #endregion
 

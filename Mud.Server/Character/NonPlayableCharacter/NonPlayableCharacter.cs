@@ -202,7 +202,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #region IActor
 
-        public override IReadOnlyTrie<IGameActionInfo> Commands => GameActionManager.GetGameActions<NonPlayableCharacter>();
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<NonPlayableCharacter>();
 
         public override void Send(string message, bool addTrailingNewLine)
         {

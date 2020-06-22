@@ -80,7 +80,7 @@ namespace Mud.Server.Item
 
         #region IActor
 
-        public override IReadOnlyTrie<IGameActionInfo> Commands => GameActionManager.GetGameActions<ItemBase<TBlueprint, TData>>();
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemBase<TBlueprint, TData>>();
 
         #endregion
 

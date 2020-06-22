@@ -26,12 +26,10 @@ namespace Mud.Server.Player
 
         protected IInputTrap<IPlayer> CurrentStateMachine;
 
-        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
-        protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
         protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
-        protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
         protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         protected Player()
         {
@@ -53,7 +51,7 @@ namespace Mud.Server.Player
             Name = name;
         }
 
-        // Used for promotion
+        // Used for promote
         public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList) : this(id, name)
         {
             _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>();
@@ -64,7 +62,7 @@ namespace Mud.Server.Player
 
         #region IActor
 
-        public override IReadOnlyTrie<IGameActionInfo> Commands => GameActionManager.GetGameActions<Player>();
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<Player>();
 
         public override bool ProcessCommand(string commandLine)
         {

@@ -59,7 +59,7 @@ namespace Mud.Server.Room
 
         #region IActor
 
-        public override IReadOnlyTrie<IGameActionInfo> Commands => GameActionManager.GetGameActions<Room>();
+        public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<Room>();
 
         #endregion
 

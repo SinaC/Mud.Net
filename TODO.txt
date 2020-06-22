@@ -1,5 +1,5 @@
 NEXT:
-one class by command -> rename Command to GameAction
+one class by command
 	unit test for each command!!!
 	rename Guards to Setup
 	remove parameters from Execute

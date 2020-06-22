@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Mud.Common;
 using Mud.Container;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Ability;
@@ -22,9 +21,7 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
@@ -49,8 +46,6 @@ namespace Mud.Server.Character
         private readonly Dictionary<string, int> _cooldownsPulseLeft;
         private readonly Dictionary<string, IAbilityLearned> _learnedAbilities;
 
-        protected IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
-        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
         protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
