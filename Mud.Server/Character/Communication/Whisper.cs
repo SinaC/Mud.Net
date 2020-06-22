@@ -36,8 +36,8 @@ namespace Mud.Server.Character.Communication
         {
             Actor.Act(ActOptions.ToCharacter, "You whisper '{0}' to {1:n}.", What, Whom);
             if (Actor != Whom)
-                Whom.Act(ActOptions.ToCharacter, "{0:n} whispers you '{1}'.", this, What); // TODO: when used on ourself (player is pouet), pouet whispers you 'blabla'
-            Actor.ActToNotVictim(Whom, "{0:n} whispers something to {1:n}.", this, Whom);
+                Whom.Act(ActOptions.ToCharacter, "{0:n} whispers you '{1}'.", Actor, What); // TODO: when used on ourself (player is pouet), pouet whispers you 'blabla'
+            Actor.ActToNotVictim(Whom, "{0:n} whispers something to {1:n}.", Actor, Whom);
             // ActOptions.ToAll cannot be used because 'something' is sent except for 'this' and 'whom'
         }
     }

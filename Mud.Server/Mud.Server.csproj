@@ -118,6 +118,7 @@
     <Compile Include="Admin\Punish\AddLag.cs" />
     <Compile Include="Admin\Punish\Force.cs" />
     <Compile Include="Admin\Punish\Snoop.cs" />
+    <Compile Include="Aura\DispelManager.cs" />
     <Compile Include="Character\Ability\Cooldowns.cs" />
     <Compile Include="Character\Ability\Skills.cs" />
     <Compile Include="Character\Ability\Spells.cs" />
@@ -368,10 +369,6 @@
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
       <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
       <Name>Mud.Server.Random</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj">
-      <Project>{8A3A8267-B6A3-441B-BCF1-925B09FF920E}</Project>
-      <Name>Mud.Server.Rom24</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>

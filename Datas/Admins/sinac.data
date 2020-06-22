@@ -17,15 +17,15 @@
       <Name>sinac</Name>
       <Race>insectoid</Race>
       <Class>druid</Class>
-      <Level>41</Level>
+      <Level>46</Level>
       <Sex>1</Sex>
       <Size>2</Size>
-      <HitPoints>109</HitPoints>
-      <MovePoints>22</MovePoints>
+      <HitPoints>13800</HitPoints>
+      <MovePoints>13800</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>115</Value>
+          <Value>10000</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -35,7 +35,7 @@
       <MaxResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>115</Value>
+          <Value>10000</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -51,7 +51,7 @@
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>65</ItemFlags>
             <Auras />
-            <TimeLeft>29996</TimeLeft>
+            <TimeLeft>29992</TimeLeft>
           </Item>
         </EquippedItemData>
         <EquippedItemData>
@@ -127,47 +127,25 @@
         <EquippedItemData>
           <Slot>13</Slot>
           <Item xsi:type="ItemWeaponData">
-            <ItemId>3350</ItemId>
-            <Level>16</Level>
+            <ItemId>3005</ItemId>
+            <Level>42</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>64</ItemFlags>
+            <ItemFlags>258</ItemFlags>
             <Auras>
               <AuraData>
-                <AbilityName>Envenom</AbilityName>
+                <AbilityName>Test</AbilityName>
                 <Level>1</Level>
-                <PulseLeft>1048</PulseLeft>
+                <PulseLeft>1428</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
-                    <Operator>1</Operator>
-                    <Modifier>128</Modifier>
+                    <Operator>0</Operator>
+                    <Modifier>479</Modifier>
                   </AffectDataBase>
                 </Affects>
               </AuraData>
             </Auras>
-            <WeaponFlags>0</WeaponFlags>
-          </Item>
-        </EquippedItemData>
-        <EquippedItemData>
-          <Slot>14</Slot>
-          <Item xsi:type="ItemWeaponData">
-            <ItemId>3350</ItemId>
-            <Level>16</Level>
-            <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>64</ItemFlags>
-            <Auras />
-            <WeaponFlags>0</WeaponFlags>
-          </Item>
-        </EquippedItemData>
-        <EquippedItemData>
-          <Slot>13</Slot>
-          <Item xsi:type="ItemWeaponData">
-            <ItemId>3350</ItemId>
-            <Level>16</Level>
-            <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>64</ItemFlags>
-            <Auras />
-            <WeaponFlags>0</WeaponFlags>
+            <WeaponFlags>48</WeaponFlags>
           </Item>
         </EquippedItemData>
       </Equipments>
@@ -202,6 +180,43 @@
           <HungerHours>6</HungerHours>
           <IsPoisoned>false</IsPoisoned>
         </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras>
+            <AuraData>
+              <AbilityName>Envenom</AbilityName>
+              <Level>1</Level>
+              <PulseLeft>24</PulseLeft>
+              <AuraFlags>2</AuraFlags>
+              <Affects>
+                <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
+                  <Operator>1</Operator>
+                  <Modifier>128</Modifier>
+                </AffectDataBase>
+              </Affects>
+            </AuraData>
+          </Auras>
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
       </Inventory>
       <Auras />
       <CharacterFlags>2097152</CharacterFlags>
@@ -211,27 +226,27 @@
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>16</Value>
+          <Value>25</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>16</Value>
+          <Value>24</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>16</Value>
+          <Value>23</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>16</Value>
+          <Value>22</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>4</Key>
-          <Value>18</Value>
+          <Value>27</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>5</Key>
-          <Value>109</Value>
+          <Value>13800</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>6</Key>
@@ -239,41 +254,41 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>7</Key>
-          <Value>0</Value>
+          <Value>123</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>8</Key>
-          <Value>0</Value>
+          <Value>123</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>9</Key>
-          <Value>109</Value>
+          <Value>13800</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>10</Key>
-          <Value>100</Value>
+          <Value>-500</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>11</Key>
-          <Value>100</Value>
+          <Value>-500</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>12</Key>
-          <Value>100</Value>
+          <Value>-500</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>13</Key>
-          <Value>100</Value>
+          <Value>-500</Value>
         </PairDataOfInt32Int32>
       </Attributes>
       <CreationTime>2020-06-14T19:17:42.1765039+02:00</CreationTime>
-      <RoomId>3025</RoomId>
+      <RoomId>3001</RoomId>
       <SilverCoins>695</SilverCoins>
       <GoldCoins>10</GoldCoins>
-      <Experience>100000</Experience>
-      <Alignment>0</Alignment>
-      <Trains>40</Trains>
-      <Practices>76</Practices>
+      <Experience>113000</Experience>
+      <Alignment>-4</Alignment>
+      <Trains>38</Trains>
+      <Practices>84</Practices>
       <AutoFlags>63</AutoFlags>
       <CurrentQuests />
       <LearnedAbilities>
@@ -445,7 +460,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>0</Learned>
+          <Learned>71</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -454,7 +469,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>0</Learned>
+          <Learned>71</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -463,7 +478,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>0</Learned>
+          <Learned>71</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -508,7 +523,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -517,7 +532,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>0</Learned>
+          <Learned>71</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -544,7 +559,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -589,7 +604,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -1500,24 +1515,19 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>44</Value>
+          <Value>36</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>42</Value>
+          <Value>38</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>48</Value>
+          <Value>44</Value>
         </PairDataOfInt32Int32>
       </Conditions>
       <Aliases />
-      <Cooldowns>
-        <PairDataOfStringInt32>
-          <Key>Test</Key>
-          <Value>952</Value>
-        </PairDataOfStringInt32>
-      </Cooldowns>
+      <Cooldowns />
       <Pets>
         <CharacterData xsi:type="PetData">
           <Name>Construct</Name>
@@ -1526,7 +1536,7 @@
           <Level>40</Level>
           <Sex>0</Sex>
           <Size>0</Size>
-          <HitPoints>325</HitPoints>
+          <HitPoints>698</HitPoints>
           <MovePoints>1000</MovePoints>
           <CurrentResources>
             <PairDataOfInt32Int32>

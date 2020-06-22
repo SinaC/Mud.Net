@@ -3,13 +3,13 @@ using Mud.Server.Affects;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Affects;
 using System;
 using System.Linq;
 
@@ -24,16 +24,18 @@ namespace Mud.Server.Character.Item
         private ITableValues TableValues { get; }
         private IRandomManager RandomManager { get; }
         private IAuraManager AuraManager { get; }
+        private IAffectManager AffectManager { get; }
         private IWiznet Wiznet { get; }
 
         public IItemDrinkable Drinkable { get; protected set; }
         public (string name, string color, int proof, int full, int thirst, int food, int servingsize) LiquidInfo { get; protected set; }
 
-        public Drink(ITableValues tableValues, IRandomManager randomManager, IAuraManager auraManager, IWiznet wiznet)
+        public Drink(ITableValues tableValues, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IWiznet wiznet)
         {
             TableValues = tableValues;
             RandomManager = randomManager;
             AuraManager = auraManager;
+            AffectManager = affectManager;
             Wiznet = wiznet;
         }
 
@@ -87,7 +89,7 @@ namespace Mud.Server.Character.Item
             int amount = Math.Min(Drinkable.LiquidLeft, LiquidInfo.servingsize * Drinkable.LiquidAmountMultiplier);
             // drink
             Drinkable.Drink(amount);
-            Actor.Act(ActOptions.ToAll, "{0:N} drink{0:v} {1} from {2}.", this, LiquidInfo.name, Drinkable);
+            Actor.Act(ActOptions.ToAll, "{0:N} drink{0:v} {1} from {2}.", Actor, LiquidInfo.name, Drinkable);
             // drunk/thirst/food/full
             if (pc != null)
             {
@@ -106,7 +108,7 @@ namespace Mud.Server.Character.Item
             // poisoned?
             if (Drinkable is IItemPoisonable poisonable && poisonable.IsPoisoned)
             {
-                Actor.Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", this);
+                Actor.Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", Actor);
                 // search poison affect
                 IAura poisonAura = Actor.GetAura("Poison");
                 int duration = amount * 3;
@@ -114,9 +116,12 @@ namespace Mud.Server.Character.Item
                 if (poisonAura != null)
                     poisonAura.Update(level, TimeSpan.FromMinutes(duration));
                 else
+                {
+                    IAffect poisonAffect = AffectManager.CreateInstance("Poison");
                     AuraManager.AddAura(Actor, "Poison", Drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                         new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
-                        new PoisonDamageAffect());
+                        poisonAffect);
+                }
                 Actor.Recompute();
             }
         }

@@ -23,7 +23,7 @@ namespace Mud.Server.Character.Item
             if (item.Level > Actor.Level)
             {
                 Actor.Send("You must be level {0} to use this object.", item.Level);
-                Actor.Act(ActOptions.ToRoom, "{0} tries to use {1}, but is too inexperienced.", this, item);
+                Actor.Act(ActOptions.ToRoom, "{0} tries to use {1}, but is too inexperienced.", Actor, item);
                 return false;
             }
             // can be worn ?
@@ -52,14 +52,14 @@ namespace Mud.Server.Character.Item
             if (replace && equipmentSlot.Item != null)
             {
                 IItem removeItem = equipmentSlot.Item;
-                Actor.Act(ActOptions.ToAll, "{0:N} remove{0:v} {1}.", this, removeItem);
+                Actor.Act(ActOptions.ToAll, "{0:N} remove{0:v} {1}.", Actor, removeItem);
                 //equipmentSlot.Item = null  already done by ChangeEquippedBy
                 removeItem.ChangeEquippedBy(null, false);
                 removeItem.ChangeContainer(Actor);
             }
             // Display
             string wearPhrase = GetEquipmentSlotWearPhrase(equipmentSlot.Slot, item);
-            Actor.Act(ActOptions.ToAll, wearPhrase, this, item);
+            Actor.Act(ActOptions.ToAll, wearPhrase, Actor, item);
             // Equip at last
             equipmentSlot.Item = item; // equip
             item.ChangeContainer(null); // remove from inventory

@@ -2,7 +2,6 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
@@ -16,13 +15,11 @@ namespace Mud.Server.Rom24.BreathSpells
     {
         public const string SpellName = "Lightning Breath";
 
-        private IAuraManager AuraManager { get; }
         private IItemManager ItemManager { get; }
 
-        public LightningBreath(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+        public LightningBreath(IRandomManager randomManager, IItemManager itemManager)
             : base(randomManager)
         {
-            AuraManager = auraManager;
             ItemManager = itemManager;
         }
 
@@ -39,12 +36,12 @@ namespace Mud.Server.Rom24.BreathSpells
 
             if (Victim.SavesSpell(Level, SchoolTypes.Lightning))
             {
-                new ShockEffect(RandomManager, AuraManager, ItemManager).Apply(Victim, Caster, SpellName, Level / 2, damage / 4);
+                new ShockEffect(RandomManager, ItemManager).Apply(Victim, Caster, SpellName, Level / 2, damage / 4);
                 Victim.AbilityDamage(Caster, damage / 2, SchoolTypes.Lightning, "blast of lightning", true);
             }
             else
             {
-                new ShockEffect(RandomManager, AuraManager, ItemManager).Apply(Victim, Caster, SpellName, Level, damage);
+                new ShockEffect(RandomManager, ItemManager).Apply(Victim, Caster, SpellName, Level, damage);
                 Victim.AbilityDamage(Caster, damage, SchoolTypes.Lightning, "blast of lightning", true);
             }
         }

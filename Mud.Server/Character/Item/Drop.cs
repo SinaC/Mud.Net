@@ -108,7 +108,7 @@ namespace Mud.Server.Character.Item
                 }
                 // recreate new money item
                 ItemManager.AddItemMoney(Guid.NewGuid(), Silver, Gold, Actor.Room);
-                Actor.Act(ActOptions.ToRoom, "{0:N} drops some coins", this);
+                Actor.Act(ActOptions.ToRoom, "{0:N} drops some coins", Actor);
                 Actor.Send("Ok.");
                 return;
             }
@@ -127,7 +127,7 @@ namespace Mud.Server.Character.Item
             }
 
             //
-            Actor.Act(ActOptions.ToAll, "{0:N} drop{0:v} {1}.", this, item);
+            Actor.Act(ActOptions.ToAll, "{0:N} drop{0:v} {1}.", Actor, item);
             item.ChangeContainer(Actor.Room);
 
             //

@@ -205,6 +205,10 @@
       <Project>{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}</Project>
       <Name>Mud.Server.Ability</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj">
+      <Project>{80ea18bc-aba5-40f7-8483-6b94750cd704}</Project>
+      <Name>Mud.Server.Affects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
@@ -216,6 +220,10 @@
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj">
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
       <Name>Mud.Server.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Effects\Mud.Server.Effects.csproj">
+      <Project>{AF96073C-D599-4604-8E8F-60B8BE186745}</Project>
+      <Name>Mud.Server.Effects</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
       <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>

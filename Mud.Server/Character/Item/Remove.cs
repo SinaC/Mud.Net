@@ -23,8 +23,8 @@ namespace Mud.Server.Character.Item
             if (actionInput.Parameters.Length == 0)
                 return "Remove what?";
             //
-            IEquippedItem equippedItem = FindHelpers.FindByName(Actor.Equipments.Where(x => x.Item != null && Actor.CanSee(x.Item)), x => x.Item, actionInput.Parameters[0]);
-            if (equippedItem?.Item == null)
+            What = FindHelpers.FindByName(Actor.Equipments.Where(x => x.Item != null && Actor.CanSee(x.Item)), x => x.Item, actionInput.Parameters[0]);
+            if (What?.Item == null)
                 return StringHelpers.ItemInventoryNotFound;
             return null;
         }

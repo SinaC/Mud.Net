@@ -20,14 +20,13 @@ using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Affects;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Character
 {
@@ -52,6 +51,8 @@ namespace Mud.Server.Character
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
         protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
         protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
+        protected IEffectManager EffectManager => DependencyContainer.Current.GetInstance<IEffectManager>();
+        protected IAffectManager AffectManager => DependencyContainer.Current.GetInstance<IAffectManager>();
 
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)
@@ -2245,10 +2246,11 @@ namespace Mud.Server.Character
                         else
                         {
                             int duration = level / 2;
+                            IAffect poisonAffect = AffectManager.CreateInstance("Poison");
                             AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                                 new CharacterFlagsAffect {Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or},
                                 new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add},
-                                new PoisonDamageAffect());
+                                poisonAffect);
                         }
                     }
                 }
@@ -2275,7 +2277,8 @@ namespace Mud.Server.Character
                     victim.Act(ActOptions.ToRoom, "{0} is burned by {1}.", victim, wield);
                     victim.Act(ActOptions.ToCharacter, "{0} sears your flesh.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Fire, null, false);
-                    new FireEffect(RandomManager, AuraManager, ItemManager).Apply(victim, this, "Flaming weapon", wield.Level/2, specialDamage);
+                    IEffect<ICharacter> fireEffect = EffectManager.CreateInstance<ICharacter>("Fire");
+                    fireEffect?.Apply(victim, this, "Flaming weapon", wield.Level/2, specialDamage);
                 }
 
                 if (Fighting != victim)
@@ -2287,7 +2290,8 @@ namespace Mud.Server.Character
                     victim.Act(ActOptions.ToRoom, "{0} freezes {1}.", wield, victim);
                     victim.Act(ActOptions.ToCharacter, "The cold touch of $p surrounds you with ice.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Cold, null, false);
-                    new ColdEffect(RandomManager, AuraManager, ItemManager).Apply(victim, this, "Frost weapon", wield.Level / 2, specialDamage);
+                    IEffect<ICharacter> coldEffect = EffectManager.CreateInstance<ICharacter>("Cold");
+                    coldEffect?.Apply(victim, this, "Frost weapon", wield.Level / 2, specialDamage);
                 }
 
                 if (Fighting != victim)
@@ -2299,7 +2303,8 @@ namespace Mud.Server.Character
                     victim.Act(ActOptions.ToRoom, "{0:N} is struck by lightning from {1}.", victim, wield);
                     victim.Act(ActOptions.ToCharacter, "You are shocked by $p.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Lightning, null, false);
-                    new ShockEffect(RandomManager, AuraManager, ItemManager).Apply(victim, this, "Shocking weapon", wield.Level / 2, specialDamage);
+                    IEffect<ICharacter> shockEffect = EffectManager.CreateInstance<ICharacter>("Shock");
+                    shockEffect?.Apply(victim, this, "Shocking weapon", wield.Level / 2, specialDamage);
                 }
 
                 if (Fighting != victim)

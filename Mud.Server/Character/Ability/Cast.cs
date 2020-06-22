@@ -35,8 +35,8 @@ namespace Mud.Server.Character.Ability
             var abilityLearned = Actor.GetAbilityLearned(abilityInfo.Name);
             if (abilityLearned == null)
                 return "You don't know any spells of that name.";
-            ISpell spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
-            if (spellInstance == null)
+            SpellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
+            if (SpellInstance == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "Spell {0} cannot be created.", abilityInfo.Name);
                 return "Something goes wrong.";
@@ -44,7 +44,7 @@ namespace Mud.Server.Character.Ability
 
             var newParameters = CommandHelpers.SkipParameters(actionInput.Parameters, 1);
             var spellActionInput = new SpellActionInput(abilityInfo, Actor, Actor.Level, null, newParameters.rawParameters, newParameters.parameters);
-            string spellInstanceGuards = spellInstance.Setup(spellActionInput);
+            string spellInstanceGuards = SpellInstance.Setup(spellActionInput);
             if (spellInstanceGuards != null)
                 return spellInstanceGuards;
             return null;

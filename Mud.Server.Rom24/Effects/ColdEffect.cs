@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Affects;
+using Mud.Server.Effects;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -15,6 +16,7 @@ using System.Linq;
 
 namespace Mud.Server.Rom24.Effects
 {
+    [Effect("Cold")]
     public class ColdEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
     {
         private IRandomManager RandomManager { get; }

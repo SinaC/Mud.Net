@@ -80,7 +80,7 @@ namespace Mud.Server.Character.Item
             {
                 SourceContainer.Pour();
                 SourceContainer.Recompute();
-                Actor.Act(ActOptions.ToAll, "{0:N} invert{0:v} {1}, spilling {2} all over the ground.", this, SourceContainer, SourceContainer.LiquidName);
+                Actor.Act(ActOptions.ToAll, "{0:N} invert{0:v} {1}, spilling {2} all over the ground.", Actor, SourceContainer, SourceContainer.LiquidName);
                 return;
             }
 
@@ -95,11 +95,11 @@ namespace Mud.Server.Character.Item
             SourceContainer.Recompute();
             //
             if (TargetCharacter == null)
-                Actor.Act(ActOptions.ToAll, "{0:N} pour{0:v} {1} from {2} into {3}.", this, SourceContainer.LiquidName, SourceContainer, TargetContainer);
+                Actor.Act(ActOptions.ToAll, "{0:N} pour{0:v} {1} from {2} into {3}.", Actor, SourceContainer.LiquidName, SourceContainer, TargetContainer);
             else
             {
-                TargetCharacter.Act(ActOptions.ToCharacter, "{0:N} pours you some {1}.", this, SourceContainer.LiquidName);
-                TargetCharacter.Act(ActOptions.ToRoom, "{0:N} pour{0:v} some {1} for {2}", this, SourceContainer.LiquidName, TargetCharacter);
+                TargetCharacter.Act(ActOptions.ToCharacter, "{0:N} pours you some {1}.", Actor, SourceContainer.LiquidName);
+                TargetCharacter.Act(ActOptions.ToRoom, "{0:N} pour{0:v} some {1} for {2}", Actor, SourceContainer.LiquidName, TargetCharacter);
             }
         }
     }

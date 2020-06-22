@@ -1,11 +1,13 @@
 ﻿using System.Text;
 using Mud.Domain;
+using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Rom24.Affects
 {
+    [Affect("Poison")]
     public class PoisonDamageAffect : ICharacterPeriodicAffect
     {
         public void Append(StringBuilder sb)

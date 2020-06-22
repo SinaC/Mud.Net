@@ -52,7 +52,7 @@ namespace Mud.Server.Character.Item
 
         public override void Execute(IActionInput actionInput)
         {
-            Actor.Act(ActOptions.ToAll, "{0:N} fill{0:v} {1} with {2} from {3}.", this, DrinkContainer, Fountain.LiquidName, Fountain);
+            Actor.Act(ActOptions.ToAll, "{0:N} fill{0:v} {1} with {2} from {3}.", Actor, DrinkContainer, Fountain.LiquidName, Fountain);
             DrinkContainer.Fill(Fountain.LiquidName, DrinkContainer.MaxLiquid);
             DrinkContainer.Recompute();
         }

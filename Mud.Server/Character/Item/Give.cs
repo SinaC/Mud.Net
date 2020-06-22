@@ -106,7 +106,7 @@ namespace Mud.Server.Character.Item
             Whom.Recompute();
             Actor.Recompute();
 
-            Actor.ActToNotVictim(Whom, "{0} gives {1} to {2}.", this, What, Whom);
+            Actor.ActToNotVictim(Whom, "{0} gives {1} to {2}.", Actor, What, Whom);
             Whom.Act(ActOptions.ToCharacter, "{0} gives you {1}.", Actor, What);
             Actor.Act(ActOptions.ToCharacter, "You give {0} to {1}.", What, Whom);
         }
