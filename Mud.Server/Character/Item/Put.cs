@@ -94,7 +94,7 @@ namespace Mud.Server.Character.Item
             }
 
             // TODO: pit
-            Actor.Act(ActOptions.ToAll, "{0:N} put{0:v} {1} in {2}.", this, item, container);
+            Actor.Act(ActOptions.ToAll, "{0:N} put{0:v} {1} in {2}.", Actor, item, container);
             item.ChangeContainer(container);
             return true;
         }

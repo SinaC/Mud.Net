@@ -27,7 +27,7 @@ namespace Mud.Server.Character.PlayableCharacter.Communication
 
         public override void Execute(IActionInput actionInput)
         {
-            Actor.Act(ActOptions.ToGroup, "%g%{0:n} says the group '%x%{1}%g%'%x%", this, What);
+            Actor.Act(ActOptions.ToGroup, "%g%{0:n} says the group '%x%{1}%g%'%x%", Actor, What);
             Actor.Send($"%g%You say to the group: '%x%{What}%g%'%x%");
         }
     }

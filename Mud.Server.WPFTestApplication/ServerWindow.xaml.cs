@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using AutoMapper;
+﻿using AutoMapper;
+using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Importer.Rom;
@@ -14,35 +7,43 @@ using Mud.Logger;
 using Mud.Network;
 using Mud.Network.Telnet;
 using Mud.Repository;
+using Mud.Server.Ability;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.World;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Race;
-using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Effect;
+using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Race;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
+using Mud.Server.Interfaces.World;
+using Mud.Server.Random;
+using Mud.Server.Rom24.Spells;
 using Mud.Server.Server;
 using Mud.Settings;
-using Mud.Server.Interfaces.Aura;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Ability;
-using Mud.Server.Random;
-using Mud.Common;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using Mud.Server.Rom24.Spells;
-using Mud.Server.Interfaces.GameAction;
-using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Quest;
+using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Mud.Server.WPFTestApplication
 {
@@ -112,6 +113,8 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IDispelManager, Aura.DispelManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IEffectManager, Effects.EffectManager>(SimpleInjector.Lifestyle.Singleton);
 
             if (settings.UseMongo)
             {

@@ -49,6 +49,7 @@
     <Compile Include="Ability\ISkillActionInput.cs" />
     <Compile Include="Ability\ISpell.cs" />
     <Compile Include="Ability\ISpellActionInput.cs" />
+    <Compile Include="Affect\IAffectManager.cs" />
     <Compile Include="Affect\ICharacterAffect.cs" />
     <Compile Include="Affect\ICharacterPeriodicAffect.cs" />
     <Compile Include="Affect\IFlagAffect.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Class\IClass.cs" />
     <Compile Include="Class\IClassManager.cs" />
     <Compile Include="Effect\IEffect.cs" />
+    <Compile Include="Effect\IEffectManager.cs" />
     <Compile Include="GameAction\IActionInput.cs" />
     <Compile Include="GameAction\IAdminGameActionInfo.cs" />
     <Compile Include="GameAction\ICharacterGameActionInfo.cs" />

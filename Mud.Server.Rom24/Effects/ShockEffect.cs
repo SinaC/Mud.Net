@@ -1,6 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Interfaces.Aura;
+using Mud.Server.Effects;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
@@ -13,16 +13,15 @@ using System.Linq;
 
 namespace Mud.Server.Rom24.Effects
 {
+    [Effect("Shock")]
     public class ShockEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
     {
         private IRandomManager RandomManager { get; }
-        private IAuraManager AuraManager { get; }
         private IItemManager ItemManager { get; }
 
-        public ShockEffect(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+        public ShockEffect(IRandomManager randomManager, IItemManager itemManager)
         {
             RandomManager = randomManager;
-            AuraManager = auraManager;
             ItemManager = itemManager;
         }
 

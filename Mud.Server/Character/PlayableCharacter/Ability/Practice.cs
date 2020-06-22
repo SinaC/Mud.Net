@@ -74,12 +74,12 @@ namespace Mud.Server.Character.PlayableCharacter.Ability
             if (AbilityLearned.Learned < maxPractice)
             {
                 Actor.Act(ActOptions.ToCharacter, "You practice {0}.", AbilityLearned.Name);
-                Actor.Act(ActOptions.ToRoom, "{0:N} practice {1}.", this, AbilityLearned.Name);
+                Actor.Act(ActOptions.ToRoom, "{0:N} practice {1}.", Actor, AbilityLearned.Name);
             }
             else
             {
                 Actor.Act(ActOptions.ToCharacter, "You are now learned at {0}.", AbilityLearned.Name);
-                Actor.Act(ActOptions.ToRoom, "{0:N} is now learned at {1}.", this, AbilityLearned.Name);
+                Actor.Act(ActOptions.ToRoom, "{0:N} is now learned at {1}.", Actor, AbilityLearned.Name);
             }
         }
 

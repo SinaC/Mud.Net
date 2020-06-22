@@ -87,7 +87,7 @@ namespace Mud.Server.Character.Item
             int amount = Math.Min(Drinkable.LiquidLeft, LiquidInfo.servingsize * Drinkable.LiquidAmountMultiplier);
             // drink
             Drinkable.Drink(amount);
-            Actor.Act(ActOptions.ToAll, "{0:N} drink{0:v} {1} from {2}.", this, LiquidInfo.name, Drinkable);
+            Actor.Act(ActOptions.ToAll, "{0:N} drink{0:v} {1} from {2}.", Actor, LiquidInfo.name, Drinkable);
             // drunk/thirst/food/full
             if (pc != null)
             {
@@ -106,7 +106,7 @@ namespace Mud.Server.Character.Item
             // poisoned?
             if (Drinkable is IItemPoisonable poisonable && poisonable.IsPoisoned)
             {
-                Actor.Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", this);
+                Actor.Act(ActOptions.ToAll, "{0:N} choke{0:v} and gag{0:v}.", Actor);
                 // search poison affect
                 IAura poisonAura = Actor.GetAura("Poison");
                 int duration = amount * 3;

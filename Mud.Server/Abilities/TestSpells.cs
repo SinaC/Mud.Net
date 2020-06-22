@@ -6,13 +6,14 @@ using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using System;
 
 namespace Mud.Server.Ability
 {
     [Spell(SpellName, AbilityEffects.Buff, CooldownInSeconds = 10*60, PulseWaitTime = 10 * Pulse.PulsePerSeconds)]
-    public class SpellTest : DefensiveSpellBase
+    public class SpellTest : ItemOrDefensiveSpellBase
     {
         public const string SpellName = "Test";
 
@@ -24,18 +25,33 @@ namespace Mud.Server.Ability
             AuraManager = auraManager;
         }
 
-        protected override void Invoke()
+        protected override void Invoke(ICharacter victim)
         {
-            if (Victim.GetAura(SpellName) != null)
+            if (victim.GetAura(SpellName) != null)
             {
-                Caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} already affected by divine aura.", Victim);
+                Caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} already affected by divine aura.", victim);
                 return;
             }
 
             // Immune to all damages
-            AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(1), AuraFlags.NoDispel, true,
+            AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(1), AuraFlags.NoDispel, true,
                 new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = IRVFlags.Magic, Operator = AffectOperators.Or },
                 new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = IRVFlags.Weapon, Operator = AffectOperators.Or });
+        }
+
+        protected override void Invoke(IItem item)
+        {
+            if (item.GetAura(SpellName) != null)
+            {
+                Caster.Act(ActOptions.ToCharacter, "{0} is already affected by divine aura.", item);
+                return;
+            }
+
+            if (item is IItemWeapon itemWeapon)
+            {
+                AuraManager.AddAura(itemWeapon, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
+                    new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Flaming | WeaponFlags.Frost | WeaponFlags.Vampiric | WeaponFlags.Sharp | WeaponFlags.Vorpal | WeaponFlags.Shocking | WeaponFlags.Poison | WeaponFlags.Holy });
+            }
         }
     }
 

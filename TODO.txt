@@ -1,4 +1,7 @@
 NEXT:
+remove Rom24 dependency in Server
+poison/plague affect serialization
+
 one class by command
 	unit test for each command!!!
 	make IGameAction generic on TActor: IActor, same goes for IActionInput
@@ -18,7 +21,6 @@ redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
 
 module/plugin to enable load on demand of skills/spells/commands/...
 
-poison/plague affect serialization
 remove position incap, mortal, stunned -> probably remove UpdatePosition, replaced stunned with a 'timer'
 offensive flags: rescue, bite, crush, ...
 clan/guild, auction house, help, socials, wimpy, note

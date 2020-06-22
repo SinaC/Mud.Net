@@ -35,7 +35,7 @@ namespace Mud.Server.Character.PlayableCharacter.Item
 
             if (actionInput.Parameters.Length == 0 || StringCompareHelpers.StringEquals(Actor.Name, actionInput.Parameters[0].Value))
             {
-                Actor.Act(ActOptions.ToRoom, "{0:N} offers {0:f} to Mota, who graciously declines.", this);
+                Actor.Act(ActOptions.ToRoom, "{0:N} offers {0:f} to Mota, who graciously declines.", Actor);
                 return "Mota appreciates your offer and may accept it later.";
             }
 

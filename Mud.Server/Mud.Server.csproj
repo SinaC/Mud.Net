@@ -118,6 +118,7 @@
     <Compile Include="Admin\Punish\AddLag.cs" />
     <Compile Include="Admin\Punish\Force.cs" />
     <Compile Include="Admin\Punish\Snoop.cs" />
+    <Compile Include="Aura\DispelManager.cs" />
     <Compile Include="Character\Ability\Cooldowns.cs" />
     <Compile Include="Character\Ability\Skills.cs" />
     <Compile Include="Character\Ability\Spells.cs" />
