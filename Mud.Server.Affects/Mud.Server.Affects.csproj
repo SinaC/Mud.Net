@@ -36,12 +36,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AffectAttribute.cs" />
@@ -58,10 +52,6 @@
     <Compile Include="RoomFlagsAffect.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
-      <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
-      <Name>Mud.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{B9D5A4DD-8418-4E00-BC90-582359F7F05D}</Project>
       <Name>Mud.Container</Name>

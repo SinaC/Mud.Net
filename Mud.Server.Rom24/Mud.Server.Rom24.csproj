@@ -33,12 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Affects\PlagueSpreadAndDamageAffect.cs" />
@@ -229,14 +223,6 @@
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
       <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
       <Name>Mud.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
-      <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
-      <Name>Mud.Container</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
-      <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
-      <Name>Mud.DataStructures</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
