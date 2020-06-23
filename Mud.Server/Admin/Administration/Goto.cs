@@ -3,6 +3,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
 using System.Linq;
+using System.Text;
 
 namespace Mud.Server.Admin.Administration
 {
@@ -37,7 +38,9 @@ namespace Mud.Server.Admin.Administration
             Impersonating.Act(Impersonating.Room.People.Where(x => x != Impersonating && x.CanSee(Impersonating)), "{0:N} leaves in a swirling mist.", Impersonating); // Don't display 'Someone leaves ...' if Impersonating is not visible
             Impersonating.ChangeRoom(Where);
             Impersonating.Act(Impersonating.Room.People.Where(x => x != Impersonating && x.CanSee(Impersonating)), "{0:N} appears in a swirling mist.", Impersonating);
-            Impersonating.AutoLook();
+            StringBuilder sb = new StringBuilder();
+            Impersonating.Room.Append(sb, Impersonating);
+            Impersonating.Send(sb);
         }
     }
 }

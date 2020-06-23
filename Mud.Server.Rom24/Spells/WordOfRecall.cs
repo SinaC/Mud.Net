@@ -7,6 +7,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
+using System.Text;
 
 namespace Mud.Server.Rom24.Spells
 {
@@ -39,7 +40,9 @@ namespace Mud.Server.Rom24.Spells
             Victim.Act(ActOptions.ToRoom, "{0:N} disappears", Victim);
             Victim.ChangeRoom(recallRoom);
             Victim.Act(ActOptions.ToRoom, "{0:N} appears in the room.", Victim);
-            Victim.AutoLook();
+            StringBuilder sb = new StringBuilder();
+            Victim.Room.Append(sb, Victim);
+            Victim.Send(sb);
 
             // Pets follows
             foreach (INonPlayableCharacter pet in Victim.Pets)
@@ -57,7 +60,9 @@ namespace Mud.Server.Rom24.Spells
                 pet.Act(ActOptions.ToRoom, "{0:N} disappears", pet);
                 pet.ChangeRoom(recallRoom);
                 pet.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pet);
-                pet.AutoLook();
+                StringBuilder sbPet = new StringBuilder();
+                pet.Room.Append(sbPet, pet);
+                pet.Send(sbPet);
             }
         }
 

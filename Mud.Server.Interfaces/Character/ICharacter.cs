@@ -162,7 +162,6 @@ namespace Mud.Server.Interfaces.Character
         bool Move(ExitDirections direction, bool follow);
         bool Enter(IItemPortal portal, bool follow);
         void ChangeRoom(IRoom destination);
-        void AutoLook();
 
         // Combat
         SchoolTypes NoWeaponDamageType { get; }

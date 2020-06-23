@@ -21,7 +21,7 @@ namespace Mud.Server.Rom24.Spells
             Caster.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", Caster);
             Caster.ChangeRoom(Victim.Room);
             Caster.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", Caster);
-            Caster.AutoLook();
+            AutoLook(Caster);
 
             // pets follows
             if (Caster is IPlayableCharacter pcCaster)
@@ -31,7 +31,7 @@ namespace Mud.Server.Rom24.Spells
                     pet.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", pet);
                     pet.ChangeRoom(Victim.Room);
                     pet.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", pet);
-                    pet.AutoLook(); // TODO: needed ?
+                    AutoLook(pet); // TODO: needed ?
                 }
             }
         }

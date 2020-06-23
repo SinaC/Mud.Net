@@ -1106,7 +1106,9 @@ namespace Mud.Server.Character.PlayableCharacter
                 Act(ActOptions.ToRoom, "{0:N} stumbles in drunkenly, looking all nice and French.", this);
 
             // Autolook
-            AutoLook();
+            StringBuilder sb = new StringBuilder();
+            Room.Append(sb, this);
+            Send(sb);
         }
 
         protected override void MoveFollow(IRoom fromRoom, IRoom toRoom, ExitDirections direction)

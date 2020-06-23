@@ -11,13 +11,11 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells
 {
     [Spell(SpellName, AbilityEffects.Transportation)]
-    public class Teleport : SpellBase
+    public class Teleport : TransportationSpellBase
     {
         public const string SpellName = "Teleport";
 
         private IRoomManager RoomManager { get; }
-
-        protected ICharacter Victim { get; set; }
 
         public Teleport(IRandomManager randomManager, IRoomManager roomManager)
             : base(randomManager)
@@ -41,18 +39,10 @@ namespace Mud.Server.Rom24.Spells
             Victim.Act(ActOptions.ToRoom, "{0:N} vanishes", Victim);
             Victim.ChangeRoom(destination);
             Victim.Act(ActOptions.ToRoom, "{0:N} slowly fades into existence.", Victim);
-            Victim.AutoLook();
+            AutoLook(Victim);
         }
 
-        protected override string SetTargets(ISpellActionInput spellActionInput)
-        {
-            Victim = FindHelpers.FindChararacterInWorld(Caster, spellActionInput.Parameters[0]);
-            if (Victim == null || IsVictimValid())
-                return "You failed.";
-            return null;
-        }
-
-        protected virtual bool IsVictimValid()
+        protected override bool IsVictimValid()
         {
             if (Victim.Room == null
                 || Victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)

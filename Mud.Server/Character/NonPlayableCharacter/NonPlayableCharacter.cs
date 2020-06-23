@@ -659,7 +659,11 @@ namespace Mud.Server.Character.NonPlayableCharacter
         protected override void AfterMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom)
         {
             if (IncarnatedBy != null)
-                AutoLook();
+            {
+                StringBuilder sb = new StringBuilder();
+                Room.Append(sb, this);
+                Send(sb);
+            }
         }
 
         protected override void HandleDeath()

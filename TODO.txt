@@ -1,5 +1,4 @@
 NEXT:
-replace AutoLook with Room.Append
 mstat should display inventory/equipment
 
 one class by command

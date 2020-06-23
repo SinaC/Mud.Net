@@ -290,7 +290,9 @@ namespace Mud.Server.Player
         {
             Impersonating = avatar;
             PlayerState = PlayerStates.Impersonating;
-            avatar.AutoLook();
+            StringBuilder sb = new StringBuilder();
+            avatar.Room.Append(sb, avatar);
+            avatar.Send(sb);
         }
 
         public void StopImpersonating()

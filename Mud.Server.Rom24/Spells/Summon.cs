@@ -24,7 +24,7 @@ namespace Mud.Server.Rom24.Spells
             Victim.ChangeRoom(Caster.Room);
             Caster.Act(ActOptions.ToRoom, "{0:N} arrives suddenly", Victim);
             Victim.Act(ActOptions.ToCharacter, "{0:N} has summoned you!", Caster);
-            Victim.AutoLook();
+            AutoLook(Victim);
         }
 
         protected override bool IsVictimValid() // TODO: try to refactor to use base.IsVictimValid

@@ -4,6 +4,7 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
+using System.Text;
 
 namespace Mud.Server.Admin.Administration
 {
@@ -71,7 +72,9 @@ namespace Mud.Server.Admin.Administration
                 else
                     Whom.Act(ActOptions.ToCharacter, "Someone has transferred you.");
             }
-            Whom.AutoLook();
+            StringBuilder sb = new StringBuilder();
+            Whom.Room.Append(sb, Whom);
+            Whom.Send(sb);
 
             Actor.Send("Ok");
         }

@@ -6,6 +6,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using System.Linq;
+using System.Text;
 
 namespace Mud.Server.Character.Movement
 {
@@ -66,7 +67,9 @@ namespace Mud.Server.Character.Movement
                 else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
                     Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} in {1}.", Actor, What);
                 // Autolook if impersonated/incarnated
-                Actor.AutoLook();
+                StringBuilder sb = new StringBuilder();
+                Actor.Room.Append(sb, Actor);
+                Actor.Send(sb);
             }
             else if (Actor.Position == Positions.Resting
                      || Actor.Position == Positions.Sitting)

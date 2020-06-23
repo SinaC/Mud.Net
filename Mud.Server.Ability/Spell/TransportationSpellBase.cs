@@ -3,6 +3,7 @@ using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
+using System.Text;
 
 namespace Mud.Server.Ability.Spell
 {
@@ -43,6 +44,13 @@ namespace Mud.Server.Ability.Spell
                 || (npcVictim != null && Victim.SavesSpell(Level, SchoolTypes.Other)))
                 return false;
             return true;
+        }
+
+        protected virtual void AutoLook(ICharacter victim)
+        {
+            StringBuilder sb = new StringBuilder();
+            victim.Room.Append(sb, victim);
+            victim.Send(sb);
         }
     }
 }
