@@ -156,7 +156,7 @@ namespace Mud.Server.GameAction
             if (!commandParameters.Any())
                 return string.Empty;
 
-            string joined = string.Join(" ", commandParameters.Select(x => x.Count == 1 ? x.Value.Quoted() : $"{x.Count}.{x.Value.Quoted()}"));
+            string joined = string.Join(" ", commandParameters.Select(x => ToString(x)));
             return joined;
         }
 
@@ -165,6 +165,20 @@ namespace Mud.Server.GameAction
             ICommandParameter[] parameters = inputParameters.Skip(count).ToArray();
             string rawParameter = JoinParameters(parameters);
             return (rawParameter, parameters);
+        }
+
+        private static string ToString(ICommandParameter commandParameter)
+        {
+            if (commandParameter.IsAll)
+            {
+                if (string.IsNullOrWhiteSpace(commandParameter.Value))
+                    return "all";
+                else
+                    return "all." + commandParameter.Value;
+            }
+            return commandParameter.Count == 1
+                ? commandParameter.Value.Quoted()
+                : $"{commandParameter.Count}.{commandParameter.Value.Quoted()}";
         }
     }
 }
