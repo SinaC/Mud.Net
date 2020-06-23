@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mud.Container;
 using Mud.Logger;
 using Mud.Server.Random;
 
@@ -10,10 +9,15 @@ namespace Mud.Server.Blueprints.LootTable
     public class TreasureTable<T>
         where T:IEquatable<T>
     {
-        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+        private IRandomManager RandomManager { get; }
 
         public string Name { get; set; }
         public List<TreasureTableEntry<T>> Entries { get; set; }
+
+        public TreasureTable(IRandomManager randomManager)
+        {
+            RandomManager = randomManager;
+        }
 
         public bool AddItem(T item, int occurancy, int maxOccurancy)
         {

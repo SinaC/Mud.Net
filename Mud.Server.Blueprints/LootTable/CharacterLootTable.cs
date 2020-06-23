@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Mud.Logger;
-using Mud.Container;
 using Mud.Server.Random;
 
 namespace Mud.Server.Blueprints.LootTable
@@ -11,15 +10,17 @@ namespace Mud.Server.Blueprints.LootTable
     public class CharacterLootTable<T>
         where T:IEquatable<T>
     {
-        private IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+        private IRandomManager RandomManager { get; }
 
         public int MinLoot { get; set; }
         public int MaxLoot { get; set; }
         public List<CharacterLootTableEntry<T>> Entries { get; set; }
         //public List<T> AlwaysDrop { get; set; }
 
-        public CharacterLootTable()
+        public CharacterLootTable(IRandomManager randomManager)
         {
+            RandomManager = randomManager;
+
             MinLoot = 1;
             MaxLoot = 1;
         }

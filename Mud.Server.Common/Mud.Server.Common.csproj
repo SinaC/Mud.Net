@@ -70,9 +70,6 @@
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.1.1\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=5.0.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.5.0.1\lib\net461\SimpleInjector.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -96,10 +93,6 @@
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
       <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
       <Name>Mud.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
-      <Project>{B9D5A4DD-8418-4E00-BC90-582359F7F05D}</Project>
-      <Name>Mud.Container</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}</Project>

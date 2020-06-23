@@ -64,6 +64,7 @@ namespace Mud.Server.WPFTestApplication
         private static ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
         private static IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
         private static IQuestManager QuestManager => DependencyContainer.Current.GetInstance<IQuestManager>();
+        private static IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
 
         internal class AssemblyHelper : IAssemblyHelper
         {
@@ -153,7 +154,7 @@ namespace Mud.Server.WPFTestApplication
 
         private void TestLootTable()
         {
-            TreasureTable<int> tableSpider = new TreasureTable<int>
+            TreasureTable<int> tableSpider = new TreasureTable<int>(RandomManager)
             {
                 Name = "TreasureList_Spider",
                 Entries = new List<TreasureTableEntry<int>>
@@ -178,7 +179,7 @@ namespace Mud.Server.WPFTestApplication
                     }
                 }
             };
-            TreasureTable<int> tableRareLoot = new TreasureTable<int>
+            TreasureTable<int> tableRareLoot = new TreasureTable<int>(RandomManager)
             {
                 Name = "TreasureList_RareLoot",
                 Entries = new List<TreasureTableEntry<int>>
@@ -191,11 +192,11 @@ namespace Mud.Server.WPFTestApplication
                     }
                 }
             };
-            TreasureTable<int> tableEmpty = new TreasureTable<int>
+            TreasureTable<int> tableEmpty = new TreasureTable<int>(RandomManager)
             {
                 Name = "TreasureList_Empty",
             };
-            CharacterLootTable<int> spiderTable = new CharacterLootTable<int>
+            CharacterLootTable<int> spiderTable = new CharacterLootTable<int>(RandomManager)
             {
                 MinLoot = 1,
                 MaxLoot = 3,
@@ -557,7 +558,7 @@ namespace Mud.Server.WPFTestApplication
             ItemManager.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
 
             // Quest
-            QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>
+            QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>(RandomManager)
             {
                 Name = "Quest 1 kill 1 table",
                 Entries = new List<QuestKillLootTableEntry<int>>

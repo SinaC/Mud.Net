@@ -96,9 +96,6 @@
     <Reference Include="SharpCompress, Version=0.25.1.0, Culture=neutral, PublicKeyToken=afb0a02973931d96, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpCompress.0.25.1\lib\net46\SharpCompress.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=5.0.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.5.0.1\lib\net461\SimpleInjector.dll</HintPath>
-    </Reference>
     <Reference Include="Snappy.NET, Version=1.1.1.8, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Snappy.NET.1.1.1.8\lib\net45\Snappy.NET.dll</HintPath>
     </Reference>
@@ -171,10 +168,6 @@
     <Compile Include="Common\RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
-      <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
-      <Name>Mud.Container</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4E337998-ECAB-493B-9FAA-01366EE90EFF}</Project>
       <Name>Mud.Logger</Name>
