@@ -275,6 +275,9 @@
     <Compile Include="Player\Misc\Typo.cs" />
     <Compile Include="Player\Misc\Bug.cs" />
     <Compile Include="Player\Test.cs" />
+    <Compile Include="Races\FourthWield.cs" />
+    <Compile Include="Races\DualWield.cs" />
+    <Compile Include="Races\ThirdWield.cs" />
     <Compile Include="Room\Look.cs" />
     <Compile Include="Server\TimeManager.cs" />
     <Compile Include="Table\TableValues.cs" />

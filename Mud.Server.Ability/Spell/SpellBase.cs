@@ -181,38 +181,38 @@ namespace Mud.Server.Ability.Spell
             Invoke();
         }
 
-        private static readonly Dictionary<string, string> SyllableTable = new Dictionary<string, string> // TODO: use Trie ?
+        private static readonly (string syllable, string transformed)[] SyllableTable = 
         {
-            { " ",      " "     },
-            { "ar",     "abra"      },
-            { "au",     "kada"      },
-            { "bless",  "fido"      },
-            { "blind",  "nose"      },
-            { "bur",    "mosa"      },
-            { "cu",     "judi"      },
-            { "de",     "oculo"     },
-            { "en",     "unso"      },
-            { "light",  "dies"      },
-            { "lo",     "hi"        },
-            { "mor",    "zak"       },
-            { "move",   "sido"      },
-            { "ness",   "lacri"     },
-            { "ning",   "illa"      },
-            { "per",    "duda"      },
-            { "ra",     "gru"       },
-            { "fresh",  "ima"       },
-            { "re",     "candus"    },
-            { "son",    "sabru"     },
-            { "tect",   "infra"     },
-            { "tri",    "cula"      },
-            { "ven",    "nofo"      },
-            { "a", "a" }, { "b", "b" }, { "c", "q" }, { "d", "e" },
-            { "e", "z" }, { "f", "y" }, { "g", "o" }, { "h", "p" },
-            { "i", "u" }, { "j", "y" }, { "k", "t" }, { "l", "r" },
-            { "m", "w" }, { "n", "i" }, { "o", "a" }, { "p", "s" },
-            { "q", "d" }, { "r", "f" }, { "s", "g" }, { "t", "h" },
-            { "u", "j" }, { "v", "z" }, { "w", "x" }, { "x", "n" },
-            { "y", "l" }, { "z", "k" }
+            ( " ",      " "     ),
+            ( "ar",     "abra"      ),
+            ( "au",     "kada"      ),
+            ( "bless",  "fido"      ),
+            ( "blind",  "nose"      ),
+            ( "bur",    "mosa"      ),
+            ( "cu",     "judi"      ),
+            ( "de",     "oculo"     ),
+            ( "en",     "unso"      ),
+            ( "light",  "dies"      ),
+            ( "lo",     "hi"        ),
+            ( "mor",    "zak"       ),
+            ( "move",   "sido"      ),
+            ( "ness",   "lacri"     ),
+            ( "ning",   "illa"      ),
+            ( "per",    "duda"      ),
+            ( "ra",     "gru"       ),
+            ( "fresh",  "ima"       ),
+            ( "re",     "candus"    ),
+            ( "son",    "sabru"     ),
+            ( "tect",   "infra"     ),
+            ( "tri",    "cula"      ),
+            ( "ven",    "nofo"      ),
+            ( "a", "a" ), ( "b", "b" ), ( "c", "q" ), ( "d", "e" ),
+            ( "e", "z" ), ( "f", "y" ), ( "g", "o" ), ( "h", "p" ),
+            ( "i", "u" ), ( "j", "y" ), ( "k", "t" ), ( "l", "r" ),
+            ( "m", "w" ), ( "n", "i" ), ( "o", "a" ), ( "p", "s" ),
+            ( "q", "d" ), ( "r", "f" ), ( "s", "g" ), ( "t", "h" ),
+            ( "u", "j" ), ( "v", "z" ), ( "w", "x" ), ( "x", "n" ),
+            ( "y", "l" ), ( "z", "k" )
         };
 
         // TODO: maybe a table should be constructed for each spell to avoid computing at each cast
@@ -229,10 +229,10 @@ namespace Mud.Server.Ability.Spell
                 bool found = false;
                 foreach (var syllable in SyllableTable)
                 {
-                    if (remaining.StartsWith(syllable.Key))
+                    if (remaining.StartsWith(syllable.syllable))
                     {
-                        mysticalWords.Append(syllable.Value);
-                        remaining = remaining.Substring(syllable.Key.Length);
+                        mysticalWords.Append(syllable.transformed);
+                        remaining = remaining.Substring(syllable.syllable.Length);
                         found = true;
                         break;
                     }

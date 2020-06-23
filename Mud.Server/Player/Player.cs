@@ -35,7 +35,7 @@ namespace Mud.Server.Player
 
             _delayedTells = new List<string>();
             _avatarList = new List<PlayableCharacterData>();
-            _aliases = new Dictionary<string, string>();
+            _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
             CurrentStateMachine = null;
             DeletionConfirmationNeeded = false;
@@ -53,7 +53,7 @@ namespace Mud.Server.Player
         public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
             : this(id, name)
         {
-            _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>();
+            _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             _avatarList = avatarList?.ToList() ?? new List<PlayableCharacterData>();
         }
 

@@ -47,7 +47,7 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             _quests = new List<IQuest>();
             _conditions = new int[EnumHelpers.GetCount<Conditions>()];
-            _aliases = new Dictionary<string, string>();
+            _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
             _pets = new List<INonPlayableCharacter>();
 
             ImpersonatedBy = player;

@@ -3,9 +3,6 @@ NEXT:
 unit test for each command!!!
 make IGameAction generic on TActor: IActor, same goes for IActionInput
 
-move Weapon effect from OneHit to Rom24
-use StringComparer.InvariantCultureIgnoreCase in Dictionary<string, ???> constructor
-
 make a map of calls done when a NPC is Removed/StopFollowing/...
 
 commands dynamically added to Character depending on room they are, for example
@@ -41,13 +38,9 @@ Create item from blueprint with specific level and attributes (used for SpellFlo
 skills: steal/lore
 spells: create rose, farsight, identify
 assign abilities to classes
-Dictionary to store Character known ability + keep only one LearnedAbility or replace with KnownAbilities getter based on name
 Unit tests on spell/skill to check if method argument matches AbilityTarget, check if ItemInventoryOrCharacterDefensive have both dispel message
 UnitTests CastFromItem/GetItemAbilityTarget
 UnitTests on Rom24Effects
-
-
-LONG TERM TODO:
 Shop: appraise
 specials
 assist_guard
@@ -59,7 +52,6 @@ leaving impersonation should not stop fighting -> PlayableCharacter can still di
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
-Second/Third/Fourth wield in insectoid
 alignment at creation ?
 Idea: move HP and move in ResourceKinds
 Use SafeList where List is used
