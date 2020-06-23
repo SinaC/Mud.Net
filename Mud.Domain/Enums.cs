@@ -619,6 +619,7 @@ namespace Mud.Domain
     [Flags]
     public enum BodyForms
     {
+        None         = 0x00000000,
         Edible       = 0x00000001,
         Poison       = 0x00000002,
         Magical      = 0x00000004,
@@ -656,6 +657,7 @@ namespace Mud.Domain
     [Flags]
     public enum BodyParts
     {
+        None            = 0x00000000,
         Head            = 0x00000001,
         Arms            = 0x00000002,
         Legs            = 0x00000004,

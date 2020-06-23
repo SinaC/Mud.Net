@@ -68,6 +68,8 @@ namespace Mud.Server.Character.PlayableCharacter
                 Race = RaceManager.PlayableRaces.First();
                 Wiznet.Wiznet($"Invalid race '{data.Race}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
             }
+            BaseBodyForms = Race.BodyForms;
+            BaseBodyParts = Race.BodyParts;
             Level = data.Level;
             Experience = data.Experience;
             SilverCoins = data.SilverCoins;
@@ -440,9 +442,7 @@ namespace Mud.Server.Character.PlayableCharacter
 
                     // autosac
                     if (AutoFlags.HasFlag(AutoFlags.Sacrifice) && !corpse.Content.Any()) // TODO: corpse empty only if autoloot is set?
-                    {
                         SacrificeItem(corpse);
-                    }
                 }
             }
         }

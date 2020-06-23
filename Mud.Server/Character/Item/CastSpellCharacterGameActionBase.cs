@@ -2,7 +2,9 @@
 using Mud.Server.Ability.Spell;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using System.Linq;
 
 namespace Mud.Server.Character.Item
 {
@@ -31,7 +33,7 @@ namespace Mud.Server.Character.Item
                 Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated.", spellName, item.DebugName);
                 return "Something goes wrong.";
             }
-            var spellActionInput = new SpellActionInput(abilityInfo, Actor, spellLevel, new CastFromItemOptions { Item = item }, string.Empty, CommandParameter.EmptyCommandParameter);
+            var spellActionInput = new SpellActionInput(abilityInfo, Actor, spellLevel, new CastFromItemOptions { Item = item }, null, Enumerable.Empty<ICommandParameter>().ToArray());
             string spellInstanceGuards = spellInstance.Setup(spellActionInput);
             if (spellInstanceGuards != null)
                 return spellInstanceGuards;

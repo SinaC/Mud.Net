@@ -10,6 +10,11 @@ namespace Mud.Server.GameAction
 {
     public static class CommandHelpers
     {
+        public static readonly ICommandParameter[] NoParameters = Enumerable.Empty<ICommandParameter>().ToArray();
+
+        private static readonly CommandParameter EmptyCommandParameter = new CommandParameter(string.Empty, false);
+        private static readonly CommandParameter IsAllCommandParameter = new CommandParameter(string.Empty, true);
+
         public static bool ExtractCommandAndParameters(string commandLine, out string command, out string rawParameters, out ICommandParameter[] parameters)
         {
             return ExtractCommandAndParameters(null, commandLine, out command, out rawParameters, out parameters, out _);
@@ -121,14 +126,13 @@ namespace Mud.Server.GameAction
         public static ICommandParameter ParseParameter(string parameter)
         {
             if (string.IsNullOrWhiteSpace(parameter))
-                return CommandParameter.EmptyCommandParameter;
+                return EmptyCommandParameter;
             int dotIndex = parameter.IndexOf('.');
             if (dotIndex < 0)
             {
                 bool isAll = string.Equals(parameter, "all", StringComparison.InvariantCultureIgnoreCase);
-                return
-                    isAll
-                        ? CommandParameter.IsAllCommandParameter
+                return isAll
+                        ? IsAllCommandParameter
                         : new CommandParameter(parameter, 1);
             }
             if (dotIndex == 0)

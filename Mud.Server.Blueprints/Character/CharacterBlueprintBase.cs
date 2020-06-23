@@ -114,6 +114,12 @@ namespace Mud.Server.Blueprints.Character
         [DataMember]
         public string Class { get; set; }
 
+        [DataMember]
+        public BodyForms BodyForms { get; set; }
+
+        [DataMember]
+        public BodyParts BodyParts { get; set; }
+
         // TODO CharacterAttributes
 
         // TODO: affects, ...

@@ -38,6 +38,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
             Race = RaceManager[blueprint.Race];
             if (Race == null && !string.IsNullOrWhiteSpace(blueprint.Race))
                 Log.Default.WriteLine(LogLevels.Warning, "Unknown race '{0}' for npc {1}", blueprint.Race, blueprint.Id);
+            BaseBodyForms = Blueprint.BodyForms | (Race?.BodyForms ?? BodyForms.None);
+            BaseBodyParts = blueprint.BodyParts | (Race?.BodyParts ?? BodyParts.None);
             Class = ClassManager[blueprint.Class];
             DamageNoun = blueprint.DamageNoun;
             DamageType = blueprint.DamageType;
@@ -377,34 +379,34 @@ namespace Mud.Server.Character.NonPlayableCharacter
             switch (number)
             {
                 case 0: if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
-                        UseSkill("Bash", string.Empty, CommandParameter.EmptyCommandParameter);
+                        UseSkill("Bash", null, CommandHelpers.NoParameters);
                     break;
                 case 1: if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk) && !CharacterFlags.HasFlag(CharacterFlags.Berserk))
-                        UseSkill("Berserk", string.Empty, CommandParameter.EmptyCommandParameter);
+                        UseSkill("Berserk", null, CommandHelpers.NoParameters);
                     break;
                 case 2: if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)
                         || ActFlags.HasFlag(ActFlags.Warrior) // TODO: check if weapon skill is not hand to hand
                         || ActFlags.HasFlag(ActFlags.Thief))
-                        UseSkill("Disarm", string.Empty, CommandParameter.EmptyCommandParameter);
+                        UseSkill("Disarm", null, CommandHelpers.NoParameters);
                     break;
                 case 3: if (OffensiveFlags.HasFlag(OffensiveFlags.Kick))
-                        UseSkill("Kick", string.Empty, CommandParameter.EmptyCommandParameter);
+                        UseSkill("Kick", null, CommandHelpers.NoParameters);
                     break;
                 case 4: if (OffensiveFlags.HasFlag(OffensiveFlags.DirtKick))
-                        UseSkill("Dirt Kicking", string.Empty, CommandParameter.EmptyCommandParameter);
+                        UseSkill("Dirt Kicking", null, CommandHelpers.NoParameters);
                     break;
                 case 5: if (OffensiveFlags.HasFlag(OffensiveFlags.Tail))
                         ; // TODO: see raceabilities.C:639
                     break;
                 case 6: if (OffensiveFlags.HasFlag(OffensiveFlags.Trip))
-                        UseSkill("Trip", string.Empty, CommandParameter.EmptyCommandParameter);
+                        UseSkill("Trip", null, CommandHelpers.NoParameters);
                     break;
                 case 7: if (OffensiveFlags.HasFlag(OffensiveFlags.Crush))
                         ; // TODO: see raceabilities.C:525
                     break;
                 case 8:
                     if (OffensiveFlags.HasFlag(OffensiveFlags.Backstab))
-                        UseSkill("Backstab", string.Empty, CommandParameter.EmptyCommandParameter); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
+                        UseSkill("Backstab", null, CommandHelpers.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
                     break;
             }
         }

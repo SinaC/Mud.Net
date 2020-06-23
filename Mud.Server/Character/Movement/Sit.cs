@@ -25,8 +25,10 @@ namespace Mud.Server.Character.Movement
 
             if (Actor.Position == Positions.Fighting)
                 return "Maybe you should finish fighting first?";
-            if (Actor.Position == Positions.Standing)
-                return "You are already sitting.";
+            if (Actor.Position == Positions.Sitting)
+                return "You are already sitting down.";
+            if (Actor.Position == Positions.Sleeping && Actor.CharacterFlags.HasFlag(CharacterFlags.Sleep))
+                return "You can't wake up!";
 
             // Search valid furniture if any
             if (actionInput.Parameters.Length > 0)
