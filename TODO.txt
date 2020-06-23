@@ -1,4 +1,6 @@
 NEXT:
+    Add ctor to every manager with other manager as parameter to easy unit tests
+    Remove DependencyContainer.GetInstance
 
 unit test for each command!!!
 make IGameAction generic on TActor: IActor, same goes for IActionInput
@@ -8,9 +10,6 @@ make a map of calls done when a NPC is Removed/StopFollowing/...
 commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
-
-redo Mud.Server.Tests.Abilities.AcidBlastTests, CastTests
-
 
 module/plugin to enable load on demand of skills/spells/commands/...
 
@@ -22,7 +21,6 @@ commands: auction, channels, clantalk, compare, report, read, socials, whois, be
 admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
 	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
 PK
-Add ctor to every manager with other manager as parameter to easy unit tests
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead
 Move CanSee in IEntity
