@@ -62,6 +62,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             DependencyContainer.Current.RegisterInstance(randomManagerMock.Object);
             DependencyContainer.Current.RegisterInstance(wiznetMock.Object);
+            DependencyContainer.Current.Register<AcidBlast>();
             var abilityInstance = DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
 
             Assert.IsNotNull(abilityInstance);

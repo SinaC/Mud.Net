@@ -93,8 +93,8 @@
     <Reference Include="Moq, Version=4.14.0.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.14.3\lib\net45\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="SimpleInjector, Version=4.10.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.10.2\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="SimpleInjector, Version=5.0.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.5.0.1\lib\net461\SimpleInjector.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -139,19 +139,27 @@
     <Compile Include="CharacterDeserializationTests.cs" />
     <Compile Include="ItemDeserializationTests.cs" />
     <Compile Include="Mocking\AbilityManagerMock.cs" />
+    <Compile Include="Mocking\AdminManagerMock.cs" />
+    <Compile Include="Mocking\AdminRepositoryMock.cs" />
     <Compile Include="Mocking\AreaManagerMock.cs" />
+    <Compile Include="Mocking\AuraManagerMock.cs" />
     <Compile Include="Mocking\CharacterManagerMock.cs" />
     <Compile Include="Mocking\ClassManagerMock.cs" />
     <Compile Include="Mocking\ClientMock.cs" />
     <Compile Include="CommandParsingTests.cs" />
     <Compile Include="Mocking\ItemManagerMock.cs" />
+    <Compile Include="Mocking\LoginRepositoryMock.cs" />
     <Compile Include="Mocking\LogMock.cs" />
     <Compile Include="Mocking\PlayerManagerMock.cs" />
+    <Compile Include="Mocking\PlayerRepositoryMock.cs" />
     <Compile Include="Mocking\QuestManagerMock.cs" />
     <Compile Include="Mocking\RaceManagerMock.cs" />
     <Compile Include="Mocking\RoomManagerMock.cs" />
+    <Compile Include="Mocking\ServerAdminCommandMock.cs" />
     <Compile Include="Mocking\ServerMock.cs" />
+    <Compile Include="Mocking\ServerPlayerCommandMock.cs" />
     <Compile Include="Mocking\SettingsMock.cs" />
+    <Compile Include="Mocking\TableValuesMock.cs" />
     <Compile Include="Mocking\TimeHandlerMock.cs" />
     <Compile Include="Mocking\WorldMock.cs" />
     <Compile Include="NPCTests.cs" />
@@ -186,6 +194,10 @@
     <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
       <Name>Mud.Network</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj">
+      <Project>{2C853490-7908-4E36-B906-72EBA82B4236}</Project>
+      <Name>Mud.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj">
       <Project>{32f89f23-5d70-4e01-93a1-39ef67edbac3}</Project>
