@@ -30,10 +30,9 @@ namespace Mud.Server.Tests.Abilities
             DependencyContainer.SetManualContainer(_originalContainer);
         }
 
-        protected (string rawParameters, ICommandParameter[] parameters) BuildParameters(string parameters)
+        protected ICommandParameter[] BuildParameters(string parameters)
         {
-            var commandParameters = CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter).ToArray();
-            return (parameters, commandParameters);
+            return CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter).ToArray();
         }
 
         protected IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
@@ -64,8 +63,8 @@ namespace Mud.Server.Tests.Abilities
                     break;
             }
 
-            CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters);
-            return new ActionInput(gameActionInfo, actor, commandLine, command, rawParameters, parameters);
+            CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var parameters);
+            return new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
         }
 
         protected IAbilityLearned BuildAbilityLearned(string name)

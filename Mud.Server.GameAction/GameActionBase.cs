@@ -10,6 +10,7 @@ namespace Mud.Server.GameAction
         where TGameActionInfo: class, IGameActionInfo
     {
         protected TGameActionInfo GameActionInfo { get; private set; }
+        protected string Command { get; private set; }
 
         public TActor Actor { get; private set; }
 
@@ -18,6 +19,7 @@ namespace Mud.Server.GameAction
         public virtual string Guards(IActionInput actionInput)
         {
             GameActionInfo = actionInput.GameActionInfo as TGameActionInfo;
+            Command = actionInput.Command;
             if (GameActionInfo == null)
                 return $"Internal error: GameActionInfo is null or not of type {typeof(TGameActionInfo).Name}. GameActionInfo type is {actionInput.GameActionInfo.GetType().Name}.";
             Actor = actionInput.Actor as TActor;
@@ -42,7 +44,7 @@ namespace Mud.Server.GameAction
 
         protected string BuildCommandSyntax()
         {
-            return BuildCommandSyntax(GameActionInfo.Name, GameActionInfo.Syntax, false).ToString();
+            return BuildCommandSyntax(Command, GameActionInfo.Syntax, false).ToString();
         }
     }
 }

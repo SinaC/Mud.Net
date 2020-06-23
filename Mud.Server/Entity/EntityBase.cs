@@ -53,7 +53,7 @@ namespace Mud.Server.Entity
         public override bool ProcessInput(string input)
         {
             // Extract command and parameters
-            bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(input, out var command, out var rawParameters, out var parameters);
+            bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(input, out var command, out var parameters);
             if (!extractedSuccessfully)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -62,7 +62,7 @@ namespace Mud.Server.Entity
             }
 
             Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DebugName, input);
-            return ExecuteCommand(command, rawParameters, parameters);
+            return ExecuteCommand(input, command, parameters);
         }
 
         public override void Send(string message, bool addTrailingNewLine)

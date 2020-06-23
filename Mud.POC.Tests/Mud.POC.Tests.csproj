@@ -67,52 +67,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abilities2\AbilityManagerTests.cs" />
-    <Compile Include="Abilities2\BerserkTests.cs" />
-    <Compile Include="Abilities2\ColourSprayTests.cs" />
-    <Compile Include="Abilities2\CastTests.cs" />
-    <Compile Include="Abilities2\AcidBlastTests.cs" />
-    <Compile Include="Abilities2\EnchantArmorTests.cs" />
-    <Compile Include="Abilities2\ItemCastSpellSkillBaseTests.cs" />
-    <Compile Include="Abilities2\ItemInventorySpellBaseTests.cs" />
-    <Compile Include="Abilities2\DefensiveSpellBaseSpells.cs" />
-    <Compile Include="Abilities2\ScrollTests.cs" />
-    <Compile Include="Abilities2\SpellBaseTests.cs" />
-    <Compile Include="Abilities2\StavesTests.cs" />
-    <Compile Include="Abilities2\TestBase.cs" />
-    <Compile Include="Abilities2\OptionalItemInventorySpellBaseTests.cs" />
-    <Compile Include="Abilities2\OffensiveSpellBaseSpells.cs" />
-    <Compile Include="Abilities2\ItemOrDefensiveSpellBaseTests.cs" />
-    <Compile Include="Abilities2\ItemOrOffensiveSpellBaseTests.cs" />
-    <Compile Include="Abilities2\VentriloquateTests.cs" />
-    <Compile Include="Abilities2\WandTests.cs" />
-    <Compile Include="Abilities\AbilityCheckImproveTests.cs" />
-    <Compile Include="Abilities\AbilityManagerTests.cs" />
     <Compile Include="AssertExtensions.cs" />
-    <Compile Include="Followers\AddFollowerTests.cs" />
-    <Compile Include="Followers\DoFollowTests.cs" />
-    <Compile Include="Followers\DoNofollowTests.cs" />
-    <Compile Include="Followers\FollowerTestBase.cs" />
-    <Compile Include="Followers\OnRemovedTests.cs" />
-    <Compile Include="Followers\RemoveFollowerTests.cs" />
-    <Compile Include="Groups\DoGroupTests.cs" />
-    <Compile Include="Groups\GroupTestBase.cs" />
-    <Compile Include="Groups\GroupTests.cs" />
-    <Compile Include="Abilities\SkillCommandTest.cs" />
-    <Compile Include="Abilities\SpellTargetTests.cs" />
-    <Compile Include="Abilities\AbilityTestBase.cs" />
-    <Compile Include="Abilities\SkillUseTests.cs" />
-    <Compile Include="Abilities\SpellCastTests.cs" />
-    <Compile Include="Groups\DoLeaveTests.cs" />
-    <Compile Include="Groups\OnRemovedTests.cs" />
-    <Compile Include="Pets\AddPetTests.cs" />
-    <Compile Include="Pets\OnRemovedTests.cs" />
-    <Compile Include="Pets\OrderPetsTests.cs" />
-    <Compile Include="Pets\PetTestBase.cs" />
-    <Compile Include="Pets\RemovePetTests.cs" />
-    <Compile Include="Affects\RoomAffectTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Affects\ItemWeaponAffectTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

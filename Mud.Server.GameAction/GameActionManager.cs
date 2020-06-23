@@ -34,7 +34,7 @@ namespace Mud.Server.GameAction
 
         public IEnumerable<IGameActionInfo> GameActions => _gameActionInfos.Values;
 
-        public string Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
+        public string Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, params ICommandParameter[] parameters)
             where TActor: IActor
         {
             if (DependencyContainer.Current.GetRegistration(gameActionInfo.CommandExecutionType, false) == null)
@@ -48,8 +48,7 @@ namespace Mud.Server.GameAction
                 Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be instantiated or is not {1}.", gameActionInfo.Name, typeof(IGameAction).FullName);
                 return "Something goes wrong.";
             }
-            string commandLine = command + " " + rawParameters;
-            IActionInput actionInput = new ActionInput(gameActionInfo, actor, commandLine, command, rawParameters, parameters);
+            IActionInput actionInput = new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
             string guardsResult = gameAction.Guards(actionInput);
             if (guardsResult != null)
                 return guardsResult;
@@ -57,7 +56,7 @@ namespace Mud.Server.GameAction
             return null;
         }
 
-        public string Execute<TGameAction, TActor>(TActor actor, string rawParameters)
+        public string Execute<TGameAction, TActor>(TActor actor, string commandLine)
             where TActor : IActor
         {
             Type gameActionType = typeof(TGameAction);
@@ -66,10 +65,11 @@ namespace Mud.Server.GameAction
                 Log.Default.WriteLine(LogLevels.Error, "GameAction type {0} not found in GameActionManager.", gameActionType.FullName);
                 return "Something goes wrong.";
             }
-            var parameters = rawParameters == null
+            string command = gameActionInfo.Name;
+            var parameters = commandLine == null
                 ? Enumerable.Empty<ICommandParameter>().ToArray()
-                : CommandHelpers.SplitParameters(rawParameters).Select(CommandHelpers.ParseParameter).ToArray();
-            return Execute(gameActionInfo, actor, gameActionInfo.Name, rawParameters, parameters);
+                : CommandHelpers.SplitParameters(commandLine).Select(CommandHelpers.ParseParameter).ToArray();
+            return Execute(gameActionInfo, actor, commandLine, command, parameters);
         }
 
         public IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()

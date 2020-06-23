@@ -72,7 +72,7 @@ namespace Mud.Server.Tests.Abilities
 
             protected override string SetTargets(ISkillActionInput skillActionInput)
             {
-                return SetupSpell(SpellName, SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
+                return SetupSpell(SpellName, SpellLevel, skillActionInput.Parameters);
             }
         }
     }

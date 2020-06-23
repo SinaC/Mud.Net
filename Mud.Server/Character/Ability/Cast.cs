@@ -4,6 +4,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
+using System.Linq;
 
 namespace Mud.Server.Character.Ability
 {
@@ -42,8 +43,8 @@ namespace Mud.Server.Character.Ability
                 return "Something goes wrong.";
             }
 
-            var newParameters = CommandHelpers.SkipParameters(actionInput.Parameters, 1);
-            var spellActionInput = new SpellActionInput(abilityInfo, Actor, Actor.Level, null, newParameters.rawParameters, newParameters.parameters);
+            var newParameters = actionInput.Parameters.Skip(1).ToArray();
+            var spellActionInput = new SpellActionInput(abilityInfo, Actor, Actor.Level, null, newParameters);
             string spellInstanceGuards = SpellInstance.Setup(spellActionInput);
             return spellInstanceGuards;
         }

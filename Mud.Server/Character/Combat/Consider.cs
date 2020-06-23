@@ -26,7 +26,7 @@ namespace Mud.Server.Character.Combat
             if (Whom == null)
                 return StringHelpers.CharacterNotFound;
 
-            if (Whom.IsSafe(Actor))
+            if (Whom.IsSafe(Actor) != null)
                 return "Don't even think about it.";
 
             if (Whom == Actor)

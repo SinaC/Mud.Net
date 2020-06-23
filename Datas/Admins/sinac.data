@@ -21,11 +21,11 @@
       <Sex>1</Sex>
       <Size>2</Size>
       <HitPoints>13800</HitPoints>
-      <MovePoints>13800</MovePoints>
+      <MovePoints>13735</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>7000</Value>
+          <Value>7055</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -51,7 +51,7 @@
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>65</ItemFlags>
             <Auras />
-            <TimeLeft>29992</TimeLeft>
+            <TimeLeft>29987</TimeLeft>
           </Item>
         </EquippedItemData>
         <EquippedItemData>
@@ -125,31 +125,65 @@
           </Item>
         </EquippedItemData>
         <EquippedItemData>
-          <Slot>13</Slot>
-          <Item xsi:type="ItemWeaponData">
-            <ItemId>3005</ItemId>
-            <Level>42</Level>
+          <Slot>14</Slot>
+          <Item xsi:type="ItemWandData">
+            <ItemId>106</ItemId>
+            <Level>3</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>258</ItemFlags>
-            <Auras>
-              <AuraData>
-                <AbilityName>Test</AbilityName>
-                <Level>1</Level>
-                <PulseLeft>1276</PulseLeft>
-                <AuraFlags>2</AuraFlags>
-                <Affects>
-                  <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
-                    <Operator>0</Operator>
-                    <Modifier>479</Modifier>
-                  </AffectDataBase>
-                </Affects>
-              </AuraData>
-            </Auras>
-            <WeaponFlags>48</WeaponFlags>
+            <ItemFlags>0</ItemFlags>
+            <Auras />
+            <MaxChargeCount>1</MaxChargeCount>
+            <CurrentChargeCount>1</CurrentChargeCount>
+            <AlreadyRecharged>false</AlreadyRecharged>
           </Item>
         </EquippedItemData>
       </Equipments>
       <Inventory>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3005</ItemId>
+          <Level>42</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>258</ItemFlags>
+          <Auras>
+            <AuraData>
+              <AbilityName>Test</AbilityName>
+              <Level>1</Level>
+              <PulseLeft>220</PulseLeft>
+              <AuraFlags>2</AuraFlags>
+              <Affects>
+                <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
+                  <Operator>0</Operator>
+                  <Modifier>479</Modifier>
+                </AffectDataBase>
+              </Affects>
+            </AuraData>
+          </Auras>
+          <WeaponFlags>48</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
         <ItemData xsi:type="ItemFoodData">
           <ItemId>3014</ItemId>
           <Level>0</Level>
@@ -179,37 +213,13 @@
           <FullHours>8</FullHours>
           <HungerHours>6</HungerHours>
           <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
         </ItemData>
       </Inventory>
       <Auras>
         <AuraData>
           <AbilityName>Giant Strength</AbilityName>
-          <Level>42</Level>
-          <PulseLeft>10916</PulseLeft>
+          <Level>1</Level>
+          <PulseLeft>9860</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -221,8 +231,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Armor</AbilityName>
-          <Level>43</Level>
-          <PulseLeft>345496</PulseLeft>
+          <Level>1</Level>
+          <PulseLeft>344440</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -234,8 +244,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Sanctuary</AbilityName>
-          <Level>44</Level>
-          <PulseLeft>1588</PulseLeft>
+          <Level>1</Level>
+          <PulseLeft>532</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -246,8 +256,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Shield</AbilityName>
-          <Level>43</Level>
-          <PulseLeft>12876</PulseLeft>
+          <Level>1</Level>
+          <PulseLeft>11820</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -259,8 +269,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Stone Skin</AbilityName>
-          <Level>45</Level>
-          <PulseLeft>11024</PulseLeft>
+          <Level>1</Level>
+          <PulseLeft>9968</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -335,14 +345,41 @@
       </Attributes>
       <CreationTime>2020-06-14T19:17:42.1765039+02:00</CreationTime>
       <RoomId>3001</RoomId>
-      <SilverCoins>695</SilverCoins>
+      <SilverCoins>697</SilverCoins>
       <GoldCoins>10</GoldCoins>
       <Experience>113000</Experience>
       <Alignment>-4</Alignment>
-      <Trains>38</Trains>
-      <Practices>84</Practices>
+      <Trains>34</Trains>
+      <Practices>76</Practices>
       <AutoFlags>63</AutoFlags>
-      <CurrentQuests />
+      <CurrentQuests>
+        <CurrentQuestData>
+          <QuestId>1</QuestId>
+          <StartTime>2020-06-23T21:12:53.326539+02:00</StartTime>
+          <PulseLeft>0</PulseLeft>
+          <CompletionTime xsi:nil="true" />
+          <GiverId>10</GiverId>
+          <GiverRoomId>3025</GiverRoomId>
+          <Objectives>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>1</ObjectiveId>
+              <Count>0</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>2</ObjectiveId>
+              <Count>0</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>0</ObjectiveId>
+              <Count>2</Count>
+            </CurrentQuestObjectiveData>
+            <CurrentQuestObjectiveData>
+              <ObjectiveId>3</ObjectiveId>
+              <Count>1</Count>
+            </CurrentQuestObjectiveData>
+          </Objectives>
+        </CurrentQuestData>
+      </CurrentQuests>
       <LearnedAbilities>
         <LearnedAbilityData>
           <Name>Envenom</Name>
@@ -449,7 +486,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -467,7 +504,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -485,7 +522,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -638,7 +675,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>0</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -1594,15 +1631,15 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>36</Value>
+          <Value>26</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>38</Value>
+          <Value>33</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>44</Value>
+          <Value>39</Value>
         </PairDataOfInt32Int32>
       </Conditions>
       <Aliases />
@@ -1615,7 +1652,7 @@
           <Level>40</Level>
           <Sex>0</Sex>
           <Size>0</Size>
-          <HitPoints>652</HitPoints>
+          <HitPoints>698</HitPoints>
           <MovePoints>1000</MovePoints>
           <CurrentResources>
             <PairDataOfInt32Int32>

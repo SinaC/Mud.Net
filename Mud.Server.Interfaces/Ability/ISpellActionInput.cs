@@ -8,7 +8,6 @@ namespace Mud.Server.Interfaces.Ability
     public interface ISpellActionInput
     {
         ICharacter Caster { get; }
-        string RawParameters { get; }
         ICommandParameter[] Parameters { get; }
         IAbilityInfo AbilityInfo { get; }
         int Level { get; }

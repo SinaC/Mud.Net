@@ -59,32 +59,32 @@ namespace Mud.Server.Rom24.Skills
                 return "This scroll is too complex for you to comprehend.";
 
             // scroll found, remove it from parameters
-            var parameters = CommandHelpers.SkipParameters(skillActionInput.Parameters, 1);
+            var newParameters = skillActionInput.Parameters.Skip(1).ToArray();
 
             // perform setup on each spell
             StringBuilder sb = new StringBuilder();
             string result;
             if (!string.IsNullOrWhiteSpace(Item.FirstSpellName))
             {
-                result = SetupSpell(Item.FirstSpellName, Item.Level, parameters.rawParameters, parameters.parameters);
+                result = SetupSpell(Item.FirstSpellName, Item.Level, newParameters);
                 if (result != null)
                     sb.AppendFormatAndLineIfNotEmpty(result);
             }
             if (!string.IsNullOrWhiteSpace(Item.SecondSpellName))
             {
-                result = SetupSpell(Item.SecondSpellName, Item.Level, parameters.rawParameters, parameters.parameters);
+                result = SetupSpell(Item.SecondSpellName, Item.Level, newParameters);
                 if (result != null)
                     sb.AppendFormatAndLineIfNotEmpty(result);
             }
             if (!string.IsNullOrWhiteSpace(Item.ThirdSpellName))
             {
-                result = SetupSpell(Item.ThirdSpellName, Item.Level, parameters.rawParameters, parameters.parameters);
+                result = SetupSpell(Item.ThirdSpellName, Item.Level, newParameters);
                 if (result != null)
                     sb.AppendFormatAndLineIfNotEmpty(result);
             }
             if (!string.IsNullOrWhiteSpace(Item.FourthSpellName))
             {
-                result = SetupSpell(Item.FourthSpellName, Item.Level, parameters.rawParameters, parameters.parameters);
+                result = SetupSpell(Item.FourthSpellName, Item.Level, newParameters);
                 if (result != null)
                     sb.AppendFormatAndLineIfNotEmpty(result);
             }

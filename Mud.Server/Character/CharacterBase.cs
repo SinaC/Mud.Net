@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using Microsoft.Win32.SafeHandles;
 using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
@@ -1048,8 +1049,12 @@ namespace Mud.Server.Character
             {
                 // Certain attacks are forbidden.
                 // Most other attacks are returned.
-                if (IsSafe(source))
+                string safeResult = IsSafe(source);
+                if (safeResult != null)
+                {
+                    source.Send(safeResult);
                     return DamageResults.Safe;
+                }
                 // TODO: check_killer
                 if (Position > Positions.Stunned)
                 {
@@ -1484,55 +1489,40 @@ namespace Mud.Server.Character
             return false;
         }
 
-        public bool IsSafe(ICharacter aggressor)
+        public string IsSafe(ICharacter aggressor)
         {
             ICharacter victim = this;
             if (!victim.IsValid || victim.Room == null || !aggressor.IsValid || aggressor.Room == null)
-                return true;
+                return "Invalid target!";
             if (victim.Fighting == aggressor || victim == aggressor)
-                return false;
+                return null;
             if (aggressor is IPlayableCharacter pcCaster && pcCaster.IsImmortal)
-                return false;
+                return null;
             // Killing npc
             if (victim is INonPlayableCharacter npcVictim)
             {
                 if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
-                {
-                    aggressor.Send("Not in the room.");
-                    return true;
-                }
+                    return "Not in this room.";
 
                 if (npcVictim.Blueprint is CharacterShopBlueprint)
-                {
-                    aggressor.Send("The shopkeeper wouldn't like that.");
-                    return true;
-                }
+                    return "The shopkeeper wouldn't like that.";
 
                 if (npcVictim.ActFlags.HasFlag(ActFlags.Train)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Gain)
                     || npcVictim.ActFlags.HasFlag(ActFlags.Practice)
                     || npcVictim.ActFlags.HasFlag(ActFlags.IsHealer)
                     || npcVictim.Blueprint is CharacterQuestorBlueprint)
-                {
-                    aggressor.Send("I don't think Mota would approve.");
-                    return true;
-                }
+                    return "I don't think Mota would approve.";
 
                 // Player doing the killing
                 if (aggressor is IPlayableCharacter)
                 {
                     // no pets
                     if (npcVictim.ActFlags.HasFlag(ActFlags.Pet))
-                    {
-                        aggressor.Act(ActOptions.ToCharacter, "But {0} looks so cute and cuddly...", victim);
-                        return true;
-                    }
+                        return aggressor.ActPhrase("But {0} looks so cute and cuddly...", victim);
                     // no charmed creatures unless owner
                     if (victim.CharacterFlags.HasFlag(CharacterFlags.Charm) && aggressor != npcVictim.Master)
-                    {
-                        aggressor.Send("You don't own that monster.");
-                        return true;
-                    }
+                        return "You don't own that monster.";
                 }
             }
             // Killing player
@@ -1543,16 +1533,10 @@ namespace Mud.Server.Character
                 {
                     // safe room
                     if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
-                    {
-                        aggressor.Send("Not in the room.");
-                        return true;
-                    }
+                        return "Not in this room.";
                     // charmed mobs and pets cannot attack players while owned
                     if (aggressor.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcAggressor.Master != null && npcAggressor.Master.Fighting != victim)
-                    {
-                        aggressor.Send("Players are your friends!");
-                        return true;
-                    }
+                        return "Players are your friends!";
                 }
                 // Player doing the killing
                 else
@@ -1573,13 +1557,10 @@ namespace Mud.Server.Character
                     //}
 
                     if (Level > victim.Level + 8)
-                    {
-                        aggressor.Send("Pick on someone your own size.");
-                        return true;
-                    }
+                        return "Pick on someone your own size.";
                 }
             }
-            return false;
+            return null;
         }
 
         public bool Flee()

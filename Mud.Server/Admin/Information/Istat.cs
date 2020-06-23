@@ -85,7 +85,7 @@ namespace Mud.Server.Admin.Information
                 sb.AppendFormatLine("Bash: {0} Pierce: {1} Slash: {2} Exotic: {3}", armor.Bash, armor.Pierce, armor.Slash, armor.Exotic);
             //
             if (What is IItemCastSpellsCharge castSpellsCharge)
-                sb.AppendFormatLine("Level: {0} Current: {1} Max: {2} Spell: {3} Already recharge: {4}", castSpellsCharge.SpellLevel, castSpellsCharge.CurrentChargeCount, castSpellsCharge.MaxChargeCount, castSpellsCharge.SpellName ?? "-", castSpellsCharge.AlreadyRecharged);
+                sb.AppendFormatLine("Level: {0} Current: {1} Max: {2} Spell: {3} Already recharged: {4}", castSpellsCharge.SpellLevel, castSpellsCharge.CurrentChargeCount, castSpellsCharge.MaxChargeCount, castSpellsCharge.SpellName ?? "-", castSpellsCharge.AlreadyRecharged);
             //
             if (What is IItemCastSpellsNoCharge castSpellsNoCharge)
                 sb.AppendFormatLine("Level: {0} Spell1: {1} Spell2: {2} Spell3: {3} Spell4: {4}", castSpellsNoCharge.SpellLevel, castSpellsNoCharge.FirstSpellName ?? "-", castSpellsNoCharge.SecondSpellName ?? "-", castSpellsNoCharge.ThirdSpellName ?? "-", castSpellsNoCharge.FourthSpellName ?? "-");

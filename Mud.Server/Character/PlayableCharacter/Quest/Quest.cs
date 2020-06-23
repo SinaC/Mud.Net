@@ -36,7 +36,7 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
 
         public Actions Action { get; protected set; }
         public IQuest What { get; protected set; }
-        public (string rawParameters, ICommandParameter[] parameters) Parameters { get; protected set; }
+        public string CommandLine { get; protected set; }
 
         public Quest(IGameActionManager gameActionManager)
         {
@@ -72,7 +72,7 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
             // quest abandon id
             if ("abandon".StartsWith(actionInput.Parameters[0].Value))
             {
-                Parameters = CommandHelpers.SkipParameters(actionInput.Parameters, 1);
+                CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
                 Action = Actions.Abandon;
                 return null;
             }
@@ -80,7 +80,7 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
             // quest complete id
             if ("complete".StartsWith(actionInput.Parameters[0].Value))
             {
-                Parameters = CommandHelpers.SkipParameters(actionInput.Parameters, 1);
+                CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
                 Action = Actions.Complete;
                 return null;
             }
@@ -88,7 +88,7 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
             // quest get all|title
             if ("get".StartsWith(actionInput.Parameters[0].Value))
             {
-                Parameters = CommandHelpers.SkipParameters(actionInput.Parameters, 1);
+                CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
                 Action = Actions.Get;
                 return null;
             }
@@ -96,7 +96,7 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
             // quest list
             if ("list".StartsWith(actionInput.Parameters[0].Value))
             {
-                Parameters = CommandHelpers.SkipParameters(actionInput.Parameters, 1);
+                CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
                 Action = Actions.List;
                 return null;
             }
@@ -135,28 +135,28 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
                     }
                 case Actions.Abandon:
                     {
-                        string executionResults = GameActionManager.Execute<QuestAbandon, IPlayableCharacter>(Actor, Parameters.rawParameters);
+                        string executionResults = GameActionManager.Execute<QuestAbandon, IPlayableCharacter>(Actor, CommandLine);
                         if (executionResults != null)
                             Actor.Send(executionResults);
                         return;
                     }
                 case Actions.Complete:
                     {
-                        string executionResults = GameActionManager.Execute<QuestComplete, IPlayableCharacter>(Actor, Parameters.rawParameters);
+                        string executionResults = GameActionManager.Execute<QuestComplete, IPlayableCharacter>(Actor, CommandLine);
                         if (executionResults != null)
                             Actor.Send(executionResults);
                         return;
                     }
                 case Actions.Get:
                     {
-                        string executionResults = GameActionManager.Execute<QuestGet, IPlayableCharacter>(Actor, Parameters.rawParameters);
+                        string executionResults = GameActionManager.Execute<QuestGet, IPlayableCharacter>(Actor, CommandLine);
                         if (executionResults != null)
                             Actor.Send(executionResults);
                         return;
                     }
                 case Actions.List:
                     {
-                        string executionResults = GameActionManager.Execute<QuestList, IPlayableCharacter>(Actor, Parameters.rawParameters);
+                        string executionResults = GameActionManager.Execute<QuestList, IPlayableCharacter>(Actor, CommandLine);
                         if (executionResults != null)
                             Actor.Send(executionResults);
                         return;

@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -74,9 +75,9 @@ namespace Mud.Server.Rom24.Spells
 
         protected override string SetTargets(ISpellActionInput spellActionInput)
         {
-            if (string.IsNullOrWhiteSpace(spellActionInput.RawParameters))
+            ItemName = CommandHelpers.JoinParameters(spellActionInput.Parameters);
+            if (string.IsNullOrWhiteSpace(ItemName))
                 return "Locate what?";
-            ItemName = spellActionInput.RawParameters;
             return null;
         }
     }

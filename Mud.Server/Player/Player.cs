@@ -119,7 +119,7 @@ namespace Mud.Server.Player
                         ? Aliases
                         : Impersonating?.Aliases,
                     input,
-                    out string command, out string rawParameters, out ICommandParameter[] parameters, out bool forceOutOfGame);
+                    out string command, out ICommandParameter[] parameters, out bool forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
                     Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -128,7 +128,7 @@ namespace Mud.Server.Player
                 }
 
                 // Choose correct context to execute command and execute it (depends on Impersonating, Incarnting, force out of game, ...)
-                return ContextWiseExecuteCommand(input, command, rawParameters, parameters, forceOutOfGame);
+                return ContextWiseExecuteCommand(input, command, parameters, forceOutOfGame);
             }
         }
 
@@ -371,19 +371,19 @@ namespace Mud.Server.Player
 
         #endregion
 
-        protected virtual bool ContextWiseExecuteCommand(string commandLine, string command, string rawParameters, ICommandParameter[] parameters, bool forceOutOfGame)
+        protected virtual bool ContextWiseExecuteCommand(string commandLine, string command, ICommandParameter[] parameters, bool forceOutOfGame)
         {
             // Execute command
             bool executedSuccessfully;
             if (forceOutOfGame || Impersonating == null)
             {
                 Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
-                executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
+                executedSuccessfully = ExecuteCommand(commandLine, command, parameters);
             }
             else if (Impersonating != null) // impersonating
             {
                 Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
-                executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
+                executedSuccessfully = Impersonating.ExecuteCommand(commandLine, command, parameters);
             }
             else
             {

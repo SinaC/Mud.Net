@@ -1,6 +1,4 @@
 NEXT:
-    Add ctor to every manager with other manager as parameter to easy unit tests
-    Remove DependencyContainer.GetInstance
 
 unit test for each command!!!
 make IGameAction generic on TActor: IActor, same goes for IActionInput

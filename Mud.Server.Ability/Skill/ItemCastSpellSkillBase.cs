@@ -34,7 +34,7 @@ namespace Mud.Server.Ability.Skill
                 spell.Execute();
         }
 
-        protected string SetupSpell(string spellName, int spellLevel, string rawParameters, params ICommandParameter[] parameters)
+        protected string SetupSpell(string spellName, int spellLevel, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(spellName))
                 return null; // not really an error but don't continue
@@ -50,7 +50,7 @@ namespace Mud.Server.Ability.Skill
                 Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated.", spellName, Item.DebugName);
                 return "Something goes wrong.";
             }
-            var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item }, rawParameters, parameters);
+            var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item }, parameters);
             string spellInstanceGuards = spellInstance.Setup(spellActionInput);
             if (spellInstanceGuards != null)
                 return spellInstanceGuards;
@@ -58,7 +58,7 @@ namespace Mud.Server.Ability.Skill
             return null;
         }
 
-        protected string SetupSpellForEachAvailableTargets(string spellName, int spellLevel, string rawParameters, params ICommandParameter[] parameters)
+        protected string SetupSpellForEachAvailableTargets(string spellName, int spellLevel, params ICommandParameter[] parameters)
         {
             if (string.IsNullOrWhiteSpace(spellName))
                 return null; // not really an error but don't continue
@@ -82,7 +82,7 @@ namespace Mud.Server.Ability.Skill
                 var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
                 if (spellInstance != null)
                 {
-                    var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = predefinedTarget }, rawParameters, parameters);
+                    var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = predefinedTarget }, parameters);
                     string spellInstanceGuards = spellInstance.Setup(spellActionInput);
                     if (spellInstanceGuards != null)
                         User.Send(spellInstanceGuards); // not usual way Setup/Guards
@@ -98,7 +98,7 @@ namespace Mud.Server.Ability.Skill
             return "Something goes wrong";
         }
 
-        protected string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, out IEntity target, string rawParameters, params ICommandParameter[] parameters)
+        protected string SetupSpellAndPredefinedTarget(string spellName, int spellLevel, out IEntity target, params ICommandParameter[] parameters)
         {
             target = null;
             if (string.IsNullOrWhiteSpace(spellName))
@@ -121,14 +121,14 @@ namespace Mud.Server.Ability.Skill
             // no target specified
             if (parameters.Length == 0)
             {
-                spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
+                spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, parameters);
             }
             else
             {
                 var getTargetedAction = spellInstance as ITargetedAction;
                 if (getTargetedAction == null)
                 {
-                    spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, rawParameters, parameters);
+                    spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, parameters);
                 }
                 else
                 {
@@ -144,7 +144,7 @@ namespace Mud.Server.Ability.Skill
                     if (target == null)
                         return "You can't find it.";
 
-                    spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = target }, rawParameters, parameters);
+                    spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = target }, parameters);
                 }
             }
             string spellInstanceGuards = spellInstance.Setup(spellActionInput);

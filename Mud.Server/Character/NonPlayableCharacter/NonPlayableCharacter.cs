@@ -377,34 +377,34 @@ namespace Mud.Server.Character.NonPlayableCharacter
             switch (number)
             {
                 case 0: if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
-                        UseSkill("Bash", null, CommandHelpers.NoParameters);
+                        UseSkill("Bash", CommandHelpers.NoParameters);
                     break;
                 case 1: if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk) && !CharacterFlags.HasFlag(CharacterFlags.Berserk))
-                        UseSkill("Berserk", null, CommandHelpers.NoParameters);
+                        UseSkill("Berserk", CommandHelpers.NoParameters);
                     break;
                 case 2: if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)
                         || ActFlags.HasFlag(ActFlags.Warrior) // TODO: check if weapon skill is not hand to hand
                         || ActFlags.HasFlag(ActFlags.Thief))
-                        UseSkill("Disarm", null, CommandHelpers.NoParameters);
+                        UseSkill("Disarm", CommandHelpers.NoParameters);
                     break;
                 case 3: if (OffensiveFlags.HasFlag(OffensiveFlags.Kick))
-                        UseSkill("Kick", null, CommandHelpers.NoParameters);
+                        UseSkill("Kick", CommandHelpers.NoParameters);
                     break;
                 case 4: if (OffensiveFlags.HasFlag(OffensiveFlags.DirtKick))
-                        UseSkill("Dirt Kicking", null, CommandHelpers.NoParameters);
+                        UseSkill("Dirt Kicking", CommandHelpers.NoParameters);
                     break;
                 case 5: if (OffensiveFlags.HasFlag(OffensiveFlags.Tail))
                         ; // TODO: see raceabilities.C:639
                     break;
                 case 6: if (OffensiveFlags.HasFlag(OffensiveFlags.Trip))
-                        UseSkill("Trip", null, CommandHelpers.NoParameters);
+                        UseSkill("Trip", CommandHelpers.NoParameters);
                     break;
                 case 7: if (OffensiveFlags.HasFlag(OffensiveFlags.Crush))
                         ; // TODO: see raceabilities.C:525
                     break;
                 case 8:
                     if (OffensiveFlags.HasFlag(OffensiveFlags.Backstab))
-                        UseSkill("Backstab", null, CommandHelpers.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
+                        UseSkill("Backstab", CommandHelpers.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
                     break;
             }
         }
@@ -452,13 +452,13 @@ namespace Mud.Server.Character.NonPlayableCharacter
             Master = master;
         }
 
-        public bool Order(string rawParameters, params ICommandParameter[] parameters)
+        public bool Order(string commandLine)
         {
             if (Master == null)
                 return false;
-            Act(ActOptions.ToCharacter, "{0:N} orders you to '{1}'.", Master, rawParameters);
-            CommandHelpers.ExtractCommandAndParameters(CommandHelpers.JoinParameters(parameters), out string command, out rawParameters, out parameters);
-            bool executed = ExecuteCommand(command, rawParameters, parameters);
+            Act(ActOptions.ToCharacter, "{0:N} orders you to '{1}'.", Master);
+            CommandHelpers.ExtractCommandAndParameters(commandLine, out string command, out ICommandParameter[] parameters);
+            bool executed = ExecuteCommand(commandLine, command, parameters);
             return executed;
         }
 
@@ -701,7 +701,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #endregion
 
-        protected bool UseSkill(string skillName, string rawParameters, params ICommandParameter[] parameters)
+        protected bool UseSkill(string skillName, params ICommandParameter[] parameters)
         {
             Log.Default.WriteLine(LogLevels.Info, "{0} tries to use {1} on {2}.", DebugName, skillName, Fighting?.DebugName ?? "???");
             var abilityInfo = AbilityManager.Search(skillName, AbilityTypes.Skill);
@@ -711,7 +711,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 return false;
             }
             ISkill skillInstance = AbilityManager.CreateInstance<ISkill>(abilityInfo.Name);
-            var skillActionInput = new SkillActionInput(abilityInfo, this, rawParameters, parameters);
+            var skillActionInput = new SkillActionInput(abilityInfo, this, parameters);
             string setupResult = skillInstance.Setup(skillActionInput);
             if (setupResult != null)
             {

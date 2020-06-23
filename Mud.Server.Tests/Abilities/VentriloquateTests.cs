@@ -31,7 +31,7 @@ namespace Mud.Server.Tests.Abilities
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
             
             var parameters = BuildParameters("");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -56,7 +56,7 @@ namespace Mud.Server.Tests.Abilities
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 
             var parameters = BuildParameters("target");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -80,7 +80,7 @@ namespace Mud.Server.Tests.Abilities
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 
             var parameters = BuildParameters("target 'I'm a badass'");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -104,7 +104,7 @@ namespace Mud.Server.Tests.Abilities
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 
             var parameters = BuildParameters("player 'I'm a badass'");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -131,7 +131,7 @@ namespace Mud.Server.Tests.Abilities
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 
             var parameters = BuildParameters("target 'I'm a badass'");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -158,7 +158,7 @@ namespace Mud.Server.Tests.Abilities
             Ventriloquate spell = new Ventriloquate(randomManagerMock.Object);
 
             var parameters = BuildParameters("target I'm a badass");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 

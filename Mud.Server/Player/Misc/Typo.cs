@@ -24,10 +24,11 @@ namespace Mud.Server.Player.Misc
             if (baseGuards != null)
                 return baseGuards;
 
-            if (string.IsNullOrWhiteSpace(actionInput.RawParameters))
+            Message = CommandHelpers.JoinParameters(actionInput.Parameters);
+            if (string.IsNullOrWhiteSpace(Message))
                 return "Report which typo?";
 
-            Message = actionInput.RawParameters;
+            Message = Message;
             return null;
         }
 

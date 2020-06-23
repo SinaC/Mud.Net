@@ -127,24 +127,24 @@ namespace Mud.Server.Admin
 
         #endregion
 
-        protected override bool ContextWiseExecuteCommand(string commandLine, string command, string rawParameters, ICommandParameter[] parameters, bool forceOutOfGame)
+        protected override bool ContextWiseExecuteCommand(string commandLine, string command, ICommandParameter[] parameters, bool forceOutOfGame)
         {
             // Execute command
             bool executedSuccessfully;
             if (forceOutOfGame || (Impersonating == null && Incarnating == null))
             {
                 Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
-                executedSuccessfully = ExecuteCommand(command, rawParameters, parameters);
+                executedSuccessfully = ExecuteCommand(commandLine, command, parameters);
             }
             else if (Impersonating != null) // impersonating
             {
                 Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
-                executedSuccessfully = Impersonating.ExecuteCommand(command, rawParameters, parameters);
+                executedSuccessfully = Impersonating.ExecuteCommand(commandLine, command, parameters);
             }
             else if (Incarnating != null) // incarnating
             {
                 Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Incarnating.DebugName, commandLine);
-                executedSuccessfully = Incarnating.ExecuteCommand(command, rawParameters, parameters);
+                executedSuccessfully = Incarnating.ExecuteCommand(commandLine, command, parameters);
             }
             else
             {

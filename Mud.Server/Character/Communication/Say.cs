@@ -20,7 +20,7 @@ namespace Mud.Server.Character.Communication
             if (actionInput.Parameters.Length == 0)
                 return "Say what?";
 
-            What = actionInput.RawParameters;
+            What = CommandHelpers.JoinParameters(actionInput.Parameters);
 
             return null;
         }

@@ -181,7 +181,7 @@ namespace Mud.Server.Interfaces.Character
         void DeathPayoff(ICharacter killer);
         bool SavesSpell(int level, SchoolTypes damageType);
         bool IsSafeSpell(ICharacter caster, bool area);
-        bool IsSafe(ICharacter aggressor);
+        string IsSafe(ICharacter aggressor);
         bool Flee();
 
         // Abilities

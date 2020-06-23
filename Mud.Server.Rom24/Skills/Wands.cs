@@ -66,9 +66,11 @@ namespace Mud.Server.Rom24.Skills
                 return string.Empty; // stop but don't display anything
             }
             IEntity target;
-            string setupResult = SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, out target, skillActionInput.RawParameters, skillActionInput.Parameters);
+            string setupResult = SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, out target, skillActionInput.Parameters);
+            if (setupResult != null)
+                return setupResult;
             Target = target;
-            return setupResult;
+            return null;
         }
     }
 }

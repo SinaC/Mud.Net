@@ -44,7 +44,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 0); // must be below 25/5
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -81,7 +81,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 7); // must be between 25/5 and 25/3
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -118,7 +118,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 20); // must be between 25/3 and 25
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -156,7 +156,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 50); // must be between 25 and 90
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -194,7 +194,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 100); // must be greater than 90
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();
