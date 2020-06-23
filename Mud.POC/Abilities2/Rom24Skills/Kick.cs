@@ -5,7 +5,7 @@ using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("kick", "Abilities", "Skills", "Combat")]
+    [Command("kick", "Ability", "Skill", "Combat")]
     [Skill(SkillName, AbilityEffects.Damage)]
     public class Kick : FightingSkillBase
     {

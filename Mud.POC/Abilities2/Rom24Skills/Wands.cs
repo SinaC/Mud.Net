@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("zap", "Abilities", "Skills")]
+    [Command("zap", "Ability", "Skill")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Wands : ItemCastSpellSkillBase<IItemWand>
     {

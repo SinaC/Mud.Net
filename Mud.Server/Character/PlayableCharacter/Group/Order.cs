@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Mud.Server.Character.PlayableCharacter.Group
 {
-    [PlayableCharacterCommand("order", "Pets")]
+    [PlayableCharacterCommand("order", "Pet")]
     [Syntax(
             "[cmd] <pet|charmie> command",
             "[cmd] all command")]

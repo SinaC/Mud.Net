@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [CharacterCommand("pick", "Skills")]
+    [CharacterCommand("pick", "Ability", "Skill")]
     [Syntax(
             "[cmd] <direction>",
             "[cmd] <door>",

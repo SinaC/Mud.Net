@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("pick", "Skills")]
+    [Command("pick", "Ability", "Skill")]
     [Skill(SkillName, AbilityEffects.None, LearnDifficultyMultiplier = 2)]
     public class PickLock : SkillBase
     {

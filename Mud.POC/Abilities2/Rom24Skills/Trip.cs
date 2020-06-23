@@ -5,7 +5,7 @@ using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("trip", "Abilities", "Skills", "Combat")]
+    [Command("trip", "Ability", "Skill", "Combat")]
     [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 24)]
     public class Trip : OffensiveSkillBase
     {

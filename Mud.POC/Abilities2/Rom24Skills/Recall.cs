@@ -6,7 +6,7 @@ using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("recall", "Abilities", "Skills", "Transportation")]
+    [Command("recall", "Ability", "Skill", "Transportation")]
     [Skill(SkillName, AbilityEffects.Transportation, LearnDifficultyMultiplier = 6)]
     public class Recall : NoTargetSkillBase
     {

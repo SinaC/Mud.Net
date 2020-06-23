@@ -6,7 +6,7 @@ using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("bash", "Abilities", "Skills", "Combat")]
+    [Command("bash", "Ability", "Skill", "Combat")]
     [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 20)]
     public class Bash : OffensiveSkillBase
     {

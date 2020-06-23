@@ -9,7 +9,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [CharacterCommand("brandish", "Abilities", "Skills")]
+    [CharacterCommand("brandish", "Ability", "Skill")]
     [Syntax("[cmd] <staff>")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Staves : ItemCastSpellSkillBase<IItemStaff>

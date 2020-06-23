@@ -6,7 +6,7 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("envenom", "Abilities", "Skills", "Enchantments")]
+    [Command("envenom", "Ability", "Skill", "Enchantment")]
     [Skill(SkillName, AbilityEffects.Enchantment, PulseWaitTime = 36, LearnDifficultyMultiplier = 4)]
     [AbilityItemWearOffMessage("The poison on {0} dries up.")]
     public class Envenom : ItemInventorySkillBase

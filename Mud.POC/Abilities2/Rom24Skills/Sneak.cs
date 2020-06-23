@@ -6,7 +6,7 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("sneak", "Abilities", "Skills")]
+    [Command("sneak", "Ability", "Skill")]
     [Skill(SkillName, AbilityEffects.Buff, LearnDifficultyMultiplier = 3)]
     public class Sneak : NoTargetSkillBase
     {

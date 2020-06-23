@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [CharacterCommand("recite", "Abilities", "Skills")]
+    [CharacterCommand("recite", "Ability", "Skill")]
     [Syntax("[cmd] <scroll> [<target>]")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Scrolls : ItemCastSpellSkillBase<IItemScroll>

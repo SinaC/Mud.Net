@@ -8,6 +8,8 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Item;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -140,6 +142,23 @@ namespace Mud.Server.Admin.Information
             }
             foreach (IAura aura in Whom.Auras)
                 aura.Append(sb);
+            if (Whom.Equipments.Any(x => x.Item != null))
+            {
+                sb.AppendLine("Equipments:");
+                foreach (IEquippedItem equippedItem in Whom.Equipments.Where(x => x.Item != null))
+                {
+                    sb.Append(equippedItem.EquipmentSlotsToString());
+                    sb.AppendLine($"{equippedItem.Item.DisplayName} [id: {equippedItem.Item.Blueprint?.Id.ToString() ?? " ??? "}]");
+                }
+            }
+
+            if (Whom.Inventory.Any())
+            {
+                sb.AppendLine("Inventory:");
+                foreach (IItem item in Whom.Inventory)
+                    sb.AppendLine($"{item.DisplayName} [id: {item.Blueprint?.Id.ToString() ?? " ??? "}]");
+            }
+            //
             Actor.Send(sb);
         }
     }

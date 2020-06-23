@@ -7,7 +7,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [CharacterCommand("hide", "Abilities", "Skills")]
+    [CharacterCommand("hide", "Ability", "Skill")]
     [Skill(SkillName, AbilityEffects.Buff, LearnDifficultyMultiplier = 3)]
     public class Hide : NoTargetSkillBase
     {

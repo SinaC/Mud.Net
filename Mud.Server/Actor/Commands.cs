@@ -17,7 +17,7 @@ namespace Mud.Server.Actor
             "[cmd] <prefix>")]
     public class Commands : ActorGameAction
     {
-        private const int ColumnCount = 6;
+        private const int ColumnCount = 5;
 
         public bool ShouldDisplayCategories { get; protected set; }
         public ICommandParameter Parameter { get; protected set; }

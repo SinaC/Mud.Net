@@ -12,6 +12,7 @@ using System;
 namespace Mud.Server.Rom24.BreathSpells
 {
     [Spell(SpellName, AbilityEffects.DamageArea | AbilityEffects.Debuff, PulseWaitTime = 24)]
+    [AbilityCharacterWearOffMessage("The smoke leaves your eyes.")]
     public class FireBreath : OffensiveSpellBase
     {
         public const string SpellName = "Fire Breath";

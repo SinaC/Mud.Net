@@ -7,7 +7,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [CharacterCommand("rescue", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("rescue", "Ability", "Skill", "Combat")]
     [Syntax("[cmd] <victim>")]
     [Skill(SkillName, AbilityEffects.None)]
     public class Rescue : OffensiveSkillBase

@@ -6,7 +6,7 @@ using System;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("dirt", "Abilities", "Skills", "Combat")]
+    [Command("dirt", "Ability", "Skill", "Combat")]
     [Skill(SkillName, AbilityEffects.Damage | AbilityEffects.Debuff, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     [AbilityCharacterWearOffMessage("You rub the dirt out of your eyes.")]
     public class DirtKicking : OffensiveSkillBase

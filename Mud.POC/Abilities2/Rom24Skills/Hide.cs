@@ -4,7 +4,7 @@ using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("hide", "Abilities", "Skills")]
+    [Command("hide", "Ability", "Skill")]
     [Skill(SkillName, AbilityEffects.Buff, LearnDifficultyMultiplier = 3)]
     public class Hide : NoTargetSkillBase
     {

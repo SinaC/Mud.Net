@@ -9,7 +9,7 @@ namespace Mud.POC.GroupsPetsFollowers
 {
     public partial class PlayableCharacter
     {
-        [PlayableCharacterCommand("Order", "Pets")]
+        [PlayableCharacterCommand("Order", "Pet")]
         [Syntax(
             "[cmd] <pet> command",
             "[cmd] all command")]

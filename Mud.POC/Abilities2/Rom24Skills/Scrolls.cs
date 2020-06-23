@@ -8,7 +8,7 @@ using Mud.Common;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("recite", "Abilities", "Skills")]
+    [Command("recite", "Ability", "Skill")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Scrolls : ItemCastSpellSkillBase<IItemScroll>
     {

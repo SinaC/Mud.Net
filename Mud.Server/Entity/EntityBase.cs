@@ -170,17 +170,19 @@ namespace Mud.Server.Entity
             {
                 // TODO: replace with virtual method
                 var abilityInfo = AbilityManager[aura.AbilityName];
-                if (this is ICharacter && abilityInfo.HasCharacterWearOffMessage)
-                    Send(abilityInfo.CharacterWearOffMessage);
-                else if (this is IItem item && abilityInfo.HasItemWearOffMessage)
+                if (abilityInfo != null)
                 {
-                    ICharacter holder = item.ContainedInto as ICharacter ?? item.EquippedBy; 
-                    holder?.Act(ActOptions.ToCharacter, abilityInfo.ItemWearOffMessage, this);
+                    if (this is ICharacter && abilityInfo.HasCharacterWearOffMessage)
+                        Send(abilityInfo.CharacterWearOffMessage);
+                    else if (this is IItem item && abilityInfo.HasItemWearOffMessage)
+                    {
+                        ICharacter holder = item.ContainedInto as ICharacter ?? item.EquippedBy;
+                        holder?.Act(ActOptions.ToCharacter, abilityInfo.ItemWearOffMessage, this);
+                    }
                 }
                 // TODO: remove this crappy thing, replace with wear off func
                 if (aura.AbilityName == "Charm Person" && this is INonPlayableCharacter npc)
                     npc.ChangeMaster(null);
-
             }
             if (recompute && removed)
                 Recompute();

@@ -2310,7 +2310,7 @@ namespace Mud.Server.Character
                 {
                     int specialDamage = RandomManager.Range(1, 1 + wield.Level / 5);
                     victim.Act(ActOptions.ToRoom, "{0} draws life from {1}.", wield, victim);
-                    victim.Act(ActOptions.ToCharacter, "You feel $p drawing your life away.", wield);
+                    victim.Act(ActOptions.ToCharacter, "You feel {0} drawing your life away.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Negative, null, false);
                     UpdateHitPoints(specialDamage/2);
                     UpdateAlignment(-1);
@@ -2326,7 +2326,7 @@ namespace Mud.Server.Character
                     victim.Act(ActOptions.ToCharacter, "{0} sears your flesh.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Fire, null, false);
                     IEffect<ICharacter> fireEffect = EffectManager.CreateInstance<ICharacter>("Fire");
-                    fireEffect?.Apply(victim, this, "Flaming weapon", wield.Level/2, specialDamage);
+                    fireEffect?.Apply(victim, this, "Fire breath", wield.Level/2, specialDamage);
                 }
 
                 if (Fighting != victim)
@@ -2336,10 +2336,10 @@ namespace Mud.Server.Character
                 {
                     int specialDamage = RandomManager.Range(1, 2 + wield.Level / 6);
                     victim.Act(ActOptions.ToRoom, "{0} freezes {1}.", wield, victim);
-                    victim.Act(ActOptions.ToCharacter, "The cold touch of $p surrounds you with ice.", wield);
+                    victim.Act(ActOptions.ToCharacter, "The cold touch of {0} surrounds you with ice.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Cold, null, false);
                     IEffect<ICharacter> coldEffect = EffectManager.CreateInstance<ICharacter>("Cold");
-                    coldEffect?.Apply(victim, this, "Frost weapon", wield.Level / 2, specialDamage);
+                    coldEffect?.Apply(victim, this, "Chill touch", wield.Level / 2, specialDamage);
                 }
 
                 if (Fighting != victim)
@@ -2349,7 +2349,7 @@ namespace Mud.Server.Character
                 {
                     int specialDamage = RandomManager.Range(1, 2 + wield.Level / 5);
                     victim.Act(ActOptions.ToRoom, "{0:N} is struck by lightning from {1}.", victim, wield);
-                    victim.Act(ActOptions.ToCharacter, "You are shocked by $p.", wield);
+                    victim.Act(ActOptions.ToCharacter, "You are shocked by {0}.", wield);
                     victim.Damage(this, specialDamage, SchoolTypes.Lightning, null, false);
                     IEffect<ICharacter> shockEffect = EffectManager.CreateInstance<ICharacter>("Shock");
                     shockEffect?.Apply(victim, this, "Shocking weapon", wield.Level / 2, specialDamage);

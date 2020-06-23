@@ -10,7 +10,7 @@ using Mud.Server.Rom24.Passives;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [CharacterCommand("disarm", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("disarm", "Ability", "Skill", "Combat")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24)]
     public class Disarm : FightingSkillBase
     {

@@ -5,7 +5,7 @@ using Mud.Server.Random;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("brandish", "Abilities", "Skills")]
+    [Command("brandish", "Ability", "Skill")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Staves : ItemCastSpellSkillBase<IItemStaff>
     {

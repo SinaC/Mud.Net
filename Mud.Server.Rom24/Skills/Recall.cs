@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [CharacterCommand("recall", "Abilities", "Skills", "Transportation")]
+    [CharacterCommand("recall", "Ability", "Skill", "Transportation")]
     [Skill(SkillName, AbilityEffects.Transportation, LearnDifficultyMultiplier = 6)]
     public class Recall : NoTargetSkillBase
     {

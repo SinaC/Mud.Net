@@ -1,12 +1,9 @@
 NEXT:
-mstat should display inventory/equipment
 
-one class by command
-	unit test for each command!!!
-	make IGameAction generic on TActor: IActor, same goes for IActionInput
+unit test for each command!!!
+make IGameAction generic on TActor: IActor, same goes for IActionInput
 
 move Weapon effect from OneHit to Rom24
-find a elegant way to apply PoisonDamageAffect without referencing Rom24
 use StringComparer.InvariantCultureIgnoreCase in Dictionary<string, ???> constructor
 
 make a map of calls done when a NPC is Removed/StopFollowing/...

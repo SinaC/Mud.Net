@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Mud.Server.Character.PlayableCharacter.Attribute
 {
-    [PlayableCharacterCommand("train", "Attributes", MinPosition = Positions.Resting)]
+    [PlayableCharacterCommand("train", "Attribute", MinPosition = Positions.Resting)]
     [Syntax(
             "[cmd]",
             "[cmd] <attribute>",

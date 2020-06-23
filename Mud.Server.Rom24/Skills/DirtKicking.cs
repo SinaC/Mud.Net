@@ -11,7 +11,7 @@ using System;
 
 namespace Mud.Server.Rom24.Skills
 {
-    [CharacterCommand("dirt", "Abilities", "Skills", "Combat")]
+    [CharacterCommand("dirt", "Ability", "Skill", "Combat")]
     [Syntax("[cmd] <victim>")]
     [Skill(SkillName, AbilityEffects.Damage | AbilityEffects.Debuff, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     [AbilityCharacterWearOffMessage("You rub the dirt out of your eyes.")]

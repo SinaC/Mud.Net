@@ -6,7 +6,7 @@ using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("disarm", "Abilities", "Skills", "Combat")]
+    [Command("disarm", "Ability", "Skill", "Combat")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24)]
     public class Disarm : FightingSkillBase
     {

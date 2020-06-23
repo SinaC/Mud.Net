@@ -4,7 +4,7 @@ using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities2
 {
-    [Command("Cast", "Abilities", "Spells")]
+    [Command("Cast", "Ability", "Spell")]
     public class Cast : IGameAction
     {
         protected IAbilityManager AbilityManager { get; }

@@ -5,7 +5,7 @@ using Mud.Server.Random;
 
 namespace Mud.POC.Abilities2.Rom24Skills
 {
-    [Command("backstab", "Abilities", "Skills", "Combat")]
+    [Command("backstab", "Ability", "Skill", "Combat")]
     [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 24)]
     public class Backstab : OffensiveSkillBase
     {
