@@ -16,7 +16,7 @@ namespace Mud.Server.Server
         private readonly ConcurrentQueue<string> _receiveQueue; // concurrent queue because network may write and server read at the same time
         private readonly StringBuilder _sendBuffer;
 
-        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
 
         public Paging Paging { get; }
 
@@ -27,13 +27,13 @@ namespace Mud.Server.Server
             _receiveQueue = new ConcurrentQueue<string>();
             _sendBuffer = new StringBuilder();
             Paging = new Paging();
-            LastReceivedDataTimestamp = TimeHandler.CurrentTime;
+            LastReceivedDataTimestamp = TimeManager.CurrentTime;
         }
 
         public void EnqueueReceivedData(string data)
         {
             _receiveQueue.Enqueue(data);
-            LastReceivedDataTimestamp = TimeHandler.CurrentTime;
+            LastReceivedDataTimestamp = TimeManager.CurrentTime;
         }
 
         public string DequeueReceivedData()

@@ -43,7 +43,7 @@ namespace Mud.Server.Tests
             Container.DependencyContainer.Current.Options.EnableAutoVerification = false;
 
             Container.DependencyContainer.Current.RegisterInstance<ISettings>(new SettingsMock());
-            Container.DependencyContainer.Current.RegisterInstance<ITimeManager>(new TimeHandlerMock());
+            Container.DependencyContainer.Current.RegisterInstance<ITimeManager>(new TimeManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IRaceManager>(new RaceManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IClassManager>(new ClassManagerMock());
             Container.DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManagerMock());

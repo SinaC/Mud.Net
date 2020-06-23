@@ -249,7 +249,6 @@
     <Compile Include="Area\Area.cs" />
     <Compile Include="AssemblyHelper.cs" />
     <Compile Include="Aura\Aura.cs" />
-    <Compile Include="Aura\PeriodicAura.cs" />
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Admin\Admin.cs" />
     <Compile Include="Admin\Impersonate.cs" />

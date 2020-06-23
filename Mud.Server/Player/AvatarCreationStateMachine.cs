@@ -40,7 +40,7 @@ namespace Mud.Server.Player
         protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
         protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
-        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
         protected IGameActionManager GameActionManager => DependencyContainer.Current.GetInstance<IGameActionManager>();
 
@@ -168,7 +168,7 @@ namespace Mud.Server.Player
                 IRoom startingRoom = RoomManager.MudSchoolRoom; // todo: mud school
                 PlayableCharacterData playableCharacterData = new PlayableCharacterData
                 {
-                    CreationTime = TimeHandler.CurrentTime,
+                    CreationTime = TimeManager.CurrentTime,
                     Name = _name,
                     RoomId = startingRoom?.Blueprint.Id ?? 3001, // TODO
                     Race = _race.Name,

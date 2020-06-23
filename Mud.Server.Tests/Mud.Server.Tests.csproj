@@ -160,7 +160,7 @@
     <Compile Include="Mocking\ServerPlayerCommandMock.cs" />
     <Compile Include="Mocking\SettingsMock.cs" />
     <Compile Include="Mocking\TableValuesMock.cs" />
-    <Compile Include="Mocking\TimeHandlerMock.cs" />
+    <Compile Include="Mocking\TimeManagerMock.cs" />
     <Compile Include="Mocking\WorldMock.cs" />
     <Compile Include="NPCTests.cs" />
     <Compile Include="PlayerCommandTests.cs" />

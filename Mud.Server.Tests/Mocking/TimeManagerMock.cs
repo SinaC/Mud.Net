@@ -4,7 +4,7 @@ using Mud.Server.Interfaces;
 
 namespace Mud.Server.Tests.Mocking
 {
-    internal class TimeHandlerMock : ITimeManager
+    internal class TimeManagerMock : ITimeManager
     {
         public DateTime CurrentTime => DateTime.Now;
 

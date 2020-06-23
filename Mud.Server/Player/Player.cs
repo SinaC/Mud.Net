@@ -19,7 +19,7 @@ namespace Mud.Server.Player
 {
     public class Player : ActorBase, IPlayer
     {
-        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
 
         private readonly List<string> _delayedTells;
@@ -105,12 +105,12 @@ namespace Mud.Server.Player
                         return false;
                     }
                     input = _lastCommand;
-                    _lastCommandTimestamp = TimeHandler.CurrentTime;
+                    _lastCommandTimestamp = TimeManager.CurrentTime;
                 }
                 else
                 {
                     _lastCommand = input;
-                    _lastCommandTimestamp = TimeHandler.CurrentTime;
+                    _lastCommandTimestamp = TimeManager.CurrentTime;
                 }
 
                 // Extract command and parameters

@@ -25,7 +25,7 @@ namespace Mud.Server.Quest
 
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
-        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
         protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
@@ -34,7 +34,7 @@ namespace Mud.Server.Quest
         public Quest(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
         {
             Character = character;
-            StartTime = TimeHandler.CurrentTime;
+            StartTime = TimeManager.CurrentTime;
             PulseLeft = blueprint.TimeLimit * Pulse.PulsePerMinutes;
             Blueprint = blueprint;
             Giver = giver;
@@ -247,9 +247,10 @@ namespace Mud.Server.Quest
             // Give rewards
             if (xpGain > 0)
                 Character.GainExperience(xpGain);
-            // TODO: goldGain
+            if (goldGain > 0)
+                Character.UpdateMoney(0, goldGain);
 
-            CompletionTime = TimeHandler.CurrentTime;
+            CompletionTime = TimeManager.CurrentTime;
         }
 
         public void Abandon()
