@@ -15,8 +15,7 @@ namespace Mud.Server.Character.PlayableCharacter.Group
     public class Order : PlayableCharacterGameAction
     {
         public INonPlayableCharacter[] Whom { get; protected set; }
-        public string RawParameters { get; protected set; }
-        public ICommandParameter[] Parameters { get; protected set; }
+        public string CommandLine { get; protected set; }
 
         public override string Guards(IActionInput actionInput)
         {
@@ -44,9 +43,7 @@ namespace Mud.Server.Character.PlayableCharacter.Group
             if (Whom.Length == 0)
                 return "You don't have followers here.";
 
-            var (modifiedRawParameters, modifiedParameters) = CommandHelpers.SkipParameters(actionInput.Parameters, 1);
-            RawParameters = modifiedRawParameters;
-            Parameters = modifiedParameters;
+            CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
             return null;
         }
 
@@ -54,8 +51,8 @@ namespace Mud.Server.Character.PlayableCharacter.Group
         {
             foreach (INonPlayableCharacter target in Whom)
             {
-                Actor.Act(ActOptions.ToCharacter, "You order {0:N} to '{1}'.", target, RawParameters);
-                target.Order(RawParameters, Parameters);
+                Actor.Act(ActOptions.ToCharacter, "You order {0:N} to '{1}'.", target, CommandLine);
+                target.Order(CommandLine);
             }
 
             Actor.ImpersonatedBy?.SetGlobalCooldown(Pulse.PulseViolence);

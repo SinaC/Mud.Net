@@ -4,6 +4,7 @@ namespace Mud.Server.Interfaces.GameAction
 {
     public interface ICommandParameter
     {
+        string RawValue { get; }
         bool IsAll { get; } // all.xxx
         int Count { get; }
         string Value { get; }

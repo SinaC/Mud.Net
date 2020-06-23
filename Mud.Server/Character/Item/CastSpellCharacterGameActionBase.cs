@@ -33,7 +33,7 @@ namespace Mud.Server.Character.Item
                 Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated.", spellName, item.DebugName);
                 return "Something goes wrong.";
             }
-            var spellActionInput = new SpellActionInput(abilityInfo, Actor, spellLevel, new CastFromItemOptions { Item = item }, null, Enumerable.Empty<ICommandParameter>().ToArray());
+            var spellActionInput = new SpellActionInput(abilityInfo, Actor, spellLevel, new CastFromItemOptions { Item = item }, CommandHelpers.NoParameters);
             string spellInstanceGuards = spellInstance.Setup(spellActionInput);
             if (spellInstanceGuards != null)
                 return spellInstanceGuards;

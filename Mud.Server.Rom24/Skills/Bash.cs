@@ -35,8 +35,9 @@ namespace Mud.Server.Rom24.Skills
             if (Victim == User)
                 return "You try to bash your brains out, but fail.";
 
-            if (Victim.IsSafe(User))
-                return "Not on that victim.";
+            string safeResult = Victim.IsSafe(User);
+            if (safeResult != null)
+                return safeResult;
 
             if (Victim.Position < Positions.Fighting)
                 return User.ActPhrase("You'll have to let {0:m} get back up first.", Victim);

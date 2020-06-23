@@ -23,7 +23,7 @@ namespace Mud.Server.Interfaces.Character
         // Pet/charmies
         IPlayableCharacter Master { get; } // character allowed to order us
         void ChangeMaster(IPlayableCharacter master);
-        bool Order(string rawParameters, params ICommandParameter[] parameters);
+        bool Order(string commandLine);
 
         // Mapping
         PetData MapPetData();

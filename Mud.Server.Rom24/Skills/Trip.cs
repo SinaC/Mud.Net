@@ -37,8 +37,9 @@ namespace Mud.Server.Rom24.Skills
                 return "You fall flat on your face!";
             }
 
-            if (Victim.IsSafe(User))
-                return "Not on that victim.";
+            string safeResult = Victim.IsSafe(User);
+            if (safeResult != null)
+                return safeResult;
 
             // TODO: check kill stealing
 

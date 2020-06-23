@@ -30,7 +30,7 @@ namespace Mud.Server.Player.Communication
             if (actionInput.Parameters.Length == 0)
                 return NoParamMessage;
 
-            What = actionInput.RawParameters;
+            What = CommandHelpers.JoinParameters(actionInput.Parameters);
             return null;
         }
 

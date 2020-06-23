@@ -26,6 +26,9 @@ namespace Mud.Server.Character.Item
             if (baseGuards != null)
                 return baseGuards;
 
+            if (actionInput.Parameters.Length == 0)
+                return "Get what?";
+
             ICommandParameter whatParameter = actionInput.Parameters[0];
             // get item, get all, get all.item
             if (actionInput.Parameters.Length == 1)

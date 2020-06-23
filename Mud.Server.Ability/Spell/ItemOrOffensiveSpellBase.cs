@@ -85,8 +85,12 @@ namespace Mud.Server.Ability.Spell
             {
                 if (Caster is IPlayableCharacter)
                 {
-                    if (Caster != Target && ((ICharacter) Target).IsSafe(Caster))
-                        return "Not on that victim.";
+                    if (Caster != Target)
+                    {
+                        string safeResult = ((ICharacter)Target).IsSafe(Caster);
+                        if (safeResult != null)
+                            return safeResult;
+                    }
                     // TODO: check_killer
                 }
                 if (npcCaster != null && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == Target)
@@ -109,7 +113,7 @@ namespace Mud.Server.Ability.Spell
         {
             if (caster is IPlayableCharacter)
             {
-                if (caster != victim && victim.IsSafe(caster))
+                if (caster != victim && victim.IsSafe(caster) != null)
                     return false;
             }
             if (caster is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == victim)

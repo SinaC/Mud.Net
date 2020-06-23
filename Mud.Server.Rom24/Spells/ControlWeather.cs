@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
@@ -34,12 +35,13 @@ namespace Mud.Server.Rom24.Spells
             if (baseSetup != null)
                 return baseSetup;
 
-            if (StringCompareHelpers.StringEquals(spellActionInput.RawParameters, "better"))
+            string what = CommandHelpers.JoinParameters(spellActionInput.Parameters);
+            if (StringCompareHelpers.StringEquals(what, "better"))
             {
                 _isBetterRequired = true;
                 return null;
             }
-            if (StringCompareHelpers.StringEquals(spellActionInput.RawParameters, "worse"))
+            if (StringCompareHelpers.StringEquals(what, "worse"))
             {
                 _isBetterRequired = false;
                 return null;

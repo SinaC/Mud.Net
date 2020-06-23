@@ -14,7 +14,7 @@ namespace Mud.Server.Ability.Spell
         {
             get
             {
-                int baseDamage = Table.Get(Level);
+                int baseDamage = Table.Get(1+Level); // starts at 0
                 int minDamage = baseDamage / 2;
                 int maxDamage = baseDamage * 2;
                 return RandomManager.Range(minDamage, maxDamage);

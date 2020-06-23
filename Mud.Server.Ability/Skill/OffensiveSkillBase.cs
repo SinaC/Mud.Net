@@ -29,8 +29,12 @@ namespace Mud.Server.Ability.Skill
                 return "They aren't here.";
             if (User is IPlayableCharacter)
             {
-                if (User != Victim && Victim.IsSafe(User))
-                    return "Not on that victim.";
+                if (User != Victim)
+                {
+                    string safeResult = Victim.IsSafe(User);
+                    if (safeResult != null)
+                        return safeResult;
+                }
                 // TODO: check_killer
             }
             if (User is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == Victim)

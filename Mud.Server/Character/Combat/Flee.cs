@@ -4,7 +4,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Combat
 {
-    [CharacterCommand("flee", "Combat", MinPosition = Positions.Standing)]
+    [CharacterCommand("flee", "Combat", MinPosition = Positions.Fighting)]
     public class Flee : CharacterGameAction
     {
         public override string Guards(IActionInput actionInput)

@@ -6,8 +6,9 @@ namespace Mud.Server.GameAction
 {
     public class CommandParameter : ICommandParameter
     {
-        public static readonly CommandParameter InvalidCommandParameter = new CommandParameter();
+        public static readonly CommandParameter InvalidCommandParameter = new CommandParameter(null);
 
+        public string RawValue { get; }
         public bool IsAll { get; } // all.xxx
         public int Count { get; }
         public string Value { get; }
@@ -35,30 +36,29 @@ namespace Mud.Server.GameAction
             }
         }
 
-        private CommandParameter()
+        private CommandParameter(string rawValue)
         {
             Tokens = new List<string>();
+
+            RawValue = rawValue;
         }
 
-        public CommandParameter(string value, int count)
+        public CommandParameter(string rawValue, string value, int count)
+            : this(rawValue)
         {
             Value = value;
             Count = count;
             Tokens = value.Split(' ').ToList();
         }
 
-        public CommandParameter(string value, bool isAll)
+        public CommandParameter(string rawValue, string value, bool isAll)
+            : this(rawValue)
         {
             Value = value;
             IsAll = isAll;
             Tokens = value.Split(' ').ToList();
         }
 
-        public override string ToString()
-        {
-            return Count <= 1
-                ? Value
-                : Count + "." + Value;
-        }
+        public override string ToString() => RawValue;
     }
 }

@@ -21,7 +21,7 @@ namespace Mud.Server.Player.Communication
             if (Actor.LastTeller == null)
                 return StringHelpers.CharacterNotFound;
 
-            What = actionInput.RawParameters;
+            What = CommandHelpers.JoinParameters(actionInput.Parameters);
             return null;
         }
 

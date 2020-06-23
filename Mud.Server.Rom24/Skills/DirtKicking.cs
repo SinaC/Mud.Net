@@ -44,8 +44,9 @@ namespace Mud.Server.Rom24.Skills
             if (Victim.CharacterFlags.HasFlag(CharacterFlags.Blind))
                 return User.ActPhrase("{0:e}'s already been blinded.", Victim);
 
-            if (Victim.IsSafe(User))
-                return "Not on that victim.";
+            string safeResult = Victim.IsSafe(User);
+            if (safeResult != null)
+                return safeResult;
 
             // TODO: check kill stealing
 

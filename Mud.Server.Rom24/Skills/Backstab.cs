@@ -33,8 +33,9 @@ namespace Mud.Server.Rom24.Skills
             if (Victim == User)
                 return "How can you sneak up on yourself?";
 
-            if (Victim.IsSafe(User))
-                return "Not on that victim.";
+            string safeResult = Victim.IsSafe(User);
+            if (safeResult != null)
+                return safeResult;
 
             // TODO: check kill stealing
 

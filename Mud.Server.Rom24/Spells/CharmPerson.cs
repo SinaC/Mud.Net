@@ -40,8 +40,9 @@ namespace Mud.Server.Rom24.Spells
             if (baseSetTargets != null)
                 return baseSetTargets;
 
-            if (Victim.IsSafe(Caster))
-                return "Not on that victim.";
+            string safeResult = Victim.IsSafe(Caster);
+            if (safeResult != null)
+                return safeResult;
 
             if (Caster == Victim)
                 return "You like yourself even better!";

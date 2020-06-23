@@ -60,7 +60,7 @@ namespace Mud.Server.Rom24.Skills
                 ItemManager.RemoveItem(Item);
                 return string.Empty; // stop but don't display anything
             }
-            return SetupSpellForEachAvailableTargets(Item.SpellName, Item.SpellLevel, skillActionInput.RawParameters, skillActionInput.Parameters);
+            return SetupSpellForEachAvailableTargets(Item.SpellName, Item.SpellLevel, skillActionInput.Parameters);
         }
     }
 }

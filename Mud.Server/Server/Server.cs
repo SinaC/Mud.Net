@@ -1182,7 +1182,7 @@ namespace Mud.Server.Server
                                 bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcInRoom != null && pcInRoom.IsSameGroupOrPet(character);
                                 bool isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcInRoom.Master == pcCharacter;
                                 if ((isPlayerAutoassisting || isNpcAutoassisting)
-                                    && !victim.IsSafe(inRoom))
+                                    && victim.IsSafe(inRoom) == null)
                                 {
                                     inRoom.MultiHit(victim);
                                     continue;

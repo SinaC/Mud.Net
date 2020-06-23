@@ -29,8 +29,9 @@ namespace Mud.Server.Character.Combat
             if (Whom == Actor)
                 return "You hit yourself. Ouch!";
 
-            if (Whom.IsSafe(Actor))
-                return "Not on that victim.";
+            string safeResult = Whom.IsSafe(Actor);
+            if (safeResult != null)
+                return safeResult;
 
             if (Whom is IPlayableCharacter)
                 return "You must MURDER a player!";

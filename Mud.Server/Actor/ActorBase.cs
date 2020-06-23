@@ -21,7 +21,7 @@ namespace Mud.Server.Actor
         public abstract void Send(string message, bool addTrailingNewLine);
         public abstract void Page(StringBuilder text);
 
-        public bool ExecuteCommand(string command, string rawParameters, ICommandParameter[] parameters)
+        public bool ExecuteCommand(string commandLine, string command, ICommandParameter[] parameters)
         {
             // Search for game action and invoke it
             if (GameActions != null)
@@ -36,7 +36,7 @@ namespace Mud.Server.Actor
                 }
                 if (entry.Value is IGameActionInfo gai && gai.CommandExecutionType != null)
                 {
-                    string executionResults = GameActionManager.Execute(gai, this, command, rawParameters, parameters);
+                    string executionResults = GameActionManager.Execute(gai, this, commandLine, entry.Key, parameters);
                     if (executionResults != null)
                     {
                         Send(executionResults);

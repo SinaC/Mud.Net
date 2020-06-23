@@ -6,7 +6,6 @@ namespace Mud.Server.Interfaces.Ability
     public interface ISkillActionInput
     {
         ICharacter User { get; }
-        string RawParameters { get; }
         ICommandParameter[] Parameters { get; }
         IAbilityInfo AbilityInfo { get; }
     }

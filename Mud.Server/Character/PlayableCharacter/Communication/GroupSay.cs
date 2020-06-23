@@ -21,7 +21,7 @@ namespace Mud.Server.Character.PlayableCharacter.Communication
             if (actionInput.Parameters.Length == 0)
                 return "Say your group what?";
 
-            What = actionInput.RawParameters;
+            What = CommandHelpers.JoinParameters(actionInput.Parameters);
             return null;
         }
 

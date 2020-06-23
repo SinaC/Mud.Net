@@ -42,7 +42,7 @@ namespace Mud.Server.Tests.Abilities
 
             var parameters = BuildParameters("target");
             ColourSpray spell = new ColourSpray(randomManagerMock.Object, auraManagerMock.Object);
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters.rawParameters, parameters.parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
             string setupResult = spell.Setup(abilityActionInput);
 
             spell.Execute();
