@@ -44,7 +44,7 @@ namespace Mud.Server.Character.Item
             }
             // too heavy to be wielded ?
             IItemWeapon weapon = item as IItemWeapon;
-            if (weapon != null && Actor is IPlayableCharacter && weapon.TotalWeight > TableValues.WieldBonus(Actor) * 10)
+            if (weapon != null && Actor is IPlayableCharacter && !weapon.CanWield(Actor))
             {
                 Actor.Send("It is too heavy for you to wield.");
                 return false;

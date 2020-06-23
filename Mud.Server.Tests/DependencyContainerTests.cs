@@ -40,6 +40,7 @@ namespace Mud.Server.Tests
             SimpleInjector.Container container = new SimpleInjector.Container();
             container.Register<IId, Class2>(Lifestyle.Singleton);
             container.Register<IAdditional, Class2>(Lifestyle.Singleton);
+            container.Register<Class3>();
 
             var instance = container.GetInstance<Class3>();
 

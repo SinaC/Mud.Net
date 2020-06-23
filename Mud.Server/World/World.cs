@@ -45,7 +45,7 @@ namespace Mud.Server.World
         public void AddQuestBlueprint(QuestBlueprint blueprint)
         {
             if (_questBlueprints.ContainsKey(blueprint.Id))
-                Wiznet.Wiznet($"Quest blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Quest blueprint duplicate {0}!!!", blueprint.Id);
             else
                 _questBlueprints.Add(blueprint.Id, blueprint);
         }
@@ -95,7 +95,7 @@ namespace Mud.Server.World
         public void AddAreaBlueprint(AreaBlueprint blueprint)
         {
             if (_areaBlueprints.ContainsKey(blueprint.Id))
-                Wiznet.Wiznet($"Area blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Area blueprint duplicate {0}!!!", blueprint.Id);
             else
                 _areaBlueprints.Add(blueprint.Id, blueprint);
         }
@@ -126,7 +126,7 @@ namespace Mud.Server.World
         public void AddRoomBlueprint(RoomBlueprint blueprint)
         {
             if (_roomBlueprints.ContainsKey(blueprint.Id))
-                Wiznet.Wiznet($"Room blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Room blueprint duplicate {0}!!!", blueprint.Id);
             else
                 _roomBlueprints.Add(blueprint.Id, blueprint);
         }
@@ -199,7 +199,7 @@ namespace Mud.Server.World
         public void AddCharacterBlueprint(CharacterBlueprintBase blueprint)
         {
             if (_characterBlueprints.ContainsKey(blueprint.Id))
-                Wiznet.Wiznet($"Character blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Character blueprint duplicate {0}!!!", blueprint.Id);
             else
                 _characterBlueprints.Add(blueprint.Id, blueprint);
         }
@@ -289,7 +289,7 @@ namespace Mud.Server.World
         public void AddItemBlueprint(ItemBlueprintBase blueprint)
         {
             if (_itemBlueprints.ContainsKey(blueprint.Id))
-                Wiznet.Wiznet($"Item blueprint duplicate {blueprint.Id}!!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Item blueprint duplicate {0}!!!", blueprint.Id);
             else
                 _itemBlueprints.Add(blueprint.Id, blueprint);
         }
@@ -324,7 +324,7 @@ namespace Mud.Server.World
             goldCoins = Math.Max(0, goldCoins);
             if (silverCoins == 0 && goldCoins == 0)
             {
-                Wiznet.Wiznet("World.AddItemMoney: 0 silver and 0 gold.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "World.AddItemMoney: 0 silver and 0 gold.");
                 return null;
             }
             int blueprintId = Settings.CoinsBlueprintId;
@@ -405,7 +405,7 @@ namespace Mud.Server.World
                             if (destination == null)
                             {
                                 destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
-                                Wiznet.Wiznet($"World.AddItem: PortalBlueprint {blueprint.Id} unknown destination {portalBlueprint.Destination} setting to recall {Settings.DefaultRecallRoomId}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: PortalBlueprint {0} unknown destination {1} setting to recall {2}", blueprint.Id, portalBlueprint.Destination, Settings.DefaultRecallRoomId);
                             }
                         }
                         item = new ItemPortal(guid, portalBlueprint, destination, container);
@@ -439,7 +439,7 @@ namespace Mud.Server.World
                     item = new ItemWeapon(guid, weaponBlueprint, container);
                     break;
                 default:
-                    Wiznet.Wiznet($"Unknown Item blueprint type {blueprint.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "World.AddItem: unknown Item blueprint type {0}.", blueprint.GetType());
                     break;
             }
             if (item != null)
@@ -449,7 +449,7 @@ namespace Mud.Server.World
                 return item;
             }
 
-            Wiznet.Wiznet($"World.AddItem: Invalid blueprint type {blueprint.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: unknown Item blueprint type {0}.", blueprint.GetType());
             return null;
         }
 
@@ -458,7 +458,7 @@ namespace Mud.Server.World
             ItemBlueprintBase blueprint = GetItemBlueprint(itemData.ItemId);
             if (blueprint == null)
             {
-                Wiznet.Wiznet($"Item blueprint Id {itemData.ItemId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Item blueprint Id {0} doesn't exist anymore.", itemData.ItemId);
                 return null;
             }
 
@@ -529,7 +529,7 @@ namespace Mud.Server.World
                             if (destination == null)
                             {
                                 destination = Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRecallRoomId);
-                                Wiznet.Wiznet($"World.AddItem: ItemPortalData unknown destination {itemPortalData.DestinationRoomId} setting to recall {Settings.DefaultRecallRoomId}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: ItemPortalData unknown destination {0} setting to recall {1}", itemPortalData.DestinationRoomId, Settings.DefaultRecallRoomId);
                             }
                         }
                         item = new ItemPortal(guid, portalBlueprint, itemPortalData, destination, container);
@@ -563,7 +563,7 @@ namespace Mud.Server.World
                     item = new ItemWeapon(guid, weaponBlueprint, itemData as ItemWeaponData, container);
                     break;
                 default:
-                    Wiznet.Wiznet($"Unknown Item blueprint type {blueprint.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Unknown Item blueprint type {0}", blueprint.GetType());
                     break;
             }
 
@@ -573,7 +573,7 @@ namespace Mud.Server.World
                 _items.Add(item);
                 return item;
             }
-            Wiznet.Wiznet($"World.AddItem: Invalid blueprint type {blueprint.GetType().FullName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Invalid blueprint type  {0}", blueprint.GetType());
             return null;
         }
 
@@ -582,13 +582,12 @@ namespace Mud.Server.World
             ItemBlueprintBase blueprint = GetItemBlueprint(blueprintId);
             if (blueprint == null)
             {
-                Wiznet.Wiznet($"Item blueprint Id {blueprintId} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
-
+                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Item blueprint Id {0} doesn't exist anymore.", blueprintId);
                 return null;
             }
             IItem item = AddItem(guid, blueprint, container);
             if (item == null)
-                Wiznet.Wiznet($"World.AddItem: Unknown blueprint id {blueprintId} or type {blueprint.GetType().FullName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Unknown blueprint id {0} or type {1}.", blueprintId, blueprint.GetType().FullName);
             return item;
         }
 
@@ -643,13 +642,11 @@ namespace Mud.Server.World
 
         #endregion
 
-        private IWiznet Wiznet { get; }
         private IRandomManager RandomManager { get; }
         private ISettings Settings { get; }
 
-        public World(IWiznet wiznet, IRandomManager randomManager, ISettings settings)
+        public World(IRandomManager randomManager, ISettings settings)
         {
-            Wiznet = wiznet;
             RandomManager = randomManager;
             Settings = settings;
 

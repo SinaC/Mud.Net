@@ -63,6 +63,7 @@ namespace Mud.POC.Tests.Abilities2
             Mock<IWiznet> wiznetMock = new Mock<IWiznet>();
             DependencyContainer.Current.RegisterInstance(randomManagerMock.Object);
             DependencyContainer.Current.RegisterInstance(wiznetMock.Object);
+            var registration = DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType);
             var abilityInstance = DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType);
 
             Assert.IsNotNull(abilityInstance);

@@ -64,24 +64,44 @@ namespace Mud.Server.Server
 
         private volatile int _pulseBeforeShutdown; // pulse count before shutdown
 
-        protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
-        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
-        protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
-        protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
-        protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
-        protected ILoginRepository LoginRepository => DependencyContainer.Current.GetInstance<ILoginRepository>();
-        protected IPlayerRepository PlayerRepository => DependencyContainer.Current.GetInstance<IPlayerRepository>();
-        protected IAdminRepository AdminRepository => DependencyContainer.Current.GetInstance<IAdminRepository>();
-        protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
-        protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
-        protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
-        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
-        protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
-        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
-        protected IQuestManager QuestManager => DependencyContainer.Current.GetInstance<IQuestManager>();
+        protected ISettings Settings { get; }
+        protected ILoginRepository LoginRepository { get; }
+        protected IPlayerRepository PlayerRepository { get; }
+        protected IAdminRepository AdminRepository { get; }
+        protected IUniquenessManager UniquenessManager { get; }
+        protected ITimeManager TimeManager { get; }
+        protected IRandomManager RandomManager { get; }
+        protected IClassManager ClassManager { get; }
+        protected IRaceManager RaceManager { get; }
+        protected IAbilityManager AbilityManager { get; }
+        protected IWorld World { get; }
+        protected IRoomManager RoomManager { get; }
+        protected ICharacterManager CharacterManager { get; }
+        protected IItemManager ItemManager { get; }
+        protected IQuestManager QuestManager { get; }
 
-        public Server()
+        public Server(ISettings settings,
+            ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
+            IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager,
+            IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager,
+            IWorld world, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager)
         {
+            Settings = settings;
+            LoginRepository = loginRepository;
+            PlayerRepository = playerRepository;
+            AdminRepository = adminRepository;
+            UniquenessManager = uniquenessManager;
+            TimeManager = timeManager;
+            RandomManager = randomManager;
+            ClassManager = classManager;
+            RaceManager = raceManager;
+            AbilityManager = abilityManager;
+            World = world;
+            RoomManager = roomManager;
+            CharacterManager = characterManager;
+            ItemManager = itemManager;
+            QuestManager = questManager;
+
             _clients = new ConcurrentDictionary<IClient, PlayingClient>();
             _players = new ConcurrentDictionary<IPlayer, PlayingClient>();
             _loginInClients = new ConcurrentDictionary<IClient, LoginStateMachine>();

@@ -247,7 +247,6 @@ namespace Mud.Server.Character.PlayableCharacter
 
         public override void Send(string message, bool addTrailingNewLine)
         {
-            // TODO: use Act formatter ?
             base.Send(message, addTrailingNewLine);
             if (ImpersonatedBy != null)
             {

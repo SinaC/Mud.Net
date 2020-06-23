@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Item;
@@ -8,11 +9,14 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Table;
 
 namespace Mud.Server.Item
 {
     public class ItemWeapon : ItemBase<ItemWeaponBlueprint, ItemWeaponData>, IItemWeapon
     {
+        public ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
+
         public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
             : base(guid, blueprint, containedInto)
         {
@@ -72,6 +76,11 @@ namespace Mud.Server.Item
         public WeaponFlags WeaponFlags { get; protected set; }
 
         public string DamageNoun { get; set; }
+
+        public bool CanWield(ICharacter character)
+        {
+            return TotalWeight <= TableValues.WieldBonus(character) * 10;
+        }
 
         public void ApplyAffect(IItemWeaponFlagsAffect affect)
         {

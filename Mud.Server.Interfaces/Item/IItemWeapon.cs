@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Interfaces.Item
 {
@@ -14,6 +15,8 @@ namespace Mud.Server.Interfaces.Item
         WeaponFlags WeaponFlags { get; }
 
         string DamageNoun { get; }
+
+        bool CanWield(ICharacter character);
 
         void ApplyAffect(IItemWeaponFlagsAffect affect);
     }

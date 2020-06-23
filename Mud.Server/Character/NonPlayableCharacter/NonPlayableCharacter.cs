@@ -208,9 +208,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         public override void Send(string message, bool addTrailingNewLine)
         {
-            // TODO: use Act formatter ?
             base.Send(message, addTrailingNewLine);
-            // TODO: do we really need to receive message sent to slave ?
             if (Settings.ForwardSlaveMessages && Master != null)
             {
                 if (Settings.PrefixForwardedMessages)

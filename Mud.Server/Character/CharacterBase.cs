@@ -37,7 +37,6 @@ namespace Mud.Server.Character
 
         private readonly List<IItem> _inventory;
         private readonly List<IEquippedItem> _equipments;
-        // TODO: replace int[] with Dictionary<enum,int> ?
         private readonly int[] _baseAttributes;
         private readonly int[] _currentAttributes;
         private readonly int[] _maxResources;
@@ -726,7 +725,7 @@ namespace Mud.Server.Character
                 {
                     if (equipedItem.Item is IItemWeapon weapon) // always true
                     {
-                        if (this is IPlayableCharacter && weapon.TotalWeight > TableValues.WieldBonus(this) * 10) // TODO: same check in WearItem
+                        if (this is IPlayableCharacter && !weapon.CanWield(this))
                         {
                             Act(ActOptions.ToAll, "{0:N} can't use {1} anymore.", this, weapon);
                             weapon.ChangeEquippedBy(null, false);
@@ -756,7 +755,7 @@ namespace Mud.Server.Character
             if (this is INonPlayableCharacter npc && npc.Master != null && npc.Master.Room == Room) // TODO: no more cast like this
             {
                 // Slave cannot leave a room without Master
-                Send("What?  And leave your beloved master?");
+                Send("What? And leave your beloved master?");
                 return false;
             }
 
@@ -1066,6 +1065,14 @@ namespace Mud.Server.Character
                     npcVictim.ChangeMaster(null);
             }
             // inviso attack
+            if (CharacterFlags.HasFlag(CharacterFlags.Invisible))
+            {
+                RemoveBaseCharacterFlags(CharacterFlags.Invisible | CharacterFlags.Sneak | CharacterFlags.Hide);
+                RemoveAuras(x => x.AbilityName == "Invisibility", true); // force a recompute to check if there is something special that gives invis
+                // if not anymore invis
+                if (!CharacterFlags.HasFlag(CharacterFlags.Invisible))
+                    Act(ActOptions.ToRoom, "{0:N} fades into existence.", this);
+            }
             // TODO: remove invis, mass invis, flags, ... + "$n fades into existence."
             // damage modifiers
             if (damage > 1 && this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
