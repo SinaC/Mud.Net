@@ -5,9 +5,12 @@ using System.Text.RegularExpressions;
 using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
+using Mud.Server.Admin;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
@@ -39,6 +42,7 @@ namespace Mud.Server.Player
         protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
         protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        protected IGameActionManager GameActionManager => DependencyContainer.Current.GetInstance<IGameActionManager>();
 
         public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
@@ -221,8 +225,7 @@ namespace Mud.Server.Player
             {
                 // Impersonate
                 State = AvatarCreationStates.CreationComplete;
-                // TODO: impersonate character with an internal command
-                player.ProcessCommand("/impersonate " + _name);
+                GameActionManager.Execute<Impersonate, IPlayer>(player, _name);
                 return AvatarCreationStates.CreationComplete;
             }
             player.Send("Avatar {0} created but not impersonated. Use /impersonate {0} to enter game or use /list to see your avatar list.", _name.UpperFirstLetter());

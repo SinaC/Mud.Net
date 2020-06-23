@@ -3,6 +3,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using System.Text;
 
@@ -14,14 +15,18 @@ namespace Mud.Server.Admin.Administration
             "[cmd] <character> <location>")]
     public class Transfer : AdminGameAction
     {
+        private IRoomManager RoomManager { get; }
         private ICharacterManager CharacterManager { get; }
+        private IItemManager ItemManager { get; }
 
         public IRoom Where { get; protected set; }
         public ICharacter Whom { get; protected set; }
 
-        public Transfer(ICharacterManager characterManager)
+        public Transfer(IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager)
         {
+            RoomManager = roomManager;
             CharacterManager = characterManager;
+            ItemManager = itemManager;
         }
 
         public override string Guards(IActionInput actionInput)
@@ -41,16 +46,16 @@ namespace Mud.Server.Admin.Administration
             if (Actor.Impersonating != null)
                 where = actionInput.Parameters.Length == 1
                     ? Impersonating.Room
-                    : FindHelpers.FindLocation(Actor.Impersonating, actionInput.Parameters[1]);
+                    : FindHelpers.FindLocation(RoomManager, CharacterManager, ItemManager, Actor.Impersonating, actionInput.Parameters[1]);
             else
-                where = FindHelpers.FindLocation(actionInput.Parameters[1]);
+                where = FindHelpers.FindLocation(RoomManager, CharacterManager, ItemManager, actionInput.Parameters[1]);
             if (where == null)
                 return "No such location.";
             if (where.IsPrivate)
                 return "That room is private right now.";
 
             ICharacter whom = Actor.Impersonating != null
-                ? FindHelpers.FindChararacterInWorld(Actor.Impersonating, actionInput.Parameters[0])
+                ? FindHelpers.FindChararacterInWorld(CharacterManager, Actor.Impersonating, actionInput.Parameters[0])
                 : FindHelpers.FindByName(CharacterManager.Characters, actionInput.Parameters[0]);
             if (whom == null)
                 return StringHelpers.CharacterNotFound;

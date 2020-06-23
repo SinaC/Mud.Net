@@ -74,12 +74,12 @@ namespace Mud.Server.TestApplication
             DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
             DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IQuestManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IQuestManager
-            DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAuraManager
-            DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IItemManager
-            DependencyContainer.Current.Register<ICharacterManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements ICharacterManager
-            DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IRoomManager
-            DependencyContainer.Current.Register<IAreaManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAreaManager
+            DependencyContainer.Current.Register<IQuestManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IQuestManager
+            DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAuraManager
+            DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IItemManager
+            DependencyContainer.Current.Register<ICharacterManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements ICharacterManager
+            DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IRoomManager
+            DependencyContainer.Current.Register<IAreaManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAreaManager
             DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
             DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
@@ -518,109 +518,109 @@ namespace Mud.Server.TestApplication
 
         private static void TestBasicCommands()
         {
-            IPlayer player1 = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player1"), "Player1");
-            IPlayer player2 = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player2"), "Player2");
-            IAdmin admin = DependencyContainer.Current.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
+            //IPlayer player1 = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player1"), "Player1");
+            //IPlayer player2 = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player2"), "Player2");
+            //IAdmin admin = DependencyContainer.Current.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
 
-            CreateDummyWorld();
+            //CreateDummyWorld();
 
-            player1.ProcessCommand("impersonate mob1");
-            player1.ProcessCommand("order"); // not controlling anyone
-            player1.ProcessCommand("charm mob2");
-            player1.ProcessCommand("test");
-            player1.ProcessCommand("order test");
+            //player1.ProcessInput("impersonate mob1");
+            //player1.ProcessInput("order"); // not controlling anyone
+            //player1.ProcessInput("charm mob2");
+            //player1.ProcessInput("test");
+            //player1.ProcessInput("order test");
 
-            player1.ProcessCommand("look");
+            //player1.ProcessInput("look");
 
-            player2.ProcessCommand("gossip Hellow :)");
-            player2.ProcessCommand("tell player1 Tsekwa =D");
+            //player2.ProcessInput("gossip Hellow :)");
+            //player2.ProcessInput("tell player1 Tsekwa =D");
 
-            player2.ProcessCommand("i mob3");
-            player2.ProcessCommand("charm mob2"); // not in same room
-            player2.ProcessCommand("charm mob3"); // cannot charm itself (player2 is impersonated in mob3)
-            player2.ProcessCommand("ch mob4");
+            //player2.ProcessInput("i mob3");
+            //player2.ProcessInput("charm mob2"); // not in same room
+            //player2.ProcessInput("charm mob3"); // cannot charm itself (player2 is impersonated in mob3)
+            //player2.ProcessInput("ch mob4");
 
-            player2.ProcessCommand("look");
+            //player2.ProcessInput("look");
 
-            player1.ProcessCommand("say Hello World!");
+            //player1.ProcessInput("say Hello World!");
 
-            player2.ProcessCommand("order charm mob5");
+            //player2.ProcessInput("order charm mob5");
 
-            player2.ProcessCommand("north"); // no exit on north
-            player2.ProcessCommand("south");
-            player1.ProcessCommand("south"); // no exit on south
+            //player2.ProcessInput("north"); // no exit on north
+            //player2.ProcessInput("south");
+            //player1.ProcessInput("south"); // no exit on south
 
-            player1.ProcessCommand("say Hello World!");
+            //player1.ProcessInput("say Hello World!");
 
-            player1.ProcessCommand("/who");
-            admin.ProcessCommand("who");
+            //player1.ProcessInput("/who");
+            //admin.ProcessInput("who");
 
-            //player1.ProcessCommand("/commands");
-            //player1.ProcessCommand("commands");
-            //mob1.ProcessCommand("commands");
-            //admin.ProcessCommand("commands");
-            //Console.ReadLine();
+            ////player1.ProcessCommand("/commands");
+            ////player1.ProcessCommand("commands");
+            ////mob1.ProcessCommand("commands");
+            ////admin.ProcessCommand("commands");
+            ////Console.ReadLine();
         }
 
         private static void TestCommandParsing()
         {
-            // server doesn't need to be started, we are not testing real runtime but basic commands
-            IArea area = DependencyContainer.Current.GetInstance<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint{Name = "testarea", Builders = "SinaC", Credits = "Credits"});
-            // Blueprints
-            RoomBlueprint room1Blueprint = new RoomBlueprint
-            {
-                Id = 1,
-                Name = "room1",
-                Description = "My first room"
-            };
-            // World
-            IRoom room = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
+            //// server doesn't need to be started, we are not testing real runtime but basic commands
+            //IArea area = DependencyContainer.Current.GetInstance<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint{Name = "testarea", Builders = "SinaC", Credits = "Credits"});
+            //// Blueprints
+            //RoomBlueprint room1Blueprint = new RoomBlueprint
+            //{
+            //    Id = 1,
+            //    Name = "room1",
+            //    Description = "My first room"
+            //};
+            //// World
+            //IRoom room = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
 
-            IPlayer player = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
-            player.ProcessCommand("test");
-            player.ProcessCommand("test arg1");
-            player.ProcessCommand("test 'arg1' 'arg2' 'arg3' 'arg4'");
-            player.ProcessCommand("test 'arg1 arg2' 'arg3 arg4'");
-            player.ProcessCommand("test 'arg1 arg2\" arg3 arg4");
-            player.ProcessCommand("test 3.arg1");
-            player.ProcessCommand("test 2.'arg1'");
-            player.ProcessCommand("test 2'.arg1'");
-            player.ProcessCommand("test 2.'arg1 arg2' 3.arg3 5.arg4");
-            player.ProcessCommand("test 2."); // INVALID
-            player.ProcessCommand("test ."); // INVALID
-            player.ProcessCommand("test '2.arg1'");
-            player.ProcessCommand("unknown"); // INVALID
-            player.ProcessCommand("/test");
+            //IPlayer player = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
+            //player.ProcessInput("test");
+            //player.ProcessInput("test arg1");
+            //player.ProcessInput("test 'arg1' 'arg2' 'arg3' 'arg4'");
+            //player.ProcessInput("test 'arg1 arg2' 'arg3 arg4'");
+            //player.ProcessInput("test 'arg1 arg2\" arg3 arg4");
+            //player.ProcessInput("test 3.arg1");
+            //player.ProcessInput("test 2.'arg1'");
+            //player.ProcessInput("test 2'.arg1'");
+            //player.ProcessInput("test 2.'arg1 arg2' 3.arg3 5.arg4");
+            //player.ProcessInput("test 2."); // INVALID
+            //player.ProcessInput("test ."); // INVALID
+            //player.ProcessInput("test '2.arg1'");
+            //player.ProcessInput("unknown"); // INVALID
+            //player.ProcessInput("/test");
 
-            IPlayableCharacter character = DependencyContainer.Current.GetInstance<ICharacterManager>().AddPlayableCharacter(Guid.NewGuid(), new PlayableCharacterData
-            {
-                Name = "toto",
-                Class = DependencyContainer.Current.GetInstance<IClassManager>()["Mage"].Name,
-                Race = DependencyContainer.Current.GetInstance<IRaceManager>()["Troll"].Name,
-                Sex = Sex.Male,
-                Level = 1,
-                Experience = 0,
-                RoomId = room.Blueprint.Id
-            }, player, room);
-            character.ProcessCommand("look");
-            character.ProcessCommand("tell"); // INVALID because Player commands are not accessible by Character
-            character.ProcessCommand("unknown"); // INVALID
+            //IPlayableCharacter character = DependencyContainer.Current.GetInstance<ICharacterManager>().AddPlayableCharacter(Guid.NewGuid(), new PlayableCharacterData
+            //{
+            //    Name = "toto",
+            //    Class = DependencyContainer.Current.GetInstance<IClassManager>()["Mage"].Name,
+            //    Race = DependencyContainer.Current.GetInstance<IRaceManager>()["Troll"].Name,
+            //    Sex = Sex.Male,
+            //    Level = 1,
+            //    Experience = 0,
+            //    RoomId = room.Blueprint.Id
+            //}, player, room);
+            //character.ProcessInput("look");
+            //character.ProcessInput("tell"); // INVALID because Player commands are not accessible by Character
+            //character.ProcessInput("unknown"); // INVALID
 
-            player.ProcessCommand("impersonate"); // impossible but doesn't cause an error log to un-impersonate, player must already be impersonated
-            player.ProcessCommand("impersonate character");
-            player.ProcessCommand("/tell");
-            player.ProcessCommand("tell"); // INVALID because OOG is not accessible while impersonating unless if command starts with /
-            player.ProcessCommand("look");
+            //player.ProcessInput("impersonate"); // impossible but doesn't cause an error log to un-impersonate, player must already be impersonated
+            //player.ProcessInput("impersonate character");
+            //player.ProcessInput("/tell");
+            //player.ProcessInput("tell"); // INVALID because OOG is not accessible while impersonating unless if command starts with /
+            //player.ProcessInput("look");
 
-            player.ProcessCommand("impersonate"); // INVALID because OOG is not accessible while impersonating unless if command starts with /
-            player.ProcessCommand("/impersonate");
-            player.ProcessCommand("/tell");
-            player.ProcessCommand("tell");
-            player.ProcessCommand("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
+            //player.ProcessInput("impersonate"); // INVALID because OOG is not accessible while impersonating unless if command starts with /
+            //player.ProcessInput("/impersonate");
+            //player.ProcessInput("/tell");
+            //player.ProcessInput("tell");
+            //player.ProcessInput("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-            IAdmin admin = DependencyContainer.Current.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin"), "Admin");
-            admin.ProcessCommand("incarnate");
-            admin.ProcessCommand("unknown"); // INVALID
+            //IAdmin admin = DependencyContainer.Current.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin"), "Admin");
+            //admin.ProcessInput("incarnate");
+            //admin.ProcessInput("unknown"); // INVALID
         }
 
         private static void TestImport()

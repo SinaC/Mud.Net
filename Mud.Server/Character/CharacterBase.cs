@@ -2165,6 +2165,7 @@ namespace Mud.Server.Character
                 victimAc += 6;
             // miss ?
             int diceroll = RandomManager.Range(0, 19); // 0:miss 19:success
+            diceroll = 20;
             if (diceroll == 0
                 || (diceroll != 19 && diceroll < thac0 - victimAc))
             {
@@ -2302,10 +2303,19 @@ namespace Mud.Server.Character
                         {
                             int duration = level / 2;
                             IAffect poisonAffect = AffectManager.CreateInstance("Poison");
-                            AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                                new CharacterFlagsAffect {Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or},
-                                new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add},
-                                poisonAffect);
+                            if (poisonAffect == null)
+                            {
+                                AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                                    new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
+                            }
+                            else
+                            {
+                                AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                                    new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
+                                    poisonAffect);
+                            }
                         }
                     }
                 }

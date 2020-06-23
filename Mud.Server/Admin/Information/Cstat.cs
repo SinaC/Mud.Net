@@ -9,7 +9,6 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -40,7 +39,7 @@ namespace Mud.Server.Admin.Information
 
             Whom = Impersonating == null
                 ? FindHelpers.FindByName(CharacterManager.Characters, actionInput.Parameters[0])
-                : FindHelpers.FindChararacterInWorld(Impersonating, actionInput.Parameters[0]);
+                : FindHelpers.FindChararacterInWorld(CharacterManager, Impersonating, actionInput.Parameters[0]);
             if (Whom == null)
                 return StringHelpers.NotFound;
             return null;

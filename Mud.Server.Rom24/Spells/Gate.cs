@@ -11,8 +11,8 @@ namespace Mud.Server.Rom24.Spells
     {
         public const string SpellName = "Gate";
             
-        public Gate(IRandomManager randomManager)
-            : base(randomManager)
+        public Gate(IRandomManager randomManager, ICharacterManager characterManager)
+            : base(randomManager, characterManager)
         {
         }
 

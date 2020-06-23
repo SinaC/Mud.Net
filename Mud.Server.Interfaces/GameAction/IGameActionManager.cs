@@ -10,7 +10,7 @@ namespace Mud.Server.Interfaces.GameAction
 
         string Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
             where TActor: IActor;
-        string Execute<TGameAction, TActor>(TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
+        string Execute<TGameAction, TActor>(TActor actor, string rawParameters)
             where TActor : IActor;
 
         IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()

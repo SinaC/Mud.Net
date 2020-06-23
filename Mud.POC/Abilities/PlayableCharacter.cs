@@ -7,7 +7,6 @@ using Mud.POC.Affects;
 using Mud.Server.Random;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Common;
-using Mud.Server.GameAction;
 
 namespace Mud.POC.Abilities
 {

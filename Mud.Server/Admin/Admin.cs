@@ -127,7 +127,7 @@ namespace Mud.Server.Admin
 
         #endregion
 
-        protected override bool InnerExecuteCommand(string commandLine, string command, string rawParameters, ICommandParameter[] parameters, bool forceOutOfGame)
+        protected override bool ContextWiseExecuteCommand(string commandLine, string command, string rawParameters, ICommandParameter[] parameters, bool forceOutOfGame)
         {
             // Execute command
             bool executedSuccessfully;

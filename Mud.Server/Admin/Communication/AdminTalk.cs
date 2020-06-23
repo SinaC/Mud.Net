@@ -1,5 +1,4 @@
-﻿using Mud.Container;
-using Mud.Server.GameAction;
+﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 
@@ -12,7 +11,12 @@ namespace Mud.Server.Admin.Communication
     {
         public string What { get; protected set; }
 
-        private IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>(); // TODO: should be in ctor
+        private IAdminManager AdminManager { get; }
+
+        public AdminTalk(IAdminManager adminManager)
+        {
+            AdminManager = adminManager;
+        }
 
         public override string Guards(IActionInput actionInput)
         {

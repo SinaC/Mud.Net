@@ -1723,6 +1723,143 @@
         </CharacterData>
       </Pets>
     </PlayableCharacterData>
+    <PlayableCharacterData>
+      <Name>pouet</Name>
+      <Race>dwarf</Race>
+      <Class>cleric</Class>
+      <Level>1</Level>
+      <Sex>1</Sex>
+      <Size>1</Size>
+      <HitPoints>100</HitPoints>
+      <MovePoints>100</MovePoints>
+      <CurrentResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </CurrentResources>
+      <MaxResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </MaxResources>
+      <Equipments />
+      <Inventory />
+      <Auras />
+      <CharacterFlags>512</CharacterFlags>
+      <Immunities>0</Immunities>
+      <Resistances>67584</Resistances>
+      <Vulnerabilities>131072</Vulnerabilities>
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>14</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>12</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>10</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>15</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
+      <CreationTime>2020-06-23T15:52:16.2575062+02:00</CreationTime>
+      <RoomId>3001</RoomId>
+      <SilverCoins>0</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>0</Experience>
+      <Alignment>0</Alignment>
+      <Trains>3</Trains>
+      <Practices>5</Practices>
+      <AutoFlags>0</AutoFlags>
+      <CurrentQuests />
+      <LearnedAbilities>
+        <LearnedAbilityData>
+          <Name>Berserk</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+      </LearnedAbilities>
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
+    </PlayableCharacterData>
   </Characters>
   <AdminLevel>7</AdminLevel>
   <WiznetFlags>65535</WiznetFlags>

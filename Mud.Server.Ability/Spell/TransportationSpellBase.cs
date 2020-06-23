@@ -9,16 +9,19 @@ namespace Mud.Server.Ability.Spell
 {
     public abstract class TransportationSpellBase : SpellBase
     {
+        private ICharacterManager CharacterManager { get; }
+
         protected ICharacter Victim { get; set; }
 
-        protected TransportationSpellBase(IRandomManager randomManager)
+        protected TransportationSpellBase(IRandomManager randomManager, ICharacterManager characterManager)
             : base(randomManager)
         {
+            CharacterManager = characterManager;
         }
 
         protected override string SetTargets(ISpellActionInput spellActionInput)
         {
-            Victim = FindHelpers.FindChararacterInWorld(Caster, spellActionInput.Parameters[0]);
+            Victim = FindHelpers.FindChararacterInWorld(CharacterManager, Caster, spellActionInput.Parameters[0]);
             if (Victim == null || !IsVictimValid())
                 return "You failed.";
             return null;

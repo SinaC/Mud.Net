@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.Server.Tests.Mocking;
 using Mud.Server.Interfaces.Player;
-using Mud.Container;
 
 namespace Mud.Server.Tests
 {
@@ -60,7 +59,7 @@ namespace Mud.Server.Tests
         {
             IPlayer player = CreatePlayer("player");
 
-            bool processed = player.ProcessCommand("test");
+            bool processed = player.ProcessInput("test");
 
             Assert.IsTrue(processed);
         }
@@ -70,7 +69,7 @@ namespace Mud.Server.Tests
         {
             IPlayer player = CreatePlayer("player");
 
-            bool processed = player.ProcessCommand("test arg1");
+            bool processed = player.ProcessInput("test arg1");
 
             Assert.IsTrue(processed);
         }
@@ -80,7 +79,7 @@ namespace Mud.Server.Tests
         {
             IPlayer player = CreatePlayer("player");
 
-            bool processed = player.ProcessCommand("test 'arg1' 'arg2' 'arg3' 'arg4'");
+            bool processed = player.ProcessInput("test 'arg1' 'arg2' 'arg3' 'arg4'");
 
             Assert.IsTrue(processed);
         }

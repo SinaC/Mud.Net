@@ -51,12 +51,12 @@ namespace Mud.Server.Admin.Administration
             }
 
             // Search NPC
-            Target = FindHelpers.FindNonPlayableChararacterInWorld(Actor.Impersonating, actionInput.Parameters[0]);
+            Target = FindHelpers.FindNonPlayableChararacterInWorld(CharacterManager, Actor.Impersonating, actionInput.Parameters[0]);
             if (Target != null)
                 return null;
 
             // Search PC
-            Target = FindHelpers.FindPlayableChararacterInWorld(Actor.Impersonating, actionInput.Parameters[0]);
+            Target = FindHelpers.FindPlayableChararacterInWorld(CharacterManager, Actor.Impersonating, actionInput.Parameters[0]);
             if (Target != null)
             {
                 if (Target == Actor.Impersonating)

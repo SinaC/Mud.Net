@@ -17,7 +17,7 @@ namespace Mud.Server.Actor
 
         public abstract IReadOnlyTrie<IGameActionInfo> GameActions { get; }
 
-        public abstract bool ProcessCommand(string commandLine);
+        public abstract bool ProcessInput(string input);
         public abstract void Send(string message, bool addTrailingNewLine);
         public abstract void Page(StringBuilder text);
 

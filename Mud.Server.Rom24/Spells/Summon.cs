@@ -13,8 +13,8 @@ namespace Mud.Server.Rom24.Spells
     {
         public const string SpellName = "Summon";
 
-        public Summon(IRandomManager randomManager)
-            : base(randomManager)
+        public Summon(IRandomManager randomManager, ICharacterManager characterManager)
+            : base(randomManager, characterManager)
         {
         }
 

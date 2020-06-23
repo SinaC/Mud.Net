@@ -68,7 +68,7 @@ namespace Mud.Server.Character.PlayableCharacter.Combat
 
             string msg = $"Help! I am being attacked by {Actor.DisplayName}!";
 
-            string executionResults = GameActionManager.Execute<Yell, ICharacter>(Whom, "yell", msg, new CommandParameter(msg, false));
+            string executionResults = GameActionManager.Execute<Yell, ICharacter>(Whom, msg);
             if (executionResults != null)
                 Actor.Send(executionResults);
 

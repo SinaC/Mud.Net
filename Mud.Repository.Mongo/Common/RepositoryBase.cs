@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Mud.Container;
 using Mud.Settings;
 
 namespace Mud.Repository.Mongo.Common
@@ -17,7 +16,7 @@ namespace Mud.Repository.Mongo.Common
         }
 
         protected RepositoryBase(IMapper mapper, ISettings settings, string collectionName)
-            : base(DependencyContainer.Current.GetInstance<ISettings>().ConnectionString, DatabaseName, collectionName)
+            : base(settings.ConnectionString, DatabaseName, collectionName)
         {
             Mapper = mapper;
             Settings = settings;

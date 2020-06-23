@@ -16,7 +16,9 @@ namespace Mud.POC.Tests.Abilities2
         public void TestInitialize()
         {
             _originalContainer = DependencyContainer.Current;
-            DependencyContainer.SetManualContainer(new SimpleInjector.Container());
+            var newContainer = new SimpleInjector.Container();
+            newContainer.Options.EnableAutoVerification = false;
+            DependencyContainer.SetManualContainer(newContainer);
         }
 
         [TestCleanup]

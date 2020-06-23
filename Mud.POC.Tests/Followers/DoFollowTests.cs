@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.POC.GroupsPetsFollowers;
-using Mud.Server.GameAction;
 
 namespace Mud.POC.Tests.Followers
 {

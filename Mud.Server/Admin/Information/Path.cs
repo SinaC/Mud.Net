@@ -4,7 +4,9 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,18 @@ namespace Mud.Server.Admin.Information
     [Syntax("[cmd] <location>")]
     public class Path : AdminGameAction
     {
+        private IRoomManager RoomManager { get; }
+        private ICharacterManager CharacterManager { get; }
+        private IItemManager ItemManager { get; }
+
         public IRoom Where { get; protected set; }
+
+        public Path(IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager)
+        {
+            RoomManager = roomManager;
+            CharacterManager = characterManager;
+            ItemManager = itemManager;
+        }
 
         public override string Guards(IActionInput actionInput)
         {
@@ -28,7 +41,7 @@ namespace Mud.Server.Admin.Information
             if (actionInput.Parameters.Length == 0)
                 return BuildCommandSyntax();
 
-            Where = FindHelpers.FindLocation(Impersonating, actionInput.Parameters[0]);
+            Where = FindHelpers.FindLocation(RoomManager, CharacterManager, ItemManager, Impersonating, actionInput.Parameters[0]);
             if (Where == null)
                 return "No such location.";
 

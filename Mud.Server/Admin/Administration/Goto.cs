@@ -1,6 +1,8 @@
 ﻿using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using System.Linq;
 using System.Text;
@@ -11,7 +13,18 @@ namespace Mud.Server.Admin.Administration
     [Syntax("[cmd] <location>")]
     public class Goto : AdminGameAction
     {
+        private IRoomManager RoomManager { get; }
+        private ICharacterManager CharacterManager { get; }
+        private IItemManager ItemManager { get; }
+
         public IRoom Where { get; protected set; }
+
+        public Goto(IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager)
+        {
+            RoomManager = roomManager;
+            CharacterManager = characterManager;
+            ItemManager = itemManager;
+        }
 
         public override string Guards(IActionInput actionInput)
         {
@@ -22,7 +35,7 @@ namespace Mud.Server.Admin.Administration
             if (actionInput.Parameters.Length == 0)
                 return BuildCommandSyntax();
 
-            Where = FindHelpers.FindLocation(Impersonating, actionInput.Parameters[0]);
+            Where = FindHelpers.FindLocation(RoomManager, CharacterManager, ItemManager, Impersonating, actionInput.Parameters[0]);
             if (Where == null)
                 return "No such location.";
             if (Where.IsPrivate && Where.People.Count() > 1)

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Mud.Container;
 using Mud.Repository;
 using Mud.Domain;
 using Mud.Logger;
@@ -736,7 +735,7 @@ namespace Mud.Server.Server
                                     HandlePaging(playingClient, command);
                                 else if (!string.IsNullOrWhiteSpace(command))
                                 {
-                                    playingClient.Player.ProcessCommand(command); // TODO: if command takes time to be processed, 'next' players will be delayed
+                                    playingClient.Player.ProcessInput(command); // TODO: if command takes time to be processed, 'next' players will be delayed
                                 }
                             }
                         }

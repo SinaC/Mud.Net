@@ -49,7 +49,7 @@ namespace Mud.Server.Character.Movement
         {
             if (Whom == null)
             {
-                string executionResults = GameActionManager.Execute<Stand, ICharacter>(Actor, "stand", null, CommandHelpers.NoParameters);
+                string executionResults = GameActionManager.Execute<Stand, ICharacter>(Actor, null);
                 if (executionResults != null)
                     Actor.Send(executionResults);
             }
@@ -57,7 +57,7 @@ namespace Mud.Server.Character.Movement
             {
                 Whom.Act(ActOptions.ToCharacter, "{0:N} wakes you.", Actor);
 
-                string executionResults = GameActionManager.Execute<Stand, ICharacter>(Whom, "stand", null, CommandHelpers.NoParameters);
+                string executionResults = GameActionManager.Execute<Stand, ICharacter>(Whom, null);
                 if (executionResults != null)
                     Actor.Send(executionResults);
             }

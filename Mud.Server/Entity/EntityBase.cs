@@ -51,10 +51,10 @@ namespace Mud.Server.Entity
 
         #region IActor
 
-        public override bool ProcessCommand(string commandLine)
+        public override bool ProcessInput(string input)
         {
             // Extract command and parameters
-            bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var rawParameters, out var parameters);
+            bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(input, out var command, out var rawParameters, out var parameters);
             if (!extractedSuccessfully)
             {
                 Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
@@ -62,7 +62,7 @@ namespace Mud.Server.Entity
                 return false;
             }
 
-            Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DebugName, commandLine);
+            Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DebugName, input);
             return ExecuteCommand(command, rawParameters, parameters);
         }
 

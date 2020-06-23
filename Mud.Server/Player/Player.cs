@@ -82,19 +82,19 @@ namespace Mud.Server.Player
 
         public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<Player>();
 
-        public override bool ProcessCommand(string commandLine)
+        public override bool ProcessInput(string input)
         {
             // If an input state machine is running, send commandLine to machine
             if (CurrentStateMachine != null && !CurrentStateMachine.IsFinalStateReached)
             {
-                CurrentStateMachine.ProcessInput(this, commandLine);
+                CurrentStateMachine.ProcessInput(this, input);
                 return true;
             }
             else
             {
                 CurrentStateMachine = null; // reset current state machine if not currently running one
                 // ! means repeat last command (only when last command was not delete)
-                if (commandLine != null && commandLine.Length >= 1 && commandLine[0] == '!')
+                if (input != null && input.Length >= 1 && input[0] == '!')
                 {
                     if (LastCommand?.ToLowerInvariant() == "delete")
                     {
@@ -102,21 +102,21 @@ namespace Mud.Server.Player
                         DeletionConfirmationNeeded = false; // reset delete confirmation
                         return false;
                     }
-                    commandLine = LastCommand;
+                    input = LastCommand;
                     LastCommandTimestamp = TimeHandler.CurrentTime;
                 }
                 else
                 {
-                    LastCommand = commandLine;
+                    LastCommand = input;
                     LastCommandTimestamp = TimeHandler.CurrentTime;
                 }
 
                 // Extract command and parameters
                 bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(
-                    isForceOutOfGame => isForceOutOfGame || Impersonating == null 
+                    isForceOutOfGame => isForceOutOfGame || Impersonating == null
                         ? Aliases
                         : Impersonating?.Aliases,
-                    commandLine,
+                    input,
                     out string command, out string rawParameters, out ICommandParameter[] parameters, out bool forceOutOfGame);
                 if (!extractedSuccessfully)
                 {
@@ -125,8 +125,8 @@ namespace Mud.Server.Player
                     return false;
                 }
 
-                // Execute command
-                return InnerExecuteCommand(commandLine, command, rawParameters, parameters, forceOutOfGame);
+                // Choose correct context to execute command and execute it (depends on Impersonating, Incarnting, force out of game, ...)
+                return ContextWiseExecuteCommand(input, command, rawParameters, parameters, forceOutOfGame);
             }
         }
 
@@ -372,7 +372,7 @@ namespace Mud.Server.Player
 
         #endregion
 
-        protected virtual bool InnerExecuteCommand(string commandLine, string command, string rawParameters, ICommandParameter[] parameters, bool forceOutOfGame)
+        protected virtual bool ContextWiseExecuteCommand(string commandLine, string command, string rawParameters, ICommandParameter[] parameters, bool forceOutOfGame)
         {
             // Execute command
             bool executedSuccessfully;

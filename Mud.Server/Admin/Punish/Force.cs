@@ -42,7 +42,7 @@ namespace Mud.Server.Admin.Punish
             {
                 Whom = Impersonating == null
                     ? FindHelpers.FindByName(CharacterManager.Characters, actionInput.Parameters[0])
-                    : FindHelpers.FindChararacterInWorld(Impersonating, actionInput.Parameters[0]);
+                    : FindHelpers.FindChararacterInWorld(CharacterManager, Impersonating, actionInput.Parameters[0]);
                 if (Whom == null)
                     return StringHelpers.CharacterNotFound;
                 if (Whom == Impersonating || Whom == Actor.Incarnating)
@@ -62,7 +62,7 @@ namespace Mud.Server.Admin.Punish
                 foreach (ICharacter victimLoop in CharacterManager.Characters.Where(x => x != Impersonating))
                 {
                     victimLoop.Send("{0} forces you to '{1}'.", Actor.DisplayName, What);
-                    victimLoop.ProcessCommand(What);
+                    victimLoop.ProcessInput(What);
                 }
             }
         }

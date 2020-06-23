@@ -43,9 +43,7 @@ namespace Mud.Server.Admin
         public override void Execute(IActionInput actionInput)
         {
             Player.Avatar.Impersonate impersonate = new Player.Avatar.Impersonate(ServerPlayerCommand, RoomManager, CharacterManager, Settings, Wiznet);
-
             string guards = impersonate.Guards(actionInput);
-
             if (guards != null)
                 Actor.Send(guards);
             else

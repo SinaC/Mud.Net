@@ -18,8 +18,8 @@ namespace Mud.Server.Rom24.Spells
         private IItemManager ItemManager { get; }
         private ISettings Settings { get; }
 
-        public Portal(IRandomManager randomManager, IItemManager itemManager, ISettings settings)
-            : base(randomManager)
+        public Portal(IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, ISettings settings)
+            : base(randomManager, characterManager)
         {
             ItemManager = itemManager;
             Settings = settings;

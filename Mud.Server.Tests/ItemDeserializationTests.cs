@@ -6,7 +6,6 @@ using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;

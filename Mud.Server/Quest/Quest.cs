@@ -15,7 +15,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
 using Mud.Settings;
 
 namespace Mud.Server.Quest
@@ -25,7 +24,6 @@ namespace Mud.Server.Quest
         private readonly List<IQuestObjective> _objectives;
 
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
-        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
         protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();

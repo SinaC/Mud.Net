@@ -28,5 +28,10 @@ namespace Mud.Server.Tests.Mocking
         {
             throw new NotImplementedException();
         }
+
+        public void ResetAreas()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

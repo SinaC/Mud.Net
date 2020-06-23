@@ -18,8 +18,8 @@ namespace Mud.Server.Rom24.Spells
         private IItemManager ItemManager { get; }
         private ISettings Settings { get; }
 
-        public Nexus(IRandomManager randomManager, IItemManager itemManager, ISettings settings)
-            : base(randomManager)
+        public Nexus(IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, ISettings settings)
+            : base(randomManager, characterManager)
         {
             ItemManager = itemManager;
             Settings = settings;

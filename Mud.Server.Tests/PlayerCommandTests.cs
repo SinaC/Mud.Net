@@ -18,7 +18,7 @@ namespace Mud.Server.Tests
             IPlayer player = new Player.Player(Guid.NewGuid(), AutoFaker.Generate<string>());
             IPlayableCharacter pc = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new Domain.PlayableCharacterData { Name = player.Name, Race = "dwarf", Class = "Warrior" }, player, new Mock<IRoom>().Object);
 
-            player.ProcessCommand("impersonate mob1");
+            player.ProcessInput("impersonate mob1");
 
             Assert.IsNull(player.Impersonating);
             Assert.IsNotNull(pc.ImpersonatedBy);
@@ -30,7 +30,7 @@ namespace Mud.Server.Tests
             IPlayer player = new Player.Player(Guid.NewGuid(), AutoFaker.Generate<string>());
             IPlayableCharacter pc = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new Domain.PlayableCharacterData { Name = player.Name, Race = "dwarf", Class = "Warrior" }, player, new Mock<IRoom>().Object);
 
-            player.ProcessCommand($"impersonate {player.Name}");
+            player.ProcessInput($"impersonate {player.Name}");
 
             Assert.IsNull(player.Impersonating);
             Assert.IsNotNull(pc.ImpersonatedBy);

@@ -135,28 +135,28 @@ namespace Mud.Server.Character.PlayableCharacter.Quest
                     }
                 case Actions.Abandon:
                     {
-                        string executionResults = GameActionManager.Execute<QuestAbandon, IPlayableCharacter>(Actor, "questabandon", Parameters.rawParameters, Parameters.parameters);
+                        string executionResults = GameActionManager.Execute<QuestAbandon, IPlayableCharacter>(Actor, Parameters.rawParameters);
                         if (executionResults != null)
                             Actor.Send(executionResults);
                         return;
                     }
                 case Actions.Complete:
                     {
-                        string executionResults = GameActionManager.Execute<QuestComplete, IPlayableCharacter>(Actor, "questcomplete", Parameters.rawParameters, Parameters.parameters);
+                        string executionResults = GameActionManager.Execute<QuestComplete, IPlayableCharacter>(Actor, Parameters.rawParameters);
                         if (executionResults != null)
                             Actor.Send(executionResults);
                         return;
                     }
                 case Actions.Get:
                     {
-                        string executionResults = GameActionManager.Execute<QuestGet, IPlayableCharacter>(Actor, "questget", Parameters.rawParameters, Parameters.parameters);
+                        string executionResults = GameActionManager.Execute<QuestGet, IPlayableCharacter>(Actor, Parameters.rawParameters);
                         if (executionResults != null)
                             Actor.Send(executionResults);
                         return;
                     }
                 case Actions.List:
                     {
-                        string executionResults = GameActionManager.Execute<QuestList, IPlayableCharacter>(Actor, "questlist", Parameters.rawParameters, Parameters.parameters);
+                        string executionResults = GameActionManager.Execute<QuestList, IPlayableCharacter>(Actor, Parameters.rawParameters);
                         if (executionResults != null)
                             Actor.Send(executionResults);
                         return;

@@ -57,7 +57,7 @@ namespace Mud.Server.GameAction
             return null;
         }
 
-        public string Execute<TGameAction, TActor>(TActor actor, string command, string rawParameters, params ICommandParameter[] parameters)
+        public string Execute<TGameAction, TActor>(TActor actor, string rawParameters)
             where TActor : IActor
         {
             Type gameActionType = typeof(TGameAction);
@@ -66,7 +66,10 @@ namespace Mud.Server.GameAction
                 Log.Default.WriteLine(LogLevels.Error, "GameAction type {0} not found in GameActionManager.", gameActionType.FullName);
                 return "Something goes wrong.";
             }
-            return Execute(gameActionInfo, actor, command, rawParameters, parameters);
+            var parameters = rawParameters == null
+                ? Enumerable.Empty<ICommandParameter>().ToArray()
+                : CommandHelpers.SplitParameters(rawParameters).Select(CommandHelpers.ParseParameter).ToArray();
+            return Execute(gameActionInfo, actor, gameActionInfo.Name, rawParameters, parameters);
         }
 
         public IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()
