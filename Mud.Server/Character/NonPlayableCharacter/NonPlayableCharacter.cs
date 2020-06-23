@@ -188,7 +188,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             if (petData.Auras != null)
             {
                 foreach (AuraData auraData in petData.Auras)
-                    AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
+                    AuraManager.AddAura(this, auraData, false);
             }
 
             RecomputeKnownAbilities();

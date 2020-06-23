@@ -12,5 +12,10 @@ namespace Mud.Server.Tests.Mocking
         {
             throw new NotImplementedException();
         }
+
+        public IAura AddAura(IEntity target, AuraData auraData, bool recompute)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

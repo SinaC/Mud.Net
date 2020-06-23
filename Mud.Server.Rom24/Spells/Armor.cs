@@ -26,7 +26,7 @@ namespace Mud.Server.Rom24.Spells
         protected override string VictimAffectMessage => "You feel someone protecting you.";
         protected override string CasterAffectMessage => "{0:N} is protected by your magic.";
         protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo
-            => (Level, TimeSpan.FromHours(24),
+            => (Level, TimeSpan.FromMinutes(24),
              new IAffect[]
              { 
                  new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -20, Operator = AffectOperators.Add }

@@ -200,7 +200,7 @@ namespace Mud.Server.Room
         public bool Enter(ICharacter character)
         {
             if (_people.Contains(character))
-                Wiznet.Wiznet($"IRoom.Enter: Character {character.DebugName} is already in Room {character.Room.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "IRoom.Enter: Character {0} is already in Room {1}", character.DebugName, character.Room.DebugName);
             else
                 _people.Add(character);
             // Update light

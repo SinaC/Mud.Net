@@ -173,7 +173,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (data.Auras != null)
             {
                 foreach (AuraData auraData in data.Auras)
-                    AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
+                    AuraManager.AddAura(this, auraData, false);
             }
             // Learn abilities
             if (data.LearnedAbilities != null)

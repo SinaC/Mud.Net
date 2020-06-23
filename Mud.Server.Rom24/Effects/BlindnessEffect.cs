@@ -23,7 +23,7 @@ namespace Mud.Server.Rom24.Effects
         {
             if (victim.CharacterFlags.HasFlag(CharacterFlags.Blind) || victim.GetAura(abilityName) != null || victim.SavesSpell(level, SchoolTypes.None))
                 return;
-            AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromHours(1 + level), AuraFlags.None, true,
+            AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(1 + level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = CharacterFlags.Blind, Operator = AffectOperators.Add });
             victim.Send("You are blinded!");

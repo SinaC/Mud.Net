@@ -41,14 +41,14 @@ namespace Mud.POC.Abilities2.Rom24Spells
             IAura existingAura = Victim.GetAura(SpellName);
             if (existingAura != null)
             {
-                existingAura.Update(Level, TimeSpan.FromHours(6));
+                existingAura.Update(Level, TimeSpan.FromMinutes(6));
                 existingAura.AddOrUpdateAffect(
                     x => x.Location == CharacterAttributeAffectLocations.Strength,
                     () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                     x => x.Modifier -= 1);
             }
             else
-                AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromHours(6), AuraFlags.None, true,
+                AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(6), AuraFlags.None, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
         }
     }

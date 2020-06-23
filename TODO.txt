@@ -32,14 +32,11 @@ Multiple wear location
 Reset 'R'
 quest: add quest item on the fly when player takes the quest
 item: protect, room_key
-Monitor Recompute calls
-Recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
+Monitor Recompute calls: recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 skills: steal/lore
 spells: create rose, farsight, identify
 assign abilities to classes
-Unit tests on spell/skill to check if method argument matches AbilityTarget, check if ItemInventoryOrCharacterDefensive have both dispel message
-UnitTests CastFromItem/GetItemAbilityTarget
 UnitTests on Rom24Effects
 Shop: appraise
 specials
@@ -101,7 +98,6 @@ achievements
 AH
 help
 notes
-weather
 lua for mob IA
 
 admin

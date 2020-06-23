@@ -14,6 +14,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Affect;
@@ -52,6 +53,7 @@ namespace Mud.Server.Character
         protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
         protected IEffectManager EffectManager => DependencyContainer.Current.GetInstance<IEffectManager>();
         protected IAffectManager AffectManager => DependencyContainer.Current.GetInstance<IAffectManager>();
+        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         protected CharacterBase(Guid guid, string name, string description)
             : base(guid, name, description)
@@ -150,12 +152,12 @@ namespace Mud.Server.Character
 
             if (GoldCoins < 0)
             {
-                Wiznet.Wiznet($"DeductCost: gold {GoldCoins} < 0", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "DeductCost: gold {0} < 0", GoldCoins);
                 GoldCoins = 0;
             }
             if (SilverCoins < 0)
             {
-                Wiznet.Wiznet($"DeductCost: silver {SilverCoins} < 0", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "DeductCost: silver {0} < 0", SilverCoins);
                 SilverCoins = 0;
             }
 
@@ -208,7 +210,7 @@ namespace Mud.Server.Character
                 int index = (int)attribute;
                 if (index >= _currentAttributes.Length)
                 {
-                    Wiznet.Wiznet($"Trying to get current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to get current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
                     return 0;
                 }
                 return _currentAttributes[index];
@@ -218,7 +220,7 @@ namespace Mud.Server.Character
                 int index = (int)attribute;
                 if (index >= _currentAttributes.Length)
                 {
-                    Wiznet.Wiznet($"Trying to set current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to set current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
                     return;
                 }
                 _currentAttributes[index] = value;
@@ -237,7 +239,7 @@ namespace Mud.Server.Character
                 int index = (int)resource;
                 if (index >= _currentResources.Length)
                 {
-                    Wiznet.Wiznet($"Trying to get current resource for resource {resource} (index {index}) but current resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to get current resource for resource {0} (index {1}) but current resource length is smaller", resource, index);
                     return 0;
                 }
                 return _currentResources[index];
@@ -247,7 +249,7 @@ namespace Mud.Server.Character
                 int index = (int)resource;
                 if (index >= _currentResources.Length)
                 {
-                    Wiznet.Wiznet($"Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to set current resource for resource {0} (index {1}) but current resource length is smaller", resource, index);
                     return;
                 }
                 _currentResources[index] = value;
@@ -507,7 +509,7 @@ namespace Mud.Server.Character
             int index = (int)attribute;
             if (index >= _baseAttributes.Length)
             {
-                Wiznet.Wiznet($"Trying to get base attribute for attribute {attribute} (index {index}) but base attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to get base attribute for attribute {0} (index {1}) but base attribute length is smaller", attribute, index);
                 return 0;
             }
             return _baseAttributes[index];
@@ -518,13 +520,13 @@ namespace Mud.Server.Character
             int index = (int)attribute;
             if (index >= _baseAttributes.Length)
             {
-                Wiznet.Wiznet($"Trying to set base attribute for attribute {attribute} (index {index}) but base attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to set base attribute for attribute {0} (index {1}) but base attribute length is smaller", attribute, index);
                 return;
             }
             _baseAttributes[index] += amount;
             if (index >= _currentAttributes.Length)
             {
-                Wiznet.Wiznet($"Trying to set base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to set base current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
                 return;
             }
             _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
@@ -535,7 +537,7 @@ namespace Mud.Server.Character
             int index = (int)resourceKind;
             if (index >= _maxResources.Length)
             {
-                Wiznet.Wiznet($"Trying to get max resource for resource {resourceKind} (index {index}) but max resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to get max resource for resource {0} (index {1}) but max resource length is smaller", resourceKind, index);
                 return 0;
             }
             return _maxResources[index];
@@ -546,13 +548,13 @@ namespace Mud.Server.Character
             int index = (int)resourceKind;
             if (index >= _maxResources.Length)
             {
-                Wiznet.Wiznet($"Trying to get max resource for resource {resourceKind} (index {index}) but max resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to get max resource for resource {0} (index {1}) but max resource length is smaller", resourceKind, index);
                 return;
             }
             _maxResources[index] += amount;
             if (index >= _currentResources.Length)
             {
-                Wiznet.Wiznet($"Trying to set current resource for resource {resourceKind} (index {index}) but current resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to set current resource for resource {0} (index {1}) but current resource length is smaller", resourceKind, index);
                 return;
             }
             _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
@@ -941,7 +943,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Wiznet.Wiznet($"ICharacter.ChangeRoom: {DebugName} is not valid anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeRoom: {0} is not valid anymore", DebugName);
                 return;
             }
 
@@ -981,7 +983,7 @@ namespace Mud.Server.Character
         {
             if (!IsValid)
             {
-                Wiznet.Wiznet($"StartFighting: {DebugName} is not valid anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "StartFighting: {0} is not valid anymore", DebugName);
                 return false;
             }
 
@@ -1293,7 +1295,7 @@ namespace Mud.Server.Character
                     irvFlags = IRVFlags.Sound;
                     break;
                 default:
-                    Wiznet.Wiznet($"CharacterBase.CheckResistance: Unknown {nameof(SchoolTypes)}.{damageType}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "CharacterBase.CheckResistance: Unknown {0} {1}", nameof(SchoolTypes), damageType);
                     return defaultResistance;
             }
             // Following code has been reworked because Rom24 was testing on currently computed resistance (imm) instead of defaultResistance (def)
@@ -1328,7 +1330,10 @@ namespace Mud.Server.Character
 
             ICharacter characterKiller = killer as ICharacter;
 
-            Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.Deaths);
+            if (this is INonPlayableCharacter)
+                Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.MobDeaths);
+            else
+                Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.Deaths);
 
             StopFighting(true);
             // Remove auras
@@ -1349,7 +1354,7 @@ namespace Mud.Server.Character
             }
             else
             {
-                Wiznet.Wiznet($"ItemCorpseBlueprint (id:{Settings.CorpseBlueprintId}) doesn't exist !!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "ItemCorpseBlueprint (id:{0}) doesn't exist !!!", Settings.CorpseBlueprintId);
             }
 
             // Gain/lose xp/reputation auto loot/gold/sac
@@ -1971,7 +1976,7 @@ namespace Mud.Server.Character
                         break;
                     case AffectOperators.Or:
                     case AffectOperators.Nor:
-                        Wiznet.Wiznet($"Invalid AffectOperators {affect.Operator} for CharacterAttributeAffect Characteristics", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Log.Default.WriteLine(LogLevels.Error, "Invalid AffectOperators {0} for CharacterAttributeAffect Characteristics", affect.Operator);
                         break;
                 }
                 return;
@@ -1994,7 +1999,7 @@ namespace Mud.Server.Character
                         break;
                     case AffectOperators.Or:
                     case AffectOperators.Nor:
-                        Wiznet.Wiznet($"Invalid AffectOperators {affect.Operator} for CharacterAttributeAffect AllArmor", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Log.Default.WriteLine(LogLevels.Error, "Invalid AffectOperators {0} for CharacterAttributeAffect AllArmor", affect.Operator);
                         break;
                 }
                 return;
@@ -2017,7 +2022,7 @@ namespace Mud.Server.Character
                 case CharacterAttributeAffectLocations.ArmorSlash: attribute = CharacterAttributes.ArmorSlash; break;
                 case CharacterAttributeAffectLocations.ArmorMagic: attribute = CharacterAttributes.ArmorExotic; break;
                 default:
-                    Wiznet.Wiznet($"CharacterBase.ApplyAffect: Unexpected CharacterAttributeAffectLocations {affect.Location}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "CharacterBase.ApplyAffect: Unexpected CharacterAttributeAffectLocations {0}", affect.Location);
                     return;
             }
             switch (affect.Operator)
@@ -2030,7 +2035,7 @@ namespace Mud.Server.Character
                     break;
                 case AffectOperators.Or:
                 case AffectOperators.Nor:
-                    Wiznet.Wiznet($"Invalid AffectOperators {affect.Operator} for CharacterAttributeAffect {affect.Location}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "Invalid AffectOperators {0} for CharacterAttributeAffect {1}", affect.Operator, affect.Location);
                     break;
             }
         }
@@ -2089,7 +2094,7 @@ namespace Mud.Server.Character
                 case ActOptions.ToCharacter:
                     return this.Yield();
                 default:
-                    Wiznet.Wiznet($"Act with invalid option: {option}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "Act with invalid option: {0}", option);
                     return Enumerable.Empty<ICharacter>();
             }
         }
@@ -2163,11 +2168,10 @@ namespace Mud.Server.Character
                 victimAc += 4;
             if (victim.Position < Positions.Resting)
                 victimAc += 6;
-            // miss ?
-            int diceroll = RandomManager.Range(0, 19); // 0:miss 19:success
-            diceroll = 20;
-            if (diceroll == 0
-                || (diceroll != 19 && diceroll < thac0 - victimAc))
+            // miss ?  1d20 -> 1:miss  20: success
+            int diceroll = RandomManager.Dice(1, 20);
+            if (diceroll == 1
+                || (diceroll != 20 && diceroll < thac0 - victimAc))
             {
                 if (hitModifier?.AbilityName != null)
                     victim.AbilityDamage(this, 0, damageType, hitModifier.DamageNoun ?? "hit", true);
@@ -2525,7 +2529,7 @@ namespace Mud.Server.Character
             int index = (int)resourceKind;
             if (index >= _maxResources.Length)
             {
-                Wiznet.Wiznet($"Trying to set max resource for resource {resourceKind} (index {index}) but max resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to set max resource for resource {0} (index {1}) but max resource length is smaller", resourceKind, index);
                 return;
             }
             _maxResources[index] = value;
@@ -2533,7 +2537,7 @@ namespace Mud.Server.Character
             {
                 if (index >= _currentResources.Length)
                 {
-                    Wiznet.Wiznet($"Trying to set current resource for resource {resourceKind} (index {index}) but current resource length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to set current resource for resource {0} (index {1}) but current resource length is smaller", resourceKind, index);
                     return;
                 }
                 _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
@@ -2545,7 +2549,7 @@ namespace Mud.Server.Character
             int index = (int)attribute;
             if (index >= _baseAttributes.Length)
             {
-                Wiznet.Wiznet($"Trying to set base attribute for attribute {attribute} (index {index}) but max attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to set base attribute for attribute {0} (index {1}) but max attribute length is smaller", attribute, index);
                 return;
             }
             _baseAttributes[index] = value;
@@ -2553,7 +2557,7 @@ namespace Mud.Server.Character
             {
                 if (index >= _currentAttributes.Length)
                 {
-                    Wiznet.Wiznet($"Trying to set base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Log.Default.WriteLine(LogLevels.Error, "Trying to set base current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
                     return;
                 }
                 _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);

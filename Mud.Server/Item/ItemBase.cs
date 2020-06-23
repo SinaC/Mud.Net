@@ -25,6 +25,7 @@ namespace Mud.Server.Item
         where TData: ItemData
     {
         protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
+        protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
 
         protected ItemBase(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
             : base(guid, name, description)
@@ -56,7 +57,7 @@ namespace Mud.Server.Item
             if (data.Auras != null)
             {
                 foreach (AuraData auraData in data.Auras)
-                    AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
+                    AuraManager.AddAura(this, auraData, false);
             }
         }
 
@@ -70,7 +71,7 @@ namespace Mud.Server.Item
             if (data.Auras != null)
             {
                 foreach (AuraData auraData in data.Auras)
-                    AddAura(new Aura.Aura(auraData), false); // TODO: !!! auras is not added thru World.AddAura
+                    AuraManager.AddAura(this, auraData, false);
             }
         }
 
@@ -193,7 +194,7 @@ namespace Mud.Server.Item
         {
             if (container == this)
             {
-                Wiznet.Wiznet("Trying to put a container in itself!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "Trying to put a container in itself!!");
                 return false;
             }
 

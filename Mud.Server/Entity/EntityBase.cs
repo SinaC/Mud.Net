@@ -30,7 +30,6 @@ namespace Mud.Server.Entity
 
         protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
         protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
-        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         protected EntityBase(Guid guid, string name, string description)
         {
@@ -484,11 +483,11 @@ namespace Mud.Server.Entity
                                     result.Append("s");
                             }
                             else
-                                Wiznet.Wiznet("Act: v-format on an empty string", WiznetFlags.Bugs, AdminLevels.Implementor);
+                                Log.Default.WriteLine(LogLevels.Error, "Act: v-format on an empty string");
                         }
                         break;
                     default:
-                        Wiznet.Wiznet($"Act: invalid format {format} for ICharacter", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Log.Default.WriteLine(LogLevels.Error, "Act: invalid format {0} for ICharacter", format);
                         result.Append("<???>");
                         break;
                 }

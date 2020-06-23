@@ -639,6 +639,13 @@ namespace Mud.Server.World
             return aura;
         }
 
+        public IAura AddAura(IEntity target, AuraData auraData, bool recompute)
+        {
+            IAura aura = new Aura.Aura(auraData);
+            target.AddAura(aura, recompute);
+            return aura;
+        }
+
         #endregion
 
         private IRandomManager RandomManager { get; }

@@ -32,7 +32,7 @@ namespace Mud.Server.Rom24.Effects
             if (victim != source && source is ICharacter sourceCharacter)
                 sourceCharacter.Act(ActOptions.ToCharacter, "You grant {0} the favor of your god.", victim);
             int duration = 6 + level;
-            AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromHours(duration), AuraFlags.None, true,
+            AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = level / 8, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -level / 8, Operator = AffectOperators.Add });
         }

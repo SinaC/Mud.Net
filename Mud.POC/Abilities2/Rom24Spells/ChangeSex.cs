@@ -34,7 +34,7 @@ namespace Mud.POC.Abilities2.Rom24Spells
                 return;
 
             Sex newSex = RandomManager.Random(EnumHelpers.GetValues<Sex>().Where(x => x != Victim.Sex));
-            AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromHours(2 * Level), AuraFlags.None, true,
+            AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
                 new CharacterSexAffect { Value = newSex });
             Victim.Send("You feel different.");
             Victim.Act(ActOptions.ToRoom, "{0:N} doesn't look like {0:m}self anymore...", Victim);

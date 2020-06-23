@@ -56,7 +56,7 @@ namespace Mud.Server.Rom24.Spells
                 Caster.Act(ActOptions.ToCharacter, "The evil of {0} is too powerful for you to overcome.", item);
                 return;
             }
-            AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromHours(6 + Level), AuraFlags.None, true,
+            AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(6 + Level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
                 new ItemFlagsAffect { Modifier = ItemFlags.Bless, Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0} glows with a holy aura.", item);
