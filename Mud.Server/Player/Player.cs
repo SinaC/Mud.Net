@@ -19,15 +19,17 @@ namespace Mud.Server.Player
 {
     public class Player : ActorBase, IPlayer
     {
+        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
+        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+
         private readonly List<string> _delayedTells;
         private readonly List<PlayableCharacterData> _avatarList;
         private readonly Dictionary<string, string> _aliases;
 
-        protected IInputTrap<IPlayer> CurrentStateMachine;
+        private string _lastCommand;
+        private DateTime _lastCommandTimestamp;
 
-        protected ITimeManager TimeHandler => DependencyContainer.Current.GetInstance<ITimeManager>();
-        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
-        protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
+        protected IInputTrap<IPlayer> CurrentStateMachine;
 
         protected Player()
         {
@@ -96,19 +98,19 @@ namespace Mud.Server.Player
                 // ! means repeat last command (only when last command was not delete)
                 if (input != null && input.Length >= 1 && input[0] == '!')
                 {
-                    if (LastCommand?.ToLowerInvariant() == "delete")
+                    if (_lastCommand?.ToLowerInvariant() == "delete")
                     {
                         Send("Cannot use '!' to repeat 'delete' command");
                         DeletionConfirmationNeeded = false; // reset delete confirmation
                         return false;
                     }
-                    input = LastCommand;
-                    LastCommandTimestamp = TimeHandler.CurrentTime;
+                    input = _lastCommand;
+                    _lastCommandTimestamp = TimeHandler.CurrentTime;
                 }
                 else
                 {
-                    LastCommand = input;
-                    LastCommandTimestamp = TimeHandler.CurrentTime;
+                    _lastCommand = input;
+                    _lastCommandTimestamp = TimeHandler.CurrentTime;
                 }
 
                 // Extract command and parameters
@@ -201,7 +203,7 @@ namespace Mud.Server.Player
             int index = _avatarList.FindIndex(x => StringCompareHelpers.StringEquals(x.Name, Impersonating.Name));
             if (index < 0)
             {
-                Wiznet.Wiznet($"UpdateCharacterDataFromImpersonated: unknown avatar {Impersonating.DebugName} for player {DisplayName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated: unknown avatar {0} for player {1}", Impersonating.DebugName, DisplayName);
                 return;
             }
 
@@ -226,9 +228,6 @@ namespace Mud.Server.Player
         public IPlayer LastTeller { get; private set; }
 
         public IAdmin SnoopBy { get; private set; } // every messages send to 'this' will be sent to SnoopBy
-
-        public DateTime LastCommandTimestamp { get; protected set; }
-        public string LastCommand { get; protected set; }
 
         public virtual string Prompt => Impersonating != null
             ? BuildCharacterPrompt(Impersonating)
@@ -355,7 +354,7 @@ namespace Mud.Server.Player
             sb.AppendLine($"Id: {Id}");
             sb.AppendLine($"Name: {Name}");
             sb.AppendLine($"DisplayName: {DisplayName}");
-            sb.AppendLine($"LastCommand: {LastCommand} Timestamp: {LastCommandTimestamp}");
+            sb.AppendLine($"_lastCommand: {_lastCommand} Timestamp: {_lastCommandTimestamp}");
             sb.AppendLine($"IsAfk: {IsAfk}");
             sb.AppendLine($"PlayerState: {PlayerState}");
             sb.AppendLine($"GCD: {GlobalCooldown}");
@@ -388,7 +387,7 @@ namespace Mud.Server.Player
             }
             else
             {
-                Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating", DisplayName);
                 executedSuccessfully = false;
             }
             if (!executedSuccessfully)

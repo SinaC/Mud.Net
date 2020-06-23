@@ -148,7 +148,7 @@ namespace Mud.Server.Admin
             }
             else
             {
-                Wiznet.Wiznet($"[{DisplayName}] is neither out of game nor impersonating nor incarnating", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating nor incarnating", DisplayName);
                 executedSuccessfully = false;
             }
             if (!executedSuccessfully)

@@ -49,9 +49,6 @@ namespace Mud.Server.Interfaces.Player
 
         IAdmin SnoopBy { get; } // every messages send to 'this' will be sent to SnoopBy
 
-        DateTime LastCommandTimestamp { get; }
-        string LastCommand { get; }
-
         string Prompt { get; }
 
         bool IsAfk { get; }
