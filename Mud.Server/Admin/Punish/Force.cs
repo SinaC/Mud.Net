@@ -54,16 +54,37 @@ namespace Mud.Server.Admin.Punish
 
         public override void Execute(IActionInput actionInput)
         {
-            if (Whom == null)
+            if (Whom != null)
+            {
+                Actor.Send("You force {0} to '{1}'.", Whom.DebugName, What);
+                Wiznet.Wiznet($"{Actor.DisplayName} forces {Whom} to {What}", Domain.WiznetFlags.Punish);
+
+                ForceOneCharacter(Whom);
+            }
+            else
             {
                 Actor.Send("You force everyone to '{1}'.", What);
                 Wiznet.Wiznet($"{Actor.DisplayName} forces everyone to {What}", Domain.WiznetFlags.Punish);
 
-                foreach (ICharacter victimLoop in CharacterManager.Characters.Where(x => x != Impersonating))
-                {
-                    victimLoop.Send("{0} forces you to '{1}'.", Actor.DisplayName, What);
-                    victimLoop.ProcessInput(What);
-                }
+                foreach (ICharacter victim in CharacterManager.Characters.Where(x => x != Impersonating))
+                    ForceOneCharacter(victim);
+            }
+        }
+
+        private void ForceOneCharacter(ICharacter victim)
+        {
+            victim.Send("{0} forces you to '{1}'.", Actor.DisplayName, What);
+            switch (victim)
+            {
+                case INonPlayableCharacter npc:
+                    npc.ProcessInput(What);
+                    break;
+                case IPlayableCharacter pc:
+                    if (pc.ImpersonatedBy != null)
+                        pc.ImpersonatedBy.ProcessInput(What);
+                    else
+                        pc.ProcessInput(What);
+                    break;
             }
         }
     }
