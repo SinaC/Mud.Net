@@ -5,6 +5,7 @@ using System.Text;
 using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
+using Mud.Logger;
 using Mud.Server.Affects;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
@@ -17,9 +18,6 @@ namespace Mud.Server.Aura
 {
     public class Aura : IAura
     {
-        private IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
-        private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
-
         private readonly List<IAffect> _affects;
 
         private Aura()
@@ -73,7 +71,7 @@ namespace Mud.Server.Aura
                             break;
                             // TODO: poison/plague
                         default:
-                            Wiznet.Wiznet($"Unexpected AuraAffect type {affectData.GetType()}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                            Log.Default.WriteLine(LogLevels.Error, "Unexpected AuraAffect type {0}", affectData.GetType());
                             break;
                     }
                 }

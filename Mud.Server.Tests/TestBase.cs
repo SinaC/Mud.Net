@@ -3,6 +3,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
@@ -64,7 +65,7 @@ namespace Mud.Server.Tests
             //Container.DependencyContainer.Current.RegisterInstance<IPlayerRepository>(new PlayerRepositoryMock());
             //Container.DependencyContainer.Current.RegisterInstance<IAdminRepository>(new AdminRepositoryMock());
             //Container.DependencyContainer.Current.RegisterInstance<ITableValues>(new TableValuesMock());
-            //Container.DependencyContainer.Current.RegisterInstance<IAuraManager>(new AuraManagerMock());
+            Container.DependencyContainer.Current.RegisterInstance<IAuraManager>(new AuraManagerMock());
 
             IAssemblyHelper assemblyHelper = new AssemblyHelper();
             Type iRegistrable = typeof(IRegistrable);
