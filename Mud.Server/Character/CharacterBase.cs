@@ -108,7 +108,11 @@ namespace Mud.Server.Character
 
         public bool PutInContainer(IItem obj)
         {
-            // TODO: check if already in a container
+            if (obj.ContainedInto != null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "PutInContainer: {0} is already in container {1}.", obj.DebugName, obj.ContainedInto.DebugName);
+                return false;
+            }
             _inventory.Insert(0, obj);
             return true;
         }
@@ -381,7 +385,6 @@ namespace Mud.Server.Character
         // Position
         public bool ChangePosition(Positions position)
         {
-            // TODO: false in some cases ?
             Position = position;
             return true;
         }
@@ -408,7 +411,7 @@ namespace Mud.Server.Character
                 && !CharacterFlags.HasFlag(CharacterFlags.DetectHidden)
                 && victim.Fighting == null)
             {
-                var sneakInfo = victim.GetAbilityLearnedInfo("Sneak"); // TODO: this can be quite slow and CanSee is often used
+                var sneakInfo = victim.GetAbilityLearnedInfo("Sneak"); // this can be slow
                 int chance = sneakInfo.percentage;
                 chance += (3 * victim[BasicAttributes.Dexterity]) / 2;
                 chance -= this[BasicAttributes.Intelligence] * 2;
@@ -604,43 +607,53 @@ namespace Mud.Server.Character
         public void Regen()
         {
             // Hp/Move
-            (int hitGain, int moveGain, int manaGain) gains = RegenBaseValues();
+            (int hitGain, int moveGain, int manaGain, int psyGain) gains = RegenBaseValues();
             int hitGain = gains.hitGain;
             int moveGain = gains.moveGain;
             int manaGain = gains.manaGain;
+            int psyGain = gains.psyGain;
 
-            // TODO: other resources
             hitGain = hitGain * Room.HealRate / 100;
             manaGain = manaGain * Room.ResourceRate / 100;
+            psyGain = psyGain * Room.ResourceRate / 100;
 
             if (Furniture != null && Furniture?.HealBonus != 0)
             {
                 hitGain = (hitGain * Furniture.HealBonus) / 100;
                 moveGain = (moveGain * Furniture.HealBonus) / 100;
             }
+
             if (Furniture != null && Furniture?.ResourceBonus != 0)
+            {
                 manaGain = (manaGain * Furniture.ResourceBonus) / 100;
+                psyGain = (psyGain * Furniture.ResourceBonus) / 100;
+            }
+
             if (CharacterFlags.HasFlag(CharacterFlags.Poison))
             {
                 hitGain /= 4;
                 moveGain /= 4;
                 manaGain /= 4;
+                psyGain /= 4;
             }
             if (CharacterFlags.HasFlag(CharacterFlags.Plague))
             {
                 hitGain /= 8;
                 moveGain /= 8;
                 manaGain /= 8;
+                psyGain /= 8;
             }
             if (CharacterFlags.HasFlag(CharacterFlags.Haste) || CharacterFlags.HasFlag(CharacterFlags.Slow))
             {
                 hitGain /= 2;
                 moveGain /= 2;
                 manaGain /= 2;
+                psyGain /= 2;
             }
             HitPoints = Math.Min(HitPoints + hitGain, MaxHitPoints);
             MovePoints = Math.Min(MovePoints + moveGain, MaxMovePoints);
             UpdateResource(ResourceKinds.Mana, manaGain);
+            UpdateResource(ResourceKinds.Psy, psyGain);
 
             // Other resources
         }
@@ -954,10 +967,6 @@ namespace Mud.Server.Character
         }
 
         // Combat
-        public abstract SchoolTypes NoWeaponDamageType { get; }
-        public abstract int NoWeaponBaseDamage { get; }
-        public abstract string NoWeaponDamageNoun { get; }
-
         public virtual void UpdatePosition()
         {
             if (HitPoints > 0)
@@ -1021,16 +1030,8 @@ namespace Mud.Server.Character
             return Damage(source, damage, damageType, damageNoun, display);
         }
 
-        public DamageResults HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
+        public DamageResults HitDamage(ICharacter source, IItemWeapon wield, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source' using a weapon
         {
-            string damageNoun;
-            if (wield == null)
-                damageNoun = source.NoWeaponDamageNoun;
-            else
-                damageNoun = wield.DamageNoun;
-            if (string.IsNullOrWhiteSpace(damageNoun))
-                damageNoun = "hit";
-
             return Damage(source, damage, damageType, damageNoun, display);
         }
 
@@ -1207,7 +1208,7 @@ namespace Mud.Server.Character
             // handle dead people
             if (Position == Positions.Dead)
             {
-                IItemCorpse corpse = RawKilled(source, true); // group group_gain + dying penalty + raw_kill
+                RawKilled(source, true); // group group_gain + dying penalty + raw_kill
                 return DamageResults.Killed;
             }
 
@@ -1373,8 +1374,6 @@ namespace Mud.Server.Character
         }
 
         public abstract void KillingPayoff(ICharacter victim, IItemCorpse corpse);
-
-        public abstract void DeathPayoff(ICharacter killer);
 
         public bool SavesSpell(int level, SchoolTypes damageType)
         {
@@ -2036,7 +2035,7 @@ namespace Mud.Server.Character
 
         protected abstract void AfterMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom);
 
-        protected abstract (int hitGain, int moveGain, int manaGain) RegenBaseValues();
+        protected abstract (int hitGain, int moveGain, int manaGain, int psyGain) RegenBaseValues();
 
         protected virtual bool AutomaticallyDisplayRoom => IncarnatedBy != null;
 
@@ -2082,6 +2081,12 @@ namespace Mud.Server.Character
         protected abstract void HandleWimpy(int damage);
 
         protected abstract (int thac0_00, int thac0_32) GetThac0();
+
+        protected abstract SchoolTypes NoWeaponDamageType { get; }
+
+        protected abstract int NoWeaponBaseDamage { get; }
+
+        protected abstract string NoWeaponDamageNoun { get; }
 
         protected int GetWeaponBaseDamage(IItemWeapon weapon, int weaponLearned)
         {
@@ -2154,7 +2159,11 @@ namespace Mud.Server.Character
                 if (hitModifier?.AbilityName != null)
                     victim.AbilityDamage(this, 0, damageType, hitModifier.DamageNoun ?? "hit", true);
                 else
-                    victim.HitDamage(this, wield, 0, damageType, true);
+                {
+                    string damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
+                    victim.HitDamage(this, wield, 0, damageType, damageNoun ?? "hit", true);
+                }
+
                 return;
             }
             // parry
@@ -2255,7 +2264,11 @@ namespace Mud.Server.Character
             if (hitModifier?.AbilityName != null)
                 damageResult = victim.AbilityDamage(this, damage, damageType, hitModifier.DamageNoun ?? "hit", true);
             else
-                damageResult = victim.HitDamage(this, wield, damage, damageType, true);
+            {
+                string damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
+                damageResult = victim.HitDamage(this, wield, damage, damageType, damageNoun ?? "hit", true);
+            }
+
             if (Fighting != victim)
                 return;
 
@@ -2264,26 +2277,17 @@ namespace Mud.Server.Character
             {
                 if (wield.WeaponFlags.HasFlag(WeaponFlags.Poison))
                 {
-                    IAura poisonAura = victim.GetAura("Poison");
-                    int level = poisonAura?.Level ?? wield.Level;
+                    IAura wieldPoisonAura = wield.Auras.FirstOrDefault(x => x.Affects.OfType<ItemWeaponFlagsAffect>().Any(aff => aff.Modifier == WeaponFlags.Poison));
+                    int level = wieldPoisonAura?.Level ?? wield.Level;
                     if (!victim.SavesSpell(level/2, SchoolTypes.Poison))
                     {
                         victim.Send("You feel poison coursing through your veins.");
                         victim.Act(ActOptions.ToRoom, "{0:N} is poisoned by the venom on {1}.", victim, wield);
-                        if (poisonAura != null)
+                        int duration = level / 2;
+
+                        IAura victimPoisonAura = victim.Auras.FirstOrDefault(x => x.Affects.OfType<ItemWeaponFlagsAffect>().Any(aff => aff.Modifier == WeaponFlags.Poison));
+                        if (victimPoisonAura == null)
                         {
-                            // weaken when already present
-                            poisonAura.DecreaseLevel();
-                            bool wornOff = poisonAura.DecreasePulseLeft(Pulse.FromMinutes(1));
-                            if (poisonAura.Level < 0 || wornOff)
-                            {
-                                victim.RemoveAura(poisonAura, true); // in original code, the affect was not removed
-                                victim.Act(ActOptions.ToCharacter, "The poison on {0} has worn off.", wield); // TODO: this could lead to strange behavior poisoned by food then worn off by weapon
-                            }
-                        }
-                        else
-                        {
-                            int duration = level / 2;
                             IAffect poisonAffect = AffectManager.CreateInstance("Poison");
                             if (poisonAffect == null)
                             {
@@ -2297,6 +2301,20 @@ namespace Mud.Server.Character
                                     new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
                                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                                     poisonAffect);
+                            }
+                        }
+                        else
+                            victimPoisonAura.Update(3*level/4, TimeSpan.FromMinutes(duration));
+
+                        // weaken the poison if it's temporary 
+                        if (wieldPoisonAura != null && !wieldPoisonAura.AuraFlags.HasFlag(AuraFlags.Permanent))
+                        {
+                            wieldPoisonAura.DecreaseLevel();
+                            bool wornOff = wieldPoisonAura.DecreasePulseLeft(Pulse.FromMinutes(1));
+                            if (wieldPoisonAura.Level <= 1 || wornOff)
+                            {
+                                wield.RemoveAura(wieldPoisonAura, true);
+                                victim.Act(ActOptions.ToCharacter, "The poison on {0} has worn off.", wield);
                             }
                         }
                     }
@@ -2359,6 +2377,8 @@ namespace Mud.Server.Character
             }
         }
 
+        protected abstract void DeathPayoff(ICharacter killer);
+
         protected void ResetCooldowns()
         {
             _cooldownsPulseLeft.Clear();
@@ -2376,7 +2396,7 @@ namespace Mud.Server.Character
 
         protected void BuildEquipmentSlots()
         {
-            // TODO: depend on race+affects+...
+            // TODO: depend also on affects+...
             if (Race != null)
             {
                 // TODO: take care of existing equipment (add only new slot, if slot is removed put equipment in inventory)

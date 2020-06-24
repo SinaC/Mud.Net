@@ -279,12 +279,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
             : base.MaxCarryNumber;
 
         // Combat
-        public override SchoolTypes NoWeaponDamageType => DamageType;
-
-        public override int NoWeaponBaseDamage => RandomManager.Dice(DamageDiceCount, DamageDiceValue) + DamageDiceBonus;
-
-        public override string NoWeaponDamageNoun => DamageNoun;
-
         public override void UpdatePosition()
         {
             if (HitPoints < 1)
@@ -410,11 +404,6 @@ namespace Mud.Server.Character.NonPlayableCharacter
         }
 
         public override void KillingPayoff(ICharacter victim, IItemCorpse corpse)
-        {
-            // NOP
-        }
-
-        public override void DeathPayoff(ICharacter killer)
         {
             // NOP
         }
@@ -616,11 +605,12 @@ namespace Mud.Server.Character.NonPlayableCharacter
         }
 
 
-        protected override (int hitGain, int moveGain, int manaGain) RegenBaseValues()
+        protected override (int hitGain, int moveGain, int manaGain, int psyGain) RegenBaseValues()
         {
             int hitGain = 5 + Level;
             int moveGain = Level;
             int manaGain = 5 + Level;
+            int psyGain = 5 + Level;
             if (CharacterFlags.HasFlag(CharacterFlags.Regeneration))
                 hitGain *= 2;
             switch (Position)
@@ -628,6 +618,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 case Positions.Sleeping:
                     hitGain = (3 * hitGain) / 2;
                     manaGain = (3 * manaGain) / 2;
+                    psyGain = (3 * psyGain) / 2;
                     break;
                 case Positions.Resting:
                     // nop
@@ -635,13 +626,15 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 case Positions.Fighting:
                     hitGain /= 3;
                     manaGain /= 3;
+                    psyGain /= 3;
                     break;
                 default:
                     hitGain /= 2;
                     manaGain /= 2;
+                    psyGain /= 2;
                     break;
             }
-            return (hitGain, moveGain, manaGain);
+            return (hitGain, moveGain, manaGain, psyGain);
         }
 
         protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
@@ -697,6 +690,17 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 thac0_32 = 6;
 
             return (thac0_00, thac0_32);
+        }
+
+        protected override SchoolTypes NoWeaponDamageType => DamageType;
+
+        protected override int NoWeaponBaseDamage => RandomManager.Dice(DamageDiceCount, DamageDiceValue) + DamageDiceBonus;
+
+        protected override string NoWeaponDamageNoun => DamageNoun;
+
+        protected override void DeathPayoff(ICharacter killer)
+        {
+            // NOP
         }
 
         #endregion

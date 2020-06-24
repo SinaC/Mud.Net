@@ -202,9 +202,9 @@ namespace Mud.Server.Item
 
             ContainedInto?.GetFromContainer(this);
             //Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container"); // False, equipment are not stored in any container
-            //container.PutInContainer(this);
-            //ContainedInto = container;
-            container?.PutInContainer(this);
+            bool putInContainer = container?.PutInContainer(this) ?? true;
+            if (!putInContainer)
+                return false;
             ContainedInto = container;
 
             return true;

@@ -77,7 +77,7 @@ namespace Mud.Server.Rom24.Spells
                     return;
                 }
                 int duration = Level / 8;
-                AuraManager.AddAura(weapon, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                AuraManager.AddAura(weapon, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
                     new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Poison, Operator = AffectOperators.Or });
                 Caster.Act(ActOptions.ToCharacter, "{0} is coated with deadly venom.", weapon);
                 return;

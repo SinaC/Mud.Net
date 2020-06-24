@@ -446,13 +446,6 @@ namespace Mud.Server.Character.PlayableCharacter
             }
         }
 
-        public override void DeathPayoff(ICharacter killer) // Lose xp/reputation..
-        {
-            // 5/6 way back to previous level.
-            var loss = -5 * ExperienceToLevel / 6;
-            GainExperience(loss);
-        }
-
         // Abilities
         public override (int percentage, IAbilityLearned abilityLearned) GetWeaponLearnedInfo(IItemWeapon weapon)
         {
@@ -729,20 +722,6 @@ namespace Mud.Server.Character.PlayableCharacter
         }
 
         // Combat
-        public override SchoolTypes NoWeaponDamageType => SchoolTypes.Bash;
-
-        public override int NoWeaponBaseDamage
-        {
-            get
-            {
-                var hand2HandLearnInfo = GetAbilityLearnedInfo("Hand to hand");
-                int learned = hand2HandLearnInfo.percentage;
-                return RandomManager.Range(1 + 4 * learned / 100, 2 * Level / 3 * learned / 100);
-            }
-        }
-
-        public override string NoWeaponDamageNoun => "hit";
-
         public void GainExperience(long experience)
         {
             if (Level < Settings.MaxLevel)
@@ -992,11 +971,12 @@ namespace Mud.Server.Character.PlayableCharacter
 
         protected override bool AutomaticallyDisplayRoom => true;
 
-        protected override (int hitGain, int moveGain, int manaGain) RegenBaseValues()
+        protected override (int hitGain, int moveGain, int manaGain, int psyGain) RegenBaseValues()
         {
             int hitGain = Math.Max(3, this[CharacterAttributes.Constitution] - 3 + Level / 2);
             int moveGain = Math.Max(15, Level);
             int manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
+            int psyGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2; // TODO: correct formula
             // regen
             if (CharacterFlags.HasFlag(CharacterFlags.Regeneration))
                 hitGain *= 2;
@@ -1018,6 +998,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 if (this[ResourceKinds.Mana] < MaxResource(ResourceKinds.Mana))
                     CheckAbilityImprove("Meditation", true, 8);
             }
+            // TODO: same as meditation for psy
             // position
             switch (Position)
             {
@@ -1028,29 +1009,34 @@ namespace Mud.Server.Character.PlayableCharacter
                     hitGain /= 2;
                     moveGain += this[CharacterAttributes.Dexterity] / 2;
                     manaGain /= 2;
+                    psyGain /= 2;
                     break;
                 case Positions.Fighting:
                     hitGain /= 6;
                     manaGain /= 6;
+                    psyGain /= 6;
                     break;
                 default:
                     hitGain /= 4;
                     manaGain /= 4;
+                    psyGain /= 4;
                     break;
             }
             if (this[Conditions.Hunger] == 0)
             {
                 hitGain /= 2;
-                manaGain /= 2;
                 moveGain /= 2;
+                manaGain /= 2;
+                psyGain /= 2;
             }
             if (this[Conditions.Thirst] == 0)
             {
                 hitGain /= 2;
-                manaGain /= 2;
                 moveGain /= 2;
+                manaGain /= 2;
+                psyGain /= 2;
             }
-            return (hitGain, moveGain, manaGain);
+            return (hitGain, moveGain, manaGain, psyGain);
         }
 
         protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
@@ -1204,6 +1190,27 @@ namespace Mud.Server.Character.PlayableCharacter
             if (Class != null)
                 return Class.Thac0;
             return (20, 0);
+        }
+
+        protected override SchoolTypes NoWeaponDamageType => SchoolTypes.Bash;
+
+        protected override int NoWeaponBaseDamage
+        {
+            get
+            {
+                var hand2HandLearnInfo = GetAbilityLearnedInfo("Hand to hand");
+                int learned = hand2HandLearnInfo.percentage;
+                return RandomManager.Range(1 + 4 * learned / 100, 2 * Level / 3 * learned / 100);
+            }
+        }
+
+        protected override string NoWeaponDamageNoun => "hit";
+
+        protected override void DeathPayoff(ICharacter killer) // Lose xp/reputation..
+        {
+            // 5/6 way back to previous level.
+            var loss = -5 * ExperienceToLevel / 6;
+            GainExperience(loss);
         }
 
         protected override void RecomputeKnownAbilities()
