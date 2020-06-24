@@ -37,7 +37,7 @@ namespace Mud.Server.Blueprints.Room
         public int ResourceRate { get; set; } = 100;
 
         [DataMember]
-        public Sizes? MaxSize { get; set; } = null;
+        public Sizes? MaxSize { get; set; }
 
         [DataMember]
         public ExitBlueprint[] Exits { get; set; }

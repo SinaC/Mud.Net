@@ -69,10 +69,9 @@ namespace Mud.Server.Character.Movement
                 What.Open();
                 Actor.Send("Ok.");
                 Actor.Act(ActOptions.ToRoom, "{0:N} opens {1}.", Actor, What);
-                return;
             }
             // Door
-            if (What is IExit exit)
+            else if (What is IExit exit)
             {
                 // Open this side side
                 exit.Open();
@@ -88,7 +87,6 @@ namespace Mud.Server.Character.Movement
                 }
                 else
                     Log.Default.WriteLine(LogLevels.Warning, $"Non bidirectional exit in room {Actor.Room.Blueprint.Id} direction {ExitDirection}");
-                return;
             }
         }
     }

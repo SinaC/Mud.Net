@@ -164,16 +164,14 @@ namespace Mud.Server.Character.Information
                         sb.AppendLine("You see glowing red eyes watching YOU!");
                 }
                 Actor.Send(sb);
-                return;
             }
-            if (DisplayRoom)
+            else if (DisplayRoom)
             {
                 StringBuilder sb = new StringBuilder();
                 Actor.Room.Append(sb, Actor);
                 Actor.Send(sb);
-                return;
             }
-            if (DrinkContainer != null)
+            else if (DrinkContainer != null)
             {
                 if (DrinkContainer.IsEmpty)
                     Actor.Send("It's empty.");
@@ -187,9 +185,8 @@ namespace Mud.Server.Character.Information
                     var liquidInfo = TableValues.LiquidInfo(DrinkContainer.LiquidName);
                     Actor.Send("It's {0}filled with a {1} liquid.", left, liquidInfo.color);
                 }
-                return;
             }
-            if (ItemContainer != null)
+            else if (ItemContainer != null)
             {
                 if (ItemContainer is ICloseable closeable && closeable.IsClosed)
                 {
@@ -200,9 +197,8 @@ namespace Mud.Server.Character.Information
                 sb.AppendFormatLine("{0} holds:", ItemContainer.RelativeDisplayName(Actor));
                 ItemsHelpers.AppendItems(sb, ItemContainer.Content.Where(x => Actor.CanSee(x)), Actor, true, true);
                 Actor.Send(sb);
-                return;
             }
-            if (Victim != null)
+            else if (Victim != null)
             {
                 if (Actor == Victim)
                     Actor.Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", Actor);
@@ -211,21 +207,16 @@ namespace Mud.Server.Character.Information
                 StringBuilder sb = new StringBuilder();
                 Victim.Append(sb, Actor , true); // TODO: always peeking ???
                 Actor.Send(sb);
-                return;
             }
-            if (ItemDescription != null)
+            else if (ItemDescription != null)
             {
                 Actor.Send(ItemDescription, false);
-                return;
             }
-
-            if (RoomExtraDescription != null)
+            else if (RoomExtraDescription != null)
             {
                 Actor.Send(RoomExtraDescription, false);
-                return;
             }
-
-            if (Direction.HasValue) // should always be true
+            else if (Direction.HasValue) // should always be true
             {
                 IExit exit = Actor.Room[Direction.Value];
 
@@ -243,7 +234,6 @@ namespace Mud.Server.Character.Information
                             Actor.Send("The {0} is open.", exitName);
                     }
                 }
-                return;
             }
         }
 

@@ -29,12 +29,19 @@ namespace Mud.Server.Aura
             {
                 if (!SavesDispel(dispelLevel, aura))
                 {
-                    found = true;
-                    victim.RemoveAura(aura, false); // RemoveAura will display WearOff message
+                    bool isDispellable = true; // dispellable by default
+                    string dispelRoomMessage = null;
                     if (aura.AbilityName != null)
                     {
                         IAbilityInfo abilityInfo = AbilityManager[aura.AbilityName];
-                        string dispelRoomMessage = abilityInfo?.DispelRoomMessage;
+                        isDispellable = abilityInfo.IsDispellable;
+                        dispelRoomMessage = abilityInfo.DispelRoomMessage;
+                    }
+
+                    if (isDispellable)
+                    {
+                        found = true;
+                        victim.RemoveAura(aura, false); // RemoveAura will display WearOff message
                         if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
                             victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);
                     }
@@ -80,7 +87,7 @@ namespace Mud.Server.Aura
             return RandomManager.Chance(save);
         }
 
-        public bool SavesDispel(int dispelLevel, IAura aura)
+        private bool SavesDispel(int dispelLevel, IAura aura)
         {
             if (aura.AuraFlags.HasFlag(AuraFlags.NoDispel))
                 return true;

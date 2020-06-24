@@ -12,7 +12,6 @@ using Mud.Logger;
 using Mud.Server.Actor;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;

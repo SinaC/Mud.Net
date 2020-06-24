@@ -23,7 +23,7 @@ namespace Mud.Server.Player.Alias
 
         public Actions Action { get; protected set; }
         public string TargetAlias { get; protected set; }
-        public string Command { get; protected set; }
+        public string TargetCommand { get; protected set; }
 
         public override string Guards(IActionInput actionInput)
         {
@@ -44,7 +44,7 @@ namespace Mud.Server.Player.Alias
                 if (!Actor.Aliases.TryGetValue(TargetAlias, out cmd))
                     return "That alias is not defined.";
                 Action = Actions.Display;
-                Command = cmd;
+                TargetCommand = cmd;
                 return null;
             }
 
@@ -56,7 +56,7 @@ namespace Mud.Server.Player.Alias
                 return "That shall not be done.";
 
             Action = Actions.Assign;
-            Command = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1)); // merge parameters except first one
+            TargetCommand = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1)); // merge parameters except first one
             return null;
         }
 
@@ -79,19 +79,19 @@ namespace Mud.Server.Player.Alias
 
                 case Actions.Display:
                     {
-                        Actor.Send($"{TargetAlias} is aliases to {Command}.");
+                        Actor.Send($"{TargetAlias} is aliases to {TargetCommand}.");
                         return;
                     }
                 case Actions.Assign:
                     if (Actor.Aliases.ContainsKey(TargetAlias))
                     {
-                        Actor.SetAlias(TargetAlias, Command);
-                        Actor.Send($"{TargetAlias} is now realiased to '{Command}'.");
+                        Actor.SetAlias(TargetAlias, TargetCommand);
+                        Actor.Send($"{TargetAlias} is now realiased to '{TargetCommand}'.");
                     }
                     else
                     {
-                        Actor.SetAlias(TargetAlias, Command);
-                        Actor.Send($"{TargetAlias} is now aliased to '{Command}'.");
+                        Actor.SetAlias(TargetAlias, TargetCommand);
+                        Actor.Send($"{TargetAlias} is now aliased to '{TargetCommand}'.");
                     }
                     return;
             }

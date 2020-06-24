@@ -4,7 +4,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Table;
+
 using System.Linq;
 using Mud.Server.Interfaces;
 
@@ -16,8 +16,8 @@ namespace Mud.Server.Character.Item
     {
         public IItem What { get; protected set; }
 
-        public Hold(ITableValues tableValues, IWiznet wiznet)
-            : base(tableValues, wiznet)
+        public Hold(IWiznet wiznet)
+            : base(wiznet)
         {
         }
 

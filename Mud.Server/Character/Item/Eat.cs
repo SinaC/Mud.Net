@@ -98,16 +98,14 @@ namespace Mud.Server.Character.Item
                     Actor.Recompute();
                 }
                 ItemManager.RemoveItem(Food);
-                return;
             }
-            if (Pill != null)
+            else if (Pill != null)
             {
                 CastSpell(Pill, Pill.FirstSpellName, Pill.SpellLevel);
                 CastSpell(Pill, Pill.SecondSpellName, Pill.SpellLevel);
                 CastSpell(Pill, Pill.ThirdSpellName, Pill.SpellLevel);
                 CastSpell(Pill, Pill.FourthSpellName, Pill.SpellLevel);
                 ItemManager.RemoveItem(Pill);
-                return;
             }
         }
     }

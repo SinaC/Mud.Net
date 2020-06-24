@@ -5,7 +5,6 @@ using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Table;
 using System.Linq;
 using Mud.Server.Interfaces;
 
@@ -20,8 +19,8 @@ namespace Mud.Server.Character.Item
         public IItem[] What { get; protected set; }
         public bool Replace { get; protected set; }
 
-        public Wear(ITableValues tableValues, IWiznet wiznet)
-            : base(tableValues, wiznet)
+        public Wear(IWiznet wiznet)
+            : base(wiznet)
         {
         }
 

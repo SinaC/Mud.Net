@@ -58,15 +58,15 @@ namespace Mud.Server.Character.Movement
 
         public override void Execute(IActionInput actionInput)
         {
+            // Item
             if (What is IItemCloseable)
             {
                 What.Close();
                 Actor.Send("Ok.");
                 Actor.Act(ActOptions.ToRoom, "{0:N} closes {1}.", Actor, What);
-                return;
             }
-
-            if (What is IExit exit)
+            // Door
+            else if (What is IExit exit)
             {
                 // Close this side
                 exit.Close();
@@ -82,7 +82,6 @@ namespace Mud.Server.Character.Movement
                 }
                 else
                     Log.Default.WriteLine(LogLevels.Warning, $"Non bidirectional exit in room {Actor.Room.Blueprint.Id} direction {ExitDirection}");
-                return;
             }
         }
     }

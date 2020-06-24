@@ -3,18 +3,15 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Table;
 
 namespace Mud.Server.Character.Item
 {
     public abstract class WearCharacterGameActionBase : CharacterGameAction
     {
-        private ITableValues TableValues { get; }
         private IWiznet Wiznet { get; }
 
-        protected WearCharacterGameActionBase(ITableValues tableValues, IWiznet wiznet)
+        protected WearCharacterGameActionBase(IWiznet wiznet)
         {
-            TableValues = tableValues;
             Wiznet = wiznet;
         }
 

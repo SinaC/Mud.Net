@@ -42,16 +42,9 @@ namespace Mud.Server.Character.Information
         public override void Execute(IActionInput actionInput)
         {
             if (Target is ICharacter victim)
-            {
                 Execute(victim);
-                return;
-            }
-
-            if (Target is IItem item)
-            {
+            else if (Target is IItem item)
                 Execute(item);
-                return;
-            }
         }
 
         private void Execute(ICharacter victim)

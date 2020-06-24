@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using Microsoft.Win32.SafeHandles;
 using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
@@ -1333,8 +1332,6 @@ namespace Mud.Server.Character
                 return null;
             }
 
-            ICharacter characterKiller = killer as ICharacter;
-
             if (this is INonPlayableCharacter)
                 Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.MobDeaths);
             else
@@ -1352,8 +1349,8 @@ namespace Mud.Server.Character
             IItemCorpse corpse = null;
             if (itemCorpseBlueprint != null)
             {
-                if (characterKiller != null)
-                    corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room, this, characterKiller);
+                if (killer != null)
+                    corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room, this, killer);
                 else
                     corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room, this);
             }
@@ -1365,8 +1362,8 @@ namespace Mud.Server.Character
             // Gain/lose xp/reputation auto loot/gold/sac
             if (payoff)
             {
-                characterKiller?.KillingPayoff(this, corpse);
-                DeathPayoff(characterKiller);
+                killer?.KillingPayoff(this, corpse);
+                DeathPayoff(killer);
             }
 
             //

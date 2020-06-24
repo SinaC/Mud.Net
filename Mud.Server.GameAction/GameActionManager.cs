@@ -90,9 +90,6 @@ namespace Mud.Server.GameAction
         private IEnumerable<TrieEntry<IGameActionInfo>> GetGameActionsByActorType<TActor>()
             where TActor : IActor
         {
-            Type iGameActionType = typeof(IGameAction);
-            Type commandAttributeType = typeof(CommandAttribute);
-
             Type actorType = typeof(TActor);
             Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
 

@@ -65,7 +65,7 @@ namespace Mud.POC.TestLua
 
             Boolean bFirst = true;
 
-            for (int i = 0; i < strParams.Count; i++)
+            foreach (var t in strParams)
             {
                 if (!bFirst)
                     strFuncParams += ", ";
