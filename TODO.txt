@@ -19,6 +19,7 @@ commands: auction, channels, clantalk, compare, report, read, socials, whois, be
 admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
 	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
 PK
+furniture max weight (doesn't exist in Rom)
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead
 Move CanSee in IEntity

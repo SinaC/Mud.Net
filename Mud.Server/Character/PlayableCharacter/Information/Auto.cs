@@ -71,7 +71,7 @@ namespace Mud.Server.Character.PlayableCharacter.Information
 
             if (Actor.AutoFlags.HasFlag(What))
             {
-                Actor.AddAutoFlags(What);
+                Actor.RemoveAutoFlags(What);
                 string msg = AutoRemovedMessage(What);
                 Actor.Send(msg);
             }

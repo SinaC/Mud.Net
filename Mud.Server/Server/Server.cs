@@ -220,30 +220,6 @@ namespace Mud.Server.Server
 
         public IEnumerable<IPlayer> Players => _players.Keys;
 
-        // TODO: remove
-        // TEST PURPOSE
-        public IPlayer AddPlayer(IClient client, string name)
-        {
-            IPlayer player = new Player.Player(Guid.NewGuid(), name);
-            player.SendData += PlayerOnSendData;
-            player.PageData += PlayerOnPageData;
-            client.DataReceived += ClientPlayingOnDataReceived;
-            PlayingClient playingClient = new PlayingClient
-            {
-                Client = client,
-                Player = player
-            };
-            lock (_playingClientLockObject)
-            {
-                _players.TryAdd(player, playingClient);
-                _clients.TryAdd(client, playingClient);
-            }
-
-            player.Send("Welcome {0}", name);
-
-            return player;
-        }
-
         #endregion
 
         #region IAdminManager
@@ -251,30 +227,6 @@ namespace Mud.Server.Server
         public IAdmin GetAdmin(ICommandParameter parameter, bool perfectMatch) => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
 
         public IEnumerable<IAdmin> Admins => _players.Keys.OfType<IAdmin>();
-
-        // TODO: remove
-        // TEST PURPOSE
-        public IAdmin AddAdmin(IClient client, string name)
-        {
-            IAdmin admin = new Admin.Admin(Guid.NewGuid(), name);
-            admin.SendData += PlayerOnSendData;
-            admin.PageData += PlayerOnPageData;
-            client.DataReceived += ClientPlayingOnDataReceived;
-            PlayingClient playingClient = new PlayingClient
-            {
-                Client = client,
-                Player = admin
-            };
-            lock (_playingClientLockObject)
-            {
-                _players.TryAdd(admin, playingClient);
-                _clients.TryAdd(client, playingClient);
-            }
-
-            admin.Send("Welcome master {0}", name);
-
-            return admin;
-        }
 
         #endregion
 

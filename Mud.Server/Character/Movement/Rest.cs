@@ -38,7 +38,7 @@ namespace Mud.Server.Character.Movement
                     return StringHelpers.ItemNotFound;
 
                 IItemFurniture furniture = item as IItemFurniture;
-                if (furniture == null || !furniture.CanSit)
+                if (furniture == null || !furniture.CanRest)
                     return "You can't rest on that.";
 
                 if (1 + furniture.People.Count() > furniture.MaxPeople)
