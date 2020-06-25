@@ -1,8 +1,8 @@
-﻿using Mud.DataStructures.Flags;
-using Mud.Domain;
+﻿using Mud.Domain;
 using Mud.Server.Affects;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Random;
 using System;
 
@@ -36,7 +36,7 @@ namespace Mud.Server.Ability.Spell
                 Victim.Act(ActOptions.ToRoom, NotSelfSuccess, Victim);
         }
 
-        protected abstract Flags CharacterFlags { get; }
+        protected abstract ICharacterFlags CharacterFlags { get; }
         protected abstract TimeSpan Duration { get; }
         protected abstract string SelfAlreadyAffected { get; }
         protected abstract string NotSelfAlreadyAffected { get; }

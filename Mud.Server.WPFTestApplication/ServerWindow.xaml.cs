@@ -14,6 +14,8 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -33,6 +35,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
+using Mud.Server.Rom24.Flags;
 using Mud.Server.Rom24.Spells;
 using Mud.Server.Server;
 using Mud.Settings;
@@ -93,6 +96,8 @@ namespace Mud.Server.WPFTestApplication
 
             // Register all needed types
             RegisterAllTypes(new AssemblyHelper());
+
+            DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new CharacterFlagValues()); // TODO: do this with reflection ?
 
             // Initialize IOC container
             DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
@@ -502,7 +507,7 @@ namespace Mud.Server.WPFTestApplication
                 ArmorExotic = 0,
                 ActFlags = ActFlags.Pet,
                 OffensiveFlags = OffensiveFlags.Bash,
-                CharacterFlags = CharacterFlags.Haste,
+                CharacterFlags = new CharacterFlags("Haste"),
                 Immunities = IRVFlags.None,
                 Resistances = IRVFlags.Slash | IRVFlags.Fire,
                 Vulnerabilities = IRVFlags.Acid,

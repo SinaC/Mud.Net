@@ -166,6 +166,10 @@
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
+      <Name>Mud.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
       <Name>Mud.Domain</Name>
@@ -217,6 +221,14 @@
     <ProjectReference Include="..\Mud.Server.Effects\Mud.Server.Effects.csproj">
       <Project>{AF96073C-D599-4604-8E8F-60B8BE186745}</Project>
       <Name>Mud.Server.Effects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5B52488B-2CBE-4FC7-9004-E0C23E97907F}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
+      <Project>{17B2B5F8-66C4-4E77-B910-C41C0539F436}</Project>
+      <Name>Mud.Server.Flags</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
       <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>

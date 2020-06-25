@@ -133,6 +133,14 @@
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
       <Name>Mud.Repository</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5B52488B-2CBE-4FC7-9004-E0C23E97907F}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
+      <Project>{17B2B5F8-66C4-4E77-B910-C41C0539F436}</Project>
+      <Name>Mud.Server.Flags</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
       <Name>Mud.Settings</Name>

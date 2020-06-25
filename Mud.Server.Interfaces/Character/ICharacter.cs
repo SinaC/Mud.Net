@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
@@ -67,8 +67,8 @@ namespace Mud.Server.Interfaces.Character
         int MovePoints { get; }
         int MaxMovePoints { get; }
 
-        Flags BaseCharacterFlags { get; }
-        Flags CharacterFlags { get; }
+        ICharacterFlags BaseCharacterFlags { get; }
+        ICharacterFlags CharacterFlags { get; }
 
         IRVFlags BaseImmunities { get; }
         IRVFlags Immunities { get; }

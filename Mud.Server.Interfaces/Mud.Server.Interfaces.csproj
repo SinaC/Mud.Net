@@ -168,6 +168,10 @@
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5b52488b-2cbe-4fc7-9004-e0c23e97907f}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

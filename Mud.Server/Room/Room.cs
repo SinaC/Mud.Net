@@ -629,7 +629,7 @@ namespace Mud.Server.Room
                 //  (see act_info.C:714 show_char_to_char)
                 if (viewer.CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
                     victim.AppendInRoom(sb, viewer);
-                else if (IsDark && victim.CharacterFlags.HasFlag(CharacterFlags.Infrared))
+                else if (IsDark && victim.CharacterFlags.IsSet("Infrared"))
                     sb.AppendLine("You see glowing red eyes watching YOU!");
             }
 

@@ -49,7 +49,9 @@ namespace Mud.Server.Character.NonPlayableCharacter
             ActFlags = blueprint.ActFlags | (Race?.ActFlags ?? ActFlags.None);
             OffensiveFlags = blueprint.OffensiveFlags | (Race?.OffensiveFlags ?? OffensiveFlags.None);
             AssistFlags = blueprint.AssistFlags | (Race?.AssistFlags ?? AssistFlags.None);
-            BaseCharacterFlags = blueprint.CharacterFlags | (Race?.CharacterFlags ?? CharacterFlags.None);
+            BaseCharacterFlags = blueprint.CharacterFlags;
+            if (Race != null)
+                BaseCharacterFlags.Set(Race.CharacterFlags);
             BaseImmunities = blueprint.Immunities | (Race?.Immunities ?? IRVFlags.None);
             BaseResistances = blueprint.Resistances | (Race?.Resistances ?? IRVFlags.None);
             BaseVulnerabilities = blueprint.Vulnerabilities | (Race?.Vulnerabilities ?? IRVFlags.None);
@@ -319,8 +321,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
             if (multiHitModifier?.MaxAttackCount <= 2)
                 return;
             // main hand haste attack
-            if ((CharacterFlags.HasFlag(CharacterFlags.Haste) || OffensiveFlags.HasFlag(OffensiveFlags.Fast))
-                && !CharacterFlags.HasFlag(CharacterFlags.Slow))
+            if ((CharacterFlags.IsSet("Haste") || OffensiveFlags.HasFlag(OffensiveFlags.Fast))
+                && !CharacterFlags.IsSet("Slow"))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -373,7 +375,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 case 0: if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
                         UseSkill("Bash", CommandHelpers.NoParameters);
                     break;
-                case 1: if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk) && !CharacterFlags.HasFlag(CharacterFlags.Berserk))
+                case 1: if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk) && !CharacterFlags.IsSet("Berserk"))
                         UseSkill("Berserk", CommandHelpers.NoParameters);
                     break;
                 case 2: if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)
@@ -611,7 +613,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             int moveGain = Level;
             int manaGain = 5 + Level;
             int psyGain = 5 + Level;
-            if (CharacterFlags.HasFlag(CharacterFlags.Regeneration))
+            if (CharacterFlags.IsSet("Regeneration"))
                 hitGain *= 2;
             switch (Position)
             {
@@ -667,7 +669,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             if (damage > 0) // TODO add test on wait < PULSE_VIOLENCE / 2
             {
                 if ((ActFlags.HasFlag(ActFlags.Wimpy) && HitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
-                    || (CharacterFlags.HasFlag(CharacterFlags.Charm) && Master != null && Master.Room != Room))
+                    || (CharacterFlags.IsSet("Charm") && Master != null && Master.Room != Room))
                     Flee();
             }
         }

@@ -1,10 +1,11 @@
 ﻿using Mud.Domain;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Affects
 {
-    public class CharacterFlagsAffect : FlagsAffectBase, ICharacterFlagsAffect
+    public class CharacterFlagsAffect : FlagsAffectBase<ICharacterFlags, ICharacterFlagValues>, ICharacterFlagsAffect
     {
         protected override string Target => "Flags";
 

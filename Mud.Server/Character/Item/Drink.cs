@@ -13,6 +13,7 @@ using Mud.Server.Random;
 using System;
 using System.Linq;
 using Mud.Server.Interfaces;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Character.Item
 {
@@ -120,7 +121,7 @@ namespace Mud.Server.Character.Item
                 {
                     IAffect poisonAffect = AffectManager.CreateInstance("Poison");
                     AuraManager.AddAura(Actor, "Poison", Drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                        new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                        new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                         poisonAffect);
                 }
                 Actor.Recompute();

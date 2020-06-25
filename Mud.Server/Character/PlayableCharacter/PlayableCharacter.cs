@@ -350,7 +350,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (multiHitModifier?.MaxAttackCount <= 1)
                 return;
             // 3/ main hand haste attack
-            if (CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if (CharacterFlags.IsSet("Haste"))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -978,7 +978,7 @@ namespace Mud.Server.Character.PlayableCharacter
             int manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
             int psyGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2; // TODO: correct formula
             // regen
-            if (CharacterFlags.HasFlag(CharacterFlags.Regeneration))
+            if (CharacterFlags.IsSet("Regeneration"))
                 hitGain *= 2;
             // class bonus
             hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
@@ -1064,9 +1064,9 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             // Compute move and check if enough move left
             int moveCost = TableValues.MovementLoss(fromRoom.SectorType) + TableValues.MovementLoss(toRoom.SectorType);
-            if (CharacterFlags.HasFlag(CharacterFlags.Flying))
+            if (CharacterFlags.IsSet("Flying"))
                 moveCost /= 2; // flying is less exhausting
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+            if (CharacterFlags.IsSet("Slow"))
                 moveCost *= 2; // being slowed is more exhausting
             if (MovePoints < moveCost)
             {
@@ -1105,7 +1105,7 @@ namespace Mud.Server.Character.PlayableCharacter
                 {
                     if (follower is INonPlayableCharacter npcFollower)
                     {
-                        if (npcFollower.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcFollower.Position < Positions.Standing)
+                        if (npcFollower.CharacterFlags.IsSet("Charm") && npcFollower.Position < Positions.Standing)
                             ; // TODO: npcFollower.DoStand
                         if (npcFollower.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
                         {

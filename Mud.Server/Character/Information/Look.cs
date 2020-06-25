@@ -62,7 +62,7 @@ namespace Mud.Server.Character.Information
                 return "You can't see anything but stars!";
             if (Actor.Position == Positions.Sleeping)
                 return "You can't see anything, you're sleeping!";
-            if (Actor.CharacterFlags.HasFlag(CharacterFlags.Blind))
+            if (Actor.CharacterFlags.IsSet("Blind"))
                 return "You can't see a thing!";
 
             if (Actor.Room.IsDark)
@@ -160,7 +160,7 @@ namespace Mud.Server.Character.Information
                     //  (see act_info.C:714 show_char_to_char)
                     if (Actor.CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
                         victim.AppendInRoom(sb, Actor);
-                    else if (Actor.Room.IsDark && victim.CharacterFlags.HasFlag(CharacterFlags.Infrared))
+                    else if (Actor.Room.IsDark && victim.CharacterFlags.IsSet("Infrared"))
                         sb.AppendLine("You see glowing red eyes watching YOU!");
                 }
                 Actor.Send(sb);

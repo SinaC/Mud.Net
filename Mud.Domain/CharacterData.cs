@@ -1,4 +1,5 @@
 ﻿using Mud.DataStructures.Flags;
+using Mud.Server.Flags.Interfaces;
 using System.Collections.Generic;
 
 namespace Mud.Domain
@@ -31,7 +32,7 @@ namespace Mud.Domain
 
         public AuraData[] Auras { get; set; }
 
-        public Flags CharacterFlags { get; set; }
+        public ICharacterFlags CharacterFlags { get; set; }
 
         public IRVFlags Immunities { get; set; }
 

@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races.NonPlayableRaces
@@ -8,7 +10,7 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
     {
         public override string Name => "bee";
         public override Sizes Size => Sizes.Tiny;
-        public override CharacterFlags CharacterFlags => CharacterFlags.Flying | CharacterFlags.Infrared | CharacterFlags.Haste;
+        public override ICharacterFlags CharacterFlags => new CharacterFlags("Flying", "Infrared", "Haste");
         public override IRVFlags Immunities => IRVFlags.Poison;
         public override IRVFlags Resistances => IRVFlags.None;
         public override IRVFlags Vulnerabilities => IRVFlags.None;

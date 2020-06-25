@@ -1,5 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Race;
@@ -22,7 +24,7 @@ namespace Mud.Server.Rom24.Races
 
         public override Sizes Size => Sizes.Medium;
 
-        public override CharacterFlags CharacterFlags => CharacterFlags.None;
+        public override ICharacterFlags CharacterFlags => new CharacterFlags();
 
         public override IRVFlags Immunities => IRVFlags.None;
         public override IRVFlags Resistances => IRVFlags.Charm;

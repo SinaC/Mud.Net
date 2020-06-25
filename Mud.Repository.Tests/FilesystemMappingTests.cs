@@ -3,31 +3,25 @@ using System.Linq;
 using System.Reflection;
 using AutoBogus;
 using AutoMapper;
+using Bogus;
 using DeepEqual.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.Container;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Repository.Tests
 {
     [TestClass]
     public class FilesystemMappingTests : MappingTestsBase
     {
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            AutoFaker.Configure(builder =>
-            {
-                builder
-                  //.WithBinder(new AutoBogus.Moq.MoqBinder())
-                  .WithRepeatCount(5)    // Configures the number of items in a collection
-                  .WithRecursiveDepth(10); // Configures how deep nested types should recurse
-            });
-        }
-
         [TestMethod]
         public void Test_PlayerData_Success()
         {
-            var original = AutoFaker.Generate<Domain.PlayerData>();
+            var faker = new Faker<Domain.PlayerData>()
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(Rom24CharacterFlags.Flags.First()));
+            var original = faker.Generate();
+
 
             var internalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.PlayerData, Filesystem.Domain.PlayerData>(original);
             var externalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.Domain.PlayerData, Domain.PlayerData>(internalPlayerData);
@@ -39,7 +33,9 @@ namespace Mud.Repository.Tests
         [ExpectedException(typeof(DeepEqualException))]
         public void Test_PlayerData_Failed()
         {
-            var original = AutoFaker.Generate<Domain.PlayerData>();
+            var faker = new Faker<Domain.PlayerData>()
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(Rom24CharacterFlags.Flags.First()));
+            var original = faker.Generate();
 
             var internalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.PlayerData, Filesystem.Domain.PlayerData>(original);
             var externalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.Domain.PlayerData, Domain.PlayerData>(internalPlayerData);
@@ -53,7 +49,9 @@ namespace Mud.Repository.Tests
         [TestMethod]
         public void Test_AdminData_Success()
         {
-            var original = AutoFaker.Generate<Domain.AdminData>();
+            var faker = new Faker<Domain.AdminData>()
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(Rom24CharacterFlags.Flags.First()));
+            var original = faker.Generate();
 
             var internalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AdminData, Filesystem.Domain.AdminData>(original);
             var externalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.Domain.AdminData, Domain.AdminData>(internalAdminData);
@@ -65,7 +63,9 @@ namespace Mud.Repository.Tests
         [ExpectedException(typeof(DeepEqualException))]
         public void Test_AdminData_Failed()
         {
-            var original = AutoFaker.Generate<Domain.AdminData>();
+            var faker = new Faker<Domain.AdminData>()
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(Rom24CharacterFlags.Flags.First()));
+            var original = faker.Generate();
 
             var internalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AdminData, Filesystem.Domain.AdminData>(original);
             var externalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Filesystem.Domain.AdminData, Domain.AdminData>(internalAdminData);
@@ -105,7 +105,7 @@ namespace Mud.Repository.Tests
                     },
                     new Domain.CharacterFlagsAffectData
                     {
-                        Modifier = Domain.CharacterFlags.Regeneration,
+                        Modifier = new CharacterFlags("Regeneration"),
                         Operator = Domain.AffectOperators.Nor,
                     },
                     new Domain.CharacterAttributeAffectData

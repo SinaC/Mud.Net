@@ -571,23 +571,23 @@ namespace Mud.DataStructures.Tests
 
         #endregion
 
-        #region ToString
+        #region Map
 
         [TestMethod]
-        public void ToString_NoValue()
+        public void Map_NoValue()
         {
             Flags.Flags flags = new Flags.Flags();
 
-            Assert.AreEqual(string.Empty, flags.ToString());
+            Assert.AreEqual(string.Empty, flags.Map());
         }
 
 
         [TestMethod]
-        public void ToString_MultipleValues()
+        public void Map_MultipleValues()
         {
             Flags.Flags flags = new Flags.Flags("flag1", "flag2", "flag3");
 
-            Assert.AreEqual("flag1,flag2,flag3", flags.ToString());
+            Assert.AreEqual("flag1,flag2,flag3", flags.Map());
         }
 
         #endregion

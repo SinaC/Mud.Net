@@ -2,6 +2,8 @@
 using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Race;
@@ -49,7 +51,7 @@ namespace Mud.Server.Races
         public override string ShortName => "Ins";
 
         public override Sizes Size => Sizes.Medium;
-        public override CharacterFlags CharacterFlags => CharacterFlags.Haste;
+        public override ICharacterFlags CharacterFlags => new CharacterFlags("Haste");
 
         public override IEnumerable<EquipmentSlots> EquipmentSlots => _slots;
 

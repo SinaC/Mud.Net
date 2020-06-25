@@ -184,6 +184,14 @@
       <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
       <Name>Mud.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5B52488B-2CBE-4FC7-9004-E0C23E97907F}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
+      <Project>{17B2B5F8-66C4-4E77-B910-C41C0539F436}</Project>
+      <Name>Mud.Server.Flags</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
       <Project>{f74408d4-1c69-43c5-ae59-8baec3f66ac7}</Project>
       <Name>Mud.Settings</Name>

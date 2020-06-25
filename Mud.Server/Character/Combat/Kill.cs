@@ -46,7 +46,7 @@ namespace Mud.Server.Character.Combat
             }
 
             INonPlayableCharacter nonPlayableActor = Actor as INonPlayableCharacter;
-            if (Actor.CharacterFlags.HasFlag(CharacterFlags.Charm) && nonPlayableActor?.Master == Whom)
+            if (Actor.CharacterFlags.IsSet("Charm") && nonPlayableActor?.Master == Whom)
                 return Actor.ActPhrase("{0:N} is your beloved master.", Whom);
 
             if (Actor.Position == Positions.Fighting)

@@ -24,11 +24,13 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Random;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Character
 {
@@ -187,8 +189,8 @@ namespace Mud.Server.Character
         public int MovePoints { get; protected set; }
         public int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
 
-        public Flags BaseCharacterFlags { get; protected set; }
-        public Flags CharacterFlags { get; protected set; }
+        public ICharacterFlags BaseCharacterFlags { get; protected set; }
+        public ICharacterFlags CharacterFlags { get; protected set; }
 
         public IRVFlags BaseImmunities { get; protected set; }
         public IRVFlags Immunities { get; protected set; }
@@ -1873,7 +1875,7 @@ namespace Mud.Server.Character
                     CharacterFlags = affect.Modifier;
                     break;
                 case AffectOperators.Nor:
-                    CharacterFlags &= ~affect.Modifier;
+                    CharacterFlags.Unset(affect.Modifier);
                     break;
             }
         }
@@ -2293,13 +2295,13 @@ namespace Mud.Server.Character
                             if (poisonAffect == null)
                             {
                                 AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                                    new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
                             }
                             else
                             {
                                 AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                                    new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                                     poisonAffect);
                             }

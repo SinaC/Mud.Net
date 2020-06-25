@@ -51,8 +51,8 @@ namespace Mud.Server.Character.Information
                 playableCharacters = Actor.Room.Area.PlayableCharacters.Where(x => x.Room != null
                                                                              && !x.Room.RoomFlags.HasFlag(RoomFlags.NoWhere)
                                                                              && !x.Room.IsPrivate
-                                                                             && !x.CharacterFlags.HasFlag(CharacterFlags.Sneak)
-                                                                             && !x.CharacterFlags.HasFlag(CharacterFlags.Hide)
+                                                                             && !x.CharacterFlags.IsSet("Sneak")
+                                                                             && !x.CharacterFlags.IsSet("Hide")
                                                                              && Actor.CanSee(x)
                                                                              && StringCompareHelpers.StringListsStartsWith(x.Keywords, Pattern.Tokens));
                 notFound = $"You didn't find any {Pattern.Value}.";

@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using System;
 using Mud.Server.Ability;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Abilities
 {
@@ -79,7 +80,7 @@ namespace Mud.Server.Abilities
                 INonPlayableCharacter construct = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
                 pcCaster.AddPet(construct);
                 AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                    new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Charm"), Operator = AffectOperators.Or });
             }
         }
     }

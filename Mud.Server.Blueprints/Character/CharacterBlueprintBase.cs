@@ -2,6 +2,7 @@
 using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Blueprints.LootTable;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Blueprints.Character
 {
@@ -98,7 +99,7 @@ namespace Mud.Server.Blueprints.Character
         public AssistFlags AssistFlags { get; set; }
 
         [DataMember]
-        public Flags CharacterFlags { get; set; }
+        public ICharacterFlags CharacterFlags { get; set; }
 
         [DataMember]
         public IRVFlags Immunities { get; set; }

@@ -1,4 +1,4 @@
-﻿using Mud.DataStructures.Flags;
+﻿using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Domain
 {
@@ -6,6 +6,6 @@ namespace Mud.Domain
     {
         public AffectOperators Operator { get; set; } // Add and Or are identical
 
-        public Flags Modifier { get; set; }
+        public ICharacterFlags Modifier { get; set; }
     }
 }

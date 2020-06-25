@@ -109,6 +109,10 @@
       <Project>{d1a7d787-0fe7-4281-9458-d2c8f728e404}</Project>
       <Name>Mud.Server.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5B52488B-2CBE-4FC7-9004-E0C23E97907F}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
       <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
       <Name>Mud.Server.GameAction</Name>

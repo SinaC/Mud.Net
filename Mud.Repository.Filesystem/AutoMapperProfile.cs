@@ -4,6 +4,8 @@ using System.Linq;
 using AutoMapper;
 using Mud.DataStructures.Flags;
 using Mud.Logger;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Repository.Filesystem
 {
@@ -31,7 +33,7 @@ namespace Mud.Repository.Filesystem
                 .Include<Mud.Domain.PlayableCharacterData, Domain.PlayableCharacterData>()
                 .Include<Mud.Domain.PetData, Domain.PetData>()
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
-                .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => x.ToString()))
+                .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
                 .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
                 .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
@@ -94,7 +96,7 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
             CreateMap<Mud.Domain.CharacterFlagsAffectData, Domain.CharacterFlagsAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => x.ToString()));
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapCharacterFlags(x.Modifier)));
             CreateMap<Mud.Domain.CharacterIRVAffectData, Domain.CharacterIRVAffectData>()
                 .ForMember(x => x.Location, expression => expression.MapFrom(x => MapIRVAffectLocations(x.Location)))
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
@@ -130,7 +132,7 @@ namespace Mud.Repository.Filesystem
                 .Include<Domain.PlayableCharacterData, Mud.Domain.PlayableCharacterData>()
                 .Include<Domain.PetData, Mud.Domain.PetData>()
                 .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
-                .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => Flags.Parse(x.CharacterFlags)))
+                .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
                 .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
                 .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
                 .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
@@ -193,7 +195,7 @@ namespace Mud.Repository.Filesystem
                 .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
             CreateMap<Domain.CharacterFlagsAffectData, Mud.Domain.CharacterFlagsAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => Flags.Parse(x.Modifier)));
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapCharacterFlags(x.Modifier)));
             CreateMap<Domain.CharacterIRVAffectData, Mud.Domain.CharacterIRVAffectData>()
                 .ForMember(x => x.Location, expression => expression.MapFrom(x => MapIRVAffectLocations(x.Location)))
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
@@ -777,6 +779,16 @@ namespace Mud.Repository.Filesystem
         private int MapAutoFlags(Mud.Domain.AutoFlags flags)
         {
             return (int)flags;
+        }
+
+        private ICharacterFlags MapCharacterFlags(string flags)
+        {
+            return new CharacterFlags(flags);
+        }
+
+        private string MapCharacterFlags(ICharacterFlags flags)
+        {
+            return flags?.Map();
         }
     }
 }

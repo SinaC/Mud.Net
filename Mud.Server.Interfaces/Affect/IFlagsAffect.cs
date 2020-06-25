@@ -3,9 +3,11 @@ using Mud.Domain;
 
 namespace Mud.Server.Interfaces.Affect
 {
-    public interface IFlagsAffect : IAffect
+    public interface IFlagsAffect<TFlag, TFlagValues> : IAffect
+        where TFlag : IFlags<string, TFlagValues>
+        where TFlagValues: IFlagValues<string>
     {
         AffectOperators Operator { get; set; } // Add and Or are identical
-        Flags Modifier { get; set; }
+        TFlag Modifier { get; set; }
     }
 }

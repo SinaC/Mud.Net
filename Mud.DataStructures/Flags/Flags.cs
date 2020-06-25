@@ -46,6 +46,8 @@ namespace Mud.DataStructures.Flags
 
         public IEnumerable<string> Items => _hashSet;
 
+        public string Map() => string.Join(",", _hashSet.OrderBy(x => x));
+
         #endregion
 
         public bool HasAny(Flags flags) => flags.Items.Any(x => _hashSet.Contains(x));
@@ -74,25 +76,32 @@ namespace Mud.DataStructures.Flags
             flags.Set(s.Split(','));
             return flags;
         }
-
-        public override string ToString() => string.Join(",", _hashSet.OrderBy(x => x));
     }
 
-    public class Flags<TFlagValues> : IFlags<string, TFlagValues>
+    public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
         where TFlagValues : IFlagValues<string>
     {
+        //DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags()); // TODO: do this with reflection ?
+        //DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags()); // TODO: do this with reflection ?
         private static readonly Lazy<TFlagValues> LazyFlagValues = new Lazy<TFlagValues>(() => (TFlagValues)DependencyContainer.Current.GetInstance(typeof(TFlagValues)));
 
         private TFlagValues FlagValues => LazyFlagValues.Value;
 
         private readonly HashSet<string> _hashSet;
 
-        public Flags()
+        protected Flags()
         {
             _hashSet = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
         }
-        
-        public Flags(params string[] flags)
+
+        protected Flags(string flags)
+            : this()
+        {
+            if (!string.IsNullOrWhiteSpace(flags))
+                Set(flags.Split(','));
+        }
+
+        protected Flags(params string[] flags)
             : this()
         {
             Set(flags);
@@ -112,11 +121,23 @@ namespace Mud.DataStructures.Flags
                 throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
             return flags.Any(x => _hashSet.Contains(x));
         }
+        public bool HasAny(IFlags<string, TFlagValues> flags)
+        {
+            if (!CheckValues(flags))
+                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+            return flags.Items.Any(x => _hashSet.Contains(x));
+        }
         public bool HasAll(params string[] flags)
         {
             if (!CheckValues(flags))
                 throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
             return flags.All(x => _hashSet.Contains(x));
+        }
+        public bool HasAll(IFlags<string, TFlagValues> flags)
+        {
+            if (!CheckValues(flags))
+                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+            return flags.Items.All(x => _hashSet.Contains(x));
         }
 
         public bool Set(string flag)
@@ -130,6 +151,13 @@ namespace Mud.DataStructures.Flags
             if (!CheckValues(flags))
                 throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
             foreach (string flag in flags)
+                _hashSet.Add(flag);
+        }
+        public void Set(IFlags<string, TFlagValues> flags)
+        {
+            if (!CheckValues(flags))
+                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+            foreach (string flag in flags.Items)
                 _hashSet.Add(flag);
         }
 
@@ -146,58 +174,23 @@ namespace Mud.DataStructures.Flags
             foreach (string flag in flags)
                 _hashSet.Remove(flag);
         }
+        public void Unset(IFlags<string, TFlagValues> flags)
+        {
+            if (!CheckValues(flags))
+                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+            foreach (string flag in flags.Items)
+                _hashSet.Remove(flag);
+        }
 
         public int Count => _hashSet.Count;
 
         public IEnumerable<string> Items => _hashSet;
 
+        public string Map() => string.Join(",", _hashSet.OrderBy(x => x));
+
         #endregion
 
-        public bool HasAny(Flags<TFlagValues> flags)
-        {
-            if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
-            return flags._hashSet.Any(x => _hashSet.Contains(x));
-        }
-
-        public bool HasAll(Flags<TFlagValues> flags)
-        {
-            if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
-            return flags._hashSet.All(x => _hashSet.Contains(x));
-        }
-
-        public void Set(Flags<TFlagValues> flags)
-        {
-            if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
-            foreach (string flag in flags._hashSet)
-                _hashSet.Add(flag);
-        }
-
-        public static bool TryParse(string s, out Flags<TFlagValues> flags) // TryParse never fails :p
-        {
-            flags = new Flags<TFlagValues>();
-            if (string.IsNullOrWhiteSpace(s))
-                return true;
-
-            flags.Set(s.Split(','));
-            return true;
-        }
-
-        public static Flags<TFlagValues> Parse(string s)
-        {
-            Flags<TFlagValues> flags = new Flags<TFlagValues>();
-            if (string.IsNullOrWhiteSpace(s))
-                return flags;
-
-            flags.Set(s.Split(','));
-            return flags;
-        }
-
-        public override string ToString() => string.Join(",", _hashSet.OrderBy(x => x));
-
         private bool CheckValues(params string[] flags) => flags.All(x => FlagValues.AvailableValues.Contains(x));
-        private bool CheckValues(Flags<TFlagValues> flags) => flags.Items.All(x => FlagValues.AvailableValues.Contains(x));
+        private bool CheckValues(IFlags<string, TFlagValues> flags) => flags.Items.All(x => FlagValues.AvailableValues.Contains(x));
     }
 }

@@ -935,9 +935,9 @@ namespace Mud.Server.Server
             return 
                 !aggressor.ActFlags.HasFlag(ActFlags.Aggressive)
                 || aggressor.Room.RoomFlags.HasFlag(RoomFlags.Safe)
-                || aggressor.CharacterFlags.HasFlag(CharacterFlags.Calm)
+                || aggressor.CharacterFlags.IsSet("Calm")
                 || aggressor.Fighting != null
-                || aggressor.CharacterFlags.HasFlag(CharacterFlags.Charm)
+                || aggressor.CharacterFlags.IsSet("Charm")
                 || aggressor.Position <= Positions.Sleeping
                 || aggressor.ActFlags.HasFlag(ActFlags.Wimpy) && victim.Position >= Positions.Sleeping // wimpy aggressive mobs only attack if player is asleep
                 || !aggressor.CanSee(victim)
@@ -1129,10 +1129,10 @@ namespace Mud.Server.Server
                             }
                             // PCs next
                             if (pcCharacter != null 
-                                || character.CharacterFlags.HasFlag(CharacterFlags.Charm))
+                                || character.CharacterFlags.IsSet("Charm"))
                             {
                                 bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcInRoom != null && pcInRoom.IsSameGroupOrPet(character);
-                                bool isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcInRoom.Master == pcCharacter;
+                                bool isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.IsSet("Charm") && npcInRoom.Master == pcCharacter;
                                 if ((isPlayerAutoassisting || isNpcAutoassisting)
                                     && victim.IsSafe(inRoom) == null)
                                 {
@@ -1141,7 +1141,7 @@ namespace Mud.Server.Server
                                 }
                             }
                             // now check the NPC cases
-                            if (npcCharacter != null && !npcCharacter.CharacterFlags.HasFlag(CharacterFlags.Charm)
+                            if (npcCharacter != null && !npcCharacter.CharacterFlags.IsSet("Charm")
                                 && npcInRoom != null)
                             {
                                 bool isAssistAll = npcInRoom.AssistFlags.HasFlag(AssistFlags.All);
@@ -1280,7 +1280,7 @@ namespace Mud.Server.Server
 
         private void HandleNonPlayableCharacters(int pulseCount)
         {
-            foreach (INonPlayableCharacter npc in CharacterManager.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.HasFlag(CharacterFlags.Charm)))
+            foreach (INonPlayableCharacter npc in CharacterManager.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.IsSet("Charm")))
             {
                 try
                 {

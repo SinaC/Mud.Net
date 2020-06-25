@@ -13,7 +13,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Ctor()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             Assert.AreEqual(0, flags.Count);
         }
@@ -21,7 +21,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Ctor_MultipleValues_Valid()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Berserk");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Berserk");
 
             Assert.AreEqual(3, flags.Count);
         }
@@ -30,7 +30,7 @@ namespace Mud.DataStructures.Tests
         [ExpectedException(typeof(ArgumentException))]
         public void Ctor_MultipleValues_Invalid()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Invalid", "Berserk");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Invalid", "Berserk");
 
             Assert.AreEqual(3, flags.Count);
         }
@@ -38,8 +38,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAny_SameFlagTypes()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Berserk");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Curse", "Charm", "Berserk");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Berserk");
+            ICharacterFlags flags2 = new CharacterFlags("Curse", "Charm", "Berserk");
 
             bool hasAny = flags.HasAny(flags2);
 
@@ -59,8 +59,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAll_SameFlagTypes()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Berserk");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Curse", "Charm", "Berserk");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Berserk");
+            ICharacterFlags flags2 = new CharacterFlags("Curse", "Charm", "Berserk");
 
             bool hasAll = flags.HasAll(flags2);
 
@@ -73,7 +73,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Set_OneFlag_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind");
 
@@ -83,7 +83,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Set_OneFlag_IsSet()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind");
 
@@ -93,7 +93,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Set_OneFlag_IsSetMixedCase()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind");
 
@@ -103,7 +103,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Set_OneFlag_CheckAnotherFlag()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind");
 
@@ -113,7 +113,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Set_TwoFlags_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind");
             flags.Set("Charm");
@@ -124,7 +124,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Set_TwoFlags_Set()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind");
             flags.Set("Charm");
@@ -136,7 +136,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Set_MultipleMixedCaseFlags_Set()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("BLind");
             flags.Set("BlInd");
@@ -149,7 +149,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Set_MultipleMixedCaseFlags_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("BLind");
             flags.Set("BlInd");
@@ -166,7 +166,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void SetParams_Multiple_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind", "Charm");
 
@@ -176,7 +176,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void SetParams_Multiple_IsSet()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind", "Charm");
 
@@ -187,7 +187,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void SetParams_MultipleMixedCase_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind", "Blind");
 
@@ -197,7 +197,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void SetParams_MultipleMixedCase_IsSet()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             flags.Set("Blind", "Charm");
 
@@ -211,8 +211,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void SetFlags_DifferentFlags_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Berserk", "Slow", "Sneak");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
+            IFlags<string,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ICharacterFlagValues> flags2 = new CharacterFlags("Berserk", "Slow", "Sneak");
 
             flags.Set(flags2);
 
@@ -223,8 +223,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void SetFlags_IdenticalFlags_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
+            ICharacterFlags flags2 = new CharacterFlags("Blind", "Charm", "Hide");
 
             flags.Set(flags2);
 
@@ -235,8 +235,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void SetFlags_IdenticalAndDifferentFlags_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Hide", "Berserk", "Slow");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
+            ICharacterFlags flags2 = new CharacterFlags("Hide", "Berserk", "Slow");
 
             flags.Set(flags2);
 
@@ -251,7 +251,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Unset_ExistingFlag_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind");
+            ICharacterFlags flags = new CharacterFlags("Blind");
 
             flags.Unset("Blind");
 
@@ -261,7 +261,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Unset_ExistingFlag_IsSet()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind");
+            ICharacterFlags flags = new CharacterFlags("Blind");
 
             flags.Unset("Blind");
 
@@ -271,7 +271,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Unset_InexistingFlag_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind");
+            ICharacterFlags flags = new CharacterFlags("Blind");
 
             flags.Unset("Charm");
 
@@ -281,7 +281,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Unset_InexistingFlag_IsSet()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind");
+            ICharacterFlags flags = new CharacterFlags("Blind");
 
             flags.Unset("Charm");
 
@@ -296,7 +296,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void UnsetParams_MultipleExisting_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             flags.Unset("Blind", "Hide");
 
@@ -306,7 +306,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void UnsetParams_MultipleExisting_IsSet()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             flags.Unset("Blind", "Hide");
 
@@ -318,7 +318,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void UnsetParams_MultipleExistingAndInexisting_Count()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             flags.Unset("Blind", "Berserk");
 
@@ -328,7 +328,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void UnsetParams_MultipleExistingAndInexisting_IsSet()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             flags.Unset("Blind", "Berserk");
 
@@ -344,7 +344,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAny_Existing()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             bool hasAny = flags.HasAny("Blind", "Hide");
 
@@ -354,7 +354,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAny_Inexisting()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             bool hasAny = flags.HasAny("Slow", "Berserk");
 
@@ -364,7 +364,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAny_MultipleExistingAndInexisting()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             bool hasAny = flags.HasAny("Blind", "Berserk");
 
@@ -378,8 +378,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAnyFlag_Existing()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Blind", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
+            ICharacterFlags flags2 = new CharacterFlags("Blind", "Hide");
 
             bool hasAny = flags.HasAny(flags2);
 
@@ -389,8 +389,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAnyFlag_Inexisting()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Slow", "Berserk");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
+            ICharacterFlags flags2 = new CharacterFlags("Slow", "Berserk");
 
             bool hasAny = flags.HasAny(flags2);
 
@@ -400,8 +400,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAnyFlag_MultipleExistingAndInexisting()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Blind", "Berserk");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
+            ICharacterFlags flags2 = new CharacterFlags("Blind", "Berserk");
 
             bool hasAny = flags.HasAny(flags2);
 
@@ -415,7 +415,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAll_Existing()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             bool hasAll = flags.HasAll("Blind", "Hide");
 
@@ -425,7 +425,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAll_Inexisting()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             bool hasAll = flags.HasAll("Slow", "Berserk");
 
@@ -435,7 +435,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAll_MultipleExistingAndInexisting()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            Flags<ICharacterFlagValues> flags = new CharacterFlags("Blind", "Charm", "Hide");
 
             bool hasAll = flags.HasAll("Blind", "Berserk");
 
@@ -449,8 +449,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAllFlag_Existing()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Blind", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
+            ICharacterFlags flags2 = new CharacterFlags("Blind", "Hide");
 
             bool hasAll = flags.HasAll(flags2);
 
@@ -460,8 +460,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAllFlag_Inexisting()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Slow", "Berserk");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
+            ICharacterFlags flags2 = new CharacterFlags("Slow", "Berserk");
 
             bool hasAll = flags.HasAll(flags2);
 
@@ -471,8 +471,8 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void HasAllFlag_MultipleExistingAndInexisting()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
-            Flags<ICharacterFlags> flags2 = new Flags<ICharacterFlags>("Blind", "Berserk");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
+            ICharacterFlags flags2 = new CharacterFlags("Blind", "Berserk");
 
             bool hasAll = flags.HasAll(flags2);
 
@@ -486,7 +486,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Items_NoFlag()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
             IEnumerable<string> items = flags.Items;
 
@@ -496,7 +496,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Items_OneFlag()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind");
+            ICharacterFlags flags = new CharacterFlags("Blind");
 
             IEnumerable<string> items = flags.Items;
 
@@ -507,7 +507,7 @@ namespace Mud.DataStructures.Tests
         [TestMethod]
         public void Items_MultipleFlag()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide", "Berserk");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide", "Berserk");
 
             IEnumerable<string> items = flags.Items;
 
@@ -520,78 +520,30 @@ namespace Mud.DataStructures.Tests
 
         #endregion
 
-        #region TryParse
+        #region Ctor parse
 
         [TestMethod]
-        public void TryParse_Null()
+        public void CtorParse_Null()
         {
-            bool parsed = Flags<ICharacterFlags>.TryParse(null, out var flags);
-
-            Assert.IsTrue(parsed);
-            Assert.IsNotNull(flags);
-            Assert.AreEqual(0, flags.Count);
-        }
-
-        [TestMethod]
-        public void TryParse_Empty()
-        {
-            bool parsed = Flags<ICharacterFlags>.TryParse(string.Empty, out var flags);
-
-            Assert.IsTrue(parsed);
-            Assert.IsNotNull(flags);
-            Assert.AreEqual(0, flags.Count);
-        }
-
-        [TestMethod]
-        public void TryParse_OneValue()
-        {
-            bool parsed = Flags<ICharacterFlags>.TryParse("Blind", out var flags);
-
-            Assert.IsTrue(parsed);
-            Assert.IsNotNull(flags);
-            Assert.AreEqual(1, flags.Count);
-            Assert.IsTrue(flags.IsSet("Blind"));
-        }
-
-        [TestMethod]
-        public void TryParse_MultipleValues()
-        {
-            bool parsed = Flags<ICharacterFlags>.TryParse("Blind,Charm,Hide", out var flags);
-
-            Assert.IsTrue(parsed);
-            Assert.IsNotNull(flags);
-            Assert.AreEqual(3, flags.Count);
-            Assert.IsTrue(flags.IsSet("Blind"));
-            Assert.IsTrue(flags.IsSet("Charm"));
-            Assert.IsTrue(flags.IsSet("Hide"));
-        }
-
-        #endregion
-
-        #region Parse
-
-        [TestMethod]
-        public void Parse_Null()
-        {
-            Flags<ICharacterFlags> flags = Flags<ICharacterFlags>.Parse(null);
+            ICharacterFlags flags = new CharacterFlags((string)null);
 
             Assert.IsNotNull(flags);
             Assert.AreEqual(0, flags.Count);
         }
 
         [TestMethod]
-        public void Parse_Empty()
+        public void CtorParse_Empty()
         {
-            Flags<ICharacterFlags> flags = Flags<ICharacterFlags>.Parse(string.Empty);
+            ICharacterFlags flags = new CharacterFlags(string.Empty);
 
             Assert.IsNotNull(flags);
             Assert.AreEqual(0, flags.Count);
         }
 
         [TestMethod]
-        public void Parse_OneValue()
+        public void CtorParse_OneValue()
         {
-            Flags<ICharacterFlags> flags = Flags<ICharacterFlags>.Parse("Blind");
+            ICharacterFlags flags = new CharacterFlags("Blind");
 
             Assert.IsNotNull(flags);
             Assert.AreEqual(1, flags.Count);
@@ -599,9 +551,9 @@ namespace Mud.DataStructures.Tests
         }
 
         [TestMethod]
-        public void Parse_MultipleValues()
+        public void CtorParse_MultipleValues()
         {
-            Flags<ICharacterFlags> flags = Flags<ICharacterFlags>.Parse("Blind,Charm,Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind,Charm,Hide");
 
             Assert.IsNotNull(flags);
             Assert.AreEqual(3, flags.Count);
@@ -612,27 +564,53 @@ namespace Mud.DataStructures.Tests
 
         #endregion
 
-        #region ToString
+        #region Map
 
         [TestMethod]
-        public void ToString_NoValue()
+        public void Map_NoValue()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>();
+            ICharacterFlags flags = new CharacterFlags();
 
-            Assert.AreEqual(string.Empty, flags.ToString());
+            Assert.AreEqual(string.Empty, flags.Map());
         }
 
 
         [TestMethod]
-        public void ToString_MultipleValues()
+        public void Map_MultipleValues()
         {
-            Flags<ICharacterFlags> flags = new Flags<ICharacterFlags>("Blind", "Charm", "Hide");
+            ICharacterFlags flags = new CharacterFlags("Blind", "Charm", "Hide");
 
-            Assert.AreEqual("Blind,Charm,Hide", flags.ToString());
+            Assert.AreEqual("Blind,Charm,Hide", flags.Map());
         }
 
         #endregion
 
+        #region ICharacterFlags
+
+        [TestMethod]
+        public void HasAny_ICharacterFlags()
+        {
+            ICharacterFlags flags1 = new CharacterFlags("Calm", "Berserk", "Blind");
+            ICharacterFlags flags2 = new CharacterFlags("Sanctuary", "Blind", "Invisible");
+
+            bool hasAny = flags1.HasAny(flags2);
+
+            Assert.IsTrue(hasAny);
+        }
+
+        // Doesn't compile
+        //[TestMethod]
+        //public void HasAny_ICharacterFlags_IRoomFlags()
+        //{
+        //    ICharacterFlags flags1 = new CharacterFlags("Calm", "Berserk", "Test");
+        //    IRoomFlags flags2 = new RoomFlags("Dark", "NoMob", "Test");
+
+        //    bool hasAny = flags1.HasAny(flags2);
+
+        //    Assert.IsTrue(hasAny);
+        //}
+
+        #endregion
 
         #region TestInitialize/TestCleanup
 
@@ -643,8 +621,8 @@ namespace Mud.DataStructures.Tests
         {
             _originalContainer = DependencyContainer.Current;
             DependencyContainer.SetManualContainer(new SimpleInjector.Container());
-            DependencyContainer.Current.RegisterInstance<ICharacterFlags>(new Rom24CharacterFlags()); // TODO: do this with reflection ?
-            DependencyContainer.Current.RegisterInstance<IRoomFlags>(new Rom24RoomFlags()); // TODO: do this with reflection ?
+            DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags()); // TODO: do this with reflection ?
+            DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags()); // TODO: do this with reflection ?
         }
 
         [TestCleanup]
@@ -656,15 +634,45 @@ namespace Mud.DataStructures.Tests
         #endregion
     }
 
-    internal interface ICharacterFlags : IFlagValues<string>
+    internal class CharacterFlags : Flags<ICharacterFlagValues>, ICharacterFlags
+    {
+        public CharacterFlags()
+            : base()
+        {
+        }
+
+        public CharacterFlags(string flags)
+            : base(flags)
+        {
+        }
+
+        public CharacterFlags(params string[] flags)
+            : base(flags)
+        {
+        }
+    }
+
+    internal class RoomFlags : Flags<IRoomFlagValues>, IRoomFlags
     {
     }
 
-    internal interface IRoomFlags : IFlagValues<string>
+    internal interface ICharacterFlags : IFlags<string, ICharacterFlagValues>
     {
     }
 
-    internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlags
+    internal interface IRoomFlags : IFlags<string, IRoomFlagValues>
+    {
+    }
+
+    internal interface ICharacterFlagValues : IFlagValues<string>
+    {
+    }
+
+    internal interface IRoomFlagValues : IFlagValues<string>
+    {
+    }
+
+    internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
@@ -703,7 +711,7 @@ namespace Mud.DataStructures.Tests
         protected override HashSet<string> HashSet => Flags;
     }
 
-    internal class Rom24RoomFlags : FlagValuesBase<string>, IRoomFlags
+    internal class Rom24RoomFlags : FlagValuesBase<string>, IRoomFlagValues
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {

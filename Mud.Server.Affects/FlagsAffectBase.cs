@@ -6,10 +6,12 @@ using Mud.Server.Interfaces.Affect;
 
 namespace Mud.Server.Affects
 {
-    public abstract class FlagsAffectBase : IFlagsAffect
+    public abstract class FlagsAffectBase<TFlag, TFlagValues> : IFlagsAffect<TFlag, TFlagValues>
+        where TFlag : IFlags<string, TFlagValues>
+        where TFlagValues : IFlagValues<string>
     {
         public AffectOperators Operator { get; set; } // Add and Or are identical
-        public Flags Modifier { get; set; }
+        public TFlag Modifier { get; set; }
 
         protected abstract string Target { get; }
 
