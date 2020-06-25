@@ -12,10 +12,9 @@ using System.Reflection;
 
 namespace Mud.Server.GameAction
 {
-    // TODO: not anymore a static class
     public class GameActionManager : IGameActionManager
     {
-        private readonly Dictionary<Type, IGameActionInfo> _gameActionInfos;
+        private readonly Dictionary<Type, IGameActionInfo> _gameActionInfosByExecutionType;
         private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
         public GameActionManager(IAssemblyHelper assemblyHelper)
@@ -25,14 +24,14 @@ namespace Mud.Server.GameAction
             Type iGameActionType = typeof(IGameAction);
 
             // Gather all game action
-            _gameActionInfos = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iGameActionType.IsAssignableFrom(t)))
+            _gameActionInfosByExecutionType = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iGameActionType.IsAssignableFrom(t)))
                 .Select(t => new { executionType = t, attributes = GetGameActionAttributes(t) })
                 .ToDictionary(typeAndAttributes => typeAndAttributes.executionType, typeAndAttributes => CreateGameActionInfo(typeAndAttributes.executionType, typeAndAttributes.attributes.commandAttribute, typeAndAttributes.attributes.syntaxAttribute, typeAndAttributes.attributes.aliasAttributes));
         }
 
         #region IGameActionManager
 
-        public IEnumerable<IGameActionInfo> GameActions => _gameActionInfos.Values;
+        public IEnumerable<IGameActionInfo> GameActions => _gameActionInfosByExecutionType.Values;
 
         public string Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, params ICommandParameter[] parameters)
             where TActor: IActor
@@ -60,7 +59,7 @@ namespace Mud.Server.GameAction
             where TActor : IActor
         {
             Type gameActionType = typeof(TGameAction);
-            if (!_gameActionInfos.TryGetValue(gameActionType, out var gameActionInfo))
+            if (!_gameActionInfosByExecutionType.TryGetValue(gameActionType, out var gameActionInfo))
             {
                 Log.Default.WriteLine(LogLevels.Error, "GameAction type {0} not found in GameActionManager.", gameActionType.FullName);
                 return "Something goes wrong.";
@@ -93,7 +92,7 @@ namespace Mud.Server.GameAction
             Type actorType = typeof(TActor);
             Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
 
-            var gameActionInfos = _gameActionInfos
+            var gameActionInfos = _gameActionInfosByExecutionType
                 .Values
                 .GroupBy(t => t.Name)
                 .OrderBy(g => g.Key)
@@ -123,6 +122,7 @@ namespace Mud.Server.GameAction
                 case CharacterCommandAttribute characterCommandAttribute:
                     return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes);
                 default:
+                    Log.Default.WriteLine(LogLevels.Warning, "GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName);
                     return new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes);
             }
         }

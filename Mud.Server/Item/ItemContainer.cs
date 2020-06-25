@@ -97,7 +97,11 @@ namespace Mud.Server.Item
 
         public bool PutInContainer(IItem obj)
         {
-            // TODO: check if already in a container, check max items
+            //if (obj.ContainedInto != null)
+            //{
+            //    Log.Default.WriteLine(LogLevels.Error, "PutInContainer: {0} is already in container {1}.", obj.DebugName, obj.ContainedInto.DebugName);
+            //    return false;
+            //}
             _content.Insert(0, obj);
             return true;
         }
