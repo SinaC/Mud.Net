@@ -1,8 +1,6 @@
-﻿using Mud.Domain;
-
-namespace Mud.Server.Interfaces.Affect
+﻿namespace Mud.Server.Interfaces.Affect
 {
-    public interface ICharacterFlagsAffect : IFlagAffect<CharacterFlags>, ICharacterAffect
+    public interface ICharacterFlagsAffect : IFlagsAffect, ICharacterAffect
     {
     }
 }

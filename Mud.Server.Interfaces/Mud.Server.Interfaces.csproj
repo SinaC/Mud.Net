@@ -46,6 +46,7 @@
     <Compile Include="Affect\IAffectManager.cs" />
     <Compile Include="Affect\ICharacterAffect.cs" />
     <Compile Include="Affect\ICharacterPeriodicAffect.cs" />
+    <Compile Include="Affect\IFlagsAffect.cs" />
     <Compile Include="Affect\IFlagAffect.cs" />
     <Compile Include="Affect\ICharacterAttributeAffect.cs" />
     <Compile Include="Affect\ICharacterFlagsAffect.cs" />

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Blueprints.LootTable;
 
@@ -97,7 +98,7 @@ namespace Mud.Server.Blueprints.Character
         public AssistFlags AssistFlags { get; set; }
 
         [DataMember]
-        public CharacterFlags CharacterFlags { get; set; }
+        public Flags CharacterFlags { get; set; }
 
         [DataMember]
         public IRVFlags Immunities { get; set; }

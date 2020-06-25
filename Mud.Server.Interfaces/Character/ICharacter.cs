@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -66,8 +67,8 @@ namespace Mud.Server.Interfaces.Character
         int MovePoints { get; }
         int MaxMovePoints { get; }
 
-        CharacterFlags BaseCharacterFlags { get; }
-        CharacterFlags CharacterFlags { get; }
+        Flags BaseCharacterFlags { get; }
+        Flags CharacterFlags { get; }
 
         IRVFlags BaseImmunities { get; }
         IRVFlags Immunities { get; }
@@ -152,8 +153,8 @@ namespace Mud.Server.Interfaces.Character
         void UpdateMovePoints(int amount);
         void UpdateAlignment(int amount);
         void Regen();
-        void AddBaseCharacterFlags(CharacterFlags characterFlags);
-        void RemoveBaseCharacterFlags(CharacterFlags characterFlags);
+        void AddBaseCharacterFlags(params string[] characterFlags);
+        void RemoveBaseCharacterFlags(params string[] characterFlags);
 
         // Form
         bool ChangeForm(Forms form);

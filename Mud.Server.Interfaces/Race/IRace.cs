@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mud.DataStructures.Flags;
 using Mud.Domain;
 
 namespace Mud.Server.Interfaces.Race
@@ -10,7 +11,7 @@ namespace Mud.Server.Interfaces.Race
 
         Sizes Size { get; }
 
-        CharacterFlags CharacterFlags { get; }
+        Flags CharacterFlags { get; }
 
         IRVFlags Immunities { get; }
         IRVFlags Resistances { get; }

@@ -4,7 +4,7 @@ using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Affects
 {
-    public class CharacterFlagsAffect : FlagAffectBase<CharacterFlags>, ICharacterFlagsAffect
+    public class CharacterFlagsAffect : FlagsAffectBase, ICharacterFlagsAffect
     {
         protected override string Target => "Flags";
 

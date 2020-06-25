@@ -168,6 +168,10 @@
     <Compile Include="Common\RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
+      <Name>Mud.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
       <Project>{4E337998-ECAB-493B-9FAA-01366EE90EFF}</Project>
       <Name>Mud.Logger</Name>

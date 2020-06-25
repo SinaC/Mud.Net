@@ -54,6 +54,7 @@
     <Compile Include="CharacterIRVAffect.cs" />
     <Compile Include="CharacterSexAffect.cs" />
     <Compile Include="CharacterSizeAffect.cs" />
+    <Compile Include="FlagsAffectBase.cs" />
     <Compile Include="FlagAffectBase.cs" />
     <Compile Include="ItemFlagsAffect.cs" />
     <Compile Include="ItemWeaponFlagsAffect.cs" />
@@ -64,6 +65,10 @@
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{B9D5A4DD-8418-4E00-BC90-582359F7F05D}</Project>
       <Name>Mud.Container</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
+      <Name>Mud.DataStructures</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>

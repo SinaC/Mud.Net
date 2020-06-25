@@ -32,7 +32,7 @@ namespace Mud.Repository.Mongo.Domain
 
         public AuraData[] Auras { get; set; }
 
-        public int CharacterFlags { get; set; }
+        public string CharacterFlags { get; set; }
 
         public int Immunities { get; set; }
 

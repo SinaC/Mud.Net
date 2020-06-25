@@ -59,34 +59,6 @@ namespace Mud.Domain
         Shadow      = 6, // priest
     }
 
-    // TODO
-    //public enum Parts
-    //{
-    //    Head,
-    //    Arm,
-    //    Leg,
-    //    Body,
-    //    Hand,
-    //    Foot,
-    //    Finger,
-    //    Ear,
-    //    Eye,
-    //    Heart,
-    //    Brains,
-    //    Guts,
-    //    LongTongue,
-    //    EyeStalks,
-    //    Tentacles,
-    //    Fins,
-    //    Wings,
-    //    Tail,
-    //    Claws,
-    //    Fangs,
-    //    Horns,
-    //    Scales,
-    //    Tusks
-    //}
-
     [Flags]
     public enum ItemFlags
     {
@@ -283,41 +255,41 @@ namespace Mud.Domain
         Exotic      = CharacterAttributes.ArmorExotic,
     }
 
-    [Flags]
-    public enum CharacterFlags
-    {
-        None            = 0x00000000,
-        Blind           = 0x00000001,
-        Invisible       = 0x00000002,
-        DetectEvil      = 0x00000004,
-        DetectInvis     = 0x00000008,
-        DetectMagic     = 0x00000010,
-        DetectHidden    = 0x00000020,
-        DetectGood      = 0x00000040,
-        Sanctuary       = 0x00000080,
-        FaerieFire      = 0x00000100,
-        Infrared        = 0x00000200,
-        Curse           = 0x00000400,
-        // Unused
-        Poison          = 0x00001000,
-        ProtectEvil     = 0x00002000,
-        ProtectGood     = 0x00004000,
-        Sneak           = 0x00008000,
-        Hide            = 0x00010000,
-        Sleep           = 0x00020000,
-        Charm           = 0x00040000,
-        Flying          = 0x00080000,
-        PassDoor        = 0x00100000,
-        Haste           = 0x00200000,
-        Calm            = 0x00400000,
-        Plague          = 0x00800000,
-        Weaken          = 0x01000000,
-        DarkVision      = 0x02000000,
-        Berserk         = 0x04000000,
-        Swim            = 0x08000000,
-        Regeneration    = 0x10000000,
-        Slow            = 0x20000000,
-    }
+    //[Flags]
+    //public enum CharacterFlags
+    //{
+    //    None            = 0x00000000,
+    //    Blind           = 0x00000001,
+    //    Invisible       = 0x00000002,
+    //    DetectEvil      = 0x00000004,
+    //    DetectInvis     = 0x00000008,
+    //    DetectMagic     = 0x00000010,
+    //    DetectHidden    = 0x00000020,
+    //    DetectGood      = 0x00000040,
+    //    Sanctuary       = 0x00000080,
+    //    FaerieFire      = 0x00000100,
+    //    Infrared        = 0x00000200,
+    //    Curse           = 0x00000400,
+    //    // Unused
+    //    Poison          = 0x00001000,
+    //    ProtectEvil     = 0x00002000,
+    //    ProtectGood     = 0x00004000,
+    //    Sneak           = 0x00008000,
+    //    Hide            = 0x00010000,
+    //    Sleep           = 0x00020000,
+    //    Charm           = 0x00040000,
+    //    Flying          = 0x00080000,
+    //    PassDoor        = 0x00100000,
+    //    Haste           = 0x00200000,
+    //    Calm            = 0x00400000,
+    //    Plague          = 0x00800000,
+    //    Weaken          = 0x01000000,
+    //    DarkVision      = 0x02000000,
+    //    Berserk         = 0x04000000,
+    //    Swim            = 0x08000000,
+    //    Regeneration    = 0x10000000,
+    //    Slow            = 0x20000000,
+    //}
 
     [Flags]
     public enum RoomFlags
