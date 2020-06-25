@@ -35,7 +35,6 @@ skills: lore
 spells: create rose, farsight
 assign abilities to classes
 UnitTests on Rom24Effects
-Shop: appraise
 specials
 assist_guard
 aggro table

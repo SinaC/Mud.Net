@@ -15,6 +15,7 @@ using Mud.Settings;
 namespace Mud.Server.Rom24.Skills
 {
     [CharacterCommand(SkillName, "Item")]
+    [Syntax("[cmd] <item|coin> <victim>")]
     [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
     public class Steal : SkillBase
     {
@@ -41,7 +42,7 @@ namespace Mud.Server.Rom24.Skills
             if (skillActionInput.Parameters.Length < 2)
                 return "Steal what from whom?";
 
-            Victim = FindHelpers.FindByName(User.Room.People, skillActionInput.Parameters[0]);
+            Victim = FindHelpers.FindByName(User.Room.People, skillActionInput.Parameters[1]);
             if (Victim == null)
                 return "They aren't here.";
 
@@ -59,7 +60,7 @@ namespace Mud.Server.Rom24.Skills
             if (Failed)
                 return null;
 
-            ICommandParameter whatParameter = skillActionInput.Parameters[1];
+            ICommandParameter whatParameter = skillActionInput.Parameters[0];
             if (StringCompareHelpers.StringEquals(whatParameter.Value, "coin")
                 || StringCompareHelpers.StringEquals(whatParameter.Value, "coins")
                 || StringCompareHelpers.StringEquals(whatParameter.Value, "silver")
@@ -72,7 +73,7 @@ namespace Mud.Server.Rom24.Skills
                 return null;
             }
 
-            What = FindHelpers.FindByName(Victim.Inventory ?? Victim.Equipments.Where(x => x.Item != null).Select(x => x.Item), whatParameter);
+            What = FindHelpers.FindByName(Victim.Inventory.Concat(Victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)), whatParameter);
             if (What == null)
                 return "You can't find it.";
             if (What.ItemFlags.HasFlag(ItemFlags.NoDrop)
