@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Common;
 
 namespace Mud.Server.GameAction
 {
@@ -21,6 +22,8 @@ namespace Mud.Server.GameAction
         public string[] Aliases { get; }
 
         public Type CommandExecutionType { get; }
+
+        public IEnumerable<string> Names => Name.Yield().Concat(Aliases ?? Enumerable.Empty<string>());
 
 
         public GameActionInfo(Type commandExecutionType, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes)

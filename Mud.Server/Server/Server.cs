@@ -33,6 +33,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
 using Mud.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Server
@@ -70,6 +71,7 @@ namespace Mud.Server.Server
         protected IUniquenessManager UniquenessManager { get; }
         protected ITimeManager TimeManager { get; }
         protected IRandomManager RandomManager { get; }
+        protected IGameActionManager GameActionManager { get; }
         protected IClassManager ClassManager { get; }
         protected IRaceManager RaceManager { get; }
         protected IAbilityManager AbilityManager { get; }
@@ -81,7 +83,7 @@ namespace Mud.Server.Server
 
         public Server(ISettings settings,
             ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
-            IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager,
+            IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager,
             IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager,
             IWorld world, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager)
         {
@@ -92,6 +94,7 @@ namespace Mud.Server.Server
             UniquenessManager = uniquenessManager;
             TimeManager = timeManager;
             RandomManager = randomManager;
+            GameActionManager = gameActionManager;
             ClassManager = classManager;
             RaceManager = raceManager;
             AbilityManager = abilityManager;
@@ -828,6 +831,8 @@ namespace Mud.Server.Server
             //    .ToList();
             //foreach (Type actorType in actorTypes)
             //    DumpCommandByType(actorType);
+            StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate($"Commands", GameActionManager.GameActions.OrderBy(x => x.Name));
+            Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 
         //private void DumpCommandByType(Type t)

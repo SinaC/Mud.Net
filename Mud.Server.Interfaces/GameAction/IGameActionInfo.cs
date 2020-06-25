@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Mud.Server.Interfaces.GameAction
 {
@@ -16,5 +17,7 @@ namespace Mud.Server.Interfaces.GameAction
         string[] Aliases { get; }
 
         Type CommandExecutionType { get; }
+
+        IEnumerable<string> Names { get; }
     }
 }
