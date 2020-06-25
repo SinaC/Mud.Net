@@ -105,7 +105,7 @@ namespace Mud.Server.Actor
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Available commands:");
             foreach (var gameActionByCategory in keyValuePairs
-                .SelectMany(x => GetNames(x.Value).Where(n => nameFilter(n)), (kv, name) => new { name, kv.Value })
+                .SelectMany(x => x.Value.Names.Where(n => nameFilter(n)), (kv, name) => new { name, kv.Value })
                 .GroupBy(x => x.name, (name, group) => new { name, group.First().Value })
                 .SelectMany(x => x.Value.Categories.Where(categoryFilter), (kv, category) => new { category, kv.name, priority = kv.Value.Priority })
                 .GroupBy(x => x.category, (category, group) => new { category, commands = group })
@@ -126,13 +126,6 @@ namespace Mud.Server.Actor
                     sb.AppendLine();
             }
             Actor.Page(sb);
-        }
-
-        private IEnumerable<string> GetNames(IGameActionInfo gameActionInfo)
-        {
-            yield return gameActionInfo.Name;
-            foreach (string alias in gameActionInfo.Aliases)
-                yield return alias;
         }
     }
 }

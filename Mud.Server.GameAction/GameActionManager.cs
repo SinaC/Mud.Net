@@ -99,14 +99,7 @@ namespace Mud.Server.GameAction
                 .Select(g => PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x.CommandExecutionType))
                 .Where(x => x != null);
             // return one entry using CommandAttribute.Name and one entry by AliasAttribute.Alias
-            foreach (var gameActionInfo in gameActionInfos)
-            {
-                // return command
-                yield return new TrieEntry<IGameActionInfo>(gameActionInfo.Name, gameActionInfo);
-                // return aliases
-                foreach (string alias in gameActionInfo.Aliases)
-                    yield return new TrieEntry<IGameActionInfo>(alias, gameActionInfo);
-            }
+            return gameActionInfos.SelectMany(x => x.Names, (gameActionInfo, name) => new TrieEntry<IGameActionInfo>(name, gameActionInfo));
         }
 
         private IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes)

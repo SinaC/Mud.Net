@@ -139,6 +139,60 @@
         </EquippedItemData>
       </Equipments>
       <Inventory>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>0</ItemFlags>
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>64</ItemFlags>
+          <Auras />
+          <WeaponFlags>0</WeaponFlags>
+        </ItemData>
         <ItemData xsi:type="ItemWeaponData">
           <ItemId>3005</ItemId>
           <Level>42</Level>
@@ -148,7 +202,7 @@
             <AuraData>
               <AbilityName>Test</AbilityName>
               <Level>1</Level>
-              <PulseLeft>220</PulseLeft>
+              <PulseLeft>204</PulseLeft>
               <AuraFlags>2</AuraFlags>
               <Affects>
                 <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -160,66 +214,12 @@
           </Auras>
           <WeaponFlags>48</WeaponFlags>
         </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
-          <Auras />
-          <WeaponFlags>0</WeaponFlags>
-        </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
       </Inventory>
       <Auras>
         <AuraData>
           <AbilityName>Giant Strength</AbilityName>
           <Level>1</Level>
-          <PulseLeft>9860</PulseLeft>
+          <PulseLeft>9844</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -232,7 +232,7 @@
         <AuraData>
           <AbilityName>Armor</AbilityName>
           <Level>1</Level>
-          <PulseLeft>344440</PulseLeft>
+          <PulseLeft>344424</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -245,7 +245,7 @@
         <AuraData>
           <AbilityName>Sanctuary</AbilityName>
           <Level>1</Level>
-          <PulseLeft>532</PulseLeft>
+          <PulseLeft>516</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -257,7 +257,7 @@
         <AuraData>
           <AbilityName>Shield</AbilityName>
           <Level>1</Level>
-          <PulseLeft>11820</PulseLeft>
+          <PulseLeft>11804</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -270,7 +270,7 @@
         <AuraData>
           <AbilityName>Stone Skin</AbilityName>
           <Level>1</Level>
-          <PulseLeft>9968</PulseLeft>
+          <PulseLeft>9952</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -1652,7 +1652,7 @@
           <Level>40</Level>
           <Sex>0</Sex>
           <Size>0</Size>
-          <HitPoints>698</HitPoints>
+          <HitPoints>590</HitPoints>
           <MovePoints>1000</MovePoints>
           <CurrentResources>
             <PairDataOfInt32Int32>
