@@ -103,6 +103,7 @@ namespace Mud.Server.GameAction
         private IEnumerable<TrieEntry<IGameActionInfo>> GetGameActionsByActorType<TActor>()
             where TActor : IActor
         {
+            Type iActorType = typeof(IActor);
             Type actorType = typeof(TActor);
             Type[] actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
 
@@ -110,7 +111,7 @@ namespace Mud.Server.GameAction
                 .Values
                 .GroupBy(t => t.Name)
                 .OrderBy(g => g.Key)
-                .Select(g => PolymorphismSimulator(actorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x.CommandExecutionType))
+                .Select(g => PolymorphismSimulator(actorType, iActorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x.CommandExecutionType))
                 .Where(x => x != null);
             // return one entry using CommandAttribute.Name and one entry by AliasAttribute.Alias
             return gameActionInfos.SelectMany(x => x.Names, (gameActionInfo, name) => new TrieEntry<IGameActionInfo>(name, gameActionInfo));
@@ -152,7 +153,8 @@ namespace Mud.Server.GameAction
                 .ToArray();
         }
 
-        private T PolymorphismSimulator<T>(Type actorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<T> collection, Func<T,Type> selectorFunc)
+        // search among collection, which type has in its inheritance an interface matching actorType, if multiple type are eligible, choose the one with highest level of nesting
+        private T PolymorphismSimulator<T>(Type actorType, Type baseActorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<T> collection, Func<T,Type> selectorFunc)
             where T: class
         {
             T best = default;
@@ -160,27 +162,35 @@ namespace Mud.Server.GameAction
             foreach (T t in collection) // foreach type on the same command name, search the one with the highest level of class nesting
             {
                 bool doneWithThisType = false;
-                Type baseType = selectorFunc(t).BaseType;
-                while (baseType != null)
+                Type type = selectorFunc(t);
+                while (type != null)
                 {
-                    if (baseType.GenericTypeArguments?.Length > 0)
+                    if (type.GenericTypeArguments?.Length > 0)
                     {
-                        for (int i = 0; i < actorTypeSortedImplementedInterfaces.Length; i++)
-                            if (actorTypeSortedImplementedInterfaces[i] == baseType.GenericTypeArguments[0])
-                            {
-                                if (i < bestLevel)
+                        Type genericTypeArgumentToCheck = type.GenericTypeArguments.FirstOrDefault(baseActorType.IsAssignableFrom);
+                        if (genericTypeArgumentToCheck != null)
+                        {
+                            int maxToTest = Math.Min(bestLevel, actorTypeSortedImplementedInterfaces.Length);
+                            for (int i = 0; i < maxToTest; i++)
+                                if (actorTypeSortedImplementedInterfaces[i] == genericTypeArgumentToCheck)
                                 {
-                                    best = t;
-                                    bestLevel = i;
+                                    if (i < bestLevel)
+                                    {
+                                        best = t;
+                                        bestLevel = i;
+                                    }
+
+                                    doneWithThisType = true;
+                                    break;
                                 }
-                                doneWithThisType = true;
-                                break;
-                            }
+                        }
+                        else
+                            Log.Default.WriteLine(LogLevels.Error, "Type {0} doesn't any generic type argument of type {1}.", type.FullName, baseActorType.FullName);
                     }
 
                     if (doneWithThisType)
                         break;
-                    baseType = baseType.BaseType;
+                    type = type.BaseType;
                 }
             }
             Debug.Print(actorType.Name + ": " + name + " => " + (best == default ? "???" : selectorFunc(best).FullName));
