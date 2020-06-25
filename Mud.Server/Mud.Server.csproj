@@ -215,7 +215,6 @@
     <Compile Include="Character\PlayableCharacter\Quest\QuestComplete.cs" />
     <Compile Include="Character\PlayableCharacter\Quest\QuestGet.cs" />
     <Compile Include="Character\PlayableCharacter\Quest\QuestList.cs" />
-    <Compile Include="Character\PlayableCharacter\Shop\Appraise.cs" />
     <Compile Include="Character\PlayableCharacter\Shop\Buy.cs" />
     <Compile Include="Character\PlayableCharacter\Shop\List.cs" />
     <Compile Include="Character\PlayableCharacter\Shop\Sell.cs" />

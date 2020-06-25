@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using Mud.Common;
 
 namespace Mud.Server.GameAction
 {
@@ -68,6 +69,19 @@ namespace Mud.Server.GameAction
             var parameters = commandLine == null
                 ? Enumerable.Empty<ICommandParameter>().ToArray()
                 : CommandHelpers.SplitParameters(commandLine).Select(CommandHelpers.ParseParameter).ToArray();
+            return Execute(gameActionInfo, actor, commandLine, command, parameters);
+        }
+
+        public string Execute<TActor>(TActor actor, string command, params ICommandParameter[] parameters)
+            where TActor : IActor
+        {
+            IGameActionInfo gameActionInfo = _gameActionInfosByExecutionType.Values.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, command));
+            if (gameActionInfo == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "GameAction matching name {0} not found in GameActionManager.", command);
+                return "Something goes wrong.";
+            }
+            string commandLine = command + CommandHelpers.JoinParameters(parameters);
             return Execute(gameActionInfo, actor, commandLine, command, parameters);
         }
 
