@@ -21,8 +21,21 @@ namespace Mud.Server.Ability.Spell
 
         protected override string SetTargets(ISpellActionInput spellActionInput)
         {
-            Victim = FindHelpers.FindChararacterInWorld(CharacterManager, Caster, spellActionInput.Parameters[0]);
-            if (Victim == null || !IsVictimValid())
+            if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
+            {
+                Victim = spellActionInput.CastFromItemOptions.PredefinedTarget as ICharacter ?? Caster;
+                return null;
+            }
+
+            if (spellActionInput.Parameters.Length < 1)
+                Victim = Caster;
+            else
+            {
+                Victim = FindHelpers.FindChararacterInWorld(CharacterManager, Caster, spellActionInput.Parameters[0]);
+                if (Victim == null)
+                    return "They aren't here.";
+            }
+            if (!IsVictimValid())
                 return "You failed.";
             return null;
         }
