@@ -44,7 +44,7 @@ namespace Mud.Server.Rom24.Skills
 
             // TODO: check kill stealing
 
-            if (User.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcUser?.Master == Victim)
+            if (User.CharacterFlags.IsSet("Charm") && npcUser?.Master == Victim)
                 return User.ActPhrase("But {0:N} is your friend!", Victim);
 
             return null;
@@ -67,9 +67,9 @@ namespace Mud.Server.Rom24.Skills
             chance -= (4 * Victim[CharacterAttributes.Dexterity]) / 3;
             chance -= Victim[CharacterAttributes.ArmorBash] / 25;
             // speed
-            if ((User as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || User.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if ((User as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || User.CharacterFlags.IsSet("Haste"))
                 chance += 10;
-            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || Victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || Victim.CharacterFlags.IsSet("Haste"))
                 chance -= 30;
             // level
             chance += User.Level - Victim.Level;

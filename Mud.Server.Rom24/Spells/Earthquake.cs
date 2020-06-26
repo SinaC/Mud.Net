@@ -30,7 +30,7 @@ namespace Mud.Server.Rom24.Spells
             // Damage people in room
             foreach (ICharacter victim in Caster.Room.People.Where(x => x != Caster && !x.IsSafeSpell(Caster, true)))
             {
-                int damage = victim.CharacterFlags.HasFlag(CharacterFlags.Flying)
+                int damage = victim.CharacterFlags.IsSet("Flying")
                     ? 0 // no damage but starts fight
                     : Level + RandomManager.Dice(2, 8);
                 victim.AbilityDamage(Caster, damage, SchoolTypes.Bash, "earthquake", true);

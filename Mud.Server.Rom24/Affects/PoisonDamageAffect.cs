@@ -22,7 +22,7 @@ namespace Mud.Server.Rom24.Affects
 
         public void Apply(IAura aura, ICharacter character)
         {
-            if (!character.CharacterFlags.HasFlag(CharacterFlags.Slow))
+            if (!character.CharacterFlags.IsSet("Slow"))
             {
                 character.Act(ActOptions.ToAll, "{0:N} shiver{0:v} and suffer{0:v}.", character);
 

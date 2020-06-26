@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Mud.DataStructures.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -66,6 +68,8 @@ namespace Mud.Server.Tests
             //Container.DependencyContainer.Current.RegisterInstance<IAdminRepository>(new AdminRepositoryMock());
             //Container.DependencyContainer.Current.RegisterInstance<ITableValues>(new TableValuesMock());
             Container.DependencyContainer.Current.RegisterInstance<IAuraManager>(new AuraManagerMock());
+            Container.DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags());
+            Container.DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags());
 
             IAssemblyHelper assemblyHelper = new AssemblyHelper();
             Type iRegistrable = typeof(IRegistrable);
@@ -78,5 +82,67 @@ namespace Mud.Server.Tests
             public IEnumerable<Assembly> AllReferencedAssemblies => new[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly };
         }
 
+    }
+
+    internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Blind",
+            "Invisible",
+            "DetectEvil",
+            "DetectInvis",
+            "DetectMagic",
+            "DetectHidden",
+            "DetectGood",
+            "Sanctuary",
+            "FaerieFire",
+            "Infrared",
+            "Curse",
+            "Poison",
+            "ProtectEvil",
+            "ProtectGood",
+            "Sneak",
+            "Hide",
+            "Sleep",
+            "Charm",
+            "Flying",
+            "PassDoor",
+            "Haste",
+            "Calm",
+            "Plague",
+            "Weaken",
+            "DarkVision",
+            "Berserk",
+            "Swim",
+            "Regeneration",
+            "Slow",
+            "Test", // TEST PURPOSE
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24RoomFlags : FlagValuesBase<string>, IRoomFlagValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Dark",
+            "NoMob",
+            "Indoors",
+            "NoScan",
+            "Private",
+            "Safe",
+            "Solitary",
+            "NoRecall",
+            "ImpOnly",
+            "GodsOnly",
+            "NewbiesOnly",
+            "Law",
+            "NoWhere",
+            "Test", // TEST PURPOSE
+        };
+
+        protected override HashSet<string> HashSet => Flags;
     }
 }

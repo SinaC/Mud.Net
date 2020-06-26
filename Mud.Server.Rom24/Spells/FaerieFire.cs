@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -27,11 +28,11 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke()
         {
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.FaerieFire))
+            if (Victim.CharacterFlags.IsSet("FaerieFire"))
                 return;
             AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 2 * Level, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlags.FaerieFire, Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("FaerieFire"), Operator = AffectOperators.Or });
             Victim.Act(ActOptions.ToAll, "{0:N} are surrounded by a pink outline.", Victim);
         }
     }

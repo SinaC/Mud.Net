@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races.NonPlayableRaces
@@ -8,7 +10,7 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
     {
         public override string Name => "wyvern";
         public override Sizes Size => Sizes.Medium;
-        public override CharacterFlags CharacterFlags => CharacterFlags.Flying | CharacterFlags.DetectHidden | CharacterFlags.DetectInvis;
+        public override ICharacterFlags CharacterFlags => new CharacterFlags("Flying", "DetectHidden", "DetectInvis");
         public override IRVFlags Immunities => IRVFlags.Poison;
         public override IRVFlags Resistances => IRVFlags.None;
         public override IRVFlags Vulnerabilities => IRVFlags.Light;

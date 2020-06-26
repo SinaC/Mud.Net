@@ -4,6 +4,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
@@ -87,7 +88,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
-            userMock.SetupGet(x => x.CharacterFlags).Returns(CharacterFlags.Berserk);
+            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags("Berserk"));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
@@ -133,7 +134,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
-            userMock.SetupGet(x => x.CharacterFlags).Returns(CharacterFlags.Calm);
+            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags("Calm"));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 

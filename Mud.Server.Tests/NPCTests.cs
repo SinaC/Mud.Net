@@ -22,7 +22,7 @@ namespace Mud.Server.Tests
         {
             ICharacter victim = new NonPlayableCharacter(Guid.NewGuid(), new CharacterNormalBlueprint { Id = 1, Name = "Mob1", Level = 1, Immunities = IRVFlags.None }, new Room.Room(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
 
-            var level = victim.CheckResistance(Domain.SchoolTypes.None);
+            var level = victim.CheckResistance(SchoolTypes.None);
 
             Assert.AreEqual(ResistanceLevels.None, level);
         }
@@ -32,7 +32,7 @@ namespace Mud.Server.Tests
         {
             ICharacter victim = new NonPlayableCharacter(Guid.NewGuid(), new CharacterNormalBlueprint { Id = 1, Name = "Mob1", Level = 1, Immunities = IRVAll }, new Room.Room(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
 
-            var level = victim.CheckResistance(Domain.SchoolTypes.None);
+            var level = victim.CheckResistance(SchoolTypes.None);
 
             Assert.AreEqual(ResistanceLevels.None, level);
         }

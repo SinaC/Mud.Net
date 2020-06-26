@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -62,7 +63,7 @@ namespace Mud.Server.Rom24.Spells
                     continue;
 
                 // Is affected by berserk, calm or frenzy
-                if (victim.CharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.CharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura("Frenzy") != null)
+                if (victim.CharacterFlags.IsSet("Berserk") || victim.CharacterFlags.IsSet("Calm") || victim.GetAura("Frenzy") != null)
                     continue;
 
                 victim.Send("A wave of calm passes over you.");
@@ -77,7 +78,7 @@ namespace Mud.Server.Rom24.Spells
                 AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add, },
-                    new CharacterFlagsAffect { Modifier = CharacterFlags.Calm, Operator = AffectOperators.Or });
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Calm"), Operator = AffectOperators.Or });
             }
         }
     }

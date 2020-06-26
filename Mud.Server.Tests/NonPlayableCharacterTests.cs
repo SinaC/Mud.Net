@@ -4,6 +4,7 @@ using Moq;
 using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Character.NonPlayableCharacter;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -42,7 +43,7 @@ namespace Mud.Server.Tests
             var classManagerMock = new Mock<IClassManager>();
             DependencyContainer.Current.RegisterInstance<IClassManager>(classManagerMock.Object);
 
-            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
+            INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = new CharacterFlags("Sanctuary", "Regeneration"), Level = 50, Sex = Sex.Neutral }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
             npc.Recompute();
 
             Assert.AreEqual(npc[CharacterAttributes.Strength], npc[BasicAttributes.Strength]);
@@ -67,7 +68,7 @@ namespace Mud.Server.Tests
 
             var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint 
             { 
-                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
+                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = new CharacterFlags("Sanctuary", "Regeneration"), Level = 50, Sex = Sex.Neutral,
                 HitPointDiceCount = 5, HitPointDiceValue = 10, HitPointDiceBonus = 30,
             };
             INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
@@ -93,7 +94,7 @@ namespace Mud.Server.Tests
 
             var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint
             {
-                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
+                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = new CharacterFlags("Sanctuary", "Regeneration"), Level = 50, Sex = Sex.Neutral,
                 ManaDiceCount = 5,
                 ManaDiceValue = 10,
                 ManaDiceBonus = 30,
@@ -122,7 +123,7 @@ namespace Mud.Server.Tests
 
             var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint 
             { 
-                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
+                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = new CharacterFlags("Sanctuary", "Regeneration"), Level = 50, Sex = Sex.Neutral,
                 ArmorBash = 125, ArmorPierce = 130, ArmorSlash = 135, ArmorExotic = 140,
             };
             INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));
@@ -153,7 +154,7 @@ namespace Mud.Server.Tests
 
             var characterBlueprint = new Blueprints.Character.CharacterNormalBlueprint 
             { 
-                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = CharacterFlags.Sanctuary | CharacterFlags.Regeneration, Level = 50, Sex = Sex.Neutral,
+                Id = 1, Name = "mob1", ActFlags = ActFlags.NoAlign | ActFlags.Gain, OffensiveFlags = OffensiveFlags.AreaAttack | OffensiveFlags.Bash, CharacterFlags = new CharacterFlags("Sanctuary", "Regeneration"), Level = 50, Sex = Sex.Neutral,
                 HitRollBonus = -10,
             };
             INonPlayableCharacter npc = new NonPlayableCharacter(Guid.NewGuid(), characterBlueprint, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object));

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Race;
+
 
 namespace Mud.Server.Rom24.Races.NonPlayableRaces
 {
@@ -8,7 +11,7 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
     {
         public override string Name => "doll";
         public override Sizes Size => Sizes.Medium;
-        public override CharacterFlags CharacterFlags => CharacterFlags.None;
+        public override ICharacterFlags CharacterFlags => new CharacterFlags();
         public override IRVFlags Immunities => IRVFlags.Cold | IRVFlags.Poison | IRVFlags.Negative | IRVFlags.Holy | IRVFlags.Mental | IRVFlags.Disease | IRVFlags.Drowning;
         public override IRVFlags Resistances => IRVFlags.Bash | IRVFlags.Light;
         public override IRVFlags Vulnerabilities => IRVFlags.Slash | IRVFlags.Fire | IRVFlags.Lightning | IRVFlags.Acid | IRVFlags.Energy;

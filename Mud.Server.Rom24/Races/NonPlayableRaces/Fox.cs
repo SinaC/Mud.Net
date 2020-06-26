@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Race;
+
 
 namespace Mud.Server.Rom24.Races.NonPlayableRaces
 {
@@ -8,7 +11,7 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
     {
         public override string Name => "fox";
         public override Sizes Size => Sizes.Small;
-        public override CharacterFlags CharacterFlags => CharacterFlags.DarkVision;
+        public override ICharacterFlags CharacterFlags => new CharacterFlags("DarkVision");
         public override IRVFlags Immunities => IRVFlags.None;
         public override IRVFlags Resistances => IRVFlags.None;
         public override IRVFlags Vulnerabilities => IRVFlags.None;

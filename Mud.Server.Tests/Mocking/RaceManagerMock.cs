@@ -5,6 +5,8 @@ using System.Linq;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Ability;
 using Mud.Common;
+using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Tests.Mocking
 {
@@ -37,7 +39,7 @@ namespace Mud.Server.Tests.Mocking
 
         public Sizes Size => Sizes.Medium;
 
-        public CharacterFlags CharacterFlags => CharacterFlags.None;
+        public ICharacterFlags CharacterFlags => new CharacterFlags();
 
         public IRVFlags Immunities => IRVFlags.None;
 

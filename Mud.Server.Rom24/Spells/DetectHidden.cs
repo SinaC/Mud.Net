@@ -1,6 +1,8 @@
 ﻿using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
@@ -19,7 +21,7 @@ namespace Mud.Server.Rom24.Spells
         {
         }
 
-        protected override CharacterFlags CharacterFlags => CharacterFlags.DetectHidden;
+        protected override ICharacterFlags CharacterFlags => new CharacterFlags("DetectHidden");
         protected override string SelfAlreadyAffected => "You are already as alert as you can be.";
         protected override string NotSelfAlreadyAffected => "{0:N} can already sense hidden lifeforms.";
         protected override string SelfSuccess => "Your awareness improves.";

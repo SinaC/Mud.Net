@@ -22,13 +22,13 @@ namespace Mud.Server.Rom24.Skills
         {
             User.Send("You attempt to hide.");
 
-            if (User.CharacterFlags.HasFlag(CharacterFlags.Hide))
-                User.RemoveBaseCharacterFlags(CharacterFlags.Hide);
+            if (User.CharacterFlags.IsSet("Hide"))
+                User.RemoveBaseCharacterFlags("Hide");
 
             bool success = false;
             if (RandomManager.Chance(Learned))
             {
-                User.AddBaseCharacterFlags(CharacterFlags.Hide);
+                User.AddBaseCharacterFlags("Hide");
                 success = true;
             }
 

@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Race;
+
 
 namespace Mud.Server.Rom24.Races.NonPlayableRaces
 {
@@ -8,7 +11,7 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
     {
         public override string Name => "fish";
         public override Sizes Size => Sizes.Medium;
-        public override CharacterFlags CharacterFlags => CharacterFlags.Swim; // TODO: walk on water and water breath
+        public override ICharacterFlags CharacterFlags => new CharacterFlags("Swim"); // TODO: walk on water and water breath
         public override IRVFlags Immunities => IRVFlags.Drowning;
         public override IRVFlags Resistances => IRVFlags.None;
         public override IRVFlags Vulnerabilities => IRVFlags.None;

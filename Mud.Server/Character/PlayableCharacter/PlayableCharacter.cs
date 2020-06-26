@@ -12,6 +12,7 @@ using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -104,7 +105,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     this[conditionData.Key] = conditionData.Value;
             }
             //
-            BaseCharacterFlags = data.CharacterFlags;
+            BaseCharacterFlags = data.CharacterFlags ?? new CharacterFlags();
             BaseImmunities = data.Immunities;
             BaseResistances = data.Resistances;
             BaseVulnerabilities = data.Vulnerabilities;

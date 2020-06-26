@@ -1,5 +1,4 @@
 ﻿using System.Runtime.Serialization;
-using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Flags.Interfaces;

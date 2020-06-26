@@ -5,6 +5,8 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -1386,39 +1388,40 @@ namespace Mud.Importer.Mystery
             return flags;
         }
 
-        private CharacterFlags ConvertMysteryCharacterFlags(long affectedBy)
+        private ICharacterFlags ConvertMysteryCharacterFlags(long affectedBy)
         {
-            CharacterFlags flags = CharacterFlags.None;
-            if (IsSet(affectedBy, AFF_BLIND)) flags |= CharacterFlags.Blind;
-            if (IsSet(affectedBy, AFF_INVISIBLE)) flags |= CharacterFlags.Invisible;
-            if (IsSet(affectedBy, AFF_DETECT_EVIL)) flags |= CharacterFlags.DetectEvil;
-            if (IsSet(affectedBy, AFF_DETECT_INVIS)) flags |= CharacterFlags.DetectInvis;
-            if (IsSet(affectedBy, AFF_DETECT_MAGIC)) flags |= CharacterFlags.DetectMagic;
-            if (IsSet(affectedBy, AFF_DETECT_HIDDEN)) flags |= CharacterFlags.DetectHidden;
-            if (IsSet(affectedBy, AFF_DETECT_GOOD)) flags |= CharacterFlags.DetectGood;
-            if (IsSet(affectedBy, AFF_SANCTUARY)) flags |= CharacterFlags.Sanctuary;
-            if (IsSet(affectedBy, AFF_FAERIE_FIRE)) flags |= CharacterFlags.FaerieFire;
-            if (IsSet(affectedBy, AFF_INFRARED)) flags |= CharacterFlags.Infrared;
-            if (IsSet(affectedBy, AFF_CURSE)) flags |= CharacterFlags.Curse;
+            ICharacterFlags flags = new CharacterFlags();
+
+            if (IsSet(affectedBy, AFF_BLIND)) flags.Set("Blind");
+            if (IsSet(affectedBy, AFF_INVISIBLE)) flags.Set("Invisible");
+            if (IsSet(affectedBy, AFF_DETECT_EVIL)) flags.Set("DetectEvil");
+            if (IsSet(affectedBy, AFF_DETECT_INVIS)) flags.Set("DetectInvis");
+            if (IsSet(affectedBy, AFF_DETECT_MAGIC)) flags.Set("DetectMagic");
+            if (IsSet(affectedBy, AFF_DETECT_HIDDEN)) flags.Set("DetectHidden");
+            if (IsSet(affectedBy, AFF_DETECT_GOOD)) flags.Set("DetectGood");
+            if (IsSet(affectedBy, AFF_SANCTUARY)) flags.Set("Sanctuary");
+            if (IsSet(affectedBy, AFF_FAERIE_FIRE)) flags.Set("FaerieFire");
+            if (IsSet(affectedBy, AFF_INFRARED)) flags.Set("Infrared");
+            if (IsSet(affectedBy, AFF_CURSE)) flags.Set("Curse");
             // AFF_ROOTED
-            if (IsSet(affectedBy, AFF_POISON)) flags |= CharacterFlags.Poison;
-            if (IsSet(affectedBy, AFF_PROTECT_EVIL)) flags |= CharacterFlags.ProtectEvil;
-            if (IsSet(affectedBy, AFF_PROTECT_GOOD)) flags |= CharacterFlags.ProtectGood;
-            if (IsSet(affectedBy, AFF_SNEAK)) flags |= CharacterFlags.Sneak;
-            if (IsSet(affectedBy, AFF_HIDE)) flags |= CharacterFlags.Hide;
-            if (IsSet(affectedBy, AFF_SLEEP)) flags |= CharacterFlags.Sleep;
-            if (IsSet(affectedBy, AFF_CHARM)) flags |= CharacterFlags.Charm;
-            if (IsSet(affectedBy, AFF_FLYING)) flags |= CharacterFlags.Flying;
-            if (IsSet(affectedBy, AFF_PASS_DOOR)) flags |= CharacterFlags.PassDoor;
-            if (IsSet(affectedBy, AFF_HASTE)) flags |= CharacterFlags.Haste;
-            if (IsSet(affectedBy, AFF_CALM)) flags |= CharacterFlags.Calm;
-            if (IsSet(affectedBy, AFF_PLAGUE)) flags |= CharacterFlags.Plague;
-            if (IsSet(affectedBy, AFF_WEAKEN)) flags |= CharacterFlags.Weaken;
-            if (IsSet(affectedBy, AFF_DARK_VISION)) flags |= CharacterFlags.DarkVision;
-            if (IsSet(affectedBy, AFF_BERSERK)) flags |= CharacterFlags.Berserk;
-            if (IsSet(affectedBy, AFF_SWIM)) flags |= CharacterFlags.Swim;
-            if (IsSet(affectedBy, AFF_REGENERATION)) flags |= CharacterFlags.Regeneration;
-            if (IsSet(affectedBy, AFF_SLOW)) flags |= CharacterFlags.Slow;
+            if (IsSet(affectedBy, AFF_POISON)) flags.Set("Poison");
+            if (IsSet(affectedBy, AFF_PROTECT_EVIL)) flags.Set("ProtectEvil");
+            if (IsSet(affectedBy, AFF_PROTECT_GOOD)) flags.Set("ProtectGood");
+            if (IsSet(affectedBy, AFF_SNEAK)) flags.Set("Sneak");
+            if (IsSet(affectedBy, AFF_HIDE)) flags.Set("Hide");
+            if (IsSet(affectedBy, AFF_SLEEP)) flags.Set("Sleep");
+            if (IsSet(affectedBy, AFF_CHARM)) flags.Set("Charm");
+            if (IsSet(affectedBy, AFF_FLYING)) flags.Set("Flying");
+            if (IsSet(affectedBy, AFF_PASS_DOOR)) flags.Set("PassDoor");
+            if (IsSet(affectedBy, AFF_HASTE)) flags.Set("Haste");
+            if (IsSet(affectedBy, AFF_CALM)) flags.Set("Calm");
+            if (IsSet(affectedBy, AFF_PLAGUE)) flags.Set("Plague");
+            if (IsSet(affectedBy, AFF_WEAKEN)) flags.Set("Weaken");
+            if (IsSet(affectedBy, AFF_DARK_VISION)) flags.Set("DarkVision");
+            if (IsSet(affectedBy, AFF_BERSERK)) flags.Set("Berserk");
+            if (IsSet(affectedBy, AFF_SWIM)) flags.Set("Swim");
+            if (IsSet(affectedBy, AFF_REGENERATION)) flags.Set("Regeneration");
+            if (IsSet(affectedBy, AFF_SLOW)) flags.Set("Slow");
             // AFF_SILENCE
             // AFF2_WALK_ON_WATER
             // AFF2_WATER_BREATH

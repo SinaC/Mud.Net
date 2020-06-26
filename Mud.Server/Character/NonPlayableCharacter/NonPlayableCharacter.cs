@@ -10,6 +10,7 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Ability;
@@ -49,7 +50,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             ActFlags = blueprint.ActFlags | (Race?.ActFlags ?? ActFlags.None);
             OffensiveFlags = blueprint.OffensiveFlags | (Race?.OffensiveFlags ?? OffensiveFlags.None);
             AssistFlags = blueprint.AssistFlags | (Race?.AssistFlags ?? AssistFlags.None);
-            BaseCharacterFlags = blueprint.CharacterFlags;
+            BaseCharacterFlags = blueprint.CharacterFlags ?? new CharacterFlags();
             if (Race != null)
                 BaseCharacterFlags.Set(Race.CharacterFlags);
             BaseImmunities = blueprint.Immunities | (Race?.Immunities ?? IRVFlags.None);

@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Affects;
 using Mud.Server.Effects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -44,14 +45,14 @@ namespace Mud.Server.Rom24.Effects
         public void Apply(ICharacter victim, IEntity source, string auraName, int level, int modifier)
         {
             // chance of blindness
-            if (!victim.CharacterFlags.HasFlag(CharacterFlags.Blind) && !victim.SavesSpell(level / 4 + modifier / 20, SchoolTypes.Fire))
+            if (!victim.CharacterFlags.IsSet("Blind") && !victim.SavesSpell(level / 4 + modifier / 20, SchoolTypes.Fire))
             {
                 victim.Send("Your eyes tear up from smoke...you can't see a thing!");
                 victim.Act(ActOptions.ToRoom, "{0} is blinded by smoke!", victim);
                 int duration = RandomManager.Range(1, level / 10);
                 AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false, // TODO:
                     new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = -4, Location = CharacterAttributeAffectLocations.HitRoll },
-                    new CharacterFlagsAffect { Operator = AffectOperators.Or, Modifier = CharacterFlags.Blind });
+                    new CharacterFlagsAffect { Operator = AffectOperators.Or, Modifier = new CharacterFlags("Blind") });
             }
             // getting thirsty
             (victim as IPlayableCharacter)?.GainCondition(Conditions.Thirst, modifier / 20);

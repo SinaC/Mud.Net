@@ -43,10 +43,10 @@ namespace Mud.Server.Rom24.Skills
 
             // TODO: check kill stealing
 
-            if (User.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcUser?.Master == Victim)
+            if (User.CharacterFlags.IsSet("Charm") && npcUser?.Master == Victim)
                 return User.ActPhrase("But {0:N} is your friend!", Victim);
 
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Flying))
+            if (Victim.CharacterFlags.IsSet("Flying"))
                 return User.ActPhrase("{0:s} feet aren't on the ground.", Victim);
 
             if (Victim.Position < Positions.Fighting)
@@ -65,9 +65,9 @@ namespace Mud.Server.Rom24.Skills
             chance += User[CharacterAttributes.Dexterity];
             chance -= (3 * Victim[CharacterAttributes.Dexterity]) / 2;
             // speed
-            if ((User as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || User.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if ((User as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || User.CharacterFlags.IsSet("Haste"))
                 chance += 10;
-            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || Victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || Victim.CharacterFlags.IsSet("Haste"))
                 chance -= 20;
             // level
             chance += (User.Level - Victim.Level) * 2;
