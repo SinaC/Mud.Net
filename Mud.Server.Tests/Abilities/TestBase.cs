@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Container;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
@@ -22,6 +23,8 @@ namespace Mud.Server.Tests.Abilities
         {
             _originalContainer = DependencyContainer.Current;
             DependencyContainer.SetManualContainer(new SimpleInjector.Container());
+            Container.DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags());
+            Container.DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags());
         }
 
         [TestCleanup]

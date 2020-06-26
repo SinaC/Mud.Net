@@ -6,5 +6,16 @@ namespace Mud.DataStructures.Flags
     {
         IEnumerable<T> AvailableValues { get; }
         bool this[T flag] { get; } // return true if flag is in AvailableValues, false otherwise
+
+        void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values);
+    }
+
+    public enum UnknownFlagValueContext
+    {
+        IsSet,
+        HasAny,
+        HasAll,
+        Set,
+        UnSet,
     }
 }

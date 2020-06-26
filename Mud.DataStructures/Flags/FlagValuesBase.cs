@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Mud.DataStructures.Flags
 {
@@ -6,8 +7,13 @@ namespace Mud.DataStructures.Flags
     {
         protected abstract HashSet<T> HashSet { get; }
 
-        public bool this[T flag] => HashSet.Contains(flag);
+        public virtual bool this[T flag] => HashSet.Contains(flag);
 
-        public IEnumerable<T> AvailableValues => HashSet;
+        public virtual IEnumerable<T> AvailableValues => HashSet;
+
+        public virtual void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
+        {
+            throw new ArgumentException($"Flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        }
     }
 }

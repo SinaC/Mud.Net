@@ -1,4 +1,5 @@
-﻿using Mud.Container;
+﻿using Mud.Common;
+using Mud.Container;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,51 +113,51 @@ namespace Mud.DataStructures.Flags
         public bool IsSet(string flag)
         {
             if (!CheckValues(flag))
-                throw new ArgumentException($"Flag '{flag}' not found in {typeof(TFlagValues).FullName}", nameof(flag));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.IsSet, flag.Yield());
             return _hashSet.Contains(flag);
         }
         public bool HasAny(params string[] flags)
         {
             if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, flags);
             return flags.Any(x => _hashSet.Contains(x));
         }
         public bool HasAny(IFlags<string, TFlagValues> flags)
         {
             if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, flags.Items);
             return flags.Items.Any(x => _hashSet.Contains(x));
         }
         public bool HasAll(params string[] flags)
         {
             if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAll, flags);
             return flags.All(x => _hashSet.Contains(x));
         }
         public bool HasAll(IFlags<string, TFlagValues> flags)
         {
             if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAll, flags.Items);
             return flags.Items.All(x => _hashSet.Contains(x));
         }
 
         public bool Set(string flag)
         {
             if (!CheckValues(flag))
-                throw new ArgumentException($"Flag '{flag}' not found in {typeof(TFlagValues).FullName}", nameof(flag));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, flag.Yield());
             return _hashSet.Add(flag);
         }
         public void Set(params string[] flags)
         {
             if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, flags);
             foreach (string flag in flags)
                 _hashSet.Add(flag);
         }
         public void Set(IFlags<string, TFlagValues> flags)
         {
             if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, flags.Items);
             foreach (string flag in flags.Items)
                 _hashSet.Add(flag);
         }
@@ -164,20 +165,20 @@ namespace Mud.DataStructures.Flags
         public bool Unset(string flag)
         {
             if (!CheckValues(flag))
-                throw new ArgumentException($"Flag '{flag}' not found in {typeof(TFlagValues).FullName}", nameof(flag));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, flag.Yield());
             return _hashSet.Remove(flag);
         }
         public void Unset(params string[] flags)
         {
             if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, flags);
             foreach (string flag in flags)
                 _hashSet.Remove(flag);
         }
         public void Unset(IFlags<string, TFlagValues> flags)
         {
             if (!CheckValues(flags))
-                throw new ArgumentException($"Flags '{string.Join(",", flags)}' not found in {typeof(TFlagValues).FullName}", nameof(flags));
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, flags.Items);
             foreach (string flag in flags.Items)
                 _hashSet.Remove(flag);
         }

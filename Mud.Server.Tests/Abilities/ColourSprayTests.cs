@@ -5,6 +5,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -35,6 +36,7 @@ namespace Mud.Server.Tests.Abilities
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             targetMock.Setup(x => x.AbilityDamage(It.IsAny<ICharacter>(), It.IsAny<int>(), It.IsAny<SchoolTypes>(), It.IsAny<string>(), It.IsAny<bool>())).Returns(DamageResults.Done);

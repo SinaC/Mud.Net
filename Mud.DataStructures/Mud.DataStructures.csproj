@@ -103,6 +103,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
+      <Project>{FA516A9E-EA0B-4F74-A5AA-23DE3D109ADC}</Project>
+      <Name>Mud.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
       <Project>{B9D5A4DD-8418-4E00-BC90-582359F7F05D}</Project>
       <Name>Mud.Container</Name>
