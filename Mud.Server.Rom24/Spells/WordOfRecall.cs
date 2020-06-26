@@ -81,7 +81,7 @@ namespace Mud.Server.Rom24.Spells
             if (Victim == null)
                 return "Spell failed.";
             if (Victim.CharacterFlags.IsSet("Curse")
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
+                || Victim.Room.RoomFlags.IsSet("NoRecall"))
                 return "Spell failed.";
             // victim found, is PC and is not affected by Curse or in NoRecall room
             return null;

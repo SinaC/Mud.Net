@@ -4,6 +4,7 @@ namespace Mud.DataStructures.Flags
 {
     public interface IFlags<T>
     {
+        bool IsNone { get; }
         bool IsSet(T flag);
         bool HasAny(params T[] flags);
         bool HasAll(params T[] flags);
@@ -24,7 +25,10 @@ namespace Mud.DataStructures.Flags
     public interface IFlags<T, TFlagValues>
         where TFlagValues : IFlagValues<T>
     {
+        void Copy(IFlags<T, TFlagValues> flags);
+
         bool IsSet(T flag);
+        bool IsNone { get; }
         bool HasAny(params T[] flags);
         bool HasAny(IFlags<T, TFlagValues> flags);
         bool HasAll(params T[] flags);

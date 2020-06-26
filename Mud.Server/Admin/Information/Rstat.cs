@@ -60,7 +60,7 @@ namespace Mud.Server.Admin.Information
             sb.AppendFormatLine("Name: {0} Keywords: {1}", Room.Blueprint?.Name ?? "(none)", string.Join(",", Room.Keywords));
             sb.AppendFormatLine("DisplayName: {0}", Room.DisplayName);
             sb.AppendFormatLine("Description: {0}", Room.Description);
-            sb.AppendFormatLine("Flags: {0} (base: {1})", Room.RoomFlags, Room.BaseRoomFlags);
+            sb.AppendFormatLine("Flags: {0} (base: {1})", Room.RoomFlags.Map(), Room.BaseRoomFlags.Map());
             sb.AppendFormatLine("Light: {0} Sector: {1} MaxSize: {2}", Room.Light, Room.SectorType, Room.MaxSize);
             sb.AppendFormatLine("Heal rate: {0} Resource rate: {1}", Room.HealRate, Room.ResourceRate);
             if (Room.ExtraDescriptions != null)

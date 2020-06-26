@@ -939,7 +939,7 @@ namespace Mud.Server.Server
         {
             return 
                 !aggressor.ActFlags.HasFlag(ActFlags.Aggressive)
-                || aggressor.Room.RoomFlags.HasFlag(RoomFlags.Safe)
+                || aggressor.Room.RoomFlags.IsSet("Safe")
                 || aggressor.CharacterFlags.IsSet("Calm")
                 || aggressor.Fighting != null
                 || aggressor.CharacterFlags.IsSet("Charm")
@@ -1338,10 +1338,10 @@ namespace Mud.Server.Server
                                 if (exit != null
                                     && exit.Destination != null
                                     && !exit.IsClosed
-                                    && !exit.Destination.RoomFlags.HasFlag(RoomFlags.NoMob)
+                                    && !exit.Destination.RoomFlags.IsSet("NoMob")
                                     && (!npc.ActFlags.HasFlag(ActFlags.StayArea) || npc.Room.Area == exit.Destination.Area)
-                                    && (!npc.ActFlags.HasFlag(ActFlags.Outdoors) || !exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors))
-                                    && (!npc.ActFlags.HasFlag(ActFlags.Indoors) || exit.Destination.RoomFlags.HasFlag(RoomFlags.Indoors)))
+                                    && (!npc.ActFlags.HasFlag(ActFlags.Outdoors) || !exit.Destination.RoomFlags.IsSet("Indoors"))
+                                    && (!npc.ActFlags.HasFlag(ActFlags.Indoors) || exit.Destination.RoomFlags.IsSet("Indoors")))
                                     npc.Move(exitDirection, false);
                             }
                         }
@@ -1446,7 +1446,7 @@ namespace Mud.Server.Server
                 foreach (IPlayableCharacter character in CharacterManager.PlayableCharacters.Where(x => 
                     x.Position > Positions.Sleeping 
                     && x.Room != null 
-                    && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)
+                    && !x.Room.RoomFlags.IsSet("Indoors")
                     && x.Room.SectorType != SectorTypes.Inside
                     && x.Room.SectorType != SectorTypes.Underwater))
                 {

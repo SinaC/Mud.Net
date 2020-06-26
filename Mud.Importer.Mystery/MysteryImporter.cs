@@ -208,23 +208,23 @@ namespace Mud.Importer.Mystery
             }
         }
 
-        private RoomFlags ConvertRoomFlags(long input)
+        private IRoomFlags ConvertRoomFlags(long input)
         {
-            RoomFlags flags = RoomFlags.None;
-            if (IsSet(input, ROOM_DARK)) flags |= RoomFlags.Dark;
-            if (IsSet(input, ROOM_NO_MOB)) flags |= RoomFlags.NoMob;
-            if (IsSet(input, ROOM_INDOORS)) flags |= RoomFlags.Indoors;
-            if (IsSet(input, ROOM_PRIVATE)) flags |= RoomFlags.Private;
-            if (IsSet(input, ROOM_SAFE)) flags |= RoomFlags.Safe;
-            if (IsSet(input, ROOM_SOLITARY)) flags |= RoomFlags.Solitary;
+            IRoomFlags flags = new RoomFlags();
+            if (IsSet(input, ROOM_DARK)) flags.Set("Dark");
+            if (IsSet(input, ROOM_NO_MOB)) flags.Set("NoMob");
+            if (IsSet(input, ROOM_INDOORS)) flags.Set("Indoors");
+            if (IsSet(input, ROOM_PRIVATE)) flags.Set("Private");
+            if (IsSet(input, ROOM_SAFE)) flags.Set("Safe");
+            if (IsSet(input, ROOM_SOLITARY)) flags.Set("Solitary");
             //TODO: ROOM_PET_SHOP
-            if (IsSet(input, ROOM_NO_RECALL)) flags |= RoomFlags.NoRecall;
-            if (IsSet(input, ROOM_IMP_ONLY)) flags |= RoomFlags.ImpOnly;
-            if (IsSet(input, ROOM_GODS_ONLY)) flags |= RoomFlags.GodsOnly;
+            if (IsSet(input, ROOM_NO_RECALL)) flags.Set("NoRecall");
+            if (IsSet(input, ROOM_IMP_ONLY)) flags.Set("ImpOnly");
+            if (IsSet(input, ROOM_GODS_ONLY)) flags.Set("GodsOnly");
             //TODO: ROOM_HEROES_ONLY
-            if (IsSet(input, ROOM_NEWBIES_ONLY)) flags |= RoomFlags.NewbiesOnly;
-            if (IsSet(input, ROOM_LAW)) flags |= RoomFlags.Law;
-            if (IsSet(input, ROOM_NOWHERE)) flags |= RoomFlags.NoWhere;
+            if (IsSet(input, ROOM_NEWBIES_ONLY)) flags.Set("NewbiesOnly");
+            if (IsSet(input, ROOM_LAW)) flags.Set("Law");
+            if (IsSet(input, ROOM_NOWHERE)) flags.Set("NoWhere");
 
             return flags;
         }

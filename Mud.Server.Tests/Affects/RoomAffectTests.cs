@@ -8,6 +8,7 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Tests.Affects
 {
@@ -20,145 +21,145 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomAddAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags() }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = new RoomFlags("Dark")});
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsNone);
+            Assert.IsTrue(room.RoomFlags.IsSet("Dark"));
         }
 
         [TestMethod]
         public void Room_OneRoomAddAffect_IdenticalBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags("Dark") }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.Dark, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsSet("Dark"));
+            Assert.IsTrue(room.RoomFlags.IsSet("Dark"));
         }
 
         [TestMethod]
         public void Room_OneRoomAddAffect_DifferentBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags("ImpOnly") }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.ImpOnly, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark | RoomFlags.ImpOnly, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsSet("ImpOnly"));
+            Assert.IsTrue(room.RoomFlags.HasAll("Dark", "ImpOnly"));
         }
 
         [TestMethod]
         public void Room_OneRoomOrAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags() }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsNone);
+            Assert.IsTrue(room.RoomFlags.IsSet("Dark"));
         }
 
         [TestMethod]
         public void Room_OneRoomOrAffect_IdenticalBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags("Dark") }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.Dark, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsSet("Dark"));
+            Assert.IsTrue(room.RoomFlags.IsSet("Dark"));
         }
 
         [TestMethod]
         public void Room_OneRoomOrAffect_DifferentBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags("ImpOnly") }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.ImpOnly, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark | RoomFlags.ImpOnly, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsSet("ImpOnly"));
+            Assert.IsTrue(room.RoomFlags.HasAll("Dark", "ImpOnly"));
         }
 
         [TestMethod]
         public void Room_OneRoomAssignAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags() }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsNone);
+            Assert.IsTrue(room.RoomFlags.IsSet("Dark"));
         }
 
         [TestMethod]
         public void Room_OneRoomAssignAffect_IdenticalBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags("Dark") }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.Dark, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsSet("Dark"));
+            Assert.IsTrue(room.RoomFlags.IsSet("Dark"));
         }
 
         [TestMethod]
         public void Room_OneRoomAssignAffect_DifferentBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags("ImpOnly") }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.ImpOnly, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsSet("ImpOnly"));
+            Assert.IsTrue(room.RoomFlags.IsSet("Dark"));
         }
 
         [TestMethod]
         public void Room_OneRoomNorAffect_NoBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags() }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.None, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsNone);
+            Assert.IsTrue(room.RoomFlags.IsNone);
         }
 
         [TestMethod]
         public void Room_OneRoomNorAffect_IdenticalBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.Dark }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags("Dark") }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.Dark, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.None, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsSet("Dark"));
+            Assert.IsTrue(room.RoomFlags.IsNone);
         }
 
         [TestMethod]
         public void Room_OneRoomNorAffect_DifferentBaseValue_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = RoomFlags.ImpOnly }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags("ImpOnly") }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.ImpOnly, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.ImpOnly, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsSet("ImpOnly"));
+            Assert.IsTrue(room.RoomFlags.IsSet("ImpOnly"));
         }
 
         // TODO
@@ -174,17 +175,17 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void Room_OneRoomAddAffect_OneItemAddAffect_Identical_Test()
         {
-            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
-            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = RoomFlags.Dark });
+            IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1", RoomFlags = new RoomFlags() }, new Mock<IArea>().Object);
+            IAura roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = new RoomFlags("Dark") });
             room.AddAura(roomAura, false);
             IItem item = new ItemArmor(Guid.NewGuid(), new Blueprints.Item.ItemArmorBlueprint { Id = 1, Name = "item1", ShortDescription = "item1short", Description = "item1desc" }, room);
-            IAura itemAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = RoomFlags.Dark });
+            IAura itemAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = new RoomFlags("Dark") });
             item.AddAura(itemAura, false);
 
             room.Recompute();
 
-            Assert.AreEqual(RoomFlags.None, room.BaseRoomFlags);
-            Assert.AreEqual(RoomFlags.Dark, room.RoomFlags);
+            Assert.IsTrue(room.BaseRoomFlags.IsNone);
+            Assert.IsTrue(room.RoomFlags.IsSet("Dark"));
         }
 
         // TODO

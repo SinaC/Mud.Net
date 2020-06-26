@@ -105,6 +105,7 @@ namespace Mud.Server.Admin.Information
                     {
                         Race.DisplayName,
                         $"ShortName: {Race.ShortName}",
+                        $"Affects: %C%{Race.CharacterFlags.Map()}%x%",
                         $"Immunities: %y%{Race.Immunities}%x%",
                         $"Resistances: %b%{Race.Resistances}%x%",
                         $"Vulnerabilities: %r%{Race.Vulnerabilities}%x%",

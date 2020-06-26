@@ -37,6 +37,7 @@ namespace Mud.Server.Abilities
 
             // Immune to all damages
             AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(1), AuraFlags.NoDispel, true,
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Pouet")},
                 new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = IRVFlags.Magic, Operator = AffectOperators.Or },
                 new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = IRVFlags.Weapon, Operator = AffectOperators.Or });
         }

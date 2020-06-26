@@ -142,10 +142,8 @@ namespace Mud.Server.World
             return RandomManager.Random(Rooms.Where(x =>
                 character.CanSee(x)
                 && !x.IsPrivate
-                && !x.RoomFlags.HasFlag(RoomFlags.Safe)
-                && !x.RoomFlags.HasFlag(RoomFlags.Private)
-                && !x.RoomFlags.HasFlag(RoomFlags.Solitary)
-                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.HasFlag(RoomFlags.Law))));
+                && !x.RoomFlags.HasAny("Safe", "Private", "Solitary")
+                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.IsSet("Law"))));
         }
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)

@@ -43,7 +43,7 @@ namespace Mud.Server.Rom24.Spells
                 }
             }
             // Inform in area about it
-            foreach (ICharacter character in Caster.Room.Area.Characters.Where(x => x.Position > Positions.Sleeping && !x.Room.RoomFlags.HasFlag(RoomFlags.Indoors)))
+            foreach (ICharacter character in Caster.Room.Area.Characters.Where(x => x.Position > Positions.Sleeping && !x.Room.RoomFlags.IsSet("Indoors")))
                 character.Send("Lightning flashes in the sky.");
         }
 
@@ -53,7 +53,7 @@ namespace Mud.Server.Rom24.Spells
             if (baseSetup != null)
                 return baseSetup;
 
-            if (Caster.Room.RoomFlags.HasFlag(RoomFlags.Indoors))
+            if (Caster.Room.RoomFlags.IsSet("Indoors"))
                 return "You must be out of doors.";
             if (TimeManager.SkyState < SkyStates.Raining)
                 return "You need bad weather.";

@@ -190,7 +190,7 @@ namespace Mud.Server.Character
         public int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
 
         public ICharacterFlags BaseCharacterFlags { get; protected set; }
-        public ICharacterFlags CharacterFlags { get; protected set; }
+        public ICharacterFlags CharacterFlags { get; protected set; } = new CharacterFlags();
 
         public IRVFlags BaseImmunities { get; protected set; }
         public IRVFlags Immunities { get; protected set; }
@@ -490,7 +490,7 @@ namespace Mud.Server.Character
             //&& get_trust(ch) < MAX_LEVEL)
             //            return FALSE;
 
-            if (room.RoomFlags.HasFlag(RoomFlags.GodsOnly)
+            if (room.RoomFlags.IsSet("GodsOnly")
                 && (this as IPlayableCharacter)?.IsImmortal != true)
                 return false;
 
@@ -498,7 +498,7 @@ namespace Mud.Server.Character
             //        && !IS_IMMORTAL(ch))
             //            return FALSE;
 
-            if (room.RoomFlags.HasFlag(RoomFlags.NewbiesOnly) && Level > 5 && (this as IPlayableCharacter)?.IsImmortal != true)
+            if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && (this as IPlayableCharacter)?.IsImmortal != true)
                 return false;
 
             //        if (!IS_IMMORTAL(ch) && pRoomIndex->clan && ch->clan != pRoomIndex->clan)
@@ -871,7 +871,7 @@ namespace Mud.Server.Character
             }
 
             if ((portal.PortalFlags.HasFlag(PortalFlags.NoCurse) && CharacterFlags.IsSet("Curse"))
-                || Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
+                || Room.RoomFlags.IsSet("NoRecall"))
             {
                 Send("Something prevents you from leaving...");
                 return false;
@@ -893,13 +893,13 @@ namespace Mud.Server.Character
                 || destination == Room
                 || !CanSee(destination)
                 || destination.IsPrivate
-                || destination.RoomFlags.HasFlag(RoomFlags.Private))
+                || destination.RoomFlags.IsSet("Private"))
             {
                 Act(ActOptions.ToCharacter, "{0:N} doesn't seem to go anywhere.", portal);
                 return false;
             }
 
-            if (this is INonPlayableCharacter npc && npc.ActFlags.HasFlag(ActFlags.Aggressive) && destination.RoomFlags.HasFlag(RoomFlags.Law))
+            if (this is INonPlayableCharacter npc && npc.ActFlags.HasFlag(ActFlags.Aggressive) && destination.RoomFlags.IsSet("Law"))
             {
                 Send("Something prevents you from leaving...");
                 return false;
@@ -1417,7 +1417,7 @@ namespace Mud.Server.Character
             if (victim is INonPlayableCharacter npcVictim)
             {
                 // safe room ?
-                if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
+                if (victim.Room.RoomFlags.IsSet("Safe"))
                     return true;
 
                 if (npcVictim.Blueprint is CharacterShopBlueprint)
@@ -1463,7 +1463,7 @@ namespace Mud.Server.Character
                     if (caster.CharacterFlags.IsSet("Charm") && npcCaster.Master!= null && npcCaster.Master.Fighting != victim)
                         return true;
                     // safe room
-                    if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
+                    if (victim.Room.RoomFlags.IsSet("Safe"))
                         return true;
                     // TODO:  legal kill? -- mobs only hit players grouped with opponent
                     //if (ch->fighting != NULL && !is_same_group(ch->fighting, victim))
@@ -1500,7 +1500,7 @@ namespace Mud.Server.Character
             // Killing npc
             if (victim is INonPlayableCharacter npcVictim)
             {
-                if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
+                if (victim.Room.RoomFlags.IsSet("Safe"))
                     return "Not in this room.";
 
                 if (npcVictim.Blueprint is CharacterShopBlueprint)
@@ -1531,7 +1531,7 @@ namespace Mud.Server.Character
                 if (aggressor is INonPlayableCharacter npcAggressor)
                 {
                     // safe room
-                    if (victim.Room.RoomFlags.HasFlag(RoomFlags.Safe))
+                    if (victim.Room.RoomFlags.IsSet("Safe"))
                         return "Not in this room.";
                     // charmed mobs and pets cannot attack players while owned
                     if (aggressor.CharacterFlags.IsSet("Charm") && npcAggressor.Master != null && npcAggressor.Master.Fighting != victim)
@@ -1576,7 +1576,7 @@ namespace Mud.Server.Character
                 IExit exit = Room.Exits[(int) randomExit];
                 IRoom destination = exit?.Destination;
                 if (destination != null && !exit.IsClosed
-                                        && !(this is INonPlayableCharacter && destination.RoomFlags.HasFlag(RoomFlags.NoMob)))
+                                        && !(this is INonPlayableCharacter && destination.RoomFlags.IsSet("NoMob")))
                 {
                     // Try to move without checking if in combat or not
                     Move(randomExit, false);
@@ -2513,7 +2513,7 @@ namespace Mud.Server.Character
 
         protected void ResetCurrentAttributes()
         {
-            CharacterFlags = BaseCharacterFlags;
+            CharacterFlags.Copy(BaseCharacterFlags);
             Immunities = BaseImmunities;
             Resistances = BaseResistances;
             Vulnerabilities = BaseVulnerabilities;

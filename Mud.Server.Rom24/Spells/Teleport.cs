@@ -44,7 +44,7 @@ namespace Mud.Server.Rom24.Spells
         protected override bool IsVictimValid()
         {
             if (Victim.Room == null
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
+                || Victim.Room.RoomFlags.IsSet("NoRecall")
                 || (Victim != Caster && Victim.Immunities.HasFlag(IRVFlags.Summon))
                 || (Victim is IPlayableCharacter pcVictim && pcVictim.Fighting != null)
                 || (Victim != Caster && Victim.SavesSpell(Level - 5, SchoolTypes.Other)))

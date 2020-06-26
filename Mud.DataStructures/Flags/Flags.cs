@@ -23,6 +23,8 @@ namespace Mud.DataStructures.Flags
 
         #region IFlags
 
+        public bool IsNone => _hashSet.Count == 0;
+
         public bool IsSet(string flag) => _hashSet.Contains(flag);
 
         public bool HasAny(params string[] flags) => flags.Any(x => _hashSet.Contains(x));
@@ -109,6 +111,16 @@ namespace Mud.DataStructures.Flags
         }
 
         #region IFlags
+
+        public void Copy(IFlags<string, TFlagValues> flags)
+        {
+            _hashSet.Clear();
+            if (flags != null)
+                Set(flags);
+        }
+
+
+        public bool IsNone => _hashSet.Count == 0;
 
         public bool IsSet(string flag)
         {

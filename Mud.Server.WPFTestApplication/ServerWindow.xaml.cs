@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Mud.Common;
 using Mud.Container;
+using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Importer.Rom;
 using Mud.Logger;
@@ -78,7 +79,24 @@ namespace Mud.Server.WPFTestApplication
         {
             Type iRegistrable = typeof(IRegistrable);
             foreach (var registrable in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
+            {
+                Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
                 DependencyContainer.Current.Register(registrable);
+            }
+        }
+
+        internal void RegisterFlagValues<TFlagValue>(IAssemblyHelper assemblyHelper)
+            where TFlagValue : IFlagValues<string>
+        {
+            Type iFlagValuesType = typeof(TFlagValue);
+            Type concreteFlagValuesType = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iFlagValuesType.IsAssignableFrom(t))).SingleOrDefault();
+            if (concreteFlagValuesType == null)
+                Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
+            else
+            {
+                Log.Default.WriteLine(LogLevels.Info, "Registering implementation type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
+                DependencyContainer.Current.Register(iFlagValuesType, concreteFlagValuesType);
+            }
         }
 
         public ServerWindow()
@@ -92,12 +110,15 @@ namespace Mud.Server.WPFTestApplication
             // Initialize log
             Log.Default.Initialize(settings.LogPath, "server.log");
 
+            //
             IAssemblyHelper assemblyHelper = new AssemblyHelper();
 
             // Register all needed types
-            RegisterAllTypes(new AssemblyHelper());
+            RegisterAllTypes(assemblyHelper);
 
-            DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new CharacterFlagValues()); // TODO: do this with reflection ?
+            // Register all flags values
+            RegisterFlagValues<ICharacterFlagValues>(assemblyHelper);
+            RegisterFlagValues<IRoomFlagValues>(assemblyHelper);
 
             // Initialize IOC container
             DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
@@ -545,7 +566,7 @@ namespace Mud.Server.WPFTestApplication
                 {
                     Id = DependencyContainer.Current.GetInstance<ISettings>().NullRoomId,
                     Name = "The void",
-                    RoomFlags = RoomFlags.ImpOnly | RoomFlags.NoRecall | RoomFlags.NoScan | RoomFlags.NoWhere | RoomFlags.Private
+                    RoomFlags = new RoomFlags("NoRecall", "NoScan", "NoWhere")
                 };
                 RoomManager.AddRoomBlueprint(voidBlueprint);
                 RoomManager.AddRoom(Guid.NewGuid(), voidBlueprint, area);

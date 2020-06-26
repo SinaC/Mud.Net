@@ -291,31 +291,31 @@ namespace Mud.Domain
     //    Slow            = 0x20000000,
     //}
 
-    [Flags]
-    public enum RoomFlags
-    {
-        None        = 0x00000000,
-        Dark        = 0x00000001,
-        // not used
-        NoMob       = 0x00000004,
-        Indoors     = 0x00000008,
-        NoScan      = 0x00000010,
-        // not used
-        // not used
-        // not used
-        // not used
-        Private     = 0x00000200,
-        Safe        = 0x00000400,
-        Solitary    = 0x00000800,
-        // PetShop
-        NoRecall    = 0x00002000,
-        ImpOnly     = 0x00004000,
-        GodsOnly    = 0x00008000,
-        // HeroesOnly
-        NewbiesOnly = 0x00020000, // level <= 5 only
-        Law         = 0x00040000,
-        NoWhere     = 0x00080000,
-    }
+    //[Flags]
+    //public enum RoomFlags
+    //{
+    //    None        = 0x00000000,
+    //    Dark        = 0x00000001,
+    //    // not used
+    //    NoMob       = 0x00000004,
+    //    Indoors     = 0x00000008,
+    //    NoScan      = 0x00000010,
+    //    // not used
+    //    // not used
+    //    // not used
+    //    // not used
+    //    Private     = 0x00000200,
+    //    Safe        = 0x00000400,
+    //    Solitary    = 0x00000800,
+    //    // PetShop
+    //    NoRecall    = 0x00002000,
+    //    ImpOnly     = 0x00004000,
+    //    GodsOnly    = 0x00008000,
+    //    // HeroesOnly
+    //    NewbiesOnly = 0x00020000, // level <= 5 only
+    //    Law         = 0x00040000,
+    //    NoWhere     = 0x00080000,
+    //}
 
     public enum ResourceKinds // must starts at 0 and no hole (is used as index in array)
     {

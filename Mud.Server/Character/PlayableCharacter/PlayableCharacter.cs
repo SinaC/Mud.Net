@@ -1108,7 +1108,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     {
                         if (npcFollower.CharacterFlags.IsSet("Charm") && npcFollower.Position < Positions.Standing)
                             ; // TODO: npcFollower.DoStand
-                        if (npcFollower.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
+                        if (npcFollower.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.IsSet("Law"))
                         {
                             npcFollower.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", npcFollower);
                             npcFollower.Send("You aren't allowed in the city.");

@@ -13,6 +13,8 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Entity;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
@@ -128,8 +130,8 @@ namespace Mud.Server.Room
 
         public ILookup<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
-        public RoomFlags BaseRoomFlags { get; protected set; }
-        public RoomFlags RoomFlags { get; protected set; }
+        public IRoomFlags BaseRoomFlags { get; protected set; }
+        public IRoomFlags RoomFlags { get; protected set; } = new RoomFlags();
 
         public IArea Area { get; }
 
@@ -162,11 +164,11 @@ namespace Mud.Server.Room
             {
                 // TODO: ownership
                 int count = People.Count();
-                if (RoomFlags.HasFlag(RoomFlags.Private) && count >= 2)
+                if (RoomFlags.IsSet("Private") && count >= 2)
                     return true;
-                if (RoomFlags.HasFlag(RoomFlags.Solitary) && count >= 1)
+                if (RoomFlags.IsSet("Solitary") && count >= 1)
                     return true;
-                if (RoomFlags.HasFlag(RoomFlags.ImpOnly))
+                if (RoomFlags.IsSet("ImpOnly"))
                     return true;
                 return false;
             }
@@ -178,11 +180,11 @@ namespace Mud.Server.Room
             {
                 if (Light > 0)
                     return false;
-                if (RoomFlags.HasFlag(RoomFlags.Dark))
+                if (RoomFlags.IsSet("Dark"))
                     return true;
                 if (SectorType == SectorTypes.Inside
                     || SectorType == SectorTypes.City
-                    || RoomFlags.HasFlag(RoomFlags.Indoors))
+                    || RoomFlags.IsSet("Indoors"))
                     return false;
                 if (TimeManager.SunPhase == SunPhases.Set
                     || TimeManager.SunPhase == SunPhases.Dark)
@@ -595,13 +597,13 @@ namespace Mud.Server.Room
             {
                 case AffectOperators.Add:
                 case AffectOperators.Or:
-                    RoomFlags |= affect.Modifier;
+                    RoomFlags.Set(affect.Modifier);
                     break;
                 case AffectOperators.Assign:
                     RoomFlags = affect.Modifier;
                     break;
                 case AffectOperators.Nor:
-                    RoomFlags &= ~affect.Modifier;
+                    RoomFlags.Unset(affect.Modifier);
                     break;
             }
         }
@@ -610,7 +612,7 @@ namespace Mud.Server.Room
 
         protected virtual void ResetAttributes()
         {
-            RoomFlags = BaseRoomFlags;
+            RoomFlags.Copy(BaseRoomFlags);
         }
 
         protected void ApplyAuras(IEntity entity)

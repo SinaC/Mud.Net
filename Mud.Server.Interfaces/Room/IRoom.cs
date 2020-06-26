@@ -4,6 +4,7 @@ using System.Text;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
@@ -18,8 +19,8 @@ namespace Mud.Server.Interfaces.Room
 
         ILookup<string, string> ExtraDescriptions { get; } // keyword -> descriptions
 
-        RoomFlags BaseRoomFlags { get; }
-        RoomFlags RoomFlags { get; }
+        IRoomFlags BaseRoomFlags { get; }
+        IRoomFlags RoomFlags { get; }
 
         IArea Area { get; }
 

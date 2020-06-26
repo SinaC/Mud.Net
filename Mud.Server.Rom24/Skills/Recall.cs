@@ -44,7 +44,7 @@ namespace Mud.Server.Rom24.Skills
             }
 
             if (pcUser.CharacterFlags.IsSet("Curse")
-                || pcUser.Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
+                || pcUser.Room.RoomFlags.IsSet("NoRecall"))
                 return "Mota has forsaken you."; // TODO: message related to deity
 
             //if (recallRoom == pcUser.Room)

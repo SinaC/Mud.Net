@@ -116,7 +116,7 @@ namespace Mud.Server.Admin.Information
                 sb.AppendFormatLine("Damage: {0}d{1}+{2} {3} {4}", nonPlayableWhom.DamageDiceCount, nonPlayableWhom.DamageDiceValue, nonPlayableWhom.DamageDiceBonus, nonPlayableWhom.DamageType, nonPlayableWhom.DamageNoun);
             sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", Whom.HitPoints, Whom.MaxHitPoints);
             sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", Whom.MovePoints, Whom.MaxMovePoints);
-            sb.AppendFormatLine("Flags: {0} (base: {1})", Whom.CharacterFlags, Whom.BaseCharacterFlags);
+            sb.AppendFormatLine("Flags: {0} (base: {1})", Whom.CharacterFlags.Map(), Whom.BaseCharacterFlags.Map());
             sb.AppendFormatLine("Immunites: {0} (base: {1})", Whom.Immunities, Whom.BaseImmunities);
             sb.AppendFormatLine("Resistances: {0} (base: {1})", Whom.Resistances, Whom.BaseResistances);
             sb.AppendFormatLine("Vulnerabilities: {0} (base: {1})", Whom.Vulnerabilities, Whom.BaseVulnerabilities);

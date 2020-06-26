@@ -20,7 +20,7 @@ namespace Mud.Server.Character.Information
 
             if (Actor.Room == null)
                 return "You are nowhere.";
-            if (Actor.Room.RoomFlags.HasFlag(RoomFlags.NoScan))
+            if (Actor.Room.RoomFlags.IsSet("NoScan"))
                 return "Your vision is clouded by a mysterious force.";
             return null;
         }
@@ -45,7 +45,7 @@ namespace Mud.Server.Character.Information
                     IRoom destination = exit?.Destination;
                     if (destination == null)
                         break; // stop in that direction if no exit found or no linked room found
-                    if (destination.RoomFlags.HasFlag(RoomFlags.NoScan))
+                    if (destination.RoomFlags.IsSet("NoScan"))
                         break; // no need to scan further
                     if (exit.IsClosed)
                         break; // can't see thru closed door

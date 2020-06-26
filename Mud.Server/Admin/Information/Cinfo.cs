@@ -59,7 +59,7 @@ namespace Mud.Server.Admin.Information
             sb.AppendFormatLine("Mana: {0}d{1}+{2}", Blueprint.ManaDiceCount, Blueprint.ManaDiceValue, Blueprint.ManaDiceBonus);
             sb.AppendFormatLine("Hit roll: {0}", Blueprint.HitRollBonus);
             sb.AppendFormatLine("Bash: {0} Pierce: {1} Slash: {2} Exotic: {3}", Blueprint.ArmorBash, Blueprint.ArmorPierce, Blueprint.ArmorSlash, Blueprint.ArmorExotic);
-            sb.AppendFormatLine("Flags: {0}", Blueprint.CharacterFlags);
+            sb.AppendFormatLine("Flags: {0}", Blueprint.CharacterFlags.Map());
             sb.AppendFormatLine("Offensive: {0}", Blueprint.OffensiveFlags);
             sb.AppendFormatLine("Act: {0}", Blueprint.ActFlags);
             sb.AppendFormatLine("Immunities: {0}", Blueprint.Immunities);

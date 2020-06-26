@@ -25,7 +25,7 @@ namespace Mud.Server.Character.Information
 
             if (Actor.Room == null)
                 return "You are nowhere!";
-            if (Actor.Room.RoomFlags.HasFlag(RoomFlags.Indoors))
+            if (Actor.Room.RoomFlags.IsSet("Indoors"))
                 return "You can't see the weather indoors.";
             return null;
         }

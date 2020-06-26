@@ -52,7 +52,7 @@ namespace Mud.Server.Rom24.Spells
             if (npcVictim == null)
                 return "You can't charm players!";
 
-            if (npcVictim.Room.RoomFlags.HasFlag(RoomFlags.Law))
+            if (npcVictim.Room.RoomFlags.IsSet("Law"))
                 return "The mayor does not allow charming in the city limits.";
 
             return null;
