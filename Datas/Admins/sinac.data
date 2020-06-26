@@ -21,7 +21,7 @@
       <Sex>1</Sex>
       <Size>2</Size>
       <HitPoints>13800</HitPoints>
-      <MovePoints>13735</MovePoints>
+      <MovePoints>13676</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -148,7 +148,7 @@
             <AuraData>
               <AbilityName>Test</AbilityName>
               <Level>1</Level>
-              <PulseLeft>220</PulseLeft>
+              <PulseLeft>112</PulseLeft>
               <AuraFlags>2</AuraFlags>
               <Affects>
                 <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -219,7 +219,7 @@
         <AuraData>
           <AbilityName>Giant Strength</AbilityName>
           <Level>1</Level>
-          <PulseLeft>9860</PulseLeft>
+          <PulseLeft>9752</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -232,7 +232,7 @@
         <AuraData>
           <AbilityName>Armor</AbilityName>
           <Level>1</Level>
-          <PulseLeft>344440</PulseLeft>
+          <PulseLeft>344332</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -245,7 +245,7 @@
         <AuraData>
           <AbilityName>Sanctuary</AbilityName>
           <Level>1</Level>
-          <PulseLeft>532</PulseLeft>
+          <PulseLeft>424</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -257,7 +257,7 @@
         <AuraData>
           <AbilityName>Shield</AbilityName>
           <Level>1</Level>
-          <PulseLeft>11820</PulseLeft>
+          <PulseLeft>11712</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -270,7 +270,7 @@
         <AuraData>
           <AbilityName>Stone Skin</AbilityName>
           <Level>1</Level>
-          <PulseLeft>9968</PulseLeft>
+          <PulseLeft>9860</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -344,13 +344,13 @@
         </PairDataOfInt32Int32>
       </Attributes>
       <CreationTime>2020-06-14T19:17:42.1765039+02:00</CreationTime>
-      <RoomId>3001</RoomId>
-      <SilverCoins>697</SilverCoins>
+      <RoomId>3014</RoomId>
+      <SilverCoins>699</SilverCoins>
       <GoldCoins>10</GoldCoins>
       <Experience>113000</Experience>
       <Alignment>-4</Alignment>
-      <Trains>34</Trains>
-      <Practices>76</Practices>
+      <Trains>33</Trains>
+      <Practices>74</Practices>
       <AutoFlags>63</AutoFlags>
       <CurrentQuests>
         <CurrentQuestData>
@@ -1623,6 +1623,15 @@
           <Learned>0</Learned>
           <Rating>0</Rating>
         </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Steal</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
       </LearnedAbilities>
       <Conditions>
         <PairDataOfInt32Int32>
@@ -1644,200 +1653,7 @@
       </Conditions>
       <Aliases />
       <Cooldowns />
-      <Pets>
-        <CharacterData xsi:type="PetData">
-          <Name>Construct</Name>
-          <Race />
-          <Class />
-          <Level>40</Level>
-          <Sex>0</Sex>
-          <Size>0</Size>
-          <HitPoints>698</HitPoints>
-          <MovePoints>1000</MovePoints>
-          <CurrentResources>
-            <PairDataOfInt32Int32>
-              <Key>0</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>1</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-          </CurrentResources>
-          <MaxResources>
-            <PairDataOfInt32Int32>
-              <Key>0</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>1</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-          </MaxResources>
-          <Equipments />
-          <Inventory />
-          <Auras />
-          <CharacterFlags>2097152</CharacterFlags>
-          <Immunities>0</Immunities>
-          <Resistances>192</Resistances>
-          <Vulnerabilities>1024</Vulnerabilities>
-          <Attributes>
-            <PairDataOfInt32Int32>
-              <Key>0</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>1</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>2</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>3</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>4</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>5</Key>
-              <Value>698</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>6</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>7</Key>
-              <Value>10</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>8</Key>
-              <Value>40</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>9</Key>
-              <Value>1000</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>10</Key>
-              <Value>300</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>11</Key>
-              <Value>200</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>12</Key>
-              <Value>400</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>13</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-          </Attributes>
-          <BlueprintId>80000</BlueprintId>
-        </CharacterData>
-        <CharacterData xsi:type="PetData">
-          <Name>Construct</Name>
-          <Race />
-          <Class />
-          <Level>40</Level>
-          <Sex>0</Sex>
-          <Size>0</Size>
-          <HitPoints>446</HitPoints>
-          <MovePoints>1000</MovePoints>
-          <CurrentResources>
-            <PairDataOfInt32Int32>
-              <Key>0</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>1</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-          </CurrentResources>
-          <MaxResources>
-            <PairDataOfInt32Int32>
-              <Key>0</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>1</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-          </MaxResources>
-          <Equipments />
-          <Inventory />
-          <Auras />
-          <CharacterFlags>2097152</CharacterFlags>
-          <Immunities>0</Immunities>
-          <Resistances>192</Resistances>
-          <Vulnerabilities>1024</Vulnerabilities>
-          <Attributes>
-            <PairDataOfInt32Int32>
-              <Key>0</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>1</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>2</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>3</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>4</Key>
-              <Value>21</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>5</Key>
-              <Value>446</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>6</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>7</Key>
-              <Value>10</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>8</Key>
-              <Value>40</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>9</Key>
-              <Value>1000</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>10</Key>
-              <Value>300</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>11</Key>
-              <Value>200</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>12</Key>
-              <Value>400</Value>
-            </PairDataOfInt32Int32>
-            <PairDataOfInt32Int32>
-              <Key>13</Key>
-              <Value>0</Value>
-            </PairDataOfInt32Int32>
-          </Attributes>
-          <BlueprintId>80000</BlueprintId>
-        </CharacterData>
-      </Pets>
+      <Pets />
     </PlayableCharacterData>
     <PlayableCharacterData>
       <Name>pouet</Name>

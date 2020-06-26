@@ -38,7 +38,7 @@ namespace Mud.Server.Actor
             StringBuilder sb = new StringBuilder();
             foreach (var gameActionInfo in commands.Select(x => x.Value).DistinctBy(x => x.Name).OrderBy(x => x.Name))
             {
-                string[] names = GetNames(gameActionInfo).ToArray();
+                string[] names = gameActionInfo.Names.ToArray();
                 string title = string.Join(", ", names.Select(x => $"%C%{x}%x%"));
                 sb.AppendLine($"Command{(names.Length > 1 ? "s" : string.Empty)} {title}:");
                 string commandNames = string.Join("|", names);
@@ -50,13 +50,6 @@ namespace Mud.Server.Actor
                 Actor.Page(sb);
             else
                 Actor.Send("No command found.");
-        }
-
-        private IEnumerable<string> GetNames(IGameActionInfo gameActionInfo)
-        {
-            yield return gameActionInfo.Name;
-            foreach (string alias in gameActionInfo.Aliases)
-                yield return alias;
         }
     }
 }

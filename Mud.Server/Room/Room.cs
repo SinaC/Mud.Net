@@ -107,7 +107,11 @@ namespace Mud.Server.Room
 
         public bool PutInContainer(IItem obj)
         {
-            // TODO: check if already in a container
+            //if (obj.ContainedInto != null)
+            //{
+            //    Log.Default.WriteLine(LogLevels.Error, "PutInContainer: {0} is already in container {1}.", obj.DebugName, obj.ContainedInto.DebugName);
+            //    return false;
+            //}
             _content.Add(obj);
             return true;
         }

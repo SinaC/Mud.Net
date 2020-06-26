@@ -111,11 +111,11 @@ namespace Mud.Server.Character
 
         public bool PutInContainer(IItem obj)
         {
-            if (obj.ContainedInto != null)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "PutInContainer: {0} is already in container {1}.", obj.DebugName, obj.ContainedInto.DebugName);
-                return false;
-            }
+            //if (obj.ContainedInto != null)
+            //{
+            //    Log.Default.WriteLine(LogLevels.Error, "PutInContainer: {0} is already in container {1}.", obj.DebugName, obj.ContainedInto.DebugName);
+            //    return false;
+            //}
             _inventory.Insert(0, obj);
             return true;
         }

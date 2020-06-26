@@ -31,11 +31,10 @@ quest: add quest item on the fly when player takes the quest
 item: protect, room_key
 Monitor Recompute calls: recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
-skills: steal/lore
-spells: create rose, farsight, identify
+skills: lore
+spells: create rose, farsight
 assign abilities to classes
 UnitTests on Rom24Effects
-Shop: appraise
 specials
 assist_guard
 aggro table

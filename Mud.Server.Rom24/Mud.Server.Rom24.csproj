@@ -128,6 +128,7 @@
     <Compile Include="Skills\Scrolls.cs" />
     <Compile Include="Skills\Sneak.cs" />
     <Compile Include="Skills\Staves.cs" />
+    <Compile Include="Skills\Steal.cs" />
     <Compile Include="Skills\Trip.cs" />
     <Compile Include="Skills\Wands.cs" />
     <Compile Include="Spells\AcidBlast.cs" />

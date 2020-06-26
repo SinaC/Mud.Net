@@ -32,8 +32,8 @@ namespace Mud.Server.Item
         {
             Blueprint = blueprint;
             ShortDescription = shortDescription;
-            ContainedInto = containedInto;
-            containedInto.PutInContainer(this);
+            containedInto.PutInContainer(this); // put in container
+            ContainedInto = containedInto; // set above container as our container
             WearLocation = blueprint.WearLocation;
             Level = blueprint.Level;
             Weight = blueprint.Weight;

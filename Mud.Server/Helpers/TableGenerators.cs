@@ -168,7 +168,7 @@ namespace Mud.Server.Helpers
             return generator;
         });
 
-        private static string ConvertBool(bool value) => value ? "%y%yes%x%" : "no";
+        private static string ConvertBool(bool value) => value ? "%G%v%x%" : "x";
 
         private static string ConvertPriority(int priority) => priority != CommandAttribute.DefaultPriority ? $"%y%{priority}%x%" : $"{priority}";
 
@@ -177,13 +177,14 @@ namespace Mud.Server.Helpers
             TableGenerator<IGameActionInfo> generator = new TableGenerator<IGameActionInfo>();
             //generator.AddColumn("Method", 50, x => GetMethodName(x));
             generator.AddColumn("Method", 50, x => x.CommandExecutionType.FullName);
-            generator.AddColumn("Command", 20, x => x.Name, new TableGenerator<IGameActionInfo>.ColumnOptions { AlignLeft = true });
+            generator.AddColumn("Name", 20, x => x.Name, new TableGenerator<IGameActionInfo>.ColumnOptions { AlignLeft = true });
+            //generator.AddColumn("Names", 20, x => string.Join(",", x.Names), new TableGenerator<IGameActionInfo>.ColumnOptions { AlignLeft = true });
             generator.AddColumn("Categories", 20, x => string.Join(",", x.Categories));
-            generator.AddColumn("Aliases", 10, x => string.Join(",", x.Aliases));
+            generator.AddColumn("Aliases", 20, x => string.Join(",", x.Aliases));
             generator.AddColumn("Prio", 5, x => ConvertPriority(x.Priority));
-            generator.AddColumn("S?", 5, x => ConvertBool(x.NoShortcut));
-            generator.AddColumn("H?", 5, x => ConvertBool(x.Hidden));
-            generator.AddColumn("F?", 5, x => ConvertBool(x.AddCommandInParameters));
+            generator.AddColumn("S?", 4, x => ConvertBool(x.NoShortcut));
+            generator.AddColumn("H?", 4, x => ConvertBool(x.Hidden));
+            generator.AddColumn("F?", 4, x => ConvertBool(x.AddCommandInParameters));
             return generator;
         });
 
