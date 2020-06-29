@@ -40,7 +40,7 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke(IItem item)
         {
-            if (item.ItemFlags.HasFlag(ItemFlags.Invis))
+            if (item.ItemFlags.IsSet("Invis"))
             {
                 Caster.Act(ActOptions.ToCharacter, "{0} is already invisible.", item);
                 return;
@@ -48,7 +48,7 @@ namespace Mud.Server.Rom24.Spells
 
             Caster.Act(ActOptions.ToAll, "{0} fades out of sight.", item);
             AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), AuraFlags.None, true,
-                new ItemFlagsAffect { Modifier = ItemFlags.Invis, Operator = AffectOperators.Or });
+                new ItemFlagsAffect { Modifier = new ItemFlags("Invis"), Operator = AffectOperators.Or });
         }
     }
 }

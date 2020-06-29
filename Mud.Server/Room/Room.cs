@@ -46,7 +46,8 @@ namespace Mud.Server.Room
             _content = new List<IItem>();
             Exits = new IExit[EnumHelpers.GetCount<ExitDirections>()];
 
-            BaseRoomFlags = blueprint.RoomFlags;
+            BaseRoomFlags = blueprint.RoomFlags ?? new RoomFlags();
+            RoomFlags = new RoomFlags();
             SectorType = blueprint.SectorType;
             HealRate = blueprint.HealRate;
             ResourceRate = blueprint.ResourceRate;
@@ -131,7 +132,7 @@ namespace Mud.Server.Room
         public ILookup<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
         public IRoomFlags BaseRoomFlags { get; protected set; }
-        public IRoomFlags RoomFlags { get; protected set; } = new RoomFlags();
+        public IRoomFlags RoomFlags { get; protected set; }
 
         public IArea Area { get; }
 

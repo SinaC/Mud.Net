@@ -560,6 +560,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
@@ -603,6 +604,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
@@ -645,6 +647,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
@@ -686,6 +689,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
@@ -732,6 +736,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
@@ -777,6 +782,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());

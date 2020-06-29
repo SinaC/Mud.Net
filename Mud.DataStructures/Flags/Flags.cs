@@ -31,14 +31,14 @@ namespace Mud.DataStructures.Flags
 
         public bool HasAll(params string[] flags) => flags.All(x => _hashSet.Contains(x));
 
-        public bool Set(string flag) => _hashSet.Add(flag);
+        public void Set(string flag) => _hashSet.Add(flag);
         public void Set(params string[] flags)
         {
             foreach (string flag in flags)
                 _hashSet.Add(flag);
         }
 
-        public bool Unset(string flag) => _hashSet.Remove(flag);
+        public void Unset(string flag) => _hashSet.Remove(flag);
         public void Unset(params string[] flags)
         {
             foreach (string flag in flags)
@@ -84,8 +84,6 @@ namespace Mud.DataStructures.Flags
     public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
         where TFlagValues : IFlagValues<string>
     {
-        //DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags()); // TODO: do this with reflection ?
-        //DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags()); // TODO: do this with reflection ?
         private static readonly Lazy<TFlagValues> LazyFlagValues = new Lazy<TFlagValues>(() => (TFlagValues)DependencyContainer.Current.GetInstance(typeof(TFlagValues)));
 
         private TFlagValues FlagValues => LazyFlagValues.Value;
@@ -153,11 +151,11 @@ namespace Mud.DataStructures.Flags
             return flags.Items.All(x => _hashSet.Contains(x));
         }
 
-        public bool Set(string flag)
+        public void Set(string flag)
         {
             if (!CheckValues(flag))
                 FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, flag.Yield());
-            return _hashSet.Add(flag);
+            _hashSet.Add(flag);
         }
         public void Set(params string[] flags)
         {
@@ -174,11 +172,11 @@ namespace Mud.DataStructures.Flags
                 _hashSet.Add(flag);
         }
 
-        public bool Unset(string flag)
+        public void Unset(string flag)
         {
             if (!CheckValues(flag))
                 FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, flag.Yield());
-            return _hashSet.Remove(flag);
+            _hashSet.Remove(flag);
         }
         public void Unset(params string[] flags)
         {

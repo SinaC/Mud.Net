@@ -566,6 +566,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -611,6 +612,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -655,6 +657,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -698,6 +701,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -747,6 +751,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -794,6 +799,7 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new Mock<IItemWand>();
             wandMock.SetupGet(x => x.Name).Returns("wand");

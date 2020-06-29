@@ -12,6 +12,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using System.Collections.Generic;
 using System.Linq;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Rom24.Spells
 {
@@ -60,9 +61,9 @@ namespace Mud.Server.Rom24.Spells
             }
             // apply other modifiers
             fail -= 3 * Level / 2;
-            if (weapon.ItemFlags.HasFlag(ItemFlags.Bless))
+            if (weapon.ItemFlags.IsSet("Bless"))
                 fail -= 15;
-            if (weapon.ItemFlags.HasFlag(ItemFlags.Glowing))
+            if (weapon.ItemFlags.IsSet("Glowing"))
                 fail -= 5;
             fail = fail.Range(5, 95);
             // the moment of truth
@@ -110,14 +111,14 @@ namespace Mud.Server.Rom24.Spells
                         () => new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = amount, Operator = AffectOperators.Add },
                         x => x.Modifier += amount);
                 existingAura.AddOrUpdateAffect(
-                        x => x.Modifier == ItemFlags.Magic,
-                        () => new ItemFlagsAffect { Modifier = ItemFlags.Magic, Operator = AffectOperators.Or },
-                        x => x.Modifier += amount);
+                        x => x.Modifier.IsSet("Magic"),
+                        () => new ItemFlagsAffect { Modifier = new ItemFlags("Magic"), Operator = AffectOperators.Or },
+                        _ => { });
                 if (addGlowing)
                     existingAura.AddOrUpdateAffect(
-                       x => x.Modifier == ItemFlags.Glowing,
-                       () => new ItemFlagsAffect { Modifier = ItemFlags.Glowing, Operator = AffectOperators.Or },
-                       x => x.Modifier += amount);
+                       x => x.Modifier.IsSet("Glowing"),
+                       () => new ItemFlagsAffect { Modifier = new ItemFlags("Glowing"), Operator = AffectOperators.Or },
+                       _ => { });
             }
             else
             {
@@ -125,10 +126,10 @@ namespace Mud.Server.Rom24.Spells
                 {
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = amount, Operator = AffectOperators.Add },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = amount, Operator = AffectOperators.Add },
-                    new ItemFlagsAffect { Modifier = ItemFlags.Magic, Operator = AffectOperators.Or }
+                    new ItemFlagsAffect { Modifier = new ItemFlags("Magic"), Operator = AffectOperators.Or }
                 };
                 if (addGlowing)
-                    affects.Add(new ItemFlagsAffect { Modifier = ItemFlags.Glowing, Operator = AffectOperators.Or });
+                    affects.Add(new ItemFlagsAffect { Modifier = new ItemFlags("Glowing"), Operator = AffectOperators.Or });
                 AuraManager.AddAura(weapon, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false,
                    affects.ToArray());
             }

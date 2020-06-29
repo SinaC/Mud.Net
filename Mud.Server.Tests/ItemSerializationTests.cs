@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
@@ -28,7 +29,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemArmor_To_ItemData_Test()
         {
-            ItemArmorBlueprint blueprint = new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150, ItemFlags = ItemFlags.Glowing };
+            ItemArmorBlueprint blueprint = new ItemArmorBlueprint { Id = 1, Name = "Armor", ShortDescription = "ArmorShort", Description = "ArmorDesc", Bash = 150, ItemFlags = new ItemFlags("Glowing")};
             IItemArmor armor = new ItemArmor(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = armor.MapItemData(); // no specific ItemData
@@ -43,7 +44,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemJukebox_To_ItemData_Test()
         {
-            ItemJukeboxBlueprint blueprint = new ItemJukeboxBlueprint { Id = 1, Name = "Jukebox", ShortDescription = "JukeboxShort", Description = "JukeboxDesc", ItemFlags = ItemFlags.Glowing };
+            ItemJukeboxBlueprint blueprint = new ItemJukeboxBlueprint { Id = 1, Name = "Jukebox", ShortDescription = "JukeboxShort", Description = "JukeboxDesc", ItemFlags = new ItemFlags("Glowing") };
             IItemJukebox jukebox = new ItemJukebox(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = jukebox.MapItemData(); // no specific ItemData
@@ -58,7 +59,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemMap_To_ItemData_Test()
         {
-            ItemMapBlueprint blueprint = new ItemMapBlueprint { Id = 1, Name = "Map", ShortDescription = "MapShort", Description = "MapDesc", ItemFlags = ItemFlags.Glowing };
+            ItemMapBlueprint blueprint = new ItemMapBlueprint { Id = 1, Name = "Map", ShortDescription = "MapShort", Description = "MapDesc", ItemFlags = new ItemFlags("Glowing") };
             IItemMap map = new ItemMap(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = map.MapItemData(); // no specific ItemData
@@ -73,7 +74,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemClothing_To_ItemData_Test()
         {
-            ItemClothingBlueprint blueprint = new ItemClothingBlueprint { Id = 1, Name = "Clothing", ShortDescription = "ClothingShort", Description = "ClothingDesc", ItemFlags = ItemFlags.Glowing };
+            ItemClothingBlueprint blueprint = new ItemClothingBlueprint { Id = 1, Name = "Clothing", ShortDescription = "ClothingShort", Description = "ClothingDesc", ItemFlags = new ItemFlags("Glowing") };
             IItemClothing clothing = new ItemClothing(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = clothing.MapItemData(); // no specific ItemData
@@ -88,7 +89,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemTrash_To_ItemData_Test()
         {
-            ItemTrashBlueprint blueprint = new ItemTrashBlueprint { Id = 1, Name = "Trash", ShortDescription = "TrashShort", Description = "TrashDesc", ItemFlags = ItemFlags.Glowing };
+            ItemTrashBlueprint blueprint = new ItemTrashBlueprint { Id = 1, Name = "Trash", ShortDescription = "TrashShort", Description = "TrashDesc", ItemFlags = new ItemFlags("Glowing") };
             IItemTrash trash = new ItemTrash(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = trash.MapItemData(); // no specific ItemData
@@ -103,7 +104,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemGem_To_ItemData_Test()
         {
-            ItemGemBlueprint blueprint = new ItemGemBlueprint { Id = 1, Name = "Gem", ShortDescription = "GemShort", Description = "GemDesc", ItemFlags = ItemFlags.Glowing };
+            ItemGemBlueprint blueprint = new ItemGemBlueprint { Id = 1, Name = "Gem", ShortDescription = "GemShort", Description = "GemDesc", ItemFlags = new ItemFlags("Glowing") };
             IItemGem gem = new ItemGem(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = gem.MapItemData(); // no specific ItemData
@@ -118,7 +119,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemBoat_To_ItemData_Test()
         {
-            ItemBoatBlueprint blueprint = new ItemBoatBlueprint { Id = 1, Name = "Boat", ShortDescription = "BoatShort", Description = "BoatDesc", ItemFlags = ItemFlags.Glowing };
+            ItemBoatBlueprint blueprint = new ItemBoatBlueprint { Id = 1, Name = "Boat", ShortDescription = "BoatShort", Description = "BoatDesc", ItemFlags = new ItemFlags("Glowing") };
             IItemBoat boat = new ItemBoat(Guid.NewGuid(), blueprint, new Mock<IRoom>().Object);
 
             ItemData itemData = boat.MapItemData(); // no specific ItemData
@@ -135,7 +136,7 @@ namespace Mud.Server.Tests
         {
             ItemStaffBlueprint blueprint = new ItemStaffBlueprint
             {
-                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = ItemFlags.AntiEvil,
+                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = new ItemFlags("AntiEvil"),
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
                 AlreadyRecharged = true
@@ -159,7 +160,7 @@ namespace Mud.Server.Tests
         {
             ItemWandBlueprint blueprint = new ItemWandBlueprint
             {
-                Id = 1, Name = "Wand", ShortDescription = "WandShort", Description = "WandDesc", ItemFlags = ItemFlags.AntiEvil,
+                Id = 1, Name = "Wand", ShortDescription = "WandShort", Description = "WandDesc", ItemFlags = new ItemFlags("AntiEvil"),
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
                 AlreadyRecharged = true
@@ -181,7 +182,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemWarpstone_To_ItemData_Test()
         {
-            ItemWarpStoneBlueprint blueprint = new ItemWarpStoneBlueprint { Id = 1, Name = "Warp", ShortDescription = "WarpShort", Description = "WarpDesc", ItemFlags = ItemFlags.AntiEvil };
+            ItemWarpStoneBlueprint blueprint = new ItemWarpStoneBlueprint { Id = 1, Name = "Warp", ShortDescription = "WarpShort", Description = "WarpDesc", ItemFlags = new ItemFlags("AntiEvil") };
             IItemWarpstone warpstone = new ItemWarpstone(Guid.NewGuid(), blueprint, new Mock<IContainer>().Object);
 
             ItemData itemData = warpstone.MapItemData(); // no specific ItemData
@@ -393,7 +394,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemJewelry_To_ItemData_Test()
         {
-            IItemJewelry jewelry = new ItemJewelry(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 1, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc", ItemFlags = ItemFlags.Glowing}, new Mock<IContainer>().Object);
+            IItemJewelry jewelry = new ItemJewelry(Guid.NewGuid(), new ItemJewelryBlueprint { Id = 1, Name = "Jewelry", ShortDescription = "JewelryShort", Description = "JewelryDesc", ItemFlags = new ItemFlags("Glowing")}, new Mock<IContainer>().Object);
 
             ItemData itemData = jewelry.MapItemData(); // no specific ItemData
 
@@ -420,7 +421,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemLight_To_ItemData_Test()
         {
-            IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", ItemFlags = ItemFlags.Glowing, DurationHours = 5 }, new Mock<IContainer>().Object);
+            IItemLight light = new ItemLight(Guid.NewGuid(), new ItemLightBlueprint { Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", ItemFlags = new ItemFlags("Glowing"), DurationHours = 5 }, new Mock<IContainer>().Object);
 
             ItemData itemData = light.MapItemData(); // no specific ItemData
 
@@ -477,7 +478,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void ItemWeapon_To_ItemData_Test()
         {
-            IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", ItemFlags = ItemFlags.NoDrop, DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20, Flags = WeaponFlags.Shocking | WeaponFlags.Vampiric }, new Mock<IContainer>().Object);
+            IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new ItemWeaponBlueprint { Id = 1, Name = "Weapon", ShortDescription = "WeaponShort", Description = "WeaponDesc", ItemFlags = new ItemFlags("NoDrop"), DamageType = SchoolTypes.Fire, DiceCount = 10, DiceValue = 20, Flags = new WeaponFlags("Shocking", "Vampiric")}, new Mock<IContainer>().Object);
 
             ItemData itemData = weapon.MapItemData(); // no specific ItemData
 

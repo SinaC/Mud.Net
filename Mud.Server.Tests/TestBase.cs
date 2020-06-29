@@ -68,8 +68,10 @@ namespace Mud.Server.Tests
             //Container.DependencyContainer.Current.RegisterInstance<IAdminRepository>(new AdminRepositoryMock());
             //Container.DependencyContainer.Current.RegisterInstance<ITableValues>(new TableValuesMock());
             Container.DependencyContainer.Current.RegisterInstance<IAuraManager>(new AuraManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags());
-            Container.DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags());
+            Container.DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlagValues());
+            Container.DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlagValues());
+            Container.DependencyContainer.Current.RegisterInstance<IItemFlagValues>(new Rom24ItemFlagValues());
+            Container.DependencyContainer.Current.RegisterInstance<IWeaponFlagValues>(new Rom24WeaponFlagValues());
 
             IAssemblyHelper assemblyHelper = new AssemblyHelper();
             Type iRegistrable = typeof(IRegistrable);
@@ -84,7 +86,7 @@ namespace Mud.Server.Tests
 
     }
 
-    internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
+    internal class Rom24CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
@@ -123,7 +125,7 @@ namespace Mud.Server.Tests
         protected override HashSet<string> HashSet => Flags;
     }
 
-    internal class Rom24RoomFlags : FlagValuesBase<string>, IRoomFlagValues
+    internal class Rom24RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
@@ -141,6 +143,59 @@ namespace Mud.Server.Tests
             "Law",
             "NoWhere",
             "Test", // TEST PURPOSE
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
+    {
+        private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "None",
+            "Glowing",
+            "Humming",
+            "Dark",
+            "Lock",
+            "Evil",
+            "Invis",
+            "Magic",
+            "NoDrop", // Cannot be dropped once in inventory (cannot be put in container) [can be uncursed]
+            "Bless",
+            "AntiGood",
+            "AntiEvil",
+            "AntiNeutral",
+            "NoRemove", // Cannot be removed once equipped [can be uncursed]
+            "Inventory",
+            "NoPurge",
+            "RotDeath", // Disappear when holder dies
+            "VisibleDeath", // Visible when holder dies
+            "NonMetal",
+            "NoLocate",
+            "MeltOnDrop", // Melt when dropped
+            "HadTimer",
+            "SellExtract",
+            "BurnProof",
+            "NoUncurse",
+            "NoSacrifice",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
+    {
+        private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Flaming",
+            "Frost",
+            "Vampiric",
+            "Sharp",
+            "Vorpal",
+            "TwoHands",
+            "Shocking",
+            "Poison",
+            "Holy",
         };
 
         protected override HashSet<string> HashSet => Flags;

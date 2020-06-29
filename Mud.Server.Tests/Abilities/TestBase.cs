@@ -23,8 +23,8 @@ namespace Mud.Server.Tests.Abilities
         {
             _originalContainer = DependencyContainer.Current;
             DependencyContainer.SetManualContainer(new SimpleInjector.Container());
-            Container.DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags());
-            Container.DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags());
+            DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlagValues());
+            DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlagValues());
         }
 
         [TestCleanup]

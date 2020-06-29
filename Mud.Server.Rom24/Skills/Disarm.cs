@@ -76,7 +76,7 @@ namespace Mud.Server.Rom24.Skills
             // and now the attack
             if (RandomManager.Chance(chance))
             {
-                if (VictimWield.ItemFlags.HasFlag(ItemFlags.NoRemove))
+                if (VictimWield.ItemFlags.IsSet("NoRemove"))
                 {
                     User.Act(ActOptions.ToCharacter, "{0:S} weapon won't budge!", Victim);
                     Victim.Act(ActOptions.ToCharacter, "{0:N} tries to disarm you, but your weapon won't budge!", User);
@@ -87,7 +87,7 @@ namespace Mud.Server.Rom24.Skills
                 Victim.Act(ActOptions.ToRoom, "{0:N} disarm{0:v} {1}", User, Victim);
 
                 VictimWield.ChangeEquippedBy(null, true);
-                if (!VictimWield.ItemFlags.HasFlag(ItemFlags.NoDrop) && !VictimWield.ItemFlags.HasFlag(ItemFlags.Inventory))
+                if (!VictimWield.ItemFlags.HasAny("NoDrop", "Inventory"))
                 {
                     VictimWield.ChangeContainer(Victim.Room);
                     // TODO: NPC tries to get its weapon back

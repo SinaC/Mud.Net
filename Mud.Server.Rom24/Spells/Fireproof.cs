@@ -7,6 +7,7 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 using System;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Rom24.Spells
 {
@@ -26,7 +27,7 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke()
         {
-            if (Item.ItemFlags.HasFlag(ItemFlags.BurnProof))
+            if (Item.ItemFlags.IsSet("BurnProof"))
             {
                 Caster.Act(ActOptions.ToCharacter, "{0:N} is already protected from burning.", Item);
                 return;
@@ -34,7 +35,7 @@ namespace Mud.Server.Rom24.Spells
 
             int duration = RandomManager.Fuzzy(Level / 4);
             AuraManager.AddAura(Item, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-                new ItemFlagsAffect { Modifier = ItemFlags.BurnProof, Operator = AffectOperators.Or });
+                new ItemFlagsAffect { Modifier = new ItemFlags("BurnProof"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", Item);
             Caster.Act(ActOptions.ToRoom, "{0:N} is surrounded by a protective aura.", Item);
         }

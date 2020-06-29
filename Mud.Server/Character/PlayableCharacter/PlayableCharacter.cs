@@ -825,7 +825,7 @@ namespace Mud.Server.Character.PlayableCharacter
         // Misc
         public bool SacrificeItem(IItem item)
         {
-            if (item.ItemFlags.HasFlag(ItemFlags.NoSacrifice) || item.NoTake)
+            if (item.NoTake || item.ItemFlags.IsSet("NoSacrifice"))
             {
                 Act(ActOptions.ToCharacter, "{0} is not an acceptable sacrifice.", item);
                 return false;

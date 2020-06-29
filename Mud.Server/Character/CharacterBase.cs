@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using Mud.Common;
 using Mud.Container;
-using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Ability;
@@ -72,6 +71,8 @@ namespace Mud.Server.Character
 
             Position = Positions.Standing;
             Form = Forms.Normal;
+
+            CharacterFlags = new CharacterFlags();
         }
 
         #region ICharacter
@@ -190,7 +191,7 @@ namespace Mud.Server.Character
         public int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
 
         public ICharacterFlags BaseCharacterFlags { get; protected set; }
-        public ICharacterFlags CharacterFlags { get; protected set; } = new CharacterFlags();
+        public ICharacterFlags CharacterFlags { get; protected set; }
 
         public IRVFlags BaseImmunities { get; protected set; }
         public IRVFlags Immunities { get; protected set; }
@@ -589,9 +590,9 @@ namespace Mud.Server.Character
             bool recompute = false;
             foreach (var item in Equipments.Where(x => x.Item != null).Select(x => x.Item))
             {
-                if ((item.ItemFlags.HasFlag(ItemFlags.AntiEvil) && IsEvil)
-                    || (item.ItemFlags.HasFlag(ItemFlags.AntiGood) && IsGood)
-                    || (item.ItemFlags.HasFlag(ItemFlags.AntiNeutral) && IsNeutral))
+                if ((IsEvil && item.ItemFlags.IsSet("AntiEvil"))
+                    || (IsGood && item.ItemFlags.IsSet("AntiGood"))
+                    || (IsNeutral && item.ItemFlags.IsSet("AntiNeutral")))
                 {
                     Act(ActOptions.ToAll, "{0:N} {0:b} zapped by {1}.", this, item);
                     item.ChangeEquippedBy(null, false);
@@ -1079,8 +1080,9 @@ namespace Mud.Server.Character
             // inviso attack
             if (CharacterFlags.IsSet("Invisible"))
             {
-                RemoveBaseCharacterFlags("Invisible", "Sneak", "Hide");
-                RemoveAuras(x => x.AbilityName == "Invisibility", true); // force a recompute to check if there is something special that gives invis
+                RemoveBaseCharacterFlags(false, "Invisible");
+                RemoveAuras(x => x.AbilityName == "Invisibility", false);
+                Recompute(); // force a recompute to check if there is something special that gives invis
                 // if not anymore invis
                 if (!CharacterFlags.IsSet("Invisible"))
                     Act(ActOptions.ToRoom, "{0:N} fades into existence.", this);
@@ -2098,7 +2100,7 @@ namespace Mud.Server.Character
             int damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) * weaponLearned / 100;
             if (GetEquipment<IItemShield>(EquipmentSlots.OffHand) == null) // no shield -> more damage
                 damage = 11 * damage / 10;
-            if (weapon.WeaponFlags.HasFlag(WeaponFlags.Sharp)) // sharpness
+            if (weapon.WeaponFlags.IsSet("Sharp")) // sharpness
             {
                 int percent = RandomManager.Range(1, 100);
                 if (percent <= weaponLearned / 8)
@@ -2201,7 +2203,7 @@ namespace Mud.Server.Character
             // normal: 0.2%
             // vulnerable: 0.5%
             // calculate weapon (or not) damage
-            if (wield != null && wield.WeaponFlags.HasFlag(WeaponFlags.Vorpal)
+            if (wield != null && wield.WeaponFlags.IsSet("Vorpal")
                 && victim.BodyParts.HasFlag(BodyParts.Head)
                 && !(victim is IPlayableCharacter pcVictim && pcVictim.IsImmortal))
             {
@@ -2280,9 +2282,9 @@ namespace Mud.Server.Character
             // funky weapon ?
             if (damageResult == DamageResults.Done && wield != null)
             {
-                if (wield.WeaponFlags.HasFlag(WeaponFlags.Poison))
+                if (wield.WeaponFlags.IsSet("Poison"))
                 {
-                    IAura wieldPoisonAura = wield.Auras.FirstOrDefault(x => x.Affects.OfType<ItemWeaponFlagsAffect>().Any(aff => aff.Modifier == WeaponFlags.Poison));
+                    IAura wieldPoisonAura = wield.Auras.FirstOrDefault(x => x.Affects.OfType<IItemWeaponFlagsAffect>().Any(aff => aff.Modifier.IsSet("Poison")));
                     int level = wieldPoisonAura?.Level ?? wield.Level;
                     if (!victim.SavesSpell(level/2, SchoolTypes.Poison))
                     {
@@ -2290,7 +2292,7 @@ namespace Mud.Server.Character
                         victim.Act(ActOptions.ToRoom, "{0:N} is poisoned by the venom on {1}.", victim, wield);
                         int duration = level / 2;
 
-                        IAura victimPoisonAura = victim.Auras.FirstOrDefault(x => x.Affects.OfType<ItemWeaponFlagsAffect>().Any(aff => aff.Modifier == WeaponFlags.Poison));
+                        IAura victimPoisonAura = victim.Auras.FirstOrDefault(x => x.Affects.OfType<ICharacterFlagsAffect>().Any(aff => aff.Modifier.IsSet("Poison")));
                         if (victimPoisonAura == null)
                         {
                             IAffect poisonAffect = AffectManager.CreateInstance("Poison");
@@ -2328,7 +2330,7 @@ namespace Mud.Server.Character
                 if (Fighting != victim)
                     return;
 
-                if (wield.WeaponFlags.HasFlag(WeaponFlags.Vampiric))
+                if (wield.WeaponFlags.IsSet("Vampiric"))
                 {
                     int specialDamage = RandomManager.Range(1, 1 + wield.Level / 5);
                     victim.Act(ActOptions.ToRoom, "{0} draws life from {1}.", wield, victim);
@@ -2341,7 +2343,7 @@ namespace Mud.Server.Character
                 if (Fighting != victim)
                     return;
 
-                if (wield.WeaponFlags.HasFlag(WeaponFlags.Flaming))
+                if (wield.WeaponFlags.IsSet("Flaming"))
                 {
                     int specialDamage = RandomManager.Range(1, 1 + wield.Level / 4);
                     victim.Act(ActOptions.ToRoom, "{0} is burned by {1}.", victim, wield);
@@ -2354,7 +2356,7 @@ namespace Mud.Server.Character
                 if (Fighting != victim)
                     return;
 
-                if (wield.WeaponFlags.HasFlag(WeaponFlags.Frost))
+                if (wield.WeaponFlags.IsSet("Frost"))
                 {
                     int specialDamage = RandomManager.Range(1, 2 + wield.Level / 6);
                     victim.Act(ActOptions.ToRoom, "{0} freezes {1}.", wield, victim);
@@ -2367,7 +2369,7 @@ namespace Mud.Server.Character
                 if (Fighting != victim)
                     return;
 
-                if (wield.WeaponFlags.HasFlag(WeaponFlags.Shocking))
+                if (wield.WeaponFlags.IsSet("Shocking"))
                 {
                     int specialDamage = RandomManager.Range(1, 2 + wield.Level / 5);
                     victim.Act(ActOptions.ToRoom, "{0:N} is struck by lightning from {1}.", victim, wield);

@@ -223,7 +223,7 @@ namespace Mud.Server.Tests
                         {
                             ItemId = lightBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
-                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                            ItemFlags = new ItemFlags("Bless"),
                         },
                     },
                     new EquippedItemData
@@ -233,14 +233,14 @@ namespace Mud.Server.Tests
                         {
                             ItemId = containerBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
-                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                            ItemFlags = new ItemFlags("Bless"),
                             Contains = new ItemData[]
                             {
                                 new ItemPortalData
                                 {
                                     ItemId = portalBlueprint.Id,
                                     DecayPulseLeft = AutoFaker.Generate<int>(),
-                                    ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                                    ItemFlags = new ItemFlags("Bless"),
                                 }
                             }
                         },
@@ -252,7 +252,7 @@ namespace Mud.Server.Tests
                         {
                             ItemId = jewelryBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
-                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                            ItemFlags = new ItemFlags("Bless"),
                         },
                     },
                     new EquippedItemData
@@ -262,7 +262,7 @@ namespace Mud.Server.Tests
                         {
                             ItemId = armorBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
-                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                            ItemFlags = new ItemFlags("Bless"),
                         },
                     },
                 },

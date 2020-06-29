@@ -26,7 +26,8 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
-            BaseWeaponFlags = blueprint.Flags;
+            BaseWeaponFlags = blueprint.Flags ?? new WeaponFlags();
+            WeaponFlags = new WeaponFlags();
             DamageNoun = blueprint.DamageNoun;
         }
 
@@ -37,7 +38,8 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
-            BaseWeaponFlags = itemData.WeaponFlags;
+            BaseWeaponFlags = itemData.WeaponFlags ?? new WeaponFlags();
+            WeaponFlags = new WeaponFlags();
             DamageNoun = blueprint.DamageNoun;
         }
 
@@ -137,7 +139,7 @@ namespace Mud.Server.Item
         {
             base.ResetAttributes();
 
-            WeaponFlags = BaseWeaponFlags;
+            WeaponFlags.Copy(BaseWeaponFlags);
         }
 
         #endregion

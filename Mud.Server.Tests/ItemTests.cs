@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
@@ -35,7 +36,7 @@ namespace Mud.Server.Tests
         {
             ItemLightBlueprint blueprint = new ItemLightBlueprint
             {
-                Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", ItemFlags = ItemFlags.AntiEvil,
+                Id = 1, Name = "Light", ShortDescription = "LightShort", Description = "LightDesc", ItemFlags = new ItemFlags("AntiEvil"),
                 DurationHours = 60,
             };
 
@@ -55,7 +56,7 @@ namespace Mud.Server.Tests
                 Name = "Light",
                 ShortDescription = "LightShort",
                 Description = "LightDesc",
-                ItemFlags = ItemFlags.AntiEvil,
+                ItemFlags = new ItemFlags("AntiEvil"),
                 DurationHours = -1,
             };
 
@@ -75,7 +76,7 @@ namespace Mud.Server.Tests
                 Name = "Light",
                 ShortDescription = "LightShort",
                 Description = "LightDesc",
-                ItemFlags = ItemFlags.AntiEvil,
+                ItemFlags = new ItemFlags("AntiEvil"),
                 DurationHours = 30,
             };
 
@@ -96,7 +97,7 @@ namespace Mud.Server.Tests
                 Name = "Light",
                 ShortDescription = "LightShort",
                 Description = "LightDesc",
-                ItemFlags = ItemFlags.AntiEvil,
+                ItemFlags = new ItemFlags("AntiEvil"),
                 DurationHours = 1,
             };
 
@@ -114,7 +115,7 @@ namespace Mud.Server.Tests
         {
             ItemStaffBlueprint blueprint = new ItemStaffBlueprint
             {
-                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = ItemFlags.AntiEvil,
+                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = new ItemFlags("AntiEvil"),
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
                 AlreadyRecharged = false
@@ -132,7 +133,7 @@ namespace Mud.Server.Tests
         {
             ItemStaffBlueprint blueprint = new ItemStaffBlueprint
             {
-                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = ItemFlags.AntiEvil,
+                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = new ItemFlags("AntiEvil"),
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
                 AlreadyRecharged = false
@@ -151,7 +152,7 @@ namespace Mud.Server.Tests
         {
             ItemStaffBlueprint blueprint = new ItemStaffBlueprint
             {
-                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = ItemFlags.AntiEvil,
+                Id = 1, Name = "Staff", ShortDescription = "StaffShort", Description = "StaffDesc", ItemFlags = new ItemFlags("AntiEvil"),
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
                 AlreadyRecharged = false

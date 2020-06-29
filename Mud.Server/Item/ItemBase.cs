@@ -41,7 +41,8 @@ namespace Mud.Server.Item
             Weight = blueprint.Weight;
             Cost = blueprint.Cost;
             NoTake = blueprint.NoTake;
-            BaseItemFlags = blueprint.ItemFlags;
+            BaseItemFlags = blueprint.ItemFlags ?? new ItemFlags();
+            ItemFlags = new ItemFlags();
         }
 
         protected ItemBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
@@ -54,7 +55,7 @@ namespace Mud.Server.Item
         {
             Level = data.Level;
             DecayPulseLeft = data.DecayPulseLeft;
-            BaseItemFlags = data.ItemFlags;
+            BaseItemFlags = data.ItemFlags ?? new ItemFlags();
             // Auras
             if (data.Auras != null)
             {
@@ -68,7 +69,7 @@ namespace Mud.Server.Item
         {
             Level = data.Level;
             DecayPulseLeft = data.DecayPulseLeft;
-            BaseItemFlags = data.ItemFlags;
+            BaseItemFlags = data.ItemFlags ?? new ItemFlags(); ;
             // Auras
             if (data.Auras != null)
             {
@@ -185,7 +186,7 @@ namespace Mud.Server.Item
 
         public IItemFlags BaseItemFlags { get; protected set; }
 
-        public IItemFlags ItemFlags { get; protected set; } = new ItemFlags();
+        public IItemFlags ItemFlags { get; protected set; }
 
         public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {

@@ -131,7 +131,7 @@ namespace Mud.Server.Character.Item
             item.ChangeContainer(Actor.Room);
 
             //
-            if (item.ItemFlags.HasFlag(ItemFlags.MeltOnDrop))
+            if (item.ItemFlags.IsSet("MeltOnDrop"))
             {
                 Actor.Act(ActOptions.ToAll, "{0} dissolves into smoke.", item);
                 ItemManager.RemoveItem(item);

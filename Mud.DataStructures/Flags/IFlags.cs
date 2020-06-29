@@ -9,10 +9,10 @@ namespace Mud.DataStructures.Flags
         bool HasAny(params T[] flags);
         bool HasAll(params T[] flags);
 
-        bool Set(T flag);
+        void Set(T flag);
         void Set(params T[] flags);
 
-        bool Unset(T flag);
+        void Unset(T flag);
         void Unset(params T[] flags);
 
         int Count { get; }
@@ -34,11 +34,11 @@ namespace Mud.DataStructures.Flags
         bool HasAll(params T[] flags);
         bool HasAll(IFlags<T, TFlagValues> flags);
 
-        bool Set(T flag);
+        void Set(T flag);
         void Set(params T[] flags);
         void Set(IFlags<T, TFlagValues> flags);
 
-        bool Unset(T flag);
+        void Unset(T flag);
         void Unset(params T[] flags);
         void Unset(IFlags<T, TFlagValues> flags);
 

@@ -30,16 +30,14 @@ namespace Mud.Server.Rom24.Spells
                 foreach (IEquippedItem equippedItem in Victim.Equipments.Where(x => x.Item != null))
                 {
                     IItem item = equippedItem.Item;
-                    if (!item.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                        && !item.ItemFlags.HasFlag(ItemFlags.NonMetal)
+                    if (!item.ItemFlags.HasAny("BurnProof", "NonMetal")
                         && RandomManager.Range(1, 2 * Level) > item.Level
                         && !Victim.SavesSpell(Level, SchoolTypes.Fire))
                     {
                         switch (item)
                         {
                             case IItemArmor itemArmor:
-                                if (!itemArmor.ItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
-                                    && !itemArmor.ItemFlags.HasFlag(ItemFlags.NoRemove)
+                                if (!itemArmor.ItemFlags.HasAny("NoDrop", "NoRemove") // remove the item
                                     && itemArmor.Weight / 10 < RandomManager.Range(1, 2 * Victim[CharacterAttributes.Dexterity]))
                                 {
                                     itemArmor.ChangeEquippedBy(null, false);
@@ -60,8 +58,7 @@ namespace Mud.Server.Rom24.Spells
                             case IItemWeapon itemWeapon:
                                 if (itemWeapon.DamageType != SchoolTypes.Fire)
                                 {
-                                    if (!itemWeapon.ItemFlags.HasFlag(ItemFlags.NoDrop) // remove the item
-                                        && !itemWeapon.ItemFlags.HasFlag(ItemFlags.NoRemove))
+                                    if (!itemWeapon.ItemFlags.HasAny("NoDrop", "NoRemove")) // remove the item
                                     {
                                         itemWeapon.ChangeEquippedBy(null, false);
                                         itemWeapon.ChangeContainer(Victim.Room);
@@ -85,15 +82,14 @@ namespace Mud.Server.Rom24.Spells
                 // Check inventory
                 foreach (IItem item in Victim.Inventory)
                 {
-                    if (!item.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                        && !item.ItemFlags.HasFlag(ItemFlags.NonMetal)
+                    if (!item.ItemFlags.HasAny("BurnProof", "NonMetal")
                         && RandomManager.Range(1, 2 * Level) > item.Level
                         && !Victim.SavesSpell(Level, SchoolTypes.Fire))
                     {
                         switch (item)
                         {
                             case IItemArmor itemArmor:
-                                if (!itemArmor.ItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
+                                if (!itemArmor.ItemFlags.IsSet("NoDrop")) // drop it if we can
                                 {
                                     itemArmor.ChangeContainer(Victim.Room);
                                     Victim.Act(ActOptions.ToRoom, "{0:N} yelps and throws {1} to the ground!", Victim, itemArmor);
@@ -109,7 +105,7 @@ namespace Mud.Server.Rom24.Spells
                                 }
                                 break;
                             case IItemWeapon itemWeapon:
-                                if (!itemWeapon.ItemFlags.HasFlag(ItemFlags.NoDrop)) // drop it if we can
+                                if (!itemWeapon.ItemFlags.IsSet("NoDrop")) // drop it if we can
                                 {
                                     itemWeapon.ChangeContainer(Victim.Room);
                                     Victim.Act(ActOptions.ToRoom, "{0:N} throws a burning hot {1} to the ground!", Victim, itemWeapon);
