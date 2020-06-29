@@ -307,7 +307,7 @@ namespace Mud.Server.Character
             character.ChangeLeader(null);
             if (character is INonPlayableCharacter npcCharacter)
             {
-                npcCharacter.RemoveBaseCharacterFlags("Charm");
+                npcCharacter.RemoveBaseCharacterFlags(true, "Charm");
                 npcCharacter.RemoveAuras(x => x.AbilityName == "Charm Person", true);
                 npcCharacter.ChangeMaster(null);
             }
@@ -438,7 +438,7 @@ namespace Mud.Server.Character
                 return true;
 
             // visible death
-            if (item.ItemFlags.HasFlag(ItemFlags.VisibleDeath))
+            if (item.ItemFlags.IsSet("VisibleDeath"))
                 return false;
 
             // blind except if potion
@@ -450,7 +450,7 @@ namespace Mud.Server.Character
                 return true;
 
             // invis
-            if (item.ItemFlags.HasFlag(ItemFlags.Invis)
+            if (item.ItemFlags.IsSet("Invis")
                 && !CharacterFlags.IsSet("DetectInvis"))
                 return false;
 
@@ -460,7 +460,7 @@ namespace Mud.Server.Character
                 return false;
 
             // glow
-            if (item.ItemFlags.HasFlag(ItemFlags.Glowing))
+            if (item.ItemFlags.IsSet("Glowing"))
                 return true;
 
             // room dark
@@ -661,16 +661,18 @@ namespace Mud.Server.Character
             // Other resources
         }
 
-        public void AddBaseCharacterFlags(params string[] characterFlags)
+        public void AddBaseCharacterFlags(bool recompute, params string[] characterFlags)
         {
             BaseCharacterFlags.Set(characterFlags);
-            Recompute();
+            if (recompute)
+                Recompute();
         }
 
-        public void RemoveBaseCharacterFlags(params string[] characterFlags)
+        public void RemoveBaseCharacterFlags(bool recompute, params string[] characterFlags)
         {
             BaseCharacterFlags.Unset(characterFlags);
-            Recompute();
+            if (recompute)
+                Recompute();
         }
 
         // Form
@@ -1872,7 +1874,7 @@ namespace Mud.Server.Character
                     CharacterFlags.Set(affect.Modifier);
                     break;
                 case AffectOperators.Assign:
-                    CharacterFlags = affect.Modifier;
+                    CharacterFlags.Copy(affect.Modifier);
                     break;
                 case AffectOperators.Nor:
                     CharacterFlags.Unset(affect.Modifier);

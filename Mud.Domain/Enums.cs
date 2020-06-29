@@ -59,38 +59,38 @@ namespace Mud.Domain
         Shadow      = 6, // priest
     }
 
-    [Flags]
-    public enum ItemFlags
-    {
-        None            = 0x00000000,
-        Glowing         = 0x00000001,
-        Humming         = 0x00000002,
-        Dark            = 0x00000004,
-        Lock            = 0x00000008,
-        Evil            = 0x00000010,
-        Invis           = 0x00000020,
-        Magic           = 0x00000040,
-        NoDrop          = 0x00000080, // Cannot be dropped once in inventory (cannot be put in container) [can be uncursed]
-        Bless           = 0x00000100,
-        AntiGood        = 0x00000200,
-        AntiEvil        = 0x00000400,
-        AntiNeutral     = 0x00000800,
-        NoRemove        = 0x00001000, // Cannot be removed once equipped [can be uncursed]
-        Inventory       = 0x00002000,
-        NoPurge         = 0x00004000,
-        RotDeath        = 0x00008000, // Disappear when holder dies
-        VisibleDeath    = 0x00010000, // Visible when holder dies
-        // not used
-        NonMetal        = 0x00040000,
-        NoLocate        = 0x00080000,
-        MeltOnDrop      = 0x00100000, // Melt when dropped
-        HadTimer        = 0x00200000,
-        SellExtract     = 0x00400000,
-        // not used
-        BurnProof       = 0x01000000,
-        NoUncurse       = 0x02000000,
-        NoSacrifice     = 0x04000000,
-    }
+    //[Flags]
+    //public enum ItemFlags
+    //{
+    //    None            = 0x00000000,
+    //    Glowing         = 0x00000001,
+    //    Humming         = 0x00000002,
+    //    Dark            = 0x00000004,
+    //    Lock            = 0x00000008,
+    //    Evil            = 0x00000010,
+    //    Invis           = 0x00000020,
+    //    Magic           = 0x00000040,
+    //    NoDrop          = 0x00000080, // Cannot be dropped once in inventory (cannot be put in container) [can be uncursed]
+    //    Bless           = 0x00000100,
+    //    AntiGood        = 0x00000200,
+    //    AntiEvil        = 0x00000400,
+    //    AntiNeutral     = 0x00000800,
+    //    NoRemove        = 0x00001000, // Cannot be removed once equipped [can be uncursed]
+    //    Inventory       = 0x00002000,
+    //    NoPurge         = 0x00004000,
+    //    RotDeath        = 0x00008000, // Disappear when holder dies
+    //    VisibleDeath    = 0x00010000, // Visible when holder dies
+    //    // not used
+    //    NonMetal        = 0x00040000,
+    //    NoLocate        = 0x00080000,
+    //    MeltOnDrop      = 0x00100000, // Melt when dropped
+    //    HadTimer        = 0x00200000,
+    //    SellExtract     = 0x00400000,
+    //    // not used
+    //    BurnProof       = 0x01000000,
+    //    NoUncurse       = 0x02000000,
+    //    NoSacrifice     = 0x04000000,
+    //}
 
     public enum WearLocations
     {
@@ -150,20 +150,20 @@ namespace Mud.Domain
         Staff       = 9,
     }
 
-    [Flags]
-    public enum WeaponFlags
-    {
-        None        = 0x00000000,
-        Flaming     = 0x00000001,
-        Frost       = 0x00000002,
-        Vampiric    = 0x00000004,
-        Sharp       = 0x00000008,
-        Vorpal      = 0x00000010,
-        TwoHands    = 0x00000020, // TODO: remove
-        Shocking    = 0x00000040,
-        Poison      = 0x00000080,
-        Holy        = 0x00000100,
-    }
+    //[Flags]
+    //public enum WeaponFlags
+    //{
+    //    None        = 0x00000000,
+    //    Flaming     = 0x00000001,
+    //    Frost       = 0x00000002,
+    //    Vampiric    = 0x00000004,
+    //    Sharp       = 0x00000008,
+    //    Vorpal      = 0x00000010,
+    //    TwoHands    = 0x00000020, // TODO: remove
+    //    Shocking    = 0x00000040,
+    //    Poison      = 0x00000080,
+    //    Holy        = 0x00000100,
+    //}
 
     public enum SchoolTypes
     {

@@ -68,7 +68,7 @@ namespace Mud.Server.Admin.Administration
             Target = FindHelpers.FindItemHere(Actor.Impersonating, actionInput.Parameters[0]);
             if (Target == null)
                 return StringHelpers.ItemNotFound;
-            if (((IItem) Target).ItemFlags.HasFlag(ItemFlags.NoPurge))
+            if (((IItem) Target).ItemFlags.IsSet("NoPurge"))
                 return "It can't be purged.";
 
             return null;
@@ -102,7 +102,7 @@ namespace Mud.Server.Admin.Administration
             foreach (INonPlayableCharacter nonPlayableCharacter in nonPlayableCharacters)
                 CharacterManager.RemoveCharacter(nonPlayableCharacter);
             // Purge items (without NoPurge flag)
-            IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(room.Content.Where(x => !x.ItemFlags.HasFlag(ItemFlags.NoPurge)).ToList()); // clone
+            IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(room.Content.Where(x => !x.ItemFlags.IsSet("NoPurge")).ToList()); // clone
             foreach (IItem itemToPurge in items)
                 ItemManager.RemoveItem(itemToPurge);
             Impersonating.Act(ActOptions.ToRoom, "{0} purge{0:v} the room!", Actor.Impersonating);

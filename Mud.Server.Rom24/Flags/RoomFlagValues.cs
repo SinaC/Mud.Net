@@ -8,7 +8,7 @@ namespace Mud.Server.Rom24.Flags
 {
     public class RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
     {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
             "Dark",
             "NoMob",
@@ -30,7 +30,7 @@ namespace Mud.Server.Rom24.Flags
 
         public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
         {
-            Log.Default.WriteLine(LogLevels.Error, $"Flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+            Log.Default.WriteLine(LogLevels.Error, $"Room flags '{string.Join(",", values)}' not found in {GetType().FullName}");
         }
     }
 }

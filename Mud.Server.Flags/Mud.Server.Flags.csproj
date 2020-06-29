@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterFlags.cs" />
+    <Compile Include="ItemFlags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoomFlags.cs" />
+    <Compile Include="WeaponFlags.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">

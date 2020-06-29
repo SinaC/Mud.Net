@@ -76,7 +76,7 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
             if (Actor.CarryWeight + What.TotalWeight * Count > Actor.MaxCarryWeight)
                 return "You can't carry that much weight.";
             // check for object sold to the keeper
-            if (Count > 1 && !What.ItemFlags.HasFlag(ItemFlags.Inventory))
+            if (Count > 1 && !What.ItemFlags.IsSet("Inventory"))
                 return Actor.ActPhrase("{0:N} tells you 'Sorry - {1} is something I have only one of'.", Keeper.shopKeeper, What);
             return null;
         }
@@ -91,7 +91,7 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
             else
                 Actor.Act(ActOptions.ToAll, "{0:N} buy{0:v} {1} * {2} for {3} silver and {4} gold piece{5}.", Actor, Count, What, deductedCost.silver, deductedCost.gold, TotalCost == 1 ? string.Empty : "s");
             // Inventory items are created on the fly
-            if (What.ItemFlags.HasFlag(ItemFlags.Inventory))
+            if (What.ItemFlags.IsSet("Inventory"))
             {
                 for (int i = 0; i < Count; i++)
                     ItemManager.AddItem(Guid.NewGuid(), What.Blueprint, Actor);

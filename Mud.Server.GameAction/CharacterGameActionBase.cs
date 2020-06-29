@@ -17,7 +17,7 @@ namespace Mud.Server.GameAction
             // When hiding, anything will break it
             if (Actor.CharacterFlags.IsSet("Hide"))
             {
-                Actor.RemoveBaseCharacterFlags("Hide");
+                Actor.RemoveBaseCharacterFlags(false, "Hide");
                 Actor.Recompute();
             }
 

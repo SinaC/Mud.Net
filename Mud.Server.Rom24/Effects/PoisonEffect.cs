@@ -79,8 +79,7 @@ namespace Mud.Server.Rom24.Effects
             IItemPoisonable poisonable = item as IItemPoisonable;
             if (poisonable == null)
                 return;
-            if (poisonable.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                || poisonable.ItemFlags.HasFlag(ItemFlags.Bless)
+            if (poisonable.ItemFlags.HasAny("BurnProof", "Bless")
                 || RandomManager.Chance(25))
                 return;
             int chance = level / 4 + modifier / 10;
@@ -88,7 +87,7 @@ namespace Mud.Server.Rom24.Effects
                 chance = (chance - 25) / 2 + 25;
             if (chance > 50)
                 chance = (chance - 50) / 2 + 50;
-            if (poisonable.ItemFlags.HasFlag(ItemFlags.Bless))
+            if (poisonable.ItemFlags.IsSet("Bless"))
                 chance -= 5;
             chance -= poisonable.Level * 2;
             chance = chance.Range(5, 95);

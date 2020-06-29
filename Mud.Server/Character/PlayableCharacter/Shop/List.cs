@@ -41,7 +41,7 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
                     count = g.Count()
                 }))
             {
-                if (itemAndCost.item.ItemFlags.HasFlag(ItemFlags.Inventory))
+                if (itemAndCost.item.ItemFlags.IsSet("Inventory"))
                     sb.AppendFormatLine("[{0,3} {1,5} -- ] {2}", itemAndCost.item.Level, itemAndCost.cost, itemAndCost.item.DisplayName);
                 else
                     sb.AppendFormatLine("[{0,3} {1,5} {2,2} ] {3}", itemAndCost.item.Level, itemAndCost.cost, itemAndCost.count, itemAndCost.item.DisplayName);

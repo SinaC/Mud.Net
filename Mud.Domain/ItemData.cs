@@ -1,4 +1,6 @@
-﻿namespace Mud.Domain
+﻿using Mud.Server.Flags.Interfaces;
+
+namespace Mud.Domain
 {
     public class ItemData
     {
@@ -8,7 +10,7 @@
 
         public int DecayPulseLeft { get; set; }
 
-        public ItemFlags ItemFlags { get; set; }
+        public IItemFlags ItemFlags { get; set; }
 
         public AuraData[] Auras { get; set; }
     }

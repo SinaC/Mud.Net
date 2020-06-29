@@ -40,7 +40,7 @@ namespace Mud.Server.Character.Item
         protected virtual bool RemoveItem(IEquippedItem equipmentSlot)
         {
             //
-            if (equipmentSlot.Item.ItemFlags.HasFlag(ItemFlags.NoRemove))
+            if (equipmentSlot.Item.ItemFlags.IsSet("NoRemove"))
             {
                 Actor.Act(ActOptions.ToCharacter, "You cannot remove {0}.", equipmentSlot.Item);
                 return false;

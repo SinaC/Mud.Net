@@ -711,7 +711,7 @@ namespace Mud.Server.World
                         if (itemBlueprint.WearLocation != WearLocations.Wield && itemBlueprint.WearLocation != WearLocations.Wield2H)
                         {
                             WearLocations newWearLocation = WearLocations.Wield;
-                            if (weaponBlueprint.Flags.HasFlag(WeaponFlags.TwoHands))
+                            if (weaponBlueprint.Flags.IsSet("TwoHands"))
                                 newWearLocation = WearLocations.Wield2H;
                             Log.Default.WriteLine(LogLevels.Error, "Weapon {0} has wear location {1} -> set wear location to {2}", itemBlueprint.Id, itemBlueprint.WearLocation, newWearLocation);
                             itemBlueprint.WearLocation = newWearLocation;

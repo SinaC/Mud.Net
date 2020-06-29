@@ -8,7 +8,7 @@ namespace Mud.Server.Rom24.Flags
 {
     public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
     {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
             "Blind",
             "Invisible",
@@ -46,7 +46,7 @@ namespace Mud.Server.Rom24.Flags
 
         public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
         {
-            Log.Default.WriteLine(LogLevels.Error, $"Flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+            Log.Default.WriteLine(LogLevels.Error, $"Character flags '{string.Join(",", values)}' not found in {GetType().FullName}");
         }
     }
 }

@@ -512,7 +512,7 @@ namespace Mud.Importer.Rot
                         AlreadyRecharged = System.Convert.ToInt32(objectData.Values[1]) == 0
                     };
                 case "weapon":
-                    (SchoolTypes damageType, WeaponFlags weaponFlags, string damageNoun) weaponInfo = ConvertWeaponDamageTypeFlagsAndNoun(objectData);
+                    (SchoolTypes damageType, IWeaponFlags weaponFlags, string damageNoun) weaponInfo = ConvertWeaponDamageTypeFlagsAndNoun(objectData);
                     return new ItemWeaponBlueprint
                     {
                         Id = objectData.VNum,
@@ -955,41 +955,41 @@ namespace Mud.Importer.Rot
             return WearLocations.None;
         }
 
-        private ItemFlags ConvertExtraFlags(ObjectData objectData)
+        private IItemFlags ConvertExtraFlags(ObjectData objectData)
         {
-            ItemFlags flags = ItemFlags.None;
+            IItemFlags flags = new ItemFlags();
 
-            if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) flags |= ItemFlags.Glowing;
-            if (IsSet(objectData.ExtraFlags, ITEM_HUM)) flags |= ItemFlags.Humming;
-            if (IsSet(objectData.ExtraFlags, ITEM_DARK)) flags |= ItemFlags.Dark;
-            if (IsSet(objectData.ExtraFlags, ITEM_LOCK)) flags |= ItemFlags.Lock;
-            if (IsSet(objectData.ExtraFlags, ITEM_EVIL)) flags |= ItemFlags.Evil;
-            if (IsSet(objectData.ExtraFlags, ITEM_INVIS)) flags |= ItemFlags.Invis;
-            if (IsSet(objectData.ExtraFlags, ITEM_MAGIC)) flags |= ItemFlags.Magic;
-            if (IsSet(objectData.ExtraFlags, ITEM_NODROP)) flags |= ItemFlags.NoDrop;
-            if (IsSet(objectData.ExtraFlags, ITEM_BLESS)) flags |= ItemFlags.Bless;
-            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_GOOD)) flags |= ItemFlags.AntiGood;
-            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_EVIL)) flags |= ItemFlags.AntiEvil;
-            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_NEUTRAL)) flags |= ItemFlags.AntiNeutral;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOREMOVE)) flags |= ItemFlags.NoRemove;
-            if (IsSet(objectData.ExtraFlags, ITEM_INVENTORY)) flags |= ItemFlags.Inventory;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOPURGE)) flags |= ItemFlags.NoPurge;
-            if (IsSet(objectData.ExtraFlags, ITEM_ROT_DEATH)) flags |= ItemFlags.RotDeath;
-            if (IsSet(objectData.ExtraFlags, ITEM_VIS_DEATH)) flags |= ItemFlags.VisibleDeath;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOSAC)) flags |= ItemFlags.NoSacrifice;
-            if (IsSet(objectData.ExtraFlags, ITEM_NONMETAL)) flags |= ItemFlags.NonMetal;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOLOCATE)) flags |= ItemFlags.NoLocate;
-            if (IsSet(objectData.ExtraFlags, ITEM_MELT_DROP)) flags |= ItemFlags.MeltOnDrop;
-            if (IsSet(objectData.ExtraFlags, ITEM_HAD_TIMER)) flags |= ItemFlags.HadTimer;
-            if (IsSet(objectData.ExtraFlags, ITEM_SELL_EXTRACT)) flags |= ItemFlags.SellExtract;
-            if (IsSet(objectData.ExtraFlags, ITEM_BURN_PROOF)) flags |= ItemFlags.BurnProof;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOUNCURSE)) flags |= ItemFlags.NoUncurse;
+            if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) flags.Set("Glowing");
+            if (IsSet(objectData.ExtraFlags, ITEM_HUM)) flags.Set("Humming");
+            if (IsSet(objectData.ExtraFlags, ITEM_DARK)) flags.Set("Dark");
+            if (IsSet(objectData.ExtraFlags, ITEM_LOCK)) flags.Set("Lock");
+            if (IsSet(objectData.ExtraFlags, ITEM_EVIL)) flags.Set("Evil");
+            if (IsSet(objectData.ExtraFlags, ITEM_INVIS)) flags.Set("Invis");
+            if (IsSet(objectData.ExtraFlags, ITEM_MAGIC)) flags.Set("Magic");
+            if (IsSet(objectData.ExtraFlags, ITEM_NODROP)) flags.Set("NoDrop");
+            if (IsSet(objectData.ExtraFlags, ITEM_BLESS)) flags.Set("Bless");
+            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_GOOD)) flags.Set("AntiGood");
+            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_EVIL)) flags.Set("AntiEvil");
+            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_NEUTRAL)) flags.Set("AntiNeutral");
+            if (IsSet(objectData.ExtraFlags, ITEM_NOREMOVE)) flags.Set("NoRemove");
+            if (IsSet(objectData.ExtraFlags, ITEM_INVENTORY)) flags.Set("Inventory");
+            if (IsSet(objectData.ExtraFlags, ITEM_NOPURGE)) flags.Set("NoPurge");
+            if (IsSet(objectData.ExtraFlags, ITEM_ROT_DEATH)) flags.Set("RotDeath");
+            if (IsSet(objectData.ExtraFlags, ITEM_VIS_DEATH)) flags.Set("VisibleDeath");
+            if (IsSet(objectData.ExtraFlags, ITEM_NOSAC)) flags.Set("NoSacrifice");
+            if (IsSet(objectData.ExtraFlags, ITEM_NONMETAL)) flags.Set("NonMetal");
+            if (IsSet(objectData.ExtraFlags, ITEM_NOLOCATE)) flags.Set("NoLocate");
+            if (IsSet(objectData.ExtraFlags, ITEM_MELT_DROP)) flags.Set("MeltOnDrop");
+            if (IsSet(objectData.ExtraFlags, ITEM_HAD_TIMER)) flags.Set("HadTimer");
+            if (IsSet(objectData.ExtraFlags, ITEM_SELL_EXTRACT)) flags.Set("SellExtract");
+            if (IsSet(objectData.ExtraFlags, ITEM_BURN_PROOF)) flags.Set("BurnProof");
+            if (IsSet(objectData.ExtraFlags, ITEM_NOUNCURSE)) flags.Set("NoUncurse");
             //ITEM_LQUEST
             //ITEM_FORCED
             //ITEM_QUESTPOINT
             //ITEM_QUEST
 
-            if (IsSet(objectData.WearFlags, ITEM_NO_SAC)) flags |= ItemFlags.NoSacrifice;
+            if (IsSet(objectData.WearFlags, ITEM_NO_SAC)) flags.Set("NoSacrifice");
 
             return flags;
         }
@@ -1015,7 +1015,7 @@ namespace Mud.Importer.Rot
             return WeaponTypes.Exotic;
         }
 
-        private (SchoolTypes schoolType, WeaponFlags weaponFlags, string damageNoun) ConvertWeaponDamageTypeFlagsAndNoun(ObjectData objectData)
+        private (SchoolTypes schoolType, IWeaponFlags weaponFlags, string damageNoun) ConvertWeaponDamageTypeFlagsAndNoun(ObjectData objectData)
         {
             string attackTable = (string)objectData.Values[3];
             SchoolTypes schoolType = SchoolTypes.None;
@@ -1028,15 +1028,15 @@ namespace Mud.Importer.Rot
             }
 
             long weaponType2 = objectData.Values[4] == null ? 0L : System.Convert.ToInt64(objectData.Values[4]);
-            WeaponFlags weaponFlags = WeaponFlags.None;
-            if (IsSet(weaponType2, WEAPON_FLAMING)) weaponFlags |= WeaponFlags.Flaming;
-            if (IsSet(weaponType2, WEAPON_FROST)) weaponFlags |= WeaponFlags.Frost;
-            if (IsSet(weaponType2, WEAPON_VAMPIRIC)) weaponFlags |= WeaponFlags.Vampiric;
-            if (IsSet(weaponType2, WEAPON_SHARP)) weaponFlags |= WeaponFlags.Sharp;
-            if (IsSet(weaponType2, WEAPON_VORPAL)) weaponFlags |= WeaponFlags.Vorpal;
-            if (IsSet(weaponType2, WEAPON_TWO_HANDS)) weaponFlags |= WeaponFlags.TwoHands;
-            if (IsSet(weaponType2, WEAPON_SHOCKING)) weaponFlags |= WeaponFlags.Shocking;
-            if (IsSet(weaponType2, WEAPON_POISON)) weaponFlags |= WeaponFlags.Poison;
+            IWeaponFlags weaponFlags = new WeaponFlags();
+            if (IsSet(weaponType2, WEAPON_FLAMING)) weaponFlags.Set("Flaming");
+            if (IsSet(weaponType2, WEAPON_FROST)) weaponFlags.Set("Frost");
+            if (IsSet(weaponType2, WEAPON_VAMPIRIC)) weaponFlags.Set("Vampiric");
+            if (IsSet(weaponType2, WEAPON_SHARP)) weaponFlags.Set("Sharp");
+            if (IsSet(weaponType2, WEAPON_VORPAL)) weaponFlags.Set("Vorpal");
+            if (IsSet(weaponType2, WEAPON_TWO_HANDS)) weaponFlags.Set("TwoHands");
+            if (IsSet(weaponType2, WEAPON_SHOCKING)) weaponFlags.Set("Shocking");
+            if (IsSet(weaponType2, WEAPON_POISON)) weaponFlags.Set("Poison");
 
             //
             return (schoolType, weaponFlags, damageNoun);

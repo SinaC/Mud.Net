@@ -153,8 +153,8 @@ namespace Mud.Server.Interfaces.Character
         void UpdateMovePoints(int amount);
         void UpdateAlignment(int amount);
         void Regen();
-        void AddBaseCharacterFlags(params string[] characterFlags);
-        void RemoveBaseCharacterFlags(params string[] characterFlags);
+        void AddBaseCharacterFlags(bool recompute, params string[] characterFlags);
+        void RemoveBaseCharacterFlags(bool recompute, params string[] characterFlags);
 
         // Form
         bool ChangeForm(Forms form);

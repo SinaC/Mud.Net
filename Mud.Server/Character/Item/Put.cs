@@ -74,7 +74,7 @@ namespace Mud.Server.Character.Item
         protected virtual bool PutItem(IItem item, IItemContainer container)
         {
             //
-            if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
+            if (item.ItemFlags.IsSet("NoDrop"))
             {
                 Actor.Send("You can't let go of it.");
                 return false;

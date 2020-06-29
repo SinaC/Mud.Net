@@ -32,10 +32,10 @@ namespace Mud.Server.Rom24.Spells
             }
 
             // attempt to remove curse on one item in inventory or equipment
-            foreach (IItem carriedItem in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)).Where(x => (x.ItemFlags.HasFlag(ItemFlags.NoDrop) || x.ItemFlags.HasFlag(ItemFlags.NoRemove)) && !x.ItemFlags.HasFlag(ItemFlags.NoUncurse)))
+            foreach (IItem carriedItem in victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)).Where(x => (x.ItemFlags.HasAny("NoDrop", "NoRemove")) && !x.ItemFlags.IsSet("NoUncurse")))
                 if (!DispelManager.SavesDispel(Level, carriedItem.Level, 0))
                 {
-                    carriedItem.RemoveBaseItemFlags(ItemFlags.NoRemove | ItemFlags.NoDrop, true);
+                    carriedItem.RemoveBaseItemFlags(true, "NoRemove", "NoDrop");
                     victim.Act(ActOptions.ToAll, "{0:P} {1} glows blue.", victim, carriedItem);
                     break;
                 }
@@ -43,11 +43,11 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke(IItem item)
         {
-            if (item.ItemFlags.HasFlag(ItemFlags.NoDrop) || item.ItemFlags.HasFlag(ItemFlags.NoRemove))
+            if (item.ItemFlags.HasAny("NoDrop", "NoRemove"))
             {
-                if (!item.ItemFlags.HasFlag(ItemFlags.NoUncurse) && !DispelManager.SavesDispel(Level + 2, item.Level, 0))
+                if (!item.ItemFlags.IsSet("NoUncurse") && !DispelManager.SavesDispel(Level + 2, item.Level, 0))
                 {
-                    item.RemoveBaseItemFlags(ItemFlags.NoRemove | ItemFlags.NoDrop, true);
+                    item.RemoveBaseItemFlags(true, "NoRemove", "NoDrop");
                     Caster.Act(ActOptions.ToAll, "{0:N} glows blue.", item);
                     return;
                 }

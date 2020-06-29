@@ -408,14 +408,14 @@ namespace Mud.Repository.Filesystem
             }
         }
 
-        private Mud.Domain.ItemFlags MapItemFlags(int flags)
+        private IItemFlags MapItemFlags(string flags)
         {
-            return (Mud.Domain.ItemFlags)flags;
+            return new ItemFlags(flags);
         }
 
-        private int MapItemFlags(Mud.Domain.ItemFlags flags)
+        private string MapItemFlags(IItemFlags flags)
         {
-            return (int)flags;
+            return flags?.Map();
         }
 
         private Mud.Domain.AuraFlags MapAuraFlags(int flags)
@@ -556,14 +556,14 @@ namespace Mud.Repository.Filesystem
             return (int)flags;
         }
 
-        private Mud.Domain.WeaponFlags MapWeaponFlags(int flags)
+        private IWeaponFlags MapWeaponFlags(string flags)
         {
-            return (Mud.Domain.WeaponFlags)flags;
+            return new WeaponFlags(flags);
         }
 
-        private int MapWeaponFlags(Mud.Domain.WeaponFlags flags)
+        private string MapWeaponFlags(IWeaponFlags flags)
         {
-            return (int)flags;
+            return flags?.Map();
         }
 
         private Mud.Domain.CharacterAttributes MapCharacterAttributes(int attr)

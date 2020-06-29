@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICharacterFlags.cs" />
+    <Compile Include="IItemFlags.cs" />
     <Compile Include="IRoomFlags.cs" />
+    <Compile Include="IWeaponFlags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

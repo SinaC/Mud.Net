@@ -485,7 +485,7 @@ namespace Mud.Server.Room
                                             if (lastCharacter.Blueprint is CharacterShopBlueprint)
                                             {
                                                 // TODO: randomize level
-                                                item.AddBaseItemFlags(ItemFlags.Inventory, false);
+                                                item.AddBaseItemFlags(false, "Inventory");
                                                 item.Recompute();
                                             }
                                             Log.Default.WriteLine(LogLevels.Debug, $"Room {Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} added on {lastCharacter.Blueprint.Id}");
@@ -600,7 +600,7 @@ namespace Mud.Server.Room
                     RoomFlags.Set(affect.Modifier);
                     break;
                 case AffectOperators.Assign:
-                    RoomFlags = affect.Modifier;
+                    RoomFlags.Copy(affect.Modifier);
                     break;
                 case AffectOperators.Nor:
                     RoomFlags.Unset(affect.Modifier);

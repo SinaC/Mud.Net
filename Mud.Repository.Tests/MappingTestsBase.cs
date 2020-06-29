@@ -28,8 +28,10 @@ namespace Mud.Repository.Tests
                 cfg.AddProfile<Filesystem.AutoMapperProfile>();
             });
             DependencyContainer.Current.RegisterInstance(mapperConfiguration.CreateMapper());
-            DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags()); // TODO: do this with reflection ?
-            DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags()); // TODO: do this with reflection ?
+            DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags());
+            DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags());
+            DependencyContainer.Current.RegisterInstance<IItemFlagValues>(new Rom24ItemFlagValues());
+            DependencyContainer.Current.RegisterInstance<IWeaponFlagValues>(new Rom24WeaponFlagValues());
 
             AutoFaker.Configure(builder =>
             {
@@ -104,6 +106,59 @@ namespace Mud.Repository.Tests
             "Law",
             "NoWhere",
             "Test", // TEST PURPOSE
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "None",
+            "Glowing",
+            "Humming",
+            "Dark",
+            "Lock",
+            "Evil",
+            "Invis",
+            "Magic",
+            "NoDrop", // Cannot be dropped once in inventory (cannot be put in container) [can be uncursed]
+            "Bless",
+            "AntiGood",
+            "AntiEvil",
+            "AntiNeutral",
+            "NoRemove", // Cannot be removed once equipped [can be uncursed]
+            "Inventory",
+            "NoPurge",
+            "RotDeath", // Disappear when holder dies
+            "VisibleDeath", // Visible when holder dies
+            "NonMetal",
+            "NoLocate",
+            "MeltOnDrop", // Melt when dropped
+            "HadTimer",
+            "SellExtract",
+            "BurnProof",
+            "NoUncurse",
+            "NoSacrifice",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Flaming",
+            "Frost",
+            "Vampiric",
+            "Sharp",
+            "Vorpal",
+            "TwoHands",
+            "Shocking",
+            "Poison",
+            "Holy",
         };
 
         protected override HashSet<string> HashSet => Flags;

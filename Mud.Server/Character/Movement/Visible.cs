@@ -10,7 +10,7 @@ namespace Mud.Server.Character.Movement
     {
         public override void Execute(IActionInput actionInput)
         {
-            Actor.RemoveBaseCharacterFlags("Invisible", "Sneak", "Hide");
+            Actor.RemoveBaseCharacterFlags(true, "Invisible", "Sneak", "Hide");
             Actor.RemoveAuras(x => x.AbilityName == "Invisibility"
                              || x.AbilityName == "Sneak"
                              || x.AbilityName == "Hide", true);

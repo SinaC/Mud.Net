@@ -67,8 +67,7 @@ namespace Mud.Server.Rom24.Effects
         {
             if (!item.IsValid)
                 return;
-            if (item.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                    || item.ItemFlags.HasFlag(ItemFlags.NoPurge)
+            if (item.ItemFlags.HasAny("BurnProof", "NoPurge")
                     || RandomManager.Range(0, 4) == 0)
                 return;
             // Affects only container, potion, scroll, staff, wand, food, pill
@@ -79,7 +78,7 @@ namespace Mud.Server.Rom24.Effects
                 chance = (chance - 25) / 2 + 25;
             if (chance > 50)
                 chance = (chance - 50) / 2 + 50;
-            if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+            if (item.ItemFlags.IsSet("Bless"))
                 chance -= 5;
             chance -= item.Level * 2;
             if (item is IItemPotion)

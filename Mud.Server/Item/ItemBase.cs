@@ -9,6 +9,8 @@ using Mud.Logger;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Entity;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -181,9 +183,9 @@ namespace Mud.Server.Item
 
         public virtual int CarryCount => 1;
 
-        public ItemFlags BaseItemFlags { get; protected set; }
+        public IItemFlags BaseItemFlags { get; protected set; }
 
-        public ItemFlags ItemFlags { get; protected set; }
+        public IItemFlags ItemFlags { get; protected set; } = new ItemFlags();
 
         public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
@@ -235,16 +237,16 @@ namespace Mud.Server.Item
             DecayPulseLeft = Pulse.FromTimeSpan(duration);
         }
 
-        public void AddBaseItemFlags(ItemFlags itemFlags, bool recompute)
+        public void AddBaseItemFlags(bool recompute, params string[] flags)
         {
-            BaseItemFlags |= itemFlags;
+            BaseItemFlags.Set(flags);
             if (recompute)
                 Recompute();
         }
 
-        public void RemoveBaseItemFlags(ItemFlags itemFlags, bool recompute)
+        public void RemoveBaseItemFlags(bool recompute, params string[] flags)
         {
-            BaseItemFlags &= ~itemFlags;
+            BaseItemFlags.Unset(flags);
             if (recompute)
                 Recompute();
         }
@@ -252,7 +254,7 @@ namespace Mud.Server.Item
         public void Disenchant()
         {
             RemoveAuras(_ => true, false);
-            RemoveBaseItemFlags(BaseItemFlags, false); // clear
+            BaseItemFlags = new ItemFlags();
             Recompute();
         }
 
@@ -264,12 +266,12 @@ namespace Mud.Server.Item
         public virtual StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay)
         {
             // Item flags
-            if (ItemFlags.HasFlag(ItemFlags.Invis) && viewer.CharacterFlags.IsSet("DetectInvis")) sb.Append("%y%(Invis)%x%");
-            if (ItemFlags.HasFlag(ItemFlags.Evil) && viewer.CharacterFlags.IsSet("DetectEvil")) sb.Append("%R%(Evil)%x%");
-            if (ItemFlags.HasFlag(ItemFlags.Bless) && viewer.CharacterFlags.IsSet("DetectGood")) sb.Append("%C%(Blessed)%x%");
-            if (ItemFlags.HasFlag(ItemFlags.Magic) && viewer.CharacterFlags.IsSet("DetectMagic")) sb.Append("%b%(Magical)%x%");
-            if (ItemFlags.HasFlag(ItemFlags.Glowing)) sb.Append("%Y%(Glowing)%x%");
-            if (ItemFlags.HasFlag(ItemFlags.Humming)) sb.Append("%y%(Humming)%x%");
+            if (ItemFlags.IsSet("Invis") && viewer.CharacterFlags.IsSet("DetectInvis")) sb.Append("%y%(Invis)%x%");
+            if (ItemFlags.IsSet("Evil") && viewer.CharacterFlags.IsSet("DetectEvil")) sb.Append("%R%(Evil)%x%");
+            if (ItemFlags.IsSet("Bless") && viewer.CharacterFlags.IsSet("DetectGood")) sb.Append("%C%(Blessed)%x%");
+            if (ItemFlags.IsSet("Magic") && viewer.CharacterFlags.IsSet("DetectMagic")) sb.Append("%b%(Magical)%x%");
+            if (ItemFlags.IsSet("Glowing")) sb.Append("%Y%(Glowing)%x%");
+            if (ItemFlags.IsSet("Humming")) sb.Append("%y%(Humming)%x%");
 
             // Description
             if (shortDisplay)
@@ -286,13 +288,13 @@ namespace Mud.Server.Item
             {
                 case AffectOperators.Add:
                 case AffectOperators.Or:
-                    ItemFlags |= affect.Modifier;
+                    ItemFlags.Set(affect.Modifier);
                     break;
                 case AffectOperators.Assign:
-                    ItemFlags = affect.Modifier;
+                    ItemFlags.Copy(affect.Modifier);
                     break;
                 case AffectOperators.Nor:
-                    ItemFlags &= ~affect.Modifier;
+                    ItemFlags.Unset(affect.Modifier);
                     break;
             }
         }
@@ -313,7 +315,7 @@ namespace Mud.Server.Item
 
         protected virtual void ResetAttributes()
         {
-            ItemFlags = BaseItemFlags;
+            ItemFlags.Copy(BaseItemFlags);
         }
 
         protected void ApplyAuras<T>(IEntity source, T target)

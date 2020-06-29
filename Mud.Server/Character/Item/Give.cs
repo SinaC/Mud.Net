@@ -68,7 +68,7 @@ namespace Mud.Server.Character.Item
             if (Whom == null)
                 return StringHelpers.CharacterNotFound;
 
-            if (What.ItemFlags.HasFlag(ItemFlags.NoDrop))
+            if (What.ItemFlags.IsSet("NoDrop"))
                 return "You can't let go of it.";
 
             if (Whom.CarryNumber + What.CarryCount > Whom.MaxCarryNumber)

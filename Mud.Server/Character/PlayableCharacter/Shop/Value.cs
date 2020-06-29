@@ -38,7 +38,7 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
             if (!Keeper.shopKeeper.CanSee(What))
                 return Actor.ActPhrase("{0:N} doesn't see what you are offering.", Keeper.shopKeeper);
 
-            if (What.ItemFlags.HasFlag(ItemFlags.NoDrop))
+            if (What.ItemFlags.IsSet("NoDrop"))
                 return "You can't let go of it.";
 
             Cost = GetSellCost(Keeper.shopKeeper, Keeper.shopBlueprint, What);

@@ -6,6 +6,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Affect;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Interfaces.Item
 {
@@ -29,8 +30,8 @@ namespace Mud.Server.Interfaces.Item
         int TotalWeight { get; }
         int CarryCount { get; }
 
-        ItemFlags BaseItemFlags { get; }
-        ItemFlags ItemFlags { get; }
+        IItemFlags BaseItemFlags { get; }
+        IItemFlags ItemFlags { get; }
 
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
 
@@ -41,8 +42,8 @@ namespace Mud.Server.Interfaces.Item
         void DecreaseDecayPulseLeft(int pulseCount);
         void SetTimer(TimeSpan duration);
 
-        void AddBaseItemFlags(ItemFlags itemFlags, bool recompute);
-        void RemoveBaseItemFlags(ItemFlags itemFlags, bool recompute);
+        void AddBaseItemFlags(bool recompute, params string[] flags);
+        void RemoveBaseItemFlags(bool recompute, params string[] flags);
         void Disenchant();
 
         void IncreaseLevel();

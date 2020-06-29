@@ -59,7 +59,9 @@
     <Compile Include="Effects\RefreshEffect.cs" />
     <Compile Include="Effects\ShockEffect.cs" />
     <Compile Include="Flags\CharacterFlagsValues.cs" />
+    <Compile Include="Flags\ItemFlagValues.cs" />
     <Compile Include="Flags\RoomFlagValues.cs" />
+    <Compile Include="Flags\WeaponFlagValues.cs" />
     <Compile Include="MegaSpells\GeneralPurpose.cs" />
     <Compile Include="MegaSpells\HighExplosive.cs" />
     <Compile Include="Passives\Axe.cs" />
