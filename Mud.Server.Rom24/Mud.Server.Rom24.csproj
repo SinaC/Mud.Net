@@ -295,9 +295,9 @@
       <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
       <Name>Mud.Server.Random</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
-      <Name>Mud.Settings</Name>
+      <Name>Mud.Settings.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

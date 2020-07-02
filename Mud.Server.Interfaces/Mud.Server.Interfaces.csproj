@@ -160,9 +160,9 @@
       <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
       <Name>Mud.Domain</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
+    <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj">
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
-      <Name>Mud.Network</Name>
+      <Name>Mud.Network.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>

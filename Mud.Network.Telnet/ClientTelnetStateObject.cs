@@ -1,5 +1,6 @@
 ﻿using System.Net.Sockets;
 using System.Text;
+using Mud.Network.Interfaces;
 
 namespace Mud.Network.Telnet
 {

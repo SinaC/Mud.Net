@@ -7,8 +7,8 @@
     <ProjectGuid>{C911CF12-D355-4814-91BB-A68D05ADE97C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.Network</RootNamespace>
-    <AssemblyName>Mud.Network</AssemblyName>
+    <RootNamespace>Mud.Network.Interfaces</RootNamespace>
+    <AssemblyName>Mud.Network.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

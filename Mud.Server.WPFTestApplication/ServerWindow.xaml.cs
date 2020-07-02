@@ -5,7 +5,7 @@ using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Importer.Rom;
 using Mud.Logger;
-using Mud.Network;
+using Mud.Network.Interfaces;
 using Mud.Network.Telnet;
 using Mud.Repository;
 using Mud.Server.Ability;
@@ -36,9 +36,8 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Spells;
 using Mud.Server.Server;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,7 +70,7 @@ namespace Mud.Server.WPFTestApplication
 
         internal class AssemblyHelper : IAssemblyHelper
         {
-            public IEnumerable<Assembly> AllReferencedAssemblies => new [] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly};
+            public IEnumerable<Assembly> AllReferencedAssemblies => new [] { typeof(Server.Server).Assembly, typeof(Rom24.Spells.AcidBlast).Assembly};
         }
 
         internal void RegisterAllTypes(IAssemblyHelper assemblyHelper)

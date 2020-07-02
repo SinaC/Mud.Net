@@ -1,6 +1,6 @@
 ﻿using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Ability.Spell
 {

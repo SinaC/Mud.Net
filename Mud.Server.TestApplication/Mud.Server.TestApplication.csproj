@@ -141,9 +141,9 @@
       <Project>{724eaacf-1475-4f47-8109-4c9ebe6a72da}</Project>
       <Name>Mud.Network.Telnet</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
+    <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj">
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
-      <Name>Mud.Network</Name>
+      <Name>Mud.Network.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.POC\Mud.POC.csproj">
       <Project>{628aeb23-cbe8-4b89-a1b6-ab6b1c22d0fc}</Project>
@@ -189,9 +189,9 @@
       <Project>{4ded3775-6a0b-4d42-b799-9bebc13f507a}</Project>
       <Name>Mud.Settings.ConfigurationManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
-      <Name>Mud.Settings</Name>
+      <Name>Mud.Settings.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

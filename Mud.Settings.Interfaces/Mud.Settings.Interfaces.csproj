@@ -7,8 +7,8 @@
     <ProjectGuid>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.Settings</RootNamespace>
-    <AssemblyName>Mud.Settings</AssemblyName>
+    <RootNamespace>Mud.Settings.Interfaces</RootNamespace>
+    <AssemblyName>Mud.Settings.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

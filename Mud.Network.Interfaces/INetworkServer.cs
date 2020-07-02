@@ -1,4 +1,4 @@
-﻿namespace Mud.Network
+﻿namespace Mud.Network.Interfaces
 {
     // TODO: should be able to tell when a client connects/disconnects
     public delegate void NewClientConnectedEventHandler(IClient client);

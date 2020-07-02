@@ -1,4 +1,4 @@
-﻿namespace Mud.Settings
+﻿namespace Mud.Settings.Interfaces
 {
     public interface ISettings
     {

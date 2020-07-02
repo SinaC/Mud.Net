@@ -192,9 +192,9 @@
       <Project>{17B2B5F8-66C4-4E77-B910-C41C0539F436}</Project>
       <Name>Mud.Server.Flags</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj">
       <Project>{f74408d4-1c69-43c5-ae59-8baec3f66ac7}</Project>
-      <Name>Mud.Settings</Name>
+      <Name>Mud.Settings.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

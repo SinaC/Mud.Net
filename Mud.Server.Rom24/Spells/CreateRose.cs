@@ -3,7 +3,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Rom24.Spells
 {

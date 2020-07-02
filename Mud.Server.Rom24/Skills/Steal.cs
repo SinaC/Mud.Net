@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Mud.Common;
+﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
@@ -10,7 +9,8 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
+using System.Linq;
 
 namespace Mud.Server.Rom24.Skills
 {

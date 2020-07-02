@@ -1,4 +1,4 @@
-﻿namespace Mud.Network
+﻿namespace Mud.Network.Interfaces
 {
     public delegate void DataReceivedEventHandler(IClient client, string data);
 

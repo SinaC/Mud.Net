@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Mud.Network;
+﻿using Mud.Network.Interfaces;
+using System.Collections.Generic;
 
 namespace Mud.Server.Tests.Mocking
 {

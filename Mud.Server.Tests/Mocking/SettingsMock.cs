@@ -1,4 +1,4 @@
-﻿using Mud.Settings;
+﻿using Mud.Settings.Interfaces;
 using System;
 
 namespace Mud.Server.Tests.Mocking
