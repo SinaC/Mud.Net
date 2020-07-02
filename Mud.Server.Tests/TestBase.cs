@@ -161,7 +161,6 @@ namespace Mud.Server.Tests
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
-            "None",
             "Glowing",
             "Humming",
             "Dark",

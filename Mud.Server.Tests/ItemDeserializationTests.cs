@@ -12,8 +12,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Item;
-using Mud.Server.Random;
-using Mud.Settings;
 
 namespace Mud.Server.Tests
 {

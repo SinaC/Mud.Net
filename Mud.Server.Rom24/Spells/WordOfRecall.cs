@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;

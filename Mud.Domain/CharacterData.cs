@@ -1,5 +1,4 @@
-﻿using Mud.DataStructures.Flags;
-using Mud.Server.Flags.Interfaces;
+﻿using Mud.Server.Flags.Interfaces;
 using System.Collections.Generic;
 
 namespace Mud.Domain

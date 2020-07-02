@@ -12,8 +12,8 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
         public override Sizes Size => Sizes.Tiny;
         public override ICharacterFlags CharacterFlags => new CharacterFlags("Flying", "Infrared", "Haste");
         public override IIRVFlags Immunities => new IRVFlags("Poison");
-        public override IIRVFlags Resistances => new IRVFlags("None");
-        public override IIRVFlags Vulnerabilities => new IRVFlags("None");
+        public override IIRVFlags Resistances => new IRVFlags();
+        public override IIRVFlags Vulnerabilities => new IRVFlags();
         public override IEnumerable<EquipmentSlots> EquipmentSlots => new List<EquipmentSlots>
         {
             Domain.EquipmentSlots.Head,

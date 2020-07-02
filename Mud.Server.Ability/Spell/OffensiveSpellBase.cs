@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;

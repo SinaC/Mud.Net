@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Blueprints.Character;
+﻿using Mud.Server.Blueprints.Character;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;

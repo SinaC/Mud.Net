@@ -77,7 +77,7 @@ namespace Mud.Server.Item
         public SchoolTypes DamageType { get; }
 
         public IWeaponFlags BaseWeaponFlags { get; protected set; }
-        public IWeaponFlags WeaponFlags { get; protected set; } = new WeaponFlags();
+        public IWeaponFlags WeaponFlags { get; protected set; }
 
         public string DamageNoun { get; set; }
 

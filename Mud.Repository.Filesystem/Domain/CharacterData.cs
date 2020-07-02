@@ -1,5 +1,4 @@
-﻿using Mud.Server.Flags.Interfaces;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace Mud.Repository.Filesystem.Domain
 {

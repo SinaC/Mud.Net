@@ -36,7 +36,6 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Flags;
 using Mud.Server.Rom24.Spells;
 using Mud.Server.Server;
 using Mud.Settings;

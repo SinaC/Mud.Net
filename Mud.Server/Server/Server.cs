@@ -33,7 +33,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
 using Mud.Common;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Server
