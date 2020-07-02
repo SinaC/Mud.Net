@@ -133,7 +133,7 @@ namespace Mud.Server.Tests.Abilities
             victimMock.SetupGet(x => x.Name).Returns("target");
             victimMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            victimMock.Setup(x => x.IsSafe(casterMock.Object)).Returns<ICharacter>(_ => "Not on that victim.");
+            victimMock.Setup(x => x.IsSafe(casterMock.Object)).Returns<ICharacter>(_ => "Not on that victim!!!!");
             roomMock.SetupGet(x => x.People).Returns(new []{casterMock.Object, victimMock.Object});
             OffensiveSpellBaseSpellsSpell spell = new OffensiveSpellBaseSpellsSpell(randomManagerMock.Object);
 
@@ -142,7 +142,7 @@ namespace Mud.Server.Tests.Abilities
 
             string result = spell.Setup(abilityActionInput);
 
-            Assert.AreEqual("Not on that victim.", result);
+            Assert.AreEqual("Not on that victim!!!!", result);
         }
 
         [TestMethod]

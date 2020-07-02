@@ -31,7 +31,7 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<IAbilityUsage> Abilities => Enumerable.Empty<IAbilityUsage>();
 
-        public IEnumerable<EquipmentSlots> EquipmentSlots => EnumHelpers.GetValues<EquipmentSlots>().SelectMany(x => Enumerable.Repeat(x, 2)); // two of each
+        public IEnumerable<EquipmentSlots> EquipmentSlots => EnumHelpers.GetValues<EquipmentSlots>().Where(x => x != Domain.EquipmentSlots.None).SelectMany(x => Enumerable.Repeat(x, 2)); // two of each
 
         public IBodyForms BodyForms => new BodyForms("Amphibian");
 
