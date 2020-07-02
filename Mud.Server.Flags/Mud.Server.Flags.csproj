@@ -41,7 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OffensiveFlags.cs" />
+    <Compile Include="AssistFlags.cs" />
+    <Compile Include="BodyForms.cs" />
+    <Compile Include="BodyParts.cs" />
     <Compile Include="CharacterFlags.cs" />
+    <Compile Include="ActFlags.cs" />
     <Compile Include="ItemFlags.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoomFlags.cs" />

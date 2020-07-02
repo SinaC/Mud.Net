@@ -3,19 +3,19 @@ using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Flags
 {
-    public class ItemFlags : Flags<IItemFlagValues>, IItemFlags
+    public class BodyParts : Flags<IBodyPartValues>, IBodyParts
     {
-        public ItemFlags()
+        public BodyParts()
             : base()
         {
         }
 
-        public ItemFlags(string flags)
+        public BodyParts(string flags)
             : base(flags)
         {
         }
 
-        public ItemFlags(params string[] flags)
+        public BodyParts(params string[] flags)
             : base(flags)
         {
         }

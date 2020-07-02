@@ -10,7 +10,6 @@ namespace Mud.Server.Rom24.Flags
     {
         private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
-            "None",
             "Glowing",
             "Humming",
             "Dark",

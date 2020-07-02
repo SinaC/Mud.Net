@@ -58,8 +58,13 @@
     <Compile Include="Effects\PoisonEffect.cs" />
     <Compile Include="Effects\RefreshEffect.cs" />
     <Compile Include="Effects\ShockEffect.cs" />
+    <Compile Include="Flags\ActFlagValues.cs" />
+    <Compile Include="Flags\AssistFlagValues.cs" />
+    <Compile Include="Flags\BodyFormValues.cs" />
+    <Compile Include="Flags\BodyPartValues.cs" />
     <Compile Include="Flags\CharacterFlagsValues.cs" />
     <Compile Include="Flags\ItemFlagValues.cs" />
+    <Compile Include="Flags\OffensiveFlagValues.cs" />
     <Compile Include="Flags\RoomFlagValues.cs" />
     <Compile Include="Flags\WeaponFlagValues.cs" />
     <Compile Include="MegaSpells\GeneralPurpose.cs" />

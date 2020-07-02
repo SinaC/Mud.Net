@@ -380,66 +380,66 @@ namespace Mud.Domain
         Percentage  = 2
     }
 
-    [Flags]
-    public enum ActFlags 
-    {
-        None            = 0x00000000,
-        Sentinel        = 0x00000001,
-        Scavenger       = 0x00000002,
-        StayArea        = 0x00000004,
-        Aggressive      = 0x00000008,
-        Wimpy           = 0x00000010,
-        Pet             = 0x00000020,
-        Undead          = 0x00000040,
-        NoAlign         = 0x00000080,
-        NoPurge         = 0x00000100,
-        Outdoors        = 0x00000200,
-        Indoors         = 0x00000400,
-        UpdateAlways    = 0x00000800,
-        Train           = 0x00001000,
-        IsHealer        = 0x00002000,
-        Gain            = 0x00004000,
-        Practice        = 0x00008000,
-        Aware           = 0x00010000,
-        Warrior         = 0x00020000,
-        Thief           = 0x00040000,
-        Cleric          = 0x00080000,
-        Mage            = 0x00100000,
-    }
+    //[Flags]
+    //public enum ActFlags 
+    //{
+    //    None            = 0x00000000,
+    //    Sentinel        = 0x00000001,
+    //    Scavenger       = 0x00000002,
+    //    StayArea        = 0x00000004,
+    //    Aggressive      = 0x00000008,
+    //    Wimpy           = 0x00000010,
+    //    Pet             = 0x00000020,
+    //    Undead          = 0x00000040,
+    //    NoAlign         = 0x00000080,
+    //    NoPurge         = 0x00000100,
+    //    Outdoors        = 0x00000200,
+    //    Indoors         = 0x00000400,
+    //    UpdateAlways    = 0x00000800,
+    //    Train           = 0x00001000,
+    //    IsHealer        = 0x00002000,
+    //    Gain            = 0x00004000,
+    //    Practice        = 0x00008000,
+    //    Aware           = 0x00010000,
+    //    Warrior         = 0x00020000,
+    //    Thief           = 0x00040000,
+    //    Cleric          = 0x00080000,
+    //    Mage            = 0x00100000,
+    //}
 
-    [Flags]
-    public enum OffensiveFlags
-    {
-        None            = 0x00000000,
-        AreaAttack      = 0x00000001,
-        Backstab        = 0x00000002,
-        Bash            = 0x00000003,
-        Berserk         = 0x00000008,
-        Disarm          = 0x00000010,
-        Dodge           = 0x00000020,
-        Fade            = 0x00000040,
-        Fast            = 0x00000080,
-        Kick            = 0x00000100,
-        DirtKick        = 0x00000200,
-        Parry           = 0x00000400,
-        Rescue          = 0x00000800,
-        Tail            = 0x00001000,
-        Trip            = 0x00002000,
-        Crush           = 0x00004000,
-        Bite            = 0x00008000,
-    }
+    //[Flags]
+    //public enum OffensiveFlags
+    //{
+    //    None            = 0x00000000,
+    //    AreaAttack      = 0x00000001,
+    //    Backstab        = 0x00000002,
+    //    Bash            = 0x00000004,
+    //    Berserk         = 0x00000008,
+    //    Disarm          = 0x00000010,
+    //    Dodge           = 0x00000020,
+    //    Fade            = 0x00000040,
+    //    Fast            = 0x00000080,
+    //    Kick            = 0x00000100,
+    //    DirtKick        = 0x00000200,
+    //    Parry           = 0x00000400,
+    //    Rescue          = 0x00000800,
+    //    Tail            = 0x00001000,
+    //    Trip            = 0x00002000,
+    //    Crush           = 0x00004000,
+    //    Bite            = 0x00008000,
+    //}
 
-    [Flags]
-    public enum AssistFlags
-    {
-        None            = 0x00000000,
-        All             = 0x00000001,
-        Align           = 0x00000002,
-        Race            = 0x00000004,
-        Players         = 0x00000008,
-        Guard           = 0x00000010,
-        Vnum            = 0x00000020,
-    }
+    //[Flags]
+    //public enum AssistFlags
+    //{
+    //    None            = 0x00000000,
+    //    All             = 0x00000001,
+    //    Align           = 0x00000002,
+    //    Race            = 0x00000004,
+    //    Players         = 0x00000008,
+    //    Guard           = 0x00000010,
+    //    Vnum            = 0x00000020,
+    //}
 
     [Flags]
     public enum AuraFlags
@@ -588,72 +588,72 @@ namespace Mud.Domain
         Loot      = 0x0020,
     }
 
-    [Flags]
-    public enum BodyForms
-    {
-        None         = 0x00000000,
-        Edible       = 0x00000001,
-        Poison       = 0x00000002,
-        Magical      = 0x00000004,
-        InstantDecay = 0x00000008,
-        Other        = 0x00000010, // defined by material
-        // 0x00000020
-        Animal       = 0x00000040,
-        Sentient     = 0x00000080,
-        Undead       = 0x00000100,
-        Construct    = 0x00000200,
-        Mist         = 0x00000400,
-        Intangible   = 0x00000800,
+    //[Flags]
+    //public enum BodyForms
+    //{
+    //    None         = 0x00000000,
+    //    Edible       = 0x00000001,
+    //    Poison       = 0x00000002,
+    //    Magical      = 0x00000004,
+    //    InstantDecay = 0x00000008,
+    //    Other        = 0x00000010, // defined by material
+    //    // 0x00000020
+    //    Animal       = 0x00000040,
+    //    Sentient     = 0x00000080,
+    //    Undead       = 0x00000100,
+    //    Construct    = 0x00000200,
+    //    Mist         = 0x00000400,
+    //    Intangible   = 0x00000800,
 
-        Biped        = 0x00001000,
-        Centaur      = 0x00002000,
-        Insect       = 0x00004000,
-        Spider       = 0x00008000,
-        Crustacean   = 0x00010000,
-        Worm         = 0x00020000,
-        Blob         = 0x00040000,
-        //0x00080000
-        //0x00100000
-        Mammal       = 0x00080000,
-        Bird         = 0x00400000,
-        Reptile      = 0x00800000,
-        Snake        = 0x01000000,
-        Dragon       = 0x02000000,
-        Amphibian    = 0x04000000,
-        Fish         = 0x08000000,
-        ColdBlood    = 0x10000000,
-        Fur          = 0x20000000,
-        FourArms     = 0x40000000,
-    }
+    //    Biped        = 0x00001000,
+    //    Centaur      = 0x00002000,
+    //    Insect       = 0x00004000,
+    //    Spider       = 0x00008000,
+    //    Crustacean   = 0x00010000,
+    //    Worm         = 0x00020000,
+    //    Blob         = 0x00040000,
+    //    //0x00080000
+    //    //0x00100000
+    //    Mammal       = 0x00080000,
+    //    Bird         = 0x00400000,
+    //    Reptile      = 0x00800000,
+    //    Snake        = 0x01000000,
+    //    Dragon       = 0x02000000,
+    //    Amphibian    = 0x04000000,
+    //    Fish         = 0x08000000,
+    //    ColdBlood    = 0x10000000,
+    //    Fur          = 0x20000000,
+    //    FourArms     = 0x40000000,
+    //}
 
-    [Flags]
-    public enum BodyParts
-    {
-        None            = 0x00000000,
-        Head            = 0x00000001,
-        Arms            = 0x00000002,
-        Legs            = 0x00000004,
-        Heart           = 0x00000008,
-        Brains          = 0x00000010,
-        Guts            = 0x00000020,
-        Hands           = 0x00000040,
-        Feet            = 0x00000080,
-        Fingers         = 0x00000100,
-        Ear             = 0x00000200,
-        Eye             = 0x00000400,
-        LongTongue      = 0x00000800,
-        Eyestalks       = 0x00001000,
-        Tentacles       = 0x00002000,
-        Fins            = 0x00004000,
-        Wings           = 0x00008000,
-        Tail            = 0x00010000,
-        Body            = 0x00020000,
-        // 0x00040000
-        // 0x00080000
-        Claws           = 0x00100000,
-        Fangs           = 0x00200000,
-        Horns           = 0x00400000,
-        Scales          = 0x00800000,
-        Tusks           = 0x01000000,
-    }
+    //[Flags]
+    //public enum BodyParts
+    //{
+    //    None            = 0x00000000,
+    //    Head            = 0x00000001,
+    //    Arms            = 0x00000002,
+    //    Legs            = 0x00000004,
+    //    Heart           = 0x00000008,
+    //    Brains          = 0x00000010,
+    //    Guts            = 0x00000020,
+    //    Hands           = 0x00000040,
+    //    Feet            = 0x00000080,
+    //    Fingers         = 0x00000100,
+    //    Ear             = 0x00000200,
+    //    Eye             = 0x00000400,
+    //    LongTongue      = 0x00000800,
+    //    Eyestalks       = 0x00001000,
+    //    Tentacles       = 0x00002000,
+    //    Fins            = 0x00004000,
+    //    Wings           = 0x00008000,
+    //    Tail            = 0x00010000,
+    //    Body            = 0x00020000,
+    //    // 0x00040000
+    //    // 0x00080000
+    //    Claws           = 0x00100000,
+    //    Fangs           = 0x00200000,
+    //    Horns           = 0x00400000,
+    //    Scales          = 0x00800000,
+    //    Tusks           = 0x01000000,
+    //}
 }
