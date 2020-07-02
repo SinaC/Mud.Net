@@ -94,7 +94,7 @@ namespace Mud.Server.Helpers
             generator.AddColumn(BasicAttributes.Wisdom.ShortName(), 5, x => x.GetMaxAttribute(CharacterAttributes.Wisdom).ToString());
             generator.AddColumn(BasicAttributes.Dexterity.ShortName(), 5, x => x.GetMaxAttribute(CharacterAttributes.Dexterity).ToString());
             generator.AddColumn(BasicAttributes.Constitution.ShortName(), 5, x => x.GetMaxAttribute(CharacterAttributes.Constitution).ToString());
-            generator.AddColumn("Affects", 10, x => x.CharacterFlags.Map());
+            generator.AddColumn("Affects", 10, x => x.CharacterFlags.ToString());
             generator.AddColumn("#Abilities", 12, x =>
             {
                 int count = x.Abilities.Count();

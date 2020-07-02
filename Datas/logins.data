@@ -6,10 +6,5 @@
       <Password>password</Password>
       <IsAdmin>true</IsAdmin>
     </LoginData>
-    <LoginData>
-      <Username>xiinobis</Username>
-      <Password>password</Password>
-      <IsAdmin>false</IsAdmin>
-    </LoginData>
   </Logins>
 </LoginRepositoryData>

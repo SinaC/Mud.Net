@@ -49,7 +49,7 @@
             <ItemId>3365</ItemId>
             <Level>8</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>65</ItemFlags>
+            <ItemFlags>Magic,Glowing</ItemFlags>
             <Auras />
             <TimeLeft>29987</TimeLeft>
           </Item>
@@ -60,7 +60,7 @@
             <ItemId>3353</ItemId>
             <Level>5</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>0</ItemFlags>
+            <ItemFlags/>
             <Auras />
           </Item>
         </EquippedItemData>
@@ -70,7 +70,7 @@
             <ItemId>3361</ItemId>
             <Level>3</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>0</ItemFlags>
+            <ItemFlags/>
             <Auras />
           </Item>
         </EquippedItemData>
@@ -80,7 +80,7 @@
             <ItemId>3362</ItemId>
             <Level>5</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>0</ItemFlags>
+            <ItemFlags/>
             <Auras />
           </Item>
         </EquippedItemData>
@@ -90,7 +90,7 @@
             <ItemId>3359</ItemId>
             <Level>5</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>0</ItemFlags>
+            <ItemFlags/>
             <Auras />
           </Item>
         </EquippedItemData>
@@ -100,7 +100,7 @@
             <ItemId>3364</ItemId>
             <Level>16</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>64</ItemFlags>
+            <ItemFlags>Magic</ItemFlags>
             <Auras />
           </Item>
         </EquippedItemData>
@@ -110,7 +110,7 @@
             <ItemId>3364</ItemId>
             <Level>16</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>64</ItemFlags>
+            <ItemFlags>Magic</ItemFlags>
             <Auras />
           </Item>
         </EquippedItemData>
@@ -120,7 +120,7 @@
             <ItemId>3364</ItemId>
             <Level>16</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>64</ItemFlags>
+            <ItemFlags>Magic</ItemFlags>
             <Auras />
           </Item>
         </EquippedItemData>
@@ -130,7 +130,7 @@
             <ItemId>106</ItemId>
             <Level>3</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>0</ItemFlags>
+            <ItemFlags/>
             <Auras />
             <MaxChargeCount>1</MaxChargeCount>
             <CurrentChargeCount>1</CurrentChargeCount>
@@ -143,7 +143,7 @@
           <ItemId>3014</ItemId>
           <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
+          <ItemFlags/>
           <Auras />
           <FullHours>8</FullHours>
           <HungerHours>6</HungerHours>
@@ -153,7 +153,7 @@
           <ItemId>3014</ItemId>
           <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
+          <ItemFlags/>
           <Auras />
           <FullHours>8</FullHours>
           <HungerHours>6</HungerHours>
@@ -163,7 +163,7 @@
           <ItemId>3014</ItemId>
           <Level>0</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>0</ItemFlags>
+          <ItemFlags/>
           <Auras />
           <FullHours>8</FullHours>
           <HungerHours>6</HungerHours>
@@ -173,46 +173,46 @@
           <ItemId>3350</ItemId>
           <Level>16</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
+          <ItemFlags>Magic</ItemFlags>
           <Auras />
-          <WeaponFlags>0</WeaponFlags>
+          <WeaponFlags/>
         </ItemData>
         <ItemData xsi:type="ItemWeaponData">
           <ItemId>3350</ItemId>
           <Level>16</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
+          <ItemFlags>Magic</ItemFlags>
           <Auras />
-          <WeaponFlags>0</WeaponFlags>
+          <WeaponFlags/>
         </ItemData>
         <ItemData xsi:type="ItemWeaponData">
           <ItemId>3350</ItemId>
           <Level>16</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>64</ItemFlags>
+          <ItemFlags>Magic</ItemFlags>
           <Auras />
-          <WeaponFlags>0</WeaponFlags>
+          <WeaponFlags/>
         </ItemData>
         <ItemData xsi:type="ItemWeaponData">
           <ItemId>3005</ItemId>
           <Level>42</Level>
           <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>258</ItemFlags>
+          <ItemFlags>Bless,Humming</ItemFlags>
           <Auras>
             <AuraData>
               <AbilityName>Test</AbilityName>
               <Level>1</Level>
-              <PulseLeft>4</PulseLeft>
+              <PulseLeft>4000</PulseLeft>
               <AuraFlags>2</AuraFlags>
               <Affects>
                 <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
                   <Operator>0</Operator>
-                  <Modifier>479</Modifier>
+                  <Modifier>Flaming,Frost,Vampiric,Sharp,Shocking,Poison,Holy</Modifier>
                 </AffectDataBase>
               </Affects>
             </AuraData>
           </Auras>
-          <WeaponFlags>48</WeaponFlags>
+          <WeaponFlags>Vorpal,TwoHands</WeaponFlags>
         </ItemData>
       </Inventory>
       <Auras>
@@ -300,9 +300,9 @@
         </AuraData>
       </Auras>
       <CharacterFlags>Berserk,ProtectEvil,Sanctuary</CharacterFlags>
-      <Immunities>0</Immunities>
-      <Resistances>68688</Resistances>
-      <Vulnerabilities>416</Vulnerabilities>
+      <Immunities/>
+      <Resistances>Bash,Slash,Poison,Disease,Acid</Resistances>
+      <Vulnerabilities>Pierce,Fire,Cold</Vulnerabilities>
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -1706,9 +1706,9 @@
       <Inventory />
       <Auras />
       <CharacterFlags />
-      <Immunities>0</Immunities>
-      <Resistances>67584</Resistances>
-      <Vulnerabilities>131072</Vulnerabilities>
+      <Immunities/>
+      <Resistances>Poison,Disease</Resistances>
+      <Vulnerabilities>Drowning</Vulnerabilities>
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>

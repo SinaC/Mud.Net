@@ -17,7 +17,7 @@ namespace Mud.Server.Affects
 
         public void Append(StringBuilder sb)
         {
-            sb.AppendFormat("%c%modifies %y%{0} %c%{1} %y%{2}%x%", Target, Operator.PrettyPrint(), Modifier.Map());
+            sb.AppendFormat("%c%modifies %y%{0} %c%{1} %y%{2}%x%", Target, Operator.PrettyPrint(), Modifier.ToString());
         }
 
         public abstract AffectDataBase MapAffectData();

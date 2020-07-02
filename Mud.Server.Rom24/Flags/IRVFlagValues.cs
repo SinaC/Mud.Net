@@ -39,7 +39,7 @@ namespace Mud.Server.Rom24.Flags
 
         public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
         {
-            Log.Default.WriteLine(LogLevels.Error, $"Act flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+            Log.Default.WriteLine(LogLevels.Error, $"IRV flags '{string.Join(",", values)}' not found in {GetType().FullName}");
         }
     }
 }
