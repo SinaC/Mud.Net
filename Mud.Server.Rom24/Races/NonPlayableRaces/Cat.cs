@@ -20,7 +20,7 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
             Domain.EquipmentSlots.Chest,
             Domain.EquipmentSlots.Float,
         };
-        public override IBodyForms BodyForms => new BodyForms("Edible| BodyForms.Animal", "Mammal");
+        public override IBodyForms BodyForms => new BodyForms("Edible", "Animal", "Mammal");
         public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Legs", "Heart", "Brains", "Guts", "Ear", "Eye", "Tail", "Fangs", "Claws");
         public override IActFlags ActFlags => new ActFlags();
         public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Dodge", "Fast", "Bite");

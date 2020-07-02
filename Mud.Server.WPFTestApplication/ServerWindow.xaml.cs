@@ -121,6 +121,12 @@ namespace Mud.Server.WPFTestApplication
             RegisterFlagValues<IRoomFlagValues>(assemblyHelper);
             RegisterFlagValues<IItemFlagValues>(assemblyHelper);
             RegisterFlagValues<IWeaponFlagValues>(assemblyHelper);
+            RegisterFlagValues<IActFlagValues>(assemblyHelper);
+            RegisterFlagValues<IOffensiveFlagValues>(assemblyHelper);
+            RegisterFlagValues<IAssistFlagValues>(assemblyHelper);
+            RegisterFlagValues<IIRVFlagValues>(assemblyHelper);
+            RegisterFlagValues<IBodyFormValues>(assemblyHelper);
+            RegisterFlagValues<IBodyPartValues>(assemblyHelper);
 
             // Initialize IOC container
             DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose

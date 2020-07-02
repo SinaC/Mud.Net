@@ -10,22 +10,12 @@ namespace Mud.Server.Rom24.Flags
     {
         private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
-            "AreaAttack",
-            "Backstab",
-            "Bash",
-            "Berserk",
-            "Disarm",
-            "Dodge",
-            "Fade",
-            "Fast",
-            "Kick",
-            "DirtKick",
-            "Parry",
-            "Rescue",
-            "Tail",
-            "Trip",
-            "Crush",
-            "Bite",
+            "All",
+            "Align",
+            "Race",
+            "Players",
+            "Guard",
+            "Vnum",
         };
 
         protected override HashSet<string> HashSet => Flags;
