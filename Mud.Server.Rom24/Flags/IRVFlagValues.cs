@@ -6,31 +6,33 @@ using System.Collections.Generic;
 
 namespace Mud.Server.Rom24.Flags
 {
-    public class ActFlagValues : FlagValuesBase<string>, IActFlagValues
+    public class IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
     {
         private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
-            "Sentinel",
-            "Scavenger",
-            "StayArea",
-            "Aggressive",
-            "Wimpy",
-            "Pet",
-            "Undead",
-            "NoAlign",
-            "NoPurge",
-            "Outdoors",
-            "Indoors",
-            "UpdateAlways",
-            "Train",
-            "IsHealer",
-            "Gain",
-            "Practice",
-            "Aware",
-            "Warrior",
-            "Thief",
-            "Cleric",
-            "Mage",
+            "Summon",
+            "Charm",
+            "Magic",
+            "Weapon",
+            "Bash",
+            "Pierce",
+            "Slash",
+            "Fire",
+            "Cold",
+            "Lightning",
+            "Acid",
+            "Poison",
+            "Negative",
+            "Holy",
+            "Energy",
+            "Mental",
+            "Disease",
+            "Drowning",
+            "Light",
+            "Sound",
+            "Wood",
+            "Silver",
+            "Iron",
         };
 
         protected override HashSet<string> HashSet => Flags;

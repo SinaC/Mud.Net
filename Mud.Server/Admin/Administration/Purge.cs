@@ -98,7 +98,7 @@ namespace Mud.Server.Admin.Administration
             Wiznet.Wiznet($"{Actor.DisplayName} purges room {room.Blueprint.Id}.", WiznetFlags.Punish);
 
             // Purge non playable characters (without NoPurge flag) (TODO: what if npc was wearing NoPurge items?)
-            IReadOnlyCollection<INonPlayableCharacter> nonPlayableCharacters = new ReadOnlyCollection<INonPlayableCharacter>(room.NonPlayableCharacters.Where(x => !x.ActFlags.HasFlag(ActFlags.NoPurge)).ToList()); // clone
+            IReadOnlyCollection<INonPlayableCharacter> nonPlayableCharacters = new ReadOnlyCollection<INonPlayableCharacter>(room.NonPlayableCharacters.Where(x => !x.ActFlags.IsSet("NoPurge")).ToList()); // clone
             foreach (INonPlayableCharacter nonPlayableCharacter in nonPlayableCharacters)
                 CharacterManager.RemoveCharacter(nonPlayableCharacter);
             // Purge items (without NoPurge flag)

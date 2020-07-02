@@ -89,25 +89,25 @@ namespace Mud.Server.Blueprints.Character
         public int ArmorExotic { get; set; }
 
         [DataMember]
-        public ActFlags ActFlags { get; set; }
+        public IActFlags ActFlags { get; set; }
 
         [DataMember]
-        public OffensiveFlags OffensiveFlags { get; set; }
+        public IOffensiveFlags OffensiveFlags { get; set; }
 
         [DataMember]
-        public AssistFlags AssistFlags { get; set; }
+        public IAssistFlags AssistFlags { get; set; }
 
         [DataMember]
         public ICharacterFlags CharacterFlags { get; set; }
 
         [DataMember]
-        public IRVFlags Immunities { get; set; }
+        public IIRVFlags Immunities { get; set; }
 
         [DataMember]
-        public IRVFlags Resistances { get; set; }
+        public IIRVFlags Resistances { get; set; }
 
         [DataMember]
-        public IRVFlags Vulnerabilities { get; set; }
+        public IIRVFlags Vulnerabilities { get; set; }
 
         [DataMember]
         public string Race { get; set; }

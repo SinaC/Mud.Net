@@ -64,7 +64,7 @@ namespace Mud.Server.Rom24.Spells
             if (npcVictim.CharacterFlags.IsSet("Charm")
                 || Caster.CharacterFlags.IsSet("Charm")
                 || Level < npcVictim.Level
-                || npcVictim.Immunities.HasFlag(IRVFlags.Charm)
+                || npcVictim.Immunities.IsSet("Charm")
                 || npcVictim.SavesSpell(Level, SchoolTypes.Charm))
                 return;
 

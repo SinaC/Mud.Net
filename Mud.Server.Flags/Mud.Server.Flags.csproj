@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IRVFlags.cs" />
     <Compile Include="OffensiveFlags.cs" />
     <Compile Include="AssistFlags.cs" />
     <Compile Include="BodyForms.cs" />

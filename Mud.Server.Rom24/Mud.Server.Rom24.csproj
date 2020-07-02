@@ -58,6 +58,7 @@
     <Compile Include="Effects\PoisonEffect.cs" />
     <Compile Include="Effects\RefreshEffect.cs" />
     <Compile Include="Effects\ShockEffect.cs" />
+    <Compile Include="Flags\IRVFlagValues.cs" />
     <Compile Include="Flags\ActFlagValues.cs" />
     <Compile Include="Flags\AssistFlagValues.cs" />
     <Compile Include="Flags\BodyFormValues.cs" />

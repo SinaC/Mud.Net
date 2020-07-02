@@ -29,7 +29,7 @@ namespace Mud.Server.Rom24.Spells
         protected override void Invoke()
         {
             if (Victim.SavesSpell(Level, SchoolTypes.Disease)
-                || (Victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.HasFlag(ActFlags.Undead)))
+                || (Victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.IsSet("Undead")))
             {
                 if (Victim == Caster)
                     Caster.Send("You feel momentarily ill, but it passes.");

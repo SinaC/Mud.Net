@@ -18,18 +18,18 @@ namespace Mud.Server.Race
 
         public abstract ICharacterFlags CharacterFlags { get; }
 
-        public abstract IRVFlags Immunities { get; }
-        public abstract IRVFlags Resistances { get; }
-        public abstract IRVFlags Vulnerabilities { get; }
+        public abstract IIRVFlags Immunities { get; }
+        public abstract IIRVFlags Resistances { get; }
+        public abstract IIRVFlags Vulnerabilities { get; }
 
         public abstract IEnumerable<EquipmentSlots> EquipmentSlots { get; }
 
-        public abstract BodyForms BodyForms { get; }
-        public abstract BodyParts BodyParts { get; }
+        public abstract IBodyForms BodyForms { get; }
+        public abstract IBodyParts BodyParts { get; }
 
-        public abstract ActFlags ActFlags { get; }
-        public abstract OffensiveFlags OffensiveFlags { get; }
-        public abstract AssistFlags AssistFlags { get; }
+        public abstract IActFlags ActFlags { get; }
+        public abstract IOffensiveFlags OffensiveFlags { get; }
+        public abstract IAssistFlags AssistFlags { get; }
 
         #endregion
     }

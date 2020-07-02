@@ -20,7 +20,7 @@ namespace Mud.Server.Rom24.Passives
         {
             int chance = learnPercentage / 2;
             INonPlayableCharacter npc = user as INonPlayableCharacter;
-            if (user.CharacterFlags.IsSet("Slow") && (npc == null || !npc.OffensiveFlags.HasFlag(OffensiveFlags.Fast)))
+            if (user.CharacterFlags.IsSet("Slow") && (npc == null || !npc.OffensiveFlags.IsSet("Fast")))
                 chance /= 2;
 
             return diceRoll < chance;

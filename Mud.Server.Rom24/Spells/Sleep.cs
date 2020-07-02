@@ -29,7 +29,7 @@ namespace Mud.Server.Rom24.Spells
         protected override void Invoke()
         {
             if (Victim.CharacterFlags.IsSet("Sleep")
-                || (Victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.HasFlag(ActFlags.Undead))
+                || (Victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.IsSet("Undead"))
                 || Level + 2 < Victim.Level
                 || Victim.SavesSpell(Level - 4, SchoolTypes.Charm))
                 return;

@@ -51,7 +51,7 @@ namespace Mud.Server.Ability.Spell
                 || Victim.Level >= Level + 3
                 // TODO: clan check
                 // TODO: hero level check 
-                || (npcVictim != null && npcVictim.Immunities.HasFlag(IRVFlags.Summon))
+                || (npcVictim != null && npcVictim.Immunities.IsSet("Summon"))
                 || (npcVictim != null && Victim.SavesSpell(Level, SchoolTypes.Other)))
                 return false;
             return true;

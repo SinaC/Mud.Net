@@ -66,7 +66,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
-            userMock.SetupGet(x => x.OffensiveFlags).Returns(OffensiveFlags.Berserk);
+            userMock.SetupGet(x => x.OffensiveFlags).Returns(new OffensiveFlags("Berserk"));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 

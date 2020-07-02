@@ -938,13 +938,13 @@ namespace Mud.Server.Server
         private bool IsInvalidAggressor(INonPlayableCharacter aggressor, IPlayableCharacter victim)
         {
             return 
-                !aggressor.ActFlags.HasFlag(ActFlags.Aggressive)
+                !aggressor.ActFlags.IsSet("Aggressive")
                 || aggressor.Room.RoomFlags.IsSet("Safe")
                 || aggressor.CharacterFlags.IsSet("Calm")
                 || aggressor.Fighting != null
                 || aggressor.CharacterFlags.IsSet("Charm")
                 || aggressor.Position <= Positions.Sleeping
-                || aggressor.ActFlags.HasFlag(ActFlags.Wimpy) && victim.Position >= Positions.Sleeping // wimpy aggressive mobs only attack if player is asleep
+                || aggressor.ActFlags.IsSet("Wimpy") && victim.Position >= Positions.Sleeping // wimpy aggressive mobs only attack if player is asleep
                 || !aggressor.CanSee(victim)
                 || RandomManager.Chance(50);
         }
@@ -954,7 +954,7 @@ namespace Mud.Server.Server
             return
                 // TODO: immortal
                 aggressor.Level >= victim.Level - 5
-                && (!aggressor.ActFlags.HasFlag(ActFlags.Wimpy) || victim.Position < Positions.Sleeping) // wimpy aggressive mobs only attack if player is asleep
+                && (!aggressor.ActFlags.IsSet("Wimpy") || victim.Position < Positions.Sleeping) // wimpy aggressive mobs only attack if player is asleep
                 && aggressor.CanSee(victim);
         }
 
@@ -1125,7 +1125,7 @@ namespace Mud.Server.Server
                             INonPlayableCharacter npcInRoom = inRoom as INonPlayableCharacter;
                             IPlayableCharacter pcInRoom = inRoom as IPlayableCharacter;
                             // quick check for ASSIST_PLAYER
-                            if (pcCharacter != null && npcInRoom != null && npcInRoom.AssistFlags.HasFlag(AssistFlags.Players)
+                            if (pcCharacter != null && npcInRoom != null && npcInRoom.AssistFlags.IsSet("Players")
                                 && npcInRoom.Level + 6 > victim.Level)
                             {
                                 npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
@@ -1149,11 +1149,11 @@ namespace Mud.Server.Server
                             if (npcCharacter != null && !npcCharacter.CharacterFlags.IsSet("Charm")
                                 && npcInRoom != null)
                             {
-                                bool isAssistAll = npcInRoom.AssistFlags.HasFlag(AssistFlags.All);
+                                bool isAssistAll = npcInRoom.AssistFlags.IsSet("All");
                                 bool isAssistGroup = false; // TODO
-                                bool isAssistRace = npcInRoom.AssistFlags.HasFlag(AssistFlags.Race) && npcInRoom.Race == npcCharacter.Race;
-                                bool isAssistAlign = npcInRoom.AssistFlags.HasFlag(AssistFlags.Align) && ((npcInRoom.IsGood && npcCharacter.IsGood) || (npcInRoom.IsNeutral && npcCharacter.IsNeutral) || (npcInRoom.IsEvil && npcCharacter.IsEvil));
-                                bool isAssistVnum = npcInRoom.AssistFlags.HasFlag(AssistFlags.Vnum) && npcInRoom.Blueprint.Id == npcCharacter.Blueprint.Id;
+                                bool isAssistRace = npcInRoom.AssistFlags.IsSet("Race") && npcInRoom.Race == npcCharacter.Race;
+                                bool isAssistAlign = npcInRoom.AssistFlags.IsSet("Align") && ((npcInRoom.IsGood && npcCharacter.IsGood) || (npcInRoom.IsNeutral && npcCharacter.IsNeutral) || (npcInRoom.IsEvil && npcCharacter.IsEvil));
+                                bool isAssistVnum = npcInRoom.AssistFlags.IsSet("Vnum") && npcInRoom.Blueprint.Id == npcCharacter.Blueprint.Id;
                                 if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
                                 {
                                     if (RandomManager.Chance(50))
@@ -1290,7 +1290,7 @@ namespace Mud.Server.Server
                 try
                 {
                     // is mob update always or area not empty
-                    if (npc.ActFlags.HasFlag(ActFlags.UpdateAlways) || npc.Room.Area.PlayableCharacters.Any())
+                    if (npc.ActFlags.IsSet("UpdateAlways") || npc.Room.Area.PlayableCharacters.Any())
                     {
                         // TODO: invoke spec_fun
 
@@ -1314,7 +1314,7 @@ namespace Mud.Server.Server
                             continue;
 
                         // scavenger
-                        if (npc.ActFlags.HasFlag(ActFlags.Scavenger) && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
+                        if (npc.ActFlags.IsSet("Scavenger") && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
                         {
                             //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
                             // get most valuable item in room
@@ -1327,7 +1327,7 @@ namespace Mud.Server.Server
                         }
 
                         // sentinel
-                        if (!npc.ActFlags.HasFlag(ActFlags.Sentinel) && RandomManager.Range(0, 7) == 0)
+                        if (!npc.ActFlags.IsSet("Sentinel") && RandomManager.Range(0, 7) == 0)
                         {
                             //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
                             int exitNumber = RandomManager.Range(0, 31);
@@ -1339,9 +1339,9 @@ namespace Mud.Server.Server
                                     && exit.Destination != null
                                     && !exit.IsClosed
                                     && !exit.Destination.RoomFlags.IsSet("NoMob")
-                                    && (!npc.ActFlags.HasFlag(ActFlags.StayArea) || npc.Room.Area == exit.Destination.Area)
-                                    && (!npc.ActFlags.HasFlag(ActFlags.Outdoors) || !exit.Destination.RoomFlags.IsSet("Indoors"))
-                                    && (!npc.ActFlags.HasFlag(ActFlags.Indoors) || exit.Destination.RoomFlags.IsSet("Indoors")))
+                                    && (!npc.ActFlags.IsSet("StayArea") || npc.Room.Area == exit.Destination.Area)
+                                    && (!npc.ActFlags.IsSet("Outdoors") || !exit.Destination.RoomFlags.IsSet("Indoors"))
+                                    && (!npc.ActFlags.IsSet("Indoors") || exit.Destination.RoomFlags.IsSet("Indoors")))
                                     npc.Move(exitDirection, false);
                             }
                         }

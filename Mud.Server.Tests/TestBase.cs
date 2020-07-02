@@ -72,6 +72,12 @@ namespace Mud.Server.Tests
             Container.DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlagValues());
             Container.DependencyContainer.Current.RegisterInstance<IItemFlagValues>(new Rom24ItemFlagValues());
             Container.DependencyContainer.Current.RegisterInstance<IWeaponFlagValues>(new Rom24WeaponFlagValues());
+            Container.DependencyContainer.Current.RegisterInstance<IIRVFlagValues>(new Rom24IRVFlagValues());
+            Container.DependencyContainer.Current.RegisterInstance<IActFlagValues>(new Rom24ActFlagValues());
+            Container.DependencyContainer.Current.RegisterInstance<IAssistFlagValues>(new Rom24AssistFlagValues());
+            Container.DependencyContainer.Current.RegisterInstance<IBodyFormValues>(new Rom24BodyFormValues());
+            Container.DependencyContainer.Current.RegisterInstance<IBodyPartValues>(new Rom24BodyPartValues());
+            Container.DependencyContainer.Current.RegisterInstance<IOffensiveFlagValues>(new Rom24OffensiveFlagValues());
 
             IAssemblyHelper assemblyHelper = new AssemblyHelper();
             Type iRegistrable = typeof(IRegistrable);
@@ -150,7 +156,7 @@ namespace Mud.Server.Tests
 
     internal class Rom24ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
     {
-        private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
             "None",
             "Glowing",
@@ -185,7 +191,7 @@ namespace Mud.Server.Tests
 
     internal class Rom24WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
     {
-        private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
             "Flaming",
             "Frost",
@@ -196,6 +202,187 @@ namespace Mud.Server.Tests
             "Shocking",
             "Poison",
             "Holy",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Summon",
+            "Charm",
+            "Magic",
+            "Weapon",
+            "Bash",
+            "Pierce",
+            "Slash",
+            "Fire",
+            "Cold",
+            "Lightning",
+            "Acid",
+            "Poison",
+            "Negative",
+            "Holy",
+            "Energy",
+            "Mental",
+            "Disease",
+            "Drowning",
+            "Light",
+            "Sound",
+            "Wood",
+            "Silver",
+            "Iron",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24ActFlagValues : FlagValuesBase<string>, IActFlagValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Sentinel",
+            "Scavenger",
+            "StayArea",
+            "Aggressive",
+            "Wimpy",
+            "Pet",
+            "Undead",
+            "NoAlign",
+            "NoPurge",
+            "Outdoors",
+            "Indoors",
+            "UpdateAlways",
+            "Train",
+            "IsHealer",
+            "Gain",
+            "Practice",
+            "Aware",
+            "Warrior",
+            "Thief",
+            "Cleric",
+            "Mage",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24AssistFlagValues : FlagValuesBase<string>, IAssistFlagValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "AreaAttack",
+            "Backstab",
+            "Bash",
+            "Berserk",
+            "Disarm",
+            "Dodge",
+            "Fade",
+            "Fast",
+            "Kick",
+            "DirtKick",
+            "Parry",
+            "Rescue",
+            "Tail",
+            "Trip",
+            "Crush",
+            "Bite",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24BodyFormValues : FlagValuesBase<string>, IBodyFormValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Edible",
+            "Poison",
+            "Magical",
+            "InstantDecay",
+            "Other", // defined by material
+            "Animal",
+            "Sentient",
+            "Undead",
+            "Construct",
+            "Mist",
+            "Intangible",
+            "Biped",
+            "Centaur",
+            "Insect",
+            "Spider",
+            "Crustacean",
+            "Worm",
+            "Blob",
+            "Mammal",
+            "Bird",
+            "Reptile",
+            "Snake",
+            "Dragon",
+            "Amphibian",
+            "Fish",
+            "ColdBlood",
+            "Fur",
+            "FourArms",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24BodyPartValues : FlagValuesBase<string>, IBodyPartValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Head",
+            "Arms",
+            "Legs",
+            "Heart",
+            "Brains",
+            "Guts",
+            "Hands",
+            "Feet",
+            "Fingers",
+            "Ear",
+            "Eye",
+            "LongTongue",
+            "Eyestalks",
+            "Tentacles",
+            "Fins",
+            "Wings",
+            "Tail",
+            "Body",
+            "Claws",
+            "Fangs",
+            "Horns",
+            "Scales",
+            "Tusks",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24OffensiveFlagValues : FlagValuesBase<string>, IOffensiveFlagValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "AreaAttack",
+            "Backstab",
+            "Bash",
+            "Berserk",
+            "Disarm",
+            "Dodge",
+            "Fade",
+            "Fast",
+            "Kick",
+            "DirtKick",
+            "Parry",
+            "Rescue",
+            "Tail",
+            "Trip",
+            "Crush",
+            "Bite",
         };
 
         protected override HashSet<string> HashSet => Flags;

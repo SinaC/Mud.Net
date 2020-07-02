@@ -11,9 +11,9 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
         public override string Name => "cyclops";
         public override Sizes Size => Sizes.Large;
         public override ICharacterFlags CharacterFlags => new CharacterFlags();
-        public override IRVFlags Immunities => IRVFlags.None;
-        public override IRVFlags Resistances => IRVFlags.None;
-        public override IRVFlags Vulnerabilities => IRVFlags.None;
+        public override IIRVFlags Immunities => new IRVFlags();
+        public override IIRVFlags Resistances => new IRVFlags();
+        public override IIRVFlags Vulnerabilities => new IRVFlags();
         public override IEnumerable<EquipmentSlots> EquipmentSlots => new List<EquipmentSlots>
         {
             Domain.EquipmentSlots.Light,
@@ -35,10 +35,10 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
             Domain.EquipmentSlots.OffHand,
             Domain.EquipmentSlots.Float,
         };
-        public override BodyForms BodyForms => BodyForms.Edible | BodyForms.Sentient | BodyForms.Biped | BodyForms.Mammal;
-        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Body | BodyParts.Arms | BodyParts.Legs | BodyParts.Heart | BodyParts.Brains | BodyParts.Guts | BodyParts.Hands | BodyParts.Feet | BodyParts.Fingers | BodyParts.Ear | BodyParts.Eye;
-        public override ActFlags ActFlags => ActFlags.None;
-        public override OffensiveFlags OffensiveFlags => OffensiveFlags.None;
-        public override AssistFlags AssistFlags => AssistFlags.Race;
+        public override IBodyForms BodyForms => new BodyForms("Edible", "Sentient", "Biped", "Mammal");
+        public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye");
+        public override IActFlags ActFlags => new ActFlags();
+        public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
+        public override IAssistFlags AssistFlags => new AssistFlags("Race");
     }
 }

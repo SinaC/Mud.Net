@@ -23,7 +23,6 @@ namespace Mud.Server.Rom24.Flags
             "NewbiesOnly",
             "Law",
             "NoWhere",
-            "Test", // TEST PURPOSE
         };
 
         protected override HashSet<string> HashSet => Flags;

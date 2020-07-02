@@ -2,7 +2,7 @@
 using Mud.Server.Ability.Passive;
 using Mud.Server.Random;
 
-namespace Mud.Server.Races
+namespace Mud.Server.Abilities
 {
     [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
     public class ThirdWield : PassiveBase

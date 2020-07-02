@@ -528,12 +528,12 @@ namespace Mud.Server.WPFTestApplication
                 ArmorPierce = 200,
                 ArmorSlash = 400,
                 ArmorExotic = 0,
-                ActFlags = ActFlags.Pet,
-                OffensiveFlags = OffensiveFlags.Bash,
+                ActFlags = new ActFlags("Pet"),
+                OffensiveFlags = new OffensiveFlags("Bash"),
                 CharacterFlags = new CharacterFlags("Haste"),
-                Immunities = IRVFlags.None,
-                Resistances = IRVFlags.Slash | IRVFlags.Fire,
-                Vulnerabilities = IRVFlags.Acid,
+                Immunities = new IRVFlags(),
+                Resistances = new IRVFlags("Slash", "Fire"),
+                Vulnerabilities = new IRVFlags("Acid"),
             };
             CharacterManager.AddCharacterBlueprint(construct);
 

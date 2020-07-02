@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Mud.Common;
 using Mud.Container;
+using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
@@ -215,7 +217,6 @@ namespace Mud.Server.Entity
             }
         }
 
-
         // Overriden in inherited class
         public virtual void OnRemoved() // called before removing an item from the game
         {
@@ -230,6 +231,18 @@ namespace Mud.Server.Entity
         }
 
         #endregion
+
+        protected TFlags NewAndCopyAndSet<TFlags, TFlagValues>(Func<TFlags> newFunc, TFlags toCopy, TFlags toSet)
+            where TFlags : IFlags<string, TFlagValues>
+            where TFlagValues: IFlagValues<string>
+        {
+            TFlags newValue = newFunc();
+            if (toCopy != null)
+                newValue.Copy(toCopy);
+            if (toSet != null)
+                newValue.Set(toSet);
+            return newValue;
+        }
 
         protected AuraData[] MapAuraData()
         {

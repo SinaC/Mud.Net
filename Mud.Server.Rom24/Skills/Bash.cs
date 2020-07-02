@@ -29,7 +29,7 @@ namespace Mud.Server.Rom24.Skills
 
             INonPlayableCharacter npcUser = User as INonPlayableCharacter;
             if (Learned == 0
-                || (npcUser != null && !npcUser.OffensiveFlags.HasFlag(OffensiveFlags.Bash)))
+                || (npcUser != null && !npcUser.OffensiveFlags.IsSet("Bash")))
                 return "Bashing? What's that?";
 
             if (Victim == User)
@@ -67,9 +67,9 @@ namespace Mud.Server.Rom24.Skills
             chance -= (4 * Victim[CharacterAttributes.Dexterity]) / 3;
             chance -= Victim[CharacterAttributes.ArmorBash] / 25;
             // speed
-            if ((User as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || User.CharacterFlags.IsSet("Haste"))
+            if ((User as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || User.CharacterFlags.IsSet("Haste"))
                 chance += 10;
-            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || Victim.CharacterFlags.IsSet("Haste"))
+            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || Victim.CharacterFlags.IsSet("Haste"))
                 chance -= 30;
             // level
             chance += User.Level - Victim.Level;

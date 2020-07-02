@@ -32,7 +32,7 @@ namespace Mud.Server.Rom24.Spells
         {
             if (Victim.CharacterFlags.IsSet("Haste")
                 || Victim.GetAura(SpellName) != null
-                || (Victim is INonPlayableCharacter npcVictim && npcVictim.OffensiveFlags.HasFlag(OffensiveFlags.Fast)))
+                || (Victim is INonPlayableCharacter npcVictim && npcVictim.OffensiveFlags.IsSet("Fast")))
             {
                 if (Victim == Caster)
                     Caster.Send("You can't move any faster!");

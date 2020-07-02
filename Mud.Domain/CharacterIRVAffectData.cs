@@ -1,4 +1,6 @@
-﻿namespace Mud.Domain
+﻿using Mud.Server.Flags.Interfaces;
+
+namespace Mud.Domain
 {
     public class CharacterIRVAffectData : AffectDataBase
     {
@@ -6,6 +8,6 @@
 
         public AffectOperators Operator { get; set; } // Add and Or are identical
 
-        public IRVFlags Modifier { get; set; }
+        public IIRVFlags Modifier { get; set; }
     }
 }

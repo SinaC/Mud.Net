@@ -39,7 +39,6 @@ namespace Mud.Server.Rom24.Flags
             "Swim",
             "Regeneration",
             "Slow",
-            "Test", // TEST PURPOSE
         };
 
         protected override HashSet<string> HashSet => Flags;

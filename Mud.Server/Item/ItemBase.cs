@@ -41,8 +41,8 @@ namespace Mud.Server.Item
             Weight = blueprint.Weight;
             Cost = blueprint.Cost;
             NoTake = blueprint.NoTake;
-            BaseItemFlags = blueprint.ItemFlags ?? new ItemFlags();
-            ItemFlags = new ItemFlags();
+            BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), blueprint.ItemFlags, null);
+            ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), BaseItemFlags, null);
         }
 
         protected ItemBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
@@ -55,7 +55,8 @@ namespace Mud.Server.Item
         {
             Level = data.Level;
             DecayPulseLeft = data.DecayPulseLeft;
-            BaseItemFlags = data.ItemFlags ?? new ItemFlags();
+            BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), data.ItemFlags, null);
+            ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), BaseItemFlags, null);
             // Auras
             if (data.Auras != null)
             {
@@ -69,7 +70,8 @@ namespace Mud.Server.Item
         {
             Level = data.Level;
             DecayPulseLeft = data.DecayPulseLeft;
-            BaseItemFlags = data.ItemFlags ?? new ItemFlags(); ;
+            BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), data.ItemFlags, null);
+            ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), BaseItemFlags, null);
             // Auras
             if (data.Auras != null)
             {

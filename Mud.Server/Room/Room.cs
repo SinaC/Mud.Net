@@ -46,8 +46,8 @@ namespace Mud.Server.Room
             _content = new List<IItem>();
             Exits = new IExit[EnumHelpers.GetCount<ExitDirections>()];
 
-            BaseRoomFlags = blueprint.RoomFlags ?? new RoomFlags();
-            RoomFlags = new RoomFlags();
+            BaseRoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(), blueprint.RoomFlags, null);
+            RoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(), BaseRoomFlags, null);
             SectorType = blueprint.SectorType;
             HealRate = blueprint.HealRate;
             ResourceRate = blueprint.ResourceRate;

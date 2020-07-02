@@ -46,6 +46,7 @@
     <Compile Include="IBodyParts.cs" />
     <Compile Include="IBodyForms.cs" />
     <Compile Include="ICharacterFlags.cs" />
+    <Compile Include="IIRVFlags.cs" />
     <Compile Include="IItemFlags.cs" />
     <Compile Include="IOffensiveFlags.cs" />
     <Compile Include="IRoomFlags.cs" />

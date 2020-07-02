@@ -34,11 +34,11 @@ namespace Mud.Repository.Mongo.Domain
 
         public string CharacterFlags { get; set; }
 
-        public int Immunities { get; set; }
+        public string Immunities { get; set; }
 
-        public int Resistances { get; set; }
+        public string Resistances { get; set; }
 
-        public int Vulnerabilities { get; set; }
+        public string Vulnerabilities { get; set; }
 
         public Dictionary<int, int> Attributes { get; set; } // TODO: this could create duplicate key exception while deserializing if CharacterAttribute is not found anymore
     }

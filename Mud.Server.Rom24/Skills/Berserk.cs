@@ -35,7 +35,7 @@ namespace Mud.Server.Rom24.Skills
                 return baseSetup;
 
             if (Learned == 0
-                || (User is INonPlayableCharacter npcUser && !npcUser.OffensiveFlags.HasFlag(OffensiveFlags.Berserk)))
+                || (User is INonPlayableCharacter npcUser && !npcUser.OffensiveFlags.IsSet("Berserk")))
                 return "You turn red in the face, but nothing happens.";
 
             if (User.CharacterFlags.IsSet("Berserk")

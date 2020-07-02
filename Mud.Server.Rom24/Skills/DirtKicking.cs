@@ -36,7 +36,7 @@ namespace Mud.Server.Rom24.Skills
 
             INonPlayableCharacter npcUser = User as INonPlayableCharacter;
             if (Learned == 0
-                || (npcUser != null && !npcUser.OffensiveFlags.HasFlag(OffensiveFlags.DirtKick)))
+                || (npcUser != null && !npcUser.OffensiveFlags.IsSet("DirtKick")))
                 return "You get your feet dirty.";
 
             if (Victim == User)
@@ -65,9 +65,9 @@ namespace Mud.Server.Rom24.Skills
             chance += User[CharacterAttributes.Dexterity];
             chance -= 2 * Victim[CharacterAttributes.Dexterity];
             // speed
-            if ((User as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || User.CharacterFlags.IsSet("Haste"))
+            if ((User as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || User.CharacterFlags.IsSet("Haste"))
                 chance += 10;
-            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || Victim.CharacterFlags.IsSet("Haste"))
+            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || Victim.CharacterFlags.IsSet("Haste"))
                 chance -= 25;
             // level
             chance += (User.Level - Victim.Level) * 2;

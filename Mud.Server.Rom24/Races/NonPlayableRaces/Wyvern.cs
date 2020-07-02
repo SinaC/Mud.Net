@@ -11,19 +11,19 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
         public override string Name => "wyvern";
         public override Sizes Size => Sizes.Medium;
         public override ICharacterFlags CharacterFlags => new CharacterFlags("Flying", "DetectHidden", "DetectInvis");
-        public override IRVFlags Immunities => IRVFlags.Poison;
-        public override IRVFlags Resistances => IRVFlags.None;
-        public override IRVFlags Vulnerabilities => IRVFlags.Light;
+        public override IIRVFlags Immunities => new IRVFlags("Poison");
+        public override IIRVFlags Resistances => new IRVFlags();
+        public override IIRVFlags Vulnerabilities => new IRVFlags("Light");
         public override IEnumerable<EquipmentSlots> EquipmentSlots => new List<EquipmentSlots>
         {
             Domain.EquipmentSlots.Head,
             Domain.EquipmentSlots.Chest,
             Domain.EquipmentSlots.Float,
         };
-        public override BodyForms BodyForms => BodyForms.Edible | BodyForms.Poison | BodyForms.Animal | BodyForms.Dragon;
-        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Body | BodyParts.Legs | BodyParts.Heart | BodyParts.Brains | BodyParts.Guts | BodyParts.Feet | BodyParts.Ear | BodyParts.Eye | BodyParts.Tail | BodyParts.Fangs | BodyParts.Scales | BodyParts.Wings;
-        public override ActFlags ActFlags => ActFlags.None;
-        public override OffensiveFlags OffensiveFlags => OffensiveFlags.Bash | OffensiveFlags.Dodge | OffensiveFlags.Fast | OffensiveFlags.Bite;
-        public override AssistFlags AssistFlags => AssistFlags.None;
+        public override IBodyForms BodyForms => new BodyForms("Edible", "Poison", "Animal", "Dragon");
+        public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Legs", "Heart", "Brains", "Guts", "Feet", "Ear", "Eye", "Tail", "Fangs", "Scales", "Wings");
+        public override IActFlags ActFlags => new ActFlags();
+        public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Bash", "Dodge", "Fast", "Bite");
+        public override IAssistFlags AssistFlags => new AssistFlags();
     }
 }

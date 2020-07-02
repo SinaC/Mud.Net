@@ -70,14 +70,14 @@ namespace Mud.Server.Interfaces.Character
         ICharacterFlags BaseCharacterFlags { get; }
         ICharacterFlags CharacterFlags { get; }
 
-        IRVFlags BaseImmunities { get; }
-        IRVFlags Immunities { get; }
+        IIRVFlags BaseImmunities { get; }
+        IIRVFlags Immunities { get; }
 
-        IRVFlags BaseResistances { get; }
-        IRVFlags Resistances { get; }
+        IIRVFlags BaseResistances { get; }
+        IIRVFlags Resistances { get; }
 
-        IRVFlags BaseVulnerabilities { get; }
-        IRVFlags Vulnerabilities { get; }
+        IIRVFlags BaseVulnerabilities { get; }
+        IIRVFlags Vulnerabilities { get; }
 
         Sex BaseSex { get; }
         Sex Sex { get; }
@@ -99,10 +99,10 @@ namespace Mud.Server.Interfaces.Character
         int this[ResourceKinds resource] { get; }
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
 
-        BodyForms BaseBodyForms { get; }
-        BodyForms BodyForms { get; }
-        BodyParts BaseBodyParts { get; }
-        BodyParts BodyParts { get; }
+        IBodyForms BaseBodyForms { get; }
+        IBodyForms BodyForms { get; }
+        IBodyParts BaseBodyParts { get; }
+        IBodyParts BodyParts { get; }
 
         // Abilities
         IEnumerable<IAbilityLearned> LearnedAbilities { get; }

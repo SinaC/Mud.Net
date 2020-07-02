@@ -48,7 +48,7 @@ namespace Mud.Server.Character.PlayableCharacter.Ability
             if (baseGuards != null)
                 return baseGuards;
 
-            Trainer = Actor.Room.NonPlayableCharacters.FirstOrDefault(x => Actor.CanSee(x) && x.ActFlags.HasFlag(ActFlags.Gain));
+            Trainer = Actor.Room.NonPlayableCharacters.FirstOrDefault(x => Actor.CanSee(x) && x.ActFlags.IsSet("Gain"));
             if (Trainer == null)
                 return "You can't do that here.";
 

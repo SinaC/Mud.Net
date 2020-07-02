@@ -35,11 +35,11 @@ namespace Mud.Repository.Filesystem.Domain
 
         public string CharacterFlags { get; set; }
 
-        public int Immunities { get; set; }
+        public string Immunities { get; set; }
 
-        public int Resistances { get; set; }
+        public string Resistances { get; set; }
 
-        public int Vulnerabilities { get; set; }
+        public string Vulnerabilities { get; set; }
 
         public PairData<int,int>[] Attributes { get; set; }
     }

@@ -59,7 +59,7 @@ namespace Mud.Server.Rom24.Spells
                 INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
 
                 // IsNpc, immune magic or undead
-                if (npcVictim != null && (npcVictim.Immunities.HasFlag(IRVFlags.Magic) || npcVictim.ActFlags.HasFlag(ActFlags.Undead)))
+                if (npcVictim != null && (npcVictim.Immunities.IsSet("Magic") || npcVictim.ActFlags.IsSet("Undead")))
                     continue;
 
                 // Is affected by berserk, calm or frenzy

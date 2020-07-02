@@ -38,7 +38,7 @@ namespace Mud.Server.Rom24.Spells
                 return;
             }
 
-            if (Victim.Immunities.HasFlag(IRVFlags.Magic)
+            if (Victim.Immunities.IsSet("Magic")
                 || Victim.SavesSpell(Level, SchoolTypes.Other))
             {
                 if (Victim != Caster)

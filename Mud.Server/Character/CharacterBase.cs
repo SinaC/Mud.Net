@@ -73,6 +73,11 @@ namespace Mud.Server.Character
             Form = Forms.Normal;
 
             CharacterFlags = new CharacterFlags();
+            BodyParts = new BodyParts();
+            BodyForms = new BodyForms();
+            Immunities = new IRVFlags();
+            Resistances = new IRVFlags();
+            Vulnerabilities = new IRVFlags();
         }
 
         #region ICharacter
@@ -193,12 +198,12 @@ namespace Mud.Server.Character
         public ICharacterFlags BaseCharacterFlags { get; protected set; }
         public ICharacterFlags CharacterFlags { get; protected set; }
 
-        public IRVFlags BaseImmunities { get; protected set; }
-        public IRVFlags Immunities { get; protected set; }
-        public IRVFlags BaseResistances { get; protected set; }
-        public IRVFlags Resistances { get; protected set; }
-        public IRVFlags BaseVulnerabilities { get; protected set; }
-        public IRVFlags Vulnerabilities { get; protected set; }
+        public IIRVFlags BaseImmunities { get; protected set; }
+        public IIRVFlags Immunities { get; protected set; }
+        public IIRVFlags BaseResistances { get; protected set; }
+        public IIRVFlags Resistances { get; protected set; }
+        public IIRVFlags BaseVulnerabilities { get; protected set; }
+        public IIRVFlags Vulnerabilities { get; protected set; }
 
         public Sex BaseSex { get; protected set; }
         public Sex Sex { get; protected set; }
@@ -266,10 +271,10 @@ namespace Mud.Server.Character
 
         public IEnumerable<ResourceKinds> CurrentResourceKinds { get; private set; }
 
-        public BodyForms BaseBodyForms { get; protected set; }
-        public BodyForms BodyForms { get; protected set; }
-        public BodyParts BaseBodyParts { get; protected set; }
-        public BodyParts BodyParts { get; protected set; }
+        public IBodyForms BaseBodyForms { get; protected set; }
+        public IBodyForms BodyForms { get; protected set; }
+        public IBodyParts BaseBodyParts { get; protected set; }
+        public IBodyParts BodyParts { get; protected set; }
 
         // Abilities
         public IEnumerable<IAbilityLearned> LearnedAbilities => _learnedAbilities.Values;
@@ -902,7 +907,7 @@ namespace Mud.Server.Character
                 return false;
             }
 
-            if (this is INonPlayableCharacter npc && npc.ActFlags.HasFlag(ActFlags.Aggressive) && destination.RoomFlags.IsSet("Law"))
+            if (this is INonPlayableCharacter npc && npc.ActFlags.IsSet("Aggressive") && destination.RoomFlags.IsSet("Law"))
             {
                 Send("Something prevents you from leaving...");
                 return false;
@@ -1230,25 +1235,25 @@ namespace Mud.Server.Character
 
         public ResistanceLevels CheckResistance(SchoolTypes damageType)
         {
-            IRVFlags irvFlags;
+            string irvFlags;
             // Generic resistance
             ResistanceLevels defaultResistance = ResistanceLevels.Normal;
             if (damageType <= SchoolTypes.Slash) // Physical
             {
-                if (Immunities.HasFlag(IRVFlags.Weapon))
+                if (Immunities.IsSet("Weapon"))
                     defaultResistance = ResistanceLevels.Immune;
-                else if (Resistances.HasFlag(IRVFlags.Weapon))
+                else if (Resistances.IsSet("Weapon"))
                     defaultResistance = ResistanceLevels.Resistant;
-                else if (Vulnerabilities.HasFlag(IRVFlags.Weapon))
+                else if (Vulnerabilities.IsSet("Weapon"))
                     defaultResistance = ResistanceLevels.Normal;
             }
             else // Magic
             {
-                if (Immunities.HasFlag(IRVFlags.Magic))
+                if (Immunities.IsSet("Magic"))
                     defaultResistance = ResistanceLevels.Immune;
-                else if (Resistances.HasFlag(IRVFlags.Magic))
+                else if (Resistances.IsSet("Magic"))
                     defaultResistance = ResistanceLevels.Resistant;
-                else if (Vulnerabilities.HasFlag(IRVFlags.Magic))
+                else if (Vulnerabilities.IsSet("Magic"))
                     defaultResistance = ResistanceLevels.Normal;
             }
             switch (damageType)
@@ -1258,53 +1263,53 @@ namespace Mud.Server.Character
                 case SchoolTypes.Bash:
                 case SchoolTypes.Pierce:
                 case SchoolTypes.Slash:
-                    irvFlags = IRVFlags.Weapon;
+                    irvFlags = "Weapon";
                     break;
                 case SchoolTypes.Fire:
-                    irvFlags = IRVFlags.Fire;
+                    irvFlags = "Fire";
                     break;
                 case SchoolTypes.Cold:
-                    irvFlags = IRVFlags.Cold;
+                    irvFlags = "Cold";
                     break;
                 case SchoolTypes.Lightning:
-                    irvFlags = IRVFlags.Lightning;
+                    irvFlags = "Lightning";
                     break;
                 case SchoolTypes.Acid:
-                    irvFlags = IRVFlags.Acid;
+                    irvFlags = "Acid";
                     break;
                 case SchoolTypes.Poison:
-                    irvFlags = IRVFlags.Poison;
+                    irvFlags = "Poison";
                     break;
                 case SchoolTypes.Negative:
-                    irvFlags = IRVFlags.Negative;
+                    irvFlags = "Negative";
                     break;
                 case SchoolTypes.Holy:
-                    irvFlags = IRVFlags.Holy;
+                    irvFlags = "Holy";
                     break;
                 case SchoolTypes.Energy:
-                    irvFlags = IRVFlags.Energy;
+                    irvFlags = "Energy";
                     break;
                 case SchoolTypes.Mental:
-                    irvFlags = IRVFlags.Mental;
+                    irvFlags = "Mental";
                     break;
                 case SchoolTypes.Disease:
-                    irvFlags = IRVFlags.Disease;
+                    irvFlags = "Disease";
                     break;
                 case SchoolTypes.Drowning:
-                    irvFlags = IRVFlags.Drowning;
+                    irvFlags = "Drowning";
                     break;
                 case SchoolTypes.Light:
-                    irvFlags = IRVFlags.Light;
+                    irvFlags = "Light";
                     break;
                 case SchoolTypes.Other: // no specific IRV
                     return defaultResistance;
                 case SchoolTypes.Harm: // no specific IRV
                     return defaultResistance;
                 case SchoolTypes.Charm:
-                    irvFlags = IRVFlags.Charm;
+                    irvFlags = "Charm";
                     break;
                 case SchoolTypes.Sound:
-                    irvFlags = IRVFlags.Sound;
+                    irvFlags = "Sound";
                     break;
                 default:
                     Log.Default.WriteLine(LogLevels.Error, "CharacterBase.CheckResistance: Unknown {0} {1}", nameof(SchoolTypes), damageType);
@@ -1312,11 +1317,11 @@ namespace Mud.Server.Character
             }
             // Following code has been reworked because Rom24 was testing on currently computed resistance (imm) instead of defaultResistance (def)
             ResistanceLevels resistance = ResistanceLevels.None;
-            if (Immunities.HasFlag(irvFlags))
+            if (Immunities.IsSet(irvFlags))
                 resistance = ResistanceLevels.Immune;
-            else if (Resistances.HasFlag(irvFlags) && defaultResistance != ResistanceLevels.Immune)
+            else if (Resistances.IsSet(irvFlags) && defaultResistance != ResistanceLevels.Immune)
                 resistance = ResistanceLevels.Resistant;
-            else if (Vulnerabilities.HasFlag(irvFlags))
+            else if (Vulnerabilities.IsSet(irvFlags))
             {
                 if (defaultResistance == ResistanceLevels.Immune)
                     resistance = ResistanceLevels.Resistant;
@@ -1430,17 +1435,14 @@ namespace Mud.Server.Character
                     return true;
                 }
 
-                if (npcVictim.ActFlags.HasFlag(ActFlags.Train)
-                    || npcVictim.ActFlags.HasFlag(ActFlags.Gain)
-                    || npcVictim.ActFlags.HasFlag(ActFlags.Practice)
-                    || npcVictim.ActFlags.HasFlag(ActFlags.IsHealer)
+                if (npcVictim.ActFlags.HasAny("Train", "Gain", "Practice", "IsHealer")
                     || npcVictim.Blueprint is CharacterQuestorBlueprint)
                     return true;
                 // Npc doing the killing
                 if (caster is INonPlayableCharacter)
                 {
                     // no pets
-                    if (npcVictim.ActFlags.HasFlag(ActFlags.Pet))
+                    if (npcVictim.ActFlags.IsSet("Pet"))
                         return true;
                     // no charmed creatures unless owner
                     if (victim.CharacterFlags.IsSet("Charm") && (area || caster != npcVictim.Master))
@@ -1510,10 +1512,7 @@ namespace Mud.Server.Character
                 if (npcVictim.Blueprint is CharacterShopBlueprint)
                     return "The shopkeeper wouldn't like that.";
 
-                if (npcVictim.ActFlags.HasFlag(ActFlags.Train)
-                    || npcVictim.ActFlags.HasFlag(ActFlags.Gain)
-                    || npcVictim.ActFlags.HasFlag(ActFlags.Practice)
-                    || npcVictim.ActFlags.HasFlag(ActFlags.IsHealer)
+                if (npcVictim.ActFlags.HasAny("Train", "Gain", "Practice", "IsHealer")
                     || npcVictim.Blueprint is CharacterQuestorBlueprint)
                     return "I don't think Mota would approve.";
 
@@ -1521,7 +1520,7 @@ namespace Mud.Server.Character
                 if (aggressor is IPlayableCharacter)
                 {
                     // no pets
-                    if (npcVictim.ActFlags.HasFlag(ActFlags.Pet))
+                    if (npcVictim.ActFlags.IsSet("Pet"))
                         return aggressor.ActPhrase("But {0} looks so cute and cuddly...", victim);
                     // no charmed creatures unless owner
                     if (victim.CharacterFlags.IsSet("Charm") && aggressor != npcVictim.Master)
@@ -1893,13 +1892,13 @@ namespace Mud.Server.Character
                     {
                         case AffectOperators.Add:
                         case AffectOperators.Or:
-                            Immunities |= affect.Modifier;
+                            Immunities.Set(affect.Modifier);
                             break;
                         case AffectOperators.Assign:
-                            Immunities = affect.Modifier;
+                            Immunities.Copy(affect.Modifier);
                             break;
                         case AffectOperators.Nor:
-                            Immunities &= ~affect.Modifier;
+                            Immunities.Unset(affect.Modifier);
                             break;
                     }
                     break;
@@ -1908,13 +1907,13 @@ namespace Mud.Server.Character
                     {
                         case AffectOperators.Add:
                         case AffectOperators.Or:
-                            Resistances |= affect.Modifier;
+                            Resistances.Set(affect.Modifier);
                             break;
                         case AffectOperators.Assign:
-                            Resistances = affect.Modifier;
+                            Resistances.Copy(affect.Modifier);
                             break;
                         case AffectOperators.Nor:
-                            Resistances &= ~affect.Modifier;
+                            Resistances.Unset(affect.Modifier);
                             break;
                     }
                     break;
@@ -1923,13 +1922,13 @@ namespace Mud.Server.Character
                     {
                         case AffectOperators.Add:
                         case AffectOperators.Or:
-                            Resistances |= affect.Modifier;
+                            Resistances.Set(affect.Modifier);
                             break;
                         case AffectOperators.Assign:
-                            Resistances = affect.Modifier;
+                            Resistances.Copy(affect.Modifier);
                             break;
                         case AffectOperators.Nor:
-                            Resistances &= ~affect.Modifier;
+                            Resistances.Unset(affect.Modifier);
                             break;
                     }
                     break;
@@ -2204,7 +2203,7 @@ namespace Mud.Server.Character
             // vulnerable: 0.5%
             // calculate weapon (or not) damage
             if (wield != null && wield.WeaponFlags.IsSet("Vorpal")
-                && victim.BodyParts.HasFlag(BodyParts.Head)
+                && victim.BodyParts.IsSet("Head")
                 && !(victim is IPlayableCharacter pcVictim && pcVictim.IsImmortal))
             {
                 int chance;
@@ -2517,16 +2516,16 @@ namespace Mud.Server.Character
 
         protected void ResetCurrentAttributes()
         {
-            CharacterFlags.Copy(BaseCharacterFlags);
-            Immunities = BaseImmunities;
-            Resistances = BaseResistances;
-            Vulnerabilities = BaseVulnerabilities;
             for (int i = 0; i < _baseAttributes.Length; i++)
                 _currentAttributes[i] = _baseAttributes[i];
             Sex = BaseSex;
             Size = BaseSize;
-            BodyForms = BaseBodyForms;
-            BodyParts = BaseBodyParts;
+            CharacterFlags.Copy(BaseCharacterFlags);
+            Immunities.Copy(BaseImmunities);
+            Resistances.Copy(BaseResistances);
+            Vulnerabilities.Copy(BaseVulnerabilities);
+            BodyForms.Copy(BaseBodyForms);
+            BodyParts.Copy(BaseBodyParts);
         }
 
         protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)

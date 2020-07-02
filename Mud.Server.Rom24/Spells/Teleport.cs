@@ -45,7 +45,7 @@ namespace Mud.Server.Rom24.Spells
         {
             if (Victim.Room == null
                 || Victim.Room.RoomFlags.IsSet("NoRecall")
-                || (Victim != Caster && Victim.Immunities.HasFlag(IRVFlags.Summon))
+                || (Victim != Caster && Victim.Immunities.IsSet("Summon"))
                 || (Victim is IPlayableCharacter pcVictim && pcVictim.Fighting != null)
                 || (Victim != Caster && Victim.SavesSpell(Level - 5, SchoolTypes.Other)))
                 return false;

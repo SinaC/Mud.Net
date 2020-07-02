@@ -28,7 +28,7 @@ namespace Mud.Server.Rom24.Skills
 
             INonPlayableCharacter npcUser = User as INonPlayableCharacter;
             if (Learned == 0
-                || (npcUser != null && !npcUser.OffensiveFlags.HasFlag(OffensiveFlags.Trip)))
+                || (npcUser != null && !npcUser.OffensiveFlags.IsSet("Trip")))
                 return "Tripping?  What's that?";
 
             if (Victim == User)
@@ -65,9 +65,9 @@ namespace Mud.Server.Rom24.Skills
             chance += User[CharacterAttributes.Dexterity];
             chance -= (3 * Victim[CharacterAttributes.Dexterity]) / 2;
             // speed
-            if ((User as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || User.CharacterFlags.IsSet("Haste"))
+            if ((User as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || User.CharacterFlags.IsSet("Haste"))
                 chance += 10;
-            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || Victim.CharacterFlags.IsSet("Haste"))
+            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || Victim.CharacterFlags.IsSet("Haste"))
                 chance -= 20;
             // level
             chance += (User.Level - Victim.Level) * 2;

@@ -25,6 +25,7 @@ namespace Mud.Server.Tests.Abilities
             DependencyContainer.SetManualContainer(new SimpleInjector.Container());
             DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlagValues());
             DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlagValues());
+            DependencyContainer.Current.RegisterInstance<IOffensiveFlagValues>(new Rom24OffensiveFlagValues());
         }
 
         [TestCleanup]

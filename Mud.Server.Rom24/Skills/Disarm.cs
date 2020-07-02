@@ -41,7 +41,7 @@ namespace Mud.Server.Rom24.Skills
             Hand2HandLearned = User.GetAbilityLearnedInfo(HandToHand.PassiveName).percentage;
             if (UserWield == null
                 && (Hand2HandLearned == 0
-                    || (npcUser != null && !npcUser.OffensiveFlags.HasFlag(OffensiveFlags.Disarm))))
+                    || (npcUser != null && !npcUser.OffensiveFlags.IsSet("Disarm"))))
                 return "You must wield a weapon to disarm.";
 
             // Victim wield

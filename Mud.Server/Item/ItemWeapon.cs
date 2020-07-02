@@ -26,8 +26,8 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
-            BaseWeaponFlags = blueprint.Flags ?? new WeaponFlags();
-            WeaponFlags = new WeaponFlags();
+            BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), blueprint.Flags, null);
+            WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), BaseWeaponFlags, null);
             DamageNoun = blueprint.DamageNoun;
         }
 
@@ -38,8 +38,8 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
-            BaseWeaponFlags = itemData.WeaponFlags ?? new WeaponFlags();
-            WeaponFlags = new WeaponFlags();
+            BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), itemData.WeaponFlags, null);
+            WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), BaseWeaponFlags, null);
             DamageNoun = blueprint.DamageNoun;
         }
 

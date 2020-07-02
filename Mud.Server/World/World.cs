@@ -143,7 +143,7 @@ namespace Mud.Server.World
                 character.CanSee(x)
                 && !x.IsPrivate
                 && !x.RoomFlags.HasAny("Safe", "Private", "Solitary")
-                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.IsSet("Law"))));
+                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.IsSet("Aggressive") || !x.RoomFlags.IsSet("Law"))));
         }
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)

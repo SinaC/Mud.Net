@@ -26,16 +26,16 @@ namespace Mud.Server.Rom24.Races
 
         public override ICharacterFlags CharacterFlags => new CharacterFlags();
 
-        public override IRVFlags Immunities => IRVFlags.None;
-        public override IRVFlags Resistances => IRVFlags.Fire | IRVFlags.Cold;
-        public override IRVFlags Vulnerabilities => IRVFlags.Mental | IRVFlags.Lightning;
+        public override IIRVFlags Immunities => new IRVFlags();
+        public override IIRVFlags Resistances => new IRVFlags("Fire", "Cold");
+        public override IIRVFlags Vulnerabilities => new IRVFlags("Mental", "Lightning");
 
-        public override BodyForms BodyForms => BodyForms.Edible | BodyForms.Sentient | BodyForms.Biped | BodyForms.Mammal;
-        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Arms | BodyParts.Legs | BodyParts.Head | BodyParts.Brains | BodyParts.Guts | BodyParts.Hands | BodyParts.Feet | BodyParts.Fingers | BodyParts.Ear | BodyParts.Eye | BodyParts.Body;
+        public override IBodyForms BodyForms => new BodyForms("Edible", "Sentient", "Biped", "Mammal");
+        public override IBodyParts BodyParts => new BodyParts("Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
 
-        public override ActFlags ActFlags => ActFlags.None;
-        public override OffensiveFlags OffensiveFlags => OffensiveFlags.None;
-        public override AssistFlags AssistFlags => AssistFlags.None;
+        public override IActFlags ActFlags => new ActFlags();
+        public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
+        public override IAssistFlags AssistFlags => new AssistFlags();
 
         public override int GetStartAttribute(CharacterAttributes attribute)
         {

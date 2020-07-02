@@ -11,9 +11,9 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
         public override string Name => "modron";
         public override Sizes Size => Sizes.Medium;
         public override ICharacterFlags CharacterFlags => new CharacterFlags("Infrared");
-        public override IRVFlags Immunities => IRVFlags.Charm | IRVFlags.Negative | IRVFlags.Holy | IRVFlags.Mental | IRVFlags.Disease;
-        public override IRVFlags Resistances => IRVFlags.Fire | IRVFlags.Cold | IRVFlags.Acid;
-        public override IRVFlags Vulnerabilities => IRVFlags.None;
+        public override IIRVFlags Immunities => new IRVFlags("Charm", "Negative", "Holy", "Mental", "Disease");
+        public override IIRVFlags Resistances => new IRVFlags("Fire", "Cold", "Acid");
+        public override IIRVFlags Vulnerabilities => new IRVFlags();
         public override IEnumerable<EquipmentSlots> EquipmentSlots => new List<EquipmentSlots>
         {
             Domain.EquipmentSlots.Light,
@@ -35,10 +35,10 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
             Domain.EquipmentSlots.OffHand,
             Domain.EquipmentSlots.Float,
         };
-        public override BodyForms BodyForms => BodyForms.Sentient;
-        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Body | BodyParts.Arms | BodyParts.Legs | BodyParts.Hands | BodyParts.Feet | BodyParts.Ear | BodyParts.Eye | BodyParts.Fingers;
-        public override ActFlags ActFlags => ActFlags.None;
-        public override OffensiveFlags OffensiveFlags => OffensiveFlags.Fast | OffensiveFlags.Bite;
-        public override AssistFlags AssistFlags => AssistFlags.None;
+        public override IBodyForms BodyForms => new BodyForms("Sentient");
+        public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Arms", "Legs", "Hands", "Feet", "Ear", "Eye", "Fingers");
+        public override IActFlags ActFlags => new ActFlags();
+        public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Fast", "Bite");
+        public override IAssistFlags AssistFlags => new AssistFlags();
     }
 }

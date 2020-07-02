@@ -11,19 +11,19 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
         public override string Name => "song bird";
         public override Sizes Size => Sizes.Tiny;
         public override ICharacterFlags CharacterFlags => new CharacterFlags("Flying");
-        public override IRVFlags Immunities => IRVFlags.None;
-        public override IRVFlags Resistances => IRVFlags.None;
-        public override IRVFlags Vulnerabilities => IRVFlags.None;
+        public override IIRVFlags Immunities => new IRVFlags();
+        public override IIRVFlags Resistances => new IRVFlags();
+        public override IIRVFlags Vulnerabilities => new IRVFlags();
         public override IEnumerable<EquipmentSlots> EquipmentSlots => new List<EquipmentSlots>
         {
             Domain.EquipmentSlots.Head,
             Domain.EquipmentSlots.Chest,
             Domain.EquipmentSlots.Float,
         };
-        public override BodyForms BodyForms => BodyForms.Edible | BodyForms.Animal | BodyForms.Bird;
-        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Body | BodyParts.Legs | BodyParts.Heart | BodyParts.Brains | BodyParts.Guts | BodyParts.Feet | BodyParts.Eye | BodyParts.Wings;
-        public override ActFlags ActFlags => ActFlags.None;
-        public override OffensiveFlags OffensiveFlags => OffensiveFlags.Dodge | OffensiveFlags.Fast;
-        public override AssistFlags AssistFlags => AssistFlags.None;
+        public override IBodyForms BodyForms => new BodyForms("Edible", "Animal", "Bird");
+        public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Legs", "Heart", "Brains", "Guts", "Feet", "Eye", "Wings");
+        public override IActFlags ActFlags => new ActFlags();
+        public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Dodge", "Fast");
+        public override IAssistFlags AssistFlags => new AssistFlags();
     }
 }

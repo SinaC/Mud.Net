@@ -32,6 +32,7 @@ namespace Mud.Repository.Tests
             DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags());
             DependencyContainer.Current.RegisterInstance<IItemFlagValues>(new Rom24ItemFlagValues());
             DependencyContainer.Current.RegisterInstance<IWeaponFlagValues>(new Rom24WeaponFlagValues());
+            DependencyContainer.Current.RegisterInstance<IIRVFlagValues>(new Rom24IRVFlagValues());
 
             AutoFaker.Configure(builder =>
             {
@@ -159,6 +160,38 @@ namespace Mud.Repository.Tests
             "Shocking",
             "Poison",
             "Holy",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+    }
+
+    internal class Rom24IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
+    {
+        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Summon",
+            "Charm",
+            "Magic",
+            "Weapon",
+            "Bash",
+            "Pierce",
+            "Slash",
+            "Fire",
+            "Cold",
+            "Lightning",
+            "Acid",
+            "Poison",
+            "Negative",
+            "Holy",
+            "Energy",
+            "Mental",
+            "Disease",
+            "Drowning",
+            "Light",
+            "Sound",
+            "Wood",
+            "Silver",
+            "Iron",
         };
 
         protected override HashSet<string> HashSet => Flags;

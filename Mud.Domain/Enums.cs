@@ -191,34 +191,34 @@ namespace Mud.Domain
         Sound           = 19,
     }
 
-    [Flags]
-    public enum IRVFlags
-    {
-        None        = 0x00000000,
-        Summon      = 0x00000001,
-        Charm       = 0x00000002,
-        Magic       = 0x00000004,
-        Weapon      = 0x00000008,
-        Bash        = 0x00000010,
-        Pierce      = 0x00000020,
-        Slash       = 0x00000040,
-        Fire        = 0x00000080,
-        Cold        = 0x00000100,
-        Lightning   = 0x00000200,
-        Acid        = 0x00000400,
-        Poison      = 0x00000800,
-        Negative    = 0x00001000,
-        Holy        = 0x00002000,
-        Energy      = 0x00004000,
-        Mental      = 0x00008000,
-        Disease     = 0x00010000,
-        Drowning    = 0x00020000,
-        Light       = 0x00040000,
-        Sound       = 0x00080000,
-        Wood        = 0x00100000,
-        Silver      = 0x00200000,
-        Iron        = 0x00400000,
-    }
+    //[Flags]
+    //public enum IRVFlags
+    //{
+    //    None        = 0x00000000,
+    //    Summon      = 0x00000001,
+    //    Charm       = 0x00000002,
+    //    Magic       = 0x00000004,
+    //    Weapon      = 0x00000008,
+    //    Bash        = 0x00000010,
+    //    Pierce      = 0x00000020,
+    //    Slash       = 0x00000040,
+    //    Fire        = 0x00000080,
+    //    Cold        = 0x00000100,
+    //    Lightning   = 0x00000200,
+    //    Acid        = 0x00000400,
+    //    Poison      = 0x00000800,
+    //    Negative    = 0x00001000,
+    //    Holy        = 0x00002000,
+    //    Energy      = 0x00004000,
+    //    Mental      = 0x00008000,
+    //    Disease     = 0x00010000,
+    //    Drowning    = 0x00020000,
+    //    Light       = 0x00040000,
+    //    Sound       = 0x00080000,
+    //    Wood        = 0x00100000,
+    //    Silver      = 0x00200000,
+    //    Iron        = 0x00400000,
+    //}
 
     public enum CharacterAttributes // Must starts at 0 and consecutive
     {

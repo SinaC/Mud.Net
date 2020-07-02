@@ -34,11 +34,11 @@ namespace Mud.Domain
 
         public ICharacterFlags CharacterFlags { get; set; }
 
-        public IRVFlags Immunities { get; set; }
+        public IIRVFlags Immunities { get; set; }
 
-        public IRVFlags Resistances { get; set; }
+        public IIRVFlags Resistances { get; set; }
 
-        public IRVFlags Vulnerabilities { get; set; }
+        public IIRVFlags Vulnerabilities { get; set; }
 
         public Dictionary<CharacterAttributes, int> Attributes { get; set; }
     }

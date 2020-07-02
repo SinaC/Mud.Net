@@ -23,7 +23,7 @@ namespace Mud.Server.Rom24.Spells
         {
             bool fail = true;
             int damage = 0;
-            if (!Victim.SavesSpell(Level + 2, SchoolTypes.Fire) && !Victim.Immunities.HasFlag(IRVFlags.Fire))
+            if (!Victim.SavesSpell(Level + 2, SchoolTypes.Fire) && !Victim.Immunities.IsSet("Fire"))
             {
                 bool recompute = false;
                 // Check equipments

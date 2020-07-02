@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Mud.DataStructures.Flags;
 using Mud.Logger;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
@@ -546,14 +545,14 @@ namespace Mud.Repository.Filesystem
             }
         }
 
-        private Mud.Domain.IRVFlags MapIRVFlags(int flags)
+        private IIRVFlags MapIRVFlags(string flags)
         {
-            return (Mud.Domain.IRVFlags)flags;
+            return new IRVFlags(flags);
         }
 
-        private int MapIRVFlags(Mud.Domain.IRVFlags flags)
+        private string MapIRVFlags(IIRVFlags flags)
         {
-            return (int)flags;
+            return flags.Map();
         }
 
         private IWeaponFlags MapWeaponFlags(string flags)

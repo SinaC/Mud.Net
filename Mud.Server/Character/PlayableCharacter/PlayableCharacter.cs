@@ -1108,7 +1108,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     {
                         if (npcFollower.CharacterFlags.IsSet("Charm") && npcFollower.Position < Positions.Standing)
                             ; // TODO: npcFollower.DoStand
-                        if (npcFollower.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.IsSet("Law"))
+                        if (npcFollower.ActFlags.IsSet("Aggressive") && toRoom.RoomFlags.IsSet("Law"))
                         {
                             npcFollower.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", npcFollower);
                             npcFollower.Send("You aren't allowed in the city.");
@@ -1255,7 +1255,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (levelDiff > 4)
                 baseExp = 160 + 20 * (levelDiff - 4);
             // do alignment computation
-            bool noAlign = victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.HasFlag(ActFlags.NoAlign);
+            bool noAlign = victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.IsSet("NoAlign");
             int alignDiff = victim.Alignment - Alignment;
             if (!noAlign)
             {

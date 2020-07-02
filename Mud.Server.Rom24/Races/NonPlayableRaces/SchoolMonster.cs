@@ -11,19 +11,19 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
         public override string Name => "school monster";
         public override Sizes Size => Sizes.Medium;
         public override ICharacterFlags CharacterFlags => new CharacterFlags();
-        public override IRVFlags Immunities => IRVFlags.Summon | IRVFlags.Charm;
-        public override IRVFlags Resistances => IRVFlags.None;
-        public override IRVFlags Vulnerabilities => IRVFlags.Magic;
+        public override IIRVFlags Immunities => new IRVFlags("Summon", "Charm");
+        public override IIRVFlags Resistances => new IRVFlags();
+        public override IIRVFlags Vulnerabilities => new IRVFlags("Magic");
         public override IEnumerable<EquipmentSlots> EquipmentSlots => new List<EquipmentSlots>
         {
             Domain.EquipmentSlots.Head,
             Domain.EquipmentSlots.Chest,
             Domain.EquipmentSlots.Float,
         };
-        public override BodyForms BodyForms => BodyForms.Edible | BodyForms.Biped | BodyForms.Animal | BodyForms.Mammal;
-        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Body | BodyParts.Legs | BodyParts.Heart | BodyParts.Brains | BodyParts.Guts | BodyParts.Feet | BodyParts.Ear | BodyParts.Eye | BodyParts.Tail | BodyParts.Claws;
-        public override ActFlags ActFlags => ActFlags.None;
-        public override OffensiveFlags OffensiveFlags => OffensiveFlags.None;
-        public override AssistFlags AssistFlags => AssistFlags.None;
+        public override IBodyForms BodyForms => new BodyForms("Edible", "Biped", "Animal", "Mammal");
+        public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Legs", "Heart", "Brains", "Guts", "Feet", "Ear", "Eye", "Tail", "Claws");
+        public override IActFlags ActFlags => new ActFlags();
+        public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
+        public override IAssistFlags AssistFlags => new AssistFlags();
     }
 }

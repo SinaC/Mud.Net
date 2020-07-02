@@ -35,11 +35,11 @@ namespace Mud.Server.Rom24.Spells
                 || Victim.Room == null
                 || Caster.Room.RoomFlags.HasAny("Safe", "NoRecall")
                 || Victim.Room.RoomFlags.HasAny("Safe", "Private", "Solitary", "NoRecall", "ImpOnly")
-                || (npcVictim != null && npcVictim.ActFlags.HasFlag(ActFlags.Aggressive))
+                || (npcVictim != null && npcVictim.ActFlags.IsSet("Aggressive"))
                 || Victim.Level >= Level + 3
                 || pcVictim?.IsImmortal == true
                 || Victim.Fighting != null
-                || (npcVictim != null && npcVictim.Immunities.HasFlag(IRVFlags.Summon))
+                || (npcVictim != null && npcVictim.Immunities.IsSet("Summon"))
                 || (npcVictim != null && (npcVictim.Blueprint is CharacterShopBlueprint))
                 //TODO: plr_nosummon || playableCharacterVictim
                 || (npcVictim != null && Victim.SavesSpell(Level, SchoolTypes.Other)))
