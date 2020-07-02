@@ -105,12 +105,12 @@ namespace Mud.Server.Rom24.Skills
                 Victim.Send("You can't see a thing!");
 
                 int damage = RandomManager.Range(2, 5);
-                Victim.AbilityDamage(User, damage, SchoolTypes.None, "kicked dirt", false);
+                DamageResults damageResults = Victim.AbilityDamage(User, damage, SchoolTypes.None, "kicked dirt", false);
                 // TODO check killer
-
-                AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(1)/*originally 0*/, AuraFlags.NoDispel, true,
-                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Blind"), Operator = AffectOperators.Or });
+                if (damageResults == DamageResults.Done)
+                    AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(1)/*originally 0*/, AuraFlags.NoDispel, true,
+                        new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
+                        new CharacterFlagsAffect { Modifier = new CharacterFlags("Blind"), Operator = AffectOperators.Or });
                 return true;
             }
             else

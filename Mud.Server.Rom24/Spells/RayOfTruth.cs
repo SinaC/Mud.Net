@@ -60,7 +60,7 @@ namespace Mud.Server.Rom24.Spells
 
             damage = (damage * alignment * alignment) / (1000 * 1000);
 
-            var damageResult = Victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "ray of truth", true);
+            DamageResults damageResult = Victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "ray of truth", true);
             if (damageResult == DamageResults.Done)
             {
                 BlindnessEffect effect = new BlindnessEffect(AuraManager);

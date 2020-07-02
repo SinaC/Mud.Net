@@ -47,7 +47,7 @@ namespace Mud.Server.Rom24.Spells
                         victim.Send("You are struck down!");
                         int damage = RandomManager.Dice(Level, 6);
                         var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
-                        if (damageResult != DamageResults.Killed)
+                        if (damageResult == DamageResults.Done)
                         {
                             CurseEffect curseEffect = new CurseEffect(AuraManager);
                             curseEffect.Apply(victim, Caster, Curse.SpellName, Level, 0);
@@ -61,7 +61,7 @@ namespace Mud.Server.Rom24.Spells
                             victim.Send("You are struck down!");
                             int damage = RandomManager.Dice(Level, 4);
                             var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
-                            if (damageResult != DamageResults.Killed)
+                            if (damageResult == DamageResults.Done)
                             {
                                 CurseEffect curseEffect = new CurseEffect(AuraManager);
                                 curseEffect.Apply(victim, Caster, Curse.SpellName, Level, 0);
