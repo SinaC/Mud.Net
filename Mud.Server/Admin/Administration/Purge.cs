@@ -68,7 +68,7 @@ namespace Mud.Server.Admin.Administration
             Target = FindHelpers.FindItemHere(Actor.Impersonating, actionInput.Parameters[0]);
             if (Target == null)
                 return StringHelpers.ItemNotFound;
-            if (((IItem) Target).ItemFlags.HasFlag(ItemFlags.NoPurge))
+            if (((IItem) Target).ItemFlags.IsSet("NoPurge"))
                 return "It can't be purged.";
 
             return null;
@@ -98,11 +98,11 @@ namespace Mud.Server.Admin.Administration
             Wiznet.Wiznet($"{Actor.DisplayName} purges room {room.Blueprint.Id}.", WiznetFlags.Punish);
 
             // Purge non playable characters (without NoPurge flag) (TODO: what if npc was wearing NoPurge items?)
-            IReadOnlyCollection<INonPlayableCharacter> nonPlayableCharacters = new ReadOnlyCollection<INonPlayableCharacter>(room.NonPlayableCharacters.Where(x => !x.ActFlags.HasFlag(ActFlags.NoPurge)).ToList()); // clone
+            IReadOnlyCollection<INonPlayableCharacter> nonPlayableCharacters = new ReadOnlyCollection<INonPlayableCharacter>(room.NonPlayableCharacters.Where(x => !x.ActFlags.IsSet("NoPurge")).ToList()); // clone
             foreach (INonPlayableCharacter nonPlayableCharacter in nonPlayableCharacters)
                 CharacterManager.RemoveCharacter(nonPlayableCharacter);
             // Purge items (without NoPurge flag)
-            IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(room.Content.Where(x => !x.ItemFlags.HasFlag(ItemFlags.NoPurge)).ToList()); // clone
+            IReadOnlyCollection<IItem> items = new ReadOnlyCollection<IItem>(room.Content.Where(x => !x.ItemFlags.IsSet("NoPurge")).ToList()); // clone
             foreach (IItem itemToPurge in items)
                 ItemManager.RemoveItem(itemToPurge);
             Impersonating.Act(ActOptions.ToRoom, "{0} purge{0:v} the room!", Actor.Impersonating);

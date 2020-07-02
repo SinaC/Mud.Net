@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Interfaces.Race
 {
@@ -10,20 +11,20 @@ namespace Mud.Server.Interfaces.Race
 
         Sizes Size { get; }
 
-        CharacterFlags CharacterFlags { get; }
+        ICharacterFlags CharacterFlags { get; }
 
-        IRVFlags Immunities { get; }
-        IRVFlags Resistances { get; }
-        IRVFlags Vulnerabilities { get; }
+        IIRVFlags Immunities { get; }
+        IIRVFlags Resistances { get; }
+        IIRVFlags Vulnerabilities { get; }
 
         IEnumerable<EquipmentSlots> EquipmentSlots { get; }
 
-        BodyForms BodyForms { get; }
-        BodyParts BodyParts { get; }
+        IBodyForms BodyForms { get; }
+        IBodyParts BodyParts { get; }
 
-        ActFlags ActFlags { get; }
-        OffensiveFlags OffensiveFlags { get; }
-        AssistFlags AssistFlags { get; }
+        IActFlags ActFlags { get; }
+        IOffensiveFlags OffensiveFlags { get; }
+        IAssistFlags AssistFlags { get; }
 
         // TODO: specific behaviour such as 120% xp for human, infrared for dwarf, ...
     }

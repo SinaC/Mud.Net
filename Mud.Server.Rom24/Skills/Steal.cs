@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Mud.Common;
+﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
@@ -10,7 +9,8 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
+using System.Linq;
 
 namespace Mud.Server.Rom24.Skills
 {
@@ -76,8 +76,7 @@ namespace Mud.Server.Rom24.Skills
             What = FindHelpers.FindByName(Victim.Inventory.Concat(Victim.Equipments.Where(x => x.Item != null).Select(x => x.Item)), whatParameter);
             if (What == null)
                 return "You can't find it.";
-            if (What.ItemFlags.HasFlag(ItemFlags.NoDrop)
-                || What.ItemFlags.HasFlag(ItemFlags.Inventory)
+            if (What.ItemFlags.HasAny("NoDrop", "Inventory")
                 || What.Level > Actor.Level)
                 return "You can't pry it away.";
             if (Actor.CarryNumber + What.CarryCount > Actor.MaxCarryNumber)

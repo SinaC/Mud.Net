@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -43,7 +44,7 @@ namespace Mud.Server.Rom24.Affects
             // spread
             if (character.Room != null)
             {
-                foreach (ICharacter victim in character.Room.People.Where(x => !x.CharacterFlags.HasFlag(CharacterFlags.Plague)))
+                foreach (ICharacter victim in character.Room.People.Where(x => !x.CharacterFlags.IsSet("Plague")))
                 {
                     if (!victim.SavesSpell(aura.Level - 2, SchoolTypes.Disease)
                         && RandomManager.Chance(6))
@@ -53,7 +54,7 @@ namespace Mud.Server.Rom24.Affects
                         int duration = RandomManager.Range(1, 2 * aura.Level);
                         AuraManager.AddAura(victim, aura.AbilityName, character, aura.Level - 1, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                             new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add},
-                            new CharacterFlagsAffect {Modifier = CharacterFlags.Plague, Operator = AffectOperators.Or},
+                            new CharacterFlagsAffect {Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or},
                             new PlagueSpreadAndDamageAffect(RandomManager, AuraManager));
                     }
                 }

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using Mud.Common;
+﻿using Mud.Common;
 using Mud.Container;
+using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Actor;
@@ -19,7 +13,14 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Text;
 
 namespace Mud.Server.Entity
 {
@@ -215,7 +216,6 @@ namespace Mud.Server.Entity
             }
         }
 
-
         // Overriden in inherited class
         public virtual void OnRemoved() // called before removing an item from the game
         {
@@ -230,6 +230,18 @@ namespace Mud.Server.Entity
         }
 
         #endregion
+
+        protected TFlags NewAndCopyAndSet<TFlags, TFlagValues>(Func<TFlags> newFunc, TFlags toCopy, TFlags toSet)
+            where TFlags : IFlags<string, TFlagValues>
+            where TFlagValues: IFlagValues<string>
+        {
+            TFlags newValue = newFunc();
+            if (toCopy != null)
+                newValue.Copy(toCopy);
+            if (toSet != null)
+                newValue.Set(toSet);
+            return newValue;
+        }
 
         protected AuraData[] MapAuraData()
         {

@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using System;
 using Mud.Server.Ability;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Abilities
 {
@@ -36,8 +37,9 @@ namespace Mud.Server.Abilities
 
             // Immune to all damages
             AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(1), AuraFlags.NoDispel, true,
-                new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = IRVFlags.Magic, Operator = AffectOperators.Or },
-                new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = IRVFlags.Weapon, Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Pouet")},
+                new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags("Magic"), Operator = AffectOperators.Or },
+                new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags("Weapon"), Operator = AffectOperators.Or });
         }
 
         protected override void Invoke(IItem item)
@@ -51,7 +53,7 @@ namespace Mud.Server.Abilities
             if (item is IItemWeapon itemWeapon)
             {
                 AuraManager.AddAura(itemWeapon, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
-                    new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Flaming | WeaponFlags.Frost | WeaponFlags.Vampiric | WeaponFlags.Sharp | WeaponFlags.Vorpal | WeaponFlags.Shocking | WeaponFlags.Poison | WeaponFlags.Holy });
+                    new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Flaming", "Frost", "Vampiric", "Sharp", "Vorpal", "Shocking", "Poison", "Holy") });
             }
         }
     }
@@ -79,7 +81,7 @@ namespace Mud.Server.Abilities
                 INonPlayableCharacter construct = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
                 pcCaster.AddPet(construct);
                 AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                    new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Charm"), Operator = AffectOperators.Or });
             }
         }
     }

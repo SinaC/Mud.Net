@@ -88,6 +88,10 @@
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5B52488B-2CBE-4FC7-9004-E0C23E97907F}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01D3F406-AEDA-4C60-951A-6B1133AEC859}</Project>
       <Name>Mud.Server.Interfaces</Name>

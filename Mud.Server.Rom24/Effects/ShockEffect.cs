@@ -60,7 +60,7 @@ namespace Mud.Server.Rom24.Effects
                 chance = (chance - 25) / 2 + 25;
             if (chance > 50)
                 chance = (chance - 50) / 2 + 50;
-            if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+            if (item.ItemFlags.IsSet("Bless"))
                 chance -= 5;
             chance -= item.Level * 2;
             chance = chance.Range(5, 95);

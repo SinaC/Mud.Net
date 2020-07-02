@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Character;
 
@@ -11,8 +12,8 @@ namespace Mud.Server.Interfaces.Item
         int DiceValue { get; }
         SchoolTypes DamageType { get; }
 
-        WeaponFlags BaseWeaponFlags { get; }
-        WeaponFlags WeaponFlags { get; }
+        IWeaponFlags BaseWeaponFlags { get; }
+        IWeaponFlags WeaponFlags { get; }
 
         string DamageNoun { get; }
 

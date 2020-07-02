@@ -42,7 +42,7 @@ namespace Mud.Server.Character.PlayableCharacter.Ability
             }
 
             // practice
-            INonPlayableCharacter practicer = Actor.Room.NonPlayableCharacters.FirstOrDefault(x => Actor.CanSee(x) && x.ActFlags.HasFlag(ActFlags.Practice));
+            INonPlayableCharacter practicer = Actor.Room.NonPlayableCharacters.FirstOrDefault(x => Actor.CanSee(x) && x.ActFlags.IsSet("Practice"));
             if (practicer == null)
                 return "You can't do that here.";
             if (Actor.Practices < 0)

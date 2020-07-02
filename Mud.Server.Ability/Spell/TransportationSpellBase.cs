@@ -46,17 +46,12 @@ namespace Mud.Server.Ability.Spell
             if (Victim == Caster
                 || Victim.Room == null
                 || !Caster.CanSee(Victim.Room)
-                || Caster.Room.RoomFlags.HasFlag(RoomFlags.Safe)
-                || Caster.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.Safe)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.Private)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.Solitary)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.ImpOnly)
+                || Caster.Room.RoomFlags.HasAny("Safe", "NoRecall")
+                || Victim.Room.RoomFlags.HasAny("Safe", "Private", "Solitary", "NoRecall", "ImpOnly")
                 || Victim.Level >= Level + 3
                 // TODO: clan check
                 // TODO: hero level check 
-                || (npcVictim != null && npcVictim.Immunities.HasFlag(IRVFlags.Summon))
+                || (npcVictim != null && npcVictim.Immunities.IsSet("Summon"))
                 || (npcVictim != null && Victim.SavesSpell(Level, SchoolTypes.Other)))
                 return false;
             return true;

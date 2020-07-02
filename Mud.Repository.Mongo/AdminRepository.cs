@@ -3,7 +3,7 @@ using System.Linq;
 using AutoMapper;
 using MongoDB.Driver;
 using Mud.Repository.Mongo.Common;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Repository.Mongo
 {

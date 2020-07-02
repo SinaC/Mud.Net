@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -30,9 +31,9 @@ namespace Mud.Server.Rom24.Spells
             new IAffect[]
             {
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -Level/5, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlags.Weaken, Operator = AffectOperators.Or }
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Weaken"), Operator = AffectOperators.Or }
             });
 
-        protected override bool CanAffect => base.CanAffect && !Victim.CharacterFlags.HasFlag(CharacterFlags.Weaken);
+        protected override bool CanAffect => base.CanAffect && !Victim.CharacterFlags.IsSet("Weaken");
     }
 }

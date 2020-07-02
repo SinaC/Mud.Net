@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Repository.Mongo.Common
 {

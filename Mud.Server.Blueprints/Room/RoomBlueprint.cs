@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Reset;
+using Mud.Server.Flags.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -25,7 +26,7 @@ namespace Mud.Server.Blueprints.Room
         public Lookup<string, string> ExtraDescriptions { get; set; } // keyword -> descriptions
 
         [DataMember]
-        public RoomFlags RoomFlags { get; set; } = RoomFlags.None;
+        public IRoomFlags RoomFlags { get; set; }
 
         [DataMember]
         public SectorTypes SectorType { get; set; } = SectorTypes.City;

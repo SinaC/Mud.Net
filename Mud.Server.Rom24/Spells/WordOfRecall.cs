@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
@@ -48,7 +47,7 @@ namespace Mud.Server.Rom24.Spells
             foreach (INonPlayableCharacter pet in Victim.Pets)
             {
                 // no recursive call because Spell has been coded for IPlayableCharacter
-                if (pet.CharacterFlags.HasFlag(CharacterFlags.Curse))
+                if (pet.CharacterFlags.IsSet("Curse"))
                     continue; // pet failing doesn't impact return value
                 if (pet.Fighting != null)
                 {
@@ -80,8 +79,8 @@ namespace Mud.Server.Rom24.Spells
             Victim = victim as IPlayableCharacter;
             if (Victim == null)
                 return "Spell failed.";
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Curse)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
+            if (Victim.CharacterFlags.IsSet("Curse")
+                || Victim.Room.RoomFlags.IsSet("NoRecall"))
                 return "Spell failed.";
             // victim found, is PC and is not affected by Curse or in NoRecall room
             return null;

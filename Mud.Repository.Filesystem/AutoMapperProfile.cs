@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using Mud.Logger;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Repository.Filesystem
 {
@@ -405,14 +407,14 @@ namespace Mud.Repository.Filesystem
             }
         }
 
-        private Mud.Domain.ItemFlags MapItemFlags(int flags)
+        private IItemFlags MapItemFlags(string flags)
         {
-            return (Mud.Domain.ItemFlags)flags;
+            return new ItemFlags(flags);
         }
 
-        private int MapItemFlags(Mud.Domain.ItemFlags flags)
+        private string MapItemFlags(IItemFlags flags)
         {
-            return (int)flags;
+            return flags?.Map();
         }
 
         private Mud.Domain.AuraFlags MapAuraFlags(int flags)
@@ -515,16 +517,6 @@ namespace Mud.Repository.Filesystem
             }
         }
 
-        private Mud.Domain.CharacterFlags MapCharacterFlags(int flags)
-        {
-            return (Mud.Domain.CharacterFlags)flags;
-        }
-
-        private int MapCharacterFlags(Mud.Domain.CharacterFlags flags)
-        {
-            return (int)flags;
-        }
-
         private Mud.Domain.IRVAffectLocations MapIRVAffectLocations(int location)
         {
             switch (location)
@@ -553,24 +545,24 @@ namespace Mud.Repository.Filesystem
             }
         }
 
-        private Mud.Domain.IRVFlags MapIRVFlags(int flags)
+        private IIRVFlags MapIRVFlags(string flags)
         {
-            return (Mud.Domain.IRVFlags)flags;
+            return new IRVFlags(flags);
         }
 
-        private int MapIRVFlags(Mud.Domain.IRVFlags flags)
+        private string MapIRVFlags(IIRVFlags flags)
         {
-            return (int)flags;
+            return flags.Map();
         }
 
-        private Mud.Domain.WeaponFlags MapWeaponFlags(int flags)
+        private IWeaponFlags MapWeaponFlags(string flags)
         {
-            return (Mud.Domain.WeaponFlags)flags;
+            return new WeaponFlags(flags);
         }
 
-        private int MapWeaponFlags(Mud.Domain.WeaponFlags flags)
+        private string MapWeaponFlags(IWeaponFlags flags)
         {
-            return (int)flags;
+            return flags?.Map();
         }
 
         private Mud.Domain.CharacterAttributes MapCharacterAttributes(int attr)
@@ -786,6 +778,16 @@ namespace Mud.Repository.Filesystem
         private int MapAutoFlags(Mud.Domain.AutoFlags flags)
         {
             return (int)flags;
+        }
+
+        private ICharacterFlags MapCharacterFlags(string flags)
+        {
+            return new CharacterFlags(flags);
+        }
+
+        private string MapCharacterFlags(ICharacterFlags flags)
+        {
+            return flags?.Map();
         }
     }
 }

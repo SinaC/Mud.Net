@@ -10,6 +10,8 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Ability;
@@ -38,21 +40,21 @@ namespace Mud.Server.Character.NonPlayableCharacter
             Race = RaceManager[blueprint.Race];
             if (Race == null && !string.IsNullOrWhiteSpace(blueprint.Race))
                 Log.Default.WriteLine(LogLevels.Warning, "Unknown race '{0}' for npc {1}", blueprint.Race, blueprint.Id);
-            BaseBodyForms = Blueprint.BodyForms | (Race?.BodyForms ?? BodyForms.None);
-            BaseBodyParts = blueprint.BodyParts | (Race?.BodyParts ?? BodyParts.None);
             Class = ClassManager[blueprint.Class];
             DamageNoun = blueprint.DamageNoun;
             DamageType = blueprint.DamageType;
             DamageDiceCount = blueprint.DamageDiceCount;
             DamageDiceValue = blueprint.DamageDiceValue;
             DamageDiceBonus = blueprint.DamageDiceBonus;
-            ActFlags = blueprint.ActFlags | (Race?.ActFlags ?? ActFlags.None);
-            OffensiveFlags = blueprint.OffensiveFlags | (Race?.OffensiveFlags ?? OffensiveFlags.None);
-            AssistFlags = blueprint.AssistFlags | (Race?.AssistFlags ?? AssistFlags.None);
-            BaseCharacterFlags = blueprint.CharacterFlags | (Race?.CharacterFlags ?? CharacterFlags.None);
-            BaseImmunities = blueprint.Immunities | (Race?.Immunities ?? IRVFlags.None);
-            BaseResistances = blueprint.Resistances | (Race?.Resistances ?? IRVFlags.None);
-            BaseVulnerabilities = blueprint.Vulnerabilities | (Race?.Vulnerabilities ?? IRVFlags.None);
+            ActFlags = NewAndCopyAndSet<IActFlags, IActFlagValues>(() => new ActFlags(), blueprint.ActFlags, Race?.ActFlags);
+            OffensiveFlags = NewAndCopyAndSet<IOffensiveFlags, IOffensiveFlagValues>(() => new OffensiveFlags(), blueprint.OffensiveFlags, Race?.OffensiveFlags);
+            AssistFlags = NewAndCopyAndSet<IAssistFlags, IAssistFlagValues>(() => new AssistFlags(), blueprint.AssistFlags, Race?.AssistFlags);
+            BaseBodyForms = NewAndCopyAndSet<IBodyForms, IBodyFormValues>(() => new BodyForms(), Blueprint.BodyForms, Race?.BodyForms);
+            BaseBodyParts = NewAndCopyAndSet<IBodyParts, IBodyPartValues>(() => new BodyParts(), Blueprint.BodyParts, Race?.BodyParts);
+            BaseCharacterFlags = NewAndCopyAndSet<ICharacterFlags, ICharacterFlagValues>(() => new CharacterFlags(), blueprint.CharacterFlags, Race?.CharacterFlags);
+            BaseImmunities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(), blueprint.Immunities, Race?.Immunities);
+            BaseResistances = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(), blueprint.Resistances, Race?.Resistances);
+            BaseVulnerabilities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(), blueprint.Vulnerabilities, Race?.Vulnerabilities);
             BaseSex = blueprint.Sex;
             BaseSize = blueprint.Size;
             Alignment = blueprint.Alignment.Range(-1000, 1000);
@@ -270,11 +272,11 @@ namespace Mud.Server.Character.NonPlayableCharacter
 
         #endregion
 
-        public override int MaxCarryWeight => ActFlags.HasFlag(ActFlags.Pet)
+        public override int MaxCarryWeight => ActFlags.IsSet("Pet")
             ? 0
             : base.MaxCarryWeight;
 
-        public override int MaxCarryNumber => ActFlags.HasFlag(ActFlags.Pet)
+        public override int MaxCarryNumber => ActFlags.IsSet("Pet")
             ? 0
             : base.MaxCarryNumber;
 
@@ -304,7 +306,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             if (multiHitModifier?.MaxAttackCount <= 1)
                 return;
             // area attack
-            if (OffensiveFlags.HasFlag(OffensiveFlags.AreaAttack))
+            if (OffensiveFlags.IsSet("AreaAttack"))
             {
                 IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Room.People.Where(x => x != this && x.Fighting == this).ToList());
                 foreach (ICharacter character in clone)
@@ -319,8 +321,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
             if (multiHitModifier?.MaxAttackCount <= 2)
                 return;
             // main hand haste attack
-            if ((CharacterFlags.HasFlag(CharacterFlags.Haste) || OffensiveFlags.HasFlag(OffensiveFlags.Fast))
-                && !CharacterFlags.HasFlag(CharacterFlags.Slow))
+            if ((CharacterFlags.IsSet("Haste") || OffensiveFlags.IsSet("Fast"))
+                && !CharacterFlags.IsSet("Slow"))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -370,34 +372,33 @@ namespace Mud.Server.Character.NonPlayableCharacter
             int number = 0;//int number = RandomManager.Range(0, 8);
             switch (number)
             {
-                case 0: if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
+                case 0: if (OffensiveFlags.IsSet("Bash"))
                         UseSkill("Bash", CommandHelpers.NoParameters);
                     break;
-                case 1: if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk) && !CharacterFlags.HasFlag(CharacterFlags.Berserk))
+                case 1: if (OffensiveFlags.IsSet("Berserk") && !CharacterFlags.IsSet("Berserk"))
                         UseSkill("Berserk", CommandHelpers.NoParameters);
                     break;
-                case 2: if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)
-                        || ActFlags.HasFlag(ActFlags.Warrior) // TODO: check if weapon skill is not hand to hand
-                        || ActFlags.HasFlag(ActFlags.Thief))
+                case 2: if (OffensiveFlags.IsSet("Disarm")
+                        || ActFlags.HasAny("Warrior", "Thief")) // TODO: check if weapon skill is not hand to hand
                         UseSkill("Disarm", CommandHelpers.NoParameters);
                     break;
-                case 3: if (OffensiveFlags.HasFlag(OffensiveFlags.Kick))
+                case 3: if (OffensiveFlags.IsSet("Kick"))
                         UseSkill("Kick", CommandHelpers.NoParameters);
                     break;
-                case 4: if (OffensiveFlags.HasFlag(OffensiveFlags.DirtKick))
+                case 4: if (OffensiveFlags.IsSet("DirtKick"))
                         UseSkill("Dirt Kicking", CommandHelpers.NoParameters);
                     break;
-                case 5: if (OffensiveFlags.HasFlag(OffensiveFlags.Tail))
+                case 5: if (OffensiveFlags.IsSet("Tail"))
                         ; // TODO: see raceabilities.C:639
                     break;
-                case 6: if (OffensiveFlags.HasFlag(OffensiveFlags.Trip))
+                case 6: if (OffensiveFlags.IsSet("Trip"))
                         UseSkill("Trip", CommandHelpers.NoParameters);
                     break;
-                case 7: if (OffensiveFlags.HasFlag(OffensiveFlags.Crush))
+                case 7: if (OffensiveFlags.IsSet("Crush"))
                         ; // TODO: see raceabilities.C:525
                     break;
                 case 8:
-                    if (OffensiveFlags.HasFlag(OffensiveFlags.Backstab))
+                    if (OffensiveFlags.IsSet("Backstab"))
                         UseSkill("Backstab", CommandHelpers.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
                     break;
             }
@@ -418,11 +419,11 @@ namespace Mud.Server.Character.NonPlayableCharacter
         public int DamageDiceValue { get; protected set; }
         public int DamageDiceBonus { get; protected set; }
 
-        public ActFlags ActFlags { get; protected set; }
+        public IActFlags ActFlags { get; protected set; }
 
-        public OffensiveFlags OffensiveFlags { get; protected set; }
+        public IOffensiveFlags OffensiveFlags { get; protected set; }
 
-        public AssistFlags AssistFlags { get; protected set; }
+        public IAssistFlags AssistFlags { get; protected set; }
 
         public bool IsQuestObjective(IPlayableCharacter questingCharacter)
         {
@@ -528,52 +529,50 @@ namespace Mud.Server.Character.NonPlayableCharacter
                     learned = 20 + 2 * Level;
                     break;
                 case "Dodge":
-                    if (OffensiveFlags.HasFlag(OffensiveFlags.Dodge))
+                    if (OffensiveFlags.IsSet("Dodge"))
                         learned = 2 * Level;
                     break;
                 case "Parry":
-                    if (OffensiveFlags.HasFlag(OffensiveFlags.Parry))
+                    if (OffensiveFlags.IsSet("Parry"))
                         learned = 2 * Level;
                     break;
                 case "Shield block":
                     learned = 10 + 2 * Level;
                     break;
                 case "Second attack":
-                    if (ActFlags.HasFlag(ActFlags.Warrior)
-                        || ActFlags.HasFlag(ActFlags.Thief))
+                    if (ActFlags.HasAny("Warrior", "Thief"))
                         learned = 10 + 3 * Level;
                     break;
                 case "Third attack":
-                    if (ActFlags.HasFlag(ActFlags.Warrior))
+                    if (ActFlags.IsSet("Warrior"))
                         learned = 4 * Level - 40;
                     break;
                 case "Hand to hand":
                     learned = 40 + 2 * Level;
                     break;
                 case "Trip":
-                    if (OffensiveFlags.HasFlag(OffensiveFlags.Trip))
+                    if (OffensiveFlags.IsSet("Trip"))
                         learned = 10 + 3 * Level;
                     break;
                 case "Bash":
-                    if (OffensiveFlags.HasFlag(OffensiveFlags.Bash))
+                    if (OffensiveFlags.IsSet("Bash"))
                         learned = 10 + 3 * Level;
                     break;
                 case "Disarm":
-                    if (OffensiveFlags.HasFlag(OffensiveFlags.Disarm)
-                        || ActFlags.HasFlag(ActFlags.Warrior)
-                        || ActFlags.HasFlag(ActFlags.Thief))
+                    if (OffensiveFlags.IsSet("Disarm")
+                        || ActFlags.HasAny("Warrior", "Thief"))
                         learned = 20 + 3 * Level;
                     break;
                 case "Berserk":
-                    if (OffensiveFlags.HasFlag(OffensiveFlags.Berserk))
+                    if (OffensiveFlags.IsSet("Berserk"))
                         learned = 3 * Level;
                     break;
                 case "Kick":
-                    if (OffensiveFlags.HasFlag(OffensiveFlags.Kick))
+                    if (OffensiveFlags.IsSet("Kick"))
                         learned = 10 + 3 * Level;
                     break;
                 case "Backstab":
-                    if (ActFlags.HasFlag(ActFlags.Thief))
+                    if (ActFlags.IsSet("Thief"))
                         learned = 20 + 2 * Level;
                     break;
                 case "Rescue":
@@ -611,7 +610,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             int moveGain = Level;
             int manaGain = 5 + Level;
             int psyGain = 5 + Level;
-            if (CharacterFlags.HasFlag(CharacterFlags.Regeneration))
+            if (CharacterFlags.IsSet("Regeneration"))
                 hitGain *= 2;
             switch (Position)
             {
@@ -666,8 +665,8 @@ namespace Mud.Server.Character.NonPlayableCharacter
         {
             if (damage > 0) // TODO add test on wait < PULSE_VIOLENCE / 2
             {
-                if ((ActFlags.HasFlag(ActFlags.Wimpy) && HitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
-                    || (CharacterFlags.HasFlag(CharacterFlags.Charm) && Master != null && Master.Room != Room))
+                if ((ActFlags.IsSet("Wimpy") && HitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
+                    || (CharacterFlags.IsSet("Charm") && Master != null && Master.Room != Room))
                     Flee();
             }
         }
@@ -680,13 +679,13 @@ namespace Mud.Server.Character.NonPlayableCharacter
             int thac0_00 = 20;
             int thac0_32 = -4; // as good as thief
 
-            if (ActFlags.HasFlag(ActFlags.Warrior))
+            if (ActFlags.IsSet("Warrior"))
                 thac0_32 = -10;
-            else if (ActFlags.HasFlag(ActFlags.Thief))
+            else if (ActFlags.IsSet("Thief"))
                 thac0_32 = -4;
-            else if (ActFlags.HasFlag(ActFlags.Cleric))
+            else if (ActFlags.IsSet("Cleric"))
                 thac0_32 = 2;
-            else if (ActFlags.HasFlag(ActFlags.Mage))
+            else if (ActFlags.IsSet("Mage"))
                 thac0_32 = 6;
 
             return (thac0_00, thac0_32);

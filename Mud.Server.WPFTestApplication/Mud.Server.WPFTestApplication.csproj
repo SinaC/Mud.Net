@@ -166,6 +166,10 @@
       <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
       <Name>Mud.Container</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
+      <Name>Mud.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
       <Name>Mud.Domain</Name>
@@ -182,9 +186,9 @@
       <Project>{724EAACF-1475-4F47-8109-4C9EBE6A72DA}</Project>
       <Name>Mud.Network.Telnet</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
+    <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj">
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
-      <Name>Mud.Network</Name>
+      <Name>Mud.Network.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj">
       <Project>{520950bd-51eb-4c0e-aea4-a6cec62b23fc}</Project>
@@ -218,6 +222,14 @@
       <Project>{AF96073C-D599-4604-8E8F-60B8BE186745}</Project>
       <Name>Mud.Server.Effects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5B52488B-2CBE-4FC7-9004-E0C23E97907F}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
+      <Project>{17B2B5F8-66C4-4E77-B910-C41C0539F436}</Project>
+      <Name>Mud.Server.Flags</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
       <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
       <Name>Mud.Server.GameAction</Name>
@@ -246,9 +258,9 @@
       <Project>{4ded3775-6a0b-4d42-b799-9bebc13f507a}</Project>
       <Name>Mud.Settings.ConfigurationManager</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
-      <Name>Mud.Settings</Name>
+      <Name>Mud.Settings.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

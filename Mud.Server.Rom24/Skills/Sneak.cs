@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -33,7 +34,7 @@ namespace Mud.Server.Rom24.Skills
             User.Send("You attempt to move silently.");
             User.RemoveAuras(x => x.AbilityName == SkillName, true);
 
-            if (User.CharacterFlags.HasFlag(CharacterFlags.Sneak))
+            if (User.CharacterFlags.IsSet("Sneak"))
                 return string.Empty;
 
             return null;
@@ -44,7 +45,7 @@ namespace Mud.Server.Rom24.Skills
             if (RandomManager.Chance(Learned))
             {
                 AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(User.Level), AuraFlags.None, true,
-                    new CharacterFlagsAffect { Modifier = CharacterFlags.Sneak, Operator = AffectOperators.Or });
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Sneak"), Operator = AffectOperators.Or });
                 return true;
             }
 

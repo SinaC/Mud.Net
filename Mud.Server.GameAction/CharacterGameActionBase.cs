@@ -15,9 +15,9 @@ namespace Mud.Server.GameAction
                 return baseGuards;
 
             // When hiding, anything will break it
-            if (Actor.CharacterFlags.HasFlag(CharacterFlags.Hide))
+            if (Actor.CharacterFlags.IsSet("Hide"))
             {
-                Actor.RemoveBaseCharacterFlags(CharacterFlags.Hide);
+                Actor.RemoveBaseCharacterFlags(false, "Hide");
                 Actor.Recompute();
             }
 

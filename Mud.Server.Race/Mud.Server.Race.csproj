@@ -45,6 +45,10 @@
       <Project>{fa516a9e-ea0b-4f74-a5aa-23de3d109adc}</Project>
       <Name>Mud.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
+      <Name>Mud.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
       <Name>Mud.Domain</Name>
@@ -56,6 +60,10 @@
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj">
       <Project>{32f89f23-5d70-4e01-93a1-39ef67edbac3}</Project>
       <Name>Mud.Server.Ability</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5b52488b-2cbe-4fc7-9004-e0c23e97907f}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
       <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>

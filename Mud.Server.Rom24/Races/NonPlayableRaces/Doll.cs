@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Race;
+
 
 namespace Mud.Server.Rom24.Races.NonPlayableRaces
 {
@@ -8,10 +11,10 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
     {
         public override string Name => "doll";
         public override Sizes Size => Sizes.Medium;
-        public override CharacterFlags CharacterFlags => CharacterFlags.None;
-        public override IRVFlags Immunities => IRVFlags.Cold | IRVFlags.Poison | IRVFlags.Negative | IRVFlags.Holy | IRVFlags.Mental | IRVFlags.Disease | IRVFlags.Drowning;
-        public override IRVFlags Resistances => IRVFlags.Bash | IRVFlags.Light;
-        public override IRVFlags Vulnerabilities => IRVFlags.Slash | IRVFlags.Fire | IRVFlags.Lightning | IRVFlags.Acid | IRVFlags.Energy;
+        public override ICharacterFlags CharacterFlags => new CharacterFlags();
+        public override IIRVFlags Immunities => new IRVFlags("Cold", "Poison", "Negative", "Holy", "Mental", "Disease", "Drowning");
+        public override IIRVFlags Resistances => new IRVFlags("Bash", "Light");
+        public override IIRVFlags Vulnerabilities => new IRVFlags("Slash", "Fire", "Lightning", "Acid", "Energy");
         public override IEnumerable<EquipmentSlots> EquipmentSlots => new List<EquipmentSlots>
         {
             Domain.EquipmentSlots.Light,
@@ -33,10 +36,10 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
             Domain.EquipmentSlots.OffHand,
             Domain.EquipmentSlots.Float,
         };
-        public override BodyForms BodyForms => BodyForms.Other| BodyForms.Construct | BodyForms.Biped | BodyForms.ColdBlood;
-        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Body | BodyParts.Arms | BodyParts.Legs | BodyParts.Hands | BodyParts.Feet | BodyParts.Eye | BodyParts.Fingers | BodyParts.Ear;
-        public override ActFlags ActFlags => ActFlags.None;
-        public override OffensiveFlags OffensiveFlags => OffensiveFlags.Fast | OffensiveFlags.Bite;
-        public override AssistFlags AssistFlags => AssistFlags.None;
+        public override IBodyForms BodyForms => new BodyForms("Other", "Construct", "Biped", "ColdBlood");
+        public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Arms", "Legs", "Hands", "Feet", "Eye", "Fingers", "Ear");
+        public override IActFlags ActFlags => new ActFlags();
+        public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Fast", "Bite");
+        public override IAssistFlags AssistFlags => new AssistFlags();
     }
 }

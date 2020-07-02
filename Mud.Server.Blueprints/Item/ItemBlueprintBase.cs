@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Runtime.Serialization;
 using Mud.Domain;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Blueprints.Item
 {
@@ -52,7 +53,7 @@ namespace Mud.Server.Blueprints.Item
         public WearLocations WearLocation { get; set; }
 
         [DataMember]
-        public ItemFlags ItemFlags { get; set; }
+        public IItemFlags ItemFlags { get; set; }
 
         public static Lookup<string,string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
         {

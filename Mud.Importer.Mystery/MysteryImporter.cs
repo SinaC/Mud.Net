@@ -5,6 +5,8 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -206,23 +208,23 @@ namespace Mud.Importer.Mystery
             }
         }
 
-        private RoomFlags ConvertRoomFlags(long input)
+        private IRoomFlags ConvertRoomFlags(long input)
         {
-            RoomFlags flags = RoomFlags.None;
-            if (IsSet(input, ROOM_DARK)) flags |= RoomFlags.Dark;
-            if (IsSet(input, ROOM_NO_MOB)) flags |= RoomFlags.NoMob;
-            if (IsSet(input, ROOM_INDOORS)) flags |= RoomFlags.Indoors;
-            if (IsSet(input, ROOM_PRIVATE)) flags |= RoomFlags.Private;
-            if (IsSet(input, ROOM_SAFE)) flags |= RoomFlags.Safe;
-            if (IsSet(input, ROOM_SOLITARY)) flags |= RoomFlags.Solitary;
+            IRoomFlags flags = new RoomFlags();
+            if (IsSet(input, ROOM_DARK)) flags.Set("Dark");
+            if (IsSet(input, ROOM_NO_MOB)) flags.Set("NoMob");
+            if (IsSet(input, ROOM_INDOORS)) flags.Set("Indoors");
+            if (IsSet(input, ROOM_PRIVATE)) flags.Set("Private");
+            if (IsSet(input, ROOM_SAFE)) flags.Set("Safe");
+            if (IsSet(input, ROOM_SOLITARY)) flags.Set("Solitary");
             //TODO: ROOM_PET_SHOP
-            if (IsSet(input, ROOM_NO_RECALL)) flags |= RoomFlags.NoRecall;
-            if (IsSet(input, ROOM_IMP_ONLY)) flags |= RoomFlags.ImpOnly;
-            if (IsSet(input, ROOM_GODS_ONLY)) flags |= RoomFlags.GodsOnly;
+            if (IsSet(input, ROOM_NO_RECALL)) flags.Set("NoRecall");
+            if (IsSet(input, ROOM_IMP_ONLY)) flags.Set("ImpOnly");
+            if (IsSet(input, ROOM_GODS_ONLY)) flags.Set("GodsOnly");
             //TODO: ROOM_HEROES_ONLY
-            if (IsSet(input, ROOM_NEWBIES_ONLY)) flags |= RoomFlags.NewbiesOnly;
-            if (IsSet(input, ROOM_LAW)) flags |= RoomFlags.Law;
-            if (IsSet(input, ROOM_NOWHERE)) flags |= RoomFlags.NoWhere;
+            if (IsSet(input, ROOM_NEWBIES_ONLY)) flags.Set("NewbiesOnly");
+            if (IsSet(input, ROOM_LAW)) flags.Set("Law");
+            if (IsSet(input, ROOM_NOWHERE)) flags.Set("NoWhere");
 
             return flags;
         }
@@ -527,7 +529,7 @@ namespace Mud.Importer.Mystery
                         AlreadyRecharged = System.Convert.ToInt32(objectData.Values[1]) == 0
                     };
                 case "weapon":
-                    (SchoolTypes damageType, WeaponFlags weaponFlags, string damageNoun) weaponInfo = ConvertWeaponDamageTypeFlagsAndNoun(objectData);
+                    (SchoolTypes damageType, IWeaponFlags weaponFlags, string damageNoun) weaponInfo = ConvertWeaponDamageTypeFlagsAndNoun(objectData);
                     return new ItemWeaponBlueprint
                     {
                         Id = objectData.VNum,
@@ -971,35 +973,35 @@ namespace Mud.Importer.Mystery
             return WearLocations.None;
         }
 
-        private ItemFlags ConvertExtraFlags(ObjectData objectData)
+        private IItemFlags ConvertExtraFlags(ObjectData objectData)
         {
-            ItemFlags itemFlags = ItemFlags.None;
+            IItemFlags itemFlags = new ItemFlags();
 
-            if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) itemFlags |= ItemFlags.Glowing;
-            if (IsSet(objectData.ExtraFlags, ITEM_HUM)) itemFlags |= ItemFlags.Humming;
-            if (IsSet(objectData.ExtraFlags, ITEM_DARK)) itemFlags |= ItemFlags.Dark;
-            //STAY_DEATH if (IsSet(objectData.ExtraFlags, ITEM_LOCK)) itemFlags |= ItemFlags.Lock;
-            if (IsSet(objectData.ExtraFlags, ITEM_EVIL)) itemFlags |= ItemFlags.Evil;
-            if (IsSet(objectData.ExtraFlags, ITEM_INVIS)) itemFlags |= ItemFlags.Invis;
-            if (IsSet(objectData.ExtraFlags, ITEM_MAGIC)) itemFlags |= ItemFlags.Magic;
-            if (IsSet(objectData.ExtraFlags, ITEM_NODROP)) itemFlags |= ItemFlags.NoDrop;
-            if (IsSet(objectData.ExtraFlags, ITEM_BLESS)) itemFlags |= ItemFlags.Bless;
-            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_GOOD)) itemFlags |= ItemFlags.AntiGood;
-            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_EVIL)) itemFlags |= ItemFlags.AntiEvil;
-            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_NEUTRAL)) itemFlags |= ItemFlags.AntiNeutral;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOREMOVE)) itemFlags |= ItemFlags.NoRemove;
-            if (IsSet(objectData.ExtraFlags, ITEM_INVENTORY)) itemFlags |= ItemFlags.Inventory;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOPURGE)) itemFlags |= ItemFlags.NoPurge;
-            if (IsSet(objectData.ExtraFlags, ITEM_ROT_DEATH)) itemFlags |= ItemFlags.RotDeath;
-            if (IsSet(objectData.ExtraFlags, ITEM_VIS_DEATH)) itemFlags |= ItemFlags.VisibleDeath;
-            //UNIQUE nonmetal replaced with material if (IsSet(objectData.ExtraFlags, ITEM_NONMETAL)) itemFlags |= ItemFlags.NonMetal;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOLOCATE)) itemFlags |= ItemFlags.NoLocate;
-            if (IsSet(objectData.ExtraFlags, ITEM_MELT_DROP)) itemFlags |= ItemFlags.MeltOnDrop;
-            if (IsSet(objectData.ExtraFlags, ITEM_HAD_TIMER)) itemFlags |= ItemFlags.HadTimer;
-            if (IsSet(objectData.ExtraFlags, ITEM_SELL_EXTRACT)) itemFlags |= ItemFlags.SellExtract;
-            if (IsSet(objectData.ExtraFlags, ITEM_BURN_PROOF)) itemFlags |= ItemFlags.BurnProof;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOUNCURSE)) itemFlags |= ItemFlags.NoUncurse;
-            if (IsSet(objectData.ExtraFlags, ITEM_NOSAC)) itemFlags |= ItemFlags.NoSacrifice;
+            if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) itemFlags.Set("Glowing");
+            if (IsSet(objectData.ExtraFlags, ITEM_HUM)) itemFlags.Set("Humming");
+            if (IsSet(objectData.ExtraFlags, ITEM_DARK)) itemFlags.Set("Dark");
+            //STAY_DEATH if (IsSet(objectData.ExtraFlags, ITEM_LOCK)) itemFlags.Set("Lock;
+            if (IsSet(objectData.ExtraFlags, ITEM_EVIL)) itemFlags.Set("Evil");
+            if (IsSet(objectData.ExtraFlags, ITEM_INVIS)) itemFlags.Set("Invis");
+            if (IsSet(objectData.ExtraFlags, ITEM_MAGIC)) itemFlags.Set("Magic");
+            if (IsSet(objectData.ExtraFlags, ITEM_NODROP)) itemFlags.Set("NoDrop");
+            if (IsSet(objectData.ExtraFlags, ITEM_BLESS)) itemFlags.Set("Bless");
+            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_GOOD)) itemFlags.Set("AntiGood");
+            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_EVIL)) itemFlags.Set("AntiEvil");
+            if (IsSet(objectData.ExtraFlags, ITEM_ANTI_NEUTRAL)) itemFlags.Set("AntiNeutral");
+            if (IsSet(objectData.ExtraFlags, ITEM_NOREMOVE)) itemFlags.Set("NoRemove");
+            if (IsSet(objectData.ExtraFlags, ITEM_INVENTORY)) itemFlags.Set("Inventory");
+            if (IsSet(objectData.ExtraFlags, ITEM_NOPURGE)) itemFlags.Set("NoPurge");
+            if (IsSet(objectData.ExtraFlags, ITEM_ROT_DEATH)) itemFlags.Set("RotDeath");
+            if (IsSet(objectData.ExtraFlags, ITEM_VIS_DEATH)) itemFlags.Set("VisibleDeath");
+            //UNIQUE nonmetal replaced with material if (IsSet(objectData.ExtraFlags, ITEM_NONMETAL)) itemFlags.Set("NonMetal;
+            if (IsSet(objectData.ExtraFlags, ITEM_NOLOCATE)) itemFlags.Set("NoLocate");
+            if (IsSet(objectData.ExtraFlags, ITEM_MELT_DROP)) itemFlags.Set("MeltOnDrop");
+            if (IsSet(objectData.ExtraFlags, ITEM_HAD_TIMER)) itemFlags.Set("HadTimer");
+            if (IsSet(objectData.ExtraFlags, ITEM_SELL_EXTRACT)) itemFlags.Set("SellExtract");
+            if (IsSet(objectData.ExtraFlags, ITEM_BURN_PROOF)) itemFlags.Set("BurnProof");
+            if (IsSet(objectData.ExtraFlags, ITEM_NOUNCURSE)) itemFlags.Set("NoUncurse");
+            if (IsSet(objectData.ExtraFlags, ITEM_NOSAC)) itemFlags.Set("NoSacrifice");
             // ITEM_NOIDENT
             // ITEM_NOCOND
             return itemFlags;
@@ -1029,7 +1031,7 @@ namespace Mud.Importer.Mystery
             return WeaponTypes.Exotic;
         }
 
-        private (SchoolTypes schoolType, WeaponFlags weaponFlags, string damageNoun) ConvertWeaponDamageTypeFlagsAndNoun(ObjectData objectData)
+        private (SchoolTypes schoolType, IWeaponFlags weaponFlags, string damageNoun) ConvertWeaponDamageTypeFlagsAndNoun(ObjectData objectData)
         {
             string attackTable = (string)objectData.Values[3];
             SchoolTypes schoolType = SchoolTypes.None;
@@ -1042,15 +1044,15 @@ namespace Mud.Importer.Mystery
             }
 
             long weaponType2 = objectData.Values[4] == null ? 0L : System.Convert.ToInt64(objectData.Values[4]);
-            WeaponFlags weaponFlags = WeaponFlags.None;
-            if (IsSet(weaponType2, WEAPON_FLAMING)) weaponFlags |= WeaponFlags.Flaming;
-            if (IsSet(weaponType2, WEAPON_FROST)) weaponFlags |= WeaponFlags.Frost;
-            if (IsSet(weaponType2, WEAPON_VAMPIRIC)) weaponFlags |= WeaponFlags.Vampiric;
-            if (IsSet(weaponType2, WEAPON_SHARP)) weaponFlags |= WeaponFlags.Sharp;
-            if (IsSet(weaponType2, WEAPON_VORPAL)) weaponFlags |= WeaponFlags.Vorpal;
-            if (IsSet(weaponType2, WEAPON_TWO_HANDS)) weaponFlags |= WeaponFlags.TwoHands;
-            if (IsSet(weaponType2, WEAPON_SHOCKING)) weaponFlags |= WeaponFlags.Shocking;
-            if (IsSet(weaponType2, WEAPON_POISON)) weaponFlags |= WeaponFlags.Poison;
+            IWeaponFlags weaponFlags = new WeaponFlags();
+            if (IsSet(weaponType2, WEAPON_FLAMING)) weaponFlags.Set("Flaming");
+            if (IsSet(weaponType2, WEAPON_FROST)) weaponFlags.Set("Frost");
+            if (IsSet(weaponType2, WEAPON_VAMPIRIC)) weaponFlags.Set("Vampiric");
+            if (IsSet(weaponType2, WEAPON_SHARP)) weaponFlags.Set("Sharp");
+            if (IsSet(weaponType2, WEAPON_VORPAL)) weaponFlags.Set("Vorpal");
+            if (IsSet(weaponType2, WEAPON_TWO_HANDS)) weaponFlags.Set("TwoHands");
+            if (IsSet(weaponType2, WEAPON_SHOCKING)) weaponFlags.Set("Shocking");
+            if (IsSet(weaponType2, WEAPON_POISON)) weaponFlags.Set("Poison");
 
             //
             return (schoolType, weaponFlags, damageNoun);
@@ -1236,7 +1238,7 @@ namespace Mud.Importer.Mystery
                 damageNoun = attackTableEntry.noun;
             }
 
-            (OffensiveFlags offensiveFlags, AssistFlags assistFlags) offAssistFlags = ConvertMysteryOffensiveFlags(mobileData.OffFlags);
+            (IOffensiveFlags offensiveFlags, IAssistFlags assistFlags) offAssistFlags = ConvertMysteryOffensiveFlags(mobileData.OffFlags);
 
             if (mobileData.Shop == null)
                 return new CharacterNormalBlueprint
@@ -1353,32 +1355,32 @@ namespace Mud.Importer.Mystery
             }
         }
 
-        private IRVFlags ConvertMysteryIRV(long value)
+        private IIRVFlags ConvertMysteryIRV(long value)
         {
-            IRVFlags flags = 0;
-            if (IsSet(value, IRV_SUMMON)) flags |= IRVFlags.Summon;
-            if (IsSet(value, IRV_CHARM)) flags |= IRVFlags.Charm;
-            if (IsSet(value, IRV_MAGIC)) flags |= IRVFlags.Magic;
-            if (IsSet(value, IRV_WEAPON)) flags |= IRVFlags.Weapon;
-            if (IsSet(value, IRV_BASH)) flags |= IRVFlags.Bash;
-            if (IsSet(value, IRV_PIERCE)) flags |= IRVFlags.Pierce;
-            if (IsSet(value, IRV_SLASH)) flags |= IRVFlags.Slash;
-            if (IsSet(value, IRV_FIRE)) flags |= IRVFlags.Fire;
-            if (IsSet(value, IRV_COLD)) flags |= IRVFlags.Cold;
-            if (IsSet(value, IRV_LIGHTNING)) flags |= IRVFlags.Lightning;
-            if (IsSet(value, IRV_ACID)) flags |= IRVFlags.Acid;
-            if (IsSet(value, IRV_POISON)) flags |= IRVFlags.Poison;
-            if (IsSet(value, IRV_NEGATIVE)) flags |= IRVFlags.Negative;
-            if (IsSet(value, IRV_HOLY)) flags |= IRVFlags.Holy;
-            if (IsSet(value, IRV_ENERGY)) flags |= IRVFlags.Energy;
-            if (IsSet(value, IRV_MENTAL)) flags |= IRVFlags.Mental;
-            if (IsSet(value, IRV_DISEASE)) flags |= IRVFlags.Disease;
-            if (IsSet(value, IRV_DROWNING)) flags |= IRVFlags.Drowning;
-            if (IsSet(value, IRV_LIGHT)) flags |= IRVFlags.Light;
-            if (IsSet(value, IRV_SOUND)) flags |= IRVFlags.Sound;
-            if (IsSet(value, IRV_WOOD)) flags |= IRVFlags.Wood;
-            if (IsSet(value, IRV_SILVER)) flags |= IRVFlags.Silver;
-            if (IsSet(value, IRV_IRON)) flags |= IRVFlags.Iron;
+            IIRVFlags flags = new IRVFlags();
+            if (IsSet(value, IRV_SUMMON)) flags.Set("Summon");
+            if (IsSet(value, IRV_CHARM)) flags.Set("Charm");
+            if (IsSet(value, IRV_MAGIC)) flags.Set("Magic");
+            if (IsSet(value, IRV_WEAPON)) flags.Set("Weapon");
+            if (IsSet(value, IRV_BASH)) flags.Set("Bash");
+            if (IsSet(value, IRV_PIERCE)) flags.Set("Pierce");
+            if (IsSet(value, IRV_SLASH)) flags.Set("Slash");
+            if (IsSet(value, IRV_FIRE)) flags.Set("Fire");
+            if (IsSet(value, IRV_COLD)) flags.Set("Cold");
+            if (IsSet(value, IRV_LIGHTNING)) flags.Set("Lightning");
+            if (IsSet(value, IRV_ACID)) flags.Set("Acid");
+            if (IsSet(value, IRV_POISON)) flags.Set("Poison");
+            if (IsSet(value, IRV_NEGATIVE)) flags.Set("Negative");
+            if (IsSet(value, IRV_HOLY)) flags.Set("Holy");
+            if (IsSet(value, IRV_ENERGY)) flags.Set("Energy");
+            if (IsSet(value, IRV_MENTAL)) flags.Set("Mental");
+            if (IsSet(value, IRV_DISEASE)) flags.Set("Disease");
+            if (IsSet(value, IRV_DROWNING)) flags.Set("Drowning");
+            if (IsSet(value, IRV_LIGHT)) flags.Set("Light");
+            if (IsSet(value, IRV_SOUND)) flags.Set("Sound");
+            if (IsSet(value, IRV_WOOD)) flags.Set("Wood");
+            if (IsSet(value, IRV_SILVER)) flags.Set("Silver");
+            if (IsSet(value, IRV_IRON)) flags.Set("Iron");
             // IRV_DAYLIGHT
             // IRV_EARTH
             // IRV_WEAKEN
@@ -1386,39 +1388,40 @@ namespace Mud.Importer.Mystery
             return flags;
         }
 
-        private CharacterFlags ConvertMysteryCharacterFlags(long affectedBy)
+        private ICharacterFlags ConvertMysteryCharacterFlags(long affectedBy)
         {
-            CharacterFlags flags = CharacterFlags.None;
-            if (IsSet(affectedBy, AFF_BLIND)) flags |= CharacterFlags.Blind;
-            if (IsSet(affectedBy, AFF_INVISIBLE)) flags |= CharacterFlags.Invisible;
-            if (IsSet(affectedBy, AFF_DETECT_EVIL)) flags |= CharacterFlags.DetectEvil;
-            if (IsSet(affectedBy, AFF_DETECT_INVIS)) flags |= CharacterFlags.DetectInvis;
-            if (IsSet(affectedBy, AFF_DETECT_MAGIC)) flags |= CharacterFlags.DetectMagic;
-            if (IsSet(affectedBy, AFF_DETECT_HIDDEN)) flags |= CharacterFlags.DetectHidden;
-            if (IsSet(affectedBy, AFF_DETECT_GOOD)) flags |= CharacterFlags.DetectGood;
-            if (IsSet(affectedBy, AFF_SANCTUARY)) flags |= CharacterFlags.Sanctuary;
-            if (IsSet(affectedBy, AFF_FAERIE_FIRE)) flags |= CharacterFlags.FaerieFire;
-            if (IsSet(affectedBy, AFF_INFRARED)) flags |= CharacterFlags.Infrared;
-            if (IsSet(affectedBy, AFF_CURSE)) flags |= CharacterFlags.Curse;
+            ICharacterFlags flags = new CharacterFlags();
+
+            if (IsSet(affectedBy, AFF_BLIND)) flags.Set("Blind");
+            if (IsSet(affectedBy, AFF_INVISIBLE)) flags.Set("Invisible");
+            if (IsSet(affectedBy, AFF_DETECT_EVIL)) flags.Set("DetectEvil");
+            if (IsSet(affectedBy, AFF_DETECT_INVIS)) flags.Set("DetectInvis");
+            if (IsSet(affectedBy, AFF_DETECT_MAGIC)) flags.Set("DetectMagic");
+            if (IsSet(affectedBy, AFF_DETECT_HIDDEN)) flags.Set("DetectHidden");
+            if (IsSet(affectedBy, AFF_DETECT_GOOD)) flags.Set("DetectGood");
+            if (IsSet(affectedBy, AFF_SANCTUARY)) flags.Set("Sanctuary");
+            if (IsSet(affectedBy, AFF_FAERIE_FIRE)) flags.Set("FaerieFire");
+            if (IsSet(affectedBy, AFF_INFRARED)) flags.Set("Infrared");
+            if (IsSet(affectedBy, AFF_CURSE)) flags.Set("Curse");
             // AFF_ROOTED
-            if (IsSet(affectedBy, AFF_POISON)) flags |= CharacterFlags.Poison;
-            if (IsSet(affectedBy, AFF_PROTECT_EVIL)) flags |= CharacterFlags.ProtectEvil;
-            if (IsSet(affectedBy, AFF_PROTECT_GOOD)) flags |= CharacterFlags.ProtectGood;
-            if (IsSet(affectedBy, AFF_SNEAK)) flags |= CharacterFlags.Sneak;
-            if (IsSet(affectedBy, AFF_HIDE)) flags |= CharacterFlags.Hide;
-            if (IsSet(affectedBy, AFF_SLEEP)) flags |= CharacterFlags.Sleep;
-            if (IsSet(affectedBy, AFF_CHARM)) flags |= CharacterFlags.Charm;
-            if (IsSet(affectedBy, AFF_FLYING)) flags |= CharacterFlags.Flying;
-            if (IsSet(affectedBy, AFF_PASS_DOOR)) flags |= CharacterFlags.PassDoor;
-            if (IsSet(affectedBy, AFF_HASTE)) flags |= CharacterFlags.Haste;
-            if (IsSet(affectedBy, AFF_CALM)) flags |= CharacterFlags.Calm;
-            if (IsSet(affectedBy, AFF_PLAGUE)) flags |= CharacterFlags.Plague;
-            if (IsSet(affectedBy, AFF_WEAKEN)) flags |= CharacterFlags.Weaken;
-            if (IsSet(affectedBy, AFF_DARK_VISION)) flags |= CharacterFlags.DarkVision;
-            if (IsSet(affectedBy, AFF_BERSERK)) flags |= CharacterFlags.Berserk;
-            if (IsSet(affectedBy, AFF_SWIM)) flags |= CharacterFlags.Swim;
-            if (IsSet(affectedBy, AFF_REGENERATION)) flags |= CharacterFlags.Regeneration;
-            if (IsSet(affectedBy, AFF_SLOW)) flags |= CharacterFlags.Slow;
+            if (IsSet(affectedBy, AFF_POISON)) flags.Set("Poison");
+            if (IsSet(affectedBy, AFF_PROTECT_EVIL)) flags.Set("ProtectEvil");
+            if (IsSet(affectedBy, AFF_PROTECT_GOOD)) flags.Set("ProtectGood");
+            if (IsSet(affectedBy, AFF_SNEAK)) flags.Set("Sneak");
+            if (IsSet(affectedBy, AFF_HIDE)) flags.Set("Hide");
+            if (IsSet(affectedBy, AFF_SLEEP)) flags.Set("Sleep");
+            if (IsSet(affectedBy, AFF_CHARM)) flags.Set("Charm");
+            if (IsSet(affectedBy, AFF_FLYING)) flags.Set("Flying");
+            if (IsSet(affectedBy, AFF_PASS_DOOR)) flags.Set("PassDoor");
+            if (IsSet(affectedBy, AFF_HASTE)) flags.Set("Haste");
+            if (IsSet(affectedBy, AFF_CALM)) flags.Set("Calm");
+            if (IsSet(affectedBy, AFF_PLAGUE)) flags.Set("Plague");
+            if (IsSet(affectedBy, AFF_WEAKEN)) flags.Set("Weaken");
+            if (IsSet(affectedBy, AFF_DARK_VISION)) flags.Set("DarkVision");
+            if (IsSet(affectedBy, AFF_BERSERK)) flags.Set("Berserk");
+            if (IsSet(affectedBy, AFF_SWIM)) flags.Set("Swim");
+            if (IsSet(affectedBy, AFF_REGENERATION)) flags.Set("Regeneration");
+            if (IsSet(affectedBy, AFF_SLOW)) flags.Set("Slow");
             // AFF_SILENCE
             // AFF2_WALK_ON_WATER
             // AFF2_WATER_BREATH
@@ -1436,70 +1439,70 @@ namespace Mud.Importer.Mystery
             return flags;
         }
 
-        private ActFlags ConvertMysteryActFlags(long act)
+        private IActFlags ConvertMysteryActFlags(long act)
         {
-            ActFlags flags = ActFlags.None;
+            IActFlags flags = new ActFlags();
 
             //ACT_IS_NPC not used
-            if (IsSet(act, ACT_SENTINEL)) flags |= ActFlags.Sentinel;
-            if (IsSet(act, ACT_SCAVENGER)) flags |= ActFlags.Scavenger;
+            if (IsSet(act, ACT_SENTINEL)) flags.Set("Sentinel");
+            if (IsSet(act, ACT_SCAVENGER)) flags.Set("Scavenger");
             //ACT_AWARE
-            if (IsSet(act, ACT_AGGRESSIVE)) flags |= ActFlags.Aggressive;
-            if (IsSet(act, ACT_STAY_AREA)) flags |= ActFlags.StayArea;
-            if (IsSet(act, ACT_WIMPY)) flags |= ActFlags.Wimpy;
-            if (IsSet(act, ACT_PET)) flags |= ActFlags.Pet;
-            if (IsSet(act, ACT_TRAIN)) flags |= ActFlags.Train;
-            if (IsSet(act, ACT_PRACTICE)) flags |= ActFlags.Practice;
+            if (IsSet(act, ACT_AGGRESSIVE)) flags.Set("Aggressive");
+            if (IsSet(act, ACT_STAY_AREA)) flags.Set("StayArea");
+            if (IsSet(act, ACT_WIMPY)) flags.Set("Wimpy");
+            if (IsSet(act, ACT_PET)) flags.Set("Pet");
+            if (IsSet(act, ACT_TRAIN)) flags.Set("Train");
+            if (IsSet(act, ACT_PRACTICE)) flags.Set("Practice");
             //ACT_FREE_WANDER
             //ACT_MOUNTABLE
             //ACT_IS_MOUNTED
-            if (IsSet(act, ACT_UNDEAD)) flags |= ActFlags.Undead;
+            if (IsSet(act, ACT_UNDEAD)) flags.Set("Undead");
             //ACT_NOSLEEP
-            if (IsSet(act, ACT_CLERIC)) flags |= ActFlags.Cleric;
-            if (IsSet(act, ACT_MAGE)) flags |= ActFlags.Mage;
-            if (IsSet(act, ACT_THIEF)) flags |= ActFlags.Thief;
-            if (IsSet(act, ACT_WARRIOR)) flags |= ActFlags.Warrior;
-            if (IsSet(act, ACT_NOALIGN)) flags |= ActFlags.NoAlign;
-            if (IsSet(act, ACT_NOPURGE)) flags |= ActFlags.NoPurge;
-            if (IsSet(act, ACT_OUTDOORS)) flags |= ActFlags.Outdoors;
-            if (IsSet(act, ACT_INDOORS)) flags |= ActFlags.Indoors;
+            if (IsSet(act, ACT_CLERIC)) flags.Set("Cleric");
+            if (IsSet(act, ACT_MAGE)) flags.Set("Mage");
+            if (IsSet(act, ACT_THIEF)) flags.Set("Thief");
+            if (IsSet(act, ACT_WARRIOR)) flags.Set("Warrior");
+            if (IsSet(act, ACT_NOALIGN)) flags.Set("NoAlign");
+            if (IsSet(act, ACT_NOPURGE)) flags.Set("NoPurge");
+            if (IsSet(act, ACT_OUTDOORS)) flags.Set("Outdoors");
+            if (IsSet(act, ACT_INDOORS)) flags.Set("Indoors");
             //ACT_CREATED
-            if (IsSet(act, ACT_IS_HEALER)) flags |= ActFlags.IsHealer;
-            if (IsSet(act, ACT_GAIN)) flags |= ActFlags.Gain;
-            if (IsSet(act, ACT_UPDATE_ALWAYS)) flags |= ActFlags.UpdateAlways;
+            if (IsSet(act, ACT_IS_HEALER)) flags.Set("IsHealer");
+            if (IsSet(act, ACT_GAIN)) flags.Set("Gain");
+            if (IsSet(act, ACT_UPDATE_ALWAYS)) flags.Set("UpdateAlways");
             //ACT_IS_CHANGER
             //ACT_IS_SAFE
             return flags;
         }
 
-        private (OffensiveFlags, AssistFlags) ConvertMysteryOffensiveFlags(long input)
+        private (IOffensiveFlags, IAssistFlags) ConvertMysteryOffensiveFlags(long input)
         {
-            OffensiveFlags off = OffensiveFlags.None;
-            if (IsSet(input, OFF_AREA_ATTACK)) off |= OffensiveFlags.AreaAttack;
-            if (IsSet(input, OFF_BACKSTAB)) off |= OffensiveFlags.Backstab;
-            if (IsSet(input, OFF_BASH)) off |= OffensiveFlags.Bash;
-            if (IsSet(input, OFF_BERSERK)) off |= OffensiveFlags.Berserk;
-            if (IsSet(input, OFF_DISARM)) off |= OffensiveFlags.Disarm;
-            if (IsSet(input, OFF_DODGE)) off |= OffensiveFlags.Dodge;
-            if (IsSet(input, OFF_FADE)) off |= OffensiveFlags.Fade;
-            if (IsSet(input, OFF_FAST)) off |= OffensiveFlags.Fast;
-            if (IsSet(input, OFF_KICK)) off |= OffensiveFlags.Kick;
-            if (IsSet(input, OFF_KICK_DIRT)) off |= OffensiveFlags.DirtKick;
-            if (IsSet(input, OFF_PARRY)) off |= OffensiveFlags.Parry;
-            if (IsSet(input, OFF_RESCUE)) off |= OffensiveFlags.Rescue;
-            if (IsSet(input, OFF_TAIL)) off |= OffensiveFlags.Tail;
-            if (IsSet(input, OFF_TRIP)) off |= OffensiveFlags.Trip;
-            if (IsSet(input, OFF_CRUSH)) off |= OffensiveFlags.Crush;
+            IOffensiveFlags off = new OffensiveFlags();
+            if (IsSet(input, OFF_AREA_ATTACK)) off.Set("AreaAttack");
+            if (IsSet(input, OFF_BACKSTAB)) off.Set("Backstab");
+            if (IsSet(input, OFF_BASH)) off.Set("Bash");
+            if (IsSet(input, OFF_BERSERK)) off.Set("Berserk");
+            if (IsSet(input, OFF_DISARM)) off.Set("Disarm");
+            if (IsSet(input, OFF_DODGE)) off.Set("Dodge");
+            if (IsSet(input, OFF_FADE)) off.Set("Fade");
+            if (IsSet(input, OFF_FAST)) off.Set("Fast");
+            if (IsSet(input, OFF_KICK)) off.Set("Kick");
+            if (IsSet(input, OFF_KICK_DIRT)) off.Set("DirtKick");
+            if (IsSet(input, OFF_PARRY)) off.Set("Parry");
+            if (IsSet(input, OFF_RESCUE)) off.Set("Rescue");
+            if (IsSet(input, OFF_TAIL)) off.Set("Tail");
+            if (IsSet(input, OFF_TRIP)) off.Set("Trip");
+            if (IsSet(input, OFF_CRUSH)) off.Set("Crush");
             //OFF_COUNTER
             //OFF_BITE
 
-            AssistFlags assist = AssistFlags.None;
-            if (IsSet(input, ASSIST_ALL)) assist |= AssistFlags.All;
-            if (IsSet(input, ASSIST_ALIGN)) assist |= AssistFlags.Align;
-            if (IsSet(input, ASSIST_RACE)) assist |= AssistFlags.Race;
-            if (IsSet(input, ASSIST_PLAYERS)) assist |= AssistFlags.Players;
-            if (IsSet(input, ASSIST_GUARD)) assist |= AssistFlags.Guard;
-            if (IsSet(input, ASSIST_VNUM)) assist |= AssistFlags.Vnum;
+            IAssistFlags assist = new AssistFlags();
+            if (IsSet(input, ASSIST_ALL)) assist.Set("All");
+            if (IsSet(input, ASSIST_ALIGN)) assist.Set("Align");
+            if (IsSet(input, ASSIST_RACE)) assist.Set("Race");
+            if (IsSet(input, ASSIST_PLAYERS)) assist.Set("Players");
+            if (IsSet(input, ASSIST_GUARD)) assist.Set("Guard");
+            if (IsSet(input, ASSIST_VNUM)) assist.Set("Vnum");
 
             return (off, assist);
         }
@@ -1554,69 +1557,69 @@ namespace Mud.Importer.Mystery
         }
 
 
-        private BodyForms ConvertBodyForms(long input)
+        private IBodyForms ConvertBodyForms(long input)
         {
-            BodyForms forms = BodyForms.None;
+            IBodyForms forms = new BodyForms();
 
-            if (IsSet(input, FORM_EDIBLE)) forms |= BodyForms.Edible;
-            if (IsSet(input, FORM_POISON)) forms |= BodyForms.Poison;
-            if (IsSet(input, FORM_MAGICAL)) forms |= BodyForms.Magical;
-            if (IsSet(input, FORM_INSTANT_DECAY)) forms |= BodyForms.InstantDecay;
-            if (IsSet(input, FORM_OTHER)) forms |= BodyForms.Other;
-            if (IsSet(input, FORM_ANIMAL)) forms |= BodyForms.Animal;
-            if (IsSet(input, FORM_SENTIENT)) forms |= BodyForms.Sentient;
-            if (IsSet(input, FORM_UNDEAD)) forms |= BodyForms.Undead;
-            if (IsSet(input, FORM_CONSTRUCT)) forms |= BodyForms.Construct;
-            if (IsSet(input, FORM_MIST)) forms |= BodyForms.Mist;
-            if (IsSet(input, FORM_INTANGIBLE)) forms |= BodyForms.Intangible;
-            if (IsSet(input, FORM_BIPED)) forms |= BodyForms.Biped;
-            if (IsSet(input, FORM_CENTAUR)) forms |= BodyForms.Centaur;
-            if (IsSet(input, FORM_INSECT)) forms |= BodyForms.Insect;
-            if (IsSet(input, FORM_SPIDER)) forms |= BodyForms.Spider;
-            if (IsSet(input, FORM_CRUSTACEAN)) forms |= BodyForms.Crustacean;
-            if (IsSet(input, FORM_WORM)) forms |= BodyForms.Worm;
-            if (IsSet(input, FORM_BLOB)) forms |= BodyForms.Blob;
-            if (IsSet(input, FORM_MAMMAL)) forms |= BodyForms.Mammal;
-            if (IsSet(input, FORM_BIRD)) forms |= BodyForms.Bird;
-            if (IsSet(input, FORM_REPTILE)) forms |= BodyForms.Reptile;
-            if (IsSet(input, FORM_SNAKE)) forms |= BodyForms.Snake;
-            if (IsSet(input, FORM_DRAGON)) forms |= BodyForms.Dragon;
-            if (IsSet(input, FORM_AMPHIBIAN)) forms |= BodyForms.Amphibian;
-            if (IsSet(input, FORM_FISH)) forms |= BodyForms.Fish;
-            if (IsSet(input, FORM_COLD_BLOOD)) forms |= BodyForms.ColdBlood;
+            if (IsSet(input, FORM_EDIBLE)) forms.Set("Edible");
+            if (IsSet(input, FORM_POISON)) forms.Set("Poison");
+            if (IsSet(input, FORM_MAGICAL)) forms.Set("Magical");
+            if (IsSet(input, FORM_INSTANT_DECAY)) forms.Set("InstantDecay");
+            if (IsSet(input, FORM_OTHER)) forms.Set("Other");
+            if (IsSet(input, FORM_ANIMAL)) forms.Set("Animal");
+            if (IsSet(input, FORM_SENTIENT)) forms.Set("Sentient");
+            if (IsSet(input, FORM_UNDEAD)) forms.Set("Undead");
+            if (IsSet(input, FORM_CONSTRUCT)) forms.Set("Construct");
+            if (IsSet(input, FORM_MIST)) forms.Set("Mist");
+            if (IsSet(input, FORM_INTANGIBLE)) forms.Set("Intangible");
+            if (IsSet(input, FORM_BIPED)) forms.Set("Biped");
+            if (IsSet(input, FORM_CENTAUR)) forms.Set("Centaur");
+            if (IsSet(input, FORM_INSECT)) forms.Set("Insect");
+            if (IsSet(input, FORM_SPIDER)) forms.Set("Spider");
+            if (IsSet(input, FORM_CRUSTACEAN)) forms.Set("Crustacean");
+            if (IsSet(input, FORM_WORM)) forms.Set("Worm");
+            if (IsSet(input, FORM_BLOB)) forms.Set("Blob");
+            if (IsSet(input, FORM_MAMMAL)) forms.Set("Mammal");
+            if (IsSet(input, FORM_BIRD)) forms.Set("Bird");
+            if (IsSet(input, FORM_REPTILE)) forms.Set("Reptile");
+            if (IsSet(input, FORM_SNAKE)) forms.Set("Snake");
+            if (IsSet(input, FORM_DRAGON)) forms.Set("Dragon");
+            if (IsSet(input, FORM_AMPHIBIAN)) forms.Set("Amphibian");
+            if (IsSet(input, FORM_FISH)) forms.Set("Fish");
+            if (IsSet(input, FORM_COLD_BLOOD)) forms.Set("ColdBlood");
             //FORM_FUR
             //FORM_FOUR_ARMS
 
             return forms;
         }
 
-        private BodyParts ConvertBodyParts(long input)
+        private IBodyParts ConvertBodyParts(long input)
         {
-            BodyParts parts = BodyParts.None;
+            IBodyParts parts = new BodyParts();
 
-            if (IsSet(input, PART_HEAD)) parts |= BodyParts.Head;
-            if (IsSet(input, PART_ARMS)) parts |= BodyParts.Arms;
-            if (IsSet(input, PART_LEGS)) parts |= BodyParts.Legs;
-            if (IsSet(input, PART_HEART)) parts |= BodyParts.Heart;
-            if (IsSet(input, PART_BRAINS)) parts |= BodyParts.Brains;
-            if (IsSet(input, PART_GUTS)) parts |= BodyParts.Guts;
-            if (IsSet(input, PART_HANDS)) parts |= BodyParts.Hands;
-            if (IsSet(input, PART_FEET)) parts |= BodyParts.Feet;
-            if (IsSet(input, PART_FINGERS)) parts |= BodyParts.Fingers;
-            if (IsSet(input, PART_EAR)) parts |= BodyParts.Ear;
-            if (IsSet(input, PART_EYE)) parts |= BodyParts.Eye;
-            if (IsSet(input, PART_LONG_TONGUE)) parts |= BodyParts.LongTongue;
-            if (IsSet(input, PART_EYESTALKS)) parts |= BodyParts.Eyestalks;
-            if (IsSet(input, PART_TENTACLES)) parts |= BodyParts.Tentacles;
-            if (IsSet(input, PART_FINS)) parts |= BodyParts.Fins;
-            if (IsSet(input, PART_WINGS)) parts |= BodyParts.Wings;
-            if (IsSet(input, PART_TAIL)) parts |= BodyParts.Tail;
+            if (IsSet(input, PART_HEAD)) parts.Set("Head");
+            if (IsSet(input, PART_ARMS)) parts.Set("Arms");
+            if (IsSet(input, PART_LEGS)) parts.Set("Legs");
+            if (IsSet(input, PART_HEART)) parts.Set("Heart");
+            if (IsSet(input, PART_BRAINS)) parts.Set("Brains");
+            if (IsSet(input, PART_GUTS)) parts.Set("Guts");
+            if (IsSet(input, PART_HANDS)) parts.Set("Hands");
+            if (IsSet(input, PART_FEET)) parts.Set("Feet");
+            if (IsSet(input, PART_FINGERS)) parts.Set("Fingers");
+            if (IsSet(input, PART_EAR)) parts.Set("Ear");
+            if (IsSet(input, PART_EYE)) parts.Set("Eye");
+            if (IsSet(input, PART_LONG_TONGUE)) parts.Set("LongTongue");
+            if (IsSet(input, PART_EYESTALKS)) parts.Set("Eyestalks");
+            if (IsSet(input, PART_TENTACLES)) parts.Set("Tentacles");
+            if (IsSet(input, PART_FINS)) parts.Set("Fins");
+            if (IsSet(input, PART_WINGS)) parts.Set("Wings");
+            if (IsSet(input, PART_TAIL)) parts.Set("Tail");
             // PART_BODY
-            if (IsSet(input, PART_CLAWS)) parts |= BodyParts.Claws;
-            if (IsSet(input, PART_FANGS)) parts |= BodyParts.Fangs;
-            if (IsSet(input, PART_HORNS)) parts |= BodyParts.Horns;
-            if (IsSet(input, PART_SCALES)) parts |= BodyParts.Scales;
-            if (IsSet(input, PART_TUSKS)) parts |= BodyParts.Tusks;
+            if (IsSet(input, PART_CLAWS)) parts.Set("Claws");
+            if (IsSet(input, PART_FANGS)) parts.Set("Fangs");
+            if (IsSet(input, PART_HORNS)) parts.Set("Horns");
+            if (IsSet(input, PART_SCALES)) parts.Set("Scales");
+            if (IsSet(input, PART_TUSKS)) parts.Set("Tusks");
 
             return parts;
         }

@@ -5,6 +5,8 @@ using System.Linq;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Ability;
 using Mud.Common;
+using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Tests.Mocking
 {
@@ -31,24 +33,24 @@ namespace Mud.Server.Tests.Mocking
 
         public IEnumerable<EquipmentSlots> EquipmentSlots => EnumHelpers.GetValues<EquipmentSlots>().Where(x => x != Domain.EquipmentSlots.None).SelectMany(x => Enumerable.Repeat(x, 2)); // two of each
 
-        public BodyForms BodyForms => BodyForms.Amphibian;
+        public IBodyForms BodyForms => new BodyForms("Amphibian");
 
-        public BodyParts BodyParts => BodyParts.Fins;
+        public IBodyParts BodyParts => new BodyParts("Fins");
 
         public Sizes Size => Sizes.Medium;
 
-        public CharacterFlags CharacterFlags => CharacterFlags.None;
+        public ICharacterFlags CharacterFlags => new CharacterFlags();
 
-        public IRVFlags Immunities => IRVFlags.None;
+        public IIRVFlags Immunities => new IRVFlags();
 
-        public IRVFlags Resistances =>IRVFlags.None;
+        public IIRVFlags Resistances => new IRVFlags();
 
-        public IRVFlags Vulnerabilities => IRVFlags.None;
+        public IIRVFlags Vulnerabilities => new IRVFlags();
 
-        public ActFlags ActFlags => ActFlags.None;
+        public IActFlags ActFlags => new ActFlags();
 
-        public OffensiveFlags OffensiveFlags => OffensiveFlags.None;
+        public IOffensiveFlags OffensiveFlags => new OffensiveFlags();
 
-        public AssistFlags AssistFlags => AssistFlags.None;
+        public IAssistFlags AssistFlags => new AssistFlags();
     }
 }

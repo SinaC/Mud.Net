@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mud.Network.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,8 +8,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using Mud.Network;
-using DataReceivedEventHandler = Mud.Network.DataReceivedEventHandler;
+using DataReceivedEventHandler = Mud.Network.Interfaces.DataReceivedEventHandler;
 
 namespace Mud.Server.WPFTestApplication
 {

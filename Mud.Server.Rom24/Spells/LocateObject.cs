@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
@@ -37,7 +36,7 @@ namespace Mud.Server.Rom24.Spells
                 ? 200
                 : Level * 2;
             int number = 0;
-            IEnumerable<IItem> foundItems = FindHelpers.FindAllByName(ItemManager.Items.Where(x => Caster.CanSee(x) && !x.ItemFlags.HasFlag(ItemFlags.NoLocate) && x.Level <= Caster.Level && RandomManager.Range(1, 100) <= 2 * Level), ItemName);
+            IEnumerable<IItem> foundItems = FindHelpers.FindAllByName(ItemManager.Items.Where(x => Caster.CanSee(x) && !x.ItemFlags.IsSet("NoLocate") && x.Level <= Caster.Level && RandomManager.Range(1, 100) <= 2 * Level), ItemName);
             foreach (IItem item in foundItems)
             {
                 IItem outOfItemContainer = item;

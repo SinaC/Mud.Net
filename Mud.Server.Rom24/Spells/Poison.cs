@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -43,7 +44,7 @@ namespace Mud.Server.Rom24.Spells
             else
                 AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                     new PoisonDamageAffect());
             victim.Send("You feel very sick.");
             victim.Act(ActOptions.ToRoom, "{0:N} looks very ill.", victim);
@@ -54,7 +55,7 @@ namespace Mud.Server.Rom24.Spells
             // food/drink container
             if (item is IItemPoisonable poisonable)
             {
-                if (poisonable.ItemFlags.HasFlag(ItemFlags.Bless) || poisonable.ItemFlags.HasFlag(ItemFlags.BurnProof))
+                if (poisonable.ItemFlags.HasAny("Bless", "BurnProof"))
                 {
                     Caster.Act(ActOptions.ToCharacter, "Your spell fails to corrupt {0}.", poisonable);
                     return;
@@ -66,19 +67,19 @@ namespace Mud.Server.Rom24.Spells
             // weapon
             if (item is IItemWeapon weapon)
             {
-                if (weapon.WeaponFlags == WeaponFlags.Poison)
+                if (weapon.WeaponFlags.IsSet("Poison"))
                 {
                     Caster.Act(ActOptions.ToCharacter, "{0} is already envenomed.", weapon);
                     return;
                 }
-                if (weapon.WeaponFlags != WeaponFlags.None)
+                if (!weapon.WeaponFlags.IsNone)
                 {
                     Caster.Act(ActOptions.ToCharacter, "You can't seem to envenom {0}.", weapon);
                     return;
                 }
                 int duration = Level / 8;
                 AuraManager.AddAura(weapon, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                    new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Poison, Operator = AffectOperators.Or });
+                    new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Poison"), Operator = AffectOperators.Or });
                 Caster.Act(ActOptions.ToCharacter, "{0} is coated with deadly venom.", weapon);
                 return;
             }

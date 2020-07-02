@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mud.Domain;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races.NonPlayableRaces
@@ -8,10 +10,10 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
     {
         public override string Name => "pixie";
         public override Sizes Size => Sizes.Tiny;
-        public override CharacterFlags CharacterFlags => CharacterFlags.Flying;
-        public override IRVFlags Immunities => IRVFlags.None;
-        public override IRVFlags Resistances => IRVFlags.Fire;
-        public override IRVFlags Vulnerabilities => IRVFlags.Magic;
+        public override ICharacterFlags CharacterFlags => new CharacterFlags("Flying");
+        public override IIRVFlags Immunities => new IRVFlags();
+        public override IIRVFlags Resistances => new IRVFlags("Fire");
+        public override IIRVFlags Vulnerabilities => new IRVFlags("Magic");
         public override IEnumerable<EquipmentSlots> EquipmentSlots => new List<EquipmentSlots>
         {
             Domain.EquipmentSlots.Light,
@@ -33,10 +35,10 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces
             Domain.EquipmentSlots.OffHand,
             Domain.EquipmentSlots.Float,
         };
-        public override BodyForms BodyForms => BodyForms.Edible | BodyForms.Sentient | BodyForms.Biped | BodyForms.Mammal;
-        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Body | BodyParts.Arms | BodyParts.Legs | BodyParts.Heart | BodyParts.Brains | BodyParts.Guts | BodyParts.Hands | BodyParts.Feet | BodyParts.Fingers | BodyParts.Ear | BodyParts.Eye | BodyParts.Wings;
-        public override ActFlags ActFlags => ActFlags.None;
-        public override OffensiveFlags OffensiveFlags => OffensiveFlags.None;
-        public override AssistFlags AssistFlags => AssistFlags.Race;
+        public override IBodyForms BodyForms => new BodyForms("Edible", "Sentient", "Biped", "Mammal");
+        public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Wings");
+        public override IActFlags ActFlags => new ActFlags();
+        public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
+        public override IAssistFlags AssistFlags => new AssistFlags("Race");
     }
 }

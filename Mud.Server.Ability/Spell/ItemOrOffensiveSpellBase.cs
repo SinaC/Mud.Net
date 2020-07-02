@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -93,7 +92,7 @@ namespace Mud.Server.Ability.Spell
                     }
                     // TODO: check_killer
                 }
-                if (npcCaster != null && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == Target)
+                if (npcCaster != null && npcCaster.CharacterFlags.IsSet("Charm") && npcCaster.Master == Target)
                     return "You can't do that on your own follower.";
             }
             else // character not found, search item in room, in inventor, in equipment
@@ -116,7 +115,7 @@ namespace Mud.Server.Ability.Spell
                 if (caster != victim && victim.IsSafe(caster) != null)
                     return false;
             }
-            if (caster is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == victim)
+            if (caster is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.IsSet("Charm") && npcCaster.Master == victim)
                 return false;
             return true;
         }

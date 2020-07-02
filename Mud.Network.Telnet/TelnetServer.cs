@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Mud.Logger;
+using Mud.Network.Interfaces;
 
 namespace Mud.Network.Telnet
 {

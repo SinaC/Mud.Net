@@ -6,8 +6,8 @@ using System.Xml.Serialization;
 using Mud.Repository.Filesystem.Common;
 using Mud.Logger;
 using Mud.Repository.Filesystem.Domain;
-using Mud.Settings;
 using AutoMapper;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Repository.Filesystem
 {

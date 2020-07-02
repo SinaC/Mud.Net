@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -27,7 +28,7 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke()
         {
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Flying))
+            if (Victim.CharacterFlags.IsSet("Flying"))
             {
                 if (Victim == Caster)
                     Caster.Send("You are already airborne.");
@@ -36,7 +37,7 @@ namespace Mud.Server.Rom24.Spells
                 return;
             }
             AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 3), AuraFlags.None, true,
-                new CharacterFlagsAffect { Modifier = CharacterFlags.Flying, Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Flying"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0:P} feet rise off the ground.", Victim);
         }
     }

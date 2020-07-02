@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -29,9 +30,9 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke()
         {
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Haste)
+            if (Victim.CharacterFlags.IsSet("Haste")
                 || Victim.GetAura(SpellName) != null
-                || (Victim is INonPlayableCharacter npcVictim && npcVictim.OffensiveFlags.HasFlag(OffensiveFlags.Fast)))
+                || (Victim is INonPlayableCharacter npcVictim && npcVictim.OffensiveFlags.IsSet("Fast")))
             {
                 if (Victim == Caster)
                     Caster.Send("You can't move any faster!");
@@ -39,7 +40,7 @@ namespace Mud.Server.Rom24.Spells
                     Caster.Act(ActOptions.ToCharacter, "{0:N} is already moving as fast as {0:e} can.", Victim);
                 return;
             }
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Slow))
+            if (Victim.CharacterFlags.IsSet("Slow"))
             {
                 if (DispelManager.TryDispel(Level, Victim, Slow.SpellName) != TryDispelReturnValues.Dispelled)
                 {
@@ -57,7 +58,7 @@ namespace Mud.Server.Rom24.Spells
             int modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
             AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlags.Haste, Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or });
             Victim.Send("You feel yourself moving more quickly.");
             Victim.Act(ActOptions.ToRoom, "{0:N} is moving more quickly.", Victim);
             if (Caster != Victim)

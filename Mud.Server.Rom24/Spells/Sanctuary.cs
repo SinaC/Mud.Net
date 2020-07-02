@@ -1,6 +1,7 @@
-﻿using Mud.Domain;
-using Mud.Server.Ability;
+﻿using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
@@ -20,7 +21,7 @@ namespace Mud.Server.Rom24.Spells
         {
         }
 
-        protected override CharacterFlags CharacterFlags => CharacterFlags.Sanctuary;
+        protected override ICharacterFlags CharacterFlags => new CharacterFlags("Sanctuary");
         protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
         protected override string SelfAlreadyAffected => "You are already in sanctuary.";
         protected override string NotSelfAlreadyAffected => "{0:N} is already in sanctuary.";

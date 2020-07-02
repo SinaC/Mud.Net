@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -51,7 +52,7 @@ namespace Mud.Server.Rom24.Spells
             if (npcVictim == null)
                 return "You can't charm players!";
 
-            if (npcVictim.Room.RoomFlags.HasFlag(RoomFlags.Law))
+            if (npcVictim.Room.RoomFlags.IsSet("Law"))
                 return "The mayor does not allow charming in the city limits.";
 
             return null;
@@ -60,10 +61,10 @@ namespace Mud.Server.Rom24.Spells
         protected override void Invoke()
         {
             INonPlayableCharacter npcVictim = (INonPlayableCharacter)Victim; // SetTargets ensure this will never failed
-            if (npcVictim.CharacterFlags.HasFlag(CharacterFlags.Charm)
-                || Caster.CharacterFlags.HasFlag(CharacterFlags.Charm)
+            if (npcVictim.CharacterFlags.IsSet("Charm")
+                || Caster.CharacterFlags.IsSet("Charm")
                 || Level < npcVictim.Level
-                || npcVictim.Immunities.HasFlag(IRVFlags.Charm)
+                || npcVictim.Immunities.IsSet("Charm")
                 || npcVictim.SavesSpell(Level, SchoolTypes.Charm))
                 return;
 
@@ -71,7 +72,7 @@ namespace Mud.Server.Rom24.Spells
 
             int duration = RandomManager.Fuzzy(Level / 4);
             AuraManager.AddAura(npcVictim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-                new CharacterFlagsAffect { Modifier = CharacterFlags.Charm, Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Charm"), Operator = AffectOperators.Or });
 
             npcVictim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", Caster);
             if (Caster != npcVictim)

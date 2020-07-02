@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -77,7 +76,7 @@ namespace Mud.Server.Ability.Spell
                 }
                 // TODO: check_killer
             }
-            if (Caster is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == Victim)
+            if (Caster is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.IsSet("Charm") && npcCaster.Master == Victim)
                 return "You can't do that on your own follower.";
             // victim found
             return null;
@@ -90,7 +89,7 @@ namespace Mud.Server.Ability.Spell
                 if (caster != victim && victim.IsSafe(caster) != null)
                     return false;
             }
-            if (caster is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == victim)
+            if (caster is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.IsSet("Charm") && npcCaster.Master == victim)
                 return false;
             return true;
         }

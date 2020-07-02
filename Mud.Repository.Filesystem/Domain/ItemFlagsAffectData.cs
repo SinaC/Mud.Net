@@ -4,6 +4,6 @@
     {
         public int Operator { get; set; } // Add and Or are identical
 
-        public int Modifier { get; set; }
+        public string Modifier { get; set; }
     }
 }

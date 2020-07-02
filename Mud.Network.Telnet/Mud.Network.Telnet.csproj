@@ -82,9 +82,9 @@
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
+    <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj">
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
-      <Name>Mud.Network</Name>
+      <Name>Mud.Network.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

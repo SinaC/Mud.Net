@@ -117,6 +117,10 @@
     <Compile Include="Common\RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
+      <Name>Mud.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
       <Name>Mud.Domain</Name>
@@ -129,9 +133,17 @@
       <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
       <Name>Mud.Repository</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5B52488B-2CBE-4FC7-9004-E0C23E97907F}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
+      <Project>{17B2B5F8-66C4-4E77-B910-C41C0539F436}</Project>
+      <Name>Mud.Server.Flags</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
-      <Name>Mud.Settings</Name>
+      <Name>Mud.Settings.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -2,6 +2,8 @@
 using System.Linq;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Race;
@@ -49,20 +51,20 @@ namespace Mud.Server.Races
         public override string ShortName => "Ins";
 
         public override Sizes Size => Sizes.Medium;
-        public override CharacterFlags CharacterFlags => CharacterFlags.Haste;
+        public override ICharacterFlags CharacterFlags => new CharacterFlags("Haste");
 
         public override IEnumerable<EquipmentSlots> EquipmentSlots => _slots;
 
-        public override IRVFlags Immunities => IRVFlags.None;
-        public override IRVFlags Resistances => IRVFlags.Bash | IRVFlags.Slash | IRVFlags.Poison | IRVFlags.Disease | IRVFlags.Acid;
-        public override IRVFlags Vulnerabilities => IRVFlags.Pierce | IRVFlags.Fire | IRVFlags.Cold;
+        public override IIRVFlags Immunities => new IRVFlags();
+        public override IIRVFlags Resistances => new IRVFlags("Bash", "Slash", "Poison", "Disease", "Acid");
+        public override IIRVFlags Vulnerabilities => new IRVFlags("Pierce", "Fire", "Cold");
 
-        public override BodyForms BodyForms => BodyForms.Poison | BodyForms.Sentient | BodyForms.Biped | BodyForms.Insect | BodyForms.FourArms;
-        public override BodyParts BodyParts => BodyParts.Head | BodyParts.Arms | BodyParts.Legs | BodyParts.Head | BodyParts.Brains | BodyParts.Guts | BodyParts.Hands | BodyParts.Feet | BodyParts.Fingers | BodyParts.Ear | BodyParts.Eye | BodyParts.Body;
+        public override IBodyForms BodyForms => new BodyForms("Poison", "Sentient", "Biped", "Insect", "FourArms");
+        public override IBodyParts BodyParts => new BodyParts("Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
 
-        public override ActFlags ActFlags => ActFlags.None;
-        public override OffensiveFlags OffensiveFlags => OffensiveFlags.Fast;
-        public override AssistFlags AssistFlags => AssistFlags.None;
+        public override IActFlags ActFlags => new ActFlags();
+        public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Fast");
+        public override IAssistFlags AssistFlags => new AssistFlags();
 
         public override int GetStartAttribute(CharacterAttributes attribute)
         {
@@ -120,9 +122,9 @@ namespace Mud.Server.Races
             : base(abilityManager)
         {
             AddAbility(1, "Test", null, 0, CostAmountOperators.None, 0);
-            AddAbility(1, "Dual wield", null, 0, CostAmountOperators.None, 0);
-            AddAbility(1, "Third wield", null, 0, CostAmountOperators.None, 0); // only if warrior
-            AddAbility(1, "Fourth wield", null, 0, CostAmountOperators.None, 0); // only if warrior
+            AddAbility(1, "Dual Wield", null, 0, CostAmountOperators.None, 0);
+            AddAbility(1, "Third Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
+            AddAbility(1, "Fourth Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
 
             // Test race with all spells
             foreach (IAbilityInfo abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))

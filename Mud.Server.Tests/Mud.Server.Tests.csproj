@@ -186,6 +186,10 @@
       <Project>{B9D5A4DD-8418-4E00-BC90-582359F7F05D}</Project>
       <Name>Mud.Container</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
+      <Name>Mud.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
       <Name>Mud.Domain</Name>
@@ -194,9 +198,9 @@
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
+    <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj">
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
-      <Name>Mud.Network</Name>
+      <Name>Mud.Network.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj">
       <Project>{2C853490-7908-4E36-B906-72EBA82B4236}</Project>
@@ -213,6 +217,14 @@
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5b52488b-2cbe-4fc7-9004-e0c23e97907f}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
+      <Project>{17b2b5f8-66c4-4e77-b910-c41c0539f436}</Project>
+      <Name>Mud.Server.Flags</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
       <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
@@ -234,9 +246,9 @@
       <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
       <Name>Mud.Server</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
-      <Name>Mud.Settings</Name>
+      <Name>Mud.Settings.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

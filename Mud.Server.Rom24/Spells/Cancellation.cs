@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Ability;
+﻿using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -23,7 +22,7 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke()
         {
-            if ((Caster is IPlayableCharacter && Victim is INonPlayableCharacter npcVictim && !Caster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcVictim.Master == Caster)
+            if ((Caster is IPlayableCharacter && Victim is INonPlayableCharacter npcVictim && !Caster.CharacterFlags.IsSet("Charm") && npcVictim.Master == Caster)
                 || (Caster is INonPlayableCharacter && Victim is IPlayableCharacter))
             {
                 Caster.Send("You failed, try dispel magic.");

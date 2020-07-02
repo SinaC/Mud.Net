@@ -2,6 +2,6 @@
 {
     public class ItemWeaponData : ItemData
     {
-        public int WeaponFlags { get; set; }
+        public string WeaponFlags { get; set; }
     }
 }

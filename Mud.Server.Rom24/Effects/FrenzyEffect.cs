@@ -21,7 +21,7 @@ namespace Mud.Server.Rom24.Effects
         public void Apply(ICharacter victim, IEntity source, string abilityName, int level, int _)
         {
             ICharacter sourceCharacter = source as ICharacter;
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Berserk) || victim.GetAura(abilityName) != null)
+            if (victim.CharacterFlags.IsSet("Berserk") || victim.GetAura(abilityName) != null)
             {
                 if (victim == source)
                     source.Send("You are already in a frenzy.");
@@ -30,7 +30,7 @@ namespace Mud.Server.Rom24.Effects
                 return;
             }
 
-            if (victim.CharacterFlags.HasFlag(CharacterFlags.Calm) || victim.GetAura(Calm.SpellName) != null)
+            if (victim.CharacterFlags.IsSet("Calm") || victim.GetAura(Calm.SpellName) != null)
             {
                 if (victim == source)
                     source.Send("Why don't you just relax for a while?");

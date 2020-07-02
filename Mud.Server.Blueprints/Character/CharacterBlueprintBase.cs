@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Mud.Domain;
 using Mud.Server.Blueprints.LootTable;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Blueprints.Character
 {
@@ -88,25 +89,25 @@ namespace Mud.Server.Blueprints.Character
         public int ArmorExotic { get; set; }
 
         [DataMember]
-        public ActFlags ActFlags { get; set; }
+        public IActFlags ActFlags { get; set; }
 
         [DataMember]
-        public OffensiveFlags OffensiveFlags { get; set; }
+        public IOffensiveFlags OffensiveFlags { get; set; }
 
         [DataMember]
-        public AssistFlags AssistFlags { get; set; }
+        public IAssistFlags AssistFlags { get; set; }
 
         [DataMember]
-        public CharacterFlags CharacterFlags { get; set; }
+        public ICharacterFlags CharacterFlags { get; set; }
 
         [DataMember]
-        public IRVFlags Immunities { get; set; }
+        public IIRVFlags Immunities { get; set; }
 
         [DataMember]
-        public IRVFlags Resistances { get; set; }
+        public IIRVFlags Resistances { get; set; }
 
         [DataMember]
-        public IRVFlags Vulnerabilities { get; set; }
+        public IIRVFlags Vulnerabilities { get; set; }
 
         [DataMember]
         public string Race { get; set; }
@@ -115,10 +116,10 @@ namespace Mud.Server.Blueprints.Character
         public string Class { get; set; }
 
         [DataMember]
-        public BodyForms BodyForms { get; set; }
+        public IBodyForms BodyForms { get; set; }
 
         [DataMember]
-        public BodyParts BodyParts { get; set; }
+        public IBodyParts BodyParts { get; set; }
 
         // TODO CharacterAttributes
 

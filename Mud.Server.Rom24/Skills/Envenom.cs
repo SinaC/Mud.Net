@@ -9,6 +9,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using System;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Rom24.Skills
 {
@@ -42,7 +43,7 @@ namespace Mud.Server.Rom24.Skills
 
             if (Item is IItemPoisonable poisonable)
             {
-                if (poisonable.ItemFlags.HasFlag(ItemFlags.Bless) || poisonable.ItemFlags.HasFlag(ItemFlags.BurnProof))
+                if (poisonable.ItemFlags.HasAny("Bless", "BurnProof"))
                     return User.ActPhrase("You fail to poison {0}.", poisonable);
                 // poisonable found
                 return null;
@@ -52,11 +53,10 @@ namespace Mud.Server.Rom24.Skills
             {
                 if (weapon.DamageType == SchoolTypes.Bash)
                     return "You can only envenom edged weapons.";
-                if (weapon.WeaponFlags == WeaponFlags.Poison)
+                if (weapon.WeaponFlags.IsSet("Poison"))
                     User.ActPhrase("{0} is already envenomed.", weapon);
-                if (weapon.WeaponFlags != WeaponFlags.None
-                    || weapon.ItemFlags.HasFlag(ItemFlags.Bless)
-                    || weapon.ItemFlags.HasFlag(ItemFlags.BurnProof))
+                if (!weapon.WeaponFlags.IsNone
+                    || weapon.ItemFlags.HasAny("Bless", "BurnProof"))
                     User.ActPhrase("You can't seem to envenom {0}.", weapon);
                 // weapon found
                 return null;
@@ -95,7 +95,7 @@ namespace Mud.Server.Rom24.Skills
                 int level = (User.Level * percent) / 100;
                 int duration = (User.Level * percent) / (2 * 100);
                 AuraManager.AddAura(weapon, SkillName, User, level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                    new ItemWeaponFlagsAffect { Modifier = WeaponFlags.Poison, Operator = AffectOperators.Or });
+                    new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Poison"), Operator = AffectOperators.Or });
                 User.Act(ActOptions.ToAll, "{0:N} coat{0:v} {1} with deadly venom.", User, weapon);
                 return true;
             }

@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -43,8 +42,8 @@ namespace Mud.Server.Rom24.Skills
                 return "You are completely lost.";
             }
 
-            if (pcUser.CharacterFlags.HasFlag(CharacterFlags.Curse)
-                || pcUser.Room.RoomFlags.HasFlag(RoomFlags.NoRecall))
+            if (pcUser.CharacterFlags.IsSet("Curse")
+                || pcUser.Room.RoomFlags.IsSet("NoRecall"))
                 return "Mota has forsaken you."; // TODO: message related to deity
 
             //if (recallRoom == pcUser.Room)
@@ -86,7 +85,7 @@ namespace Mud.Server.Rom24.Skills
             foreach (INonPlayableCharacter pet in pcUser.Pets)
             {
                 // no recursive call because DoRecall has been coded for IPlayableCharacter
-                if (pet.CharacterFlags.HasFlag(CharacterFlags.Curse))
+                if (pet.CharacterFlags.IsSet("Curse"))
                     continue; // pet failing doesn't impact return value
                 if (pet.Fighting != null)
                 {

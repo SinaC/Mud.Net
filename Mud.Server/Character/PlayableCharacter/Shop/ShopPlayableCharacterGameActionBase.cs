@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Blueprints.Character;
+﻿using Mud.Server.Blueprints.Character;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -85,7 +84,7 @@ namespace Mud.Server.Character.PlayableCharacter.Shop
             foreach (IItem itemInventory in shopKeeper.Inventory)
                 if (itemInventory.Blueprint.Id == item.Blueprint.Id)
                 {
-                    if (itemInventory.ItemFlags.HasFlag(ItemFlags.Inventory))
+                    if (itemInventory.ItemFlags.IsSet("Inventory"))
                         cost /= 2;
                     else
                         cost = 3 * cost / 4;

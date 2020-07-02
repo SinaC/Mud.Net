@@ -6,6 +6,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
@@ -66,17 +67,17 @@ namespace Mud.Server.Interfaces.Character
         int MovePoints { get; }
         int MaxMovePoints { get; }
 
-        CharacterFlags BaseCharacterFlags { get; }
-        CharacterFlags CharacterFlags { get; }
+        ICharacterFlags BaseCharacterFlags { get; }
+        ICharacterFlags CharacterFlags { get; }
 
-        IRVFlags BaseImmunities { get; }
-        IRVFlags Immunities { get; }
+        IIRVFlags BaseImmunities { get; }
+        IIRVFlags Immunities { get; }
 
-        IRVFlags BaseResistances { get; }
-        IRVFlags Resistances { get; }
+        IIRVFlags BaseResistances { get; }
+        IIRVFlags Resistances { get; }
 
-        IRVFlags BaseVulnerabilities { get; }
-        IRVFlags Vulnerabilities { get; }
+        IIRVFlags BaseVulnerabilities { get; }
+        IIRVFlags Vulnerabilities { get; }
 
         Sex BaseSex { get; }
         Sex Sex { get; }
@@ -98,10 +99,10 @@ namespace Mud.Server.Interfaces.Character
         int this[ResourceKinds resource] { get; }
         IEnumerable<ResourceKinds> CurrentResourceKinds { get; }
 
-        BodyForms BaseBodyForms { get; }
-        BodyForms BodyForms { get; }
-        BodyParts BaseBodyParts { get; }
-        BodyParts BodyParts { get; }
+        IBodyForms BaseBodyForms { get; }
+        IBodyForms BodyForms { get; }
+        IBodyParts BaseBodyParts { get; }
+        IBodyParts BodyParts { get; }
 
         // Abilities
         IEnumerable<IAbilityLearned> LearnedAbilities { get; }
@@ -152,8 +153,8 @@ namespace Mud.Server.Interfaces.Character
         void UpdateMovePoints(int amount);
         void UpdateAlignment(int amount);
         void Regen();
-        void AddBaseCharacterFlags(CharacterFlags characterFlags);
-        void RemoveBaseCharacterFlags(CharacterFlags characterFlags);
+        void AddBaseCharacterFlags(bool recompute, params string[] characterFlags);
+        void RemoveBaseCharacterFlags(bool recompute, params string[] characterFlags);
 
         // Form
         bool ChangeForm(Forms form);

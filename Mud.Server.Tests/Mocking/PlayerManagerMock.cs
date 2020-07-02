@@ -1,4 +1,4 @@
-﻿using Mud.Network;
+﻿using Mud.Network.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using System;
@@ -8,7 +8,7 @@ namespace Mud.Server.Tests.Mocking
 {
     internal class PlayerManagerMock : IPlayerManager
     {
-        private List<IPlayer> _players = new List<IPlayer>();
+        private readonly List<IPlayer> _players = new List<IPlayer>();
 
         public IEnumerable<IPlayer> Players => _players;
 

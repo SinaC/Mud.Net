@@ -4,6 +4,8 @@ using Moq;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
+using Mud.Server.Interfaces.Aura;
 
 namespace Mud.Server.Tests.Affects
 {
@@ -11,6 +13,19 @@ namespace Mud.Server.Tests.Affects
     [TestClass]
     public class CharacterAffectTests
     {
+
+        [TestMethod]
+        public void Character_OneCharacerAddAffect_DifferentBaseValue_Test()
+        {
+            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1", CharacterFlags = new CharacterFlags("Charm") }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
+            IAura characterAura = new Aura.Aura(null, null, Domain.AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new CharacterFlagsAffect { Operator = Domain.AffectOperators.Add, Modifier = new CharacterFlags("Haste") });
+            npc.AddAura(characterAura, false);
+            npc.Recompute();
+
+            Assert.IsTrue(npc.BaseCharacterFlags.IsSet("Charm"));
+            Assert.IsTrue(npc.CharacterFlags.HasAll("Charm", "Haste"));
+        }
+
         [TestMethod]
         public void OneNormalAttribute_Add_Test()
         {

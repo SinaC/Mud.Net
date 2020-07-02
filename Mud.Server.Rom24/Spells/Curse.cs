@@ -9,6 +9,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Effects;
 using System;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Rom24.Spells
 {
@@ -38,12 +39,12 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke(IItem item)
         {
-            if (item.ItemFlags.HasFlag(ItemFlags.Evil))
+            if (item.ItemFlags.IsSet("Evil"))
             {
                 Caster.Act(ActOptions.ToCharacter, "{0} is already filled with evil.", item);
                 return;
             }
-            if (item.ItemFlags.HasFlag(ItemFlags.Bless))
+            if (item.ItemFlags.IsSet("Bless"))
             {
                 IAura blessAura = item.GetAura(Bless.SpellName);
                 if (!DispelManager.SavesDispel(Level, blessAura?.Level ?? item.Level, 0))
@@ -51,7 +52,7 @@ namespace Mud.Server.Rom24.Spells
                     if (blessAura != null)
                         item.RemoveAura(blessAura, false);
                     Caster.Act(ActOptions.ToAll, "{0} glows with a red aura.", item);
-                    item.RemoveBaseItemFlags(ItemFlags.Bless, true);
+                    item.RemoveBaseItemFlags(true, "Bless");
                     return;
                 }
                 else
@@ -60,7 +61,7 @@ namespace Mud.Server.Rom24.Spells
             }
             AuraManager.AddAura(item, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = 1, Operator = AffectOperators.Add },
-                new ItemFlagsAffect { Modifier = ItemFlags.Evil, Operator = AffectOperators.Or });
+                new ItemFlagsAffect { Modifier = new ItemFlags("Evil"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0} glows with a malevolent aura.", item);
         }
     }

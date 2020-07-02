@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Ability;
+﻿using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -22,13 +21,13 @@ namespace Mud.Server.Rom24.Skills
         {
             User.Send("You attempt to hide.");
 
-            if (User.CharacterFlags.HasFlag(CharacterFlags.Hide))
-                User.RemoveBaseCharacterFlags(CharacterFlags.Hide);
+            if (User.CharacterFlags.IsSet("Hide"))
+                User.RemoveBaseCharacterFlags(false, "Hide");
 
             bool success = false;
             if (RandomManager.Chance(Learned))
             {
-                User.AddBaseCharacterFlags(CharacterFlags.Hide);
+                User.AddBaseCharacterFlags(false, "Hide");
                 success = true;
             }
 

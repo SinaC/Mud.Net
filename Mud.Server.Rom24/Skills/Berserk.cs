@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -34,15 +35,15 @@ namespace Mud.Server.Rom24.Skills
                 return baseSetup;
 
             if (Learned == 0
-                || (User is INonPlayableCharacter npcUser && !npcUser.OffensiveFlags.HasFlag(OffensiveFlags.Berserk)))
+                || (User is INonPlayableCharacter npcUser && !npcUser.OffensiveFlags.IsSet("Berserk")))
                 return "You turn red in the face, but nothing happens.";
 
-            if (User.CharacterFlags.HasFlag(CharacterFlags.Berserk)
+            if (User.CharacterFlags.IsSet("Berserk")
                 || User.GetAura(SkillName) != null
                 || User.GetAura(Frenzy.SpellName) != null)
                 return "You get a little madder.";
 
-            if (User.CharacterFlags.HasFlag(CharacterFlags.Calm))
+            if (User.CharacterFlags.IsSet("Calm"))
                 return "You're feeling to mellow to berserk.";
 
             if (User[ResourceKinds.Mana] < 50)
@@ -77,7 +78,7 @@ namespace Mud.Server.Rom24.Skills
                 int modifier = Math.Max(1, User.Level / 5);
                 int acModifier = Math.Max(10, 10 * (User.Level / 5));
                 AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                    new CharacterFlagsAffect { Modifier = CharacterFlags.Berserk, Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Berserk"), Operator = AffectOperators.Or },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = acModifier, Operator = AffectOperators.Add });

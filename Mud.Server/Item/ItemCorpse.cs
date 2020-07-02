@@ -36,7 +36,7 @@ namespace Mud.Server.Item
             if (IsPlayableCharacterCorpse)
             {
                 DecayPulseLeft = RandomManager.Range(25, 40) * Pulse.PulsePerMinutes;
-                BaseItemFlags |= ItemFlags.NoPurge; // was handled in object description in limbo.are
+                BaseItemFlags.Set("NoPurge"); // was handled in object description in limbo.are
                 NoTake = true;
             }
             else
@@ -210,19 +210,19 @@ namespace Mud.Server.Item
         }
         private PerformActionOnItemResults PerformActionOnItem(ICharacter victim, IItem item)
         {
-            if (item.ItemFlags.HasFlag(ItemFlags.Inventory))
+            if (item.ItemFlags.IsSet("Inventory"))
                 return PerformActionOnItemResults.Destroy;
             // TODO: check stay death flag
             if (item is IItemPotion)
                 item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(500,1000)));
             else if (item is IItemScroll)
                 item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(1000, 2500)));
-            if (item.ItemFlags.HasFlag((ItemFlags.VisibleDeath)))
-                item.RemoveBaseItemFlags(ItemFlags.VisibleDeath, false);
+            if (item.ItemFlags.IsSet("VisibleDeath"))
+                item.RemoveBaseItemFlags(false, "VisibleDeath");
             bool isFloating = item.WearLocation == WearLocations.Float;
             if (isFloating)
             {
-                if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
+                if (item.ItemFlags.IsSet("RotDeath"))
                 {
                     if (item is IItemContainer container && container.Content.Any())
                     {
@@ -239,11 +239,11 @@ namespace Mud.Server.Item
                 item.Recompute();
                 return PerformActionOnItemResults.MoveToRoom;
             }
-            if (item.ItemFlags.HasFlag(ItemFlags.RotDeath))
+            if (item.ItemFlags.IsSet("RotDeath"))
             {
                 int duration = RandomManager.Range(5, 10);
                 item.SetTimer(TimeSpan.FromMinutes(duration));
-                item.RemoveBaseItemFlags(ItemFlags.RotDeath, false);
+                item.RemoveBaseItemFlags(false, "RotDeath");
             }
             item.Recompute();
             return PerformActionOnItemResults.MoveToCorpse;

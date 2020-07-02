@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Interfaces.Character
 {
@@ -13,9 +14,9 @@ namespace Mud.Server.Interfaces.Character
         int DamageDiceValue { get; }
         int DamageDiceBonus { get; }
 
-        ActFlags ActFlags { get; }
-        OffensiveFlags OffensiveFlags { get; }
-        AssistFlags AssistFlags { get; }
+        IActFlags ActFlags { get; }
+        IOffensiveFlags OffensiveFlags { get; }
+        IAssistFlags AssistFlags { get; }
 
         bool IsQuestObjective(IPlayableCharacter questingCharacter);
 

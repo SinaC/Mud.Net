@@ -1,6 +1,7 @@
-﻿using Mud.Domain;
-using Mud.Server.Ability;
+﻿using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
@@ -20,7 +21,7 @@ namespace Mud.Server.Rom24.Spells
         {
         }
 
-        protected override CharacterFlags CharacterFlags => CharacterFlags.DetectInvis;
+        protected override ICharacterFlags CharacterFlags => new CharacterFlags("DetectMagic");
         protected override string SelfAlreadyAffected => "You can already sense magical auras.";
         protected override string NotSelfAlreadyAffected => "{0:N} can already detect magic.";
         protected override string SelfSuccess => "Your eyes tingle.";

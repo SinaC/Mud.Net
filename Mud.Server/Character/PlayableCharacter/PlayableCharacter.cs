@@ -12,6 +12,7 @@ using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -104,7 +105,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     this[conditionData.Key] = conditionData.Value;
             }
             //
-            BaseCharacterFlags = data.CharacterFlags;
+            BaseCharacterFlags = data.CharacterFlags ?? new CharacterFlags();
             BaseImmunities = data.Immunities;
             BaseResistances = data.Resistances;
             BaseVulnerabilities = data.Vulnerabilities;
@@ -350,7 +351,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (multiHitModifier?.MaxAttackCount <= 1)
                 return;
             // 3/ main hand haste attack
-            if (CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if (CharacterFlags.IsSet("Haste"))
                 OneHit(victim, mainHand, multiHitModifier);
             if (Fighting != victim)
                 return;
@@ -824,7 +825,7 @@ namespace Mud.Server.Character.PlayableCharacter
         // Misc
         public bool SacrificeItem(IItem item)
         {
-            if (item.ItemFlags.HasFlag(ItemFlags.NoSacrifice) || item.NoTake)
+            if (item.NoTake || item.ItemFlags.IsSet("NoSacrifice"))
             {
                 Act(ActOptions.ToCharacter, "{0} is not an acceptable sacrifice.", item);
                 return false;
@@ -978,7 +979,7 @@ namespace Mud.Server.Character.PlayableCharacter
             int manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
             int psyGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2; // TODO: correct formula
             // regen
-            if (CharacterFlags.HasFlag(CharacterFlags.Regeneration))
+            if (CharacterFlags.IsSet("Regeneration"))
                 hitGain *= 2;
             // class bonus
             hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
@@ -1064,9 +1065,9 @@ namespace Mud.Server.Character.PlayableCharacter
         {
             // Compute move and check if enough move left
             int moveCost = TableValues.MovementLoss(fromRoom.SectorType) + TableValues.MovementLoss(toRoom.SectorType);
-            if (CharacterFlags.HasFlag(CharacterFlags.Flying))
+            if (CharacterFlags.IsSet("Flying"))
                 moveCost /= 2; // flying is less exhausting
-            if (CharacterFlags.HasFlag(CharacterFlags.Slow))
+            if (CharacterFlags.IsSet("Slow"))
                 moveCost *= 2; // being slowed is more exhausting
             if (MovePoints < moveCost)
             {
@@ -1105,9 +1106,9 @@ namespace Mud.Server.Character.PlayableCharacter
                 {
                     if (follower is INonPlayableCharacter npcFollower)
                     {
-                        if (npcFollower.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcFollower.Position < Positions.Standing)
+                        if (npcFollower.CharacterFlags.IsSet("Charm") && npcFollower.Position < Positions.Standing)
                             ; // TODO: npcFollower.DoStand
-                        if (npcFollower.ActFlags.HasFlag(ActFlags.Aggressive) && toRoom.RoomFlags.HasFlag(RoomFlags.Law))
+                        if (npcFollower.ActFlags.IsSet("Aggressive") && toRoom.RoomFlags.IsSet("Law"))
                         {
                             npcFollower.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", npcFollower);
                             npcFollower.Send("You aren't allowed in the city.");
@@ -1254,7 +1255,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (levelDiff > 4)
                 baseExp = 160 + 20 * (levelDiff - 4);
             // do alignment computation
-            bool noAlign = victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.HasFlag(ActFlags.NoAlign);
+            bool noAlign = victim is INonPlayableCharacter npcVictim && npcVictim.ActFlags.IsSet("NoAlign");
             int alignDiff = victim.Alignment - Alignment;
             if (!noAlign)
             {

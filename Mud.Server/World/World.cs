@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Mud.Common;
+﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
@@ -27,7 +23,11 @@ using Mud.Server.Interfaces.World;
 using Mud.Server.Item;
 using Mud.Server.Random;
 using Mud.Server.Room;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Mud.Server.World
 {
@@ -142,10 +142,8 @@ namespace Mud.Server.World
             return RandomManager.Random(Rooms.Where(x =>
                 character.CanSee(x)
                 && !x.IsPrivate
-                && !x.RoomFlags.HasFlag(RoomFlags.Safe)
-                && !x.RoomFlags.HasFlag(RoomFlags.Private)
-                && !x.RoomFlags.HasFlag(RoomFlags.Solitary)
-                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.HasFlag(ActFlags.Aggressive) || !x.RoomFlags.HasFlag(RoomFlags.Law))));
+                && !x.RoomFlags.HasAny("Safe", "Private", "Solitary")
+                && (nonPlayableCharacter == null || nonPlayableCharacter.ActFlags.IsSet("Aggressive") || !x.RoomFlags.IsSet("Law"))));
         }
 
         public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)
@@ -713,7 +711,7 @@ namespace Mud.Server.World
                         if (itemBlueprint.WearLocation != WearLocations.Wield && itemBlueprint.WearLocation != WearLocations.Wield2H)
                         {
                             WearLocations newWearLocation = WearLocations.Wield;
-                            if (weaponBlueprint.Flags.HasFlag(WeaponFlags.TwoHands))
+                            if (weaponBlueprint.Flags.IsSet("TwoHands"))
                                 newWearLocation = WearLocations.Wield2H;
                             Log.Default.WriteLine(LogLevels.Error, "Weapon {0} has wear location {1} -> set wear location to {2}", itemBlueprint.Id, itemBlueprint.WearLocation, newWearLocation);
                             itemBlueprint.WearLocation = newWearLocation;

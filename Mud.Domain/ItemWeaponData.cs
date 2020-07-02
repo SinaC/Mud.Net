@@ -1,7 +1,9 @@
-﻿namespace Mud.Domain
+﻿using Mud.Server.Flags.Interfaces;
+
+namespace Mud.Domain
 {
     public class ItemWeaponData : ItemData
     {
-        public WeaponFlags WeaponFlags { get; set; }
+        public IWeaponFlags WeaponFlags { get; set; }
     }
 }

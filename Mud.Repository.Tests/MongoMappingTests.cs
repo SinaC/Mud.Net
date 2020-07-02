@@ -1,8 +1,11 @@
-﻿using AutoBogus;
-using AutoMapper;
+﻿using AutoMapper;
+using Bogus;
 using DeepEqual.Syntax;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.Container;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
+using System.Linq;
 
 namespace Mud.Repository.Tests
 {
@@ -12,7 +15,12 @@ namespace Mud.Repository.Tests
         [TestMethod]
         public void Test_PlayerData_Success()
         {
-            var original = AutoFaker.Generate<Domain.PlayerData>();
+            var faker = new Faker<Domain.PlayerData>()
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(Rom24CharacterFlags.Flags.First()))
+                .RuleForType<IItemFlags>(typeof(IItemFlags), x => new ItemFlags(Rom24ItemFlagValues.Flags.First()))
+                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => new WeaponFlags(Rom24WeaponFlagValues.Flags.First()))
+                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => new IRVFlags(Rom24IRVFlagValues.Flags.First()));
+            var original = faker.Generate();
 
             var internalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.PlayerData, Mongo.Domain.PlayerData>(original);
             var externalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Mongo.Domain.PlayerData, Domain.PlayerData>(internalPlayerData);
@@ -24,7 +32,12 @@ namespace Mud.Repository.Tests
         [ExpectedException(typeof(DeepEqualException))]
         public void Test_PlayerData_Failed()
         {
-            var original = AutoFaker.Generate<Domain.PlayerData>();
+            var faker = new Faker<Domain.PlayerData>()
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(Rom24CharacterFlags.Flags.First()))
+                .RuleForType<IItemFlags>(typeof(IItemFlags), x => new ItemFlags(Rom24ItemFlagValues.Flags.First()))
+                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => new WeaponFlags(Rom24WeaponFlagValues.Flags.First()))
+                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => new IRVFlags(Rom24IRVFlagValues.Flags.First()));
+            var original = faker.Generate();
 
             var internalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.PlayerData, Mongo.Domain.PlayerData>(original);
             var externalPlayerData = DependencyContainer.Current.GetInstance<IMapper>().Map<Mongo.Domain.PlayerData, Domain.PlayerData>(internalPlayerData);
@@ -38,7 +51,12 @@ namespace Mud.Repository.Tests
         [TestMethod]
         public void Test_AdminData_Success()
         {
-            var original = AutoFaker.Generate<Domain.AdminData>();
+            var faker = new Faker<Domain.AdminData>()
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(Rom24CharacterFlags.Flags.First()))
+                .RuleForType<IItemFlags>(typeof(IItemFlags), x => new ItemFlags(Rom24ItemFlagValues.Flags.First()))
+                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => new WeaponFlags(Rom24WeaponFlagValues.Flags.First()))
+                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => new IRVFlags(Rom24IRVFlagValues.Flags.First()));
+            var original = faker.Generate();
 
             var internalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AdminData, Mongo.Domain.AdminData>(original);
             var externalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Mongo.Domain.AdminData, Domain.AdminData>(internalAdminData);
@@ -50,7 +68,12 @@ namespace Mud.Repository.Tests
         [ExpectedException(typeof(DeepEqualException))]
         public void Test_AdminData_Failed()
         {
-            var original = AutoFaker.Generate<Domain.AdminData>();
+            var faker = new Faker<Domain.AdminData>()
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(Rom24CharacterFlags.Flags.First()))
+                .RuleForType<IItemFlags>(typeof(IItemFlags), x => new ItemFlags(Rom24ItemFlagValues.Flags.First()))
+                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => new WeaponFlags(Rom24WeaponFlagValues.Flags.First()))
+                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => new IRVFlags(Rom24IRVFlagValues.Flags.First()));
+            var original = faker.Generate();
 
             var internalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AdminData, Mongo.Domain.AdminData>(original);
             var externalAdminData = DependencyContainer.Current.GetInstance<IMapper>().Map<Mongo.Domain.AdminData, Domain.AdminData>(internalAdminData);
@@ -70,12 +93,12 @@ namespace Mud.Repository.Tests
                 {
                     new Domain.ItemWeaponFlagsAffectData
                     {
-                        Modifier = Domain.WeaponFlags.Holy,
+                        Modifier = new WeaponFlags("Holy"),
                         Operator = Domain.AffectOperators.Assign,
                     },
                     new Domain.ItemFlagsAffectData
                     {
-                        Modifier = Domain.ItemFlags.Evil,
+                        Modifier = new ItemFlags("Evil"),
                         Operator = Domain.AffectOperators.Or,
                     },
                     new Domain.CharacterSexAffectData
@@ -85,12 +108,12 @@ namespace Mud.Repository.Tests
                     new Domain.CharacterIRVAffectData
                     {
                         Location = Domain.IRVAffectLocations.Resistances,
-                        Modifier = Domain.IRVFlags.Cold,
+                        Modifier = new IRVFlags("Cold"),
                         Operator = Domain.AffectOperators.Add,
                     },
                     new Domain.CharacterFlagsAffectData
                     {
-                        Modifier = Domain.CharacterFlags.Regeneration,
+                        Modifier = new CharacterFlags("Regeneration"),
                         Operator = Domain.AffectOperators.Nor,
                     },
                     new Domain.CharacterAttributeAffectData

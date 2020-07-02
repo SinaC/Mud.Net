@@ -7,6 +7,7 @@ using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 using System;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Tests
 {
@@ -46,7 +47,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void SavesSpell_Npc_ImmuneAcid_DamageAcid_Test()
         {
-            ICharacter victim = new NonPlayableCharacter(Guid.NewGuid(), new CharacterNormalBlueprint { Id = 1, Name = "Mob1", Level = 1, Immunities = Domain.IRVFlags.Acid }, new Room.Room(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
+            ICharacter victim = new NonPlayableCharacter(Guid.NewGuid(), new CharacterNormalBlueprint { Id = 1, Name = "Mob1", Level = 1, Immunities = new IRVFlags("Acid") }, new Room.Room(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
@@ -60,7 +61,7 @@ namespace Mud.Server.Tests
         [TestMethod]
         public void SavesSpell_Npc_ImmunePoison_DamageAcid_Test()
         {
-            ICharacter victim = new NonPlayableCharacter(Guid.NewGuid(), new CharacterNormalBlueprint { Id = 1, Name = "Mob1", Level = 1, Immunities = Domain.IRVFlags.Poison }, new Room.Room(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
+            ICharacter victim = new NonPlayableCharacter(Guid.NewGuid(), new CharacterNormalBlueprint { Id = 1, Name = "Mob1", Level = 1, Immunities = new IRVFlags("Poison") }, new Room.Room(Guid.NewGuid(), new RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
             var randomManagerMock = new Mock<IRandomManager>();
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))

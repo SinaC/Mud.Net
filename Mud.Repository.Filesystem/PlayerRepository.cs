@@ -4,7 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Mud.Logger;
 using Mud.Repository.Filesystem.Common;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Repository.Filesystem
 {

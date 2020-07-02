@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Affects;
 using Mud.Server.Effects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -61,7 +62,7 @@ namespace Mud.Server.Rom24.Effects
                 else
                     AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                         new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
-                        new CharacterFlagsAffect { Modifier = CharacterFlags.Poison, Operator = AffectOperators.Or },
+                        new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                         new PoisonDamageAffect());
             }
             // equipment
@@ -78,8 +79,7 @@ namespace Mud.Server.Rom24.Effects
             IItemPoisonable poisonable = item as IItemPoisonable;
             if (poisonable == null)
                 return;
-            if (poisonable.ItemFlags.HasFlag(ItemFlags.BurnProof)
-                || poisonable.ItemFlags.HasFlag(ItemFlags.Bless)
+            if (poisonable.ItemFlags.HasAny("BurnProof", "Bless")
                 || RandomManager.Chance(25))
                 return;
             int chance = level / 4 + modifier / 10;
@@ -87,7 +87,7 @@ namespace Mud.Server.Rom24.Effects
                 chance = (chance - 25) / 2 + 25;
             if (chance > 50)
                 chance = (chance - 50) / 2 + 50;
-            if (poisonable.ItemFlags.HasFlag(ItemFlags.Bless))
+            if (poisonable.ItemFlags.IsSet("Bless"))
                 chance -= 5;
             chance -= poisonable.Level * 2;
             chance = chance.Range(5, 95);

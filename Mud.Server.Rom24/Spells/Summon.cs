@@ -33,18 +33,13 @@ namespace Mud.Server.Rom24.Spells
             IPlayableCharacter pcVictim = Victim as IPlayableCharacter;
             if (Victim == Caster
                 || Victim.Room == null
-                || Caster.Room.RoomFlags.HasFlag(RoomFlags.Safe)
-                || Caster.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.Safe)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.Private)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.Solitary)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.NoRecall)
-                || Victim.Room.RoomFlags.HasFlag(RoomFlags.ImpOnly)
-                || (npcVictim != null && npcVictim.ActFlags.HasFlag(ActFlags.Aggressive))
+                || Caster.Room.RoomFlags.HasAny("Safe", "NoRecall")
+                || Victim.Room.RoomFlags.HasAny("Safe", "Private", "Solitary", "NoRecall", "ImpOnly")
+                || (npcVictim != null && npcVictim.ActFlags.IsSet("Aggressive"))
                 || Victim.Level >= Level + 3
                 || pcVictim?.IsImmortal == true
                 || Victim.Fighting != null
-                || (npcVictim != null && npcVictim.Immunities.HasFlag(IRVFlags.Summon))
+                || (npcVictim != null && npcVictim.Immunities.IsSet("Summon"))
                 || (npcVictim != null && (npcVictim.Blueprint is CharacterShopBlueprint))
                 //TODO: plr_nosummon || playableCharacterVictim
                 || (npcVictim != null && Victim.SavesSpell(Level, SchoolTypes.Other)))

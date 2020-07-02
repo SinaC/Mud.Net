@@ -26,7 +26,7 @@ namespace Mud.Server.Rom24.Skills
             if (baseSetup != null)
                 return baseSetup;
 
-            if (Learned == 0 || (User is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.HasFlag(OffensiveFlags.Kick)))
+            if (Learned == 0 || (User is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.IsSet("Kick")))
                 return "You better leave the martial arts to fighters.";
 
             return null;

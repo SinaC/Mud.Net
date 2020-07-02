@@ -10,6 +10,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Character.PlayableCharacter;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
@@ -43,7 +44,7 @@ namespace Mud.Server.Tests
                 MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
                 Trains = AutoFaker.Generate<int>(),
                 Practices = AutoFaker.Generate<int>(),
-                CharacterFlags = AutoFaker.Generate<CharacterFlags>(),
+                CharacterFlags = new CharacterFlags("Charm", "Calm", "Berserk"),
                 Immunities = AutoFaker.Generate<IRVFlags>(),
                 Resistances = AutoFaker.Generate<IRVFlags>(),
                 Vulnerabilities = AutoFaker.Generate<IRVFlags>(),
@@ -222,7 +223,7 @@ namespace Mud.Server.Tests
                         {
                             ItemId = lightBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
-                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                            ItemFlags = new ItemFlags("Bless"),
                         },
                     },
                     new EquippedItemData
@@ -232,14 +233,14 @@ namespace Mud.Server.Tests
                         {
                             ItemId = containerBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
-                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                            ItemFlags = new ItemFlags("Bless"),
                             Contains = new ItemData[]
                             {
                                 new ItemPortalData
                                 {
                                     ItemId = portalBlueprint.Id,
                                     DecayPulseLeft = AutoFaker.Generate<int>(),
-                                    ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                                    ItemFlags = new ItemFlags("Bless"),
                                 }
                             }
                         },
@@ -251,7 +252,7 @@ namespace Mud.Server.Tests
                         {
                             ItemId = jewelryBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
-                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                            ItemFlags = new ItemFlags("Bless"),
                         },
                     },
                     new EquippedItemData
@@ -261,7 +262,7 @@ namespace Mud.Server.Tests
                         {
                             ItemId = armorBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
-                            ItemFlags = AutoFaker.Generate<ItemFlags>(),
+                            ItemFlags = new ItemFlags("Bless"),
                         },
                     },
                 },

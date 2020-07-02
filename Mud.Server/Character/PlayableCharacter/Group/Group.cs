@@ -5,7 +5,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
 using System.Linq;
 using System.Text;
 

@@ -4,6 +4,8 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -24,7 +26,8 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
-            BaseWeaponFlags = blueprint.Flags;
+            BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), blueprint.Flags, null);
+            WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), BaseWeaponFlags, null);
             DamageNoun = blueprint.DamageNoun;
         }
 
@@ -35,7 +38,8 @@ namespace Mud.Server.Item
             DiceCount = blueprint.DiceCount;
             DiceValue = blueprint.DiceValue;
             DamageType = blueprint.DamageType;
-            BaseWeaponFlags = itemData.WeaponFlags;
+            BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), itemData.WeaponFlags, null);
+            WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), BaseWeaponFlags, null);
             DamageNoun = blueprint.DamageNoun;
         }
 
@@ -72,8 +76,8 @@ namespace Mud.Server.Item
         public int DiceValue { get; }
         public SchoolTypes DamageType { get; }
 
-        public WeaponFlags BaseWeaponFlags { get; protected set; }
-        public WeaponFlags WeaponFlags { get; protected set; }
+        public IWeaponFlags BaseWeaponFlags { get; protected set; }
+        public IWeaponFlags WeaponFlags { get; protected set; }
 
         public string DamageNoun { get; set; }
 
@@ -88,13 +92,13 @@ namespace Mud.Server.Item
             {
                 case AffectOperators.Add:
                 case AffectOperators.Or:
-                    WeaponFlags |= affect.Modifier;
+                    WeaponFlags.Set(affect.Modifier);
                     break;
                 case AffectOperators.Assign:
-                    WeaponFlags = affect.Modifier;
+                    WeaponFlags.Copy(affect.Modifier);
                     break;
                 case AffectOperators.Nor:
-                    WeaponFlags &= ~affect.Modifier;
+                    WeaponFlags.Unset(affect.Modifier);
                     break;
             }
         }
@@ -105,15 +109,15 @@ namespace Mud.Server.Item
 
         public override StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay)
         {
-            if (WeaponFlags.HasFlag(WeaponFlags.Flaming)) sb.Append("%R%(Flaming)%x%");
-            if (WeaponFlags.HasFlag(WeaponFlags.Frost)) sb.Append("%C%(Frost)%x%");
-            if (WeaponFlags.HasFlag(WeaponFlags.Vampiric)) sb.Append("%D%(Vampiric)%x%");
-            if (WeaponFlags.HasFlag(WeaponFlags.Sharp)) sb.Append("%W%(Sharp)%x%");
-            if (WeaponFlags.HasFlag(WeaponFlags.Vorpal)) sb.Append("%M%(Vorpal)%x%");
-            // Two-handed not handled
-            if (WeaponFlags.HasFlag(WeaponFlags.Shocking)) sb.Append("%Y%(Sparkling)%x%");
-            if (WeaponFlags.HasFlag(WeaponFlags.Poison)) sb.Append("%G%(Envenomed)%x%");
-            if (WeaponFlags.HasFlag(WeaponFlags.Holy)) sb.Append("%C%(Holy)%x%");
+            if (WeaponFlags.IsSet("Flaming")) sb.Append("%R%(Flaming)%x%");
+            if (WeaponFlags.IsSet("Frost")) sb.Append("%C%(Frost)%x%");
+            if (WeaponFlags.IsSet("Vampiric")) sb.Append("%D%(Vampiric)%x%");
+            if (WeaponFlags.IsSet("Sharp")) sb.Append("%W%(Sharp)%x%");
+            if (WeaponFlags.IsSet("Vorpal")) sb.Append("%M%(Vorpal)%x%");
+            // Two-handed not displayed
+            if (WeaponFlags.IsSet("Shocking")) sb.Append("%Y%(Sparkling)%x%");
+            if (WeaponFlags.IsSet("Poison")) sb.Append("%G%(Envenomed)%x%");
+            if (WeaponFlags.IsSet("Holy")) sb.Append("%C%(Holy)%x%");
             //
             return base.Append(sb, viewer, shortDisplay);
         }
@@ -135,7 +139,7 @@ namespace Mud.Server.Item
         {
             base.ResetAttributes();
 
-            WeaponFlags = BaseWeaponFlags;
+            WeaponFlags.Copy(BaseWeaponFlags);
         }
 
         #endregion

@@ -273,9 +273,9 @@
     <Compile Include="Player\Misc\Typo.cs" />
     <Compile Include="Player\Misc\Bug.cs" />
     <Compile Include="Player\Test.cs" />
-    <Compile Include="Races\FourthWield.cs" />
-    <Compile Include="Races\DualWield.cs" />
-    <Compile Include="Races\ThirdWield.cs" />
+    <Compile Include="Abilities\FourthWield.cs" />
+    <Compile Include="Abilities\DualWield.cs" />
+    <Compile Include="Abilities\ThirdWield.cs" />
     <Compile Include="Room\Look.cs" />
     <Compile Include="Server\TimeManager.cs" />
     <Compile Include="Table\TableValues.cs" />
@@ -340,9 +340,9 @@
       <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
       <Name>Mud.Logger</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Network\Mud.Network.csproj">
+    <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj">
       <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
-      <Name>Mud.Network</Name>
+      <Name>Mud.Network.Interfaces</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj">
       <Project>{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}</Project>
@@ -359,6 +359,14 @@
     <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj">
       <Project>{e4077e94-96ea-4999-ae8f-f93b519e4411}</Project>
       <Name>Mud.Server.Class</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5b52488b-2cbe-4fc7-9004-e0c23e97907f}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
+      <Project>{17B2B5F8-66C4-4E77-B910-C41C0539F436}</Project>
+      <Name>Mud.Server.Flags</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
       <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
@@ -380,9 +388,9 @@
       <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
       <Name>Mud.Server.Random</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Mud.Settings\Mud.Settings.csproj">
+    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj">
       <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
-      <Name>Mud.Settings</Name>
+      <Name>Mud.Settings.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

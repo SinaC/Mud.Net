@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Ability;
+﻿using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -19,7 +18,7 @@ namespace Mud.Server.Rom24.Passives
         protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
         {
             INonPlayableCharacter npc = user as INonPlayableCharacter;
-            if (user.CharacterFlags.HasFlag(CharacterFlags.Slow) && (npc == null || !npc.OffensiveFlags.HasFlag(OffensiveFlags.Fast)))
+            if (user.CharacterFlags.IsSet("Slow") && (npc == null || !npc.OffensiveFlags.IsSet("Fast")))
                 return false;
             int chance = learnPercentage / 2;
 

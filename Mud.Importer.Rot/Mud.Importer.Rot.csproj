@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
+      <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
+      <Name>Mud.DataStructures</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
       <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
       <Name>Mud.Domain</Name>
@@ -60,6 +64,14 @@
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
       <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
       <Name>Mud.Server.Blueprints</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
+      <Project>{5b52488b-2cbe-4fc7-9004-e0c23e97907f}</Project>
+      <Name>Mud.Server.Flags.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
+      <Project>{17b2b5f8-66c4-4e77-b910-c41c0539f436}</Project>
+      <Name>Mud.Server.Flags</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

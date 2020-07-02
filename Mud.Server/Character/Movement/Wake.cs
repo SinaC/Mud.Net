@@ -40,7 +40,7 @@ namespace Mud.Server.Character.Movement
                 return StringHelpers.CharacterNotFound;
             if (Whom.Position > Positions.Sleeping)
                 return Actor.ActPhrase("{0:N} is already awake.", Whom);
-            if (Whom.CharacterFlags.HasFlag(CharacterFlags.Sleep))
+            if (Whom.CharacterFlags.IsSet("Sleep"))
                 return Actor.ActPhrase("You can't wake {0:m}!", Whom);
             return null;
         }

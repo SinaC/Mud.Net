@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -27,7 +28,7 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke()
         {
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Slow)
+            if (Victim.CharacterFlags.IsSet("Slow")
                 || Victim.GetAura(SpellName) != null)
             {
                 if (Victim == Caster)
@@ -37,7 +38,7 @@ namespace Mud.Server.Rom24.Spells
                 return;
             }
 
-            if (Victim.Immunities.HasFlag(IRVFlags.Magic)
+            if (Victim.Immunities.IsSet("Magic")
                 || Victim.SavesSpell(Level, SchoolTypes.Other))
             {
                 if (Victim != Caster)
@@ -46,7 +47,7 @@ namespace Mud.Server.Rom24.Spells
                 return;
             }
 
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if (Victim.CharacterFlags.IsSet("Haste"))
             {
                 if (DispelManager.TryDispel(Level, Victim, Haste.SpellName) != TryDispelReturnValues.Dispelled)
                 {
@@ -63,7 +64,7 @@ namespace Mud.Server.Rom24.Spells
             int modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
             AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlags.Slow, Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Slow"), Operator = AffectOperators.Or });
             Victim.Recompute();
             Victim.Send("You feel yourself slowing d o w n...");
             Caster.Act(ActOptions.ToRoom, "{0} starts to move in slow motion.", Victim);

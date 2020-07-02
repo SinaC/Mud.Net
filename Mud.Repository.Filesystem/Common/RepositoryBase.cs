@@ -1,8 +1,8 @@
 ﻿using System;
 using AutoMapper;
-using Mud.Settings;
 using System.IO;
 using System.Xml.Serialization;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Repository.Filesystem.Common
 {

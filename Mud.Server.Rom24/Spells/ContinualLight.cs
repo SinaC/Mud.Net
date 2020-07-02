@@ -3,12 +3,13 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
 using Mud.Server.Common;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings;
+using Mud.Settings.Interfaces;
 using System;
 
 namespace Mud.Server.Rom24.Spells
@@ -34,14 +35,14 @@ namespace Mud.Server.Rom24.Spells
         {
             if (Item != null)
             {
-                if (Item.ItemFlags.HasFlag(ItemFlags.Glowing))
+                if (Item.ItemFlags.IsSet("Glowing"))
                 {
                     Caster.Act(ActOptions.ToCharacter, "{0} is already glowing.", Item);
                     return;
                 }
 
                 AuraManager.AddAura(Item, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                    new ItemFlagsAffect { Modifier = ItemFlags.Glowing, Operator = AffectOperators.Or });
+                    new ItemFlagsAffect { Modifier = new ItemFlags("Glowing"), Operator = AffectOperators.Or });
                 Caster.Act(ActOptions.ToAll, "{0} glows with a white light.", Item);
                 return;
             }

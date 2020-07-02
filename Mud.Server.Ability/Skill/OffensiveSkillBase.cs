@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -37,7 +36,7 @@ namespace Mud.Server.Ability.Skill
                 }
                 // TODO: check_killer
             }
-            if (User is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcCaster.Master == Victim)
+            if (User is INonPlayableCharacter npcCaster && npcCaster.CharacterFlags.IsSet("Charm") && npcCaster.Master == Victim)
                 return "You can't do that on your own follower.";
             // victim found
             return null;

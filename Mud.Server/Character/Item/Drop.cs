@@ -120,7 +120,7 @@ namespace Mud.Server.Character.Item
         protected virtual bool DropItem(IItem item)
         {
             //
-            if (item.ItemFlags.HasFlag(ItemFlags.NoDrop))
+            if (item.ItemFlags.IsSet("NoDrop"))
             {
                 Actor.Send("You can't let go of it.");
                 return false;
@@ -131,7 +131,7 @@ namespace Mud.Server.Character.Item
             item.ChangeContainer(Actor.Room);
 
             //
-            if (item.ItemFlags.HasFlag(ItemFlags.MeltOnDrop))
+            if (item.ItemFlags.IsSet("MeltOnDrop"))
             {
                 Actor.Act(ActOptions.ToAll, "{0} dissolves into smoke.", item);
                 ItemManager.RemoveItem(item);

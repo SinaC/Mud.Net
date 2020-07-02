@@ -24,7 +24,7 @@ namespace Mud.Server.Character.Information
                 return baseGuards;
             if (Actor.Room == null)
                 return "You are nowhere";
-            if (Actor.Room.RoomFlags.HasFlag(RoomFlags.NoWhere))
+            if (Actor.Room.RoomFlags.IsSet("NoWhere"))
                 Actor.Send("You don't recognize where you are.");
 
             Pattern = actionInput.Parameters.Length > 0
@@ -49,10 +49,10 @@ namespace Mud.Server.Character.Information
             else
             {
                 playableCharacters = Actor.Room.Area.PlayableCharacters.Where(x => x.Room != null
-                                                                             && !x.Room.RoomFlags.HasFlag(RoomFlags.NoWhere)
+                                                                             && !x.Room.RoomFlags.IsSet("NoWhere")
                                                                              && !x.Room.IsPrivate
-                                                                             && !x.CharacterFlags.HasFlag(CharacterFlags.Sneak)
-                                                                             && !x.CharacterFlags.HasFlag(CharacterFlags.Hide)
+                                                                             && !x.CharacterFlags.IsSet("Sneak")
+                                                                             && !x.CharacterFlags.IsSet("Hide")
                                                                              && Actor.CanSee(x)
                                                                              && StringCompareHelpers.StringListsStartsWith(x.Keywords, Pattern.Tokens));
                 notFound = $"You didn't find any {Pattern.Value}.";

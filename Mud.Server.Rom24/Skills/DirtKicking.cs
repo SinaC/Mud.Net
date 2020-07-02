@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -35,13 +36,13 @@ namespace Mud.Server.Rom24.Skills
 
             INonPlayableCharacter npcUser = User as INonPlayableCharacter;
             if (Learned == 0
-                || (npcUser != null && !npcUser.OffensiveFlags.HasFlag(OffensiveFlags.DirtKick)))
+                || (npcUser != null && !npcUser.OffensiveFlags.IsSet("DirtKick")))
                 return "You get your feet dirty.";
 
             if (Victim == User)
                 return "Very funny.";
 
-            if (Victim.CharacterFlags.HasFlag(CharacterFlags.Blind))
+            if (Victim.CharacterFlags.IsSet("Blind"))
                 return User.ActPhrase("{0:e}'s already been blinded.", Victim);
 
             string safeResult = Victim.IsSafe(User);
@@ -50,7 +51,7 @@ namespace Mud.Server.Rom24.Skills
 
             // TODO: check kill stealing
 
-            if (User.CharacterFlags.HasFlag(CharacterFlags.Charm) && npcUser?.Master == Victim)
+            if (User.CharacterFlags.IsSet("Charm") && npcUser?.Master == Victim)
                 return User.ActPhrase("But {0:N} is your friend!", Victim);
 
             return null;
@@ -64,9 +65,9 @@ namespace Mud.Server.Rom24.Skills
             chance += User[CharacterAttributes.Dexterity];
             chance -= 2 * Victim[CharacterAttributes.Dexterity];
             // speed
-            if ((User as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || User.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if ((User as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || User.CharacterFlags.IsSet("Haste"))
                 chance += 10;
-            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.HasFlag(OffensiveFlags.Fast) == true || Victim.CharacterFlags.HasFlag(CharacterFlags.Haste))
+            if ((Victim as INonPlayableCharacter)?.OffensiveFlags.IsSet("Fast") == true || Victim.CharacterFlags.IsSet("Haste"))
                 chance -= 25;
             // level
             chance += (User.Level - Victim.Level) * 2;
@@ -104,12 +105,12 @@ namespace Mud.Server.Rom24.Skills
                 Victim.Send("You can't see a thing!");
 
                 int damage = RandomManager.Range(2, 5);
-                Victim.AbilityDamage(User, damage, SchoolTypes.None, "kicked dirt", false);
+                DamageResults damageResults = Victim.AbilityDamage(User, damage, SchoolTypes.None, "kicked dirt", false);
                 // TODO check killer
-
-                AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(1)/*originally 0*/, AuraFlags.NoDispel, true,
-                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = CharacterFlags.Blind, Operator = AffectOperators.Or });
+                if (damageResults == DamageResults.Done)
+                    AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(1)/*originally 0*/, AuraFlags.NoDispel, true,
+                        new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
+                        new CharacterFlagsAffect { Modifier = new CharacterFlags("Blind"), Operator = AffectOperators.Or });
                 return true;
             }
             else
