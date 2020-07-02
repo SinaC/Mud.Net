@@ -36,6 +36,9 @@ namespace Mud.Server.Tests
         public void TestInitialize()
         {
             (Container.DependencyContainer.Current.GetInstance<IWorld>() as WorldMock).Clear();
+            (Container.DependencyContainer.Current.GetInstance<IRoomManager>() as RoomManagerMock).Clear();
+            (Container.DependencyContainer.Current.GetInstance<IItemManager>() as ItemManagerMock).Clear();
+            (Container.DependencyContainer.Current.GetInstance<ICharacterManager>() as CharacterManagerMock).Clear();
         }
 
         [AssemblyInitialize]

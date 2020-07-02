@@ -8,6 +8,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Item;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Mud.Server.Tests.Mocking
@@ -142,6 +143,8 @@ namespace Mud.Server.Tests.Mocking
             if (blueprint == null)
                 return null;
 
+            Debug.Print($"Blueprint({blueprint.Name}).WearLoc: {blueprint.WearLocation}");
+
             IItem item = null;
             switch (blueprint)
             {
@@ -230,6 +233,7 @@ namespace Mud.Server.Tests.Mocking
 
             if (item != null)
             {
+                Debug.Print($"Item({item.Name}).WearLoc: {item.WearLocation}");
                 _items.Add(item);
                 return item;
             }
@@ -254,6 +258,12 @@ namespace Mud.Server.Tests.Mocking
         public void AddItemBlueprint(ItemBlueprintBase blueprint)
         {
             _itemBlueprints.Add(blueprint);
+        }
+
+        public void Clear()
+        {
+            _items.Clear();
+            _itemBlueprints.Clear();
         }
     }
 }

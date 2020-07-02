@@ -59,5 +59,11 @@ namespace Mud.Server.Tests.Mocking
         {
             throw new NotImplementedException();
         }
+
+        public void Clear()
+        {
+            _characters.Clear();
+            _characterBlueprints.Clear();
+        }
     }
 }
