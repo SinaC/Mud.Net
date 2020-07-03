@@ -70,7 +70,7 @@ namespace Mud.Server.WPFTestApplication
 
         internal class AssemblyHelper : IAssemblyHelper
         {
-            public IEnumerable<Assembly> AllReferencedAssemblies => new [] { typeof(Server.Server).Assembly, typeof(Rom24.Spells.AcidBlast).Assembly};
+            public IEnumerable<Assembly> AllReferencedAssemblies => new [] { typeof(Server.Server).Assembly, typeof(Rom24.Spells.AcidBlast).Assembly, typeof(AdditionalAbilities.Crush).Assembly};
         }
 
         internal void RegisterAllTypes(IAssemblyHelper assemblyHelper)

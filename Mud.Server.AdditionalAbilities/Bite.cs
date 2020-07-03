@@ -6,16 +6,15 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Skills
+namespace Mud.Server.AdditionalAbilities
 {
-    [CharacterCommand("kick", "Ability", "Skill", "Combat")]
-    [Syntax("[cmd] <victim>")]
-    [Skill(SkillName, AbilityEffects.Damage)]
-    public class Kick : FightingSkillBase
+    [CharacterCommand("bite", "Abilities", "Skills", "Combat")]
+    [Skill(SkillName, AbilityEffects.Damage, LearnDifficultyMultiplier = 1, PulseWaitTime = 12)]
+    public class Bite : FightingSkillBase
     {
-        public const string SkillName = "Kick";
+        private const string SkillName = "Bite";
 
-        public Kick(IRandomManager randomManager) 
+        public Bite(IRandomManager randomManager)
             : base(randomManager)
         {
         }
@@ -26,8 +25,10 @@ namespace Mud.Server.Rom24.Skills
             if (baseSetup != null)
                 return baseSetup;
 
-            if (Learned == 0 || (User is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.IsSet("Kick")))
-                return "You better leave the martial arts to fighters.";
+            INonPlayableCharacter npcUser = User as INonPlayableCharacter;
+            if (Learned == 0
+                || (npcUser != null && !npcUser.OffensiveFlags.IsSet("Bite")))
+                return "Hmmm...";
 
             return null;
         }
@@ -36,11 +37,12 @@ namespace Mud.Server.Rom24.Skills
         {
             if (RandomManager.Chance(Learned))
             {
-                int damage = RandomManager.Range(1, User.Level);
-                Victim.AbilityDamage(User, damage, SchoolTypes.Bash, "kick", true);
+                int damage = RandomManager.Range(1, 2 * User.Level);
+                Victim.AbilityDamage(User, damage, SchoolTypes.Pierce, "bite", true);
                 //check_killer(ch,victim);
                 return true;
             }
+            //check_killer(ch,victim);
             // No need to start a fight because this ability can only used in combat
             return false;
         }

@@ -369,7 +369,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             //    return;
             // fun stuff
             // TODO: if wait > 0 return
-            int number = 0;//int number = RandomManager.Range(0, 8);
+            int number = RandomManager.Range(0, 9);
             switch (number)
             {
                 case 0: if (OffensiveFlags.IsSet("Bash"))
@@ -389,17 +389,19 @@ namespace Mud.Server.Character.NonPlayableCharacter
                         UseSkill("Dirt Kicking", CommandHelpers.NoParameters);
                     break;
                 case 5: if (OffensiveFlags.IsSet("Tail"))
-                        ; // TODO: see raceabilities.C:639
+                        UseSkill("Tail", CommandHelpers.NoParameters);
                     break;
                 case 6: if (OffensiveFlags.IsSet("Trip"))
                         UseSkill("Trip", CommandHelpers.NoParameters);
                     break;
                 case 7: if (OffensiveFlags.IsSet("Crush"))
-                        ; // TODO: see raceabilities.C:525
+                        UseSkill("Crush", CommandHelpers.NoParameters);
                     break;
-                case 8:
-                    if (OffensiveFlags.IsSet("Backstab"))
+                case 8: if (OffensiveFlags.IsSet("Backstab"))
                         UseSkill("Backstab", CommandHelpers.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
+                    break;
+                case 9: if (OffensiveFlags.IsSet("Bite"))
+                        UseSkill("Bite", CommandHelpers.NoParameters);
                     break;
             }
         }
@@ -578,6 +580,18 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 case "Rescue":
                     learned = 40 + Level;
                     break;
+                case "Tail":
+                    if (OffensiveFlags.IsSet("Tail"))
+                        learned = 10 + 3 * Level;
+                    break;
+                case "Bite":
+                    if (OffensiveFlags.IsSet("Bite"))
+                        learned = 10 + 3 * Level;
+                    break;
+                case "Crush":
+                    if (OffensiveFlags.IsSet("Crush"))
+                        learned = 10 + 3 * Level;
+                    break;
                 case "Recall":
                     learned = 40 + Level;
                     break;
@@ -710,6 +724,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             var abilityInfo = AbilityManager.Search(skillName, AbilityTypes.Skill);
             if (abilityInfo == null)
             {
+                Log.Default.WriteLine(LogLevels.Warning, "Unknown skill {0}.", skillName);
                 Send("This skill doesn't exist.");
                 return false;
             }

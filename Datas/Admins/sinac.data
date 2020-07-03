@@ -49,7 +49,7 @@
             <ItemId>3365</ItemId>
             <Level>8</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags>Magic,Glowing</ItemFlags>
+            <ItemFlags>Glowing,Magic</ItemFlags>
             <Auras />
             <TimeLeft>29987</TimeLeft>
           </Item>
@@ -60,7 +60,7 @@
             <ItemId>3353</ItemId>
             <Level>5</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags/>
+            <ItemFlags />
             <Auras />
           </Item>
         </EquippedItemData>
@@ -70,7 +70,7 @@
             <ItemId>3361</ItemId>
             <Level>3</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags/>
+            <ItemFlags />
             <Auras />
           </Item>
         </EquippedItemData>
@@ -80,7 +80,7 @@
             <ItemId>3362</ItemId>
             <Level>5</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags/>
+            <ItemFlags />
             <Auras />
           </Item>
         </EquippedItemData>
@@ -90,7 +90,7 @@
             <ItemId>3359</ItemId>
             <Level>5</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags/>
+            <ItemFlags />
             <Auras />
           </Item>
         </EquippedItemData>
@@ -130,7 +130,7 @@
             <ItemId>106</ItemId>
             <Level>3</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
-            <ItemFlags/>
+            <ItemFlags />
             <Auras />
             <MaxChargeCount>1</MaxChargeCount>
             <CurrentChargeCount>1</CurrentChargeCount>
@@ -139,60 +139,6 @@
         </EquippedItemData>
       </Equipments>
       <Inventory>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags/>
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags/>
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags/>
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>Magic</ItemFlags>
-          <Auras />
-          <WeaponFlags/>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>Magic</ItemFlags>
-          <Auras />
-          <WeaponFlags/>
-        </ItemData>
-        <ItemData xsi:type="ItemWeaponData">
-          <ItemId>3350</ItemId>
-          <Level>16</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags>Magic</ItemFlags>
-          <Auras />
-          <WeaponFlags/>
-        </ItemData>
         <ItemData xsi:type="ItemWeaponData">
           <ItemId>3005</ItemId>
           <Level>42</Level>
@@ -202,24 +148,78 @@
             <AuraData>
               <AbilityName>Test</AbilityName>
               <Level>1</Level>
-              <PulseLeft>4000</PulseLeft>
+              <PulseLeft>3952</PulseLeft>
               <AuraFlags>2</AuraFlags>
               <Affects>
                 <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
                   <Operator>0</Operator>
-                  <Modifier>Flaming,Frost,Vampiric,Sharp,Shocking,Poison,Holy</Modifier>
+                  <Modifier>Flaming,Frost,Holy,Poison,Sharp,Shocking,Vampiric</Modifier>
                 </AffectDataBase>
               </Affects>
             </AuraData>
           </Auras>
-          <WeaponFlags>Vorpal,TwoHands</WeaponFlags>
+          <WeaponFlags>TwoHands,Vorpal</WeaponFlags>
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>Magic</ItemFlags>
+          <Auras />
+          <WeaponFlags />
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>Magic</ItemFlags>
+          <Auras />
+          <WeaponFlags />
+        </ItemData>
+        <ItemData xsi:type="ItemWeaponData">
+          <ItemId>3350</ItemId>
+          <Level>16</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags>Magic</ItemFlags>
+          <Auras />
+          <WeaponFlags />
+        </ItemData>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags />
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags />
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags />
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
         </ItemData>
       </Inventory>
       <Auras>
         <AuraData>
           <AbilityName>Sanctuary</AbilityName>
-          <Level>43</Level>
-          <PulseLeft>1584</PulseLeft>
+          <Level>39</Level>
+          <PulseLeft>1536</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -230,8 +230,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Shield</AbilityName>
-          <Level>44</Level>
-          <PulseLeft>12876</PulseLeft>
+          <Level>42</Level>
+          <PulseLeft>12828</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -243,8 +243,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Berserk</AbilityName>
-          <Level>41</Level>
-          <PulseLeft>896</PulseLeft>
+          <Level>40</Level>
+          <PulseLeft>848</PulseLeft>
           <AuraFlags>2</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -270,8 +270,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Stone Skin</AbilityName>
-          <Level>43</Level>
-          <PulseLeft>10996</PulseLeft>
+          <Level>36</Level>
+          <PulseLeft>10948</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -283,8 +283,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Protection Evil</AbilityName>
-          <Level>44</Level>
-          <PulseLeft>5732</PulseLeft>
+          <Level>38</Level>
+          <PulseLeft>5684</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -300,9 +300,9 @@
         </AuraData>
       </Auras>
       <CharacterFlags>Berserk,ProtectEvil,Sanctuary</CharacterFlags>
-      <Immunities/>
-      <Resistances>Bash,Slash,Poison,Disease,Acid</Resistances>
-      <Vulnerabilities>Pierce,Fire,Cold</Vulnerabilities>
+      <Immunities />
+      <Resistances>Acid,Bash,Disease,Poison,Slash</Resistances>
+      <Vulnerabilities>Cold,Fire,Pierce</Vulnerabilities>
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -1650,6 +1650,33 @@
           <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Bite</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Crush</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Tail</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
       </LearnedAbilities>
       <Conditions>
         <PairDataOfInt32Int32>
@@ -1706,8 +1733,8 @@
       <Inventory />
       <Auras />
       <CharacterFlags />
-      <Immunities/>
-      <Resistances>Poison,Disease</Resistances>
+      <Immunities />
+      <Resistances>Disease,Poison</Resistances>
       <Vulnerabilities>Drowning</Vulnerabilities>
       <Attributes>
         <PairDataOfInt32Int32>
@@ -1809,6 +1836,121 @@
       <Aliases />
       <Cooldowns />
       <Pets />
+    </PlayableCharacterData>
+    <PlayableCharacterData>
+      <Name>xiinobis</Name>
+      <Race>human</Race>
+      <Class>mage</Class>
+      <Level>1</Level>
+      <Sex>1</Sex>
+      <Size>2</Size>
+      <HitPoints>100</HitPoints>
+      <MovePoints>100</MovePoints>
+      <CurrentResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </CurrentResources>
+      <MaxResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </MaxResources>
+      <CharacterFlags />
+      <Immunities />
+      <Resistances />
+      <Vulnerabilities />
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>15</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
+      <CreationTime>2020-07-03T08:51:55.1055791+02:00</CreationTime>
+      <RoomId>3001</RoomId>
+      <SilverCoins>0</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>0</Experience>
+      <Alignment>0</Alignment>
+      <Trains>3</Trains>
+      <Practices>5</Practices>
+      <AutoFlags>0</AutoFlags>
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
     </PlayableCharacterData>
   </Characters>
   <AdminLevel>7</AdminLevel>
