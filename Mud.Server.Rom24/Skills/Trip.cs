@@ -49,7 +49,7 @@ namespace Mud.Server.Rom24.Skills
             if (Victim.CharacterFlags.IsSet("Flying"))
                 return User.ActPhrase("{0:s} feet aren't on the ground.", Victim);
 
-            if (Victim.Position < Positions.Fighting)
+            if (Victim.Position < Positions.Standing)
                 return User.ActPhrase("{0:N} is already down..", Victim);
 
             return null;

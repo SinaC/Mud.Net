@@ -14,7 +14,7 @@ using Mud.Server.Flags;
 
 namespace Mud.Server.Abilities
 {
-    [Spell(SpellName, AbilityEffects.Buff, CooldownInSeconds = 10*60, PulseWaitTime = 10 * Pulse.PulsePerSeconds)]
+    [Spell(SpellName, AbilityEffects.Buff, CooldownInSeconds = 1)]
     public class SpellTest : ItemOrDefensiveSpellBase
     {
         public const string SpellName = "Test";
@@ -29,6 +29,11 @@ namespace Mud.Server.Abilities
 
         protected override void Invoke(ICharacter victim)
         {
+            if (victim != Caster)
+            {
+                victim.ChangeStunned(5);
+                return;
+            }
             if (victim.GetAura(SpellName) != null)
             {
                 Caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} already affected by divine aura.", victim);
@@ -55,6 +60,11 @@ namespace Mud.Server.Abilities
                 AuraManager.AddAura(itemWeapon, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
                     new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Flaming", "Frost", "Vampiric", "Sharp", "Vorpal", "Shocking", "Poison", "Holy") });
             }
+
+            AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
+                new ItemFlagsAffect { Modifier = new ItemFlags("Glowing", "Humming", "Magic") },
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -Level, Operator = AffectOperators.Add},
+            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Characteristics, Modifier = Level, Operator = AffectOperators.Add });
         }
     }
 

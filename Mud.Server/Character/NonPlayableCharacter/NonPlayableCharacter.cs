@@ -281,21 +281,16 @@ namespace Mud.Server.Character.NonPlayableCharacter
             : base.MaxCarryNumber;
 
         // Combat
-        public override void UpdatePosition()
-        {
-            if (HitPoints < 1)
-            {
-                Position = Positions.Dead;
-                return;
-            }
-            base.UpdatePosition();
-        }
-
         public override void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier) // 'this' starts a combat with 'victim'
         {
             // no attacks for stunnies
-            if (Position <= Positions.Stunned)
+            if (Stunned > 0)
+            {
+                Stunned--;
+                if (Stunned == 0)
+                    Act(ActOptions.ToAll, "%W%{0:N} regain{0:v} {0:s} equilibrium.%x%", this);
                 return;
+            }
 
             IItemWeapon mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
             IItemWeapon offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
@@ -636,15 +631,20 @@ namespace Mud.Server.Character.NonPlayableCharacter
                 case Positions.Resting:
                     // nop
                     break;
-                case Positions.Fighting:
-                    hitGain /= 3;
-                    manaGain /= 3;
-                    psyGain /= 3;
-                    break;
                 default:
-                    hitGain /= 2;
-                    manaGain /= 2;
-                    psyGain /= 2;
+                    if (Fighting != null)
+                    {
+                        hitGain /= 3;
+                        manaGain /= 3;
+                        psyGain /= 3;
+                    }
+                    else
+                    {
+                        hitGain /= 2;
+                        manaGain /= 2;
+                        psyGain /= 2;
+                    }
+
                     break;
             }
             return (hitGain, moveGain, manaGain, psyGain);

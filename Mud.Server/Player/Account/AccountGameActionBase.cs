@@ -16,7 +16,7 @@ namespace Mud.Server.Player.Account
             {
                 if (Impersonating.Fighting != null)
                     return "No way! You are fighting.";
-                if (Impersonating.Position == Positions.Stunned)
+                if (Impersonating.Stunned > 0)
                     return "You can't leave while stunned.";
             }
 

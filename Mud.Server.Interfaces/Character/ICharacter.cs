@@ -55,6 +55,7 @@ namespace Mud.Server.Interfaces.Character
 
         // Position
         Positions Position { get; }
+        int Stunned { get; }
 
         // Class/Race
         IClass Class { get; }
@@ -136,6 +137,7 @@ namespace Mud.Server.Interfaces.Character
 
         // Position
         bool ChangePosition(Positions position);
+        void ChangeStunned(int fightRound);
 
         // Visibility
         bool CanSee(ICharacter victim);
@@ -165,7 +167,6 @@ namespace Mud.Server.Interfaces.Character
         void ChangeRoom(IRoom destination);
 
         // Combat
-        void UpdatePosition();
         bool StartFighting(ICharacter victim);
         bool StopFighting(bool both); // if both is true, every character fighting 'this' stop fighting
         void MultiHit(ICharacter victim); // 'this' starts a combat with 'victim'

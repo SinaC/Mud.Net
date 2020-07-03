@@ -39,7 +39,7 @@ namespace Mud.Server.Rom24.Skills
             if (safeResult != null)
                 return safeResult;
 
-            if (Victim.Position < Positions.Fighting)
+            if (Victim.Position < Positions.Standing)
                 return User.ActPhrase("You'll have to let {0:m} get back up first.", Victim);
 
             // TODO: check kill stealing

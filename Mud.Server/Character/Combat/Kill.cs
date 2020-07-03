@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Combat
 {
-    [CharacterCommand("kill", "Combat", Priority = 1, MinPosition = Positions.Fighting)]
+    [CharacterCommand("kill", "Combat", Priority = 1, MinPosition = Positions.Standing)]
     [Syntax("[cmd] <character>")]
     public class Kill : CharacterGameAction
     {
@@ -49,7 +49,7 @@ namespace Mud.Server.Character.Combat
             if (Actor.CharacterFlags.IsSet("Charm") && nonPlayableActor?.Master == Whom)
                 return Actor.ActPhrase("{0:N} is your beloved master.", Whom);
 
-            if (Actor.Position == Positions.Fighting)
+            if (Actor.Fighting != null)
                 return "You do the best you can!";
 
             return null;

@@ -965,7 +965,7 @@ namespace Mud.Server.Server
                 {
                     bool needsRecompute = false;
                     IReadOnlyCollection<IAura> cloneAuras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // must be cloned because collection may be modified during foreach
-                    foreach (IAura aura in cloneAuras.Where(x => x.PulseLeft > 0))
+                    foreach (IAura aura in cloneAuras.Where(x => x.PulseLeft >= 0))
                     {
                         bool timedOut = aura.DecreasePulseLeft(pulseCount);
                         if (timedOut)
@@ -1219,17 +1219,11 @@ namespace Mud.Server.Server
                     if (pc != null && pc.ImpersonatedBy == null) // TODO: remove after x minutes
                         Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
 
-                    if (character.Position >= Positions.Stunned)
-                    {
-                        // TODO: check to see if need to go home
-                        // Update resources
-                        character.Regen();
-                    }
+                    // TODO: check to see if need to go home
+                    // Update resources
+                    character.Regen();
 
-                    // Update position
-                    if (character.Position == Positions.Stunned)
-                        character.UpdatePosition();
-
+                    // Light
                     IItemLight light = character.GetEquipment<IItemLight>(EquipmentSlots.Light);
                     if (light != null
                         && light.IsLighten)
@@ -1260,16 +1254,6 @@ namespace Mud.Server.Server
                         IAura aura = periodicAuras.Random(RandomManager);
                         ICharacterPeriodicAffect affect = aura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
                         affect?.Apply(aura, character);
-                    }
-                    // Incap character takes damage
-                    else if (character.Position == Positions.Incap && RandomManager.Chance(50))
-                    {
-                        character.Damage(character, 1, SchoolTypes.None, string.Empty, false);
-                    }
-                    // Mortal character takes damage
-                    else if (character.Position == Positions.Mortal)
-                    {
-                        character.Damage(character, 1, SchoolTypes.None, string.Empty, false);
                     }
 
                     // TODO: limbo

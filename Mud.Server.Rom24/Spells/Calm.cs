@@ -68,7 +68,7 @@ namespace Mud.Server.Rom24.Spells
 
                 victim.Send("A wave of calm passes over you.");
 
-                if (victim.Fighting != null && victim.Position == Positions.Fighting)
+                if (victim.Fighting != null)
                     victim.StopFighting(false);
 
                 int modifier = npcVictim != null

@@ -7,6 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using System.Linq;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Affect;
 
 namespace Mud.Server.Admin.Administration
 {
@@ -84,12 +85,11 @@ namespace Mud.Server.Admin.Administration
 
         private void RestoreOneCharacter(ICharacter victim)
         {
-            victim.RemoveAuras(_ => true, true); // TODO: harmful auras only ?
+            victim.RemoveAuras(x => !x.AuraFlags.HasFlag(AuraFlags.NoDispel) && !x.AuraFlags.HasFlag(AuraFlags.Permanent) && !x.Affects.OfType<ICharacterFlagsAffect>().Any(a => a.Modifier.IsSet("Charm")), true); // TODO: harmful auras only ?
             victim.UpdateHitPoints(victim.MaxHitPoints);
             victim.UpdateMovePoints(victim.MaxMovePoints);
             foreach (ResourceKinds resource in victim.CurrentResourceKinds)
                 victim.UpdateResource(resource, victim.MaxResource(resource));
-            victim.UpdatePosition();
             victim.Send("{0} has restored you.", Actor.Impersonating?.DisplayName ?? Actor.DisplayName);
         }
     }

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Mud.Server.Character.Ability
 {
-    [CharacterCommand("cast", "Ability", Priority = 2, MinPosition = Positions.Fighting)]
+    [CharacterCommand("cast", "Ability", Priority = 2, MinPosition = Positions.Standing)]
     [Syntax("[cmd] <ability> <target>")]
     public class Cast : CharacterGameAction
     {

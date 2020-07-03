@@ -9,7 +9,7 @@ using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Character.Information
 {
-    [CharacterCommand("scan", "Information", MinPosition = Positions.Standing)]
+    [CharacterCommand("scan", "Information", MinPosition = Positions.Standing, NotInCombat = true)]
     public class Scan : CharacterGameAction
     {
         public override string Guards(IActionInput actionInput)

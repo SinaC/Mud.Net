@@ -33,11 +33,12 @@ namespace Mud.Server.GameAction
     public class CharacterCommandAttribute : CommandAttribute
     {
         public Positions MinPosition { get; set; }
+        public bool NotInCombat { get; set; }
 
         public CharacterCommandAttribute(string name, params string[] categories)
             : base(name, categories)
         {
-            MinPosition = Positions.Dead;
+            MinPosition = Positions.Sleeping;
         }
     }
 

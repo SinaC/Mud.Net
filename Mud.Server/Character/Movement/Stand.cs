@@ -24,8 +24,9 @@ namespace Mud.Server.Character.Movement
             if (baseGuards != null)
                 return baseGuards;
 
-            if (Actor.Position == Positions.Fighting)
-                return "Maybe you should finish fighting first?";
+            // Stand is the only movement command that can be used while fighting
+            //if (Actor.Fighting != null)
+            //    return "Maybe you should finish fighting first?";
             if (Actor.Position == Positions.Standing)
                 return "You are already standing.";
             if (Actor.Position == Positions.Sleeping && Actor.CharacterFlags.IsSet("Sleep"))

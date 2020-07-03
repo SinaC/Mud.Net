@@ -5,7 +5,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.PlayableCharacter.Communication
 {
-    [PlayableCharacterCommand("pray", "Communication", MinPosition = Positions.Dead)]
+    [PlayableCharacterCommand("pray", "Communication")]
     [Syntax("[cmd] <msg>")]
     public class Pray : PlayableCharacterGameAction
     {

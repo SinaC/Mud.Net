@@ -100,7 +100,7 @@ namespace Mud.Server.Admin.Information
                 sb.AppendFormatLine("Impersonated by {0}", playableWhom.ImpersonatedBy.DisplayName);
             if (Whom.Fighting != null)
                 sb.AppendFormatLine("Fighting: {0}", Whom.Fighting.DisplayName);
-            sb.AppendFormatLine("Position: {0}", Whom.Position);
+            sb.AppendFormatLine("Position: {0} Stunned: {1}", Whom.Position, Whom.Stunned);
             sb.AppendFormatLine("Furniture: {0}", Whom.Furniture?.DisplayName ?? "(none)");
             sb.AppendFormatLine("Room: {0} [vnum: {1}]", Whom.Room.DisplayName, Whom.Room.Blueprint?.Id ?? -1);
             sb.AppendFormatLine("Race: {0} Class: {1}", Whom.Race?.DisplayName ?? "(none)", Whom.Class?.DisplayName ?? "(none)");

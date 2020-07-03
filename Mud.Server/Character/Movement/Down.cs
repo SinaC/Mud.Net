@@ -4,7 +4,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Movement
 {
-    [CharacterCommand("down", "Movement", Priority = 0, MinPosition = Positions.Standing)]
+    [CharacterCommand("down", "Movement", Priority = 0, MinPosition = Positions.Standing, NotInCombat = true)]
     public class Down : CharacterGameAction
     {
         public override void Execute(IActionInput actionInput)
