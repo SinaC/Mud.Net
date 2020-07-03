@@ -87,6 +87,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Flags", "Mud.Ser
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Flags.Interfaces", "Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj", "{5B52488B-2CBE-4FC7-9004-E0C23E97907F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.AdditionalAbilities", "Mud.Server.AdditionalAbilities\Mud.Server.AdditionalAbilities.csproj", "{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -541,6 +543,18 @@ Global
 		{5B52488B-2CBE-4FC7-9004-E0C23E97907F}.Release|x64.Build.0 = Release|Any CPU
 		{5B52488B-2CBE-4FC7-9004-E0C23E97907F}.Release|x86.ActiveCfg = Release|Any CPU
 		{5B52488B-2CBE-4FC7-9004-E0C23E97907F}.Release|x86.Build.0 = Release|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Debug|x64.Build.0 = Debug|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Debug|x86.Build.0 = Debug|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Release|x64.ActiveCfg = Release|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Release|x64.Build.0 = Release|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,6 @@
 NEXT:
+Issues:
+	can move while in combat
 
 unit test for each command!!!
 make IGameAction generic on TActor: IActor, same goes for IActionInput
@@ -12,7 +14,7 @@ commands dynamically added to Character depending on room they are, for example
 module/plugin to enable load on demand of skills/spells/commands/...
 
 remove position incap, mortal, stunned -> probably remove UpdatePosition, replaced stunned with a 'timer'
-offensive flags: rescue, bite, crush, ...
+offensive flags: rescue, ...
 clan/guild, auction house, help, socials, wimpy, note
 commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
 	heal, autoaffect, wake, myclan, petition, clanlist

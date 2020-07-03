@@ -1067,16 +1067,18 @@ namespace Mud.Server.Character
                     return DamageResults.Safe;
                 }
                 // TODO: check_killer
-                if (Position > Positions.Stunned)
+                if (Position >= Positions.Stunned)
                 {
                     if (Fighting == null)
                         StartFighting(source);
+                    ChangePosition(Positions.Fighting);
                     // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
                 }
                 if (source.Position >= Positions.Stunned) // TODO: in original Rom code, test was done on victim (again)
                 {
                     if (source.Fighting == null)
                         source.StartFighting(this);
+                    source.ChangePosition(Positions.Fighting);
                 }
                 // more charm stuff
                 if (this is INonPlayableCharacter npcVictim && npcVictim.Master == source) // TODO: no more cast like this
@@ -2178,6 +2180,8 @@ namespace Mud.Server.Character
             {
                 victim.Act(ActOptions.ToCharacter, "You parry {0}'s attack.", this);
                 Act(ActOptions.ToCharacter, "{0:N} parries your attack.", victim);
+                if (Fighting == null)
+                    victim.AbilityDamage(this, 0, damageType, "hit", false); // starts fight, remove sneak/invis, ...
                 return;
             }
             // dodge
@@ -2186,6 +2190,8 @@ namespace Mud.Server.Character
             {
                 victim.Act(ActOptions.ToCharacter, "You dodge {0}'s attack.", this);
                 Act(ActOptions.ToCharacter, "{0:N} dodges your attack.", victim);
+                if (Fighting == null)
+                    victim.AbilityDamage(this, 0, damageType, "hit", false); // starts fight, remove sneak/invis, ...
                 return;
             }
             // shield block
@@ -2194,6 +2200,8 @@ namespace Mud.Server.Character
             {
                 victim.Act(ActOptions.ToCharacter, "You block {0}'s attack with your shield.", this);
                 Act(ActOptions.ToCharacter, "{0:N} blocks your attack with a shield.", victim);
+                if (Fighting == null)
+                    victim.AbilityDamage(this, 0, damageType, "hit", false); // starts fight, remove sneak/invis, ...
                 return;
             }
             // vorpal -> kill in one hit !

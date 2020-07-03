@@ -206,6 +206,10 @@
       <Project>{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}</Project>
       <Name>Mud.Server.Ability</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Mud.Server.AdditionalAbilities\Mud.Server.AdditionalAbilities.csproj">
+      <Project>{aa0d8c4a-ff09-40cf-b41e-98fd9a2da158}</Project>
+      <Name>Mud.Server.AdditionalAbilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj">
       <Project>{80ea18bc-aba5-40f7-8483-6b94750cd704}</Project>
       <Name>Mud.Server.Affects</Name>
