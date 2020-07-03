@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Mud.Server.Character.PlayableCharacter.Ability
 {
-    [PlayableCharacterCommand("gain", "Ability", MinPosition = Positions.Standing)]
+    [PlayableCharacterCommand("gain", "Ability", MinPosition = Positions.Standing, NotInCombat = true)]
     [Syntax(
             "[cmd] list",
             "[cmd] skills|spells",

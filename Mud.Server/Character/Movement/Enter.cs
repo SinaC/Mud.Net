@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Character.Movement
 {
-    [CharacterCommand("enter", "Movement", MinPosition = Positions.Standing)]
+    [CharacterCommand("enter", "Movement", MinPosition = Positions.Standing, NotInCombat = true)]
     [Syntax("[cmd] <portal>")]
     public class Enter : CharacterGameAction
     {

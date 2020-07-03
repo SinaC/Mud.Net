@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Mud.Server.Character.PlayableCharacter.Item
 {
-    [PlayableCharacterCommand("destroy", "Item", Priority = 50, NoShortcut = true, MinPosition = Positions.Standing)]
+    [PlayableCharacterCommand("destroy", "Item", Priority = 50, NoShortcut = true, MinPosition = Positions.Standing, NotInCombat = true)]
     [Syntax("[cmd] <item>")]
     public class Destroy : PlayableCharacterGameAction
     {

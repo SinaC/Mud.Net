@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Mud.Server.Character.PlayableCharacter.Quest
 {
-    [PlayableCharacterCommand("quest", "Quest", Priority = 1, MinPosition = Positions.Standing)]
+    [PlayableCharacterCommand("quest", "Quest", Priority = 1, MinPosition = Positions.Standing, NotInCombat = true)]
     [Syntax(
             "[cmd]",
             "[cmd] <id>",

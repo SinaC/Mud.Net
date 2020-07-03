@@ -183,6 +183,7 @@ namespace Mud.Server.Character
 
         // Position
         public Positions Position { get; protected set; }
+        public int Stunned { get; protected set; }
 
         // Class/Race
         public IClass Class { get; protected set; }
@@ -398,6 +399,12 @@ namespace Mud.Server.Character
             return true;
         }
 
+        public void ChangeStunned(int fightRound)
+        {
+            Stunned = fightRound;
+            return;
+        }
+
         // Visibility
         public bool CanSee(ICharacter victim)
         {
@@ -580,7 +587,6 @@ namespace Mud.Server.Character
         public void UpdateHitPoints(int amount)
         {
             HitPoints = (HitPoints + amount).Range(0, MaxHitPoints);
-            UpdatePosition();
         }
 
         public void UpdateMovePoints(int amount)
@@ -978,27 +984,6 @@ namespace Mud.Server.Character
         }
 
         // Combat
-        public virtual void UpdatePosition()
-        {
-            if (HitPoints > 0)
-            {
-                if (Position <= Positions.Stunned)
-                    Position = Positions.Standing;
-                return;
-            }
-            if (HitPoints <= -11)
-            {
-                Position = Positions.Dead;
-                return;
-            }
-            if (HitPoints <= -6)
-                Position = Positions.Mortal;
-            else if (HitPoints <= -3)
-                Position = Positions.Incap;
-            else
-                Position = Positions.Stunned;
-        }
-
         public bool StartFighting(ICharacter victim) // equivalent to set_fighting in fight.C:3441
         {
             if (!IsValid)
@@ -1009,7 +994,6 @@ namespace Mud.Server.Character
 
             Log.Default.WriteLine(LogLevels.Debug, "{0} starts fighting {1}", DebugName, victim.DebugName);
 
-            ChangePosition(Positions.Fighting);
             Fighting = victim;
             return true;
         }
@@ -1019,8 +1003,8 @@ namespace Mud.Server.Character
             Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting?.Name ?? "<<no victim>>");
 
             Fighting = null;
+            Stunned = 0;
             ChangePosition(Positions.Standing);
-            UpdatePosition();
             if (both)
             {
                 foreach (ICharacter victim in CharacterManager.Characters.Where(x => x.Fighting == this))
@@ -1048,7 +1032,7 @@ namespace Mud.Server.Character
 
         public DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source'
         {
-            if (Position == Positions.Dead)
+            if (HitPoints <= 0)
                 return DamageResults.Dead;
             // damage reduction
             if (damage > 35)
@@ -1067,19 +1051,11 @@ namespace Mud.Server.Character
                     return DamageResults.Safe;
                 }
                 // TODO: check_killer
-                if (Position >= Positions.Stunned)
-                {
-                    if (Fighting == null)
-                        StartFighting(source);
-                    ChangePosition(Positions.Fighting);
+                if (Fighting == null)
+                    StartFighting(source);
                     // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
-                }
-                if (source.Position >= Positions.Stunned) // TODO: in original Rom code, test was done on victim (again)
-                {
-                    if (source.Fighting == null)
-                        source.StartFighting(this);
-                    source.ChangePosition(Positions.Fighting);
-                }
+                if (source.Fighting == null)
+                    source.StartFighting(this);
                 // more charm stuff
                 if (this is INonPlayableCharacter npcVictim && npcVictim.Master == source) // TODO: no more cast like this
                     npcVictim.ChangeMaster(null);
@@ -1192,35 +1168,30 @@ namespace Mud.Server.Character
 
             // hurt the victim
             HitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
+            bool isDead = HitPoints < 0;
             // immortals don't really die
             if ((this as IPlayableCharacter)?.IsImmortal == true
                 && HitPoints < 1)
                 HitPoints = 1;
-            // Update position
-            UpdatePosition();
-            switch (Position)
+            if (isDead)
             {
-                case Positions.Mortal: Act(ActOptions.ToAll, "{0:N} {0:b} mortally wounded, and will die soon, if not aided.", this); break;
-                case Positions.Incap: Act(ActOptions.ToAll, "{0:N} {0:b} incapacitated and will slowly die, if not aided.", this); break;
-                case Positions.Stunned: Act(ActOptions.ToAll, "{0:N} {0:b} stunned, but will probably recover.", this); break;
-                case Positions.Dead:
-                    Send("You have been KILLED!!");
-                    Act(ActOptions.ToRoom, "{0:N} is dead.", this);
-                    break;
-                default:
-                    if (damage > MaxHitPoints / 4)
-                        Send("That really did HURT!");
-                    else if (HitPoints < MaxHitPoints / 4)
-                        Send("You sure are BLEEDING!");
-                    break;
+                Send("You have been KILLED!!");
+                Act(ActOptions.ToRoom, "{0:N} is dead.", this);
+            }
+            else
+            { 
+                if (damage > MaxHitPoints / 4)
+                    Send("That really did HURT!");
+                else if (HitPoints < MaxHitPoints / 4)
+                    Send("You sure are BLEEDING!");
             }
 
-            // sleep spells or extremely wounded folks
-            if (Position <= Positions.Sleeping)
-                StopFighting(true); // StopFighting will set position to standing then UpdatePosition will set it again to Dead!!!
+            // dead or sleep spells
+            if (isDead || Position == Positions.Sleeping)
+                StopFighting(true); // StopFighting will set position to standing
 
             // handle dead people
-            if (Position == Positions.Dead)
+            if (isDead)
             {
                 RawKilled(source, true); // group group_gain + dying penalty + raw_kill
                 return DamageResults.Killed;
@@ -1827,9 +1798,6 @@ namespace Mud.Server.Character
             sb.Append(RelativeDisplayName(viewer));
             switch (Position)
             {
-                case Positions.Stunned:
-                    sb.Append(" is lying here stunned.");
-                    break;
                 case Positions.Sleeping:
                     AppendPositionFurniture(sb, "sleeping", Furniture);
                     break;
@@ -1845,21 +1813,21 @@ namespace Mud.Server.Character
                     else
                         sb.Append(" is here");
                     break;
-                case Positions.Fighting:
-                    sb.Append(" is here, fighting ");
-                    if (Fighting == null)
+                default:
+                    if (Stunned > 0)
+                        sb.Append(" is lying here stunned.");
+                    else if (Fighting != null)
                     {
-                        Log.Default.WriteLine(LogLevels.Warning, "{0} position is fighting but fighting is null.", DebugName);
-                        sb.Append("thing air??");
-                    }
-                    else if (Fighting == viewer)
-                        sb.Append("YOU!");
-                    else if (Room == Fighting.Room)
-                        sb.AppendFormat("{0}.", Fighting.RelativeDisplayName(viewer));
-                    else
-                    {
-                        Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", DebugName, Fighting.DebugName);
-                        sb.Append("someone who left??");
+                        sb.Append(" is here, fighting ");
+                        if (Fighting == viewer)
+                            sb.Append("YOU!");
+                        else if (Room == Fighting.Room)
+                            sb.AppendFormat("{0}.", Fighting.RelativeDisplayName(viewer));
+                        else
+                        {
+                            Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", DebugName, Fighting.DebugName);
+                            sb.Append("someone who left??");
+                        }
                     }
                     break;
             }
@@ -2117,7 +2085,7 @@ namespace Mud.Server.Character
                 return;
             // can't beat a dead char!
             // guard against weird room-leavings.
-            if (victim.Position == Positions.Dead || victim.Room != Room)
+            if (victim.Room != Room)
                 return;
             SchoolTypes damageType = wield?.DamageType ?? NoWeaponDamageType;
             // get weapon skill
@@ -2155,7 +2123,7 @@ namespace Mud.Server.Character
                 victimAc = -15 + (victimAc + 15) / 2;
             if (!CanSee(victim))
                 victimAc -= 4;
-            if (victim.Position < Positions.Fighting)
+            if (victim.Position < Positions.Standing)
                 victimAc += 4;
             if (victim.Position < Positions.Resting)
                 victimAc += 6;
@@ -2165,7 +2133,7 @@ namespace Mud.Server.Character
                 || (diceroll != 20 && diceroll < thac0 - victimAc))
             {
                 if (hitModifier?.AbilityName != null)
-                    victim.AbilityDamage(this, 0, damageType, hitModifier.DamageNoun ?? "hit", true);
+                    victim.AbilityDamage(this, 0, damageType, hitModifier.DamageNoun ?? "hit", true); // miss
                 else
                 {
                     string damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
@@ -2255,8 +2223,7 @@ namespace Mud.Server.Character
             if (weaponLearnedInfo.abilityLearned != null)
             {
                 IPassive weaponAbility = AbilityManager.CreateInstance<IPassive>(weaponLearnedInfo.abilityLearned.Name);
-                if (weaponAbility != null)
-                    weaponAbility.IsTriggered(this, victim, true, out _, out _); // TODO: maybe we should test return value (imagine a big bad boss which add CD to every skill)
+                weaponAbility?.IsTriggered(this, victim, true, out _, out _); // TODO: maybe we should test return value (imagine a big bad boss which add CD to every skill)
             }
             // bonus
             var enhancedDamage = AbilityManager.CreateInstance<IPassive>("Enhanced Damage");
@@ -2297,25 +2264,16 @@ namespace Mud.Server.Character
                     {
                         victim.Send("You feel poison coursing through your veins.");
                         victim.Act(ActOptions.ToRoom, "{0:N} is poisoned by the venom on {1}.", victim, wield);
-                        int duration = level / 2;
+                        int duration = Math.Min(1, level / 2);
 
                         IAura victimPoisonAura = victim.Auras.FirstOrDefault(x => x.Affects.OfType<ICharacterFlagsAffect>().Any(aff => aff.Modifier.IsSet("Poison")));
                         if (victimPoisonAura == null)
                         {
                             IAffect poisonAffect = AffectManager.CreateInstance("Poison");
-                            if (poisonAffect == null)
-                            {
-                                AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
-                                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
-                            }
-                            else
-                            {
-                                AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
-                                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
-                                    poisonAffect);
-                            }
+                            AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                                new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
+                                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
+                                poisonAffect);
                         }
                         else
                             victimPoisonAura.Update(3*level/4, TimeSpan.FromMinutes(duration));
@@ -2324,11 +2282,11 @@ namespace Mud.Server.Character
                         if (wieldPoisonAura != null && !wieldPoisonAura.AuraFlags.HasFlag(AuraFlags.Permanent))
                         {
                             wieldPoisonAura.DecreaseLevel();
-                            bool wornOff = wieldPoisonAura.DecreasePulseLeft(Pulse.FromMinutes(1));
+                            bool wornOff = wieldPoisonAura.DecreasePulseLeft(1);
                             if (wieldPoisonAura.Level <= 1 || wornOff)
                             {
                                 wield.RemoveAura(wieldPoisonAura, true);
-                                victim.Act(ActOptions.ToCharacter, "The poison on {0} has worn off.", wield);
+                                Act(ActOptions.ToCharacter, "The %G%poison%x% on {0} has worn off.", wield);
                             }
                         }
                     }

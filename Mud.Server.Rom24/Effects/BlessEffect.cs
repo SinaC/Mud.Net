@@ -20,7 +20,7 @@ namespace Mud.Server.Rom24.Effects
         public void Apply(ICharacter victim, IEntity source, string abilityName, int level, int _)
         {
             IAura blessAura = victim.GetAura(abilityName);
-            if (victim.Position == Positions.Fighting || blessAura != null)
+            if (blessAura != null) // test on fighting removed
             {
                 if (source == victim)
                     source.Send("You are already blessed.");

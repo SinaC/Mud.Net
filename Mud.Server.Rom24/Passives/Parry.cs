@@ -18,7 +18,7 @@ namespace Mud.Server.Rom24.Passives
 
         protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
         {
-            if (user.Position <= Positions.Sleeping)
+            if (user.Position <= Positions.Sleeping || user.Stunned > 0)
                 return false;
 
             int chance = learnPercentage / 2;

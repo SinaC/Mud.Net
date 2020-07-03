@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Mud.Server.Character.PlayableCharacter.Quest
 {
-    [PlayableCharacterCommand("questlist", "Quest", Priority = 5, MinPosition = Positions.Standing)]
+    [PlayableCharacterCommand("questlist", "Quest", Priority = 5, MinPosition = Positions.Standing, NotInCombat = true)]
     [Alias("qlist")]
     public class QuestList : PlayableCharacterGameAction
     {

@@ -6,7 +6,7 @@ namespace Mud.Server.Ability.Skill
 {
     public abstract class FightingSkillBase : SkillBase
     {
-        protected ICharacter Victim { get; set; }
+        protected ICharacter Victim { get; private set; }
 
         protected FightingSkillBase(IRandomManager randomManager)
             : base(randomManager)

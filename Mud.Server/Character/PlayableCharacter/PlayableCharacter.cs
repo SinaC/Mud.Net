@@ -333,8 +333,13 @@ namespace Mud.Server.Character.PlayableCharacter
         public override void MultiHit(ICharacter victim, IMultiHitModifier multiHitModifier) // 'this' starts a combat with 'victim'
         {
             // no attacks for stunnies
-            if (Position <= Positions.Stunned)
+            if (Stunned > 0)
+            {
+                Stunned--;
+                if (Stunned == 0)
+                    Act(ActOptions.ToAll, "{W{0:N} regain{0:v} {0:s} equilibrium.{x", this);
                 return;
+            }
 
             IItemWeapon mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
             IItemWeapon offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
@@ -1012,15 +1017,19 @@ namespace Mud.Server.Character.PlayableCharacter
                     manaGain /= 2;
                     psyGain /= 2;
                     break;
-                case Positions.Fighting:
-                    hitGain /= 6;
-                    manaGain /= 6;
-                    psyGain /= 6;
-                    break;
                 default:
-                    hitGain /= 4;
-                    manaGain /= 4;
-                    psyGain /= 4;
+                    if (Fighting != null)
+                    {
+                        hitGain /= 6;
+                        manaGain /= 6;
+                        psyGain /= 6;
+                    }
+                    else
+                    {
+                        hitGain /= 4;
+                        manaGain /= 4;
+                        psyGain /= 4;
+                    }
                     break;
             }
             if (this[Conditions.Hunger] == 0)
@@ -1171,6 +1180,7 @@ namespace Mud.Server.Character.PlayableCharacter
             {
                 IRoom room = RoomManager.DefaultDeathRoom ?? RoomManager.DefaultRecallRoom;
                 ChangeRoom(room);
+                ChangePosition(Positions.Sleeping);
                 Recompute(); // don't reset hp
             }
             else // If not impersonated, remove from game // TODO: this can be a really bad idea

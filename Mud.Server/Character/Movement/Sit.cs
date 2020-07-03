@@ -23,7 +23,7 @@ namespace Mud.Server.Character.Movement
             if (baseGuards != null)
                 return baseGuards;
 
-            if (Actor.Position == Positions.Fighting)
+            if (Actor.Fighting != null)
                 return "Maybe you should finish fighting first?";
             if (Actor.Position == Positions.Sitting)
                 return "You are already sitting down.";

@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Character.Communication
 {
-    [CharacterCommand("whisper", "Communication", MinPosition = Positions.Standing)]
+    [CharacterCommand("whisper", "Communication", MinPosition = Positions.Standing, NotInCombat = true)]
     [Syntax("[cmd] <character> <message>")]
     public class Whisper : CharacterGameAction
     {

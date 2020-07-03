@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Mud.Server.Character.PlayableCharacter.Item
 {
-    [PlayableCharacterCommand("split", "Item", MinPosition = Positions.Standing, Priority = 600)]
+    [PlayableCharacterCommand("split", "Item", MinPosition = Positions.Standing, Priority = 600, NotInCombat = true)]
     [Syntax("[cmd] <silver amount> <gold amount>")]
     public class Split : PlayableCharacterGameAction
     {

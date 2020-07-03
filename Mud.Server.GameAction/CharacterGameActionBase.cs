@@ -21,28 +21,27 @@ namespace Mud.Server.GameAction
                 Actor.Recompute();
             }
 
+            // Check fighting
+            if (GameActionInfo.NotInCombat && Actor.Fighting != null)
+                return "No way!  You are still fighting!";
+
             // Check minimum position
             if (Actor.Position < GameActionInfo.MinPosition)
             {
                 switch (Actor.Position)
                 {
-                    case Positions.Dead:
-                        return "Lie still; you are DEAD.";
-                    case Positions.Mortal:
-                    case Positions.Incap:
-                        return "You are hurt far too bad for that.";
-                    case Positions.Stunned:
-                        return "You are too stunned to do that.";
                     case Positions.Sleeping:
                         return "In your dreams, or what?";
                     case Positions.Resting:
                         return "Nah... You feel too relaxed...";
                     case Positions.Sitting:
                         return "Better stand up first.";
-                    case Positions.Fighting:
-                        return "No way!  You are still fighting!";
                 }
             }
+
+            // Check stun
+            if (Actor.Stunned > 0)
+                return "You're still a little woozy.";
 
             return null;
         }
