@@ -2133,7 +2133,7 @@ namespace Mud.Server.Character
                 || (diceroll != 20 && diceroll < thac0 - victimAc))
             {
                 if (hitModifier?.AbilityName != null)
-                    victim.AbilityDamage(this, 0, damageType, hitModifier.DamageNoun ?? "hit", true);
+                    victim.AbilityDamage(this, 0, damageType, hitModifier.DamageNoun ?? "hit", true); // miss
                 else
                 {
                     string damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
@@ -2223,8 +2223,7 @@ namespace Mud.Server.Character
             if (weaponLearnedInfo.abilityLearned != null)
             {
                 IPassive weaponAbility = AbilityManager.CreateInstance<IPassive>(weaponLearnedInfo.abilityLearned.Name);
-                if (weaponAbility != null)
-                    weaponAbility.IsTriggered(this, victim, true, out _, out _); // TODO: maybe we should test return value (imagine a big bad boss which add CD to every skill)
+                weaponAbility?.IsTriggered(this, victim, true, out _, out _); // TODO: maybe we should test return value (imagine a big bad boss which add CD to every skill)
             }
             // bonus
             var enhancedDamage = AbilityManager.CreateInstance<IPassive>("Enhanced Damage");
@@ -2271,19 +2270,10 @@ namespace Mud.Server.Character
                         if (victimPoisonAura == null)
                         {
                             IAffect poisonAffect = AffectManager.CreateInstance("Poison");
-                            if (poisonAffect == null)
-                            {
-                                AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
-                                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add });
-                            }
-                            else
-                            {
-                                AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
-                                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
-                                    poisonAffect);
-                            }
+                            AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
+                                new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
+                                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
+                                poisonAffect);
                         }
                         else
                             victimPoisonAura.Update(3*level/4, TimeSpan.FromMinutes(duration));

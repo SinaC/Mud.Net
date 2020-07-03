@@ -23,7 +23,6 @@ namespace Mud.Server.AdditionalAbilities
             TableValues = tableValues;
         }
 
-        // Only fighting ?
         public override string Setup(ISkillActionInput skillActionInput)
         {
             string baseSetup = base.Setup(skillActionInput);
