@@ -988,23 +988,17 @@ namespace Mud.Server.Character.PlayableCharacter
                 hitGain *= 2;
             // class bonus
             hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
-            // fast healing
-            var fastHealing = AbilityManager.CreateInstance<IPassive>("Fast Healing");
-            if (fastHealing != null && fastHealing.IsTriggered(this, this, false, out _, out int fastHealingLearnPercentage))
+            // abilities
+            foreach (IAbilityInfo regenerationAbility in AbilityManager.AbilitiesByExecutionType<IRegenerationPassive>())
             {
-                hitGain += (fastHealingLearnPercentage * hitGain) / 100;
-                if (HitPoints < MaxHitPoints)
-                    CheckAbilityImprove("Fast Healing", true, 8);
+                IRegenerationPassive ability = AbilityManager.CreateInstance<IRegenerationPassive>(regenerationAbility);
+                if (ability != null)
+                {
+                    hitGain += ability.HitGainModifier(this, hitGain);
+                    manaGain += ability.ResourceGainModifier(this, ResourceKinds.Mana, manaGain);
+                    psyGain += ability.ResourceGainModifier(this, ResourceKinds.Psy, psyGain);
+                }
             }
-            // meditation
-            var meditation = AbilityManager.CreateInstance<IPassive>("Meditation");
-            if (meditation != null && meditation.IsTriggered(this, this, false, out _, out int meditationLearnPercentage))
-            {
-                manaGain += (meditationLearnPercentage * manaGain) / 100;
-                if (this[ResourceKinds.Mana] < MaxResource(ResourceKinds.Mana))
-                    CheckAbilityImprove("Meditation", true, 8);
-            }
-            // TODO: same as meditation for psy
             // position
             switch (Position)
             {

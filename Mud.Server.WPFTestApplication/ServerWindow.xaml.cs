@@ -152,6 +152,7 @@ namespace Mud.Server.WPFTestApplication
             DependencyContainer.Current.Register<IDispelManager, Aura.DispelManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IEffectManager, Effects.EffectManager>(SimpleInjector.Lifestyle.Singleton);
             DependencyContainer.Current.Register<IAffectManager, Affects.AffectManager>(SimpleInjector.Lifestyle.Singleton);
+            DependencyContainer.Current.Register<IWeaponEffectManager, Effects.WeaponEffectManager>(SimpleInjector.Lifestyle.Singleton);
 
             if (settings.UseMongo)
             {
@@ -445,8 +446,8 @@ namespace Mud.Server.WPFTestApplication
             RomImporter importer = new RomImporter();
             //MysteryImporter importer = new MysteryImporter();
             //RotImporter importer = new RotImporter();
-            importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
-            //importer.ImportByList(path, "area.lst");
+            //importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
+            importer.ImportByList(path, "area.lst");
 
             // Area
             foreach (AreaBlueprint blueprint in importer.Areas)

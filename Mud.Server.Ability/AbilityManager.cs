@@ -13,6 +13,7 @@ namespace Mud.Server.Ability
     public class AbilityManager : IAbilityManager
     {
         private readonly Dictionary<string, IAbilityInfo> _abilities; // TODO: trie to optimize Search ?
+        private readonly Dictionary<Type, IAbilityInfo[]> _abilitiesByExecutionType;
 
         public AbilityManager(IAssemblyHelper assemblyHelper)
         {
@@ -27,6 +28,8 @@ namespace Mud.Server.Ability
                 else
                     _abilities.Add(abilityInfo.Name, abilityInfo);
             }
+            //
+            _abilitiesByExecutionType = new Dictionary<Type, IAbilityInfo[]>(); // will be filled at each call to AbilitiesByExecutionType
         }
 
         #region IAbilityManager
@@ -43,16 +46,27 @@ namespace Mud.Server.Ability
             }
         }
 
+        public IEnumerable<IAbilityInfo> AbilitiesByExecutionType<TAbility>()
+            where TAbility : class, IAbility
+        {
+            Type tAbilityType = typeof(TAbility);
+            IAbilityInfo[] abilities;
+            // Check in cache first
+            if (_abilitiesByExecutionType.TryGetValue(tAbilityType, out abilities))
+                return abilities;
+            // Not found in cache, compute and put in cache
+            abilities = Abilities.Where(x => tAbilityType.IsAssignableFrom(x.AbilityExecutionType)).ToArray();
+            _abilitiesByExecutionType.Add(tAbilityType, abilities);
+            return abilities;
+        }
+
         public IAbilityInfo Search(string pattern, AbilityTypes type)
         {
-            // TODO: use Trie ?
+            // TODO: use Trie ? or save in cache
             return Abilities.FirstOrDefault(x => x.Type == type && StringCompareHelpers.StringStartsWith(x.Name, pattern));
         }
 
-        public IAbilityInfo Search(ICommandParameter parameter)
-        {
-            return Abilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
-        }
+        public IAbilityInfo Search(ICommandParameter parameter) => Abilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
 
         public TAbility CreateInstance<TAbility>(string abilityName)
             where TAbility : class, IAbility
@@ -63,6 +77,18 @@ namespace Mud.Server.Ability
                 Log.Default.WriteLine(LogLevels.Error, "Ability {0} doesn't exist.", abilityName);
                 return default;
             }
+            return CreateInstance<TAbility>(abilityInfo, abilityName);
+        }
+
+        public TAbility CreateInstance<TAbility>(IAbilityInfo abilityInfo)
+            where TAbility : class, IAbility
+            => CreateInstance<TAbility>(abilityInfo, abilityInfo.Name);
+
+        #endregion
+
+        private TAbility CreateInstance<TAbility>(IAbilityInfo abilityInfo, string abilityName)
+             where TAbility : class, IAbility
+        {
             if (DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false) == null)
             {
                 Log.Default.WriteLine(LogLevels.Error, "Ability {0} not found in DependencyContainer.", abilityName);
@@ -71,12 +97,10 @@ namespace Mud.Server.Ability
             TAbility instance = DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType) as TAbility;
             if (instance == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Ability {0} cannot be instantiated or is not {1}.", abilityName, typeof(TAbility).Name);
+                Log.Default.WriteLine(LogLevels.Error, "Ability {0} cannot be created or is not {1}.", abilityName, typeof(TAbility).Name);
                 return default;
             }
             return instance;
         }
-
-        #endregion
     }
 }

@@ -86,7 +86,7 @@ namespace Mud.DataStructures.Flags
     {
         private static readonly Lazy<TFlagValues> LazyFlagValues = new Lazy<TFlagValues>(() => (TFlagValues)DependencyContainer.Current.GetInstance(typeof(TFlagValues)));
 
-        private TFlagValues FlagValues => LazyFlagValues.Value;
+        protected TFlagValues FlagValues => LazyFlagValues.Value;
 
         private readonly HashSet<string> _hashSet;
 
@@ -123,51 +123,51 @@ namespace Mud.DataStructures.Flags
         public bool IsSet(string flag)
         {
             if (!CheckValues(flag))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.IsSet, flag.Yield());
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.IsSet, UnknownValues(flag.Yield()));
             return _hashSet.Contains(flag);
         }
         public bool HasAny(params string[] flags)
         {
             if (!CheckValues(flags))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, flags);
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, UnknownValues(flags));
             return flags.Any(x => _hashSet.Contains(x));
         }
         public bool HasAny(IFlags<string, TFlagValues> flags)
         {
             if (!CheckValues(flags))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, flags.Items);
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, UnknownValues(flags.Items));
             return flags.Items.Any(x => _hashSet.Contains(x));
         }
         public bool HasAll(params string[] flags)
         {
             if (!CheckValues(flags))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAll, flags);
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAll, UnknownValues(flags));
             return flags.All(x => _hashSet.Contains(x));
         }
         public bool HasAll(IFlags<string, TFlagValues> flags)
         {
             if (!CheckValues(flags))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAll, flags.Items);
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAll, UnknownValues(flags.Items));
             return flags.Items.All(x => _hashSet.Contains(x));
         }
 
         public void Set(string flag)
         {
             if (!CheckValues(flag))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, flag.Yield());
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, UnknownValues(flag.Yield()));
             _hashSet.Add(flag);
         }
         public void Set(params string[] flags)
         {
             if (!CheckValues(flags))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, flags);
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, UnknownValues(flags));
             foreach (string flag in flags)
                 _hashSet.Add(flag);
         }
         public void Set(IFlags<string, TFlagValues> flags)
         {
             if (!CheckValues(flags))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, flags.Items);
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, UnknownValues(flags.Items));
             foreach (string flag in flags.Items)
                 _hashSet.Add(flag);
         }
@@ -175,20 +175,20 @@ namespace Mud.DataStructures.Flags
         public void Unset(string flag)
         {
             if (!CheckValues(flag))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, flag.Yield());
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, UnknownValues(flag.Yield()));
             _hashSet.Remove(flag);
         }
         public void Unset(params string[] flags)
         {
             if (!CheckValues(flags))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, flags);
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, UnknownValues(flags));
             foreach (string flag in flags)
                 _hashSet.Remove(flag);
         }
         public void Unset(IFlags<string, TFlagValues> flags)
         {
             if (!CheckValues(flags))
-                FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, flags.Items);
+                FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, UnknownValues(flags.Items));
             foreach (string flag in flags.Items)
                 _hashSet.Remove(flag);
         }
@@ -205,5 +205,6 @@ namespace Mud.DataStructures.Flags
 
         private bool CheckValues(params string[] flags) => flags.All(x => FlagValues.AvailableValues.Contains(x));
         private bool CheckValues(IFlags<string, TFlagValues> flags) => flags.Items.All(x => FlagValues.AvailableValues.Contains(x));
+        private IEnumerable<string> UnknownValues(IEnumerable<string> flags) => flags.Where(x => !FlagValues.AvailableValues.Contains(x));
     }
 }

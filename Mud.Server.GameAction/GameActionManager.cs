@@ -45,7 +45,7 @@ namespace Mud.Server.GameAction
             IGameAction gameAction = DependencyContainer.Current.GetInstance(gameActionInfo.CommandExecutionType) as IGameAction;
             if (gameAction == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be instantiated or is not {1}.", gameActionInfo.Name, typeof(IGameAction).FullName);
+                Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be created or is not {1}.", gameActionInfo.Name, typeof(IGameAction).FullName);
                 return "Something goes wrong.";
             }
             IActionInput actionInput = new ActionInput(gameActionInfo, actor, commandLine, command, parameters);

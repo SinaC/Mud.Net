@@ -38,7 +38,10 @@
     <Compile Include="Ability\IAbilityInfo.cs" />
     <Compile Include="Ability\IAbilityLearned.cs" />
     <Compile Include="Ability\IAbilityUsage.cs" />
+    <Compile Include="Ability\IHitAvoidancePassive.cs" />
+    <Compile Include="Ability\IHitEnhancementPassive.cs" />
     <Compile Include="Ability\IPassive.cs" />
+    <Compile Include="Ability\IRegenerationPassive.cs" />
     <Compile Include="Ability\ISkill.cs" />
     <Compile Include="Ability\ISkillActionInput.cs" />
     <Compile Include="Ability\ISpell.cs" />
@@ -74,8 +77,13 @@
     <Compile Include="Character\IEquippedItem.cs" />
     <Compile Include="Class\IClass.cs" />
     <Compile Include="Class\IClassManager.cs" />
+    <Compile Include="Effect\IDamageModifierWeaponEffect.cs" />
     <Compile Include="Effect\IEffect.cs" />
     <Compile Include="Effect\IEffectManager.cs" />
+    <Compile Include="Effect\IInstantDeathWeaponEffect.cs" />
+    <Compile Include="Effect\IPostHitDamageWeaponEffect.cs" />
+    <Compile Include="Effect\IWeaponEffect.cs" />
+    <Compile Include="Effect\IWeaponEffectManager.cs" />
     <Compile Include="GameAction\IActionInput.cs" />
     <Compile Include="GameAction\IAdminGameActionInfo.cs" />
     <Compile Include="GameAction\ICharacterGameActionInfo.cs" />

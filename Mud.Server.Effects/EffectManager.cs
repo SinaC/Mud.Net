@@ -23,12 +23,12 @@ namespace Mud.Server.Effects
                 .ToDictionary(x => x.attribute.Name, x => x.executionType);
         }
 
-        public IEffect<TEntity> CreateInstance<TEntity>(string name)
+        public IEffect<TEntity> CreateInstance<TEntity>(string effectName)
             where TEntity : IEntity
         {
-            if (!_effectsByName.TryGetValue(name, out var effectType))
+            if (!_effectsByName.TryGetValue(effectName, out var effectType))
             {
-                Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} not found.", name);
+                Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} not found.", effectName);
                 return null;
             }
 
@@ -41,9 +41,10 @@ namespace Mud.Server.Effects
             IEffect<TEntity> instance = DependencyContainer.Current.GetInstance(effectType) as IEffect<TEntity>;
             if (instance == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} cannot be create or is not of type {1}", effectType.FullName, typeof(IEffect<TEntity>).FullName);
+                Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} cannot be created or is not of type {1}", effectType.FullName, typeof(IEffect<TEntity>).FullName);
                 return null;
             }
+
             return instance;
         }
     }

@@ -55,6 +55,7 @@ namespace Mud.Server.Character
         protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
         protected IEffectManager EffectManager => DependencyContainer.Current.GetInstance<IEffectManager>();
         protected IAffectManager AffectManager => DependencyContainer.Current.GetInstance<IAffectManager>();
+        protected IWeaponEffectManager WeaponEffectManager => DependencyContainer.Current.GetInstance<IWeaponEffectManager>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
         protected CharacterBase(Guid guid, string name, string description)
@@ -757,7 +758,7 @@ namespace Mud.Server.Character
                 {
                     if (equipedItem.Item is IItemWeapon weapon) // always true
                     {
-                        if (this is IPlayableCharacter && !weapon.CanWield(this))
+                        if (!weapon.CanWield(this))
                         {
                             Act(ActOptions.ToAll, "{0:N} can't use {1} anymore.", this, weapon);
                             weapon.ChangeEquippedBy(null, false);
@@ -2064,16 +2065,16 @@ namespace Mud.Server.Character
 
         protected abstract string NoWeaponDamageNoun { get; }
 
-        protected int GetWeaponBaseDamage(IItemWeapon weapon, int weaponLearned)
+        protected int GetWeaponBaseDamage(IItemWeapon weapon, ICharacter victim, int weaponLearned)
         {
             int damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) * weaponLearned / 100;
             if (GetEquipment<IItemShield>(EquipmentSlots.OffHand) == null) // no shield -> more damage
                 damage = 11 * damage / 10;
-            if (weapon.WeaponFlags.IsSet("Sharp")) // sharpness
+            foreach (string damageModifierWeaponEffect in WeaponEffectManager.WeaponEffectsByType<IDamageModifierWeaponEffect>(weapon))
             {
-                int percent = RandomManager.Range(1, 100);
-                if (percent <= weaponLearned / 8)
-                    damage = 2 * damage + (2 * damage * percent / 100);
+                IDamageModifierWeaponEffect effect = WeaponEffectManager.CreateInstance<IDamageModifierWeaponEffect>(damageModifierWeaponEffect);
+                if (effect != null)
+                    damage += effect.DamageModifier(this, victim, weapon, weaponLearned, damage);
             }
 
             return damage;
@@ -2142,93 +2143,55 @@ namespace Mud.Server.Character
 
                 return;
             }
-            // parry
-            IPassive parry = AbilityManager.CreateInstance<IPassive>("Parry");
-            if (parry != null && parry.IsTriggered(victim, this, true, out _, out _))
-            {
-                victim.Act(ActOptions.ToCharacter, "You parry {0}'s attack.", this);
-                Act(ActOptions.ToCharacter, "{0:N} parries your attack.", victim);
-                if (Fighting == null)
-                    victim.AbilityDamage(this, 0, damageType, "hit", false); // starts fight, remove sneak/invis, ...
-                return;
-            }
-            // dodge
-            IPassive dodge = AbilityManager.CreateInstance<IPassive>("Dodge");
-            if (dodge != null && dodge.IsTriggered(victim, this, true, out _, out _))
-            {
-                victim.Act(ActOptions.ToCharacter, "You dodge {0}'s attack.", this);
-                Act(ActOptions.ToCharacter, "{0:N} dodges your attack.", victim);
-                if (Fighting == null)
-                    victim.AbilityDamage(this, 0, damageType, "hit", false); // starts fight, remove sneak/invis, ...
-                return;
-            }
-            // shield block
-            IPassive shiedBlock = AbilityManager.CreateInstance<IPassive>("Shield Block");
-            if (shiedBlock != null && shiedBlock.IsTriggered(victim, this, true, out _, out _))
-            {
-                victim.Act(ActOptions.ToCharacter, "You block {0}'s attack with your shield.", this);
-                Act(ActOptions.ToCharacter, "{0:N} blocks your attack with a shield.", victim);
-                if (Fighting == null)
-                    victim.AbilityDamage(this, 0, damageType, "hit", false); // starts fight, remove sneak/invis, ...
-                return;
-            }
-            // vorpal -> kill in one hit !
-            // immune: no chance
-            // resistant: 0.1%
-            // normal: 0.2%
-            // vulnerable: 0.5%
-            // calculate weapon (or not) damage
-            if (wield != null && wield.WeaponFlags.IsSet("Vorpal")
-                && victim.BodyParts.IsSet("Head")
-                && !(victim is IPlayableCharacter pcVictim && pcVictim.IsImmortal))
-            {
-                int chance;
-                ResistanceLevels resistanceLevel = CheckResistance(damageType);
-                switch (resistanceLevel)
-                {
-                    case ResistanceLevels.Immune:
-                        chance = 0;
-                        break;
-                    case ResistanceLevels.Resistant:
-                        chance = 1;
-                        break;
-                    case ResistanceLevels.Vulnerable:
-                        chance = 5;
-                        break;
-                    case ResistanceLevels.Normal:
-                        chance = 2;
-                        break;
-                    default:
-                        chance = 0;
-                        break;
-                }
-                if (chance > 0 && RandomManager.Range(0, 999) < chance)
-                {
-                    Log.Default.WriteLine(LogLevels.Debug, "Vorpal: who {0} what {1} by {2}", victim, wield, this);
-                    ActToNotVictim(victim, "The %M%vorpal%x% of {0} strikes {1}.", wield, this);
-                    Act(ActOptions.ToCharacter, "The %M%vorpal%x% of your weapon strikes {0}.", victim);
-                    victim.Act(ActOptions.ToCharacter, "The %M%Vorpal%x% of {0} strikes and KILLS you.", wield);
-                    Act(ActOptions.ToRoom, "{0:N} is dead!!", victim);
 
-                    // TODO: beheaded ?
-
-                    victim.RawKilled(this, true);
-                    return; // must stop here because victim is dead, corpse has been created (an eventually looted/sacced)
+            // avoidance
+            foreach (IAbilityInfo avoidanceAbility in AbilityManager.AbilitiesByExecutionType<IHitAvoidancePassive>())
+            {
+                IHitAvoidancePassive ability = AbilityManager.CreateInstance<IHitAvoidancePassive>(avoidanceAbility);
+                if (ability != null)
+                {
+                    bool success = ability.Avoid(victim, this, damageType);
+                    if (success)
+                        return; // stops here
                 }
             }
 
+            // instant-death ?
+            // must stop here because victim is dead, corpse has been created (an eventually looted/sacced)
+            if (wield != null)
+            {
+                foreach (string instantDeathWeaponEffect in WeaponEffectManager.WeaponEffectsByType<IInstantDeathWeaponEffect>(wield))
+                {
+                    IInstantDeathWeaponEffect effect = WeaponEffectManager.CreateInstance<IInstantDeathWeaponEffect>(instantDeathWeaponEffect);
+                    if (effect != null)
+                    {
+                        bool isTriggered = effect.Trigger(this, victim, wield, damageType);
+                        if (isTriggered)
+                        {
+                            victim.RawKilled(this, true);
+                            return; // must stop here because victim is dead, corpse has been created (an eventually looted/sacced)
+                        }
+                    }
+                }
+            }
+
+            // base weapon damage
             int damage = wield == null
                 ? NoWeaponBaseDamage
-                : GetWeaponBaseDamage(wield, learned);
+                : GetWeaponBaseDamage(wield, victim, learned);
             if (weaponLearnedInfo.abilityLearned != null)
             {
                 IPassive weaponAbility = AbilityManager.CreateInstance<IPassive>(weaponLearnedInfo.abilityLearned.Name);
                 weaponAbility?.IsTriggered(this, victim, true, out _, out _); // TODO: maybe we should test return value (imagine a big bad boss which add CD to every skill)
             }
+
             // bonus
-            var enhancedDamage = AbilityManager.CreateInstance<IPassive>("Enhanced Damage");
-            if (enhancedDamage != null && enhancedDamage.IsTriggered(this, victim, true, out var enhancedDamageDiceRoll, out _))
-                damage += 2 * (damage * enhancedDamageDiceRoll) / 300;
+            foreach (IAbilityInfo enhancementAbility in AbilityManager.AbilitiesByExecutionType<IHitEnhancementPassive>())
+            {
+                IHitEnhancementPassive ability = AbilityManager.CreateInstance<IHitEnhancementPassive>(enhancementAbility);
+                if (ability != null)
+                    damage += ability.DamageModifier(this, victim, damageType, damage);
+            }
 
             if (victim.Position <= Positions.Sleeping)
                 damage *= 2;
@@ -2256,96 +2219,15 @@ namespace Mud.Server.Character
             // funky weapon ?
             if (damageResult == DamageResults.Done && wield != null)
             {
-                if (wield.WeaponFlags.IsSet("Poison"))
+                foreach (string postHitDamageWeaponEffect in WeaponEffectManager.WeaponEffectsByType<IPostHitDamageWeaponEffect>(wield))
                 {
-                    IAura wieldPoisonAura = wield.Auras.FirstOrDefault(x => x.Affects.OfType<IItemWeaponFlagsAffect>().Any(aff => aff.Modifier.IsSet("Poison")));
-                    int level = wieldPoisonAura?.Level ?? wield.Level;
-                    if (!victim.SavesSpell(level/2, SchoolTypes.Poison))
-                    {
-                        victim.Send("You feel poison coursing through your veins.");
-                        victim.Act(ActOptions.ToRoom, "{0:N} is poisoned by the venom on {1}.", victim, wield);
-                        int duration = Math.Min(1, level / 2);
+                    IPostHitDamageWeaponEffect effect = WeaponEffectManager.CreateInstance<IPostHitDamageWeaponEffect>(postHitDamageWeaponEffect);
+                    if (effect != null)
+                        effect.Apply(this, victim, wield);
 
-                        IAura victimPoisonAura = victim.Auras.FirstOrDefault(x => x.Affects.OfType<ICharacterFlagsAffect>().Any(aff => aff.Modifier.IsSet("Poison")));
-                        if (victimPoisonAura == null)
-                        {
-                            IAffect poisonAffect = AffectManager.CreateInstance("Poison");
-                            AuraManager.AddAura(victim, "Poison", this, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                                new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
-                                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
-                                poisonAffect);
-                        }
-                        else
-                            victimPoisonAura.Update(3*level/4, TimeSpan.FromMinutes(duration));
-
-                        // weaken the poison if it's temporary 
-                        if (wieldPoisonAura != null && !wieldPoisonAura.AuraFlags.HasFlag(AuraFlags.Permanent))
-                        {
-                            wieldPoisonAura.DecreaseLevel();
-                            bool wornOff = wieldPoisonAura.DecreasePulseLeft(1);
-                            if (wieldPoisonAura.Level <= 1 || wornOff)
-                            {
-                                wield.RemoveAura(wieldPoisonAura, true);
-                                Act(ActOptions.ToCharacter, "The %G%poison%x% on {0} has worn off.", wield);
-                            }
-                        }
-                    }
+                    if (Fighting != victim) // stop if not anymore fighting
+                        return;
                 }
-
-                if (Fighting != victim)
-                    return;
-
-                if (wield.WeaponFlags.IsSet("Vampiric"))
-                {
-                    int specialDamage = RandomManager.Range(1, 1 + wield.Level / 5);
-                    victim.Act(ActOptions.ToRoom, "{0} draws life from {1}.", wield, victim);
-                    victim.Act(ActOptions.ToCharacter, "You feel {0} drawing your life away.", wield);
-                    victim.Damage(this, specialDamage, SchoolTypes.Negative, null, false);
-                    UpdateHitPoints(specialDamage/2);
-                    UpdateAlignment(-1);
-                }
-
-                if (Fighting != victim)
-                    return;
-
-                if (wield.WeaponFlags.IsSet("Flaming"))
-                {
-                    int specialDamage = RandomManager.Range(1, 1 + wield.Level / 4);
-                    victim.Act(ActOptions.ToRoom, "{0} is burned by {1}.", victim, wield);
-                    victim.Act(ActOptions.ToCharacter, "{0} sears your flesh.", wield);
-                    victim.Damage(this, specialDamage, SchoolTypes.Fire, null, false);
-                    IEffect<ICharacter> fireEffect = EffectManager.CreateInstance<ICharacter>("Fire");
-                    fireEffect?.Apply(victim, this, "Fire breath", wield.Level/2, specialDamage);
-                }
-
-                if (Fighting != victim)
-                    return;
-
-                if (wield.WeaponFlags.IsSet("Frost"))
-                {
-                    int specialDamage = RandomManager.Range(1, 2 + wield.Level / 6);
-                    victim.Act(ActOptions.ToRoom, "{0} freezes {1}.", wield, victim);
-                    victim.Act(ActOptions.ToCharacter, "The cold touch of {0} surrounds you with ice.", wield);
-                    victim.Damage(this, specialDamage, SchoolTypes.Cold, null, false);
-                    IEffect<ICharacter> coldEffect = EffectManager.CreateInstance<ICharacter>("Cold");
-                    coldEffect?.Apply(victim, this, "Chill touch", wield.Level / 2, specialDamage);
-                }
-
-                if (Fighting != victim)
-                    return;
-
-                if (wield.WeaponFlags.IsSet("Shocking"))
-                {
-                    int specialDamage = RandomManager.Range(1, 2 + wield.Level / 5);
-                    victim.Act(ActOptions.ToRoom, "{0:N} is struck by lightning from {1}.", victim, wield);
-                    victim.Act(ActOptions.ToCharacter, "You are shocked by {0}.", wield);
-                    victim.Damage(this, specialDamage, SchoolTypes.Lightning, null, false);
-                    IEffect<ICharacter> shockEffect = EffectManager.CreateInstance<ICharacter>("Shock");
-                    shockEffect?.Apply(victim, this, "Shocking weapon", wield.Level / 2, specialDamage);
-                }
-
-                if (Fighting != victim)
-                    return;
             }
         }
 

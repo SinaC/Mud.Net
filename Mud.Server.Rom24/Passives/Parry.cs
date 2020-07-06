@@ -7,7 +7,7 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Passives
 {
     [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
-    public class Parry : PassiveBase
+    public class Parry : HitAvoidancePassiveBase
     {
         public const string PassiveName = "Parry";
 
@@ -15,6 +15,10 @@ namespace Mud.Server.Rom24.Passives
             : base(randomManager)
         {
         }
+
+        protected override string AvoiderPhrase => "You parry {0}'s attack.";
+
+        protected override string AggressorPhrase => "{0:N} parries your attack.";
 
         protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
         {

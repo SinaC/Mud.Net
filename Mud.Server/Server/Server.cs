@@ -15,6 +15,7 @@ using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -74,6 +75,9 @@ namespace Mud.Server.Server
         protected IClassManager ClassManager { get; }
         protected IRaceManager RaceManager { get; }
         protected IAbilityManager AbilityManager { get; }
+        protected IAffectManager AffectManager { get; }
+        protected IEffectManager EffectManager { get; }
+        protected IWeaponEffectManager WeaponEffectManager { get; }
         protected IWorld World { get; }
         protected IRoomManager RoomManager { get; }
         protected ICharacterManager CharacterManager { get; }
@@ -83,7 +87,7 @@ namespace Mud.Server.Server
         public Server(ISettings settings,
             ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
             IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager,
-            IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager,
+            IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IAffectManager affectManager, IEffectManager effectManager, IWeaponEffectManager weaponEffectManager,
             IWorld world, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager)
         {
             Settings = settings;
@@ -97,6 +101,9 @@ namespace Mud.Server.Server
             ClassManager = classManager;
             RaceManager = raceManager;
             AbilityManager = abilityManager;
+            AffectManager = affectManager;
+            EffectManager = effectManager;
+            WeaponEffectManager = weaponEffectManager;
             World = world;
             RoomManager = roomManager;
             CharacterManager = characterManager;
@@ -740,6 +747,7 @@ namespace Mud.Server.Server
             SanityCheckRooms();
             SanityCheckItems();
             SanityCheckCharacters();
+            SanityCheckWeaponEffects();
         }
 
         private void SanityCheckAbilities()
@@ -814,6 +822,11 @@ namespace Mud.Server.Server
         {
             Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {0}", CharacterManager.CharacterBlueprints.Count);
             Log.Default.WriteLine(LogLevels.Info, "#Characters: {0}", CharacterManager.Characters.Count());
+        }
+
+        private void SanityCheckWeaponEffects()
+        {
+            Log.Default.WriteLine(LogLevels.Info, "#WeaponEffects: {0}", WeaponEffectManager.Count);
         }
 
         private void DumpCommands()
