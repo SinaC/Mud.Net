@@ -203,7 +203,6 @@ namespace Mud.Server.Tests
             "TwoHands",
             "Shocking",
             "Poison",
-            "Holy",
         };
 
         protected override HashSet<string> HashSet => Flags;

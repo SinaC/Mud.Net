@@ -52,6 +52,9 @@
     <Compile Include="AbilityLearned.cs" />
     <Compile Include="AbilityManager.cs" />
     <Compile Include="AbilityUsage.cs" />
+    <Compile Include="Passive\HitAvoidancePassiveBase.cs" />
+    <Compile Include="Passive\HitEnhancementPassiveBase.cs" />
+    <Compile Include="Passive\RegenerationPassiveBase.cs" />
     <Compile Include="Spell\CharacterBuffSpellBase.cs" />
     <Compile Include="Spell\CharacterDebuffSpellBase.cs" />
     <Compile Include="Spell\CharacterFlagsSpellBase.cs" />

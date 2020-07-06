@@ -8,7 +8,7 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Passives
 {
     [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
-    public class ShieldBlock : PassiveBase
+    public class ShieldBlock : HitAvoidancePassiveBase
     {
         public const string PassiveName = "Shield Block";
 
@@ -16,6 +16,10 @@ namespace Mud.Server.Rom24.Passives
             : base(randomManager)
         {
         }
+
+        protected override string AvoiderPhrase => "You block {0}'s attack with your shield.";
+
+        protected override string AggressorPhrase => "{0:N} blocks your attack with a shield.";
 
         protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
         {

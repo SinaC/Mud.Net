@@ -229,6 +229,13 @@
     <Compile Include="Spells\Ventriloquate.cs" />
     <Compile Include="Spells\Weaken.cs" />
     <Compile Include="Spells\WordOfRecall.cs" />
+    <Compile Include="WeaponEffects\Sharp.cs" />
+    <Compile Include="WeaponEffects\Shocking.cs" />
+    <Compile Include="WeaponEffects\Frost.cs" />
+    <Compile Include="WeaponEffects\Poison.cs" />
+    <Compile Include="WeaponEffects\Flaming.cs" />
+    <Compile Include="WeaponEffects\Vampiric.cs" />
+    <Compile Include="WeaponEffects\Vorpal.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">

@@ -20,13 +20,13 @@ namespace Mud.Server.Tests.Affects
         {
             IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
             IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new Blueprints.Item.ItemWeaponBlueprint { Id = 1, Name = "weapon1", ShortDescription = "weapon1short", Description = "weapon1desc", ItemFlags = new ItemFlags(), Flags = new WeaponFlags() }, room);
-            IAura weaponAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20), new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Holy"), Operator = AffectOperators.Add});
+            IAura weaponAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20), new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Sharp"), Operator = AffectOperators.Add});
             weapon.AddAura(weaponAura, false);
 
             weapon.Recompute();
 
             Assert.IsTrue(weapon.BaseWeaponFlags.IsNone);
-            Assert.IsTrue(weapon.WeaponFlags.IsSet("Holy"));
+            Assert.IsTrue(weapon.WeaponFlags.IsSet("Sharp"));
         }
 
         [TestMethod]
@@ -49,9 +49,9 @@ namespace Mud.Server.Tests.Affects
         public void MultipleEffect_MultipleBaseValue_Test()
         {
             IRoom room = new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "room1" }, new Mock<IArea>().Object);
-            IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new Blueprints.Item.ItemWeaponBlueprint { Id = 1, Name = "weapon1", ShortDescription = "weapon1short", Description = "weapon1desc", ItemFlags = new ItemFlags("AntiNeutral", "Bless"), Flags = new WeaponFlags("Flaming", "Holy") }, room);
+            IItemWeapon weapon = new ItemWeapon(Guid.NewGuid(), new Blueprints.Item.ItemWeaponBlueprint { Id = 1, Name = "weapon1", ShortDescription = "weapon1short", Description = "weapon1desc", ItemFlags = new ItemFlags("AntiNeutral", "Bless"), Flags = new WeaponFlags("Flaming", "Sharp") }, room);
             IAura weaponAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20), 
-                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Holy"), Operator = AffectOperators.Nor }, // remove weapon holy
+                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Sharp"), Operator = AffectOperators.Nor }, // remove weapon holy
                 new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Frost"), Operator = AffectOperators.Assign }, // assign weapon frost
                 new ItemFlagsAffect { Modifier = new ItemFlags("Dark"), Operator = AffectOperators.Add }, // add item dark
                 new ItemFlagsAffect { Modifier = new ItemFlags("Bless"), Operator = AffectOperators.Or }, // or item bless (already present in base flags)
@@ -61,7 +61,7 @@ namespace Mud.Server.Tests.Affects
 
             weapon.Recompute();
 
-            Assert.IsTrue(weapon.BaseWeaponFlags.HasAll("Flaming", "Holy"));
+            Assert.IsTrue(weapon.BaseWeaponFlags.HasAll("Flaming", "Sharp"));
             Assert.IsTrue(weapon.WeaponFlags.IsSet("Frost"));
             Assert.IsTrue(weapon.BaseItemFlags.HasAll("AntiNeutral", "Bless"));
             Assert.IsTrue(weapon.ItemFlags.HasAll("AntiNeutral", "Bless", "Dark"));

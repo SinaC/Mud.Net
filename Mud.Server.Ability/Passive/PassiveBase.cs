@@ -32,7 +32,7 @@ namespace Mud.Server.Ability.Passive
             }
 
             // 3) check if failed
-            diceRoll = RandomManager.Range(0, 100);
+            diceRoll = RandomManager.Range(1, 100);
             var checkSuccess = CheckSuccess(user, victim, learnPercentage, diceRoll);
             if (!checkSuccess)
                 return false;

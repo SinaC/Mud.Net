@@ -30,13 +30,12 @@ namespace Mud.Server.Admin.Administration
             if (actionInput.Parameters.Length == 0 && Actor.Impersonating == null)
                 return BuildCommandSyntax();
 
-            IArea area;
             if (actionInput.Parameters.Length == 0)
-                area = Impersonating.Room.Area;
+                Area = Impersonating.Room.Area;
             else
-                area = AreaManager.Areas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.DisplayName, actionInput.Parameters[0].Value));
+                Area = AreaManager.Areas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.DisplayName, actionInput.Parameters[0].Value));
 
-            if (area == null)
+            if (Area == null)
                 return "Area not found.";
 
             return null;

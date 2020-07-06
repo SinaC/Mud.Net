@@ -11,6 +11,8 @@ namespace Mud.DataStructures.Flags
 
         public virtual IEnumerable<T> AvailableValues => HashSet;
 
+        public virtual string PrettyPrint(T flag, bool shortDisplay) => flag.ToString();
+
         public virtual void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<T> values)
         {
             throw new ArgumentException($"Flags '{string.Join(",", values)}' not found in {GetType().FullName}");

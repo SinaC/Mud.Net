@@ -109,16 +109,7 @@ namespace Mud.Server.Item
 
         public override StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay)
         {
-            if (WeaponFlags.IsSet("Flaming")) sb.Append("%R%(Flaming)%x%");
-            if (WeaponFlags.IsSet("Frost")) sb.Append("%C%(Frost)%x%");
-            if (WeaponFlags.IsSet("Vampiric")) sb.Append("%D%(Vampiric)%x%");
-            if (WeaponFlags.IsSet("Sharp")) sb.Append("%W%(Sharp)%x%");
-            if (WeaponFlags.IsSet("Vorpal")) sb.Append("%M%(Vorpal)%x%");
-            // Two-handed not displayed
-            if (WeaponFlags.IsSet("Shocking")) sb.Append("%Y%(Sparkling)%x%");
-            if (WeaponFlags.IsSet("Poison")) sb.Append("%G%(Envenomed)%x%");
-            if (WeaponFlags.IsSet("Holy")) sb.Append("%C%(Holy)%x%");
-            //
+            WeaponFlags.Append(sb, shortDisplay);
             return base.Append(sb, viewer, shortDisplay);
         }
 
