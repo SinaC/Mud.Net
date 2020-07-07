@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		MERC file format.txt = MERC file format.txt
 		README.txt = README.txt
 		ROM file format.txt = ROM file format.txt
+		ROM24B6.txt = ROM24B6.txt
 		TODO.txt = TODO.txt
 	EndProjectSection
 EndProject
