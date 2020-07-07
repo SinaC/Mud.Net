@@ -21,7 +21,7 @@ namespace Mud.Server.Rom24.Spells
         protected override void Invoke()
         {
             Victim.Act(ActOptions.ToRoom, "{0:N} disappears suddenly.", Victim);
-            Victim.ChangeRoom(Caster.Room);
+            Victim.ChangeRoom(Caster.Room, true);
             Caster.Act(ActOptions.ToRoom, "{0:N} arrives suddenly", Victim);
             Victim.Act(ActOptions.ToCharacter, "{0:N} has summoned you!", Caster);
             AutoLook(Victim);

@@ -162,9 +162,9 @@ namespace Mud.Server.Interfaces.Character
         bool ChangeForm(Forms form);
 
         // Move
-        bool Move(ExitDirections direction, bool follow);
-        bool Enter(IItemPortal portal, bool follow);
-        void ChangeRoom(IRoom destination);
+        bool Move(ExitDirections direction, bool following, bool forceFollowers);
+        bool Enter(IItemPortal portal, bool following, bool forceFollowers);
+        void ChangeRoom(IRoom destination, bool recompute);
 
         // Combat
         bool StartFighting(ICharacter victim);

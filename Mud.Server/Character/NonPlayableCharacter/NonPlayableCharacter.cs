@@ -109,7 +109,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             : this(guid, blueprint.Name, blueprint.Description, blueprint, room)
         {
             RecomputeKnownAbilities();
-            ResetCurrentAttributes();
+            ResetAttributes();
             RecomputeCurrentResourceKinds();
         }
 
@@ -194,7 +194,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
             }
 
             RecomputeKnownAbilities();
-            ResetCurrentAttributes();
+            ResetAttributes();
             RecomputeCurrentResourceKinds();
         }
 

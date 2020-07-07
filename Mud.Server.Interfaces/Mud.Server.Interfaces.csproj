@@ -46,11 +46,12 @@
     <Compile Include="Ability\ISkillActionInput.cs" />
     <Compile Include="Ability\ISpell.cs" />
     <Compile Include="Ability\ISpellActionInput.cs" />
+    <Compile Include="Affect\IAffectInfo.cs" />
     <Compile Include="Affect\IAffectManager.cs" />
     <Compile Include="Affect\ICharacterAffect.cs" />
     <Compile Include="Affect\ICharacterPeriodicAffect.cs" />
+    <Compile Include="Affect\ICustomAffect.cs" />
     <Compile Include="Affect\IFlagsAffect.cs" />
-    <Compile Include="Affect\IFlagAffect.cs" />
     <Compile Include="Affect\ICharacterAttributeAffect.cs" />
     <Compile Include="Affect\ICharacterFlagsAffect.cs" />
     <Compile Include="Affect\ICharacterIRVAffect.cs" />
@@ -67,6 +68,8 @@
     <Compile Include="Admin\IAdmin.cs" />
     <Compile Include="Admin\IAdminManager.cs" />
     <Compile Include="Affect\IAffect.cs" />
+    <Compile Include="Affect\IRoomResourceRateAffect.cs" />
+    <Compile Include="Affect\IRoomHealRateAffect.cs" />
     <Compile Include="Area\IArea.cs" />
     <Compile Include="Area\IAreaManager.cs" />
     <Compile Include="Aura\IAura.cs" />

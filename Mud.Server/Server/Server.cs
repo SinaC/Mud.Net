@@ -500,12 +500,21 @@ namespace Mud.Server.Server
                 //    : new Player.Player(Guid.NewGuid(), username);
                 if (isAdmin)
                 {
-                    AdminData data = AdminRepository.Load(username);
+                    AdminData data = AdminRepository.Load(username) ?? new AdminData
+                    {
+                        AdminLevel = AdminLevels.Angel,
+                        Name = username,
+                        PagingLineCount = 24
+                    };
                     playerOrAdmin = new Admin.Admin(Guid.NewGuid(), data);
                 }
                 else
                 {
-                    PlayerData data = PlayerRepository.Load(username);
+                    PlayerData data = PlayerRepository.Load(username) ?? new PlayerData
+                    {
+                        Name = username,
+                        PagingLineCount = 24
+                    };
                     playerOrAdmin = new Player.Player(Guid.NewGuid(), data);
                 }
                 //
@@ -1338,7 +1347,7 @@ namespace Mud.Server.Server
                                     && (!npc.ActFlags.IsSet("StayArea") || npc.Room.Area == exit.Destination.Area)
                                     && (!npc.ActFlags.IsSet("Outdoors") || !exit.Destination.RoomFlags.IsSet("Indoors"))
                                     && (!npc.ActFlags.IsSet("Indoors") || exit.Destination.RoomFlags.IsSet("Indoors")))
-                                    npc.Move(exitDirection, false);
+                                    npc.Move(exitDirection, false, true);
                             }
                         }
                     }

@@ -25,7 +25,7 @@ namespace Mud.Server.Character.Information
             if (Actor.Room == null)
                 return "You are nowhere";
             if (Actor.Room.RoomFlags.IsSet("NoWhere"))
-                Actor.Send("You don't recognize where you are.");
+                return "You don't recognize where you are.";
 
             Pattern = actionInput.Parameters.Length > 0
                 ? actionInput.Parameters[0]

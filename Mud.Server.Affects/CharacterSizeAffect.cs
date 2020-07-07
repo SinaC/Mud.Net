@@ -9,11 +9,6 @@ namespace Mud.Server.Affects
     {
         public Sizes Value { get; set; }
 
-        public void Append(StringBuilder sb)
-        {
-            sb.AppendFormat("%c%modifies %y%size %c%by setting to %y%{0}%x%", Value);
-        }
-
         public CharacterSizeAffect()
         {
         }
@@ -21,6 +16,11 @@ namespace Mud.Server.Affects
         public CharacterSizeAffect(CharacterSizeAffectData data)
         {
             Value = data.Value;
+        }
+
+        public void Append(StringBuilder sb)
+        {
+            sb.AppendFormat("%c%modifies %y%size %c%by setting to %y%{0}%x%", Value);
         }
 
         public void Apply(ICharacter character)

@@ -232,7 +232,7 @@ namespace Mud.Server.Character.PlayableCharacter
             room.Enter(this);
 
             RecomputeKnownAbilities();
-            ResetCurrentAttributes();
+            ResetAttributes();
             RecomputeCurrentResourceKinds();
         }
 
@@ -1122,7 +1122,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     if (follower.Position == Positions.Standing && follower.CanSee(toRoom))
                     {
                         follower.Send("You follow {0}.", DebugName);
-                        follower.Move(direction, true);
+                        follower.Move(direction, true, true);
                     }
                 }
             }
@@ -1140,7 +1140,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     if (pet.Position != Positions.Standing)
                         return;
                     pet.Send("You follow {0}.", DebugName);
-                    pet.Enter(portal, true);
+                    pet.Enter(portal, true, true);
                 }
             }
         }
@@ -1173,7 +1173,7 @@ namespace Mud.Server.Character.PlayableCharacter
             if (ImpersonatedBy != null) // If impersonated, no real death
             {
                 IRoom room = RoomManager.DefaultDeathRoom ?? RoomManager.DefaultRecallRoom;
-                ChangeRoom(room);
+                ChangeRoom(room, true);
                 ChangePosition(Positions.Sleeping);
                 Recompute(); // don't reset hp
             }

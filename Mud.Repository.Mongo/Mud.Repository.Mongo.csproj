@@ -159,6 +159,9 @@
     <Compile Include="Domain\LoginData.cs" />
     <Compile Include="Domain\PlayerData.cs" />
     <Compile Include="Domain\PoisonDamageAffectData.cs" />
+    <Compile Include="Domain\RoomFlagsAffectData.cs" />
+    <Compile Include="Domain\RoomHealRateAffectData.cs" />
+    <Compile Include="Domain\RoomResourceRateAffectData.cs" />
     <Compile Include="LoginRepository.cs" />
     <Compile Include="Common\MongoCappedRepository.cs" />
     <Compile Include="Common\MongoContext.cs" />

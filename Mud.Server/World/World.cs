@@ -210,8 +210,9 @@ namespace Mud.Server.World
         public IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData playableCharacterData, IPlayer player, IRoom room) // PC
         {
             IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(guid, playableCharacterData, player, room);
-            character.Recompute();
             _characters.Add(character);
+            character.Recompute();
+            room.Recompute();
             return character;
         }
 
@@ -222,6 +223,7 @@ namespace Mud.Server.World
             INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(guid, blueprint, room);
             _characters.Add(character);
             character.Recompute();
+            room.Recompute();
             return character;
         }
 
@@ -232,6 +234,7 @@ namespace Mud.Server.World
             INonPlayableCharacter character = new Character.NonPlayableCharacter.NonPlayableCharacter(guid, blueprint, petData, room);
             _characters.Add(character);
             character.Recompute();
+            room.Recompute();
             return character;
         }
 
@@ -263,7 +266,7 @@ namespace Mud.Server.World
                 }
             }
             // Move to NullRoom
-            character.ChangeRoom(NullRoom);
+            character.ChangeRoom(NullRoom, true);
             //
             character.OnRemoved();
             //_characters.Remove(character); will be removed in cleanup step

@@ -11,8 +11,8 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Affects
 {
-    [Affect("Plague")]
-    public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect
+    [Affect("Plague", typeof(PlagueSpreadAndDamageAffectData))]
+    public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect, ICustomAffect
     {
         private IRandomManager RandomManager { get; }
         private IAuraManager AuraManager { get; }
@@ -21,6 +21,11 @@ namespace Mud.Server.Rom24.Affects
         {
             RandomManager = randomManager;
             AuraManager = auraManager;
+        }
+
+        public void Initialize(AffectDataBase data)
+        {
+            //(PlagueSpreadAndDamageAffectData)
         }
 
         public void Append(StringBuilder sb)

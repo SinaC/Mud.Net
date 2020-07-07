@@ -25,6 +25,7 @@ namespace Mud.Server.Interfaces.Entity
 
         // Recompute
         void Reset(); // Remove periodic auras
+        void ResetAttributes();
         void Recompute();
 
         // Auras

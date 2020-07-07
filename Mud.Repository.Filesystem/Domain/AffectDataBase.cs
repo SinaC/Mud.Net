@@ -11,6 +11,9 @@ namespace Mud.Repository.Filesystem.Domain
     [XmlInclude(typeof(CharacterSizeAffectData))]
     [XmlInclude(typeof(PlagueSpreadAndDamageAffectData))]
     [XmlInclude(typeof(PoisonDamageAffectData))]
+    [XmlInclude(typeof(RoomFlagsAffectData))]
+    [XmlInclude(typeof(RoomHealRateAffectData))]
+    [XmlInclude(typeof(RoomResourceRateAffectData))]
     public abstract class AffectDataBase
     {
     }

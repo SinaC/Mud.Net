@@ -9,7 +9,7 @@ namespace Mud.Server.Character.Movement
     {
         public override void Execute(IActionInput actionInput)
         {
-            Actor.Move(ExitDirections.Down, true);
+            Actor.Move(ExitDirections.Down, false, true);
         }
     }
 }

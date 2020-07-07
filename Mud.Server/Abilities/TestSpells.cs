@@ -11,6 +11,7 @@ using Mud.Server.Random;
 using System;
 using Mud.Server.Ability;
 using Mud.Server.Flags;
+using Mud.Server.Interfaces.Affect;
 
 namespace Mud.Server.Abilities
 {
@@ -96,6 +97,36 @@ namespace Mud.Server.Abilities
         }
     }
 
+    [Spell(SpellName, AbilityEffects.Buff)]
+    public class SpellTestRoom : CharacterBuffSpellBase
+    {
+        private const string SpellName = "Testroom";
+
+        public SpellTestRoom(IRandomManager randomManager, IAuraManager auraManager)
+            : base(randomManager, auraManager)
+        {
+        }
+
+        protected override string SelfAlreadyAffectedMessage => "You are already affected.";
+        protected override string NotSelfAlreadyAffectedMessage => "{0:N} is already affected.";
+        protected override string VictimAffectMessage => "You are now affected by Testroom.";
+        protected override string CasterAffectMessage => "{0:N} {0:b} now affected by Testroom.";
+
+        protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo => (Caster.Level, TimeSpan.FromMinutes(5),
+            new IAffect[]
+            {
+                new RoomHealRateAffect {Modifier = 10, Operator = AffectOperators.Add},
+                new RoomResourceRateAffect {Modifier = 150, Operator = AffectOperators.Assign},
+                new RoomFlagsAffect {Modifier = new RoomFlags("NoScan", "NoWhere"), Operator = AffectOperators.Or}
+            });
+
+        protected override void Invoke()
+        {
+            base.Invoke();
+
+            Victim.Room.Recompute();
+        }
+    }
 
     //    //[Spell(999998, "Construct", AbilityTargets.None)]
     //    //public void SpellConstruct(IAbility ability, int level, ICharacter caster)

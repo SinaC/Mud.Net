@@ -36,13 +36,14 @@ namespace Mud.Server.Admin.Information
             if (actionInput.Parameters.Length >= 1 && !actionInput.Parameters[0].IsNumber)
                 return BuildCommandSyntax();
 
-            if (Actor.Impersonating != null)
-                Room = Impersonating.Room;
-            else
+            if (actionInput.Parameters.Length >= 1)
             {
                 int id = actionInput.Parameters[0].AsNumber;
                 Room = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == id);
             }
+            else if (Actor.Impersonating != null)
+                Room = Impersonating.Room;
+
             if (Room == null)
                 return "It doesn't exist.";
             if (Room.IsPrivate)
@@ -62,7 +63,7 @@ namespace Mud.Server.Admin.Information
             sb.AppendFormatLine("Description: {0}", Room.Description);
             sb.AppendFormatLine("Flags: {0} (base: {1})", Room.RoomFlags, Room.BaseRoomFlags);
             sb.AppendFormatLine("Light: {0} Sector: {1} MaxSize: {2}", Room.Light, Room.SectorType, Room.MaxSize);
-            sb.AppendFormatLine("Heal rate: {0} Resource rate: {1}", Room.HealRate, Room.ResourceRate);
+            sb.AppendFormatLine("Heal rate: {0}% (base {1}%) Resource rate: {2}% (base {3}%)", Room.HealRate, Room.BaseHealRate, Room.ResourceRate, Room.BaseResourceRate);
             if (Room.ExtraDescriptions != null)
             {
                 foreach (var lookup in Room.ExtraDescriptions)

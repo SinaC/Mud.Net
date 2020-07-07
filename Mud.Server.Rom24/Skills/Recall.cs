@@ -58,6 +58,8 @@ namespace Mud.Server.Rom24.Skills
             if (pcUser == null)
                 return false;
 
+            IRoom originalRoom = pcUser.Room;
+
             if (pcUser.Fighting != null)
             {
                 int chance = (80 * Learned) / 100;
@@ -75,7 +77,7 @@ namespace Mud.Server.Rom24.Skills
 
             pcUser.UpdateMovePoints(-pcUser.MovePoints / 2); // half move
             pcUser.Act(ActOptions.ToRoom, "{0:N} disappears.", pcUser);
-            pcUser.ChangeRoom(RecallRoom);
+            pcUser.ChangeRoom(RecallRoom, false);
             pcUser.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcUser);
             StringBuilder sb = new StringBuilder();
             pcUser.Room.Append(sb, pcUser);
@@ -95,13 +97,17 @@ namespace Mud.Server.Rom24.Skills
                 }
 
                 pet.Act(ActOptions.ToRoom, "{0:N} disappears.", pet);
-                pet.ChangeRoom(RecallRoom);
+                pet.ChangeRoom(RecallRoom, false);
                 pet.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pet);
                 // Needed ?
                 //StringBuilder sbPet = new StringBuilder();
                 //pet.Room.Append(sbPet, pet);
                 //pet.Send(sbPet);
             }
+
+            originalRoom?.Recompute();
+            if (pcUser.Room != originalRoom)
+                pcUser.Room.Recompute();
 
             return true;
         }

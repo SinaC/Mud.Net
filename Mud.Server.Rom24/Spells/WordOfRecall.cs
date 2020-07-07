@@ -24,6 +24,8 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke()
         {
+            IRoom originalRoom = Victim.Room;
+
             IRoom recallRoom = Victim.RecallRoom;
             if (recallRoom == null)
             {
@@ -37,7 +39,7 @@ namespace Mud.Server.Rom24.Spells
 
             Victim.UpdateMovePoints(-Victim.MovePoints / 2); // half move
             Victim.Act(ActOptions.ToRoom, "{0:N} disappears", Victim);
-            Victim.ChangeRoom(recallRoom);
+            Victim.ChangeRoom(recallRoom, false);
             Victim.Act(ActOptions.ToRoom, "{0:N} appears in the room.", Victim);
             StringBuilder sb = new StringBuilder();
             Victim.Room.Append(sb, Victim);
@@ -57,12 +59,16 @@ namespace Mud.Server.Rom24.Spells
                 }
 
                 pet.Act(ActOptions.ToRoom, "{0:N} disappears", pet);
-                pet.ChangeRoom(recallRoom);
+                pet.ChangeRoom(recallRoom, false);
                 pet.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pet);
                 StringBuilder sbPet = new StringBuilder();
                 pet.Room.Append(sbPet, pet);
                 pet.Send(sbPet);
             }
+
+            originalRoom?.Recompute();
+            if (Victim.Room != originalRoom)
+                Victim.Room.Recompute();
         }
 
         protected override string SetTargets(ISpellActionInput spellActionInput)

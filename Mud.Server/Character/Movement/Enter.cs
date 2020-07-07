@@ -34,7 +34,7 @@ namespace Mud.Server.Character.Movement
 
         public override void Execute(IActionInput actionInput)
         {
-            Actor.Enter(What, true);
+            Actor.Enter(What, false, true);
         }
     }
 }

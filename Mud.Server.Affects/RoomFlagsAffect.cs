@@ -9,7 +9,15 @@ namespace Mud.Server.Affects
     {
         protected override string Target => "Room flags";
 
-        // TODO: no serialization RoomFlagsAffectData doesn't exist
+        public RoomFlagsAffect()
+        {
+        }
+
+        public RoomFlagsAffect(RoomFlagsAffectData data)
+        {
+            Operator = data.Operator;
+            Modifier = data.Modifier;
+        }
 
         public void Apply(IRoom room)
         {
@@ -18,8 +26,11 @@ namespace Mud.Server.Affects
 
         public override AffectDataBase MapAffectData()
         {
-            throw new System.NotImplementedException();
+            return new RoomFlagsAffectData
+            {
+                Operator = Operator,
+                Modifier = Modifier,
+            };
         }
     }
-
 }
