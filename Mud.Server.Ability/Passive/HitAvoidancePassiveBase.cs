@@ -10,7 +10,7 @@ namespace Mud.Server.Ability.Passive
         protected abstract string AvoiderPhrase { get; }
         protected abstract string AggressorPhrase { get; }
 
-        public HitAvoidancePassiveBase(IRandomManager randomManager)
+        protected HitAvoidancePassiveBase(IRandomManager randomManager)
             : base(randomManager)
         {
         }

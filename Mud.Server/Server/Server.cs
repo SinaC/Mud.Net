@@ -852,7 +852,7 @@ namespace Mud.Server.Server
             //    .ToList();
             //foreach (Type actorType in actorTypes)
             //    DumpCommandByType(actorType);
-            StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate($"Commands", GameActionManager.GameActions.OrderBy(x => x.Name));
+            StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate("Commands", GameActionManager.GameActions.OrderBy(x => x.Name));
             Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
         }
 

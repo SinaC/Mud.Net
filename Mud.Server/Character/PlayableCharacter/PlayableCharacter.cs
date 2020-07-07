@@ -11,6 +11,7 @@ using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Character.Movement;
 using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces;
@@ -1110,7 +1111,7 @@ namespace Mud.Server.Character.PlayableCharacter
                     if (follower is INonPlayableCharacter npcFollower)
                     {
                         if (npcFollower.CharacterFlags.IsSet("Charm") && npcFollower.Position < Positions.Standing)
-                            ; // TODO: npcFollower.DoStand
+                            GameActionManager.Execute<Stand, ICharacter>(npcFollower, null);
                         if (npcFollower.ActFlags.IsSet("Aggressive") && toRoom.RoomFlags.IsSet("Law"))
                         {
                             npcFollower.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", npcFollower);

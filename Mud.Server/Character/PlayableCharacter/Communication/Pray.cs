@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.GameAction;
+﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 

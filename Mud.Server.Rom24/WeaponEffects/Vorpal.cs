@@ -5,11 +5,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Rom24.WeaponEffects
 {

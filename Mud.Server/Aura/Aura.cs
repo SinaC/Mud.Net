@@ -5,8 +5,6 @@ using System.Text;
 using Mud.Common;
 using Mud.Container;
 using Mud.Domain;
-using Mud.Logger;
-using Mud.Server.Affects;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;

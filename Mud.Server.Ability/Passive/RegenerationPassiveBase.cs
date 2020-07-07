@@ -7,7 +7,7 @@ namespace Mud.Server.Ability.Passive
 {
     public abstract class RegenerationPassiveBase : PassiveBase, IRegenerationPassive
     {
-        public RegenerationPassiveBase(IRandomManager randomManager)
+        protected RegenerationPassiveBase(IRandomManager randomManager)
             : base(randomManager)
         {
         }

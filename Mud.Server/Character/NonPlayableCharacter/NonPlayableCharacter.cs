@@ -443,7 +443,7 @@ namespace Mud.Server.Character.NonPlayableCharacter
         {
             if (Master == null)
                 return false;
-            Act(ActOptions.ToCharacter, "{0:N} orders you to '{1}'.", Master);
+            Act(ActOptions.ToCharacter, "{0:N} orders you to '{1}'.", Master, commandLine);
             CommandHelpers.ExtractCommandAndParameters(commandLine, out string command, out ICommandParameter[] parameters);
             bool executed = ExecuteCommand(commandLine, command, parameters);
             return executed;

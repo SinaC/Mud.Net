@@ -26,7 +26,7 @@ each time operator IS or AS is used, this should be replaced with an overridable
 pull/push
 Multiple wear location
 Reset 'R'
-quest: add quest item on the fly when player takes the quest
+quest: add quest item on the fly when player takes the quest or reconnect
 item: protect, room_key
 Monitor Recompute calls: recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)

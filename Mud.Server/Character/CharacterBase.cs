@@ -400,7 +400,6 @@ namespace Mud.Server.Character
         public void ChangeStunned(int fightRound)
         {
             Stunned = fightRound;
-            return;
         }
 
         // Visibility
@@ -1083,7 +1082,7 @@ namespace Mud.Server.Character
                 // TODO: check_killer
                 if (Fighting == null)
                     StartFighting(source);
-                    // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
+                // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
                 if (source.Fighting == null)
                     source.StartFighting(this);
                 // more charm stuff
