@@ -1090,16 +1090,15 @@ namespace Mud.Server.Character
                     npcVictim.ChangeMaster(null);
             }
             // inviso attack
-            if (CharacterFlags.IsSet("Invisible"))
+            if (source.CharacterFlags.IsSet("Invisible"))
             {
-                RemoveBaseCharacterFlags(false, "Invisible");
-                RemoveAuras(x => x.AbilityName == "Invisibility", false);
-                Recompute(); // force a recompute to check if there is something special that gives invis
+                source.RemoveBaseCharacterFlags(false, "Invisible");
+                source.RemoveAuras(x => x.AbilityName == "Invisibility", false);
+                source.Recompute(); // force a recompute to check if there is something special that gives invis
                 // if not anymore invis
-                if (!CharacterFlags.IsSet("Invisible"))
-                    Act(ActOptions.ToRoom, "{0:N} fades into existence.", this);
+                if (!source.CharacterFlags.IsSet("Invisible"))
+                    source.Act(ActOptions.ToRoom, "{0:N} fades into existence.", source);
             }
-            // TODO: remove invis, mass invis, flags, ... + "$n fades into existence."
             // damage modifiers
             if (damage > 1 && this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
                 damage -= damage / 10;
