@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AffectAttribute.cs" />
+    <Compile Include="AffectInfo.cs" />
     <Compile Include="AffectManager.cs" />
     <Compile Include="CharacterAttributeAffect.cs" />
     <Compile Include="CharacterFlagsAffect.cs" />
@@ -55,11 +56,12 @@
     <Compile Include="CharacterSexAffect.cs" />
     <Compile Include="CharacterSizeAffect.cs" />
     <Compile Include="FlagsAffectBase.cs" />
-    <Compile Include="FlagAffectBase.cs" />
     <Compile Include="ItemFlagsAffect.cs" />
     <Compile Include="ItemWeaponFlagsAffect.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoomFlagsAffect.cs" />
+    <Compile Include="RoomResourceRateAffect.cs" />
+    <Compile Include="RoomHealRateAffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">

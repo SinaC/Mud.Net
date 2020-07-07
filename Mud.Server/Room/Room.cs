@@ -49,8 +49,10 @@ namespace Mud.Server.Room
             BaseRoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(), blueprint.RoomFlags, null);
             RoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(), BaseRoomFlags, null);
             SectorType = blueprint.SectorType;
-            HealRate = blueprint.HealRate;
-            ResourceRate = blueprint.ResourceRate;
+            BaseHealRate = blueprint.HealRate;
+            HealRate = BaseHealRate;
+            BaseResourceRate = blueprint.ResourceRate;
+            ResourceRate = BaseResourceRate;
             MaxSize = blueprint.MaxSize;
 
             Area = area;
@@ -72,6 +74,14 @@ namespace Mud.Server.Room
         public override string DebugName => $"{DisplayName}[{Blueprint.Id}]";
 
         // Recompute
+
+        public override void ResetAttributes()
+        {
+            RoomFlags.Copy(BaseRoomFlags);
+            HealRate = BaseHealRate;
+            ResourceRate = BaseResourceRate;
+        }
+
         public override void Recompute()
         {
             Log.Default.WriteLine(LogLevels.Debug, "Room.Recompute: {0}", DebugName);
@@ -151,9 +161,11 @@ namespace Mud.Server.Room
 
         public Sizes? MaxSize { get; }
 
-        public int HealRate { get; }
+        public int BaseHealRate { get; }
+        public int HealRate { get; protected set; }
 
-        public int ResourceRate { get; }
+        public int BaseResourceRate { get; }
+        public int ResourceRate { get; protected set; }
 
         public int Light { get; protected set; }
 
@@ -609,12 +621,39 @@ namespace Mud.Server.Room
             }
         }
 
-        #endregion
-
-        protected virtual void ResetAttributes()
+        public void ApplyAffect(IRoomHealRateAffect affect)
         {
-            RoomFlags.Copy(BaseRoomFlags);
+            switch (affect.Operator)
+            {
+                case AffectOperators.Add:
+                    HealRate += affect.Modifier;
+                    break;
+                case AffectOperators.Assign:
+                    HealRate = affect.Modifier;
+                    break;
+                default:
+                    Log.Default.WriteLine(LogLevels.Warning, "Room.ApplyAffect(IRoomHealRateAffect): wrong operator {0}.", affect.Operator);
+                    break;
+            }
         }
+
+        public void ApplyAffect(IRoomResourceRateAffect affect)
+        {
+            switch (affect.Operator)
+            {
+                case AffectOperators.Add:
+                    ResourceRate += affect.Modifier;
+                    break;
+                case AffectOperators.Assign:
+                    ResourceRate = affect.Modifier;
+                    break;
+                default:
+                    Log.Default.WriteLine(LogLevels.Warning, "Room.ApplyAffect(IRoomResourceRateAffect): wrong operator {0}.", affect.Operator);
+                    break;
+            }
+        }
+
+        #endregion
 
         protected void ApplyAuras(IEntity entity)
         {

@@ -25,7 +25,7 @@
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>5151</Value>
+          <Value>3151</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -53,8 +53,8 @@
             <Auras>
               <AuraData>
                 <AbilityName>Test</AbilityName>
-                <Level>37</Level>
-                <PulseLeft>2240</PulseLeft>
+                <Level>29</Level>
+                <PulseLeft>2080</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemFlagsAffectData">
@@ -168,7 +168,7 @@
               <AuraData>
                 <AbilityName>Test</AbilityName>
                 <Level>1</Level>
-                <PulseLeft>3716</PulseLeft>
+                <PulseLeft>3556</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -230,8 +230,8 @@
       <Auras>
         <AuraData>
           <AbilityName>Sanctuary</AbilityName>
-          <Level>28</Level>
-          <PulseLeft>1300</PulseLeft>
+          <Level>21</Level>
+          <PulseLeft>1140</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -242,8 +242,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Shield</AbilityName>
-          <Level>33</Level>
-          <PulseLeft>12592</PulseLeft>
+          <Level>28</Level>
+          <PulseLeft>12432</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -255,8 +255,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Berserk</AbilityName>
-          <Level>22</Level>
-          <PulseLeft>612</PulseLeft>
+          <Level>14</Level>
+          <PulseLeft>452</PulseLeft>
           <AuraFlags>2</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -282,8 +282,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Stone Skin</AbilityName>
-          <Level>25</Level>
-          <PulseLeft>10712</PulseLeft>
+          <Level>18</Level>
+          <PulseLeft>10552</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -295,8 +295,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Protection Evil</AbilityName>
-          <Level>21</Level>
-          <PulseLeft>5448</PulseLeft>
+          <Level>19</Level>
+          <PulseLeft>5288</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -308,6 +308,62 @@
               <Operator>1</Operator>
               <Modifier>ProtectEvil</Modifier>
             </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Testroom</AbilityName>
+          <Level>37</Level>
+          <PulseLeft>1048</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="RoomHealRateAffectData">
+              <Operator>0</Operator>
+              <Modifier>10</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="RoomResourceRateAffectData">
+              <Operator>2</Operator>
+              <Modifier>150</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="RoomFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>NoScan,NoWhere</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Plague</AbilityName>
+          <Level>25</Level>
+          <PulseLeft>10932</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>1</Location>
+              <Modifier>-5</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>Plague</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="PlagueSpreadAndDamageAffectData" />
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Poison</AbilityName>
+          <Level>44</Level>
+          <PulseLeft>11028</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>1</Location>
+              <Modifier>-2</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>Poison</Modifier>
+            </AffectDataBase>
+            <AffectDataBase xsi:type="PoisonDamageAffectData" />
           </Affects>
         </AuraData>
       </Auras>
@@ -389,7 +445,7 @@
           <PulseLeft>0</PulseLeft>
           <CompletionTime xsi:nil="true" />
           <GiverId>10</GiverId>
-          <GiverRoomId>3024</GiverRoomId>
+          <GiverRoomId>3025</GiverRoomId>
           <Objectives>
             <CurrentQuestObjectiveData>
               <ObjectiveId>1</ObjectiveId>
@@ -1687,6 +1743,15 @@
           <CostAmountOperator>0</CostAmountOperator>
           <Level>20</Level>
           <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Testroom</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
       </LearnedAbilities>

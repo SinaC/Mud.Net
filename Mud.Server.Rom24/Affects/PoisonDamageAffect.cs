@@ -7,9 +7,14 @@ using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Rom24.Affects
 {
-    [Affect("Poison")]
-    public class PoisonDamageAffect : ICharacterPeriodicAffect
+    [Affect("Poison", typeof(PoisonDamageAffectData))]
+    public class PoisonDamageAffect : ICharacterPeriodicAffect, ICustomAffect
     {
+        public void Initialize(AffectDataBase data)
+        {
+            //(PoisonDamageAffectData)
+        }
+
         public void Append(StringBuilder sb)
         {
             sb.Append("%c%applies %G%poison%x% damage periodically");
@@ -25,7 +30,6 @@ namespace Mud.Server.Rom24.Affects
             if (!character.CharacterFlags.IsSet("Slow"))
             {
                 character.Act(ActOptions.ToAll, "{0:N} shiver{0:v} and suffer{0:v}.", character);
-
                 character.AbilityDamage(character, aura.Level / 10 + 1, SchoolTypes.Poison, "poison", false);
             }
         }

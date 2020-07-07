@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mud.Common;
+using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Affects;
@@ -16,6 +17,8 @@ namespace Mud.Server.Aura
     public class Aura : IAura
     {
         private readonly List<IAffect> _affects;
+
+        private IAffectManager AffectManager => DependencyContainer.Current.GetInstance<IAffectManager>();
 
         private Aura()
         {
@@ -44,33 +47,11 @@ namespace Mud.Server.Aura
             _affects = new List<IAffect>();
             if (auraData.Affects != null)
             {
-                foreach (AffectDataBase affectData in auraData.Affects)
+                foreach (var affectData in auraData.Affects)
                 {
-                    switch (affectData)
-                    {
-                        case CharacterAttributeAffectData characterAttributeAffectData:
-                            _affects.Add(new CharacterAttributeAffect(characterAttributeAffectData));
-                            break;
-                        case CharacterFlagsAffectData characterFlagsAffectData:
-                            _affects.Add(new CharacterFlagsAffect(characterFlagsAffectData));
-                            break;
-                        case CharacterIRVAffectData characterIRVAffectData:
-                            _affects.Add(new CharacterIRVAffect(characterIRVAffectData));
-                            break;
-                        case CharacterSexAffectData characterSexAffectData:
-                            _affects.Add(new CharacterSexAffect(characterSexAffectData));
-                            break;
-                        case ItemFlagsAffectData itemFlagsAffectData:
-                            _affects.Add(new ItemFlagsAffect(itemFlagsAffectData));
-                            break;
-                        case ItemWeaponFlagsAffectData itemWeaponFlagsAffectData:
-                            _affects.Add(new ItemWeaponFlagsAffect(itemWeaponFlagsAffectData));
-                            break;
-                            // TODO: poison/plague
-                        default:
-                            Log.Default.WriteLine(LogLevels.Error, "Unexpected AuraAffect type {0}", affectData.GetType());
-                            break;
-                    }
+                    IAffect affect = AffectManager.CreateInstance(affectData);
+                    if (affect != null)
+                        _affects.Add(affect);
                 }
             }
         }

@@ -95,6 +95,11 @@ namespace Mud.Server.Item
         public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
 
         // Recompute
+        public override void ResetAttributes()
+        {
+            ItemFlags.Copy(BaseItemFlags);
+        }
+
         public override void Recompute()
         {
             Log.Default.WriteLine(LogLevels.Debug, "ItemBase.Recompute: {0}", DebugName);
@@ -315,11 +320,6 @@ namespace Mud.Server.Item
         }
 
         #endregion
-
-        protected virtual void ResetAttributes()
-        {
-            ItemFlags.Copy(BaseItemFlags);
-        }
 
         protected void ApplyAuras<T>(IEntity source, T target)
             where T : IItem

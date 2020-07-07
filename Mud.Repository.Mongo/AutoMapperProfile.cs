@@ -83,7 +83,10 @@ namespace Mud.Repository.Mongo
                 .Include<Mud.Domain.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>()
                 .Include<Mud.Domain.CharacterSizeAffectData, Domain.CharacterSizeAffectData>()
                 .Include<Mud.Domain.PlagueSpreadAndDamageAffectData, Domain.PlagueSpreadAndDamageAffectData>()
-                .Include<Mud.Domain.PoisonDamageAffectData, Domain.PoisonDamageAffectData>();
+                .Include<Mud.Domain.PoisonDamageAffectData, Domain.PoisonDamageAffectData>()
+                .Include<Mud.Domain.RoomFlagsAffectData, Domain.RoomFlagsAffectData>()
+                .Include<Mud.Domain.RoomHealRateAffectData, Domain.RoomHealRateAffectData>()
+                .Include<Mud.Domain.RoomResourceRateAffectData, Domain.RoomResourceRateAffectData>();
             CreateMap<Mud.Domain.CharacterAttributeAffectData, Domain.CharacterAttributeAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
@@ -106,6 +109,13 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSizes(x.Value)));
             CreateMap<Mud.Domain.PlagueSpreadAndDamageAffectData, Domain.PlagueSpreadAndDamageAffectData>();
             CreateMap<Mud.Domain.PoisonDamageAffectData, Domain.PoisonDamageAffectData>();
+            CreateMap<Mud.Domain.RoomFlagsAffectData, Domain.RoomFlagsAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapRoomFlags(x.Modifier)));
+            CreateMap<Mud.Domain.RoomHealRateAffectData, Domain.RoomHealRateAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            CreateMap<Mud.Domain.RoomResourceRateAffectData, Domain.RoomResourceRateAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
 
             CreateMap<Mud.Domain.LearnedAbilityData, Domain.LearnedAbilityData>()
                 .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
@@ -176,7 +186,10 @@ namespace Mud.Repository.Mongo
                 .Include<Domain.ItemWeaponFlagsAffectData, Mud.Domain.ItemWeaponFlagsAffectData>()
                 .Include<Domain.CharacterSizeAffectData, Mud.Domain.CharacterSizeAffectData>()
                 .Include<Domain.PlagueSpreadAndDamageAffectData, Mud.Domain.PlagueSpreadAndDamageAffectData>()
-                .Include<Domain.PoisonDamageAffectData, Mud.Domain.PoisonDamageAffectData>();
+                .Include<Domain.PoisonDamageAffectData, Mud.Domain.PoisonDamageAffectData>()
+                .Include<Domain.RoomFlagsAffectData, Mud.Domain.RoomFlagsAffectData>()
+                .Include<Domain.RoomHealRateAffectData, Mud.Domain.RoomHealRateAffectData>()
+                .Include<Domain.RoomResourceRateAffectData, Mud.Domain.RoomResourceRateAffectData>();
             CreateMap<Domain.CharacterAttributeAffectData, Mud.Domain.CharacterAttributeAffectData>()
                 .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
                 .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
@@ -199,6 +212,13 @@ namespace Mud.Repository.Mongo
                 .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSizes(x.Value)));
             CreateMap<Domain.PlagueSpreadAndDamageAffectData, Mud.Domain.PlagueSpreadAndDamageAffectData>();
             CreateMap<Domain.PoisonDamageAffectData, Mud.Domain.PoisonDamageAffectData>();
+            CreateMap<Domain.RoomFlagsAffectData, Mud.Domain.RoomFlagsAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
+                .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapRoomFlags(x.Modifier)));
+            CreateMap<Domain.RoomHealRateAffectData, Mud.Domain.RoomHealRateAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            CreateMap<Domain.RoomResourceRateAffectData, Mud.Domain.RoomResourceRateAffectData>()
+                .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
 
             CreateMap<Domain.LearnedAbilityData, Mud.Domain.LearnedAbilityData>()
                 .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
@@ -756,6 +776,16 @@ namespace Mud.Repository.Mongo
         }
 
         private string MapCharacterFlags(ICharacterFlags flags)
+        {
+            return flags?.Map();
+        }
+
+        private IRoomFlags MapRoomFlags(string flags)
+        {
+            return new RoomFlags(flags);
+        }
+
+        private string MapRoomFlags(IRoomFlags flags)
         {
             return flags?.Map();
         }

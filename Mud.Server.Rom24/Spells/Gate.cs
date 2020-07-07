@@ -2,6 +2,7 @@
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells
@@ -18,8 +19,10 @@ namespace Mud.Server.Rom24.Spells
 
         protected override void Invoke()
         {
+            IRoom originalRoom = Caster.Room;
+
             Caster.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", Caster);
-            Caster.ChangeRoom(Victim.Room);
+            Caster.ChangeRoom(Victim.Room, false);
             Caster.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", Caster);
             AutoLook(Caster);
 
@@ -29,11 +32,15 @@ namespace Mud.Server.Rom24.Spells
                 foreach (INonPlayableCharacter pet in pcCaster.Pets)
                 {
                     pet.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", pet);
-                    pet.ChangeRoom(Victim.Room);
+                    pet.ChangeRoom(Victim.Room, false);
                     pet.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", pet);
                     AutoLook(pet); // TODO: needed ?
                 }
             }
+
+            originalRoom?.Recompute();
+            if (Caster.Room != originalRoom)
+                Caster.Room.Recompute();
         }
     }
 }

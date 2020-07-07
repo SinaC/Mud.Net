@@ -8,7 +8,6 @@ using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Ability;
-using Mud.Server.Affects;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
@@ -53,8 +52,6 @@ namespace Mud.Server.Character
         protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
         protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
         protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
-        protected IEffectManager EffectManager => DependencyContainer.Current.GetInstance<IEffectManager>();
-        protected IAffectManager AffectManager => DependencyContainer.Current.GetInstance<IAffectManager>();
         protected IWeaponEffectManager WeaponEffectManager => DependencyContainer.Current.GetInstance<IWeaponEffectManager>();
         protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
@@ -711,12 +708,26 @@ namespace Mud.Server.Character
         }
 
         // Recompute
+        public override void ResetAttributes()
+        {
+            for (int i = 0; i < _baseAttributes.Length; i++)
+                _currentAttributes[i] = _baseAttributes[i];
+            Sex = BaseSex;
+            Size = BaseSize;
+            CharacterFlags.Copy(BaseCharacterFlags);
+            Immunities.Copy(BaseImmunities);
+            Resistances.Copy(BaseResistances);
+            Vulnerabilities.Copy(BaseVulnerabilities);
+            BodyForms.Copy(BaseBodyForms);
+            BodyParts.Copy(BaseBodyParts);
+        }
+
         public override void Recompute()
         {
             Log.Default.WriteLine(LogLevels.Debug, "CharacterBase.Recompute: {0}", DebugName);
 
             // Reset current attributes
-            ResetCurrentAttributes();
+            ResetAttributes();
 
             // 1) Apply room auras
             if (Room != null)
@@ -779,7 +790,7 @@ namespace Mud.Server.Character
         }
 
         // Move
-        public bool Move(ExitDirections direction, bool follow)
+        public bool Move(ExitDirections direction, bool following, bool forceFollowers)
         {
             IRoom fromRoom = Room;
 
@@ -858,7 +869,7 @@ namespace Mud.Server.Character
             //
             if (!CharacterFlags.IsSet("Sneak"))
                 Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
-            ChangeRoom(toRoom);
+            ChangeRoom(toRoom, false);
 
             // Display special phrase after entering room
             AfterMove(direction, fromRoom, toRoom);
@@ -868,13 +879,20 @@ namespace Mud.Server.Character
                 Act(ActOptions.ToRoom, "{0} has arrived.", this);
 
             // Followers: no circular follows
-            if (fromRoom != toRoom)
+            if (forceFollowers && fromRoom != toRoom)
                 MoveFollow(fromRoom, toRoom, direction);
+
+            // Recompute both rooms
+            if (!following)
+            {
+                fromRoom.Recompute();
+                toRoom.Recompute();
+            }
 
             return true;
         }
 
-        public bool Enter(IItemPortal portal, bool follow = false)
+        public bool Enter(IItemPortal portal, bool following, bool forceFollowers)
         {
             if (portal == null)
                 return false;
@@ -931,7 +949,7 @@ namespace Mud.Server.Character
             Act(ActOptions.ToRoom, "{0:N} steps into {1}.", this, portal);
             Act(ActOptions.ToCharacter, "You walk through {0} and find yourself somewhere else...", portal);
 
-            ChangeRoom(destination);
+            ChangeRoom(destination, false);
 
             // take portal along
             if (portal.PortalFlags.HasFlag(PortalFlags.GoWith) && portal.ContainedInto is IRoom)
@@ -960,17 +978,24 @@ namespace Mud.Server.Character
                 if (wasRoom.People.Any())
                     Act(ActOptions.ToAll, "{0:N} fades out of existence.", portal);
                 ItemManager.RemoveItem(portal);
-                return true;
+            }
+            else
+            {
+                // Followers: no circular follows
+                if (forceFollowers && wasRoom != destination)
+                    EnterFollow(wasRoom, destination, portal);
             }
 
-            // Followers: no circular follows
-            if (wasRoom != destination)
-                EnterFollow(wasRoom, destination, portal);
+            if (!following)
+            {
+                wasRoom.Recompute();
+                destination.Recompute();
+            }
 
             return true;
         }
 
-        public void ChangeRoom(IRoom destination)
+        public void ChangeRoom(IRoom destination, bool recompute)
         {
             if (!IsValid)
             {
@@ -980,8 +1005,12 @@ namespace Mud.Server.Character
 
             Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeRoom: {0} from: {1} to {2}", DebugName, Room == null ? "<<no room>>" : Room.DebugName, destination == null ? "<<no room>>" : destination.DebugName);
             Room?.Leave(this);
+            if (recompute)
+                Room?.Recompute();
             Room = destination;
             destination?.Enter(this);
+            if (recompute)
+                destination?.Recompute();
         }
 
         // Combat
@@ -1556,7 +1585,7 @@ namespace Mud.Server.Character
                                         && !(this is INonPlayableCharacter && destination.RoomFlags.IsSet("NoMob")))
                 {
                     // Try to move without checking if in combat or not
-                    Move(randomExit, false);
+                    Move(randomExit, false, false); // followers will not follow
                     if (Room != from) // successful only if effectively moved away
                     {
                         //
@@ -2024,7 +2053,7 @@ namespace Mud.Server.Character
                 foreach (ICharacter follower in followers)
                 {
                     follower.Send("You follow {0}.", DebugName);
-                    follower.Move(direction, true);
+                    follower.Move(direction, true, true);
                 }
             }
         }
@@ -2360,20 +2389,6 @@ namespace Mud.Server.Character
         {
             // Get current resource kind from class if any, every resource otherwise
             CurrentResourceKinds = (Class?.CurrentResourceKinds(Form) ?? EnumHelpers.GetValues<ResourceKinds>()).ToList();
-        }
-
-        protected void ResetCurrentAttributes()
-        {
-            for (int i = 0; i < _baseAttributes.Length; i++)
-                _currentAttributes[i] = _baseAttributes[i];
-            Sex = BaseSex;
-            Size = BaseSize;
-            CharacterFlags.Copy(BaseCharacterFlags);
-            Immunities.Copy(BaseImmunities);
-            Resistances.Copy(BaseResistances);
-            Vulnerabilities.Copy(BaseVulnerabilities);
-            BodyForms.Copy(BaseBodyForms);
-            BodyParts.Copy(BaseBodyParts);
         }
 
         protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)

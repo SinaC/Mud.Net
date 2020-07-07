@@ -31,7 +31,9 @@ namespace Mud.Server.Interfaces.Room
             where TBlueprint : CharacterBlueprintBase;
 
         Sizes? MaxSize { get; }
+        int BaseHealRate { get; }
         int HealRate { get; }
+        int BaseResourceRate { get; }
         int ResourceRate { get; }
         int Light { get; }
         SectorTypes SectorType { get; }
@@ -58,5 +60,7 @@ namespace Mud.Server.Interfaces.Room
 
         // Affects
         void ApplyAffect(IRoomFlagsAffect affect);
+        void ApplyAffect(IRoomHealRateAffect affect);
+        void ApplyAffect(IRoomResourceRateAffect affect);
     }
 }

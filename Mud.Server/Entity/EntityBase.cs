@@ -132,6 +132,8 @@ namespace Mud.Server.Entity
                 Log.Default.WriteLine(LogLevels.Warning, "IEntity.Reset: {0} is not valid anymore", DebugName);
         }
 
+        public abstract void ResetAttributes();
+
         public abstract void Recompute();
 
         // Auras

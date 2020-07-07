@@ -9,7 +9,10 @@ namespace Mud.Repository.Mongo.Domain
         typeof(ItemFlagsAffectData), 
         typeof(ItemWeaponFlagsAffectData),
         typeof(PlagueSpreadAndDamageAffectData),
-        typeof(PoisonDamageAffectData))]
+        typeof(PoisonDamageAffectData),
+        typeof(RoomFlagsAffectData),
+        typeof(RoomHealRateAffectData),
+        typeof(RoomResourceRateAffectData))]
     public abstract class AffectDataBase
     {
     }

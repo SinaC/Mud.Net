@@ -126,7 +126,7 @@ namespace Mud.Server.Item
             };
         }
 
-        protected override void ResetAttributes()
+        public override void ResetAttributes()
         {
             base.ResetAttributes();
 

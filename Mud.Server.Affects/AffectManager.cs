@@ -6,12 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Mud.Domain;
 
 namespace Mud.Server.Affects
 {
     public class AffectManager : IAffectManager
     {
-        private readonly Dictionary<string, Type> _affectsByName;
+        private readonly Dictionary<string, IAffectInfo> _affectsByName;
 
         public AffectManager(IAssemblyHelper assemblyHelper)
         {
@@ -19,27 +20,76 @@ namespace Mud.Server.Affects
             _affectsByName = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAffectType.IsAssignableFrom(t)))
                 .Select(t => new { executionType = t, attribute = t.GetCustomAttribute<AffectAttribute>() })
                 .Where(x => x.attribute != null)
-                .ToDictionary(x => x.attribute.Name, x => x.executionType);
+                .ToDictionary(x => x.attribute.Name, x => CreateAffectInfo(x.executionType, x.attribute));
         }
 
         public IAffect CreateInstance(string name)
         {
-            if (!_affectsByName.TryGetValue(name, out var affectType))
+            if (!_affectsByName.TryGetValue(name, out var affectInfo))
             {
                 Log.Default.WriteLine(LogLevels.Error, "AffectManager: effect {0} not found.", name);
                 return null;
             }
 
-            if (DependencyContainer.Current.GetRegistration(affectType, false) == null)
+            return CreateInstance(affectInfo);
+        }
+
+        public IAffect CreateInstance(AffectDataBase data)
+        {
+            switch (data)
             {
-                Log.Default.WriteLine(LogLevels.Error, "AffectManager: effect {0} not found in DependencyContainer.", affectType.FullName);
+                case CharacterAttributeAffectData characterAttributeAffectData:
+                    return new CharacterAttributeAffect(characterAttributeAffectData);
+                case CharacterFlagsAffectData characterFlagsAffectData:
+                    return new CharacterFlagsAffect(characterFlagsAffectData);
+                case CharacterIRVAffectData characterIRVAffectData:
+                    return new CharacterIRVAffect(characterIRVAffectData);
+                case CharacterSexAffectData characterSexAffectData:
+                    return new CharacterSexAffect(characterSexAffectData);
+                case ItemFlagsAffectData itemFlagsAffectData:
+                    return new ItemFlagsAffect(itemFlagsAffectData);
+                case ItemWeaponFlagsAffectData itemWeaponFlagsAffectData:
+                    return new ItemWeaponFlagsAffect(itemWeaponFlagsAffectData);
+                case RoomFlagsAffectData roomFlagsAffectData:
+                    return new RoomFlagsAffect(roomFlagsAffectData);
+                case RoomHealRateAffectData roomHealRateAffectData:
+                    return new RoomHealRateAffect(roomHealRateAffectData);
+                case RoomResourceRateAffectData roomResourceRateAffectData:
+                    return new RoomResourceRateAffect(roomResourceRateAffectData);
+                default:
+                    Type dataType = data.GetType();
+                    IAffectInfo affectInfo = _affectsByName.Values.FirstOrDefault(x => x.AffectDataType == dataType);
+                    if (affectInfo != null)
+                    {
+                        IAffect affect = CreateInstance(affectInfo);
+                        if (affect is ICustomAffect customAffect)
+                            customAffect.Initialize(data);
+                        else
+                            Log.Default.WriteLine(LogLevels.Error, "AffectType type {0} should implement {1}.", data.GetType(), typeof(ICustomAffect).FullName);
+                        return affect;
+                    }
+                    else
+                        Log.Default.WriteLine(LogLevels.Error, "Unexpected AffectType type {0}.", data.GetType());
+                    break;
+            }
+
+            return null;
+        }
+
+        private IAffectInfo CreateAffectInfo(Type executionType, AffectAttribute attribute) => new AffectInfo(executionType, attribute.Name, attribute.AffectDataType);
+
+        private IAffect CreateInstance(IAffectInfo affectInfo)
+        {
+            if (DependencyContainer.Current.GetRegistration(affectInfo.AffectType, false) == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "AffectManager: effect {0} not found in DependencyContainer.", affectInfo.AffectType.FullName);
                 return null;
             }
 
-            IAffect instance = DependencyContainer.Current.GetInstance(affectType) as IAffect;
+            IAffect instance = DependencyContainer.Current.GetInstance(affectInfo.AffectType) as IAffect;
             if (instance == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "AffectManager: effect {0} cannot be create or is not of type {1}", affectType.FullName, typeof(IAffect).FullName);
+                Log.Default.WriteLine(LogLevels.Error, "AffectManager: effect {0} cannot be create or is not of type {1}", affectInfo.AffectType.FullName, typeof(IAffect).FullName);
                 return null;
             }
             return instance;

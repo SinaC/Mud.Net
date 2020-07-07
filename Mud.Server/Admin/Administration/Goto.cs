@@ -49,7 +49,7 @@ namespace Mud.Server.Admin.Administration
             if (Impersonating.Fighting != null)
                 Impersonating.StopFighting(true);
             Impersonating.Act(Impersonating.Room.People.Where(x => x != Impersonating && x.CanSee(Impersonating)), "{0:N} leaves in a swirling mist.", Impersonating); // Don't display 'Someone leaves ...' if Impersonating is not visible
-            Impersonating.ChangeRoom(Where);
+            Impersonating.ChangeRoom(Where, true);
             Impersonating.Act(Impersonating.Room.People.Where(x => x != Impersonating && x.CanSee(Impersonating)), "{0:N} appears in a swirling mist.", Impersonating);
             StringBuilder sb = new StringBuilder();
             Impersonating.Room.Append(sb, Impersonating);

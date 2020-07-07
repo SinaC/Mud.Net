@@ -68,7 +68,7 @@ namespace Mud.Server.Admin.Administration
             if (Whom.Fighting != null)
                 Whom.StopFighting(true);
             Whom.Act(ActOptions.ToRoom, "{0:N} disappears in a mushroom cloud.", Whom);
-            Whom.ChangeRoom(Where);
+            Whom.ChangeRoom(Where, true);
             Whom.Act(ActOptions.ToRoom, "{0:N} appears from a puff of smoke.", Whom);
             if (Whom != Actor.Impersonating)
             {

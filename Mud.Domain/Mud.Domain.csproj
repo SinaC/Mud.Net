@@ -112,6 +112,9 @@
     <Compile Include="PoisonDamageAffectData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CurrentQuestData.cs" />
+    <Compile Include="RoomFlagsAffectData.cs" />
+    <Compile Include="RoomResourceRateAffectData.cs" />
+    <Compile Include="RoomHealRateAffectData.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">

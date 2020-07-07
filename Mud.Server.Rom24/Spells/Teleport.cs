@@ -36,7 +36,7 @@ namespace Mud.Server.Rom24.Spells
                 Victim.Send("You have been teleported!");
 
             Victim.Act(ActOptions.ToRoom, "{0:N} vanishes.", Victim);
-            Victim.ChangeRoom(destination);
+            Victim.ChangeRoom(destination, true);
             Victim.Act(ActOptions.ToRoom, "{0:N} slowly fades into existence.", Victim);
             AutoLook(Victim);
         }
