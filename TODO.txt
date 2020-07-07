@@ -1,4 +1,5 @@
 NEXT
+fix two-handed weapon
 
 unit test for each command!!!
 make IGameAction generic on TActor: IActor, same goes for IActionInput

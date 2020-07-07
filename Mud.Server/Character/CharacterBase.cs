@@ -2324,11 +2324,23 @@ namespace Mud.Server.Character
 
         protected IEquippedItem SearchTwoHandedWeaponEquipmentSlot(bool replace)
         {
-            // Search empty mainhand + empty offhand (no autoreplace) // TODO can wield 2H on one hand if size giant or specific ability
-            var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
-            var offHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null);
-            if (mainHand != null && offHand != null && mainHand.Item == null && offHand.Item == null)
-                return mainHand;
+            // no autoreplace
+            // If size is giant, one mainhand is enough
+            if (Size >= Sizes.Giant)
+            {
+                var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
+                if (mainHand != null)
+                    return mainHand;
+            }
+            // Search empty mainhand + empty offhand
+            else
+            {
+                var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
+                var offHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.OffHand && x.Item == null);
+                if (mainHand != null && offHand != null)
+                    return mainHand;
+            }
+
             return null;
         }
 
@@ -2337,15 +2349,15 @@ namespace Mud.Server.Character
             // Search empty mainhand, then empty offhand only if mainhand is not wielding a 2H
             if (replace)
             {
-                // Search empty main hand
+                // Search empty mainhand
                 var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
                 if (mainHand != null)
                     return mainHand;
-                // Search empty off hand
+                // Search empty offhand
                 var offHand = SearchOffhandEquipmentSlot(false);
                 if (offHand != null)
                     return offHand;
-                // If not empty main/off hand, search an slot to replace
+                // If not empty main/off hand, search a slot to replace
                 return Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand) ?? SearchOffhandEquipmentSlot(true);
             }
             else
@@ -2354,7 +2366,7 @@ namespace Mud.Server.Character
                 var mainHand = Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand && x.Item == null);
                 if (mainHand != null)
                     return mainHand;
-                // If not empty main hand found, search off hand
+                // If not empty mainhand found, search offhand
                 return SearchOffhandEquipmentSlot(false);
             }
         }
@@ -2362,9 +2374,9 @@ namespace Mud.Server.Character
         protected IEquippedItem SearchOffhandEquipmentSlot(bool replace)
         {
             // This can lead to strange looking equipments:
-            // wield 1-H weapon -> first main hand
-            // wield 2-H weapon -> second main hand
-            // hold shield -> second off hand (should be first off hand)
+            // wield 1-H weapon -> first mainhand
+            // wield 2-H weapon -> second mainhand + first offhand
+            // hold shield -> second off hand (should be first offhand)
             // Return offhand only if related mainhand is not wielding 2H
             int countMainhand2H = Equipments.Count(x => x.Slot == EquipmentSlots.MainHand && x.Item?.WearLocation == WearLocations.Wield2H);
             if (replace)
