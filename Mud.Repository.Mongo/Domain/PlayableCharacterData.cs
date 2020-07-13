@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
+using System;
 using System.Collections.Generic;
 
 namespace Mud.Repository.Mongo.Domain
@@ -27,6 +29,7 @@ namespace Mud.Repository.Mongo.Domain
 
         public LearnedAbilityData[] LearnedAbilities { get; set; }
 
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<int, int> Conditions { get; set; }
 
         public Dictionary<string,string> Aliases { get; set; }

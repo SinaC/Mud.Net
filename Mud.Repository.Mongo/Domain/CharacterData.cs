@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson.Serialization.Options;
 
 namespace Mud.Repository.Mongo.Domain
 {
@@ -22,8 +23,10 @@ namespace Mud.Repository.Mongo.Domain
 
         public int MovePoints { get; set; }
 
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<int, int> CurrentResources { get; set; }
 
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<int, int> MaxResources { get; set; }
 
         public EquippedItemData[] Equipments { get; set; }
@@ -40,6 +43,7 @@ namespace Mud.Repository.Mongo.Domain
 
         public string Vulnerabilities { get; set; }
 
+        [BsonDictionaryOptions(DictionaryRepresentation.ArrayOfArrays)]
         public Dictionary<int, int> Attributes { get; set; } // TODO: this could create duplicate key exception while deserializing if CharacterAttribute is not found anymore
     }
 }

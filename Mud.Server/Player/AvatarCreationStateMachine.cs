@@ -169,6 +169,7 @@ namespace Mud.Server.Player
                 {
                     CreationTime = TimeManager.CurrentTime,
                     Name = _name,
+                    Aliases = new Dictionary<string, string>(),
                     RoomId = startingRoom?.Blueprint.Id ?? 3001, // TODO
                     Race = _race.Name,
                     Class = _class.Name,
