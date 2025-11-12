@@ -76,7 +76,7 @@ namespace Mud.Server.Tests.Abilities
 
             string result = spell.Setup(abilityActionInput);
 
-            Assert.That.Contains("is in cooldown", result);
+            Assert.Contains("is in cooldown", result);
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace Mud.Server.Tests.Abilities
 
             string result = spell.Setup(abilityActionInput);
 
-            Assert.That.Contains("as resource for the moment.", result);
+            Assert.Contains("as resource for the moment.", result);
         }
 
         [TestMethod]
@@ -117,7 +117,7 @@ namespace Mud.Server.Tests.Abilities
 
             string result = spell.Setup(abilityActionInput);
 
-            Assert.That.Contains("You don't have enough", result);
+            Assert.Contains("You don't have enough", result);
         }
 
         [TestMethod]

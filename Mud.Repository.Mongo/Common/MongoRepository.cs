@@ -29,12 +29,12 @@ namespace Mud.Repository.Mongo.Common
 
             var mongoConnectionUrl = new MongoUrl(connectionString);
             var mongoClientSettings = MongoClientSettings.FromUrl(mongoConnectionUrl);
-            mongoClientSettings.ClusterConfigurator = cb => {
-                cb.Subscribe<CommandStartedEvent>(e => {
-                    if (e.CommandName != "isMaster" && e.CommandName != "buildInfo" && e.CommandName != "getLastError" && e.CommandName != "saslStart" && e.CommandName != "saslContinue")
-                        Debug.Print($"MONGO CMD {e.CommandName} - {e.Command.ToJson()}");
-                });
-            };
+            //mongoClientSettings.ClusterConfigurator = cb => {
+            //    cb.Subscribe<CommandStartedEvent>(e => {
+            //        if (e.CommandName != "isMaster" && e.CommandName != "buildInfo" && e.CommandName != "getLastError" && e.CommandName != "saslStart" && e.CommandName != "saslContinue")
+            //            Debug.Print($"MONGO CMD {e.CommandName} - {e.Command.ToJson()}");
+            //    });
+            //};
             MongoClient client = new MongoClient(mongoClientSettings);
 
             Db = client.GetDatabase(databaseName);

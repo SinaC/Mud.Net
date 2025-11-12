@@ -96,7 +96,9 @@ namespace Mud.Server.Character.PlayableCharacter.Attribute
                         if (Attribute.HasValue)
                         {
                             Actor.UpdateBaseAttribute(Attribute.Value, 1);
+                            Actor.UpdateTrainsAndPractices(-1, 0);
                             Actor.Act(ActOptions.ToAll, "{0:p} {1} increases!", Actor, Attribute.Value.ToString());
+                            Actor.Recompute();
                         }
 
                         return;
@@ -106,7 +108,9 @@ namespace Mud.Server.Character.PlayableCharacter.Attribute
                         if (ResourceKind.HasValue)
                         {
                             Actor.UpdateMaxResource(ResourceKind.Value, 10);
+                            Actor.UpdateTrainsAndPractices(-1, 0);
                             Actor.Act(ActOptions.ToAll, "{0:p} power increases!", Actor);
+                            Actor.Recompute();
                         }
                     }
                     return;
@@ -114,7 +118,9 @@ namespace Mud.Server.Character.PlayableCharacter.Attribute
                     {
                         Actor.UpdateBaseAttribute(CharacterAttributes.MaxHitPoints, 10);
                         Actor.UpdateHitPoints(10);
+                        Actor.UpdateTrainsAndPractices(-1, 0);
                         Actor.Act(ActOptions.ToAll, "{0:p} durability increases!", Actor);
+                        Actor.Recompute();
                         return;
                     }
             }
@@ -122,7 +128,7 @@ namespace Mud.Server.Character.PlayableCharacter.Attribute
 
         private int GetMaxAttributeValue(CharacterAttributes attribute, IPlayableRace race, IClass @class)
         {
-            int value = race?.GetStartAttribute(attribute) ?? 18;
+            int value = race?.GetMaxAttribute(attribute) ?? 18;
             if (@class != null && (int)attribute == (int)@class.PrimeAttribute)
             {
                 value += 2;

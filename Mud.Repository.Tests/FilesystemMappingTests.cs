@@ -32,7 +32,6 @@ namespace Mud.Repository.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(DeepEqualException))]
         public void Test_PlayerData_Failed()
         {
             var faker = new Faker<Domain.PlayerData>()
@@ -47,8 +46,7 @@ namespace Mud.Repository.Tests
 
             externalPlayerData.Name = AutoFaker.Generate<string>();
 
-            original.WithDeepEqual(externalPlayerData).Assert();
-            Assert.Fail();
+            Assert.Throws<DeepEqualException>(() => original.WithDeepEqual(externalPlayerData).Assert());
         }
 
         [TestMethod]
@@ -68,7 +66,6 @@ namespace Mud.Repository.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(DeepEqualException))]
         public void Test_AdminData_Failed()
         {
             var faker = new Faker<Domain.AdminData>()
@@ -83,7 +80,7 @@ namespace Mud.Repository.Tests
 
             externalAdminData.Name = AutoFaker.Generate<string>();
 
-            original.WithDeepEqual(externalAdminData).Assert();
+            Assert.Throws<DeepEqualException>(() => original.WithDeepEqual(externalAdminData).Assert());
         }
 
         // AffectDataBase is abstract, so AuraData.Affects will always be populated with null

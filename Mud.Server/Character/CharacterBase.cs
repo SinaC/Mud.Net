@@ -1196,11 +1196,11 @@ namespace Mud.Server.Character
 
             // hurt the victim
             HitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
-            bool isDead = HitPoints < 0;
             // immortals don't really die
             if ((this as IPlayableCharacter)?.IsImmortal == true
                 && HitPoints < 1)
                 HitPoints = 1;
+            bool isDead = HitPoints <= 0;
             if (isDead)
             {
                 Send("You have been KILLED!!");
@@ -2452,6 +2452,8 @@ namespace Mud.Server.Character
                     abilityLearned.Update(1, 1);
                     abilityLearned.IncrementLearned(100);
                 }
+                else
+                    abilityLearned.IncrementLearned(1); // set to 1%
             }
         }
 

@@ -35,7 +35,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(armorBlueprint.Id, armor.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, armor.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, armor.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, armor.BaseItemFlags);
             Assert.AreEqual(itemData.Level, armor.Level);
         }
 
@@ -56,7 +56,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(blueprint.Id, jukebox.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, jukebox.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, jukebox.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, jukebox.BaseItemFlags);
             Assert.AreEqual(itemData.Level, jukebox.Level);
         }
 
@@ -77,7 +77,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(blueprint.Id, map.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, map.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, map.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, map.BaseItemFlags);
             Assert.AreEqual(itemData.Level, map.Level);
         }
 
@@ -98,7 +98,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(blueprint.Id, clothing.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, clothing.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, clothing.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, clothing.BaseItemFlags);
             Assert.AreEqual(itemData.Level, clothing.Level);
         }
 
@@ -119,7 +119,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(trashBlueprint.Id, trash.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, trash.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, trash.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, trash.BaseItemFlags);
             Assert.AreEqual(itemData.Level, trash.Level);
         }
 
@@ -140,7 +140,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(gemBlueprint.Id, gem.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, gem.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, gem.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, gem.BaseItemFlags);
             Assert.AreEqual(itemData.Level, gem.Level);
         }
 
@@ -161,7 +161,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(boatBlueprint.Id, boat.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, boat.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, boat.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, boat.BaseItemFlags);
             Assert.AreEqual(itemData.Level, boat.Level);
         }
 
@@ -189,7 +189,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(itemData.ItemId, staff.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, staff.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, staff.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, staff.BaseItemFlags);
             Assert.AreEqual(itemData.MaxChargeCount, staff.MaxChargeCount);
             Assert.AreEqual(itemData.CurrentChargeCount, staff.CurrentChargeCount);
             Assert.AreEqual(itemData.AlreadyRecharged, staff.AlreadyRecharged);
@@ -218,7 +218,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(itemData.ItemId, wand.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, wand.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, wand.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, wand.BaseItemFlags);
             Assert.AreEqual(itemData.MaxChargeCount, wand.MaxChargeCount);
             Assert.AreEqual(itemData.CurrentChargeCount, wand.CurrentChargeCount);
             Assert.AreEqual(itemData.AlreadyRecharged, wand.AlreadyRecharged);
@@ -241,7 +241,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(warpstoneBlueprint.Id, warpstone.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, warpstone.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, warpstone.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, warpstone.BaseItemFlags);
             Assert.AreEqual(itemData.Level, warpstone.Level);
         }
 
@@ -265,7 +265,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(food, typeof(ItemFood));
             Assert.AreEqual(foodBlueprint.Id, food.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, food.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, food.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, food.BaseItemFlags);
             Assert.IsFalse((food as IItemFood).IsPoisoned);
             Assert.AreEqual(itemData.FullHours, (food as IItemFood).FullHours);
             Assert.AreEqual(itemData.HungerHours, (food as IItemFood).HungerHours);
@@ -291,7 +291,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(drinkContainerBlueprint.Id, drinkContainer.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, drinkContainer.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, drinkContainer.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, drinkContainer.BaseItemFlags);
             Assert.AreEqual(itemData.CurrentLiquidAmount, drinkContainer.LiquidLeft);
             Assert.AreEqual(itemData.MaxLiquidAmount, drinkContainer.MaxLiquid);
             Assert.AreEqual(itemData.LiquidName, drinkContainer.LiquidName);
@@ -319,7 +319,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
             Assert.AreEqual(0, (container as IItemContainer).Content.Count());
             Assert.AreEqual(itemData.ContainerFlags, (container as IItemContainer).ContainerFlags);
         }
@@ -355,7 +355,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
             Assert.AreEqual(1, (container as IItemContainer).Content.Count());
             Assert.AreEqual(lightBlueprint.Id, (container as IItemContainer).Content.First().Blueprint.Id);
             Assert.AreEqual(itemData.Contains[0].DecayPulseLeft, (container as IItemContainer).Content.First().DecayPulseLeft);
@@ -402,7 +402,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
             Assert.AreEqual(itemData.Level, container.Level);
             Assert.AreEqual(2, (container as IItemContainer).Content.Count());
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == lightBlueprint.Id));
@@ -475,7 +475,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.AreEqual(containerBlueprint1.Id, container.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, container.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, container.BaseItemFlags);
             Assert.AreEqual(3, (container as IItemContainer).Content.Count());
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == lightBlueprint.Id));
             Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == portalBlueprint.Id));
@@ -510,7 +510,7 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsFalse((item as IItemCorpse).IsPlayableCharacterCorpse);
-            Assert.That.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
             Assert.AreEqual("corpse "+ itemData.CorpseName, item.Name);
             Assert.AreEqual(0, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
@@ -536,7 +536,7 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsTrue((item as IItemCorpse).IsPlayableCharacterCorpse);
-            Assert.That.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
             Assert.AreEqual("corpse " + itemData.CorpseName, item.Name);
             Assert.AreEqual(0, (item as IItemCorpse).Content.Count());
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
@@ -573,7 +573,7 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(item);
             Assert.IsInstanceOfType(item, typeof(IItemCorpse));
             Assert.IsFalse((item as IItemCorpse).IsPlayableCharacterCorpse);
-            Assert.That.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, item.BaseItemFlags);
             Assert.AreEqual("corpse " + itemData.CorpseName, item.Name);
             Assert.AreEqual(itemData.DecayPulseLeft, item.DecayPulseLeft);
             Assert.AreEqual(1, (item as IItemCorpse).Content.Count());
@@ -597,7 +597,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(furnitureBlueprint.Id, furniture.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, furniture.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, furniture.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, furniture.BaseItemFlags);
         }
 
         // Jewelry
@@ -616,7 +616,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(jewelryBlueprint.Id, jewelry.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, jewelry.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, jewelry.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, jewelry.BaseItemFlags);
         }
 
         // Key
@@ -635,7 +635,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(keyBlueprint.Id, key.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, key.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, key.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, key.BaseItemFlags);
         }
 
         // Light
@@ -659,7 +659,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(light, typeof(IItemLight));
             Assert.AreEqual(lightBlueprint.Id, light.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, light.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, light.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, light.BaseItemFlags);
             Assert.AreEqual(itemData.TimeLeft, (light as IItemLight).TimeLeft);
         }
 
@@ -687,7 +687,7 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(portal, typeof(IItemPortal));
             Assert.AreEqual(portalBlueprint.Id, portal.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, portal.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, portal.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, portal.BaseItemFlags);
             Assert.IsNotNull((portal as IItemPortal).Destination);
             Assert.AreEqual(room2, (portal as IItemPortal).Destination);
             Assert.AreEqual(itemData.PortalFlags, (portal as IItemPortal).PortalFlags);
@@ -711,7 +711,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(questBlueprint.Id, quest.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, quest.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, quest.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, quest.BaseItemFlags);
         }
 
         // Shield
@@ -730,7 +730,7 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(shieldBlueprint.Id, shield.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, shield.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, shield.BaseItemFlags);
+            Assert.AreEqual(itemData.ItemFlags, shield.BaseItemFlags);
         }
 
         // Weapon
@@ -750,8 +750,8 @@ namespace Mud.Server.Tests
 
             Assert.AreEqual(weaponBlueprint.Id, weapon.Blueprint.Id);
             Assert.AreEqual(itemData.DecayPulseLeft, weapon.DecayPulseLeft);
-            Assert.That.AreEqual(itemData.ItemFlags, weapon.BaseItemFlags);
-            Assert.That.AreEqual(itemData.WeaponFlags, weapon.BaseWeaponFlags);
+            Assert.AreEqual(itemData.ItemFlags, weapon.BaseItemFlags);
+            Assert.AreEqual(itemData.WeaponFlags, weapon.BaseWeaponFlags);
         }
     }
 }
