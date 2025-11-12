@@ -1,342 +1,79 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{094D6E52-B9EF-4A1E-808E-CF6A0DBECA42}</ProjectGuid>
+    <TargetFramework>net9.0-windows</TargetFramework>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.Server.WPFTestApplication</RootNamespace>
-    <AssemblyName>Mud.Server.WPFTestApplication</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <UseWPF>true</UseWPF>
+    <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=9.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\packages\AutoMapper.9.0.0\lib\net461\AutoMapper.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.10\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.HashCode, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.HashCode.6.0.0\lib\net462\Microsoft.Bcl.HashCode.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Bcl.TimeProvider, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.TimeProvider.9.0.10\lib\net462\Microsoft.Bcl.TimeProvider.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.10, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.10\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=9.0.0.10, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.9.0.10\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Options, Version=9.0.0.10, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Options.9.0.10\lib\net462\Microsoft.Extensions.Options.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Primitives, Version=9.0.0.10, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.Primitives.9.0.10\lib\net462\Microsoft.Extensions.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Abstractions, Version=8.14.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Abstractions.8.14.0\lib\net472\Microsoft.IdentityModel.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=8.14.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.8.14.0\lib\net472\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Logging, Version=8.14.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Logging.8.14.0\lib\net472\Microsoft.IdentityModel.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.IdentityModel.Tokens, Version=8.14.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.8.14.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
-    </Reference>
-    <Reference Include="SimpleInjector, Version=5.0.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.5.5.0\lib\net461\SimpleInjector.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.6.1\lib\net462\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.9.0.10\lib\net462\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Pipelines, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.IO.Pipelines.9.0.10\lib\net462\System.IO.Pipelines.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Memory, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.6.3\lib\net462\System.Memory.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.6.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.6.1\lib\net462\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Encodings.Web, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Encodings.Web.9.0.10\lib\net462\System.Text.Encodings.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Text.Json, Version=9.0.0.10, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Text.Json.9.0.10\lib\net462\System.Text.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="ClientWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ServerWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ClientWindow.xaml.cs">
-      <DependentUpon>ClientWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ServerWindow.xaml.cs">
-      <DependentUpon>ServerWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="NLog.config">
+    <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <AppDesigner Include="Properties\" />
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.11" />
+    <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="9.0.11" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.11" />
+    <PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="8.14.0" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.14.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Logging" Version="8.14.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.14.0" />
+    <PackageReference Include="SimpleInjector" Version="5.5.0" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="9.0.11" />
+    <PackageReference Include="System.IO.Pipelines" Version="9.0.11" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.11" />
+    <PackageReference Include="System.Text.Json" Version="9.0.11" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
+    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj" />
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
+    <ProjectReference Include="..\Mud.Importer.Rom\Mud.Importer.Rom.csproj" />
+    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj" />
+    <ProjectReference Include="..\Mud.Network.Telnet\Mud.Network.Telnet.csproj" />
+    <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj" />
+    <ProjectReference Include="..\Mud.Repository.Mongo\Mud.Repository.Mongo.csproj" />
+    <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj" />
+    <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
+    <ProjectReference Include="..\Mud.Server.AdditionalAbilities\Mud.Server.AdditionalAbilities.csproj" />
+    <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj" />
+    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
+    <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj" />
+    <ProjectReference Include="..\Mud.Server.Effects\Mud.Server.Effects.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
+    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
+    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj" />
+    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
+    <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj" />
+    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
+    <ProjectReference Include="..\Mud.Settings.ConfigurationManager\Mud.Settings.ConfigurationManager.csproj" />
+    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj">
-      <Project>{FA516A9E-EA0B-4F74-A5AA-23DE3D109ADC}</Project>
-      <Name>Mud.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj">
-      <Project>{b9d5a4dd-8418-4e00-bc90-582359f7f05d}</Project>
-      <Name>Mud.Container</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
-      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
-      <Name>Mud.DataStructures</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
-      <Project>{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}</Project>
-      <Name>Mud.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Importer.Rom\Mud.Importer.Rom.csproj">
-      <Project>{5be3b1dc-2039-450c-ad58-ab35620ffc4e}</Project>
-      <Name>Mud.Importer.Rom</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
-      <Project>{4e337998-ecab-493b-9faa-01366ee90eff}</Project>
-      <Name>Mud.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Network.Telnet\Mud.Network.Telnet.csproj">
-      <Project>{724EAACF-1475-4F47-8109-4C9EBE6A72DA}</Project>
-      <Name>Mud.Network.Telnet</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj">
-      <Project>{c911cf12-d355-4814-91bb-a68d05ade97c}</Project>
-      <Name>Mud.Network.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj">
-      <Project>{520950bd-51eb-4c0e-aea4-a6cec62b23fc}</Project>
-      <Name>Mud.Repository.Filesystem</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Repository.Mongo\Mud.Repository.Mongo.csproj">
-      <Project>{e493e419-b6ab-4ee0-bd8b-0b2ea775849f}</Project>
-      <Name>Mud.Repository.Mongo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj">
-      <Project>{2c853490-7908-4e36-b906-72eba82b4236}</Project>
-      <Name>Mud.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj">
-      <Project>{32F89F23-5D70-4E01-93A1-39EF67EDBAC3}</Project>
-      <Name>Mud.Server.Ability</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.AdditionalAbilities\Mud.Server.AdditionalAbilities.csproj">
-      <Project>{aa0d8c4a-ff09-40cf-b41e-98fd9a2da158}</Project>
-      <Name>Mud.Server.AdditionalAbilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj">
-      <Project>{80ea18bc-aba5-40f7-8483-6b94750cd704}</Project>
-      <Name>Mud.Server.Affects</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
-      <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
-      <Name>Mud.Server.Blueprints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj">
-      <Project>{e4077e94-96ea-4999-ae8f-f93b519e4411}</Project>
-      <Name>Mud.Server.Class</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Effects\Mud.Server.Effects.csproj">
-      <Project>{AF96073C-D599-4604-8E8F-60B8BE186745}</Project>
-      <Name>Mud.Server.Effects</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
-      <Project>{5B52488B-2CBE-4FC7-9004-E0C23E97907F}</Project>
-      <Name>Mud.Server.Flags.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
-      <Project>{17B2B5F8-66C4-4E77-B910-C41C0539F436}</Project>
-      <Name>Mud.Server.Flags</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj">
-      <Project>{FCD8AD1B-893C-475C-82E3-77F957772FE3}</Project>
-      <Name>Mud.Server.GameAction</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj">
-      <Project>{01d3f406-aeda-4c60-951a-6b1133aec859}</Project>
-      <Name>Mud.Server.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj">
-      <Project>{9760a8e7-084e-4574-93e5-3473745e502d}</Project>
-      <Name>Mud.Server.Race</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
-      <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
-      <Name>Mud.Server.Random</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj">
-      <Project>{8a3a8267-b6a3-441b-bcf1-925b09ff920e}</Project>
-      <Name>Mud.Server.Rom24</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj">
-      <Project>{500b0c50-09f7-4a68-91c3-619e12157aad}</Project>
-      <Name>Mud.Server</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Settings.ConfigurationManager\Mud.Settings.ConfigurationManager.csproj">
-      <Project>{4ded3775-6a0b-4d42-b799-9bebc13f507a}</Project>
-      <Name>Mud.Settings.ConfigurationManager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj">
-      <Project>{F74408D4-1C69-43C5-AE59-8BAEC3F66AC7}</Project>
-      <Name>Mud.Settings.Interfaces</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

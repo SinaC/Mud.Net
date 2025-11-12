@@ -15,7 +15,7 @@ namespace Mud.DataStructures.Tests
                 12
             };
 
-            Assert.AreEqual(2, list.Count);
+            Assert.HasCount(2, list);
         }
 
         [TestMethod]
@@ -24,7 +24,7 @@ namespace Mud.DataStructures.Tests
             ModifiableList<int> list = new ModifiableList<int> {10, 12};
 
 
-            Assert.AreEqual(2, list.Count);
+            Assert.HasCount(2, list);
         }
 
         [TestMethod]
@@ -33,7 +33,7 @@ namespace Mud.DataStructures.Tests
             ModifiableList<int> list = new ModifiableList<int> {10, 12, 10};
 
 
-            Assert.AreEqual(3, list.Count);
+            Assert.HasCount(3, list);
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace Mud.DataStructures.Tests
 
             list.Clear();
 
-            Assert.AreEqual(0, list.Count);
+            Assert.IsEmpty(list);
         }
 
         [TestMethod]
@@ -61,7 +61,7 @@ namespace Mud.DataStructures.Tests
 
             list.Remove(10);
 
-            Assert.AreEqual(1, list.Count);
+            Assert.ContainsSingle(list);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace Mud.DataStructures.Tests
 
             list.Remove(20);
 
-            Assert.AreEqual(2, list.Count);
+            Assert.HasCount(2, list);
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace Mud.DataStructures.Tests
                     list.Add(20);
             }
 
-            Assert.AreEqual(3, list.Count);
+            Assert.HasCount(3, list);
         }
 
         [TestMethod]
@@ -111,7 +111,7 @@ namespace Mud.DataStructures.Tests
                     list.Add(10); // this is mean
             }
 
-            Assert.AreEqual(3, list.Count);
+            Assert.HasCount(3, list);
         }
 
         [TestMethod]
@@ -128,7 +128,7 @@ namespace Mud.DataStructures.Tests
                 list.Remove(12);
             }
 
-            Assert.AreEqual(1, list.Count);
+            Assert.ContainsSingle(list);
         }
 
         [TestMethod]
@@ -145,7 +145,7 @@ namespace Mud.DataStructures.Tests
                 list.Remove(20);
             }
 
-            Assert.AreEqual(2, list.Count);
+            Assert.HasCount(2, list);
         }
 
         [TestMethod]
@@ -160,7 +160,7 @@ namespace Mud.DataStructures.Tests
             foreach(int i in list)
                 list.Clear();
 
-            Assert.AreEqual(0, list.Count);
+            Assert.IsEmpty(list);
         }
 
         [TestMethod]
@@ -199,7 +199,7 @@ namespace Mud.DataStructures.Tests
             // 5) +20, -20, clear, +10
             // 6) +20, -20, clear, +10   same as 5 because 20 will never be in list while iterating
 
-            Assert.AreEqual(1, list.Count);
+            Assert.ContainsSingle(list);
             Assert.AreEqual(10, list.Single());
         }
 
@@ -239,7 +239,7 @@ namespace Mud.DataStructures.Tests
             // 2) +10, -20, clear, -20
             // 1) +10, -20, clear, -20, +20
 
-            Assert.AreEqual(1, list.Count);
+            Assert.ContainsSingle(list);
             Assert.AreEqual(20, list.Single());
         }
 

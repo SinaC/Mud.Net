@@ -223,8 +223,8 @@ namespace Mud.Server.Server
 
         private static string CryptPassword(string password)
         {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            return BitConverter.ToString(md5.ComputeHash(Encoding.ASCII.GetBytes(password)));
+            using (MD5 md5 = MD5.Create())
+                return BitConverter.ToString(md5.ComputeHash(Encoding.ASCII.GetBytes(password)));
         }
     }
 }

@@ -74,17 +74,17 @@ namespace Mud.Server.Tests
             Assert.AreEqual(playableCharacterData.MaxResources[ResourceKinds.Psy], playableCharacter.MaxResource(ResourceKinds.Psy));
             Assert.AreEqual(playableCharacterData.Trains, playableCharacter.Trains);
             Assert.AreEqual(playableCharacterData.Practices, playableCharacter.Practices);
-            Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
-            Assert.AreEqual(0, playableCharacter.Inventory.Count());
-            Assert.AreEqual(0, playableCharacter.Quests.Count());
+            Assert.IsEmpty(playableCharacter.Equipments.Where(x => x.Item != null));
+            Assert.IsEmpty(playableCharacter.Inventory);
+            Assert.IsEmpty(playableCharacter.Quests);
             Assert.AreEqual(playableCharacterData.CharacterFlags, playableCharacter.BaseCharacterFlags);
             Assert.AreEqual(playableCharacterData.Immunities, playableCharacter.BaseImmunities);
             Assert.AreEqual(playableCharacterData.Resistances, playableCharacter.BaseResistances);
             Assert.AreEqual(playableCharacterData.Vulnerabilities, playableCharacter.BaseVulnerabilities);
             Assert.AreEqual(playableCharacterData.Attributes.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<CharacterAttributes>().Sum(x => (int)x ^ playableCharacter.BaseAttribute(x)));
-            Assert.AreEqual(playableCharacterData.Auras.Length, playableCharacter.Auras.Count());
-            Assert.AreEqual(playableCharacterData.Auras.SelectMany(x => x.Affects).Count(), playableCharacter.Auras.SelectMany(x => x.Affects).Count()); // can't test AffectData because AutoFaker doesn't handle abstract class
-            Assert.AreEqual(playableCharacterData.LearnedAbilities.Length, playableCharacter.LearnedAbilities.Count());
+            Assert.HasCount(playableCharacterData.Auras.Length, playableCharacter.Auras);
+            Assert.HasCount(playableCharacterData.Auras.SelectMany(x => x.Affects).Count(), playableCharacter.Auras.SelectMany(x => x.Affects)); // can't test AffectData because AutoFaker doesn't handle abstract class
+            Assert.HasCount(playableCharacterData.LearnedAbilities.Length, playableCharacter.LearnedAbilities);
             //Assert.AreEqual(ArithmeticOverflow!!!
             //    playableCharacterData.LearnedAbilities.Sum(x => (int)x.AbilityId ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating),
             //    playableCharacter.LearnedAbilities.Sum(x => (int)x.Ability.Id ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating));
@@ -181,9 +181,9 @@ namespace Mud.Server.Tests
             IItem container = playableCharacter.Inventory.Single(x => x.Blueprint.Id == containerBlueprint2.Id);
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.IsNotNull((container as IItemContainer).Content);
-            Assert.AreEqual(2, (container as IItemContainer).Content.Count());
-            Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == jewelryBlueprint.Id));
-            Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == armorBlueprint.Id));
+            Assert.HasCount(2, (container as IItemContainer).Content);
+            Assert.ContainsSingle((container as IItemContainer).Content);
+            Assert.ContainsSingle((container as IItemContainer).Content);
         }
 
         [TestMethod]
@@ -279,9 +279,9 @@ namespace Mud.Server.Tests
             Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
             Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
-            Assert.AreEqual(0, playableCharacter.Quests.Count());
-            Assert.AreEqual(0 , playableCharacter.Inventory.Count());
-            Assert.AreEqual(playableCharacterData.Equipments.Length, playableCharacter.Equipments.Count(x => x.Item != null));
+            Assert.IsEmpty(playableCharacter.Quests);
+            Assert.IsEmpty( playableCharacter.Inventory);
+            Assert.HasCount(playableCharacterData.Equipments.Length, playableCharacter.Equipments.Where(x => x.Item != null));
             Assert.IsNotNull(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.Light).Item);
             Assert.IsNotNull(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.OffHand).Item);
             Assert.IsNotNull(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.Ring).Item);
@@ -292,7 +292,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(armorBlueprint.Id, playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.Chest).Item.Blueprint.Id);
             Assert.IsInstanceOfType(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.OffHand).Item, typeof(IItemContainer));
             IItemContainer container = playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.OffHand).Item as IItemContainer;
-            Assert.AreEqual(1, container.Content.Count());
+            Assert.ContainsSingle(container.Content);
             Assert.AreEqual(portalBlueprint.Id, container.Content.First().Blueprint.Id);
         }
 
@@ -401,11 +401,11 @@ namespace Mud.Server.Tests
             Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
             Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
-            Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
-            Assert.AreEqual(0, playableCharacter.Inventory.Count());
-            Assert.AreEqual(1, playableCharacter.Quests.Count());
+            Assert.IsEmpty(playableCharacter.Equipments.Where(x => x.Item != null));
+            Assert.IsEmpty(playableCharacter.Inventory);
+            Assert.ContainsSingle(playableCharacter.Quests);
             Assert.AreEqual(questBlueprint1.Id, playableCharacter.Quests.Single().Blueprint.Id);
-            Assert.AreEqual(3, playableCharacter.Quests.Single().Objectives.Count());
+            Assert.HasCount(3, playableCharacter.Quests.Single().Objectives);
             Assert.IsFalse(playableCharacter.Quests.Single().Objectives.Single(x => x.Id == 1).IsCompleted); // objective1: 2 item1 on 5
             Assert.IsFalse(playableCharacter.Quests.Single().Objectives.Single(x => x.Id == 2).IsCompleted); // objective2: 0 mob1 on 3
             Assert.IsTrue(playableCharacter.Quests.Single().Objectives.Single(x => x.Id == 3).IsCompleted); // objective3: explored

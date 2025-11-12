@@ -1,173 +1,36 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B85FDC6F-9D3F-4B24-AF53-AA30B6244BAB}</ProjectGuid>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.Server.Blueprints</RootNamespace>
-    <AssemblyName>Mud.Server.Blueprints</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <AssemblyTitle>Mud.Server.Blueprints</AssemblyTitle>
+    <Product>Mud.Server.Blueprints</Product>
+    <Copyright>Copyright ©  2015</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.1.2\lib\net462\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
+    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Area\AreaBlueprint.cs" />
-    <Compile Include="Character\CharacterNormalBlueprint.cs" />
-    <Compile Include="Character\CharacterBlueprintBase.cs" />
-    <Compile Include="Character\CharacterQuestorBlueprint.cs" />
-    <Compile Include="Character\CharacterShopBlueprint.cs" />
-    <Compile Include="Item\ItemBoatBlueprint.cs" />
-    <Compile Include="Item\ItemClothingBlueprint.cs" />
-    <Compile Include="Item\ItemGemBlueprint.cs" />
-    <Compile Include="Item\ItemJukeboxBlueprint.cs" />
-    <Compile Include="Item\ItemMapBlueprint.cs" />
-    <Compile Include="Item\ItemMoneyBlueprint.cs" />
-    <Compile Include="Item\ItemTrashBlueprint.cs" />
-    <Compile Include="Item\ItemTreasureBlueprint.cs" />
-    <Compile Include="Reset\CharacterReset.cs" />
-    <Compile Include="Item\ItemCastSpellsChargeBlueprintBase.cs" />
-    <Compile Include="Item\ItemCastSpellsNoChargeBlueprintBase.cs" />
-    <Compile Include="Item\ItemDrinkContainerBlueprint.cs" />
-    <Compile Include="Item\ItemFoodBlueprint.cs" />
-    <Compile Include="Item\ItemFountainBlueprint.cs" />
-    <Compile Include="Item\ItemKeyBlueprint.cs" />
-    <Compile Include="Item\ItemScrollBlueprint.cs" />
-    <Compile Include="Item\ItemPotionBlueprint.cs" />
-    <Compile Include="Item\ItemPillBlueprint.cs" />
-    <Compile Include="Item\ItemPortalBlueprint.cs" />
-    <Compile Include="Item\ItemQuestBlueprint.cs" />
-    <Compile Include="Item\ItemStaffBlueprint.cs" />
-    <Compile Include="Item\ItemWandBlueprint.cs" />
-    <Compile Include="Item\ItemWarpStoneBlueprint.cs" />
-    <Compile Include="Quest\QuestBlueprint.cs" />
-    <Compile Include="Quest\QuestItemObjectiveBlueprint.cs" />
-    <Compile Include="Quest\QuestKillLootTable.cs" />
-    <Compile Include="Quest\QuestKillLootTableEntry.cs" />
-    <Compile Include="Quest\QuestKillObjectiveBlueprint.cs" />
-    <Compile Include="Quest\QuestLocationObjectiveBlueprint.cs" />
-    <Compile Include="Reset\DoorReset.cs" />
-    <Compile Include="Reset\ItemInCharacterReset.cs" />
-    <Compile Include="Reset\ItemInEquipmentReset.cs" />
-    <Compile Include="Reset\ItemInItemReset.cs" />
-    <Compile Include="Reset\ItemInRoomReset.cs" />
-    <Compile Include="Reset\RandomizeExitsReset.cs" />
-    <Compile Include="Reset\ResetBase.cs" />
-    <Compile Include="Room\ExitBlueprint.cs" />
-    <Compile Include="Item\ItemArmorBlueprint.cs" />
-    <Compile Include="Item\ItemBlueprintBase.cs" />
-    <Compile Include="Item\ItemContainerBlueprint.cs" />
-    <Compile Include="Item\ItemCorpseBlueprint.cs" />
-    <Compile Include="Item\ItemFurnitureBlueprint.cs" />
-    <Compile Include="Item\ItemJewelryBlueprint.cs" />
-    <Compile Include="Item\ItemLightBlueprint.cs" />
-    <Compile Include="Item\ItemShieldBlueprint.cs" />
-    <Compile Include="Item\ItemWeaponBlueprint.cs" />
-    <Compile Include="LootTable\CharacterLootTable.cs" />
-    <Compile Include="LootTable\CharacterLootTableEntry.cs" />
-    <Compile Include="LootTable\TreasureTable.cs" />
-    <Compile Include="LootTable\TreasureTableEntry.cs" />
-    <Compile Include="Room\RoomBlueprint.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
-      <Project>{00B458AF-C87B-4558-8BA7-B21D9626621E}</Project>
-      <Name>Mud.DataStructures</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
-      <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
-      <Name>Mud.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
-      <Project>{4E337998-ECAB-493B-9FAA-01366EE90EFF}</Project>
-      <Name>Mud.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
-      <Project>{5B52488B-2CBE-4FC7-9004-E0C23E97907F}</Project>
-      <Name>Mud.Server.Flags.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj">
-      <Project>{0221CF37-EEC1-4144-91C4-00176A735D34}</Project>
-      <Name>Mud.Server.Random</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

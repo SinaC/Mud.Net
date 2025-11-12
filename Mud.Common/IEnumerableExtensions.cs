@@ -48,6 +48,7 @@ namespace Mud.Common
             }
         }
 
+        /*
         //public static IEnumerable<IEnumerable<T>> Chunk<T>(this IEnumerable<T> collection, int batchSize)
         //{
         //    List<T> nextbatch = new List<T>(batchSize);
@@ -113,5 +114,6 @@ namespace Mud.Common
                 yield return enumerator.Current;
             } while (++count < chunkSize && enumerator.MoveNext());
         }
+        */
     }
 }

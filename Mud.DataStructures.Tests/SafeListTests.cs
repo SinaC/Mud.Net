@@ -12,7 +12,7 @@ namespace Mud.DataStructures.Tests
         {
             SafeList<int> list = new SafeList<int>();
 
-            Assert.AreEqual(0, list.Count);
+            Assert.ContainsSingle(list);
         }
 
         [TestMethod]
@@ -22,7 +22,7 @@ namespace Mud.DataStructures.Tests
 
             list.Add(5);
 
-            Assert.AreEqual(1, list.Count);
+            Assert.ContainsSingle(list);
         }
 
         [TestMethod]
@@ -33,7 +33,7 @@ namespace Mud.DataStructures.Tests
             list.Add(5);
             list.Add(3);
 
-            Assert.AreEqual(2, list.Count);
+            Assert.HasCount(2, list);
         }
 
         [TestMethod]
@@ -47,7 +47,7 @@ namespace Mud.DataStructures.Tests
 
             list.Remove(5);
 
-            Assert.AreEqual(1, list.Count);
+            Assert.ContainsSingle(list);
         }
 
         [TestMethod]
@@ -78,7 +78,7 @@ namespace Mud.DataStructures.Tests
             list.Remove(3);
             list.Remove(5);
 
-            Assert.AreEqual(0, list.Count);
+            Assert.IsEmpty(list);
         }
 
         [TestMethod]
@@ -93,7 +93,7 @@ namespace Mud.DataStructures.Tests
             list.Remove(5);
             list.Remove(3);
 
-            Assert.AreEqual(0, list.Count);
+            Assert.IsEmpty(list);
         }
 
         [TestMethod]
@@ -107,7 +107,7 @@ namespace Mud.DataStructures.Tests
 
             list.Clear();
 
-            Assert.AreEqual(0, list.Count);
+            Assert.IsEmpty(list);
         }
 
         [TestMethod]
@@ -117,7 +117,7 @@ namespace Mud.DataStructures.Tests
 
             list.Remove(5);
 
-            Assert.AreEqual(0, list.Count);
+            Assert.IsEmpty(list);
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace Mud.DataStructures.Tests
 
             list.Clear();
 
-            Assert.AreEqual(0, list.Count);
+            Assert.IsEmpty(list);
         }
 
         [TestMethod]
@@ -161,7 +161,7 @@ namespace Mud.DataStructures.Tests
                 count++;
             }
 
-            Assert.AreEqual(list.Count, count);
+            Assert.HasCount(count, list);
         }
 
         [TestMethod]
@@ -181,7 +181,7 @@ namespace Mud.DataStructures.Tests
                 copy.Add(i);
             }
 
-            Assert.AreEqual(list.Count, copy.Count);
+            Assert.HasCount(list.Count, copy);
             Assert.AreEqual(4, copy[0]);
             Assert.AreEqual(3, copy[1]);
             Assert.AreEqual(2, copy[2]);
@@ -206,8 +206,8 @@ namespace Mud.DataStructures.Tests
                 copy.Add(i);
             }
 
-            Assert.AreEqual(0, list.Count);
-            Assert.AreEqual(4, copy.Count);
+            Assert.IsEmpty(list);
+            Assert.HasCount(4, copy);
             Assert.AreEqual(4, copy[0]);
             Assert.AreEqual(3, copy[1]);
             Assert.AreEqual(2, copy[2]);
@@ -232,8 +232,8 @@ namespace Mud.DataStructures.Tests
                 copy.Add(i);
             }
 
-            Assert.AreEqual(0, list.Count);
-            Assert.AreEqual(2, copy.Count); // head and head.next will be available when list is clear while iterating
+            Assert.IsEmpty(list);
+            Assert.HasCount(2, copy); // head and head.next will be available when list is clear while iterating
             Assert.AreEqual(4, copy[0]);
             Assert.AreEqual(3, copy[1]);
         }
@@ -258,8 +258,8 @@ namespace Mud.DataStructures.Tests
                 copy.Add(i);
             }
 
-            Assert.AreEqual(8, list.Count);
-            Assert.AreEqual(4, list.Count(x => x >= 5));
+            Assert.HasCount(8, list);
+            Assert.HasCount(4, list.Where(x => x >= 5));
             Assert.AreEqual(4, copy[0]);
             Assert.AreEqual(3, copy[1]);
             Assert.AreEqual(2, copy[2]);
@@ -284,8 +284,8 @@ namespace Mud.DataStructures.Tests
                 copy.Add(i);
             }
 
-            Assert.AreEqual(0, list.Count);
-            Assert.AreEqual(4, copy.Count);
+            Assert.IsEmpty(list);
+            Assert.HasCount(4, copy);
             Assert.AreEqual(1, copy[0]);
             Assert.AreEqual(2, copy[1]);
             Assert.AreEqual(3, copy[2]);
@@ -313,8 +313,8 @@ namespace Mud.DataStructures.Tests
                 add++;
             }
 
-            Assert.AreEqual(4, list.Count);
-            Assert.AreEqual(0, list.Count(x => x >= 5)); // nothing added
+            Assert.HasCount(4, list);
+            Assert.IsEmpty(list.Where(x => x >= 5)); // nothing added
             Assert.AreEqual(4, copy[0]);
             Assert.AreEqual(3, copy[1]);
             Assert.AreEqual(2, copy[2]);
