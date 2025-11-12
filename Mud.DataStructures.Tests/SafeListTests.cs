@@ -12,7 +12,7 @@ namespace Mud.DataStructures.Tests
         {
             SafeList<int> list = new SafeList<int>();
 
-            Assert.ContainsSingle(list);
+            Assert.IsEmpty(list);
         }
 
         [TestMethod]
