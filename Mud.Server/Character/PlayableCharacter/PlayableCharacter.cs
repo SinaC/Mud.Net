@@ -1385,7 +1385,10 @@ namespace Mud.Server.Character.PlayableCharacter
             {
                 StringBuilder sb = new StringBuilder("You can now gain following abilities: %C%");
                 foreach (IAbilityLearned abilityLearned in newAbilities)
+                {
                     sb.AppendLine(abilityLearned.Name);
+                    abilityLearned.IncrementLearned(1); // set to 1%
+                }
                 sb.Append("%x%");
                 Send(sb);
             }

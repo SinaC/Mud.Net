@@ -30,7 +30,7 @@ namespace Mud.Server.Tests
             var instanceId = container.GetInstance<IId>();
             var instanceAdditional = container.GetInstance<IAdditional>();
 
-            Assert.AreSame(instanceId, instanceAdditional);
+            Assert.AreSame<object>(instanceId, instanceAdditional);
             Assert.AreEqual(instanceId.Id, ((IId)instanceAdditional).Id);
         }
 
@@ -49,8 +49,8 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(instance.Additional);
             Assert.IsInstanceOfType(instance.Id, typeof(Class2));
             Assert.IsInstanceOfType(instance.Additional, typeof(Class2));
-            Assert.AreSame(instance.Id, instance.Additional);
-        }                                                
+            Assert.AreSame<object>(instance.Id, instance.Additional);
+        }
     }
 
     public interface IId

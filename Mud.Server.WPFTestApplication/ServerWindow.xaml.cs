@@ -446,8 +446,8 @@ namespace Mud.Server.WPFTestApplication
             RomImporter importer = new RomImporter();
             //MysteryImporter importer = new MysteryImporter();
             //RotImporter importer = new RotImporter();
-            importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
-            //importer.ImportByList(path, "area.lst");
+            //importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
+            importer.ImportByList(path, "area.lst");
 
             // Area
             foreach (AreaBlueprint blueprint in importer.Areas)

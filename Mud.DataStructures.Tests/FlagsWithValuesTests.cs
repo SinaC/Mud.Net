@@ -27,12 +27,10 @@ namespace Mud.DataStructures.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
         public void Ctor_MultipleValues_Invalid()
         {
-            ICharacterFlags flags = new CharacterFlags("Blind", "Invalid", "Berserk");
+            Assert.Throws<ArgumentException>(() => new CharacterFlags("Blind", "Invalid", "Berserk"));
 
-            Assert.AreEqual(3, flags.Count);
         }
 
         [TestMethod]

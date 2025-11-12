@@ -6,6 +6,7 @@ using Mud.Network.Interfaces;
 using Mud.Network.Telnet;
 using Mud.POC;
 using Mud.POC.TestLua;
+using Mud.Repository;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
@@ -64,45 +65,46 @@ namespace Mud.Server.TestApplication
             // Initialize log
             Log.Default.Initialize(settings.LogPath, "server.test.log");
 
-            // Register all needed types
-            RegisterAllTypes(new AssemblyHelper());
+            //// Register all needed types
+            //RegisterAllTypes(new AssemblyHelper());
 
-            // Initialize IOC container
-            DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
-            DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(new AssemblyHelper());
-            DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
-            DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
-            DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IQuestManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IQuestManager
-            DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAuraManager
-            DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IItemManager
-            DependencyContainer.Current.Register<ICharacterManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements ICharacterManager
-            DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IRoomManager
-            DependencyContainer.Current.Register<IAreaManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAreaManager
-            DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
-            DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
-            DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
-            DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
-            DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-            DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
+            //// Initialize IOC container
+            //DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
+            //DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(new AssemblyHelper());
+            //DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
+            //DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
+            //DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Current.Register<IQuestManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IQuestManager
+            //DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAuraManager
+            //DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IItemManager
+            //DependencyContainer.Current.Register<ICharacterManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements ICharacterManager
+            //DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IRoomManager
+            //DependencyContainer.Current.Register<IAreaManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAreaManager
+            //DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
+            //DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
+            //DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
+            //DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
+            //DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
+            //DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
+            //DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
+
 
             //TestSecondWindow();
             //TestPaging();
             //TestCommandParsing();
             //TestBasicCommands();
             //TestWorldOnline();
-            //TestWorldOffline();
+            TestWorldOffline();
 
             //TestLuaIntegration testLua = new TestLuaIntegration();
             //TestLuaBasicFunctionality testLua = new TestLuaBasicFunctionality();
             //TestLuaFunctionHiding testLua = new TestLuaFunctionHiding();
-            TestLuaRegisterFunction testLua = new TestLuaRegisterFunction();
-            testLua.Test();
+            //TestLuaRegisterFunction testLua = new TestLuaRegisterFunction();
+            //testLua.Test();
         }
 
         //private static void TestSecondWindow()
@@ -275,7 +277,7 @@ namespace Mud.Server.TestApplication
         private static void CreateMidgaard()
         {
             MysteryLoader importer = new MysteryLoader();
-            importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
+            importer.Load(@"D:\Projects\Repos\OldMud\area\midgaard.are");
             importer.Parse();
             //MysteryImporter importer = new MysteryImporter();
             //string path = @"D:\GitHub\OldMud\area";
@@ -698,16 +700,16 @@ namespace Mud.Server.TestApplication
         private static void TestWorldOffline()
         {
             Console.WriteLine("Let's go");
-
             //CreateDummyWorld();
-            CreateMidgaard();
 
             ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer();
-           DependencyContainer.Current.GetInstance<IServer>().Initialize(new List<INetworkServer> { consoleNetworkServer});
+            consoleNetworkServer.Initialize();
+            CreateMidgaard();
+            DependencyContainer.Current.GetInstance<IServer>().Initialize(new List<INetworkServer> { consoleNetworkServer });
             consoleNetworkServer.AddClient("Player1", false, true);
-           DependencyContainer.Current.GetInstance<IServer>().Start(); // this call is blocking because consoleNetworkServer.Start is blocking
+            DependencyContainer.Current.GetInstance<IServer>().Start(); // this call is blocking because consoleNetworkServer.Start is blocking
 
-           DependencyContainer.Current.GetInstance<IServer>().Stop();
+            DependencyContainer.Current.GetInstance<IServer>().Stop();
         }
     }
 }

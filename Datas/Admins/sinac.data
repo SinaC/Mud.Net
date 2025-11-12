@@ -53,8 +53,8 @@
             <Auras>
               <AuraData>
                 <AbilityName>Test</AbilityName>
-                <Level>26</Level>
-                <PulseLeft>2044</PulseLeft>
+                <Level>20</Level>
+                <PulseLeft>1936</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemFlagsAffectData">
@@ -168,7 +168,7 @@
               <AuraData>
                 <AbilityName>Test</AbilityName>
                 <Level>1</Level>
-                <PulseLeft>3520</PulseLeft>
+                <PulseLeft>3412</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -196,6 +196,36 @@
         </EquippedItemData>
       </Equipments>
       <Inventory>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags />
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags />
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags />
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
         <ItemData xsi:type="ItemWeaponData">
           <ItemId>3350</ItemId>
           <Level>16</Level>
@@ -204,42 +234,12 @@
           <Auras />
           <WeaponFlags />
         </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags />
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags />
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags />
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
       </Inventory>
       <Auras>
         <AuraData>
           <AbilityName>Sanctuary</AbilityName>
-          <Level>20</Level>
-          <PulseLeft>1104</PulseLeft>
+          <Level>15</Level>
+          <PulseLeft>996</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -250,8 +250,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Shield</AbilityName>
-          <Level>25</Level>
-          <PulseLeft>12396</PulseLeft>
+          <Level>21</Level>
+          <PulseLeft>12288</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -263,8 +263,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Berserk</AbilityName>
-          <Level>12</Level>
-          <PulseLeft>416</PulseLeft>
+          <Level>8</Level>
+          <PulseLeft>308</PulseLeft>
           <AuraFlags>2</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -290,8 +290,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Stone Skin</AbilityName>
-          <Level>17</Level>
-          <PulseLeft>10516</PulseLeft>
+          <Level>11</Level>
+          <PulseLeft>10408</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -303,8 +303,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Protection Evil</AbilityName>
-          <Level>17</Level>
-          <PulseLeft>5252</PulseLeft>
+          <Level>9</Level>
+          <PulseLeft>5144</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -320,8 +320,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Testroom</AbilityName>
-          <Level>35</Level>
-          <PulseLeft>1012</PulseLeft>
+          <Level>27</Level>
+          <PulseLeft>904</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="RoomHealRateAffectData">
@@ -340,8 +340,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Plague</AbilityName>
-          <Level>24</Level>
-          <PulseLeft>10896</PulseLeft>
+          <Level>17</Level>
+          <PulseLeft>10788</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -358,8 +358,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Poison</AbilityName>
-          <Level>40</Level>
-          <PulseLeft>10992</PulseLeft>
+          <Level>31</Level>
+          <PulseLeft>10884</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -1935,15 +1935,15 @@
       <Name>xiinobis</Name>
       <Race>human</Race>
       <Class>mage</Class>
-      <Level>1</Level>
+      <Level>2</Level>
       <Sex>1</Sex>
       <Size>2</Size>
-      <HitPoints>100</HitPoints>
-      <MovePoints>100</MovePoints>
+      <HitPoints>84</HitPoints>
+      <MovePoints>106</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>100</Value>
+          <Value>18</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -1953,13 +1953,16 @@
       <MaxResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>100</Value>
+          <Value>18</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
           <Value>100</Value>
         </PairDataOfInt32Int32>
       </MaxResources>
+      <Equipments />
+      <Inventory />
+      <Auras />
       <CharacterFlags />
       <Immunities />
       <Resistances />
@@ -1984,6 +1987,449 @@
         <PairDataOfInt32Int32>
           <Key>4</Key>
           <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>106</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>106</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
+      <CreationTime>2020-07-03T08:51:55.1055791+02:00</CreationTime>
+      <RoomId>7018</RoomId>
+      <SilverCoins>2</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>1488</Experience>
+      <Alignment>0</Alignment>
+      <Trains>4</Trains>
+      <Practices>6</Practices>
+      <AutoFlags>15</AutoFlags>
+      <CurrentQuests />
+      <LearnedAbilities>
+        <LearnedAbilityData>
+          <Name>Detect Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>2</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Invis</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>3</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chill Touch</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>4</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Continual Light</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>7</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>6</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fire</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>6</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>7</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Burning Hands</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>7</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Water</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>8</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Food</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fly</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>10</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Floating Disc</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>4</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Evil</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>11</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Good</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>11</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Blindness</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>12</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireproof</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>10</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>13</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Spring</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fog</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>12</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Farsight</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Control Weather</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>25</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Hidden</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Poison</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Colour Spray</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Rose</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>30</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dispel Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>100</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Weapon</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>100</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>17</Level>
+          <Learned>0</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cancellation</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>18</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Curse</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>18</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Energy Drain</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>35</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>19</Level>
+          <Learned>0</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Charm Person</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireball</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>22</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Call Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>26</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Acid Blast</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>28</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chain Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>25</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>33</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Calm</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>30</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>48</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+      </LearnedAbilities>
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>6</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>27</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>27</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
+    </PlayableCharacterData>
+    <PlayableCharacterData>
+      <Name>fnar</Name>
+      <Race>giant</Race>
+      <Class>warrior</Class>
+      <Level>1</Level>
+      <Sex>1</Sex>
+      <Size>3</Size>
+      <HitPoints>100</HitPoints>
+      <MovePoints>100</MovePoints>
+      <CurrentResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </CurrentResources>
+      <MaxResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </MaxResources>
+      <Equipments />
+      <Inventory />
+      <Auras />
+      <CharacterFlags />
+      <Immunities />
+      <Resistances>Cold,Fire</Resistances>
+      <Vulnerabilities>Lightning,Mental</Vulnerabilities>
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>18</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>11</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>11</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>14</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>5</Key>
@@ -2022,7 +2468,7 @@
           <Value>100</Value>
         </PairDataOfInt32Int32>
       </Attributes>
-      <CreationTime>2020-07-03T08:51:55.1055791+02:00</CreationTime>
+      <CreationTime>2025-11-08T11:24:32.7520387+01:00</CreationTime>
       <RoomId>3001</RoomId>
       <SilverCoins>0</SilverCoins>
       <GoldCoins>0</GoldCoins>
@@ -2031,22 +2477,2857 @@
       <Trains>3</Trains>
       <Practices>5</Practices>
       <AutoFlags>0</AutoFlags>
+      <CurrentQuests />
+      <LearnedAbilities>
+        <LearnedAbilityData>
+          <Name>Bash</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fast healing</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+      </LearnedAbilities>
       <Conditions>
         <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>48</Value>
+          <Value>44</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>48</Value>
+          <Value>47</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>48</Value>
+          <Value>46</Value>
         </PairDataOfInt32Int32>
       </Conditions>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
+    </PlayableCharacterData>
+    <PlayableCharacterData>
+      <Name>pouetpouet</Name>
+      <Race>elf</Race>
+      <Class>mage</Class>
+      <Level>1</Level>
+      <Sex>0</Sex>
+      <Size>2</Size>
+      <HitPoints>100</HitPoints>
+      <MovePoints>100</MovePoints>
+      <CurrentResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </CurrentResources>
+      <MaxResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </MaxResources>
+      <Equipments />
+      <Inventory />
+      <Auras />
+      <CharacterFlags />
+      <Immunities />
+      <Resistances>Charm</Resistances>
+      <Vulnerabilities>Iron</Vulnerabilities>
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>12</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>15</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>11</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
+      <CreationTime>2025-11-08T11:29:28.5244257+01:00</CreationTime>
+      <RoomId>3001</RoomId>
+      <SilverCoins>0</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>0</Experience>
+      <Alignment>0</Alignment>
+      <Trains>3</Trains>
+      <Practices>5</Practices>
+      <AutoFlags>0</AutoFlags>
+      <CurrentQuests />
+      <LearnedAbilities>
+        <LearnedAbilityData>
+          <Name>Detect Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>2</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Invis</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>3</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chill Touch</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>4</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Continual Light</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>7</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>6</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fire</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>6</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>7</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Burning Hands</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>7</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Water</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>8</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Food</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fly</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>10</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Floating Disc</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>4</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Evil</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>11</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Good</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>11</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Blindness</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>12</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireproof</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>10</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>13</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Spring</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fog</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>12</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Farsight</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Control Weather</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>25</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Hidden</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Poison</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Colour Spray</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Rose</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>30</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dispel Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>100</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Weapon</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>100</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>17</Level>
+          <Learned>0</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cancellation</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>18</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Curse</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>18</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Energy Drain</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>35</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>19</Level>
+          <Learned>0</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Charm Person</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireball</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>22</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Call Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>26</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Acid Blast</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>28</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chain Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>25</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>33</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Calm</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>30</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>48</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Sneak</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Hide</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+      </LearnedAbilities>
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>44</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>46</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>46</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
+    </PlayableCharacterData>
+    <PlayableCharacterData>
+      <Name>pp</Name>
+      <Race>elf</Race>
+      <Class>mage</Class>
+      <Level>2</Level>
+      <Sex>0</Sex>
+      <Size>2</Size>
+      <HitPoints>105</HitPoints>
+      <MovePoints>83</MovePoints>
+      <CurrentResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>122</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </CurrentResources>
+      <MaxResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>122</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </MaxResources>
+      <Equipments />
+      <Inventory />
+      <Auras />
+      <CharacterFlags />
+      <Immunities />
+      <Resistances>Charm</Resistances>
+      <Vulnerabilities>Iron</Vulnerabilities>
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>12</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>15</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>11</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>105</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>105</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
+      <CreationTime>2025-11-08T11:32:19.9330366+01:00</CreationTime>
+      <RoomId>3019</RoomId>
+      <SilverCoins>0</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>1000</Experience>
+      <Alignment>0</Alignment>
+      <Trains>4</Trains>
+      <Practices>6</Practices>
+      <AutoFlags>0</AutoFlags>
+      <CurrentQuests />
+      <LearnedAbilities>
+        <LearnedAbilityData>
+          <Name>Detect Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>2</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Invis</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>3</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chill Touch</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>4</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Continual Light</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>7</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>6</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fire</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>6</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>7</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Burning Hands</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>7</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Water</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>8</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Food</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fly</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>10</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Floating Disc</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>4</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Evil</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>11</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Good</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>11</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Blindness</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>12</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireproof</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>10</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>13</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Spring</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fog</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>12</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Farsight</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Control Weather</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>25</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Hidden</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Poison</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Colour Spray</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Rose</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>30</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dispel Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>100</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>0</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Weapon</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>100</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>17</Level>
+          <Learned>0</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cancellation</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>18</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Curse</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>18</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Energy Drain</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>35</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>19</Level>
+          <Learned>0</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Charm Person</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireball</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>22</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Call Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>26</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Acid Blast</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>28</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chain Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>25</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>33</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Calm</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>30</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>48</Level>
+          <Learned>0</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Sneak</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Hide</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+      </LearnedAbilities>
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>46</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>47</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>47</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
+    </PlayableCharacterData>
+    <PlayableCharacterData>
+      <Name>ppp</Name>
+      <Race>elf</Race>
+      <Class>mage</Class>
+      <Level>2</Level>
+      <Sex>0</Sex>
+      <Size>2</Size>
+      <HitPoints>105</HitPoints>
+      <MovePoints>105</MovePoints>
+      <CurrentResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>105</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </CurrentResources>
+      <MaxResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>105</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </MaxResources>
+      <Equipments />
+      <Inventory />
+      <Auras />
+      <CharacterFlags />
+      <Immunities />
+      <Resistances>Charm</Resistances>
+      <Vulnerabilities>Iron</Vulnerabilities>
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>12</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>15</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>11</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>105</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>105</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
+      <CreationTime>2025-11-08T11:38:19.6902431+01:00</CreationTime>
+      <RoomId>3019</RoomId>
+      <SilverCoins>0</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>1000</Experience>
+      <Alignment>0</Alignment>
+      <Trains>4</Trains>
+      <Practices>4</Practices>
+      <AutoFlags>0</AutoFlags>
+      <CurrentQuests />
+      <LearnedAbilities>
+        <LearnedAbilityData>
+          <Name>Detect Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>2</Level>
+          <Learned>63</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Invis</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>3</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chill Touch</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>4</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Continual Light</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>7</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>6</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fire</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>6</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>7</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Burning Hands</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>7</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Water</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>8</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Food</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fly</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>10</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Floating Disc</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>4</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Evil</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>11</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Good</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>11</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Blindness</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>12</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireproof</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>10</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>13</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Spring</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fog</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>12</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Farsight</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>14</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Control Weather</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>25</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Hidden</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Poison</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>15</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Colour Spray</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Rose</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>30</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dispel Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>100</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>16</Level>
+          <Learned>1</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Weapon</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>100</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>17</Level>
+          <Learned>1</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cancellation</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>18</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Curse</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>18</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Energy Drain</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>35</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>19</Level>
+          <Learned>1</Learned>
+          <Rating>2</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Charm Person</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireball</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>22</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Call Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>15</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>26</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Acid Blast</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>20</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>28</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chain Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>25</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>33</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Calm</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>30</CostAmount>
+          <CostAmountOperator>1</CostAmountOperator>
+          <Level>48</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Sneak</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Hide</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+      </LearnedAbilities>
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>44</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>46</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>46</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
+    </PlayableCharacterData>
+    <PlayableCharacterData>
+      <Name>glouk</Name>
+      <Race>insectoid</Race>
+      <Class>druid</Class>
+      <Level>1</Level>
+      <Sex>0</Sex>
+      <Size>2</Size>
+      <HitPoints>100</HitPoints>
+      <MovePoints>22</MovePoints>
+      <CurrentResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </CurrentResources>
+      <MaxResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </MaxResources>
+      <Equipments />
+      <Inventory />
+      <Auras />
+      <CharacterFlags>Haste</CharacterFlags>
+      <Immunities />
+      <Resistances>Acid,Bash,Disease,Poison,Slash</Resistances>
+      <Vulnerabilities>Cold,Fire,Pierce</Vulnerabilities>
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>17</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>18</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
+      <CreationTime>2025-11-11T16:31:33.7841739+01:00</CreationTime>
+      <RoomId>3050</RoomId>
+      <SilverCoins>0</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>0</Experience>
+      <Alignment>0</Alignment>
+      <Trains>3</Trains>
+      <Practices>5</Practices>
+      <AutoFlags>2</AutoFlags>
+      <CurrentQuests />
+      <LearnedAbilities>
+        <LearnedAbilityData>
+          <Name>Backstab</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Bash</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Berserk</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dirt Kicking</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Disarm</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Envenom</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Hide</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Kick</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Pick Lock</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Recall</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Rescue</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Scrolls</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Sneak</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Staves</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Steal</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Trip</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Wands</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Bite</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Crush</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Tail</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fourth Wield</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>1</Learned>
+          <Rating>0</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dual Wield</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>1</Learned>
+          <Rating>0</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Third Wield</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>1</Learned>
+          <Rating>0</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Axe</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dagger</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dodge</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enhanced Damage</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fast Healing</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Flail</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Haggle</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Hand to Hand</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Mace</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Meditation</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Parry</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Peek</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Polearm</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Second Attack</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Shield Block</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Spear</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Staff(weapon)</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Sword</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Third Attack</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Whip</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>10</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Test</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Construct</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Testroom</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Giant Size</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Acid Blast</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Bless</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Blindness</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Burning Hands</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Call Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Calm</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cancellation</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cause Critical</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cause Light</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cause Serious</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chain Lightning</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Change Sex</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Charm Person</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Chill Touch</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Colour Spray</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Continual Light</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Control Weather</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Food</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Rose</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Spring</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Create Water</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cure Blindness</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cure Critical</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cure Disease</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cure Light</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cure Poison</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cure Serious</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Curse</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Demonfire</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Evil</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Good</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Hidden</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Invis</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Detect Poison</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dispel Evil</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dispel Good</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Dispel Magic</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Earthquake</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Armor</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Enchant Weapon</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Energy Drain</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fire</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Faerie Fog</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Farsight</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireball</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fireproof</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Flamestrike</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Floating Disc</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fly</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Frenzy</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Gate</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Giant Strength</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Harm</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Haste</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Heal</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Heat Metal</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Holy Word</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Identify</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Infravision</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Invisibility</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Known Alignment</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Lightning Bolt</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Locate Object</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Magic Missile</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Mass Healing</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Mass Invis</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Nexus</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Pass Door</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Plague</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Poison</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Portal</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Protection Evil</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Protection Good</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Ray of Truth</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Recharge</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Refresh</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Remove Curse</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Sanctuary</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Shield</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Shocking Grasp</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Sleep</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Slow</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Stone Skin</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Summon</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Teleport</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Ventriloquate</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Weaken</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Word of Recall</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>General Purpose</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>High Explosive</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Acid Breath</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fire Breath</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Frost Breath</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Gas Breath</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Lightning Breath</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+      </LearnedAbilities>
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>44</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>46</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>46</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
     </PlayableCharacterData>
   </Characters>
   <AdminLevel>7</AdminLevel>
-  <WiznetFlags>65535</WiznetFlags>
+  <WiznetFlags>61439</WiznetFlags>
 </AdminData>
