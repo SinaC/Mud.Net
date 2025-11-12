@@ -172,12 +172,12 @@ namespace Mud.Server.Tests
             Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
             Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
-            Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
-            Assert.AreEqual(0, playableCharacter.Quests.Count());
-            Assert.AreEqual(playableCharacterData.Inventory.Length, playableCharacter.Inventory.Count());
-            Assert.AreEqual(1, playableCharacter.Inventory.Count(x => x.Blueprint.Id == lightBlueprint.Id));
-            Assert.AreEqual(1, playableCharacter.Inventory.Count(x => x.Blueprint.Id == portalBlueprint.Id));
-            Assert.AreEqual(1, playableCharacter.Inventory.Count(x => x.Blueprint.Id == containerBlueprint2.Id));
+            Assert.IsEmpty(playableCharacter.Equipments.Where(x => x.Item != null));
+            Assert.IsEmpty(playableCharacter.Quests);
+            Assert.HasCount(playableCharacterData.Inventory.Length, playableCharacter.Inventory);
+            Assert.ContainsSingle(playableCharacter.Inventory.Where(x => x.Blueprint.Id == lightBlueprint.Id));
+            Assert.ContainsSingle(playableCharacter.Inventory.Where(x => x.Blueprint.Id == portalBlueprint.Id));
+            Assert.ContainsSingle(playableCharacter.Inventory.Where(x => x.Blueprint.Id == containerBlueprint2.Id));
             IItem container = playableCharacter.Inventory.Single(x => x.Blueprint.Id == containerBlueprint2.Id);
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.IsNotNull((container as IItemContainer).Content);

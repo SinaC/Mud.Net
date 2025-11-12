@@ -25,6 +25,7 @@ namespace Mud.Server.Character.Ability
 
             if (actionInput.Parameters.Length == 0)
                 return null;
+
             AbilityLearned = Actor.LearnedAbilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value));
             if (AbilityLearned == null)
                 return "You don't know any abilities of that name.";

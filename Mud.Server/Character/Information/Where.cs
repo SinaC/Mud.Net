@@ -22,8 +22,10 @@ namespace Mud.Server.Character.Information
             string baseGuards = base.Guards(actionInput);
             if (baseGuards != null)
                 return baseGuards;
+
             if (Actor.Room == null)
                 return "You are nowhere";
+
             if (Actor.Room.RoomFlags.IsSet("NoWhere"))
                 return "You don't recognize where you are.";
 

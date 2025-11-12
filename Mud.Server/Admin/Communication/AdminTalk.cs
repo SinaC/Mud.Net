@@ -23,9 +23,12 @@ namespace Mud.Server.Admin.Communication
             string baseGuards = base.Guards(actionInput);
             if (baseGuards != null)
                 return baseGuards;
+            
             if (actionInput.Parameters.Length == 0)
                 return "What do you want to say on admin channel ?";
+
             What = $"%c%[%y%{Actor.DisplayName}%c%]: {actionInput.Parameters[0].Value}%x%";
+
             return null;
         }
 

@@ -25,11 +25,15 @@ namespace Mud.Server.Admin.Information
         public override string Guards(IActionInput actionInput)
         {
             string baseGuards = base.Guards(actionInput);
+
             if (baseGuards != null)
                 return baseGuards;
+
             if (actionInput.Parameters.Length == 0)
                 return BuildCommandSyntax();
+
             Pattern = actionInput.Parameters[0];
+
             return null;
         }
 

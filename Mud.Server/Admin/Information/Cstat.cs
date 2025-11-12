@@ -34,7 +34,7 @@ namespace Mud.Server.Admin.Information
             if (baseGuards != null)
                 return baseGuards;
 
-            if(actionInput.Parameters.Length == 0)
+            if (actionInput.Parameters.Length == 0)
                 return BuildCommandSyntax();
 
             Whom = Impersonating == null

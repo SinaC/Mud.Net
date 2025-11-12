@@ -25,7 +25,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.Configuration" />
     <PackageReference Include="AutoBogus" Version="2.13.1" />
     <PackageReference Include="AutoBogus.Moq" Version="2.13.1" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />

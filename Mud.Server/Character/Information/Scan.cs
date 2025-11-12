@@ -20,8 +20,10 @@ namespace Mud.Server.Character.Information
 
             if (Actor.Room == null)
                 return "You are nowhere.";
+
             if (Actor.Room.RoomFlags.IsSet("NoScan"))
                 return "Your vision is clouded by a mysterious force.";
+
             return null;
         }
 

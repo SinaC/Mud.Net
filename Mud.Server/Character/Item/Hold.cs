@@ -29,11 +29,14 @@ namespace Mud.Server.Character.Item
 
             if (actionInput.Parameters.Length == 0)
                 return "Wield what?";
+
             What = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
             if (What == null)
                 return StringHelpers.ItemInventoryNotFound;
+
             if (What.WearLocation != WearLocations.Hold && What.WearLocation != WearLocations.Shield && What.WearLocation != WearLocations.Light)
                 return "It cannot be hold.";
+
             return null;
         }
 

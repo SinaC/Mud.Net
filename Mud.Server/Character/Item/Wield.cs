@@ -24,7 +24,7 @@ namespace Mud.Server.Character.Item
         {
             string baseGuards = base.Guards(actionInput);
             if (baseGuards != null)
-                return null;
+                return baseGuards;
 
             if (actionInput.Parameters.Length == 0)
                 return "Wield what?";

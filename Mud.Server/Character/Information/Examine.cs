@@ -26,16 +26,20 @@ namespace Mud.Server.Character.Information
             string baseGuards = base.Guards(actionInput);
             if (baseGuards != null)
                 return baseGuards;
+
             if (actionInput.Parameters.Length == 0)
                return "Examine what or whom?";
+
             // Search character
             Target = FindHelpers.FindByName(Actor.Room.People, actionInput.Parameters[0]);
             if (Target != null)
                 return null;
+
             // Search item
             Target = FindHelpers.FindItemHere(Actor, actionInput.Parameters[0]);
             if (Target != null)
                 return null;
+
             return $"You don't see any {actionInput.Parameters[0].Value}.";
         }
 

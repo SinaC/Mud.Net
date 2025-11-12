@@ -35,6 +35,7 @@ namespace Mud.Server.Admin.Information
             string baseGuards = base.Guards(actionInput);
             if (baseGuards != null)
                 return baseGuards;
+
             if (actionInput.Parameters.Length == 0)
                 return BuildCommandSyntax();
 
@@ -43,6 +44,7 @@ namespace Mud.Server.Admin.Information
                 : FindHelpers.FindItemHere(Impersonating, actionInput.Parameters[0]);
             if (What == null)
                 return StringHelpers.NotFound;
+
             return null;
         }
 

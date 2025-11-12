@@ -30,7 +30,7 @@ namespace Mud.Server.Admin.Administration
         {
             string baseGuards = base.Guards(actionInput);
             if (baseGuards != null)
-                return null;
+                return baseGuards;
 
             if (actionInput.Parameters.Length == 0)
                 return BuildCommandSyntax();
