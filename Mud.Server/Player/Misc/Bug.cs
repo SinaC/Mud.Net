@@ -3,38 +3,37 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Player.Misc
+namespace Mud.Server.Player.Misc;
+
+[PlayerCommand("bug", "Misc", Priority = 50)]
+[Syntax("[cmd] <message>")]
+public class Bug : PlayerGameAction
 {
-    [PlayerCommand("bug", "Misc", Priority = 50)]
-    [Syntax("[cmd] <message>")]
-    public class Bug : PlayerGameAction
+    private IWiznet Wiznet { get; }
+
+    public Bug(IWiznet wiznet)
     {
-        private IWiznet Wiznet { get; }
+        Wiznet = wiznet;
+    }
 
-        public string Message { get; protected set; }
+    protected string Message { get; set; } = default!;
 
-        public Bug(IWiznet wiznet)
-        {
-            Wiznet = wiznet;
-        }
+    public override string? Guards(IActionInput actionInput)
+    {
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
-        {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+        Message = CommandHelpers.JoinParameters(actionInput.Parameters);
+        if (string.IsNullOrWhiteSpace(Message))
+            return "Report which bug?";
 
-            Message = CommandHelpers.JoinParameters(actionInput.Parameters);
-            if (string.IsNullOrWhiteSpace(Message))
-                return "Report which bug?";
+        return null;
+    }
 
-            return null;
-        }
-
-        public override void Execute(IActionInput actionInput)
-        {
-            Wiznet.Wiznet($"****USER BUG REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Bugs, AdminLevels.Implementor);
-            Actor.Send("Bug logged.");
-        }
+    public override void Execute(IActionInput actionInput)
+    {
+        Wiznet.Wiznet($"****USER BUG REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Bugs, AdminLevels.Implementor);
+        Actor.Send("Bug logged.");
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Interfaces.Player
+namespace Mud.Server.Interfaces.Player;
+
+public interface IPlayerManager
 {
-    public interface IPlayerManager
-    {
-        IPlayer GetPlayer(ICommandParameter parameter, bool perfectMatch);
-        IEnumerable<IPlayer> Players { get; }
-    }
+    IPlayer? GetPlayer(ICommandParameter parameter, bool perfectMatch);
+    IEnumerable<IPlayer> Players { get; }
 }

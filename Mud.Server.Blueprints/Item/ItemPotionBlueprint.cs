@@ -1,6 +1,5 @@
-﻿namespace Mud.Server.Blueprints.Item
+﻿namespace Mud.Server.Blueprints.Item;
+
+public class ItemPotionBlueprint : ItemCastSpellsNoChargeBlueprintBase
 {
-    public class ItemPotionBlueprint : ItemCastSpellsNoChargeBlueprintBase
-    {
-    }
 }

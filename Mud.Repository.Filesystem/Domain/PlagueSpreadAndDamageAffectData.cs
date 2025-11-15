@@ -1,6 +1,5 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class PlagueSpreadAndDamageAffectData : AffectDataBase
 {
-    public class PlagueSpreadAndDamageAffectData : AffectDataBase
-    {
-    }
 }

@@ -6,47 +6,47 @@ using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Spells
+namespace Mud.Server.Rom24.Spells;
+
+[Spell(SpellName, AbilityEffects.None)]
+public class ControlWeather : NoTargetSpellBase
 {
-    [Spell(SpellName, AbilityEffects.None)]
-    public class ControlWeather : NoTargetSpellBase
+    private const string SpellName = "Control Weather";
+
+    private ITimeManager TimeManager { get; }
+
+    public ControlWeather(IRandomManager randomManager, ITimeManager timeManager) 
+        : base(randomManager)
     {
-        public const string SpellName = "Control Weather";
+        TimeManager = timeManager;
+    }
 
-        private bool _isBetterRequired;
+    protected bool IsBetterRequired { get; set; }
 
-        private ITimeManager TimeManager { get; }
-        public ControlWeather(IRandomManager randomManager, ITimeManager timeManager) 
-            : base(randomManager)
+    public override string? Setup(ISpellActionInput spellActionInput)
+    {
+        var baseSetup = base.Setup(spellActionInput);
+        if (baseSetup != null)
+            return baseSetup;
+
+        var what = CommandHelpers.JoinParameters(spellActionInput.Parameters);
+        if (StringCompareHelpers.StringEquals(what, "better"))
         {
-            TimeManager = timeManager;
+            IsBetterRequired = true;
+            return null;
         }
-
-        protected override void Invoke()
+        if (StringCompareHelpers.StringEquals(what, "worse"))
         {
-            int value = RandomManager.Dice(Level / 3, 4) * (_isBetterRequired ? 1 : -1);
-            TimeManager.ChangePressure(value);
-            Caster.Send("Ok.");
+            IsBetterRequired = false;
+            return null;
         }
+        return "Do you want it to get better or worse?";
+    }
 
-        public override string Setup(ISpellActionInput spellActionInput)
-        {
-            string baseSetup = base.Setup(spellActionInput);
-            if (baseSetup != null)
-                return baseSetup;
-
-            string what = CommandHelpers.JoinParameters(spellActionInput.Parameters);
-            if (StringCompareHelpers.StringEquals(what, "better"))
-            {
-                _isBetterRequired = true;
-                return null;
-            }
-            if (StringCompareHelpers.StringEquals(what, "worse"))
-            {
-                _isBetterRequired = false;
-                return null;
-            }
-            return "Do you want it to get better or worse?";
-        }
+    protected override void Invoke()
+    {
+        int value = RandomManager.Dice(Level / 3, 4) * (IsBetterRequired ? 1 : -1);
+        TimeManager.ChangePressure(value);
+        Caster.Send("Ok.");
     }
 }

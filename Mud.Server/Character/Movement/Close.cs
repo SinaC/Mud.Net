@@ -9,80 +9,79 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
-namespace Mud.Server.Character.Movement
+namespace Mud.Server.Character.Movement;
+
+[CharacterCommand("close", "Movement", MinPosition = Positions.Resting)]
+[Syntax(
+        "[cmd] <container|portal>",
+        "[cmd] <direction|door>")]
+public class Close : CharacterGameAction
 {
-    [CharacterCommand("close", "Movement", MinPosition = Positions.Resting)]
-    [Syntax(
-            "[cmd] <container|portal>",
-            "[cmd] <direction|door>")]
-    public class Close : CharacterGameAction
+    protected ICloseable What { get; set; } = default!;
+    protected ExitDirections ExitDirection { get; set; }
+
+    public override string? Guards(IActionInput actionInput)
     {
-        public ICloseable What { get; protected set; }
-        public ExitDirections ExitDirection { get; protected set; }
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
+        if (actionInput.Parameters.Length == 0)
+            return "Close what?";
+        // Search item: in room, then inventory, then in equipment
+        var item = FindHelpers.FindItemHere(Actor, actionInput.Parameters[0]);
+        if (item != null)
         {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
-
-            if (actionInput.Parameters.Length == 0)
-                return "Close what?";
-            // Search item: in room, then inventory, then in equipment
-            IItem item = FindHelpers.FindItemHere(Actor, actionInput.Parameters[0]);
-            if (item != null)
+            if (item is IItemCloseable itemCloseable)
             {
-                if (item is IItemCloseable itemCloseable)
-                {
-                    if (!itemCloseable.IsCloseable)
-                        return "You can't do that.";
-                    if (itemCloseable.IsClosed)
-                        return "It's already closed.";
-                }
-                else
+                if (!itemCloseable.IsCloseable)
                     return "You can't do that.";
-                What = itemCloseable;
-                return null;
+                if (itemCloseable.IsClosed)
+                    return "It's already closed.";
             }
-
-            // No item found, search door
-            var door = Actor.Room.VerboseFindDoor(Actor, actionInput.Parameters[0]);
-            if (door.exit == null)
-                return ""; // no specific message
-            if (door.exit.IsClosed)
-                Actor.Send("It's already closed.");
-            What = door.exit;
-            ExitDirection = door.exitDirection;
+            else
+                return "You can't do that.";
+            What = itemCloseable;
             return null;
         }
 
-        public override void Execute(IActionInput actionInput)
-        {
-            // Item
-            if (What is IItemCloseable)
-            {
-                What.Close();
-                Actor.Send("Ok.");
-                Actor.Act(ActOptions.ToRoom, "{0:N} closes {1}.", Actor, What);
-            }
-            // Door
-            else if (What is IExit exit)
-            {
-                // Close this side
-                exit.Close();
-                Actor.Send("Ok.");
-                Actor.Act(ActOptions.ToRoom, "{0:N} closes {1}.", Actor, exit);
+        // No item found, search door
+        var (exit, exitDirection) = Actor.Room.VerboseFindDoor(Actor, actionInput.Parameters[0]);
+        if (exit == null)
+            return string.Empty; // no specific message
+        if (exit.IsClosed)
+            Actor.Send("It's already closed.");
+        What = exit;
+        ExitDirection = exitDirection;
+        return null;
+    }
 
-                // Close the other side
-                IExit otherSideExit = exit.Destination[ExitDirection.ReverseDirection()];
-                if (otherSideExit != null)
-                {
-                    otherSideExit.Close();
-                    Actor.Act(exit.Destination.People, "The {0} closes.", otherSideExit);
-                }
-                else
-                    Log.Default.WriteLine(LogLevels.Warning, $"Non bidirectional exit in room {Actor.Room.Blueprint.Id} direction {ExitDirection}");
+    public override void Execute(IActionInput actionInput)
+    {
+        // Item
+        if (What is IItemCloseable)
+        {
+            What.Close();
+            Actor.Send("Ok.");
+            Actor.Act(ActOptions.ToRoom, "{0:N} closes {1}.", Actor, What);
+        }
+        // Door
+        else if (What is IExit exit)
+        {
+            // Close this side
+            exit.Close();
+            Actor.Send("Ok.");
+            Actor.Act(ActOptions.ToRoom, "{0:N} closes {1}.", Actor, exit);
+
+            // Close the other side
+            var otherSideExit = exit.Destination[ExitDirection.ReverseDirection()];
+            if (otherSideExit != null)
+            {
+                otherSideExit.Close();
+                Actor.Act(exit.Destination.People, "The {0} closes.", otherSideExit);
             }
+            else
+                Log.Default.WriteLine(LogLevels.Warning, $"Non bidirectional exit in room {Actor.Room.Blueprint.Id} direction {ExitDirection}");
         }
     }
 }

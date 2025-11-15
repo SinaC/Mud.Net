@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using Mud.Server.Blueprints.Area;
+﻿using Mud.Server.Blueprints.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 
-namespace Mud.Server.Interfaces.Area
+namespace Mud.Server.Interfaces.Area;
+
+public interface IArea
 {
-    public interface IArea
-    {
-        Guid Id { get; }
+    Guid Id { get; }
 
-        AreaBlueprint Blueprint { get; }
+    AreaBlueprint Blueprint { get; }
 
-        string DisplayName { get; }
-        string Builders { get; }
-        string Credits { get; }
+    string DisplayName { get; }
+    string Builders { get; }
+    string Credits { get; }
 
-        IEnumerable<IRoom> Rooms { get; }
-        IEnumerable<IPlayer> Players { get; }
-        IEnumerable<ICharacter> Characters { get; }
-        IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
+    IEnumerable<IRoom> Rooms { get; }
+    IEnumerable<IPlayer> Players { get; }
+    IEnumerable<ICharacter> Characters { get; }
+    IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
 
-        void ResetArea();
+    void ResetArea();
 
-        bool AddRoom(IRoom room);
-        bool RemoveRoom(IRoom room);
-    }
+    bool AddRoom(IRoom room);
+    bool RemoveRoom(IRoom room);
 }

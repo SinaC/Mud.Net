@@ -1,9 +1,8 @@
-﻿namespace Mud.Server.Interfaces
-{
-    public interface IInputTrap<in TActor>
-    {
-        bool IsFinalStateReached { get; }
+﻿namespace Mud.Server.Interfaces;
 
-        void ProcessInput(TActor actor, string input);
-    }
+public interface IInputTrap<in TActor>
+{
+    bool IsFinalStateReached { get; }
+
+    void ProcessInput(TActor actor, string input);
 }

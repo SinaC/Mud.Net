@@ -1,17 +1,16 @@
 ﻿using Mud.Domain;
 using Mud.Server.Interfaces.Character;
 
-namespace Mud.Server.Interfaces.Ability
+namespace Mud.Server.Interfaces.Ability;
+
+public interface IAbilityLearned : IAbilityUsage
 {
-    public interface IAbilityLearned : IAbilityUsage
-    {
-        int Learned { get; }
+    int Learned { get; }
 
-        void IncrementLearned(int amount);
+    void IncrementLearned(int amount);
 
-        LearnedAbilityData MapLearnedAbilityData();
+    LearnedAbilityData MapLearnedAbilityData();
 
-        bool CanBeGained(IPlayableCharacter playableCharacter);
-        bool CanBePracticed(IPlayableCharacter playableCharacter);
-    }
+    bool CanBeGained(IPlayableCharacter playableCharacter);
+    bool CanBePracticed(IPlayableCharacter playableCharacter);
 }

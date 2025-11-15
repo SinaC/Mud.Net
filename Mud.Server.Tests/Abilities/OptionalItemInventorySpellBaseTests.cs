@@ -16,7 +16,7 @@ namespace Mud.Server.Tests.Abilities
     [TestClass]
     public class OptionalItemInventorySpellBaseTests : TestBase
     {
-        public const string SpellName = "OptionalItemInventorySpellBaseTests_Spell";
+        private const string SpellName = "OptionalItemInventorySpellBaseTests_Spell";
 
         [TestMethod]
         public void Setup_ItemNotFound()

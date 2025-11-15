@@ -1,13 +1,11 @@
 ﻿using Mud.Domain;
-using System.Collections.Generic;
 
-namespace Mud.Repository
+namespace Mud.Repository;
+
+public interface IPlayerRepository
 {
-    public interface IPlayerRepository
-    {
-        PlayerData Load(string playerName);
-        void Save(PlayerData playerData);
-        void Delete(string playerName);
-        IEnumerable<string> GetAvatarNames();
-    }
+    PlayerData? Load(string playerName);
+    void Save(PlayerData playerData);
+    void Delete(string playerName);
+    IEnumerable<string> GetAvatarNames();
 }

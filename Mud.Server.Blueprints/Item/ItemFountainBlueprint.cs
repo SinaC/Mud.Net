@@ -1,11 +1,10 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Mud.Server.Blueprints.Item
+namespace Mud.Server.Blueprints.Item;
+
+[DataContract]
+public class ItemFountainBlueprint : ItemBlueprintBase
 {
-    [DataContract]
-    public class ItemFountainBlueprint : ItemBlueprintBase
-    {
-        [DataMember]
-        public string LiquidType { get; set; } // v2
-    }
+    [DataMember]
+    public string LiquidType { get; set; } = default!; // v2
 }

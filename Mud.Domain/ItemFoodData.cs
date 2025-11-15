@@ -1,9 +1,8 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class ItemFoodData : ItemData
 {
-    public class ItemFoodData : ItemData
-    {
-        public int FullHours { get; set; }
-        public int HungerHours { get; set; }
-        public bool IsPoisoned { get; set; }
-    }
+    public required int FullHours { get; set; }
+    public required int HungerHours { get; set; }
+    public required bool IsPoisoned { get; set; }
 }

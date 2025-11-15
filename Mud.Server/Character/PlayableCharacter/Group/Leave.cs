@@ -1,6 +1,5 @@
 ﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
-using System.Linq;
 
 namespace Mud.Server.Character.PlayableCharacter.Group
 {
@@ -8,9 +7,9 @@ namespace Mud.Server.Character.PlayableCharacter.Group
     [Syntax("[cmd] <member>")]
     public class Leave : PlayableCharacterGameAction
     {
-        public override string Guards(IActionInput actionInput)
+        public override string? Guards(IActionInput actionInput)
         {
-            string baseGuards = base.Guards(actionInput);
+            var baseGuards = base.Guards(actionInput);
             if (baseGuards != null)
                 return baseGuards;
 
@@ -21,7 +20,7 @@ namespace Mud.Server.Character.PlayableCharacter.Group
 
         public override void Execute(IActionInput actionInput)
         {
-            if (Actor.Group.Members.Count() <= 2) // group will contain only one member, disband
+            if (Actor.Group!.Members.Count() <= 2) // group will contain only one member, disband
                 Actor.Group.Disband();
             else
                 Actor.Group.RemoveMember(Actor);

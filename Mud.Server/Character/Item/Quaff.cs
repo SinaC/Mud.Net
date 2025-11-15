@@ -5,56 +5,54 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using System.Linq;
 
-namespace Mud.Server.Character.Item
+namespace Mud.Server.Character.Item;
+
+[CharacterCommand("quaff", "Drink", MinPosition = Positions.Resting)]
+[Syntax("[cmd] <potion>")]
+public class Quaff : CastSpellCharacterGameActionBase
 {
-    [CharacterCommand("quaff", "Drink", MinPosition = Positions.Resting)]
-    [Syntax("[cmd] <potion>")]
-    public class Quaff : CastSpellCharacterGameActionBase
+    private IItemManager ItemManager { get; }
+
+    public Quaff(IAbilityManager abilityManager, IItemManager itemManager)
+        : base(abilityManager)
     {
-        private IItemManager ItemManager { get; }
+        ItemManager = itemManager;
+    }
 
-        public IItemPotion Potion { get; protected set; }
+    protected IItemPotion Potion { get; set; } = default!;
 
-        public Quaff(IAbilityManager abilityManager, IItemManager itemManager)
-            : base(abilityManager)
-        {
-            ItemManager = itemManager;
-        }
+    public override string? Guards(IActionInput actionInput)
+    {
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
-        {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+        if (actionInput.Parameters.Length == 0)
+            return "Quaff what?";
 
-            if (actionInput.Parameters.Length == 0)
-                return "Quaff what?";
+        var item = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
+        if (item == null)
+            return "You do not have that potion.";
 
-            IItem item = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
-            if (item == null)
-                return "You do not have that potion.";
+        if (item is not IItemPotion potion)
+            return "You can quaff only potions.";
+        Potion = potion;
 
-            Potion = item as IItemPotion;
-            if (Potion == null)
-                return "You can quaff only potions.";
+        if (Actor.Level < Potion.Level)
+            return "This liquid is too powerful for you to drink.";
 
-            if (Actor.Level < Potion.Level)
-                return "This liquid is too powerful for you to drink.";
+        return null;
+    }
 
-            return null;
-        }
+    public override void Execute(IActionInput actionInput)
+    {
+        Actor.Act(ActOptions.ToRoom, "{0:N} quaff{0:v} {1}.", Actor, Potion);
 
-        public override void Execute(IActionInput actionInput)
-        {
-            Actor.Act(ActOptions.ToRoom, "{0:N} quaff{0:v} {1}.", Actor, Potion);
-
-            CastSpell(Potion, Potion.FirstSpellName, Potion.SpellLevel);
-            CastSpell(Potion, Potion.SecondSpellName, Potion.SpellLevel);
-            CastSpell(Potion, Potion.ThirdSpellName, Potion.SpellLevel);
-            CastSpell(Potion, Potion.FourthSpellName, Potion.SpellLevel);
-            ItemManager.RemoveItem(Potion);
-        }
+        CastSpell(Potion, Potion.FirstSpellName, Potion.SpellLevel);
+        CastSpell(Potion, Potion.SecondSpellName, Potion.SpellLevel);
+        CastSpell(Potion, Potion.ThirdSpellName, Potion.SpellLevel);
+        CastSpell(Potion, Potion.FourthSpellName, Potion.SpellLevel);
+        ItemManager.RemoveItem(Potion);
     }
 }

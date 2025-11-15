@@ -1,10 +1,9 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Interfaces.GameAction
+namespace Mud.Server.Interfaces.GameAction;
+
+public interface ICharacterGameActionInfo : IGameActionInfo
 {
-    public interface ICharacterGameActionInfo : IGameActionInfo
-    {
-        Positions MinPosition { get; }
-        bool NotInCombat { get; }
-    }
+    Positions MinPosition { get; }
+    bool NotInCombat { get; }
 }

@@ -15,7 +15,7 @@ namespace Mud.Server.Tests.Abilities
     [TestClass]
     public class OffensiveSpellBaseSpells : TestBase
     {
-        public const string SpellName = "OffensiveSpellBaseSpells_Spell";
+        private const string SpellName = "OffensiveSpellBaseSpells_Spell";
 
         [TestMethod]
         public void Setup_NoTarget()

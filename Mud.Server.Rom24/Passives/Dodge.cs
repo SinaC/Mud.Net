@@ -4,35 +4,34 @@ using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Passives
+namespace Mud.Server.Rom24.Passives;
+
+[Passive(PassiveName, LearnDifficultyMultiplier = 6)]
+public class Dodge : HitAvoidancePassiveBase
 {
-    [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
-    public class Dodge : HitAvoidancePassiveBase
+    private const string PassiveName = "Dodge";
+
+    public Dodge(IRandomManager randomManager)
+        : base(randomManager)
     {
-        public const string PassiveName = "Dodge";
+    }
 
-        public Dodge(IRandomManager randomManager)
-            : base(randomManager)
-        {
-        }
+    protected override string AvoiderPhrase => "You dodge {0}'s attack.";
 
-        protected override string AvoiderPhrase => "You dodge {0}'s attack.";
+    protected override string AggressorPhrase => "{0:N} dodges your attack.";
 
-        protected override string AggressorPhrase => "{0:N} dodges your attack.";
+    protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
+    {
+        if (user.Position <= Positions.Sleeping || user.Stunned > 0)
+            return false;
 
-        protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
-        {
-            if (user.Position <= Positions.Sleeping || user.Stunned > 0)
-                return false;
+        int chance = learnPercentage / 2;
+        
+        if (!user.CanSee(victim))
+            chance /= 2;
 
-            int chance = learnPercentage / 2;
-            
-            if (!user.CanSee(victim))
-                chance /= 2;
+        chance += user.Level - victim.Level;
 
-            chance += user.Level - victim.Level;
-
-            return diceRoll < chance;
-        }
+        return diceRoll < chance;
     }
 }

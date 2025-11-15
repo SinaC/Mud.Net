@@ -1,8 +1,7 @@
-﻿namespace Mud.Server.Interfaces.GameAction
+﻿namespace Mud.Server.Interfaces.GameAction;
+
+public interface IPlayerGameActionInfo : IGameActionInfo
 {
-    public interface IPlayerGameActionInfo : IGameActionInfo
-    {
-        bool MustBeImpersonated { get; }
-        bool CannotBeImpersonated { get; }
-    }
+    bool MustBeImpersonated { get; }
+    bool CannotBeImpersonated { get; }
 }

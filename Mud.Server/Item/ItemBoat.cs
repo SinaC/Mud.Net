@@ -1,21 +1,19 @@
-﻿using System;
-using Mud.Domain;
+﻿using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Item
-{
-    public class ItemBoat : ItemBase<ItemBoatBlueprint, ItemData>, IItemBoat
-    {
-        public ItemBoat(Guid guid, ItemBoatBlueprint blueprint, IContainer containedInto)
-            : base(guid, blueprint, containedInto)
-        {
-        }
+namespace Mud.Server.Item;
 
-        public ItemBoat(Guid guid, ItemBoatBlueprint blueprint, ItemData data, IContainer containedInto)
-            : base(guid, blueprint, data, containedInto)
-        {
-        }
+public class ItemBoat : ItemBase<ItemBoatBlueprint, ItemData>, IItemBoat
+{
+    public ItemBoat(Guid guid, ItemBoatBlueprint blueprint, IContainer containedInto)
+        : base(guid, blueprint, containedInto)
+    {
+    }
+
+    public ItemBoat(Guid guid, ItemBoatBlueprint blueprint, ItemData data, IContainer containedInto)
+        : base(guid, blueprint, data, containedInto)
+    {
     }
 }

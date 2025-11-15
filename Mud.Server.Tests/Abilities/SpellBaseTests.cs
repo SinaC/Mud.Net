@@ -17,7 +17,7 @@ namespace Mud.Server.Tests.Abilities
     [TestClass]
     public class SpellBaseTests : TestBase
     {
-        public const string SpellName = "SpellBaseTests_Spell";
+        private const string SpellName = "SpellBaseTests_Spell";
 
         [TestMethod]
         public void Setup_NoAbilityInfo()

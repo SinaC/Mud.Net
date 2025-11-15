@@ -4,22 +4,21 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Effects;
 
-namespace Mud.Server.Rom24.Spells
+namespace Mud.Server.Rom24.Spells;
+
+[Spell(SpellName, AbilityEffects.Healing)]
+public class Heal : DefensiveSpellBase
 {
-    [Spell(SpellName, AbilityEffects.Healing)]
-    public class Heal : DefensiveSpellBase
+    private const string SpellName = "Heal";
+
+    public Heal(IRandomManager randomManager)
+        : base(randomManager)
     {
-        public const string SpellName = "Heal";
+    }
 
-        public Heal(IRandomManager randomManager)
-            : base(randomManager)
-        {
-        }
-
-        protected override void Invoke()
-        {
-            HealEffect effect = new HealEffect();
-            effect.Apply(Victim, Caster, SpellName, Level, 0);
-        }
+    protected override void Invoke()
+    {
+        HealEffect effect = new ();
+        effect.Apply(Victim, Caster, SpellName, Level, 0);
     }
 }

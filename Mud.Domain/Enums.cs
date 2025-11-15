@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Mud.Domain
+﻿namespace Mud.Domain
 {
     public enum Sex
     {

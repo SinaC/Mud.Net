@@ -1,7 +1,6 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class LoginRepositoryData
 {
-    public class LoginRepositoryData
-    {
-        public LoginData[] Logins { get; set; }
-    }
+    public LoginData[] Logins { get; set; }
 }

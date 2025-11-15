@@ -1,13 +1,12 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class ItemPortalData : ItemData
 {
-    public class ItemPortalData : ItemData
-    {
-        public int DestinationRoomId { get; set; }
+    public int DestinationRoomId { get; set; }
 
-        public int PortalFlags { get; set; }
+    public int PortalFlags { get; set; }
 
-        public int MaxChargeCount { get; set; }
+    public int MaxChargeCount { get; set; }
 
-        public int CurrentChargeCount { get; set; }
-    }
+    public int CurrentChargeCount { get; set; }
 }

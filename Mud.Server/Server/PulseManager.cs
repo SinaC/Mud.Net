@@ -1,57 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Mud.Logger;
 using System.Diagnostics;
-using Mud.Logger;
 
-namespace Mud.Server.Server
+namespace Mud.Server.Server;
+
+public class PulseManager
 {
-    public class PulseManager
+    private class PulseEntry
     {
-        private class PulseEntry
-        {
-            public int PulseCurrentValue { get; set; }
-            public int PulseResetValue { get; set; }
-            public Action<int> PulseAction { get; set; }
-        }
+        public required int PulseCurrentValue { get; set; }
+        public required int PulseResetValue { get; set; }
+        public required Action<int> PulseAction { get; set; }
+    }
 
-        private readonly List<PulseEntry> _entries;
+    private readonly List<PulseEntry> _entries;
 
-        public PulseManager()
-        {
-            _entries = new List<PulseEntry>();
-        }
+    public PulseManager()
+    {
+        _entries = [];
+    }
 
-        public void Add(int initialValue, int resetValue, Action<int> method)
+    public void Add(int initialValue, int resetValue, Action<int> method)
+    {
+        _entries.Add(new PulseEntry
         {
-            _entries.Add(new PulseEntry
+            PulseCurrentValue = initialValue,
+            PulseResetValue = resetValue,
+            PulseAction = method
+        });
+    }
+
+    public void Pulse()
+    {
+        Stopwatch sw = new ();
+        foreach (var entry in _entries)
+        {
+            if (entry.PulseCurrentValue > 0)
+                entry.PulseCurrentValue--;
+            else
             {
-                PulseCurrentValue = initialValue,
-                PulseResetValue = resetValue,
-                PulseAction = method
-            });
-        }
-
-        public void Pulse()
-        {
-            Stopwatch sw = new Stopwatch();
-            foreach (PulseEntry entry in _entries)
-            {
-                if (entry.PulseCurrentValue > 0)
-                    entry.PulseCurrentValue--;
-                else
-                {
-                    entry.PulseCurrentValue = entry.PulseResetValue;
-                    sw.Restart();
-                    entry.PulseAction(entry.PulseResetValue);
-                    sw.Stop();
-                    Log.Default.WriteLine(LogLevels.Trace, $"PULSE: {entry.PulseAction.Method.Name} in {sw.ElapsedMilliseconds} ms");
-                }
+                entry.PulseCurrentValue = entry.PulseResetValue;
+                sw.Restart();
+                entry.PulseAction(entry.PulseResetValue);
+                sw.Stop();
+                Log.Default.WriteLine(LogLevels.Trace, $"PULSE: {entry.PulseAction.Method.Name} in {sw.ElapsedMilliseconds} ms");
             }
         }
+    }
 
-        public void Clear()
-        {
-            _entries.Clear();
-        }
+    public void Clear()
+    {
+        _entries.Clear();
     }
 }

@@ -1,4 +1,32 @@
-NEXT
+finish ROM24 classes
+when a player connects, if no avatar found -> switch to avatar create state machine
+move IClass/IRace to IPlayableCharacter as non-nullable
+move IClass/IRace to INonPlayableCharacter as nullable
+stop trying to be compatible with ROM24/Merc/Diku assume being Mystery mud :)
+compatibility must only be in blueprint loading
+use DI everywhere or nowhere
+check CanSee usage, if lambda can be removed
+choose between flags as bits or strings (example RoomFlags and CharacterFlags)
+check usage of OnCleaned/OnRemoved
+stop cloning list and stop removing while iterating -> flag the entity as soft deleted and remove them in Cleanup phase
+
+MIGRATION .NET 8
+check all warnings and fix them
+check all obsolete and fix them
+check all nuget package updates and update them
+check nullable reference types
+check all properties for nullability (such as Room, ContainedInto, Race, Class, ...)
+remove yield extension where not needed
+
+refactor settings
+
+UNIT TESTS
+use xunit + moq
+
+third attack, fourth attack, ... find a way to scan all IGameAction and find those attacks and use them in MultiHit
+additional abitlies such as tail/crush/bite must be added to some race -> add abilities to Race
+Item.GetAura should be based on flags and not ability (check Curse spell)
+in general way, Aura should be based on flags instead of abilities (with an optional ability)
 
 unit test for each command!!!
 make IGameAction generic on TActor: IActor, same goes for IActionInput
@@ -81,6 +109,7 @@ prompt modifiable by user
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 move blueprints to Mud.Domain + refactor Mud.Domain
 IWorld: should create IReadonlyWorld which only contains getter
+gods
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 

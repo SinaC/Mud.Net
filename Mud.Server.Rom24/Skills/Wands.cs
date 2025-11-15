@@ -8,69 +8,67 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Skills
+namespace Mud.Server.Rom24.Skills;
+
+[CharacterCommand("zap", "Ability", "Skill")]
+[Syntax("[cmd] <wand> [<target>]")]
+[Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
+public class Wands : ItemCastSpellSkillBase<IItemWand>
 {
-    [CharacterCommand("zap", "Ability", "Skill")]
-    [Syntax("[cmd] <wand> [<target>]")]
-    [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
-    public class Wands : ItemCastSpellSkillBase<IItemWand>
+    private const string SkillName = "Wands";
+
+    public Wands(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
+        : base(randomManager, abilityManager, itemManager)
     {
-        public const string SkillName = "Wands";
+    }
 
-        protected IEntity Target { get; private set; }
+    protected IEntity Target { get; set; } = default!;
 
-        public Wands(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
-            : base(randomManager, abilityManager, itemManager)
+    protected override string? SetTargets(ISkillActionInput skillActionInput)
+    {
+        Item = User.GetEquipment<IItemWand>(EquipmentSlots.OffHand)!;
+        if (Item == null)
+            return "You can zap only with a wand.";
+        if (Item.CurrentChargeCount == 0)
         {
+            User.Act(ActOptions.ToAll, "{0:P} {1} explodes into fragments.", User, Item);
+            ItemManager.RemoveItem(Item);
+            return string.Empty; // stop but don't display anything
+        }
+        var setupResult = SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, out var target, skillActionInput.Parameters);
+        if (setupResult != null)
+            return setupResult;
+        Target = target;
+        return null;
+    }
+
+    protected override bool Invoke()
+    {
+        bool success;
+        if (Target != null)
+            User.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", User, Target, Item);
+        else
+            User.Act(ActOptions.ToAll, "{0:N} use{0:v} {1}.", User, Item);
+        int chance = 20 + (4 * Learned) / 5;
+        if (User.Level < Item.Level
+            || !RandomManager.Chance(chance))
+        {
+            User.Act(ActOptions.ToAll, "{0:P} efforts with {1} produce only smoke and sparks.", User, Item);
+            success = false;
+        }
+        else
+        {
+            CastSpells();
+            success = true;
+        }
+        Item.Use();
+
+        if (Item.CurrentChargeCount <= 0)
+        {
+            User.Act(ActOptions.ToAll, "{0:P} {1} explodes into fragments.", User, Item);
+            ItemManager.RemoveItem(Item);
         }
 
-        protected override bool Invoke()
-        {
-            bool success;
-            if (Target != null)
-                User.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", User, Target, Item);
-            else
-                User.Act(ActOptions.ToAll, "{0:N} use{0:v} {1}.", User, Item);
-            int chance = 20 + (4 * Learned) / 5;
-            if (User.Level < Item.Level
-                || !RandomManager.Chance(chance))
-            {
-                User.Act(ActOptions.ToAll, "{0:P} efforts with {1} produce only smoke and sparks.", User, Item);
-                success = false;
-            }
-            else
-            {
-                CastSpells();
-                success = true;
-            }
-            Item.Use();
-
-            if (Item.CurrentChargeCount <= 0)
-            {
-                User.Act(ActOptions.ToAll, "{0:P} {1} explodes into fragments.", User, Item);
-                ItemManager.RemoveItem(Item);
-            }
-
-            return success;
-        }
-
-        protected override string SetTargets(ISkillActionInput skillActionInput)
-        {
-            Item = User.GetEquipment<IItemWand>(EquipmentSlots.OffHand);
-            if (Item == null)
-                return "You can zap only with a wand.";
-            if (Item.CurrentChargeCount == 0)
-            {
-                User.Act(ActOptions.ToAll, "{0:P} {1} explodes into fragments.", User, Item);
-                ItemManager.RemoveItem(Item);
-                return string.Empty; // stop but don't display anything
-            }
-            IEntity target;
-            string setupResult = SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, out target, skillActionInput.Parameters);
-            if (setupResult != null)
-                return setupResult;
-            Target = target;
-            return null;
-        }
+        return success;
     }
 }

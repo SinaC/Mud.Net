@@ -1,6 +1,5 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class PoisonDamageAffectData : AffectDataBase
 {
-    public class PoisonDamageAffectData : AffectDataBase
-    {
-    }
 }

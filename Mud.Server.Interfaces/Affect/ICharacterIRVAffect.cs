@@ -1,10 +1,9 @@
 ﻿using Mud.Domain;
 using Mud.Server.Flags.Interfaces;
 
-namespace Mud.Server.Interfaces.Affect
+namespace Mud.Server.Interfaces.Affect;
+
+public interface ICharacterIRVAffect : IFlagsAffect<IIRVFlags, IIRVFlagValues>, ICharacterAffect
 {
-    public interface ICharacterIRVAffect : IFlagsAffect<IIRVFlags, IIRVFlagValues>, ICharacterAffect
-    {
-        IRVAffectLocations Location { get; set; }
-    }
+    IRVAffectLocations Location { get; set; }
 }

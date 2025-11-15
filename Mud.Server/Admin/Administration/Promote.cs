@@ -7,56 +7,53 @@ using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
-using System.Linq;
 
-namespace Mud.Server.Admin.Administration
+namespace Mud.Server.Admin.Administration;
+
+[AdminCommand("promote", "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
+[Syntax("[cmd] <player name> <level>")]
+public class Promote : AdminGameAction
 {
-    [AdminCommand("promote", "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
-    [Syntax("[cmd] <player name> <level>")]
-    public class Promote : AdminGameAction
+    private IPlayerManager PlayerManager { get; }
+    private IServerAdminCommand ServerAdminCommand { get; }
+
+    public Promote(IPlayerManager playerManager, IServerAdminCommand serverAdminCommand)
     {
-        private IPlayerManager PlayerManager { get; }
-        private IServerAdminCommand ServerAdminCommand { get; }
+        PlayerManager = playerManager;
+        ServerAdminCommand = serverAdminCommand;
+    }
 
-        public AdminLevels Level { get; protected set; }
-        public IPlayer Whom { get; protected set; }
+    protected AdminLevels Level { get; set; }
+    protected IPlayer Whom { get; set; } = default!;
 
-        public Promote(IPlayerManager playerManager, IServerAdminCommand serverAdminCommand)
-        {
-            PlayerManager = playerManager;
-            ServerAdminCommand = serverAdminCommand;
-        }
+    public override string? Guards(IActionInput actionInput)
+    {
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
-        {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+        if (actionInput.Parameters.Length < 2)
+            return BuildCommandSyntax();
 
-            if (actionInput.Parameters.Length < 2)
-                return BuildCommandSyntax();
+        // whom
+        Whom = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0], true)!;
+        if (Whom == null)
+            return StringHelpers.CharacterNotFound;
+        if (Whom == Actor)
+            return "You cannot promote yourself.";
+        if (Whom is IAdmin)
+            return $"{Whom.DisplayName} is already Admin";
 
-            // whom
-            Whom = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0], true);
-            if (Whom == null)
-                return StringHelpers.CharacterNotFound;
-            if (Whom == Actor)
-                return "You cannot promote yourself.";
-            if (Whom is IAdmin)
-                return $"{Whom.DisplayName} is already Admin";
+        // what
+        if (!EnumHelpers.TryFindByName(actionInput.Parameters[1].Value, out AdminLevels level))
+            return $"{actionInput.Parameters[1].Value} is not a valid admin levels. Values are : {string.Join(", ", EnumHelpers.GetValues<AdminLevels>().Select(x => x.ToString()))}";
+        Level = level;
 
-            // what
-            AdminLevels level;
-            if (!EnumHelpers.TryFindByName(actionInput.Parameters[1].Value, out level))
-                return $"{actionInput.Parameters[1].Value} is not a valid admin levels. Values are : {string.Join(", ", EnumHelpers.GetValues<AdminLevels>().Select(x => x.ToString()))}";
-            Level = level;
+        return null;
+    }
 
-            return null;
-        }
-
-        public override void Execute(IActionInput actionInput)
-        {
-            ServerAdminCommand.Promote(Whom, Level);
-        }
+    public override void Execute(IActionInput actionInput)
+    {
+        ServerAdminCommand.Promote(Whom, Level);
     }
 }

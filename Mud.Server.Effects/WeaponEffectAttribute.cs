@@ -1,15 +1,12 @@
-﻿using System;
+﻿namespace Mud.Server.Effects;
 
-namespace Mud.Server.Effects
+[AttributeUsage(AttributeTargets.Class)]
+public class WeaponEffectAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class WeaponEffectAttribute : Attribute
-    {
-        public string WeaponFlagName { get; }
+    public string WeaponFlagName { get; }
 
-        public WeaponEffectAttribute(string weaponFlagName)
-        {
-            WeaponFlagName = weaponFlagName;
-        }
+    public WeaponEffectAttribute(string weaponFlagName)
+    {
+        WeaponFlagName = weaponFlagName;
     }
 }

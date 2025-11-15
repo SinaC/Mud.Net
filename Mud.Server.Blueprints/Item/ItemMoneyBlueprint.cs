@@ -1,8 +1,7 @@
-﻿namespace Mud.Server.Blueprints.Item
+﻿namespace Mud.Server.Blueprints.Item;
+
+public class ItemMoneyBlueprint : ItemBlueprintBase
 {
-    public class ItemMoneyBlueprint : ItemBlueprintBase
-    {
-        public long SilverCoins { get; set; }
-        public long GoldCoins { get; set; }
-    }
+    public long SilverCoins { get; set; }
+    public long GoldCoins { get; set; }
 }

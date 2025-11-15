@@ -1,39 +1,32 @@
-﻿using System;
-using AutoMapper;
-using System.IO;
-using System.Xml.Serialization;
+﻿using AutoMapper;
 using Mud.Settings.Interfaces;
+using System.Xml.Serialization;
 
-namespace Mud.Repository.Filesystem.Common
+namespace Mud.Repository.Filesystem.Common;
+
+public abstract class RepositoryBase
 {
-    public abstract class RepositoryBase
+    protected IMapper Mapper { get; }
+    protected ISettings Settings { get; }
+
+    protected RepositoryBase(IMapper mapper, ISettings settings)
     {
-        protected IMapper Mapper { get; }
-        protected ISettings Settings { get; }
+        Mapper = mapper;
+        Settings = settings;
+    }
 
-        protected RepositoryBase(IMapper mapper, ISettings settings)
-        {
-            Mapper = mapper;
-            Settings = settings;
-        }
+    protected T Load<T>(string filename)
+    {
+        XmlSerializer deserializer = new (typeof(T));
+        using FileStream file = File.OpenRead(filename);
+        return (T)deserializer.Deserialize(file)!;
+    }
 
-        protected T Load<T>(string filename)
-        {
-            XmlSerializer deserializer = new XmlSerializer(typeof(T));
-            using (FileStream file = File.OpenRead(filename))
-            {
-                return (T)deserializer.Deserialize(file);
-            }
-        }
-
-        protected void Save<T>(T data, string filename)
-        {
-            XmlSerializer serializer = new XmlSerializer(typeof(T));
-            Directory.CreateDirectory(Path.GetDirectoryName(filename) ?? throw new InvalidOperationException());
-            using (FileStream file = File.Create(filename))
-            {
-                serializer.Serialize(file, data);
-            }
-        }
+    protected void Save<T>(T data, string filename)
+    {
+        XmlSerializer serializer = new (typeof(T));
+        Directory.CreateDirectory(Path.GetDirectoryName(filename) ?? throw new InvalidOperationException());
+        using FileStream file = File.Create(filename);
+        serializer.Serialize(file, data);
     }
 }

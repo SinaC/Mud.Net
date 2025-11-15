@@ -1,18 +1,17 @@
-﻿using System.Text;
-using Mud.Domain;
+﻿using Mud.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
+using System.Text;
 
-namespace Mud.Server.Character.Information
+namespace Mud.Server.Character.Information;
+
+[CharacterCommand("exits", "Information", MinPosition = Positions.Resting)]
+public class Exits : CharacterGameAction
 {
-    [CharacterCommand("exits", "Information", MinPosition = Positions.Resting)]
-    public class Exits : CharacterGameAction
+    public override void Execute(IActionInput actionInput)
     {
-        public override void Execute(IActionInput actionInput)
-        {
-            StringBuilder sb = new StringBuilder();
-            Actor.Room.AppendExits(sb, Actor, false);
-            Actor.Send(sb);
-        }
+        StringBuilder sb = new();
+        Actor.Room.AppendExits(sb, Actor, false);
+        Actor.Send(sb);
     }
 }

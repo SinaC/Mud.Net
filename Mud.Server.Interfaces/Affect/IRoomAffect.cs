@@ -1,10 +1,9 @@
 ﻿using Mud.Server.Interfaces.Room;
 
-namespace Mud.Server.Interfaces.Affect
+namespace Mud.Server.Interfaces.Affect;
+
+public interface IRoomAffect : IAffect
 {
-    public interface IRoomAffect : IAffect
-    {
-        // RoomFlags
-        void Apply(IRoom room);
-    }
+    // RoomFlags
+    void Apply(IRoom room);
 }

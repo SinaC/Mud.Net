@@ -1,12 +1,10 @@
 ﻿using Mud.Domain;
-using System.Collections.Generic;
 
-namespace Mud.Repository
+namespace Mud.Repository;
+
+public interface IAdminRepository
 {
-    public interface IAdminRepository
-    {
-        AdminData Load(string adminName);
-        void Save(AdminData adminData);
-        IEnumerable<string> GetAvatarNames();
-    }
+    AdminData? Load(string adminName);
+    void Save(AdminData adminData);
+    IEnumerable<string> GetAvatarNames();
 }

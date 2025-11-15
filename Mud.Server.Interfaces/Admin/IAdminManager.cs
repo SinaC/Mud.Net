@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using Mud.Server.Interfaces.GameAction;
+﻿using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Interfaces.Admin
+namespace Mud.Server.Interfaces.Admin;
+
+public interface IAdminManager
 {
-    public interface IAdminManager
-    {
-        IAdmin GetAdmin(ICommandParameter parameter, bool perfectMatch);
-        IEnumerable<IAdmin> Admins { get; }
-    }
+    IAdmin? GetAdmin(ICommandParameter parameter, bool perfectMatch);
+    IEnumerable<IAdmin> Admins { get; }
 }

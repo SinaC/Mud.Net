@@ -1,6 +1,5 @@
-﻿namespace Mud.Server.Interfaces
+﻿namespace Mud.Server.Interfaces;
+
+public interface IRegistrable
 {
-    public interface IRegistrable
-    {
-    }
 }

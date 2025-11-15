@@ -1,38 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Mud.Domain;
 
-namespace Mud.Domain
+public class PlayableCharacterData : CharacterData
 {
-    public class PlayableCharacterData : CharacterData
-    {
-        public DateTime CreationTime { get; set; }
+    public required DateTime CreationTime { get; set; }
 
-        public int RoomId { get; set; }
+    public required int RoomId { get; set; }
 
-        public long SilverCoins { get; set; }
+    public required long SilverCoins { get; set; }
 
-        public long GoldCoins { get; set; }
+    public required long GoldCoins { get; set; }
 
-        public long Experience { get; set; }
+    public required long Experience { get; set; }
 
-        public int Alignment { get; set; }
+    public required int Alignment { get; set; }
 
-        public int Trains { get; set; }
+    public required int Trains { get; set; }
 
-        public int Practices { get; set; }
+    public required int Practices { get; set; }
 
-        public AutoFlags AutoFlags { get; set; }
+    public required AutoFlags AutoFlags { get; set; }
 
-        public CurrentQuestData[] CurrentQuests { get; set; }
+    public required CurrentQuestData[] CurrentQuests { get; set; }
 
-        public LearnedAbilityData[] LearnedAbilities { get; set; }
+    public required LearnedAbilityData[] LearnedAbilities { get; set; }
 
-        public Dictionary<Conditions, int> Conditions { get; set; }
+    public required Dictionary<Conditions, int> Conditions { get; set; }
 
-        public Dictionary<string, string> Aliases { get; set; }
+    public required Dictionary<string, string> Aliases { get; set; }
 
-        public Dictionary<string, int> Cooldowns { get; set; }
+    public required Dictionary<string, int> Cooldowns { get; set; }
 
-        public PetData[] Pets { get; set; }
-    }
+    public required PetData[] Pets { get; set; }
 }

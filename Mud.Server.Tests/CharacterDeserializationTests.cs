@@ -51,7 +51,17 @@ namespace Mud.Server.Tests
                 Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
                 Auras = AutoFaker.Generate<AuraData[]>(),
                 LearnedAbilities = AutoFaker.Generate<LearnedAbilityData[]>(), // AbilityManagerMock will generate Ability at runtime // TODO: find a way to automatically (int)AutoFaker.Generate<ushort>() on int fields
-                Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>())
+                Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
+                Equipments = [],
+                Inventory = [],
+                CurrentQuests = [],
+                Cooldowns = [],
+                Aliases = [],
+                Pets = [],
+                Alignment = AutoFaker.Generate<int>(),
+                AutoFlags = AutoFlags.Assist,
+                GoldCoins = AutoFaker.Generate<int>(),
+                SilverCoins = AutoFaker.Generate<int>(),
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
@@ -133,12 +143,23 @@ namespace Mud.Server.Tests
                     new ItemLightData
                     {
                         ItemId = lightBlueprint.Id,
-                        DecayPulseLeft = 20
+                        DecayPulseLeft = 20,
+                        Level = 1,
+                        ItemFlags = new ItemFlags(),
+                        Auras = [],
+                        TimeLeft = 10,
                     },
                     new ItemPortalData
                     {
                         ItemId = portalBlueprint.Id,
-                        DecayPulseLeft = 30
+                        DecayPulseLeft = 30,
+                        Auras = [],
+                        CurrentChargeCount = 5,
+                        ItemFlags = new ItemFlags(),
+                        Level = 1,
+                        DestinationRoomId = 1,
+                        MaxChargeCount = 10,
+                        PortalFlags = new PortalFlags(),
                     },
                     new ItemContainerData
                     {
@@ -149,16 +170,52 @@ namespace Mud.Server.Tests
                             new ItemData
                             {
                                 ItemId = jewelryBlueprint.Id,
-                                DecayPulseLeft = 50
+                                DecayPulseLeft = 50,
+                                Auras = [],
+                                ItemFlags = new ItemFlags(),
+                                Level = 1
                             },
                             new ItemData
                             {
                                 ItemId = armorBlueprint.Id,
-                                DecayPulseLeft = 60
+                                DecayPulseLeft = 60,
+                                Auras = [],
+                                ItemFlags = new ItemFlags(),
+                                Level = 1
                             }
-                        }
+                        },
+                        Auras = [],
+                        ItemFlags = new ItemFlags(),
+                        Level = 1,
+                        ContainerFlags = new ContainerFlags(),
+                        MaxWeight = 100,
+                        MaxWeightPerItem = 50,
                     },
-                }
+                },
+                Attributes = [],
+                Auras = [],
+                CharacterFlags = new CharacterFlags(),
+                CurrentResources = [],
+                MaxResources = [],
+                HitPoints = 0,
+                MovePoints = 0,
+                Conditions = [],
+                Immunities = new IRVFlags(),
+                Vulnerabilities = new IRVFlags(),
+                Resistances = new IRVFlags(),
+                LearnedAbilities = [],
+                Size = Sizes.Medium,
+                Trains = 0,
+                Practices = 0,
+                Equipments = [],
+                CurrentQuests = [],
+                Cooldowns = [],
+                Aliases = [],
+                Pets = [],
+                Alignment = AutoFaker.Generate<int>(),
+                AutoFlags = AutoFlags.Assist,
+                GoldCoins = AutoFaker.Generate<int>(),
+                SilverCoins = AutoFaker.Generate<int>(),
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
@@ -182,8 +239,8 @@ namespace Mud.Server.Tests
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.IsNotNull((container as IItemContainer).Content);
             Assert.HasCount(2, (container as IItemContainer).Content);
-            Assert.ContainsSingle((container as IItemContainer).Content);
-            Assert.ContainsSingle((container as IItemContainer).Content);
+            Assert.ContainsSingle((container as IItemContainer).Content.Where(x => x.Blueprint.Id == jewelryBlueprint.Id));
+            Assert.ContainsSingle((container as IItemContainer).Content.Where(x => x.Blueprint.Id == armorBlueprint.Id));
         }
 
         [TestMethod]
@@ -224,6 +281,9 @@ namespace Mud.Server.Tests
                             ItemId = lightBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
                             ItemFlags = new ItemFlags("Bless"),
+                            Auras = [],
+                            Level = 1,
+                            TimeLeft = 100,
                         },
                     },
                     new EquippedItemData
@@ -241,8 +301,19 @@ namespace Mud.Server.Tests
                                     ItemId = portalBlueprint.Id,
                                     DecayPulseLeft = AutoFaker.Generate<int>(),
                                     ItemFlags = new ItemFlags("Bless"),
+                                    Auras = [],
+                                    Level = 1,
+                                    CurrentChargeCount = 5,
+                                    DestinationRoomId = 1,
+                                    MaxChargeCount = 10,
+                                    PortalFlags = PortalFlags.None
                                 }
-                            }
+                            },
+                            Auras = [],
+                            Level = 1,
+                            ContainerFlags = new ContainerFlags(),
+                            MaxWeight = 100,
+                            MaxWeightPerItem = 50
                         },
                     },
                     new EquippedItemData
@@ -253,6 +324,8 @@ namespace Mud.Server.Tests
                             ItemId = jewelryBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
                             ItemFlags = new ItemFlags("Bless"),
+                            Auras = [],
+                            Level = 1
                         },
                     },
                     new EquippedItemData
@@ -263,9 +336,35 @@ namespace Mud.Server.Tests
                             ItemId = armorBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
                             ItemFlags = new ItemFlags("Bless"),
+                            Auras = [],
+                            Level = 1
                         },
                     },
                 },
+                Attributes = [],
+                Auras = [],
+                CharacterFlags = new CharacterFlags(),
+                CurrentResources = [],
+                MaxResources = [],
+                HitPoints = 0,
+                MovePoints = 0,
+                Conditions = [],
+                Immunities = new IRVFlags(),
+                Vulnerabilities = new IRVFlags(),
+                Resistances = new IRVFlags(),
+                LearnedAbilities = [],
+                Size = Sizes.Medium,
+                Trains = 0,
+                Practices = 0,
+                Inventory = [],
+                CurrentQuests = [],
+                Cooldowns = [],
+                Aliases = [],
+                Pets = [],
+                Alignment = AutoFaker.Generate<int>(),
+                AutoFlags = AutoFlags.Assist,
+                GoldCoins = AutoFaker.Generate<int>(),
+                SilverCoins = AutoFaker.Generate<int>(),
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
@@ -387,7 +486,31 @@ namespace Mud.Server.Tests
                             }
                         }
                     }, 
-                }
+                },
+                Attributes = [],
+                Auras = [],
+                CharacterFlags = new CharacterFlags(),
+                CurrentResources = [],
+                MaxResources = [],
+                HitPoints = 0,
+                MovePoints = 0,
+                Conditions = [],
+                Immunities = new IRVFlags(),
+                Vulnerabilities = new IRVFlags(),
+                Resistances = new IRVFlags(),
+                LearnedAbilities = [],
+                Size = Sizes.Medium,
+                Trains = 0,
+                Practices = 0,
+                Inventory = [],
+                Equipments = [],
+                Cooldowns = [],
+                Aliases = [],
+                Pets = [],
+                Alignment = AutoFaker.Generate<int>(),
+                AutoFlags = AutoFlags.Assist,
+                GoldCoins = AutoFaker.Generate<int>(),
+                SilverCoins = AutoFaker.Generate<int>(),
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, room);

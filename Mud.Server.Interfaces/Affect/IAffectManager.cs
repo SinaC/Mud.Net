@@ -1,10 +1,9 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Interfaces.Affect
+namespace Mud.Server.Interfaces.Affect;
+
+public interface IAffectManager
 {
-    public interface IAffectManager
-    {
-        IAffect CreateInstance(string name);
-        IAffect CreateInstance(AffectDataBase data);
-    }
+    IAffect? CreateInstance(string name);
+    IAffect? CreateInstance(AffectDataBase data);
 }

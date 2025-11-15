@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <AdminData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>sinac</Name>
   <PagingLineCount>0</PagingLineCount>
@@ -5321,6 +5321,129 @@
         <PairDataOfInt32Int32>
           <Key>3</Key>
           <Value>46</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
+    </PlayableCharacterData>
+    <PlayableCharacterData>
+      <Name>toto</Name>
+      <Race>insectoid</Race>
+      <Class>druid</Class>
+      <Level>1</Level>
+      <Sex>0</Sex>
+      <Size>2</Size>
+      <HitPoints>100</HitPoints>
+      <MovePoints>100</MovePoints>
+      <CurrentResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </CurrentResources>
+      <MaxResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </MaxResources>
+      <Equipments />
+      <Inventory />
+      <Auras />
+      <CharacterFlags>Haste</CharacterFlags>
+      <Immunities />
+      <Resistances>Acid,Bash,Disease,Poison,Slash</Resistances>
+      <Vulnerabilities>Cold,Fire,Pierce</Vulnerabilities>
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>16</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>18</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
+      <CreationTime>2025-11-15T10:58:54.1116913+01:00</CreationTime>
+      <RoomId>3001</RoomId>
+      <SilverCoins>0</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>0</Experience>
+      <Alignment>0</Alignment>
+      <Trains>3</Trains>
+      <Practices>5</Practices>
+      <AutoFlags>0</AutoFlags>
+      <CurrentQuests />
+      <LearnedAbilities />
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>48</Value>
         </PairDataOfInt32Int32>
       </Conditions>
       <Aliases />

@@ -1,10 +1,9 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class ItemPortalData : ItemData
 {
-    public class ItemPortalData : ItemData
-    {
-        public int DestinationRoomId { get; set; }
-        public PortalFlags PortalFlags { get; set; }
-        public int MaxChargeCount { get; set; }
-        public int CurrentChargeCount { get; set; }
-    }
+    public required int DestinationRoomId { get; set; }
+    public required PortalFlags PortalFlags { get; set; }
+    public required int MaxChargeCount { get; set; }
+    public required int CurrentChargeCount { get; set; }
 }

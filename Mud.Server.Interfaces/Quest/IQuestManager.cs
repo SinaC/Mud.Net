@@ -1,14 +1,12 @@
 ﻿using Mud.Server.Blueprints.Quest;
-using System.Collections.Generic;
 
-namespace Mud.Server.Interfaces.Quest
+namespace Mud.Server.Interfaces.Quest;
+
+public interface IQuestManager
 {
-    public interface IQuestManager
-    {
-        IReadOnlyCollection<QuestBlueprint> QuestBlueprints { get; }
+    IReadOnlyCollection<QuestBlueprint> QuestBlueprints { get; }
 
-        QuestBlueprint GetQuestBlueprint(int id);
+    QuestBlueprint? GetQuestBlueprint(int id);
 
-        void AddQuestBlueprint(QuestBlueprint blueprint);
-    }
+    void AddQuestBlueprint(QuestBlueprint blueprint);
 }

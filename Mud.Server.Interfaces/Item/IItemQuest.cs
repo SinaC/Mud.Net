@@ -1,7 +1,6 @@
-﻿namespace Mud.Server.Interfaces.Item
+﻿namespace Mud.Server.Interfaces.Item;
+
+public interface IItemQuest : IItem
 {
-    public interface IItemQuest : IItem
-    {
-        // No additional datas
-    }
+    // No additional datas
 }

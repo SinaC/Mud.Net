@@ -2,16 +2,15 @@
 using Mud.Server.Ability.Passive;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Passives
-{
-    [Passive(PassiveName, LearnDifficultyMultiplier = 5)]
-    public class Spear : PassiveBase
-    {
-        public const string PassiveName = "Spear";
+namespace Mud.Server.Rom24.Passives;
 
-        public Spear(IRandomManager randomManager)
-            : base(randomManager)
-        {
-        }
+[Passive(PassiveName, LearnDifficultyMultiplier = 5)]
+public class Spear : PassiveBase
+{
+    private const string PassiveName = "Spear";
+
+    public Spear(IRandomManager randomManager)
+        : base(randomManager)
+    {
     }
 }

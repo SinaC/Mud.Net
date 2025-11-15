@@ -1,6 +1,5 @@
-﻿namespace Mud.Server.Interfaces.GameAction
+﻿namespace Mud.Server.Interfaces.GameAction;
+
+public interface IPlayableCharacterGameActionInfo : ICharacterGameActionInfo
 {
-    public interface IPlayableCharacterGameActionInfo : ICharacterGameActionInfo
-    {
-    }
 }

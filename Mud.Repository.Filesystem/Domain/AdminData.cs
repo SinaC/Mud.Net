@@ -1,11 +1,10 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class AdminData : PlayerData
 {
-    public class AdminData : PlayerData
-    {
-        public int AdminLevel { get; set; }
+    public int AdminLevel { get; set; }
 
-        public int WiznetFlags { get; set; }
+    public int WiznetFlags { get; set; }
 
-        // TODO: extra fields
-    }
+    // TODO: extra fields
 }

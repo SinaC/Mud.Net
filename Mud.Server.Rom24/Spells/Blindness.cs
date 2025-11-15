@@ -5,27 +5,26 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Effects;
 
-namespace Mud.Server.Rom24.Spells
+namespace Mud.Server.Rom24.Spells;
+
+[Spell(SpellName, AbilityEffects.Debuff)]
+[AbilityCharacterWearOffMessage("You can see again.")]
+[AbilityDispellable("{0:N} is no longer blinded.")]
+public class Blindness : OffensiveSpellBase
 {
-    [Spell(SpellName, AbilityEffects.Debuff)]
-    [AbilityCharacterWearOffMessage("You can see again.")]
-    [AbilityDispellable("{0:N} is no longer blinded.")]
-    public class Blindness : OffensiveSpellBase
+    private const string SpellName = "Blindness";
+
+    private IAuraManager AuraManager { get; }
+
+    public Blindness(IRandomManager randomManager, IAuraManager auraManager)
+        : base(randomManager)
     {
-        public const string SpellName = "Blindness";
+        AuraManager = auraManager;
+    }
 
-        private IAuraManager AuraManager { get; }
-
-        public Blindness(IRandomManager randomManager, IAuraManager auraManager)
-            : base(randomManager)
-        {
-            AuraManager = auraManager;
-        }
-
-        protected override void Invoke()
-        {
-            BlindnessEffect effect = new BlindnessEffect(AuraManager);
-            effect.Apply(Victim, Caster, SpellName, Level, 0);
-        }
+    protected override void Invoke()
+    {
+        BlindnessEffect effect = new (AuraManager);
+        effect.Apply(Victim, Caster, SpellName, Level, 0);
     }
 }

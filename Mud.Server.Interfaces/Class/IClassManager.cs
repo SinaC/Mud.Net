@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Mud.Server.Interfaces.Class
-{
-    public interface IClassManager
-    {
-        IEnumerable<IClass> Classes { get; }
+namespace Mud.Server.Interfaces.Class;
 
-        IClass this[string name] { get; }
-    }
+public interface IClassManager
+{
+    IEnumerable<IClass> Classes { get; }
+
+    IClass? this[string name] { get; }
 }

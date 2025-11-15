@@ -1,7 +1,6 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class ItemLightData : ItemData
 {
-    public class ItemLightData : ItemData
-    {
-        public int TimeLeft { get; set; }
-    }
+    public required int TimeLeft { get; set; }
 }

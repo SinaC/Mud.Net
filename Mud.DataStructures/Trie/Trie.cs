@@ -1,544 +1,509 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
 
-namespace Mud.DataStructures.Trie
+namespace Mud.DataStructures.Trie;
+
+//https://github.com/kpol/trie
+// IReadOnlyTrie was not in original code
+
+/// <summary>
+/// Implementation of trie data structure.
+/// </summary>
+/// <typeparam name="TValue">The type of values in the trie.</typeparam>
+public sealed class Trie<TValue> : IDictionary<string, TValue>, IReadOnlyTrie<TValue>//, IReadOnlyDictionary<string, TValue>
 {
-    //https://github.com/kpol/trie
-    // IReadOnlyTrie was not in original code
+    private readonly TrieNode _root;
 
     /// <summary>
-    /// Implementation of trie data structure.
+    /// Initializes a new instance of the <see cref="Trie{TValue}"/>.
     /// </summary>
-    /// <typeparam name="TValue">The type of values in the trie.</typeparam>
-    public sealed class Trie<TValue> : IDictionary<string, TValue>, IReadOnlyTrie<TValue>//, IReadOnlyDictionary<string, TValue>
+    /// <param name="comparer">Comparer.</param>
+    public Trie(IEqualityComparer<char> comparer)
     {
-        private readonly TrieNode _root;
+        _root = new TrieNode(char.MinValue, comparer);
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Trie{TValue}"/>.
-        /// </summary>
-        /// <param name="comparer">Comparer.</param>
-        public Trie(IEqualityComparer<char> comparer)
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Trie{TValue}"/>.
+    /// </summary>
+    public Trie()
+        : this(EqualityComparer<char>.Default)
+    {
+    }
+
+    public Trie(IEnumerable<TrieEntry<TValue>> collection, IEqualityComparer<char> comparer)
+        :this(comparer)
+    {
+        AddRange(collection);
+    }
+
+    public Trie(IEnumerable<TrieEntry<TValue>> collection)
+        : this(collection, EqualityComparer<char>.Default)
+    {
+    }
+
+    /// <summary>
+    /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+    /// </summary>
+    /// <returns>
+    /// The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+    /// </returns>
+    public int Count { get; private set; }
+
+    /// <summary>
+    /// Gets an <see cref="T:System.Collections.Generic.ICollection`1"/> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="T:System.Collections.Generic.ICollection`1"/> containing the keys of the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+    /// </returns>
+    public ICollection<string> Keys
+        => GetAllNodes().Select(n => n.Key).ToArray();
+
+    /// <summary>
+    /// Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the keys of the <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the keys of the object that implements <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
+    /// </returns>
+    IEnumerable<string> IReadOnlyDictionary<string, TValue>.Keys
+        => Keys;
+
+    /// <summary>
+    /// Gets an <see cref="T:System.Collections.Generic.ICollection`1"/> containing the values in the <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="T:System.Collections.Generic.ICollection`1"/> containing the values in the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+    /// </returns>
+    public ICollection<TValue> Values
+        => GetAllNodes().Select(n => n.Value).ToArray();
+
+    /// <summary>
+    /// Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the values in the <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
+    /// </summary>
+    /// <returns>
+    /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the values in the object that implements <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
+    /// </returns>
+    IEnumerable<TValue> IReadOnlyDictionary<string, TValue>.Values
+        => Values;
+
+    bool ICollection<KeyValuePair<string, TValue>>.IsReadOnly
+        => false;
+
+    /// <summary>
+    /// Gets or sets the element with the specified key.
+    /// </summary>
+    /// <returns>
+    /// The element with the specified key.
+    /// </returns>
+    /// <param name="key">The key of the element to get or set.</param>
+    /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
+    /// <exception cref="T:System.Collections.Generic.KeyNotFoundException">The property is retrieved and <paramref name="key"/> is not found.</exception>
+    public TValue this[string key]
+    {
+        get
         {
-            _root = new TrieNode(char.MinValue, comparer);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Trie{TValue}"/>.
-        /// </summary>
-        public Trie()
-            : this(EqualityComparer<char>.Default)
-        {
-        }
-
-        public Trie(IEnumerable<TrieEntry<TValue>> collection, IEqualityComparer<char> comparer)
-            :this(comparer)
-        {
-            AddRange(collection);
-        }
-
-        public Trie(IEnumerable<TrieEntry<TValue>> collection)
-            : this(collection, EqualityComparer<char>.Default)
-        {
-        }
-
-        /// <summary>
-        /// Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-        /// </summary>
-        /// <returns>
-        /// The number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-        /// </returns>
-        public int Count { get; private set; }
-
-        /// <summary>
-        /// Gets an <see cref="T:System.Collections.Generic.ICollection`1"/> containing the keys of the <see cref="T:System.Collections.Generic.IDictionary`2"/>.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.Generic.ICollection`1"/> containing the keys of the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"/>.
-        /// </returns>
-        public ICollection<string> Keys
-        {
-            get
+            if (!TryGetValue(key, out TValue value))
             {
-                return GetAllNodes().Select(n => n.Key).ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the keys of the <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the keys of the object that implements <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
-        /// </returns>
-        IEnumerable<string> IReadOnlyDictionary<string, TValue>.Keys => Keys;
-
-        /// <summary>
-        /// Gets an <see cref="T:System.Collections.Generic.ICollection`1"/> containing the values in the <see cref="T:System.Collections.Generic.IDictionary`2"/>.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.Generic.ICollection`1"/> containing the values in the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"/>.
-        /// </returns>
-        public ICollection<TValue> Values
-        {
-            get
-            {
-                return GetAllNodes().Select(n => n.Value).ToArray();
-            }
-        }
-
-        /// <summary>
-        /// Gets an <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the values in the <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="T:System.Collections.Generic.IEnumerable`1"/> containing the values in the object that implements <see cref="T:System.Collections.Generic.IReadOnlyDictionary`2"/>.
-        /// </returns>
-        IEnumerable<TValue> IReadOnlyDictionary<string, TValue>.Values => Values;
-
-        bool ICollection<KeyValuePair<string, TValue>>.IsReadOnly => false;
-
-        /// <summary>
-        /// Gets or sets the element with the specified key.
-        /// </summary>
-        /// <returns>
-        /// The element with the specified key.
-        /// </returns>
-        /// <param name="key">The key of the element to get or set.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
-        /// <exception cref="T:System.Collections.Generic.KeyNotFoundException">The property is retrieved and <paramref name="key"/> is not found.</exception>
-        public TValue this[string key]
-        {
-            get
-            {
-                TValue value;
-
-                if (!TryGetValue(key, out value))
-                {
-                    throw new KeyNotFoundException("The given charKey was not present in the trie.");
-                }
-
-                return value;
+                throw new KeyNotFoundException("The given charKey was not present in the trie.");
             }
 
-            set
-            {
-                TrieNode node;
-
-                if (TryGetNode(key, out node))
-                {
-                    SetTerminalNode(node, value);
-                }
-                else
-                {
-                    Add(key, value);
-                }
-            }
+            return value;
         }
 
-        /// <summary>
-        /// Adds an element with the provided charKey and value to the <see cref="Trie{TValue}"/>.
-        /// </summary>
-        /// <param name="key">The object to use as the charKey of the element to add.</param>
-        /// <param name="value">The object to use as the value of the element to add.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
-        /// <exception cref="T:System.ArgumentException">An element with the same charKey already exists in the <see cref="Trie{TValue}"/>.</exception>
-        public void Add(string key, TValue value)
+        set
         {
-            if (key == null)
+            if (TryGetNode(key, out TrieNode node))
             {
-                throw new ArgumentNullException(nameof(key));
+                SetTerminalNode(node, value);
             }
-
-            var node = _root;
-
-            foreach (var c in key)
+            else
             {
-                node = node.Add(c);
+                Add(key, value);
             }
+        }
+    }
 
-            if (node.IsTerminal)
-            {
-                throw new ArgumentException($"An element with the same charKey already exists: '{key}'", nameof(key));
-            }
+    /// <summary>
+    /// Adds an element with the provided charKey and value to the <see cref="Trie{TValue}"/>.
+    /// </summary>
+    /// <param name="key">The object to use as the charKey of the element to add.</param>
+    /// <param name="value">The object to use as the value of the element to add.</param>
+    /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
+    /// <exception cref="T:System.ArgumentException">An element with the same charKey already exists in the <see cref="Trie{TValue}"/>.</exception>
+    public void Add(string key, TValue value)
+    {
+        ArgumentNullException.ThrowIfNull(key);
 
-            SetTerminalNode(node, value);
+        var node = _root;
 
-            Count++;
+        foreach (var c in key)
+        {
+            node = node.Add(c);
         }
 
-        /// <summary>
-        /// Adds an item to the <see cref="Trie{TValue}"/>.
-        /// </summary>
-        /// <param name="item">The object to add to the <see cref="Trie{TValue}"/>.</param>
-        /// <exception cref="T:System.ArgumentException">An element with the same charKey already exists in the <see cref="Trie{TValue}"/>.</exception>
-        public void Add(TrieEntry<TValue> item)
+        if (node.IsTerminal)
+        {
+            throw new ArgumentException($"An element with the same charKey already exists: '{key}'", nameof(key));
+        }
+
+        SetTerminalNode(node, value);
+
+        Count++;
+    }
+
+    /// <summary>
+    /// Adds an item to the <see cref="Trie{TValue}"/>.
+    /// </summary>
+    /// <param name="item">The object to add to the <see cref="Trie{TValue}"/>.</param>
+    /// <exception cref="T:System.ArgumentException">An element with the same charKey already exists in the <see cref="Trie{TValue}"/>.</exception>
+    public void Add(TrieEntry<TValue> item)
+    {
+        Add(item.Key, item.Value);
+    }
+
+    /// <summary>
+    /// Adds the elements of the specified collection to the <see cref="Trie{TValue}"/>.
+    /// </summary>
+    /// <param name="collection">The collection whose elements should be added to the <see cref="Trie{TValue}"/>. The items should have unique keys.</param>
+    /// <exception cref="T:System.ArgumentException">An element with the same charKey already exists in the <see cref="Trie{TValue}"/>.</exception>
+    public void AddRange(IEnumerable<TrieEntry<TValue>> collection)
+    {
+        foreach (var item in collection)
         {
             Add(item.Key, item.Value);
         }
+    }
 
-        /// <summary>
-        /// Adds the elements of the specified collection to the <see cref="Trie{TValue}"/>.
-        /// </summary>
-        /// <param name="collection">The collection whose elements should be added to the <see cref="Trie{TValue}"/>. The items should have unique keys.</param>
-        /// <exception cref="T:System.ArgumentException">An element with the same charKey already exists in the <see cref="Trie{TValue}"/>.</exception>
-        public void AddRange(IEnumerable<TrieEntry<TValue>> collection)
-        {
-            foreach (var item in collection)
-            {
-                Add(item.Key, item.Value);
-            }
-        }
-
-        /// <summary>
-        /// Adds the elements of the specified collection to the <see cref="Trie{TValue}"/>.
-        /// </summary>
-        /// <param name="collection">The collection whose elements should be added to the <see cref="Trie{TValue}"/>. The items should have unique keys.</param>
-        /// <exception cref="T:System.ArgumentException">An element with the same charKey already exists in the <see cref="Trie{TValue}"/>.</exception>
-        public void AddRange(IEnumerable<KeyValuePair<string, TValue>> collection)
-        {
-            foreach (var item in collection)
-            {
-                Add(item.Key, item.Value);
-            }
-        }
-
-        /// <summary>
-        /// Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
-        /// </summary>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only. </exception>
-        public void Clear()
-        {
-            _root.Clear();
-            Count = 0;
-        }
-
-        /// <summary>
-        /// Determines whether the <see cref="T:System.Collections.Generic.IDictionary`2"/> contains an element with the specified charKey.
-        /// </summary>
-        /// <returns>
-        /// true if the <see cref="T:System.Collections.Generic.IDictionary`2"/> contains an element with the charKey; otherwise, false.
-        /// </returns>
-        /// <param name="key">The charKey to locate in the <see cref="T:System.Collections.Generic.IDictionary`2"/>.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
-        public bool ContainsKey(string key)
-        {
-            TValue value;
-
-            return TryGetValue(key, out value);
-        }
-
-        /// <summary>
-        /// Gets items by key prefix.
-        /// </summary>
-        /// <param name="prefix">Key prefix.</param>
-        /// <returns>Collection of <see cref="TrieEntry{TValue}"/> items which have key with specified key.</returns>
-        public IEnumerable<TrieEntry<TValue>> GetByPrefix(string prefix)
-        {
-            var node = _root;
-
-            foreach (var item in prefix)
-            {
-                if (!node.TryGetNode(item, out node))
-                {
-                    return Enumerable.Empty<TrieEntry<TValue>>();
-                }
-            }
-
-            return node.GetByPrefix();
-        }
-
-        /// <summary>
-        /// Returns an enumerator that iterates through the collection.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
-        /// </returns>
-        /// <filterpriority>1</filterpriority>
-        public IEnumerator<KeyValuePair<string, TValue>> GetEnumerator()
-        {
-            return GetAllNodes().Select(n => new KeyValuePair<string, TValue>(n.Key, n.Value)).GetEnumerator();
-        }
-
-        /// <summary>
-        /// Removes the element with the specified charKey from the <see cref="T:System.Collections.Generic.IDictionary`2"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the element is successfully removed; otherwise, false.  This method also returns false if <paramref name="key"/> was not found in the original <see cref="T:System.Collections.Generic.IDictionary`2"/>.
-        /// </returns>
-        /// <param name="key">The charKey of the element to remove.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
-        /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IDictionary`2"/> is read-only.</exception>
-        public bool Remove(string key)
-        {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            TrieNode node;
-
-            if (!TryGetNode(key, out node))
-            {
-                return false;
-            }
-
-            if (!node.IsTerminal)
-            {
-                return false;
-            }
-
-            RemoveNode(node);
-
-            return true;
-        }
-
-        /// <summary>
-        /// Gets the value associated with the specified key.
-        /// </summary>
-        /// <returns>
-        /// true if the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"/> contains an element with the specified key; otherwise, false.
-        /// </returns>
-        /// <param name="key">The key whose value to get.</param>
-        /// <param name="value">When this method returns, the value associated with the specified key, if the key is found; otherwise, the default value for the type of the <paramref name="value"/> parameter. This parameter is passed uninitialized.</param>
-        /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
-        public bool TryGetValue(string key, out TValue value)
-        {
-            if (key == null)
-            {
-                throw new ArgumentNullException(nameof(key));
-            }
-
-            TrieNode node;
-            value = default;
-
-            if (!TryGetNode(key, out node))
-            {
-                return false;
-            }
-
-            if (!node.IsTerminal)
-            {
-                return false;
-            }
-
-            value = node.Value;
-
-            return true;
-        }
-
-        void ICollection<KeyValuePair<string, TValue>>.Add(KeyValuePair<string, TValue> item)
+    /// <summary>
+    /// Adds the elements of the specified collection to the <see cref="Trie{TValue}"/>.
+    /// </summary>
+    /// <param name="collection">The collection whose elements should be added to the <see cref="Trie{TValue}"/>. The items should have unique keys.</param>
+    /// <exception cref="T:System.ArgumentException">An element with the same charKey already exists in the <see cref="Trie{TValue}"/>.</exception>
+    public void AddRange(IEnumerable<KeyValuePair<string, TValue>> collection)
+    {
+        foreach (var item in collection)
         {
             Add(item.Key, item.Value);
         }
+    }
 
-        bool ICollection<KeyValuePair<string, TValue>>.Contains(KeyValuePair<string, TValue> item)
+    /// <summary>
+    /// Removes all items from the <see cref="T:System.Collections.Generic.ICollection`1"/>.
+    /// </summary>
+    /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.ICollection`1"/> is read-only. </exception>
+    public void Clear()
+    {
+        _root.Clear();
+        Count = 0;
+    }
+
+    /// <summary>
+    /// Determines whether the <see cref="T:System.Collections.Generic.IDictionary`2"/> contains an element with the specified charKey.
+    /// </summary>
+    /// <returns>
+    /// true if the <see cref="T:System.Collections.Generic.IDictionary`2"/> contains an element with the charKey; otherwise, false.
+    /// </returns>
+    /// <param name="key">The charKey to locate in the <see cref="T:System.Collections.Generic.IDictionary`2"/>.</param>
+    /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
+    public bool ContainsKey(string key)
+    {
+        return TryGetValue(key, out _);
+    }
+
+    /// <summary>
+    /// Gets items by key prefix.
+    /// </summary>
+    /// <param name="prefix">Key prefix.</param>
+    /// <returns>Collection of <see cref="TrieEntry{TValue}"/> items which have key with specified key.</returns>
+    public IEnumerable<TrieEntry<TValue>> GetByPrefix(string prefix)
+    {
+        var node = _root;
+
+        foreach (var item in prefix)
         {
-            TrieNode node;
+            if (!node.TryGetNode(item, out node))
+            {
+                return Enumerable.Empty<TrieEntry<TValue>>();
+            }
+        }
 
-            if (!TryGetNode(item.Key, out node))
+        return node.GetByPrefix();
+    }
+
+    /// <summary>
+    /// Returns an enumerator that iterates through the collection.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+    /// </returns>
+    /// <filterpriority>1</filterpriority>
+    public IEnumerator<KeyValuePair<string, TValue>> GetEnumerator()
+    {
+        return GetAllNodes().Select(n => new KeyValuePair<string, TValue>(n.Key, n.Value)).GetEnumerator();
+    }
+
+    /// <summary>
+    /// Removes the element with the specified charKey from the <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+    /// </summary>
+    /// <returns>
+    /// true if the element is successfully removed; otherwise, false.  This method also returns false if <paramref name="key"/> was not found in the original <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+    /// </returns>
+    /// <param name="key">The charKey of the element to remove.</param>
+    /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
+    /// <exception cref="T:System.NotSupportedException">The <see cref="T:System.Collections.Generic.IDictionary`2"/> is read-only.</exception>
+    public bool Remove(string key)
+    {
+        ArgumentNullException.ThrowIfNull(key);
+
+        if (!TryGetNode(key, out TrieNode node))
+        {
+            return false;
+        }
+
+        if (!node.IsTerminal)
+        {
+            return false;
+        }
+
+        RemoveNode(node);
+
+        return true;
+    }
+
+    /// <summary>
+    /// Gets the value associated with the specified key.
+    /// </summary>
+    /// <returns>
+    /// true if the object that implements <see cref="T:System.Collections.Generic.IDictionary`2"/> contains an element with the specified key; otherwise, false.
+    /// </returns>
+    /// <param name="key">The key whose value to get.</param>
+    /// <param name="value">When this method returns, the value associated with the specified key, if the key is found; otherwise, the default value for the type of the <paramref name="value"/> parameter. This parameter is passed uninitialized.</param>
+    /// <exception cref="T:System.ArgumentNullException"><paramref name="key"/> is null.</exception>
+    public bool TryGetValue(string key, out TValue value)
+    {
+        ArgumentNullException.ThrowIfNull(key);
+
+        value = default!;
+
+        if (!TryGetNode(key, out TrieNode node))
+        {
+            return false;
+        }
+
+        if (!node.IsTerminal)
+        {
+            return false;
+        }
+
+        value = node.Value;
+
+        return true;
+    }
+
+    void ICollection<KeyValuePair<string, TValue>>.Add(KeyValuePair<string, TValue> item)
+    {
+        Add(item.Key, item.Value);
+    }
+
+    bool ICollection<KeyValuePair<string, TValue>>.Contains(KeyValuePair<string, TValue> item)
+    {
+        if (!TryGetNode(item.Key, out TrieNode node))
+        {
+            return false;
+        }
+
+        return node.IsTerminal && EqualityComparer<TValue>.Default.Equals(node.Value, item.Value);
+    }
+
+    void ICollection<KeyValuePair<string, TValue>>.CopyTo(KeyValuePair<string, TValue>[] array, int arrayIndex)
+    {
+        Array.Copy(GetAllNodes().Select(n => new KeyValuePair<string, TValue>(n.Key, n.Value)).ToArray(), 0, array, arrayIndex, Count);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    bool ICollection<KeyValuePair<string, TValue>>.Remove(KeyValuePair<string, TValue> item)
+    {
+        if (!TryGetNode(item.Key, out TrieNode node))
+        {
+            return false;
+        }
+
+        if (!node.IsTerminal)
+        {
+            return false;
+        }
+
+        if (!EqualityComparer<TValue>.Default.Equals(node.Value, item.Value))
+        {
+            return false;
+        }
+
+        RemoveNode(node);
+
+        return true;
+    }
+
+    private static void SetTerminalNode(TrieNode node, TValue value)
+    {
+        node.IsTerminal = true;
+        node.Value = value;
+    }
+
+    private IEnumerable<TrieNode> GetAllNodes()
+    {
+        return _root.GetAllNodes();
+    }
+
+    private void RemoveNode(TrieNode node)
+    {
+        node.Remove();
+        Count--;
+    }
+
+    private bool TryGetNode(string key, out TrieNode node)
+    {
+        node = _root;
+
+        foreach (var c in key)
+        {
+            if (!node.TryGetNode(c, out node))
             {
                 return false;
             }
-
-            return node.IsTerminal && EqualityComparer<TValue>.Default.Equals(node.Value, item.Value);
         }
 
-        void ICollection<KeyValuePair<string, TValue>>.CopyTo(KeyValuePair<string, TValue>[] array, int arrayIndex)
+        return true;
+    }
+
+    /// <summary>
+    /// <see cref="Trie{TValue}"/>'s node.
+    /// </summary>
+    private sealed class TrieNode
+    {
+        private readonly Dictionary<char, TrieNode> _children;
+
+        private readonly IEqualityComparer<char> _comparer;
+
+        private readonly char _keyChar;
+
+        internal TrieNode(char keyChar, IEqualityComparer<char> comparer)
         {
-            Array.Copy(GetAllNodes().Select(n => new KeyValuePair<string, TValue>(n.Key, n.Value)).ToArray(), 0, array, arrayIndex, Count);
+            _keyChar = keyChar;
+            _comparer = comparer;
+            _children = new Dictionary<char, TrieNode>(comparer);
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        internal bool IsTerminal { get; set; }
 
-        bool ICollection<KeyValuePair<string, TValue>>.Remove(KeyValuePair<string, TValue> item)
+        internal string Key
         {
-            TrieNode node;
-
-            if (!TryGetNode(item.Key, out node))
+            get
             {
-                return false;
-            }
+                ////var result = new StringBuilder().Append(keyChar);
 
-            if (!node.IsTerminal)
-            {
-                return false;
-            }
+                ////TrieNode node = this;
 
-            if (!EqualityComparer<TValue>.Default.Equals(node.Value, item.Value))
-            {
-                return false;
-            }
+                ////while ((node = node.Parent).Parent != null)
+                ////{
+                ////    result.Insert(0, node.keyChar);
+                ////}
 
-            RemoveNode(node);
+                ////return result.ToString();
 
-            return true;
-        }
+                var stack = new Stack<char>();
+                stack.Push(_keyChar);
 
-        private static void SetTerminalNode(TrieNode node, TValue value)
-        {
-            node.IsTerminal = true;
-            node.Value = value;
-        }
+                TrieNode node = this;
 
-        private IEnumerable<TrieNode> GetAllNodes()
-        {
-            return _root.GetAllNodes();
-        }
-
-        private void RemoveNode(TrieNode node)
-        {
-            node.Remove();
-            Count--;
-        }
-
-        private bool TryGetNode(string key, out TrieNode node)
-        {
-            node = _root;
-
-            foreach (var c in key)
-            {
-                if (!node.TryGetNode(c, out node))
+                while ((node = node.Parent).Parent != null)
                 {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// <see cref="Trie{TValue}"/>'s node.
-        /// </summary>
-        private sealed class TrieNode
-        {
-            private readonly Dictionary<char, TrieNode> _children;
-
-            private readonly IEqualityComparer<char> _comparer;
-
-            private readonly char _keyChar;
-
-            internal TrieNode(char keyChar, IEqualityComparer<char> comparer)
-            {
-                _keyChar = keyChar;
-                _comparer = comparer;
-                _children = new Dictionary<char, TrieNode>(comparer);
-            }
-
-            internal bool IsTerminal { get; set; }
-
-            internal string Key
-            {
-                get
-                {
-                    ////var result = new StringBuilder().Append(keyChar);
-
-                    ////TrieNode node = this;
-
-                    ////while ((node = node.Parent).Parent != null)
-                    ////{
-                    ////    result.Insert(0, node.keyChar);
-                    ////}
-
-                    ////return result.ToString();
-
-                    var stack = new Stack<char>();
-                    stack.Push(_keyChar);
-
-                    TrieNode node = this;
-
-                    while ((node = node.Parent).Parent != null)
-                    {
-                        stack.Push(node._keyChar);
-                    }
-
-                    return new string(stack.ToArray());
-                }
-            }
-
-            internal TValue Value { get; set; }
-
-            private TrieNode Parent { get; set; }
-
-            internal TrieNode Add(char key)
-            {
-                TrieNode childNode;
-
-                if (!_children.TryGetValue(key, out childNode))
-                {
-                    childNode = new TrieNode(key, _comparer)
-                    {
-                        Parent = this
-                    };
-
-                    _children.Add(key, childNode);
+                    stack.Push(node._keyChar);
                 }
 
-                return childNode;
+                return new string(stack.ToArray());
             }
+        }
 
-            internal void Clear()
-            {
-                _children.Clear();
-            }
+        internal TValue Value { get; set; } = default!;
 
-            internal IEnumerable<TrieNode> GetAllNodes()
+        private TrieNode Parent { get; set; } = default!;
+
+        internal TrieNode Add(char key)
+        {
+            if (!_children.TryGetValue(key, out var childNode))
             {
-                foreach (var child in _children)
+                childNode = new TrieNode(key, _comparer)
                 {
-                    if (child.Value.IsTerminal)
-                    {
-                        yield return child.Value;
-                    }
+                    Parent = this
+                };
 
-                    foreach (var item in child.Value.GetAllNodes())
+                _children.Add(key, childNode);
+            }
+
+            return childNode;
+        }
+
+        internal void Clear()
+        {
+            _children.Clear();
+        }
+
+        internal IEnumerable<TrieNode> GetAllNodes()
+        {
+            foreach (var child in _children)
+            {
+                if (child.Value.IsTerminal)
+                {
+                    yield return child.Value;
+                }
+
+                foreach (var item in child.Value.GetAllNodes())
+                {
+                    if (item.IsTerminal)
                     {
-                        if (item.IsTerminal)
-                        {
-                            yield return item;
-                        }
+                        yield return item;
                     }
                 }
             }
+        }
 
-            internal IEnumerable<TrieEntry<TValue>> GetByPrefix()
+        internal IEnumerable<TrieEntry<TValue>> GetByPrefix()
+        {
+            if (IsTerminal)
             {
-                if (IsTerminal)
-                {
-                    yield return new TrieEntry<TValue>(Key, Value);
-                }
-
-                foreach (var item in _children)
-                {
-                    foreach (var element in item.Value.GetByPrefix())
-                    {
-                        yield return element;
-                    }
-                }
+                yield return new TrieEntry<TValue>(Key, Value);
             }
 
-            internal void Remove()
+            foreach (var item in _children)
             {
-                IsTerminal = false;
-
-                if (_children.Count == 0 && Parent != null)
+                foreach (var element in item.Value.GetByPrefix())
                 {
-                    Parent._children.Remove(_keyChar);
-
-                    if (!Parent.IsTerminal)
-                    {
-                        Parent.Remove();
-                    }
+                    yield return element;
                 }
             }
+        }
 
-            internal bool TryGetNode(char key, out TrieNode node)
+        internal void Remove()
+        {
+            IsTerminal = false;
+
+            if (_children.Count == 0 && Parent != null)
             {
-                return _children.TryGetValue(key, out node);
+                Parent._children.Remove(_keyChar);
+
+                if (!Parent.IsTerminal)
+                {
+                    Parent.Remove();
+                }
             }
+        }
+
+        internal bool TryGetNode(char key, out TrieNode node)
+        {
+            return _children.TryGetValue(key, out node!);
         }
     }
 }

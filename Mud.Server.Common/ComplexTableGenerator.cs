@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
-namespace Mud.Server.Common
-{
-    //TODO
+namespace Mud.Server.Common;
+
+//TODO
 
 /* should handle this kind of table
 +--------------------------------------------------------+
@@ -23,60 +21,3 @@ namespace Mud.Server.Common
 | Runic  :           [120/120] | Form         : [Normal] |
 +------------------------------+-------------------------+
 */
-
-    public class ComplexTableGenerator
-    {
-        // AddSeparator
-        // SetColumns(columCount, width1, width2, ...) // set column count and width for further lines
-        // AddRow(value1, value2, ...) // Add a row using last columns info
-
-        private class Row
-        {
-            public bool IsSeparator { get; set; }
-            public List<int> ColumnWidth { get; set; }
-            public List<string> Values { get; set; }
-        }
-
-        private List<int> _currentColumnWidth;
-
-        private readonly List<Row> _rows = new List<Row>();
-
-        public void AddSeparator()
-        {
-            _rows.Add(new Row
-            {
-                IsSeparator = true
-            });
-        }
-
-        public void SetColumns(params int[] widths)
-        {
-            _currentColumnWidth = widths.ToList();
-        }
-
-        public void AddRow(params string[] values)
-        {
-            _rows.Add(new Row
-            {
-                IsSeparator = false,
-                ColumnWidth = _currentColumnWidth,
-                Values = values.ToList()
-            });
-        }
-
-        public StringBuilder Generate()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine();
-
-            // TODO
-
-            // + at the beginning and end or each row
-            // whitespace before and after each cell
-            // | between each column
-            int maxWidth = _rows.Max(r => r.ColumnWidth.Sum(c => c + 4) - (r.ColumnWidth.Count - 1));
-
-            return sb;
-        }
-    }
-}

@@ -1,11 +1,10 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class LoginData
 {
-    public class LoginData
-    {
-        public string Username { get; set; }
+    public string Username { get; set; }
 
-        public string Password { get; set; } // TODO: crypt
+    public string Password { get; set; } // TODO: crypt
 
-        public bool IsAdmin { get; set; }
-    }
+    public bool IsAdmin { get; set; }
 }

@@ -248,7 +248,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(container.Blueprint.Id, itemData.ItemId);
             Assert.AreEqual(container.DecayPulseLeft, itemData.DecayPulseLeft);
             Assert.AreEqual(container.BaseItemFlags, itemData.ItemFlags);
-            Assert.IsNull((itemData as ItemContainerData).Contains);
+            Assert.IsEmpty((itemData as ItemContainerData).Contains);
             Assert.AreEqual(container.ContainerFlags, (itemData as ItemContainerData).ContainerFlags);
             Assert.AreEqual(container.MaxWeight, (itemData as ItemContainerData).MaxWeight);
             Assert.AreEqual(container.MaxWeightPerItem, (itemData as ItemContainerData).MaxWeightPerItem);
@@ -337,13 +337,13 @@ namespace Mud.Server.Tests
             Assert.AreEqual(corpse.DecayPulseLeft, itemData.DecayPulseLeft);
             Assert.AreEqual(corpse.BaseItemFlags, itemData.ItemFlags);
             Assert.AreEqual(character.DisplayName, (itemData as ItemCorpseData).CorpseName);
-            Assert.IsNull((itemData as ItemCorpseData).Contains);
+            Assert.IsEmpty((itemData as ItemCorpseData).Contains);
         }
 
         [TestMethod]
         public void PCItemCorpse_Empty_To_ItemData_Test()
         {
-            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new PlayableCharacterData { Name = "Impersonate1", Level = 1, Sex = Sex.Male, Class = "Mage", Race = "Human", RoomId = 1}, new Player.Player(Guid.NewGuid(), "Player1"), new Mock<IRoom>().Object);
+            IPlayableCharacter character = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), CreatePlayableCharacterData("Impersonate1", 1, Sex.Male, "Mage", "Human", 1), new Player.Player(Guid.NewGuid(), "Player1"), new Mock<IRoom>().Object);
             IItemCorpse corpse = new ItemCorpse(Guid.NewGuid(), new ItemCorpseBlueprint { Id = 999, Name = "Corpse" }, new Mock<IRoom>().Object, character);
 
             ItemData itemData = corpse.MapItemData();
@@ -354,7 +354,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(corpse.DecayPulseLeft, itemData.DecayPulseLeft);
             Assert.AreEqual(corpse.BaseItemFlags, itemData.ItemFlags);
             Assert.AreEqual(character.DisplayName, (itemData as ItemCorpseData).CorpseName);
-            Assert.IsNull((itemData as ItemCorpseData).Contains);
+            Assert.IsEmpty((itemData as ItemCorpseData).Contains);
         }
 
         [TestMethod]

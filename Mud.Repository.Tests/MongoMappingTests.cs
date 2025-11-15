@@ -84,10 +84,14 @@ namespace Mud.Repository.Tests
         [TestMethod]
         public void Test_Affects_Success()
         {
-            Domain.AuraData original = new Domain.AuraData
+            Domain.AuraData original = new()
             {
-                Affects = new Domain.AffectDataBase[]
-                {
+                AbilityName = "Test Aura",
+                Level = 1,
+                PulseLeft = 1,
+                AuraFlags = Domain.AuraFlags.None,
+                Affects =
+                [
                     new Domain.ItemWeaponFlagsAffectData
                     {
                         Modifier = new WeaponFlags("Holy"),
@@ -118,8 +122,8 @@ namespace Mud.Repository.Tests
                         Location = Domain.CharacterAttributeAffectLocations.SavingThrow,
                         Modifier = -5,
                         Operator = Domain.AffectOperators.Assign,
-                    },
-                }
+                    }
+                ]
             };
 
             var internalAuraData = DependencyContainer.Current.GetInstance<IMapper>().Map<Domain.AuraData, Mongo.Domain.AuraData>(original);

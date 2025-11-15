@@ -1,9 +1,8 @@
-﻿namespace Mud.Domain
-{
-    public class EquippedItemData
-    {
-        public EquipmentSlots Slot { get; set; }
+﻿namespace Mud.Domain;
 
-        public ItemData Item { get; set; }
-    }
+public class EquippedItemData
+{
+    public required EquipmentSlots Slot { get; set; }
+
+    public required ItemData? Item { get; set; }
 }
