@@ -358,13 +358,16 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         var mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
         var offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
         // 1/ main hand attack
+        int attackCount = 0;
         OneHit(victim, mainHand, multiHitModifier);
+        attackCount++;
         if (Fighting != victim)
             return;
         // 2/ off hand attack
         var dualWield = AbilityManager.CreateInstance<IPassive>("Dual Wield");
         if (offHand != null && dualWield != null && dualWield.IsTriggered(this, victim, true, out _, out _))
             OneHit(victim, offHand, multiHitModifier);
+        attackCount++;
         if (Fighting != victim)
             return;
         if (multiHitModifier?.MaxAttackCount <= 1)
@@ -372,26 +375,29 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // 3/ main hand haste attack
         if (CharacterFlags.IsSet("Haste"))
             OneHit(victim, mainHand, multiHitModifier);
+        attackCount++;
         if (Fighting != victim)
             return;
         if (multiHitModifier?.MaxAttackCount <= 2)
             return;
-        // 4/ main hand second attack
-        var secondAttack = AbilityManager.CreateInstance<IPassive>("Second Attack");
-        if (secondAttack != null && secondAttack.IsTriggered(this, victim, true, out _, out _))
-            OneHit(victim, mainHand, multiHitModifier);
-        if (Fighting != victim)
-            return;
-        if (multiHitModifier?.MaxAttackCount <= 3)
-            return;
-        // 5/ main hand third attack
-        var thirdAttack = AbilityManager.CreateInstance<IPassive>("Third Attack");
-        if (thirdAttack != null && thirdAttack.IsTriggered(this, victim, true, out _, out _))
-            OneHit(victim, mainHand, multiHitModifier);
-        if (Fighting != victim)
-            return;
-        if (multiHitModifier?.MaxAttackCount <= 4)
-            return;
+        // additional hits (second, third attack, ...)
+        var additionalHitAbilities = new List<IAdditionalHitPassive>();
+        foreach (var additionalHitAbilityInfo in AbilityManager.AbilitiesByExecutionType<IAdditionalHitPassive>())
+        {
+            var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityInfo);
+            if (additionalHitAbility != null)
+                additionalHitAbilities.Add(additionalHitAbility);
+        }
+        foreach (var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex))
+        {
+            if (additionalHitAbility.IsTriggered(this, victim, false, out _, out _))
+                OneHit(victim, mainHand, multiHitModifier);
+            attackCount++;
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= attackCount)
+                return;
+        }
         // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
         // TODO: only if wielding 3 or 4 weapons
         //var thirdWieldLearnInfo = GetLearnInfo("Third wield");

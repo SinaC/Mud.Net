@@ -11,7 +11,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 
-namespace Mud.Server.Abilities;
+namespace Mud.Server.POC.Spells;
 
 [Spell(SpellName, AbilityEffects.Buff, CooldownInSeconds = 1)]
 public class SpellTest : ItemOrDefensiveSpellBase

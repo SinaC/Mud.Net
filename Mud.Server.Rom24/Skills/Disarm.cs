@@ -48,7 +48,7 @@ public class Disarm : FightingSkillBase
 
         // Victim wield
         var victimWield = Victim.GetEquipment(EquipmentSlots.MainHand) as IItemWeapon;
-        if (VictimWield == null)
+        if (victimWield == null)
             return "Your opponent is not wielding a weapon.";
         VictimWield = victimWield!;
 
@@ -57,7 +57,6 @@ public class Disarm : FightingSkillBase
 
     protected override bool Invoke()
     {
-
         // find weapon learned
         int userLearned = User.GetWeaponLearnedInfo(UserWield).percentage;
         int victimLearned = Victim.GetWeaponLearnedInfo(UserWield).percentage;

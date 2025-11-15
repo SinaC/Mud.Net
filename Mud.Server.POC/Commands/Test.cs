@@ -3,7 +3,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
-namespace Mud.Server.Player;
+namespace Mud.Server.POC.Commands;
 
 [PlayerCommand("test", "!!Test!!")]
 public class Test : PlayerGameAction

@@ -1,12 +1,13 @@
 ﻿using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Passives;
 
 [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
-public class ThirdAttack : PassiveBase
+public class ThirdAttack : PassiveBase, IAdditionalHitPassive
 {
     private const string PassiveName = "Third Attack";
 
@@ -14,6 +15,8 @@ public class ThirdAttack : PassiveBase
         : base(randomManager)
     {
     }
+
+    public int AdditionalHitIndex => 3;
 
     protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
     {

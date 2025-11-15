@@ -47,5 +47,6 @@ public abstract class PassiveBase : IPassive
         return true;
     }
 
-    protected virtual bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll) => diceRoll < learnPercentage;
+    protected virtual bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
+        => diceRoll < learnPercentage;
 }
