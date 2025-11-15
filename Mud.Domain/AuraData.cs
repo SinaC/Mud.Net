@@ -1,15 +1,14 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class AuraData
 {
-    public class AuraData
-    {
-        public string AbilityName { get; set; }
+    public required string AbilityName { get; set; }
 
-        public int Level { get; set; }
+    public required int Level { get; set; }
 
-        public int PulseLeft { get; set; }
+    public required int PulseLeft { get; set; }
 
-        public AuraFlags AuraFlags { get; set; }
+    public required AuraFlags AuraFlags { get; set; }
 
-        public AffectDataBase[] Affects { get; set; }
-    }
+    public required AffectDataBase[] Affects { get; set; }
 }

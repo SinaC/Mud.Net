@@ -13,244 +13,237 @@
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
 
-using System;
-using System.Collections.Generic;
+namespace Mud.DataStructures.HeapPriorityQueue;
 
-namespace Mud.DataStructures.HeapPriorityQueue
+/// <summary>
+/// Heap priority queue. Uses a Dictionary to speed up the UpdatePriority method. It is only allowed to add each element once
+/// Some operations are implemented using a Dictionary. In order for them to run fast T should have a good hash
+/// </summary>
+public class HeapPriorityQueue<T>
+    where T : notnull
 {
-    /// <summary>
-    /// Heap priority queue. Uses a Dictionary to speed up the UpdatePriority method. It is only allowed to add each element once
-    /// Some operations are implemented using a Dictionary. In order for them to run fast T should have a good hash
-    /// </summary>
-    public class HeapPriorityQueue<T>
+    private static readonly int DEFAULTCAPACITY = 1024;
+
+    private KeyValueEntry<int, T>[] _queue;
+
+    private readonly Dictionary<T, int> _entryToPos;
+
+    public HeapPriorityQueue()
+        : this(DEFAULTCAPACITY)
     {
-        private static int DEFAULTCAPACITY = 1024;
+    }
 
-        private KeyValueEntry<int, T>[] _queue;
+    public HeapPriorityQueue(int capacity)
+    {
+        _queue = new KeyValueEntry<int, T>[capacity];
+        _entryToPos = new Dictionary<T, int>(capacity);
+    }
 
-        private readonly Dictionary<T, int> _entryToPos;
+    public int Count { get; private set; }
 
-        public HeapPriorityQueue()
-            : this(DEFAULTCAPACITY)
+    public bool IsEmpty()
+    {
+        return Count == 0;
+    }
+
+    /// <summary>
+    /// Operation: O(1)
+    /// </summary>
+    public void Clear()
+    {
+        Count = 0;
+        _queue = new KeyValueEntry<int, T>[DEFAULTCAPACITY];
+        _entryToPos.Clear();
+    }
+
+    /// <summary>
+    /// Operation: O(1)
+    /// </summary>
+    public bool Contains(T element)
+    {
+        return _entryToPos.ContainsKey(element);
+    }
+
+    /// <summary>
+    /// Operation: O(1)
+    /// </summary>
+    public int PeekPriority()
+    {
+        if (IsEmpty())
         {
+            return 0;
         }
 
-        public HeapPriorityQueue(int capacity)
+        return _queue[0].Key;
+    }
+
+    /// <summary>
+    /// Operation: O(1)
+    /// </summary>
+    public T? Peek()
+    {
+        if (IsEmpty())
         {
-            _queue = new KeyValueEntry<int, T>[capacity];
-            _entryToPos = new Dictionary<T, int>(capacity);
+            return default;
         }
 
-        public int Count { get; private set; }
+        return _queue[0].Value;
+    }
 
-        public bool IsEmpty()
+    /// <summary>
+    /// If the queue is empty we do just return null
+    /// 
+    /// Operation: O(log n)
+    /// </summary>
+    public T? Dequeue()
+    {
+        if (IsEmpty())
         {
-            return Count == 0;
+            return default;
         }
 
-        /// <summary>
-        /// Operation: O(1)
-        /// </summary>
-        public void Clear()
+        KeyValueEntry<int, T> result = _queue[0];
+
+        _queue[0] = _queue[Count - 1];
+        RemovePosition(result.Value);
+        UpdatePosition(_queue[0].Value, 0);
+        _queue[Count - 1] = default!;
+        Count--;
+        BubbleDown(0);
+
+        return result.Value;
+    }
+
+    /// <summary>
+    /// Operation: O(log n)
+    /// 
+    /// InvalidOperationException: If we add an element which is alread in the Queue
+    /// </summary>
+    public void Enqueue(T element, int priority)
+    {
+        if (Contains(element))
         {
-            Count = 0;
-            _queue = new KeyValueEntry<int, T>[DEFAULTCAPACITY];
-            _entryToPos.Clear();
+            throw new InvalidOperationException("Cannot add an element which is already in the queue");
         }
 
-        /// <summary>
-        /// Operation: O(1)
-        /// </summary>
-        public bool Contains(T element)
+        if (Count == _queue.Length)
         {
-            return _entryToPos.ContainsKey(element);
+            KeyValueEntry<int, T>[] oldQueue = _queue;
+            _queue = new KeyValueEntry<int, T>[oldQueue.Length * 3 / 2 + 1];
+            Array.Copy(oldQueue, _queue, oldQueue.Length);
         }
 
-        /// <summary>
-        /// Operation: O(1)
-        /// </summary>
-        public int PeekPriority()
+        _queue[Count] = new KeyValueEntry<int, T>(priority, element);
+        UpdatePosition(element, Count);
+        Count++;
+
+        BubbleUp(Count - 1);
+    }
+
+    /// <summary>
+    /// Operation: O(log n)
+    /// 
+    /// InvalidOperationException: If we want to update the priority of an element which is not in the queue
+    /// </summary>
+    public void UpdatePriority(T element, int newPrio)
+    {
+        if (!_entryToPos.TryGetValue(element, out int pos))
         {
-            if (IsEmpty())
+            throw new InvalidOperationException("Cannot update the priority of an element which is not in the queue");
+        }
+
+        int oldPrio = _queue[pos].Key;
+
+        if (oldPrio == newPrio)
+        {
+            return;
+        }
+
+        _queue[pos].Key = newPrio;
+
+        if (oldPrio < newPrio)
+        {
+            BubbleDown(pos);
+        }
+        else
+        {
+            BubbleUp(pos);
+        }
+    }
+
+    /// <summary>
+    /// Moving root to correct location
+    /// </summary>
+    private void BubbleDown(int i)
+    {
+        while (true)
+        {
+            var minPos = i;
+            var min = _queue[i];
+            var left = 2 * i + 1;
+            var right = 2 * i + 2;
+
+            if (left < Count && _queue[left].Key < min.Key)
             {
-                return 0;
+                minPos = left;
+                min = _queue[left];
             }
 
-            return _queue[0].Key;
-        }
-
-        /// <summary>
-        /// Operation: O(1)
-        /// </summary>
-        public T Peek()
-        {
-            if (IsEmpty())
+            if (right < Count && _queue[right].Key < min.Key)
             {
-                return default;
+                minPos = right;
+                min = _queue[right];
             }
 
-            return _queue[0].Value;
-        }
-
-        /// <summary>
-        /// If the queue is empty we do just return null
-        /// 
-        /// Operation: O(log n)
-        /// </summary>
-        public T Dequeue()
-        {
-            if (IsEmpty())
+            if (min == _queue[i])
             {
-                return default;
-            }
-
-            KeyValueEntry<int, T> result = _queue[0];
-
-            _queue[0] = _queue[Count - 1];
-            RemovePosition(result.Value);
-            UpdatePosition(_queue[0].Value, 0);
-            _queue[Count - 1] = null;
-            Count--;
-            BubbleDown(0);
-
-            return result.Value;
-        }
-
-        /// <summary>
-        /// Operation: O(log n)
-        /// 
-        /// InvalidOperationException: If we add an element which is alread in the Queue
-        /// </summary>
-        public void Enqueue(T element, int priority)
-        {
-            if (Contains(element))
-            {
-                throw new InvalidOperationException("Cannot add an element which is already in the queue");
-            }
-
-            if (Count == _queue.Length)
-            {
-                KeyValueEntry<int, T>[] oldQueue = _queue;
-                _queue = new KeyValueEntry<int, T>[oldQueue.Length * 3 / 2 + 1];
-                Array.Copy(oldQueue, _queue, oldQueue.Length);
-            }
-
-            _queue[Count] = new KeyValueEntry<int, T>(priority, element);
-            UpdatePosition(element, Count);
-            Count++;
-
-            BubbleUp(Count - 1);
-        }
-
-        /// <summary>
-        /// Operation: O(log n)
-        /// 
-        /// InvalidOperationException: If we want to update the priority of an element which is not in the queue
-        /// </summary>
-        public void UpdatePriority(T element, int newPrio)
-        {
-            if (!_entryToPos.ContainsKey(element))
-            {
-                throw new InvalidOperationException("Cannot update the priority of an element which is not in the queue");
-            }
-
-            int pos = _entryToPos[element];
-            int oldPrio = _queue[pos].Key;
-
-            if (oldPrio == newPrio)
-            {
-                return;
-            }
-
-            _queue[pos].Key = newPrio;
-
-            if (oldPrio < newPrio)
-            {
-                BubbleDown(pos);
+                break;
             }
             else
             {
-                BubbleUp(pos);
+                // swap
+                _queue[minPos] = _queue[i];
+                _queue[i] = min;
+
+                UpdatePosition(_queue[minPos].Value, minPos);
+                UpdatePosition(_queue[i].Value, i);
+
+                i = minPos;
             }
         }
+    }
 
-        /// <summary>
-        /// Moving root to correct location
-        /// </summary>
-        private void BubbleDown(int i)
+    /// <summary>
+    /// Moving last element of last level to correct location
+    /// </summary>
+    private void BubbleUp(int i)
+    {
+        int n = i;
+        int up = (n - 1) / 2;
+
+        while (up >= 0 && _queue[up].Key > _queue[n].Key)
         {
-            while (true)
-            {
-                var minPos = i;
-                var min = _queue[i];
-                var left = 2 * i + 1;
-                var right = 2 * i + 2;
+            var entry = _queue[up];
+            _queue[up] = _queue[n];
+            _queue[n] = entry;
 
-                if (left < Count && _queue[left].Key < min.Key)
-                {
-                    minPos = left;
-                    min = _queue[left];
-                }
+            UpdatePosition(_queue[n].Value, n);
+            UpdatePosition(_queue[up].Value, up);
 
-                if (right < Count && _queue[right].Key < min.Key)
-                {
-                    minPos = right;
-                    min = _queue[right];
-                }
-
-                if (min == _queue[i])
-                {
-                    break;
-                }
-                else
-                {
-                    // swap
-                    _queue[minPos] = _queue[i];
-                    _queue[i] = min;
-
-                    UpdatePosition(_queue[minPos].Value, minPos);
-                    UpdatePosition(_queue[i].Value, i);
-
-                    i = minPos;
-                }
-            }
+            n = up;
+            up = (up - 1) / 2;
         }
+    }
 
-        /// <summary>
-        /// Moving last element of last level to correct location
-        /// </summary>
-        private void BubbleUp(int i)
-        {
-            int n = i;
-            int up = (n - 1) / 2;
+    private void UpdatePosition(T element, int pos)
+    {
+        _entryToPos.Remove(element);
 
-            while (up >= 0 && _queue[up].Key > _queue[n].Key)
-            {
-                var entry = _queue[up];
-                _queue[up] = _queue[n];
-                _queue[n] = entry;
+        _entryToPos.Add(element, pos);
+    }
 
-                UpdatePosition(_queue[n].Value, n);
-                UpdatePosition(_queue[up].Value, up);
-
-                n = up;
-                up = (up - 1) / 2;
-            }
-        }
-
-        private void UpdatePosition(T element, int pos)
-        {
-            if (_entryToPos.ContainsKey(element))
-            {
-                _entryToPos.Remove(element);
-            }
-
-            _entryToPos.Add(element, pos);
-        }
-
-        private void RemovePosition(T element)
-        {
-            _entryToPos.Remove(element);
-        }
+    private void RemovePosition(T element)
+    {
+        _entryToPos.Remove(element);
     }
 }

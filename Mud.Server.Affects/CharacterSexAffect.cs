@@ -3,37 +3,36 @@ using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Character;
 using System.Text;
 
-namespace Mud.Server.Affects
+namespace Mud.Server.Affects;
+
+public class CharacterSexAffect : ICharacterSexAffect
 {
-    public class CharacterSexAffect : ICharacterSexAffect
+    public Sex Value { get; set; }
+
+    public void Append(StringBuilder sb)
     {
-        public Sex Value { get; set; }
+        sb.AppendFormat("%c%modifies %y%sex %c%by setting to %y%{0}%x%", Value);
+    }
 
-        public void Append(StringBuilder sb)
-        {
-            sb.AppendFormat("%c%modifies %y%sex %c%by setting to %y%{0}%x%", Value);
-        }
+    public CharacterSexAffect()
+    {
+    }
 
-        public CharacterSexAffect()
-        {
-        }
+    public CharacterSexAffect(CharacterSexAffectData data)
+    {
+        Value = data.Value;
+    }
 
-        public CharacterSexAffect(CharacterSexAffectData data)
-        {
-            Value = data.Value;
-        }
+    public void Apply(ICharacter character)
+    {
+        character.ApplyAffect(this);
+    }
 
-        public void Apply(ICharacter character)
+    public AffectDataBase MapAffectData()
+    {
+        return new CharacterSexAffectData
         {
-            character.ApplyAffect(this);
-        }
-
-        public AffectDataBase MapAffectData()
-        {
-            return new CharacterSexAffectData
-            {
-                Value = Value
-            };
-        }
+            Value = Value
+        };
     }
 }

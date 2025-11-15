@@ -1,7 +1,6 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class ItemLightData : ItemData
 {
-    public class ItemLightData : ItemData
-    {
-        public int TimeLeft { get; set; }
-    }
+    public int TimeLeft { get; set; }
 }

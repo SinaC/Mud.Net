@@ -1,15 +1,14 @@
 ﻿using Mud.Domain;
 using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Interfaces.Character
+namespace Mud.Server.Interfaces.Character;
+
+public interface IEquippedItem
 {
-    public interface IEquippedItem
-    {
-        EquipmentSlots Slot { get; }
-        IItem Item { get; set; }
+    EquipmentSlots Slot { get; }
+    IItem? Item { get; set; }
 
-        string EquipmentSlotsToString();
+    string EquipmentSlotsToString();
 
-        EquippedItemData MapEquippedData();
-    }
+    EquippedItemData MapEquippedData();
 }

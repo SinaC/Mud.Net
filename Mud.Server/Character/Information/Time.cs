@@ -2,22 +2,21 @@
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Character.Information
+namespace Mud.Server.Character.Information;
+
+[CharacterCommand("time", "Information")]
+[Syntax("[cmd]")]
+public class Time : CharacterGameAction
 {
-    [CharacterCommand("time", "Information")]
-    [Syntax("[cmd]")]
-    public class Time : CharacterGameAction
+    private ITimeManager TimeManager { get; }
+
+    public Time(ITimeManager timeManager)
     {
-        private ITimeManager TimeManager { get; }
+        TimeManager = timeManager;
+    }
 
-        public Time(ITimeManager timeManager)
-        {
-            TimeManager = timeManager;
-        }
-
-        public override void Execute(IActionInput actionInput)
-        {
-            Actor.Send(TimeManager.TimeInfo());
-        }
+    public override void Execute(IActionInput actionInput)
+    {
+        Actor.Send(TimeManager.TimeInfo());
     }
 }

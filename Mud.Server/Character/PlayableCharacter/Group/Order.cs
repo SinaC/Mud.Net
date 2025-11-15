@@ -1,62 +1,59 @@
-﻿using Mud.Common;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using System.Linq;
 
-namespace Mud.Server.Character.PlayableCharacter.Group
+namespace Mud.Server.Character.PlayableCharacter.Group;
+
+[PlayableCharacterCommand("order", "Pet")]
+[Syntax(
+        "[cmd] <pet|charmie> command",
+        "[cmd] all command")]
+public class Order : PlayableCharacterGameAction
 {
-    [PlayableCharacterCommand("order", "Pet")]
-    [Syntax(
-            "[cmd] <pet|charmie> command",
-            "[cmd] all command")]
-    public class Order : PlayableCharacterGameAction
+    protected INonPlayableCharacter[] Whom { get; set; } = default!;
+    protected string CommandLine { get; set; } = default!;
+
+    public override string? Guards(IActionInput actionInput)
     {
-        public INonPlayableCharacter[] Whom { get; protected set; }
-        public string CommandLine { get; protected set; }
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
+        if (actionInput.Parameters.Length < 2)
+            return "Order whom to do what?";
+
+        // Select target(s)
+        if (actionInput.Parameters[0].IsAll)
+            Whom = Actor.Room.NonPlayableCharacters.Where(x => x.Master == Actor && x.CharacterFlags.IsSet("Charm")).ToArray();
+        else
         {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+            var target = FindHelpers.FindByName(Actor.Room.NonPlayableCharacters.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
+            if (target == null)
+                return StringHelpers.CharacterNotFound;
 
-            if (actionInput.Parameters.Length < 2)
-                return "Order whom to do what?";
-
-            // Select target(s)
-            if (actionInput.Parameters[0].IsAll)
-                Whom = Actor.Room.NonPlayableCharacters.Where(x => x.Master == Actor && x.CharacterFlags.IsSet("Charm")).ToArray();
-            else
-            {
-                INonPlayableCharacter target = FindHelpers.FindByName(Actor.Room.NonPlayableCharacters.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
-                if (target == null)
-                    return StringHelpers.CharacterNotFound;
-
-                if (target.Master != Actor || !target.CharacterFlags.IsSet("Charm"))
-                    return "Do it yourself!";
-                Whom = target.Yield().ToArray();
-            }
-
-            if (Whom.Length == 0)
-                return "You don't have followers here.";
-
-            CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
-            return null;
+            if (target.Master != Actor || !target.CharacterFlags.IsSet("Charm"))
+                return "Do it yourself!";
+            Whom = [target];
         }
 
-        public override void Execute(IActionInput actionInput)
-        {
-            foreach (INonPlayableCharacter target in Whom)
-            {
-                Actor.Act(ActOptions.ToCharacter, "You order {0:N} to '{1}'.", target, CommandLine);
-                target.Order(CommandLine);
-            }
+        if (Whom.Length == 0)
+            return "You don't have followers here.";
 
-            Actor.ImpersonatedBy?.SetGlobalCooldown(Pulse.PulseViolence);
-            Actor.Send("Ok.");
+        CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
+        return null;
+    }
+
+    public override void Execute(IActionInput actionInput)
+    {
+        foreach (var target in Whom)
+        {
+            Actor.Act(ActOptions.ToCharacter, "You order {0:N} to '{1}'.", target, CommandLine);
+            target.Order(CommandLine);
         }
+
+        Actor.ImpersonatedBy?.SetGlobalCooldown(Pulse.PulseViolence);
+        Actor.Send("Ok.");
     }
 }

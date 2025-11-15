@@ -1,9 +1,8 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class ItemCastSpellsChargeData : ItemData
 {
-    public class ItemCastSpellsChargeData : ItemData
-    {
-        public int MaxChargeCount { get; set; }
-        public int CurrentChargeCount { get; set; }
-        public bool AlreadyRecharged { get; set; }
-    }
+    public required int MaxChargeCount { get; set; }
+    public required int CurrentChargeCount { get; set; }
+    public required bool AlreadyRecharged { get; set; }
 }

@@ -12,26 +12,19 @@
 //    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //    See the License for the specific language governing permissions and
 //    limitations under the License.
-namespace Mud.DataStructures.HeapPriorityQueue
+namespace Mud.DataStructures.HeapPriorityQueue;
+
+public class KeyValueEntry<TKey, TValue>(TKey key, TValue value)
 {
-    public class KeyValueEntry<TKey, TValue>
+    public TKey Key
     {
-        public TKey Key
-        {
-            get;
-            set;
-        }
+        get;
+        set;
+    } = key;
 
-        public TValue Value
-        {
-            get;
-            set;
-        }
-
-        public KeyValueEntry(TKey key, TValue value)
-        {
-            Key = key;
-            Value = value;
-        }
-    }
+    public TValue Value
+    {
+        get;
+        set;
+    } = value;
 }

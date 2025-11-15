@@ -5,36 +5,35 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Spells
+namespace Mud.Server.Rom24.Spells;
+
+[Spell(SpellName, AbilityEffects.Dispel)]
+public class DispelMagic : OffensiveSpellBase
 {
-    [Spell(SpellName, AbilityEffects.Dispel)]
-    public class DispelMagic : OffensiveSpellBase
+    private const string SpellName = "Dispel Magic";
+
+    private IDispelManager DispelManager { get; }
+
+    public DispelMagic(IRandomManager randomManager, IDispelManager dispelManager)
+        : base(randomManager)
     {
-        public const string SpellName = "Dispel Magic";
+        DispelManager = dispelManager;
+    }
 
-        private IDispelManager DispelManager { get; }
-
-        public DispelMagic(IRandomManager randomManager, IDispelManager dispelManager)
-            : base(randomManager)
+    protected override void Invoke()
+    {
+        if (Victim.SavesSpell(Level, SchoolTypes.Other))
         {
-            DispelManager = dispelManager;
+            Victim.Send("You feel a brief tingling sensation.");
+            Caster.Send("You failed.");
+            return;
         }
 
-        protected override void Invoke()
-        {
-            if (Victim.SavesSpell(Level, SchoolTypes.Other))
-            {
-                Victim.Send("You feel a brief tingling sensation.");
-                Caster.Send("You failed.");
-                return;
-            }
+        bool found = DispelManager.TryDispels(Level, Victim);
 
-            bool found = DispelManager.TryDispels(Level, Victim);
-
-            if (found)
-                Caster.Send("Ok.");
-            else
-                Caster.Send("Spell failed.");
-        }
+        if (found)
+            Caster.Send("Ok.");
+        else
+            Caster.Send("Spell failed.");
     }
 }

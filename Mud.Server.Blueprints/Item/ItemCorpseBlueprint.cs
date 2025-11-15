@@ -1,6 +1,5 @@
-﻿namespace Mud.Server.Blueprints.Item
+﻿namespace Mud.Server.Blueprints.Item;
+
+public class ItemCorpseBlueprint : ItemBlueprintBase
 {
-    public class ItemCorpseBlueprint : ItemBlueprintBase
-    {
-    }
 }

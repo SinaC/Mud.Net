@@ -1,6 +1,5 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class ItemWandData : ItemCastSpellsChargeData
 {
-    public class ItemWandData : ItemCastSpellsChargeData
-    {
-    }
 }

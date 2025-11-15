@@ -3,34 +3,33 @@ using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Affects
+namespace Mud.Server.Affects;
+
+public class ItemFlagsAffect : FlagsAffectBase<IItemFlags, IItemFlagValues>, IItemFlagsAffect
 {
-    public class ItemFlagsAffect : FlagsAffectBase<IItemFlags, IItemFlagValues>, IItemFlagsAffect
+    protected override string Target => "Item flags";
+
+    public ItemFlagsAffect()
     {
-        protected override string Target => "Item flags";
+    }
 
-        public ItemFlagsAffect()
-        {
-        }
+    public ItemFlagsAffect(ItemFlagsAffectData data)
+    {
+        Operator = data.Operator;
+        Modifier = data.Modifier;
+    }
 
-        public ItemFlagsAffect(ItemFlagsAffectData data)
-        {
-            Operator = data.Operator;
-            Modifier = data.Modifier;
-        }
+    public void Apply(IItem item)
+    {
+        item.ApplyAffect(this);
+    }
 
-        public void Apply(IItem item)
+    public override AffectDataBase MapAffectData()
+    {
+        return new ItemFlagsAffectData
         {
-            item.ApplyAffect(this);
-        }
-
-        public override AffectDataBase MapAffectData()
-        {
-            return new ItemFlagsAffectData
-            {
-                Operator = Operator,
-                Modifier = Modifier
-            };
-        }
+            Operator = Operator,
+            Modifier = Modifier
+        };
     }
 }

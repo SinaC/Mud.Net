@@ -5,36 +5,35 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Character.Movement
+namespace Mud.Server.Character.Movement;
+
+[CharacterCommand("enter", "Movement", MinPosition = Positions.Standing, NotInCombat = true)]
+[Syntax("[cmd] <portal>")]
+public class Enter : CharacterGameAction
 {
-    [CharacterCommand("enter", "Movement", MinPosition = Positions.Standing, NotInCombat = true)]
-    [Syntax("[cmd] <portal>")]
-    public class Enter : CharacterGameAction
+    protected IItemPortal What { get; set; } = default!;
+
+    public override string? Guards(IActionInput actionInput)
     {
-        public IItemPortal What { get; protected set; }
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
-        {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+        if (Actor.Fighting != null)
+            return ""; // no specific message
+        if (actionInput.Parameters.Length == 0)
+            return "Nope, can't do it.";
+        var item = FindHelpers.FindItemHere(Actor, actionInput.Parameters[0]);
+        if (item == null)
+            return StringHelpers.ItemNotFound;
+        if (item is not IItemPortal what)
+            return "You can't seem to find a way in.";
+        What = what;
+        return null;
+    }
 
-            if (Actor.Fighting != null)
-                return ""; // no specific message
-            if (actionInput.Parameters.Length == 0)
-                return "Nope, can't do it.";
-            IItem item = FindHelpers.FindItemHere(Actor, actionInput.Parameters[0]);
-            if (item == null)
-                return StringHelpers.ItemNotFound;
-            What = item as IItemPortal;
-            if (What == null)
-                return "You can't seem to find a way in.";
-            return null;
-        }
-
-        public override void Execute(IActionInput actionInput)
-        {
-            Actor.Enter(What, false, true);
-        }
+    public override void Execute(IActionInput actionInput)
+    {
+        Actor.Enter(What, false, true);
     }
 }

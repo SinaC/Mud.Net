@@ -1,8 +1,7 @@
-﻿namespace Mud.Server.Random
+﻿namespace Mud.Server.Random;
+
+public interface IOccurancy<out T>
 {
-    public interface IOccurancy<out T>
-    {
-        T Value { get; }
-        int Occurancy { get; }
-    }
+    T Value { get; }
+    int Occurancy { get; }
 }

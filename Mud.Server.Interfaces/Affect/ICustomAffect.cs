@@ -1,9 +1,8 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Interfaces.Affect
+namespace Mud.Server.Interfaces.Affect;
+
+public interface ICustomAffect : IAffect
 {
-    public interface ICustomAffect : IAffect
-    {
-        void Initialize(AffectDataBase data);
-    }
+    void Initialize(AffectDataBase data);
 }

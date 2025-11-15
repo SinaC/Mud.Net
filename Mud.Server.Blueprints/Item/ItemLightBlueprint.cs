@@ -1,7 +1,6 @@
-﻿namespace Mud.Server.Blueprints.Item
+﻿namespace Mud.Server.Blueprints.Item;
+
+public class ItemLightBlueprint : ItemBlueprintBase
 {
-    public class ItemLightBlueprint : ItemBlueprintBase
-    {
-        public int DurationHours { get; set; } // in hours, -1: means infinite
-    }
+    public int DurationHours { get; set; } // in hours, -1: means infinite
 }

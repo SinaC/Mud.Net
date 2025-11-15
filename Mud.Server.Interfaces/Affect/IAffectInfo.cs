@@ -1,12 +1,9 @@
-﻿using System;
+﻿namespace Mud.Server.Interfaces.Affect;
 
-namespace Mud.Server.Interfaces.Affect
+public interface IAffectInfo
 {
-    public interface IAffectInfo
-    {
-        string Name { get; }
-        Type AffectDataType { get; }
+    string Name { get; }
+    Type AffectDataType { get; }
 
-        Type AffectType { get; }
-    }
+    Type AffectType { get; }
 }

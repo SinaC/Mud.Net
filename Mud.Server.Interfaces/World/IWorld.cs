@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using Mud.Server.Blueprints.LootTable;
+﻿using Mud.Server.Blueprints.LootTable;
 
-namespace Mud.Server.Interfaces.World
+namespace Mud.Server.Interfaces.World;
+
+public interface IWorld
 {
-    public interface IWorld
-    {
-        IReadOnlyCollection<TreasureTable<int>> TreasureTables { get; }
+    IReadOnlyCollection<TreasureTable<int>> TreasureTables { get; }
 
-        void AddTreasureTable(TreasureTable<int> table);
+    void AddTreasureTable(TreasureTable<int> table);
 
-        void FixWorld(); // should be called before the first ResetWorld
-        void ResetWorld();
+    void FixWorld(); // should be called before the first ResetWorld
+    void ResetWorld();
 
-        void Cleanup(); // called once outputs has been processed (before next loop)
-    }
+    void Cleanup(); // called once outputs has been processed (before next loop)
 }

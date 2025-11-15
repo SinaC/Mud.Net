@@ -1,6 +1,5 @@
-﻿namespace Mud.Server.Interfaces.Effect
+﻿namespace Mud.Server.Interfaces.Effect;
+
+public interface IWeaponEffect : IRegistrable
 {
-    public interface IWeaponEffect : IRegistrable
-    {
-    }
 }

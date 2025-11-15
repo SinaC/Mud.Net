@@ -1,10 +1,9 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Interfaces.Affect
+namespace Mud.Server.Interfaces.Affect;
+
+public interface IRoomResourceRateAffect : IRoomAffect
 {
-    public interface IRoomResourceRateAffect : IRoomAffect
-    {
-        int Modifier { get; set; }
-        AffectOperators Operator { get; set; }
-    }
+    int Modifier { get; set; }
+    AffectOperators Operator { get; set; }
 }

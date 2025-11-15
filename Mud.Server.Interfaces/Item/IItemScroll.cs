@@ -1,6 +1,5 @@
-﻿namespace Mud.Server.Interfaces.Item
+﻿namespace Mud.Server.Interfaces.Item;
+
+public interface IItemScroll : IItemCastSpellsNoCharge
 {
-    public interface IItemScroll : IItemCastSpellsNoCharge
-    {
-    }
 }

@@ -1,9 +1,8 @@
-﻿namespace Mud.Repository.Filesystem.Domain
-{
-    public class ItemWeaponFlagsAffectData : AffectDataBase
-    {
-        public int Operator { get; set; } // Add and Or are identical
+﻿namespace Mud.Repository.Filesystem.Domain;
 
-        public string Modifier { get; set; }
-    }
+public class ItemWeaponFlagsAffectData : AffectDataBase
+{
+    public int Operator { get; set; } // Add and Or are identical
+
+    public string Modifier { get; set; }
 }

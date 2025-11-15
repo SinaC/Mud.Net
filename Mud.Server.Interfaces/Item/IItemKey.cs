@@ -1,7 +1,6 @@
-﻿namespace Mud.Server.Interfaces.Item
+﻿namespace Mud.Server.Interfaces.Item;
+
+public interface IItemKey : IItem
 {
-    public interface IItemKey : IItem
-    {
-        // No additional fields
-    }
+    // No additional fields
 }

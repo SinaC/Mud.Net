@@ -1,13 +1,12 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class ItemDrinkContainerData : ItemData
 {
-    public class ItemDrinkContainerData : ItemData
-    {
-        public int MaxLiquidAmount { get; set; }
+    public required int MaxLiquidAmount { get; set; }
 
-        public int CurrentLiquidAmount { get; set; }
+    public required int CurrentLiquidAmount { get; set; }
 
-        public string LiquidName { get; set; }
+    public required string LiquidName { get; set; }
 
-        public bool IsPoisoned { get; set; }
-    }
+    public required bool IsPoisoned { get; set; }
 }

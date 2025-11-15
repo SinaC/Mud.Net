@@ -1,14 +1,13 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Blueprints.Item
+namespace Mud.Server.Blueprints.Item;
+
+public class ItemQuestBlueprint : ItemBlueprintBase
 {
-    public class ItemQuestBlueprint : ItemBlueprintBase
+    public ItemQuestBlueprint()
     {
-        public ItemQuestBlueprint()
-        {
-            WearLocation = WearLocations.None;
-            Weight = 0;
-            Cost = 0;
-        }
+        WearLocation = WearLocations.None;
+        Weight = 0;
+        Cost = 0;
     }
 }

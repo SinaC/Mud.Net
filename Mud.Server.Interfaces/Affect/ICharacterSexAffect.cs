@@ -1,9 +1,8 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Interfaces.Affect
+namespace Mud.Server.Interfaces.Affect;
+
+public interface ICharacterSexAffect : ICharacterAffect
 {
-    public interface ICharacterSexAffect : ICharacterAffect
-    {
-        Sex Value { get; set; }
-    }
+    Sex Value { get; set; }
 }

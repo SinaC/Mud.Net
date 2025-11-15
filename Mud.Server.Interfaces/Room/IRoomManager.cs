@@ -2,31 +2,28 @@
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
-using System;
-using System.Collections.Generic;
 
-namespace Mud.Server.Interfaces.Room
+namespace Mud.Server.Interfaces.Room;
+
+public interface IRoomManager
 {
-    public interface IRoomManager
-    {
-        IReadOnlyCollection<RoomBlueprint> RoomBlueprints { get; }
+    IReadOnlyCollection<RoomBlueprint> RoomBlueprints { get; }
 
-        RoomBlueprint GetRoomBlueprint(int id);
+    RoomBlueprint? GetRoomBlueprint(int id);
 
-        void AddRoomBlueprint(RoomBlueprint blueprint);
+    void AddRoomBlueprint(RoomBlueprint blueprint);
 
-        IEnumerable<IRoom> Rooms { get; }
+    IEnumerable<IRoom> Rooms { get; }
 
-        IRoom GetRandomRoom(ICharacter character);
+    IRoom GetRandomRoom(ICharacter character);
 
-        IRoom NullRoom { get; }
-        IRoom DefaultRecallRoom { get; }
-        IRoom DefaultDeathRoom { get; }
-        IRoom MudSchoolRoom { get; }
+    IRoom NullRoom { get; }
+    IRoom DefaultRecallRoom { get; }
+    IRoom DefaultDeathRoom { get; }
+    IRoom MudSchoolRoom { get; }
 
-        IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area);
-        IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction);
+    IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area);
+    IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction);
 
-        void RemoveRoom(IRoom room);
-    }
+    void RemoveRoom(IRoom room);
 }

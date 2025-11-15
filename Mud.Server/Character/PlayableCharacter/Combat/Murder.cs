@@ -6,75 +6,75 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Character.PlayableCharacter.Combat
+namespace Mud.Server.Character.PlayableCharacter.Combat;
+
+[PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true, MinPosition = Positions.Standing)]
+[Syntax("[cmd] <character>")]
+public class Murder : PlayableCharacterGameAction
 {
-    [PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true, MinPosition = Positions.Standing)]
-    [Syntax("[cmd] <character>")]
-    public class Murder : PlayableCharacterGameAction
+    private IGameActionManager GameActionManager { get; }
+
+    public Murder(IGameActionManager gameActionManager)
     {
-        private IGameActionManager GameActionManager { get; }
+        GameActionManager = gameActionManager;
+    }
 
-        public ICharacter Whom { get; protected set; }
+    protected ICharacter Whom { get; set; } = default!;
 
-        public Murder(IGameActionManager gameActionManager)
+    public override string? Guards(IActionInput actionInput)
+    {
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
+
+        if (actionInput.Parameters.Length == 0)
+            return "Kill whom?";
+
+        Whom = FindHelpers.FindByName(Actor.Room?.People!, actionInput.Parameters[0])!;
+        if (Whom == null)
+            return StringHelpers.CharacterNotFound;
+
+        if (Whom == Actor)
+            return "You hit yourself. Ouch!";
+
+        var safeResult = Whom.IsSafe(Actor);
+        if (safeResult != null)
+            return safeResult;
+
+        IPlayableCharacter playableActor = Actor;
+        if (Whom.Fighting != null)
         {
-            GameActionManager = gameActionManager;
+            // if not in same group, don't allow kill stealing
+            bool isInSameGroup = playableActor != null && Whom.Fighting is IPlayableCharacter fightingPlayableCharacter && playableActor.IsSameGroup(fightingPlayableCharacter);
+            if (!isInSameGroup)
+                return "Kill stealing is not permitted.";
         }
 
-        public override string Guards(IActionInput actionInput)
-        {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+        // TODO
+        // this is impossible with new game action system
+        //INonPlayableCharacter nonPlayableActor = Actor as INonPlayableCharacter;
+        //if (Actor.CharacterFlags.HasFlag(CharacterFlags.Charm) && nonPlayableActor?.Master == Whom)
+        //    return Actor.ActPhrase("{0:N} is your beloved master.", Whom);
 
-            if (actionInput.Parameters.Length == 0)
-                return "Kill whom?";
+        if (Actor.Fighting != null)
+            return "You do the best you can!";
 
-            Whom = FindHelpers.FindByName(Actor.Room.People, actionInput.Parameters[0]);
-            if (Whom == null)
-                return StringHelpers.CharacterNotFound;
+        return null;
+    }
 
-            if (Whom == Actor)
-                return "You hit yourself. Ouch!";
+    public override void Execute(IActionInput actionInput)
+    {
+        // GCD
+        Actor.ImpersonatedBy?.SetGlobalCooldown(1);
+        //TODO: check_killer( ch, victim );
 
-            string safeResult = Whom.IsSafe(Actor);
-            if (safeResult != null)
-                return safeResult;
+        string msg = $"Help! I am being attacked by {Actor.DisplayName}!";
 
-            IPlayableCharacter playableActor = Actor;
-            if (Whom.Fighting != null)
-            {
-                // if not in same group, don't allow kill stealing
-                bool isInSameGroup = playableActor != null && Whom.Fighting is IPlayableCharacter fightingPlayableCharacter && playableActor.IsSameGroup(fightingPlayableCharacter);
-                if (!isInSameGroup)
-                    return "Kill stealing is not permitted.";
-            }
+        var executionResults = GameActionManager.Execute<Yell, ICharacter>(Whom, msg);
+        if (executionResults != null)
+            Actor.Send(executionResults);
 
-            // this is impossible with new game action system
-            //INonPlayableCharacter nonPlayableActor = Actor as INonPlayableCharacter;
-            //if (Actor.CharacterFlags.HasFlag(CharacterFlags.Charm) && nonPlayableActor?.Master == Whom)
-            //    return Actor.ActPhrase("{0:N} is your beloved master.", Whom);
-
-            if (Actor.Fighting != null)
-                return "You do the best you can!";
-
-            return null;
-        }
-
-        public override void Execute(IActionInput actionInput)
-        {
-            // GCD
-            Actor.ImpersonatedBy?.SetGlobalCooldown(1);
-            //TODO: check_killer( ch, victim );
-
-            string msg = $"Help! I am being attacked by {Actor.DisplayName}!";
-
-            string executionResults = GameActionManager.Execute<Yell, ICharacter>(Whom, msg);
-            if (executionResults != null)
-                Actor.Send(executionResults);
-
-            // Starts fight
-            Actor.MultiHit(Whom);
-        }
+        // Starts fight
+        Actor.MultiHit(Whom);
     }
 }

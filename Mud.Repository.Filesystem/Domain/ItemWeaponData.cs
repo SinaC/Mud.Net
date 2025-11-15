@@ -1,7 +1,6 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class ItemWeaponData : ItemData
 {
-    public class ItemWeaponData : ItemData
-    {
-        public string WeaponFlags { get; set; }
-    }
+    public string WeaponFlags { get; set; }
 }

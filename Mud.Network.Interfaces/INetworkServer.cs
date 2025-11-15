@@ -1,16 +1,15 @@
-﻿namespace Mud.Network.Interfaces
+﻿namespace Mud.Network.Interfaces;
+
+// TODO: should be able to tell when a client connects/disconnects
+public delegate void NewClientConnectedEventHandler(IClient client);
+public delegate void ClientDisconnectedEventHandler(IClient client);
+
+public interface INetworkServer
 {
-    // TODO: should be able to tell when a client connects/disconnects
-    public delegate void NewClientConnectedEventHandler(IClient client);
-    public delegate void ClientDisconnectedEventHandler(IClient client);
+    event NewClientConnectedEventHandler NewClientConnected;
+    event ClientDisconnectedEventHandler ClientDisconnected;
 
-    public interface INetworkServer
-    {
-        event NewClientConnectedEventHandler NewClientConnected;
-        event ClientDisconnectedEventHandler ClientDisconnected;
-
-        void Initialize();
-        void Start();
-        void Stop();
-    }
+    void Initialize();
+    void Start();
+    void Stop();
 }

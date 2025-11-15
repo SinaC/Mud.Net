@@ -1,9 +1,8 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Interfaces.Affect
+namespace Mud.Server.Interfaces.Affect;
+
+public interface ICharacterSizeAffect : ICharacterAffect
 {
-    public interface ICharacterSizeAffect : ICharacterAffect
-    {
-        Sizes Value { get; set; }
-    }
+    Sizes Value { get; set; }
 }

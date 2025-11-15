@@ -1,81 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4C7BC035-7C0C-4D18-B225-EFC3556E51FD}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mud.Importer.Rot</RootNamespace>
-    <AssemblyName>Mud.Importer.Rot</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>net8.0</TargetFramework>
+      <OutputType>Library</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
+    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
+    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
+    <ProjectReference Include="..\Mud.Importer\Mud.Importer.csproj" />
+    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj" />
+    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AreaData.cs" />
-    <Compile Include="MobileData.cs" />
-    <Compile Include="ObjectData.cs" />
-    <Compile Include="RoomData.cs" />
-    <Compile Include="RotConvertException.cs" />
-    <Compile Include="RotImporter.cs" />
-    <Compile Include="RotLoader.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj">
-      <Project>{00b458af-c87b-4558-8ba7-b21d9626621e}</Project>
-      <Name>Mud.DataStructures</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj">
-      <Project>{0ca7b0b7-273a-4c00-9cb7-d9951ac0bdce}</Project>
-      <Name>Mud.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Importer\Mud.Importer.csproj">
-      <Project>{3a7f2847-d754-4eb1-ad57-805df4f9241f}</Project>
-      <Name>Mud.Importer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj">
-      <Project>{4E337998-ECAB-493B-9FAA-01366EE90EFF}</Project>
-      <Name>Mud.Logger</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj">
-      <Project>{b85fdc6f-9d3f-4b24-af53-aa30b6244bab}</Project>
-      <Name>Mud.Server.Blueprints</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj">
-      <Project>{5b52488b-2cbe-4fc7-9004-e0c23e97907f}</Project>
-      <Name>Mud.Server.Flags.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj">
-      <Project>{17b2b5f8-66c4-4e77-b910-c41c0539f436}</Project>
-      <Name>Mud.Server.Flags</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

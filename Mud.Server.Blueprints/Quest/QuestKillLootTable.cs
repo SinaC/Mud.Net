@@ -1,51 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using Mud.Logger;
+﻿using Mud.Logger;
 using Mud.Server.Random;
 
-namespace Mud.Server.Blueprints.Quest
+namespace Mud.Server.Blueprints.Quest;
+
+// Quest loot table stores global drop percentage instead of a relative percentage
+public class QuestKillLootTable<T> // this represents additional provided by kill mob while working on this quest
+    where T:IEquatable<T>
 {
-    // Quest loot table stores global drop percentage instead of a relative percentage
-    public class QuestKillLootTable<T> // this represents additional provided by kill mob while working on this quest
-        where T:IEquatable<T>
+    private IRandomManager RandomManager { get; }
+
+    public string Name { get; set; } = default!;
+    public List<QuestKillLootTableEntry<T>> Entries { get; set; } = default!;
+
+    public QuestKillLootTable(IRandomManager randomManager)
     {
-        private IRandomManager RandomManager { get; }
+        RandomManager = randomManager;
+    }
 
-        public string Name { get; set; }
-        public List<QuestKillLootTableEntry<T>> Entries { get; set; }
-
-        public QuestKillLootTable(IRandomManager randomManager)
+    public bool AddItem(T item, int percentage)
+    {
+        Entries ??= [];
+        // TODO: check if already exists ?
+        Entries.Add(new QuestKillLootTableEntry<T>
         {
-            RandomManager = randomManager;
-        }
+            Value = item,
+            Percentage = percentage
+        });
+        return true;
+    }
 
-        public bool AddItem(T item, int percentage)
+    public List<T> GenerateLoots()
+    {
+        List<T> loots = [];
+        if (Entries != null)
         {
-            Entries = Entries ?? new List<QuestKillLootTableEntry<T>>();
-            // TODO: check if already exists ?
-            Entries.Add(new QuestKillLootTableEntry<T>
+            foreach (QuestKillLootTableEntry<T> entry in Entries)
             {
-                Value = item,
-                Percentage = percentage
-            });
-            return true;
-        }
-
-        public List<T> GenerateLoots()
-        {
-            List<T> loots = new List<T>();
-            if (Entries != null)
-            {
-                foreach (QuestKillLootTableEntry<T> entry in Entries)
-                {
-                    int percentage = RandomManager.Range(1,100);
-                    if (percentage <= entry.Percentage)
-                        loots.Add(entry.Value);
-                }
+                int percentage = RandomManager.Range(1,100);
+                if (percentage <= entry.Percentage)
+                    loots.Add(entry.Value);
             }
-            else
-                Log.Default.WriteLine(LogLevels.Warning, "QuestLootTable.GenerateLoots: No entries");
-            return loots;
         }
+        else
+            Log.Default.WriteLine(LogLevels.Warning, "QuestLootTable.GenerateLoots: No entries");
+        return loots;
     }
 }

@@ -1,51 +1,48 @@
 ﻿using Mud.DataStructures.Flags;
 using Mud.Logger;
 using Mud.Server.Flags.Interfaces;
-using System;
-using System.Collections.Generic;
 
-namespace Mud.Server.Rom24.Flags
+namespace Mud.Server.Rom24.Flags;
+
+public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
 {
-    public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
+    private static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
     {
-        private static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
-        {
-            "Blind",
-            "Invisible",
-            "DetectEvil",
-            "DetectInvis",
-            "DetectMagic",
-            "DetectHidden",
-            "DetectGood",
-            "Sanctuary",
-            "FaerieFire",
-            "Infrared",
-            "Curse",
-            "Poison",
-            "ProtectEvil",
-            "ProtectGood",
-            "Sneak",
-            "Hide",
-            "Sleep",
-            "Charm",
-            "Flying",
-            "PassDoor",
-            "Haste",
-            "Calm",
-            "Plague",
-            "Weaken",
-            "DarkVision",
-            "Berserk",
-            "Swim",
-            "Regeneration",
-            "Slow",
-        };
+        "Blind",
+        "Invisible",
+        "DetectEvil",
+        "DetectInvis",
+        "DetectMagic",
+        "DetectHidden",
+        "DetectGood",
+        "Sanctuary",
+        "FaerieFire",
+        "Infrared",
+        "Curse",
+        "Poison",
+        "ProtectEvil",
+        "ProtectGood",
+        "Sneak",
+        "Hide",
+        "Sleep",
+        "Charm",
+        "Flying",
+        "PassDoor",
+        "Haste",
+        "Calm",
+        "Plague",
+        "Weaken",
+        "DarkVision",
+        "Berserk",
+        "Swim",
+        "Regeneration",
+        "Slow",
+    };
 
-        protected override HashSet<string> HashSet => Flags;
+    protected override HashSet<string> HashSet => Flags;
 
-        public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
-        {
-            Log.Default.WriteLine(LogLevels.Error, $"Character flags '{string.Join(",", values)}' not found in {GetType().FullName}");
-        }
+    public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
+    {
+        Log.Default.WriteLine(LogLevels.Error, $"Character flags '{string.Join(",", values)}' not found in {GetType().FullName}");
     }
 }

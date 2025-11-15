@@ -51,7 +51,17 @@ namespace Mud.Server.Tests
                 Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
                 Auras = AutoFaker.Generate<AuraData[]>(),
                 LearnedAbilities = AutoFaker.Generate<LearnedAbilityData[]>(), // AbilityManagerMock will generate Ability at runtime // TODO: find a way to automatically (int)AutoFaker.Generate<ushort>() on int fields
-                Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>())
+                Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
+                Equipments = [],
+                Inventory = [],
+                CurrentQuests = [],
+                Cooldowns = [],
+                Aliases = [],
+                Pets = [],
+                Alignment = AutoFaker.Generate<int>(),
+                AutoFlags = AutoFlags.Assist,
+                GoldCoins = AutoFaker.Generate<int>(),
+                SilverCoins = AutoFaker.Generate<int>(),
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
@@ -74,17 +84,17 @@ namespace Mud.Server.Tests
             Assert.AreEqual(playableCharacterData.MaxResources[ResourceKinds.Psy], playableCharacter.MaxResource(ResourceKinds.Psy));
             Assert.AreEqual(playableCharacterData.Trains, playableCharacter.Trains);
             Assert.AreEqual(playableCharacterData.Practices, playableCharacter.Practices);
-            Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
-            Assert.AreEqual(0, playableCharacter.Inventory.Count());
-            Assert.AreEqual(0, playableCharacter.Quests.Count());
+            Assert.IsEmpty(playableCharacter.Equipments.Where(x => x.Item != null));
+            Assert.IsEmpty(playableCharacter.Inventory);
+            Assert.IsEmpty(playableCharacter.Quests);
             Assert.AreEqual(playableCharacterData.CharacterFlags, playableCharacter.BaseCharacterFlags);
             Assert.AreEqual(playableCharacterData.Immunities, playableCharacter.BaseImmunities);
             Assert.AreEqual(playableCharacterData.Resistances, playableCharacter.BaseResistances);
             Assert.AreEqual(playableCharacterData.Vulnerabilities, playableCharacter.BaseVulnerabilities);
             Assert.AreEqual(playableCharacterData.Attributes.Sum(x => (int)x.Key ^ x.Value), EnumHelpers.GetValues<CharacterAttributes>().Sum(x => (int)x ^ playableCharacter.BaseAttribute(x)));
-            Assert.AreEqual(playableCharacterData.Auras.Length, playableCharacter.Auras.Count());
-            Assert.AreEqual(playableCharacterData.Auras.SelectMany(x => x.Affects).Count(), playableCharacter.Auras.SelectMany(x => x.Affects).Count()); // can't test AffectData because AutoFaker doesn't handle abstract class
-            Assert.AreEqual(playableCharacterData.LearnedAbilities.Length, playableCharacter.LearnedAbilities.Count());
+            Assert.HasCount(playableCharacterData.Auras.Length, playableCharacter.Auras);
+            Assert.HasCount(playableCharacterData.Auras.SelectMany(x => x.Affects).Count(), playableCharacter.Auras.SelectMany(x => x.Affects)); // can't test AffectData because AutoFaker doesn't handle abstract class
+            Assert.HasCount(playableCharacterData.LearnedAbilities.Length, playableCharacter.LearnedAbilities);
             //Assert.AreEqual(ArithmeticOverflow!!!
             //    playableCharacterData.LearnedAbilities.Sum(x => (int)x.AbilityId ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating),
             //    playableCharacter.LearnedAbilities.Sum(x => (int)x.Ability.Id ^ (int)x.ResourceKind ^ (int)x.CostAmount ^ (int)x.CostAmountOperator ^ (int)x.Learned ^ (int)x.Level ^ (int)x.Rating));
@@ -133,12 +143,23 @@ namespace Mud.Server.Tests
                     new ItemLightData
                     {
                         ItemId = lightBlueprint.Id,
-                        DecayPulseLeft = 20
+                        DecayPulseLeft = 20,
+                        Level = 1,
+                        ItemFlags = new ItemFlags(),
+                        Auras = [],
+                        TimeLeft = 10,
                     },
                     new ItemPortalData
                     {
                         ItemId = portalBlueprint.Id,
-                        DecayPulseLeft = 30
+                        DecayPulseLeft = 30,
+                        Auras = [],
+                        CurrentChargeCount = 5,
+                        ItemFlags = new ItemFlags(),
+                        Level = 1,
+                        DestinationRoomId = 1,
+                        MaxChargeCount = 10,
+                        PortalFlags = new PortalFlags(),
                     },
                     new ItemContainerData
                     {
@@ -149,16 +170,52 @@ namespace Mud.Server.Tests
                             new ItemData
                             {
                                 ItemId = jewelryBlueprint.Id,
-                                DecayPulseLeft = 50
+                                DecayPulseLeft = 50,
+                                Auras = [],
+                                ItemFlags = new ItemFlags(),
+                                Level = 1
                             },
                             new ItemData
                             {
                                 ItemId = armorBlueprint.Id,
-                                DecayPulseLeft = 60
+                                DecayPulseLeft = 60,
+                                Auras = [],
+                                ItemFlags = new ItemFlags(),
+                                Level = 1
                             }
-                        }
+                        },
+                        Auras = [],
+                        ItemFlags = new ItemFlags(),
+                        Level = 1,
+                        ContainerFlags = new ContainerFlags(),
+                        MaxWeight = 100,
+                        MaxWeightPerItem = 50,
                     },
-                }
+                },
+                Attributes = [],
+                Auras = [],
+                CharacterFlags = new CharacterFlags(),
+                CurrentResources = [],
+                MaxResources = [],
+                HitPoints = 0,
+                MovePoints = 0,
+                Conditions = [],
+                Immunities = new IRVFlags(),
+                Vulnerabilities = new IRVFlags(),
+                Resistances = new IRVFlags(),
+                LearnedAbilities = [],
+                Size = Sizes.Medium,
+                Trains = 0,
+                Practices = 0,
+                Equipments = [],
+                CurrentQuests = [],
+                Cooldowns = [],
+                Aliases = [],
+                Pets = [],
+                Alignment = AutoFaker.Generate<int>(),
+                AutoFlags = AutoFlags.Assist,
+                GoldCoins = AutoFaker.Generate<int>(),
+                SilverCoins = AutoFaker.Generate<int>(),
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
@@ -172,18 +229,18 @@ namespace Mud.Server.Tests
             Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
             Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
-            Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
-            Assert.AreEqual(0, playableCharacter.Quests.Count());
-            Assert.AreEqual(playableCharacterData.Inventory.Length, playableCharacter.Inventory.Count());
-            Assert.AreEqual(1, playableCharacter.Inventory.Count(x => x.Blueprint.Id == lightBlueprint.Id));
-            Assert.AreEqual(1, playableCharacter.Inventory.Count(x => x.Blueprint.Id == portalBlueprint.Id));
-            Assert.AreEqual(1, playableCharacter.Inventory.Count(x => x.Blueprint.Id == containerBlueprint2.Id));
+            Assert.IsEmpty(playableCharacter.Equipments.Where(x => x.Item != null));
+            Assert.IsEmpty(playableCharacter.Quests);
+            Assert.HasCount(playableCharacterData.Inventory.Length, playableCharacter.Inventory);
+            Assert.ContainsSingle(playableCharacter.Inventory.Where(x => x.Blueprint.Id == lightBlueprint.Id));
+            Assert.ContainsSingle(playableCharacter.Inventory.Where(x => x.Blueprint.Id == portalBlueprint.Id));
+            Assert.ContainsSingle(playableCharacter.Inventory.Where(x => x.Blueprint.Id == containerBlueprint2.Id));
             IItem container = playableCharacter.Inventory.Single(x => x.Blueprint.Id == containerBlueprint2.Id);
             Assert.IsInstanceOfType(container, typeof(IItemContainer));
             Assert.IsNotNull((container as IItemContainer).Content);
-            Assert.AreEqual(2, (container as IItemContainer).Content.Count());
-            Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == jewelryBlueprint.Id));
-            Assert.AreEqual(1, (container as IItemContainer).Content.Count(x => x.Blueprint.Id == armorBlueprint.Id));
+            Assert.HasCount(2, (container as IItemContainer).Content);
+            Assert.ContainsSingle((container as IItemContainer).Content.Where(x => x.Blueprint.Id == jewelryBlueprint.Id));
+            Assert.ContainsSingle((container as IItemContainer).Content.Where(x => x.Blueprint.Id == armorBlueprint.Id));
         }
 
         [TestMethod]
@@ -224,6 +281,9 @@ namespace Mud.Server.Tests
                             ItemId = lightBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
                             ItemFlags = new ItemFlags("Bless"),
+                            Auras = [],
+                            Level = 1,
+                            TimeLeft = 100,
                         },
                     },
                     new EquippedItemData
@@ -241,8 +301,19 @@ namespace Mud.Server.Tests
                                     ItemId = portalBlueprint.Id,
                                     DecayPulseLeft = AutoFaker.Generate<int>(),
                                     ItemFlags = new ItemFlags("Bless"),
+                                    Auras = [],
+                                    Level = 1,
+                                    CurrentChargeCount = 5,
+                                    DestinationRoomId = 1,
+                                    MaxChargeCount = 10,
+                                    PortalFlags = PortalFlags.None
                                 }
-                            }
+                            },
+                            Auras = [],
+                            Level = 1,
+                            ContainerFlags = new ContainerFlags(),
+                            MaxWeight = 100,
+                            MaxWeightPerItem = 50
                         },
                     },
                     new EquippedItemData
@@ -253,6 +324,8 @@ namespace Mud.Server.Tests
                             ItemId = jewelryBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
                             ItemFlags = new ItemFlags("Bless"),
+                            Auras = [],
+                            Level = 1
                         },
                     },
                     new EquippedItemData
@@ -263,9 +336,35 @@ namespace Mud.Server.Tests
                             ItemId = armorBlueprint.Id,
                             DecayPulseLeft = AutoFaker.Generate<int>(),
                             ItemFlags = new ItemFlags("Bless"),
+                            Auras = [],
+                            Level = 1
                         },
                     },
                 },
+                Attributes = [],
+                Auras = [],
+                CharacterFlags = new CharacterFlags(),
+                CurrentResources = [],
+                MaxResources = [],
+                HitPoints = 0,
+                MovePoints = 0,
+                Conditions = [],
+                Immunities = new IRVFlags(),
+                Vulnerabilities = new IRVFlags(),
+                Resistances = new IRVFlags(),
+                LearnedAbilities = [],
+                Size = Sizes.Medium,
+                Trains = 0,
+                Practices = 0,
+                Inventory = [],
+                CurrentQuests = [],
+                Cooldowns = [],
+                Aliases = [],
+                Pets = [],
+                Alignment = AutoFaker.Generate<int>(),
+                AutoFlags = AutoFlags.Assist,
+                GoldCoins = AutoFaker.Generate<int>(),
+                SilverCoins = AutoFaker.Generate<int>(),
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, new Mock<IRoom>().Object);
@@ -279,9 +378,9 @@ namespace Mud.Server.Tests
             Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
             Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
-            Assert.AreEqual(0, playableCharacter.Quests.Count());
-            Assert.AreEqual(0 , playableCharacter.Inventory.Count());
-            Assert.AreEqual(playableCharacterData.Equipments.Length, playableCharacter.Equipments.Count(x => x.Item != null));
+            Assert.IsEmpty(playableCharacter.Quests);
+            Assert.IsEmpty( playableCharacter.Inventory);
+            Assert.HasCount(playableCharacterData.Equipments.Length, playableCharacter.Equipments.Where(x => x.Item != null));
             Assert.IsNotNull(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.Light).Item);
             Assert.IsNotNull(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.OffHand).Item);
             Assert.IsNotNull(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.Ring).Item);
@@ -292,7 +391,7 @@ namespace Mud.Server.Tests
             Assert.AreEqual(armorBlueprint.Id, playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.Chest).Item.Blueprint.Id);
             Assert.IsInstanceOfType(playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.OffHand).Item, typeof(IItemContainer));
             IItemContainer container = playableCharacter.Equipments.First(x => x.Slot == EquipmentSlots.OffHand).Item as IItemContainer;
-            Assert.AreEqual(1, container.Content.Count());
+            Assert.ContainsSingle(container.Content);
             Assert.AreEqual(portalBlueprint.Id, container.Content.First().Blueprint.Id);
         }
 
@@ -387,7 +486,31 @@ namespace Mud.Server.Tests
                             }
                         }
                     }, 
-                }
+                },
+                Attributes = [],
+                Auras = [],
+                CharacterFlags = new CharacterFlags(),
+                CurrentResources = [],
+                MaxResources = [],
+                HitPoints = 0,
+                MovePoints = 0,
+                Conditions = [],
+                Immunities = new IRVFlags(),
+                Vulnerabilities = new IRVFlags(),
+                Resistances = new IRVFlags(),
+                LearnedAbilities = [],
+                Size = Sizes.Medium,
+                Trains = 0,
+                Practices = 0,
+                Inventory = [],
+                Equipments = [],
+                Cooldowns = [],
+                Aliases = [],
+                Pets = [],
+                Alignment = AutoFaker.Generate<int>(),
+                AutoFlags = AutoFlags.Assist,
+                GoldCoins = AutoFaker.Generate<int>(),
+                SilverCoins = AutoFaker.Generate<int>(),
             };
 
             PlayableCharacter playableCharacter = new PlayableCharacter(Guid.NewGuid(), playableCharacterData, new Mock<IPlayer>().Object, room);
@@ -401,11 +524,11 @@ namespace Mud.Server.Tests
             Assert.AreEqual(playableCharacterData.Level, playableCharacter.Level);
             Assert.AreEqual(playableCharacterData.Sex, playableCharacter.BaseSex);
             Assert.AreEqual(playableCharacterData.Experience, playableCharacter.Experience);
-            Assert.AreEqual(0, playableCharacter.Equipments.Count(x => x.Item != null));
-            Assert.AreEqual(0, playableCharacter.Inventory.Count());
-            Assert.AreEqual(1, playableCharacter.Quests.Count());
+            Assert.IsEmpty(playableCharacter.Equipments.Where(x => x.Item != null));
+            Assert.IsEmpty(playableCharacter.Inventory);
+            Assert.ContainsSingle(playableCharacter.Quests);
             Assert.AreEqual(questBlueprint1.Id, playableCharacter.Quests.Single().Blueprint.Id);
-            Assert.AreEqual(3, playableCharacter.Quests.Single().Objectives.Count());
+            Assert.HasCount(3, playableCharacter.Quests.Single().Objectives);
             Assert.IsFalse(playableCharacter.Quests.Single().Objectives.Single(x => x.Id == 1).IsCompleted); // objective1: 2 item1 on 5
             Assert.IsFalse(playableCharacter.Quests.Single().Objectives.Single(x => x.Id == 2).IsCompleted); // objective2: 0 mob1 on 3
             Assert.IsTrue(playableCharacter.Quests.Single().Objectives.Single(x => x.Id == 3).IsCompleted); // objective3: explored

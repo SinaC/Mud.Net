@@ -1,11 +1,10 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class CharacterIRVAffectData : AffectDataBase
 {
-    public class CharacterIRVAffectData : AffectDataBase
-    {
-        public int Location { get; set; }
+    public int Location { get; set; }
 
-        public int Operator { get; set; } // Add and Or are identical
+    public int Operator { get; set; } // Add and Or are identical
 
-        public string Modifier { get; set; }
-    }
+    public string Modifier { get; set; }
 }

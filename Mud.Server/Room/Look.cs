@@ -6,23 +6,22 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using System.Text;
 
-namespace Mud.Server.Room
+namespace Mud.Server.Room;
+
+[Command("look", "Information")]
+public class Look : GameActionBase<IRoom, IGameActionInfo>
 {
-    [Command("look", "Information")]
-    public class Look : GameActionBase<IRoom, IGameActionInfo>
+    public override void Execute(IActionInput actionInput)
     {
-        public override void Execute(IActionInput actionInput)
-        {
-            //TODO: better 'UI'
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("People:");
-            foreach (ICharacter character in Actor.People)
-                sb.AppendFormatLine($"{character.DisplayName}");
-            sb.AppendLine("Items:");
-            foreach (IItem item in Actor.Content)
-                sb.AppendFormatLine($"{item.DisplayName}");
-            //
-            Actor.Send(sb);
-        }
+        //TODO: better 'UI'
+        StringBuilder sb = new ();
+        sb.AppendLine("People:");
+        foreach (ICharacter character in Actor.People)
+            sb.AppendFormatLine($"{character.DisplayName}");
+        sb.AppendLine("Items:");
+        foreach (IItem item in Actor.Content)
+            sb.AppendFormatLine($"{item.DisplayName}");
+        //
+        Actor.Send(sb);
     }
 }

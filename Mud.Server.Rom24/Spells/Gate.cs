@@ -2,45 +2,43 @@
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Spells
+namespace Mud.Server.Rom24.Spells;
+
+[Spell(SpellName, AbilityEffects.Transportation)]
+public class Gate : TransportationSpellBase
 {
-    [Spell(SpellName, AbilityEffects.Transportation)]
-    public class Gate : TransportationSpellBase
+    private const string SpellName = "Gate";
+
+    public Gate(IRandomManager randomManager, ICharacterManager characterManager)
+        : base(randomManager, characterManager)
     {
-        public const string SpellName = "Gate";
-            
-        public Gate(IRandomManager randomManager, ICharacterManager characterManager)
-            : base(randomManager, characterManager)
+    }
+
+    protected override void Invoke()
+    {
+        var originalRoom = Caster.Room;
+
+        Caster.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", Caster);
+        Caster.ChangeRoom(Victim.Room, false);
+        Caster.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", Caster);
+        AutoLook(Caster);
+
+        // pets follows
+        if (Caster is IPlayableCharacter pcCaster)
         {
-        }
-
-        protected override void Invoke()
-        {
-            IRoom originalRoom = Caster.Room;
-
-            Caster.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", Caster);
-            Caster.ChangeRoom(Victim.Room, false);
-            Caster.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", Caster);
-            AutoLook(Caster);
-
-            // pets follows
-            if (Caster is IPlayableCharacter pcCaster)
+            foreach (INonPlayableCharacter pet in pcCaster.Pets)
             {
-                foreach (INonPlayableCharacter pet in pcCaster.Pets)
-                {
-                    pet.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", pet);
-                    pet.ChangeRoom(Victim.Room, false);
-                    pet.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", pet);
-                    AutoLook(pet); // TODO: needed ?
-                }
+                pet.Act(ActOptions.ToAll, "{0:N} step{0:v} through a gate and vanish{0:v}.", pet);
+                pet.ChangeRoom(Victim.Room, false);
+                pet.Act(ActOptions.ToRoom, "{0:N} has arrived through a gate.", pet);
+                AutoLook(pet); // TODO: needed ?
             }
-
-            originalRoom?.Recompute();
-            if (Caster.Room != originalRoom)
-                Caster.Room.Recompute();
         }
+
+        originalRoom?.Recompute();
+        if (Caster.Room != originalRoom)
+            Caster.Room.Recompute();
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Mud.Domain
-{
-    public class RoomHealRateAffectData : AffectDataBase
-    {
-        public AffectOperators Operator { get; set; }
+﻿namespace Mud.Domain;
 
-        public int Modifier { get; set; }
-    }
+public class RoomHealRateAffectData : AffectDataBase
+{
+    public required AffectOperators Operator { get; set; }
+
+    public required int Modifier { get; set; }
 }

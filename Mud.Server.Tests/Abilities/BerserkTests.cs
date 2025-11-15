@@ -114,7 +114,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
-            userMock.Setup(x => x.GetAura(Berserk.SkillName)).Returns<string>(_ => new Mock<IAura>().Object);
+            userMock.Setup(x => x.GetAura("Berserk")).Returns<string>(_ => new Mock<IAura>().Object);
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 

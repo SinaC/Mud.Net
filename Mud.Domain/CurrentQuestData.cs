@@ -1,21 +1,18 @@
-﻿using System;
+﻿namespace Mud.Domain;
 
-namespace Mud.Domain
+public class CurrentQuestData
 {
-    public class CurrentQuestData
-    {
-        public int QuestId { get; set; }
+    public required int QuestId { get; set; }
 
-        public DateTime StartTime { get; set; }
+    public required DateTime StartTime { get; set; }
 
-        public int PulseLeft { get; set; }
+    public required int PulseLeft { get; set; }
 
-        public DateTime? CompletionTime { get; set; }
+    public required DateTime? CompletionTime { get; set; }
 
-        public int GiverId { get; set; }
+    public required int GiverId { get; set; }
 
-        public int GiverRoomId { get; set; }
+    public required int GiverRoomId { get; set; }
 
-        public CurrentQuestObjectiveData[] Objectives { get; set; }
-    }
+    public required CurrentQuestObjectiveData[] Objectives { get; set; }
 }

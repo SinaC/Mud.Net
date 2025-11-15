@@ -1,24 +1,23 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Interfaces.Ability
+namespace Mud.Server.Interfaces.Ability;
+
+public interface IAbilityUsage
 {
-    public interface IAbilityUsage
-    {
-        string Name { get; }
+    string Name { get; }
 
-        int Level { get; }
+    int Level { get; }
 
-        ResourceKinds? ResourceKind { get; }
+    ResourceKinds? ResourceKind { get; }
 
-        int CostAmount { get; }
+    int CostAmount { get; }
 
-        CostAmountOperators CostAmountOperator { get; }
+    CostAmountOperators CostAmountOperator { get; }
 
-        int Rating { get; }
+    int Rating { get; }
 
-        IAbilityInfo AbilityInfo { get; }
+    IAbilityInfo AbilityInfo { get; }
 
-        void Update(int level, int rating, int costAmount);
-        void Update(int level, int rating);
-    }
+    void Update(int level, int rating, int costAmount);
+    void Update(int level, int rating);
 }

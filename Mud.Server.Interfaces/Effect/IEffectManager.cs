@@ -1,10 +1,9 @@
 ﻿using Mud.Server.Interfaces.Entity;
 
-namespace Mud.Server.Interfaces.Effect
+namespace Mud.Server.Interfaces.Effect;
+
+public interface IEffectManager
 {
-    public interface IEffectManager
-    {
-        IEffect<TEntity> CreateInstance<TEntity>(string effectName)
-            where TEntity: IEntity;
-    }
+    IEffect<TEntity>? CreateInstance<TEntity>(string effectName)
+        where TEntity: IEntity;
 }

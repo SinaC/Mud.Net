@@ -1,176 +1,168 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Xml.Serialization;
-using Mud.Repository.Filesystem.Common;
+﻿using AutoMapper;
 using Mud.Logger;
+using Mud.Repository.Filesystem.Common;
 using Mud.Repository.Filesystem.Domain;
-using AutoMapper;
 using Mud.Settings.Interfaces;
+using System.Xml.Serialization;
 
-namespace Mud.Repository.Filesystem
+namespace Mud.Repository.Filesystem;
+
+public class LoginRepository : RepositoryBase, ILoginRepository
 {
-    public class LoginRepository : RepositoryBase, ILoginRepository
+    private const bool CheckLoginPassword = false;
+
+    private string LoginRepositoryFilename => Settings.LoginRepositoryFilename;
+
+    private Dictionary<string, LoginData> _table = new Dictionary<string, LoginData>();
+    private bool _loaded;
+
+    public LoginRepository(IMapper mapper, ISettings settings)
+        : base(mapper, settings)
     {
-        private const bool CheckLoginPassword = false;
+        _loaded = false;
+    }
 
-        private string LoginRepositoryFilename => Settings.LoginRepositoryFilename;
+    #region ILoginRepository
 
-        private Dictionary<string, LoginData> _table = new Dictionary<string, LoginData>();
-        private bool _loaded;
+    public bool InsertLogin(string username, string password)
+    {
+        LoadIfNeeded();
 
-        public LoginRepository(IMapper mapper, ISettings settings)
-            : base(mapper, settings)
+        if (_table.ContainsKey(username))
+            return false;
+        _table.Add(username, new LoginData
         {
-            _loaded = false;
+            Username = username,
+            Password = password,
+            IsAdmin = false
+        });
+        Save();
+        return true;
+    }
+
+    public bool CheckUsername(string username, out bool isAdmin)
+    {
+        LoadIfNeeded();
+
+        isAdmin = false;
+        var found = _table.TryGetValue(username, out var loginData);
+        if (found)
+            isAdmin = loginData!.IsAdmin;
+        return found;
+    }
+
+    public bool CheckPassword(string username, string password)
+    {
+        LoadIfNeeded();
+
+        // TODO: check password + encryption
+        if (CheckLoginPassword)
+        {
+            LoginData loginData;
+            _table.TryGetValue(username, out loginData);
+            return loginData != null && password == loginData.Password;
         }
+        else
+            return password != "test";
 
-        #region ILoginRepository
+    }
 
-        public bool InsertLogin(string username, string password)
+    public bool ChangePassword(string username, string password)
+    {
+        LoadIfNeeded();
+
+        var found = _table.TryGetValue(username, out var loginData);
+        if (found)
         {
-            LoadIfNeeded();
-
-            if (_table.ContainsKey(username))
-                return false;
-            _table.Add(username, new LoginData
-            {
-                Username = username,
-                Password = password,
-                IsAdmin = false
-            });
+            loginData!.Password = password;
             Save();
             return true;
         }
+        return false;
+    }
 
-        public bool CheckUsername(string username, out bool isAdmin)
+    public bool DeleteLogin(string username)
+    {
+        LoadIfNeeded();
+
+        if (!_table.ContainsKey(username))
+            return false;
+        _table.Remove(username);
+        Save();
+        return true;
+    }
+
+    public bool ChangeAdminStatus(string username, bool isAdmin)
+    {
+        LoadIfNeeded();
+
+        var found = _table.TryGetValue(username, out var loginData);
+        if (found)
         {
-            LoadIfNeeded();
-
-            isAdmin = false;
-            LoginData loginData;
-            bool found = _table.TryGetValue(username, out loginData);
-            if (found)
-                isAdmin = loginData.IsAdmin;
-            return found;
+            loginData!.IsAdmin = isAdmin;
+            Save();
+            return true;
         }
+        return false;
+    }
 
-        public bool CheckPassword(string username, string password)
+    public IEnumerable<string> GetLogins()
+    {
+        LoadIfNeeded();
+
+        return _table.Keys.ToArray();
+    }
+
+    #endregion
+
+    private void LoadIfNeeded()
+    {
+        if (_loaded)
+            return;
+        // TODO: load logins and check if there is player file not found in logins
+        try
         {
-            LoadIfNeeded();
-
-            // TODO: check password + encryption
-            if (CheckLoginPassword)
-            {
-                LoginData loginData;
-                _table.TryGetValue(username, out loginData);
-                return loginData != null && password == loginData.Password;
-            }
+            XmlSerializer deserializer = new (typeof(LoginRepositoryData));
+            var directory = Path.GetDirectoryName(LoginRepositoryFilename);
+            if (directory != null)
+                Directory.CreateDirectory(directory);
             else
-                return password != "test";
-
-        }
-
-        public bool ChangePassword(string username, string password)
-        {
-            LoadIfNeeded();
-
-            LoginData loginData;
-            bool found = _table.TryGetValue(username, out loginData);
-            if (found)
+                Log.Default.WriteLine(LogLevels.Error, "Invalid directory in logins path: {0}", LoginRepositoryFilename);
+            using (var file = File.OpenRead(LoginRepositoryFilename))
             {
-                loginData.Password = password;
-                Save();
-                return true;
+                var repository = (LoginRepositoryData)deserializer.Deserialize(file)!;
+                _table = repository.Logins.ToDictionary(x => x.Username);
             }
-            return false;
+            _loaded = true;
         }
-
-        public bool DeleteLogin(string username)
+        catch (Exception ex)
         {
-            LoadIfNeeded();
-
-            if (!_table.ContainsKey(username))
-                return false;
-            _table.Remove(username);
-            Save();
-            return true;
+            Log.Default.WriteLine(LogLevels.Error, "LoadIfNeeded: unable to load. Exception: {0}", ex);
         }
+    }
 
-        public bool ChangeAdminStatus(string username, bool isAdmin)
+    private void Save()
+    {
+        try
         {
-            LoadIfNeeded();
-
-            LoginData loginData;
-            bool found = _table.TryGetValue(username, out loginData);
-            if (found)
+            XmlSerializer serializer = new XmlSerializer(typeof(LoginRepositoryData));
+            var directory = Path.GetDirectoryName(LoginRepositoryFilename);
+            if (directory != null)
+                Directory.CreateDirectory(directory);
+            else
+                Log.Default.WriteLine(LogLevels.Error, "Invalid directory in logins path: {0}", LoginRepositoryFilename);
+            using (var file = File.Create(LoginRepositoryFilename))
             {
-                loginData.IsAdmin = isAdmin;
-                Save();
-                return true;
-            }
-            return false;
-        }
-
-        public IEnumerable<string> GetLogins()
-        {
-            LoadIfNeeded();
-
-            return _table.Keys.ToArray();
-        }
-
-        #endregion
-
-        private void LoadIfNeeded()
-        {
-            if (_loaded)
-                return;
-            // TODO: load logins and check if there is player file not found in logins
-            try
-            {
-                XmlSerializer deserializer = new XmlSerializer(typeof(LoginRepositoryData));
-                string directory = Path.GetDirectoryName(LoginRepositoryFilename);
-                if (directory != null)
-                    Directory.CreateDirectory(directory);
-                else
-                    Log.Default.WriteLine(LogLevels.Error, "Invalid directory in logins path: {0}", LoginRepositoryFilename);
-                using (FileStream file = File.OpenRead(LoginRepositoryFilename))
+                LoginRepositoryData repository = new()
                 {
-                    LoginRepositoryData repository = (LoginRepositoryData)deserializer.Deserialize(file);
-                    _table = repository.Logins.ToDictionary(x => x.Username);
-                }
-                _loaded = true;
-            }
-            catch (Exception ex)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "LoadIfNeeded: unable to load. Exception: {0}", ex);
+                    Logins = _table.Values.ToArray()
+                };
+                serializer.Serialize(file, repository);
             }
         }
-
-        private void Save()
+        catch (Exception ex)
         {
-            try
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(LoginRepositoryData));
-                string directory = Path.GetDirectoryName(LoginRepositoryFilename);
-                if (directory != null)
-                    Directory.CreateDirectory(directory);
-                else
-                    Log.Default.WriteLine(LogLevels.Error, "Invalid directory in logins path: {0}", LoginRepositoryFilename);
-                using (FileStream file = File.Create(LoginRepositoryFilename))
-                {
-                    LoginRepositoryData repository = new LoginRepositoryData
-                    {
-                        Logins = _table.Values.ToArray()
-                    };
-                    serializer.Serialize(file, repository);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Default.WriteLine(LogLevels.Error, "Save: unable to save. Exception: {0}", ex);
-            }
+            Log.Default.WriteLine(LogLevels.Error, "Save: unable to save. Exception: {0}", ex);
         }
     }
 }

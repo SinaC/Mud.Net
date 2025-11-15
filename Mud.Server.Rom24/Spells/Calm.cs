@@ -7,79 +7,76 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
-using System;
-using System.Linq;
 
-namespace Mud.Server.Rom24.Spells
+namespace Mud.Server.Rom24.Spells;
+
+[Spell(SpellName, AbilityEffects.Debuff)]
+[AbilityCharacterWearOffMessage("You have lost your peace of mind.")]
+[AbilityDispellable("{0:N} no longer looks so peaceful...")]
+public class Calm : NoTargetSpellBase
 {
-    [Spell(SpellName, AbilityEffects.Debuff)]
-    [AbilityCharacterWearOffMessage("You have lost your peace of mind.")]
-    [AbilityDispellable("{0:N} no longer looks so peaceful...")]
-    public class Calm : NoTargetSpellBase
+    private const string SpellName = "Calm";
+
+    private IAuraManager AuraManager { get; }
+
+    public Calm(IRandomManager randomManager, IAuraManager auraManager)
+        : base(randomManager)
     {
-        public const string SpellName = "Calm";
+        AuraManager = auraManager;
+    }
 
-        private IAuraManager AuraManager { get; }
+    protected override void Invoke()
+    {
+        // Stops all fighting in the room
 
-        public Calm(IRandomManager randomManager, IAuraManager auraManager)
-            : base(randomManager)
+        // Sum/Max/Count of fighting people in room
+        int count = 0;
+        int maxLevel = 0;
+        int sumLevel = 0;
+        foreach (ICharacter character in Caster.Room.People.Where(x => x.Fighting != null))
         {
-            AuraManager = auraManager;
+            count++;
+            if (character is INonPlayableCharacter)
+                sumLevel += character.Level;
+            else
+                sumLevel += character.Level / 2;
+            maxLevel = Math.Max(maxLevel, character.Level);
         }
 
-        protected override void Invoke()
+        // Compute chance of stopping combat
+        int chance = 4 * Level - maxLevel + 2 * count;
+        // Always works if immortal
+        if (Caster is IPlayableCharacter pcCaster && pcCaster.IsImmortal)
+            sumLevel = 0;
+        // Harder to stop large fights
+        if (RandomManager.Range(0, chance) < sumLevel)
+            return;
+        //
+        foreach (var victim in Caster.Room.People)
         {
-            // Stops all fighting in the room
+            var npcVictim = victim as INonPlayableCharacter;
 
-            // Sum/Max/Count of fighting people in room
-            int count = 0;
-            int maxLevel = 0;
-            int sumLevel = 0;
-            foreach (ICharacter character in Caster.Room.People.Where(x => x.Fighting != null))
-            {
-                count++;
-                if (character is INonPlayableCharacter)
-                    sumLevel += character.Level;
-                else
-                    sumLevel += character.Level / 2;
-                maxLevel = Math.Max(maxLevel, character.Level);
-            }
+            // IsNpc, immune magic or undead
+            if (npcVictim != null && (npcVictim.Immunities.IsSet("Magic") || npcVictim.ActFlags.IsSet("Undead")))
+                continue;
 
-            // Compute chance of stopping combat
-            int chance = 4 * Level - maxLevel + 2 * count;
-            // Always works if immortal
-            if (Caster is IPlayableCharacter pcCaster && pcCaster.IsImmortal)
-                sumLevel = 0;
-            // Harder to stop large fights
-            if (RandomManager.Range(0, chance) < sumLevel)
-                return;
-            //
-            foreach (ICharacter victim in Caster.Room.People)
-            {
-                INonPlayableCharacter npcVictim = victim as INonPlayableCharacter;
+            // Is affected by berserk, calm or frenzy
+            if (victim.CharacterFlags.IsSet("Berserk") || victim.CharacterFlags.IsSet("Calm") || victim.GetAura("Frenzy") != null)
+                continue;
 
-                // IsNpc, immune magic or undead
-                if (npcVictim != null && (npcVictim.Immunities.IsSet("Magic") || npcVictim.ActFlags.IsSet("Undead")))
-                    continue;
+            victim.Send("A wave of calm passes over you.");
 
-                // Is affected by berserk, calm or frenzy
-                if (victim.CharacterFlags.IsSet("Berserk") || victim.CharacterFlags.IsSet("Calm") || victim.GetAura("Frenzy") != null)
-                    continue;
+            if (victim.Fighting != null)
+                victim.StopFighting(false);
 
-                victim.Send("A wave of calm passes over you.");
-
-                if (victim.Fighting != null)
-                    victim.StopFighting(false);
-
-                int modifier = npcVictim != null
-                    ? -5
-                    : -2;
-                int duration = Level / 4;
-                AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add, },
-                    new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add, },
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Calm"), Operator = AffectOperators.Or });
-            }
+            int modifier = npcVictim != null
+                ? -5
+                : -2;
+            int duration = Level / 4;
+            AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add, },
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add, },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Calm"), Operator = AffectOperators.Or });
         }
     }
 }

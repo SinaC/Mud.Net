@@ -1,7 +1,6 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class CharacterSexAffectData : AffectDataBase
 {
-    public class CharacterSexAffectData : AffectDataBase
-    {
-        public Sex Value { get; set; }
-    }
+    public required Sex Value { get; set; }
 }

@@ -1,8 +1,7 @@
-﻿namespace Mud.Server.Blueprints.Item
+﻿namespace Mud.Server.Blueprints.Item;
+
+public class ItemShieldBlueprint : ItemBlueprintBase
 {
-    public class ItemShieldBlueprint : ItemBlueprintBase
-    {
-        public int Armor { get; set; }
-        // TODO: resistance
-    }
+    public int Armor { get; set; }
+    // TODO: resistance
 }

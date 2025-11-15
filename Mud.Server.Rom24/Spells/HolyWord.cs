@@ -6,74 +6,75 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Effects;
+using System.Collections.ObjectModel;
 
-namespace Mud.Server.Rom24.Spells
+namespace Mud.Server.Rom24.Spells;
+
+[Spell(SpellName, AbilityEffects.Damage | AbilityEffects.Buff, PulseWaitTime = 24)]
+public class HolyWord : NoTargetSpellBase
 {
-    [Spell(SpellName, AbilityEffects.Damage | AbilityEffects.Buff, PulseWaitTime = 24)]
-    public class HolyWord : NoTargetSpellBase
+    private const string SpellName = "Holy Word";
+
+    private IAuraManager AuraManager { get; }
+
+    public HolyWord(IRandomManager randomManager, IAuraManager auraManager)
+        : base(randomManager)
     {
-        public const string SpellName = "Holy Word";
+        AuraManager = auraManager;
+    }
 
-        private IAuraManager AuraManager { get; }
+    protected override void Invoke()
+    {
+        Caster.Act(ActOptions.ToRoom, "{0:N} utters a word of divine power!");
+        Caster.Send("You utter a word of divine power.");
 
-        public HolyWord(IRandomManager randomManager, IAuraManager auraManager)
-            : base(randomManager)
+        var clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.ToList()); // to avoid modification during iteration
+        foreach (var victim in clone)
         {
-            AuraManager = auraManager;
-        }
-
-        protected override void Invoke()
-        {
-            Caster.Act(ActOptions.ToRoom, "{0:N} utters a word of divine power!");
-            Caster.Send("You utter a word of divine power.");
-
-            foreach (ICharacter victim in Caster.Room.People)
+            if ((Caster.IsGood && victim.IsGood)
+                || (Caster.IsNeutral && victim.IsNeutral)
+                || (Caster.IsEvil && victim.IsEvil))
             {
-                if ((Caster.IsGood && victim.IsGood)
-                    || (Caster.IsNeutral && victim.IsNeutral)
-                    || (Caster.IsEvil && victim.IsEvil))
+                victim.Send("You feel full more powerful.");
+                FrenzyEffect frenzyEffect = new (AuraManager);
+                frenzyEffect.Apply(victim, Caster, "Frenzy", Level, 0);
+                BlessEffect blessEffect = new (AuraManager);
+                blessEffect.Apply(victim, Caster, "Bless", Level, 0);
+            }
+            else if ((Caster.IsGood && victim.IsEvil)
+                     || (Caster.IsEvil && victim.IsGood))
+            {
+                if (!victim.SavesSpell(Level, SchoolTypes.Holy))
                 {
-                    victim.Send("You feel full more powerful.");
-                    FrenzyEffect frenzyEffect = new FrenzyEffect(AuraManager);
-                    frenzyEffect.Apply(victim, Caster, Frenzy.SpellName, Level, 0);
-                    BlessEffect blessEffect = new BlessEffect(AuraManager);
-                    blessEffect.Apply(victim, Caster, Bless.SpellName, Level, 0);
+                    victim.Send("You are struck down!");
+                    int damage = RandomManager.Dice(Level, 6);
+                    var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
+                    if (damageResult == DamageResults.Done)
+                    {
+                        CurseEffect curseEffect = new (AuraManager);
+                        curseEffect.Apply(victim, Caster, "Curse", Level, 0);
+                    }
                 }
-                else if ((Caster.IsGood && victim.IsEvil)
-                         || (Caster.IsEvil && victim.IsGood))
+
+                else if (Caster.IsNeutral)
                 {
                     if (!victim.SavesSpell(Level, SchoolTypes.Holy))
                     {
                         victim.Send("You are struck down!");
-                        int damage = RandomManager.Dice(Level, 6);
+                        int damage = RandomManager.Dice(Level, 4);
                         var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
                         if (damageResult == DamageResults.Done)
                         {
-                            CurseEffect curseEffect = new CurseEffect(AuraManager);
-                            curseEffect.Apply(victim, Caster, Curse.SpellName, Level, 0);
-                        }
-                    }
-
-                    else if (Caster.IsNeutral)
-                    {
-                        if (!victim.SavesSpell(Level, SchoolTypes.Holy))
-                        {
-                            victim.Send("You are struck down!");
-                            int damage = RandomManager.Dice(Level, 4);
-                            var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
-                            if (damageResult == DamageResults.Done)
-                            {
-                                CurseEffect curseEffect = new CurseEffect(AuraManager);
-                                curseEffect.Apply(victim, Caster, Curse.SpellName, Level, 0);
-                            }
+                            CurseEffect curseEffect = new (AuraManager);
+                            curseEffect.Apply(victim, Caster, "Curse", Level, 0);
                         }
                     }
                 }
             }
-
-            Caster.Send("You feel drained.");
-            Caster.UpdateMovePoints(-Caster.MovePoints); // set to 0
-            Caster.UpdateHitPoints(-Caster.HitPoints / 2);
         }
+
+        Caster.Send("You feel drained.");
+        Caster.UpdateMovePoints(-Caster.MovePoints); // set to 0
+        Caster.UpdateHitPoints(-Caster.HitPoints / 2);
     }
 }

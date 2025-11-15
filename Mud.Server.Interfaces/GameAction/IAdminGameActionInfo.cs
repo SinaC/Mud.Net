@@ -1,9 +1,8 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Interfaces.GameAction
+namespace Mud.Server.Interfaces.GameAction;
+
+public interface IAdminGameActionInfo : IPlayerGameActionInfo
 {
-    public interface IAdminGameActionInfo : IPlayerGameActionInfo
-    {
-        AdminLevels MinLevel { get; }
-    }
+    AdminLevels MinLevel { get; }
 }

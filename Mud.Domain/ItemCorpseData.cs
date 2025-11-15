@@ -1,13 +1,12 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public class ItemCorpseData : ItemData
 {
-    public class ItemCorpseData : ItemData
-    {
-        public ItemData[] Contains { get; set; }
+    public required ItemData[] Contains { get; set; }
 
-        public bool IsPlayableCharacterCorpse { get; set; }
+    public required bool IsPlayableCharacterCorpse { get; set; }
 
-        public string CorpseName { get; set; }
+    public required string CorpseName { get; set; }
 
-        public bool HasBeenGeneratedByKillingCharacter { get; set; }
-    }
+    public required bool HasBeenGeneratedByKillingCharacter { get; set; }
 }

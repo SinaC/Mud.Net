@@ -1,9 +1,8 @@
-﻿namespace Mud.Server.Blueprints.Quest
+﻿namespace Mud.Server.Blueprints.Quest;
+
+public class QuestKillObjectiveBlueprint
 {
-    public class QuestKillObjectiveBlueprint
-    {
-        public int Id { get; set; }
-        public int CharacterBlueprintId { get; set; }
-        public int Count { get; set; }
-    }
+    public int Id { get; set; }
+    public int CharacterBlueprintId { get; set; }
+    public int Count { get; set; }
 }

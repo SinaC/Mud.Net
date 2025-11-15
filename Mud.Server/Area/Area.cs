@@ -1,76 +1,72 @@
-﻿using System;
-using Mud.Container;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Mud.Container;
 using Mud.Logger;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Room;
 
-namespace Mud.Server.Area
+namespace Mud.Server.Area;
+
+public class Area : IArea
 {
-    public class Area : IArea
+    private readonly List<IRoom> _rooms;
+
+    private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
+
+    public Area(Guid id, AreaBlueprint blueprint)
     {
-        private readonly List<IRoom> _rooms;
+        Id = id;
 
-        private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
+        Blueprint = blueprint;
+        DisplayName = blueprint.Name;
+        Builders = blueprint.Builders;
+        Credits = blueprint.Credits;
 
-        public Area(Guid id, AreaBlueprint blueprint)
-        {
-            Id = id;
-
-            Blueprint = blueprint;
-            DisplayName = blueprint.Name;
-            Builders = blueprint.Builders;
-            Credits = blueprint.Credits;
-
-            _rooms = new List<IRoom>();
-        }
-
-        #region IArea
-
-        public Guid Id { get; }
-
-        public AreaBlueprint Blueprint { get; }
-
-        public string DisplayName { get; }
-        public string Builders { get; }
-        public string Credits { get; }
-        public IEnumerable<IRoom> Rooms => _rooms;
-        public IEnumerable<IPlayer> Players => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>().Select(x => x.ImpersonatedBy);
-        public IEnumerable<ICharacter> Characters => _rooms.SelectMany(x => x.People);
-        public IEnumerable<IPlayableCharacter> PlayableCharacters => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>();
-
-        public void ResetArea()
-        {
-            Log.Default.WriteLine(LogLevels.Debug, "Resetting {0}", DisplayName);
-            foreach (IRoom room in _rooms)
-                room.ResetRoom();
-            Wiznet.Wiznet($"{DisplayName} has just been reset.", Domain.WiznetFlags.Resets);
-        }
-
-        public bool AddRoom(IRoom room)
-        {
-            //if (room.Area != null)
-            //{
-            //    Log.Default.WriteLine(LogLevels.Error, $"Area.AddRoom: Room {room.DebugName}");
-            //    return false;
-            //}
-            // TODO: some checks ?
-            _rooms.Add(room);
-            return true;
-        }
-
-        public bool RemoveRoom(IRoom room)
-        {
-            // TODO: some checks ?
-            _rooms.Remove(room);
-            return true;
-        }
-
-        #endregion
+        _rooms = [];
     }
+
+    #region IArea
+
+    public Guid Id { get; }
+
+    public AreaBlueprint Blueprint { get; }
+
+    public string DisplayName { get; }
+    public string Builders { get; }
+    public string Credits { get; }
+    public IEnumerable<IRoom> Rooms => _rooms;
+    public IEnumerable<IPlayer> Players => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>().Select(x => x.ImpersonatedBy!);
+    public IEnumerable<ICharacter> Characters => _rooms.SelectMany(x => x.People);
+    public IEnumerable<IPlayableCharacter> PlayableCharacters => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>();
+
+    public void ResetArea()
+    {
+        Log.Default.WriteLine(LogLevels.Debug, "Resetting {0}", DisplayName);
+        foreach (IRoom room in _rooms)
+            room.ResetRoom();
+        Wiznet.Wiznet($"{DisplayName} has just been reset.", Domain.WiznetFlags.Resets);
+    }
+
+    public bool AddRoom(IRoom room)
+    {
+        //if (room.Area != null)
+        //{
+        //    Log.Default.WriteLine(LogLevels.Error, $"Area.AddRoom: Room {room.DebugName}");
+        //    return false;
+        //}
+        // TODO: some checks ?
+        _rooms.Add(room);
+        return true;
+    }
+
+    public bool RemoveRoom(IRoom room)
+    {
+        // TODO: some checks ?
+        _rooms.Remove(room);
+        return true;
+    }
+
+    #endregion
 }

@@ -1,6 +1,5 @@
-﻿namespace Mud.Server.Interfaces.Item
+﻿namespace Mud.Server.Interfaces.Item;
+
+public interface IItemTrash : IItem
 {
-    public interface IItemTrash : IItem
-    {
-    }
 }

@@ -5,41 +5,40 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using System.Text;
 
-namespace Mud.Server.Admin.Administration
+namespace Mud.Server.Admin.Administration;
+
+[AdminCommand("sanitycheck", "Admin")]
+[Syntax("[cmd] <character>")]
+public class SanityCheck : AdminGameAction
 {
-    [AdminCommand("sanitycheck", "Admin")]
-    [Syntax("[cmd] <character>")]
-    public class SanityCheck : AdminGameAction
+    private IPlayerManager PlayerManager { get; }
+
+    public SanityCheck(IPlayerManager playerManager)
     {
-        private IPlayerManager PlayerManager { get; }
+        PlayerManager = playerManager;
+    }
 
-        public IPlayer Whom { get; protected set; }
+    protected IPlayer Whom { get; set; } = default!;
 
-        public SanityCheck(IPlayerManager playerManager)
-        {
-            PlayerManager = playerManager;
-        }
+    public override string? Guards(IActionInput actionInput)
+    {
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
-        {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+        if (actionInput.Parameters.Length == 0)
+            return BuildCommandSyntax();
 
-            if (actionInput.Parameters.Length == 0)
-                return BuildCommandSyntax();
+        Whom = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0])!;
+        if (Whom == null)
+            return StringHelpers.CharacterNotFound;
 
-            Whom = FindHelpers.FindByName(PlayerManager.Players, actionInput.Parameters[0]);
-            if (Whom == null)
-                return StringHelpers.CharacterNotFound;
+        return null;
+    }
 
-            return null;
-        }
-
-        public override void Execute(IActionInput actionInput)
-        {
-            StringBuilder info = Whom.PerformSanityCheck();
-            Actor.Page(info);
-        }
+    public override void Execute(IActionInput actionInput)
+    {
+        StringBuilder info = Whom.PerformSanityCheck();
+        Actor.Page(info);
     }
 }

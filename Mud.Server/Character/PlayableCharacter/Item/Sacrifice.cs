@@ -6,49 +6,47 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using System.Linq;
 
-namespace Mud.Server.Character.PlayableCharacter.Item
+namespace Mud.Server.Character.PlayableCharacter.Item;
+
+[PlayableCharacterCommand("sacrifice", "Item", MinPosition = Positions.Standing, NotInCombat = true)]
+[Alias("tap")]
+[Alias("junk")]
+[Syntax(
+        "[cmd] all",
+        "[cmd] <item>")]
+public class Sacrifice : PlayableCharacterGameAction
 {
-    [PlayableCharacterCommand("sacrifice", "Item", MinPosition = Positions.Standing, NotInCombat = true)]
-    [Alias("tap")]
-    [Alias("junk")]
-    [Syntax(
-            "[cmd] all",
-            "[cmd] <item>")]
-    public class Sacrifice : PlayableCharacterGameAction
+    protected IItem[] What { get; set; } = default!;
+
+    public override string? Guards(IActionInput actionInput)
     {
-        public IItem[] What { get; protected set; }
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
+        if (actionInput.Parameters.Length == 0 || StringCompareHelpers.StringEquals(Actor.Name, actionInput.Parameters[0].Value))
         {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
-
-            if (actionInput.Parameters.Length == 0 || StringCompareHelpers.StringEquals(Actor.Name, actionInput.Parameters[0].Value))
-            {
-                Actor.Act(ActOptions.ToRoom, "{0:N} offers {0:f} to Mota, who graciously declines.", Actor);
-                return "Mota appreciates your offer and may accept it later.";
-            }
-
-            if (!actionInput.Parameters[0].IsAll)
-            {
-                IItem item = FindHelpers.FindByName(Actor.Room.Content.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
-                if (item == null)
-                    return StringHelpers.CantFindIt;
-                What = item.Yield().ToArray();
-            }
-            else
-                What = Actor.Room.Content.Where(x => Actor.CanSee(x)).ToArray();
-
-            return null;
+            Actor.Act(ActOptions.ToRoom, "{0:N} offers {0:f} to Mota, who graciously declines.", Actor);
+            return "Mota appreciates your offer and may accept it later.";
         }
 
-        public override void Execute(IActionInput actionInput)
+        if (!actionInput.Parameters[0].IsAll)
         {
-            foreach (IItem item in What)
-                Actor.SacrificeItem(item);
+            var item = FindHelpers.FindByName(Actor.Room.Content.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
+            if (item == null)
+                return StringHelpers.CantFindIt;
+            What = [item];
         }
+        else
+            What = Actor.Room.Content.Where(x => Actor.CanSee(x)).ToArray();
+
+        return null;
+    }
+
+    public override void Execute(IActionInput actionInput)
+    {
+        foreach (IItem item in What)
+            Actor.SacrificeItem(item);
     }
 }

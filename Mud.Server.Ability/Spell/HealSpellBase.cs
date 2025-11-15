@@ -1,25 +1,24 @@
 ﻿using Mud.Server.Random;
 
-namespace Mud.Server.Ability.Spell
+namespace Mud.Server.Ability.Spell;
+
+public abstract class HealSpellBase : DefensiveSpellBase
 {
-    public abstract class HealSpellBase : DefensiveSpellBase
+    protected HealSpellBase(IRandomManager randomManager) 
+        : base(randomManager)
     {
-        protected HealSpellBase(IRandomManager randomManager) 
-            : base(randomManager)
-        {
-        }
-
-        protected override void Invoke()
-        {
-            int value = HealValue;
-            Victim.UpdateHitPoints(value);
-            Victim.Send(HealVictimPhrase);
-            if (Caster != Victim)
-                Caster.Send(HealCasterPhrase);
-        }
-
-        protected abstract int HealValue { get; }
-        protected abstract string HealVictimPhrase { get; }
-        protected virtual string HealCasterPhrase => "Ok.";
     }
+
+    protected override void Invoke()
+    {
+        int value = HealValue;
+        Victim.UpdateHitPoints(value);
+        Victim.Send(HealVictimPhrase);
+        if (Caster != Victim)
+            Caster.Send(HealCasterPhrase);
+    }
+
+    protected abstract int HealValue { get; }
+    protected abstract string HealVictimPhrase { get; }
+    protected virtual string HealCasterPhrase => "Ok.";
 }

@@ -1,20 +1,17 @@
-﻿using System.Collections.Generic;
+﻿namespace Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Interfaces.GameAction
+public interface ICommandParameter
 {
-    public interface ICommandParameter
-    {
-        string RawValue { get; }
-        bool IsAll { get; } // all.xxx
-        int Count { get; }
-        string Value { get; }
+    string RawValue { get; }
+    bool IsAll { get; } // all.xxx
+    int Count { get; }
+    string Value { get; }
 
-        List<string> Tokens { get; }
+    List<string> Tokens { get; }
 
-        bool IsNumber { get; }
-        bool IsLong { get; }
+    bool IsNumber { get; }
+    bool IsLong { get; }
 
-        int AsNumber { get; }
-        long AsLong { get; }
-    }
+    int AsNumber { get; }
+    long AsLong { get; }
 }

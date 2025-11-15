@@ -16,7 +16,7 @@ namespace Mud.Server.Tests
         public void Impersonate_UnknownCharacter()
         {
             IPlayer player = new Player.Player(Guid.NewGuid(), AutoFaker.Generate<string>());
-            IPlayableCharacter pc = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new Domain.PlayableCharacterData { Name = player.Name, Race = "dwarf", Class = "Warrior" }, player, new Mock<IRoom>().Object);
+            IPlayableCharacter pc = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), CreatePlayableCharacterData(player.Name, 1, Domain.Sex.Neutral, "Warrior", "dwarf", 0), player, new Mock<IRoom>().Object);
 
             player.ProcessInput("impersonate mob1");
 
@@ -28,7 +28,7 @@ namespace Mud.Server.Tests
         public void Impersonate_SameCharacter()
         {
             IPlayer player = new Player.Player(Guid.NewGuid(), AutoFaker.Generate<string>());
-            IPlayableCharacter pc = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), new Domain.PlayableCharacterData { Name = player.Name, Race = "dwarf", Class = "Warrior" }, player, new Mock<IRoom>().Object);
+            IPlayableCharacter pc = new Character.PlayableCharacter.PlayableCharacter(Guid.NewGuid(), CreatePlayableCharacterData(player.Name, 1, Domain.Sex.Neutral, "Warrior", "dwarf", 0), player, new Mock<IRoom>().Object);
 
             player.ProcessInput($"impersonate {player.Name}");
 

@@ -5,37 +5,36 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Spells
+namespace Mud.Server.Rom24.Spells;
+
+[Spell(SpellName, AbilityEffects.Dispel)]
+public class Cancellation : DefensiveSpellBase
 {
-    [Spell(SpellName, AbilityEffects.Dispel)]
-    public class Cancellation : DefensiveSpellBase
+    private const string SpellName = "Cancellation";
+
+    private IDispelManager DispelManager { get; }
+
+    public Cancellation(IRandomManager randomManager, IDispelManager dispelManager)
+        : base(randomManager)
     {
-        public const string SpellName = "Cancellation";
+        DispelManager = dispelManager;
+    }
 
-        private IDispelManager DispelManager { get; }
-
-        public Cancellation(IRandomManager randomManager, IDispelManager dispelManager)
-            : base(randomManager)
+    protected override void Invoke()
+    {
+        if ((Caster is IPlayableCharacter && Victim is INonPlayableCharacter npcVictim && !Caster.CharacterFlags.IsSet("Charm") && npcVictim.Master == Caster)
+            || (Caster is INonPlayableCharacter && Victim is IPlayableCharacter))
         {
-            DispelManager = dispelManager;
+            Caster.Send("You failed, try dispel magic.");
+            return;
         }
 
-        protected override void Invoke()
-        {
-            if ((Caster is IPlayableCharacter && Victim is INonPlayableCharacter npcVictim && !Caster.CharacterFlags.IsSet("Charm") && npcVictim.Master == Caster)
-                || (Caster is INonPlayableCharacter && Victim is IPlayableCharacter))
-            {
-                Caster.Send("You failed, try dispel magic.");
-                return;
-            }
+        // unlike dispel magic, no save roll
+        bool found = DispelManager.TryDispels(Level + 2, Victim);
 
-            // unlike dispel magic, no save roll
-            bool found = DispelManager.TryDispels(Level + 2, Victim);
-
-            if (found)
-                Caster.Send("Ok.");
-            else
-                Caster.Send("Spell failed.");
-        }
+        if (found)
+            Caster.Send("Ok.");
+        else
+            Caster.Send("Spell failed.");
     }
 }

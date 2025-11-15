@@ -1,7 +1,6 @@
-﻿namespace Mud.Server.Blueprints.Reset
+﻿namespace Mud.Server.Blueprints.Reset;
+
+public class RandomizeExitsReset : ResetBase
 {
-    public class RandomizeExitsReset : ResetBase
-    {
-        public int MaxDoors { get; set; } // max direction exit direction to randomize
-    }
+    public int MaxDoors { get; set; } // max direction exit direction to randomize
 }

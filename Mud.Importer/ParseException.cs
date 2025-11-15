@@ -1,23 +1,20 @@
-﻿using System;
+﻿namespace Mud.Importer;
 
-namespace Mud.Importer
+[Serializable]
+public class ParseException : Exception
 {
-    [Serializable]
-    public class ParseException : Exception
+    public ParseException(string message)
+        : base(message)
     {
-        public ParseException(string message)
-            : base(message)
-        {
-        }
+    }
 
-        public ParseException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-        }
+    public ParseException(string message, Exception innerException)
+        : base(message, innerException)
+    {
+    }
 
-        public ParseException(string format, params object[] parameters)
-            : base(string.Format(format, parameters))
-        {
-        }
+    public ParseException(string format, params object[] parameters)
+        : base(string.Format(format, parameters))
+    {
     }
 }

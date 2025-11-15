@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
+﻿namespace Mud.Domain;
 
-namespace Mud.Domain
+public class PlayerData
 {
-    public class PlayerData
-    {
-        public string Name { get; set; }
+    public required string Name { get; set; }
 
-        public int PagingLineCount { get; set; }
+    public required int PagingLineCount { get; set; }
 
-        public Dictionary<string, string> Aliases { get; set; }
+    public required Dictionary<string, string> Aliases { get; set; }
 
-        public PlayableCharacterData[] Characters { get; set; }
-    }
+    public required PlayableCharacterData[] Characters { get; set; }
 }

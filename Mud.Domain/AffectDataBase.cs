@@ -1,6 +1,5 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public abstract class AffectDataBase
 {
-    public abstract class AffectDataBase
-    {
-    }
 }

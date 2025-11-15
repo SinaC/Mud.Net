@@ -7,90 +7,87 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using System.Linq;
 using System.Text;
 
-namespace Mud.Server.Rom24.Skills
+namespace Mud.Server.Rom24.Skills;
+
+[CharacterCommand("recite", "Ability", "Skill")]
+[Syntax("[cmd] <scroll> [<target>]")]
+[Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
+public class Scrolls : ItemCastSpellSkillBase<IItemScroll>
 {
-    [CharacterCommand("recite", "Ability", "Skill")]
-    [Syntax("[cmd] <scroll> [<target>]")]
-    [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
-    public class Scrolls : ItemCastSpellSkillBase<IItemScroll>
+    private const string SkillName = "Scrolls";
+
+    public Scrolls(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
+        : base(randomManager, abilityManager, itemManager)
     {
-        public const string SkillName = "Scrolls";
+    }
 
-        public Scrolls(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
-            : base(randomManager, abilityManager, itemManager)
+    protected override string? SetTargets(ISkillActionInput skillActionInput)
+    {
+        if (skillActionInput.Parameters.Length == 0)
+            return "Recite what?";
+
+        var item = FindHelpers.FindByName(User.Inventory.Where(User.CanSee), skillActionInput.Parameters[0]);
+        if (item == null)
+            return "You do not have that scroll.";
+
+        if (item is not IItemScroll itemScroll)
+            return "You can recite only scrolls.";
+        Item = itemScroll;
+
+        if (User.Level < Item.Level)
+            return "This scroll is too complex for you to comprehend.";
+
+        // scroll found, remove it from parameters
+        var newParameters = skillActionInput.Parameters.Skip(1).ToArray();
+
+        // perform setup on each spell
+        StringBuilder sb = new ();
+        if (!string.IsNullOrWhiteSpace(Item.FirstSpellName))
         {
+            var result = SetupSpell(Item.FirstSpellName, Item.Level, newParameters);
+            if (result != null)
+                sb.AppendFormatAndLineIfNotEmpty(result);
         }
-
-        protected override bool Invoke()
+        if (!string.IsNullOrWhiteSpace(Item.SecondSpellName))
         {
-            User.Act(ActOptions.ToAll, "{0:N} recite{0:v} {1}.", User, Item);
+            var result = SetupSpell(Item.SecondSpellName, Item.Level, newParameters);
+            if (result != null)
+                sb.AppendFormatAndLineIfNotEmpty(result);
+        }
+        if (!string.IsNullOrWhiteSpace(Item.ThirdSpellName))
+        {
+            var result = SetupSpell(Item.ThirdSpellName, Item.Level, newParameters);
+            if (result != null)
+                sb.AppendFormatAndLineIfNotEmpty(result);
+        }
+        if (!string.IsNullOrWhiteSpace(Item.FourthSpellName))
+        {
+            var result = SetupSpell(Item.FourthSpellName, Item.Level, newParameters);
+            if (result != null)
+                sb.AppendFormatAndLineIfNotEmpty(result);
+        }
+        if (sb.Length > 0)
+            return sb.ToString();
+        return null;
+    }
 
-            int chance = 20 + (4 * Learned) / 5;
-            if (!RandomManager.Chance(chance))
-            {
-                User.Send("You mispronounce a syllable.");
-                ItemManager.RemoveItem(Item);
-                return false;
-            }
+    protected override bool Invoke()
+    {
+        User.Act(ActOptions.ToAll, "{0:N} recite{0:v} {1}.", User, Item);
 
-            CastSpells();
-
+        int chance = 20 + (4 * Learned) / 5;
+        if (!RandomManager.Chance(chance))
+        {
+            User.Send("You mispronounce a syllable.");
             ItemManager.RemoveItem(Item);
-            return true;
+            return false;
         }
 
-        protected override string SetTargets(ISkillActionInput skillActionInput)
-        {
-            if (skillActionInput.Parameters.Length == 0)
-                return "Recite what?";
+        CastSpells();
 
-            IItem item = FindHelpers.FindByName(User.Inventory.Where(User.CanSee), skillActionInput.Parameters[0]);
-            if (item == null)
-                return "You do not have that scroll.";
-
-            Item = item as IItemScroll;
-            if (Item == null)
-                return "You can recite only scrolls.";
-
-            if (User.Level < Item.Level)
-                return "This scroll is too complex for you to comprehend.";
-
-            // scroll found, remove it from parameters
-            var newParameters = skillActionInput.Parameters.Skip(1).ToArray();
-
-            // perform setup on each spell
-            StringBuilder sb = new StringBuilder();
-            string result;
-            if (!string.IsNullOrWhiteSpace(Item.FirstSpellName))
-            {
-                result = SetupSpell(Item.FirstSpellName, Item.Level, newParameters);
-                if (result != null)
-                    sb.AppendFormatAndLineIfNotEmpty(result);
-            }
-            if (!string.IsNullOrWhiteSpace(Item.SecondSpellName))
-            {
-                result = SetupSpell(Item.SecondSpellName, Item.Level, newParameters);
-                if (result != null)
-                    sb.AppendFormatAndLineIfNotEmpty(result);
-            }
-            if (!string.IsNullOrWhiteSpace(Item.ThirdSpellName))
-            {
-                result = SetupSpell(Item.ThirdSpellName, Item.Level, newParameters);
-                if (result != null)
-                    sb.AppendFormatAndLineIfNotEmpty(result);
-            }
-            if (!string.IsNullOrWhiteSpace(Item.FourthSpellName))
-            {
-                result = SetupSpell(Item.FourthSpellName, Item.Level, newParameters);
-                if (result != null)
-                    sb.AppendFormatAndLineIfNotEmpty(result);
-            }
-            if (sb.Length > 0)
-                return sb.ToString();
-            return null;
-        }
+        ItemManager.RemoveItem(Item);
+        return true;
     }
 }

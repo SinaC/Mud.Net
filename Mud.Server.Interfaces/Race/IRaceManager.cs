@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
+﻿namespace Mud.Server.Interfaces.Race;
 
-namespace Mud.Server.Interfaces.Race
+public interface IRaceManager
 {
-    public interface IRaceManager
-    {
-        IEnumerable<IPlayableRace> PlayableRaces { get; }
-        IEnumerable<IRace> Races { get; }
+    IEnumerable<IPlayableRace> PlayableRaces { get; }
+    IEnumerable<IRace> Races { get; }
 
-        IRace this[string name] { get; }
-    }
+    IRace? this[string name] { get; }
 }

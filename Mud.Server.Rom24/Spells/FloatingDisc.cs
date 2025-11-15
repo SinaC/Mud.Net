@@ -7,43 +7,44 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using Mud.Settings.Interfaces;
-using System;
 
-namespace Mud.Server.Rom24.Spells
+namespace Mud.Server.Rom24.Spells;
+
+[Spell(SpellName, AbilityEffects.Creation, PulseWaitTime = 24)]
+public class FloatingDisc : ItemCreationSpellBase
 {
-    [Spell(SpellName, AbilityEffects.Creation, PulseWaitTime = 24)]
-    public class FloatingDisc : ItemCreationSpellBase
+    private const string SpellName = "Floating Disc";
+
+    public FloatingDisc(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
+        : base(randomManager, wiznet, itemManager, settings)
     {
-        public const string SpellName = "Floating Disc";
+    }
 
-        private IWiznet Wiznet { get; }
-
-        public FloatingDisc(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
-            : base(randomManager, itemManager, settings)
+    protected override void Invoke()
+    {
+        // TODO: using data is kindy hacky to perform a custom level item
+        var item = ItemManager.AddItem(Guid.NewGuid(), Settings.FloatingDiscBlueprintId, Caster);
+        if (item == null)
         {
-            Wiznet = wiznet;
+            Caster.Send("The spell fizzles and dies.");
+            Wiznet.Wiznet($"SpellFloatingDisc: cannot create item from blueprint {Settings.FloatingDiscBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            return;
         }
-
-        protected override void Invoke()
+        if (item is not IItemContainer floatingDisc)
         {
-            // TODO: using data is kindy hacky to perform a custom level item
-            IItem item = ItemManager.AddItem(Guid.NewGuid(), Settings.FloatingDiscBlueprintId, Caster);
-            if (!(item is IItemContainer floatingDisc))
-            {
-                Caster.Send("Somehing went wrong.");
-                Wiznet.Wiznet($"SpellFloatingDisc: blueprint {Settings.FloatingDiscBlueprintId} is not a container.", WiznetFlags.Bugs, AdminLevels.Implementor);
-                ItemManager.RemoveItem(item); // destroy it if invalid
-                return;
-            }
-            int maxWeight = Level * 10;
-            int maxWeightPerItem = Level * 5;
-            int duration = Level * 2 - RandomManager.Range(0, Level / 2);
-            floatingDisc.SetTimer(TimeSpan.FromMinutes(duration));
-            floatingDisc.SetCustomValues(Level, maxWeight, maxWeightPerItem);
-
-            Caster.Act(ActOptions.ToGroup, "{0:N} has created a floating black disc.", Caster);
-            Caster.Send("You create a floating disc.");
-            // TODO: Try to equip it ?
+            Caster.Send("Somehing went wrong.");
+            Wiznet.Wiznet($"SpellFloatingDisc: blueprint {Settings.FloatingDiscBlueprintId} is not a container.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            ItemManager.RemoveItem(item); // destroy it if invalid
+            return;
         }
+        int maxWeight = Level * 10;
+        int maxWeightPerItem = Level * 5;
+        int duration = Level * 2 - RandomManager.Range(0, Level / 2);
+        floatingDisc.SetTimer(TimeSpan.FromMinutes(duration));
+        floatingDisc.SetCustomValues(Level, maxWeight, maxWeightPerItem);
+
+        Caster.Act(ActOptions.ToGroup, "{0:N} has created a floating black disc.", Caster);
+        Caster.Send("You create a floating disc.");
+        // TODO: Try to equip it ?
     }
 }

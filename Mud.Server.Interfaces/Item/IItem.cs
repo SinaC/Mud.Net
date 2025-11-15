@@ -1,59 +1,56 @@
-﻿using System;
-using System.Linq;
-using System.Text;
-using Mud.Domain;
+﻿using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Flags.Interfaces;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Affect;
-using Mud.Server.Flags.Interfaces;
+using System.Text;
 
-namespace Mud.Server.Interfaces.Item
+namespace Mud.Server.Interfaces.Item;
+
+public interface IItem : IEntity
 {
-    public interface IItem : IEntity
-    {
-        IContainer ContainedInto { get; }
+    IContainer ContainedInto { get; }
 
-        ItemBlueprintBase Blueprint { get; }
+    ItemBlueprintBase Blueprint { get; }
 
-        ILookup<string, string> ExtraDescriptions { get; } // keyword -> descriptions
+    ILookup<string, string> ExtraDescriptions { get; } // keyword -> descriptions
 
-        WearLocations WearLocation { get; }
-        ICharacter EquippedBy { get; }
+    WearLocations WearLocation { get; }
+    ICharacter? EquippedBy { get; }
 
-        int DecayPulseLeft { get; } // 0: means no decay
+    int DecayPulseLeft { get; } // 0: means no decay
 
-        int Level { get; }
-        int Weight { get; }
-        int Cost { get; }
-        bool NoTake { get; }
-        int TotalWeight { get; }
-        int CarryCount { get; }
+    int Level { get; }
+    int Weight { get; }
+    int Cost { get; }
+    bool NoTake { get; }
+    int TotalWeight { get; }
+    int CarryCount { get; }
 
-        IItemFlags BaseItemFlags { get; }
-        IItemFlags ItemFlags { get; }
+    IItemFlags BaseItemFlags { get; }
+    IItemFlags ItemFlags { get; }
 
-        bool IsQuestObjective(IPlayableCharacter questingCharacter);
+    bool IsQuestObjective(IPlayableCharacter questingCharacter);
 
-        bool ChangeContainer(IContainer container);
+    bool ChangeContainer(IContainer? container);
 
-        bool ChangeEquippedBy(ICharacter character, bool recompute);
+    bool ChangeEquippedBy(ICharacter? character, bool recompute);
 
-        void DecreaseDecayPulseLeft(int pulseCount);
-        void SetTimer(TimeSpan duration);
+    void DecreaseDecayPulseLeft(int pulseCount);
+    void SetTimer(TimeSpan duration);
 
-        void AddBaseItemFlags(bool recompute, params string[] flags);
-        void RemoveBaseItemFlags(bool recompute, params string[] flags);
-        void Disenchant();
+    void AddBaseItemFlags(bool recompute, params string[] flags);
+    void RemoveBaseItemFlags(bool recompute, params string[] flags);
+    void Disenchant();
 
-        void IncreaseLevel();
+    void IncreaseLevel();
 
-        StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay);
+    StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay);
 
-        // Affects
-        void ApplyAffect(IItemFlagsAffect affect);
+    // Affects
+    void ApplyAffect(IItemFlagsAffect affect);
 
-        // Mapping
-        ItemData MapItemData();
-    }
+    // Mapping
+    ItemData MapItemData();
 }

@@ -1,8 +1,7 @@
-﻿namespace Mud.Server.Interfaces.Item
+﻿namespace Mud.Server.Interfaces.Item;
+
+public interface IItemMoney : IItem
 {
-    public interface IItemMoney : IItem
-    {
-        long SilverCoins { get; }
-        long GoldCoins { get; }
-    }
+    long SilverCoins { get; }
+    long GoldCoins { get; }
 }

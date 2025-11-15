@@ -1,17 +1,16 @@
-﻿namespace Mud.Logger
+﻿namespace Mud.Logger;
+
+public static class Log
 {
-    public static class Log
+    public static ILog Default { get; private set; }
+
+    static Log()
     {
-        public static ILog Default { get; private set; }
+        Default = new NLogger();
+    }
 
-        static Log()
-        {
-            Default = new NLogger();
-        }
-
-        public static void SetLogger(ILog log)
-        {
-            Default = log;
-        }
+    public static void SetLogger(ILog log)
+    {
+        Default = log;
     }
 }

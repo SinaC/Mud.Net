@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mud.DataStructures.Flags;
+using Mud.Domain;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -93,6 +95,45 @@ namespace Mud.Server.Tests
             public IEnumerable<Assembly> AllReferencedAssemblies => new[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly };
         }
 
+        internal static PlayableCharacterData CreatePlayableCharacterData(string name, int level, Sex sex, string className, string raceName, int roomId)
+        {
+            return new PlayableCharacterData
+            {
+                Name = name,
+                Level = level,
+                Sex = sex,
+                Class = className,
+                Race = raceName,
+                RoomId = roomId,
+                Aliases = [],
+                Alignment = 0,
+                Attributes = [],
+                Auras = [],
+                CharacterFlags = new CharacterFlags(),
+                Cooldowns = [],
+                Conditions = [],
+                AutoFlags = AutoFlags.None,
+                CreationTime = DateTime.UtcNow,
+                CurrentQuests = [],
+                CurrentResources = [],
+                Equipments = [],
+                Experience = 0,
+                GoldCoins = 0,
+                HitPoints = 100,
+                Inventory = [],
+                Immunities = new IRVFlags(),
+                MaxResources = [],
+                LearnedAbilities = [],
+                MovePoints = 100,
+                Pets = [],
+                Practices = 0,
+                Resistances = new IRVFlags(),
+                SilverCoins = 0,
+                Size = Sizes.Medium,
+                Trains = 0,
+                Vulnerabilities = new IRVFlags(),
+            };
+        }
     }
 
     internal class Rom24CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues

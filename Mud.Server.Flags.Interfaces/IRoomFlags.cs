@@ -1,12 +1,11 @@
 ﻿using Mud.DataStructures.Flags;
 
-namespace Mud.Server.Flags.Interfaces
-{
-    public interface IRoomFlags : IFlags<string, IRoomFlagValues>
-    {
-    }
+namespace Mud.Server.Flags.Interfaces;
 
-    public interface IRoomFlagValues : IFlagValues<string>
-    {
-    }
+public interface IRoomFlags : IFlags<string, IRoomFlagValues>
+{
+}
+
+public interface IRoomFlagValues : IFlagValues<string>
+{
 }

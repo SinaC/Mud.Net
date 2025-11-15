@@ -4,227 +4,223 @@ using Mud.Network.Interfaces;
 using Mud.Repository;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
-using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace Mud.Server.Server
+namespace Mud.Server.Server;
+
+internal enum LoginStates
 {
-    internal enum LoginStates
+    Username, // -> Username | Password | UsernameConfirm
+    Password, // -> Password | LoggedIn | Disconnected
+    UsernameConfirm, // -> NewPassword1
+    NewPassword1, // -> NewPassword2
+    NewPassword2, // -> Username | LoggedIn
+    LoggedIn,
+    Disconnected,
+}
+
+internal delegate void LoginSuccessfulEventHandler(IClient client, string username, bool isAdmin, bool isNewPlayer);
+
+internal delegate void LoginFailedEventHandler(IClient client);
+
+internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
+{
+    private const int MaxPasswordTries = 3;
+    private int _invalidPasswordTries;
+
+    private string? _username;
+    private string? _password; // todo: encryption
+    private bool _isAdmin;
+    private bool _isNewPlayer;
+
+    protected ILoginRepository LoginManager => DependencyContainer.Current.GetInstance<ILoginRepository>();
+    protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
+
+    public event LoginSuccessfulEventHandler? LoginSuccessful;
+    public event LoginFailedEventHandler? LoginFailed;
+
+    public override bool IsFinalStateReached => State == LoginStates.LoggedIn || State == LoginStates.Disconnected;
+
+    public LoginStateMachine()
     {
-        Username, // -> Username | Password | UsernameConfirm
-        Password, // -> Password | LoggedIn | Disconnected
-        UsernameConfirm, // -> NewPassword1
-        NewPassword1, // -> NewPassword2
-        NewPassword2, // -> Username | LoggedIn
-        LoggedIn,
-        Disconnected,
+        KeepInputAsIs = false;
+        StateMachine = new Dictionary<LoginStates, Func<IClient, string, LoginStates>>
+        {
+            {LoginStates.Username, ProcessUsername},
+            {LoginStates.Password, ProcessPassword},
+            {LoginStates.UsernameConfirm, ProcessUsernameConfirm},
+            {LoginStates.NewPassword1, ProcessNewPassword1},
+            {LoginStates.NewPassword2, ProcessNewPassword2},
+            {LoginStates.LoggedIn, ProcessConnected},
+            {LoginStates.Disconnected, ProcessDisconnect}
+        };
+        State = LoginStates.Username;
     }
 
-    internal delegate void LoginSuccessfulEventHandler(IClient client, string username, bool isAdmin, bool isNewPlayer);
-
-    internal delegate void LoginFailedEventHandler(IClient client);
-
-    internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
+    private LoginStates ProcessUsername(IClient client, string input)
     {
-        private const int MaxPasswordTries = 3;
-        private int _invalidPasswordTries;
-
-        private string _username;
-        private string _password; // todo: encryption
-        private bool _isAdmin;
-        private bool _isNewPlayer;
-
-        protected ILoginRepository LoginManager => DependencyContainer.Current.GetInstance<ILoginRepository>();
-        protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
-
-        public event LoginSuccessfulEventHandler LoginSuccessful;
-        public event LoginFailedEventHandler LoginFailed;
-
-        public override bool IsFinalStateReached => State == LoginStates.LoggedIn || State == LoginStates.Disconnected;
-
-        public LoginStateMachine()
+        // Reset password tries
+        _invalidPasswordTries = 0;
+        //
+        if (!string.IsNullOrWhiteSpace(input))
         {
-            KeepInputAsIs = false;
-            StateMachine = new Dictionary<LoginStates, Func<IClient, string, LoginStates>>
+            var known = LoginManager.CheckUsername(input, out var isAdmin);
+
+            // If known, greets and asks for password
+            // Else, name confirmation
+            if (known)
             {
-                {LoginStates.Username, ProcessUsername},
-                {LoginStates.Password, ProcessPassword},
-                {LoginStates.UsernameConfirm, ProcessUsernameConfirm},
-                {LoginStates.NewPassword1, ProcessNewPassword1},
-                {LoginStates.NewPassword2, ProcessNewPassword2},
-                {LoginStates.LoggedIn, ProcessConnected},
-                {LoginStates.Disconnected, ProcessDisconnect}
-            };
-            State = LoginStates.Username;
-        }
-
-        private LoginStates ProcessUsername(IClient client, string input)
-        {
-            // Reset password tries
-            _invalidPasswordTries = 0;
-            //
-            if (!string.IsNullOrWhiteSpace(input))
-            {
-                bool isAdmin;
-                bool known = LoginManager.CheckUsername(input, out isAdmin);
-
-                // If known, greets and asks for password
-                // Else, name confirmation
-                if (known)
-                {
-                    Send(client, "Welcome back, {0}! Please enter your password:", input.UpperFirstLetter());
-                    _username = input;
-                    _isAdmin = isAdmin;
-                    _isNewPlayer = false;
-                    EchoOff(client);
-                    KeepInputAsIs = true;
-                    return LoginStates.Password;
-                }
-
-                // If account name is available, create
-                if (UniquenessManager.IsAccountNameAvailable(input))
-                {
-                    Send(client, "Are you sure this is the account name you wish to use? (y/n)");
-                    _username = input;
-                    _isAdmin = false;
-                    _isNewPlayer = true;
-                    KeepInputAsIs = false;
-                    return LoginStates.UsernameConfirm;
-                }
-
-                Send(client, "This name is not available for creation. Please enter a valid name:");
-                KeepInputAsIs = false;
-                return LoginStates.Username;
-            }
-            //
-            Send(client, "Please enter a name:");
-            KeepInputAsIs = false;
-            return LoginStates.Username;
-        }
-
-        private LoginStates ProcessPassword(IClient client, string input)
-        {
-            // If password is correct, go to final state
-            // Else, 
-            //      If too many try, disconnect
-            //      Else, retry password
-            bool passwordCorrect = LoginManager.CheckPassword(_username, input);
-            if (passwordCorrect)
-            {
-                Send(client, "Password correct." + Environment.NewLine);
-                EchoOn(client);
-                LoginSuccessfull(client);
-                KeepInputAsIs = false;
-                return LoginStates.LoggedIn;
-            }
-            //
-            _invalidPasswordTries++;
-            if (_invalidPasswordTries < MaxPasswordTries)
-            {
-                Send(client, "Password invalid, please try again:");
+                Send(client, "Welcome back, {0}! Please enter your password:", input.UpperFirstLetter());
+                _username = input;
+                _isAdmin = isAdmin;
+                _isNewPlayer = false;
+                EchoOff(client);
                 KeepInputAsIs = true;
                 return LoginStates.Password;
             }
-            //
-            Send(client, "Maximum login attempts reached, disconnecting.");
-            Disconnect(client);
-            return LoginStates.Disconnected;
-        }
 
-        private LoginStates ProcessUsernameConfirm(IClient client, string input)
-        {
-            // If confirmed, ask for password
-            // Else, ask name again
-            if (input == "y" || input == "yes")
+            // If account name is available, create
+            if (UniquenessManager.IsAccountNameAvailable(input))
             {
-                Send(client, "Great! Please enter a password.");
-                EchoOff(client);
-                KeepInputAsIs = true;
-                return LoginStates.NewPassword1;
+                Send(client, "Are you sure this is the account name you wish to use? (y/n)");
+                _username = input;
+                _isAdmin = false;
+                _isNewPlayer = true;
+                KeepInputAsIs = false;
+                return LoginStates.UsernameConfirm;
             }
-            //
-            Send(client, "Ok, what name would you like to use?");
+
+            Send(client, "This name is not available for creation. Please enter a valid name:");
             KeepInputAsIs = false;
             return LoginStates.Username;
         }
+        //
+        Send(client, "Please enter a name:");
+        KeepInputAsIs = false;
+        return LoginStates.Username;
+    }
 
-        private LoginStates ProcessNewPassword1(IClient client, string input)
+    private LoginStates ProcessPassword(IClient client, string input)
+    {
+        // If password is correct, go to final state
+        // Else, 
+        //      If too many try, disconnect
+        //      Else, retry password
+        bool passwordCorrect = LoginManager.CheckPassword(_username!, input);
+        if (passwordCorrect)
         {
-            // Save password to compare
-            _password = input;
-            // Ask confirmation
-            Send(client, "Please reenter your password:");
-            KeepInputAsIs = true;
-            return LoginStates.NewPassword2;
+            Send(client, "Password correct." + Environment.NewLine);
+            EchoOn(client);
+            LoginSuccessfull(client);
+            KeepInputAsIs = false;
+            return LoginStates.LoggedIn;
         }
-
-        private LoginStates ProcessNewPassword2(IClient client, string input)
+        //
+        _invalidPasswordTries++;
+        if (_invalidPasswordTries < MaxPasswordTries)
         {
-            // If password is the same, go to final
-            // Else, restart password selection
-            // TODO: encryption
-            if (input == _password)
-            {
-                Send(client, "Your new account with username {0} has been created" + Environment.NewLine, _username);
-                LoginManager.InsertLogin(_username, _password); // add login in DB
-                EchoOn(client);
-                LoginSuccessfull(client);
-                return LoginStates.LoggedIn;
-            }
-            //
-            Send(client, "Password do not match, please choose a password:");
+            Send(client, "Password invalid, please try again:");
+            KeepInputAsIs = true;
+            return LoginStates.Password;
+        }
+        //
+        Send(client, "Maximum login attempts reached, disconnecting.");
+        Disconnect(client);
+        return LoginStates.Disconnected;
+    }
+
+    private LoginStates ProcessUsernameConfirm(IClient client, string input)
+    {
+        // If confirmed, ask for password
+        // Else, ask name again
+        if (input == "y" || input == "yes")
+        {
+            Send(client, "Great! Please enter a password.");
+            EchoOff(client);
             KeepInputAsIs = true;
             return LoginStates.NewPassword1;
         }
+        //
+        Send(client, "Ok, what name would you like to use?");
+        KeepInputAsIs = false;
+        return LoginStates.Username;
+    }
 
-        private static LoginStates ProcessConnected(IClient client, string input)
+    private LoginStates ProcessNewPassword1(IClient client, string input)
+    {
+        // Save password to compare
+        _password = input;
+        // Ask confirmation
+        Send(client, "Please reenter your password:");
+        KeepInputAsIs = true;
+        return LoginStates.NewPassword2;
+    }
+
+    private LoginStates ProcessNewPassword2(IClient client, string input)
+    {
+        // If password is the same, go to final
+        // Else, restart password selection
+        // TODO: encryption
+        if (input == _password)
         {
-            // Fall-thru
+            Send(client, "Your new account with username {0} has been created" + Environment.NewLine, _username!);
+            LoginManager.InsertLogin(_username!, _password!); // add login in DB
+            EchoOn(client);
+            LoginSuccessfull(client);
             return LoginStates.LoggedIn;
         }
+        //
+        Send(client, "Password do not match, please choose a password:");
+        KeepInputAsIs = true;
+        return LoginStates.NewPassword1;
+    }
 
-        private static LoginStates ProcessDisconnect(IClient client, string input)
-        {
-            // Fall-thru
-            return LoginStates.Disconnected;
-        }
+    private static LoginStates ProcessConnected(IClient client, string input)
+    {
+        // Fall-thru
+        return LoginStates.LoggedIn;
+    }
 
-        private void LoginSuccessfull(IClient client)
-        {
-            LoginSuccessful?.Invoke(client, _username, _isAdmin, _isNewPlayer);
-            //
-            State = LoginStates.LoggedIn;
-        }
+    private static LoginStates ProcessDisconnect(IClient client, string input)
+    {
+        // Fall-thru
+        return LoginStates.Disconnected;
+    }
 
-        private void Disconnect(IClient client)
-        {
-            LoginFailed?.Invoke(client);
-            //
-            State = LoginStates.Disconnected;
-        }
+    private void LoginSuccessfull(IClient client)
+    {
+        LoginSuccessful?.Invoke(client, _username!, _isAdmin, _isNewPlayer);
+        //
+        State = LoginStates.LoggedIn;
+    }
 
-        private static void Send(IClient client, string format, params object[] parameters)
-        {
-            string message = string.Format(format, parameters);
-            client.WriteData(message);
-        }
+    private void Disconnect(IClient client)
+    {
+        LoginFailed?.Invoke(client);
+        //
+        State = LoginStates.Disconnected;
+    }
 
-        private static void EchoOff(IClient client)
-        {
-            client.EchoOff();
-        }
+    private static void Send(IClient client, string format, params object[] parameters)
+    {
+        string message = string.Format(format, parameters);
+        client.WriteData(message);
+    }
 
-        private static void EchoOn(IClient client)
-        {
-            client.EchoOn();
-        }
+    private static void EchoOff(IClient client)
+    {
+        client.EchoOff();
+    }
 
-        private static string CryptPassword(string password)
-        {
-            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+    private static void EchoOn(IClient client)
+    {
+        client.EchoOn();
+    }
+
+    private static string CryptPassword(string password)
+    {
+        using (MD5 md5 = MD5.Create())
             return BitConverter.ToString(md5.ComputeHash(Encoding.ASCII.GetBytes(password)));
-        }
     }
 }

@@ -1,7 +1,6 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class PetData : CharacterData
 {
-    public class PetData : CharacterData
-    {
-        public int BlueprintId { get; set; }
-    }
+    public int BlueprintId { get; set; }
 }

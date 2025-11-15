@@ -3,39 +3,37 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Player.Misc
+namespace Mud.Server.Player.Misc;
+
+[PlayerCommand("typo", "Misc", Priority = 50)]
+[Syntax("[cmd] <message>")]
+public class Typo : PlayerGameAction
 {
-    [PlayerCommand("typo", "Misc", Priority = 50)]
-    [Syntax("[cmd] <message>")]
-    public class Typo : PlayerGameAction
+    private IWiznet Wiznet { get; }
+
+    public Typo(IWiznet wiznet)
     {
-        private IWiznet Wiznet { get; }
+        Wiznet = wiznet;
+    }
 
-        public string Message { get; protected set; }
+    protected string Message { get; set; } = default!;
 
-        public Typo(IWiznet wiznet)
-        {
-            Wiznet = wiznet;
-        }
+    public override string? Guards(IActionInput actionInput)
+    {
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
-        {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+        Message = CommandHelpers.JoinParameters(actionInput.Parameters);
+        if (string.IsNullOrWhiteSpace(Message))
+            return "Report which typo?";
 
-            Message = CommandHelpers.JoinParameters(actionInput.Parameters);
-            if (string.IsNullOrWhiteSpace(Message))
-                return "Report which typo?";
+        return null;
+    }
 
-            Message = Message;
-            return null;
-        }
-
-        public override void Execute(IActionInput actionInput)
-        {
-            Wiznet.Wiznet($"****USER TYPO REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Typos, AdminLevels.Implementor);
-            Actor.Send("Typo logged.");
-        }
+    public override void Execute(IActionInput actionInput)
+    {
+        Wiznet.Wiznet($"****USER TYPO REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Typos, AdminLevels.Implementor);
+        Actor.Send("Typo logged.");
     }
 }

@@ -1,23 +1,21 @@
-﻿
-using System.Text;
+﻿using System.Text;
 
-namespace Mud.Common
+namespace Mud.Common;
+
+public static class StringBuilderExtensions
 {
-    public static class StringBuilderExtensions
+    public static StringBuilder AppendFormatLine(this StringBuilder sb, string format, params object[] parameters)
     {
-        public static StringBuilder AppendFormatLine(this StringBuilder sb, string format, params object[] parameters)
-        {
-            sb.AppendFormat(format, parameters);
-            sb.AppendLine();
-            return sb;
-        }
+        sb.AppendFormat(format, parameters);
+        sb.AppendLine();
+        return sb;
+    }
 
-        public static StringBuilder AppendFormatAndLineIfNotEmpty(this StringBuilder sb, string format, params object[] parameters)
-        {
-            if (sb.Length > 0)
-                sb.AppendLine();
-            sb.AppendFormat(format, parameters);
-            return sb;
-        }
+    public static StringBuilder AppendFormatAndLineIfNotEmpty(this StringBuilder sb, string format, params object[] parameters)
+    {
+        if (sb.Length > 0)
+            sb.AppendLine();
+        sb.AppendFormat(format, parameters);
+        return sb;
     }
 }

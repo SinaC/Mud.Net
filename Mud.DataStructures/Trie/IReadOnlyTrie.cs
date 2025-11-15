@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace Mud.DataStructures.Trie;
 
-namespace Mud.DataStructures.Trie
+public interface IReadOnlyTrie<TValue> : IReadOnlyDictionary<string, TValue>
 {
-    public interface IReadOnlyTrie<TValue> : IReadOnlyDictionary<string, TValue>
-    {
-        IEnumerable<TrieEntry<TValue>> GetByPrefix(string prefix);
-    }
+    IEnumerable<TrieEntry<TValue>> GetByPrefix(string prefix);
 }

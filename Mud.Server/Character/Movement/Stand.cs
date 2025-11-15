@@ -5,86 +5,83 @@ using Mud.Server.Helpers;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using System.Linq;
 using System.Text;
 
-namespace Mud.Server.Character.Movement
+namespace Mud.Server.Character.Movement;
+
+[CharacterCommand("stand", "Movement", MinPosition = Positions.Sleeping)]
+[Syntax(
+    "[cmd]",
+    "[cmd] <furniture>")]
+public class Stand : CharacterGameAction
 {
-    [CharacterCommand("stand", "Movement", MinPosition = Positions.Sleeping)]
-    [Syntax(
-        "[cmd]",
-        "[cmd] <furniture>")]
-    public class Stand : CharacterGameAction
+    protected IItemFurniture What { get; set; } = default!;
+
+    public override string? Guards(IActionInput actionInput)
     {
-        public IItemFurniture What { get; protected set; }
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
+        // Stand is the only movement command that can be used while fighting
+        //if (Actor.Fighting != null)
+        //    return "Maybe you should finish fighting first?";
+        if (Actor.Position == Positions.Standing)
+            return "You are already standing.";
+        if (Actor.Position == Positions.Sleeping && Actor.CharacterFlags.IsSet("Sleep"))
+            return "You can't wake up!";
+
+        // Search valid furniture if any
+        if (actionInput.Parameters.Length > 0)
         {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+            var item = FindHelpers.FindByName(Actor.Room.Content.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
+            if (item == null)
+                return StringHelpers.ItemNotFound;
 
-            // Stand is the only movement command that can be used while fighting
-            //if (Actor.Fighting != null)
-            //    return "Maybe you should finish fighting first?";
-            if (Actor.Position == Positions.Standing)
-                return "You are already standing.";
-            if (Actor.Position == Positions.Sleeping && Actor.CharacterFlags.IsSet("Sleep"))
-                return "You can't wake up!";
+            if (item is not IItemFurniture furniture || !furniture.CanStand)
+                return "You can't seem to find a place to stand.";
 
-            // Search valid furniture if any
-            if (actionInput.Parameters.Length > 0)
-            {
-                IItem item = FindHelpers.FindByName(Actor.Room.Content.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
-                if (item == null)
-                    return StringHelpers.ItemNotFound;
-
-                IItemFurniture furniture = item as IItemFurniture;
-                if (furniture == null || !furniture.CanStand)
-                    return "You can't seem to find a place to stand.";
-
-                if (1 + furniture.People.Count() > furniture.MaxPeople)
-                    return Actor.ActPhrase("There is no more room to stand on {0}.", furniture);
-                What = furniture;
-                return null;
-            }
-
+            if (1 + furniture.People?.Count() > furniture.MaxPeople)
+                return Actor.ActPhrase("There is no more room to stand on {0}.", furniture);
+            What = furniture;
             return null;
         }
 
-        public override void Execute(IActionInput actionInput)
-        {
-            Actor.ChangeFurniture(What);
+        return null;
+    }
 
-            // Change position
-            if (Actor.Position == Positions.Sleeping)
-            {
-                if (What == null)
-                    Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} up.", Actor);
-                else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                    Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} at {1}.", Actor, What);
-                else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                    Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} on {1}.", Actor, What);
-                else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                    Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} in {1}.", Actor, What);
-                // Autolook if impersonated/incarnated
-                StringBuilder sb = new StringBuilder();
-                Actor.Room.Append(sb, Actor);
-                Actor.Send(sb);
-            }
-            else if (Actor.Position == Positions.Resting
-                     || Actor.Position == Positions.Sitting)
-            {
-                if (What == null)
-                    Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} up.", Actor);
-                else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                    Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} at {1}.", Actor, What);
-                else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                    Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} on {1}.", Actor, What);
-                else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                    Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} in {1}.", Actor, What);
-            }
-            Actor.ChangePosition(Positions.Standing);
+    public override void Execute(IActionInput actionInput)
+    {
+        Actor.ChangeFurniture(What);
+
+        // Change position
+        if (Actor.Position == Positions.Sleeping)
+        {
+            if (What == null)
+                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} up.", Actor);
+            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} at {1}.", Actor, What);
+            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} on {1}.", Actor, What);
+            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} in {1}.", Actor, What);
+            // Autolook if impersonated/incarnated
+            StringBuilder sb = new StringBuilder();
+            Actor.Room.Append(sb, Actor);
+            Actor.Send(sb);
         }
+        else if (Actor.Position == Positions.Resting
+                 || Actor.Position == Positions.Sitting)
+        {
+            if (What == null)
+                Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} up.", Actor);
+            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} at {1}.", Actor, What);
+            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} on {1}.", Actor, What);
+            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} in {1}.", Actor, What);
+        }
+        Actor.ChangePosition(Positions.Standing);
     }
 }

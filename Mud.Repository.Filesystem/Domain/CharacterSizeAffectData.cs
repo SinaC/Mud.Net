@@ -1,7 +1,6 @@
-﻿namespace Mud.Repository.Filesystem.Domain
+﻿namespace Mud.Repository.Filesystem.Domain;
+
+public class CharacterSizeAffectData : AffectDataBase
 {
-    public class CharacterSizeAffectData : AffectDataBase
-    {
-        public int Value { get; set; }
-    }
+    public int Value { get; set; }
 }

@@ -1,11 +1,10 @@
 ﻿using Mud.Server.Flags.Interfaces;
 
-namespace Mud.Domain
-{
-    public class CharacterFlagsAffectData : AffectDataBase
-    {
-        public AffectOperators Operator { get; set; } // Add and Or are identical
+namespace Mud.Domain;
 
-        public ICharacterFlags Modifier { get; set; }
-    }
+public class CharacterFlagsAffectData : AffectDataBase
+{
+    public required AffectOperators Operator { get; set; } // Add and Or are identical
+
+    public required ICharacterFlags Modifier { get; set; }
 }

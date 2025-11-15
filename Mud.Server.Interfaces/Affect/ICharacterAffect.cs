@@ -1,11 +1,10 @@
 ﻿using Mud.Server.Interfaces.Character;
 
-namespace Mud.Server.Interfaces.Affect
-{
-    public interface ICharacterAffect : IAffect
-    {
-        // Attributes
+namespace Mud.Server.Interfaces.Affect;
 
-        void Apply(ICharacter character);
-    }
+public interface ICharacterAffect : IAffect
+{
+    // Attributes
+
+    void Apply(ICharacter character);
 }

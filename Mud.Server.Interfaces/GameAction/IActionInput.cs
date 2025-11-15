@@ -1,16 +1,15 @@
 ﻿using Mud.Server.Interfaces.Actor;
 
-namespace Mud.Server.Interfaces.GameAction
+namespace Mud.Server.Interfaces.GameAction;
+
+public interface IActionInput
 {
-    public interface IActionInput
-    {
-        IActor Actor { get; }
-        string CommandLine { get; }
-        string Command { get; }
-        ICommandParameter[] Parameters { get; }
-        IGameActionInfo GameActionInfo { get; }
+    IActor Actor { get; }
+    string CommandLine { get; }
+    string Command { get; }
+    ICommandParameter[] Parameters { get; }
+    IGameActionInfo GameActionInfo { get; }
 
-        object Context { get; set; }
+    object Context { get; set; }
 
-    }
 }

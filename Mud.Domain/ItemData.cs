@@ -1,17 +1,16 @@
 ﻿using Mud.Server.Flags.Interfaces;
 
-namespace Mud.Domain
+namespace Mud.Domain;
+
+public class ItemData
 {
-    public class ItemData
-    {
-        public int ItemId { get; set; }
+    public required int ItemId { get; set; }
 
-        public int Level { get; set; }
+    public required int Level { get; set; }
 
-        public int DecayPulseLeft { get; set; }
+    public required int DecayPulseLeft { get; set; }
 
-        public IItemFlags ItemFlags { get; set; }
+    public required IItemFlags ItemFlags { get; set; }
 
-        public AuraData[] Auras { get; set; }
-    }
+    public required AuraData[] Auras { get; set; }
 }

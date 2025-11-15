@@ -1,10 +1,9 @@
-﻿namespace Mud.Domain
-{
-    public class AdminData : PlayerData
-    {
-        public AdminLevels AdminLevel { get; set; }
-        public WiznetFlags WiznetFlags { get; set; }
+﻿namespace Mud.Domain;
 
-        // TODO: extra fields
-    }
+public class AdminData : PlayerData
+{
+    public required AdminLevels AdminLevel { get; set; }
+    public required WiznetFlags WiznetFlags { get; set; }
+
+    // TODO: extra fields
 }

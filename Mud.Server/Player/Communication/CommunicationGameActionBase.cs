@@ -1,46 +1,43 @@
 ﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
-using System;
-using System.Linq;
 
-namespace Mud.Server.Player.Communication
+namespace Mud.Server.Player.Communication;
+
+public abstract class CommunicationGameActionBase : PlayerGameAction
 {
-    public abstract class CommunicationGameActionBase : PlayerGameAction
+    private IPlayerManager PlayerManager { get; }
+
+    protected abstract string NoParamMessage { get; }
+    protected abstract string ActorSendPattern { get; }
+    protected abstract string OtherSendPattern { get; }
+
+    protected CommunicationGameActionBase(IPlayerManager playerManager)
     {
-        private IPlayerManager PlayerManager { get; }
+        PlayerManager = playerManager;
+    }
 
-        protected abstract string NoParamMessage { get; }
-        protected abstract string ActorSendPattern { get; }
-        protected abstract string OtherSendPattern { get; }
+    protected string What { get; set; } = default!;
 
-        public string What { get; protected set; }
+    public override string? Guards(IActionInput actionInput)
+    {
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        protected CommunicationGameActionBase(IPlayerManager playerManager)
-        {
-            PlayerManager = playerManager;
-        }
+        if (actionInput.Parameters.Length == 0)
+            return NoParamMessage;
 
-        public override string Guards(IActionInput actionInput)
-        {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+        What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        return null;
+    }
 
-            if (actionInput.Parameters.Length == 0)
-                return NoParamMessage;
+    public override void Execute(IActionInput actionInput)
+    {
+        Actor.Send(ActorSendPattern, What);
 
-            What = CommandHelpers.JoinParameters(actionInput.Parameters);
-            return null;
-        }
-
-        public override void Execute(IActionInput actionInput)
-        {
-            Actor.Send(ActorSendPattern, What);
-
-            string other = String.Format(OtherSendPattern, Actor.DisplayName, What);
-            foreach (IPlayer player in PlayerManager.Players.Where(x => x != Actor))
-                player.Send(other);
-        }
+        string other = String.Format(OtherSendPattern, Actor.DisplayName, What);
+        foreach (IPlayer player in PlayerManager.Players.Where(x => x != Actor))
+            player.Send(other);
     }
 }

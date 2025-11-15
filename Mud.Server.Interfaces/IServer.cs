@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using Mud.Network.Interfaces;
+﻿using Mud.Network.Interfaces;
 
-namespace Mud.Server.Interfaces
+namespace Mud.Server.Interfaces;
+
+public interface IServer
 {
-    public interface IServer
-    {
-        void Initialize(List<INetworkServer> networkServers);
-        void Start();
-        void Stop();
-        void Dump();
-    }
+    void Initialize(List<INetworkServer> networkServers);
+    void Start();
+    void Stop();
+    void Dump();
 }

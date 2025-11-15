@@ -1,7 +1,6 @@
-﻿namespace Mud.Server.Interfaces.Item
+﻿namespace Mud.Server.Interfaces.Item;
+
+public interface IItemCorpse : IItemCanContain
 {
-    public interface IItemCorpse : IItemCanContain
-    {
-        bool IsPlayableCharacterCorpse { get; }
-    }
+    bool IsPlayableCharacterCorpse { get; }
 }

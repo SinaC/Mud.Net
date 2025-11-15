@@ -2,15 +2,14 @@
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Character.Movement
+namespace Mud.Server.Character.Movement;
+
+[CharacterCommand("southwest", "Movement", Priority = 1, MinPosition = Positions.Standing, NotInCombat = true)]
+[Alias("sw")]
+public class SouthWest : CharacterGameAction
 {
-    [CharacterCommand("southwest", "Movement", Priority = 1, MinPosition = Positions.Standing, NotInCombat = true)]
-    [Alias("sw")]
-    public class SouthWest : CharacterGameAction
+    public override void Execute(IActionInput actionInput)
     {
-        public override void Execute(IActionInput actionInput)
-        {
-            Actor.Move(ExitDirections.SouthWest, false, true);
-        }
+        Actor.Move(ExitDirections.SouthWest, false, true);
     }
 }

@@ -3,31 +3,30 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Character.Communication
+namespace Mud.Server.Character.Communication;
+
+[CharacterCommand("say", "Communication", MinPosition = Positions.Resting)]
+[Syntax("[cmd] <message>")]
+public class Say : CharacterGameAction
 {
-    [CharacterCommand("say", "Communication", MinPosition = Positions.Resting)]
-    [Syntax("[cmd] <message>")]
-    public class Say : CharacterGameAction
+    protected string What { get; set; } = default!;
+
+    public override string? Guards(IActionInput actionInput)
     {
-        public string What { get; protected set; }
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
 
-        public override string Guards(IActionInput actionInput)
-        {
-            string baseGuards = base.Guards(actionInput);
-            if (baseGuards != null)
-                return baseGuards;
+        if (actionInput.Parameters.Length == 0)
+            return "Say what?";
 
-            if (actionInput.Parameters.Length == 0)
-                return "Say what?";
+        What = CommandHelpers.JoinParameters(actionInput.Parameters);
 
-            What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        return null;
+    }
 
-            return null;
-        }
-
-        public override void Execute(IActionInput actionInput)
-        {
-            Actor.Act(ActOptions.ToAll, "%g%{0:N} say{0:v} '%x%{1}%g%'%x%", Actor, What);
-        }
+    public override void Execute(IActionInput actionInput)
+    {
+        Actor.Act(ActOptions.ToAll, "%g%{0:N} say{0:v} '%x%{1}%g%'%x%", Actor, What);
     }
 }

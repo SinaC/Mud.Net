@@ -2,14 +2,13 @@
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
-namespace Mud.Server.Character.Movement
+namespace Mud.Server.Character.Movement;
+
+[CharacterCommand("north", "Movement", Priority = 0, MinPosition = Positions.Standing, NotInCombat = true)]
+public class North : CharacterGameAction
 {
-    [CharacterCommand("north", "Movement", Priority = 0, MinPosition = Positions.Standing, NotInCombat = true)]
-    public class North : CharacterGameAction
+    public override void Execute(IActionInput actionInput)
     {
-        public override void Execute(IActionInput actionInput)
-        {
-            Actor.Move(ExitDirections.North, false, true);
-        }
+        Actor.Move(ExitDirections.North, false, true);
     }
 }
