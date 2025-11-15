@@ -1,3 +1,6 @@
+INGOING
+
+TODO
 finish ROM24 classes
 when a player connects, if no avatar found -> switch to avatar create state machine
 move IClass/IRace to IPlayableCharacter as non-nullable
@@ -23,8 +26,6 @@ refactor settings
 UNIT TESTS
 use xunit + moq
 
-third attack, fourth attack, ... find a way to scan all IGameAction and find those attacks and use them in MultiHit
-additional abitlies such as tail/crush/bite must be added to some race -> add abilities to Race
 Item.GetAura should be based on flags and not ability (check Curse spell)
 in general way, Aura should be based on flags instead of abilities (with an optional ability)
 

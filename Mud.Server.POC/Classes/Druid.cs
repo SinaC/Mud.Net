@@ -2,7 +2,7 @@
 using Mud.Server.Class;
 using Mud.Server.Interfaces.Ability;
 
-namespace Mud.Server.Classes;
+namespace Mud.Server.POC.Classes;
 
 public class Druid : ClassBase
 {
@@ -68,9 +68,9 @@ public class Druid : ClassBase
         : base(abilityManager)
     {
         // Test class with all skills + Passive
-        foreach (IAbilityInfo abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
+        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
             AddAbility(20, abilityInfo.Name, null, 0, CostAmountOperators.None, 1);
-        foreach (IAbilityInfo abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive))
+        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive))
             AddAbility(10, abilityInfo.Name, null, 0, CostAmountOperators.None, 1);
     }
 }

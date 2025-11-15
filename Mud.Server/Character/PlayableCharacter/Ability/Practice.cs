@@ -49,6 +49,8 @@ public class Practice : PlayableCharacterGameAction
         AbilityLearned = Actor.LearnedAbilities.FirstOrDefault(x => x.CanBePracticed(Actor) && StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;
         if (AbilityLearned == null)
             return "You can't practice that.";
+        if (AbilityLearned.Rating <= 0)
+            return $"You cannot practice {AbilityLearned.Name}.";
         if (AbilityLearned.Learned >= (Actor.Class?.MaxPracticePercentage ?? 50))
             return $"You are already learned at {AbilityLearned.Name}";
         return null;

@@ -44,10 +44,6 @@ public class Mage : ClassBase
         AddAbility(28, "Acid Blast", Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 1);
         AddAbility(33, "Chain Lightning", Domain.ResourceKinds.Mana, 25, CostAmountOperators.Fixed, 1);
         AddAbility(48, "Calm", Domain.ResourceKinds.Mana, 30, CostAmountOperators.Fixed, 1);
-
-
-        //TODO: continue after Floating Disc
-        //AddAbility(14, "Floating Disc", Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 1);
     }
 
     #region IClass

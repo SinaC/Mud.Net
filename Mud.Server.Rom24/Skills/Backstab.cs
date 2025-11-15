@@ -54,7 +54,7 @@ public class Backstab : OffensiveSkillBase
         if (RandomManager.Chance(Learned)
             || (Learned > 1 && Victim.Position <= Positions.Sleeping))
         {
-            BackstabMultitHitModifier modifier = new (SkillName, "backstab", Learned);
+            BackstabMultiHitModifier modifier = new (SkillName, "backstab", Learned);
 
             User.MultiHit(Victim, modifier);
             return true;
@@ -66,9 +66,9 @@ public class Backstab : OffensiveSkillBase
         }
     }
 
-    public class BackstabMultitHitModifier : IMultiHitModifier
+    public class BackstabMultiHitModifier : IMultiHitModifier
     {
-        public BackstabMultitHitModifier(string abilityName, string damageNoun, int learned)
+        public BackstabMultiHitModifier(string abilityName, string damageNoun, int learned)
         {
             AbilityName = abilityName;
             DamageNoun = damageNoun;

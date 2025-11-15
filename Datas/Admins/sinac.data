@@ -3907,15 +3907,15 @@
       <Name>glouk</Name>
       <Race>insectoid</Race>
       <Class>druid</Class>
-      <Level>1</Level>
+      <Level>49</Level>
       <Sex>0</Sex>
       <Size>2</Size>
-      <HitPoints>100</HitPoints>
-      <MovePoints>22</MovePoints>
+      <HitPoints>24</HitPoints>
+      <MovePoints>218</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>100</Value>
+          <Value>316</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -3925,14 +3925,26 @@
       <MaxResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>100</Value>
+          <Value>316</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
           <Value>100</Value>
         </PairDataOfInt32Int32>
       </MaxResources>
-      <Equipments />
+      <Equipments>
+        <EquippedItemData>
+          <Slot>13</Slot>
+          <Item xsi:type="ItemWeaponData">
+            <ItemId>3350</ItemId>
+            <Level>16</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>Magic</ItemFlags>
+            <Auras />
+            <WeaponFlags />
+          </Item>
+        </EquippedItemData>
+      </Equipments>
       <Inventory />
       <Auras />
       <CharacterFlags>Haste</CharacterFlags>
@@ -3942,27 +3954,27 @@
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>16</Value>
+          <Value>22</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>16</Value>
+          <Value>22</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>17</Value>
+          <Value>22</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>16</Value>
+          <Value>22</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>4</Key>
-          <Value>18</Value>
+          <Value>24</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>5</Key>
-          <Value>100</Value>
+          <Value>218</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>6</Key>
@@ -3978,7 +3990,7 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>9</Key>
-          <Value>100</Value>
+          <Value>218</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>10</Key>
@@ -3998,13 +4010,13 @@
         </PairDataOfInt32Int32>
       </Attributes>
       <CreationTime>2025-11-11T16:31:33.7841739+01:00</CreationTime>
-      <RoomId>3050</RoomId>
+      <RoomId>3001</RoomId>
       <SilverCoins>0</SilverCoins>
       <GoldCoins>0</GoldCoins>
-      <Experience>0</Experience>
+      <Experience>120002</Experience>
       <Alignment>0</Alignment>
-      <Trains>3</Trains>
-      <Practices>5</Practices>
+      <Trains>22</Trains>
+      <Practices>91</Practices>
       <AutoFlags>2</AutoFlags>
       <CurrentQuests />
       <LearnedAbilities>
@@ -4248,7 +4260,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>1</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -4257,7 +4269,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>1</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -4311,7 +4323,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>1</Learned>
+          <Learned>2</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -4338,7 +4350,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>1</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -4374,7 +4386,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>1</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -4383,7 +4395,7 @@
           <CostAmount>0</CostAmount>
           <CostAmountOperator>0</CostAmountOperator>
           <Level>10</Level>
-          <Learned>1</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>
@@ -5312,15 +5324,15 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>44</Value>
+          <Value>30</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>46</Value>
+          <Value>39</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>46</Value>
+          <Value>39</Value>
         </PairDataOfInt32Int32>
       </Conditions>
       <Aliases />

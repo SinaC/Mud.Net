@@ -6,7 +6,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Race;
 
-namespace Mud.Server.Races;
+namespace Mud.Server.POC.Races;
 
 public class Insectoid : PlayableRaceBase // 4-arms
 {
@@ -125,7 +125,7 @@ public class Insectoid : PlayableRaceBase // 4-arms
         AddAbility(1, "Fourth Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
 
         // Test race with all spells
-        foreach (IAbilityInfo abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))
+        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))
             AddAbility(1, abilityInfo.Name, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);
     }
 }

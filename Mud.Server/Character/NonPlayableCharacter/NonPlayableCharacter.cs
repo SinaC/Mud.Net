@@ -308,12 +308,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
 
         var mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
-        var offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
         // main hand attack
+        int attackCount = 0;
         OneHit(victim, mainHand, multiHitModifier);
+        attackCount++;
         if (Fighting != victim)
             return;
-        if (multiHitModifier?.MaxAttackCount <= 1)
+        if (multiHitModifier?.MaxAttackCount <= attackCount)
             return;
         // area attack
         if (OffensiveFlags.IsSet("AreaAttack"))
@@ -321,39 +322,45 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             var clone = new ReadOnlyCollection<ICharacter>((Room?.People?.Where(x => x != this && x.Fighting == this) ?? Enumerable.Empty<ICharacter>()).ToList());
             foreach (var character in clone)
                 OneHit(character, mainHand, multiHitModifier);
+            attackCount++;
         }
         // off hand attack
+        var offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
         var dualWield = AbilityManager.CreateInstance<IPassive>("Dual Wield");
         if (offHand != null && dualWield != null && dualWield.IsTriggered(this, victim, false, out _, out _))
             OneHit(victim, offHand, multiHitModifier);
+        attackCount++;
         if (Fighting != victim)
             return;
-        if (multiHitModifier?.MaxAttackCount <= 2)
+        if (multiHitModifier?.MaxAttackCount <= attackCount)
             return;
         // main hand haste attack
         if ((CharacterFlags.IsSet("Haste") || OffensiveFlags.IsSet("Fast"))
             && !CharacterFlags.IsSet("Slow"))
             OneHit(victim, mainHand, multiHitModifier);
+        attackCount++;
         if (Fighting != victim)
             return;
-        if (multiHitModifier?.MaxAttackCount <= 3)
+        if (multiHitModifier?.MaxAttackCount <= attackCount)
             return;
-        // main hand second attack
-        var secondAttack = AbilityManager.CreateInstance<IPassive>("Second Attack");
-        if (secondAttack != null && secondAttack.IsTriggered(this, victim, false, out _, out _))
-            OneHit(victim, mainHand, multiHitModifier);
-        if (Fighting != victim)
-            return;
-        if (multiHitModifier?.MaxAttackCount <= 4)
-            return;
-        // main hand third attack
-        var thirdAttack = AbilityManager.CreateInstance<IPassive>("Third Attack");
-        if (thirdAttack != null && thirdAttack.IsTriggered(this, victim, false, out _, out _))
-            OneHit(victim, mainHand, multiHitModifier);
-        if (Fighting != victim)
-            return;
-        if (multiHitModifier?.MaxAttackCount <= 5)
-            return;
+        // additional hits (second, third attack, ...)
+        var additionalHitAbilities = new List<IAdditionalHitPassive>();
+        foreach (var additionalHitAbilityInfo in AbilityManager.AbilitiesByExecutionType<IAdditionalHitPassive>())
+        {
+            var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityInfo);
+            if (additionalHitAbility != null)
+                additionalHitAbilities.Add(additionalHitAbility);
+        }
+        foreach(var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex))
+        {
+            if (additionalHitAbility.IsTriggered(this, victim, false, out _, out _))
+                OneHit(victim, mainHand, multiHitModifier);
+            attackCount++;
+            if (Fighting != victim)
+                return;
+            if (multiHitModifier?.MaxAttackCount <= attackCount)
+                return;
+        }
         // TODO: only if wielding 3 or 4 weapons
         //// 3rd hand
         //var thirdWieldLearnInfo = GetLearnInfo("Third wield");
@@ -529,93 +536,68 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         //    learned = knownAbility.Learned;
 
         // TODO: spells
-        int learned = 0;
-        switch (abilityName)
-        {
-            case "Sneak":
-            case "Hide":
-                learned = 20 + 2 * Level;
-                break;
-            case "Dodge":
-                if (OffensiveFlags.IsSet("Dodge"))
-                    learned = 2 * Level;
-                break;
-            case "Parry":
-                if (OffensiveFlags.IsSet("Parry"))
-                    learned = 2 * Level;
-                break;
-            case "Shield block":
-                learned = 10 + 2 * Level;
-                break;
-            case "Second attack":
-                if (ActFlags.HasAny("Warrior", "Thief"))
-                    learned = 10 + 3 * Level;
-                break;
-            case "Third attack":
-                if (ActFlags.IsSet("Warrior"))
-                    learned = 4 * Level - 40;
-                break;
-            case "Hand to hand":
-                learned = 40 + 2 * Level;
-                break;
-            case "Trip":
-                if (OffensiveFlags.IsSet("Trip"))
-                    learned = 10 + 3 * Level;
-                break;
-            case "Bash":
-                if (OffensiveFlags.IsSet("Bash"))
-                    learned = 10 + 3 * Level;
-                break;
-            case "Disarm":
-                if (OffensiveFlags.IsSet("Disarm")
-                    || ActFlags.HasAny("Warrior", "Thief"))
-                    learned = 20 + 3 * Level;
-                break;
-            case "Berserk":
-                if (OffensiveFlags.IsSet("Berserk"))
-                    learned = 3 * Level;
-                break;
-            case "Kick":
-                if (OffensiveFlags.IsSet("Kick"))
-                    learned = 10 + 3 * Level;
-                break;
-            case "Backstab":
-                if (ActFlags.IsSet("Thief"))
-                    learned = 20 + 2 * Level;
-                break;
-            case "Rescue":
-                learned = 40 + Level;
-                break;
-            case "Tail":
-                if (OffensiveFlags.IsSet("Tail"))
-                    learned = 10 + 3 * Level;
-                break;
-            case "Bite":
-                if (OffensiveFlags.IsSet("Bite"))
-                    learned = 10 + 3 * Level;
-                break;
-            case "Crush":
-                if (OffensiveFlags.IsSet("Crush"))
-                    learned = 10 + 3 * Level;
-                break;
-            case "Recall":
-                learned = 40 + Level;
-                break;
-            case "Axe":
-            case "Dagger":
-            case "Flail":
-            case "Mace":
-            case "Poleam":
-            case "Spear":
-            case "Staves":
-            case "Sword":
-            case "Whip":
+        int learned;
+        if (string.Equals(abilityName, "Sneak", StringComparison.InvariantCultureIgnoreCase) || string.Equals(abilityName, "Hide", StringComparison.InvariantCultureIgnoreCase))
+            learned = 20 + 2 * Level;
+        else if (string.Equals(abilityName, "Dodge", StringComparison.InvariantCultureIgnoreCase)
+            && OffensiveFlags.IsSet("Dodge"))
+            learned = 2 * Level;
+        else if (string.Equals(abilityName, "Parry", StringComparison.InvariantCultureIgnoreCase)
+            && OffensiveFlags.IsSet("Parry"))
+            learned = 2 * Level;
+        else if (string.Equals(abilityName, "Shield Block", StringComparison.InvariantCultureIgnoreCase))
+            learned = 10 + 2 * Level;
+        else if (string.Equals(abilityName, "Second attack", StringComparison.InvariantCultureIgnoreCase)
+            && ActFlags.HasAny("Warrior", "Thief"))
+            learned = 10 + 3 * Level;
+        else if (string.Equals(abilityName, "Third attack", StringComparison.InvariantCultureIgnoreCase)
+            && ActFlags.IsSet("Warrior"))
+            learned = 4 * Level - 40;
+        else if (string.Equals(abilityName, "Hand to hand", StringComparison.InvariantCultureIgnoreCase))
+            learned = 40 + 2 * Level;
+        else if (string.Equals(abilityName, "Trip", StringComparison.InvariantCultureIgnoreCase)
+            && OffensiveFlags.IsSet("Trip"))
+            learned = 10 + 3 * Level;
+        else if (string.Equals(abilityName, "Bash", StringComparison.InvariantCultureIgnoreCase)
+            && OffensiveFlags.IsSet("Bash"))
+            learned = 10 + 3 * Level;
+        else if (string.Equals(abilityName, "Disarm", StringComparison.InvariantCultureIgnoreCase)
+            && (OffensiveFlags.IsSet("Disarm") || ActFlags.HasAny("Warrior", "Thief")))
+            learned = 20 + 3 * Level;
+        else if (string.Equals(abilityName, "Berserk", StringComparison.InvariantCultureIgnoreCase)
+            && OffensiveFlags.IsSet("Berserk"))
+            learned = 3 * Level;
+        else if (string.Equals(abilityName, "Kick", StringComparison.InvariantCultureIgnoreCase)
+            && OffensiveFlags.IsSet("Kick"))
+            learned = 10 + 3 * Level;
+        else if (string.Equals(abilityName, "Backstab", StringComparison.InvariantCultureIgnoreCase)
+            && ActFlags.IsSet("Thief"))
+            learned = 20 + 2 * Level;
+        else if (string.Equals(abilityName, "Rescue", StringComparison.InvariantCultureIgnoreCase))
+            learned = 40 + Level;
+        else if (string.Equals(abilityName, "Tail", StringComparison.InvariantCultureIgnoreCase)
+            && OffensiveFlags.IsSet("Tail"))
+            learned = 10 + 3 * Level;
+        else if (string.Equals(abilityName, "Bite", StringComparison.InvariantCultureIgnoreCase)
+            && OffensiveFlags.IsSet("Bite"))
+             learned = 10 + 3 * Level;
+        else if (string.Equals(abilityName, "Crush", StringComparison.InvariantCultureIgnoreCase)
+            && OffensiveFlags.IsSet("Crush"))
+            learned = 10 + 3 * Level;
+        else if (string.Equals(abilityName, "Recall", StringComparison.InvariantCultureIgnoreCase))
+            learned = 40 + Level;
+        else if (string.Equals(abilityName, "Axe", StringComparison.InvariantCultureIgnoreCase)
+            || string.Equals(abilityName, "Dagger", StringComparison.InvariantCultureIgnoreCase)
+            || string.Equals(abilityName, "Flail", StringComparison.InvariantCultureIgnoreCase)
+            || string.Equals(abilityName, "Mace", StringComparison.InvariantCultureIgnoreCase)
+            || string.Equals(abilityName, "Polearm", StringComparison.InvariantCultureIgnoreCase)
+            || string.Equals(abilityName, "Spear", StringComparison.InvariantCultureIgnoreCase)
+            || string.Equals(abilityName, "Staff(weapon)", StringComparison.InvariantCultureIgnoreCase)
+            || string.Equals(abilityName, "Sword", StringComparison.InvariantCultureIgnoreCase)
+            || string.Equals(abilityName, "Whip", StringComparison.InvariantCultureIgnoreCase))
                 learned = 40 + 5 * Level / 2;
-                break;
-            default:
-                learned = 0;
-                break;
-        }
+        else
+            learned = 0;
 
         // TODO: if daze /=2 for spell and *2/3 if otherwise
 
@@ -732,7 +714,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     protected bool UseSkill(string skillName, params ICommandParameter[] parameters)
     {
         Log.Default.WriteLine(LogLevels.Info, "{0} tries to use {1} on {2}.", DebugName, skillName, Fighting?.DebugName ?? "???");
-        var abilityInfo = AbilityManager.Search(skillName, AbilityTypes.Skill);
+        var abilityInfo = AbilityManager[skillName];
         if (abilityInfo == null)
         {
             Log.Default.WriteLine(LogLevels.Warning, "Unknown skill {0}.", skillName);
