@@ -3,6 +3,7 @@ using AutoMapper;
 using Moq;
 using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
+using static Mud.Repository.Filesystem.AutoMapperProfile;
 
 namespace Mud.Repository.Tests
 {
@@ -27,15 +28,9 @@ namespace Mud.Repository.Tests
                 .Returns(new Rom24WeaponFlagValues());
             serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlagValues)))
                 .Returns(new Rom24IRVFlagValues());
-            var mapperConfiguration = new MapperConfiguration(cfg =>
-            {
-                cfg.AllowNullCollections = true;
-                cfg.AllowNullDestinationValues = true;
-                cfg.AddProfile<Filesystem.AutoMapperProfile>();
-            });
-            mapperConfiguration.AssertConfigurationIsValid();
+            var mapper = CreateMapper();
             serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))) 
-                .Returns(mapperConfiguration.CreateMapper());
+                .Returns(mapper);
 
             AutoFaker.Configure(builder =>
             {
@@ -47,6 +42,36 @@ namespace Mud.Repository.Tests
 
             _serviceProvider = serviceProviderMock.Object;
         }
+
+        private IMapper CreateMapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AllowNullCollections = true;
+                cfg.AllowNullDestinationValues = true;
+                cfg.AddProfile<Filesystem.AutoMapperProfile>(); 
+                cfg.ConstructServicesUsing(t =>
+                {
+                    if (t == typeof(StringToItemFlagsConverter))
+                        return new StringToItemFlagsConverter(_serviceProvider);
+                    if (t == typeof(StringToIRVFlagsConverter))
+                        return new StringToIRVFlagsConverter(_serviceProvider);
+                    if (t == typeof(StringToWeaponFlagsConverter))
+                        return new StringToWeaponFlagsConverter(_serviceProvider);
+                    if (t == typeof(StringToCharacterFlagsConverter))
+                        return new StringToCharacterFlagsConverter(_serviceProvider);
+                    if (t == typeof(StringToRoomFlagsConverter))
+                        return new StringToRoomFlagsConverter(_serviceProvider);
+                    return null;
+                });
+            });
+
+            config.AssertConfigurationIsValid();
+
+            var mapper = new Mapper(config);
+            return mapper;
+        }
+
     }
 
     internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues

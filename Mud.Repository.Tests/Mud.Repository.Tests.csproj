@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="AutoBogus" Version="2.13.1" />
     <PackageReference Include="AutoBogus.Moq" Version="2.13.1" />
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Bogus" Version="35.6.5" />
     <PackageReference Include="Castle.Core" Version="5.2.1" />
     <PackageReference Include="DeepEqual" Version="5.1.0" />

@@ -13,7 +13,7 @@
     <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
     <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj" />
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
     <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="10.0.0" />

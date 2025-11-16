@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Mud.DataStructures.Flags;
 using Mud.Logger;
 using Mud.Repository;
@@ -106,15 +105,17 @@ public partial class App : Application
         services.AddSingleton<IPlayerRepository, Repository.Filesystem.PlayerRepository>();
         services.AddSingleton<IAdminRepository, Repository.Filesystem.AdminRepository>();
 
-        // Initialize mapping
-        var mapperConfiguration = new MapperConfiguration(cfg =>
-        {
-            cfg.AllowNullCollections = true;
-            cfg.AllowNullDestinationValues = true;
+        services.AddAutoMapper(typeof(Repository.Filesystem.AutoMapperProfile).Assembly);
 
-            cfg.AddProfile<Repository.Filesystem.AutoMapperProfile>();
-        });
-        services.AddSingleton(mapperConfiguration.CreateMapper());
+        //// Initialize mapping
+        //var mapperConfiguration = new MapperConfiguration(cfg =>
+        //{
+        //    cfg.AllowNullCollections = true;
+        //    cfg.AllowNullDestinationValues = true;
+
+        //    cfg.AddProfile<Repository.Filesystem.AutoMapperProfile>();
+        //});
+        //services.AddSingleton(mapperConfiguration.CreateMapper());
 
         //// Register ViewModels
         //services.AddSingleton<IMainViewModel, MainViewModel>();
