@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
@@ -13,6 +12,7 @@ using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
@@ -21,29 +21,34 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
+using Mud.Settings.Interfaces;
 using System.Text;
 
 namespace Mud.Server.Room;
 
 public class Room : EntityBase, IRoom
 {
-    private ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
-    private IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
-    private ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+    private ITimeManager TimeManager { get; }
+    private IItemManager ItemManager { get; }
+    private ICharacterManager CharacterManager { get; }
 
     private readonly List<ICharacter> _people;
     private readonly List<IItem> _content;
 
-    public Room(Guid guid, RoomBlueprint blueprint, IArea area)
-        : base(guid, blueprint.Name, blueprint.Description)
+    public Room(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, ITimeManager timeManager, IItemManager itemManager, ICharacterManager characterManager, Guid guid, RoomBlueprint blueprint, IArea area)
+        : base(gameActionManager, abilityManager, settings, guid, blueprint.Name, blueprint.Description)
     {
+        TimeManager = timeManager;
+        ItemManager = itemManager;
+        CharacterManager = characterManager;
+
         Blueprint = blueprint;
         _people = [];
         _content = [];
         Exits = new IExit[EnumHelpers.GetCount<ExitDirections>()];
 
-        BaseRoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(), blueprint.RoomFlags, null);
-        RoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(), BaseRoomFlags, null);
+        BaseRoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(serviceProvider), blueprint.RoomFlags, null);
+        RoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(serviceProvider), BaseRoomFlags, null);
         SectorType = blueprint.SectorType;
         BaseHealRate = blueprint.HealRate;
         HealRate = BaseHealRate;

@@ -1,22 +1,29 @@
-﻿using System;
-using System.Linq;
-using Mud.Container;
-using Mud.Server.Blueprints.Area;
+﻿using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
+using System;
+using System.Linq;
 
 namespace Mud.POC.TestLua
 {
     public abstract class TestLuaBase
     {
-        protected IWorld World => DependencyContainer.Current.GetInstance<IWorld>();
-        protected IAreaManager AreaManager => DependencyContainer.Current.GetInstance<IAreaManager>();
-        protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
-        protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+        protected IAreaManager AreaManager { get; }
+        protected IRoomManager RoomManager { get; }
+        protected ICharacterManager CharacterManager { get; }
+        protected IItemManager ItemManager { get; }
+
+        protected TestLuaBase(IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager)
+        {
+            AreaManager = areaManager;
+            RoomManager = roomManager;
+            CharacterManager = characterManager;
+            ItemManager = itemManager;
+        }
 
         public abstract void Test();
 

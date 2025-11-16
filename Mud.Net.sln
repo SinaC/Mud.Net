@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36603.0 d17.14
+VisualStudioVersion = 17.14.36603.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Interfaces", "Mud.Network.Interfaces\Mud.Network.Interfaces.csproj", "{C911CF12-D355-4814-91BB-A68D05ADE97C}"
 EndProject
@@ -42,13 +42,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository", "Mud.Repos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Filesystem", "Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj", "{520950BD-51EB-4C0E-AEA4-A6CEC62B23FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Mongo", "Mud.Repository.Mongo\Mud.Repository.Mongo.csproj", "{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Common", "Mud.Server.Common\Mud.Server.Common.csproj", "{D1A7D787-0FE7-4281-9458-D2C8F728E404}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Importer.Rom", "Mud.Importer.Rom\Mud.Importer.Rom.csproj", "{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Container", "Mud.Container\Mud.Container.csproj", "{B9D5A4DD-8418-4E00-BC90-582359F7F05D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Domain", "Mud.Domain\Mud.Domain.csproj", "{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}"
 EndProject
@@ -270,18 +266,6 @@ Global
 		{520950BD-51EB-4C0E-AEA4-A6CEC62B23FC}.Release|x64.Build.0 = Release|x64
 		{520950BD-51EB-4C0E-AEA4-A6CEC62B23FC}.Release|x86.ActiveCfg = Release|x86
 		{520950BD-51EB-4C0E-AEA4-A6CEC62B23FC}.Release|x86.Build.0 = Release|x86
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Debug|x64.ActiveCfg = Debug|x64
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Debug|x64.Build.0 = Debug|x64
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Debug|x86.ActiveCfg = Debug|x86
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Debug|x86.Build.0 = Debug|x86
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Release|x64.ActiveCfg = Release|x64
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Release|x64.Build.0 = Release|x64
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Release|x86.ActiveCfg = Release|x86
-		{E493E419-B6AB-4EE0-BD8B-0B2EA775849F}.Release|x86.Build.0 = Release|x86
 		{D1A7D787-0FE7-4281-9458-D2C8F728E404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D1A7D787-0FE7-4281-9458-D2C8F728E404}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D1A7D787-0FE7-4281-9458-D2C8F728E404}.Debug|x64.ActiveCfg = Debug|x64
@@ -306,18 +290,6 @@ Global
 		{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}.Release|x64.Build.0 = Release|x64
 		{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}.Release|x86.ActiveCfg = Release|x86
 		{5BE3B1DC-2039-450C-AD58-AB35620FFC4E}.Release|x86.Build.0 = Release|x86
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Debug|x64.ActiveCfg = Debug|x64
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Debug|x64.Build.0 = Debug|x64
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Debug|x86.ActiveCfg = Debug|x86
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Debug|x86.Build.0 = Debug|x86
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Release|x64.ActiveCfg = Release|x64
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Release|x64.Build.0 = Release|x64
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Release|x86.ActiveCfg = Release|x86
-		{B9D5A4DD-8418-4E00-BC90-582359F7F05D}.Release|x86.Build.0 = Release|x86
 		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CA7B0B7-273A-4C00-9CB7-D9951AC0BDCE}.Debug|x64.ActiveCfg = Debug|x64

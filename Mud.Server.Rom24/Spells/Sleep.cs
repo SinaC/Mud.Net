@@ -17,11 +17,13 @@ public class Sleep : OffensiveSpellBase
 {
     private const string SpellName = "Sleep";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Sleep(IRandomManager randomManager, IAuraManager auraManager)
+    public Sleep(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -35,7 +37,7 @@ public class Sleep : OffensiveSpellBase
 
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(4 + Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -10, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Sleep"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Sleep"), Operator = AffectOperators.Or });
 
         if (Victim.Position > Positions.Sleeping)
         {

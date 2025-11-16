@@ -26,7 +26,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
-    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj" />
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj" />
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
@@ -36,8 +35,8 @@
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
     <PackageReference Include="KeraLua" Version="1.4.7" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="NLua" Version="1.7.6" />
-    <PackageReference Include="SimpleInjector" Version="5.5.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
   </ItemGroup>

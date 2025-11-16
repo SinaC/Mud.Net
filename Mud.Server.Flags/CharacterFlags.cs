@@ -5,18 +5,18 @@ namespace Mud.Server.Flags
 {
     public class CharacterFlags : Flags<ICharacterFlagValues>, ICharacterFlags
     {
-        public CharacterFlags()
-            : base()
+        public CharacterFlags(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
         }
 
-        public CharacterFlags(string flags)
-            : base(flags)
+        public CharacterFlags(IServiceProvider serviceProvider, string flags)
+            : base(serviceProvider, flags)
         {
         }
 
-        public CharacterFlags(params string[] flags)
-            : base(flags)
+        public CharacterFlags(IServiceProvider serviceProvider, params string[] flags)
+            : base(serviceProvider, flags)
         {
         }
     }

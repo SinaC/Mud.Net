@@ -24,4 +24,6 @@ public interface ICharacterManager
     INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room);
 
     void RemoveCharacter(ICharacter character);
+
+    void Cleanup();
 }

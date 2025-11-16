@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -9,36 +8,39 @@ using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Table;
 using Mud.Server.Quest;
+using Mud.Server.Random;
+using Mud.Settings.Interfaces;
 using System.Collections.ObjectModel;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mud.Server.Character.NonPlayableCharacter;
 
 public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 {
-    private IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
-    private IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
-
-    protected NonPlayableCharacter(Guid guid, string name, string description, CharacterBlueprintBase blueprint, IRoom room)
-        : base(guid, name, description)
+    protected NonPlayableCharacter(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
+        Guid guid, string name, string description, CharacterBlueprintBase blueprint, IRoom room)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, name, description)
     {
         Blueprint = blueprint;
 
         Level = blueprint.Level;
         Position = Positions.Standing;
-        Race = RaceManager[blueprint.Race];
+        Race = raceManager[blueprint.Race];
         if (Race == null && !string.IsNullOrWhiteSpace(blueprint.Race))
             Log.Default.WriteLine(LogLevels.Warning, "Unknown race '{0}' for npc {1}", blueprint.Race, blueprint.Id);
-        Class = ClassManager[blueprint.Class];
+        Class = classManager[blueprint.Class];
         if (Class == null && !string.IsNullOrWhiteSpace(blueprint.Race))
             Log.Default.WriteLine(LogLevels.Warning, "Unknown class '{0}' for npc {1}", blueprint.Class, blueprint.Id);
         DamageNoun = blueprint.DamageNoun;
@@ -46,15 +48,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         DamageDiceCount = blueprint.DamageDiceCount;
         DamageDiceValue = blueprint.DamageDiceValue;
         DamageDiceBonus = blueprint.DamageDiceBonus;
-        ActFlags = NewAndCopyAndSet<IActFlags, IActFlagValues>(() => new ActFlags(), blueprint.ActFlags, Race?.ActFlags);
-        OffensiveFlags = NewAndCopyAndSet<IOffensiveFlags, IOffensiveFlagValues>(() => new OffensiveFlags(), blueprint.OffensiveFlags, Race?.OffensiveFlags);
-        AssistFlags = NewAndCopyAndSet<IAssistFlags, IAssistFlagValues>(() => new AssistFlags(), blueprint.AssistFlags, Race?.AssistFlags);
-        BaseBodyForms = NewAndCopyAndSet<IBodyForms, IBodyFormValues>(() => new BodyForms(), Blueprint.BodyForms, Race?.BodyForms);
-        BaseBodyParts = NewAndCopyAndSet<IBodyParts, IBodyPartValues>(() => new BodyParts(), Blueprint.BodyParts, Race?.BodyParts);
-        BaseCharacterFlags = NewAndCopyAndSet<ICharacterFlags, ICharacterFlagValues>(() => new CharacterFlags(), blueprint.CharacterFlags, Race?.CharacterFlags);
-        BaseImmunities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(), blueprint.Immunities, Race?.Immunities);
-        BaseResistances = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(), blueprint.Resistances, Race?.Resistances);
-        BaseVulnerabilities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(), blueprint.Vulnerabilities, Race?.Vulnerabilities);
+        ActFlags = NewAndCopyAndSet<IActFlags, IActFlagValues>(() => new ActFlags(serviceProvider), blueprint.ActFlags, Race?.ActFlags);
+        OffensiveFlags = NewAndCopyAndSet<IOffensiveFlags, IOffensiveFlagValues>(() => new OffensiveFlags(serviceProvider), blueprint.OffensiveFlags, Race?.OffensiveFlags);
+        AssistFlags = NewAndCopyAndSet<IAssistFlags, IAssistFlagValues>(() => new AssistFlags(serviceProvider), blueprint.AssistFlags, Race?.AssistFlags);
+        BaseBodyForms = NewAndCopyAndSet<IBodyForms, IBodyFormValues>(() => new BodyForms(serviceProvider), Blueprint.BodyForms, Race?.BodyForms);
+        BaseBodyParts = NewAndCopyAndSet<IBodyParts, IBodyPartValues>(() => new BodyParts(serviceProvider), Blueprint.BodyParts, Race?.BodyParts);
+        BaseCharacterFlags = NewAndCopyAndSet<ICharacterFlags, ICharacterFlagValues>(() => new CharacterFlags(serviceProvider), blueprint.CharacterFlags, Race?.CharacterFlags);
+        BaseImmunities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(serviceProvider), blueprint.Immunities, Race?.Immunities);
+        BaseResistances = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(serviceProvider), blueprint.Resistances, Race?.Resistances);
+        BaseVulnerabilities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(serviceProvider), blueprint.Vulnerabilities, Race?.Vulnerabilities);
         BaseSex = blueprint.Sex;
         BaseSize = blueprint.Size;
         Alignment = blueprint.Alignment.Range(-1000, 1000);
@@ -105,16 +107,18 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         room.Enter(this);
     }
 
-    public NonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
-        : this(guid, blueprint.Name, blueprint.Description, blueprint, room)
+    public NonPlayableCharacter(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
+        Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
+        : this(serviceProvider, gameActionManager, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, blueprint.Name, blueprint.Description, blueprint, room)
     {
         RecomputeKnownAbilities();
         ResetAttributes();
         RecomputeCurrentResourceKinds();
     }
 
-    public NonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // Pet
-        : this(guid, petData.Name, blueprint.Description, blueprint, room)
+    public NonPlayableCharacter(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
+        Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // Pet
+        : this(serviceProvider, gameActionManager, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, petData.Name, blueprint.Description, blueprint, room)
     {
         BaseSex = petData.Sex;
         BaseSize = petData.Size;
@@ -345,7 +349,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             return;
         // additional hits (second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
-        foreach (var additionalHitAbilityInfo in AbilityManager.AbilitiesByExecutionType<IAdditionalHitPassive>())
+        foreach (var additionalHitAbilityInfo in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
         {
             var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityInfo);
             if (additionalHitAbility != null)

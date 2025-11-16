@@ -1,5 +1,4 @@
-﻿using Mud.Container;
-using Mud.DataStructures.Trie;
+﻿using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
@@ -9,7 +8,12 @@ namespace Mud.Server.Actor;
 
 public abstract class ActorBase : IActor
 {
-    protected IGameActionManager GameActionManager => DependencyContainer.Current.GetInstance<IGameActionManager>();
+    protected IGameActionManager GameActionManager { get; }
+
+    protected ActorBase(IGameActionManager gameActionManager)
+    {
+        GameActionManager = gameActionManager;
+    }
 
     #region IActor
 

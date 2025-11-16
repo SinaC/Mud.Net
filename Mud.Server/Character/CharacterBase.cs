@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Ability;
@@ -19,14 +18,15 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Random;
+using Mud.Settings.Interfaces;
 using System.Collections.ObjectModel;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mud.Server.Character;
 public abstract class CharacterBase : EntityBase, ICharacter
@@ -43,18 +43,28 @@ public abstract class CharacterBase : EntityBase, ICharacter
     private readonly Dictionary<string, int> _cooldownsPulseLeft;
     private readonly Dictionary<string, IAbilityLearned> _learnedAbilities;
 
-    protected IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
-    protected ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
-    protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
-    protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
-    protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
-    protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
-    protected IWeaponEffectManager WeaponEffectManager => DependencyContainer.Current.GetInstance<IWeaponEffectManager>();
-    protected IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
+    protected IRandomManager RandomManager { get; }
+    protected ITableValues TableValues { get; }
+    protected IRoomManager RoomManager { get; }
+    protected IItemManager ItemManager { get; }
+    protected ICharacterManager CharacterManager { get; }
+    protected IAuraManager AuraManager { get; }
+    protected IWeaponEffectManager WeaponEffectManager { get; }
+    protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(Guid guid, string name, string description)
-        : base(guid, name, description)
+    protected CharacterBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet,
+        Guid guid, string name, string description)
+        : base(gameActionManager, abilityManager, settings, guid, name, description)
     {
+        RandomManager = randomManager;
+        TableValues = tableValues;
+        RoomManager = roomManager;
+        ItemManager = itemManager;
+        CharacterManager = characterManager;
+        AuraManager = auraManager;
+        WeaponEffectManager = weaponEffectManager;
+        Wiznet = wiznet;
+
         _inventory = [];
         _equipments = [];
         _baseAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
@@ -67,12 +77,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Position = Positions.Standing;
         Form = Forms.Normal;
 
-        CharacterFlags = new CharacterFlags();
-        BodyParts = new BodyParts();
-        BodyForms = new BodyForms();
-        Immunities = new IRVFlags();
-        Resistances = new IRVFlags();
-        Vulnerabilities = new IRVFlags();
+        CharacterFlags = new CharacterFlags(serviceProvider);
+        BodyParts = new BodyParts(serviceProvider);
+        BodyForms = new BodyForms(serviceProvider);
+        Immunities = new IRVFlags(serviceProvider);
+        Resistances = new IRVFlags(serviceProvider);
+        Vulnerabilities = new IRVFlags(serviceProvider);
     }
 
     #region ICharacter
@@ -2150,7 +2160,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // avoidance
-        foreach (var avoidanceAbility in AbilityManager.AbilitiesByExecutionType<IHitAvoidancePassive>())
+        foreach (var avoidanceAbility in AbilityManager.SearchAbilitiesByExecutionType<IHitAvoidancePassive>())
         {
             var ability = AbilityManager.CreateInstance<IHitAvoidancePassive>(avoidanceAbility);
             if (ability != null)
@@ -2191,7 +2201,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // bonus
-        foreach (var enhancementAbility in AbilityManager.AbilitiesByExecutionType<IHitEnhancementPassive>())
+        foreach (var enhancementAbility in AbilityManager.SearchAbilitiesByExecutionType<IHitEnhancementPassive>())
         {
             var ability = AbilityManager.CreateInstance<IHitEnhancementPassive>(enhancementAbility);
             if (ability != null)

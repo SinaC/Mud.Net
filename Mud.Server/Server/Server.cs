@@ -296,7 +296,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
         }
 
         // Create admin
-        var admin = new Admin.Admin(player.Id, player.Name, level, player.Aliases, player.Avatars);
+        Admin.Admin admin = new (GameActionManager, TimeManager, CharacterManager, player.Id, player.Name, level, player.Aliases, player.Avatars);
 
         // Replace player by admin in playingClient
         playingClient.Player = admin;
@@ -387,7 +387,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
     {
         Log.Default.WriteLine(LogLevels.Info, "NetworkServerOnNewClientConnected");
         // Create/store a login state machine and starts it
-        LoginStateMachine loginStateMachine = new ();
+        LoginStateMachine loginStateMachine = new (LoginRepository, UniquenessManager);
         _loginInClients.TryAdd(client, loginStateMachine);
         // Add login handlers
         loginStateMachine.LoginFailed += LoginStateMachineOnLoginFailed;
@@ -500,7 +500,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
                     Aliases = [],
                     Characters = []
                 };
-                playerOrAdmin = new Admin.Admin(Guid.NewGuid(), data);
+                playerOrAdmin = new Admin.Admin(GameActionManager, TimeManager, CharacterManager, Guid.NewGuid(), data);
             }
             else
             {
@@ -511,14 +511,14 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
                     Aliases = [],
                     Characters = []
                 };
-                playerOrAdmin = new Player.Player(Guid.NewGuid(), data);
+                playerOrAdmin = new Player.Player(GameActionManager, TimeManager, CharacterManager, Guid.NewGuid(), data);
             }
             //
             playerOrAdmin.SendData += PlayerOnSendData;
             playerOrAdmin.PageData += PlayerOnPageData;
         }
         //
-        PlayingClient newPlayingClient = new()
+        PlayingClient newPlayingClient = new(TimeManager)
         {
             Client = client,
             Player = playerOrAdmin

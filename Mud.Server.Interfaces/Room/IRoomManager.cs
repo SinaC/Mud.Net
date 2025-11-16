@@ -26,4 +26,6 @@ public interface IRoomManager
     IExit AddExit(IRoom from, IRoom to, ExitBlueprint blueprint, ExitDirections direction);
 
     void RemoveRoom(IRoom room);
+
+    void Cleanup();
 }

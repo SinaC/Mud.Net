@@ -18,11 +18,13 @@ namespace Mud.Server.Rom24.Effects;
 [Effect("Poison")]
 public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
 {
+    private IServiceProvider ServiceProvider { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
 
-    public PoisonEffect(IRandomManager randomManager, IAuraManager auraManager)
+    public PoisonEffect(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
     {
+        ServiceProvider = serviceProvider;
         RandomManager = randomManager;
         AuraManager = auraManager;
     }
@@ -59,7 +61,7 @@ public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             else
                 AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or },
                     new PoisonDamageAffect());
         }
         // equipment

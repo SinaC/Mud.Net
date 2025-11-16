@@ -7,12 +7,17 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces;
 
 public class Modron : RaceBase
 {
+    public Modron(IServiceProvider serviceProvider)
+    : base(serviceProvider)
+    {
+    }
+
     public override string Name => "modron";
     public override Sizes Size => Sizes.Medium;
-    public override ICharacterFlags CharacterFlags => new CharacterFlags("Infrared");
-    public override IIRVFlags Immunities => new IRVFlags("Charm", "Negative", "Holy", "Mental", "Disease");
-    public override IIRVFlags Resistances => new IRVFlags("Fire", "Cold", "Acid");
-    public override IIRVFlags Vulnerabilities => new IRVFlags();
+    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Infrared");
+    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider, "Charm", "Negative", "Holy", "Mental", "Disease");
+    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider, "Fire", "Cold", "Acid");
+    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider);
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
         Domain.EquipmentSlots.Light,
@@ -34,9 +39,9 @@ public class Modron : RaceBase
         Domain.EquipmentSlots.OffHand,
         Domain.EquipmentSlots.Float,
     ];
-    public override IBodyForms BodyForms => new BodyForms("Sentient");
-    public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Arms", "Legs", "Hands", "Feet", "Ear", "Eye", "Fingers");
-    public override IActFlags ActFlags => new ActFlags();
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Fast", "Bite");
-    public override IAssistFlags AssistFlags => new AssistFlags();
+    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Sentient");
+    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Body", "Arms", "Legs", "Hands", "Feet", "Ear", "Eye", "Fingers");
+    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider, "Fast", "Bite");
+    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider);
 }

@@ -14,11 +14,13 @@ public class RayOfTruth : OffensiveSpellBase
 {
     private const string SpellName = "Ray of Truth";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public RayOfTruth(IRandomManager randomManager, IAuraManager auraManager)
+    public RayOfTruth(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -63,7 +65,7 @@ public class RayOfTruth : OffensiveSpellBase
         var damageResult = Victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "ray of truth", true);
         if (damageResult == DamageResults.Done)
         {
-            BlindnessEffect effect = new (AuraManager);
+            BlindnessEffect effect = new (ServiceProvider, AuraManager);
             effect.Apply(Victim, Caster, "Blindness", 3*Level/4, 0);
         }
     }

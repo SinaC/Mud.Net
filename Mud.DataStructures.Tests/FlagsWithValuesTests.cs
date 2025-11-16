@@ -1,4 +1,5 @@
-﻿using Mud.Container;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Moq;
 using Mud.DataStructures.Flags;
 
 namespace Mud.DataStructures.Tests;
@@ -9,7 +10,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Ctor()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         Assert.AreEqual(0, flags.Count);
     }
@@ -17,7 +18,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Ctor_MultipleValues_Valid()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Berserk");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Berserk");
 
         Assert.AreEqual(3, flags.Count);
     }
@@ -25,15 +26,15 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Ctor_MultipleValues_Invalid()
     {
-        Assert.Throws<ArgumentException>(() => new CharacterFlags("Blind", "Invalid", "Berserk"));
+        Assert.Throws<ArgumentException>(() => new CharacterFlags(_serviceProvider, "Blind", "Invalid", "Berserk"));
 
     }
 
     [TestMethod]
     public void HasAny_SameFlagTypes()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Berserk");
-        var flags2 = new CharacterFlags("Curse", "Charm", "Berserk");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Berserk");
+        var flags2 = new CharacterFlags(_serviceProvider, "Curse", "Charm", "Berserk");
 
         bool hasAny = flags.HasAny(flags2);
 
@@ -53,8 +54,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAll_SameFlagTypes()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Berserk");
-        var flags2 = new CharacterFlags("Curse", "Charm", "Berserk");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Berserk");
+        var flags2 = new CharacterFlags(_serviceProvider, "Curse", "Charm", "Berserk");
 
         bool hasAll = flags.HasAll(flags2);
 
@@ -67,7 +68,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Set_OneFlag_Count()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind");
 
@@ -77,7 +78,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Set_OneFlag_IsSet()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind");
 
@@ -87,7 +88,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Set_OneFlag_IsSetMixedCase()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind");
 
@@ -97,7 +98,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Set_OneFlag_CheckAnotherFlag()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind");
 
@@ -107,7 +108,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Set_TwoFlags_Count()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind");
         flags.Set("Charm");
@@ -118,7 +119,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Set_TwoFlags_Set()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind");
         flags.Set("Charm");
@@ -130,7 +131,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Set_MultipleMixedCaseFlags_Set()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("BLind");
         flags.Set("BlInd");
@@ -143,7 +144,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Set_MultipleMixedCaseFlags_Count()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("BLind");
         flags.Set("BlInd");
@@ -160,7 +161,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void SetParams_Multiple_Count()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind", "Charm");
 
@@ -170,7 +171,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void SetParams_Multiple_IsSet()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind", "Charm");
 
@@ -181,7 +182,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void SetParams_MultipleMixedCase_Count()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind", "Blind");
 
@@ -191,7 +192,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void SetParams_MultipleMixedCase_IsSet()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         flags.Set("Blind", "Charm");
 
@@ -205,8 +206,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void SetFlags_DifferentFlags_Count()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
-        var flags2 = new CharacterFlags("Berserk", "Slow", "Sneak");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
+        var flags2 = new CharacterFlags(_serviceProvider, "Berserk", "Slow", "Sneak");
 
         flags.Set(flags2);
 
@@ -217,8 +218,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void SetFlags_IdenticalFlags_Count()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
-        var flags2 = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
+        var flags2 = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         flags.Set(flags2);
 
@@ -229,8 +230,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void SetFlags_IdenticalAndDifferentFlags_Count()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
-        var flags2 = new CharacterFlags("Hide", "Berserk", "Slow");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
+        var flags2 = new CharacterFlags(_serviceProvider, "Hide", "Berserk", "Slow");
 
         flags.Set(flags2);
 
@@ -245,7 +246,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Unset_ExistingFlag_Count()
     {
-        var flags = new CharacterFlags("Blind");
+        var flags = new CharacterFlags(_serviceProvider, "Blind");
 
         flags.Unset("Blind");
 
@@ -255,7 +256,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Unset_ExistingFlag_IsSet()
     {
-        var flags = new CharacterFlags("Blind");
+        var flags = new CharacterFlags(_serviceProvider, "Blind");
 
         flags.Unset("Blind");
 
@@ -265,7 +266,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Unset_InexistingFlag_Count()
     {
-        var flags = new CharacterFlags("Blind");
+        var flags = new CharacterFlags(_serviceProvider, "Blind");
 
         flags.Unset("Charm");
 
@@ -275,7 +276,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Unset_InexistingFlag_IsSet()
     {
-        var flags = new CharacterFlags("Blind");
+        var flags = new CharacterFlags(_serviceProvider, "Blind");
 
         flags.Unset("Charm");
 
@@ -290,7 +291,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void UnsetParams_MultipleExisting_Count()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         flags.Unset("Blind", "Hide");
 
@@ -300,7 +301,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void UnsetParams_MultipleExisting_IsSet()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         flags.Unset("Blind", "Hide");
 
@@ -312,7 +313,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void UnsetParams_MultipleExistingAndInexisting_Count()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         flags.Unset("Blind", "Berserk");
 
@@ -322,7 +323,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void UnsetParams_MultipleExistingAndInexisting_IsSet()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         flags.Unset("Blind", "Berserk");
 
@@ -338,7 +339,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAny_Existing()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         bool hasAny = flags.HasAny("Blind", "Hide");
 
@@ -348,7 +349,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAny_Inexisting()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         bool hasAny = flags.HasAny("Slow", "Berserk");
 
@@ -358,7 +359,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAny_MultipleExistingAndInexisting()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         bool hasAny = flags.HasAny("Blind", "Berserk");
 
@@ -372,8 +373,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAnyFlag_Existing()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
-        var flags2 = new CharacterFlags("Blind", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
+        var flags2 = new CharacterFlags(_serviceProvider, "Blind", "Hide");
 
         bool hasAny = flags.HasAny(flags2);
 
@@ -383,8 +384,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAnyFlag_Inexisting()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
-        var flags2 = new CharacterFlags("Slow", "Berserk");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
+        var flags2 = new CharacterFlags(_serviceProvider, "Slow", "Berserk");
 
         bool hasAny = flags.HasAny(flags2);
 
@@ -394,8 +395,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAnyFlag_MultipleExistingAndInexisting()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
-        var flags2 = new CharacterFlags("Blind", "Berserk");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
+        var flags2 = new CharacterFlags(_serviceProvider, "Blind", "Berserk");
 
         bool hasAny = flags.HasAny(flags2);
 
@@ -409,7 +410,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAll_Existing()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         bool hasAll = flags.HasAll("Blind", "Hide");
 
@@ -419,7 +420,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAll_Inexisting()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         bool hasAll = flags.HasAll("Slow", "Berserk");
 
@@ -429,7 +430,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAll_MultipleExistingAndInexisting()
     {
-        Flags<ICharacterFlagValues> flags = new CharacterFlags("Blind", "Charm", "Hide");
+        Flags<ICharacterFlagValues> flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         bool hasAll = flags.HasAll("Blind", "Berserk");
 
@@ -443,8 +444,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAllFlag_Existing()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
-        var flags2 = new CharacterFlags("Blind", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
+        var flags2 = new CharacterFlags(_serviceProvider, "Blind", "Hide");
 
         bool hasAll = flags.HasAll(flags2);
 
@@ -454,8 +455,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAllFlag_Inexisting()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
-        var flags2 = new CharacterFlags("Slow", "Berserk");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
+        var flags2 = new CharacterFlags(_serviceProvider, "Slow", "Berserk");
 
         bool hasAll = flags.HasAll(flags2);
 
@@ -465,8 +466,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAllFlag_MultipleExistingAndInexisting()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
-        var flags2 = new CharacterFlags("Blind", "Berserk");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
+        var flags2 = new CharacterFlags(_serviceProvider, "Blind", "Berserk");
 
         bool hasAll = flags.HasAll(flags2);
 
@@ -480,7 +481,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Items_NoFlag()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         IEnumerable<string> items = flags.Items;
 
@@ -490,7 +491,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Items_OneFlag()
     {
-        var flags = new CharacterFlags("Blind");
+        var flags = new CharacterFlags(_serviceProvider, "Blind");
 
         IEnumerable<string> items = flags.Items;
 
@@ -501,7 +502,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Items_MultipleFlag()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide", "Berserk");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide", "Berserk");
 
         IEnumerable<string> items = flags.Items;
 
@@ -519,7 +520,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void CtorParse_Null()
     {
-        var flags = new CharacterFlags((string)null!);
+        var flags = new CharacterFlags(_serviceProvider, (string)null!);
 
         Assert.IsNotNull(flags);
         Assert.AreEqual(0, flags.Count);
@@ -528,7 +529,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void CtorParse_Empty()
     {
-        var flags = new CharacterFlags(string.Empty);
+        var flags = new CharacterFlags(_serviceProvider, string.Empty);
 
         Assert.IsNotNull(flags);
         Assert.AreEqual(0, flags.Count);
@@ -537,7 +538,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void CtorParse_OneValue()
     {
-        var flags = new CharacterFlags("Blind");
+        var flags = new CharacterFlags(_serviceProvider, "Blind");
 
         Assert.IsNotNull(flags);
         Assert.AreEqual(1, flags.Count);
@@ -547,7 +548,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void CtorParse_MultipleValues()
     {
-        var flags = new CharacterFlags("Blind,Charm,Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind,Charm,Hide");
 
         Assert.IsNotNull(flags);
         Assert.AreEqual(3, flags.Count);
@@ -563,7 +564,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Map_NoValue()
     {
-        var flags = new CharacterFlags();
+        var flags = new CharacterFlags(_serviceProvider);
 
         Assert.AreEqual(string.Empty, flags.Map());
     }
@@ -572,7 +573,7 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void Map_MultipleValues()
     {
-        var flags = new CharacterFlags("Blind", "Charm", "Hide");
+        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
 
         Assert.AreEqual("Blind,Charm,Hide", flags.Map());
     }
@@ -584,8 +585,8 @@ public class FlagsWithValuesTests
     [TestMethod]
     public void HasAny_ICharacterFlags()
     {
-        var flags1 = new CharacterFlags("Calm", "Berserk", "Blind");
-        var flags2 = new CharacterFlags("Sanctuary", "Blind", "Invisible");
+        var flags1 = new CharacterFlags(_serviceProvider, "Calm", "Berserk", "Blind");
+        var flags2 = new CharacterFlags(_serviceProvider, "Sanctuary", "Blind", "Invisible");
 
         bool hasAny = flags1.HasAny(flags2);
 
@@ -608,21 +609,15 @@ public class FlagsWithValuesTests
 
     #region TestInitialize/TestCleanup
 
-    private SimpleInjector.Container _originalContainer = default!;
+    private IServiceProvider _serviceProvider = default!;
 
     [TestInitialize]
     public void TestInitialize()
     {
-        _originalContainer = DependencyContainer.Current;
-        DependencyContainer.SetManualContainer(new SimpleInjector.Container());
-        DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags()); // TODO: do this with reflection ?
-        DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags()); // TODO: do this with reflection ?
-    }
-
-    [TestCleanup]
-    public void TestCleanup()
-    {
-        DependencyContainer.SetManualContainer(_originalContainer);
+        var serviceProviderMock = new Mock<IServiceProvider>();
+        serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
+            .Returns(new Rom24CharacterFlags());
+        _serviceProvider = serviceProviderMock.Object;
     }
 
     #endregion
@@ -630,39 +625,27 @@ public class FlagsWithValuesTests
 
 internal class CharacterFlags : Flags<ICharacterFlagValues>, ICharacterFlags
 {
-    public CharacterFlags()
-        : base()
+    public CharacterFlags(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
     }
 
-    public CharacterFlags(string flags)
-        : base(flags)
+    public CharacterFlags(IServiceProvider serviceProvider, string flags)
+        : base(serviceProvider, flags)
     {
     }
 
-    public CharacterFlags(params string[] flags)
-        : base(flags)
+    public CharacterFlags(IServiceProvider serviceProvider, params string[] flags)
+        : base(serviceProvider, flags)
     {
     }
-}
-
-internal class RoomFlags : Flags<IRoomFlagValues>, IRoomFlags
-{
 }
 
 internal interface ICharacterFlags : IFlags<string, ICharacterFlagValues>
 {
 }
 
-internal interface IRoomFlags : IFlags<string, IRoomFlagValues>
-{
-}
-
 internal interface ICharacterFlagValues : IFlagValues<string>
-{
-}
-
-internal interface IRoomFlagValues : IFlagValues<string>
 {
 }
 
@@ -699,29 +682,6 @@ internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValue
         "Swim",
         "Regeneration",
         "Slow",
-        "Test", // TEST PURPOSE
-    };
-
-    protected override HashSet<string> HashSet => Flags;
-}
-
-internal class Rom24RoomFlags : FlagValuesBase<string>, IRoomFlagValues
-{
-    public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
-    {
-        "Dark",
-        "NoMob",
-        "Indoors",
-        "NoScan",
-        "Private",
-        "Safe",
-        "Solitary",
-        "NoRecall",
-        "ImpOnly",
-        "GodsOnly",
-        "NewbiesOnly",
-        "Law",
-        "NoWhere",
         "Test", // TEST PURPOSE
     };
 

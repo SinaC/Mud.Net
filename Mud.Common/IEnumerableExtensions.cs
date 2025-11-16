@@ -2,7 +2,6 @@
 
 public static class IEnumerableExtensions
 {
-    // TODO: Remove this once we move to .NET 8
     public static IEnumerable<T> Yield<T>(this T item)
     {
         yield return item;

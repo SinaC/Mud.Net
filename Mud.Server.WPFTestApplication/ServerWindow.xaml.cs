@@ -1,14 +1,9 @@
-﻿using AutoMapper;
-using Mud.Common;
-using Mud.Container;
-using Mud.DataStructures.Flags;
+﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Importer.Rom;
 using Mud.Logger;
 using Mud.Network.Interfaces;
 using Mud.Network.Telnet;
-using Mud.Repository;
-using Mud.Server.Ability;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -16,32 +11,19 @@ using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Flags;
-using Mud.Server.Flags.Interfaces;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.Effect;
-using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
-using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.Table;
-using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
-using Mud.Server.Server;
 using Mud.Settings.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
@@ -57,126 +39,41 @@ public partial class ServerWindow : Window, INetworkServer
 {
     private static ServerWindow _serverWindowInstance;
 
-    private static IServer Server => DependencyContainer.Current.GetInstance<IServer>();
-    private static IServerAdminCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerAdminCommand>();
-    private static IPlayerManager PlayerManager => DependencyContainer.Current.GetInstance<IPlayerManager>();
-    private static IAdminManager AdminManager => DependencyContainer.Current.GetInstance<IAdminManager>();
-    private static IAreaManager AreaManager => DependencyContainer.Current.GetInstance<IAreaManager>();
-    private static IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
-    private static ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
-    private static IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
-    private static IQuestManager QuestManager => DependencyContainer.Current.GetInstance<IQuestManager>();
-    private static IRandomManager RandomManager => DependencyContainer.Current.GetInstance<IRandomManager>();
+    private IServiceProvider ServiceProvider { get; }
+    private ISettings Settings { get; }
+    private IServer Server { get; }
+    private IServerAdminCommand ServerPlayerCommand { get; }
+    private IPlayerManager PlayerManager { get; }
+    private IAdminManager AdminManager { get; }
+    private IAreaManager AreaManager { get; }
+    private IRoomManager RoomManager { get; }
+    private ICharacterManager CharacterManager { get; }
+    private IItemManager ItemManager { get; }
+    private IQuestManager QuestManager { get; }
+    private IRandomManager RandomManager { get; }
 
-    internal class AssemblyHelper : IAssemblyHelper
+    public ServerWindow(IServiceProvider serviceProvider, ISettings settings, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager)
     {
-        public IEnumerable<Assembly> AllReferencedAssemblies => new [] { typeof(Server.Server).Assembly, typeof(Rom24.Spells.AcidBlast).Assembly, typeof(AdditionalAbilities.Crush).Assembly, typeof(POC.Classes.Druid).Assembly};
-    }
+        ServiceProvider = serviceProvider;
+        Settings = settings;
+        Server = server;
+        ServerPlayerCommand = serverAdminCommand;
+        PlayerManager = playerManager;
+        AdminManager = adminManager;
+        AreaManager = areaManager;
+        RoomManager = roomManager;
+        CharacterManager = characterManager;
+        ItemManager = itemManager;
+        QuestManager = questManager;
+        RandomManager = randomManager;
 
-    internal void RegisterAllTypes(IAssemblyHelper assemblyHelper)
-    {
-        Type iRegistrable = typeof(IRegistrable);
-        foreach (var registrable in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
-        {
-            Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
-            DependencyContainer.Current.Register(registrable);
-        }
-    }
-
-    internal void RegisterFlagValues<TFlagValue>(IAssemblyHelper assemblyHelper)
-        where TFlagValue : IFlagValues<string>
-    {
-        Type iFlagValuesType = typeof(TFlagValue);
-        Type concreteFlagValuesType = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iFlagValuesType.IsAssignableFrom(t))).SingleOrDefault();
-        if (concreteFlagValuesType == null)
-            Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
-        else
-        {
-            Log.Default.WriteLine(LogLevels.Info, "Registering implementation type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
-            DependencyContainer.Current.Register(iFlagValuesType, concreteFlagValuesType);
-        }
-    }
-
-    public ServerWindow()
-    {
         _serverWindowInstance = this;
-
-        // Initialize settings
-        ISettings settings = new Settings.ConfigurationManager.Settings();
-        DependencyContainer.Current.RegisterInstance(settings);
-
-        // Initialize log
-        Log.Default.Initialize(settings.LogPath, "server.log");
-
-        //
-        IAssemblyHelper assemblyHelper = new AssemblyHelper();
-
-        // Register all needed types
-        RegisterAllTypes(assemblyHelper);
-
-        // Register all flags values
-        RegisterFlagValues<ICharacterFlagValues>(assemblyHelper);
-        RegisterFlagValues<IRoomFlagValues>(assemblyHelper);
-        RegisterFlagValues<IItemFlagValues>(assemblyHelper);
-        RegisterFlagValues<IWeaponFlagValues>(assemblyHelper);
-        RegisterFlagValues<IActFlagValues>(assemblyHelper);
-        RegisterFlagValues<IOffensiveFlagValues>(assemblyHelper);
-        RegisterFlagValues<IAssistFlagValues>(assemblyHelper);
-        RegisterFlagValues<IIRVFlagValues>(assemblyHelper);
-        RegisterFlagValues<IBodyFormValues>(assemblyHelper);
-        RegisterFlagValues<IBodyPartValues>(assemblyHelper);
-
-        // Initialize IOC container
-        DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
-        DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(assemblyHelper);
-        DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(assemblyHelper)); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
-        DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(assemblyHelper)); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
-        DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IQuestManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IQuestManager
-        DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAuraManager
-        DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IItemManager
-        DependencyContainer.Current.Register<ICharacterManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements ICharacterManager
-        DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IRoomManager
-        DependencyContainer.Current.Register<IAreaManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAreaManager
-        DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
-        DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
-        DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
-        DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
-        DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-        DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IUniquenessManager, UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IDispelManager, Aura.DispelManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IEffectManager, Effects.EffectManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IAffectManager, Affects.AffectManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IWeaponEffectManager, Effects.WeaponEffectManager>(SimpleInjector.Lifestyle.Singleton);
-
-        if (settings.UseMongo)
+        if (PendingLogs.Count > 0)
         {
-            DependencyContainer.Current.Register<ILoginRepository, Repository.Mongo.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IPlayerRepository, Repository.Mongo.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IAdminRepository, Repository.Mongo.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
+            foreach (var (level, message) in PendingLogs)
+                LogMessage(level, message);
+            PendingLogs.Clear();
         }
-        else 
-        {
-            DependencyContainer.Current.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
-            DependencyContainer.Current.Register<IAdminRepository, Repository.Filesystem.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
-        }
-
-        // Initialize mapping
-        var mapperConfiguration = new MapperConfiguration(cfg =>
-        {
-            cfg.AllowNullCollections = true;
-            cfg.AllowNullDestinationValues = true;
-
-            cfg.AddProfile<Repository.Filesystem.AutoMapperProfile>();
-            cfg.AddProfile<Repository.Mongo.AutoMapperProfile>();
-        });
-        DependencyContainer.Current.RegisterInstance(mapperConfiguration.CreateMapper());
 
         //
         TestLootTable();
@@ -283,7 +180,7 @@ public partial class ServerWindow : Window, INetworkServer
         }
 
         //
-        INetworkServer telnetServer = new TelnetServer(DependencyContainer.Current.GetInstance<ISettings>().TelnetPort);
+        INetworkServer telnetServer = new TelnetServer(Settings.TelnetPort);
         Server.Initialize(new List<INetworkServer> { telnetServer, this });
         Server.Start();
 
@@ -404,9 +301,20 @@ public partial class ServerWindow : Window, INetworkServer
     }
 
     // Don't remove, used from nlog.config
+    private static List<(string level, string message)> PendingLogs { get; } = [];
     public static void LogMethod(string level, string message)
     {
-        _serverWindowInstance.Dispatcher.InvokeAsync(() =>
+        if (_serverWindowInstance == null)
+            PendingLogs.Add((level, message));
+        else
+        {
+            _serverWindowInstance.LogMessage(level, message);
+        }
+    }
+
+    private void LogMessage(string level, string message)
+    {
+        Dispatcher.InvokeAsync(() =>
         {
             //_serverWindowInstance.OutputRichTextBox.AppendText(message+Environment.NewLine);
             Brush color;
@@ -422,7 +330,7 @@ public partial class ServerWindow : Window, INetworkServer
                 color = Brushes.DarkGray;
             else
                 color = Brushes.Orchid; // should never happen
-            Paragraph paragraph = new Paragraph();
+            Paragraph paragraph = new();
             paragraph.Inlines.Add(new Run(level + ": " + message)
             {
                 Foreground = color
@@ -439,11 +347,11 @@ public partial class ServerWindow : Window, INetworkServer
         _serverWindowInstance.OutputRichTextBox.Document.Blocks.Add(paragraph);
     }
 
-    private static void CreateWorld()
+    private void CreateWorld()
     {
-        string path = DependencyContainer.Current.GetInstance<ISettings>().ImportAreaPath;
+        string path = Settings.ImportAreaPath;
 
-        RomImporter importer = new RomImporter();
+        RomImporter importer = new (ServiceProvider);
         //MysteryImporter importer = new MysteryImporter();
         //RotImporter importer = new RotImporter();
         importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
@@ -533,47 +441,47 @@ public partial class ServerWindow : Window, INetworkServer
             ArmorPierce = 200,
             ArmorSlash = 400,
             ArmorExotic = 0,
-            ActFlags = new ActFlags("Pet"),
-            OffensiveFlags = new OffensiveFlags("Bash"),
-            CharacterFlags = new CharacterFlags("Haste"),
-            Immunities = new IRVFlags(),
-            Resistances = new IRVFlags("Slash", "Fire"),
-            Vulnerabilities = new IRVFlags("Acid"),
+            ActFlags = new ActFlags(ServiceProvider, "Pet"),
+            OffensiveFlags = new OffensiveFlags(ServiceProvider, "Bash"),
+            CharacterFlags = new CharacterFlags(ServiceProvider, "Haste"),
+            Immunities = new IRVFlags(ServiceProvider),
+            Resistances = new IRVFlags(ServiceProvider, "Slash", "Fire"),
+            Vulnerabilities = new IRVFlags(ServiceProvider, "Acid"),
         };
         CharacterManager.AddCharacterBlueprint(construct);
 
         // MANDATORY ITEMS
-        if (ItemManager.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
+        if (ItemManager.GetItemBlueprint(Settings.CorpseBlueprintId) == null)
         {
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
-                Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
+                Id = Settings.CorpseBlueprintId,
                 NoTake = true,
                 Name = "corpse"
             };
             ItemManager.AddItemBlueprint(corpseBlueprint);
         }
-        if (ItemManager.GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId) == null)
+        if (ItemManager.GetItemBlueprint(Settings.CoinsBlueprintId) == null)
         {
             ItemMoneyBlueprint moneyBlueprint = new ItemMoneyBlueprint
             {
-                Id = DependencyContainer.Current.GetInstance<ISettings>().CoinsBlueprintId,
+                Id = Settings.CoinsBlueprintId,
                 NoTake = true,
                 Name = "coins"
             };
             ItemManager.AddItemBlueprint(moneyBlueprint);
         }
         // MANDATORY ROOM
-        RoomBlueprint voidBlueprint = RoomManager.GetRoomBlueprint(DependencyContainer.Current.GetInstance<ISettings>().NullRoomId);
+        RoomBlueprint voidBlueprint = RoomManager.GetRoomBlueprint(Settings.NullRoomId);
         if (voidBlueprint == null)
         {
             IArea area = AreaManager.Areas.First();
-            Log.Default.WriteLine(LogLevels.Error, "NullRoom not found -> creation of null room with id {0} in area {1}", DependencyContainer.Current.GetInstance<ISettings>().NullRoomId, area.DisplayName);
+            Log.Default.WriteLine(LogLevels.Error, "NullRoom not found -> creation of null room with id {0} in area {1}", Settings.NullRoomId, area.DisplayName);
             voidBlueprint = new RoomBlueprint
             {
-                Id = DependencyContainer.Current.GetInstance<ISettings>().NullRoomId,
+                Id = Settings.NullRoomId,
                 Name = "The void",
-                RoomFlags = new RoomFlags("NoRecall", "NoScan", "NoWhere")
+                RoomFlags = new RoomFlags(ServiceProvider, "NoRecall", "NoScan", "NoWhere")
             };
             RoomManager.AddRoomBlueprint(voidBlueprint);
             RoomManager.AddRoom(Guid.NewGuid(), voidBlueprint, area);

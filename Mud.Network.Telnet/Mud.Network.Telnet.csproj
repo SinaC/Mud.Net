@@ -6,6 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj" />
     <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj" />
   </ItemGroup>

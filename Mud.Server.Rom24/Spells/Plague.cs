@@ -17,11 +17,13 @@ public class Plague : OffensiveSpellBase
 {
     private const string SpellName = "Plague";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Plague(IRandomManager randomManager, IAuraManager auraManager)
+    public Plague(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -39,8 +41,8 @@ public class Plague : OffensiveSpellBase
 
         AuraManager.AddAura(Victim, SpellName, Caster, (3 * Level) / 4, TimeSpan.FromMinutes(Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or },
-            new PlagueSpreadAndDamageAffect(RandomManager, AuraManager));
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Plague"), Operator = AffectOperators.Or },
+            new PlagueSpreadAndDamageAffect(ServiceProvider, RandomManager, AuraManager));
         Victim.Act(ActOptions.ToAll, "{0:N} scream{0:V} in agony as plague sores erupt from {0:s} skin.", Victim);
     }
 }

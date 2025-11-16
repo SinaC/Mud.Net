@@ -1,14 +1,20 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Item;
 
 public class ItemDrinkContainer : ItemBase<ItemDrinkContainerBlueprint, ItemDrinkContainerData>, IItemDrinkContainer
 {
-    public ItemDrinkContainer(Guid guid, ItemDrinkContainerBlueprint blueprint, IContainer containedInto)
-        : base(guid, blueprint, containedInto)
+    public ItemDrinkContainer(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+        Guid guid, ItemDrinkContainerBlueprint blueprint, IContainer containedInto)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         LiquidName = blueprint.LiquidType;
         MaxLiquid = blueprint.MaxLiquidAmount;
@@ -16,8 +22,9 @@ public class ItemDrinkContainer : ItemBase<ItemDrinkContainerBlueprint, ItemDrin
         IsPoisoned = blueprint.IsPoisoned;
     }
 
-    public ItemDrinkContainer(Guid guid, ItemDrinkContainerBlueprint blueprint, ItemDrinkContainerData data, IContainer containedInto)
-        : base(guid, blueprint, data, containedInto)
+    public ItemDrinkContainer(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+        Guid guid, ItemDrinkContainerBlueprint blueprint, ItemDrinkContainerData data, IContainer containedInto)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, data, containedInto)
     {
         LiquidName = data.LiquidName;
         MaxLiquid = data.MaxLiquidAmount;

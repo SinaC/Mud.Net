@@ -16,11 +16,13 @@ public class Sneak : NoTargetSkillBase
 {
     private const string SkillName = "Sneak";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Sneak(IRandomManager randomManager, IAuraManager auraManager)
+    public Sneak(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -44,7 +46,7 @@ public class Sneak : NoTargetSkillBase
         if (RandomManager.Chance(Learned))
         {
             AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(User.Level), AuraFlags.None, true,
-                new CharacterFlagsAffect { Modifier = new CharacterFlags("Sneak"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Sneak"), Operator = AffectOperators.Or });
             return true;
         }
 

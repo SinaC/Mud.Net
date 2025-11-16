@@ -1,5 +1,4 @@
-﻿using Mud.Container;
-using Mud.Logger;
+﻿using Mud.Logger;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
@@ -13,10 +12,12 @@ public class Area : IArea
 {
     private readonly List<IRoom> _rooms;
 
-    private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
+    private IWiznet Wiznet { get; }
 
-    public Area(Guid id, AreaBlueprint blueprint)
+    public Area(IWiznet wiznet, Guid id, AreaBlueprint blueprint)
     {
+        Wiznet = wiznet;
+
         Id = id;
 
         Blueprint = blueprint;

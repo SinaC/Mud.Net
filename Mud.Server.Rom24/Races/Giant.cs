@@ -10,8 +10,8 @@ namespace Mud.Server.Rom24.Races;
 
 public class Giant : PlayableRaceBase
 {
-    public Giant(IAbilityManager abilityManager)
-        : base(abilityManager)
+    public Giant(IServiceProvider serviceProvider, IAbilityManager abilityManager)
+        : base(serviceProvider, abilityManager)
     {
         AddAbility("Bash");
         AddAbility("Fast healing");
@@ -24,18 +24,18 @@ public class Giant : PlayableRaceBase
 
     public override Sizes Size => Sizes.Large;
 
-    public override ICharacterFlags CharacterFlags => new CharacterFlags();
+    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider);
 
-    public override IIRVFlags Immunities => new IRVFlags();
-    public override IIRVFlags Resistances => new IRVFlags("Fire", "Cold");
-    public override IIRVFlags Vulnerabilities => new IRVFlags("Mental", "Lightning");
+    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider, "Fire", "Cold");
+    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider, "Mental", "Lightning");
 
-    public override IBodyForms BodyForms => new BodyForms("Edible", "Sentient", "Biped", "Mammal");
-    public override IBodyParts BodyParts => new BodyParts("Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
+    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Edible", "Sentient", "Biped", "Mammal");
+    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
 
-    public override IActFlags ActFlags => new ActFlags();
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
-    public override IAssistFlags AssistFlags => new AssistFlags();
+    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider);
+    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider);
 
     public override int GetStartAttribute(CharacterAttributes attribute)
     {

@@ -15,12 +15,15 @@ public class PassDoor : CharacterFlagsSpellBase
 {
     private const string SpellName = "Pass Door";
 
-    public PassDoor(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public PassDoor(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags("PassDoor");
+    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "PassDoor");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(RandomManager.Fuzzy(Level / 4));
     protected override string SelfAlreadyAffected => "You are already out of phase.";
     protected override string NotSelfAlreadyAffected => "{0:N} is already shifted out of phase.";

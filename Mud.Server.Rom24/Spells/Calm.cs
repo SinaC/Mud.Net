@@ -17,11 +17,13 @@ public class Calm : NoTargetSpellBase
 {
     private const string SpellName = "Calm";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Calm(IRandomManager randomManager, IAuraManager auraManager)
+    public Calm(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -76,7 +78,7 @@ public class Calm : NoTargetSpellBase
             AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add, },
-                new CharacterFlagsAffect { Modifier = new CharacterFlags("Calm"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Calm"), Operator = AffectOperators.Or });
         }
     }
 }

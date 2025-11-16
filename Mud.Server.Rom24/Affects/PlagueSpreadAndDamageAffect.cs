@@ -12,11 +12,13 @@ namespace Mud.Server.Rom24.Affects;
 [Affect("Plague", typeof(PlagueSpreadAndDamageAffectData))]
 public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect, ICustomAffect
 {
+    private IServiceProvider ServiceProvider { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
 
-    public PlagueSpreadAndDamageAffect(IRandomManager randomManager, IAuraManager auraManager)
+    public PlagueSpreadAndDamageAffect(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
     {
+        ServiceProvider = serviceProvider;
         RandomManager = randomManager;
         AuraManager = auraManager;
     }
@@ -57,8 +59,8 @@ public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect, ICustomAffe
                     int duration = RandomManager.Range(1, 2 * aura.Level);
                     AuraManager.AddAura(victim, aura.AbilityName, character, aura.Level - 1, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                         new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add},
-                        new CharacterFlagsAffect {Modifier = new CharacterFlags("Plague"), Operator = AffectOperators.Or},
-                        new PlagueSpreadAndDamageAffect(RandomManager, AuraManager));
+                        new CharacterFlagsAffect {Modifier = new CharacterFlags(ServiceProvider, "Plague"), Operator = AffectOperators.Or},
+                        new PlagueSpreadAndDamageAffect(ServiceProvider, RandomManager, AuraManager));
                 }
             }
         }

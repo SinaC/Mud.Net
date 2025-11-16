@@ -3,9 +3,13 @@ using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Room;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Character.PlayableCharacter.Quest;
 
@@ -17,6 +21,23 @@ namespace Mud.Server.Character.PlayableCharacter.Quest;
         "[cmd] all.<quest name>")]
 public class QuestGet : PlayableCharacterGameAction
 {
+    private ISettings Settings { get; }
+    private ITimeManager TimeManager { get; }
+    private IItemManager ItemManager { get; }
+    private IRoomManager RoomManager { get; }
+    private ICharacterManager CharacterManager { get; }
+    private IQuestManager QuestManager { get; }
+
+    public QuestGet(ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager)
+    {
+        Settings = settings;
+        TimeManager = timeManager;
+        ItemManager = itemManager;
+        RoomManager = roomManager;
+        CharacterManager = characterManager;
+        QuestManager = questManager;
+    }
+
     protected List<(QuestBlueprint questBlueprint, INonPlayableCharacter questGiver)> What { get; set; } = default!;
 
     public override string? Guards(IActionInput actionInput)
@@ -81,7 +102,7 @@ public class QuestGet : PlayableCharacterGameAction
 
     private IQuest GetQuest(QuestBlueprint questBlueprint, INonPlayableCharacter questGiver)
     {
-        IQuest quest = new Mud.Server.Quest.Quest(questBlueprint, Actor, questGiver);
+        IQuest quest = new Mud.Server.Quest.Quest(Settings, TimeManager, ItemManager, RoomManager, CharacterManager, QuestManager, questBlueprint, Actor, questGiver);
         Actor.AddQuest(quest);
         //
         Actor.Act(ActOptions.ToRoom, "{0} get{0:v} quest '{1}'.", Actor, questBlueprint.Title);

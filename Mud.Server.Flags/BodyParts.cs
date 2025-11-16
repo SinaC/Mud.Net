@@ -5,18 +5,18 @@ namespace Mud.Server.Flags
 {
     public class BodyParts : Flags<IBodyPartValues>, IBodyParts
     {
-        public BodyParts()
-            : base()
+        public BodyParts(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
         }
 
-        public BodyParts(string flags)
-            : base(flags)
+        public BodyParts(IServiceProvider serviceProvider, string flags)
+            : base(serviceProvider, flags)
         {
         }
 
-        public BodyParts(params string[] flags)
-            : base(flags)
+        public BodyParts(IServiceProvider serviceProvider, params string[] flags)
+            : base(serviceProvider, flags)
         {
         }
     }

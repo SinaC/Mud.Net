@@ -21,14 +21,16 @@ namespace Mud.Server.Character.Item;
 "[cmd] <container>")]
 public class Drink : CharacterGameAction
 {
+    private IServiceProvider ServiceProvider { get; }
     private ITableValues TableValues { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IAffectManager AffectManager { get; }
     private IWiznet Wiznet { get; }
 
-    public Drink(ITableValues tableValues, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IWiznet wiznet)
+    public Drink(IServiceProvider serviceProvider, ITableValues tableValues, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IWiznet wiznet)
     {
+        ServiceProvider = serviceProvider;
         TableValues = tableValues;
         RandomManager = randomManager;
         AuraManager = auraManager;
@@ -118,7 +120,7 @@ public class Drink : CharacterGameAction
             {
                 var poisonAffect = AffectManager.CreateInstance("Poison");
                 AuraManager.AddAura(Actor, "Poison", Drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or },
                     poisonAffect);
             }
             Actor.Recompute();

@@ -7,21 +7,26 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces;
 
 public class Wolf : RaceBase
 {
+    public Wolf(IServiceProvider serviceProvider)
+    : base(serviceProvider)
+    {
+    }
+
     public override string Name => "wolf";
     public override Sizes Size => Sizes.Small;
-    public override ICharacterFlags CharacterFlags => new CharacterFlags("DarkVision", "DetectHidden");
-    public override IIRVFlags Immunities => new IRVFlags();
-    public override IIRVFlags Resistances => new IRVFlags();
-    public override IIRVFlags Vulnerabilities => new IRVFlags();
+    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "DarkVision", "DetectHidden");
+    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider);
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
         Domain.EquipmentSlots.Head,
         Domain.EquipmentSlots.Chest,
         Domain.EquipmentSlots.Float,
     ];
-    public override IBodyForms BodyForms => new BodyForms("Edible", "Animal", "Mammal", "Fur");
-    public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Legs", "Heart", "Brains", "Guts", "Ear", "Eye", "Tail", "Fangs", "Claws");
-    public override IActFlags ActFlags => new ActFlags();
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Dodge", "Fast", "Bite");
-    public override IAssistFlags AssistFlags => new AssistFlags();
+    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Edible", "Animal", "Mammal", "Fur");
+    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Body", "Legs", "Heart", "Brains", "Guts", "Ear", "Eye", "Tail", "Fangs", "Claws");
+    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider, "Dodge", "Fast", "Bite");
+    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider);
 }

@@ -12,10 +12,12 @@ namespace Mud.Server.Rom24.Effects;
 [Effect("Blindness")]
 public class BlindnessEffect : IEffect<ICharacter>
 {
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public BlindnessEffect(IAuraManager auraManager)
+    public BlindnessEffect(IServiceProvider serviceProvider, IAuraManager auraManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -25,7 +27,7 @@ public class BlindnessEffect : IEffect<ICharacter>
             return;
         AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(1 + level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Blind"), Operator = AffectOperators.Add });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Blind"), Operator = AffectOperators.Add });
         victim.Send("You are blinded!");
         victim.Act(ActOptions.ToRoom, "{0:N} appears to be blinded.", victim);
     }

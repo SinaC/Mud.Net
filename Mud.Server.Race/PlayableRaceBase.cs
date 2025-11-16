@@ -51,11 +51,12 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
 
     #endregion
 
-    protected PlayableRaceBase(IAbilityManager abilityManager)
+    protected PlayableRaceBase(IServiceProvider serviceProvider, IAbilityManager abilityManager)
+        : base(serviceProvider)
     {
         AbilityManager = abilityManager;
 
-        _abilities = new List<IAbilityUsage>();
+        _abilities = [];
     }
 
     protected void AddAbility(string abilityName)

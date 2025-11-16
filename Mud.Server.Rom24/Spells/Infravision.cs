@@ -15,12 +15,15 @@ public class Infravision : CharacterFlagsSpellBase
 {
     private const string SpellName = "Infravision";
 
-    public Infravision(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public Infravision(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags("Infrared");
+    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Infrared");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(2*Level);
     protected override string SelfAlreadyAffected => "You can already see in the dark.";
     protected override string NotSelfAlreadyAffected => "{0} already has infravision.";

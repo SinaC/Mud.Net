@@ -12,10 +12,12 @@ namespace Mud.Server.Rom24.Effects;
 [Effect("Curse")]
 public class CurseEffect : IEffect<ICharacter>
 {
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public CurseEffect(IAuraManager auraManager)
+    public CurseEffect(IServiceProvider serviceProvider, IAuraManager auraManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -32,6 +34,6 @@ public class CurseEffect : IEffect<ICharacter>
         AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -modifier, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Curse"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Curse"), Operator = AffectOperators.Or });
     }
 }

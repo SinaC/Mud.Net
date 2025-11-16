@@ -27,4 +27,6 @@ public interface IItemManager
     IItemMoney? AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container);
 
     void RemoveItem(IItem item);
+
+    void Cleanup();
 }

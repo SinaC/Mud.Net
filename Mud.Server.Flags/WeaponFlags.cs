@@ -6,18 +6,18 @@ namespace Mud.Server.Flags
 {
     public class WeaponFlags : Flags<IWeaponFlagValues>, IWeaponFlags
     {
-        public WeaponFlags()
-            : base()
+        public WeaponFlags(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
         }
 
-        public WeaponFlags(string flags)
-            : base(flags)
+        public WeaponFlags(IServiceProvider serviceProvider, string flags)
+            : base(serviceProvider, flags)
         {
         }
 
-        public WeaponFlags(params string[] flags)
-            : base(flags)
+        public WeaponFlags(IServiceProvider serviceProvider, params string[] flags)
+            : base(serviceProvider, flags)
         {
         }
 

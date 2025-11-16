@@ -5,18 +5,18 @@ namespace Mud.Server.Flags
 {
     public class ItemFlags : Flags<IItemFlagValues>, IItemFlags
     {
-        public ItemFlags()
-            : base()
+        public ItemFlags(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
         }
 
-        public ItemFlags(string flags)
-            : base(flags)
+        public ItemFlags(IServiceProvider serviceProvider, string flags)
+            : base(serviceProvider, flags)
         {
         }
 
-        public ItemFlags(params string[] flags)
-            : base(flags)
+        public ItemFlags(IServiceProvider serviceProvider, params string[] flags)
+            : base(serviceProvider, flags)
         {
         }
     }

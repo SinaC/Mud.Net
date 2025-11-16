@@ -15,12 +15,15 @@ public class DetectInvis : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Invis";
 
-    public DetectInvis(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public DetectInvis(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags("DetectInvis");
+    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "DetectInvis");
     protected override string SelfAlreadyAffected => "You can already see invisible.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already see invisible things.";
     protected override string SelfSuccess => "Your eyes tingle.";

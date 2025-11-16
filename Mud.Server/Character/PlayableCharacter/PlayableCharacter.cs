@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
@@ -11,8 +10,10 @@ using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -20,7 +21,10 @@ using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Table;
 using Mud.Server.Quest;
+using Mud.Server.Random;
+using Mud.Settings.Interfaces;
 using System.Collections.ObjectModel;
 using System.Text;
 
@@ -32,18 +36,19 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     public static readonly int MinCondition = 0;
     public static readonly int MaxCondition = 48;
 
-    protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
-    protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
-    protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
+    protected IServerPlayerCommand ServerPlayerCommand { get; }
 
     private readonly List<IQuest> _quests;
     private readonly int[] _conditions;
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
 
-    public PlayableCharacter(Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
-        : base(guid, data.Name, string.Empty)
+    public PlayableCharacter(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IServerPlayerCommand serverPlayerCommand, ITimeManager timeManager, IQuestManager questManager,
+        Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, data.Name, string.Empty)
     {
+        ServerPlayerCommand = serverPlayerCommand;
+
         _quests = [];
         _conditions = new int[EnumHelpers.GetCount<Conditions>()];
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
@@ -55,16 +60,16 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
         // Extract informations from PlayableCharacterData
         CreationTime = data.CreationTime;
-        Class = ClassManager[data.Class];
+        Class = classManager[data.Class];
         if (Class == null)
         {
-            Class = ClassManager.Classes.First();
+            Class = classManager.Classes.First();
             Wiznet.Wiznet($"Invalid class '{data.Class}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
-        Race = RaceManager[data.Race];
+        Race = raceManager[data.Race];
         if (Race == null)
         {
-            Race = RaceManager.PlayableRaces.First();
+            Race = raceManager.PlayableRaces.First();
             Wiznet.Wiznet($"Invalid race '{data.Race}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
         BaseBodyForms = Race.BodyForms;
@@ -103,7 +108,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 this[conditionData.Key] = conditionData.Value;
         }
         //
-        BaseCharacterFlags = data.CharacterFlags ?? new CharacterFlags();
+        BaseCharacterFlags = data.CharacterFlags ?? new CharacterFlags(serviceProvider);
         BaseImmunities = data.Immunities;
         BaseResistances = data.Resistances;
         BaseVulnerabilities = data.Vulnerabilities;
@@ -179,7 +184,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (data.CurrentQuests != null)
         {
             foreach (CurrentQuestData questData in data.CurrentQuests)
-                _quests.Add(new Mud.Server.Quest.Quest(questData, this));
+                _quests.Add(new Mud.Server.Quest.Quest(settings, timeManager, itemManager, roomManager, characterManager, questManager, questData, this));
         }
         // Auras
         if (data.Auras != null)
@@ -382,7 +387,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return;
         // additional hits (second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
-        foreach (var additionalHitAbilityInfo in AbilityManager.AbilitiesByExecutionType<IAdditionalHitPassive>())
+        foreach (var additionalHitAbilityInfo in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
         {
             var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityInfo);
             if (additionalHitAbility != null)
@@ -1010,7 +1015,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // class bonus
         hitGain += (Class?.MaxHitPointGainPerLevel ?? 0) - 10;
         // abilities
-        foreach (var regenerationAbility in AbilityManager.AbilitiesByExecutionType<IRegenerationPassive>())
+        foreach (var regenerationAbility in AbilityManager.SearchAbilitiesByExecutionType<IRegenerationPassive>())
         {
             var ability = AbilityManager.CreateInstance<IRegenerationPassive>(regenerationAbility);
             if (ability != null)

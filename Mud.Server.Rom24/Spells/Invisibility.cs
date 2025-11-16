@@ -19,11 +19,13 @@ public class Invisibility : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Invisibility";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Invisibility(IRandomManager randomManager, IAuraManager auraManager)
+    public Invisibility(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -34,7 +36,7 @@ public class Invisibility : ItemOrDefensiveSpellBase
 
         victim.Act(ActOptions.ToAll, "{0:N} fade{0:v} out of existence.", victim);
         AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), AuraFlags.None, true,
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Invisible"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Invisible"), Operator = AffectOperators.Or });
     }
 
     protected override void Invoke(IItem item)
@@ -47,6 +49,6 @@ public class Invisibility : ItemOrDefensiveSpellBase
 
         Caster.Act(ActOptions.ToAll, "{0} fades out of sight.", item);
         AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), AuraFlags.None, true,
-            new ItemFlagsAffect { Modifier = new ItemFlags("Invis"), Operator = AffectOperators.Or });
+            new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Invis"), Operator = AffectOperators.Or });
     }
 }

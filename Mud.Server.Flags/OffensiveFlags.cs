@@ -5,18 +5,18 @@ namespace Mud.Server.Flags
 {
     public class OffensiveFlags : Flags<IOffensiveFlagValues>, IOffensiveFlags
     {
-        public OffensiveFlags()
-            : base()
+        public OffensiveFlags(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
         }
 
-        public OffensiveFlags(string flags)
-            : base(flags)
+        public OffensiveFlags(IServiceProvider serviceProvider, string flags)
+            : base(serviceProvider, flags)
         {
         }
 
-        public OffensiveFlags(params string[] flags)
-            : base(flags)
+        public OffensiveFlags(IServiceProvider serviceProvider, params string[] flags)
+            : base(serviceProvider, flags)
         {
         }
     }

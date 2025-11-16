@@ -5,18 +5,18 @@ namespace Mud.Server.Flags;
 
 public class AssistFlags : Flags<IAssistFlagValues>, IAssistFlags
 {
-    public AssistFlags()
-        : base()
+    public AssistFlags(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
     }
 
-    public AssistFlags(string flags)
-        : base(flags)
+    public AssistFlags(IServiceProvider serviceProvider, string flags)
+        : base(serviceProvider, flags)
     {
     }
 
-    public AssistFlags(params string[] flags)
-        : base(flags)
+    public AssistFlags(IServiceProvider serviceProvider, params string[] flags)
+        : base(serviceProvider, flags)
     {
     }
 }

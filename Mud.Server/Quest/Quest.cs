@@ -1,10 +1,8 @@
-﻿using Mud.Container;
-using Mud.Domain;
+﻿using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
-using Mud.Server.Blueprints.Room;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
@@ -20,15 +18,23 @@ public class Quest : IQuest
 {
     private readonly List<IQuestObjective> _objectives;
 
-    protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
-    protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
-    protected IItemManager ItemManager => DependencyContainer.Current.GetInstance<IItemManager>();
-    protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
-    protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
-    protected IQuestManager QuestManager => DependencyContainer.Current.GetInstance<IQuestManager>();
+    protected ISettings Settings { get; }
+    protected ITimeManager TimeManager { get; }
+    protected IItemManager ItemManager { get; }
+    protected IRoomManager RoomManager { get; }
+    protected ICharacterManager CharacterManager { get; }
+    protected IQuestManager QuestManager { get; }
 
-    public Quest(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
+    public Quest(ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
+        QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
     {
+        Settings = settings;
+        TimeManager = timeManager;
+        ItemManager = itemManager;
+        RoomManager = roomManager;
+        CharacterManager = characterManager;
+        QuestManager = questManager;
+
         Character = character;
         StartTime = TimeManager.CurrentTime;
         PulseLeft = blueprint.TimeLimit * Pulse.PulsePerMinutes;
@@ -38,8 +44,16 @@ public class Quest : IQuest
         BuildObjectives(blueprint, character);
     }
 
-    public Quest(CurrentQuestData questData, IPlayableCharacter character)
+    public Quest(ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
+        CurrentQuestData questData, IPlayableCharacter character)
     {
+        Settings = settings;
+        TimeManager = timeManager;
+        ItemManager = itemManager;
+        RoomManager = roomManager;
+        CharacterManager = characterManager;
+        QuestManager = questManager;
+        
         Character = character;
 
         // Extract informations from QuestData

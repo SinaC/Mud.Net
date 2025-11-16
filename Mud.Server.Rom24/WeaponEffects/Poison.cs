@@ -13,11 +13,13 @@ namespace Mud.Server.Rom24.WeaponEffects;
 [WeaponEffect("Poison")]
 public class Poison : IPostHitDamageWeaponEffect
 {
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
     private IAffectManager AffectManager { get; }
 
-    public Poison(IAuraManager auraManager, IAffectManager affectManager)
+    public Poison(IServiceProvider serviceProvider, IAuraManager auraManager, IAffectManager affectManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
         AffectManager = affectManager;
     }
@@ -37,7 +39,7 @@ public class Poison : IPostHitDamageWeaponEffect
             {
                 var poisonAffect = AffectManager.CreateInstance("Poison");
                 AuraManager.AddAura(victim, "Poison", holder, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                     poisonAffect);
             }

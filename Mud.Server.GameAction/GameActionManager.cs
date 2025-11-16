@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
 using Mud.Server.Interfaces;
@@ -12,11 +11,15 @@ namespace Mud.Server.GameAction;
 
 public class GameActionManager : IGameActionManager
 {
+    private IServiceProvider ServiceProvider { get; }
+
     private readonly Dictionary<Type, IGameActionInfo> _gameActionInfosByExecutionType;
     private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
-    public GameActionManager(IAssemblyHelper assemblyHelper)
+    public GameActionManager(IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
+        ServiceProvider = serviceProvider;
+
         _gameActionInfosTrieByActorType = []; // will be filled when a call to GetGameActions will be called
 
         Type iGameActionType = typeof(IGameAction);
@@ -34,12 +37,13 @@ public class GameActionManager : IGameActionManager
     public string? Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, params ICommandParameter[] parameters)
         where TActor: IActor
     {
-        if (DependencyContainer.Current.GetRegistration(gameActionInfo.CommandExecutionType, false) == null)
+        var gameActionInstance = ServiceProvider.GetService(gameActionInfo.CommandExecutionType);
+        if (gameActionInstance == null)
         {
             Log.Default.WriteLine(LogLevels.Error, "GameAction {0} not found in DependencyContainer.", gameActionInfo.Name);
             return "Something goes wrong.";
         }
-        if (DependencyContainer.Current.GetInstance(gameActionInfo.CommandExecutionType) is not IGameAction gameAction)
+        if (gameActionInstance is not IGameAction gameAction)
         {
             Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be created or is not {1}.", gameActionInfo.Name, typeof(IGameAction).FullName ?? "???");
             return "Something goes wrong.";

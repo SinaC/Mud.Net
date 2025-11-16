@@ -7,6 +7,13 @@ namespace Mud.Server.Race;
 
 public abstract class RaceBase : IRace
 {
+    protected IServiceProvider ServiceProvider { get; }
+
+    protected RaceBase(IServiceProvider serviceProvider)
+    {
+        ServiceProvider = serviceProvider;
+    }
+
     #region IRace
 
     public abstract string Name { get; }

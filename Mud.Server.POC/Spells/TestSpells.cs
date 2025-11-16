@@ -18,11 +18,13 @@ public class SpellTest : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Test";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public SpellTest(IRandomManager randomManager, IAuraManager auraManager) 
+    public SpellTest(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager) 
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -41,9 +43,9 @@ public class SpellTest : ItemOrDefensiveSpellBase
 
         // Immune to all damages
         AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(1), AuraFlags.NoDispel, true,
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Pouet")},
-            new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags("Magic"), Operator = AffectOperators.Or },
-            new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags("Weapon"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Pouet")},
+            new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags(ServiceProvider,"Magic"), Operator = AffectOperators.Or },
+            new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags(ServiceProvider, "Weapon"), Operator = AffectOperators.Or });
     }
 
     protected override void Invoke(IItem item)
@@ -57,11 +59,11 @@ public class SpellTest : ItemOrDefensiveSpellBase
         if (item is IItemWeapon itemWeapon)
         {
             AuraManager.AddAura(itemWeapon, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
-                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Flaming", "Frost", "Vampiric", "Sharp", "Vorpal", "Shocking", "Poison") });
+                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags(ServiceProvider, "Flaming", "Frost", "Vampiric", "Sharp", "Vorpal", "Shocking", "Poison") });
         }
 
         AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
-            new ItemFlagsAffect { Modifier = new ItemFlags("Glowing", "Humming", "Magic") },
+            new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Glowing", "Humming", "Magic") },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -Level, Operator = AffectOperators.Add},
         new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Characteristics, Modifier = Level, Operator = AffectOperators.Add });
     }
@@ -72,12 +74,14 @@ public class SpellConstruct : NoTargetSpellBase
 {
     private const string SpellName = "Construct";
 
+    private IServiceProvider ServiceProvider { get; }
     private ICharacterManager CharacterManager { get; }
     private IAuraManager AuraManager { get; }
 
-    public SpellConstruct(IRandomManager randomManager, ICharacterManager characterManager, IAuraManager auraManager)
+    public SpellConstruct(IServiceProvider serviceProvider, IRandomManager randomManager, ICharacterManager characterManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         CharacterManager = characterManager;
         AuraManager = auraManager;
     }
@@ -90,7 +94,7 @@ public class SpellConstruct : NoTargetSpellBase
             INonPlayableCharacter construct = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
             pcCaster.AddPet(construct);
             AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                new CharacterFlagsAffect { Modifier = new CharacterFlags("Charm"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Charm"), Operator = AffectOperators.Or });
         }
     }
 }
@@ -100,9 +104,12 @@ public class SpellTestRoom : CharacterBuffSpellBase
 {
     private const string SpellName = "Testroom";
 
-    public SpellTestRoom(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public SpellTestRoom(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
     protected override string SelfAlreadyAffectedMessage => "You are already affected.";
@@ -115,7 +122,7 @@ public class SpellTestRoom : CharacterBuffSpellBase
         {
             new RoomHealRateAffect {Modifier = 10, Operator = AffectOperators.Add},
             new RoomResourceRateAffect {Modifier = 150, Operator = AffectOperators.Assign},
-            new RoomFlagsAffect {Modifier = new RoomFlags("NoScan", "NoWhere"), Operator = AffectOperators.Or}
+            new RoomFlagsAffect {Modifier = new RoomFlags(ServiceProvider, "NoScan", "NoWhere"), Operator = AffectOperators.Or}
         });
 
     protected override void Invoke()

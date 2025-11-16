@@ -1,38 +1,41 @@
 ﻿using AutoBogus;
 using AutoMapper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mud.Container;
+using Moq;
 using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
-using System;
-using System.Collections.Generic;
 
 namespace Mud.Repository.Tests
 {
     [TestClass]
     public abstract class MappingTestsBase
     {
-        private SimpleInjector.Container _originalContainer;
+        protected IServiceProvider _serviceProvider = default!;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _originalContainer = DependencyContainer.Current;
-            DependencyContainer.SetManualContainer(new SimpleInjector.Container());
-
+            var serviceProviderMock = new Mock<IServiceProvider>();
+            serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
+                .Returns(new Rom24CharacterFlags());
+            serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues)))
+                .Returns(new Rom24CharacterFlags());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlagValues)))
+                .Returns(new Rom24RoomFlags());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlagValues)))
+                .Returns(new Rom24ItemFlagValues());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlagValues)))
+                .Returns(new Rom24WeaponFlagValues());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlagValues)))
+                .Returns(new Rom24IRVFlagValues());
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AllowNullCollections = true;
                 cfg.AllowNullDestinationValues = true;
-                cfg.AddProfile<Mongo.AutoMapperProfile>();
                 cfg.AddProfile<Filesystem.AutoMapperProfile>();
             });
-            DependencyContainer.Current.RegisterInstance(mapperConfiguration.CreateMapper());
-            DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags());
-            DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags());
-            DependencyContainer.Current.RegisterInstance<IItemFlagValues>(new Rom24ItemFlagValues());
-            DependencyContainer.Current.RegisterInstance<IWeaponFlagValues>(new Rom24WeaponFlagValues());
-            DependencyContainer.Current.RegisterInstance<IIRVFlagValues>(new Rom24IRVFlagValues());
+            mapperConfiguration.AssertConfigurationIsValid();
+            serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))) 
+                .Returns(mapperConfiguration.CreateMapper());
 
             AutoFaker.Configure(builder =>
             {
@@ -41,12 +44,8 @@ namespace Mud.Repository.Tests
                   .WithRepeatCount(5)    // Configures the number of items in a collection
                   .WithRecursiveDepth(10); // Configures how deep nested types should recurse
             });
-        }
 
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            DependencyContainer.SetManualContainer(_originalContainer);
+            _serviceProvider = serviceProviderMock.Object;
         }
     }
 

@@ -1,4 +1,5 @@
 INGOING
+use DI everywhere or nowhere
 
 TODO
 finish ROM24 classes
@@ -7,7 +8,6 @@ move IClass/IRace to IPlayableCharacter as non-nullable
 move IClass/IRace to INonPlayableCharacter as nullable
 stop trying to be compatible with ROM24/Merc/Diku assume being Mystery mud :)
 compatibility must only be in blueprint loading
-use DI everywhere or nowhere
 check CanSee usage, if lambda can be removed
 choose between flags as bits or strings (example RoomFlags and CharacterFlags)
 check usage of OnCleaned/OnRemoved
@@ -111,6 +111,8 @@ merge IAdminRepository and IPlayerRepository -> IAccountRepository
 move blueprints to Mud.Domain + refactor Mud.Domain
 IWorld: should create IReadonlyWorld which only contains getter
 gods
+title
+pose
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 

@@ -5,18 +5,18 @@ namespace Mud.Server.Flags
 {
     public class IRVFlags : Flags<IIRVFlagValues>, IIRVFlags
     {
-        public IRVFlags()
-            : base()
+        public IRVFlags(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
         }
 
-        public IRVFlags(string flags)
-            : base(flags)
+        public IRVFlags(IServiceProvider serviceProvider, string flags)
+            : base(serviceProvider, flags)
         {
         }
 
-        public IRVFlags(params string[] flags)
-            : base(flags)
+        public IRVFlags(IServiceProvider serviceProvider, params string[] flags)
+            : base(serviceProvider, flags)
         {
         }
     }
