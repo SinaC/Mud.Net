@@ -15,12 +15,15 @@ public class DetectMagic : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Magic";
 
-    public DetectMagic(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public DetectMagic(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags("DetectMagic");
+    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "DetectMagic");
     protected override string SelfAlreadyAffected => "You can already sense magical auras.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already detect magic.";
     protected override string SelfSuccess => "Your eyes tingle.";

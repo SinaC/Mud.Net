@@ -20,19 +20,21 @@ public class Curse : ItemOrOffensiveSpellBase
 {
     private const string SpellName = "Curse";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
     private IDispelManager DispelManager { get; }
 
-    public Curse(IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
+    public Curse(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
         DispelManager = dispelManager;
     }
 
     protected override void Invoke(ICharacter victim)
     {
-        CurseEffect effect = new (AuraManager);
+        CurseEffect effect = new (ServiceProvider, AuraManager);
         effect.Apply(victim, Caster, SpellName, Level, 0);
     }
 
@@ -60,7 +62,7 @@ public class Curse : ItemOrOffensiveSpellBase
         }
         AuraManager.AddAura(item, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = 1, Operator = AffectOperators.Add },
-            new ItemFlagsAffect { Modifier = new ItemFlags("Evil"), Operator = AffectOperators.Or });
+            new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Evil"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a malevolent aura.", item);
     }
 }

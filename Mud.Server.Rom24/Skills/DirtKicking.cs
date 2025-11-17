@@ -19,11 +19,13 @@ public class DirtKicking : OffensiveSkillBase
 {
     private const string SkillName = "Dirt Kicking";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public DirtKicking(IRandomManager randomManager, IAuraManager auraManager)
+    public DirtKicking(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -109,7 +111,7 @@ public class DirtKicking : OffensiveSkillBase
             if (damageResults == DamageResults.Done)
                 AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(1)/*originally 0*/, AuraFlags.NoDispel, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Blind"), Operator = AffectOperators.Or });
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Blind"), Operator = AffectOperators.Or });
             return true;
         }
         else

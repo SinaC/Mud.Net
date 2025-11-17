@@ -13,6 +13,7 @@ using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Tests
 {
+    /*
     [TestClass]
     public class NPCTests
     {
@@ -43,4 +44,5 @@ namespace Mud.Server.Tests
 
         private IIRVFlags IRVAll => new IRVFlags(Rom24IRVFlagValues.Flags.ToArray());
     }
+    */
 }

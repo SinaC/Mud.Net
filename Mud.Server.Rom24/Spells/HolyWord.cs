@@ -15,11 +15,13 @@ public class HolyWord : NoTargetSpellBase
 {
     private const string SpellName = "Holy Word";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public HolyWord(IRandomManager randomManager, IAuraManager auraManager)
+    public HolyWord(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -51,7 +53,7 @@ public class HolyWord : NoTargetSpellBase
                     var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
                     if (damageResult == DamageResults.Done)
                     {
-                        CurseEffect curseEffect = new (AuraManager);
+                        CurseEffect curseEffect = new (ServiceProvider, AuraManager);
                         curseEffect.Apply(victim, Caster, "Curse", Level, 0);
                     }
                 }
@@ -65,7 +67,7 @@ public class HolyWord : NoTargetSpellBase
                         var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
                         if (damageResult == DamageResults.Done)
                         {
-                            CurseEffect curseEffect = new (AuraManager);
+                            CurseEffect curseEffect = new (ServiceProvider, AuraManager);
                             curseEffect.Apply(victim, Caster, "Curse", Level, 0);
                         }
                     }

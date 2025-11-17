@@ -9,11 +9,12 @@
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
     <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="10.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
@@ -22,7 +23,6 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.14.0" />
     <PackageReference Include="Microsoft.IdentityModel.Logging" Version="8.14.0" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.14.0" />
-    <PackageReference Include="SimpleInjector" Version="5.5.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.0" />
     <PackageReference Include="System.IO.Pipelines" Version="10.0.0" />
@@ -31,9 +31,7 @@
     <PackageReference Include="System.Text.Json" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj" />
     <ProjectReference Include="..\Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj" />
-    <ProjectReference Include="..\Mud.Repository.Mongo\Mud.Repository.Mongo.csproj" />
     <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj" />
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
     <ProjectReference Include="..\Mud.Importer.Mystery\Mud.Importer.Mystery.csproj" />

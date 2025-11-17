@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.Network.Interfaces;
 using Mud.Repository;
 using Mud.Server.Common;
@@ -34,16 +33,19 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
     private bool _isAdmin;
     private bool _isNewPlayer;
 
-    protected ILoginRepository LoginManager => DependencyContainer.Current.GetInstance<ILoginRepository>();
-    protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
+    protected ILoginRepository LoginManager { get; }
+    protected IUniquenessManager UniquenessManager { get; }
 
     public event LoginSuccessfulEventHandler? LoginSuccessful;
     public event LoginFailedEventHandler? LoginFailed;
 
     public override bool IsFinalStateReached => State == LoginStates.LoggedIn || State == LoginStates.Disconnected;
 
-    public LoginStateMachine()
+    public LoginStateMachine(ILoginRepository loginRepository, IUniquenessManager uniquenessManager)
     {
+        LoginManager = loginRepository;
+        UniquenessManager = uniquenessManager;
+
         KeepInputAsIs = false;
         StateMachine = new Dictionary<LoginStates, Func<IClient, string, LoginStates>>
         {

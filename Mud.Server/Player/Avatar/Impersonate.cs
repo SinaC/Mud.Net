@@ -80,7 +80,7 @@ public class Impersonate : PlayerGameAction
         if (location == null)
         {
             location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRoomId)!;
-            Wiznet.Wiznet($"Invalid roomId {Whom.RoomId} for character {Whom.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Invalid roomId {Whom.RoomId} for character {Whom.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
         var avatar = CharacterManager.AddPlayableCharacter(Guid.NewGuid(), Whom, Actor, location);
         Actor.Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);

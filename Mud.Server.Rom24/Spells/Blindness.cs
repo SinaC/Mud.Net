@@ -14,17 +14,19 @@ public class Blindness : OffensiveSpellBase
 {
     private const string SpellName = "Blindness";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Blindness(IRandomManager randomManager, IAuraManager auraManager)
+    public Blindness(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
     protected override void Invoke()
     {
-        BlindnessEffect effect = new (AuraManager);
+        BlindnessEffect effect = new (ServiceProvider, AuraManager);
         effect.Apply(Victim, Caster, SpellName, Level, 0);
     }
 }

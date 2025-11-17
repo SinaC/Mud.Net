@@ -48,7 +48,7 @@ public class AddLag : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Wiznet.Wiznet($"{Actor.DisplayName} adds lag {Whom.DisplayName}.", Domain.WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} adds lag {Whom.DisplayName}.", Domain.WiznetFlags.Punish);
 
         Actor.Send("Adding lag now.");
         Whom.SetGlobalCooldown(Modifier);

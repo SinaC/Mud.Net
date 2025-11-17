@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.GameAction;
 
@@ -12,10 +13,12 @@ namespace Mud.Server.Admin.Administration;
 public class ResetArea : AdminGameAction
 {
     private IAreaManager AreaManager { get; }
+    private IResetManager ResetManager { get; }
 
-    public ResetArea(IAreaManager areaManager)
+    public ResetArea(IAreaManager areaManager, IResetManager resetManager)
     {
         AreaManager = areaManager;
+        ResetManager = resetManager;
     }
 
     protected IArea Area { get; set; } = default!;
@@ -42,7 +45,7 @@ public class ResetArea : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Area.ResetArea();
+        ResetManager.ResetArea(Area);
 
         Actor.Send($"{Area.DisplayName} resetted.");
     }

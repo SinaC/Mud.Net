@@ -7,12 +7,17 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces;
 
 public class Doll : RaceBase
 {
+    public Doll(IServiceProvider serviceProvider)
+        : base(serviceProvider)
+    {
+    }
+
     public override string Name => "doll";
     public override Sizes Size => Sizes.Medium;
-    public override ICharacterFlags CharacterFlags => new CharacterFlags();
-    public override IIRVFlags Immunities => new IRVFlags("Cold", "Poison", "Negative", "Holy", "Mental", "Disease", "Drowning");
-    public override IIRVFlags Resistances => new IRVFlags("Bash", "Light");
-    public override IIRVFlags Vulnerabilities => new IRVFlags("Slash", "Fire", "Lightning", "Acid", "Energy");
+    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider);
+    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider, "Cold", "Poison", "Negative", "Holy", "Mental", "Disease", "Drowning");
+    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider, "Bash", "Light");
+    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider, "Slash", "Fire", "Lightning", "Acid", "Energy");
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
         Domain.EquipmentSlots.Light,
@@ -34,9 +39,9 @@ public class Doll : RaceBase
         Domain.EquipmentSlots.OffHand,
         Domain.EquipmentSlots.Float,
     ];
-    public override IBodyForms BodyForms => new BodyForms("Other", "Construct", "Biped", "ColdBlood");
-    public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Arms", "Legs", "Hands", "Feet", "Eye", "Fingers", "Ear");
-    public override IActFlags ActFlags => new ActFlags();
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Fast", "Bite");
-    public override IAssistFlags AssistFlags => new AssistFlags();
+    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Other", "Construct", "Biped", "ColdBlood");
+    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Body", "Arms", "Legs", "Hands", "Feet", "Eye", "Fingers", "Ear");
+    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider, "Fast", "Bite");
+    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider);
 }

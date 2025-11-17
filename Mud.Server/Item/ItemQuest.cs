@@ -1,23 +1,30 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Quest;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Item;
 
 public class ItemQuest : ItemBase<ItemQuestBlueprint, ItemData>, IItemQuest
 {
-    public ItemQuest(Guid guid, ItemQuestBlueprint blueprint, IContainer containedInto) 
-        : base(guid, blueprint, containedInto)
+    public ItemQuest(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+        Guid guid, ItemQuestBlueprint blueprint, IContainer containedInto) 
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         UpdateQuestObjective(containedInto, false);
     }
 
-    public ItemQuest(Guid guid, ItemQuestBlueprint blueprint, ItemData itemData, IContainer containedInto)
-        : base(guid, blueprint, itemData, containedInto)
+    public ItemQuest(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+        Guid guid, ItemQuestBlueprint blueprint, ItemData itemData, IContainer containedInto)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemData, containedInto)
     {
         // don't call UpdateQuestObjective because it will increase objective item count each time the player reconnect
         // could maybe call it with force = true

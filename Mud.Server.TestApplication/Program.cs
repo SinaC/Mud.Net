@@ -1,21 +1,35 @@
-﻿using Mud.Container;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Importer.Mystery;
 using Mud.Logger;
 using Mud.Network.Interfaces;
 using Mud.Network.Telnet;
 using Mud.POC;
+using Mud.Repository;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Effect;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
+using Mud.Server.Interfaces.Quest;
+using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Table;
+using Mud.Server.Interfaces.World;
+using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
 using Mud.Settings.Interfaces;
 using System.Reflection;
@@ -25,55 +39,20 @@ namespace Mud.Server.TestApplication;
 
 internal class Program
 {
-    internal class AssemblyHelper : IAssemblyHelper
-    {
-        public IEnumerable<Assembly> AllReferencedAssemblies => new Assembly[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly };
-    }
-
-
-    internal static void RegisterAllTypes(IAssemblyHelper assemblyHelper)
-    {
-        Type iRegistrable = typeof(IRegistrable);
-        foreach (var registrable in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
-            DependencyContainer.Current.Register(registrable);
-    }
+    private IServiceProvider _serviceProvider = null!;
 
     private static void Main(string[] args)
     {
-        // Initialize settings
-        ISettings settings = new Settings.ConfigurationManager.Settings();
-        DependencyContainer.Current.RegisterInstance<ISettings>(settings);
+        var program = new Program();
+        program.Run();
+    }
 
-        // Initialize log
-        Log.Default.Initialize(settings.LogPath, "server.test.log");
+    private void Run()
+    {
+        var serviceCollection = new ServiceCollection();
+        ConfigureServices(serviceCollection);
 
-        //// Register all needed types
-        //RegisterAllTypes(new AssemblyHelper());
-
-        //// Initialize IOC container
-        //DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
-        //DependencyContainer.Current.RegisterInstance<IAssemblyHelper>(new AssemblyHelper());
-        //DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
-        //DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
-        //DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
-        //DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
-        //DependencyContainer.Current.Register<IQuestManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IQuestManager
-        //DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAuraManager
-        //DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IItemManager
-        //DependencyContainer.Current.Register<ICharacterManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements ICharacterManager
-        //DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IRoomManager
-        //DependencyContainer.Current.Register<IAreaManager, World.World>(SimpleInjector.Lifestyle.Singleton); // World also implements IAreaManager
-        //DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
-        //DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
-        //DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
-        //DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
-        //DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
-        //DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-        //DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
-        //DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-        //DependencyContainer.Current.Register<IUniquenessManager, Server.UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
-        //DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
-
+        _serviceProvider = serviceCollection.BuildServiceProvider();
 
         //TestSecondWindow();
         //TestPaging();
@@ -87,6 +66,7 @@ internal class Program
         //TestLuaFunctionHiding testLua = new TestLuaFunctionHiding();
         //TestLuaRegisterFunction testLua = new TestLuaRegisterFunction();
         //testLua.Test();
+
     }
 
     //private static void TestSecondWindow()
@@ -110,7 +90,103 @@ internal class Program
     //    sr.Close();
     //}
 
-    private static void CreateDummyWorld()
+
+    private void ConfigureServices(IServiceCollection services)
+    {
+        var settings = new Settings.ConfigurationManager.Settings();
+        var assemblyHelper = new AssemblyHelper();
+
+        // Initialize log
+        Log.Default.Initialize(settings.LogPath, "server.test.log");
+
+        // Configure Logging
+        services.AddLogging();
+
+        // Register Services
+        services.AddSingleton<ISettings>(settings);
+        RegisterAllTypes(services, assemblyHelper.AllReferencedAssemblies);
+
+        RegisterFlagValues<ICharacterFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues<IRoomFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues<IItemFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues<IWeaponFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues<IActFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues<IOffensiveFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues<IAssistFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues<IIRVFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues<IBodyFormValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues<IBodyPartValues>(services, assemblyHelper.AllReferencedAssemblies);
+
+        services.AddSingleton<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
+        services.AddSingleton<IAssemblyHelper>(assemblyHelper);
+        services.AddSingleton<IAbilityManager, Ability.AbilityManager>();
+        services.AddSingleton<IGameActionManager, GameAction.GameActionManager>();
+        services.AddSingleton<ITimeManager, Server.TimeManager>();
+        services.AddSingleton<IQuestManager, Quest.QuestManager>();
+        services.AddSingleton<IAuraManager, Aura.AuraManager>();
+        services.AddSingleton<IItemManager, Item.ItemManager>();
+        services.AddSingleton<ICharacterManager, Character.CharacterManager>();
+        services.AddSingleton<IRoomManager, Room.RoomManager>();
+        services.AddSingleton<IAreaManager, Area.AreaManager>();
+        services.AddSingleton<IAdminManager, Admin.AdminManager>();
+        services.AddSingleton<IWiznet, Server.Wiznet>();
+        services.AddSingleton<IResetManager, Server.ResetManager>();
+        services.AddSingleton<IServer, Server.Server>();
+        services.AddSingleton<IWorld, Server.Server>(); // Server also implements IWorld
+        services.AddSingleton<IPlayerManager, Server.Server>(); // Server also implements IPlayerManager
+        services.AddSingleton<IServerAdminCommand, Server.Server>(); // Server also implements IServerAdminCommand
+        services.AddSingleton<IServerPlayerCommand, Server.Server>(); // Server also implements IServerPlayerCommand
+        services.AddSingleton<IClassManager, Class.ClassManager>();
+        services.AddSingleton<IRaceManager, Race.RaceManager>();
+        services.AddSingleton<IUniquenessManager, Server.UniquenessManager>();
+        services.AddSingleton<ITableValues, Table.TableValues>();
+        services.AddSingleton<IDispelManager, Aura.DispelManager>();
+        services.AddSingleton<IEffectManager, Effects.EffectManager>();
+        services.AddSingleton<IAffectManager, Affects.AffectManager>();
+        services.AddSingleton<IWeaponEffectManager, Effects.WeaponEffectManager>();
+
+        services.AddSingleton<ILoginRepository, Repository.Filesystem.LoginRepository>();
+        services.AddSingleton<IPlayerRepository, Repository.Filesystem.PlayerRepository>();
+        services.AddSingleton<IAdminRepository, Repository.Filesystem.AdminRepository>();
+
+        services.AddAutoMapper(typeof(Repository.Filesystem.AutoMapperProfile).Assembly);
+    }
+
+    internal void RegisterAllTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
+    {
+        var iRegistrable = typeof(IRegistrable);
+        foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
+        {
+            Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
+            services.AddTransient(registrable);
+        }
+    }
+
+    internal void RegisterFlagValues<TFlagValue>(IServiceCollection services, IEnumerable<Assembly> assemblies)
+        where TFlagValue : IFlagValues<string>
+    {
+        var iFlagValuesType = typeof(TFlagValue);
+        var concreteFlagValuesType = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iFlagValuesType.IsAssignableFrom(t))).SingleOrDefault();
+        if (concreteFlagValuesType == null)
+            Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
+        else
+        {
+            Log.Default.WriteLine(LogLevels.Info, "Registering implementation type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
+            services.AddTransient(iFlagValuesType, concreteFlagValuesType);
+        }
+    }
+
+    internal class AssemblyHelper : IAssemblyHelper
+    {
+        public IEnumerable<Assembly> AllReferencedAssemblies =>
+        [
+            typeof(Server.Server).Assembly,
+            typeof(AcidBlast).Assembly
+        ];
+    }
+
+
+    private void CreateDummyWorld()
     {
         // Blueprints
         // Rooms
@@ -218,45 +294,45 @@ internal class Program
             WearLocation = WearLocations.Wield
         };
         //
-        if (DependencyContainer.Current.GetInstance<IItemManager>().GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
+        if (_serviceProvider.GetRequiredService<IItemManager>().GetItemBlueprint(_serviceProvider.GetRequiredService<ISettings>().CorpseBlueprintId) == null)
         {
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
-                Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
+                Id = _serviceProvider.GetRequiredService<ISettings>().CorpseBlueprintId,
                 Name = "corpse"
             }; // this is mandatory
-            DependencyContainer.Current.GetInstance<IItemManager>().AddItemBlueprint(corpseBlueprint);
+            _serviceProvider.GetRequiredService<IItemManager>().AddItemBlueprint(corpseBlueprint);
         }
 
         // World
-        IArea midgaard = DependencyContainer.Current.GetInstance<IAreaManager>().Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
-        IRoom room1 = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, midgaard);
-        IRoom room2 = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), room2Blueprint, midgaard);
-        DependencyContainer.Current.GetInstance<IRoomManager>().AddExit(room1, room2, null, ExitDirections.North);
-        DependencyContainer.Current.GetInstance<IRoomManager>().AddExit(room2, room1, null, ExitDirections.North);
+        IArea midgaard = _serviceProvider.GetRequiredService<IAreaManager>().Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
+        IRoom room1 = _serviceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, midgaard);
+        IRoom room2 = _serviceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), room2Blueprint, midgaard);
+        _serviceProvider.GetRequiredService<IRoomManager>().AddExit(room1, room2, null, ExitDirections.North);
+        _serviceProvider.GetRequiredService<IRoomManager>().AddExit(room2, room1, null, ExitDirections.North);
 
         //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "Mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, room1); // playable
-        ICharacter mob2 = DependencyContainer.Current.GetInstance<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, room1);
-        ICharacter mob3 = DependencyContainer.Current.GetInstance<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, room2);
-        ICharacter mob4 = DependencyContainer.Current.GetInstance<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, room2);
-        ICharacter mob5 = DependencyContainer.Current.GetInstance<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, room2);
+        ICharacter mob2 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, room1);
+        ICharacter mob3 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, room2);
+        ICharacter mob4 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, room2);
+        ICharacter mob5 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, room2);
 
-        IItemContainer item1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room1) as IItemContainer;
-        IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room2) as IItemContainer;
-        IItemWeapon item2 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
-        IItemArmor item3 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
+        IItemContainer item1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room1) as IItemContainer;
+        IItemContainer item1Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room2) as IItemContainer;
+        IItemWeapon item2 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+        IItemArmor item3 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
         //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob1);
         //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item5Blueprint, mob1);
         //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, mob1);
-        IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
-        IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
+        IItemArmor item3Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
+        IItemLight item4Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
         // Equip weapon on mob2
         mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
         item2.ChangeContainer(null);
         item2.ChangeEquippedBy(mob2, true);
     }
 
-    private static void CreateMidgaard()
+    private void CreateMidgaard()
     {
         MysteryLoader importer = new MysteryLoader();
         importer.Load(@"D:\Projects\Repos\OldMud\area\midgaard.are");
@@ -281,7 +357,7 @@ internal class Program
         foreach (AreaData importedArea in importer.Areas)
         {
             // TODO: levels
-            IArea area = DependencyContainer.Current.GetInstance<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint { Name = importedArea.Name, Builders = importedArea.Builders, Credits = importedArea.Credits});
+            IArea area = _serviceProvider.GetRequiredService<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint { Name = importedArea.Name, Builders = importedArea.Builders, Credits = importedArea.Credits});
             areasByVnums.Add(importedArea.VNum, area);
         }
 
@@ -295,7 +371,7 @@ internal class Program
                 Name = importedRoom.Name,
                 Description = importedRoom.Description,
             };
-            IRoom room = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), roomBlueprint, area);
+            IRoom room = _serviceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), roomBlueprint, area);
             roomsByVNums.Add(importedRoom.VNum, room);
         }
         // Create Exits
@@ -316,7 +392,7 @@ internal class Program
                         Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
                     else
                     {
-                        DependencyContainer.Current.GetInstance<IRoomManager>().AddExit(from, to, null, (ExitDirections) i);
+                        _serviceProvider.GetRequiredService<IRoomManager>().AddExit(from, to, null, (ExitDirections) i);
                     }
                 }
             }
@@ -437,42 +513,42 @@ internal class Program
         };
 
         //
-        if (DependencyContainer.Current.GetInstance<IItemManager>().GetItemBlueprint(DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId) == null)
+        if (_serviceProvider.GetRequiredService<IItemManager>().GetItemBlueprint(_serviceProvider.GetRequiredService<ISettings>().CorpseBlueprintId) == null)
         {
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
-                Id = DependencyContainer.Current.GetInstance<ISettings>().CorpseBlueprintId,
+                Id = _serviceProvider.GetRequiredService<ISettings>().CorpseBlueprintId,
                 Name = "corpse"
             }; // this is mandatory
-            DependencyContainer.Current.GetInstance<IItemManager>().AddItemBlueprint(corpseBlueprint);
+            _serviceProvider.GetRequiredService<IItemManager>().AddItemBlueprint(corpseBlueprint);
         }
 
         // Add dummy mobs and items to allow impersonate :)
-        IRoom templeOfMota = DependencyContainer.Current.GetInstance<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-        IRoom templeSquare = DependencyContainer.Current.GetInstance<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+        IRoom templeOfMota = _serviceProvider.GetRequiredService<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+        IRoom templeSquare = _serviceProvider.GetRequiredService<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
         //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
-        ICharacter mob2 = DependencyContainer.Current.GetInstance<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-        ICharacter mob3 = DependencyContainer.Current.GetInstance<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-        ICharacter mob4 = DependencyContainer.Current.GetInstance<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-        ICharacter mob5 = DependencyContainer.Current.GetInstance<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+        ICharacter mob2 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+        ICharacter mob3 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+        ICharacter mob4 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+        ICharacter mob5 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-        IItemContainer item1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
-        IItemContainer item1Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
-        IItemWeapon item2 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
-        IItemArmor item3 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
+        IItemContainer item1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
+        IItemContainer item1Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
+        IItemWeapon item2 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+        IItemArmor item3 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
         //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob1);
         //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item5Blueprint, mob1);
         //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, mob1);
-        IItemArmor item3Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
-        IItemLight item4Dup1 = DependencyContainer.Current.GetInstance<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
+        IItemArmor item3Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
+        IItemLight item4Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
         // Equip weapon on mob2
         mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
         item2.ChangeContainer(null);
         item2.ChangeEquippedBy(mob2, true);
     }
 
-    private static void TestPaging()
+    private void TestPaging()
     {
         TestPaging paging = new TestPaging();
         paging.SetData(new StringBuilder("1/Lorem ipsum dolor sit amet, " + Environment.NewLine +
@@ -500,11 +576,11 @@ internal class Program
         bool hasPaging4 = paging.HasPaging;
     }
 
-    private static void TestBasicCommands()
+    private void TestBasicCommands()
     {
-        //IPlayer player1 = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player1"), "Player1");
-        //IPlayer player2 = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player2"), "Player2");
-        //IAdmin admin = DependencyContainer.Current.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
+        //IPlayer player1 = _serviceProvider.GetRequiredService<IPlayerManager>().AddPlayer(new ConsoleClient("Player1"), "Player1");
+        //IPlayer player2 = _serviceProvider.GetRequiredService<IPlayerManager>().AddPlayer(new ConsoleClient("Player2"), "Player2");
+        //IAdmin admin = _serviceProvider.GetRequiredService<IAdminManager>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
 
         //CreateDummyWorld();
 
@@ -546,10 +622,10 @@ internal class Program
         ////Console.ReadLine();
     }
 
-    private static void TestCommandParsing()
+    private void TestCommandParsing()
     {
         //// server doesn't need to be started, we are not testing real runtime but basic commands
-        //IArea area = DependencyContainer.Current.GetInstance<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint{Name = "testarea", Builders = "SinaC", Credits = "Credits"});
+        //IArea area = _serviceProvider.GetRequiredService<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint{Name = "testarea", Builders = "SinaC", Credits = "Credits"});
         //// Blueprints
         //RoomBlueprint room1Blueprint = new RoomBlueprint
         //{
@@ -558,9 +634,9 @@ internal class Program
         //    Description = "My first room"
         //};
         //// World
-        //IRoom room = DependencyContainer.Current.GetInstance<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
+        //IRoom room = _serviceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
 
-        //IPlayer player = DependencyContainer.Current.GetInstance<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
+        //IPlayer player = _serviceProvider.GetRequiredService<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
         //player.ProcessInput("test");
         //player.ProcessInput("test arg1");
         //player.ProcessInput("test 'arg1' 'arg2' 'arg3' 'arg4'");
@@ -576,11 +652,11 @@ internal class Program
         //player.ProcessInput("unknown"); // INVALID
         //player.ProcessInput("/test");
 
-        //IPlayableCharacter character = DependencyContainer.Current.GetInstance<ICharacterManager>().AddPlayableCharacter(Guid.NewGuid(), new PlayableCharacterData
+        //IPlayableCharacter character = _serviceProvider.GetRequiredService<ICharacterManager>().AddPlayableCharacter(Guid.NewGuid(), new PlayableCharacterData
         //{
         //    Name = "toto",
-        //    Class = DependencyContainer.Current.GetInstance<IClassManager>()["Mage"].Name,
-        //    Race = DependencyContainer.Current.GetInstance<IRaceManager>()["Troll"].Name,
+        //    Class = _serviceProvider.GetRequiredService<IClassManager>()["Mage"].Name,
+        //    Race = _serviceProvider.GetRequiredService<IRaceManager>()["Troll"].Name,
         //    Sex = Sex.Male,
         //    Level = 1,
         //    Experience = 0,
@@ -602,12 +678,12 @@ internal class Program
         //player.ProcessInput("tell");
         //player.ProcessInput("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-        //IAdmin admin = DependencyContainer.Current.GetInstance<IAdminManager>().AddAdmin(new ConsoleClient("Admin"), "Admin");
+        //IAdmin admin = _serviceProvider.GetRequiredService<IAdminManager>().AddAdmin(new ConsoleClient("Admin"), "Admin");
         //admin.ProcessInput("incarnate");
         //admin.ProcessInput("unknown"); // INVALID
     }
 
-    private static void TestImport()
+    private void TestImport()
     {
         MysteryLoader importer = new MysteryLoader();
         importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
@@ -627,7 +703,7 @@ internal class Program
         //}
     }
 
-    private static void TestWorldOnline()
+    private void TestWorldOnline()
     {
         Console.WriteLine("Let's go");
 
@@ -635,8 +711,8 @@ internal class Program
         CreateMidgaard();
 
         INetworkServer telnetServer = new TelnetServer(11000);
-        DependencyContainer.Current.GetInstance<IServer>().Initialize(new List<INetworkServer> {telnetServer});
-        DependencyContainer.Current.GetInstance<IServer>().Start();
+        _serviceProvider.GetRequiredService<IServer>().Initialize(new List<INetworkServer> {telnetServer});
+        _serviceProvider.GetRequiredService<IServer>().Start();
 
         bool stopped = false;
         while (!stopped)
@@ -658,13 +734,13 @@ internal class Program
                         else if (line == "alist")
                         {
                             Console.WriteLine("Admins:");
-                            foreach (IAdmin a in DependencyContainer.Current.GetInstance<IAdminManager>().Admins)
+                            foreach (IAdmin a in _serviceProvider.GetRequiredService<IAdminManager>().Admins)
                                 Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
                         }
                         else if (line == "plist")
                         {
                             Console.WriteLine("players:");
-                            foreach (IPlayer p in DependencyContainer.Current.GetInstance<IPlayerManager>().Players)
+                            foreach (IPlayer p in _serviceProvider.GetRequiredService<IPlayerManager>().Players)
                                 Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
                         }
 
@@ -676,21 +752,21 @@ internal class Program
                 Thread.Sleep(100);
         }
 
-        DependencyContainer.Current.GetInstance<IServer>().Stop();
+        _serviceProvider.GetRequiredService<IServer>().Stop();
     }
 
-    private static void TestWorldOffline()
+    private void TestWorldOffline()
     {
         Console.WriteLine("Let's go");
         //CreateDummyWorld();
 
-        ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer();
+        ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer(_serviceProvider);
         consoleNetworkServer.Initialize();
         CreateMidgaard();
-        DependencyContainer.Current.GetInstance<IServer>().Initialize(new List<INetworkServer> { consoleNetworkServer });
+        _serviceProvider.GetRequiredService<IServer>().Initialize(new List<INetworkServer> { consoleNetworkServer });
         consoleNetworkServer.AddClient("Player1", false, true);
-        DependencyContainer.Current.GetInstance<IServer>().Start(); // this call is blocking because consoleNetworkServer.Start is blocking
+        _serviceProvider.GetRequiredService<IServer>().Start(); // this call is blocking because consoleNetworkServer.Start is blocking
 
-        DependencyContainer.Current.GetInstance<IServer>().Stop();
+        _serviceProvider.GetRequiredService<IServer>().Stop();
     }
 }

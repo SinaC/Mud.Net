@@ -14,11 +14,13 @@ public class ColourSpray : DamageTableSpellBase
 {
     private const string SpellName = "Colour Spray";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public ColourSpray(IRandomManager randomManager, IAuraManager auraManager)
+    public ColourSpray(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -39,7 +41,7 @@ public class ColourSpray : DamageTableSpellBase
         base.Invoke();
         if (SavesSpellResult || DamageResult != DamageResults.Done)
             return;
-        var blindnessEffect = new BlindnessEffect(AuraManager);
+        BlindnessEffect blindnessEffect = new (ServiceProvider, AuraManager);
         blindnessEffect.Apply(Victim, Caster, "Blindness", Level, 0);
     }
 }

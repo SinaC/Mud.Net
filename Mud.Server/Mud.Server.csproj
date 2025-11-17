@@ -7,7 +7,6 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
-    <ProjectReference Include="..\Mud.Container\Mud.Container.csproj" />
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj" />
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
@@ -26,7 +25,7 @@
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
     <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
-    <PackageReference Include="SimpleInjector" Version="5.5.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
   </ItemGroup>

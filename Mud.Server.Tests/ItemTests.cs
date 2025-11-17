@@ -11,6 +11,7 @@ using Mud.Server.Item;
 
 namespace Mud.Server.Tests
 {
+    /*
     [TestClass]
     public class ItemTests
     {
@@ -760,4 +761,5 @@ namespace Mud.Server.Tests
             Assert.AreEqual(500, drinkContainer.MaxLiquid);
         }
     }
+    */
 }

@@ -17,9 +17,12 @@ public class Weaken : CharacterDebuffSpellBase
 {
     private const string SpellName = "Weaken";
 
-    public Weaken(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public Weaken(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
     protected override SchoolTypes DebuffType => SchoolTypes.Other;
@@ -30,7 +33,7 @@ public class Weaken : CharacterDebuffSpellBase
         new IAffect[]
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -Level/5, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Weaken"), Operator = AffectOperators.Or }
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Weaken"), Operator = AffectOperators.Or }
         });
 
     protected override bool CanAffect => base.CanAffect && !Victim.CharacterFlags.IsSet("Weaken");

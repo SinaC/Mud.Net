@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace Mud.Server.Tests.Mocking
 {
+    /*
     internal class PlayerManagerMock : IPlayerManager
     {
         private readonly List<IPlayer> _players = new List<IPlayer>();
@@ -24,4 +25,5 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
     }
+    */
 }

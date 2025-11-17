@@ -7,21 +7,26 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces;
 
 public class Bee : RaceBase
 {
+    public Bee(IServiceProvider serviceProvider)
+    : base(serviceProvider)
+    {
+    }
+
     public override string Name => "bee";
     public override Sizes Size => Sizes.Tiny;
-    public override ICharacterFlags CharacterFlags => new CharacterFlags("Flying", "Infrared", "Haste");
-    public override IIRVFlags Immunities => new IRVFlags("Poison");
-    public override IIRVFlags Resistances => new IRVFlags();
-    public override IIRVFlags Vulnerabilities => new IRVFlags();
+    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Flying", "Infrared", "Haste");
+    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider, "Poison");
+    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider);
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
         Domain.EquipmentSlots.Head,
         Domain.EquipmentSlots.Chest,
         Domain.EquipmentSlots.Float,
     ];
-    public override IBodyForms BodyForms => new BodyForms("Poison", "Animal", "Insect");
-    public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Wings", "Guts");
-    public override IActFlags ActFlags => new ActFlags();
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Dodge", "Fast");
-    public override IAssistFlags AssistFlags => new AssistFlags("Race");
+    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Poison", "Animal", "Insect");
+    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Body", "Wings", "Guts");
+    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider, "Dodge", "Fast");
+    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider, "Race");
 }

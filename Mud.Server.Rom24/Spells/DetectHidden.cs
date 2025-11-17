@@ -15,12 +15,15 @@ public class DetectHidden : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Hidden";
 
-    public DetectHidden(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public DetectHidden(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags("DetectHidden");
+    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "DetectHidden");
     protected override string SelfAlreadyAffected => "You are already as alert as you can be.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already sense hidden lifeforms.";
     protected override string SelfSuccess => "Your awareness improves.";

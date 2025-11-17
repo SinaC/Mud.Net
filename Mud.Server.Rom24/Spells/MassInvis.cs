@@ -17,11 +17,13 @@ public class MassInvis : NoTargetSpellBase
 {
     private const string SpellName = "Mass Invis";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public MassInvis(IRandomManager randomManager, IAuraManager auraManager)
+    public MassInvis(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -34,7 +36,7 @@ public class MassInvis : NoTargetSpellBase
                 victim.Act(ActOptions.ToAll, "{0:N} slowly fade{0:v} out of existence.", victim);
 
                 AuraManager.AddAura(victim, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(24), AuraFlags.None, true,
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Invisible"), Operator = AffectOperators.Or });
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Invisible"), Operator = AffectOperators.Or });
             }
         }
         Caster.Send("Ok.");

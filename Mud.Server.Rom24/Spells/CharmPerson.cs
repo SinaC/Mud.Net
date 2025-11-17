@@ -15,11 +15,13 @@ public class CharmPerson : OffensiveSpellBase
 {
     private const string SpellName = "Charm Person";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public CharmPerson(IRandomManager randomManager, IAuraManager auraManager)
+    public CharmPerson(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -69,7 +71,7 @@ public class CharmPerson : OffensiveSpellBase
 
         int duration = RandomManager.Fuzzy(Level / 4);
         AuraManager.AddAura(npcVictim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Charm"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Charm"), Operator = AffectOperators.Or });
 
         npcVictim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", Caster);
         if (Caster != npcVictim)

@@ -33,7 +33,7 @@ public class Bug : PlayerGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Wiznet.Wiznet($"****USER BUG REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Bugs, AdminLevels.Implementor);
+        Wiznet.Log($"****USER BUG REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Bugs, AdminLevels.Implementor);
         Actor.Send("Bug logged.");
     }
 }

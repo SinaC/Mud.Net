@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
@@ -32,18 +31,26 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
     private IPlayableRace? _race;
     private IClass? _class;
 
-    protected IServerPlayerCommand ServerPlayerCommand => DependencyContainer.Current.GetInstance<IServerPlayerCommand>();
-    protected IRaceManager RaceManager => DependencyContainer.Current.GetInstance<IRaceManager>();
-    protected IClassManager ClassManager => DependencyContainer.Current.GetInstance<IClassManager>();
-    protected IUniquenessManager UniquenessManager => DependencyContainer.Current.GetInstance<IUniquenessManager>();
-    protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
-    protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
-    protected IGameActionManager GameActionManager => DependencyContainer.Current.GetInstance<IGameActionManager>();
+    protected IServerPlayerCommand ServerPlayerCommand { get; }
+    protected IRaceManager RaceManager { get; }
+    protected IClassManager ClassManager { get; }
+    protected IUniquenessManager UniquenessManager { get; }
+    protected ITimeManager TimeManager { get; }
+    protected IRoomManager RoomManager { get; }
+    protected IGameActionManager GameActionManager { get; }
 
     public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
-    public AvatarCreationStateMachine()
+    public AvatarCreationStateMachine(IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IGameActionManager gameActionManager)
     {
+        ServerPlayerCommand = serverPlayerCommand;
+        RaceManager = raceManager;
+        ClassManager = classManager;
+        UniquenessManager = uniquenessManager;
+        TimeManager = timeManager;
+        RoomManager = roomManager;
+        GameActionManager = gameActionManager;
+
         KeepInputAsIs = false;
         StateMachine = new Dictionary<AvatarCreationStates, Func<IPlayer, string, AvatarCreationStates>>
         {

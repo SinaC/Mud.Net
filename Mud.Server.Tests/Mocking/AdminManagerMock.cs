@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace Mud.Server.Tests.Mocking
 {
+    /*
     public class AdminManagerMock : IAdminManager
     {
         private readonly List<IAdmin> _admins = new List<IAdmin>();
@@ -24,4 +25,5 @@ namespace Mud.Server.Tests.Mocking
             throw new NotImplementedException();
         }
     }
+    */
 }

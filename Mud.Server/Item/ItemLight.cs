@@ -1,7 +1,12 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Item;
 
@@ -9,16 +14,18 @@ public class ItemLight : ItemBase<ItemLightBlueprint, ItemData>, IItemLight
 {
     private const int Infinite = -1;
 
-    public ItemLight(Guid guid, ItemLightBlueprint blueprint, IContainer containedInto) 
-        : base(guid, blueprint, containedInto)
+    public ItemLight(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+        Guid guid, ItemLightBlueprint blueprint, IContainer containedInto) 
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         TimeLeft = blueprint.DurationHours == Infinite
             ? Infinite
             : blueprint.DurationHours * 60;
     }
 
-    public ItemLight(Guid guid, ItemLightBlueprint blueprint, ItemLightData itemData, IContainer containedInto)
-        : base(guid, blueprint, itemData, containedInto)
+    public ItemLight(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+        Guid guid, ItemLightBlueprint blueprint, ItemLightData itemData, IContainer containedInto)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemData, containedInto)
     {
         TimeLeft = itemData.TimeLeft;
     }

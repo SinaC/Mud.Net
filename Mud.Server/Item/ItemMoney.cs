@@ -1,28 +1,36 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
+using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Item;
 
 public class ItemMoney : ItemBase<ItemMoneyBlueprint, ItemData>, IItemMoney
 {
-    public ItemMoney(Guid guid, ItemMoneyBlueprint blueprint, IContainer containedInto)
-        : base(guid, blueprint, containedInto)
+    public ItemMoney(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+        Guid guid, ItemMoneyBlueprint blueprint, IContainer containedInto)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         SilverCoins = blueprint.SilverCoins;
         GoldCoins = blueprint.GoldCoins;
     }
 
-    public ItemMoney(Guid guid, ItemMoneyBlueprint blueprint, ItemData data, IContainer containedInto)
-        : base(guid, blueprint, data, containedInto)
+    public ItemMoney(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+        Guid guid, ItemMoneyBlueprint blueprint, ItemData data, IContainer containedInto)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, data, containedInto)
     {
         SilverCoins = blueprint.SilverCoins;
         GoldCoins = blueprint.GoldCoins;
     }
 
-    public ItemMoney(Guid guid, ItemMoneyBlueprint blueprint, long silverCoins, long goldCoins, IContainer containedInto)
-        : base(guid, blueprint, BuildName(silverCoins, goldCoins), BuildShortDescription(silverCoins, goldCoins), BuildDescription(silverCoins, goldCoins), containedInto)
+    public ItemMoney(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+        Guid guid, ItemMoneyBlueprint blueprint, long silverCoins, long goldCoins, IContainer containedInto)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, BuildName(silverCoins, goldCoins), BuildShortDescription(silverCoins, goldCoins), BuildDescription(silverCoins, goldCoins), containedInto)
     {
         SilverCoins = silverCoins;
         GoldCoins = goldCoins;

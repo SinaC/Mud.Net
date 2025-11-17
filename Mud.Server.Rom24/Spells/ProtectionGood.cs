@@ -17,9 +17,12 @@ public class ProtectionGood : CharacterBuffSpellBase
 {
     private const string SpellName = "Protection Good";
 
-    public ProtectionGood(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public ProtectionGood(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
     protected override string SelfAlreadyAffectedMessage => "You are already protected.";
@@ -31,7 +34,7 @@ public class ProtectionGood : CharacterBuffSpellBase
         new IAffect[] 
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("ProtectGood"), Operator = AffectOperators.Or }
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "ProtectGood"), Operator = AffectOperators.Or }
         });
     
 }

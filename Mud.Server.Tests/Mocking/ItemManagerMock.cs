@@ -1,18 +1,6 @@
-﻿using Mud.Container;
-using Mud.Domain;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Room;
-using Mud.Server.Item;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
-namespace Mud.Server.Tests.Mocking
+﻿namespace Mud.Server.Tests.Mocking
 {
+    /*
     internal class ItemManagerMock : IItemManager
     {
         private IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
@@ -266,4 +254,5 @@ namespace Mud.Server.Tests.Mocking
             _itemBlueprints.Clear();
         }
     }
+    */
 }

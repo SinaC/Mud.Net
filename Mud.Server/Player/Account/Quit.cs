@@ -22,7 +22,7 @@ public class Quit : AccountGameActionBase
     {
         Actor.Send("Alas, all good things must come to an end.");
         Impersonating?.Act(ActOptions.ToRoom, "{0:N} has left the game.", Impersonating);
-        Wiznet.Wiznet($"{Actor.DisplayName} rejoins the real world.", WiznetFlags.Logins);
+        Wiznet.Log($"{Actor.DisplayName} rejoins the real world.", WiznetFlags.Logins);
 
         ServerPlayerCommand.Quit(Actor);
     }

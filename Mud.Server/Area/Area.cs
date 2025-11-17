@@ -1,7 +1,4 @@
-﻿using Mud.Container;
-using Mud.Logger;
-using Mud.Server.Blueprints.Area;
-using Mud.Server.Interfaces;
+﻿using Mud.Server.Blueprints.Area;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Player;
@@ -12,8 +9,6 @@ namespace Mud.Server.Area;
 public class Area : IArea
 {
     private readonly List<IRoom> _rooms;
-
-    private IWiznet Wiznet => DependencyContainer.Current.GetInstance<IWiznet>();
 
     public Area(Guid id, AreaBlueprint blueprint)
     {
@@ -40,14 +35,6 @@ public class Area : IArea
     public IEnumerable<IPlayer> Players => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>().Select(x => x.ImpersonatedBy!);
     public IEnumerable<ICharacter> Characters => _rooms.SelectMany(x => x.People);
     public IEnumerable<IPlayableCharacter> PlayableCharacters => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>();
-
-    public void ResetArea()
-    {
-        Log.Default.WriteLine(LogLevels.Debug, "Resetting {0}", DisplayName);
-        foreach (IRoom room in _rooms)
-            room.ResetRoom();
-        Wiznet.Wiznet($"{DisplayName} has just been reset.", Domain.WiznetFlags.Resets);
-    }
 
     public bool AddRoom(IRoom room)
     {

@@ -19,11 +19,13 @@ public class Poison : ItemOrOffensiveSpellBase
 {
     private const string SpellName = "Poison";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Poison(IRandomManager randomManager, IAuraManager auraManager)
+    public Poison(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -43,7 +45,7 @@ public class Poison : ItemOrOffensiveSpellBase
         else
             AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or },
                 new PoisonDamageAffect());
         victim.Send("You feel very sick.");
         victim.Act(ActOptions.ToRoom, "{0:N} looks very ill.", victim);
@@ -78,7 +80,7 @@ public class Poison : ItemOrOffensiveSpellBase
             }
             int duration = Level / 8;
             AuraManager.AddAura(weapon, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Poison"), Operator = AffectOperators.Or });
+                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToCharacter, "{0} is coated with deadly venom.", weapon);
             return;
         }

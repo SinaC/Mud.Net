@@ -1,6 +1,7 @@
 ﻿using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -12,23 +13,18 @@ namespace Mud.Server.Admin;
 
 public class Admin : Player.Player, IAdmin
 {
-    public Admin(Guid id, string name) 
-        : base(id, name)
-    {
-    }
-
-    // used for promotion
-    public Admin(Guid id, string name, AdminLevels level, IReadOnlyDictionary<string,string> aliases, IEnumerable<PlayableCharacterData> avatarList)
-        : base(id, name, aliases, avatarList)
-    {
-        Level = level;
-    }
-
-    public Admin(Guid id, AdminData data)
-        : base(id, data)
+    public Admin(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, AdminData data)
+        : base(gameActionManager, timeManager, characterManager, id, data)
     {
         Level = data.AdminLevel;
         WiznetFlags = data.WiznetFlags;
+    }
+
+    // used for promotion
+    public Admin(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
+        : base(gameActionManager, timeManager, characterManager, id, name, aliases, avatarList)
+    {
+        Level = level;
     }
 
     #region IAdmin

@@ -17,11 +17,13 @@ public class FaerieFire : OffensiveSpellBase
 {
     private const string SpellName = "Faerie Fire";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public FaerieFire(IRandomManager randomManager, IAuraManager auraManager)
+    public FaerieFire(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -31,7 +33,7 @@ public class FaerieFire : OffensiveSpellBase
             return;
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 2 * Level, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("FaerieFire"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "FaerieFire"), Operator = AffectOperators.Or });
         Victim.Act(ActOptions.ToAll, "{0:N} are surrounded by a pink outline.", Victim);
     }
 }

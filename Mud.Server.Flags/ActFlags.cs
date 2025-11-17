@@ -5,18 +5,18 @@ namespace Mud.Server.Flags;
 
 public class ActFlags : Flags<IActFlagValues>, IActFlags
 {
-    public ActFlags()
-        : base()
+    public ActFlags(IServiceProvider serviceProvider)
+        : base(serviceProvider)
     {
     }
 
-    public ActFlags(string flags)
-        : base(flags)
+    public ActFlags(IServiceProvider serviceProvider, string flags)
+        : base(serviceProvider, flags)
     {
     }
 
-    public ActFlags(params string[] flags)
-        : base(flags)
+    public ActFlags(IServiceProvider serviceProvider, params string[] flags)
+        : base(serviceProvider, flags)
     {
     }
 }

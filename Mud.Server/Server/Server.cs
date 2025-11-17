@@ -1,17 +1,21 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Network.Interfaces;
 using Mud.Repository;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
+using Mud.Server.Blueprints.Reset;
 using Mud.Server.Common;
 using Mud.Server.Helpers;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -43,7 +47,7 @@ namespace Mud.Server.Server;
 
 // Once playing,
 //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
-public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
+public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
 {
     // This allows fast lookup with client or player BUT both structures must be modified at the same time
     private readonly object _playingClientLockObject = new object();
@@ -59,31 +63,35 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
 
     private volatile int _pulseBeforeShutdown; // pulse count before shutdown
 
-    protected ISettings Settings { get; }
-    protected ILoginRepository LoginRepository { get; }
-    protected IPlayerRepository PlayerRepository { get; }
-    protected IAdminRepository AdminRepository { get; }
-    protected IUniquenessManager UniquenessManager { get; }
-    protected ITimeManager TimeManager { get; }
-    protected IRandomManager RandomManager { get; }
-    protected IGameActionManager GameActionManager { get; }
-    protected IClassManager ClassManager { get; }
-    protected IRaceManager RaceManager { get; }
-    protected IAbilityManager AbilityManager { get; }
-    protected IAffectManager AffectManager { get; }
-    protected IEffectManager EffectManager { get; }
-    protected IWeaponEffectManager WeaponEffectManager { get; }
-    protected IWorld World { get; }
-    protected IRoomManager RoomManager { get; }
-    protected ICharacterManager CharacterManager { get; }
-    protected IItemManager ItemManager { get; }
-    protected IQuestManager QuestManager { get; }
+    private readonly List<TreasureTable<int>> _treasureTables;
+
+    private ISettings Settings { get; }
+    private ILoginRepository LoginRepository { get; }
+    private IPlayerRepository PlayerRepository { get; }
+    private IAdminRepository AdminRepository { get; }
+    private IUniquenessManager UniquenessManager { get; }
+    private ITimeManager TimeManager { get; }
+    private IRandomManager RandomManager { get; }
+    private IGameActionManager GameActionManager { get; }
+    private IClassManager ClassManager { get; }
+    private IRaceManager RaceManager { get; }
+    private IAbilityManager AbilityManager { get; }
+    private IWeaponEffectManager WeaponEffectManager { get; }
+    private IAreaManager AreaManager { get; }
+    private IRoomManager RoomManager { get; }
+    private ICharacterManager CharacterManager { get; }
+    private IItemManager ItemManager { get; }
+    private IQuestManager QuestManager { get; }
+    private IResetManager ResetManager { get; }
+    private IAdminManager AdminManager { get; }
+    private IWiznet Wiznet { get; }
 
     public Server(ISettings settings,
         ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
         IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager,
-        IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IAffectManager affectManager, IEffectManager effectManager, IWeaponEffectManager weaponEffectManager,
-        IWorld world, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager)
+        IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IWeaponEffectManager weaponEffectManager,
+        IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IResetManager resetManager,
+        IAdminManager adminManager, IWiznet wiznet)
     {
         Settings = settings;
         LoginRepository = loginRepository;
@@ -96,18 +104,20 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
         ClassManager = classManager;
         RaceManager = raceManager;
         AbilityManager = abilityManager;
-        AffectManager = affectManager;
-        EffectManager = effectManager;
         WeaponEffectManager = weaponEffectManager;
-        World = world;
+        AreaManager = areaManager;
         RoomManager = roomManager;
         CharacterManager = characterManager;
         ItemManager = itemManager;
         QuestManager = questManager;
+        ResetManager = resetManager;
+        AdminManager = adminManager;
+        Wiznet = wiznet;
 
         _clients = new ConcurrentDictionary<IClient, PlayingClient>();
         _players = new ConcurrentDictionary<IPlayer, PlayingClient>();
         _loginInClients = new ConcurrentDictionary<IClient, LoginStateMachine>();
+        _treasureTables = [];
     }
 
     #region IServer
@@ -149,10 +159,10 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
         UniquenessManager.Initialize();
         
         // Fix world
-        World.FixWorld();
+        FixWorld();
 
         // Reset world
-        World.ResetWorld();
+        ResetWorld();
     }
 
     public void Start()
@@ -202,18 +212,264 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
 
     #endregion
 
-    #region IWiznet
+    #region IWorld
 
-    public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
+    public IReadOnlyCollection<TreasureTable<int>> TreasureTables => _treasureTables;
+
+    public void AddTreasureTable(TreasureTable<int> table)
     {
-        LogLevels level = LogLevels.Info;
-        if (flags.HasFlag(WiznetFlags.Bugs))
-            level = LogLevels.Error;
-        else if (flags.HasFlag(WiznetFlags.Typos))
-            level = LogLevels.Warning;
-        Log.Default.WriteLine(level, "WIZNET: FLAGS: {0} {1}", flags, message);
-        foreach (IAdmin admin in Admins.Where(a => a.WiznetFlags.HasFlag(flags) && a.Level >= minLevel))
-            admin.Send($"%W%WIZNET%x%:{message}");
+        // TODO: check if already exists ?
+        _treasureTables.Add(table);
+    }
+
+    public void FixWorld()
+    {
+        FixItems();
+        FixResets();
+    }
+
+    public void ResetWorld()
+    {
+        foreach (IArea area in AreaManager.Areas)
+        {
+            // TODO: handle age + at load time, force age to arbitrary high value to ensure reset are computed
+            //if (area.PlayableCharacters.Any())
+            {
+                ResetManager.ResetArea(area);
+            }
+        }
+    }
+
+    public void Cleanup() // remove invalid entities
+    {
+        RoomManager.Cleanup();
+        CharacterManager.Cleanup();
+        ItemManager.Cleanup();
+    }
+
+    private void FixItems()
+    {
+        Log.Default.WriteLine(LogLevels.Info, "Fixing items");
+        foreach (var itemBlueprint in ItemManager.ItemBlueprints.OrderBy(x => x.Id))
+        {
+            switch (itemBlueprint)
+            {
+                case ItemLightBlueprint _:
+                    if (itemBlueprint.WearLocation != WearLocations.Light)
+                    {
+                        Log.Default.WriteLine(LogLevels.Error, "Light {0} has wear location {1} -> set wear location to Light", itemBlueprint.Id, itemBlueprint.WearLocation);
+                        itemBlueprint.WearLocation = WearLocations.Light;
+                    }
+
+                    break;
+                case ItemWeaponBlueprint weaponBlueprint:
+                    if (itemBlueprint.WearLocation != WearLocations.Wield && itemBlueprint.WearLocation != WearLocations.Wield2H)
+                    {
+                        var newWearLocation = WearLocations.Wield;
+                        if (weaponBlueprint.Flags.IsSet("TwoHands"))
+                            newWearLocation = WearLocations.Wield2H;
+                        Log.Default.WriteLine(LogLevels.Error, "Weapon {0} has wear location {1} -> set wear location to {2}", itemBlueprint.Id, itemBlueprint.WearLocation, newWearLocation);
+                        itemBlueprint.WearLocation = newWearLocation;
+                    }
+
+                    break;
+                case ItemShieldBlueprint _:
+                    if (itemBlueprint.WearLocation != WearLocations.Shield)
+                    {
+                        Log.Default.WriteLine(LogLevels.Error, "Shield {0} has wear location {1} -> set wear location to Shield", itemBlueprint.Id, itemBlueprint.WearLocation);
+                        itemBlueprint.WearLocation = WearLocations.Shield;
+                    }
+
+                    break;
+                case ItemStaffBlueprint _:
+                case ItemWandBlueprint _:
+                    if (itemBlueprint.WearLocation != WearLocations.Hold)
+                    {
+                        Log.Default.WriteLine(LogLevels.Error, "{0} {1} has wear location {2} -> set wear location to Hold", itemBlueprint.ItemType(), itemBlueprint.Id, itemBlueprint.WearLocation);
+                        itemBlueprint.WearLocation = WearLocations.Hold;
+                    }
+
+                    break;
+            }
+        }
+
+        Log.Default.WriteLine(LogLevels.Info, "items fixed");
+    }
+
+    private void FixResets()
+    {
+        Log.Default.WriteLine(LogLevels.Info, "Fixing resets");
+
+        // Global count is used to check global limit to 0
+        Dictionary<int, int> characterResetGlobalCountById = [];
+        Dictionary<int, int> itemResetCountGlobalById = [];
+
+        foreach (var room in RoomManager.Rooms.Where(x => x.Blueprint.Resets?.Count > 0).OrderBy(x => x.Blueprint.Id))
+        {
+            Dictionary<int, int> characterResetCountById = [];
+            Dictionary<int, int> itemResetCountById = [];
+
+            // Count to check local limit  TODO: local limit is relative to container   example in dwarven.are Room 6534: item 6506 found with reset O and reset E -> 2 different containers
+            foreach (ResetBase reset in room.Blueprint.Resets)
+            {
+                switch (reset)
+                {
+                    case CharacterReset characterReset:
+                        characterResetCountById.Increment(characterReset.CharacterId);
+                        characterResetGlobalCountById.Increment(characterReset.CharacterId);
+                        break;
+                    case ItemInRoomReset itemInRoomReset:
+                        itemResetCountById.Increment(itemInRoomReset.ItemId);
+                        itemResetCountGlobalById.Increment(itemInRoomReset.ItemId);
+                        break;
+                    case ItemInItemReset itemInItemReset:
+                        itemResetCountById.Increment(itemInItemReset.ItemId);
+                        itemResetCountGlobalById.Increment(itemInItemReset.ItemId);
+                        break;
+                    case ItemInCharacterReset itemInCharacterReset:
+                        itemResetCountById.Increment(itemInCharacterReset.ItemId);
+                        itemResetCountGlobalById.Increment(itemInCharacterReset.ItemId);
+                        break;
+                    case ItemInEquipmentReset itemInEquipmentReset:
+                        itemResetCountById.Increment(itemInEquipmentReset.ItemId);
+                        itemResetCountGlobalById.Increment(itemInEquipmentReset.ItemId);
+                        break;
+                }
+            }
+
+            // Check local limit + wear location
+            foreach (var reset in room.Blueprint.Resets)
+            {
+                switch (reset)
+                {
+                    case CharacterReset characterReset:
+                        {
+                            int localCount = characterResetCountById[characterReset.CharacterId];
+                            int localLimit = characterReset.LocalLimit;
+                            if (localCount > localLimit)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: M: character {1} found {2} times in room but local limit is {3} -> modifying local limit to {4}", room.Blueprint.Id, characterReset.CharacterId, localCount, localLimit, localCount);
+                                characterReset.LocalLimit = localCount;
+                            }
+
+                            break;
+                        }
+
+                    case ItemInRoomReset itemInRoomReset:
+                        {
+                            int localCount = itemResetCountById[itemInRoomReset.ItemId];
+                            int localLimit = itemInRoomReset.LocalLimit;
+                            if (localCount > localLimit)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: O: item {1} found {2} times in room but local limit is {3} -> modifying local limit to {4}", room.Blueprint.Id, itemInRoomReset.ItemId, localCount, localLimit, localCount);
+                                itemInRoomReset.LocalLimit = localCount;
+                            }
+
+                            break;
+                        }
+
+                    case ItemInItemReset itemInItemReset:
+                        {
+                            int localCount = itemResetCountById[itemInItemReset.ItemId];
+                            int localLimit = itemInItemReset.LocalLimit;
+                            if (localCount > localLimit)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: O: item {1} found {2} times in room but local limit is {3} -> modifying local limit to {4}", room.Blueprint.Id, itemInItemReset.ItemId, localCount, localLimit, localCount);
+                                itemInItemReset.LocalLimit = localCount;
+                            }
+
+                            break;
+                        }
+
+                    case ItemInCharacterReset _: // no local limit check
+                        break;
+                    case ItemInEquipmentReset itemInEquipmentReset: // no local limit check but wear local check
+                        {
+                            // check wear location
+                            var blueprint = ItemManager.GetItemBlueprint(itemInEquipmentReset.ItemId);
+                            if (blueprint != null)
+                            {
+                                if (blueprint.WearLocation == WearLocations.None)
+                                {
+                                    var wearLocations = itemInEquipmentReset.EquipmentSlot.ToWearLocations().ToArray();
+                                    var newWearLocation = wearLocations.FirstOrDefault(); // TODO: which one to choose from ?
+                                    Log.Default.WriteLine(LogLevels.Error, "Room {0}: E: item {1} has no wear location but reset equipment slot {2} -> modifying item wear location to {3}", room.Blueprint.Id, itemInEquipmentReset.ItemId, itemInEquipmentReset.EquipmentSlot, newWearLocation);
+                                    blueprint.WearLocation = newWearLocation;
+                                }
+                                else
+                                {
+                                    var equipmentSlots = blueprint.WearLocation.ToEquipmentSlots().ToArray();
+                                    if (equipmentSlots.All(x => x != itemInEquipmentReset.EquipmentSlot))
+                                    {
+                                        var newEquipmentSlot = equipmentSlots.First();
+                                        Log.Default.WriteLine(LogLevels.Error, "Room {0}: E: item {1} reset equipment slot {2} incompatible with wear location {3} -> modifying reset equipment slot to {4}", room.Blueprint.Id, itemInEquipmentReset.ItemId, itemInEquipmentReset.EquipmentSlot, blueprint.WearLocation, newEquipmentSlot);
+                                        itemInEquipmentReset.EquipmentSlot = newEquipmentSlot;
+                                    }
+                                }
+                            }
+
+                            break;
+                        }
+                }
+            }
+        }
+
+        // Check global = 0 but found in reset
+        foreach (var room in RoomManager.Rooms.Where(x => x.Blueprint.Resets?.Count > 0).OrderBy(x => x.Blueprint.Id))
+        {
+            foreach (var reset in room.Blueprint.Resets)
+            {
+                switch (reset)
+                {
+                    case CharacterReset characterReset:
+                        {
+                            int globalCount = characterResetGlobalCountById[characterReset.CharacterId];
+                            if (characterReset.GlobalLimit == 0)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: M: character {1} found {2} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, characterReset.CharacterId, globalCount);
+                                characterReset.GlobalLimit = 1;
+                            }
+                            else if (characterReset.GlobalLimit != -1 && characterReset.GlobalLimit < globalCount)
+                                Log.Default.WriteLine(LogLevels.Warning, "Room {0}: M: character {1} found {2} times in world but global limit is {3}", room.Blueprint.Id, characterReset.CharacterId, globalCount, characterReset.GlobalLimit);
+
+                            break;
+                        }
+
+                    case ItemInRoomReset _: // no global count check
+                        break;
+                    case ItemInItemReset _: // no global count check
+                        break;
+                    case ItemInCharacterReset itemInCharacterReset:
+                        {
+                            int globalCount = itemResetCountGlobalById[itemInCharacterReset.ItemId];
+                            if (itemInCharacterReset.GlobalLimit == 0)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: G: item {1} found {2} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, itemInCharacterReset.ItemId, globalCount);
+                                itemInCharacterReset.GlobalLimit = 1;
+                            }
+                            else if (itemInCharacterReset.GlobalLimit != -1 && itemInCharacterReset.GlobalLimit < globalCount)
+                                Log.Default.WriteLine(LogLevels.Warning, "Room {0}: G: item {1} found {2} times in world but global limit is {3}", room.Blueprint.Id, itemInCharacterReset.ItemId, globalCount, itemInCharacterReset.GlobalLimit);
+
+                            break;
+                        }
+                    case ItemInEquipmentReset itemInEquipmentReset:
+                        {
+                            int globalCount = itemResetCountGlobalById[itemInEquipmentReset.ItemId];
+                            if (itemInEquipmentReset.GlobalLimit == 0)
+                            {
+                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: E: item {1} found {2} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, itemInEquipmentReset.ItemId, globalCount);
+                                itemInEquipmentReset.GlobalLimit = 1;
+                            }
+                            else if (itemInEquipmentReset.GlobalLimit != -1 && itemInEquipmentReset.GlobalLimit < globalCount)
+                                Log.Default.WriteLine(LogLevels.Warning, "Room {0}: E: item {1} found {2} times in world but global limit is {3}", room.Blueprint.Id, itemInEquipmentReset.ItemId, globalCount, itemInEquipmentReset.GlobalLimit);
+
+                            break;
+                        }
+                }
+            }
+        }
+
+        Log.Default.WriteLine(LogLevels.Info, "Resets fixed");
     }
 
     #endregion
@@ -225,16 +481,6 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
 
     public IEnumerable<IPlayer> Players
         => _players.Keys;
-
-    #endregion
-
-    #region IAdminManager
-
-    public IAdmin? GetAdmin(ICommandParameter parameter, bool perfectMatch)
-        => FindHelpers.FindByName(_players.Keys.OfType<IAdmin>(), parameter, perfectMatch);
-
-    public IEnumerable<IAdmin> Admins
-        => _players.Keys.OfType<IAdmin>();
 
     #endregion
 
@@ -270,7 +516,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
 
         // Let's go
         Log.Default.WriteLine(LogLevels.Info, "Promoting {0} to {1}", player.Name, level);
-        Wiznet($"Promoting {player.Name} to {level}", WiznetFlags.Promote);
+        Wiznet.Log($"Promoting {player.Name} to {level}", WiznetFlags.Promote);
 
         // Remove from playing client
         lock (_playingClientLockObject)
@@ -296,7 +542,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
         }
 
         // Create admin
-        var admin = new Admin.Admin(player.Id, player.Name, level, player.Aliases, player.Avatars);
+        Admin.Admin admin = new (GameActionManager, TimeManager, CharacterManager, player.Id, player.Name, level, player.Aliases, player.Avatars);
 
         // Replace player by admin in playingClient
         playingClient.Player = admin;
@@ -310,6 +556,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
         {
             _players.TryAdd(admin, playingClient);
             _clients.TryAdd(playingClient.Client, playingClient);
+            AdminManager.AddAdmin(admin);
         }
 
         // Delete player
@@ -387,7 +634,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
     {
         Log.Default.WriteLine(LogLevels.Info, "NetworkServerOnNewClientConnected");
         // Create/store a login state machine and starts it
-        LoginStateMachine loginStateMachine = new ();
+        LoginStateMachine loginStateMachine = new (LoginRepository, UniquenessManager);
         _loginInClients.TryAdd(client, loginStateMachine);
         // Add login handlers
         loginStateMachine.LoginFailed += LoginStateMachineOnLoginFailed;
@@ -401,6 +648,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
     {
         Log.Default.WriteLine(LogLevels.Info, "NetworkServerOnClientDisconnected");
         _loginInClients.TryRemove(client, out var loginStateMachine);
+
         if (loginStateMachine != null) // no player yet, disconnected while log in
         {
             loginStateMachine.LoginFailed -= LoginStateMachineOnLoginFailed;
@@ -448,6 +696,8 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
                 if (removed && oldPlayingClient != null)
                     _clients.TryRemove(oldPlayingClient.Client, out _);
                 // !!! PlayingClient removed from both collection must be equal
+                if (playerOrAdmin is IAdmin admin)
+                    AdminManager.RemoveAdmin(admin);
             }
 
             // Disconnect previous client
@@ -455,14 +705,14 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
             previousPlayerPair.Value.Client.DataReceived -= ClientPlayingOnDataReceived;
             previousPlayerPair.Value.Client.Disconnect();
 
-            Wiznet($"{username} has reconnected.", WiznetFlags.Logins);
+            Wiznet.Log($"{username} has reconnected.", WiznetFlags.Logins);
 
             // Welcome back
             client.WriteData("Reconnecting to Mud.Net!!" + Environment.NewLine);
         }
         else
         {
-            Wiznet($"{username} has connected.", WiznetFlags.Logins);
+            Wiznet.Log($"{username} has connected.", WiznetFlags.Logins);
 
             // Welcome
             client.WriteData("Welcome to Mud.Net!!" + Environment.NewLine);
@@ -500,7 +750,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
                     Aliases = [],
                     Characters = []
                 };
-                playerOrAdmin = new Admin.Admin(Guid.NewGuid(), data);
+                playerOrAdmin = new Admin.Admin(GameActionManager, TimeManager, CharacterManager, Guid.NewGuid(), data);
             }
             else
             {
@@ -511,14 +761,14 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
                     Aliases = [],
                     Characters = []
                 };
-                playerOrAdmin = new Player.Player(Guid.NewGuid(), data);
+                playerOrAdmin = new Player.Player(GameActionManager, TimeManager, CharacterManager, Guid.NewGuid(), data);
             }
             //
             playerOrAdmin.SendData += PlayerOnSendData;
             playerOrAdmin.PageData += PlayerOnPageData;
         }
         //
-        PlayingClient newPlayingClient = new()
+        PlayingClient newPlayingClient = new(TimeManager)
         {
             Client = client,
             Player = playerOrAdmin
@@ -527,6 +777,8 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
         {
             _players.TryAdd(playerOrAdmin, newPlayingClient);
             _clients.TryAdd(client, newPlayingClient);
+            if (playerOrAdmin is IAdmin admin)
+                AdminManager.AddAdmin(admin);
         }
 
         // Save if isNewPlayer
@@ -570,7 +822,11 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
         {
             removed = _clients.TryRemove(client, out playingClient);
             if (removed && playingClient != null)
+            {
                 _players.TryRemove(playingClient.Player, out playingClient);
+                if (playingClient?.Player is IAdmin admin)
+                    AdminManager.RemoveAdmin(admin);
+            }
             // !!! PlayingClient removed from both collection must be equal
         }
 
@@ -578,7 +834,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
             Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDisconnected: playingClient not found!!!");
         else
         {
-            Wiznet($"{playingClient!.Player.DisplayName} has disconnected.", WiznetFlags.Logins);
+            Wiznet.Log($"{playingClient!.Player.DisplayName} has disconnected.", WiznetFlags.Logins);
 
             var admin = playingClient.Player as IAdmin;
             // Remove LastTeller and SnoopBy
@@ -702,6 +958,13 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
                                 playingClient.Player.ProcessInput(command); // TODO: if command takes time to be processed, 'next' players will be delayed
                             }
                         }
+                    }
+
+                    // handle save
+                    if (playingClient.Player.SaveNeeded)
+                    {
+                        Save(playingClient.Player);
+                        playingClient.Player.ResetSaveNeeded();
                     }
                 }
                 catch (Exception ex)
@@ -1217,6 +1480,8 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
                     playingClient.Client.WriteData("Idle for too long, disconnecting..." + Environment.NewLine);
                     ClientPlayingOnDisconnected(playingClient.Client);
                 }
+
+                // TODO: autosave once in a while, each loop save 10% of players
             }
             catch (Exception ex)
             {
@@ -1466,13 +1731,7 @@ public class Server : IServer, IWiznet, IPlayerManager, IAdminManager, IServerAd
 
     private void HandleAreas(int pulseCount)
     {
-        World.ResetWorld();
-    }
-
-    private void Cleanup()
-    {
-        // Remove invalid entities
-        World.Cleanup();
+        ResetWorld();
     }
 
     private void GameLoopTask()

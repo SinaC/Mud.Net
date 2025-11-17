@@ -8,12 +8,17 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces;
 
 public class Cyclops : RaceBase
 {
+    public Cyclops(IServiceProvider serviceProvider)
+    : base(serviceProvider)
+    {
+    }
+
     public override string Name => "cyclops";
     public override Sizes Size => Sizes.Large;
-    public override ICharacterFlags CharacterFlags => new CharacterFlags();
-    public override IIRVFlags Immunities => new IRVFlags();
-    public override IIRVFlags Resistances => new IRVFlags();
-    public override IIRVFlags Vulnerabilities => new IRVFlags();
+    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider);
+    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider);
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
         Domain.EquipmentSlots.Light,
@@ -35,9 +40,9 @@ public class Cyclops : RaceBase
         Domain.EquipmentSlots.OffHand,
         Domain.EquipmentSlots.Float,
     ];
-    public override IBodyForms BodyForms => new BodyForms("Edible", "Sentient", "Biped", "Mammal");
-    public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye");
-    public override IActFlags ActFlags => new ActFlags();
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
-    public override IAssistFlags AssistFlags => new AssistFlags("Race");
+    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Edible", "Sentient", "Biped", "Mammal");
+    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye");
+    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider);
+    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider, "Race");
 }

@@ -1,5 +1,5 @@
-﻿using Mud.Common;
-using Mud.Container;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Mud.Common;
 
 namespace Mud.DataStructures.Flags;
 
@@ -81,26 +81,36 @@ public class Flags : IFlags<string>
 public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
     where TFlagValues : IFlagValues<string>
 {
-    private static readonly Lazy<TFlagValues> LazyFlagValues = new(() => (TFlagValues)DependencyContainer.Current.GetInstance(typeof(TFlagValues)));
+    private IServiceProvider ServiceProvider { get; }
 
-    protected TFlagValues FlagValues => LazyFlagValues.Value;
+    private TFlagValues? _flagsValues;
+    protected TFlagValues FlagValues
+    {
+        get
+        {
+            _flagsValues ??= (TFlagValues)ServiceProvider.GetRequiredService(typeof(TFlagValues));
+            return _flagsValues;
+        }
+    }
 
     private readonly HashSet<string> _hashSet;
 
-    protected Flags()
+    protected Flags(IServiceProvider serviceProvider)
     {
+        ServiceProvider = serviceProvider;
+
         _hashSet = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
     }
 
-    protected Flags(string flags)
-        : this()
+    protected Flags(IServiceProvider serviceProvider, string flags)
+        : this(serviceProvider)
     {
         if (!string.IsNullOrWhiteSpace(flags))
             Set(flags.Split(','));
     }
 
-    protected Flags(params string[] flags)
-        : this()
+    protected Flags(IServiceProvider serviceProvider, params string[] flags)
+        : this(serviceProvider)
     {
         Set(flags);
     }

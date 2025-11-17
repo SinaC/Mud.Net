@@ -7,12 +7,17 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces;
 
 public class Pixie : RaceBase
 {
+    public Pixie(IServiceProvider serviceProvider)
+    : base(serviceProvider)
+    {
+    }
+
     public override string Name => "pixie";
     public override Sizes Size => Sizes.Tiny;
-    public override ICharacterFlags CharacterFlags => new CharacterFlags("Flying");
-    public override IIRVFlags Immunities => new IRVFlags();
-    public override IIRVFlags Resistances => new IRVFlags("Fire");
-    public override IIRVFlags Vulnerabilities => new IRVFlags("Magic");
+    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Flying");
+    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider, "Fire");
+    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider, "Magic");
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
         Domain.EquipmentSlots.Light,
@@ -34,9 +39,9 @@ public class Pixie : RaceBase
         Domain.EquipmentSlots.OffHand,
         Domain.EquipmentSlots.Float,
     ];
-    public override IBodyForms BodyForms => new BodyForms("Edible", "Sentient", "Biped", "Mammal");
-    public override IBodyParts BodyParts => new BodyParts("Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Wings");
-    public override IActFlags ActFlags => new ActFlags();
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
-    public override IAssistFlags AssistFlags => new AssistFlags("Race");
+    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Edible", "Sentient", "Biped", "Mammal");
+    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Wings");
+    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider);
+    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider, "Race");
 }

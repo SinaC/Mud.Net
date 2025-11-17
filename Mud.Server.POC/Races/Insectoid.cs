@@ -10,10 +10,23 @@ namespace Mud.Server.POC.Races;
 
 public class Insectoid : PlayableRaceBase // 4-arms
 {
+    public Insectoid(IServiceProvider serviceProvider, IAbilityManager abilityManager)
+        : base(serviceProvider, abilityManager)
+    {
+        AddAbility(1, "Test", null, 0, CostAmountOperators.None, 0);
+        AddAbility(1, "Dual Wield", null, 0, CostAmountOperators.None, 0);
+        AddAbility(1, "Third Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
+        AddAbility(1, "Fourth Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
+
+        // Test race with all spells
+        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))
+            AddAbility(1, abilityInfo.Name, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);
+    }
+
     #region IRace
 
-    private readonly List<EquipmentSlots> _slots = new List<EquipmentSlots>
-    {
+    private readonly List<EquipmentSlots> _slots =
+    [
         Domain.EquipmentSlots.Light,
         Domain.EquipmentSlots.Head,
         Domain.EquipmentSlots.Amulet,
@@ -43,26 +56,26 @@ public class Insectoid : PlayableRaceBase // 4-arms
         Domain.EquipmentSlots.MainHand,
         Domain.EquipmentSlots.OffHand,
         // no float as malus
-    };
+    ];
 
     public override string Name => "insectoid";
     public override string ShortName => "Ins";
 
     public override Sizes Size => Sizes.Medium;
-    public override ICharacterFlags CharacterFlags => new CharacterFlags("Haste");
+    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Haste");
 
     public override IEnumerable<EquipmentSlots> EquipmentSlots => _slots;
 
-    public override IIRVFlags Immunities => new IRVFlags();
-    public override IIRVFlags Resistances => new IRVFlags("Bash", "Slash", "Poison", "Disease", "Acid");
-    public override IIRVFlags Vulnerabilities => new IRVFlags("Pierce", "Fire", "Cold");
+    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider, "Bash", "Slash", "Poison", "Disease", "Acid");
+    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider, "Pierce", "Fire", "Cold");
 
-    public override IBodyForms BodyForms => new BodyForms("Poison", "Sentient", "Biped", "Insect", "FourArms");
-    public override IBodyParts BodyParts => new BodyParts("Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
+    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Poison", "Sentient", "Biped", "Insect", "FourArms");
+    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
 
-    public override IActFlags ActFlags => new ActFlags();
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Fast");
-    public override IAssistFlags AssistFlags => new AssistFlags();
+    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider, "Fast");
+    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider);
 
     public override int GetStartAttribute(CharacterAttributes attribute)
     {
@@ -115,17 +128,4 @@ public class Insectoid : PlayableRaceBase // 4-arms
     public override int ClassExperiencePercentageMultiplier(IClass c) => 250;
 
     #endregion
-
-    public Insectoid(IAbilityManager abilityManager)
-        : base(abilityManager)
-    {
-        AddAbility(1, "Test", null, 0, CostAmountOperators.None, 0);
-        AddAbility(1, "Dual Wield", null, 0, CostAmountOperators.None, 0);
-        AddAbility(1, "Third Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
-        AddAbility(1, "Fourth Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
-
-        // Test race with all spells
-        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))
-            AddAbility(1, abilityInfo.Name, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);
-    }
 }

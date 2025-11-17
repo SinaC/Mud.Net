@@ -16,12 +16,14 @@ public class FireBreath : OffensiveSpellBase
 {
     private const string SpellName = "Fire Breath";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public FireBreath(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public FireBreath(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
         ItemManager = itemManager;
     }
@@ -38,6 +40,8 @@ public class FireBreath : OffensiveSpellBase
         int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);
 
         BreathAreaAction breathAreaAction = new ();
-        breathAreaAction.Apply(Victim, Caster, Level, damage, SchoolTypes.Fire, "blast of fire", SpellName, () => new FireEffect(RandomManager, AuraManager, ItemManager), () => new FireEffect(RandomManager, AuraManager, ItemManager));
+        breathAreaAction.Apply(Victim, Caster, Level, damage, SchoolTypes.Fire, "blast of fire", SpellName,
+            () => new FireEffect(ServiceProvider, RandomManager, AuraManager, ItemManager),
+            () => new FireEffect(ServiceProvider, RandomManager, AuraManager, ItemManager));
     }
 }

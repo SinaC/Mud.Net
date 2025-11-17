@@ -1,33 +1,34 @@
-﻿using Mud.Common;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Class;
+﻿using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Class;
 
 public class ClassManager : IClassManager
 {
-    private readonly List<IClass> _classes;
+    private readonly Dictionary<string, IClass> _classByNames;
 
-    public ClassManager(IAssemblyHelper assemblyHelper, IAbilityManager abilityManager)
+    public ClassManager(IEnumerable<IClass> classes)
     {
-        // Get classes using reflection
-        Type iClassType = typeof(IClass);
-        _classes = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
-            .Where(t => t.IsClass && !t.IsAbstract && iClassType.IsAssignableFrom(t))
-            .Select(t => Activator.CreateInstance(t, abilityManager)) // don't use DependencyContainer
-            .OfType<IClass>())
-            .Where(r => r != null)!
-            .ToList()!;
+        _classByNames = new Dictionary<string, IClass>(StringComparer.InvariantCultureIgnoreCase);
+        foreach(var c in classes)
+            _classByNames.Add(c.Name, c);
     }
 
     #region IClassManager
 
     public IEnumerable<IClass> Classes
-        => _classes;
+        => _classByNames.Values;
 
     public IClass? this[string name]
-        => _classes.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, name));
+    {
+        get
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return null;
+            if (_classByNames.TryGetValue(name, out var c))
+                return c;
+            return null;
+        }
+    }
 
     #endregion
 }

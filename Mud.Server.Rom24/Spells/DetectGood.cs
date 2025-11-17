@@ -15,12 +15,15 @@ public class DetectGood : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Good";
 
-    public DetectGood(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public DetectGood(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags("DetectGood");
+    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "DetectGood");
     protected override string SelfAlreadyAffected => "You can already sense good.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already detect good.";
     protected override string SelfSuccess => "Your eyes tingle.";

@@ -1,44 +1,51 @@
-﻿using Mud.Container;
-using Mud.Domain;
+﻿using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
+using Mud.Settings.Interfaces;
 using System.Text;
 
 namespace Mud.Server.Item;
 
 public class ItemWeapon : ItemBase<ItemWeaponBlueprint, ItemWeaponData>, IItemWeapon
 {
-    public ITableValues TableValues => DependencyContainer.Current.GetInstance<ITableValues>();
+    public ITableValues TableValues { get; }
 
-    public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
-        : base(guid, blueprint, containedInto)
+    public ItemWeapon(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
+        TableValues = tableValues;
+
         Type = blueprint.Type;
         DiceCount = blueprint.DiceCount;
         DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
-        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), blueprint.Flags, null);
-        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), BaseWeaponFlags, null);
+        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(serviceProvider), blueprint.Flags, null);
+        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(serviceProvider), BaseWeaponFlags, null);
         DamageNoun = blueprint.DamageNoun;
     }
 
-    public ItemWeapon(Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
-        : base(guid, blueprint, itemData, containedInto)
+    public ItemWeapon(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
+        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemData, containedInto)
     {
+        TableValues = tableValues;
+
         Type = blueprint.Type;
         DiceCount = blueprint.DiceCount;
         DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
-        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), itemData.WeaponFlags, null);
-        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(), BaseWeaponFlags, null);
+        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(serviceProvider), itemData.WeaponFlags, null);
+        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(serviceProvider), BaseWeaponFlags, null);
         DamageNoun = blueprint.DamageNoun;
     }
 

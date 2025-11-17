@@ -1,15 +1,6 @@
-﻿using Moq;
-using Mud.Domain;
-using Mud.Server.Blueprints.Room;
-using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Room;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Mud.Server.Tests.Mocking
+﻿namespace Mud.Server.Tests.Mocking
 {
+    /*
     internal class RoomManagerMock : IRoomManager
     {
         private readonly List<RoomBlueprint> _roomBlueprints = new List<RoomBlueprint>();
@@ -62,5 +53,10 @@ namespace Mud.Server.Tests.Mocking
             _rooms.Clear();
             _roomBlueprints.Clear();
         }
+
+        public void Cleanup()
+        {
+        }
     }
+    */
 }

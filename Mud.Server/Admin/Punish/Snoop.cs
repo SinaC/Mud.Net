@@ -51,7 +51,7 @@ public class Snoop : AdminGameAction
         if (Whom == Actor)
         {
             Actor.Send("Cancelling all snoops.");
-            Wiznet.Wiznet($"{Actor.DisplayName} stops being such as snoop.", Domain.WiznetFlags.Punish | Domain.WiznetFlags.Snoops);
+            Wiznet.Log($"{Actor.DisplayName} stops being such as snoop.", Domain.WiznetFlags.Punish | Domain.WiznetFlags.Snoops);
             foreach (IPlayer player in PlayerManager.Players)
             {
                 if (player.SnoopBy == Actor)
@@ -60,7 +60,7 @@ public class Snoop : AdminGameAction
             return;
         }
 
-        Wiznet.Wiznet($"{Actor.DisplayName} starts snooping {Whom.DisplayName}.", Domain.WiznetFlags.Snoops | Domain.WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} starts snooping {Whom.DisplayName}.", Domain.WiznetFlags.Snoops | Domain.WiznetFlags.Punish);
 
         Whom.SetSnoopBy(Actor);
         Actor.Send("Ok.");

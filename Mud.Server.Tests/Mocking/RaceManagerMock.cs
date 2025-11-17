@@ -10,6 +10,7 @@ using Mud.Server.Flags;
 
 namespace Mud.Server.Tests.Mocking
 {
+    /*
     internal class RaceManagerMock : IRaceManager
     {
         public IEnumerable<IPlayableRace> PlayableRaces => throw new NotImplementedException();
@@ -53,4 +54,5 @@ namespace Mud.Server.Tests.Mocking
 
         public IAssistFlags AssistFlags => new AssistFlags();
     }
+    */
 }

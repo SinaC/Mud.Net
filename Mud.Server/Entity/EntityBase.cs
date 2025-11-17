@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Logger;
@@ -11,12 +10,12 @@ using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Settings.Interfaces;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Mud.Server.Entity;
@@ -25,11 +24,15 @@ public abstract class EntityBase : ActorBase, IEntity
 {
     private readonly List<IAura> _auras;
 
-    protected IAbilityManager AbilityManager => DependencyContainer.Current.GetInstance<IAbilityManager>();
-    protected ISettings Settings => DependencyContainer.Current.GetInstance<ISettings>();
+    protected IAbilityManager AbilityManager { get; }
+    protected ISettings Settings { get; }
 
-    protected EntityBase(Guid guid, string name, string description)
+    protected EntityBase(IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, Guid guid, string name, string description)
+        : base(gameActionManager)
     {
+        AbilityManager = abilityManager;
+        Settings = settings;
+
         IsValid = true;
         if (guid == Guid.Empty)
             guid = Guid.NewGuid();

@@ -19,12 +19,14 @@ public class Bless : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Bless";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
     private IDispelManager DispelManager { get; }
 
-    public Bless(IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager) 
+    public Bless(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager) 
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
         DispelManager = dispelManager;
     }
@@ -58,7 +60,7 @@ public class Bless : ItemOrDefensiveSpellBase
         }
         AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(6 + Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
-            new ItemFlagsAffect { Modifier = new ItemFlags("Bless"), Operator = AffectOperators.Or });
+            new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Bless"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a holy aura.", item);
     }
 }

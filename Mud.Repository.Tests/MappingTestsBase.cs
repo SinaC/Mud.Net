@@ -1,38 +1,36 @@
 ﻿using AutoBogus;
 using AutoMapper;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mud.Container;
+using Moq;
 using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
-using System;
-using System.Collections.Generic;
+using static Mud.Repository.Filesystem.AutoMapperProfile;
 
 namespace Mud.Repository.Tests
 {
     [TestClass]
     public abstract class MappingTestsBase
     {
-        private SimpleInjector.Container _originalContainer;
+        protected IServiceProvider _serviceProvider = default!;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _originalContainer = DependencyContainer.Current;
-            DependencyContainer.SetManualContainer(new SimpleInjector.Container());
-
-            var mapperConfiguration = new MapperConfiguration(cfg =>
-            {
-                cfg.AllowNullCollections = true;
-                cfg.AllowNullDestinationValues = true;
-                cfg.AddProfile<Mongo.AutoMapperProfile>();
-                cfg.AddProfile<Filesystem.AutoMapperProfile>();
-            });
-            DependencyContainer.Current.RegisterInstance(mapperConfiguration.CreateMapper());
-            DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlags());
-            DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlags());
-            DependencyContainer.Current.RegisterInstance<IItemFlagValues>(new Rom24ItemFlagValues());
-            DependencyContainer.Current.RegisterInstance<IWeaponFlagValues>(new Rom24WeaponFlagValues());
-            DependencyContainer.Current.RegisterInstance<IIRVFlagValues>(new Rom24IRVFlagValues());
+            var serviceProviderMock = new Mock<IServiceProvider>();
+            serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
+                .Returns(new Rom24CharacterFlags());
+            serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues)))
+                .Returns(new Rom24CharacterFlags());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlagValues)))
+                .Returns(new Rom24RoomFlags());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlagValues)))
+                .Returns(new Rom24ItemFlagValues());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlagValues)))
+                .Returns(new Rom24WeaponFlagValues());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlagValues)))
+                .Returns(new Rom24IRVFlagValues());
+            var mapper = CreateMapper();
+            serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))) 
+                .Returns(mapper);
 
             AutoFaker.Configure(builder =>
             {
@@ -41,13 +39,39 @@ namespace Mud.Repository.Tests
                   .WithRepeatCount(5)    // Configures the number of items in a collection
                   .WithRecursiveDepth(10); // Configures how deep nested types should recurse
             });
+
+            _serviceProvider = serviceProviderMock.Object;
         }
 
-        [TestCleanup]
-        public void TestCleanup()
+        private IMapper CreateMapper()
         {
-            DependencyContainer.SetManualContainer(_originalContainer);
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.AllowNullCollections = true;
+                cfg.AllowNullDestinationValues = true;
+                cfg.AddProfile<Filesystem.AutoMapperProfile>(); 
+                cfg.ConstructServicesUsing(t =>
+                {
+                    if (t == typeof(StringToItemFlagsConverter))
+                        return new StringToItemFlagsConverter(_serviceProvider);
+                    if (t == typeof(StringToIRVFlagsConverter))
+                        return new StringToIRVFlagsConverter(_serviceProvider);
+                    if (t == typeof(StringToWeaponFlagsConverter))
+                        return new StringToWeaponFlagsConverter(_serviceProvider);
+                    if (t == typeof(StringToCharacterFlagsConverter))
+                        return new StringToCharacterFlagsConverter(_serviceProvider);
+                    if (t == typeof(StringToRoomFlagsConverter))
+                        return new StringToRoomFlagsConverter(_serviceProvider);
+                    return null;
+                });
+            });
+
+            config.AssertConfigurationIsValid();
+
+            var mapper = new Mapper(config);
+            return mapper;
         }
+
     }
 
     internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues

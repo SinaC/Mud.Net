@@ -17,11 +17,13 @@ public class Fly : DefensiveSpellBase
 {
     private const string SpellName = "Fly";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Fly(IRandomManager randomManager, IAuraManager auraManager)
+    public Fly(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -36,7 +38,7 @@ public class Fly : DefensiveSpellBase
             return;
         }
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 3), AuraFlags.None, true,
-            new CharacterFlagsAffect { Modifier = new CharacterFlags("Flying"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Flying"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0:P} feet rise off the ground.", Victim);
     }
 }

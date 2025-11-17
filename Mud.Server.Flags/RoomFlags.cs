@@ -5,18 +5,18 @@ namespace Mud.Server.Flags
 {
     public class RoomFlags : Flags<IRoomFlagValues>, IRoomFlags
     {
-        public RoomFlags()
-            : base()
+        public RoomFlags(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
         }
 
-        public RoomFlags(string flags)
-            : base(flags)
+        public RoomFlags(IServiceProvider serviceProvider, string flags)
+            : base(serviceProvider, flags)
         {
         }
 
-        public RoomFlags(params string[] flags)
-            : base(flags)
+        public RoomFlags(IServiceProvider serviceProvider, params string[] flags)
+            : base(serviceProvider, flags)
         {
         }
     }

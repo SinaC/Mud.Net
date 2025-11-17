@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.Logger;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -9,50 +8,54 @@ namespace Mud.Server.Ability;
 
 public class AbilityManager : IAbilityManager
 {
-    private readonly Dictionary<string, IAbilityInfo> _abilities; // TODO: trie to optimize Search ?
-    private readonly Dictionary<Type, IAbilityInfo[]> _abilitiesByExecutionType;
+    private IServiceProvider ServiceProvider { get; }
+    private Dictionary<string, IAbilityInfo> AbilityByName { get; } // TODO: trie to optimize Search ?
+    private Dictionary<Type, IAbilityInfo[]> AbilitiesByExecutionType { get; }
 
-    public AbilityManager(IAssemblyHelper assemblyHelper)
+    public AbilityManager(IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
-        _abilities = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
+        ServiceProvider = serviceProvider;
+
+        AbilityByName = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
         // Get abilities
         Type iAbility = typeof(IAbility);
-        foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
+        foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
+            .Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
         {
             AbilityInfo abilityInfo = new (abilityType);
-            if (_abilities.ContainsKey(abilityInfo.Name))
+            if (AbilityByName.ContainsKey(abilityInfo.Name))
                 Log.Default.WriteLine(LogLevels.Error, "Duplicate ability {0}", abilityInfo.Name);
             else
-                _abilities.Add(abilityInfo.Name, abilityInfo);
+                AbilityByName.Add(abilityInfo.Name, abilityInfo);
         }
         //
-        _abilitiesByExecutionType = []; // will be filled at each call to AbilitiesByExecutionType
+        AbilitiesByExecutionType = []; // will be filled at each call to AbilitiesByExecutionType
     }
 
     #region IAbilityManager
 
-    public IEnumerable<IAbilityInfo> Abilities => _abilities.Values;
+    public IEnumerable<IAbilityInfo> Abilities => AbilityByName.Values;
 
     public IAbilityInfo? this[string abilityName]
     {
         get
         {
-            if (!_abilities.TryGetValue(abilityName, out var abilityInfo))
+            if (!AbilityByName.TryGetValue(abilityName, out var abilityInfo))
                 return null;
             return abilityInfo;
         }
     }
 
-    public IEnumerable<IAbilityInfo> AbilitiesByExecutionType<TAbility>()
+    public IEnumerable<IAbilityInfo> SearchAbilitiesByExecutionType<TAbility>()
         where TAbility : class, IAbility
     {
         Type tAbilityType = typeof(TAbility);
         // Check in cache first
-        if (_abilitiesByExecutionType.TryGetValue(tAbilityType, out var abilities))
+        if (AbilitiesByExecutionType.TryGetValue(tAbilityType, out var abilities))
             return abilities;
         // Not found in cache, compute and put in cache
         abilities = Abilities.Where(x => tAbilityType.IsAssignableFrom(x.AbilityExecutionType)).ToArray();
-        _abilitiesByExecutionType.Add(tAbilityType, abilities);
+        AbilitiesByExecutionType.Add(tAbilityType, abilities);
         return abilities;
     }
 
@@ -82,16 +85,16 @@ public class AbilityManager : IAbilityManager
 
     #endregion
 
-    private static TAbility? CreateInstance<TAbility>(IAbilityInfo abilityInfo, string abilityName)
+    private TAbility? CreateInstance<TAbility>(IAbilityInfo abilityInfo, string abilityName)
          where TAbility : class, IAbility
     {
-        if (DependencyContainer.Current.GetRegistration(abilityInfo.AbilityExecutionType, false) == null)
+        var ability = ServiceProvider.GetService(abilityInfo.AbilityExecutionType);
+        if (ability == null)
         {
             Log.Default.WriteLine(LogLevels.Error, "Ability {0} not found in DependencyContainer.", abilityName);
             return default;
         }
-        var instance = DependencyContainer.Current.GetInstance(abilityInfo.AbilityExecutionType) as TAbility;
-        if (instance == null)
+        if (ability is not TAbility instance)
         {
             Log.Default.WriteLine(LogLevels.Error, "Ability {0} cannot be created or is not {1}.", abilityName, typeof(TAbility).Name);
             return default;

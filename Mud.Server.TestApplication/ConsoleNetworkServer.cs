@@ -1,23 +1,7 @@
-﻿using AutoMapper;
-using Mud.Container;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Mud.Network.Interfaces;
-using Mud.Repository;
-using Mud.Server.Ability;
-using Mud.Server.GameAction;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Aura;
-using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.Race;
-using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.Table;
-using Mud.Server.Interfaces.World;
-using Mud.Server.Random;
-using Mud.Server.Server;
 using System.Diagnostics;
 
 namespace Mud.Server.TestApplication;
@@ -29,6 +13,12 @@ public class ConsoleNetworkServer : INetworkServer
 
     private ConsoleClient? _client;
     private bool _stopped;
+    private IServiceProvider _serviceProvider;
+
+    public ConsoleNetworkServer(IServiceProvider serviceProvider)
+    {
+        _serviceProvider = serviceProvider;
+    }
 
     public IClient AddClient(string name, bool displayPlayerName, bool colorAccepted)
     {
@@ -47,38 +37,6 @@ public class ConsoleNetworkServer : INetworkServer
     {
         _stopped = false;
 
-        // Initialize IOC container
-        DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
-        DependencyContainer.Current.Register<ITimeManager, TimeManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IWorld, World.World>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IAuraManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IAuraManager
-        DependencyContainer.Current.Register<IItemManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IItemManager
-        DependencyContainer.Current.Register<IRoomManager, World.World>(SimpleInjector.Lifestyle.Singleton); // Word also implements IRoomManager
-        DependencyContainer.Current.Register<IServer, Server.Server>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IWiznet, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IWiznet
-        DependencyContainer.Current.Register<IPlayerManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IPlayerManager
-        DependencyContainer.Current.Register<IAdminManager, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IAdminManager
-        DependencyContainer.Current.Register<IServerAdminCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerAdminCommand
-        DependencyContainer.Current.Register<IServerPlayerCommand, Server.Server>(SimpleInjector.Lifestyle.Singleton); // Server also implements IServerPlayerCommand
-        //DependencyContainer.Current.Register<IAbilityManager, AbilityManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManager(new AssemblyHelper())); // this is needed because AbilityManager will register type and container doesn't accept registering after first resolve
-        DependencyContainer.Current.Register<IClassManager, Class.ClassManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IRaceManager, Race.RaceManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IUniquenessManager, UniquenessManager>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager()); // 2 ctors => injector cant choose which one to chose
-        DependencyContainer.Current.Register<ITableValues, Table.TableValues>(SimpleInjector.Lifestyle.Singleton);
-
-        DependencyContainer.Current.Register<ILoginRepository, Repository.Filesystem.LoginRepository>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IPlayerRepository, Repository.Filesystem.PlayerRepository>(SimpleInjector.Lifestyle.Singleton);
-        DependencyContainer.Current.Register<IAdminRepository, Repository.Filesystem.AdminRepository>(SimpleInjector.Lifestyle.Singleton);
-
-        // Initialize mapping
-        var mapperConfiguration = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<Repository.Filesystem.AutoMapperProfile>();
-            cfg.AddProfile<Repository.Mongo.AutoMapperProfile>();
-        });
-        DependencyContainer.Current.RegisterInstance(mapperConfiguration.CreateMapper());
     }
 
     public void Start()
@@ -129,13 +87,13 @@ public class ConsoleNetworkServer : INetworkServer
                         else if (line == "alist")
                         {
                             Console.WriteLine("Admins:");
-                            foreach (IAdmin a in DependencyContainer.Current.GetInstance<IAdminManager>().Admins)
+                            foreach (IAdmin a in _serviceProvider.GetRequiredService<IAdminManager>().Admins)
                                 Console.WriteLine(a.DisplayName + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
                         }
                         else if (line == "plist")
                         {
                             Console.WriteLine("players:");
-                            foreach (IPlayer p in DependencyContainer.Current.GetInstance<IPlayerManager>().Players)
+                            foreach (IPlayer p in _serviceProvider.GetRequiredService<IPlayerManager>().Players)
                                 Console.WriteLine(p.DisplayName + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
                         }
                         // TODO: characters/rooms/items

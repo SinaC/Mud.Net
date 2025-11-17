@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Affect;
@@ -13,8 +12,6 @@ public class Aura : IAura
 {
     private readonly List<IAffect> _affects;
 
-    private IAffectManager AffectManager => DependencyContainer.Current.GetInstance<IAffectManager>();
-
     public Aura(string abilityName, IEntity source, AuraFlags flags, int level, TimeSpan duration, params IAffect?[]? affects)
     {
         IsValid = true;
@@ -27,9 +24,10 @@ public class Aura : IAura
         _affects = (affects ?? Enumerable.Empty<IAffect?>()).Where(x => x != null!).Select(x => x!).ToList();
     }
 
-    public Aura(AuraData auraData)
+    public Aura(IAffectManager affectManager, AuraData auraData)
     {
         IsValid = true;
+
         // TODO: source
         AbilityName = auraData.AbilityName;
         AuraFlags = auraData.AuraFlags;
@@ -40,7 +38,7 @@ public class Aura : IAura
         {
             foreach (var affectData in auraData.Affects)
             {
-                var affect = AffectManager.CreateInstance(affectData);
+                var affect = affectManager.CreateInstance(affectData);
                 if (affect != null)
                     _affects.Add(affect);
             }

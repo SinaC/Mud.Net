@@ -6,7 +6,7 @@ namespace Mud.Server.Tests.Mocking
 {
     internal class WiznetMock : IWiznet
     {
-        public void Wiznet(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
+        public void Log(string message, WiznetFlags flags, AdminLevels minLevel = AdminLevels.Angel)
         {
             Debug.WriteLine("WIZNET:" + message);
         }

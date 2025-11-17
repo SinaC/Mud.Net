@@ -9,8 +9,8 @@ namespace Mud.Server.Rom24.Races;
 
 public class Human : PlayableRaceBase
 {
-    public Human(IAbilityManager abilityManager)
-        : base(abilityManager)
+    public Human(IServiceProvider serviceProvider, IAbilityManager abilityManager)
+        : base(serviceProvider, abilityManager)
     {
     }
 
@@ -21,18 +21,18 @@ public class Human : PlayableRaceBase
 
     public override Sizes Size => Sizes.Medium;
 
-    public override ICharacterFlags CharacterFlags => new CharacterFlags();
+    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider);
 
-    public override IIRVFlags Immunities => new IRVFlags();
-    public override IIRVFlags Resistances => new IRVFlags();
-    public override IIRVFlags Vulnerabilities => new IRVFlags();
+    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider);
+    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider);
 
-    public override IBodyForms BodyForms => new BodyForms("Edible", "Sentient", "Biped", "Mammal");
-    public override IBodyParts BodyParts => new BodyParts("Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
+    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Edible", "Sentient", "Biped", "Mammal");
+    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
 
-    public override IActFlags ActFlags => new ActFlags();
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
-    public override IAssistFlags AssistFlags => new AssistFlags();
+    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider);
+    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider);
 
     public override int GetStartAttribute(CharacterAttributes attribute)
     {

@@ -5,18 +5,18 @@ namespace Mud.Server.Flags
 {
     public class BodyForms : Flags<IBodyFormValues>, IBodyForms
     {
-        public BodyForms()
-            : base()
+        public BodyForms(IServiceProvider serviceProvider)
+            : base(serviceProvider)
         {
         }
 
-        public BodyForms(string flags)
-            : base(flags)
+        public BodyForms(IServiceProvider serviceProvider, string flags)
+            : base(serviceProvider, flags)
         {
         }
 
-        public BodyForms(params string[] flags)
-            : base(flags)
+        public BodyForms(IServiceProvider serviceProvider, params string[] flags)
+            : base(serviceProvider, flags)
         {
         }
     }

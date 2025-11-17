@@ -23,11 +23,13 @@ public class Envenom : ItemInventorySkillBase
 {
     private const string SkillName = "Envenom";
 
+    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Envenom(IRandomManager randomManager, IAuraManager auraManager)
+    public Envenom(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
     }
 
@@ -94,7 +96,7 @@ public class Envenom : ItemInventorySkillBase
             int level = (User.Level * percent) / 100;
             int duration = (User.Level * percent) / (2 * 100);
             AuraManager.AddAura(weapon, SkillName, User, level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Poison"), Operator = AffectOperators.Or });
+                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or });
             User.Act(ActOptions.ToAll, "{0:N} coat{0:v} {1} with deadly venom.", User, weapon);
             return true;
         }

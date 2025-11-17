@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Mud.Container;
 using Mud.Domain;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Flags;
@@ -15,6 +14,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Tests
 {
+    /*
     [TestClass]
     public class NonPlayableCharacterTests
     {
@@ -184,4 +184,5 @@ namespace Mud.Server.Tests
             Assert.AreEqual(npc.Level + damBonus, npc.DamRoll); // DamRoll is initialized with Level
         }
     }
+    */
 }

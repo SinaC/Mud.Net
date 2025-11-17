@@ -26,7 +26,7 @@ public class CreateFood : ItemCreationSpellBase
         if (mushroom == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Wiznet($"SpellCreateFood: cannot create item from blueprint {Settings.MushroomBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"SpellCreateFood: cannot create item from blueprint {Settings.MushroomBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
             return;
         }
         mushroom.SetHours(Level / 2, Level);

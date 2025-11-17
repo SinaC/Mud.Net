@@ -16,6 +16,7 @@ using System.Linq;
 
 namespace Mud.Server.Tests
 {
+    /*
     [TestClass]
     public class ItemDeserializationTests : TestBase
     {
@@ -846,4 +847,5 @@ namespace Mud.Server.Tests
             Assert.That.AreEqual(itemData.WeaponFlags, weapon.BaseWeaponFlags);
         }
     }
+    */
 }

@@ -18,14 +18,16 @@ namespace Mud.Server.Character.Item;
 [Syntax("[cmd] <food|pill>")]
 public class Eat : CastSpellCharacterGameActionBase
 {
+    private IServiceProvider ServiceProvider { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IAffectManager AffectManager { get; }
     private IItemManager ItemManager { get; }
 
-    public Eat(IAbilityManager abilityManager, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IItemManager itemManager)
+    public Eat(IServiceProvider serviceProvider, IAbilityManager abilityManager, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IItemManager itemManager)
         : base(abilityManager)
     {
+        ServiceProvider = serviceProvider;
         RandomManager = randomManager;
         AuraManager = auraManager;
         AffectManager = affectManager;
@@ -93,7 +95,7 @@ public class Eat : CastSpellCharacterGameActionBase
                 {
                     var poisonAffect = AffectManager.CreateInstance("Poison");
                     AuraManager.AddAura(Actor, "Poison", Food, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                        new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
+                        new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or },
                         poisonAffect);
                 }
                 Actor.Recompute();

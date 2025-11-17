@@ -18,12 +18,14 @@ namespace Mud.Server.Rom24.Effects;
 [Effect("Fire")]
 public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
 {
+    private IServiceProvider ServiceProvider { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public FireEffect(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public FireEffect(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
     {
+        ServiceProvider = serviceProvider;
         RandomManager = randomManager;
         AuraManager = auraManager;
         ItemManager = itemManager;
@@ -49,7 +51,7 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             int duration = RandomManager.Range(1, level / 10);
             AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false, // TODO:
                 new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = -4, Location = CharacterAttributeAffectLocations.HitRoll },
-                new CharacterFlagsAffect { Operator = AffectOperators.Or, Modifier = new CharacterFlags("Blind") });
+                new CharacterFlagsAffect { Operator = AffectOperators.Or, Modifier = new CharacterFlags(ServiceProvider, "Blind") });
         }
         // getting thirsty
         (victim as IPlayableCharacter)?.GainCondition(Conditions.Thirst, modifier / 20);

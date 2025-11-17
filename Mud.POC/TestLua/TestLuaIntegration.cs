@@ -1,13 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using Mud.Server.Interfaces.Area;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
+using NLua;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using NLua;
-using Mud.Server.Interfaces.Character;
 
 namespace Mud.POC.TestLua
 {
     public class TestLuaIntegration : TestLuaBase
     {
+        public TestLuaIntegration(IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager)
+            : base(areaManager, roomManager, characterManager, itemManager)
+        {
+        }
+
         public override void Test()
         {
             CreateWorld();

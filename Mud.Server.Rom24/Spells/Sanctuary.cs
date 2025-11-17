@@ -15,12 +15,15 @@ public class Sanctuary : CharacterFlagsSpellBase
 {
     private const string SpellName = "Sanctuary";
 
-    public Sanctuary(IRandomManager randomManager, IAuraManager auraManager)
+    private IServiceProvider ServiceProvider { get; }
+
+    public Sanctuary(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
         : base(randomManager, auraManager)
     {
+        ServiceProvider = serviceProvider;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags("Sanctuary");
+    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Sanctuary");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
     protected override string SelfAlreadyAffected => "You are already in sanctuary.";
     protected override string NotSelfAlreadyAffected => "{0:N} is already in sanctuary.";

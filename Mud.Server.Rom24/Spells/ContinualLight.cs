@@ -19,14 +19,16 @@ public class ContinualLight : OptionalItemInventorySpellBase
 {
     private const string SpellName = "Continual Light";
 
+    private IServiceProvider ServiceProvider { get; }
     private IWiznet Wiznet { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
     private ISettings Settings { get; }
 
-    public ContinualLight(IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager, ISettings settings)
+    public ContinualLight(IServiceProvider serviceProvider, IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager, ISettings settings)
         : base(randomManager)
     {
+        ServiceProvider = serviceProvider;
         Wiznet = wiznet;
         AuraManager = auraManager;
         ItemManager = itemManager;
@@ -44,7 +46,7 @@ public class ContinualLight : OptionalItemInventorySpellBase
             }
 
             AuraManager.AddAura(Item, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                new ItemFlagsAffect { Modifier = new ItemFlags("Glowing"), Operator = AffectOperators.Or });
+                new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Glowing"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0} glows with a white light.", Item);
             return;
         }
@@ -53,7 +55,7 @@ public class ContinualLight : OptionalItemInventorySpellBase
         if (light == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Wiznet($"ContinualLight: cannot create item from blueprint {Settings.LightBallBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"ContinualLight: cannot create item from blueprint {Settings.LightBallBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
             return;
         }
         Caster.Act(ActOptions.ToAll, "{0} twiddle{0:v} {0:s} thumbs and {1} appears.", Caster, light);

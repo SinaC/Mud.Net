@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Mud.Logger;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
@@ -32,10 +29,10 @@ public class AutoMapperProfile : Profile
             .Include<Mud.Domain.PlayableCharacterData, Domain.PlayableCharacterData>()
             .Include<Mud.Domain.PetData, Domain.PetData>()
             .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
-            .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
-            .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
-            .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
-            .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
+            .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => x.CharacterFlags.Map()))
+            .ForMember(x => x.Immunities, expression => expression.MapFrom(x => x.Immunities.Map()))
+            .ForMember(x => x.Resistances, expression => expression.MapFrom(x => x.Resistances.Map()))
+            .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => x.Vulnerabilities.Map()))
             .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes, MapCharacterAttributes)))
             .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapFromDictionary(x.CurrentResources, MapResourceKind)))
             .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)))
@@ -44,11 +41,11 @@ public class AutoMapperProfile : Profile
             .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)))
             .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapFromDictionary(x.Aliases)))
             .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapFromDictionary(x.Cooldowns)))
-            .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => MapAutoFlags(x.AutoFlags)));
+            .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => (int)x.AutoFlags));
         CreateMap<Mud.Domain.PetData, Domain.PetData>();
 
         CreateMap<Mud.Domain.ItemData, Domain.ItemData>()
-            .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
+            .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => x.ItemFlags.Map()))
             .Include<Mud.Domain.ItemContainerData, Domain.ItemContainerData>()
             .Include<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>()
             .Include<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>()
@@ -61,8 +58,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Mud.Domain.ItemContainerData, Domain.ItemContainerData>()
             .ForMember(x => x.ContainerFlags, expression => expression.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
         CreateMap<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>();
-        CreateMap<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>()
-            .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
+        CreateMap<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>();
         CreateMap<Mud.Domain.ItemDrinkContainerData, Domain.ItemDrinkContainerData>();
         CreateMap<Mud.Domain.ItemFoodData, Domain.ItemFoodData>();
         CreateMap<Mud.Domain.ItemPortalData, Domain.ItemPortalData>()
@@ -78,7 +74,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Mud.Domain.CurrentQuestObjectiveData, Domain.CurrentQuestObjectiveData>();
 
         CreateMap<Mud.Domain.AuraData, Domain.AuraData>()
-            .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => MapAuraFlags(x.AuraFlags)));
+            .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => (int)x.AuraFlags));
 
         CreateMap<Mud.Domain.AffectDataBase, Domain.AffectDataBase>()
             .Include<Mud.Domain.CharacterAttributeAffectData, Domain.CharacterAttributeAffectData>()
@@ -97,27 +93,25 @@ public class AutoMapperProfile : Profile
             .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
             .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
         CreateMap<Mud.Domain.CharacterFlagsAffectData, Domain.CharacterFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapCharacterFlags(x.Modifier)));
+            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Mud.Domain.CharacterIRVAffectData, Domain.CharacterIRVAffectData>()
             .ForMember(x => x.Location, expression => expression.MapFrom(x => MapIRVAffectLocations(x.Location)))
             .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapIRVFlags(x.Modifier)));
+            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => x.Modifier.Map()));
         CreateMap<Mud.Domain.CharacterSexAffectData, Domain.CharacterSexAffectData>()
             .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSex(x.Value)));
         CreateMap<Mud.Domain.ItemFlagsAffectData, Domain.ItemFlagsAffectData>()
             .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapItemFlags(x.Modifier)));
+            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => x.Modifier.Map()));
         CreateMap<Mud.Domain.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
+            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Mud.Domain.CharacterSizeAffectData, Domain.CharacterSizeAffectData>()
             .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSizes(x.Value)));
         CreateMap<Mud.Domain.PoisonDamageAffectData, Domain.PoisonDamageAffectData>();
         CreateMap<Mud.Domain.PlagueSpreadAndDamageAffectData, Domain.PlagueSpreadAndDamageAffectData>();
         CreateMap<Mud.Domain.RoomFlagsAffectData, Domain.RoomFlagsAffectData>()
             .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapRoomFlags(x.Modifier)));
+            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => x.Modifier.Map()));
         CreateMap<Mud.Domain.RoomHealRateAffectData, Domain.RoomHealRateAffectData>()
             .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Mud.Domain.RoomResourceRateAffectData, Domain.RoomResourceRateAffectData>()
@@ -130,6 +124,17 @@ public class AutoMapperProfile : Profile
 
     private void InternalToExternal()
     {
+        CreateMap<string, IItemFlags>()
+            .ConvertUsing<StringToItemFlagsConverter>();
+        CreateMap<string, IIRVFlags>()
+            .ConvertUsing<StringToIRVFlagsConverter>();
+        CreateMap<string, IWeaponFlags>()
+            .ConvertUsing<StringToWeaponFlagsConverter>();
+        CreateMap<string, ICharacterFlags>()
+            .ConvertUsing<StringToCharacterFlagsConverter>();
+        CreateMap<string, IRoomFlags>()
+            .ConvertUsing<StringToRoomFlagsConverter>();
+
         CreateMap<Domain.PlayerData, Mud.Domain.PlayerData>()
             .Include<Domain.AdminData, Mud.Domain.AdminData>()
             .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)));
@@ -141,10 +146,6 @@ public class AutoMapperProfile : Profile
             .Include<Domain.PlayableCharacterData, Mud.Domain.PlayableCharacterData>()
             .Include<Domain.PetData, Mud.Domain.PetData>()
             .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
-            .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => MapCharacterFlags(x.CharacterFlags)))
-            .ForMember(x => x.Immunities, expression => expression.MapFrom(x => MapIRVFlags(x.Immunities)))
-            .ForMember(x => x.Resistances, expression => expression.MapFrom(x => MapIRVFlags(x.Resistances)))
-            .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => MapIRVFlags(x.Vulnerabilities)))
             .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes, MapCharacterAttributes)))
             .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapToDictionary(x.CurrentResources, MapResourceKind)))
             .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)))
@@ -153,11 +154,10 @@ public class AutoMapperProfile : Profile
             .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)))
             .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)))
             .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapToDictionary(x.Cooldowns)))
-            .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => MapAutoFlags(x.AutoFlags)));
+            .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => (Mud.Domain.AutoFlags)x.AutoFlags));
         CreateMap<Domain.PetData, Mud.Domain.PetData>();
 
         CreateMap<Domain.ItemData, Mud.Domain.ItemData>()
-            .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => MapItemFlags(x.ItemFlags)))
             .Include<Domain.ItemContainerData, Mud.Domain.ItemContainerData>()
             .Include<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>()
             .Include<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>()
@@ -170,8 +170,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Domain.ItemContainerData, Mud.Domain.ItemContainerData>()
             .ForMember(x => x.ContainerFlags, expression => expression.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
         CreateMap<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>();
-        CreateMap<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>()
-            .ForMember(x => x.WeaponFlags, expression => expression.MapFrom(x => MapWeaponFlags(x.WeaponFlags)));
+        CreateMap<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>();
         CreateMap<Domain.ItemDrinkContainerData, Mud.Domain.ItemDrinkContainerData>();
         CreateMap<Domain.ItemFoodData, Mud.Domain.ItemFoodData>();
         CreateMap<Domain.ItemPortalData, Mud.Domain.ItemPortalData>()
@@ -187,7 +186,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Domain.CurrentQuestObjectiveData, Mud.Domain.CurrentQuestObjectiveData>();
 
         CreateMap<Domain.AuraData, Mud.Domain.AuraData>()
-            .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => MapAuraFlags(x.AuraFlags)));
+            .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => (Mud.Domain.AuraFlags)x.AuraFlags));
 
         CreateMap<Domain.AffectDataBase, Mud.Domain.AffectDataBase>()
             .Include<Domain.CharacterAttributeAffectData, Mud.Domain.CharacterAttributeAffectData>()
@@ -206,34 +205,22 @@ public class AutoMapperProfile : Profile
             .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
             .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
         CreateMap<Domain.CharacterFlagsAffectData, Mud.Domain.CharacterFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapCharacterFlags(x.Modifier)));
+            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.CharacterIRVAffectData, Mud.Domain.CharacterIRVAffectData>()
             .ForMember(x => x.Location, expression => expression.MapFrom(x => MapIRVAffectLocations(x.Location)))
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapIRVFlags(x.Modifier)));
+            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.CharacterSexAffectData, Mud.Domain.CharacterSexAffectData>()
             .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSex(x.Value)));
         CreateMap<Domain.ItemFlagsAffectData, Mud.Domain.ItemFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapItemFlags(x.Modifier)));
+            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.ItemWeaponFlagsAffectData, Mud.Domain.ItemWeaponFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapWeaponFlags(x.Modifier)));
+            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.CharacterSizeAffectData, Mud.Domain.CharacterSizeAffectData>()
             .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSizes(x.Value)));
         CreateMap<Domain.PoisonDamageAffectData, Mud.Domain.PoisonDamageAffectData>();
         CreateMap<Domain.PlagueSpreadAndDamageAffectData, Mud.Domain.PlagueSpreadAndDamageAffectData>();
         CreateMap<Domain.RoomFlagsAffectData, Mud.Domain.RoomFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapRoomFlags(x.Modifier)));
-        CreateMap<Domain.RoomHealRateAffectData, Mud.Domain.RoomHealRateAffectData>()
             .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
-        CreateMap<Domain.RoomResourceRateAffectData, Mud.Domain.RoomResourceRateAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
-        CreateMap<Domain.RoomFlagsAffectData, Mud.Domain.RoomFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => MapRoomFlags(x.Modifier)));
         CreateMap<Domain.RoomHealRateAffectData, Mud.Domain.RoomHealRateAffectData>()
             .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.RoomResourceRateAffectData, Mud.Domain.RoomResourceRateAffectData>()
@@ -434,24 +421,17 @@ public class AutoMapperProfile : Profile
         }
     }
 
-    private IItemFlags MapItemFlags(string flags)
+    public class StringToItemFlagsConverter : ITypeConverter<string, IItemFlags>
     {
-        return new ItemFlags(flags);
-    }
+        private IServiceProvider ServiceProvider { get; }
 
-    private string MapItemFlags(IItemFlags flags)
-    {
-        return flags?.Map();
-    }
+        public StringToItemFlagsConverter(IServiceProvider serviceProvider)
+        {
+            ServiceProvider = serviceProvider;
+        }
 
-    private Mud.Domain.AuraFlags MapAuraFlags(int flags)
-    {
-        return (Mud.Domain.AuraFlags) flags;
-    }
-
-    private int MapAuraFlags(Mud.Domain.AuraFlags flags)
-    {
-        return (int) flags;
+        public IItemFlags Convert(string source, IItemFlags destination, ResolutionContext context)
+            => new ItemFlags(ServiceProvider, source);
     }
 
     private Mud.Domain.AffectOperators MapAffectOperators(int op)
@@ -572,24 +552,30 @@ public class AutoMapperProfile : Profile
         }
     }
 
-    private IIRVFlags MapIRVFlags(string flags)
+    public class StringToIRVFlagsConverter : ITypeConverter<string, IIRVFlags>
     {
-        return new IRVFlags(flags);
+        private IServiceProvider ServiceProvider { get; }
+
+        public StringToIRVFlagsConverter(IServiceProvider serviceProvider)
+        {
+            ServiceProvider = serviceProvider;
+        }
+
+        public IIRVFlags Convert(string source, IIRVFlags destination, ResolutionContext context)
+            => new IRVFlags(ServiceProvider, source);
     }
 
-    private string MapIRVFlags(IIRVFlags flags)
+    public class StringToWeaponFlagsConverter : ITypeConverter<string, IWeaponFlags>
     {
-        return flags.Map();
-    }
+        private IServiceProvider ServiceProvider { get; }
 
-    private IWeaponFlags MapWeaponFlags(string flags)
-    {
-        return new WeaponFlags(flags);
-    }
+        public StringToWeaponFlagsConverter(IServiceProvider serviceProvider)
+        {
+            ServiceProvider = serviceProvider;
+        }
 
-    private string MapWeaponFlags(IWeaponFlags flags)
-    {
-        return flags?.Map();
+        public IWeaponFlags Convert(string source, IWeaponFlags destination, ResolutionContext context)
+            => new WeaponFlags(ServiceProvider, source);
     }
 
     private Mud.Domain.CharacterAttributes MapCharacterAttributes(int attr)
@@ -797,33 +783,29 @@ public class AutoMapperProfile : Profile
         }
     }
 
-    private Mud.Domain.AutoFlags MapAutoFlags(int flags)
+    public class StringToCharacterFlagsConverter : ITypeConverter<string, ICharacterFlags>
     {
-        return (Mud.Domain.AutoFlags) flags;
+        private IServiceProvider ServiceProvider { get; }
+
+        public StringToCharacterFlagsConverter(IServiceProvider serviceProvider)
+        {
+            ServiceProvider = serviceProvider;
+        }
+
+        public ICharacterFlags Convert(string source, ICharacterFlags destination, ResolutionContext context)
+            => new CharacterFlags(ServiceProvider, source);
     }
 
-    private int MapAutoFlags(Mud.Domain.AutoFlags flags)
+    public class StringToRoomFlagsConverter : ITypeConverter<string, IRoomFlags>
     {
-        return (int)flags;
-    }
+        private IServiceProvider ServiceProvider { get; }
 
-    private ICharacterFlags MapCharacterFlags(string flags)
-    {
-        return new CharacterFlags(flags);
-    }
+        public StringToRoomFlagsConverter(IServiceProvider serviceProvider)
+        {
+            ServiceProvider = serviceProvider;
+        }
 
-    private string MapCharacterFlags(ICharacterFlags flags)
-    {
-        return flags?.Map();
-    }
-
-    private IRoomFlags MapRoomFlags(string flags)
-    {
-        return new RoomFlags(flags);
-    }
-
-    private string MapRoomFlags(IRoomFlags flags)
-    {
-        return flags?.Map();
+        public IRoomFlags Convert(string source, IRoomFlags destination, ResolutionContext context)
+            => new RoomFlags(ServiceProvider, source);
     }
 }

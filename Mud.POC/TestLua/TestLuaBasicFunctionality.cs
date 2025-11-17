@@ -1,12 +1,19 @@
-﻿using System.Linq;
-using NLua;
+﻿using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
-
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Room;
+using NLua;
+using System.Linq;
 
 namespace Mud.POC.TestLua
 {
     public class TestLuaBasicFunctionality : TestLuaBase
     {
+        public TestLuaBasicFunctionality(IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager)
+            : base(areaManager, roomManager, characterManager, itemManager)
+        {
+        }
+
         public ICharacter GetCharacter() // referenced here (***)
         {
             return CharacterManager.Characters.First();

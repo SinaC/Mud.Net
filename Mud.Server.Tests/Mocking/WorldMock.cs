@@ -23,6 +23,7 @@ using Mud.Server.Item;
 
 namespace Mud.Server.Tests.Mocking
 {
+    /*
     internal class WorldMock : IWorld
     {
         private readonly List<ICharacter> _characters;
@@ -459,4 +460,5 @@ namespace Mud.Server.Tests.Mocking
 
         #endregion
     }
+    */
 }

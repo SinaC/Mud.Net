@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -9,6 +8,7 @@ using Mud.Server.Entity;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -16,6 +16,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
+using Mud.Settings.Interfaces;
 using System.Text;
 
 namespace Mud.Server.Item;
@@ -24,12 +25,18 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
     where TBlueprint : ItemBlueprintBase
     where TData: ItemData
 {
-    protected IRoomManager RoomManager => DependencyContainer.Current.GetInstance<IRoomManager>();
-    protected IAuraManager AuraManager => DependencyContainer.Current.GetInstance<IAuraManager>();
+    protected IServiceProvider ServiceProvider { get; }
+    protected IRoomManager RoomManager { get; }
+    protected IAuraManager AuraManager { get; }
 
-    protected ItemBase(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
-        : base(guid, name, description)
+    protected ItemBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+        Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
+        : base(gameActionManager, abilityManager, settings, guid, name, description)
     {
+        ServiceProvider = serviceProvider;
+        RoomManager = roomManager;
+        AuraManager = auraManager;
+
         Blueprint = blueprint;
         ShortDescription = shortDescription;
         containedInto.PutInContainer(this); // put in container
@@ -39,22 +46,24 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
         Weight = blueprint.Weight;
         Cost = blueprint.Cost;
         NoTake = blueprint.NoTake;
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), blueprint.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), BaseItemFlags, null);
+        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), blueprint.ItemFlags, null);
+        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), BaseItemFlags, null);
     }
 
-    protected ItemBase(Guid guid, TBlueprint blueprint, IContainer containedInto)
-        : this(guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto)
+    protected ItemBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+        Guid guid, TBlueprint blueprint, IContainer containedInto)
+        : this(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto)
     {
     }
 
-    protected ItemBase(Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
-        : this(guid, blueprint, name, shortDescription, description, containedInto)
+    protected ItemBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+        Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
+        : this(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, name, shortDescription, description, containedInto)
     {
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), data.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), BaseItemFlags, null);
+        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), data.ItemFlags, null);
+        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), BaseItemFlags, null);
         // Auras
         if (data.Auras != null)
         {
@@ -63,13 +72,14 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
         }
     }
 
-    protected ItemBase(Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
-        : this(guid, blueprint, containedInto)
+    protected ItemBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+        Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
+        : this(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), data.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(), BaseItemFlags, null);
+        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), data.ItemFlags, null);
+        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), BaseItemFlags, null);
         // Auras
         if (data.Auras != null)
         {
@@ -260,7 +270,7 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
     public void Disenchant()
     {
         RemoveAuras(_ => true, false);
-        BaseItemFlags = new ItemFlags();
+        BaseItemFlags = new ItemFlags(ServiceProvider);
         Recompute();
     }
 

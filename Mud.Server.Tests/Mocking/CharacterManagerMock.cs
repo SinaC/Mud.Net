@@ -1,14 +1,6 @@
-﻿using Mud.Domain;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.Room;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Mud.Server.Tests.Mocking
+﻿namespace Mud.Server.Tests.Mocking
 {
+    /*
     internal class CharacterManagerMock : ICharacterManager
     {
         private readonly List<ICharacter> _characters = new List<ICharacter>();
@@ -66,4 +58,5 @@ namespace Mud.Server.Tests.Mocking
             _characterBlueprints.Clear();
         }
     }
+    */
 }

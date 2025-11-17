@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Container;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Logger;
@@ -16,8 +15,8 @@ namespace Mud.Server.Player;
 
 public class Player : ActorBase, IPlayer
 {
-    protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
-    protected ICharacterManager CharacterManager => DependencyContainer.Current.GetInstance<ICharacterManager>();
+    protected ITimeManager TimeManager { get; }
+    protected ICharacterManager CharacterManager { get; }
 
     private readonly List<string> _delayedTells;
     private readonly List<PlayableCharacterData> _avatarList;
@@ -28,8 +27,12 @@ public class Player : ActorBase, IPlayer
 
     protected IInputTrap<IPlayer>? CurrentStateMachine;
 
-    public Player(Guid id, string name)
+    public Player(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name)
+        : base(gameActionManager)
     {
+        TimeManager = timeManager;
+        CharacterManager = characterManager;
+
         Id = id;
         Name = name;
 
@@ -45,15 +48,15 @@ public class Player : ActorBase, IPlayer
     }
 
     // Used for promote
-    public Player(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
-        : this(id, name)
+    public Player(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
+        : this(gameActionManager, timeManager, characterManager, id, name)
     {
         _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         _avatarList = avatarList?.ToList() ?? [];
     }
 
-    public Player(Guid id, PlayerData data)
-        : this(id, data.Name)
+    public Player(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, PlayerData data)
+        : this(gameActionManager, timeManager, characterManager, id, data.Name)
     {
         PagingLineCount = data.PagingLineCount;
         _aliases.Clear();
@@ -311,6 +314,18 @@ public class Player : ActorBase, IPlayer
     public void ResetDeletionConfirmationNeeded()
     {
         DeletionConfirmationNeeded = false;
+    }
+
+    public bool SaveNeeded { get; protected set; }
+
+    public void SetSaveNeeded()
+    {
+        SaveNeeded = true;
+    }
+
+    public void ResetSaveNeeded()
+    {
+        SaveNeeded = false;
     }
 
     public void SetStateMachine(IInputTrap<IPlayer> inputTrap)

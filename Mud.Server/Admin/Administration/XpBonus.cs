@@ -57,7 +57,7 @@ public class XpBonus : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Wiznet.Wiznet($"{Actor.DisplayName} give experience [{Experience}] to {Whom.DebugName}.", WiznetFlags.Help);
+        Wiznet.Log($"{Actor.DisplayName} give experience [{Experience}] to {Whom.DebugName}.", WiznetFlags.Help);
 
         Whom.Send("You have received an experience boost.");
         Whom.GainExperience(Experience);

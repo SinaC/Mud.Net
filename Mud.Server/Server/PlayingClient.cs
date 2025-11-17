@@ -1,5 +1,4 @@
-﻿using Mud.Container;
-using Mud.Network.Interfaces;
+﻿using Mud.Network.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Player;
 using System.Collections.Concurrent;
@@ -15,14 +14,16 @@ internal class PlayingClient
     private readonly ConcurrentQueue<string> _receiveQueue; // concurrent queue because network may write and server read at the same time
     private readonly StringBuilder _sendBuffer;
 
-    protected ITimeManager TimeManager => DependencyContainer.Current.GetInstance<ITimeManager>();
+    protected ITimeManager TimeManager { get; }
 
     public Paging Paging { get; }
 
     public DateTime LastReceivedDataTimestamp { get; private set; }
 
-    public PlayingClient()
+    public PlayingClient(ITimeManager timeManager)
     {
+        TimeManager = timeManager;
+
         _receiveQueue = new ConcurrentQueue<string>();
         _sendBuffer = new StringBuilder();
         Paging = new Paging();

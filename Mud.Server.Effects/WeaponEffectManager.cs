@@ -1,5 +1,4 @@
-﻿using Mud.Container;
-using Mud.Logger;
+﻿using Mud.Logger;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
@@ -9,44 +8,48 @@ namespace Mud.Server.Effects;
 
 public class WeaponEffectManager : IWeaponEffectManager
 {
-    private readonly Dictionary<string, Type> _weaponEffectsByWeaponFlag;
+    private IServiceProvider ServiceProvider { get; }
+    private Dictionary<string, Type> WeaponEffectsByWeaponFlag { get; }
 
-    public WeaponEffectManager(IAssemblyHelper assemblyHelper)
+    public WeaponEffectManager(IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
+        ServiceProvider = serviceProvider;
+
         var iWeaponEffectType = typeof(IWeaponEffect);
-        _weaponEffectsByWeaponFlag = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iWeaponEffectType.IsAssignableFrom(t)))
+        WeaponEffectsByWeaponFlag = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iWeaponEffectType.IsAssignableFrom(t)))
             .Select(t => new { executionType = t, attribute = t.GetCustomAttribute<WeaponEffectAttribute>()! })
             .Where(x => x.attribute != null)
             .ToDictionary(x => x.attribute.WeaponFlagName, x => x.executionType);
     }
 
-    public int Count => _weaponEffectsByWeaponFlag.Count;
+    public int Count => WeaponEffectsByWeaponFlag.Count;
 
     public TWeaponEffect? CreateInstance<TWeaponEffect>(string weaponEffectName)
         where TWeaponEffect : class, IWeaponEffect
     {
-        if (!_weaponEffectsByWeaponFlag.TryGetValue(weaponEffectName, out var weaponEffect))
+        if (!WeaponEffectsByWeaponFlag.TryGetValue(weaponEffectName, out var weaponEffectType))
         {
             Log.Default.WriteLine(LogLevels.Warning, "WeaponEffectManager: weapon flag {0} not found.", weaponEffectName);
             return null;
         }
 
         var tWeaponEffectType = typeof(TWeaponEffect);
-        if (!tWeaponEffectType.IsAssignableFrom(weaponEffect))
+        if (!tWeaponEffectType.IsAssignableFrom(weaponEffectType))
         {
-            Log.Default.WriteLine(LogLevels.Error, "WeaponEffectManager: weapon effect type {0} is not of type {1}.", weaponEffect.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
+            Log.Default.WriteLine(LogLevels.Error, "WeaponEffectManager: weapon effect type {0} is not of type {1}.", weaponEffectType.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
             return null;
         }
 
-        if (DependencyContainer.Current.GetRegistration(weaponEffect, false) == null)
+        var weaponEffect = ServiceProvider.GetService(weaponEffectType);
+        if (weaponEffect == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} not found in DependencyContainer.", weaponEffect.FullName ?? "???");
+            Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} not found in DependencyContainer.", weaponEffectType.FullName ?? "???");
             return null;
         }
 
-        if (DependencyContainer.Current.GetInstance(weaponEffect) is not TWeaponEffect instance)
+        if (weaponEffect is not TWeaponEffect instance)
         {
-            Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} cannot be created or is not of type {1}", weaponEffect.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
+            Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} cannot be created or is not of type {1}", weaponEffectType.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
             return null;
         }
 
@@ -56,12 +59,10 @@ public class WeaponEffectManager : IWeaponEffectManager
     public IEnumerable<string> WeaponEffectsByType<TWeaponEffect>(IItemWeapon weapon)
         where TWeaponEffect : IWeaponEffect
     {
-        Type tWeaponEffectType = typeof(TWeaponEffect);
-        foreach (string weaponFlag in weapon.WeaponFlags.Items)
+        var tWeaponEffectType = typeof(TWeaponEffect);
+        foreach (var weaponFlag in weapon.WeaponFlags.Items)
         {
-            if (!_weaponEffectsByWeaponFlag.TryGetValue(weaponFlag, out var weaponEffect))
-                Log.Default.WriteLine(LogLevels.Warning, "WeaponEffectManager: weapon flag {0} has no associated effect.", weaponFlag);
-            else
+            if (WeaponEffectsByWeaponFlag.TryGetValue(weaponFlag, out var weaponEffect))
             {
                 if (tWeaponEffectType.IsAssignableFrom(weaponEffect)) // if this weapon flag is of the right type, returns it
                     yield return weaponFlag;

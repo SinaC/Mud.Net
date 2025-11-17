@@ -47,12 +47,12 @@ public class Cload : AdminGameAction
         var character = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterBlueprint, Impersonating.Room);
         if (character == null)
         {
-            Wiznet.Wiznet($"DoCload: character with id {BlueprintId} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"DoCload: character with id {BlueprintId} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
             Actor.Send("Character cannot be created.");
             return;
         }
 
-        Wiznet.Wiznet($"{Actor.DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
+        Wiznet.Log($"{Actor.DisplayName} loads {character.DebugName}.", WiznetFlags.Load);
 
         Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1:n}!", Actor.Impersonating!, character);
         Actor.Send("Ok.");

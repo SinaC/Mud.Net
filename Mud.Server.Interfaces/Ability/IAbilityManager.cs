@@ -7,7 +7,7 @@ namespace Mud.Server.Interfaces.Ability
         IEnumerable<IAbilityInfo> Abilities { get; }
         IAbilityInfo? this[string abilityName] { get; }
 
-        IEnumerable<IAbilityInfo> AbilitiesByExecutionType<TAbility>()
+        IEnumerable<IAbilityInfo> SearchAbilitiesByExecutionType<TAbility>()
             where TAbility : class, IAbility;
 
         IAbilityInfo? Search(string pattern, AbilityTypes type);
