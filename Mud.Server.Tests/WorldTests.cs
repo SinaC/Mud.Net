@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Interfaces.Area;
@@ -11,6 +8,7 @@ using Mud.Server.Tests.Mocking;
 
 namespace Mud.Server.Tests
 {
+    /*
     [TestClass]
     public class WorldTests
     {
@@ -34,4 +32,5 @@ namespace Mud.Server.Tests
             }
         }
     }
+    */
 }

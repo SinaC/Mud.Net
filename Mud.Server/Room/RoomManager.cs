@@ -6,7 +6,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 using Mud.Settings.Interfaces;
@@ -21,8 +20,6 @@ public class RoomManager : IRoomManager
     private IGameActionManager GameActionManager { get; }
     private IAbilityManager AbilityManager { get; }
     private ITimeManager TimeManager { get; }
-    private IItemManager ItemManager { get; }
-    private ICharacterManager CharacterManager { get; }
 
     // Null room is used to avoid setting char.room to null when deleting and is used as container when deleting item
     private IRoom? _nullRoom; // save a reference for further use
@@ -30,7 +27,7 @@ public class RoomManager : IRoomManager
     private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
     private readonly List<IRoom> _rooms;
 
-    public RoomManager(IServiceProvider serviceProvider, ISettings settings, IRandomManager randomManager, IGameActionManager gameActionManager, IAbilityManager abilityManager, ITimeManager timeManager, IItemManager itemManager, ICharacterManager characterManager)
+    public RoomManager(IServiceProvider serviceProvider, ISettings settings, IRandomManager randomManager, IGameActionManager gameActionManager, IAbilityManager abilityManager, ITimeManager timeManager)
     {
         ServiceProvider = serviceProvider;
         Settings = settings;
@@ -38,8 +35,6 @@ public class RoomManager : IRoomManager
         GameActionManager = gameActionManager;
         AbilityManager = abilityManager;
         TimeManager = timeManager;
-        ItemManager = itemManager;
-        CharacterManager = characterManager;
 
         _roomBlueprints = [];
         _rooms = [];
@@ -83,7 +78,7 @@ public class RoomManager : IRoomManager
     public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)
     {
         ArgumentNullException.ThrowIfNull(blueprint);
-        var room = new Room(ServiceProvider, GameActionManager, AbilityManager, Settings, TimeManager, ItemManager, CharacterManager, Guid.NewGuid(), blueprint, area);
+        var room = new Room(ServiceProvider, GameActionManager, AbilityManager, Settings, TimeManager, Guid.NewGuid(), blueprint, area);
         room.Recompute();
         _rooms.Add(room);
         return room;

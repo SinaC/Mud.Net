@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -17,12 +15,12 @@ using Mud.Server.Random;
 using Mud.Server.Rom24.Skills;
 using Mud.Server.Rom24.Spells;
 
-namespace Mud.Server.Tests.Abilities
+namespace Mud.Server.Rom24.Tests.Abilities
 {
     [TestClass]
-    public class WandTests : TestBase
+    public class ScrollTests : AbilityTestBase
     {
-        // TODO: wand in inventory and not hold, no charge left, 1 charge left
+        // TODO: scroll not found in inventory
 
         // no target + no target spell -> success
         [TestMethod]
@@ -41,20 +39,20 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Earthquake");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Earthquake");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -64,7 +62,7 @@ namespace Mud.Server.Tests.Abilities
             userMock.Verify(x => x.Send("The earth trembles beneath your feet!", It.IsAny<object[]>()), Times.Once);
         }
 
-        // no target + character offensive target spell
+        // no target + character offensive target spell -> fail
         [TestMethod]
         public void NoTarget_CharacterOffensiveTargetSpell()
         {
@@ -81,19 +79,20 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
+            userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Fireball");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireball");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -119,20 +118,20 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Armor");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Armor");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -153,27 +152,27 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Fireproof");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireproof");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -193,27 +192,27 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Curse");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -233,27 +232,27 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
+            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Invisibility");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Invisibility");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -281,24 +280,23 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Earthquake");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Earthquake");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -327,24 +325,23 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Fireball");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireball");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -373,24 +370,23 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Armor");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Armor");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -411,7 +407,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -419,29 +415,28 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Fireproof");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireproof");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
 
-            Assert.AreEqual("You can't find it.", result);
+            Assert.AreEqual("You are not carrying that.", result);
         }
 
         // character target + mixed offensive target spell -> cast on target
@@ -456,32 +451,31 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
- 
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
+
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Curse");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -504,7 +498,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -512,24 +506,23 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { userMock.Object, targetMock.Object });
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Invisibility");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Invisibility");
+            userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -550,7 +543,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(randomManagerMock.Object));
+                        abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -558,7 +551,6 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -566,16 +558,15 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
-            userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Earthquake");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Earthquake");
+            userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -604,7 +595,6 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -612,21 +602,20 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
-            userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Fireball");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireball");
+            userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
 
-            Assert.AreEqual("You can't find it.", result);
+            Assert.AreEqual("They aren't here.", result);
         }
 
         // item target + character defensive target spell -> fail
@@ -649,7 +638,6 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -657,24 +645,23 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
-            userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Armor");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Armor");
+            userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
 
-            Assert.AreEqual("You can't find it.", result);
+            Assert.AreEqual("They aren't here.", result);
         }
 
-        // item target + item target spell -> cast on target
+        // item target + item target spell -> cast on item
         [TestMethod]
         public void ItemTarget_ItemTargetSpell()
         {
@@ -685,7 +672,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -693,7 +680,6 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -701,23 +687,21 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
-            userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Fireproof");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireproof");
+            userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
 
             Assert.IsNull(result);
-            userMock.Verify(x => x.Act(ActOptions.ToAll, "{0:N} zap{0:v} {1} with {2}.", It.IsAny<object[]>()), Times.Once);
             auraManagerMock.Verify(x => x.AddAura(itemMock.Object, "Fireproof", userMock.Object, It.IsAny<int>(), It.IsAny<TimeSpan>(), It.IsAny<AuraFlags>(), It.IsAny<bool>(), It.IsAny<IAffect[]>()), Times.Once);
             userMock.Verify(x => x.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", It.IsAny<object[]>()), Times.Once);
         }
@@ -735,7 +719,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -743,7 +727,6 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -751,16 +734,15 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
-            userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Curse");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
+            userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
@@ -783,7 +765,7 @@ namespace Mud.Server.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -791,7 +773,6 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -799,16 +780,15 @@ namespace Mud.Server.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags());
-            userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
-            Mock<IItemWand> wandMock = new Mock<IItemWand>();
-            wandMock.SetupGet(x => x.Name).Returns("wand");
-            wandMock.SetupGet(x => x.CurrentChargeCount).Returns(2);
-            wandMock.SetupGet(x => x.SpellName).Returns("Invisibility");
-            userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
+            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            Mock<IItemScroll> scrollMock = new Mock<IItemScroll>();
+            scrollMock.SetupGet(x => x.Name).Returns("scroll");
+            scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
+            scrollMock.SetupGet(x => x.FirstSpellName).Returns("Invisibility");
+            userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Wands skill = new Wands(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
-            var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
+            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);

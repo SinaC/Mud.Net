@@ -20,8 +20,6 @@ public interface IArea
     IEnumerable<ICharacter> Characters { get; }
     IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
 
-    void ResetArea();
-
     bool AddRoom(IRoom room);
     bool RemoveRoom(IRoom room);
 }

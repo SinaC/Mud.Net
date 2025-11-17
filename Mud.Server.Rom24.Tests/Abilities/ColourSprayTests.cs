@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -14,19 +12,19 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
 
-namespace Mud.Server.Tests.Abilities
+namespace Mud.Server.Rom24.Tests.Abilities
 {
     [TestClass]
-    public class ColourSprayTests : TestBase
+    public class ColourSprayTests : AbilityTestBase
     {
         [TestMethod]
         public void BlindnessCalledAfterDamageEffectEvenIfBlindnessIsNotKnown()
         {
-            Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
-            Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
-            Mock<IRoom> roomMock = new Mock<IRoom>();
-            Mock<ICharacter> casterMock = new Mock<ICharacter>();
-            Mock<ICharacter> targetMock = new Mock<ICharacter>();
+            Mock<IRandomManager> randomManagerMock = new();
+            Mock<IAuraManager> auraManagerMock = new();
+            Mock<IRoom> roomMock = new();
+            Mock<ICharacter> casterMock = new();
+            Mock<ICharacter> targetMock = new();
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
             casterMock.SetupGet(x => x.Name).Returns("caster");
@@ -36,16 +34,16 @@ namespace Mud.Server.Tests.Abilities
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             targetMock.Setup(x => x.AbilityDamage(It.IsAny<ICharacter>(), It.IsAny<int>(), It.IsAny<SchoolTypes>(), It.IsAny<string>(), It.IsAny<bool>())).Returns(DamageResults.Done);
-            roomMock.SetupGet(x => x.People).Returns(new[] {casterMock.Object, targetMock.Object});
+            roomMock.SetupGet(x => x.People).Returns([casterMock.Object, targetMock.Object]);
 
             var parameters = BuildParameters("target");
-            ColourSpray spell = new ColourSpray(randomManagerMock.Object, auraManagerMock.Object);
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
-            string setupResult = spell.Setup(abilityActionInput);
+            ColourSpray spell = new (_serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            SpellActionInput abilityActionInput = new (new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
+            var setupResult = spell.Setup(abilityActionInput);
 
             spell.Execute();
 

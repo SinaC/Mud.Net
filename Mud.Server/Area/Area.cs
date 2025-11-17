@@ -42,14 +42,6 @@ public class Area : IArea
     public IEnumerable<ICharacter> Characters => _rooms.SelectMany(x => x.People);
     public IEnumerable<IPlayableCharacter> PlayableCharacters => _rooms.SelectMany(x => x.People).OfType<IPlayableCharacter>();
 
-    public void ResetArea()
-    {
-        Log.Default.WriteLine(LogLevels.Debug, "Resetting {0}", DisplayName);
-        foreach (IRoom room in _rooms)
-            room.ResetRoom();
-        Wiznet.Wiznet($"{DisplayName} has just been reset.", Domain.WiznetFlags.Resets);
-    }
-
     public bool AddRoom(IRoom room)
     {
         //if (room.Area != null)

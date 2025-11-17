@@ -11,6 +11,7 @@ using Mud.Server.Flags;
 
 namespace Mud.Server.Tests
 {
+    /*
     // TODO: will fail until RandomManager can be injected in ICharacter
     [Ignore]
     [TestClass]
@@ -74,4 +75,5 @@ namespace Mud.Server.Tests
 
         // TODO: more tests
     }
+    */
 }

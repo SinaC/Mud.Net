@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -11,12 +10,12 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 
-namespace Mud.Server.Tests.Abilities
+namespace Mud.Server.Rom24.Tests.Abilities
 {
     [TestClass]
-    public class OptionalItemInventorySpellBaseTests : TestBase
+    public class OptionalItemInventorySpellBaseTests : AbilityTestBase
     {
-        private const string SpellName = "OptionalItemInventorySpellBaseTests_Spell";
+        public const string SpellName = "OptionalItemInventorySpellBaseTests_Spell";
 
         [TestMethod]
         public void Setup_ItemNotFound()

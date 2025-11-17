@@ -26,6 +26,8 @@ refactor settings
 UNIT TESTS
 use xunit + moq
 
+move commands to Mud.Server.Commands
+
 Item.GetAura should be based on flags and not ability (check Curse spell)
 in general way, Aura should be based on flags instead of abilities (with an optional ability)
 

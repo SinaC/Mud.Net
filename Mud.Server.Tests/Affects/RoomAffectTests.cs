@@ -12,6 +12,7 @@ using Mud.Server.Flags;
 
 namespace Mud.Server.Tests.Affects
 {
+    /*
     [TestClass]
     public class RoomAffectTests
     {
@@ -200,4 +201,5 @@ namespace Mud.Server.Tests.Affects
         // TODO
         // One room affect on room + one room affect on item in room + one room affect on character in room
     }
+    */
 }

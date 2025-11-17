@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Flags;
@@ -22,6 +23,7 @@ using Mud.Server.Tests.Mocking;
 using Mud.Settings.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 
@@ -30,6 +32,7 @@ namespace Mud.Server.Tests
     [TestClass]
     public abstract class TestBase
     {
+        /*
         protected IWorld World => Container.DependencyContainer.Current.GetInstance<IWorld>();
         protected IRoomManager RoomManager => Container.DependencyContainer.Current.GetInstance<IRoomManager>();
         protected IItemManager ItemManager => Container.DependencyContainer.Current.GetInstance<IItemManager>();
@@ -89,12 +92,13 @@ namespace Mud.Server.Tests
             foreach (var registrable in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
                 Container.DependencyContainer.Current.Register(registrable);
         }
+        */
 
         internal class AssemblyHelper : IAssemblyHelper
         {
             public IEnumerable<Assembly> AllReferencedAssemblies => new[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly };
         }
-
+        /*
         internal static PlayableCharacterData CreatePlayableCharacterData(string name, int level, Sex sex, string className, string raceName, int roomId)
         {
             return new PlayableCharacterData
@@ -134,6 +138,7 @@ namespace Mud.Server.Tests
                 Vulnerabilities = new IRVFlags(),
             };
         }
+    */
     }
 
     internal class Rom24CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues

@@ -54,8 +54,6 @@ public interface IRoom : IEntity, IContainer
 
     (IExit? exit, ExitDirections exitDirection) VerboseFindDoor(ICharacter character, ICommandParameter parameter);
 
-    void ResetRoom();
-
     // Affects
     void ApplyAffect(IRoomFlagsAffect affect);
     void ApplyAffect(IRoomHealRateAffect affect);

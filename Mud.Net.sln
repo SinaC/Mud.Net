@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36603.0
+VisualStudioVersion = 17.12.35728.132 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Interfaces", "Mud.Network.Interfaces\Mud.Network.Interfaces.csproj", "{C911CF12-D355-4814-91BB-A68D05ADE97C}"
 EndProject
@@ -87,6 +87,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.AdditionalAbilities", "Mud.Server.AdditionalAbilities\Mud.Server.AdditionalAbilities.csproj", "{AA0D8C4A-FF09-40CF-B41E-98FD9A2DA158}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.POC", "Mud.Server.POC\Mud.Server.POC.csproj", "{080E826A-D582-47F3-9865-457B79E4BCC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Rom24.Tests", "Mud.Server.Rom24.Tests\Mud.Server.Rom24.Tests.csproj", "{707552CB-AB59-44E6-8118-27BDED057105}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -542,6 +544,18 @@ Global
 		{080E826A-D582-47F3-9865-457B79E4BCC6}.Release|x64.Build.0 = Release|Any CPU
 		{080E826A-D582-47F3-9865-457B79E4BCC6}.Release|x86.ActiveCfg = Release|Any CPU
 		{080E826A-D582-47F3-9865-457B79E4BCC6}.Release|x86.Build.0 = Release|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Debug|x64.Build.0 = Debug|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Debug|x86.Build.0 = Debug|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Release|x64.ActiveCfg = Release|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Release|x64.Build.0 = Release|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Release|x86.ActiveCfg = Release|Any CPU
+		{707552CB-AB59-44E6-8118-27BDED057105}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

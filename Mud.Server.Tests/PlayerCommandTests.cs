@@ -8,6 +8,7 @@ using Moq;
 
 namespace Mud.Server.Tests
 {
+    /*
     [Ignore] // TODO: totally wrong because a playable character should not be created without being impersonated immediately
     [TestClass]
     public class PlayerCommandTests : TestBase
@@ -36,4 +37,5 @@ namespace Mud.Server.Tests
             Assert.IsNotNull(pc.ImpersonatedBy);
         }
     }
+    */
 }

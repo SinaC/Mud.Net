@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -12,12 +9,12 @@ using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 
-namespace Mud.Server.Tests.Abilities
+namespace Mud.Server.Rom24.Tests.Abilities
 {
     [TestClass]
-    public class SpellBaseTests : TestBase
+    public class SpellBaseTests : AbilityTestBase
     {
-        private const string SpellName = "SpellBaseTests_Spell";
+        public const string SpellName = "SpellBaseTests_Spell";
 
         [TestMethod]
         public void Setup_NoAbilityInfo()

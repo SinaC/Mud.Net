@@ -1,4 +1,4 @@
-﻿namespace Mud.Server.Tests.Abilities
+﻿namespace Mud.Server.Rom24.Tests.Abilities
 {
     //[TestClass]
     //public class CastTests : TestBase

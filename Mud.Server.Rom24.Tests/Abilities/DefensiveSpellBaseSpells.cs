@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -9,12 +8,12 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 
-namespace Mud.Server.Tests.Abilities
+namespace Mud.Server.Rom24.Tests.Abilities
 {
     [TestClass]
-    public class DefensiveSpellBaseSpells : TestBase
+    public class DefensiveSpellBaseSpells : AbilityTestBase
     {
-        private const string SpellName = "DefensiveSpellBaseSpells_Spell";
+        public const string SpellName = "DefensiveSpellBaseSpells_Spell";
 
         [TestMethod]
         public void Setup_NoTarget()

@@ -6,6 +6,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Helpers;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -24,10 +25,11 @@ public class World : IWorld
     private ICharacterManager CharacterManager { get; }
     private IRoomManager RoomManager { get; }
     private IAreaManager AreaManager { get; }
+    private IResetManager ResetManager { get; }
 
     private readonly List<TreasureTable<int>> _treasureTables;
 
-    public World(IRandomManager randomManager, ISettings settings, IItemManager itemManager, ICharacterManager characterManager, IRoomManager roomManager, IAreaManager areaManager)
+    public World(IRandomManager randomManager, ISettings settings, IItemManager itemManager, ICharacterManager characterManager, IRoomManager roomManager, IAreaManager areaManager, IResetManager resetManager)
     {
         RandomManager = randomManager;
         Settings = settings;
@@ -35,6 +37,7 @@ public class World : IWorld
         CharacterManager = characterManager;
         RoomManager = roomManager;
         AreaManager = areaManager;
+        ResetManager = resetManager;
 
         _treasureTables = [];
     }
@@ -61,7 +64,7 @@ public class World : IWorld
             // TODO: handle age + at load time, force age to arbitrary high value to ensure reset are computed
             //if (area.PlayableCharacters.Any())
             {
-                area.ResetArea();
+                ResetManager.ResetArea(area);
             }
         }
     }

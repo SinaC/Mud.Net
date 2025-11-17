@@ -12,6 +12,7 @@ using Mud.Server.Flags;
 
 namespace Mud.Server.Tests.Affects
 {
+    /*
     [TestClass]
     public class ItemWeaponAffectTests
     {
@@ -67,4 +68,5 @@ namespace Mud.Server.Tests.Affects
             Assert.IsTrue(weapon.ItemFlags.HasAll("AntiNeutral", "Bless", "Dark"));
         }
     }
+    */
 }

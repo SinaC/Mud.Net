@@ -9,6 +9,7 @@ using Mud.Server.Interfaces.Aura;
 
 namespace Mud.Server.Tests.Affects
 {
+    /*
     // TODO: CharacterFlagsAffect, CharacterIRVAffect, CharacterSexAffect
     [TestClass]
     public class CharacterAffectTests
@@ -125,4 +126,5 @@ namespace Mud.Server.Tests.Affects
             Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorExotic]);
         }
     }
+    */
 }

@@ -1,37 +1,42 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Mud.Container;
+﻿using Moq;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Mud.Server.Rom24.Flags;
+using Mud.Server.Rom24.Spells;
 using System.Reflection;
 
-namespace Mud.Server.Tests.Abilities
+namespace Mud.Server.Rom24.Tests.Abilities
 {
     [TestClass]
-    public abstract class TestBase
+    public abstract class AbilityTestBase
     {
-        private SimpleInjector.Container _originalContainer;
+        protected IServiceProvider _serviceProvider = default!;
 
         [TestInitialize]
         public void TestInitialize()
         {
-            _originalContainer = DependencyContainer.Current;
-            DependencyContainer.SetManualContainer(new SimpleInjector.Container());
-            DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlagValues());
-            DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlagValues());
-            DependencyContainer.Current.RegisterInstance<IOffensiveFlagValues>(new Rom24OffensiveFlagValues());
+            var serviceProviderMock = new Mock<IServiceProvider>();
+            
+            serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
+                .Returns(new CharacterFlagValues());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlagValues)))
+                .Returns(new RoomFlagValues());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IOffensiveFlagValues)))
+                .Returns(new OffensiveFlagValues());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlagValues)))
+                .Returns(new ItemFlagValues());
+
+            RegisterAdditionalDependencies(serviceProviderMock);
+
+            _serviceProvider = serviceProviderMock.Object;
         }
 
-        [TestCleanup]
-        public void TestCleanup()
+        protected virtual void RegisterAdditionalDependencies(Mock<IServiceProvider> serviceProviderMock)
         {
-            DependencyContainer.SetManualContainer(_originalContainer);
         }
 
         protected ICommandParameter[] BuildParameters(string parameters)
@@ -79,6 +84,11 @@ namespace Mud.Server.Tests.Abilities
             mock.SetupGet(x => x.CostAmount).Returns(50);
             mock.SetupGet(x => x.CostAmountOperator).Returns(Domain.CostAmountOperators.Fixed);
             return mock.Object;
+        }
+
+        protected class AssemblyHelper : IAssemblyHelper
+        {
+            public IEnumerable<Assembly> AllReferencedAssemblies => new[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly };
         }
     }
 }

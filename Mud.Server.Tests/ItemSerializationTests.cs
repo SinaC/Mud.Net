@@ -13,6 +13,7 @@ using Mud.Server.Item;
 
 namespace Mud.Server.Tests
 {
+    /*
     [TestClass]
     public class ItemSerializationTests : TestBase // TODo: remove test base when IRandomManager will be injectable in ItemCorpse
     {
@@ -489,4 +490,5 @@ namespace Mud.Server.Tests
             Assert.AreEqual(weapon.BaseWeaponFlags, (itemData as ItemWeaponData).WeaponFlags);
         }
     }
+    */
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
+﻿using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -12,10 +11,10 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
 
-namespace Mud.Server.Tests.Abilities
+namespace Mud.Server.Rom24.Tests.Abilities
 {
     [TestClass]
-    public class ItemCastSpellSkillBaseTests : TestBase
+    public class ItemCastSpellSkillBaseTests : AbilityTestBase
     {
         public const string SkillName = "ItemCastSpellSkillBaseTests_Skill";
 
