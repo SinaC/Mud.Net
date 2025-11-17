@@ -93,7 +93,7 @@ public class Auto : PlayableCharacterGameAction
             case AutoFlags.Loot: return "Automatic corpse looting set.";
             case AutoFlags.Split: return "Automatic gold splitting set.";
             default:
-                Wiznet.Wiznet($"AutoAddedMessage: invalid flag {flag}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Log($"AutoAddedMessage: invalid flag {flag}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return "???";
         }
     }
@@ -109,7 +109,7 @@ public class Auto : PlayableCharacterGameAction
             case AutoFlags.Loot: return "Autolooting removed.";
             case AutoFlags.Split: return "Autosplitting removed.";
             default:
-                Wiznet.Wiznet($"AutoRemovedMessage: invalid flag {flag}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Log($"AutoRemovedMessage: invalid flag {flag}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return "???";
         }
     }

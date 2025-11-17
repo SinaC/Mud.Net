@@ -13,23 +13,18 @@ namespace Mud.Server.Admin;
 
 public class Admin : Player.Player, IAdmin
 {
-    public Admin(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name) 
-        : base(gameActionManager, timeManager, characterManager, id, name)
-    {
-    }
-
-    // used for promotion
-    public Admin(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, AdminLevels level, IReadOnlyDictionary<string,string> aliases, IEnumerable<PlayableCharacterData> avatarList)
-        : base(gameActionManager, timeManager, characterManager, id, name, aliases, avatarList)
-    {
-        Level = level;
-    }
-
     public Admin(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, AdminData data)
         : base(gameActionManager, timeManager, characterManager, id, data)
     {
         Level = data.AdminLevel;
         WiznetFlags = data.WiznetFlags;
+    }
+
+    // used for promotion
+    public Admin(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
+        : base(gameActionManager, timeManager, characterManager, id, name, aliases, avatarList)
+    {
+        Level = level;
     }
 
     #region IAdmin

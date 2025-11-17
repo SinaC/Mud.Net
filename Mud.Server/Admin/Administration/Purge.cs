@@ -93,7 +93,7 @@ public class Purge : AdminGameAction
 
     private void PurgeRoom(IRoom room)
     {
-        Wiznet.Wiznet($"{Actor.DisplayName} purges room {room.Blueprint.Id}.", WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} purges room {room.Blueprint.Id}.", WiznetFlags.Punish);
 
         // Purge non playable characters (without NoPurge flag) (TODO: what if npc was wearing NoPurge items?)
         var nonPlayableCharacters = new ReadOnlyCollection<INonPlayableCharacter>(room.NonPlayableCharacters.Where(x => !x.ActFlags.IsSet("NoPurge")).ToList()); // clone
@@ -109,7 +109,7 @@ public class Purge : AdminGameAction
 
     private void PurgeNonPlayableCharacter(INonPlayableCharacter nonPlayableCharacterVictim)
     {
-        Wiznet.Wiznet($"{Actor.DisplayName} purges npc {nonPlayableCharacterVictim.DebugName}.", WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} purges npc {nonPlayableCharacterVictim.DebugName}.", WiznetFlags.Punish);
 
         nonPlayableCharacterVictim.Act(ActOptions.ToRoom, "{0} purge{0:v} {1}.", Actor.Impersonating!, nonPlayableCharacterVictim);
         CharacterManager.RemoveCharacter(nonPlayableCharacterVictim);
@@ -118,7 +118,7 @@ public class Purge : AdminGameAction
 
     private void PurgePlayableCharacter(IPlayableCharacter playableCharacterVictim)
     {
-        Wiznet.Wiznet($"{Actor.DisplayName} purges player {playableCharacterVictim.DebugName}.", WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} purges player {playableCharacterVictim.DebugName}.", WiznetFlags.Punish);
 
         playableCharacterVictim.Act(ActOptions.ToRoom, "{0} disintegrate{0:v} {1}.", Actor.Impersonating!, playableCharacterVictim);
         playableCharacterVictim.StopFighting(true);
@@ -130,7 +130,7 @@ public class Purge : AdminGameAction
 
     private void PurgeItem(IItem item)
     {
-        Wiznet.Wiznet($"{Actor.DisplayName} purges item {item.DebugName}.", WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} purges item {item.DebugName}.", WiznetFlags.Punish);
 
         Impersonating.Act(ActOptions.ToAll, "{0:N} purge{0:v} {1}.", Actor.Impersonating!, item);
         ItemManager.RemoveItem(item);

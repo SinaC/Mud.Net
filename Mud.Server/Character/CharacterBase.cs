@@ -1021,7 +1021,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (destination == null)
         {
             Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeRoom: {0} from: {1} to null", DebugName, Room == null ? "<<no room>>" : Room.DebugName);
-            Wiznet.Wiznet($"Null destination room for character {DebugName}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Null destination room for character {DebugName}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
         Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeRoom: {0} from: {1} to {2}", DebugName, Room == null ? "<<no room>>" : Room.DebugName, destination == null ? "<<no room>>" : destination.DebugName);
@@ -1369,9 +1369,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         if (this is INonPlayableCharacter)
-            Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.MobDeaths);
+            Wiznet.Log($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.MobDeaths);
         else
-            Wiznet.Wiznet($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.Deaths);
+            Wiznet.Log($"{DebugName} got toasted by {killer?.DebugName ?? "???"} at {Room?.DebugName ?? "???"}", WiznetFlags.Deaths);
 
         StopFighting(true);
         // Remove auras
@@ -2095,7 +2095,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         int damage = RandomManager.Dice(weapon.DiceCount, weapon.DiceValue) * weaponLearned / 100;
         if (GetEquipment<IItemShield>(EquipmentSlots.OffHand) == null) // no shield -> more damage
             damage = 11 * damage / 10;
-        foreach (string damageModifierWeaponEffect in WeaponEffectManager.WeaponEffectsByType<IDamageModifierWeaponEffect>(weapon))
+        foreach (var damageModifierWeaponEffect in WeaponEffectManager.WeaponEffectsByType<IDamageModifierWeaponEffect>(weapon))
         {
             var effect = WeaponEffectManager.CreateInstance<IDamageModifierWeaponEffect>(damageModifierWeaponEffect);
             if (effect != null)

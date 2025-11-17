@@ -1,6 +1,4 @@
-﻿using Mud.Logger;
-using Mud.Server.Blueprints.Area;
-using Mud.Server.Interfaces;
+﻿using Mud.Server.Blueprints.Area;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Player;
@@ -12,12 +10,8 @@ public class Area : IArea
 {
     private readonly List<IRoom> _rooms;
 
-    private IWiznet Wiznet { get; }
-
-    public Area(IWiznet wiznet, Guid id, AreaBlueprint blueprint)
+    public Area(Guid id, AreaBlueprint blueprint)
     {
-        Wiznet = wiznet;
-
         Id = id;
 
         Blueprint = blueprint;

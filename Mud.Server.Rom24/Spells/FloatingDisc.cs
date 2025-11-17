@@ -27,13 +27,13 @@ public class FloatingDisc : ItemCreationSpellBase
         if (item == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Wiznet($"SpellFloatingDisc: cannot create item from blueprint {Settings.FloatingDiscBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"SpellFloatingDisc: cannot create item from blueprint {Settings.FloatingDiscBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
             return;
         }
         if (item is not IItemContainer floatingDisc)
         {
             Caster.Send("Somehing went wrong.");
-            Wiznet.Wiznet($"SpellFloatingDisc: blueprint {Settings.FloatingDiscBlueprintId} is not a container.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"SpellFloatingDisc: blueprint {Settings.FloatingDiscBlueprintId} is not a container.", WiznetFlags.Bugs, AdminLevels.Implementor);
             ItemManager.RemoveItem(item); // destroy it if invalid
             return;
         }

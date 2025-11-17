@@ -130,7 +130,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         else
         {
-            Wiznet.Wiznet($"NonPlayableCharacter.ctor: attributes not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"NonPlayableCharacter.ctor: attributes not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
             foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
                 this[attribute] = 1;
@@ -143,7 +143,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         else
         {
-            Wiznet.Wiznet($"NonPlayableCharacter.ctor: currentResources not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"NonPlayableCharacter.ctor: currentResources not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
             foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
                 this[resource] = 1;
@@ -162,7 +162,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             {
                 if (equippedItemData.Item == null)
                 {
-                    Wiznet.Wiznet($"Item to equip in slot {equippedItemData.Slot} for character {petData.Name} is null.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"Item to equip in slot {equippedItemData.Slot} for character {petData.Name} is null.", WiznetFlags.Bugs, AdminLevels.Implementor);
                 }
                 else
                 {
@@ -182,17 +182,17 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                             }
                             else
                             {
-                                Wiznet.Wiznet($"Item blueprint Id {equippedItemData.Item!.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {petData.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                                Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} cannot be equipped anymore in slot {equippedItemData.Slot} for character {petData.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
                             }
                         }
                         else
                         {
-                            Wiznet.Wiznet($"Item blueprint Id {equippedItemData.Item!.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {petData.Name} but this slot doesn't exist anymore.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                            Wiznet.Log($"Item blueprint Id {equippedItemData.Item!.ItemId} was supposed to be equipped in first empty slot {equippedItemData.Slot} for character {petData.Name} but this slot doesn't exist anymore.", WiznetFlags.Bugs, AdminLevels.Implementor);
                         }
                     }
                     else
                     {
-                        Wiznet.Wiznet($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {petData.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+                        Wiznet.Log($"Item blueprint Id {equippedItemData.Item.ItemId} cannot be created in slot {equippedItemData.Slot} for character {petData.Name}.", WiznetFlags.Bugs, AdminLevels.Implementor);
                     }
                 }
             }

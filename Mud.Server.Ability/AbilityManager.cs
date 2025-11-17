@@ -19,7 +19,8 @@ public class AbilityManager : IAbilityManager
         AbilityByName = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
         // Get abilities
         Type iAbility = typeof(IAbility);
-        foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
+        foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
+            .Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
         {
             AbilityInfo abilityInfo = new (abilityType);
             if (AbilityByName.ContainsKey(abilityInfo.Name))

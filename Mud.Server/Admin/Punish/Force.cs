@@ -56,14 +56,14 @@ public class Force : AdminGameAction
         if (Whom != null)
         {
             Actor.Send("You force {0} to '{1}'.", Whom.DebugName, What);
-            Wiznet.Wiznet($"{Actor.DisplayName} forces {Whom.DebugName} to {What}", Domain.WiznetFlags.Punish);
+            Wiznet.Log($"{Actor.DisplayName} forces {Whom.DebugName} to {What}", Domain.WiznetFlags.Punish);
 
             ForceOneCharacter(Whom);
         }
         else
         {
             Actor.Send("You force everyone to '{0}'.", What);
-            Wiznet.Wiznet($"{Actor.DisplayName} forces everyone to {What}", Domain.WiznetFlags.Punish);
+            Wiznet.Log($"{Actor.DisplayName} forces everyone to {What}", Domain.WiznetFlags.Punish);
 
             foreach (ICharacter victim in CharacterManager.Characters.Where(x => x != Impersonating))
                 ForceOneCharacter(victim);

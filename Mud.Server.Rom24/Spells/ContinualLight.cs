@@ -55,7 +55,7 @@ public class ContinualLight : OptionalItemInventorySpellBase
         if (light == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Wiznet($"ContinualLight: cannot create item from blueprint {Settings.LightBallBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"ContinualLight: cannot create item from blueprint {Settings.LightBallBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
             return;
         }
         Caster.Act(ActOptions.ToAll, "{0} twiddle{0:v} {0:s} thumbs and {1} appears.", Caster, light);

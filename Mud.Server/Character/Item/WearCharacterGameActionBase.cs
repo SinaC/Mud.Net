@@ -99,7 +99,7 @@ public abstract class WearCharacterGameActionBase : CharacterGameAction
                 };
             case EquipmentSlots.Float: return "{0:N} release{0:v} {1} to float next to {0:m}.";
             default:
-                Wiznet.Wiznet($"Invalid EquipmentSlots {slot} for item {item.DebugName} character {Actor.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                Wiznet.Log($"Invalid EquipmentSlots {slot} for item {item.DebugName} character {Actor.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return "{0:N} wear{0:v} {1}.";
         }
     }

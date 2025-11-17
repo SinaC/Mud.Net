@@ -70,6 +70,10 @@ public interface IPlayer : IActor
     void SetDeletionConfirmationNeeded();
     void ResetDeletionConfirmationNeeded();
 
+    bool SaveNeeded { get; }
+    void SetSaveNeeded();
+    void ResetSaveNeeded();
+
     void SetStateMachine(IInputTrap<IPlayer> inputTrap);
 
     void OnDisconnected();

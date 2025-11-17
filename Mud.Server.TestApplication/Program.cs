@@ -122,17 +122,18 @@ internal class Program
         services.AddSingleton<IAbilityManager, Ability.AbilityManager>();
         services.AddSingleton<IGameActionManager, GameAction.GameActionManager>();
         services.AddSingleton<ITimeManager, Server.TimeManager>();
-        services.AddSingleton<IWorld, World.World>();
         services.AddSingleton<IQuestManager, Quest.QuestManager>();
         services.AddSingleton<IAuraManager, Aura.AuraManager>();
         services.AddSingleton<IItemManager, Item.ItemManager>();
         services.AddSingleton<ICharacterManager, Character.CharacterManager>();
         services.AddSingleton<IRoomManager, Room.RoomManager>();
         services.AddSingleton<IAreaManager, Area.AreaManager>();
+        services.AddSingleton<IAdminManager, Admin.AdminManager>();
+        services.AddSingleton<IWiznet, Server.Wiznet>();
+        services.AddSingleton<IResetManager, Server.ResetManager>();
         services.AddSingleton<IServer, Server.Server>();
-        services.AddSingleton<IWiznet, Server.Server>(); // Server also implements IWiznet
+        services.AddSingleton<IWorld, Server.Server>(); // Server also implements IWorld
         services.AddSingleton<IPlayerManager, Server.Server>(); // Server also implements IPlayerManager
-        services.AddSingleton<IAdminManager, Server.Server>(); // Server also implements IAdminManager
         services.AddSingleton<IServerAdminCommand, Server.Server>(); // Server also implements IServerAdminCommand
         services.AddSingleton<IServerPlayerCommand, Server.Server>(); // Server also implements IServerPlayerCommand
         services.AddSingleton<IClassManager, Class.ClassManager>();

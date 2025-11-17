@@ -33,7 +33,7 @@ public class Typo : PlayerGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Wiznet.Wiznet($"****USER TYPO REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Typos, AdminLevels.Implementor);
+        Wiznet.Log($"****USER TYPO REPORTING -- {Actor.DisplayName}: {Message}", WiznetFlags.Typos, AdminLevels.Implementor);
         Actor.Send("Typo logged.");
     }
 }

@@ -35,14 +35,13 @@ public class CharacterManager : ICharacterManager
     private IWiznet Wiznet { get; }
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
-    private IServerPlayerCommand ServerPlayerCommand { get; }
     private ITimeManager TimeManager { get; }
     private IQuestManager QuestManager { get; }
 
     private readonly Dictionary<int, CharacterBlueprintBase> _characterBlueprints;
     private readonly List<ICharacter> _characters;
 
-    public CharacterManager(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IServerPlayerCommand serverPlayerCommand, ITimeManager timeManager, IQuestManager questManager)
+    public CharacterManager(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, ITimeManager timeManager, IQuestManager questManager)
     {
         ServiceProvider = serviceProvider;
         GameActionManager = gameActionManager;
@@ -57,7 +56,6 @@ public class CharacterManager : ICharacterManager
         Wiznet = wiznet;
         RaceManager = raceManager;
         ClassManager = classManager;
-        ServerPlayerCommand = serverPlayerCommand;
         TimeManager = timeManager;
         QuestManager = questManager;
 
@@ -96,7 +94,7 @@ public class CharacterManager : ICharacterManager
 
     public IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData playableCharacterData, IPlayer player, IRoom room) // PC
     {
-        var character = new PlayableCharacter.PlayableCharacter(ServiceProvider, GameActionManager, AbilityManager, Settings, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, ServerPlayerCommand, TimeManager, QuestManager, guid, playableCharacterData, player, room);
+        var character = new PlayableCharacter.PlayableCharacter(ServiceProvider, GameActionManager, AbilityManager, Settings, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, TimeManager, QuestManager, guid, playableCharacterData, player, room);
         _characters.Add(character);
         character.Recompute();
         room.Recompute();

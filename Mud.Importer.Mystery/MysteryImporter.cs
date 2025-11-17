@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Mud.Domain;
+﻿using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using System.Diagnostics;
 
@@ -213,7 +213,7 @@ public class MysteryImporter
 
     private IRoomFlags ConvertRoomFlags(long input)
     {
-        var flags = ServiceProvider.GetRequiredService<IRoomFlags>();
+        var flags = new RoomFlags(ServiceProvider);
         if (IsSet(input, ROOM_DARK)) flags.Set("Dark");
         if (IsSet(input, ROOM_NO_MOB)) flags.Set("NoMob");
         if (IsSet(input, ROOM_INDOORS)) flags.Set("Indoors");
@@ -978,7 +978,7 @@ public class MysteryImporter
 
     private IItemFlags ConvertExtraFlags(ObjectData objectData)
     {
-        var itemFlags = ServiceProvider.GetRequiredService<IItemFlags>();
+        var itemFlags = new ItemFlags(ServiceProvider);
         if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) itemFlags.Set("Glowing");
         if (IsSet(objectData.ExtraFlags, ITEM_HUM)) itemFlags.Set("Humming");
         if (IsSet(objectData.ExtraFlags, ITEM_DARK)) itemFlags.Set("Dark");
@@ -1046,7 +1046,7 @@ public class MysteryImporter
         }
 
         long weaponType2 = objectData.Values[4] == null ? 0L : System.Convert.ToInt64(objectData.Values[4]);
-        var weaponFlags = ServiceProvider.GetRequiredService<IWeaponFlags>();
+        var weaponFlags = new WeaponFlags(ServiceProvider);
         if (IsSet(weaponType2, WEAPON_FLAMING)) weaponFlags.Set("Flaming");
         if (IsSet(weaponType2, WEAPON_FROST)) weaponFlags.Set("Frost");
         if (IsSet(weaponType2, WEAPON_VAMPIRIC)) weaponFlags.Set("Vampiric");
@@ -1359,7 +1359,7 @@ public class MysteryImporter
 
     private IIRVFlags ConvertMysteryIRV(long value)
     {
-        var flags = ServiceProvider.GetRequiredService<IIRVFlags>();
+        var flags = new IRVFlags(ServiceProvider);
         if (IsSet(value, IRV_SUMMON)) flags.Set("Summon");
         if (IsSet(value, IRV_CHARM)) flags.Set("Charm");
         if (IsSet(value, IRV_MAGIC)) flags.Set("Magic");
@@ -1392,7 +1392,7 @@ public class MysteryImporter
 
     private ICharacterFlags ConvertMysteryCharacterFlags(long affectedBy)
     {
-        var flags = ServiceProvider.GetRequiredService<ICharacterFlags>();
+        var flags = new CharacterFlags(ServiceProvider);
         if (IsSet(affectedBy, AFF_BLIND)) flags.Set("Blind");
         if (IsSet(affectedBy, AFF_INVISIBLE)) flags.Set("Invisible");
         if (IsSet(affectedBy, AFF_DETECT_EVIL)) flags.Set("DetectEvil");
@@ -1442,7 +1442,7 @@ public class MysteryImporter
 
     private IActFlags ConvertMysteryActFlags(long act)
     {
-        var flags = ServiceProvider.GetRequiredService<IActFlags>();
+        var flags = new ActFlags(ServiceProvider);
         //ACT_IS_NPC not used
         if (IsSet(act, ACT_SENTINEL)) flags.Set("Sentinel");
         if (IsSet(act, ACT_SCAVENGER)) flags.Set("Scavenger");
@@ -1477,7 +1477,7 @@ public class MysteryImporter
 
     private (IOffensiveFlags, IAssistFlags) ConvertMysteryOffensiveFlags(long input)
     {
-        var off = ServiceProvider.GetRequiredService<IOffensiveFlags>();
+        var off = new OffensiveFlags(ServiceProvider);
         if (IsSet(input, OFF_AREA_ATTACK)) off.Set("AreaAttack");
         if (IsSet(input, OFF_BACKSTAB)) off.Set("Backstab");
         if (IsSet(input, OFF_BASH)) off.Set("Bash");
@@ -1496,7 +1496,7 @@ public class MysteryImporter
         //OFF_COUNTER
         //OFF_BITE
 
-        var assist = ServiceProvider.GetRequiredService<IAssistFlags>();
+        var assist = new AssistFlags(ServiceProvider);
         if (IsSet(input, ASSIST_ALL)) assist.Set("All");
         if (IsSet(input, ASSIST_ALIGN)) assist.Set("Align");
         if (IsSet(input, ASSIST_RACE)) assist.Set("Race");
@@ -1559,7 +1559,7 @@ public class MysteryImporter
 
     private IBodyForms ConvertBodyForms(long input)
     {
-        var forms = ServiceProvider.GetRequiredService<IBodyForms>();
+        var forms = new BodyForms(ServiceProvider);
         if (IsSet(input, FORM_EDIBLE)) forms.Set("Edible");
         if (IsSet(input, FORM_POISON)) forms.Set("Poison");
         if (IsSet(input, FORM_MAGICAL)) forms.Set("Magical");
@@ -1594,7 +1594,7 @@ public class MysteryImporter
 
     private IBodyParts ConvertBodyParts(long input)
     {
-        var parts = ServiceProvider.GetRequiredService<IBodyParts>();
+        var parts = new BodyParts(ServiceProvider);
         if (IsSet(input, PART_HEAD)) parts.Set("Head");
         if (IsSet(input, PART_ARMS)) parts.Set("Arms");
         if (IsSet(input, PART_LEGS)) parts.Set("Legs");

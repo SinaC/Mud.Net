@@ -52,12 +52,12 @@ public class Oload : AdminGameAction
         var item = ItemManager.AddItem(Guid.NewGuid(), ItemBlueprint, container!);
         if (item == null)
         {
-            Wiznet.Wiznet($"DoIload: item with id {BlueprintId} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"DoIload: item with id {BlueprintId} cannot be created", WiznetFlags.Bugs, AdminLevels.Implementor);
             Actor.Send("Item cannot be created.");
             return;
         }
 
-        Wiznet.Wiznet($"{Actor.DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
+        Wiznet.Log($"{Actor.DisplayName} loads {item.DebugName}.", WiznetFlags.Load);
 
         Impersonating.Act(ActOptions.ToAll, "{0:N} {0:h} created {1}!", Actor.Impersonating!, item);
         Actor.Send("Ok.");

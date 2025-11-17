@@ -316,6 +316,18 @@ public class Player : ActorBase, IPlayer
         DeletionConfirmationNeeded = false;
     }
 
+    public bool SaveNeeded { get; protected set; }
+
+    public void SetSaveNeeded()
+    {
+        SaveNeeded = true;
+    }
+
+    public void ResetSaveNeeded()
+    {
+        SaveNeeded = false;
+    }
+
     public void SetStateMachine(IInputTrap<IPlayer> inputTrap)
     {
         CurrentStateMachine = inputTrap;

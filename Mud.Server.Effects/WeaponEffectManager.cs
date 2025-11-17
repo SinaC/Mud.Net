@@ -59,12 +59,10 @@ public class WeaponEffectManager : IWeaponEffectManager
     public IEnumerable<string> WeaponEffectsByType<TWeaponEffect>(IItemWeapon weapon)
         where TWeaponEffect : IWeaponEffect
     {
-        Type tWeaponEffectType = typeof(TWeaponEffect);
-        foreach (string weaponFlag in weapon.WeaponFlags.Items)
+        var tWeaponEffectType = typeof(TWeaponEffect);
+        foreach (var weaponFlag in weapon.WeaponFlags.Items)
         {
-            if (!WeaponEffectsByWeaponFlag.TryGetValue(weaponFlag, out var weaponEffect))
-                Log.Default.WriteLine(LogLevels.Warning, "WeaponEffectManager: weapon flag {0} has no associated effect.", weaponFlag);
-            else
+            if (WeaponEffectsByWeaponFlag.TryGetValue(weaponFlag, out var weaponEffect))
             {
                 if (tWeaponEffectType.IsAssignableFrom(weaponEffect)) // if this weapon flag is of the right type, returns it
                     yield return weaponFlag;

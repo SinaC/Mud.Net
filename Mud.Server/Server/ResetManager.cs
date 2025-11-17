@@ -9,7 +9,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 
-namespace Mud.Server.World
+namespace Mud.Server.Server
 {
     public class ResetManager : IResetManager
     {
@@ -29,7 +29,7 @@ namespace Mud.Server.World
             Log.Default.WriteLine(LogLevels.Debug, "Resetting {0}", area.DisplayName);
             foreach (IRoom room in area.Rooms)
                 ResetRoom(room);
-            Wiznet.Wiznet($"{area.DisplayName} has just been reset.", Domain.WiznetFlags.Resets);
+            Wiznet.Log($"{area.DisplayName} has just been reset.", WiznetFlags.Resets);
         }
 
         public void ResetRoom(IRoom room)

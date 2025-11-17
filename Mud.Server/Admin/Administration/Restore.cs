@@ -63,7 +63,7 @@ public class Restore : AdminGameAction
         {
             foreach (ICharacter loopVictim in Impersonating.Room.People)
                 RestoreOneCharacter(loopVictim);
-            Wiznet.Wiznet($"{Actor.DisplayName} has restored room {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
+            Wiznet.Log($"{Actor.DisplayName} has restored room {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
             Actor.Send("Room restored.");
             return;
         }
@@ -72,13 +72,13 @@ public class Restore : AdminGameAction
         {
             foreach (IPlayableCharacter loopVictim in CharacterManager.PlayableCharacters)
                 RestoreOneCharacter(loopVictim);
-            Wiznet.Wiznet($"{Actor.DisplayName} has restored all active players.", WiznetFlags.Restore);
+            Wiznet.Log($"{Actor.DisplayName} has restored all active players.", WiznetFlags.Restore);
             Actor.Send("All active players restored.");
             return;
         }
 
         RestoreOneCharacter(Whom);
-        Wiznet.Wiznet($"{Actor.DisplayName} has restored {Whom.DisplayName}.", WiznetFlags.Restore);
+        Wiznet.Log($"{Actor.DisplayName} has restored {Whom.DisplayName}.", WiznetFlags.Restore);
         Actor.Send("Ok.");
     }
 

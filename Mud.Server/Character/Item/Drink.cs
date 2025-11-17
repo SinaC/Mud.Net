@@ -71,7 +71,7 @@ public class Drink : CharacterGameAction
         LiquidInfo = TableValues.LiquidInfo(Drinkable.LiquidName);
         if (LiquidInfo == default)
         {
-            Wiznet.Wiznet($"Invalid liquid name {Drinkable.LiquidName} item {Drinkable.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"Invalid liquid name {Drinkable.LiquidName} item {Drinkable.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
             return "You can't drink from that.";
         }
         // empty
