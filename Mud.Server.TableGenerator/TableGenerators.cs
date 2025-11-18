@@ -8,6 +8,7 @@ using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Race;
+using System.Text;
 
 namespace Mud.Server.TableGenerator;
 
@@ -174,18 +175,26 @@ public static class TableGenerators
     public static readonly Lazy<TableGenerator<IGameActionInfo>> GameActionInfoTableGenerator = new(() =>
     {
         TableGenerator<IGameActionInfo> generator = new();
-        //generator.AddColumn("Method", 50, x => GetMethodName(x));
-        generator.AddColumn("Method", 50, x => x.CommandExecutionType.FullName ?? "???");
         generator.AddColumn("Name", 20, x => x.Name, new TableGenerator<IGameActionInfo>.ColumnOptions { AlignLeft = true });
         //generator.AddColumn("Names", 20, x => string.Join(",", x.Names), new TableGenerator<IGameActionInfo>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("Categories", 20, x => string.Join(",", x.Categories));
         generator.AddColumn("Aliases", 20, x => string.Join(",", x.Aliases));
         generator.AddColumn("Prio", 5, x => ConvertPriority(x.Priority));
-        generator.AddColumn("S?", 4, x => ConvertBool(x.NoShortcut));
-        generator.AddColumn("H?", 4, x => ConvertBool(x.Hidden));
-        generator.AddColumn("F?", 4, x => ConvertBool(x.AddCommandInParameters));
+        generator.AddColumn("SHFN", 6, x => ConvertSHFN(x));
+        //generator.AddColumn("Method", 50, x => GetMethodName(x));
+        generator.AddColumn("Method", 50, x => x.CommandExecutionType.FullName ?? "???");
         return generator;
     });
+
+    private static string ConvertSHFN(IGameActionInfo actionInfo)
+    {
+        StringBuilder sb = new();
+        sb.Append(ConvertBool(actionInfo.NoShortcut));
+        sb.Append(ConvertBool(actionInfo.Hidden));
+        sb.Append(ConvertBool(actionInfo.AddCommandInParameters));
+        sb.Append(ConvertBool(!string.IsNullOrWhiteSpace(actionInfo.Help)));
+        return sb.ToString();
+    }
 
     //private static string GetMethodName(IGameActionInfo gameActionInfo)
     //{

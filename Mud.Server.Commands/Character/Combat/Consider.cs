@@ -9,6 +9,9 @@ namespace Mud.Server.Commands.Character.Combat;
 
 [CharacterCommand("consider", "Information", "Combat", MinPosition = Positions.Resting)]
 [Syntax("[cmd] <character>")]
+[Help(
+@"[cmd] tells you what your chances are of killing a character.
+Of course, it's only a rough estimate.")]
 public class Consider : CharacterGameAction
 {
     protected ICharacter Whom { get; set; } = default!;

@@ -16,6 +16,7 @@ namespace Mud.Server.Commands.Character.Information;
     "[cmd] item",
     "[cmd] <container>",
     "[cmd] <corpse>")]
+[Help(@"[cmd] is short for 'LOOK container' followed by 'LOOK IN container'.")]
 public class Examine : CharacterGameAction
 {
     protected IEntity Target { get; set; } = default!;

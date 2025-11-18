@@ -10,9 +10,13 @@ using System.Text;
 namespace Mud.Server.Commands.Admin.Administration;
 
 [AdminCommand("transfer", "Admin")]
+[Alias("teleport")]
 [Syntax(
         "[cmd] <character> (if impersonated)",
         "[cmd] <character> <location>")]
+[Help(
+@"[cmd] transfers the target character to your current location (default)
+or to a specified location.")]
 public class Transfer : AdminGameAction
 {
     private IRoomManager RoomManager { get; }

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common.Helpers;
+﻿using Mud.Server.Common;
+using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
@@ -7,6 +8,7 @@ namespace Mud.Server.Commands.Player.Communication;
 
 [PlayerCommand("tell", "Communication")]
 [Syntax("[cmd] <player name> <message>")]
+[Help(@"[cmd] sends a message to one player anywhere in the world.")]
 public class Tell : TellGameActionBase
 {
     private IPlayerManager PlayerManager { get; }

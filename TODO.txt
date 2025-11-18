@@ -1,7 +1,9 @@
 INGOING
-move commands to dedicated project
-    try to add Quest in DI with 2 additional methods Initialize with parameters from existing 2 ctor
-    use GetRequiredService<IQuest> instead of new Quest
+command help
+    commands
+    races
+    classes
+    abilities
 
 character default size seems to be tiny for ROM24
 finish ROM24 classes
@@ -43,6 +45,9 @@ commands dynamically added to Character depending on room they are, for example
 
 module/plugin to enable load on demand of skills/spells/commands/...
 
+outfit command to give basic equipement
+healer
+pet shop
 offensive flags: rescue, ...
 clan/guild, auction house, help, socials, wimpy, note
 commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
@@ -113,9 +118,6 @@ prompt modifiable by user
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 move blueprints to Mud.Domain + refactor Mud.Domain
 IWorld: should create IReadonlyWorld which only contains getter
-gods
-title
-pose
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 
@@ -129,6 +131,10 @@ AH
 help
 notes
 lua for mob IA
+gods
+title
+pose
+socials
 
 admin
     at(quite difficult to implement)

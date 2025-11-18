@@ -9,6 +9,13 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
 [PlayableCharacterCommand("buy", "Shop")]
 [Syntax("[cmd] [number] <item>")]
+[Help(
+@"[cmd] buys an object from a shop keeper.
+When multiple items of the same name are listed, type 'buy n.item', where n
+is the position of the item in a list of that name.  So if there are two
+swords, buy 2.sword will buy the second. If you want to buy multiples of
+an item, use an * (buy 5*pie will buy 5 pies).  These can be combined into
+(for example) buy 2*2.shield, as long as the * is first.")]
 public class Buy : ShopPlayableCharacterGameActionBase
 {
     private IItemManager ItemManager { get; }

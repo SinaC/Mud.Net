@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common.Helpers;
+﻿using Mud.Server.Common;
+using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
@@ -8,6 +9,7 @@ namespace Mud.Server.Commands.Admin.Punish;
 
 [AdminCommand("addlag", "Punish")]
 [Syntax("[cmd] <player name> <tick>")]
+[Help(@"This command add lag to a player. Be careful when using this command!")]
 public class AddLag : AdminGameAction
 {
     private IPlayerManager PlayerManager { get; }

@@ -15,6 +15,9 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 [Syntax(
         "[cmd] all",
         "[cmd] <item>")]
+[Help(
+@"[cmd] offers an object to your god, who may reward you.
+The nature of the reward depends upon the type of object.")]
 public class Sacrifice : PlayableCharacterGameAction
 {
     protected IItem[] What { get; set; } = default!;

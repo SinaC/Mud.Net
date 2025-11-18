@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -9,6 +10,9 @@ using System.Text;
 namespace Mud.Server.Commands.Character.Information;
 
 [CharacterCommand("scan", "Information", MinPosition = Positions.Standing, NotInCombat = true)]
+[Help(
+@"This command allows you to see 3 rooms forward in the 8 directions to
+check if there is players/mobs.")]
 public class Scan : CharacterGameAction
 {
     public override string? Guards(IActionInput actionInput)

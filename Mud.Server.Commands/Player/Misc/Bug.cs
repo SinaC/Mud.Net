@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
@@ -7,6 +8,9 @@ namespace Mud.Server.Commands.Player.Misc;
 
 [PlayerCommand("bug", "Misc", Priority = 50)]
 [Syntax("[cmd] <message>")]
+[Help(
+@"This command will take your message and record it into a file as feedback
+to the mud implementors.")]
 public class Bug : PlayerGameAction
 {
     private IWiznet Wiznet { get; }

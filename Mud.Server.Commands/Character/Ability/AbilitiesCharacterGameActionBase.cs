@@ -5,6 +5,18 @@ using Mud.Server.TableGenerator;
 
 namespace Mud.Server.Commands.Character.Ability;
 
+// TODO: level range
+/*The skills, spells and powers commands are used to display your character's 
+list of available skills (or spells or power, as the case may be).  They are 
+listed in order of level, with mana/psp cost (for spells/powers) or percentage 
+(for skills) listed where applicable.
+Syntax:
+ spells        will display spells you have from lvl 1 to your current lvl
+ skills all    will display skills you have from lvl 1 to max level
+ powers 50     will display powers you have from lvl 1 to lvl 50
+ skills 3 60   will display skills you have from lvl 3 to lvl 60
+ songs 50      will display songs you have from lvl 1 to lvl 50
+*/
 public abstract class AbilitiesCharacterGameActionBase : CharacterGameAction
 {
     protected bool DisplayAll { get; set; }

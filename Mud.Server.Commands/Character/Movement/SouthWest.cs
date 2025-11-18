@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
@@ -6,6 +7,7 @@ namespace Mud.Server.Commands.Character.Movement;
 
 [CharacterCommand("southwest", "Movement", Priority = 1, MinPosition = Positions.Standing, NotInCombat = true)]
 [Alias("sw")]
+[Help("Use this command to walk in south west direction.")]
 public class SouthWest : CharacterGameAction
 {
     public override void Execute(IActionInput actionInput)

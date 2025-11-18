@@ -9,6 +9,8 @@ namespace Mud.Server.Commands.Character.Movement;
 
 [CharacterCommand("enter", "Movement", MinPosition = Positions.Standing, NotInCombat = true)]
 [Syntax("[cmd] <portal>")]
+[Help(
+@"This command will allow you to step into (walk through) a portal.")]
 public class Enter : CharacterGameAction
 {
     protected IItemPortal What { get; set; } = default!;

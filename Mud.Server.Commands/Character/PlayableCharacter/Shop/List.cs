@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
@@ -7,6 +8,12 @@ using System.Text;
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
 [PlayableCharacterCommand("list", "Shop")]
+[Syntax(
+    "[cmd]",
+    "[cmd] <name>")]
+[Help(
+@"[cmd] lists the objects the shop keeper will sell you.
+List <name> shows you only objects of that name.")]
 public class List : ShopPlayableCharacterGameActionBase
 {
     public List(ITimeManager timeManager)

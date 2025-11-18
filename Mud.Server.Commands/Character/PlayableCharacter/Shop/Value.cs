@@ -9,6 +9,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
 [PlayableCharacterCommand("value", "Shop")]
 [Syntax("[cmd] <item>")]
+[Help(@"[cmd] asks the shop keeper how much he, she, or it will buy the item for.")]
 public class Value : ShopPlayableCharacterGameActionBase
 {
     public Value(ITimeManager timeManager)

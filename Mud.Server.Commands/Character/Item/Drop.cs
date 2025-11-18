@@ -13,6 +13,11 @@ namespace Mud.Server.Commands.Character.Item;
         "[cmd] <item>",
         "[cmd] <amount> coin|coins|silver|gold",
         "[cmd] all")]
+[Help(
+@"[cmd] drops an object, or some coins, on the ground.
+[cmd] understand the object names 'ALL' for all objects and
+'ALL.object' for all objects with the same name.
+[cmd] X.sword is also allowed to drop the Xth sword of the list.")]
 // Drop item
 // Drop all
 // Drop all.item

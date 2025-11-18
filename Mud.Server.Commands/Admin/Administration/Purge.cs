@@ -14,9 +14,17 @@ namespace Mud.Server.Commands.Admin.Administration;
 
 [AdminCommand("purge", "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
 [Syntax(
-"[cmd] all",
-"[cmd] <character>",
-"[cmd] <item>")]
+    "[cmd] all",
+    "[cmd] <character>",
+    "[cmd] <item>")]
+[Help(
+@"[cmd] is used to clean up the world.
+[cmd] with no arguments removes all the NPC's and objects in the current room.
+[cmd] with an argument purges one character from anywhere in the world.
+
+Purge will not get rid of PC's, or objects or mobiles with a NOPURGE flag
+set (i.e. the pit, the fountain, shopkeepers, Hassan).  Mobiles may be
+purged if they are called directly by name.")]
 public class Purge : AdminGameAction
 {
     private ICharacterManager CharacterManager { get; }

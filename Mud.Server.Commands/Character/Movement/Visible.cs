@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
@@ -6,6 +7,9 @@ namespace Mud.Server.Commands.Character.Movement;
 
 [CharacterCommand("visible", "Movement", MinPosition = Positions.Sleeping)]
 [Syntax("[cmd]")]
+[Help(
+@"[cmd] cancels your hiding and sneaking, as well as any invisibility,
+making you visible again.")]
 public class Visible : CharacterGameAction
 {
     public override void Execute(IActionInput actionInput)

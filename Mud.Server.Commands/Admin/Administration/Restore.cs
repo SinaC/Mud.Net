@@ -14,7 +14,16 @@ namespace Mud.Server.Commands.Admin.Administration;
 [Syntax(
         "[cmd] <character>",
         "[cmd] all",
+        "[cmd] room",
         "[cmd] (if impersonated)")]
+[Help(
+@"[cmd] restores full hit points, mana points, and movement points to the
+target character.  It also heals poison, plague, and blindness.
+
+[cmd] room (or restore with no argument) performs a restore on every player
+in the room, restore all does the same for all connected players. [cmd] all
+is only usable by creators and implementors.  [cmd] should be used sparingly
+or not at all.")]
 public class Restore : AdminGameAction
 {
     private ICharacterManager CharacterManager { get; }

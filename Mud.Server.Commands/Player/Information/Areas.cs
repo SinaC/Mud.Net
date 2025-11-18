@@ -1,4 +1,5 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.TableGenerator;
@@ -6,6 +7,7 @@ using Mud.Server.TableGenerator;
 namespace Mud.Server.Commands.Player.Information;
 
 [PlayerCommand("areas", "Information", Priority = 10)]
+[Help(@"[cmd] shows you a list of areas in the game.")]
 public class Areas : PlayerGameAction
 {
     private IAreaManager AreaManager { get; }

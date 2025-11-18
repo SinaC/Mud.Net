@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.GameAction;
+﻿using Mud.Server.Common;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.GameAction;
 
@@ -8,8 +9,8 @@ public class PlayerGameActionInfo : GameActionInfo, IPlayerGameActionInfo
 
     public bool CannotBeImpersonated { get; }
 
-    public PlayerGameActionInfo(Type commandExecutionType, PlayerCommandAttribute playerCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes)
-        : base(commandExecutionType, playerCommandAttribute, syntaxAttribute, aliasAttributes)
+    public PlayerGameActionInfo(Type commandExecutionType, PlayerCommandAttribute playerCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute)
+        : base(commandExecutionType, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute)
     {
         MustBeImpersonated = playerCommandAttribute.MustBeImpersonated;
         CannotBeImpersonated = playerCommandAttribute.CannotBeImpersonated;

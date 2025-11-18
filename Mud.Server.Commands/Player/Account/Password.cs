@@ -7,6 +7,11 @@ namespace Mud.Server.Commands.Player.Account;
 
 [PlayerCommand("password", "Account", Priority = 999, NoShortcut = true)]
 [Syntax("[cmd] <old-password> <new-password>")]
+[Help(
+@"[cmd] changes your character's password.  The first argument must be
+your old password.  The second argument is your new password.
+
+The [cmd] command is protected against being snooped or logged.")]
 public class Password : AccountGameActionBase
 {
     private ILoginRepository LoginRepository { get; }

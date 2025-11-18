@@ -1,4 +1,5 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 
@@ -6,6 +7,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
 
 [PlayableCharacterCommand("pray", "Communication")]
 [Syntax("[cmd] <msg>")]
+[Help(@"This commands allows players to send a message to admins.")]
 public class Pray : PlayableCharacterGameAction
 {
     private IAdminManager AdminManager { get; }

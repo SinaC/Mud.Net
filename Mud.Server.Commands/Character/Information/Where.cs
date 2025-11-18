@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -11,6 +12,12 @@ namespace Mud.Server.Commands.Character.Information;
 [Syntax(
     "[cmd]",
     "[cmd] <player name>")]
+[Help(
+@"[cmd] without an argument tells you the location of visible players in the same
+area as you are.
+
+[cmd] with an argument tells you the location of one character with that name
+within your area, including monsters.")]
 public class Where : CharacterGameAction
 {
     protected ICommandParameter Pattern { get; set; } = default!;

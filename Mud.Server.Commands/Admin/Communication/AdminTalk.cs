@@ -1,4 +1,5 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
 
@@ -6,7 +7,12 @@ namespace Mud.Server.Commands.Admin.Communication;
 
 [AdminCommand("admintalk", "Communication")]
 [Alias("atalk")]
+[Alias(":")]
 [Syntax("[cmd] <message>")]
+[Help(
+@"[cmd] sends a message to all admins.
+Using this command with no argument turns off the admin channel (or
+turns it back on).")]
 public class AdminTalk : AdminGameAction
 {
     private IAdminManager AdminManager { get; }

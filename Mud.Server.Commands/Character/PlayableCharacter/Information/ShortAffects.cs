@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.GameAction;
@@ -10,10 +11,17 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 [PlayableCharacterCommand("shortaffects", "Information")]
 [Alias("saffects")]
 [Alias("sauras")]
+[Help(
+@"This command is used to show all the skills and spells affecting your
+character. At low levels, only the spell name will be displayed, at
+higher levels the effects and duration of the spell will also be shown.
+Spell effects are no longer shown on score(this can be changed by using
+'auto affect' command)")]
 public class ShortAffects : PlayableCharacterGameAction
 {
     public override void Execute(IActionInput actionInput)
     {
+        // TODO: various information depending on level
         StringBuilder sb = new ();
         if (Actor.Auras.Any())
         {

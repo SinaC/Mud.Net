@@ -53,8 +53,8 @@
             <Auras>
               <AuraData>
                 <AbilityName>Test</AbilityName>
-                <Level>19</Level>
-                <PulseLeft>1924</PulseLeft>
+                <Level>18</Level>
+                <PulseLeft>1900</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemFlagsAffectData">
@@ -168,17 +168,17 @@
               <AuraData>
                 <AbilityName>Test</AbilityName>
                 <Level>1</Level>
-                <PulseLeft>3400</PulseLeft>
+                <PulseLeft>3376</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
                     <Operator>0</Operator>
-                    <Modifier> Frost,  Holy,  Poison,  Sharp,  Shocking,  Vampiric, Flaming</Modifier>
+                    <Modifier>Flaming,Frost,Holy,Poison,Sharp,Shocking,Vampiric</Modifier>
                   </AffectDataBase>
                 </Affects>
               </AuraData>
             </Auras>
-            <WeaponFlags> Vorpal, TwoHands</WeaponFlags>
+            <WeaponFlags>TwoHands,Vorpal</WeaponFlags>
           </Item>
         </EquippedItemData>
         <EquippedItemData>
@@ -196,6 +196,36 @@
         </EquippedItemData>
       </Equipments>
       <Inventory>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags />
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags />
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
+        <ItemData xsi:type="ItemFoodData">
+          <ItemId>3014</ItemId>
+          <Level>0</Level>
+          <DecayPulseLeft>0</DecayPulseLeft>
+          <ItemFlags />
+          <Auras />
+          <FullHours>8</FullHours>
+          <HungerHours>6</HungerHours>
+          <IsPoisoned>false</IsPoisoned>
+        </ItemData>
         <ItemData xsi:type="ItemWeaponData">
           <ItemId>3350</ItemId>
           <Level>16</Level>
@@ -204,42 +234,12 @@
           <Auras />
           <WeaponFlags />
         </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags />
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags />
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
-        <ItemData xsi:type="ItemFoodData">
-          <ItemId>3014</ItemId>
-          <Level>0</Level>
-          <DecayPulseLeft>0</DecayPulseLeft>
-          <ItemFlags />
-          <Auras />
-          <FullHours>8</FullHours>
-          <HungerHours>6</HungerHours>
-          <IsPoisoned>false</IsPoisoned>
-        </ItemData>
       </Inventory>
       <Auras>
         <AuraData>
           <AbilityName>Sanctuary</AbilityName>
-          <Level>15</Level>
-          <PulseLeft>984</PulseLeft>
+          <Level>13</Level>
+          <PulseLeft>960</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -250,8 +250,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Shield</AbilityName>
-          <Level>21</Level>
-          <PulseLeft>12276</PulseLeft>
+          <Level>20</Level>
+          <PulseLeft>12252</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -263,8 +263,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Berserk</AbilityName>
-          <Level>8</Level>
-          <PulseLeft>296</PulseLeft>
+          <Level>7</Level>
+          <PulseLeft>272</PulseLeft>
           <AuraFlags>2</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterFlagsAffectData">
@@ -290,8 +290,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Stone Skin</AbilityName>
-          <Level>11</Level>
-          <PulseLeft>10396</PulseLeft>
+          <Level>8</Level>
+          <PulseLeft>10372</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -304,7 +304,7 @@
         <AuraData>
           <AbilityName>Protection Evil</AbilityName>
           <Level>9</Level>
-          <PulseLeft>5132</PulseLeft>
+          <PulseLeft>5108</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -320,8 +320,8 @@
         </AuraData>
         <AuraData>
           <AbilityName>Testroom</AbilityName>
-          <Level>26</Level>
-          <PulseLeft>892</PulseLeft>
+          <Level>23</Level>
+          <PulseLeft>868</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="RoomHealRateAffectData">
@@ -341,7 +341,7 @@
         <AuraData>
           <AbilityName>Plague</AbilityName>
           <Level>17</Level>
-          <PulseLeft>10776</PulseLeft>
+          <PulseLeft>10752</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -359,7 +359,7 @@
         <AuraData>
           <AbilityName>Poison</AbilityName>
           <Level>31</Level>
-          <PulseLeft>10872</PulseLeft>
+          <PulseLeft>10848</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
@@ -445,7 +445,7 @@
       <Alignment>-7</Alignment>
       <Trains>33</Trains>
       <Practices>74</Practices>
-      <AutoFlags>63</AutoFlags>
+      <AutoFlags>127</AutoFlags>
       <CurrentQuests>
         <CurrentQuestData>
           <QuestId>1</QuestId>
@@ -3915,7 +3915,7 @@
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>316</Value>
+          <Value>301</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -3940,13 +3940,40 @@
             <Level>16</Level>
             <DecayPulseLeft>0</DecayPulseLeft>
             <ItemFlags>Magic</ItemFlags>
-            <Auras />
+            <Auras>
+              <AuraData>
+                <AbilityName>Envenom</AbilityName>
+                <Level>7</Level>
+                <PulseLeft>2424</PulseLeft>
+                <AuraFlags>2</AuraFlags>
+                <Affects>
+                  <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
+                    <Operator>1</Operator>
+                    <Modifier>Poison</Modifier>
+                  </AffectDataBase>
+                </Affects>
+              </AuraData>
+            </Auras>
             <WeaponFlags />
           </Item>
         </EquippedItemData>
       </Equipments>
       <Inventory />
-      <Auras />
+      <Auras>
+        <AuraData>
+          <AbilityName>Giant Strength</AbilityName>
+          <Level>43</Level>
+          <PulseLeft>11692</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterAttributeAffectData">
+              <Operator>0</Operator>
+              <Location>1</Location>
+              <Modifier>4</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+      </Auras>
       <CharacterFlags>Haste</CharacterFlags>
       <Immunities />
       <Resistances>Acid,Bash,Disease,Poison,Slash</Resistances>
@@ -4017,7 +4044,7 @@
       <Alignment>0</Alignment>
       <Trains>22</Trains>
       <Practices>91</Practices>
-      <AutoFlags>63</AutoFlags>
+      <AutoFlags>127</AutoFlags>
       <CurrentQuests />
       <LearnedAbilities>
         <LearnedAbilityData>
@@ -5324,15 +5351,15 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>18</Value>
+          <Value>10</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>33</Value>
+          <Value>29</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>33</Value>
+          <Value>29</Value>
         </PairDataOfInt32Int32>
       </Conditions>
       <Aliases />

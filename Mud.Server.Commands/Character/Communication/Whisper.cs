@@ -9,6 +9,9 @@ namespace Mud.Server.Commands.Character.Communication;
 
 [CharacterCommand("whisper", "Communication", MinPosition = Positions.Standing, NotInCombat = true)]
 [Syntax("[cmd] <character> <message>")]
+[Help(
+@"[cmd] sends a message to a player/mob within the same room as you. Other 
+players/mobs in the room can't hear the message.")]
 public class Whisper : CharacterGameAction
 {
     protected ICharacter Whom { get; set; } = default!;

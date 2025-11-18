@@ -13,6 +13,8 @@ public interface IGameActionInfo
 
     string[] Aliases { get; }
 
+    string? Help { get; }
+
     Type CommandExecutionType { get; }
 
     IEnumerable<string> Names { get; }

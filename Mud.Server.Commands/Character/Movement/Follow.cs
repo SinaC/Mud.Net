@@ -9,6 +9,9 @@ namespace Mud.Server.Commands.Character.Movement;
 [Syntax(
        "[cmd]",
        "[cmd] <character>")]
+[Help(
+@"FOLLOW starts you following another character.  To stop following anyone else,
+just FOLLOW <yourself>.")]
 public class Follow : CharacterGameAction
 {
     protected bool DisplayLeader { get; set; }

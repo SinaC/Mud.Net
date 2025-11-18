@@ -10,6 +10,9 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Combat;
 
 [PlayableCharacterCommand("murder", "Combat", Priority = 999/*low priority*/, NoShortcut = true, MinPosition = Positions.Standing)]
 [Syntax("[cmd] <character>")]
+[Help(
+@"MURDER is used to kill other players. To kill mobiles (monsters), you
+have to use KILL.")]
 public class Murder : PlayableCharacterGameAction
 {
     private IGameActionManager GameActionManager { get; }

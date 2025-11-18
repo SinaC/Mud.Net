@@ -15,6 +15,7 @@ namespace Mud.Server.Commands.Character.Movement;
 [Syntax(
         "[cmd] <container|portal>",
         "[cmd] <direction|door>")]
+[Help(@"[cmd] close an object or a door.")]
 public class Close : CharacterGameAction
 {
     protected ICloseable What { get; set; } = default!;

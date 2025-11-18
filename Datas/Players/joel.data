@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PlayerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Name>joel</Name>
-  <PagingLineCount>24</PagingLineCount>
+  <PagingLineCount>0</PagingLineCount>
   <Aliases />
   <Characters>
     <PlayableCharacterData>
@@ -16,7 +16,7 @@
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>175</Value>
+          <Value>169</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -35,7 +35,20 @@
       </MaxResources>
       <Equipments />
       <Inventory />
-      <Auras />
+      <Auras>
+        <AuraData>
+          <AbilityName>Fly</AbilityName>
+          <Level>38</Level>
+          <PulseLeft>10504</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>Flying</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+      </Auras>
       <CharacterFlags />
       <Immunities />
       <Resistances>Charm</Resistances>
@@ -106,7 +119,7 @@
       <Alignment>0</Alignment>
       <Trains>18</Trains>
       <Practices>41</Practices>
-      <AutoFlags>62</AutoFlags>
+      <AutoFlags>126</AutoFlags>
       <CurrentQuests />
       <LearnedAbilities>
         <LearnedAbilityData>
@@ -450,15 +463,15 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>32</Value>
+          <Value>28</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>40</Value>
+          <Value>38</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>40</Value>
+          <Value>38</Value>
         </PairDataOfInt32Int32>
       </Conditions>
       <Aliases />
@@ -498,8 +511,8 @@
           <Auras>
             <AuraData>
               <AbilityName>Charm Person</AbilityName>
-              <Level>33</Level>
-              <PulseLeft>2436</PulseLeft>
+              <Level>11</Level>
+              <PulseLeft>2048</PulseLeft>
               <AuraFlags>0</AuraFlags>
               <Affects>
                 <AffectDataBase xsi:type="CharacterFlagsAffectData">

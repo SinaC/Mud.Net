@@ -9,6 +9,7 @@ namespace Mud.Server.Commands.Character.Item;
 
 [CharacterCommand("fill", "Drink", MinPosition = Positions.Resting)]
 [Syntax("[cmd] <container>")]
+[Help(@"[cmd] fills a drink container with water.")]
 public class Fill : CharacterGameAction
 {
     protected IItemFountain Fountain { get; set; } = default!;

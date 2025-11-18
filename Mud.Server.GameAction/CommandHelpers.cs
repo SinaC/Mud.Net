@@ -1,4 +1,5 @@
-﻿using Mud.Logger;
+﻿using Mud.Common;
+using Mud.Logger;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
@@ -72,9 +73,12 @@ public static class CommandHelpers
     {
         Log.Default.WriteLine(LogLevels.Trace, "Extracting command [{0}]", commandLine);
 
+        // handle special case of ' command (alias for say)
+        var startsWithSimpleQuote = commandLine.StartsWith('\'');
         // Split
-        string[] tokens = SplitParameters(commandLine).ToArray();
-
+        string[] tokens = startsWithSimpleQuote
+            ? "\'".Yield().Concat(SplitParameters(commandLine[1..])).ToArray()
+            : SplitParameters(commandLine).ToArray();
         // First token is the command
         string command = tokens[0];
 

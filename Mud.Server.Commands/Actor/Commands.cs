@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
@@ -12,6 +13,9 @@ namespace Mud.Server.Commands.Actor;
         "[cmd] all",
         "[cmd] <category>",
         "[cmd] <prefix>")]
+[Help(
+@"[cmd] shows you commands in a category or all the command
+categories in the game.")]
 public class Commands : ActorGameAction
 {
     private const int ColumnCount = 5;
@@ -83,12 +87,10 @@ public class Commands : ActorGameAction
 
     private void DisplayCommands()
     {
-        IEnumerable<KeyValuePair<string, IGameActionInfo>> filteredGameActions = Actor.GameActions.Where(x => !x.Value.Hidden);
-
         Func<string, bool> nameFilter;
         Func<string, bool> categoryFilter;
 
-        var keyValuePairs = filteredGameActions as KeyValuePair<string, IGameActionInfo>[] ?? filteredGameActions.ToArray();
+        var filteredGameActions = Actor.GameActions.Where(x => !x.Value.Hidden).Select(x => x.Value);
         if (Parameter.IsAll)
         {
             nameFilter = x => true;
@@ -97,7 +99,7 @@ public class Commands : ActorGameAction
         else
         {
             // if parameter match a category, display category
-            string[] categories = keyValuePairs.SelectMany(x => x.Value.Categories).ToArray();
+            string[] categories = filteredGameActions.SelectMany(x => x.Categories).ToArray();
             var matchingCategory = categories.FirstOrDefault(x => StringCompareHelpers.StringEquals(x, Parameter.Value));
             if (matchingCategory != null)
             {
@@ -116,10 +118,10 @@ public class Commands : ActorGameAction
         // if a command has multiple categories, it will appear in each category
         StringBuilder sb = new();
         sb.AppendLine("Available commands:");
-        foreach (var gameActionByCategory in keyValuePairs
-            .SelectMany(x => x.Value.Names.Where(n => nameFilter(n)), (kv, name) => new { name, kv.Value })
-            .GroupBy(x => x.name, (name, group) => new { name, group.First().Value })
-            .SelectMany(x => x.Value.Categories.Where(categoryFilter), (kv, category) => new { category, kv.name, priority = kv.Value.Priority })
+        foreach (var gameActionByCategory in filteredGameActions
+            .SelectMany(x => x.Names.Where(n => nameFilter(n)), (gai, name) => new { name, gai })
+            .GroupBy(x => x.name, (name, group) => new { name, group.First().gai })
+            .SelectMany(x => x.gai.Categories.Where(categoryFilter), (kv, category) => new { category, kv.name, priority = kv.gai.Priority })
             .GroupBy(x => x.category, (category, group) => new { category, commands = group })
             .OrderBy(g => g.category))
         {
