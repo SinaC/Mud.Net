@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Importer.Rom;
 using Mud.Logger;
@@ -39,6 +40,7 @@ public partial class ServerWindow : Window, INetworkServer
 {
     private static ServerWindow _serverWindowInstance;
 
+    private ILogger<ServerWindow> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private ISettings Settings { get; }
     private IServer Server { get; }
@@ -52,8 +54,9 @@ public partial class ServerWindow : Window, INetworkServer
     private IQuestManager QuestManager { get; }
     private IRandomManager RandomManager { get; }
 
-    public ServerWindow(IServiceProvider serviceProvider, ISettings settings, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager)
+    public ServerWindow(ILogger<ServerWindow> logger, IServiceProvider serviceProvider, ISettings settings, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
         Settings = settings;
         Server = server;
@@ -70,8 +73,8 @@ public partial class ServerWindow : Window, INetworkServer
         _serverWindowInstance = this;
         if (PendingLogs.Count > 0)
         {
-            foreach (var (level, message) in PendingLogs)
-                LogMessage(level, message);
+            foreach (var (level, scope, message) in PendingLogs)
+                LogMessage(level, scope, message);
             PendingLogs.Clear();
         }
 
@@ -301,28 +304,38 @@ public partial class ServerWindow : Window, INetworkServer
     }
 
     // Don't remove, used from nlog.config
-    private static List<(string level, string message)> PendingLogs { get; } = [];
+    private static List<(string level, string scope, string message)> PendingLogs { get; } = [];
     public static void LogMethod(string level, string message)
     {
         if (_serverWindowInstance == null)
-            PendingLogs.Add((level, message));
+            PendingLogs.Add((level, null, message));
         else
         {
-            _serverWindowInstance.LogMessage(level, message);
+            _serverWindowInstance.LogMessage(level, null, message);
         }
     }
 
-    private void LogMessage(string level, string message)
+    public static void LogScopedMethod(string level, string scope, string message)
+    {
+        if (_serverWindowInstance == null)
+            PendingLogs.Add((level, scope, message));
+        else
+        {
+            _serverWindowInstance.LogMessage(level, scope, message);
+        }
+    }
+
+    private void LogMessage(string level, string scope, string message)
     {
         Dispatcher.InvokeAsync(() =>
         {
             //_serverWindowInstance.OutputRichTextBox.AppendText(message+Environment.NewLine);
             Brush color;
-            if (level == "Error")
+            if (level == "Error" || level == "Critical")
                 color = Brushes.Red;
-            else if (level == "Warn")
+            else if (level == "Warn" || level == "Warning")
                 color = Brushes.Yellow;
-            else if (level == "Info")
+            else if (level == "Info" || level == "Information")
                 color = Brushes.White;
             else if (level == "Debug")
                 color = Brushes.LightGray;
@@ -331,13 +344,13 @@ public partial class ServerWindow : Window, INetworkServer
             else
                 color = Brushes.Orchid; // should never happen
             Paragraph paragraph = new();
-            paragraph.Inlines.Add(new Run(level + ": " + message)
+            paragraph.Inlines.Add(new Run(level + ": " + (scope ?? string.Empty) + message)
             {
                 Foreground = color
             });
             _serverWindowInstance.OutputRichTextBox.Document.Blocks.Add(paragraph);
             _serverWindowInstance.OutputScrollViewer.ScrollToBottom();
-        });
+        }, System.Windows.Threading.DispatcherPriority.Render);
     }
 
     private void OutputText(string text)
@@ -349,7 +362,9 @@ public partial class ServerWindow : Window, INetworkServer
 
     private void CreateWorld()
     {
-        string path = Settings.ImportAreaPath;
+        var path = Settings.ImportAreaPath;
+
+        //Logger.LogInformation("Importing from {path}", path);
 
         RomImporter importer = new (ServiceProvider);
         //MysteryImporter importer = new MysteryImporter();

@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Logger;
@@ -66,6 +67,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private readonly List<TreasureTable<int>> _treasureTables;
 
+    private ILogger<Server> Logger { get; }
     private ISettings Settings { get; }
     private ILoginRepository LoginRepository { get; }
     private IPlayerRepository PlayerRepository { get; }
@@ -87,13 +89,14 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private IAdminManager AdminManager { get; }
     private IWiznet Wiznet { get; }
 
-    public Server(ISettings settings,
+    public Server(ILogger<Server> logger, ISettings settings,
         ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
         IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager,
         IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IWeaponEffectManager weaponEffectManager,
         IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IResetManager resetManager,
         IAdminManager adminManager, IWiznet wiznet)
     {
+        Logger = logger;
         Settings = settings;
         LoginRepository = loginRepository;
         PlayerRepository = playerRepository;

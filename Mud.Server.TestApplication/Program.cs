@@ -1,16 +1,22 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Importer.Mystery;
+using Mud.Importer.Rom;
 using Mud.Logger;
 using Mud.Network.Interfaces;
 using Mud.Network.Telnet;
 using Mud.POC;
 using Mud.Repository;
+using Mud.Server.Area;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Character;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -29,8 +35,11 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.World;
+using Mud.Server.Item;
+using Mud.Server.Quest;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
+using Mud.Server.Room;
 using Mud.Settings.Interfaces;
 using System.Reflection;
 using System.Text;
@@ -39,9 +48,9 @@ namespace Mud.Server.TestApplication;
 
 internal class Program
 {
-    private IServiceProvider _serviceProvider = null!;
+    private IServiceProvider ServiceProvider { get; set; }
 
-    private static void Main(string[] args)
+    static void Main(string[] args)
     {
         var program = new Program();
         program.Run();
@@ -52,7 +61,9 @@ internal class Program
         var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
 
-        _serviceProvider = serviceCollection.BuildServiceProvider();
+        ServiceProvider = serviceCollection.BuildServiceProvider();
+
+        ServiceProvider.GetRequiredService<ILogger<Program>>().LogError("***ERROR***");
 
         //TestSecondWindow();
         //TestPaging();
@@ -100,7 +111,13 @@ internal class Program
         Log.Default.Initialize(settings.LogPath, "server.test.log");
 
         // Configure Logging
-        services.AddLogging();
+        //services.AddLogging(lb => lb.AddConsole());
+        services.AddLogging(builder => builder.AddSimpleConsole(options =>
+        {
+            options.IncludeScopes = true;
+            options.SingleLine = true;
+            options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
+        }));
 
         // Register Services
         services.AddSingleton<ISettings>(settings);
@@ -314,50 +331,51 @@ internal class Program
             WearLocation = WearLocations.Wield
         };
         //
-        if (_serviceProvider.GetRequiredService<IItemManager>().GetItemBlueprint(_serviceProvider.GetRequiredService<ISettings>().CorpseBlueprintId) == null)
+        if (ServiceProvider.GetRequiredService<IItemManager>().GetItemBlueprint(ServiceProvider.GetRequiredService<ISettings>().CorpseBlueprintId) == null)
         {
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
-                Id = _serviceProvider.GetRequiredService<ISettings>().CorpseBlueprintId,
+                Id = ServiceProvider.GetRequiredService<ISettings>().CorpseBlueprintId,
                 Name = "corpse"
             }; // this is mandatory
-            _serviceProvider.GetRequiredService<IItemManager>().AddItemBlueprint(corpseBlueprint);
+            ServiceProvider.GetRequiredService<IItemManager>().AddItemBlueprint(corpseBlueprint);
         }
 
         // World
-        IArea midgaard = _serviceProvider.GetRequiredService<IAreaManager>().Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
-        IRoom room1 = _serviceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, midgaard);
-        IRoom room2 = _serviceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), room2Blueprint, midgaard);
-        _serviceProvider.GetRequiredService<IRoomManager>().AddExit(room1, room2, null, ExitDirections.North);
-        _serviceProvider.GetRequiredService<IRoomManager>().AddExit(room2, room1, null, ExitDirections.North);
+        IArea midgaard = ServiceProvider.GetRequiredService<IAreaManager>().Areas.FirstOrDefault(x => x.DisplayName == "Midgaard");
+        IRoom room1 = ServiceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, midgaard);
+        IRoom room2 = ServiceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), room2Blueprint, midgaard);
+        ServiceProvider.GetRequiredService<IRoomManager>().AddExit(room1, room2, null, ExitDirections.North);
+        ServiceProvider.GetRequiredService<IRoomManager>().AddExit(room2, room1, null, ExitDirections.North);
 
         //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "Mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, room1); // playable
-        ICharacter mob2 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, room1);
-        ICharacter mob3 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, room2);
-        ICharacter mob4 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, room2);
-        ICharacter mob5 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, room2);
+        ICharacter mob2 = ServiceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, room1);
+        ICharacter mob3 = ServiceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, room2);
+        ICharacter mob4 = ServiceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, room2);
+        ICharacter mob5 = ServiceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, room2);
 
-        IItemContainer item1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room1) as IItemContainer;
-        IItemContainer item1Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room2) as IItemContainer;
-        IItemWeapon item2 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
-        IItemArmor item3 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
+        IItemContainer item1 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room1) as IItemContainer;
+        IItemContainer item1Dup1 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, room2) as IItemContainer;
+        IItemWeapon item2 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+        IItemArmor item3 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
         //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob1);
         //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item5Blueprint, mob1);
         //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, mob1);
-        IItemArmor item3Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
-        IItemLight item4Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
+        IItemArmor item3Dup1 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
+        IItemLight item4Dup1 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
         // Equip weapon on mob2
         mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
         item2.ChangeContainer(null);
         item2.ChangeEquippedBy(mob2, true);
     }
 
+    /*
     private void CreateMidgaard()
     {
         MysteryLoader importer = new MysteryLoader();
         importer.Load(@"D:\Projects\Repos\OldMud\area\midgaard.are");
         importer.Parse();
-        //MysteryImporter importer = new MysteryImporter();
+        //MysteryImporter importer = new MysteryImporter(ServiceProvider);
         //string path = @"D:\GitHub\OldMud\area";
         //string fileList = Path.Combine(path, "area.lst");
         //string[] areaFilenames = File.ReadAllLines(fileList);
@@ -377,7 +395,7 @@ internal class Program
         foreach (AreaData importedArea in importer.Areas)
         {
             // TODO: levels
-            IArea area = _serviceProvider.GetRequiredService<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint { Name = importedArea.Name, Builders = importedArea.Builders, Credits = importedArea.Credits});
+            IArea area = ServiceProvider.GetRequiredService<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint { Name = importedArea.Name, Builders = importedArea.Builders, Credits = importedArea.Credits});
             areasByVnums.Add(importedArea.VNum, area);
         }
 
@@ -391,7 +409,7 @@ internal class Program
                 Name = importedRoom.Name,
                 Description = importedRoom.Description,
             };
-            IRoom room = _serviceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), roomBlueprint, area);
+            IRoom room = ServiceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), roomBlueprint, area);
             roomsByVNums.Add(importedRoom.VNum, room);
         }
         // Create Exits
@@ -412,7 +430,7 @@ internal class Program
                         Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
                     else
                     {
-                        _serviceProvider.GetRequiredService<IRoomManager>().AddExit(from, to, null, (ExitDirections) i);
+                        ServiceProvider.GetRequiredService<IRoomManager>().AddExit(from, to, null, (ExitDirections) i);
                     }
                 }
             }
@@ -533,39 +551,313 @@ internal class Program
         };
 
         //
-        if (_serviceProvider.GetRequiredService<IItemManager>().GetItemBlueprint(_serviceProvider.GetRequiredService<ISettings>().CorpseBlueprintId) == null)
+        if (ServiceProvider.GetRequiredService<IItemManager>().GetItemBlueprint(ServiceProvider.GetRequiredService<ISettings>().CorpseBlueprintId) == null)
         {
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
-                Id = _serviceProvider.GetRequiredService<ISettings>().CorpseBlueprintId,
+                Id = ServiceProvider.GetRequiredService<ISettings>().CorpseBlueprintId,
                 Name = "corpse"
             }; // this is mandatory
-            _serviceProvider.GetRequiredService<IItemManager>().AddItemBlueprint(corpseBlueprint);
+            ServiceProvider.GetRequiredService<IItemManager>().AddItemBlueprint(corpseBlueprint);
         }
 
         // Add dummy mobs and items to allow impersonate :)
-        IRoom templeOfMota = _serviceProvider.GetRequiredService<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
-        IRoom templeSquare = _serviceProvider.GetRequiredService<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
+        IRoom templeOfMota = ServiceProvider.GetRequiredService<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple of mota");
+        IRoom templeSquare = ServiceProvider.GetRequiredService<IRoomManager>().Rooms.FirstOrDefault(x => x.Name.ToLower() == "the temple square");
 
         //ICharacter mob1 = DependencyContainer.Instance.GetInstance<IWorld>().AddCharacter(Guid.NewGuid(), "mob1", Repository.ClassManager["Mage"], Repository.RaceManager["Troll"], Sex.Male, templeOfMota); // playable
-        ICharacter mob2 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
-        ICharacter mob3 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
-        ICharacter mob4 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
-        ICharacter mob5 = _serviceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
+        ICharacter mob2 = ServiceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob2Blueprint, templeOfMota);
+        ICharacter mob3 = ServiceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob3Blueprint, templeSquare);
+        ICharacter mob4 = ServiceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob4Blueprint, templeSquare);
+        ICharacter mob5 = ServiceProvider.GetRequiredService<ICharacterManager>().AddNonPlayableCharacter(Guid.NewGuid(), mob5Blueprint, templeSquare);
 
-        IItemContainer item1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
-        IItemContainer item1Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
-        IItemWeapon item2 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
-        IItemArmor item3 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
+        IItemContainer item1 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
+        IItemContainer item1Dup1 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item1Blueprint, templeOfMota) as IItemContainer;
+        IItemWeapon item2 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item2Blueprint, mob2) as IItemWeapon;
+        IItemArmor item3 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, item1Dup1) as IItemArmor;
         //IItemLight item4 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item4Blueprint, mob1);
         //IItemWeapon item5 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item5Blueprint, mob1);
         //IItemContainer item1Dup2 = DependencyContainer.Instance.GetInstance<IWorld>().AddItem(Guid.NewGuid(), item1Blueprint, mob1);
-        IItemArmor item3Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
-        IItemLight item4Dup1 = _serviceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
+        IItemArmor item3Dup1 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item3Blueprint, mob3) as IItemArmor;
+        IItemLight item4Dup1 = ServiceProvider.GetRequiredService<IItemManager>().AddItem(Guid.NewGuid(), item4Blueprint, mob4) as IItemLight;
         // Equip weapon on mob2
         mob2.Equipments.FirstOrDefault(x => x.Slot == EquipmentSlots.MainHand).Item = item2;
         item2.ChangeContainer(null);
         item2.ChangeEquippedBy(mob2, true);
+    }
+    */
+
+    private void CreateWorld()
+    {
+        var path = @"D:\Projects\Repos\Mud.Net\Datas\Areas\Rom24\";
+        RomImporter importer = new(ServiceProvider);
+        //MysteryImporter importer = new MysteryImporter();
+        //RotImporter importer = new RotImporter();
+        importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
+        //importer.ImportByList(path, "area.lst");
+
+        var AreaManager = ServiceProvider.GetRequiredService<IAreaManager>();
+        var RoomManager = ServiceProvider.GetRequiredService<IRoomManager>();
+        var CharacterManager = ServiceProvider.GetRequiredService<ICharacterManager>();
+        var ItemManager = ServiceProvider.GetRequiredService<IItemManager>();
+        var QuestManager = ServiceProvider.GetRequiredService<IQuestManager>();
+        var RandomManager = ServiceProvider.GetRequiredService<IRandomManager>();
+
+        // Area
+        foreach (AreaBlueprint blueprint in importer.Areas)
+        {
+            AreaManager.AddAreaBlueprint(blueprint);
+            AreaManager.AddArea(Guid.NewGuid(), blueprint);
+        }
+
+        // Rooms
+        foreach (RoomBlueprint blueprint in importer.Rooms)
+        {
+            RoomManager.AddRoomBlueprint(blueprint);
+            IArea area = AreaManager.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
+            if (area == null)
+            {
+                Log.Default.WriteLine(LogLevels.Error, "Area id {0} not found", blueprint.AreaId);
+            }
+            else
+                RoomManager.AddRoom(Guid.NewGuid(), blueprint, area);
+        }
+
+        foreach (IRoom room in RoomManager.Rooms)
+        {
+            foreach (ExitBlueprint exitBlueprint in room.Blueprint.Exits.Where(x => x != null))
+            {
+                IRoom to = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == exitBlueprint.Destination);
+                if (to == null)
+                    Log.Default.WriteLine(LogLevels.Warning, "Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
+                else
+                    RoomManager.AddExit(room, to, exitBlueprint, exitBlueprint.Direction);
+            }
+        }
+
+        // Characters
+        foreach (CharacterBlueprintBase blueprint in importer.Characters)
+            CharacterManager.AddCharacterBlueprint(blueprint);
+
+        // Items
+        foreach (ItemBlueprintBase blueprint in importer.Items)
+            ItemManager.AddItemBlueprint(blueprint);
+
+        // Custom blueprint to test
+        ItemQuestBlueprint questItem1Blueprint = new ItemQuestBlueprint
+        {
+            Id = 80000,
+            Name = "Quest item 1",
+            ShortDescription = "Quest item 1",
+            Description = "The quest item 1 has been left here."
+        };
+        ItemManager.AddItemBlueprint(questItem1Blueprint);
+        ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
+        {
+            Id = 80001,
+            Name = "Quest item 2",
+            ShortDescription = "Quest item 2",
+            Description = "The quest item 2 has been left here."
+        };
+        ItemManager.AddItemBlueprint(questItem2Blueprint);
+        CharacterNormalBlueprint construct = new CharacterNormalBlueprint
+        {
+            Id = 80000,
+            Name = "Construct",
+            ShortDescription = "A construct",
+            LongDescription = "A construct waiting orders",
+            Description = "A construct is here, built from various of gears and springs",
+            Sex = Sex.Neutral,
+            Level = 40,
+            Wealth = 0,
+            Alignment = 0,
+            DamageNoun = "buzz",
+            DamageType = SchoolTypes.Bash,
+            DamageDiceCount = 5,
+            DamageDiceValue = 10,
+            DamageDiceBonus = 10,
+            HitPointDiceCount = 20,
+            HitPointDiceValue = 30,
+            HitPointDiceBonus = 300,
+            ManaDiceCount = 0,
+            ManaDiceValue = 0,
+            ManaDiceBonus = 0,
+            HitRollBonus = 10,
+            ArmorBash = 300,
+            ArmorPierce = 200,
+            ArmorSlash = 400,
+            ArmorExotic = 0,
+            ActFlags = new ActFlags(ServiceProvider, "Pet"),
+            OffensiveFlags = new OffensiveFlags(ServiceProvider, "Bash"),
+            CharacterFlags = new CharacterFlags(ServiceProvider, "Haste"),
+            Immunities = new IRVFlags(ServiceProvider),
+            Resistances = new IRVFlags(ServiceProvider, "Slash", "Fire"),
+            Vulnerabilities = new IRVFlags(ServiceProvider, "Acid"),
+        };
+        CharacterManager.AddCharacterBlueprint(construct);
+
+        // MANDATORY ITEMS
+        if (ItemManager.GetItemBlueprint(10) == null)
+        {
+            ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+            {
+                Id = 10,
+                NoTake = true,
+                Name = "corpse"
+            };
+            ItemManager.AddItemBlueprint(corpseBlueprint);
+        }
+        if (ItemManager.GetItemBlueprint(5) == null)
+        {
+            ItemMoneyBlueprint moneyBlueprint = new ItemMoneyBlueprint
+            {
+                Id = 5,
+                NoTake = true,
+                Name = "coins"
+            };
+            ItemManager.AddItemBlueprint(moneyBlueprint);
+        }
+        // MANDATORY ROOM
+        RoomBlueprint voidBlueprint = RoomManager.GetRoomBlueprint(1);
+        if (voidBlueprint == null)
+        {
+            IArea area = AreaManager.Areas.First();
+            Log.Default.WriteLine(LogLevels.Error, "NullRoom not found -> creation of null room with id {0} in area {1}", 1, area.DisplayName);
+            voidBlueprint = new RoomBlueprint
+            {
+                Id = 1,
+                Name = "The void",
+                RoomFlags = new RoomFlags(ServiceProvider, "NoRecall", "NoScan", "NoWhere")
+            };
+            RoomManager.AddRoomBlueprint(voidBlueprint);
+            RoomManager.AddRoom(Guid.NewGuid(), voidBlueprint, area);
+        }
+
+        // Add dummy mobs and items to allow impersonate :)
+        IRoom templeOfMota = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3001);
+        IRoom templeSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3005);
+        IRoom marketSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3014);
+        IRoom commonSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3025);
+
+        if (templeOfMota == null || templeSquare == null || marketSquare == null || commonSquare == null)
+            return;
+
+        ItemManager.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
+
+        // Quest
+        QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>(RandomManager)
+        {
+            Name = "Quest 1 kill 1 table",
+            Entries = new List<QuestKillLootTableEntry<int>>
+            {
+                new QuestKillLootTableEntry<int>
+                {
+                    Value = questItem1Blueprint.Id,
+                    Percentage = 80,
+                }
+            }
+        };
+        QuestBlueprint questBlueprint1 = new QuestBlueprint
+        {
+            Id = 1,
+            Title = "Complex quest",
+            Description = "Kill 3 fido, get one quest item 2, get 2 quest item 1 on beggar and explore temple square",
+            Level = 50,
+            Experience = 50000,
+            Gold = 20,
+            ShouldQuestItemBeDestroyed = true,
+            KillObjectives = new[]
+            {
+                new QuestKillObjectiveBlueprint
+                {
+                    Id = 0,
+                    CharacterBlueprintId = 3062, // fido
+                    Count = 3
+                }
+            },
+            ItemObjectives = new[]
+            {
+                new QuestItemObjectiveBlueprint
+                {
+                    Id = 1,
+                    ItemBlueprintId = questItem2Blueprint.Id,
+                    Count = 1
+                },
+                new QuestItemObjectiveBlueprint
+                {
+                    Id = 2,
+                    ItemBlueprintId = questItem1Blueprint.Id,
+                    Count = 2
+                }
+            },
+            LocationObjectives = new[]
+            {
+                new QuestLocationObjectiveBlueprint
+                {
+                    Id = 3,
+                    RoomBlueprintId = templeSquare.Blueprint.Id,
+                }
+            },
+            KillLootTable = new Dictionary<int, QuestKillLootTable<int>> // when killing mob 3065, we receive quest item 1 (80%)
+            {
+                { 3065, quest1KillLoot } // beggar
+            }
+            // TODO: rewards
+        };
+        QuestManager.AddQuestBlueprint(questBlueprint1);
+
+        QuestBlueprint questBlueprint2 = new QuestBlueprint
+        {
+            Id = 2,
+            Title = "Simple exploration quest",
+            Description = "Explore temple of mota, temple square, market square and common square",
+            Level = 10,
+            Experience = 10000,
+            Gold = 20,
+            TimeLimit = 5,
+            LocationObjectives = new[]
+            {
+                new QuestLocationObjectiveBlueprint
+                {
+                    Id = 0,
+                    RoomBlueprintId = templeOfMota.Blueprint.Id
+                },
+                new QuestLocationObjectiveBlueprint
+                {
+                    Id = 1,
+                    RoomBlueprintId = templeSquare.Blueprint.Id
+                },
+                new QuestLocationObjectiveBlueprint
+                {
+                    Id = 2,
+                    RoomBlueprintId = marketSquare.Blueprint.Id
+                },
+                new QuestLocationObjectiveBlueprint
+                {
+                    Id = 3,
+                    RoomBlueprintId = commonSquare.Blueprint.Id
+                }
+            },
+            // TODO: rewards
+        };
+        QuestManager.AddQuestBlueprint(questBlueprint2);
+
+        CharacterQuestorBlueprint mob10Blueprint = new CharacterQuestorBlueprint
+        {
+            Id = 10,
+            Name = "mob10 questor",
+            ShortDescription = "Tenth mob (neutral questor)",
+            Description = "Tenth mob (neutral questor) is here",
+            Sex = Sex.Neutral,
+            Level = 60,
+            QuestBlueprints = new[]
+            {
+                questBlueprint1,
+                questBlueprint2
+            }
+        };
+        CharacterManager.AddCharacterBlueprint(mob10Blueprint);
+        ICharacter mob10 = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);
     }
 
     private void TestPaging()
@@ -598,9 +890,9 @@ internal class Program
 
     private void TestBasicCommands()
     {
-        //IPlayer player1 = _serviceProvider.GetRequiredService<IPlayerManager>().AddPlayer(new ConsoleClient("Player1"), "Player1");
-        //IPlayer player2 = _serviceProvider.GetRequiredService<IPlayerManager>().AddPlayer(new ConsoleClient("Player2"), "Player2");
-        //IAdmin admin = _serviceProvider.GetRequiredService<IAdminManager>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
+        //IPlayer player1 = ServiceProvider.GetRequiredService<IPlayerManager>().AddPlayer(new ConsoleClient("Player1"), "Player1");
+        //IPlayer player2 = ServiceProvider.GetRequiredService<IPlayerManager>().AddPlayer(new ConsoleClient("Player2"), "Player2");
+        //IAdmin admin = ServiceProvider.GetRequiredService<IAdminManager>().AddAdmin(new ConsoleClient("Admin1"), "Admin1");
 
         //CreateDummyWorld();
 
@@ -645,7 +937,7 @@ internal class Program
     private void TestCommandParsing()
     {
         //// server doesn't need to be started, we are not testing real runtime but basic commands
-        //IArea area = _serviceProvider.GetRequiredService<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint{Name = "testarea", Builders = "SinaC", Credits = "Credits"});
+        //IArea area = ServiceProvider.GetRequiredService<IAreaManager>().AddArea(Guid.NewGuid(), new AreaBlueprint{Name = "testarea", Builders = "SinaC", Credits = "Credits"});
         //// Blueprints
         //RoomBlueprint room1Blueprint = new RoomBlueprint
         //{
@@ -654,9 +946,9 @@ internal class Program
         //    Description = "My first room"
         //};
         //// World
-        //IRoom room = _serviceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
+        //IRoom room = ServiceProvider.GetRequiredService<IRoomManager>().AddRoom(Guid.NewGuid(), room1Blueprint, area);
 
-        //IPlayer player = _serviceProvider.GetRequiredService<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
+        //IPlayer player = ServiceProvider.GetRequiredService<IPlayerManager>().AddPlayer(new ConsoleClient("Player"), "Player");
         //player.ProcessInput("test");
         //player.ProcessInput("test arg1");
         //player.ProcessInput("test 'arg1' 'arg2' 'arg3' 'arg4'");
@@ -672,11 +964,11 @@ internal class Program
         //player.ProcessInput("unknown"); // INVALID
         //player.ProcessInput("/test");
 
-        //IPlayableCharacter character = _serviceProvider.GetRequiredService<ICharacterManager>().AddPlayableCharacter(Guid.NewGuid(), new PlayableCharacterData
+        //IPlayableCharacter character = ServiceProvider.GetRequiredService<ICharacterManager>().AddPlayableCharacter(Guid.NewGuid(), new PlayableCharacterData
         //{
         //    Name = "toto",
-        //    Class = _serviceProvider.GetRequiredService<IClassManager>()["Mage"].Name,
-        //    Race = _serviceProvider.GetRequiredService<IRaceManager>()["Troll"].Name,
+        //    Class = ServiceProvider.GetRequiredService<IClassManager>()["Mage"].Name,
+        //    Race = ServiceProvider.GetRequiredService<IRaceManager>()["Troll"].Name,
         //    Sex = Sex.Male,
         //    Level = 1,
         //    Experience = 0,
@@ -698,7 +990,7 @@ internal class Program
         //player.ProcessInput("tell");
         //player.ProcessInput("look"); // INVALID because Character commands are not accessible by Player unless if impersonating
 
-        //IAdmin admin = _serviceProvider.GetRequiredService<IAdminManager>().AddAdmin(new ConsoleClient("Admin"), "Admin");
+        //IAdmin admin = ServiceProvider.GetRequiredService<IAdminManager>().AddAdmin(new ConsoleClient("Admin"), "Admin");
         //admin.ProcessInput("incarnate");
         //admin.ProcessInput("unknown"); // INVALID
     }
@@ -728,11 +1020,12 @@ internal class Program
         Console.WriteLine("Let's go");
 
         //CreateDummyWorld();
-        CreateMidgaard();
+        //CreateMidgaard();
+        CreateWorld();
 
         INetworkServer telnetServer = new TelnetServer(11000);
-        _serviceProvider.GetRequiredService<IServer>().Initialize(new List<INetworkServer> {telnetServer});
-        _serviceProvider.GetRequiredService<IServer>().Start();
+        ServiceProvider.GetRequiredService<IServer>().Initialize(new List<INetworkServer> {telnetServer});
+        ServiceProvider.GetRequiredService<IServer>().Start();
 
         bool stopped = false;
         while (!stopped)
@@ -754,13 +1047,13 @@ internal class Program
                         else if (line == "alist")
                         {
                             Console.WriteLine("Admins:");
-                            foreach (IAdmin a in _serviceProvider.GetRequiredService<IAdminManager>().Admins)
+                            foreach (IAdmin a in ServiceProvider.GetRequiredService<IAdminManager>().Admins)
                                 Console.WriteLine(a.Name + " " + a.PlayerState + " " + (a.Impersonating != null ? a.Impersonating.DisplayName : "") + " " + (a.Incarnating != null ? a.Incarnating.DisplayName : ""));
                         }
                         else if (line == "plist")
                         {
                             Console.WriteLine("players:");
-                            foreach (IPlayer p in _serviceProvider.GetRequiredService<IPlayerManager>().Players)
+                            foreach (IPlayer p in ServiceProvider.GetRequiredService<IPlayerManager>().Players)
                                 Console.WriteLine(p.Name + " " + p.PlayerState + " " + (p.Impersonating != null ? p.Impersonating.DisplayName : ""));
                         }
 
@@ -772,7 +1065,7 @@ internal class Program
                 Thread.Sleep(100);
         }
 
-        _serviceProvider.GetRequiredService<IServer>().Stop();
+        ServiceProvider.GetRequiredService<IServer>().Stop();
     }
 
     private void TestWorldOffline()
@@ -780,13 +1073,14 @@ internal class Program
         Console.WriteLine("Let's go");
         //CreateDummyWorld();
 
-        ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer(_serviceProvider);
+        ConsoleNetworkServer consoleNetworkServer = new ConsoleNetworkServer(ServiceProvider);
         consoleNetworkServer.Initialize();
-        CreateMidgaard();
-        _serviceProvider.GetRequiredService<IServer>().Initialize(new List<INetworkServer> { consoleNetworkServer });
+        //CreateMidgaard();
+        CreateWorld();
+        ServiceProvider.GetRequiredService<IServer>().Initialize(new List<INetworkServer> { consoleNetworkServer });
         consoleNetworkServer.AddClient("Player1", false, true);
-        _serviceProvider.GetRequiredService<IServer>().Start(); // this call is blocking because consoleNetworkServer.Start is blocking
+        ServiceProvider.GetRequiredService<IServer>().Start(); // this call is blocking because consoleNetworkServer.Start is blocking
 
-        _serviceProvider.GetRequiredService<IServer>().Stop();
+        ServiceProvider.GetRequiredService<IServer>().Stop();
     }
 }

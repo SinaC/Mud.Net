@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Configuration;
 using Mud.DataStructures.Flags;
 using Mud.Logger;
 using Mud.Repository;
@@ -23,6 +26,7 @@ using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
 using Mud.Settings.Interfaces;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -58,7 +62,12 @@ public partial class App : Application
         Log.Default.Initialize(settings.LogPath, "server.log");
 
         // Configure Logging
-        services.AddLogging();
+        //services.AddLogging();
+        services.AddLogging(builder =>
+        {
+            //builder.AddConfiguration();
+            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, CustomLoggerProvider>());
+        });
 
         // Register Services
         services.AddSingleton<ISettings>(settings);
@@ -100,21 +109,44 @@ public partial class App : Application
 
         services.AddAutoMapper(typeof(Repository.Filesystem.AutoMapperProfile).Assembly);
 
-        //// Initialize mapping
-        //var mapperConfiguration = new MapperConfiguration(cfg =>
-        //{
-        //    cfg.AllowNullCollections = true;
-        //    cfg.AllowNullDestinationValues = true;
-
-        //    cfg.AddProfile<Repository.Filesystem.AutoMapperProfile>();
-        //});
-        //services.AddSingleton(mapperConfiguration.CreateMapper());
-
         //// Register ViewModels
         //services.AddSingleton<IMainViewModel, MainViewModel>();
 
         // Register Views
         services.AddSingleton<ServerWindow>();
+    }
+
+    public sealed class CustomLogger(string scopeName) : ILogger
+    {
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default!;
+
+        public bool IsEnabled(LogLevel logLevel) =>
+            true;
+
+        public void Log<TState>(
+            LogLevel logLevel,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            if (!IsEnabled(logLevel))
+            {
+                return;
+            }
+
+            ServerWindow.LogScopedMethod(logLevel.ToString(), scopeName, formatter(state, exception));
+        }
+    }
+
+    private class CustomLoggerProvider : ILoggerProvider
+    {
+        public ILogger CreateLogger(string categoryName)
+            => new CustomLogger(categoryName);
+
+        public void Dispose()
+        {
+        }
     }
 
     private void OnExit(object sender, ExitEventArgs e)

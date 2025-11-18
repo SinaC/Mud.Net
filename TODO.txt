@@ -1,10 +1,7 @@
 INGOING
-command help
-    commands
-    races
-    classes
-    abilities
+replace nlog with microsoft logging
 
+TODO
 character default size seems to be tiny for ROM24
 finish ROM24 classes
 use DI for Room, Item, Character, ...
