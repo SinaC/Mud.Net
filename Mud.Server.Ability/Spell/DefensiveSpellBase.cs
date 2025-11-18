@@ -30,7 +30,7 @@ public abstract class DefensiveSpellBase : SpellBase, ITargetedAction
             Victim = Caster;
         else
         {
-            Victim = FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee), spellActionInput.Parameters[0])!;
+            Victim = FindHelpers.FindByName(ValidTargets(Caster).OfType<ICharacter>(), spellActionInput.Parameters[0])!;
             if (Victim == null)
                 return "They aren't here.";
         }

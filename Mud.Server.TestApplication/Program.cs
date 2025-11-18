@@ -104,18 +104,8 @@ internal class Program
 
         // Register Services
         services.AddSingleton<ISettings>(settings);
-        RegisterAllTypes(services, assemblyHelper.AllReferencedAssemblies);
 
-        RegisterFlagValues<ICharacterFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IRoomFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IItemFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IWeaponFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IActFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IOffensiveFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IAssistFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IIRVFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IBodyFormValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IBodyPartValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterAllTypes(services, assemblyHelper.AllReferencedAssemblies);
 
         services.AddSingleton<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
         services.AddSingleton<IAssemblyHelper>(assemblyHelper);
@@ -154,12 +144,41 @@ internal class Program
 
     internal void RegisterAllTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
+        // register commands and abilities
         var iRegistrable = typeof(IRegistrable);
         foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
         {
             Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
             services.AddTransient(registrable);
         }
+        // register races
+        var iRace = typeof(IRace);
+        foreach (var race in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRace.IsAssignableFrom(t))))
+        {
+            Log.Default.WriteLine(LogLevels.Info, "Registering race type {0}.", race.FullName);
+            services.AddSingleton(iRace, race);
+        }
+        // register classes
+        var iClass = typeof(IClass);
+        foreach (var cl in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iClass.IsAssignableFrom(t))))
+        {
+            Log.Default.WriteLine(LogLevels.Info, "Registering class type {0}.", cl.FullName);
+            services.AddSingleton(iClass, cl);
+        }
+        // register flag
+        RegisterFlagValues<ICharacterFlagValues>(services, assemblies);
+        RegisterFlagValues<IRoomFlagValues>(services, assemblies);
+        RegisterFlagValues<IItemFlagValues>(services, assemblies);
+        RegisterFlagValues<IWeaponFlagValues>(services, assemblies);
+        RegisterFlagValues<IActFlagValues>(services, assemblies);
+        RegisterFlagValues<IOffensiveFlagValues>(services, assemblies);
+        RegisterFlagValues<IAssistFlagValues>(services, assemblies);
+        RegisterFlagValues<IIRVFlagValues>(services, assemblies);
+        RegisterFlagValues<IBodyFormValues>(services, assemblies);
+        RegisterFlagValues<IBodyPartValues>(services, assemblies);
+
+        // register group
+        services.AddTransient<IGroup, Group.Group>();
     }
 
     internal void RegisterFlagValues<TFlagValue>(IServiceCollection services, IEnumerable<Assembly> assemblies)
@@ -181,6 +200,7 @@ internal class Program
         public IEnumerable<Assembly> AllReferencedAssemblies =>
         [
             typeof(Server.Server).Assembly,
+            typeof(Commands.Actor.Commands).Assembly,
             typeof(AcidBlast).Assembly
         ];
     }

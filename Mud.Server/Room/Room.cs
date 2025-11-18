@@ -5,10 +5,10 @@ using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Helpers;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -282,7 +282,8 @@ public class Room : EntityBase, IRoom
             sb.AppendFormatLine($"Obvious exits from room {Blueprint?.Id.ToString() ?? "???"}:");
         else
             sb.AppendLine("Obvious exits:");
-        bool exitFound = false;
+        var exitFound = false;
+        var isImmortal = viewer is IPlayableCharacter { IsImmortal: true };
         foreach (var direction in EnumHelpers.GetValues<ExitDirections>())
         {
             var exit = this[direction];
@@ -308,7 +309,7 @@ public class Room : EntityBase, IRoom
                     sb.Append(" - ");
                     if (exit.IsClosed)
                         sb.Append("A closed door");
-                    else if (destination.IsDark)
+                    else if (destination.IsDark && !isImmortal)
                         sb.Append("Too dark to tell");
                     else
                         sb.Append(exit.Destination.DisplayName);
@@ -316,7 +317,7 @@ public class Room : EntityBase, IRoom
                         sb.Append(" (CLOSED)");
                     if (exit.IsHidden)
                         sb.Append(" [HIDDEN]");
-                    if (viewer is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+                    if (isImmortal)
                         sb.Append($" (room {destination.Blueprint?.Id.ToString() ?? "???"})");
                     sb.AppendLine();
                 }

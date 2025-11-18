@@ -1,14 +1,15 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Helpers;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
@@ -509,9 +510,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (room == null)
             return false;
-        // infrared + dark
-        if (room.IsDark && !CharacterFlags.IsSet("Infrared"))
-            return false;
+        // not needed
+        //// infrared + dark
+        //if (room.IsDark && !CharacterFlags.IsSet("Infrared"))
+        //    return false;
+
+        // TODO
         //        if (IS_SET(pRoomIndex->room_flags, ROOM_IMP_ONLY)
         //&& get_trust(ch) < MAX_LEVEL)
         //            return FALSE;
@@ -520,6 +524,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             && (this as IPlayableCharacter)?.IsImmortal != true)
             return false;
 
+        // TODO
         //        if (IS_SET(pRoomIndex->room_flags, ROOM_HEROES_ONLY)
         //        && !IS_IMMORTAL(ch))
         //            return FALSE;
@@ -527,6 +532,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && (this as IPlayableCharacter)?.IsImmortal != true)
             return false;
 
+        // TODO
         //        if (!IS_IMMORTAL(ch) && pRoomIndex->clan && ch->clan != pRoomIndex->clan)
         //            return FALSE;
 
@@ -828,8 +834,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Check if existing exit
         if (exit == null || toRoom == null)
         {
-            Send("You almost goes {0}, but suddenly realize that there's no exit there.", direction);
-            Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused.", this, direction);
+            Send("You almost goes {0}, but suddenly realize that there's no exit there.", direction.DisplayNameLowerCase());
+            Act(ActOptions.ToRoom, "{0} looks like {0:e}'s about to go {1}, but suddenly stops short and looks confused.", this, direction.DisplayNameLowerCase());
             return false;
         }
         // Closed ?
@@ -883,7 +889,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         //
         if (!CharacterFlags.IsSet("Sneak"))
-            Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction);
+            Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction.DisplayNameLowerCase());
         ChangeRoom(toRoom, false);
 
         // Display special phrase after entering room

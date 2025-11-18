@@ -40,7 +40,8 @@ public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
         }
     }
 
-    public IEnumerable<IEntity> ValidTargets(ICharacter caster) => caster.Room.People.Where(x => x != caster && caster.CanSee(x) && IsTargetValid(caster, x));
+    public IEnumerable<IEntity> ValidTargets(ICharacter caster)
+        => caster.Room.People.Where(x => x != caster && caster.CanSee(x) && IsTargetValid(caster, x));
 
     protected override string? SetTargets(ISpellActionInput spellActionInput)
     {
@@ -61,7 +62,7 @@ public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
                     : "Cast the spell on whom?";
         }
         else
-            Victim = FindHelpers.FindByName(Caster.Room.People, spellActionInput.Parameters[0])!;
+            Victim = FindHelpers.FindByName(ValidTargets(Caster).OfType<ICharacter>(), spellActionInput.Parameters[0])!;
         if (Victim == null)
             return "They aren't here.";
         if (Caster is IPlayableCharacter)
