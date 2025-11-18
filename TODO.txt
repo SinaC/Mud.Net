@@ -3,9 +3,7 @@ move commands to dedicated project
     try to add Quest in DI with 2 additional methods Initialize with parameters from existing 2 ctor
     use GetRequiredService<IQuest> instead of new Quest
 
-add debugger display
-mstat fido doesn't work when in room 1300
-
+character default size seems to be tiny for ROM24
 finish ROM24 classes
 use DI for Room, Item, Character, ...
 when a player connects, if no avatar found -> switch to avatar create state machine
@@ -30,8 +28,6 @@ refactor settings
 
 UNIT TESTS
 use xunit + moq
-
-move commands to Mud.Server.Commands
 
 Item.GetAura should be based on flags and not ability (check Curse spell)
 in general way, Aura should be based on flags instead of abilities (with an optional ability)

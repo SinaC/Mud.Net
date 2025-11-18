@@ -20,10 +20,12 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Settings.Interfaces;
+using System.Diagnostics;
 using System.Text;
 
 namespace Mud.Server.Room;
 
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class Room : EntityBase, IRoom
 {
     private ITimeManager TimeManager { get; }
@@ -458,4 +460,7 @@ public class Room : EntityBase, IRoom
         }
         return false;
     }
+
+    //
+    private string DebuggerDisplay => $"R {Name} INC:{IncarnatedBy?.Name} BId:{Blueprint?.Id}";
 }

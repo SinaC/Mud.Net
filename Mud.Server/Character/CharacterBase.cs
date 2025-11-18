@@ -423,7 +423,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (CharacterFlags.IsSet("Blind"))
             return false;
         // infrared + dark
-        if (!CharacterFlags.IsSet("Infrared") && Room?.IsDark == true)
+        if (!CharacterFlags.IsSet("Infrared") && victim.Room?.IsDark == true)
             return false;
         // invis
         if (victim.CharacterFlags.IsSet("Invisible")

@@ -9,10 +9,12 @@ using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
+using System.Diagnostics;
 using System.Text;
 
 namespace Mud.Server.Player;
 
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class Player : ActorBase, IPlayer
 {
     protected ITimeManager TimeManager { get; }
@@ -422,4 +424,7 @@ public class Player : ActorBase, IPlayer
         sb.Append('>');
         return sb.ToString();
     }
+
+    //
+    private string DebuggerDisplay => $"Player {Name} IMP:{Impersonating?.Name}";
 }
