@@ -41,6 +41,10 @@ using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
 using Mud.Server.Room;
 using Mud.Settings.Interfaces;
+using Serilog;
+using Serilog.Extensions.Logging;
+using Serilog.Sinks.File;
+using Serilog.Sinks.SystemConsole.Themes;
 using System.Reflection;
 using System.Text;
 
@@ -63,7 +67,11 @@ internal class Program
 
         ServiceProvider = serviceCollection.BuildServiceProvider();
 
-        ServiceProvider.GetRequiredService<ILogger<Program>>().LogError("***ERROR***");
+        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogDebug("DEBUG TEST");
+        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogInformation("INFORMATION TEST");
+        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogWarning("WARNING TEST");
+        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogError("ERROR TEST");
+        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogCritical("CRITICAL TEST");
 
         //TestSecondWindow();
         //TestPaging();
@@ -71,6 +79,7 @@ internal class Program
         //TestBasicCommands();
         //TestWorldOnline();
         TestWorldOffline();
+        //Console.ReadLine();
 
         //TestLuaIntegration testLua = new TestLuaIntegration();
         //TestLuaBasicFunctionality testLua = new TestLuaBasicFunctionality();
@@ -108,16 +117,16 @@ internal class Program
         var assemblyHelper = new AssemblyHelper();
 
         // Initialize log
-        Log.Default.Initialize(settings.LogPath, "server.test.log");
+        Logger.Log.Default.Initialize(settings.LogPath, "server.test.log");
 
         // Configure Logging
-        //services.AddLogging(lb => lb.AddConsole());
-        services.AddLogging(builder => builder.AddSimpleConsole(options =>
-        {
-            options.IncludeScopes = true;
-            options.SingleLine = true;
-            options.TimestampFormat = "yyyy-MM-dd HH:mm:ss ";
-        }));
+        Serilog.Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Async(wt => wt.Console(outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}"))
+            .WriteTo.File(@"c:\temp\server.test.serilog.log", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+        services.AddLogging(builder => builder.AddSerilog(Serilog.Log.Logger));
+
 
         // Register Services
         services.AddSingleton<ISettings>(settings);
@@ -165,21 +174,21 @@ internal class Program
         var iRegistrable = typeof(IRegistrable);
         foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
         {
-            Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
+           // Logger.Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
             services.AddTransient(registrable);
         }
         // register races
         var iRace = typeof(IRace);
         foreach (var race in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRace.IsAssignableFrom(t))))
         {
-            Log.Default.WriteLine(LogLevels.Info, "Registering race type {0}.", race.FullName);
+            //Logger.Log.Default.WriteLine(LogLevels.Info, "Registering race type {0}.", race.FullName);
             services.AddSingleton(iRace, race);
         }
         // register classes
         var iClass = typeof(IClass);
         foreach (var cl in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iClass.IsAssignableFrom(t))))
         {
-            Log.Default.WriteLine(LogLevels.Info, "Registering class type {0}.", cl.FullName);
+            //Logger.Log.Default.WriteLine(LogLevels.Info, "Registering class type {0}.", cl.FullName);
             services.AddSingleton(iClass, cl);
         }
         // register flag
@@ -204,10 +213,10 @@ internal class Program
         var iFlagValuesType = typeof(TFlagValue);
         var concreteFlagValuesType = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iFlagValuesType.IsAssignableFrom(t))).SingleOrDefault();
         if (concreteFlagValuesType == null)
-            Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
+            Logger.Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
         else
         {
-            Log.Default.WriteLine(LogLevels.Info, "Registering implementation type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
+            //Logger.Log.Default.WriteLine(LogLevels.Info, "Registering implementation type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
             services.AddTransient(iFlagValuesType, concreteFlagValuesType);
         }
     }
@@ -425,9 +434,9 @@ internal class Program
                     IRoom to;
                     roomsByVNums.TryGetValue(exit.DestinationVNum, out to);
                     if (from == null)
-                        Log.Default.WriteLine(LogLevels.Error, "Origin room not found for vnum {0}", room.VNum);
+                        Logger.Log.Default.WriteLine(LogLevels.Error, "Origin room not found for vnum {0}", room.VNum);
                     else if (to == null)
-                        Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
+                        Logger.Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
                     else
                     {
                         ServiceProvider.GetRequiredService<IRoomManager>().AddExit(from, to, null, (ExitDirections) i);
@@ -617,7 +626,7 @@ internal class Program
             IArea area = AreaManager.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
             if (area == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Area id {0} not found", blueprint.AreaId);
+                Logger.Log.Default.WriteLine(LogLevels.Error, "Area id {0} not found", blueprint.AreaId);
             }
             else
                 RoomManager.AddRoom(Guid.NewGuid(), blueprint, area);
@@ -629,7 +638,7 @@ internal class Program
             {
                 IRoom to = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == exitBlueprint.Destination);
                 if (to == null)
-                    Log.Default.WriteLine(LogLevels.Warning, "Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
+                    Logger.Log.Default.WriteLine(LogLevels.Warning, "Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
                 else
                     RoomManager.AddExit(room, to, exitBlueprint, exitBlueprint.Direction);
             }
@@ -722,7 +731,7 @@ internal class Program
         if (voidBlueprint == null)
         {
             IArea area = AreaManager.Areas.First();
-            Log.Default.WriteLine(LogLevels.Error, "NullRoom not found -> creation of null room with id {0} in area {1}", 1, area.DisplayName);
+            Logger.Log.Default.WriteLine(LogLevels.Error, "NullRoom not found -> creation of null room with id {0} in area {1}", 1, area.DisplayName);
             voidBlueprint = new RoomBlueprint
             {
                 Id = 1,

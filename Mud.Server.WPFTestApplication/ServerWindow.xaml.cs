@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Importer.Rom;
@@ -77,6 +78,13 @@ public partial class ServerWindow : Window, INetworkServer
                 LogMessage(level, scope, message);
             PendingLogs.Clear();
         }
+
+
+        logger.LogDebug("DEBUG TEST");
+        logger.LogInformation("INFORMATION TEST");
+        logger.LogWarning("WARNING TEST");
+        logger.LogError("ERROR TEST");
+        logger.LogCritical("CRITICAL TEST");
 
         //
         TestLootTable();
@@ -307,6 +315,16 @@ public partial class ServerWindow : Window, INetworkServer
     private static List<(string level, string scope, string message)> PendingLogs { get; } = [];
     public static void LogMethod(string level, string message)
     {
+        //if (_serverWindowInstance == null)
+        //    PendingLogs.Add((level, null, message));
+        //else
+        //{
+        //    _serverWindowInstance.LogMessage(level, null, message);
+        //}
+    }
+
+    public static void SerilogMethod(string level, string message)
+    {
         if (_serverWindowInstance == null)
             PendingLogs.Add((level, null, message));
         else
@@ -364,7 +382,7 @@ public partial class ServerWindow : Window, INetworkServer
     {
         var path = Settings.ImportAreaPath;
 
-        //Logger.LogInformation("Importing from {path}", path);
+        Logger.LogInformation("Importing from {path}", path);
 
         RomImporter importer = new (ServiceProvider);
         //MysteryImporter importer = new MysteryImporter();

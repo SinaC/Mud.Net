@@ -25,6 +25,7 @@ using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
 using Mud.Settings.Interfaces;
+using Serilog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -59,15 +60,21 @@ public partial class App : Application
         var assemblyHelper = new AssemblyHelper();
 
         // Initialize log
-        Log.Default.Initialize(settings.LogPath, "server.log");
+        Logger.Log.Default.Initialize(settings.LogPath, "server.log");
 
         // Configure Logging
         //services.AddLogging();
-        services.AddLogging(builder =>
-        {
-            //builder.AddConfiguration();
-            builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, CustomLoggerProvider>());
-        });
+        //services.AddLogging(builder =>
+        //{
+        //    //builder.AddConfiguration();
+        //    builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, CustomLoggerProvider>());
+        //});
+        // Configure Logging
+        Serilog.Log.Logger = new LoggerConfiguration()
+            .WriteTo.RichTextBoxSink()//outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}"))
+            .WriteTo.File(@"c:\temp\server.test.serilog.log", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+        services.AddLogging(builder => builder.AddSerilog(Serilog.Log.Logger));
 
         // Register Services
         services.AddSingleton<ISettings>(settings);
@@ -116,38 +123,38 @@ public partial class App : Application
         services.AddSingleton<ServerWindow>();
     }
 
-    public sealed class CustomLogger(string scopeName) : ILogger
-    {
-        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default!;
+    //public sealed class CustomLogger(string scopeName) : ILogger
+    //{
+    //    public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default!;
 
-        public bool IsEnabled(LogLevel logLevel) =>
-            true;
+    //    public bool IsEnabled(LogLevel logLevel) =>
+    //        true;
 
-        public void Log<TState>(
-            LogLevel logLevel,
-            EventId eventId,
-            TState state,
-            Exception? exception,
-            Func<TState, Exception?, string> formatter)
-        {
-            if (!IsEnabled(logLevel))
-            {
-                return;
-            }
+    //    public void Log<TState>(
+    //        LogLevel logLevel,
+    //        EventId eventId,
+    //        TState state,
+    //        Exception? exception,
+    //        Func<TState, Exception?, string> formatter)
+    //    {
+    //        if (!IsEnabled(logLevel))
+    //        {
+    //            return;
+    //        }
 
-            ServerWindow.LogScopedMethod(logLevel.ToString(), scopeName, formatter(state, exception));
-        }
-    }
+    //        ServerWindow.LogScopedMethod(logLevel.ToString(), scopeName, formatter(state, exception));
+    //    }
+    //}
 
-    private class CustomLoggerProvider : ILoggerProvider
-    {
-        public ILogger CreateLogger(string categoryName)
-            => new CustomLogger(categoryName);
+    //private class CustomLoggerProvider : ILoggerProvider
+    //{
+    //    public ILogger CreateLogger(string categoryName)
+    //        => new CustomLogger(categoryName);
 
-        public void Dispose()
-        {
-        }
-    }
+    //    public void Dispose()
+    //    {
+    //    }
+    //}
 
     private void OnExit(object sender, ExitEventArgs e)
     {
@@ -164,21 +171,21 @@ public partial class App : Application
         var iRegistrable = typeof(IRegistrable);
         foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
         {
-            Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
+            Logger.Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
             services.AddTransient(registrable);
         }
         // register races
         var iRace = typeof(IRace);
         foreach (var race in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRace.IsAssignableFrom(t))))
         {
-            Log.Default.WriteLine(LogLevels.Info, "Registering race type {0}.", race.FullName);
+            Logger.Log.Default.WriteLine(LogLevels.Info, "Registering race type {0}.", race.FullName);
             services.AddSingleton(iRace, race);
         }
         // register classes
         var iClass = typeof(IClass);
         foreach (var cl in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iClass.IsAssignableFrom(t))))
         {
-            Log.Default.WriteLine(LogLevels.Info, "Registering class type {0}.", cl.FullName);
+            Logger.Log.Default.WriteLine(LogLevels.Info, "Registering class type {0}.", cl.FullName);
             services.AddSingleton(iClass, cl);
         }
         // register flag
@@ -203,10 +210,10 @@ public partial class App : Application
         var iFlagValuesType = typeof(TFlagValue);
         var concreteFlagValuesType = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iFlagValuesType.IsAssignableFrom(t))).SingleOrDefault();
         if (concreteFlagValuesType == null)
-            Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
+            Logger.Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
         else
         {
-            Log.Default.WriteLine(LogLevels.Info, "Registering flag values type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
+            Logger.Log.Default.WriteLine(LogLevels.Info, "Registering flag values type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
             services.AddTransient(iFlagValuesType, concreteFlagValuesType);
         }
     }
