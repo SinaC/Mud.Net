@@ -25,10 +25,12 @@ using Mud.Server.Quest;
 using Mud.Server.Random;
 using Mud.Settings.Interfaces;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace Mud.Server.Character.PlayableCharacter;
 
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class PlayableCharacter : CharacterBase, IPlayableCharacter
 {
     public static readonly int NoCondition = -1;
@@ -1412,4 +1414,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Send(sb);
         }
     }
+
+    //
+    private string DebuggerDisplay => $"PC {Name} IMP:{ImpersonatedBy?.Name} IMM:{IsImmortal} R:{Room?.Id} F:{Fighting?.Name}";
 }

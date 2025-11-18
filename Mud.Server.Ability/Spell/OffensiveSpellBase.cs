@@ -23,7 +23,7 @@ public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
 
         var npcVictim = Victim as INonPlayableCharacter;
         if (Victim != Caster
-            && npcVictim?.Master != Caster)
+            && npcVictim?.Master != Caster) // avoid attacking caster when successfully charmed
         {
             // TODO: not sure why we loop on people in caster room
             // TODO: we could just check if victim is still in the room and not fighting

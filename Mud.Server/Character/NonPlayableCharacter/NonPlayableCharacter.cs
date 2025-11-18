@@ -4,6 +4,7 @@ using Mud.Domain;
 using Mud.Logger;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Commands.Admin.Avatar;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
@@ -23,10 +24,12 @@ using Mud.Server.Quest;
 using Mud.Server.Random;
 using Mud.Settings.Interfaces;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace Mud.Server.Character.NonPlayableCharacter;
 
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 {
     protected NonPlayableCharacter(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
@@ -742,4 +745,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         skillInstance.Execute();
         return true;
     }
+
+    //
+    private string DebuggerDisplay => $"PC {Name} BId:{Blueprint?.Id} INC:{IncarnatedBy?.Name} R:{Room?.Blueprint?.Id} F:{Fighting?.Name}";
 }

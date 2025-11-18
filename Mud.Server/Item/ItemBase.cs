@@ -17,10 +17,12 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Settings.Interfaces;
+using System.Diagnostics;
 using System.Text;
 
 namespace Mud.Server.Item;
 
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
     where TBlueprint : ItemBlueprintBase
     where TData: ItemData
@@ -342,4 +344,7 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
             }
         }
     }
+
+    //
+    private string DebuggerDisplay => $"I {Name} INC:{IncarnatedBy?.Name} BId:{Blueprint?.Id}";
 }

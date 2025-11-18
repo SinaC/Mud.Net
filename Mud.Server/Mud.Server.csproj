@@ -6,6 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Quest\**" />
+    <EmbeddedResource Remove="Quest\**" />
+    <None Remove="Quest\**" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj" />
@@ -30,8 +35,5 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Quest\" />
   </ItemGroup>
 </Project>

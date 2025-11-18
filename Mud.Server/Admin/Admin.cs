@@ -7,10 +7,12 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
+using System.Diagnostics;
 using System.Text;
 
 namespace Mud.Server.Admin;
 
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class Admin : Player.Player, IAdmin
 {
     public Admin(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, AdminData data)
@@ -155,4 +157,7 @@ public class Admin : Player.Player, IAdmin
             return BuildCharacterPrompt(playableCharacter);
         return $"{Incarnating?.DebugName}>";
     }
+
+    //
+    private string DebuggerDisplay => $"Admin {Name} IMP:{Impersonating?.Name} INC:{Incarnating?.Name}";
 }
