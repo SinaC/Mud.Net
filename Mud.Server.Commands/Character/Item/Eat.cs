@@ -16,6 +16,7 @@ namespace Mud.Server.Commands.Character.Item;
 
 [CharacterCommand("eat", "Food", MinPosition = Positions.Resting)]
 [Syntax("[cmd] <food|pill>")]
+[Help(@"When you are hungry, [cmd] something.")]
 public class Eat : CastSpellCharacterGameActionBase
 {
     private IServiceProvider ServiceProvider { get; }

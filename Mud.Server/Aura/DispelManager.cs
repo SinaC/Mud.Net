@@ -28,12 +28,12 @@ public class DispelManager : IDispelManager
             if (!SavesDispel(dispelLevel, aura))
             {
                 bool isDispellable = true; // dispellable by default
-                string dispelRoomMessage = null!;
+                string? dispelRoomMessage = null;
                 if (aura.AbilityName != null)
                 {
                     var abilityInfo = AbilityManager[aura.AbilityName];
                     isDispellable = abilityInfo?.IsDispellable == true;
-                    dispelRoomMessage = abilityInfo?.DispelRoomMessage ?? "???";
+                    dispelRoomMessage = abilityInfo?.DispelRoomMessage;
                 }
 
                 if (isDispellable)

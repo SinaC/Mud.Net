@@ -14,6 +14,12 @@ namespace Mud.Server.Commands.Character.Item;
 [Syntax(
     "[cmd] <item>",
     "[cmd] <item> <container>")]
+[Help(
+@"[cmd] gets an object, either lying on the ground, or from a container, or even
+from a corpse. TAKE is a synonym for get.
+[cmd] understand the object names 'ALL' for all objects and
+'ALL.object' for all objects with the same name.
+[cmd] X.sword is also allowed to get the Xth sword of the list.")]
 public class Get : CharacterGameAction
 {
     protected IItem[] What { get; set; } = default!;

@@ -1,5 +1,8 @@
 ﻿using Mud.Domain;
+using Mud.Server.Ability;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 
@@ -7,6 +10,9 @@ namespace Mud.Server.Commands.Character.Communication;
 
 [CharacterCommand("shout", "Communication", MinPosition = Positions.Resting)]
 [Syntax("[cmd] <message>")]
+[Help(
+@"[cmd] sends a message to all awake players in the world.  To curb excessive
+shouting, [cmd] imposes a three-second delay on the shouter.")]
 public class Shout : CharacterGameAction
 {
     private IPlayerManager PlayerManager { get; }
@@ -35,5 +41,7 @@ public class Shout : CharacterGameAction
     public override void Execute(IActionInput actionInput)
     {
         Actor.Act(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating!), "{0:N} shout{0:v} '{1}'", Actor, What);
+        if (Actor is IPlayableCharacter pc)
+            pc?.ImpersonatedBy?.SetGlobalCooldown(12);
     }
 }

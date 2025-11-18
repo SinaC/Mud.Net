@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -6,7 +7,9 @@ using Mud.Server.Interfaces.GameAction;
 namespace Mud.Server.Commands.Character.Communication;
 
 [CharacterCommand("say", "Communication", MinPosition = Positions.Resting)]
+[Alias("'")]
 [Syntax("[cmd] <message>")]
+[Help(@"[cmd] sends a message to all awake players/mobs in your room (In Character channel).")]
 public class Say : CharacterGameAction
 {
     protected string What { get; set; } = default!;

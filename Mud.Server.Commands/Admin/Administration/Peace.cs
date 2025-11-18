@@ -1,4 +1,5 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
@@ -6,6 +7,9 @@ namespace Mud.Server.Commands.Admin.Administration;
 
 [AdminCommand("peace", "Admin", MustBeImpersonated = true)]
 [Syntax("[cmd]")]
+[Help(
+@"[cmd] causes all characters in a room to stop fighting. It also strips the
+AGGRESSIVE bit from mobiles.")]
 public class Peace : AdminGameAction
 {
     public override void Execute(IActionInput actionInput)

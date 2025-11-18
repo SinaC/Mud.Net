@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -15,6 +16,21 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
         "[cmd] skills|spells",
         "[cmd] convert|revert",
         "[cmd] <ability>")]
+[Help(
+@"The gain command is used to learn new skills, once the proper trainer has 
+been found. (The sailor at Midgaard, From Recall : 2 South, 3 East, South) 
+The following options can be used with gain:
+
+gain list:    list all groups and skills that can be learned
+gain skills:  list all skills that can be learned
+gain spells:  list all spells that can be learned
+gain <name>:  add a skill or spell, at the listed cost
+gain convert: turns 10 practices into one training session
+gain revert:  turns 1 train into 10 practices
+
+Gain uses training sessions, not practices. (see 'help train')
+Gained skills and spells do NOT increase your experience per level or total
+number of creation points.")]
 public class Gain : PlayableCharacterGameAction
 {
     private IAbilityManager AbilityManager { get; }

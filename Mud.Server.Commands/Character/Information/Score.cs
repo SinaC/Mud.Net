@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -8,13 +9,18 @@ using System.Text;
 namespace Mud.Server.Commands.Character.Information;
 
 [CharacterCommand("score", "Information", Priority = 2)]
+[Help(
+@"[cmd] shows much more detailed statistics to you only. Your ability scores 
+are shown as true value(current value), so for example
+Str: 23/15 means you have a 15 strength from training, but a 23 strength
+from other factors (skills, spells or items).")]
 public class Score : CharacterGameAction
 {
     public override void Execute(IActionInput actionInput)
     {
         var pc = Actor as IPlayableCharacter;
         StringBuilder sb = new();
-        sb.AppendLine("+--------------------------------------------------------+"); // length 1 + 56 + 1
+        sb.AppendLine(" + --------------------------------------------------------+"); // length 1 + 56 + 1
         sb.AppendLine("|" + Actor.DisplayName.CenterText(56) + "|");
         sb.AppendLine("+------------------------------+-------------------------+");
         sb.AppendLine("| %W%Attributes%x%                   |                         |");
@@ -50,6 +56,16 @@ public class Score : CharacterGameAction
                 sb.AppendLine("You are %G%IMMORTAL%x%");
             else
                 sb.AppendLine("You are %R%MORTAL%x%");
+            if (pc.AutoFlags.HasFlag(AutoFlags.Affect))
+            {
+                if (Actor.Auras.Any())
+                {
+                    sb.AppendLine("%c%You are affected by the following auras:%x%");
+                    // Auras
+                    foreach (var aura in Actor.Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
+                        aura.Append(sb, true); // short version
+                }
+            }
         }
         // TODO: resistances, gold, item, weight, conditions
         //if (!IS_NPC(ch) && ch->pcdata->condition[COND_DRUNK] > 10)

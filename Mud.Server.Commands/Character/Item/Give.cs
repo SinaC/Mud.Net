@@ -13,6 +13,9 @@ namespace Mud.Server.Commands.Character.Item;
 [Syntax(
         "[cmd] <item> <character>",
         "[cmd] <amount> coin|coins|silver|gold <character>")]
+[Help(
+@"[cmd] gives an object, or some coins, to another character.
+[cmd] X.sword is also allowed to give the Xth sword of the list.")]
 public class Give : CharacterGameAction
 {
     protected long? Silver { get; set; }

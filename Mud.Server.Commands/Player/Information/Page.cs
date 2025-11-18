@@ -1,4 +1,5 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Player.Information;
@@ -8,6 +9,10 @@ namespace Mud.Server.Commands.Player.Information;
 [Syntax(
         "[cmd]",
         "[cmd] <number>")]
+[Help(
+@"This command changes the number of lines the mud sends you in a page (the 
+default is 24 lines).  Change this to a higher number for larger screen
+sizes, or to 0 to disabling paging.")]
 public class Page : PlayerGameAction
 {
     protected bool Display { get; set; }

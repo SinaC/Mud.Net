@@ -17,14 +17,14 @@ public class AbilityInfo : IAbilityInfo
     public int LearnDifficultyMultiplier { get; }
     public Type AbilityExecutionType { get; }
 
-    public bool HasCharacterWearOffMessage => AdditionalInfoAttributes.OfType<AbilityCharacterWearOffMessageAttribute>().Any();
-    public string CharacterWearOffMessage => AdditionalInfoAttributes.OfType<AbilityCharacterWearOffMessageAttribute>().SingleOrDefault()?.Message ?? "???";
+    public bool HasCharacterWearOffMessage { get; }
+    public string? CharacterWearOffMessage { get; }
 
-    public bool HasItemWearOffMessage => AdditionalInfoAttributes.OfType<AbilityItemWearOffMessageAttribute>().Any();
-    public string ItemWearOffMessage => AdditionalInfoAttributes.OfType<AbilityItemWearOffMessageAttribute>().SingleOrDefault()?.HolderMessage ?? "???";
+    public bool HasItemWearOffMessage { get; }
+    public string? ItemWearOffMessage { get; }
 
-    public bool IsDispellable => AdditionalInfoAttributes.OfType<AbilityDispellableAttribute>().Any();
-    public string DispelRoomMessage => AdditionalInfoAttributes.OfType<AbilityDispellableAttribute>().SingleOrDefault()?.RoomMessage ?? "???";
+    public bool IsDispellable { get; }
+    public string? DispelRoomMessage { get; }
 
     #endregion
 
@@ -46,8 +46,12 @@ public class AbilityInfo : IAbilityInfo
             : abilityBaseAttribute.CooldownInSeconds;
         LearnDifficultyMultiplier = abilityBaseAttribute.LearnDifficultyMultiplier;
 
-        AdditionalInfoAttributes = abilityExecutionType.GetCustomAttributes<AbilityAdditionalInfoAttribute>().ToArray();
+        var additionalInfoAttributes = abilityExecutionType.GetCustomAttributes<AbilityAdditionalInfoAttribute>().ToArray();
+        HasCharacterWearOffMessage = additionalInfoAttributes.OfType<AbilityCharacterWearOffMessageAttribute>().Any();
+        CharacterWearOffMessage = additionalInfoAttributes.OfType<AbilityCharacterWearOffMessageAttribute>().SingleOrDefault()?.Message;
+        HasItemWearOffMessage = additionalInfoAttributes.OfType<AbilityItemWearOffMessageAttribute>().Any();
+        ItemWearOffMessage = additionalInfoAttributes.OfType<AbilityItemWearOffMessageAttribute>().SingleOrDefault()?.HolderMessage;
+        IsDispellable = additionalInfoAttributes.OfType<AbilityDispellableAttribute>().Any();
+        DispelRoomMessage = additionalInfoAttributes.OfType<AbilityDispellableAttribute>().SingleOrDefault()?.RoomMessage;
     }
-
-    protected AbilityAdditionalInfoAttribute[] AdditionalInfoAttributes { get; }
 }

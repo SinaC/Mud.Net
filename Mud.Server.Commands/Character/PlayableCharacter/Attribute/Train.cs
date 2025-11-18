@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -14,6 +15,19 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Attribute;
         "[cmd] <attribute>",
         "[cmd] <resource> (mana/psy)",
         "[cmd] hp")]
+[Help(
+@"[cmd] increases one of your attributes.  When you start the game, your
+character has standard attributes based on your class, and several
+initial training sessions.  You can increase your attributes by
+using these sessions at a trainer (there are several in town).
+
+It takes one training session to improve an attribute, or to increase
+mana or hp by 10.  You receive one session per level.
+
+The best attributes to train first are WIS and CON.  WIS gives you more
+practice when you gain a level.  CON gives you more hit points.
+In the long run, your character will be most powerful if you train
+WIS and CON both to 18 before practising or training anything else.")]
 public class Train : PlayableCharacterGameAction
 {
     protected enum Actions

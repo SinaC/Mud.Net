@@ -10,6 +10,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
 [PlayableCharacterCommand("sell", "Shop")]
 [Syntax("[cmd] sell <item>")]
+[Help(@"[cmd] sells an object to a shop keeper.")]
 public class Sell : ShopPlayableCharacterGameActionBase
 {
     private IItemManager ItemManager { get; }

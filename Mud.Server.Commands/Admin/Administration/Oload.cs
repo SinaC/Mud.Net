@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
@@ -12,6 +13,15 @@ namespace Mud.Server.Commands.Admin.Administration;
 [AdminCommand("iload", "Admin", MustBeImpersonated = true)]
 [Alias("oload")]
 [Syntax("[cmd] <id>")]
+[Help(
+@"The [cmd] command is used to load new objects (use clone to 
+duplicate strung items).  The vnums can be found with the vnum
+command, or by stat'ing an existing object.
+
+Load puts objects in inventory if they can be carried, otherwise they are
+put in the room. Old format objects must be given a level argument to
+determine their power, new format objects have a preset level that cannot
+be changed without set.")]
 public class Oload : AdminGameAction
 {
     private IItemManager ItemManager { get; }

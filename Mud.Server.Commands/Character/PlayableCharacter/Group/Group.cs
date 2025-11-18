@@ -15,6 +15,11 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Group;
 [Syntax(
        "[cmd]",
        "[cmd] <character>")]
+[Help(
+@"[cmd] <character> makes someone who is following you a member of your group.
+Group members share experience points from kills and may use the GTELL and
+SPLIT commands.  If anyone in your group is attacked, you will automatically
+join the fight.")]
 public class Group : PlayableCharacterGameAction
 {
     private IServiceProvider ServiceProvider { get; }

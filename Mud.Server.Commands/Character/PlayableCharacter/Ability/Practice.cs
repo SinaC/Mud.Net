@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -13,6 +14,18 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
 [Syntax(
         "[cmd]",
         "[cmd] <ability>")]
+[Help(
+@"[cmd] without an argument tells you your current ability level in all
+the skills and spells available to you.  You can check this anywhere.
+
+[cmd] with an argument practice that skill or spell.  Your learning
+percentage varies from 0% (unlearned) to a some maximum between 80% and 100%,
+depending on your class.  You must be at a guild master to practice.
+
+The higher your intelligence, the more you will learn at each practice
+session.  The higher your wisdom, the more practice sessions you will
+have each time you gain a level.  Unused sessions are saved until you
+do use them.")]
 public class Practice : PlayableCharacterGameAction
 {
     private ITableValues TableValues { get; }

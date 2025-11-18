@@ -391,5 +391,6 @@
         Gold      = 0x0008,
         Split     = 0x0010,
         Loot      = 0x0020,
+        Affect    = 0x0040,
     }
 }

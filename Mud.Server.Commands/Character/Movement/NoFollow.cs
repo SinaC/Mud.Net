@@ -6,6 +6,7 @@ namespace Mud.Server.Commands.Character.Movement;
 
 [CharacterCommand("nofollow", "Group", "Movement")]
 [Syntax("[cmd]")]
+// TODO
 public class NoFollow : CharacterGameAction
 {
     private ICharacterManager CharacterManager { get; }

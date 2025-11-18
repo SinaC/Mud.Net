@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.Extensions;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
@@ -8,6 +9,7 @@ namespace Mud.Server.Commands.Character.Information;
 
 [CharacterCommand("weather", "Information", MinPosition = Positions.Resting)]
 [Syntax("[cmd]")]
+[Help(@"[cmd] shows the current game weather.")]
 public class Weather : CharacterGameAction
 {
     private ITimeManager TimeManager { get; }

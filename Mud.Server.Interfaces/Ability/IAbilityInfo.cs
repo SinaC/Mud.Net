@@ -12,13 +12,13 @@ public interface IAbilityInfo
     Type AbilityExecutionType { get; }
 
     bool HasCharacterWearOffMessage { get; }
-    string CharacterWearOffMessage { get; }
+    string? CharacterWearOffMessage { get; }
 
     bool HasItemWearOffMessage { get; }
-    string ItemWearOffMessage { get; }
+    string? ItemWearOffMessage { get; }
 
     bool IsDispellable { get; }
-    string DispelRoomMessage { get; }
+    string? DispelRoomMessage { get; }
 }
 
 public enum AbilityTypes

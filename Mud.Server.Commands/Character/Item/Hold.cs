@@ -10,6 +10,9 @@ namespace Mud.Server.Commands.Character.Item;
 
 [CharacterCommand("hold", "Item", "Equipment", MinPosition = Positions.Resting)]
 [Syntax("[cmd] <item>")]
+[Help(
+@"[CMD] will take a light source, a wand, or a staff from inventory
+and start using it as equipment.")]
 public class Hold : WearCharacterGameActionBase
 {
     public Hold(IWiznet wiznet)

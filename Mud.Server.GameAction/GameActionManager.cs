@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Logger;
+using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
@@ -27,7 +28,7 @@ public class GameActionManager : IGameActionManager
         // Gather all game action
         _gameActionInfosByExecutionType = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iGameActionType.IsAssignableFrom(t)))
             .Select(t => new { executionType = t, attributes = GetGameActionAttributes(t) })
-            .ToDictionary(typeAndAttributes => typeAndAttributes.executionType, typeAndAttributes => CreateGameActionInfo(typeAndAttributes.executionType, typeAndAttributes.attributes.commandAttribute, typeAndAttributes.attributes.syntaxAttribute, typeAndAttributes.attributes.aliasAttributes));
+            .ToDictionary(typeAndAttributes => typeAndAttributes.executionType, typeAndAttributes => CreateGameActionInfo(typeAndAttributes.executionType, typeAndAttributes.attributes.commandAttribute, typeAndAttributes.attributes.syntaxAttribute, typeAndAttributes.attributes.aliasAttributes, typeAndAttributes.attributes.helpAttribute));
     }
 
     #region IGameActionManager
@@ -117,31 +118,32 @@ public class GameActionManager : IGameActionManager
         return gameActionInfos.SelectMany(x => x!.Names, (gameActionInfo, name) => new TrieEntry<IGameActionInfo>(name, gameActionInfo!));
     }
 
-    private static IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes)
+    private static IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute)
     {
         switch (commandAttribute)
         {
             case AdminCommandAttribute adminCommandAttribute:
-                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes);
+                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case PlayerCommandAttribute playerCommandAttribute:
-                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes);
+                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
-                return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes);
+                return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case CharacterCommandAttribute characterCommandAttribute:
-                return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes);
+                return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             default:
                 Log.Default.WriteLine(LogLevels.Warning, "GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???");
-                return new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes);
+                return new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
         }
     }
 
-    private static (CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes) GetGameActionAttributes(Type type)
+    private static (CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute) GetGameActionAttributes(Type type)
     {
         var commandAttribute = type.GetCustomAttribute<CommandAttribute>()!;
         var syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
         var aliasAttributes = type.GetCustomAttributes<AliasAttribute>();
+        var helpAttribute = type.GetCustomAttribute<HelpAttribute>();
 
-        return (commandAttribute, syntaxAttribute, aliasAttributes);
+        return (commandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
     }
 
     private static Type[] GetSortedImplementedInterfaces(Type actorType)

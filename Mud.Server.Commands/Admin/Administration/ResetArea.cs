@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
@@ -10,6 +11,10 @@ namespace Mud.Server.Commands.Admin.Administration;
 [Syntax(
         "[cmd] <area>",
         "[cmd] (if impersonated)")]
+[Help(
+@"This command resets an area, making died mob repoping. If hard is specified,
+each room is purged of its mobiles/objects before resetting.")]
+// TODO: hard parameter
 public class ResetArea : AdminGameAction
 {
     private IAreaManager AreaManager { get; }

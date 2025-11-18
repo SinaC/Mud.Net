@@ -9,6 +9,7 @@ namespace Mud.Server.Commands.Character.Item;
 
 [CharacterCommand("remove", "Item", "Equipment", MinPosition = Positions.Resting)]
 [Syntax("[cmd] <item>")]
+[Help(@"[cmd] will take any object from your equipment and put it back into your\r\ninventory.")]
 public class Remove : CharacterGameAction
 {
     protected IEquippedItem What { get; set; } = default!;

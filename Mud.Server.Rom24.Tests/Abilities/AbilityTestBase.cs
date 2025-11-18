@@ -56,19 +56,19 @@ namespace Mud.Server.Rom24.Tests.Abilities
             switch (commandAttribute)
             {
                 case AdminCommandAttribute adminCommandAttribute:
-                    gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes);
+                    gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 case PlayerCommandAttribute playerCommandAttribute:
-                    gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes);
+                    gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
-                    gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes);
+                    gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 case CharacterCommandAttribute characterCommandAttribute:
-                    gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes);
+                    gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
                 default:
-                    gameActionInfo = new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes);
+                    gameActionInfo = new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, null);
                     break;
             }
 

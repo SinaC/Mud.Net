@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
@@ -9,6 +10,26 @@ using System.Text;
 namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 
 [PlayableCharacterCommand("auto", "Information")]
+[Syntax(
+    "[cmd]",
+    "[cmd] assist",
+    "[cmd] exit",
+    "[cmd] sacrifice",
+    "[cmd] gold",
+    "[cmd] split",
+    "[cmd] loot",
+    "[cmd] affect")]
+[Help(
+@"To ease the boredom of always splitting gold and sacrificing corpses.
+The commands are as follows:
+
+assit     : makes you help group members in combat
+exit      : display room exits upon entering a room
+sacrifice : sacrifice dead monsters (if autoloot is on, only empty corpes)
+gold      : take all gold from dead mobiles
+split     : split up spoils from combat among your group members
+loot      : take all equipment from dead mobiles
+affect    : display your affects when looking your score")]
 public class Auto : PlayableCharacterGameAction
 {
     private IWiznet Wiznet { get; }
@@ -92,6 +113,7 @@ public class Auto : PlayableCharacterGameAction
             case AutoFlags.Gold: return "Automatic gold looting set.";
             case AutoFlags.Loot: return "Automatic corpse looting set.";
             case AutoFlags.Split: return "Automatic gold splitting set.";
+            case AutoFlags.Affect: return "Affects will now be displayed when looking your score.";
             default:
                 Wiznet.Log($"AutoAddedMessage: invalid flag {flag}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return "???";
@@ -108,6 +130,7 @@ public class Auto : PlayableCharacterGameAction
             case AutoFlags.Gold: return "Autogold removed.";
             case AutoFlags.Loot: return "Autolooting removed.";
             case AutoFlags.Split: return "Autosplitting removed.";
+            case AutoFlags.Affect: return "Autoaffect removed.";
             default:
                 Wiznet.Log($"AutoRemovedMessage: invalid flag {flag}", WiznetFlags.Bugs, AdminLevels.Implementor);
                 return "???";

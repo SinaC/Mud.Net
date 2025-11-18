@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
@@ -7,6 +8,9 @@ namespace Mud.Server.Commands.Admin.Administration;
 
 [AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
 [Syntax("[cmd] <delay>")]
+[Help(
+@"[cmd] shuts down the server and prevents the normal 'startup' script
+from restarting it.")]
 public class Shutdown : AdminGameAction
 {
     private IServerAdminCommand ServerAdminCommand { get; }

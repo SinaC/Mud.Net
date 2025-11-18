@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
@@ -11,6 +12,13 @@ namespace Mud.Server.Commands.Admin.Information;
         "[cmd]",
         "[cmd] all",
         "[cmd] <field>")]
+[Help(
+@"Wiznet is sort of an immortal news service, to show important events to
+the wiznetted immoral.  Wiznet by itself turns wiznet on and off, 
+wiznet show lists all settable flags (they are not detailed here), 
+wiznet status shows your current wiznet settings, and wiznet <field> toggles
+a field on and off.  The events should be self-explanatory, if they are not,
+fiddle with them a while.  More events are available at higher levels.")]
 public class Wiznet : AdminGameAction
 {
     protected bool Display { get; set; }

@@ -1,10 +1,12 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
 
 [CharacterCommand("equipment", "Information")]
+[Help(@"[cmd] lists your equipment (armor, weapons, and held items).")]
 public class Equipment : CharacterGameAction
 {
     public override void Execute(IActionInput actionInput)

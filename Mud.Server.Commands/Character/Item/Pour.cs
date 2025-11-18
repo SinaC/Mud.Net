@@ -13,6 +13,9 @@ namespace Mud.Server.Commands.Character.Item;
         "[cmd] <container> out",
         "[cmd] <container> <container>",
         "[cmd] <container> <character>")]
+[Help(
+@"[cmd] transfers a liquid to a container, or empties one.
+You can also pour from an object into something a character is holding.")]
 public class Pour : CharacterGameAction
 {
     protected IItemDrinkContainer SourceContainer { get; set; } = default!;

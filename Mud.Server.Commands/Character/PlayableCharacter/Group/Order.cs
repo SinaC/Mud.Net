@@ -10,6 +10,15 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Group;
 [Syntax(
         "[cmd] <pet|charmie> command",
         "[cmd] all command")]
+[Help(
+@"[cmd] orders one or all of your charmed followers (including pets) to
+perform any command.  The command may have arguments.  You are responsible
+for the actions of your followers, and others who attack your followers
+will incur the same penalty as if they attacked you directly.
+
+Most charmed creatures lose their aggresive nature (while charmed).
+
+If your charmed creature engages in combat, that will break the charm.")]
 public class Order : PlayableCharacterGameAction
 {
     protected INonPlayableCharacter[] Whom { get; set; } = default!;

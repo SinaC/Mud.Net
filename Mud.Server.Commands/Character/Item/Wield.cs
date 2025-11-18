@@ -10,6 +10,9 @@ namespace Mud.Server.Commands.Character.Item;
 
 [CharacterCommand("wield", "Item", "Equipment", MinPosition = Positions.Resting)]
 [Syntax("[cmd] <weapon>")]
+[Help(
+@"[cmd] will take an weapon from inventory and start using it
+as equipment.")]
 public class Wield : WearCharacterGameActionBase
 {
     public Wield(IWiznet wiznet)

@@ -1,4 +1,5 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Alias;
@@ -10,6 +11,19 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Alias;
         "[cmd]",
         "[cmd] <word>",
         "[cmd] <word> <substitution>")]
+[Help(
+@"The [cmd] command allows limited shortening of command names.  At this time,
+aliases cannot call other aliases, and cannot generate more than one command.
+Alias by itself lists your current aliases, Alias <word> lists the alias with 
+that name (if such exist), and alias with both a word and and argument 
+produces a new alias.  You cannot alias either alias or unalias to a new
+command.  Examples of use:
+
+alias gc get all corpse --> typing gc will equal typing 'get all corpse'
+alias ff cast 'fireball' --> ff orc will equal typing 'cast 'fireball' orc'
+alias kick use kick --> kick orc will equal typing 'use kick orc'
+
+Only the first word on the line will be subsituted at this time.")]
 public class Alias : PlayableCharacterGameAction
 {
     public enum Actions 

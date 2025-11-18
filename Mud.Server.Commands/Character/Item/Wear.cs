@@ -12,6 +12,11 @@ namespace Mud.Server.Commands.Character.Item;
 [Syntax(
         "[cmd] <item>",
         "[cmd] all")]
+[Help(
+@"[cmd] will take an armor from inventory and start using it
+as equipment.
+[cmd] ALL will attempt to HOLD, WEAR, or WIELD each suitable item in your
+inventory.")]
 public class Wear : WearCharacterGameActionBase
 {
     public Wear(IWiznet wiznet)

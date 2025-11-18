@@ -20,32 +20,32 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<Mud.Domain.PlayerData, Domain.PlayerData>()
             .Include<Mud.Domain.AdminData, Domain.AdminData>()
-            .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapFromDictionary(x.Aliases)));
+            .ForMember(x => x.Aliases, opt => opt.MapFrom(x => MapFromDictionary(x.Aliases)));
         CreateMap<Mud.Domain.AdminData, Domain.AdminData>()
-            .ForMember(x => x.AdminLevel, expression => expression.MapFrom(x => MapAdminLevel(x.AdminLevel)))
-            .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
+            .ForMember(x => x.AdminLevel, opt => opt.MapFrom(x => MapAdminLevel(x.AdminLevel)))
+            .ForMember(x => x.WiznetFlags, opt => opt.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
         CreateMap<Mud.Domain.CharacterData, Domain.CharacterData>()
             .Include<Mud.Domain.PlayableCharacterData, Domain.PlayableCharacterData>()
             .Include<Mud.Domain.PetData, Domain.PetData>()
-            .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
-            .ForMember(x => x.CharacterFlags, expression => expression.MapFrom(x => x.CharacterFlags.Map()))
-            .ForMember(x => x.Immunities, expression => expression.MapFrom(x => x.Immunities.Map()))
-            .ForMember(x => x.Resistances, expression => expression.MapFrom(x => x.Resistances.Map()))
-            .ForMember(x => x.Vulnerabilities, expression => expression.MapFrom(x => x.Vulnerabilities.Map()))
-            .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapFromDictionary(x.Attributes, MapCharacterAttributes)))
-            .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapFromDictionary(x.CurrentResources, MapResourceKind)))
-            .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)))
-            .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
+            .ForMember(x => x.Sex, opt => opt.MapFrom(x => MapSex(x.Sex)))
+            .ForMember(x => x.CharacterFlags, opt => opt.MapFrom(x => x.CharacterFlags.Map()))
+            .ForMember(x => x.Immunities, opt => opt.MapFrom(x => x.Immunities.Map()))
+            .ForMember(x => x.Resistances, opt => opt.MapFrom(x => x.Resistances.Map()))
+            .ForMember(x => x.Vulnerabilities, opt => opt.MapFrom(x => x.Vulnerabilities.Map()))
+            .ForMember(x => x.Attributes, opt => opt.MapFrom(x => MapFromDictionary(x.Attributes, MapCharacterAttributes)))
+            .ForMember(x => x.CurrentResources, opt => opt.MapFrom(x => MapFromDictionary(x.CurrentResources, MapResourceKind)))
+            .ForMember(x => x.MaxResources, opt => opt.MapFrom(x => MapFromDictionary(x.MaxResources, MapResourceKind)))
+            .ForMember(x => x.Size, opt => opt.MapFrom(x => MapSizes(x.Size)));
         CreateMap<Mud.Domain.PlayableCharacterData, Domain.PlayableCharacterData>()
-            .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)))
-            .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapFromDictionary(x.Aliases)))
-            .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapFromDictionary(x.Cooldowns)))
-            .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => (int)x.AutoFlags));
+            .ForMember(x => x.Conditions, opt => opt.MapFrom(x => MapFromDictionary(x.Conditions, MapConditions)))
+            .ForMember(x => x.Aliases, opt => opt.MapFrom(x => MapFromDictionary(x.Aliases)))
+            .ForMember(x => x.Cooldowns, opt => opt.MapFrom(x => MapFromDictionary(x.Cooldowns)))
+            .ForMember(x => x.AutoFlags, opt => opt.MapFrom(x => (int)x.AutoFlags));
         CreateMap<Mud.Domain.PetData, Domain.PetData>();
 
         CreateMap<Mud.Domain.ItemData, Domain.ItemData>()
-            .ForMember(x => x.ItemFlags, expression => expression.MapFrom(x => x.ItemFlags.Map()))
+            .ForMember(x => x.ItemFlags, opt => opt.MapFrom(x => x.ItemFlags.Map()))
             .Include<Mud.Domain.ItemContainerData, Domain.ItemContainerData>()
             .Include<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>()
             .Include<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>()
@@ -56,25 +56,26 @@ public class AutoMapperProfile : Profile
             .Include<Mud.Domain.ItemWandData, Domain.ItemWandData>()
             .Include<Mud.Domain.ItemLightData, Domain.ItemLightData>();
         CreateMap<Mud.Domain.ItemContainerData, Domain.ItemContainerData>()
-            .ForMember(x => x.ContainerFlags, expression => expression.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
+            .ForMember(x => x.ContainerFlags, opt => opt.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
         CreateMap<Mud.Domain.ItemCorpseData, Domain.ItemCorpseData>();
-        CreateMap<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>();
+        CreateMap<Mud.Domain.ItemWeaponData, Domain.ItemWeaponData>()
+            .ForMember(x => x.WeaponFlags, opt => opt.MapFrom(x => x.WeaponFlags.Map()));
         CreateMap<Mud.Domain.ItemDrinkContainerData, Domain.ItemDrinkContainerData>();
         CreateMap<Mud.Domain.ItemFoodData, Domain.ItemFoodData>();
         CreateMap<Mud.Domain.ItemPortalData, Domain.ItemPortalData>()
-            .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
+            .ForMember(x => x.PortalFlags, opt => opt.MapFrom(x => MapPortalFlags(x.PortalFlags)));
         CreateMap<Mud.Domain.ItemStaffData, Domain.ItemStaffData>();
         CreateMap<Mud.Domain.ItemWandData, Domain.ItemWandData>();
         CreateMap<Mud.Domain.ItemLightData, Domain.ItemLightData>();
 
         CreateMap<Mud.Domain.EquippedItemData, Domain.EquippedItemData>()
-            .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
+            .ForMember(x => x.Slot, opt => opt.MapFrom(x => MapEquimentSlot(x.Slot)));
 
         CreateMap<Mud.Domain.CurrentQuestData, Domain.CurrentQuestData>();
         CreateMap<Mud.Domain.CurrentQuestObjectiveData, Domain.CurrentQuestObjectiveData>();
 
         CreateMap<Mud.Domain.AuraData, Domain.AuraData>()
-            .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => (int)x.AuraFlags));
+            .ForMember(x => x.AuraFlags, opt => opt.MapFrom(x => (int)x.AuraFlags));
 
         CreateMap<Mud.Domain.AffectDataBase, Domain.AffectDataBase>()
             .Include<Mud.Domain.CharacterAttributeAffectData, Domain.CharacterAttributeAffectData>()
@@ -90,36 +91,38 @@ public class AutoMapperProfile : Profile
             .Include<Mud.Domain.RoomHealRateAffectData, Domain.RoomHealRateAffectData>()
             .Include<Mud.Domain.RoomResourceRateAffectData, Domain.RoomResourceRateAffectData>();
         CreateMap<Mud.Domain.CharacterAttributeAffectData, Domain.CharacterAttributeAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
+            .ForMember(x => x.Location, opt => opt.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
         CreateMap<Mud.Domain.CharacterFlagsAffectData, Domain.CharacterFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
+            .ForMember(x => x.Modifier, opt => opt.MapFrom(x => x.Modifier.Map()));
         CreateMap<Mud.Domain.CharacterIRVAffectData, Domain.CharacterIRVAffectData>()
-            .ForMember(x => x.Location, expression => expression.MapFrom(x => MapIRVAffectLocations(x.Location)))
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => x.Modifier.Map()));
+            .ForMember(x => x.Location, opt => opt.MapFrom(x => MapIRVAffectLocations(x.Location)))
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
+            .ForMember(x => x.Modifier, opt => opt.MapFrom(x => x.Modifier.Map()));
         CreateMap<Mud.Domain.CharacterSexAffectData, Domain.CharacterSexAffectData>()
-            .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSex(x.Value)));
+            .ForMember(x => x.Value, opt => opt.MapFrom(x => MapSex(x.Value)));
         CreateMap<Mud.Domain.ItemFlagsAffectData, Domain.ItemFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => x.Modifier.Map()));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
+            .ForMember(x => x.Modifier, opt => opt.MapFrom(x => x.Modifier.Map()));
         CreateMap<Mud.Domain.ItemWeaponFlagsAffectData, Domain.ItemWeaponFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
+            .ForMember(x => x.Modifier, opt => opt.MapFrom(x => x.Modifier.Map()));
         CreateMap<Mud.Domain.CharacterSizeAffectData, Domain.CharacterSizeAffectData>()
-            .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSizes(x.Value)));
+            .ForMember(x => x.Value, opt => opt.MapFrom(x => MapSizes(x.Value)));
         CreateMap<Mud.Domain.PoisonDamageAffectData, Domain.PoisonDamageAffectData>();
         CreateMap<Mud.Domain.PlagueSpreadAndDamageAffectData, Domain.PlagueSpreadAndDamageAffectData>();
         CreateMap<Mud.Domain.RoomFlagsAffectData, Domain.RoomFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Modifier, expression => expression.MapFrom(x => x.Modifier.Map()));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
+            .ForMember(x => x.Modifier, opt => opt.MapFrom(x => x.Modifier.Map()));
         CreateMap<Mud.Domain.RoomHealRateAffectData, Domain.RoomHealRateAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Mud.Domain.RoomResourceRateAffectData, Domain.RoomResourceRateAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
 
         CreateMap<Mud.Domain.LearnedAbilityData, Domain.LearnedAbilityData>()
-            .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
-            .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
+            .ForMember(x => x.ResourceKind, opt => opt.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
+            .ForMember(x => x.CostAmountOperator, opt => opt.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
     }
 
     private void InternalToExternal()
@@ -137,24 +140,24 @@ public class AutoMapperProfile : Profile
 
         CreateMap<Domain.PlayerData, Mud.Domain.PlayerData>()
             .Include<Domain.AdminData, Mud.Domain.AdminData>()
-            .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)));
+            .ForMember(x => x.Aliases, opt => opt.MapFrom(x => MapToDictionary(x.Aliases)));
         CreateMap<Domain.AdminData, Mud.Domain.AdminData>()
-            .ForMember(x => x.AdminLevel, expression => expression.MapFrom(x => MapAdminLevel(x.AdminLevel)))
-            .ForMember(x => x.WiznetFlags, expression => expression.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
+            .ForMember(x => x.AdminLevel, opt => opt.MapFrom(x => MapAdminLevel(x.AdminLevel)))
+            .ForMember(x => x.WiznetFlags, opt => opt.MapFrom(x => MapWiznetFlags(x.WiznetFlags)));
 
         CreateMap<Domain.CharacterData, Mud.Domain.CharacterData>()
             .Include<Domain.PlayableCharacterData, Mud.Domain.PlayableCharacterData>()
             .Include<Domain.PetData, Mud.Domain.PetData>()
-            .ForMember(x => x.Sex, expression => expression.MapFrom(x => MapSex(x.Sex)))
-            .ForMember(x => x.Attributes, expression => expression.MapFrom(x => MapToDictionary(x.Attributes, MapCharacterAttributes)))
-            .ForMember(x => x.CurrentResources, expression => expression.MapFrom(x => MapToDictionary(x.CurrentResources, MapResourceKind)))
-            .ForMember(x => x.MaxResources, expression => expression.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)))
-            .ForMember(x => x.Size, expression => expression.MapFrom(x => MapSizes(x.Size)));
+            .ForMember(x => x.Sex, opt => opt.MapFrom(x => MapSex(x.Sex)))
+            .ForMember(x => x.Attributes, opt => opt.MapFrom(x => MapToDictionary(x.Attributes, MapCharacterAttributes)))
+            .ForMember(x => x.CurrentResources, opt => opt.MapFrom(x => MapToDictionary(x.CurrentResources, MapResourceKind)))
+            .ForMember(x => x.MaxResources, opt => opt.MapFrom(x => MapToDictionary(x.MaxResources, MapResourceKind)))
+            .ForMember(x => x.Size, opt => opt.MapFrom(x => MapSizes(x.Size)));
         CreateMap<Domain.PlayableCharacterData, Mud.Domain.PlayableCharacterData>()
-            .ForMember(x => x.Conditions, expression => expression.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)))
-            .ForMember(x => x.Aliases, expression => expression.MapFrom(x => MapToDictionary(x.Aliases)))
-            .ForMember(x => x.Cooldowns, expression => expression.MapFrom(x => MapToDictionary(x.Cooldowns)))
-            .ForMember(x => x.AutoFlags, expression => expression.MapFrom(x => (Mud.Domain.AutoFlags)x.AutoFlags));
+            .ForMember(x => x.Conditions, opt => opt.MapFrom(x => MapToDictionary(x.Conditions, MapConditions)))
+            .ForMember(x => x.Aliases, opt => opt.MapFrom(x => MapToDictionary(x.Aliases)))
+            .ForMember(x => x.Cooldowns, opt => opt.MapFrom(x => MapToDictionary(x.Cooldowns)))
+            .ForMember(x => x.AutoFlags, opt => opt.MapFrom(x => (Mud.Domain.AutoFlags)x.AutoFlags));
         CreateMap<Domain.PetData, Mud.Domain.PetData>();
 
         CreateMap<Domain.ItemData, Mud.Domain.ItemData>()
@@ -168,25 +171,25 @@ public class AutoMapperProfile : Profile
             .Include<Domain.ItemWandData, Mud.Domain.ItemWandData>()
             .Include<Domain.ItemLightData, Mud.Domain.ItemLightData>();
         CreateMap<Domain.ItemContainerData, Mud.Domain.ItemContainerData>()
-            .ForMember(x => x.ContainerFlags, expression => expression.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
+            .ForMember(x => x.ContainerFlags, opt => opt.MapFrom(x => MapContainerFlags(x.ContainerFlags)));
         CreateMap<Domain.ItemCorpseData, Mud.Domain.ItemCorpseData>();
         CreateMap<Domain.ItemWeaponData, Mud.Domain.ItemWeaponData>();
         CreateMap<Domain.ItemDrinkContainerData, Mud.Domain.ItemDrinkContainerData>();
         CreateMap<Domain.ItemFoodData, Mud.Domain.ItemFoodData>();
         CreateMap<Domain.ItemPortalData, Mud.Domain.ItemPortalData>()
-            .ForMember(x => x.PortalFlags, expression => expression.MapFrom(x => MapPortalFlags(x.PortalFlags)));
+            .ForMember(x => x.PortalFlags, opt => opt.MapFrom(x => MapPortalFlags(x.PortalFlags)));
         CreateMap<Domain.ItemStaffData, Mud.Domain.ItemStaffData>();
         CreateMap<Domain.ItemWandData, Mud.Domain.ItemWandData>();
         CreateMap<Domain.ItemLightData, Mud.Domain.ItemLightData>();
 
         CreateMap<Domain.EquippedItemData, Mud.Domain.EquippedItemData>()
-            .ForMember(x => x.Slot, expression => expression.MapFrom(x => MapEquimentSlot(x.Slot)));
+            .ForMember(x => x.Slot, opt => opt.MapFrom(x => MapEquimentSlot(x.Slot)));
 
         CreateMap<Domain.CurrentQuestData, Mud.Domain.CurrentQuestData>();
         CreateMap<Domain.CurrentQuestObjectiveData, Mud.Domain.CurrentQuestObjectiveData>();
 
         CreateMap<Domain.AuraData, Mud.Domain.AuraData>()
-            .ForMember(x => x.AuraFlags, expression => expression.MapFrom(x => (Mud.Domain.AuraFlags)x.AuraFlags));
+            .ForMember(x => x.AuraFlags, opt => opt.MapFrom(x => (Mud.Domain.AuraFlags)x.AuraFlags));
 
         CreateMap<Domain.AffectDataBase, Mud.Domain.AffectDataBase>()
             .Include<Domain.CharacterAttributeAffectData, Mud.Domain.CharacterAttributeAffectData>()
@@ -202,33 +205,33 @@ public class AutoMapperProfile : Profile
             .Include<Domain.RoomHealRateAffectData, Mud.Domain.RoomHealRateAffectData>()
             .Include<Domain.RoomResourceRateAffectData, Mud.Domain.RoomResourceRateAffectData>();
         CreateMap<Domain.CharacterAttributeAffectData, Mud.Domain.CharacterAttributeAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)))
-            .ForMember(x => x.Location, expression => expression.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
+            .ForMember(x => x.Location, opt => opt.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
         CreateMap<Domain.CharacterFlagsAffectData, Mud.Domain.CharacterFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.CharacterIRVAffectData, Mud.Domain.CharacterIRVAffectData>()
-            .ForMember(x => x.Location, expression => expression.MapFrom(x => MapIRVAffectLocations(x.Location)))
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Location, opt => opt.MapFrom(x => MapIRVAffectLocations(x.Location)))
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.CharacterSexAffectData, Mud.Domain.CharacterSexAffectData>()
-            .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSex(x.Value)));
+            .ForMember(x => x.Value, opt => opt.MapFrom(x => MapSex(x.Value)));
         CreateMap<Domain.ItemFlagsAffectData, Mud.Domain.ItemFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.ItemWeaponFlagsAffectData, Mud.Domain.ItemWeaponFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.CharacterSizeAffectData, Mud.Domain.CharacterSizeAffectData>()
-            .ForMember(x => x.Value, expression => expression.MapFrom(x => MapSizes(x.Value)));
+            .ForMember(x => x.Value, opt => opt.MapFrom(x => MapSizes(x.Value)));
         CreateMap<Domain.PoisonDamageAffectData, Mud.Domain.PoisonDamageAffectData>();
         CreateMap<Domain.PlagueSpreadAndDamageAffectData, Mud.Domain.PlagueSpreadAndDamageAffectData>();
         CreateMap<Domain.RoomFlagsAffectData, Mud.Domain.RoomFlagsAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.RoomHealRateAffectData, Mud.Domain.RoomHealRateAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.RoomResourceRateAffectData, Mud.Domain.RoomResourceRateAffectData>()
-            .ForMember(x => x.Operator, expression => expression.MapFrom(x => MapAffectOperators(x.Operator)));
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
 
         CreateMap<Domain.LearnedAbilityData, Mud.Domain.LearnedAbilityData>()
-            .ForMember(x => x.ResourceKind, expression => expression.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
-            .ForMember(x => x.CostAmountOperator, expression => expression.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
+            .ForMember(x => x.ResourceKind, opt => opt.MapFrom(x => MapNullableResourceKind(x.ResourceKind)))
+            .ForMember(x => x.CostAmountOperator, opt => opt.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
     }
 
     private Domain.PairData<string, string>[] MapFromDictionary(Dictionary<string, string> dictionary) => dictionary?.Select(x => new Domain.PairData<string, string>(x.Key, x.Value)).ToArray();

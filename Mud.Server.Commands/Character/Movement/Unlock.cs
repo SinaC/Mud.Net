@@ -15,6 +15,7 @@ namespace Mud.Server.Commands.Character.Movement;
 [Syntax(
     "[cmd] <container|portal>",
     "[cmd] <direction|door>")]
+[Help(@"[cmd] unlock a closed object or door. You must have the requisite key to [cmd].")]
 public class Unlock : CharacterGameAction
 {
     protected ICloseable What { get; set; } = default!;

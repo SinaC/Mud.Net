@@ -10,6 +10,9 @@ namespace Mud.Server.Commands.Admin.Administration;
 
 [AdminCommand("slay", "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
 [Syntax("[cmd] <character>")]
+[Help(
+@"[cmd] kills a character in cold blood, no saving throw.  Best not to use this
+command on players if you enjoy being a god.")]
 public class Slay : AdminGameAction
 {
     private IWiznet Wiznet { get; }

@@ -8,6 +8,14 @@ using System.Text;
 namespace Mud.Server.Commands.Admin.Information;
 
 [AdminCommand("who", "Information")]
+/* TODO
+Syntax: who
+Syntax: who <level-range>
+Syntax: who <class or race>
+Syntax: who <clan name>
+Syntax: who <class or race> <level-range> <clan name>
+Syntax: who immortals
+*/
 public class Who : AdminGameAction
 {
     private IPlayerManager PlayerManager { get; }

@@ -174,11 +174,11 @@ public abstract class EntityBase : ActorBase, IEntity
             if (abilityInfo != null)
             {
                 if (this is ICharacter && abilityInfo.HasCharacterWearOffMessage)
-                    Send(abilityInfo.CharacterWearOffMessage);
+                    Send(abilityInfo.CharacterWearOffMessage!);
                 else if (this is IItem item && abilityInfo.HasItemWearOffMessage)
                 {
                     var holder = item.ContainedInto as ICharacter ?? item.EquippedBy;
-                    holder?.Act(ActOptions.ToCharacter, abilityInfo.ItemWearOffMessage, this);
+                    holder?.Act(ActOptions.ToCharacter, abilityInfo.ItemWearOffMessage!, this);
                 }
             }
             // TODO: remove this crappy thing, replace with wear off func

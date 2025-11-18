@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.GameAction;
@@ -18,12 +19,14 @@ public class GameActionInfo : IGameActionInfo
 
     public string[] Aliases { get; }
 
+    public string? Help { get; }
+
     public Type CommandExecutionType { get; }
 
     public IEnumerable<string> Names => Name.Yield().Concat(Aliases ?? Enumerable.Empty<string>());
 
 
-    public GameActionInfo(Type commandExecutionType, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes)
+    public GameActionInfo(Type commandExecutionType, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute)
     {
         CommandExecutionType = commandExecutionType;
 
@@ -37,5 +40,7 @@ public class GameActionInfo : IGameActionInfo
         Syntax = syntaxAttribute.Syntax;
 
         Aliases = aliasAttributes?.Select(x => x.Alias).ToArray() ?? [];
+
+        Help = helpAttribute?.Help;
     }
 }

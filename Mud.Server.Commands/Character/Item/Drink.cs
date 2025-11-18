@@ -17,8 +17,9 @@ namespace Mud.Server.Commands.Character.Item;
 
 [CharacterCommand("drink", "Drink", MinPosition = Positions.Resting)]
 [Syntax(
-"[cmd]",
-"[cmd] <container>")]
+    "[cmd]",
+    "[cmd] <container>")]
+[Help(@"When you are thirsty, [cmd] something.")]
 public class Drink : CharacterGameAction
 {
     private IServiceProvider ServiceProvider { get; }

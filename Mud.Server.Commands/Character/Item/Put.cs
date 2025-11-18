@@ -11,6 +11,11 @@ namespace Mud.Server.Commands.Character.Item;
 
 [CharacterCommand("put", "Item", "Equipment", MinPosition = Positions.Resting)]
 [Syntax("[cmd] <item> [in] <container>")]
+[Help(
+@"PUT puts an object into a container.
+PUT understand the object names 'ALL' for all objects and
+'ALL.object' for all objects with the same name.
+PUT X.sword is also allowed to put the Xth sword of the list.")]
 public class Put : CharacterGameAction
 {
     protected IItem[] What { get; set; } = default!;

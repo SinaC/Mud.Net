@@ -1,4 +1,5 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Player.Alias;
@@ -7,6 +8,8 @@ namespace Mud.Server.Commands.Player.Alias;
 [PlayerCommand("unalias", "Alias")]
 [Alias("unmacro")]
 [Syntax("[cmd] <word>")]
+[Help(
+@"The [cmd] command allows removing an already defined alias. (see alias)")]
 public class Unalias : PlayerGameAction
 {
     protected string TargetAlias { get; set; } = default!;

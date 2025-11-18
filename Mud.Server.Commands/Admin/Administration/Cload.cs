@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
@@ -10,6 +11,12 @@ namespace Mud.Server.Commands.Admin.Administration;
 [AdminCommand("cload", "Admin", MustBeImpersonated = true)]
 [Alias("mload")]
 [Syntax("[cmd] <id>")]
+[Help(
+@"The [cmd] command is used to load new mobiles (use clone to 
+duplicate strung mobs).  The vnums can be found with the vnum
+command, or by stat'ing an existing mob.
+
+Mobiles are always put into the same room as the god.")]
 public class Cload : AdminGameAction
 {
     private ICharacterManager CharacterManager { get; }

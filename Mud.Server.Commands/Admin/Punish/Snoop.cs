@@ -9,6 +9,11 @@ namespace Mud.Server.Commands.Admin.Punish;
 
 [AdminCommand("snoop", "Punish")]
 [Syntax("[cmd] <player name>")]
+[Help(
+@"[cmd] shows you a copy of all the input and output going to a character.
+The character must have an open channel.  You may snoop more than one
+character at a time. Try to respect privacy.
+Snoop yourself to cancel all outstanding snoops.")]
 public class Snoop : AdminGameAction
 {
     private IPlayerManager PlayerManager { get; }

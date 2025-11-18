@@ -23,6 +23,7 @@ namespace Mud.Server.Commands.Character.Information;
 // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
 // 6/ else, if 1st parameter is a direction, display if there is an exit/door
 [CharacterCommand("look", "Information", Priority = 0, MinPosition = Positions.Resting)]
+[Alias("read")]
 [Syntax(
     "[cmd]",
     "[cmd] in <container>",
@@ -31,6 +32,7 @@ namespace Mud.Server.Commands.Character.Information;
     "[cmd] <item>",
     "[cmd] <keyword>",
     "[cmd] <direction>")]
+[Help(@"[cmd] looks at something and sees what you can see.")]
 public class Look : CharacterGameAction
 {
     private ITableValues TableValues { get; }

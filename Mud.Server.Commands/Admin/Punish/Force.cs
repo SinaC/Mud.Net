@@ -11,6 +11,12 @@ namespace Mud.Server.Commands.Admin.Punish;
 [Syntax(
         "[cmd] <character> <command>",
         "[cmd] all <command>")]
+[Help(
+@"[cmd] forces one character to execute a command, except of course delete.
+
+[cmd] 'all' forces all player characters to execute a command.
+This is typically used for 'force all save'.")]
+// TODO: check if force mob murder player is possible (should not be)
 public class Force : AdminGameAction
 {
     private ICharacterManager CharacterManager { get; }

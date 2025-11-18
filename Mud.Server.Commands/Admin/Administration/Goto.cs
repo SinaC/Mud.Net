@@ -10,6 +10,14 @@ namespace Mud.Server.Commands.Admin.Administration;
 
 [AdminCommand("goto", "Admin", MustBeImpersonated = true)]
 [Syntax("[cmd] <location>")]
+[Help(
+@"[cmd] takes you to a location.  The location may be specified as the name
+of a room, as the name of a mobile, or as the name of an object.
+
+You may not [cmd] a room if it is PRIVATE and has two (or more) characters
+already present, or if it is SOLITARY and has one (or more) characters
+already present. Some other rooms are barred to players below a certain
+god level.")]
 public class Goto : AdminGameAction
 {
     private IRoomManager RoomManager { get; }
