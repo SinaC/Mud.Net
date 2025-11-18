@@ -1,6 +1,7 @@
 ﻿using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.TableGenerator;
 using System.Text;
 
 namespace Mud.Server.POC.Commands;

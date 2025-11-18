@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using static Mud.Server.WPFTestApplication.App;
 
 namespace Mud.Server.WPFTestApplication;
 
@@ -61,18 +62,8 @@ public partial class App : Application
 
         // Register Services
         services.AddSingleton<ISettings>(settings);
-        RegisterAllTypes(services, assemblyHelper.AllReferencedAssemblies);
 
-        RegisterFlagValues<ICharacterFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IRoomFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IItemFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IWeaponFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IActFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IOffensiveFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IAssistFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IIRVFlagValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IBodyFormValues>(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues<IBodyPartValues>(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterAllTypes(services, assemblyHelper.AllReferencedAssemblies);
 
         services.AddSingleton<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
         services.AddSingleton<IAssemblyHelper>(assemblyHelper);
@@ -88,11 +79,12 @@ public partial class App : Application
         services.AddSingleton<IAdminManager, Admin.AdminManager>();
         services.AddSingleton<IWiznet, Server.Wiznet>();
         services.AddSingleton<IResetManager, Server.ResetManager>();
-        services.AddSingleton<IServer, Server.Server>();
-        services.AddSingleton<IWorld, Server.Server>(); // Server also implements IWorld
-        services.AddSingleton<IPlayerManager, Server.Server>(); // Server also implements IPlayerManager
-        services.AddSingleton<IServerAdminCommand, Server.Server>(); // Server also implements IServerAdminCommand
-        services.AddSingleton<IServerPlayerCommand, Server.Server>(); // Server also implements IServerPlayerCommand
+        services.AddSingleton<Server.Server>();
+        services.AddSingleton<IServer>(x => x.GetRequiredService<Server.Server>());
+        services.AddSingleton<IWorld>(x => x.GetRequiredService<Server.Server>()); // Server also implements IWorld
+        services.AddSingleton<IPlayerManager>(x => x.GetRequiredService<Server.Server>()); // Server also implements IPlayerManager
+        services.AddSingleton<IServerAdminCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerAdminCommand
+        services.AddSingleton<IServerPlayerCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerPlayerCommand
         services.AddSingleton<IClassManager, Class.ClassManager>();
         services.AddSingleton<IRaceManager, Race.RaceManager>();
         services.AddSingleton<IUniquenessManager, Server.UniquenessManager>();
@@ -136,6 +128,7 @@ public partial class App : Application
 
     internal void RegisterAllTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
+        // register commands and abilities
         var iRegistrable = typeof(IRegistrable);
         foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
         {
@@ -156,6 +149,20 @@ public partial class App : Application
             Log.Default.WriteLine(LogLevels.Info, "Registering class type {0}.", cl.FullName);
             services.AddSingleton(iClass, cl);
         }
+        // register flag
+        RegisterFlagValues<ICharacterFlagValues>(services, assemblies);
+        RegisterFlagValues<IRoomFlagValues>(services, assemblies);
+        RegisterFlagValues<IItemFlagValues>(services, assemblies);
+        RegisterFlagValues<IWeaponFlagValues>(services, assemblies);
+        RegisterFlagValues<IActFlagValues>(services, assemblies);
+        RegisterFlagValues<IOffensiveFlagValues>(services, assemblies);
+        RegisterFlagValues<IAssistFlagValues>(services, assemblies);
+        RegisterFlagValues<IIRVFlagValues>(services, assemblies);
+        RegisterFlagValues<IBodyFormValues>(services, assemblies);
+        RegisterFlagValues<IBodyPartValues>(services, assemblies);
+
+        // register group
+        services.AddTransient<IGroup, Group.Group>();
     }
 
     internal void RegisterFlagValues<TFlagValue>(IServiceCollection services, IEnumerable<Assembly> assemblies)
@@ -167,7 +174,7 @@ public partial class App : Application
             Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
         else
         {
-            Log.Default.WriteLine(LogLevels.Info, "Registering implementation type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
+            Log.Default.WriteLine(LogLevels.Info, "Registering flag values type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
             services.AddTransient(iFlagValuesType, concreteFlagValuesType);
         }
     }
@@ -177,6 +184,7 @@ public partial class App : Application
         public IEnumerable<Assembly> AllReferencedAssemblies =>
         [
             typeof(Server.Server).Assembly,
+            typeof(Commands.Actor.Commands).Assembly,
             typeof(Rom24.Spells.AcidBlast).Assembly,
             typeof(AdditionalAbilities.Crush).Assembly,
             typeof(POC.Classes.Druid).Assembly

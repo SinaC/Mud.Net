@@ -1,7 +1,7 @@
 ﻿using Moq;
 using Mud.Domain;
 using Mud.Server.Ability;
-using Mud.Server.Character.Ability;
+using Mud.Server.Commands.Character.Ability;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;

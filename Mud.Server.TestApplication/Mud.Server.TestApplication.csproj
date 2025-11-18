@@ -31,6 +31,7 @@
     <PackageReference Include="System.Text.Json" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj" />
     <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj" />
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
@@ -43,11 +44,18 @@
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
     <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj" />
+    <ProjectReference Include="..\Mud.Server.Commands\Mud.Server.Commands.csproj" />
+    <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
+    <ProjectReference Include="..\Mud.Server.Effects\Mud.Server.Effects.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Quest\Mud.Server.Quest.csproj" />
     <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj" />
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
     <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj" />
+    <ProjectReference Include="..\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj" />
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
     <ProjectReference Include="..\Mud.Settings.ConfigurationManager\Mud.Settings.ConfigurationManager.csproj" />
     <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj" />

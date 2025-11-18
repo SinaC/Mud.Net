@@ -1,8 +1,13 @@
 INGOING
-use DI everywhere or nowhere
+move commands to dedicated project
+    try to add Quest in DI with 2 additional methods Initialize with parameters from existing 2 ctor
+    use GetRequiredService<IQuest> instead of new Quest
 
-TODO
+add debugger display
+mstat fido doesn't work when in room 1300
+
 finish ROM24 classes
+use DI for Room, Item, Character, ...
 when a player connects, if no avatar found -> switch to avatar create state machine
 move IClass/IRace to IPlayableCharacter as non-nullable
 move IClass/IRace to INonPlayableCharacter as nullable

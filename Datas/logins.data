@@ -8,7 +8,7 @@
     </LoginData>
     <LoginData>
       <Username>joel</Username>
-      <Password>joel</Password>
+      <Password>password</Password>
       <IsAdmin>false</IsAdmin>
     </LoginData>
   </Logins>

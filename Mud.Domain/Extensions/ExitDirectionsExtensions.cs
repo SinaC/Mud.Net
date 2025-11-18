@@ -65,7 +65,7 @@ public static class ExitDirectionsExtensions
         return true;
     }
 
-    public static string DisplayName(this ExitDirections direction)
+    public static string DisplayNameLowerCase(this ExitDirections direction)
         => direction switch
         {
             ExitDirections.North => "north",
@@ -78,6 +78,22 @@ public static class ExitDirectionsExtensions
             ExitDirections.NorthWest => "north west",
             ExitDirections.SouthEast => "south east",
             ExitDirections.SouthWest => "south west",
+            _ => "???",
+        };
+
+    public static string DisplayName(this ExitDirections direction)
+        => direction switch
+        {
+            ExitDirections.North => "North",
+            ExitDirections.East => "East",
+            ExitDirections.South => "South",
+            ExitDirections.West => "West",
+            ExitDirections.Up => "Up",
+            ExitDirections.Down => "Down",
+            ExitDirections.NorthEast => "North East",
+            ExitDirections.NorthWest => "North West",
+            ExitDirections.SouthEast => "South East",
+            ExitDirections.SouthWest => "South West",
             _ => "???",
         };
 }

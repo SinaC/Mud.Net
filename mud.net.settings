@@ -35,6 +35,7 @@
 	<add key="DefaultRecallRoomId" value="3001" />
 	<add key="DefaultDeathRoomId" value="3054" />
 	<add key="NullRoomId" value="1" />
+	<add key="MudSchoolRoomId" value="3001" />
 
     <add key="CheckLoginPassword" value="false" />
  

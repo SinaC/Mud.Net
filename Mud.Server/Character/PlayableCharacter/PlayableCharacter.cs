@@ -5,7 +5,6 @@ using Mud.Domain.Extensions;
 using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Character.Movement;
 using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces;
@@ -180,7 +179,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (data.CurrentQuests != null)
         {
             foreach (CurrentQuestData questData in data.CurrentQuests)
-                _quests.Add(new Mud.Server.Quest.Quest(settings, timeManager, itemManager, roomManager, characterManager, questManager, questData, this));
+                _quests.Add(new Quest.Quest(settings, timeManager, itemManager, roomManager, characterManager, questManager, questData, this));
         }
         // Auras
         if (data.Auras != null)
@@ -1105,7 +1104,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
         // Drunk ?
         if (this[Conditions.Drunk] > 10)
-            Act(ActOptions.ToRoom, "{0:N} stumbles off drunkenly on {0:s} way {1}.", this, direction.DisplayName());
+            Act(ActOptions.ToRoom, "{0:N} stumbles off drunkenly on {0:s} way {1}.", this, direction.DisplayNameLowerCase());
         return true;
     }
 
@@ -1131,7 +1130,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 if (follower is INonPlayableCharacter npcFollower)
                 {
                     if (npcFollower.CharacterFlags.IsSet("Charm") && npcFollower.Position < Positions.Standing)
-                        GameActionManager.Execute<Stand, ICharacter>(npcFollower, null);
+                    {
+                        GameActionManager.Execute<Commands.Character.Movement.Stand, ICharacter>(npcFollower, null);
+                    }
                     if (npcFollower.ActFlags.IsSet("Aggressive") && toRoom.RoomFlags.IsSet("Law"))
                     {
                         npcFollower.Master?.Act(ActOptions.ToCharacter, "You can't bring {0} into the city.", npcFollower);
