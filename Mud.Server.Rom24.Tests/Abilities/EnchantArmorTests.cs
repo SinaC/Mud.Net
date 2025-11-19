@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -24,7 +25,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(new Mock<ILogger<EnchantArmor>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -44,7 +45,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 0); // must be below 25/5
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -62,7 +63,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(new Mock<ILogger<EnchantArmor>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -82,7 +83,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 7); // must be between 25/5 and 25/3
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -100,7 +101,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(new Mock<ILogger<EnchantArmor>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -120,7 +121,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 20); // must be between 25/3 and 25
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -139,7 +140,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(new Mock<ILogger<EnchantArmor>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -159,7 +160,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 50); // must be between 25 and 90
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -178,7 +179,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            EnchantArmor spell = new EnchantArmor(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
+            EnchantArmor spell = new EnchantArmor(new Mock<ILogger<EnchantArmor>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, itemManagerMock.Object);
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> casterMock = new Mock<ICharacter>();
@@ -198,7 +199,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 100); // must be greater than 90
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 0, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
             spell.Execute();

@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
@@ -8,11 +8,13 @@ namespace Mud.Server.Effects;
 
 public class WeaponEffectManager : IWeaponEffectManager
 {
+    private ILogger<WeaponEffectManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private Dictionary<string, Type> WeaponEffectsByWeaponFlag { get; }
 
-    public WeaponEffectManager(IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
+    public WeaponEffectManager(ILogger<WeaponEffectManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
 
         var iWeaponEffectType = typeof(IWeaponEffect);
@@ -29,27 +31,27 @@ public class WeaponEffectManager : IWeaponEffectManager
     {
         if (!WeaponEffectsByWeaponFlag.TryGetValue(weaponEffectName, out var weaponEffectType))
         {
-            Log.Default.WriteLine(LogLevels.Warning, "WeaponEffectManager: weapon flag {0} not found.", weaponEffectName);
+            Logger.LogWarning("WeaponEffectManager: weapon flag {weaponEffectName} not found.", weaponEffectName);
             return null;
         }
 
         var tWeaponEffectType = typeof(TWeaponEffect);
         if (!tWeaponEffectType.IsAssignableFrom(weaponEffectType))
         {
-            Log.Default.WriteLine(LogLevels.Error, "WeaponEffectManager: weapon effect type {0} is not of type {1}.", weaponEffectType.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
+            Logger.LogError("WeaponEffectManager: weapon effect type {weaponEffectType} is not of type {expectedWeaponEffectType}.", weaponEffectType.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
             return null;
         }
 
         var weaponEffect = ServiceProvider.GetService(weaponEffectType);
         if (weaponEffect == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} not found in DependencyContainer.", weaponEffectType.FullName ?? "???");
+            Logger.LogError("WeaponEffectManager: weapon effect {weaponEffectType} not found in DependencyContainer.", weaponEffectType.FullName ?? "???");
             return null;
         }
 
         if (weaponEffect is not TWeaponEffect instance)
         {
-            Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} cannot be created or is not of type {1}", weaponEffectType.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
+            Logger.LogError("WeaponEffectManager: weapon effect {0} cannot be created or is not of type {expectedWeaponEffectType}", weaponEffectType.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
             return null;
         }
 

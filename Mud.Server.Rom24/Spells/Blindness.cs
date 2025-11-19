@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -17,8 +18,8 @@ public class Blindness : OffensiveSpellBase
     private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Blindness(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager)
+    public Blindness(ILogger<Blindness> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;

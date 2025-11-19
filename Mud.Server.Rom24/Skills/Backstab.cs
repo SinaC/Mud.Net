@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -16,8 +17,8 @@ public class Backstab : OffensiveSkillBase
 {
     private const string SkillName = "Backstab";
 
-    public Backstab(IRandomManager randomManager)
-        : base(randomManager)
+    public Backstab(ILogger<Backstab> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

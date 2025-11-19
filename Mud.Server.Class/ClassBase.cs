@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
@@ -12,6 +11,7 @@ public abstract class ClassBase : IClass
 {
     private readonly List<AbilityUsage> _abilities;
 
+    protected ILogger<ClassBase> Logger { get; }
     protected IAbilityManager AbilityManager { get; }
 
     #region IClass
@@ -40,8 +40,9 @@ public abstract class ClassBase : IClass
 
     #endregion
 
-    protected ClassBase(IAbilityManager abilityManager)
+    protected ClassBase(ILogger<ClassBase> logger, IAbilityManager abilityManager)
     {
+        Logger = logger;
         AbilityManager = abilityManager;
 
         _abilities = [];
@@ -52,7 +53,7 @@ public abstract class ClassBase : IClass
         var abilityInfo = AbilityManager[abilityName];
         if (abilityInfo == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [{0}] to class [{1}]", abilityName, Name);
+            Logger.LogError("Trying to add unknown ability [{abilityName}] to class [{name}]", abilityName, Name);
             return;
         }
         //

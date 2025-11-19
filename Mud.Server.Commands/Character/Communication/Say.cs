@@ -12,6 +12,13 @@ namespace Mud.Server.Commands.Character.Communication;
 [Help(@"[cmd] sends a message to all awake players/mobs in your room (In Character channel).")]
 public class Say : CharacterGameAction
 {
+    private ICommandParser CommandParser { get; }
+
+    public Say(ICommandParser commandParser)
+    {
+        CommandParser = commandParser;
+    }
+
     protected string What { get; set; } = default!;
 
     public override string? Guards(IActionInput actionInput)
@@ -23,7 +30,7 @@ public class Say : CharacterGameAction
         if (actionInput.Parameters.Length == 0)
             return "Say what?";
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        What = CommandParser.JoinParameters(actionInput.Parameters);
 
         return null;
     }

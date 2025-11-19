@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -13,8 +14,8 @@ public class CreateRose : ItemCreationSpellBase
 {
     private const string SpellName = "Create Rose";
 
-    public CreateRose(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings) 
-        : base(randomManager, wiznet, itemManager, settings)
+    public CreateRose(ILogger<CreateRose> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings) 
+        : base(logger, randomManager, wiznet, itemManager, settings)
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -14,8 +15,8 @@ public class Recharge : ItemInventorySpellBase<IItemCastSpellsCharge>
 
     private IItemManager ItemManager { get; }
 
-    public Recharge(IRandomManager randomManager, IItemManager itemManager)
-        : base(randomManager)
+    public Recharge(ILogger<Recharge> logger, IRandomManager randomManager, IItemManager itemManager)
+        : base(logger, randomManager)
     {
         ItemManager = itemManager;
     }

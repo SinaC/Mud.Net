@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -14,10 +14,12 @@ namespace Mud.Server.Room;
 
 public class RoomManager : IRoomManager
 {
+    private ILogger<RoomManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private ISettings Settings { get; }
     private IRandomManager RandomManager { get; }
     private IGameActionManager GameActionManager { get; }
+    private ICommandParser CommandParser { get; }
     private IAbilityManager AbilityManager { get; }
     private ITimeManager TimeManager { get; }
 
@@ -27,12 +29,14 @@ public class RoomManager : IRoomManager
     private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
     private readonly List<IRoom> _rooms;
 
-    public RoomManager(IServiceProvider serviceProvider, ISettings settings, IRandomManager randomManager, IGameActionManager gameActionManager, IAbilityManager abilityManager, ITimeManager timeManager)
+    public RoomManager(ILogger<RoomManager> logger, IServiceProvider serviceProvider, ISettings settings, IRandomManager randomManager, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ITimeManager timeManager)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
         Settings = settings;
         RandomManager = randomManager;
         GameActionManager = gameActionManager;
+        CommandParser = commandParser;
         AbilityManager = abilityManager;
         TimeManager = timeManager;
 
@@ -54,7 +58,7 @@ public class RoomManager : IRoomManager
     public void AddRoomBlueprint(RoomBlueprint blueprint)
     {
         if (_roomBlueprints.ContainsKey(blueprint.Id))
-            Log.Default.WriteLine(LogLevels.Error, "Room blueprint duplicate {0}!!!", blueprint.Id);
+            Logger.LogError("Room blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
             _roomBlueprints.Add(blueprint.Id, blueprint);
     }
@@ -78,7 +82,7 @@ public class RoomManager : IRoomManager
     public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)
     {
         ArgumentNullException.ThrowIfNull(blueprint);
-        var room = new Room(ServiceProvider, GameActionManager, AbilityManager, Settings, TimeManager, Guid.NewGuid(), blueprint, area);
+        var room = new Room(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, TimeManager, Guid.NewGuid(), blueprint, area);
         room.Recompute();
         _rooms.Add(room);
         return room;

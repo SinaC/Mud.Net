@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -17,8 +18,8 @@ public class Nexus : TransportationSpellBase
     private IItemManager ItemManager { get; }
     private ISettings Settings { get; }
 
-    public Nexus(IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, ISettings settings)
-        : base(randomManager, characterManager)
+    public Nexus(ILogger<Nexus> logger, IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, ISettings settings)
+        : base(logger, randomManager, characterManager)
     {
         ItemManager = itemManager;
         Settings = settings;

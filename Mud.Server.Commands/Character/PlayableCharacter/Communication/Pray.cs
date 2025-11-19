@@ -10,10 +10,12 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
 [Help(@"This commands allows players to send a message to admins.")]
 public class Pray : PlayableCharacterGameAction
 {
+    private ICommandParser CommandParser { get; }
     private IAdminManager AdminManager { get; }
 
-    public Pray(IAdminManager adminManager)
+    public Pray(ICommandParser commandParser, IAdminManager adminManager)
     {
+        CommandParser = commandParser;
         AdminManager = adminManager;
     }
  
@@ -28,7 +30,7 @@ public class Pray : PlayableCharacterGameAction
         if (actionInput.Parameters.Length == 0)
             return "Pray what?";
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        What = CommandParser.JoinParameters(actionInput.Parameters);
         return null;
     }
 

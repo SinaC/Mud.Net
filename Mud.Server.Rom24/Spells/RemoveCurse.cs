@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -15,8 +16,8 @@ public class RemoveCurse : ItemOrDefensiveSpellBase
 
     private IDispelManager DispelManager { get; }
 
-    public RemoveCurse(IRandomManager randomManager, IDispelManager dispelManager)
-        : base(randomManager)
+    public RemoveCurse(ILogger<RemoveCurse> logger, IRandomManager randomManager, IDispelManager dispelManager)
+        : base(logger, randomManager)
     {
         DispelManager = dispelManager;
     }

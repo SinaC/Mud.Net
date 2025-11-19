@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
@@ -11,8 +12,8 @@ public class Meditation : RegenerationPassiveBase
 {
     private const string PassiveName = "Meditation";
 
-    public Meditation(IRandomManager randomManager)
-        : base(randomManager)
+    public Meditation(ILogger<Meditation> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -11,8 +12,8 @@ public class ThirdAttack : PassiveBase, IAdditionalHitPassive
 {
     private const string PassiveName = "Third Attack";
 
-    public ThirdAttack(IRandomManager randomManager)
-        : base(randomManager)
+    public ThirdAttack(ILogger<ThirdAttack> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

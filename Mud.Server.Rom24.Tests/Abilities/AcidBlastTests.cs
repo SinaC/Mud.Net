@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Commands.Character.Ability;
@@ -17,11 +18,12 @@ public class AcidBlastTests : AbilityTestBase
     protected override void RegisterAdditionalDependencies(Mock<IServiceProvider> serviceProviderMock)
     {
         // SpellBase needs IRandomManager to check if cast loses his/her/its concentration
+        Mock<ILogger<AcidBlast>> logger = new Mock<ILogger<AcidBlast>>();
         Mock<IRandomManager> randomManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(x => true);
         randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((count, value) => count * value);
         serviceProviderMock.Setup(x => x.GetService(typeof(AcidBlast)))
-            .Returns(new AcidBlast(randomManagerMock.Object));
+            .Returns(new AcidBlast(logger.Object, randomManagerMock.Object));
     }
 
     [TestMethod]
@@ -33,7 +35,7 @@ public class AcidBlastTests : AbilityTestBase
         Mock<INonPlayableCharacter> victimMock = new();
 
         var acidBlastLearned = BuildAbilityLearned("Acid Blast");
-        var abilityManager = new AbilityManager(_serviceProvider, new AssemblyHelper());
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
@@ -46,7 +48,7 @@ public class AcidBlastTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         //
-        Cast cast = new(abilityManager);
+        Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast'");
         var result = cast.Guards(actionInput);
 
@@ -62,7 +64,7 @@ public class AcidBlastTests : AbilityTestBase
         Mock<INonPlayableCharacter> victimMock = new();
 
         var acidBlastLearned = BuildAbilityLearned("Acid Blast");
-        var abilityManager = new AbilityManager(_serviceProvider, new AssemblyHelper());
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
@@ -75,7 +77,7 @@ public class AcidBlastTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         //
-        Cast cast = new(abilityManager);
+        Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast'");
         var result = cast.Guards(actionInput);
 
@@ -91,7 +93,7 @@ public class AcidBlastTests : AbilityTestBase
         Mock<INonPlayableCharacter> victimMock = new();
 
         var acidBlastLearned = BuildAbilityLearned("Acid Blast");
-        var abilityManager = new AbilityManager(_serviceProvider, new AssemblyHelper());
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
@@ -104,7 +106,7 @@ public class AcidBlastTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         //
-        Cast cast = new(abilityManager);
+        Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast'");
         var result = cast.Guards(actionInput);
 
@@ -120,7 +122,7 @@ public class AcidBlastTests : AbilityTestBase
         Mock<INonPlayableCharacter> victimMock = new();
 
         var acidBlastLearned = BuildAbilityLearned("Acid Blast");
-        var abilityManager = new AbilityManager(_serviceProvider, new AssemblyHelper());
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
@@ -134,7 +136,7 @@ public class AcidBlastTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         //
-        Cast cast = new(abilityManager);
+        Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast'");
         var result = cast.Guards(actionInput);
 
@@ -150,7 +152,7 @@ public class AcidBlastTests : AbilityTestBase
         Mock<INonPlayableCharacter> victimMock = new();
 
         var acidBlastLearned = BuildAbilityLearned("Acid Blast");
-        var abilityManager = new AbilityManager(_serviceProvider, new AssemblyHelper());
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
@@ -163,7 +165,7 @@ public class AcidBlastTests : AbilityTestBase
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         //
-        Cast cast = new(abilityManager);
+        Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast'");
         var result = cast.Guards(actionInput);
 
@@ -179,7 +181,7 @@ public class AcidBlastTests : AbilityTestBase
         Mock<INonPlayableCharacter> victimMock = new();
 
         var acidBlastLearned = BuildAbilityLearned("Acid Blast");
-        var abilityManager = new AbilityManager(_serviceProvider, new AssemblyHelper());
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
@@ -191,8 +193,9 @@ public class AcidBlastTests : AbilityTestBase
         victimMock.Setup(x => x.SavesSpell(It.IsAny<int>(), It.IsAny<SchoolTypes>())).Returns<int, SchoolTypes>((level, damageType) => false);
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         //
-        Cast cast = new(abilityManager);
+        Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast' pouet");
         var result = cast.Guards(actionInput);
 
@@ -208,7 +211,7 @@ public class AcidBlastTests : AbilityTestBase
         Mock<INonPlayableCharacter> victimMock = new();
 
         var acidBlastLearned = BuildAbilityLearned("Acid Blast");
-        var abilityManager = new AbilityManager(_serviceProvider, new AssemblyHelper());
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
@@ -221,8 +224,9 @@ public class AcidBlastTests : AbilityTestBase
         victimMock.Setup(x => x.IsSafe(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => "Not on that victim.");
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         //
-        Cast cast = new(abilityManager);
+        Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast' target");
         var result = cast.Guards(actionInput);
 
@@ -238,7 +242,7 @@ public class AcidBlastTests : AbilityTestBase
         Mock<IPlayableCharacter> victimMock = new();
 
         var acidBlastLearned = BuildAbilityLearned("Acid Blast");
-        var abilityManager = new AbilityManager(_serviceProvider, new AssemblyHelper());
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
@@ -252,8 +256,9 @@ public class AcidBlastTests : AbilityTestBase
         victimMock.Setup(x => x.IsSafe(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => null);
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         //
-        Cast cast = new(abilityManager);
+        Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast' target");
         var result = cast.Guards(actionInput);
 
@@ -269,7 +274,7 @@ public class AcidBlastTests : AbilityTestBase
         Mock<INonPlayableCharacter> victimMock = new();
 
         var acidBlastLearned = BuildAbilityLearned("Acid Blast");
-        var abilityManager = new AbilityManager(_serviceProvider, new AssemblyHelper());
+        var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
@@ -277,17 +282,22 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(x => (100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
+        casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
+        casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
         victimMock.SetupGet(x => x.Name).Returns("target");
         victimMock.SetupGet(x => x.Keywords).Returns(["target"]);
         victimMock.Setup(x => x.SavesSpell(It.IsAny<int>(), It.IsAny<SchoolTypes>())).Returns<int, SchoolTypes>((level, damageType) => false);
         roomMock.SetupGet(x => x.People).Returns([casterMock.Object, victimMock.Object]);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
         //
-        Cast cast = new(abilityManager);
+        Cast cast = new(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast' target");
-        cast.Guards(actionInput);
-        cast.Execute(actionInput);
 
+        var result = cast.Guards(actionInput);
+        Assert.IsNull(result);
+
+        cast.Execute(actionInput);
         victimMock.Verify(x => x.AbilityDamage(casterMock.Object, 50 * 12/*level * 12 = acid blast damage formula*/, It.IsAny<SchoolTypes>(), It.IsAny<string>(), It.IsAny<bool>()), Times.Once);
     }
 }

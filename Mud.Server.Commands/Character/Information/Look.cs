@@ -1,7 +1,7 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -35,10 +35,12 @@ namespace Mud.Server.Commands.Character.Information;
 [Help(@"[cmd] looks at something and sees what you can see.")]
 public class Look : CharacterGameAction
 {
+    private ILogger<Look> Logger { get; }
     private ITableValues TableValues { get; }
 
-    public Look(ITableValues tableValues)
+    public Look(ILogger<Look> logger, ITableValues tableValues)
     {
+        Logger = logger;
         TableValues = tableValues;
     }
 
@@ -74,7 +76,7 @@ public class Look : CharacterGameAction
         // 1: room+exits+chars+items
         if (actionInput.Parameters.Length == 0)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "DoLook(1): room");
+            Logger.LogDebug("DoLook(1): room");
             DisplayRoom = true;
             return null;
         }
@@ -82,7 +84,7 @@ public class Look : CharacterGameAction
         // 2: container in room then inventory then equipment
         if (actionInput.Parameters[0].Value == "in" || actionInput.Parameters[0].Value == "on" || actionInput.Parameters[0].Value == "into")
         {
-            Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): container in room, inventory, equipment");
+            Logger.LogDebug("DoLook(2): container in room, inventory, equipment");
 
             if (actionInput.Parameters.Length == 1)
                 return "Look in what?";
@@ -90,7 +92,7 @@ public class Look : CharacterGameAction
             var containerItem = FindHelpers.FindItemHere(Actor, actionInput.Parameters[1]);
             if (containerItem == null)
                 return StringHelpers.ItemNotFound;
-            Log.Default.WriteLine(LogLevels.Debug, "DoLook(2): found in {0}", containerItem.ContainedInto?.DebugName ?? "???");
+            Logger.LogDebug("DoLook(2): found in {containedInto}", containerItem.ContainedInto?.DebugName ?? "???");
             if (containerItem is IItemDrinkContainer drinkContainer)
             {
                 DrinkContainer = drinkContainer;
@@ -106,7 +108,7 @@ public class Look : CharacterGameAction
         Victim = FindHelpers.FindByName(Actor.Room.People.Where(x => Actor.CanSee(x)), actionInput.Parameters[0])!;
         if (Victim != null)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "DoLook(3): character in room");
+            Logger.LogDebug("DoLook(3): character in room");
             return null;
         }
 
@@ -114,7 +116,7 @@ public class Look : CharacterGameAction
         bool itemFound = FindItemByExtraDescriptionOrName(actionInput.Parameters[0], out string itemDescription);
         if (itemFound)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "DoLook(4): item in inventory+equipment+room -> {0}", itemDescription);
+            Logger.LogDebug("DoLook(4): item in inventory+equipment+room -> {item}", itemDescription);
             ItemDescription = itemDescription;
             return null;
         }
@@ -133,7 +135,7 @@ public class Look : CharacterGameAction
                     foreach (string desc in extraDescription)
                         sb.Append(desc);
                     RoomExtraDescription = sb.ToString();
-                    Log.Default.WriteLine(LogLevels.Debug, "DoLook(5): extra description in room -> {0}", RoomExtraDescription);
+                    Logger.LogDebug("DoLook(5): extra description in room -> {room}", RoomExtraDescription);
                     return null;
                 }
             }
@@ -142,7 +144,7 @@ public class Look : CharacterGameAction
         // 6: direction
         if (ExitDirectionsExtensions.TryFindDirection(actionInput.Parameters[0].Value, out ExitDirections direction))
         {
-            Log.Default.WriteLine(LogLevels.Debug, "DoLook(6): direction");
+            Logger.LogDebug("DoLook(6): direction");
             Direction = direction;
             return null;
         }

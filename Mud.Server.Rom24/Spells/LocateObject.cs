@@ -1,10 +1,11 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
@@ -18,17 +19,19 @@ public class LocateObject : SpellBase
     private const string SpellName = "Locate Object";
 
     private IItemManager ItemManager { get; }
+    private ICommandParser CommandParser { get; }
 
-    public LocateObject(IRandomManager randomManager, IItemManager itemManager) 
-        : base(randomManager)
+    public LocateObject(ILogger<LocateObject> logger, IRandomManager randomManager, IItemManager itemManager, ICommandParser commandParser) 
+        : base(logger, randomManager)
     {
         ItemManager = itemManager;
+        CommandParser = commandParser;
     }
     protected string ItemName { get; set; } = default!;
 
     protected override string? SetTargets(ISpellActionInput spellActionInput)
     {
-        ItemName = CommandHelpers.JoinParameters(spellActionInput.Parameters);
+        ItemName = CommandParser.JoinParameters(spellActionInput.Parameters);
         if (string.IsNullOrWhiteSpace(ItemName))
             return "Locate what?";
         return null;

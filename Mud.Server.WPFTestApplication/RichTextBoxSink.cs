@@ -18,14 +18,17 @@ namespace Mud.Server.WPFTestApplication
         public void Emit(LogEvent logEvent)
         {
             var message = logEvent.RenderMessage(_formatProvider);
+            /*
             //"[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}"
             logEvent.Properties.TryGetValue("SourceContext", out var sourceContext);
             var logEntry = $"[{logEvent.Timestamp:yyyy-MM-dd HH:mm:ss} {FormatLevel(logEvent.Level)}] [{sourceContext}] {message}";
+            */
+            var logEntry = $"[{logEvent.Timestamp:yyyy-MM-dd HH:mm:ss} {FormatLevel(logEvent.Level)}] {message}";
             if (logEvent.Exception != null)
             {
                 logEntry += $"{Environment.NewLine}{logEvent.Exception}";
             }
-            ServerWindow.SerilogMethod(logEvent.Level.ToString(), logEntry);
+            ServerWindow.LogInRichTextBox(logEvent.Level.ToString(), logEntry);
         }
 
         private string FormatLevel(LogEventLevel level)

@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -9,6 +10,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
+using static Mud.Server.Rom24.Tests.Abilities.OffensiveSpellBaseSpells;
 
 namespace Mud.Server.Rom24.Tests.Abilities
 {
@@ -30,10 +32,10 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object);
+            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(new Mock<ILogger<OptionalItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("item");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -53,10 +55,10 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object);
+            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(new Mock<ILogger<OptionalItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -73,7 +75,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IPlayableCharacter> casterMock = new Mock<IPlayableCharacter>();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.SetupGet(x => x.Equipments).Returns(new EquippedItem(EquipmentSlots.Chest) { Item = itemMock.Object }.Yield());
+            casterMock.SetupGet(x => x.Equipments).Returns(new EquippedItem(new Mock<ILogger>().Object, EquipmentSlots.Chest) { Item = itemMock.Object }.Yield());
             casterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -81,10 +83,10 @@ namespace Mud.Server.Rom24.Tests.Abilities
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object);
+            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(new Mock<ILogger<OptionalItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("item");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -109,10 +111,10 @@ namespace Mud.Server.Rom24.Tests.Abilities
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             roomMock.SetupGet(x => x.Content).Returns(itemMock.Object.Yield());
-            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object);
+            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(new Mock<ILogger<OptionalItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("item");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -137,10 +139,10 @@ namespace Mud.Server.Rom24.Tests.Abilities
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
-            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(randomManagerMock.Object);
+            OptionalItemInventorySpellBaseTestsSpell spell = new OptionalItemInventorySpellBaseTestsSpell(new Mock<ILogger<OptionalItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("item");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
             string result = spell.Setup(abilityActionInput);
 
@@ -149,10 +151,10 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
         // Spell without specific Setup nor invoke
         [Spell(SpellName, AbilityEffects.None)]
-        internal class OptionalItemInventorySpellBaseTestsSpell : OptionalItemInventorySpellBase
+        public class OptionalItemInventorySpellBaseTestsSpell : OptionalItemInventorySpellBase
         {
-            public OptionalItemInventorySpellBaseTestsSpell(IRandomManager randomManager)
-                : base(randomManager)
+            public OptionalItemInventorySpellBaseTestsSpell(ILogger<OptionalItemInventorySpellBaseTestsSpell> logger, IRandomManager randomManager)
+                : base(logger, randomManager)
             {
             }
 

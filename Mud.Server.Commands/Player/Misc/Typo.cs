@@ -13,10 +13,12 @@ namespace Mud.Server.Commands.Player.Misc;
 to the mud implementors.")]
 public class Typo : PlayerGameAction
 {
+    private ICommandParser CommandParser { get; }
     private IWiznet Wiznet { get; }
 
-    public Typo(IWiznet wiznet)
+    public Typo(ICommandParser commandParser, IWiznet wiznet)
     {
+        CommandParser = commandParser;
         Wiznet = wiznet;
     }
 
@@ -28,7 +30,7 @@ public class Typo : PlayerGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        Message = CommandHelpers.JoinParameters(actionInput.Parameters);
+        Message = CommandParser.JoinParameters(actionInput.Parameters);
         if (string.IsNullOrWhiteSpace(Message))
             return "Report which typo?";
 

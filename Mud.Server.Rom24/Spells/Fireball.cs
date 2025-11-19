@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -11,8 +12,8 @@ public class Fireball : DamageTableSpellBase
 {
     private const string SpellName = "Fireball";
 
-    public Fireball(IRandomManager randomManager)
-        : base(randomManager)
+    public Fireball(ILogger<Fireball> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

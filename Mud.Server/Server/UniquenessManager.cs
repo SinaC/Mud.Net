@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Repository;
 using Mud.Server.Interfaces;
 
@@ -8,12 +8,14 @@ public class UniquenessManager : IUniquenessManager
 {
     private readonly HashSet<string> _unavailableNames = new(1024); // Lock ?
 
-    protected IPlayerRepository PlayerRepository { get; }
-    protected IAdminRepository AdminRepository { get; }
-    protected ILoginRepository LoginRepository { get; }
+    private ILogger<UniquenessManager> Logger { get; }
+    private IPlayerRepository PlayerRepository { get; }
+    private IAdminRepository AdminRepository { get; }
+    private ILoginRepository LoginRepository { get; }
 
-    public UniquenessManager(IPlayerRepository playerRepository, IAdminRepository adminRepository, ILoginRepository loginRepository)
+    public UniquenessManager(ILogger<UniquenessManager> logger, IPlayerRepository playerRepository, IAdminRepository adminRepository, ILoginRepository loginRepository)
     {
+        Logger = logger;
         PlayerRepository = playerRepository;
         AdminRepository = adminRepository;
         LoginRepository = loginRepository;
@@ -88,7 +90,7 @@ public class UniquenessManager : IUniquenessManager
             var avatarsFromAdmins = AdminRepository.GetAvatarNames();
             foreach (var avatarName in avatarsFromAdmins)
                 _unavailableNames.Add(avatarName);
-            Log.Default.WriteLine(LogLevels.Info, "UniquenessManager: Unavailable name cache initialized with {0} entries", _unavailableNames.Count);
+            Logger.LogInformation("UniquenessManager: Unavailable name cache initialized with {count} entries", _unavailableNames.Count);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
@@ -24,8 +25,8 @@ public class Steal : SkillBase
     private IGameActionManager GameActionManager { get; }
     private ISettings Settings { get; }
 
-    public Steal(IRandomManager randomManager, IGameActionManager gameActionManager, ISettings settings)
-        : base(randomManager)
+    public Steal(ILogger<Steal> logger, IRandomManager randomManager, IGameActionManager gameActionManager, ISettings settings)
+        : base(logger, randomManager)
     {
         GameActionManager = gameActionManager;
         Settings = settings;

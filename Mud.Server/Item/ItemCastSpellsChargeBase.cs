@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -14,9 +15,9 @@ public abstract class ItemCastSpellsChargeBase<TBlueprint, TData> : ItemBase<TBl
     where TBlueprint : ItemCastSpellsChargeBlueprintBase
     where TData: ItemCastSpellsChargeData
 {
-    protected ItemCastSpellsChargeBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+    protected ItemCastSpellsChargeBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
         Guid guid, TBlueprint blueprint, IContainer containedInto)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         SpellLevel = blueprint.SpellLevel;
         MaxChargeCount = blueprint.MaxChargeCount;
@@ -25,9 +26,9 @@ public abstract class ItemCastSpellsChargeBase<TBlueprint, TData> : ItemBase<TBl
         AlreadyRecharged = blueprint.AlreadyRecharged;
     }
 
-    protected ItemCastSpellsChargeBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+    protected ItemCastSpellsChargeBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
         Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, data, containedInto)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, data, containedInto)
     {
         SpellLevel = blueprint.SpellLevel;
         MaxChargeCount = data.MaxChargeCount;

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -12,8 +13,8 @@ public class DispelEvil : DamageSpellBase
 {
     private const string SpellName = "Dispel Evil";
 
-    public DispelEvil(IRandomManager randomManager)
-        : base(randomManager)
+    public DispelEvil(ILogger<DispelEvil> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

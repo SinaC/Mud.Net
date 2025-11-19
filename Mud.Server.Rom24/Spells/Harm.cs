@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -11,8 +12,8 @@ public class Harm : OffensiveSpellBase
 {
     private const string SpellName = "Harm";
 
-    public Harm(IRandomManager randomManager)
-        : base(randomManager)
+    public Harm(ILogger<Harm> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

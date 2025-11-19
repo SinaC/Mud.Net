@@ -1,14 +1,12 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Commands.Admin.Avatar;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -32,9 +30,9 @@ namespace Mud.Server.Character.NonPlayableCharacter;
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 {
-    protected NonPlayableCharacter(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
+    protected NonPlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
         Guid guid, string name, string description, CharacterBlueprintBase blueprint, IRoom room)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, name, description)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, name, description)
     {
         Blueprint = blueprint;
 
@@ -42,10 +40,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         Position = Positions.Standing;
         Race = raceManager[blueprint.Race];
         if (Race == null && !string.IsNullOrWhiteSpace(blueprint.Race))
-            Log.Default.WriteLine(LogLevels.Warning, "Unknown race '{0}' for npc {1}", blueprint.Race, blueprint.Id);
+            Logger.LogWarning("Unknown race '{0}' for npc {1}", blueprint.Race, blueprint.Id);
         Class = classManager[blueprint.Class];
         if (Class == null && !string.IsNullOrWhiteSpace(blueprint.Race))
-            Log.Default.WriteLine(LogLevels.Warning, "Unknown class '{0}' for npc {1}", blueprint.Class, blueprint.Id);
+            Logger.LogWarning("Unknown class '{0}' for npc {1}", blueprint.Class, blueprint.Id);
         DamageNoun = blueprint.DamageNoun;
         DamageType = blueprint.DamageType;
         DamageDiceCount = blueprint.DamageDiceCount;
@@ -110,18 +108,18 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         room.Enter(this);
     }
 
-    public NonPlayableCharacter(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
+    public NonPlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
         Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
-        : this(serviceProvider, gameActionManager, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, blueprint.Name, blueprint.Description, blueprint, room)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, blueprint.Name, blueprint.Description, blueprint, room)
     {
         RecomputeKnownAbilities();
         ResetAttributes();
         RecomputeCurrentResourceKinds();
     }
 
-    public NonPlayableCharacter(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
+    public NonPlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
         Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // Pet
-        : this(serviceProvider, gameActionManager, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, petData.Name, blueprint.Description, blueprint, room)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, petData.Name, blueprint.Description, blueprint, room)
     {
         BaseSex = petData.Sex;
         BaseSize = petData.Size;
@@ -397,35 +395,35 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         switch (number)
         {
             case 0: if (OffensiveFlags.IsSet("Bash"))
-                    UseSkill("Bash", CommandHelpers.NoParameters);
+                    UseSkill("Bash", CommandParser.NoParameters);
                 break;
             case 1: if (OffensiveFlags.IsSet("Berserk") && !CharacterFlags.IsSet("Berserk"))
-                    UseSkill("Berserk", CommandHelpers.NoParameters);
+                    UseSkill("Berserk", CommandParser.NoParameters);
                 break;
             case 2: if (OffensiveFlags.IsSet("Disarm")
                     || ActFlags.HasAny("Warrior", "Thief")) // TODO: check if weapon skill is not hand to hand
-                    UseSkill("Disarm", CommandHelpers.NoParameters);
+                    UseSkill("Disarm", CommandParser.NoParameters);
                 break;
             case 3: if (OffensiveFlags.IsSet("Kick"))
-                    UseSkill("Kick", CommandHelpers.NoParameters);
+                    UseSkill("Kick", CommandParser.NoParameters);
                 break;
             case 4: if (OffensiveFlags.IsSet("DirtKick"))
-                    UseSkill("Dirt Kicking", CommandHelpers.NoParameters);
+                    UseSkill("Dirt Kicking", CommandParser.NoParameters);
                 break;
             case 5: if (OffensiveFlags.IsSet("Tail"))
-                    UseSkill("Tail", CommandHelpers.NoParameters);
+                    UseSkill("Tail", CommandParser.NoParameters);
                 break;
             case 6: if (OffensiveFlags.IsSet("Trip"))
-                    UseSkill("Trip", CommandHelpers.NoParameters);
+                    UseSkill("Trip", CommandParser.NoParameters);
                 break;
             case 7: if (OffensiveFlags.IsSet("Crush"))
-                    UseSkill("Crush", CommandHelpers.NoParameters);
+                    UseSkill("Crush", CommandParser.NoParameters);
                 break;
             case 8: if (OffensiveFlags.IsSet("Backstab"))
-                    UseSkill("Backstab", CommandHelpers.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
+                    UseSkill("Backstab", CommandParser.NoParameters); // TODO: this will never works because we cannot backstab while in combat -> replace with circle
                 break;
             case 9: if (OffensiveFlags.IsSet("Bite"))
-                    UseSkill("Bite", CommandHelpers.NoParameters);
+                    UseSkill("Bite", CommandParser.NoParameters);
                 break;
         }
     }
@@ -473,7 +471,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (Master == null)
             return false;
         Act(ActOptions.ToCharacter, "{0:N} orders you to '{1}'.", Master, commandLine);
-        CommandHelpers.ExtractCommandAndParameters(commandLine, out string command, out ICommandParameter[] parameters);
+        CommandParser.ExtractCommandAndParameters(commandLine, out string command, out ICommandParameter[] parameters);
         bool executed = ExecuteCommand(commandLine, command, parameters);
         return executed;
     }
@@ -720,18 +718,18 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected bool UseSkill(string skillName, params ICommandParameter[] parameters)
     {
-        Log.Default.WriteLine(LogLevels.Info, "{0} tries to use {1} on {2}.", DebugName, skillName, Fighting?.DebugName ?? "???");
+        Logger.LogInformation("{name} tries to use {skillName} on {fightingName}.", DebugName, skillName, Fighting?.DebugName ?? "???");
         var abilityInfo = AbilityManager[skillName];
         if (abilityInfo == null)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "Unknown skill {0}.", skillName);
+            Logger.LogWarning("Unknown skill {skillName}.", skillName);
             Send("This skill doesn't exist.");
             return false;
         }
         var skillInstance = AbilityManager.CreateInstance<ISkill>(abilityInfo.Name);
         if (skillInstance == null)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "Skill {0} cannot be instantiated.", skillName);
+            Logger.LogWarning("Skill {skillName} cannot be instantiated.", skillName);
             Send("This skill cannot be used.");
             return false;
         }

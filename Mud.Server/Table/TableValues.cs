@@ -1,6 +1,6 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Table;
 
@@ -8,6 +8,13 @@ namespace Mud.Server.Table;
 
 public class TableValues : ITableValues
 {
+    private ILogger<TableValues> Logger { get; }
+
+    public TableValues(ILogger<TableValues> logger)
+    {
+        Logger = logger;
+    }
+
     public (int hit, int dam, int carry, int wield, int learn, int practice, int defensive, int hitpoint, int shock) Bonus(ICharacter character)
     {
         (int hit, int dam, int carry, int wield) = StrengthBasedBonus.Get(character[CharacterAttributes.Strength]);
@@ -57,7 +64,7 @@ public class TableValues : ITableValues
             case EquipmentSlots.OffHand: return 1;
             case EquipmentSlots.Float: return 1;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "TableValue.EquipmentSlotMultiplier: invalid EquipmentSlots {0}", slot);
+                Logger.LogError("TableValue.EquipmentSlotMultiplier: invalid EquipmentSlots {slot}", slot);
                 return 1;
         }
     }
@@ -79,7 +86,7 @@ public class TableValues : ITableValues
             case SectorTypes.Desert: return 10;
             case SectorTypes.Underwater: return 15;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "TableValue.MovementLoss: invalid SectorTypes {0}", sector);
+                Logger.LogError("TableValue.MovementLoss: invalid SectorTypes {sector}", sector);
                 return 1;
         }
     }

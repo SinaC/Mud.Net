@@ -1,5 +1,5 @@
-﻿using Mud.DataStructures.Flags;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
@@ -28,8 +28,13 @@ public class OffensiveFlagValues : FlagValuesBase<string>, IOffensiveFlagValues
 
     protected override HashSet<string> HashSet => Flags;
 
+    public OffensiveFlagValues(ILogger<OffensiveFlagValues> logger)
+        : base(logger)
+    {
+    }
+
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Log.Default.WriteLine(LogLevels.Error, $"Offensive flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError($"Offensive flags '{string.Join(",", values)}' not found in {GetType().FullName}");
     }
 }

@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -10,6 +11,7 @@ namespace Mud.Server.Ability.Skill;
 
 public abstract class SkillBase : CharacterGameAction, ISkill
 {
+    protected ILogger<SkillBase> Logger { get; }
     protected IRandomManager RandomManager { get; }
 
     protected bool IsSetupExecuted { get; private set; }
@@ -17,8 +19,9 @@ public abstract class SkillBase : CharacterGameAction, ISkill
     protected ICharacter User { get; private set; } = default!;
     protected int Learned { get; private set; }
 
-    protected SkillBase(IRandomManager randomManager)
+    protected SkillBase(ILogger<SkillBase> logger, IRandomManager randomManager)
     {
+        Logger = logger;
         RandomManager = randomManager;
     }
 
@@ -91,7 +94,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (baseGuards != null)
             return baseGuards;
 
-        var abilityInfo = new AbilityInfo(GetType());
+        var abilityInfo = new AbilityInfo(Logger, GetType());
         var skillActionInput = new SkillActionInput(actionInput, abilityInfo, Actor);
         var setupResult = Setup(skillActionInput);
         return setupResult;

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
@@ -7,12 +8,11 @@ namespace Mud.Server.Ability.Skill;
 
 public abstract class ItemInventorySkillBase : SkillBase
 {
-    protected IItem Item { get; set; } = default!;
-
-    protected ItemInventorySkillBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected ItemInventorySkillBase(ILogger<ItemInventorySkillBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
+    protected IItem Item { get; set; } = default!;
 
     protected override string? SetTargets(ISkillActionInput skillActionInput)
     {

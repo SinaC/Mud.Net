@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Mud.Logger;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 
@@ -277,7 +276,7 @@ public class AutoMapperProfile : Profile
             case 7:
                 return Mud.Domain.AdminLevels.Implementor;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid AdminLevels {level} while reading pfile");
+                //Logger.LogError($"Invalid AdminLevels {level} while reading pfile"); TODO: logger
                 return 0;
         }
     }
@@ -303,7 +302,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.AdminLevels.Implementor:
                 return 7;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid AdminLevels {level} while writing pfile");
+                //Logger.LogError($"Invalid AdminLevels {level} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -319,7 +318,7 @@ public class AutoMapperProfile : Profile
             case 2:
                 return Mud.Domain.Sex.Female;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid Sex {sex} while reading pfile");
+                //Logger.LogError($"Invalid Sex {sex} while reading pfile"); TODO: logger
                 return Mud.Domain.Sex.Neutral;
         }
     }
@@ -335,7 +334,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.Sex.Female:
                 return 2;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid Sex {sex} while writing pfile");
+                //Logger.LogError($"Invalid Sex {sex} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -377,7 +376,7 @@ public class AutoMapperProfile : Profile
             case 15:
                 return Mud.Domain.EquipmentSlots.Float;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while reading pfile");
+                //Logger.LogError($"Invalid EquipmentSlots {slot} while reading pfile"); TODO: logger
                 return 0;
         }
     }
@@ -419,7 +418,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.EquipmentSlots.Float:
                 return 15;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid EquipmentSlots {slot} while writing pfile");
+                //Logger.LogError($"Invalid EquipmentSlots {slot} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -450,7 +449,7 @@ public class AutoMapperProfile : Profile
             case 3: 
                 return Mud.Domain.AffectOperators.Nor;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid AffectOperators {op} while reading pfile");
+                //Logger.LogError($"Invalid AffectOperators {op} while reading pfile"); TODO: logger
                 return 0;
         }
     }
@@ -468,7 +467,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.AffectOperators.Nor:
                 return 3;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid AffectOperators {op} while writing pfile");
+                //Logger.LogError($"Invalid AffectOperators {op} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -495,7 +494,7 @@ public class AutoMapperProfile : Profile
             case 15: return Mud.Domain.CharacterAttributeAffectLocations.ArmorMagic;
             case 16: return Mud.Domain.CharacterAttributeAffectLocations.AllArmor;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributeAffectLocations {location} while reading pfile");
+                //Logger.LogError($"Invalid CharacterAttributeAffectLocations {location} while reading pfile"); TODO: logger
                 return Mud.Domain.CharacterAttributeAffectLocations.None;
         }
     }
@@ -522,7 +521,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.CharacterAttributeAffectLocations.ArmorMagic: return 15;
             case Mud.Domain.CharacterAttributeAffectLocations.AllArmor: return 16;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributeAffectLocations {location} while writing pfile");
+                //Logger.LogError($"Invalid CharacterAttributeAffectLocations {location} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -536,7 +535,7 @@ public class AutoMapperProfile : Profile
             case 2: return Mud.Domain.IRVAffectLocations.Resistances;
             case 3: return Mud.Domain.IRVAffectLocations.Vulnerabilities;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid IRVAffectLocations {location} while reading pfile");
+                //Logger.LogError($"Invalid IRVAffectLocations {location} while reading pfile"); TODO: logger
                 return 0;
         }
     }
@@ -550,7 +549,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.IRVAffectLocations.Resistances: return 2;
             case Mud.Domain.IRVAffectLocations.Vulnerabilities: return 2;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid IRVAffectLocations {location} while writing pfile");
+                //Logger.LogError($"Invalid IRVAffectLocations {location} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -600,7 +599,7 @@ public class AutoMapperProfile : Profile
             case 12: return Mud.Domain.CharacterAttributes.ArmorSlash;
             case 13: return Mud.Domain.CharacterAttributes.ArmorExotic;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributes {attr} while reading pfile");
+                //Logger.LogError($"Invalid CharacterAttributes {attr} while reading pfile"); TODO: logger
                 return Mud.Domain.CharacterAttributes.Strength;
         }
     }
@@ -624,7 +623,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.CharacterAttributes.ArmorSlash: return 12;
             case Mud.Domain.CharacterAttributes.ArmorExotic: return 13;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid CharacterAttributes {attr} while writing pfile");
+                //Logger.LogError($"Invalid CharacterAttributes {attr} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -636,7 +635,7 @@ public class AutoMapperProfile : Profile
             case 0: return Mud.Domain.ResourceKinds.Mana;
             case 1: return Mud.Domain.ResourceKinds.Psy;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while reading pfile");
+                //Logger.LogError($"Invalid ResourceKinds {resource} while reading pfile"); TODO: logger
                 return Mud.Domain.ResourceKinds.Mana;
         }
     }
@@ -648,7 +647,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.ResourceKinds.Mana: return 0;
             case Mud.Domain.ResourceKinds.Psy: return 1;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while writing pfile");
+                //Logger.LogError($"Invalid ResourceKinds {resource} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -661,7 +660,7 @@ public class AutoMapperProfile : Profile
             case 0: return Mud.Domain.ResourceKinds.Mana;
             case 1: return Mud.Domain.ResourceKinds.Psy;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while reading pfile");
+                //Logger.LogError($"Invalid ResourceKinds {resource} while reading pfile"); TODO: logger
                 return Mud.Domain.ResourceKinds.Mana;
         }
     }
@@ -675,7 +674,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.ResourceKinds.Mana: return 0;
             case Mud.Domain.ResourceKinds.Psy: return 1;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid ResourceKinds {resource} while writing pfile");
+                //Logger.LogError($"Invalid ResourceKinds {resource} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -688,7 +687,7 @@ public class AutoMapperProfile : Profile
             case 1: return Mud.Domain.CostAmountOperators.Fixed;
             case 2: return Mud.Domain.CostAmountOperators.Percentage;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid CostAmountOperators {op} while reading pfile");
+                //Logger.LogError($"Invalid CostAmountOperators {op} while reading pfile"); TODO: logger
                 return 0;
         }
     }
@@ -701,7 +700,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.CostAmountOperators.Fixed: return 1;
             case Mud.Domain.CostAmountOperators.Percentage: return 2;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid CostAmountOperators {op} while writing pfile");
+                //Logger.LogError($"Invalid CostAmountOperators {op} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -715,7 +714,7 @@ public class AutoMapperProfile : Profile
             case 2: return Mud.Domain.Conditions.Thirst;
             case 3: return Mud.Domain.Conditions.Hunger;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid Conditions {cond} while reading pfile");
+                //Logger.LogError($"Invalid Conditions {cond} while reading pfile"); TODO: logger
                 return Mud.Domain.Conditions.Drunk;
         }
     }
@@ -729,7 +728,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.Conditions.Thirst: return 2;
             case Mud.Domain.Conditions.Hunger: return 3;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid Conditions {cond} while writing pfile");
+                //Logger.LogError($"Invalid Conditions {cond} while writing pfile"); TODO: logger
                 return 0;
         }
     }
@@ -765,7 +764,7 @@ public class AutoMapperProfile : Profile
             case 4: return Mud.Domain.Sizes.Huge;
             case 5: return Mud.Domain.Sizes.Giant;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid Sizes {size} while reading pfile");
+                //Logger.LogError($"Invalid Sizes {size} while reading pfile"); TODO: logger
                 return Mud.Domain.Sizes.Tiny;
         }
     }
@@ -781,7 +780,7 @@ public class AutoMapperProfile : Profile
             case Mud.Domain.Sizes.Huge: return 4;
             case Mud.Domain.Sizes.Giant: return 5;
             default:
-                Log.Default.WriteLine(LogLevels.Error, $"Invalid Sizes {size} while writing pfile");
+                //Logger.LogError($"Invalid Sizes {size} while writing pfile"); TODO: logger
                 return 0;
         }
     }

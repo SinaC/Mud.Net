@@ -1,11 +1,11 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Passives;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -16,8 +16,8 @@ public class Bash : OffensiveSkillBase
 {
     private const string SkillName = "Bash";
 
-    public Bash(IRandomManager randomManager)
-        : base(randomManager)
+    public Bash(ILogger<Bash> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

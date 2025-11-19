@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
@@ -11,8 +12,8 @@ public class Refresh : DefensiveSpellBase
 {
     private const string SpellName = "Refresh";
 
-    public Refresh(IRandomManager randomManager)
-        : base(randomManager)
+    public Refresh(ILogger<Refresh> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

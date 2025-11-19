@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -10,8 +11,8 @@ public abstract class CharacterBuffSpellBase : DefensiveSpellBase
 {
     protected IAuraManager AuraManager { get; }
 
-    protected CharacterBuffSpellBase(IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager)
+    protected CharacterBuffSpellBase(ILogger<CharacterBuffSpellBase> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         AuraManager = auraManager;
     }

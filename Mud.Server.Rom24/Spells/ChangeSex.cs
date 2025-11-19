@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
@@ -16,8 +17,8 @@ public class ChangeSex : DefensiveSpellBase
     private const string SpellName = "Change Sex";
 
     private IAuraManager AuraManager { get; }
-    public ChangeSex(IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager)
+    public ChangeSex(ILogger<ChangeSex> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         AuraManager = auraManager;
     }

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -17,10 +18,12 @@ public class Wands : ItemCastSpellSkillBase<IItemWand>
 {
     private const string SkillName = "Wands";
 
-    public Wands(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
-        : base(randomManager, abilityManager, itemManager)
+    public Wands(ILogger<Wands> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
+        : base(logger, randomManager, abilityManager, itemManager)
     {
     }
+
+    protected override string ActionWord => "Zap";
 
     protected IEntity Target { get; set; } = default!;
 

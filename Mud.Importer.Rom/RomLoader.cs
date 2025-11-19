@@ -1,6 +1,6 @@
 ﻿// TODO: exit flags are incorrect (door is missing)
 
-using Mud.Logger;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace Mud.Importer.Rom;
@@ -64,7 +64,8 @@ public class RomLoader : TextBasedLoader
 
     public IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
 
-    public RomLoader()
+    public RomLoader(ILogger<RomLoader> logger)
+        :base(logger)
     {
         _areas = [];
         _mobiles = [];
@@ -102,22 +103,22 @@ public class RomLoader : TextBasedLoader
                 ParseSpecials();
             else if (word.ToUpper() == "STYLE")
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Specific area file Style not yet available");
+                Logger.LogWarning("Specific area file Style not yet available");
                 ReadToNextSection();
             }
             else if (word.ToUpper() == "HELPS")
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Specific area file Helps not yet available");
+                Logger.LogWarning("Specific area file Helps not yet available");
                 ReadToNextSection();
             }
             else if (word.ToUpper() == "SOCIALS")
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Specific area file Socials not yet available");
+                Logger.LogWarning("Specific area file Socials not yet available");
                 break;
             }
             else if (word.ToUpper() == "OLIMITS" || word.ToUpper() == "OMPROGS")
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Specific '{0}' not handled", word);
+                Logger.LogWarning("Specific '{0}' not handled", word);
                 ReadToNextSection();
             }
             else
@@ -127,7 +128,7 @@ public class RomLoader : TextBasedLoader
 
     private void ParseArea()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Area section");
+        Logger.LogTrace("Area section");
 
         AreaData area = new AreaData();
         while (true)
@@ -153,7 +154,7 @@ public class RomLoader : TextBasedLoader
             else if (word == "End") // done
                 break;
         }
-        Log.Default.WriteLine(LogLevels.Trace, "Area [{0}] parsed", area.Name);
+        Logger.LogTrace("Area [{0}] parsed", area.Name);
 
         // Set unique number and filename
         area.VNum = 10+_areas.Count;
@@ -166,7 +167,7 @@ public class RomLoader : TextBasedLoader
 
     private void ParseOldArea()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Old area section");
+        Logger.LogTrace("Old area section");
         AreaData area = new AreaData
         {
             FileName = ReadString(),
@@ -175,7 +176,7 @@ public class RomLoader : TextBasedLoader
             MinVNum = (int) ReadNumber(),
             MaxVNum = (int) ReadNumber()
         };
-        Log.Default.WriteLine(LogLevels.Trace, "Area [{0}] parsed", area.Name);
+        Logger.LogTrace("Area [{0}] parsed", area.Name);
 
         area.VNum = 10 + _areas.Count;
         // Save area
@@ -186,7 +187,7 @@ public class RomLoader : TextBasedLoader
 
     private void ParseMobiles()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Mobiles section");
+        Logger.LogTrace("Mobiles section");
 
         while (true)
         {
@@ -288,7 +289,7 @@ public class RomLoader : TextBasedLoader
             // TODO: convert act flags (see db.C:626)
             // TODO: fix parts (see db.C:520)
 
-            Log.Default.WriteLine(LogLevels.Trace, "Mobile [{0}] parsed", vnum);
+            Logger.LogTrace("Mobile [{0}] parsed", vnum);
             Debug.WriteLine("Mobile [{0}] parsed", vnum);
 
             // Save mobile data
@@ -298,7 +299,7 @@ public class RomLoader : TextBasedLoader
 
     private void ParseObjects()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Objects section");
+        Logger.LogTrace("Objects section");
 
         while (true)
         {
@@ -428,7 +429,7 @@ public class RomLoader : TextBasedLoader
                     string keyword = ReadString();
                     string description = ReadString();
                     if (objectData.ExtraDescr.ContainsKey(keyword))
-                        Log.Default.WriteLine(LogLevels.Error, "ParseObjects: item [vnum:{0}] Extra desc already exists", vnum);
+                        Logger.LogError("ParseObjects: item [vnum:{0}] Extra desc already exists", vnum);
                     else
                         objectData.ExtraDescr.Add(keyword, description);
                 }
@@ -451,7 +452,7 @@ public class RomLoader : TextBasedLoader
                 }
             }
 
-            Log.Default.WriteLine(LogLevels.Trace, "Object [{0}] parsed", vnum);
+            Logger.LogTrace("Object [{0}] parsed", vnum);
             Debug.WriteLine("Object [{0}] parsed", vnum);
 
             // Save object data
@@ -461,7 +462,7 @@ public class RomLoader : TextBasedLoader
 
     private void ParseResets()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Resets section");
+        Logger.LogTrace("Resets section");
 
         int iLastObj = 0; // TODO: replace with RoomData
         int iLastRoom = 0; // TODO: replace with RoomData
@@ -592,7 +593,7 @@ public class RomLoader : TextBasedLoader
 
     private void ParseRooms()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Rooms section");
+        Logger.LogTrace("Rooms section");
 
         while (true)
         {
@@ -694,7 +695,7 @@ public class RomLoader : TextBasedLoader
                 else
                     RaiseParseException("ParseRooms: vnum {0} has unknown flag", vnum);
             }
-            Log.Default.WriteLine(LogLevels.Trace, "Room [{0}] parsed", vnum);
+            Logger.LogTrace("Room [{0}] parsed", vnum);
             Debug.WriteLine("Room [{0}] parsed", vnum);
 
             // Save room data
@@ -704,7 +705,7 @@ public class RomLoader : TextBasedLoader
 
     private void ParseShops()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Shops section");
+        Logger.LogTrace("Shops section");
 
         while (true)
         {
@@ -728,7 +729,7 @@ public class RomLoader : TextBasedLoader
                 shopData.CloseHour = (int)ReadNumber();
                 mobileData.Shop = shopData;
 
-                Log.Default.WriteLine(LogLevels.Trace, "Shop [{0}] parsed", keeper);
+                Logger.LogTrace("Shop [{0}] parsed", keeper);
             }
             ReadToEol();
         }
@@ -736,7 +737,7 @@ public class RomLoader : TextBasedLoader
 
     private void ParseSpecials()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Specials section");
+        Logger.LogTrace("Specials section");
 
         while (true)
         {
@@ -755,7 +756,7 @@ public class RomLoader : TextBasedLoader
                     mobileData.Special = special;
                 else
                     Warn("ParseSpecials: 'M' unknown mobile vnum {0}", vnum);
-                Log.Default.WriteLine(LogLevels.Trace, "Specials [{0}] parsed", vnum);
+                Logger.LogTrace("Specials [{0}] parsed", vnum);
             }
             else
                 RaiseParseException("ParseSpecials: letter {0} not *MS", letter);

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Item;
@@ -11,8 +12,8 @@ public class DetectPoison : ItemInventorySpellBase<IItemPoisonable>
 {
     private const string SpellName = "Detect Poison";
 
-    public DetectPoison(IRandomManager randomManager)
-        : base(randomManager)
+    public DetectPoison(ILogger<DetectPoison> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

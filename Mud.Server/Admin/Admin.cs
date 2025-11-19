@@ -1,6 +1,6 @@
-﻿using Mud.DataStructures.Trie;
+﻿using Microsoft.Extensions.Logging;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
@@ -15,16 +15,16 @@ namespace Mud.Server.Admin;
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class Admin : Player.Player, IAdmin
 {
-    public Admin(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, AdminData data)
-        : base(gameActionManager, timeManager, characterManager, id, data)
+    public Admin(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, AdminData data)
+        : base(logger, gameActionManager, commandParser, timeManager, characterManager, id, data)
     {
         Level = data.AdminLevel;
         WiznetFlags = data.WiznetFlags;
     }
 
     // used for promotion
-    public Admin(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
-        : base(gameActionManager, timeManager, characterManager, id, name, aliases, avatarList)
+    public Admin(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
+        : base(logger, gameActionManager, commandParser, timeManager, characterManager, id, name, aliases, avatarList)
     {
         Level = level;
     }
@@ -128,26 +128,26 @@ public class Admin : Player.Player, IAdmin
         bool executedSuccessfully;
         if (forceOutOfGame || (Impersonating == null && Incarnating == null))
         {
-            Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
+            Logger.LogDebug("[{name}] executing [{command}]", DisplayName, commandLine);
             executedSuccessfully = ExecuteCommand(commandLine, command, parameters);
         }
         else if (Impersonating != null) // impersonating
         {
-            Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
+            Logger.LogDebug("[{name}]|[{impersonatingName}] executing [{command}]", DisplayName, Impersonating.DebugName, commandLine);
             executedSuccessfully = Impersonating.ExecuteCommand(commandLine, command, parameters);
         }
         else if (Incarnating != null) // incarnating
         {
-            Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Incarnating.DebugName, commandLine);
+            Logger.LogDebug("[{name}]|[{impersonatingName}] executing [{command}]", DisplayName, Incarnating.DebugName, commandLine);
             executedSuccessfully = Incarnating.ExecuteCommand(commandLine, command, parameters);
         }
         else
         {
-            Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating nor incarnating", DisplayName);
+            Logger.LogError("[{name}] is neither out of game nor impersonating nor incarnating", DisplayName);
             executedSuccessfully = false;
         }
         if (!executedSuccessfully)
-            Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
+            Logger.LogWarning("Error while executing command");
         return executedSuccessfully;
     }
 

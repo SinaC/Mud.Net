@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Mud.Logger;
-using Mud.Server.Interfaces.Character;
+﻿using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
+using System;
+using System.Collections.Generic;
 
 namespace Mud.POC
 {
@@ -71,7 +70,6 @@ namespace Mud.POC
         {
             if (character?.Room == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Act with null ICharacter or null room");
                 return;
             }
 

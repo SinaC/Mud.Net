@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Quest;
@@ -21,6 +22,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
         "[cmd] all.<quest name>")]
 public class QuestGet : PlayableCharacterGameAction
 {
+    private ILogger<QuestGet> Logger { get; }
     private ISettings Settings { get; }
     private ITimeManager TimeManager { get; }
     private IItemManager ItemManager { get; }
@@ -28,8 +30,9 @@ public class QuestGet : PlayableCharacterGameAction
     private ICharacterManager CharacterManager { get; }
     private IQuestManager QuestManager { get; }
 
-    public QuestGet(ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager)
+    public QuestGet(ILogger<QuestGet> logger, ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager)
     {
+        Logger = logger;
         Settings = settings;
         TimeManager = timeManager;
         ItemManager = itemManager;
@@ -102,7 +105,7 @@ public class QuestGet : PlayableCharacterGameAction
 
     private IQuest GetQuest(QuestBlueprint questBlueprint, INonPlayableCharacter questGiver)
     {
-        IQuest quest = new Server.Quest.Quest(Settings, TimeManager, ItemManager, RoomManager, CharacterManager, QuestManager, questBlueprint, Actor, questGiver);
+        IQuest quest = new Server.Quest.Quest(Logger, Settings, TimeManager, ItemManager, RoomManager, CharacterManager, QuestManager, questBlueprint, Actor, questGiver);
         Actor.AddQuest(quest);
         //
         Actor.Act(ActOptions.ToRoom, "{0} get{0:v} quest '{1}'.", Actor, questBlueprint.Title);

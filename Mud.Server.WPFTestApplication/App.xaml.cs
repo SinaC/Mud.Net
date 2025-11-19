@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Configuration;
 using Mud.DataStructures.Flags;
-using Mud.Logger;
+using Mud.Network.Interfaces;
+using Mud.Network.Telnet;
 using Mud.Repository;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
@@ -27,12 +25,11 @@ using Mud.Server.Random;
 using Mud.Settings.Interfaces;
 using Serilog;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using static Mud.Server.WPFTestApplication.App;
 
 namespace Mud.Server.WPFTestApplication;
 
@@ -59,30 +56,19 @@ public partial class App : Application
         var settings = new Settings.ConfigurationManager.Settings();
         var assemblyHelper = new AssemblyHelper();
 
-        // Initialize log
-        Logger.Log.Default.Initialize(settings.LogPath, "server.log");
-
         // Configure Logging
-        //services.AddLogging();
-        //services.AddLogging(builder =>
-        //{
-        //    //builder.AddConfiguration();
-        //    builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, CustomLoggerProvider>());
-        //});
-        // Configure Logging
-        Serilog.Log.Logger = new LoggerConfiguration()
-            .WriteTo.RichTextBoxSink()//outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}"))
-            .WriteTo.File(@"c:\temp\server.test.serilog.log", rollingInterval: RollingInterval.Day)
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.RichTextBoxSink()
+            .WriteTo.File(settings.LogPath, rollingInterval: RollingInterval.Day)
             .CreateLogger();
-        services.AddLogging(builder => builder.AddSerilog(Serilog.Log.Logger));
+        services.AddLogging(builder => builder.AddSerilog(Log.Logger));
 
         // Register Services
         services.AddSingleton<ISettings>(settings);
-
-        RegisterAllTypes(services, assemblyHelper.AllReferencedAssemblies);
-
+        services.AddSingleton<ITelnetNetworkServer, TelnetServer>();
         services.AddSingleton<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
         services.AddSingleton<IAssemblyHelper>(assemblyHelper);
+        services.AddSingleton<ICommandParser, GameAction.CommandParser>();
         services.AddSingleton<IAbilityManager, Ability.AbilityManager>();
         services.AddSingleton<IGameActionManager, GameAction.GameActionManager>();
         services.AddSingleton<ITimeManager, Server.TimeManager>();
@@ -95,6 +81,7 @@ public partial class App : Application
         services.AddSingleton<IAdminManager, Admin.AdminManager>();
         services.AddSingleton<IWiznet, Server.Wiznet>();
         services.AddSingleton<IResetManager, Server.ResetManager>();
+        services.AddSingleton<IPulseManager, Server.PulseManager>();
         services.AddSingleton<Server.Server>();
         services.AddSingleton<IServer>(x => x.GetRequiredService<Server.Server>());
         services.AddSingleton<IWorld>(x => x.GetRequiredService<Server.Server>()); // Server also implements IWorld
@@ -115,6 +102,9 @@ public partial class App : Application
         services.AddSingleton<IAdminRepository, Repository.Filesystem.AdminRepository>();
 
         services.AddAutoMapper(typeof(Repository.Filesystem.AutoMapperProfile).Assembly);
+
+        RegisterAllRegistrableTypes(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues(services, assemblyHelper.AllReferencedAssemblies);
 
         //// Register ViewModels
         //services.AddSingleton<IMainViewModel, MainViewModel>();
@@ -165,30 +155,35 @@ public partial class App : Application
         }
     }
 
-    internal void RegisterAllTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
+    // TODO: find a way to replace Debug.Print with Log
+
+    internal void RegisterAllRegistrableTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         // register commands and abilities
         var iRegistrable = typeof(IRegistrable);
         foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
         {
-            Logger.Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
+            Debug.Print("Registering type {0}.", registrable.FullName);
             services.AddTransient(registrable);
         }
         // register races
         var iRace = typeof(IRace);
         foreach (var race in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRace.IsAssignableFrom(t))))
         {
-            Logger.Log.Default.WriteLine(LogLevels.Info, "Registering race type {0}.", race.FullName);
+            Debug.Print("Registering race type {0}.", race.FullName);
             services.AddSingleton(iRace, race);
         }
         // register classes
         var iClass = typeof(IClass);
         foreach (var cl in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iClass.IsAssignableFrom(t))))
         {
-            Logger.Log.Default.WriteLine(LogLevels.Info, "Registering class type {0}.", cl.FullName);
+            Debug.Print("Registering class type {0}.", cl.FullName);
             services.AddSingleton(iClass, cl);
         }
-        // register flag
+    }
+
+    internal void RegisterFlagValues(IServiceCollection services, IEnumerable<Assembly> assemblies)
+    {
         RegisterFlagValues<ICharacterFlagValues>(services, assemblies);
         RegisterFlagValues<IRoomFlagValues>(services, assemblies);
         RegisterFlagValues<IItemFlagValues>(services, assemblies);
@@ -199,9 +194,6 @@ public partial class App : Application
         RegisterFlagValues<IIRVFlagValues>(services, assemblies);
         RegisterFlagValues<IBodyFormValues>(services, assemblies);
         RegisterFlagValues<IBodyPartValues>(services, assemblies);
-
-        // register group
-        services.AddTransient<IGroup, Group.Group>();
     }
 
     internal void RegisterFlagValues<TFlagValue>(IServiceCollection services, IEnumerable<Assembly> assemblies)
@@ -210,10 +202,10 @@ public partial class App : Application
         var iFlagValuesType = typeof(TFlagValue);
         var concreteFlagValuesType = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iFlagValuesType.IsAssignableFrom(t))).SingleOrDefault();
         if (concreteFlagValuesType == null)
-            Logger.Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
+            Debug.Print("Cannot find an implementation for {0}.", iFlagValuesType.FullName);
         else
         {
-            Logger.Log.Default.WriteLine(LogLevels.Info, "Registering flag values type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
+            Debug.Print("Registering flag values type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
             services.AddTransient(iFlagValuesType, concreteFlagValuesType);
         }
     }

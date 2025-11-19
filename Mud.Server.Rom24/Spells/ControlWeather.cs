@@ -1,9 +1,10 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
@@ -14,11 +15,13 @@ public class ControlWeather : NoTargetSpellBase
     private const string SpellName = "Control Weather";
 
     private ITimeManager TimeManager { get; }
+    private ICommandParser CommandParser { get; }
 
-    public ControlWeather(IRandomManager randomManager, ITimeManager timeManager) 
-        : base(randomManager)
+    public ControlWeather(ILogger<ControlWeather> logger, IRandomManager randomManager, ITimeManager timeManager, ICommandParser commandParser)
+        : base(logger, randomManager)
     {
         TimeManager = timeManager;
+        CommandParser = commandParser;
     }
 
     protected bool IsBetterRequired { get; set; }
@@ -29,7 +32,7 @@ public class ControlWeather : NoTargetSpellBase
         if (baseSetup != null)
             return baseSetup;
 
-        var what = CommandHelpers.JoinParameters(spellActionInput.Parameters);
+        var what = CommandParser.JoinParameters(spellActionInput.Parameters);
         if (StringCompareHelpers.StringEquals(what, "better"))
         {
             IsBetterRequired = true;

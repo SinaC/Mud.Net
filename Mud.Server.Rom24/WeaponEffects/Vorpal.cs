@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Effects;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -11,10 +11,12 @@ namespace Mud.Server.Rom24.WeaponEffects;
 [WeaponEffect("Vorpal")]
 public class Vorpal : IInstantDeathWeaponEffect
 {
+    private ILogger Logger { get; }
     private IRandomManager RandomManager { get; }
 
-    public Vorpal(IRandomManager randomManager)
+    public Vorpal(ILogger logger, IRandomManager randomManager)
     {
+        Logger = logger;
         RandomManager = randomManager;
     }
 
@@ -51,8 +53,8 @@ public class Vorpal : IInstantDeathWeaponEffect
             }
             if (chance > 0 && RandomManager.Range(0, 999) < chance)
             {
-                Log.Default.WriteLine(LogLevels.Debug, "Vorpal: who {0} what {1} by {2}", victim, weapon, this);
-                holder.ActToNotVictim(victim, "The %M%vorpal%x% of {0} strikes {1}.", weapon, this);
+                Logger.LogDebug("Vorpal: who {victim} what {weapon} by {effect}", victim, weapon, this);
+                holder.ActToNotVictim(victim, "The %M%vorpal%x% of {0} strikes {1}.", weapon, victim);
                 holder.Act(ActOptions.ToCharacter, "The %M%vorpal%x% of your weapon strikes {0}.", victim);
                 victim.Act(ActOptions.ToCharacter, "The %M%Vorpal%x% of {0} strikes and KILLS you.", weapon);
                 holder.Act(ActOptions.ToRoom, "{0:N} is dead!!", victim);

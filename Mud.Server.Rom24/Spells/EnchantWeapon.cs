@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
@@ -23,8 +24,8 @@ public class EnchantWeapon : ItemInventorySpellBase<IItemWeapon>
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public EnchantWeapon(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
-        : base(randomManager)
+    public EnchantWeapon(ILogger<EnchantWeapon> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;

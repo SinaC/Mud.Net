@@ -1,5 +1,5 @@
-﻿using Mud.DataStructures.Trie;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.DataStructures.Trie;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
@@ -8,10 +8,12 @@ namespace Mud.Server.Actor;
 
 public abstract class ActorBase : IActor
 {
+    protected ILogger Logger { get; }
     protected IGameActionManager GameActionManager { get; }
 
-    protected ActorBase(IGameActionManager gameActionManager)
+    protected ActorBase(ILogger logger, IGameActionManager gameActionManager)
     {
+        Logger = logger;
         GameActionManager = gameActionManager;
     }
 
@@ -48,14 +50,14 @@ public abstract class ActorBase : IActor
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Warning, $"Command {command} not found");
+                Logger.LogWarning("Command {command} not found", command);
                 Send("Command not found.");
                 return false;
             }
         }
         else
         {
-            Log.Default.WriteLine(LogLevels.Warning, $"No command found for {GetType().FullName}");
+            Logger.LogWarning("No command found for {actorType}", GetType().FullName);
             Send("Command not found.");
             return false;
         }

@@ -1,5 +1,5 @@
-﻿using Mud.DataStructures.Flags;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
@@ -33,8 +33,13 @@ public class ActFlagValues : FlagValuesBase<string>, IActFlagValues
 
     protected override HashSet<string> HashSet => Flags;
 
+    public ActFlagValues(ILogger<ActFlagValues> logger)
+    : base(logger)
+    {
+    }
+
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Log.Default.WriteLine(LogLevels.Error, $"Act flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError($"Act flags '{string.Join(",", values)}' not found in {GetType().FullName}");
     }
 }

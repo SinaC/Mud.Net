@@ -1,5 +1,6 @@
-﻿using Mud.Common;
-using Mud.Logger;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
@@ -8,12 +9,14 @@ namespace Mud.Server.Ability;
 
 public class AbilityManager : IAbilityManager
 {
+    private ILogger<AbilityManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private Dictionary<string, IAbilityInfo> AbilityByName { get; } // TODO: trie to optimize Search ?
     private Dictionary<Type, IAbilityInfo[]> AbilitiesByExecutionType { get; }
 
-    public AbilityManager(IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
+    public AbilityManager(ILogger<AbilityManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
 
         AbilityByName = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
@@ -22,9 +25,9 @@ public class AbilityManager : IAbilityManager
         foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
         {
-            AbilityInfo abilityInfo = new (abilityType);
+            AbilityInfo abilityInfo = new (logger, abilityType); // TODO: use DI
             if (AbilityByName.ContainsKey(abilityInfo.Name))
-                Log.Default.WriteLine(LogLevels.Error, "Duplicate ability {0}", abilityInfo.Name);
+                Logger.LogError("Duplicate ability {abilityInfoName}", abilityInfo.Name);
             else
                 AbilityByName.Add(abilityInfo.Name, abilityInfo);
         }
@@ -73,7 +76,7 @@ public class AbilityManager : IAbilityManager
         var abilityInfo = this[abilityName];
         if (abilityInfo == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Ability {0} doesn't exist.", abilityName);
+            Logger.LogError("Ability {abilityName} doesn't exist.", abilityName);
             return default;
         }
         return CreateInstance<TAbility>(abilityInfo, abilityName);
@@ -91,12 +94,12 @@ public class AbilityManager : IAbilityManager
         var ability = ServiceProvider.GetService(abilityInfo.AbilityExecutionType);
         if (ability == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Ability {0} not found in DependencyContainer.", abilityName);
+            Logger.LogError("Ability {abilityName} not found in DependencyContainer.", abilityName);
             return default;
         }
         if (ability is not TAbility instance)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Ability {0} cannot be created or is not {1}.", abilityName, typeof(TAbility).Name);
+            Logger.LogError("Ability {abilityName} cannot be created or is not {expectedAbilityType}.", abilityName, typeof(TAbility).Name);
             return default;
         }
         return instance;

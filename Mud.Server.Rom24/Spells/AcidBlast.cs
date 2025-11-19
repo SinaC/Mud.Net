@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -11,8 +12,8 @@ public class AcidBlast : DamageSpellBase
 {
     private const string SpellName = "Acid Blast";
 
-    public AcidBlast(IRandomManager randomManager)
-        : base(randomManager)
+    public AcidBlast(ILogger<AcidBlast> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

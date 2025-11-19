@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -10,8 +10,8 @@ namespace Mud.Server.POC.Races;
 
 public class Insectoid : PlayableRaceBase // 4-arms
 {
-    public Insectoid(IServiceProvider serviceProvider, IAbilityManager abilityManager)
-        : base(serviceProvider, abilityManager)
+    public Insectoid(ILogger<Insectoid> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)
+        : base(logger, serviceProvider, abilityManager)
     {
         AddAbility(1, "Test", null, 0, CostAmountOperators.None, 0);
         AddAbility(1, "Dual Wield", null, 0, CostAmountOperators.None, 0);
@@ -96,7 +96,7 @@ public class Insectoid : PlayableRaceBase // 4-arms
             case CharacterAttributes.ArmorSlash: return 100;
             case CharacterAttributes.ArmorExotic: return 100;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "Unexpected start attribute {0} for {1}", attribute, Name);
+                Logger.LogError("Unexpected start attribute {0} for {1}", attribute, Name);
                 return 0;
         }
     }
@@ -120,7 +120,7 @@ public class Insectoid : PlayableRaceBase // 4-arms
             case CharacterAttributes.ArmorSlash: return 100;
             case CharacterAttributes.ArmorExotic: return 100;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "Unexpected max attribute {0} for {1}", attribute, Name);
+                Logger.LogError("Unexpected max attribute {0} for {1}", attribute, Name);
                 return 0;
         }
     }

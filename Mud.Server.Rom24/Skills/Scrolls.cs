@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common;
@@ -18,10 +19,12 @@ public class Scrolls : ItemCastSpellSkillBase<IItemScroll>
 {
     private const string SkillName = "Scrolls";
 
-    public Scrolls(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
-        : base(randomManager, abilityManager, itemManager)
+    public Scrolls(ILogger<Scrolls> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
+        : base(logger, randomManager, abilityManager, itemManager)
     {
     }
+
+    protected override string ActionWord => "Recite";
 
     protected override string? SetTargets(ISkillActionInput skillActionInput)
     {

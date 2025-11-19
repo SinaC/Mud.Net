@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -13,9 +14,9 @@ namespace Mud.Server.Item;
 public abstract class ItemCastSpellsNoChargeBase<TBlueprint> : ItemBase<TBlueprint, ItemData>, IItemCastSpellsNoCharge
     where TBlueprint : ItemCastSpellsNoChargeBlueprintBase
 {
-    protected ItemCastSpellsNoChargeBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+    protected ItemCastSpellsNoChargeBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
         Guid guid, TBlueprint blueprint, IContainer containedInto)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         SpellLevel = blueprint.SpellLevel;
         FirstSpellName = blueprint.Spell1;
@@ -24,9 +25,9 @@ public abstract class ItemCastSpellsNoChargeBase<TBlueprint> : ItemBase<TBluepri
         FourthSpellName = blueprint.Spell4;
     }
 
-    protected ItemCastSpellsNoChargeBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+    protected ItemCastSpellsNoChargeBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
         Guid guid, TBlueprint blueprint, ItemData data, IContainer containedInto)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, data, containedInto)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, data, containedInto)
     {
         SpellLevel = blueprint.SpellLevel;
         FirstSpellName = blueprint.Spell1;

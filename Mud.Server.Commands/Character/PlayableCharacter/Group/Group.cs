@@ -1,9 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Mud.Common;
+﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Settings.Interfaces;
@@ -22,12 +20,10 @@ SPLIT commands.  If anyone in your group is attacked, you will automatically
 join the fight.")]
 public class Group : PlayableCharacterGameAction
 {
-    private IServiceProvider ServiceProvider { get; }
     private ISettings Settings { get; }
 
-    public Group(IServiceProvider serviceProvider, ISettings settings)
+    public Group(ISettings settings)
     {
-        ServiceProvider = serviceProvider;
         Settings = settings;
     }
 
@@ -133,9 +129,8 @@ public class Group : PlayableCharacterGameAction
                 }
             case Actions.Create:
                 {
-                    // create a new group
-                    var group = ServiceProvider.GetRequiredService<IGroup>();
-                    group.AddMember(Actor); // add leader
+                    // create a new group with Actor as Leader
+                    var group = new Server.Group.Group(Actor);
                     // add target in the group
                     group.AddMember(Whom);
                     // assign group to actor

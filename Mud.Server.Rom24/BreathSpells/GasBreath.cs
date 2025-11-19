@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -18,8 +19,8 @@ public class GasBreath : NoTargetSpellBase
     private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public GasBreath(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager)
+    public GasBreath(ILogger<GasBreath> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;

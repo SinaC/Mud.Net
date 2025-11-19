@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Mud.Logger;
+using Microsoft.Extensions.Logging;
 using Mud.Repository.Filesystem.Common;
 using Mud.Repository.Filesystem.Domain;
 using Mud.Settings.Interfaces;
@@ -16,8 +16,8 @@ public class LoginRepository : RepositoryBase, ILoginRepository
     private Dictionary<string, LoginData> _table = new Dictionary<string, LoginData>();
     private bool _loaded;
 
-    public LoginRepository(IMapper mapper, ISettings settings)
-        : base(mapper, settings)
+    public LoginRepository(ILogger<LoginRepository> logger, IMapper mapper, ISettings settings)
+        : base(logger, mapper, settings)
     {
         _loaded = false;
     }
@@ -127,7 +127,7 @@ public class LoginRepository : RepositoryBase, ILoginRepository
             if (directory != null)
                 Directory.CreateDirectory(directory);
             else
-                Log.Default.WriteLine(LogLevels.Error, "Invalid directory in logins path: {0}", LoginRepositoryFilename);
+                Logger.LogError("Invalid directory in logins path: {0}", LoginRepositoryFilename);
             using (var file = File.OpenRead(LoginRepositoryFilename))
             {
                 var repository = (LoginRepositoryData)deserializer.Deserialize(file)!;
@@ -137,7 +137,7 @@ public class LoginRepository : RepositoryBase, ILoginRepository
         }
         catch (Exception ex)
         {
-            Log.Default.WriteLine(LogLevels.Error, "LoadIfNeeded: unable to load. Exception: {0}", ex);
+            Logger.LogError("LoadIfNeeded: unable to load. Exception: {0}", ex);
         }
     }
 
@@ -150,7 +150,7 @@ public class LoginRepository : RepositoryBase, ILoginRepository
             if (directory != null)
                 Directory.CreateDirectory(directory);
             else
-                Log.Default.WriteLine(LogLevels.Error, "Invalid directory in logins path: {0}", LoginRepositoryFilename);
+                Logger.LogError("Invalid directory in logins path: {0}", LoginRepositoryFilename);
             using (var file = File.Create(LoginRepositoryFilename))
             {
                 LoginRepositoryData repository = new()
@@ -162,7 +162,7 @@ public class LoginRepository : RepositoryBase, ILoginRepository
         }
         catch (Exception ex)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Save: unable to save. Exception: {0}", ex);
+            Logger.LogError("Save: unable to save. Exception: {0}", ex);
         }
     }
 }

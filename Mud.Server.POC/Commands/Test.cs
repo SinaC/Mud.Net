@@ -1,5 +1,4 @@
-﻿using Mud.Server.Common;
-using Mud.Server.GameAction;
+﻿using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.TableGenerator;
 using System.Text;
@@ -11,7 +10,7 @@ public class Test : PlayerGameAction
 {
     public override void Execute(IActionInput actionInput)
     {
-        TableGenerator<Tuple<string, string, int>> generator = new TableGenerator<Tuple<string, string, int>>();
+        TableGenerator<Tuple<string, string, int>> generator = new ();
         generator.AddColumn("Header1", 10, tuple => tuple.Item1);
         generator.AddColumn("Header2", 15, tuple => tuple.Item2);
         generator.AddColumn("Header3", 8, tuple => tuple.Item3.ToString());

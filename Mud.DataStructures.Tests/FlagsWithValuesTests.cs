@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.DataStructures.Flags;
 
@@ -616,7 +617,7 @@ public class FlagsWithValuesTests
     {
         var serviceProviderMock = new Mock<IServiceProvider>();
         serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
-            .Returns(new Rom24CharacterFlags());
+            .Returns(new Rom24CharacterFlags(new Mock<ILogger<Rom24CharacterFlags>>().Object));
         _serviceProvider = serviceProviderMock.Object;
     }
 
@@ -641,15 +642,15 @@ internal class CharacterFlags : Flags<ICharacterFlagValues>, ICharacterFlags
     }
 }
 
-internal interface ICharacterFlags : IFlags<string, ICharacterFlagValues>
+public interface ICharacterFlags : IFlags<string, ICharacterFlagValues>
 {
 }
 
-internal interface ICharacterFlagValues : IFlagValues<string>
+public interface ICharacterFlagValues : IFlagValues<string>
 {
 }
 
-internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
+public class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
 {
     public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
     {
@@ -686,4 +687,10 @@ internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValue
     };
 
     protected override HashSet<string> HashSet => Flags;
+
+    public Rom24CharacterFlags(ILogger<Rom24CharacterFlags> logger)
+        : base(logger)
+    {
+        
+    }
 }

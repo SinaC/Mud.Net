@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -11,13 +12,13 @@ public abstract class TransportationSpellBase : SpellBase
 {
     private ICharacterManager CharacterManager { get; }
 
-    protected ICharacter Victim { get; set; } = default!;
-
-    protected TransportationSpellBase(IRandomManager randomManager, ICharacterManager characterManager)
-        : base(randomManager)
+    protected TransportationSpellBase(ILogger<TransportationSpellBase> logger, IRandomManager randomManager, ICharacterManager characterManager)
+        : base(logger, randomManager)
     {
         CharacterManager = characterManager;
     }
+
+    protected ICharacter Victim { get; set; } = default!;
 
     protected override string? SetTargets(ISpellActionInput spellActionInput)
     {

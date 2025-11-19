@@ -1,6 +1,6 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -11,6 +11,7 @@ namespace Mud.Server.Ability.Spell;
 
 public abstract class SpellBase : ISpell
 {
+    protected ILogger<SpellBase> Logger { get; }
     protected IRandomManager RandomManager { get; }
 
     protected bool IsSetupExecuted { get; private set; }
@@ -21,8 +22,9 @@ public abstract class SpellBase : ISpell
     protected ResourceKinds? ResourceKind { get; private set; }
     protected bool IsCastFromItem { get; private set; }
 
-    protected SpellBase(IRandomManager randomManager)
+    protected SpellBase(ILogger<SpellBase> logger, IRandomManager randomManager)
     {
+        Logger = logger;
         RandomManager = randomManager;
     }
 
@@ -99,7 +101,7 @@ public abstract class SpellBase : ISpell
                     cost = Caster.MaxResource(resourceKind) * abilityLearned.CostAmount / 100;
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unexpected CostAmountOperator {0} for ability {1}.", abilityLearned.CostAmountOperator, AbilityInfo.Name);
+                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityInfo.Name);
                     cost = 100;
                     break;
             }
@@ -244,7 +246,7 @@ public abstract class SpellBase : ISpell
             {
                 mysticalWords.Append('?');
                 remaining = remaining[1..];
-                Log.Default.WriteLine(LogLevels.Warning, "Spell {0} contains a character which is not found in syllable table", AbilityInfo.Name);
+                Logger.LogWarning("Spell {abilityName} contains a character which is not found in syllable table", AbilityInfo.Name);
             }
         }
 

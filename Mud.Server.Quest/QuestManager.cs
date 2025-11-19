@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Interfaces.Quest;
 
@@ -6,10 +6,14 @@ namespace Mud.Server.Quest;
 
 public class QuestManager : IQuestManager
 {
+    private ILogger<QuestManager> Logger { get; }
+
     private readonly Dictionary<int, QuestBlueprint> _questBlueprints;
 
-    public QuestManager()
+    public QuestManager(ILogger<QuestManager> logger)
     {
+        Logger = logger;
+
         _questBlueprints = [];
     }
 
@@ -25,7 +29,7 @@ public class QuestManager : IQuestManager
     public void AddQuestBlueprint(QuestBlueprint blueprint)
     {
         if (_questBlueprints.ContainsKey(blueprint.Id))
-            Log.Default.WriteLine(LogLevels.Error, "Quest blueprint duplicate {0}!!!", blueprint.Id);
+            Logger.LogError("Quest blueprint duplicate {0}!!!", blueprint.Id);
         else
             _questBlueprints.Add(blueprint.Id, blueprint);
     }

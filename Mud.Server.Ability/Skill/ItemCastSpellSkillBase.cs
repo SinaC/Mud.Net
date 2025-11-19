@@ -1,4 +1,5 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
@@ -13,14 +14,11 @@ namespace Mud.Server.Ability.Skill;
 public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
     where TItem: IItem
 {
-    protected TItem Item { get; set; } = default!;
-
     protected IAbilityManager AbilityManager { get; }
     protected IItemManager ItemManager { get; }
-    protected List<ISpell> SpellInstances { get; }
 
-    protected ItemCastSpellSkillBase(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
-        : base(randomManager)
+    protected ItemCastSpellSkillBase(ILogger<ItemCastSpellSkillBase<TItem>> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
+        : base(logger, randomManager)
     {
         AbilityManager = abilityManager;
         ItemManager = itemManager;
@@ -33,6 +31,11 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
             spell.Execute();
     }
 
+    protected abstract string ActionWord { get; }
+
+    protected List<ISpell> SpellInstances { get; } = default!;
+    protected TItem Item { get; set; } = default!;
+
     protected string? SetupSpell(string spellName, int spellLevel, params ICommandParameter[] parameters)
     {
         if (string.IsNullOrWhiteSpace(spellName))
@@ -40,13 +43,13 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
         if (abilityInfo == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, Item.DebugName);
+            Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
         var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
         if (spellInstance == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated.", spellName, Item.DebugName);
+            Logger.LogError("Spell '{spellName}' on item {item} cannot be instantiated.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
         var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item }, parameters);
@@ -64,12 +67,12 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
         if (abilityInfo == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, Item.DebugName);
+            Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
         if (AbilityManager.CreateInstance<ISpell>(abilityInfo.Name) is not ITargetedAction getTargetedAction)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated or is not a targeted action.", spellName, Item.DebugName);
+            Logger.LogError("Spell '{0}' on item {spellName} cannot be instantiated or is not a targeted action.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
 
@@ -104,14 +107,14 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
         if (abilityInfo == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, Item.DebugName);
+            Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
 
         var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
         if (spellInstance == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Cannot create instance of spell '{0}' on item {1}.", spellName, Item.DebugName);
+            Logger.LogError("Cannot create instance of spell '{spellName}' on item {item}.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
 
@@ -134,7 +137,7 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
                 {
                     target = User.Fighting!;
                     if (target == null)
-                        return "Zap whom or what?"; // TODO: zap is only for wands?
+                        return $"{ActionWord.ToPascalCase()} whom or what?";
                 }
                 else
                     target = FindHelpers.FindByName(predefinedTargets, parameters[0])!;

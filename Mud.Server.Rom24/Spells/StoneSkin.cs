@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
@@ -18,8 +19,8 @@ public class StoneSkin : DefensiveSpellBase
 
     private IAuraManager AuraManager { get; }
 
-    public StoneSkin(IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager)
+    public StoneSkin(ILogger<StoneSkin> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         AuraManager = auraManager;
     }

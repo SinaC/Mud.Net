@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Random;
 
 namespace Mud.Server.Blueprints.LootTable;
@@ -6,13 +6,15 @@ namespace Mud.Server.Blueprints.LootTable;
 public class TreasureTable<T>
     where T:IEquatable<T>
 {
+    private ILogger<TreasureTable<T>> Logger { get; }
     private IRandomManager RandomManager { get; }
 
     public string Name { get; set; } = default!;
     public List<TreasureTableEntry<T>> Entries { get; set; } = default!;
 
-    public TreasureTable(IRandomManager randomManager)
+    public TreasureTable(ILogger<TreasureTable<T>> logger, IRandomManager randomManager)
     {
+        Logger = logger;
         RandomManager = randomManager;
     }
 
@@ -33,7 +35,7 @@ public class TreasureTable<T>
     {
         var randomId = RandomManager.RandomOccurancy(Entries);
         if (randomId?.Equals(default) == true)
-            Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");
+            Logger.LogWarning("TreasureTable.GenerateLoot: no loot found");
         return randomId;
     }
 
@@ -41,19 +43,19 @@ public class TreasureTable<T>
     {
         if (Entries == null)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: No entries");
+            Logger.LogWarning("TreasureTable.GenerateLoot: No entries");
             return default; // max occurancy reached, no loot
         }
         var randomEntry = RandomManager.RandomOccurancy<TreasureTableEntry<T>, T>(Entries);
         if (randomEntry == default)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "TreasureTable.GenerateLoot: no loot found");
+            Logger.LogWarning("TreasureTable.GenerateLoot: no loot found");
             return default;
         }
-        //Log.Default.WriteLine(LogLevels.Debug, "Loot: {0}", randomEntry.Value);
+        //Logger.LogDebug("Loot: {0}", randomEntry.Value);
         if (history.Count(x => x.Equals(randomEntry.Value)) >= randomEntry.MaxOccurancy)
         {
-            //Log.Default.WriteLine(LogLevels.Debug, "Loot rejected #>Max");
+            //Logger.LogDebug("Loot rejected #>Max");
             return default; // max occurancy reached, no loot
         }
         return randomEntry.Value;

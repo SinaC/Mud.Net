@@ -1,10 +1,9 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Actor;
 using Mud.Server.Common.Helpers;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Aura;
@@ -24,12 +23,14 @@ public abstract class EntityBase : ActorBase, IEntity
 {
     private readonly List<IAura> _auras;
 
+    protected ICommandParser CommandParser { get; }
     protected IAbilityManager AbilityManager { get; }
     protected ISettings Settings { get; }
 
-    protected EntityBase(IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, Guid guid, string name, string description)
-        : base(gameActionManager)
+    protected EntityBase(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, Guid guid, string name, string description)
+        : base(logger, gameActionManager)
     {
+        CommandParser = commandParser;
         AbilityManager = abilityManager;
         Settings = settings;
 
@@ -53,21 +54,21 @@ public abstract class EntityBase : ActorBase, IEntity
     public override bool ProcessInput(string input)
     {
         // Extract command and parameters
-        bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(input, out var command, out var parameters);
+        bool extractedSuccessfully = CommandParser.ExtractCommandAndParameters(input, out var command, out var parameters);
         if (!extractedSuccessfully)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
+            Logger.LogWarning("Command and parameters not extracted successfully");
             Send("Invalid command or parameters");
             return false;
         }
 
-        Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DebugName, input);
+        Logger.LogDebug("[{name}] executing [{input}]", DebugName, input);
         return ExecuteCommand(input, command, parameters);
     }
 
     public override void Send(string message, bool addTrailingNewLine)
     {
-        Log.Default.WriteLine(LogLevels.Debug, "SEND[{0}]: {1}", DebugName, message);
+        Logger.LogDebug("SEND[{name}]: {message}", DebugName, message);
 
         if (IncarnatedBy != null)
         {
@@ -104,7 +105,7 @@ public abstract class EntityBase : ActorBase, IEntity
     {
         if (!IsValid)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "IEntity.ChangeIncarnation: {0} is not valid anymore", DisplayName);
+            Logger.LogWarning("IEntity.ChangeIncarnation: {name} is not valid anymore", DisplayName);
             IncarnatedBy = null;
             return false;
         }
@@ -112,12 +113,12 @@ public abstract class EntityBase : ActorBase, IEntity
         {
             if (!Incarnatable)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "IEntity.ChangeIncarnation: {0} cannot be incarnated", DebugName);
+                Logger.LogWarning("IEntity.ChangeIncarnation: {name} cannot be incarnated", DebugName);
                 return false;
             }
             if (IncarnatedBy != null)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "IEntity.ChangeIncarnation: {0} is already incarnated by {1}", DebugName, IncarnatedBy.DisplayName);
+                Logger.LogWarning("IEntity.ChangeIncarnation: {name} is already incarnated by {incarnatedByName}", DebugName, IncarnatedBy.DisplayName);
                 return false;
             }
         }
@@ -129,7 +130,7 @@ public abstract class EntityBase : ActorBase, IEntity
     public virtual void Reset() 
     {
         if (!IsValid)
-            Log.Default.WriteLine(LogLevels.Warning, "IEntity.Reset: {0} is not valid anymore", DebugName);
+            Logger.LogWarning("IEntity.Reset: {name} is not valid anymore", DebugName);
     }
 
     public abstract void ResetAttributes();
@@ -141,7 +142,7 @@ public abstract class EntityBase : ActorBase, IEntity
     {
         if (!IsValid)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "IEntity.GetAura: {0} is not valid anymore", DebugName);
+            Logger.LogWarning("IEntity.GetAura: {name} is not valid anymore", DebugName);
             return null;
         }
 
@@ -152,10 +153,10 @@ public abstract class EntityBase : ActorBase, IEntity
     {
         if (!IsValid)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "IEntity.AddAura: {0} is not valid anymore", DebugName);
+            Logger.LogWarning("IEntity.AddAura: {name} is not valid anymore", DebugName);
             return;
         }
-        Log.Default.WriteLine(LogLevels.Info, "IEntity.AddAura: Add: {0} {1}| recompute: {2}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
+        Logger.LogInformation("IEntity.AddAura: Add: {name} {abilityName}| recompute: {recompute}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
         _auras.Add(aura);
         if (recompute)
             Recompute();
@@ -163,10 +164,10 @@ public abstract class EntityBase : ActorBase, IEntity
 
     public void RemoveAura(IAura aura, bool recompute)
     {
-        Log.Default.WriteLine(LogLevels.Info, "IEntity.RemoveAura: {0} {1} | recompute: {2}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
+        Logger.LogInformation("IEntity.RemoveAura: {name} {abilityName} | recompute: {recompute}", DebugName, aura.AbilityName ?? "<<??>>", recompute);
         bool removed = _auras.Remove(aura);
         if (!removed)
-            Log.Default.WriteLine(LogLevels.Warning, "ICharacter.RemoveAura: Trying to remove unknown aura");
+            Logger.LogWarning("ICharacter.RemoveAura: Trying to remove unknown aura");
         else
         {
             // TODO: replace with virtual method
@@ -191,7 +192,7 @@ public abstract class EntityBase : ActorBase, IEntity
 
     public void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute)
     {
-        Log.Default.WriteLine(LogLevels.Info, "IEntity.RemoveAuras: {0} | recompute: {1}", DebugName, recompute);
+        Logger.LogInformation("IEntity.RemoveAuras: {name} | recompute: {recompute}", DebugName, recompute);
         IReadOnlyCollection<IAura> clone = new ReadOnlyCollection<IAura>(Auras.ToList());
         foreach(IAura aura in clone)
             RemoveAura(aura, false);
@@ -262,7 +263,7 @@ public abstract class EntityBase : ActorBase, IEntity
         FormatSeparatorFound,
     }
 
-    protected static string FormatActOneLine(ICharacter target, string format, params object[] arguments)
+    protected string FormatActOneLine(ICharacter target, string format, params object[] arguments)
     {
         StringBuilder result = new();
 
@@ -347,7 +348,7 @@ public abstract class EntityBase : ActorBase, IEntity
     //      exit name
     // IAbility
     //      ability name
-    protected static void FormatActOneArgument(ICharacter target, StringBuilder result, string? format, object argument)
+    protected void FormatActOneArgument(ICharacter target, StringBuilder result, string? format, object argument)
     {
         // Character ?
         if (argument is ICharacter character)
@@ -495,11 +496,11 @@ public abstract class EntityBase : ActorBase, IEntity
                                 result.Append('s');
                         }
                         else
-                            Log.Default.WriteLine(LogLevels.Error, "Act: v-format on an empty string");
+                            Logger.LogError("Act: v-format on an empty string");
                     }
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Act: invalid format {0} for ICharacter", format ?? "???");
+                    Logger.LogError("Act: invalid format {0} for ICharacter", format ?? "???");
                     result.Append("<???>");
                     break;
             }

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
@@ -19,8 +20,8 @@ public class Slow : OffensiveSpellBase
     private IAuraManager AuraManager { get; }
     private IDispelManager DispelManager { get; }
 
-    public Slow(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
-        : base(randomManager)
+    public Slow(ILogger<Slow> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;

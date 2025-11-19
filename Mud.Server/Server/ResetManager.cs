@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
@@ -13,12 +13,14 @@ namespace Mud.Server.Server
 {
     public class ResetManager : IResetManager
     {
+        private ILogger<ResetManager> Logger { get; }
         private ICharacterManager CharacterManager { get; }
         private IItemManager ItemManager { get; }
         private IWiznet Wiznet { get; }
 
-        public ResetManager(ICharacterManager characterManager, IItemManager itemManager, IWiznet wiznet)
+        public ResetManager(ILogger<ResetManager> logger, ICharacterManager characterManager, IItemManager itemManager, IWiznet wiznet)
         {
+            Logger = logger;
             CharacterManager = characterManager;
             ItemManager = itemManager;
             Wiznet = wiznet;
@@ -26,7 +28,7 @@ namespace Mud.Server.Server
 
         public void ResetArea(IArea area)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Resetting {0}", area.DisplayName);
+            Logger.LogDebug("Resetting {areaName}", area.DisplayName);
             foreach (IRoom room in area.Rooms)
                 ResetRoom(room);
             Wiznet.Log($"{area.DisplayName} has just been reset.", WiznetFlags.Resets);
@@ -52,7 +54,7 @@ namespace Mud.Server.Server
                                     if (localCount < characterReset.LocalLimit)
                                     {
                                         lastCharacter = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, room);
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {room.Blueprint.Id}: M: Mob {characterReset.CharacterId} added");
+                                        Logger.LogDebug("Room {blueprintId}: M: Mob {characterId} added", room.Blueprint.Id, characterReset.CharacterId);
                                         wasPreviousLoaded = true;
                                     }
                                     else
@@ -62,7 +64,7 @@ namespace Mud.Server.Server
                                     wasPreviousLoaded = false;
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: M: Mob {characterReset.CharacterId} not found");
+                                Logger.LogWarning("Room {blueprintId}: M: Mob {characterId} not found", room.Blueprint.Id, characterReset.CharacterId);
 
                             break;
                         }
@@ -80,7 +82,7 @@ namespace Mud.Server.Server
                                     if (localCount < itemInRoomReset.LocalLimit)
                                     {
                                         var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, room);
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {room.Blueprint.Id}: O: Obj {itemInRoomReset.ItemId} added room");
+                                        Logger.LogDebug("Room {blueprintId}: O: Obj {itemId} added room", room.Blueprint.Id, itemInRoomReset.ItemId);
                                         wasPreviousLoaded = true;
                                     }
                                     else
@@ -88,7 +90,7 @@ namespace Mud.Server.Server
                                 }
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: O: Obj {itemInRoomReset.ItemId} not found");
+                                Logger.LogWarning("Room {blueprintId}: O: Obj {itemId} not found", room.Blueprint.Id, itemInRoomReset.ItemId);
 
                             break;
                         }
@@ -118,7 +120,7 @@ namespace Mud.Server.Server
                                                 if (localLimit < itemInItemReset.LocalLimit)
                                                 {
                                                     ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, container);
-                                                    Log.Default.WriteLine(LogLevels.Debug, $"Room {room.Blueprint.Id}: P: Obj {itemInItemReset.ItemId} added in {container.Blueprint.Id}");
+                                                    Logger.LogDebug("Room {blueprintId}: P: Obj {itemId} added in {containerId}", room.Blueprint.Id, itemInItemReset.ItemId, container.Blueprint.Id);
                                                     wasPreviousLoaded = true;
                                                 }
                                                 else
@@ -126,25 +128,25 @@ namespace Mud.Server.Server
                                             }
                                             else
                                             {
-                                                Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: P: Container Obj {itemInItemReset.ContainerId} not found in room nor character in room");
+                                                Logger.LogWarning("Room {blueprintId}: P: Container Obj {containerId} not found in room nor character in room", room.Blueprint.Id, itemInItemReset.ContainerId);
                                                 wasPreviousLoaded = false;
                                             }
                                         }
                                         else
                                         {
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: P: Container Obj {itemInItemReset.ContainerId} is not a container");
+                                            Logger.LogWarning("Room {blueprintId}: P: Container Obj {containerId} is not a container", room.Blueprint.Id, itemInItemReset.ContainerId);
                                             wasPreviousLoaded = false;
                                         }
                                     }
                                     else
                                     {
-                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: P: Container Obj {itemInItemReset.ContainerId} not found");
+                                        Logger.LogWarning("Room {blueprintId}: P: Container Obj {containerId} not found", room.Blueprint.Id, itemInItemReset.ContainerId);
                                         wasPreviousLoaded = false;
                                     }
                                 }
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: P: Obj {itemInItemReset.ItemId} not found");
+                                Logger.LogWarning("Room {blueprintId}: P: Obj {itemId} not found", room.Blueprint.Id, itemInItemReset.ItemId);
 
                             break;
                         }
@@ -170,27 +172,27 @@ namespace Mud.Server.Server
                                                     item.AddBaseItemFlags(false, "Inventory");
                                                     item.Recompute();
                                                 }
-                                                Log.Default.WriteLine(LogLevels.Debug, $"Room {room.Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} added on {lastCharacter.Blueprint.Id}");
+                                                Logger.LogDebug("Room {blueprintId}: G: Obj {itemId} added on {lastCharacterId}", room.Blueprint.Id, itemInCharacterReset.ItemId, lastCharacter.Blueprint.Id);
                                                 wasPreviousLoaded = true;
                                             }
                                             else
                                             {
-                                                Log.Default.WriteLine(LogLevels.Error, $"Room {room.Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} NOT added on {lastCharacter.Blueprint.Id}");
+                                                Logger.LogError("Room {blueprintId}: G: Obj {itemId} NOT added on {lastCharacterId}", room.Blueprint.Id, itemInCharacterReset.ItemId, lastCharacter.Blueprint.Id);
                                                 wasPreviousLoaded = false;
                                             }
                                         }
                                         else
                                         {
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} No last character");
+                                            Logger.LogWarning("Room {blueprintId}: G: Obj {itemId} No last character", room.Blueprint.Id, itemInCharacterReset.ItemId);
                                             wasPreviousLoaded = false;
                                         }
                                     }
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} previous reset was not loaded successfully");
+                                    Logger.LogWarning("Room {blueprintId}: G: Obj {itemId} previous reset was not loaded successfully", room.Blueprint.Id, itemInCharacterReset.ItemId);
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: G: Obj {itemInCharacterReset.ItemId} not found");
+                                Logger.LogWarning("Room {blueprintId}: G: Obj {itemId} not found", room.Blueprint.Id, itemInCharacterReset.ItemId);
 
                             break;
                         }
@@ -210,7 +212,7 @@ namespace Mud.Server.Server
                                             var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
                                             if (item != null)
                                             {
-                                                Log.Default.WriteLine(LogLevels.Debug, $"Room {room.Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} added on {lastCharacter.Blueprint.Id}");
+                                                Logger.LogDebug("Room {blueprintId}: E: Obj {itemId} added on {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, lastCharacter.Blueprint.Id);
                                                 wasPreviousLoaded = true;
                                                 // try to equip
                                                 if (item.WearLocation != WearLocations.None)
@@ -223,30 +225,30 @@ namespace Mud.Server.Server
                                                         item.ChangeEquippedBy(lastCharacter, true); // set as equipped by lastCharacter
                                                     }
                                                     else
-                                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} wear location {item.WearLocation} doesn't exist on last character {lastCharacter.Blueprint.Id}");
+                                                        Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} wear location {wearLocation} doesn't exist on last character {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, item.WearLocation, lastCharacter.Blueprint.Id);
                                                 }
                                                 else
-                                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} cannot be equipped");
+                                                    Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} cannot be equipped", room.Blueprint.Id, itemInEquipmentReset.ItemId);
                                             }
                                             else
                                             {
-                                                Log.Default.WriteLine(LogLevels.Error, $"Room {room.Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} NOT added on {lastCharacter.Blueprint.Id}");
+                                                Logger.LogError("Room {blueprintId}: E: Obj {itemId} NOT added on {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, lastCharacter.Blueprint.Id);
                                                 wasPreviousLoaded = false;
 
                                             }
                                         }
                                         else
                                         {
-                                            Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} Last character doesn't exist");
+                                            Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} Last character doesn't exist", room.Blueprint.Id, itemInEquipmentReset.ItemId);
                                             wasPreviousLoaded = false;
                                         }
                                     }
                                 }
                                 else
-                                    Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} previous reset was not loaded successfully");
+                                    Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} previous reset was not loaded successfully", room.Blueprint.Id, itemInEquipmentReset.ItemId);
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: E: Obj {itemInEquipmentReset.ItemId} not found");
+                                Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} not found", room.Blueprint.Id, itemInEquipmentReset.ItemId);
 
                             break;
                         }
@@ -259,27 +261,27 @@ namespace Mud.Server.Server
                                 switch (doorReset.Operation)
                                 {
                                     case 0:
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {room.Blueprint.Id}: D: Open/Unlock {doorReset.ExitDirection}");
+                                        Logger.LogDebug("Room {blueprintId}: D: Open/Unlock {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         exit.Open();
                                         exit.Unlock();
                                         break;
                                     case 1:
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {room.Blueprint.Id}: D: Close/Unlock {doorReset.ExitDirection}");
+                                        Logger.LogDebug("Room {blueprintId}: D: Close/Unlock {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         exit.Close();
                                         exit.Unlock();
                                         break;
                                     case 2:
-                                        Log.Default.WriteLine(LogLevels.Debug, $"Room {room.Blueprint.Id}: D: Close/Lock {doorReset.ExitDirection}");
+                                        Logger.LogDebug("Room {blueprintId}: D: Close/Lock {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         exit.Close();
                                         exit.Lock();
                                         break;
                                     default:
-                                        Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: D: Invalid operation {doorReset.Operation} for exit {doorReset.ExitDirection}");
+                                        Logger.LogWarning("Room {blueprintId}: D: Invalid operation {operation} for exit {exitDirection}", room.Blueprint.Id, doorReset.Operation, doorReset.ExitDirection);
                                         break;
                                 }
                             }
                             else
-                                Log.Default.WriteLine(LogLevels.Warning, $"Room {room.Blueprint.Id}: D: Invalid exit {doorReset.ExitDirection}");
+                                Logger.LogWarning("Room {blueprintId}: D: Invalid exit {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
 
                             break;
                         }

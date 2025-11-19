@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Blueprints.Character;
@@ -13,8 +14,8 @@ public class Summon : TransportationSpellBase
 {
     private const string SpellName = "Summon";
 
-    public Summon(IRandomManager randomManager, ICharacterManager characterManager)
-        : base(randomManager, characterManager)
+    public Summon(ILogger<Summon> logger, IRandomManager randomManager, ICharacterManager characterManager)
+        : base(logger, randomManager, characterManager)
     {
     }
 

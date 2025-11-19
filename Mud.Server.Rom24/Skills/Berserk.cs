@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
@@ -21,8 +22,8 @@ public class Berserk : NoTargetSkillBase
     private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Berserk(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager) 
-        : base(randomManager)
+    public Berserk(ILogger<Berserk> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager) 
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;

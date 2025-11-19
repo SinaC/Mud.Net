@@ -6,16 +6,18 @@ namespace Mud.Server.Commands.Player.Communication;
 
 public abstract class CommunicationGameActionBase : PlayerGameAction
 {
+    private ICommandParser CommandParser { get; }
     private IPlayerManager PlayerManager { get; }
+
+    protected CommunicationGameActionBase(ICommandParser commandParser, IPlayerManager playerManager)
+    {
+        CommandParser = commandParser;
+        PlayerManager = playerManager;
+    }
 
     protected abstract string NoParamMessage { get; }
     protected abstract string ActorSendPattern { get; }
     protected abstract string OtherSendPattern { get; }
-
-    protected CommunicationGameActionBase(IPlayerManager playerManager)
-    {
-        PlayerManager = playerManager;
-    }
 
     protected string What { get; set; } = default!;
 
@@ -28,7 +30,7 @@ public abstract class CommunicationGameActionBase : PlayerGameAction
         if (actionInput.Parameters.Length == 0)
             return NoParamMessage;
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        What = CommandParser.JoinParameters(actionInput.Parameters);
         return null;
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -14,8 +15,8 @@ public class Tail : FightingSkillBase
 {
     private const string SkillName = "Tail";
 
-    public Tail(IRandomManager randomManager)
-        : base(randomManager)
+    public Tail(ILogger<Tail> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

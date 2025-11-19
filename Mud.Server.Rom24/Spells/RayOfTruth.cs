@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -17,8 +18,8 @@ public class RayOfTruth : OffensiveSpellBase
     private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public RayOfTruth(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager)
+    public RayOfTruth(ILogger<RayOfTruth> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;

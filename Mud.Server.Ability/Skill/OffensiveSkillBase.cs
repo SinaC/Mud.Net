@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -7,12 +8,11 @@ namespace Mud.Server.Ability.Skill;
 
 public abstract class OffensiveSkillBase : SkillBase
 {
-    protected ICharacter Victim { get; set; } = default!;
-
-    protected OffensiveSkillBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected OffensiveSkillBase(ILogger<OffensiveSkillBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
+    protected ICharacter Victim { get; set; } = default!;
 
     protected override string? SetTargets(ISkillActionInput skillActionInput)
     {

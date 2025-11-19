@@ -4,18 +4,15 @@ using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Importer.Mystery;
 using Mud.Importer.Rom;
-using Mud.Logger;
 using Mud.Network.Interfaces;
 using Mud.Network.Telnet;
 using Mud.POC;
 using Mud.Repository;
-using Mud.Server.Area;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Character;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
@@ -35,16 +32,11 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.World;
-using Mud.Server.Item;
-using Mud.Server.Quest;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
-using Mud.Server.Room;
 using Mud.Settings.Interfaces;
 using Serilog;
-using Serilog.Extensions.Logging;
-using Serilog.Sinks.File;
-using Serilog.Sinks.SystemConsole.Themes;
+using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 
@@ -53,26 +45,27 @@ namespace Mud.Server.TestApplication;
 internal class Program
 {
     private IServiceProvider ServiceProvider { get; set; }
+    private ILogger<Program> Logger { get; set; }
 
     static void Main(string[] args)
-    {
-        var program = new Program();
-        program.Run();
-    }
-
-    private void Run()
     {
         var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
 
-        ServiceProvider = serviceCollection.BuildServiceProvider();
+        var serviceProvider = serviceCollection.BuildServiceProvider();
 
-        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogDebug("DEBUG TEST");
-        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogInformation("INFORMATION TEST");
-        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogWarning("WARNING TEST");
-        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogError("ERROR TEST");
-        //ServiceProvider.GetRequiredService<ILogger<Program>>().LogCritical("CRITICAL TEST");
+        var program = serviceProvider.GetRequiredService<Program>();
+        program.Run();
+    }
 
+    public Program(ILogger<Program> logger, IServiceProvider serviceProvider)
+    {
+        Logger = logger;
+        ServiceProvider = serviceProvider;
+    }
+
+    private void Run()
+    {
         //TestSecondWindow();
         //TestPaging();
         //TestCommandParsing();
@@ -86,7 +79,6 @@ internal class Program
         //TestLuaFunctionHiding testLua = new TestLuaFunctionHiding();
         //TestLuaRegisterFunction testLua = new TestLuaRegisterFunction();
         //testLua.Test();
-
     }
 
     //private static void TestSecondWindow()
@@ -111,31 +103,27 @@ internal class Program
     //}
 
 
-    private void ConfigureServices(IServiceCollection services)
+    private static void ConfigureServices(IServiceCollection services)
     {
         var settings = new Settings.ConfigurationManager.Settings();
         var assemblyHelper = new AssemblyHelper();
 
-        // Initialize log
-        Logger.Log.Default.Initialize(settings.LogPath, "server.test.log");
-
         // Configure Logging
-        Serilog.Log.Logger = new LoggerConfiguration()
+        Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
             .WriteTo.Async(wt => wt.Console(outputTemplate: "[{Timestamp:yyyy-MM-dd HH:mm:ss} {Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}"))
-            .WriteTo.File(@"c:\temp\server.test.serilog.log", rollingInterval: RollingInterval.Day)
+            .WriteTo.File(settings.LogPath, rollingInterval: RollingInterval.Day)
             .CreateLogger();
-        services.AddLogging(builder => builder.AddSerilog(Serilog.Log.Logger));
+        services.AddLogging(builder => builder.AddSerilog(Log.Logger));
 
 
         // Register Services
         services.AddSingleton<ISettings>(settings);
-
-        RegisterAllTypes(services, assemblyHelper.AllReferencedAssemblies);
-
+        services.AddSingleton<ITelnetNetworkServer, TelnetServer>();
         services.AddSingleton<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
         services.AddSingleton<IAssemblyHelper>(assemblyHelper);
         services.AddSingleton<IAbilityManager, Ability.AbilityManager>();
+        services.AddSingleton<ICommandParser, GameAction.CommandParser>();
         services.AddSingleton<IGameActionManager, GameAction.GameActionManager>();
         services.AddSingleton<ITimeManager, Server.TimeManager>();
         services.AddSingleton<IQuestManager, Quest.QuestManager>();
@@ -147,11 +135,13 @@ internal class Program
         services.AddSingleton<IAdminManager, Admin.AdminManager>();
         services.AddSingleton<IWiznet, Server.Wiznet>();
         services.AddSingleton<IResetManager, Server.ResetManager>();
-        services.AddSingleton<IServer, Server.Server>();
-        services.AddSingleton<IWorld, Server.Server>(); // Server also implements IWorld
-        services.AddSingleton<IPlayerManager, Server.Server>(); // Server also implements IPlayerManager
-        services.AddSingleton<IServerAdminCommand, Server.Server>(); // Server also implements IServerAdminCommand
-        services.AddSingleton<IServerPlayerCommand, Server.Server>(); // Server also implements IServerPlayerCommand
+        services.AddSingleton<IPulseManager, Server.PulseManager>();
+        services.AddSingleton<Server.Server>();
+        services.AddSingleton<IServer>(x => x.GetRequiredService<Server.Server>());
+        services.AddSingleton<IWorld>(x => x.GetRequiredService<Server.Server>()); // Server also implements IWorld
+        services.AddSingleton<IPlayerManager>(x => x.GetRequiredService<Server.Server>()); // Server also implements IPlayerManager
+        services.AddSingleton<IServerAdminCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerAdminCommand
+        services.AddSingleton<IServerPlayerCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerPlayerCommand
         services.AddSingleton<IClassManager, Class.ClassManager>();
         services.AddSingleton<IRaceManager, Race.RaceManager>();
         services.AddSingleton<IUniquenessManager, Server.UniquenessManager>();
@@ -166,32 +156,41 @@ internal class Program
         services.AddSingleton<IAdminRepository, Repository.Filesystem.AdminRepository>();
 
         services.AddAutoMapper(typeof(Repository.Filesystem.AutoMapperProfile).Assembly);
+
+        RegisterAllRegistrableTypes(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterFlagValues(services, assemblyHelper.AllReferencedAssemblies);
+
+        services.AddSingleton<Program>();
     }
 
-    internal void RegisterAllTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
+    // TODO: find a way to replace Debug.Print with Log
+    internal static void RegisterAllRegistrableTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         // register commands and abilities
         var iRegistrable = typeof(IRegistrable);
         foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
         {
-           // Logger.Log.Default.WriteLine(LogLevels.Info, "Registering type {0}.", registrable.FullName);
+            Debug.Print("Registering type {0}.", registrable.FullName);
             services.AddTransient(registrable);
         }
         // register races
         var iRace = typeof(IRace);
         foreach (var race in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRace.IsAssignableFrom(t))))
         {
-            //Logger.Log.Default.WriteLine(LogLevels.Info, "Registering race type {0}.", race.FullName);
+            Debug.Print("Registering race type {0}.", race.FullName);
             services.AddSingleton(iRace, race);
         }
         // register classes
         var iClass = typeof(IClass);
         foreach (var cl in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iClass.IsAssignableFrom(t))))
         {
-            //Logger.Log.Default.WriteLine(LogLevels.Info, "Registering class type {0}.", cl.FullName);
+            Debug.Print("Registering class type {0}.", cl.FullName);
             services.AddSingleton(iClass, cl);
         }
-        // register flag
+    }
+
+    internal static void RegisterFlagValues(IServiceCollection services, IEnumerable<Assembly> assemblies)
+    {
         RegisterFlagValues<ICharacterFlagValues>(services, assemblies);
         RegisterFlagValues<IRoomFlagValues>(services, assemblies);
         RegisterFlagValues<IItemFlagValues>(services, assemblies);
@@ -202,21 +201,18 @@ internal class Program
         RegisterFlagValues<IIRVFlagValues>(services, assemblies);
         RegisterFlagValues<IBodyFormValues>(services, assemblies);
         RegisterFlagValues<IBodyPartValues>(services, assemblies);
-
-        // register group
-        services.AddTransient<IGroup, Group.Group>();
     }
 
-    internal void RegisterFlagValues<TFlagValue>(IServiceCollection services, IEnumerable<Assembly> assemblies)
+    internal static void RegisterFlagValues<TFlagValue>(IServiceCollection services, IEnumerable<Assembly> assemblies)
         where TFlagValue : IFlagValues<string>
     {
         var iFlagValuesType = typeof(TFlagValue);
         var concreteFlagValuesType = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iFlagValuesType.IsAssignableFrom(t))).SingleOrDefault();
         if (concreteFlagValuesType == null)
-            Logger.Log.Default.WriteLine(LogLevels.Error, "Cannot find an implementation for {0}.", iFlagValuesType.FullName);
+            Debug.Print("Cannot find an implementation for {0}.", iFlagValuesType.FullName);
         else
         {
-            //Logger.Log.Default.WriteLine(LogLevels.Info, "Registering implementation type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
+            Debug.Print("Registering flag values type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
             services.AddTransient(iFlagValuesType, concreteFlagValuesType);
         }
     }
@@ -434,9 +430,9 @@ internal class Program
                     IRoom to;
                     roomsByVNums.TryGetValue(exit.DestinationVNum, out to);
                     if (from == null)
-                        Logger.Log.Default.WriteLine(LogLevels.Error, "Origin room not found for vnum {0}", room.VNum);
+                        Logger.Logger.LogError("Origin room not found for vnum {0}", room.VNum);
                     else if (to == null)
-                        Logger.Log.Default.WriteLine(LogLevels.Error, "Destination room not found for vnum {0}", room.VNum);
+                        Logger.Logger.LogError("Destination room not found for vnum {0}", room.VNum);
                     else
                     {
                         ServiceProvider.GetRequiredService<IRoomManager>().AddExit(from, to, null, (ExitDirections) i);
@@ -599,7 +595,7 @@ internal class Program
     private void CreateWorld()
     {
         var path = @"D:\Projects\Repos\Mud.Net\Datas\Areas\Rom24\";
-        RomImporter importer = new(ServiceProvider);
+        RomImporter importer = new(ServiceProvider.GetRequiredService<ILogger<RomImporter>>(), ServiceProvider);
         //MysteryImporter importer = new MysteryImporter();
         //RotImporter importer = new RotImporter();
         importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
@@ -626,7 +622,7 @@ internal class Program
             IArea area = AreaManager.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
             if (area == null)
             {
-                Logger.Log.Default.WriteLine(LogLevels.Error, "Area id {0} not found", blueprint.AreaId);
+                Logger.LogError("Area id {0} not found", blueprint.AreaId);
             }
             else
                 RoomManager.AddRoom(Guid.NewGuid(), blueprint, area);
@@ -638,7 +634,7 @@ internal class Program
             {
                 IRoom to = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == exitBlueprint.Destination);
                 if (to == null)
-                    Logger.Log.Default.WriteLine(LogLevels.Warning, "Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
+                    Logger.LogWarning("Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
                 else
                     RoomManager.AddExit(room, to, exitBlueprint, exitBlueprint.Direction);
             }
@@ -731,7 +727,7 @@ internal class Program
         if (voidBlueprint == null)
         {
             IArea area = AreaManager.Areas.First();
-            Logger.Log.Default.WriteLine(LogLevels.Error, "NullRoom not found -> creation of null room with id {0} in area {1}", 1, area.DisplayName);
+            Logger.LogError("NullRoom not found -> creation of null room with id {0} in area {1}", 1, area.DisplayName);
             voidBlueprint = new RoomBlueprint
             {
                 Id = 1,
@@ -754,7 +750,7 @@ internal class Program
         ItemManager.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
 
         // Quest
-        QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>(RandomManager)
+        QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>(ServiceProvider.GetRequiredService<ILogger<QuestKillLootTable<int>>>(), RandomManager)
         {
             Name = "Quest 1 kill 1 table",
             Entries = new List<QuestKillLootTableEntry<int>>
@@ -1006,7 +1002,7 @@ internal class Program
 
     private void TestImport()
     {
-        MysteryLoader importer = new MysteryLoader();
+        MysteryLoader importer = new MysteryLoader(ServiceProvider.GetRequiredService<ILogger<MysteryLoader>>());
         importer.Load(@"D:\GitHub\OldMud\area\midgaard.are");
         importer.Parse();
 
@@ -1032,7 +1028,8 @@ internal class Program
         //CreateMidgaard();
         CreateWorld();
 
-        INetworkServer telnetServer = new TelnetServer(11000);
+        var telnetServer = ServiceProvider.GetRequiredService<ITelnetNetworkServer>();
+        telnetServer.SetPort(11000);
         ServiceProvider.GetRequiredService<IServer>().Initialize(new List<INetworkServer> {telnetServer});
         ServiceProvider.GetRequiredService<IServer>().Start();
 

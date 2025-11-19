@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
@@ -10,8 +11,8 @@ public class CureSerious : HealSpellBase
 {
     private const string SpellName = "Cure Serious";
 
-    public CureSerious(IRandomManager randomManager)
-        : base(randomManager)
+    public CureSerious(ILogger<CureSerious> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

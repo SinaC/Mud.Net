@@ -1,12 +1,13 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Server.Random;
 
 namespace Mud.Server.Ability.Spell;
 
 public abstract class DamageTableSpellBase : DamageSpellBase
 {
-    protected DamageTableSpellBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected DamageTableSpellBase(ILogger<DamageTableSpellBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

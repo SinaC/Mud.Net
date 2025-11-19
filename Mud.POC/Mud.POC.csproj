@@ -27,7 +27,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
-    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj" />
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />

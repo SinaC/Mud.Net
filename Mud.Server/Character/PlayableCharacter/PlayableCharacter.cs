@@ -1,8 +1,8 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
@@ -42,9 +42,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
 
-    public PlayableCharacter(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, ITimeManager timeManager, IQuestManager questManager,
+    public PlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, ITimeManager timeManager, IQuestManager questManager,
         Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, data.Name, string.Empty)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, data.Name, string.Empty)
     {
         _quests = [];
         _conditions = new int[EnumHelpers.GetCount<Conditions>()];
@@ -181,7 +181,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (data.CurrentQuests != null)
         {
             foreach (CurrentQuestData questData in data.CurrentQuests)
-                _quests.Add(new Quest.Quest(settings, timeManager, itemManager, roomManager, characterManager, questManager, questData, this));
+                _quests.Add(new Quest.Quest(logger, settings, timeManager, itemManager, roomManager, characterManager, questManager, questData, this));
         }
         // Auras
         if (data.Auras != null)
@@ -199,7 +199,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     Wiznet.Log($"LearnedAbility:  Ability {learnedAbilityData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 else
                 {
-                    var abilityLearned = new AbilityLearned(learnedAbilityData, abilityInfo);
+                    var abilityLearned = new AbilityLearned(logger, learnedAbilityData, abilityInfo);
                     AddLearnedAbility(abilityLearned);
                 }
             }
@@ -738,12 +738,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         if (!IsValid)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "ICharacter.StopImpersonation: {0} is not valid anymore", DebugName);
+            Logger.LogWarning("ICharacter.StopImpersonation: {name} is not valid anymore", DebugName);
             ImpersonatedBy = null;
             return false;
         }
 
-        Log.Default.WriteLine(LogLevels.Debug, "ICharacter.StopImpersonation: {0} old: {1};", DebugName, ImpersonatedBy?.DisplayName ?? "<<none>>");
+        Logger.LogDebug("ICharacter.StopImpersonation: {name} old: {impersonatedName};", DebugName, ImpersonatedBy?.DisplayName ?? "<<none>>");
         ImpersonatedBy = null;
         RecomputeKnownAbilities();
         Recompute();

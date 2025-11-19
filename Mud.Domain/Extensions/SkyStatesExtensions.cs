@@ -1,6 +1,4 @@
-﻿using Mud.Logger;
-
-namespace Mud.Domain.Extensions;
+﻿namespace Mud.Domain.Extensions;
 
 public static class SkyStatesExtensions
 {
@@ -13,7 +11,7 @@ public static class SkyStatesExtensions
             case SkyStates.Raining: return "rainy";
             case SkyStates.Lightning: return "lit by flashes of lightning";
             default:
-                Log.Default.WriteLine(LogLevels.Error, "SkyStates.PrettyPrint: Invalid sky state {0}", state);
+                //Logger.LogError("SkyStates.PrettyPrint: Invalid sky state {0}", state);
                 return state.ToString();
         }
     }

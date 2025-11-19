@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
@@ -20,8 +21,8 @@ public class Fly : DefensiveSpellBase
     private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Fly(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager)
+    public Fly(ILogger<Fly> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;

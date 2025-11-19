@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
@@ -25,8 +26,8 @@ public class ContinualLight : OptionalItemInventorySpellBase
     private IItemManager ItemManager { get; }
     private ISettings Settings { get; }
 
-    public ContinualLight(IServiceProvider serviceProvider, IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager, ISettings settings)
-        : base(randomManager)
+    public ContinualLight(ILogger<ContinualLight> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager, ISettings settings)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         Wiznet = wiznet;

@@ -1,5 +1,6 @@
 ﻿using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
@@ -11,8 +12,8 @@ namespace Mud.Server.Commands.Player.Communication;
 helper. You can turn it off by simply typing QUESTION.")]
 public class Answer : CommunicationGameActionBase
 {
-    public Answer(IPlayerManager playerManager)
-       : base(playerManager)
+    public Answer(ICommandParser commandParser, IPlayerManager playerManager)
+       : base(commandParser, playerManager)
     {
     }
 

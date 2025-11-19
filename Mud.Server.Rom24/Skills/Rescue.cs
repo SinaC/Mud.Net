@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -14,8 +15,8 @@ public class Rescue : OffensiveSkillBase
 {
     private const string SkillName = "Rescue";
 
-    public Rescue(IRandomManager randomManager)
-        : base(randomManager)
+    public Rescue(ILogger<Rescue> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

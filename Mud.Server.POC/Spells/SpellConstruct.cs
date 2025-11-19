@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
@@ -20,8 +21,8 @@ public class SpellConstruct : NoTargetSpellBase
     private ICharacterManager CharacterManager { get; }
     private IAuraManager AuraManager { get; }
 
-    public SpellConstruct(IServiceProvider serviceProvider, IRandomManager randomManager, ICharacterManager characterManager, IAuraManager auraManager)
-        : base(randomManager)
+    public SpellConstruct(ILogger<SpellConstruct> logger, IServiceProvider serviceProvider, IRandomManager randomManager, ICharacterManager characterManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         CharacterManager = characterManager;

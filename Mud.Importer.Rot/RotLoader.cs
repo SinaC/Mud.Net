@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 
 namespace Mud.Importer.Rot;
@@ -61,7 +61,8 @@ public class RotLoader : TextBasedLoader
 
     public IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
 
-    public RotLoader()
+    public RotLoader(ILogger<RotLoader> logger)
+        :base(logger)
     {
         _areas = [];
         _mobiles = [];
@@ -99,17 +100,17 @@ public class RotLoader : TextBasedLoader
                 ParseMobProgs();
             else if (word.ToUpper() == "HELPS")
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Specific area file Helps not yet available");
+                Logger.LogWarning("Specific area file Helps not yet available");
                 ReadToNextSection();
             }
             else if (word.ToUpper() == "SOCIALS")
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Specific area file Socials not yet available");
+                Logger.LogWarning("Specific area file Socials not yet available");
                 break;
             }
             else if (word.ToUpper() == "DREAMS")
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Specific '{0}' not handled", word);
+                Logger.LogWarning("Specific '{0}' not handled", word);
                 ReadToNextSection();
             }
             else
@@ -141,7 +142,7 @@ public class RotLoader : TextBasedLoader
             else if (word == "End") // done
                 break;
         }
-        Log.Default.WriteLine(LogLevels.Trace, "Area [{0}] parsed", area.Name);
+        Logger.LogTrace("Area [{0}] parsed", area.Name);
 
         // Set unique number and filename
         area.VNum = 10 + _areas.Count;
@@ -154,7 +155,7 @@ public class RotLoader : TextBasedLoader
 
     private void ParseMobiles()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Mobiles section");
+        Logger.LogTrace("Mobiles section");
 
         while (true)
         {
@@ -262,7 +263,7 @@ public class RotLoader : TextBasedLoader
                 }
             }
 
-            Log.Default.WriteLine(LogLevels.Trace, "Mobile [{0}] parsed", vnum);
+            Logger.LogTrace("Mobile [{0}] parsed", vnum);
             Debug.WriteLine("Mobile [{0}] parsed", vnum);
 
             // Save mobile data
@@ -272,7 +273,7 @@ public class RotLoader : TextBasedLoader
 
     private void ParseObjects()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Objects section");
+        Logger.LogTrace("Objects section");
 
         while (true)
         {
@@ -388,7 +389,7 @@ public class RotLoader : TextBasedLoader
                         case 'V': aff.Where = ObjectAffect.WhereToVuln; break;
                         case 'S': aff.Where = ObjectAffect.WhereToShields; break;
                         default:
-                            Log.Default.WriteLine(LogLevels.Error, "ParseObjects: item [vnum:{0}] Invalid affect where '{1}'", vnum, where);
+                            Logger.LogError("ParseObjects: item [vnum:{0}] Invalid affect where '{1}'", vnum, where);
                             break;
                     }
                 }
@@ -397,7 +398,7 @@ public class RotLoader : TextBasedLoader
                     string keyword = ReadString();
                     string description = ReadString();
                     if (objectData.ExtraDescr.ContainsKey(keyword))
-                        Log.Default.WriteLine(LogLevels.Error, "ParseObjects: item [vnum:{0}] Extra desc '{1}' already exists", vnum, keyword);
+                        Logger.LogError("ParseObjects: item [vnum:{0}] Extra desc '{1}' already exists", vnum, keyword);
                     else
                         objectData.ExtraDescr.Add(keyword, description);
                 }
@@ -432,7 +433,7 @@ public class RotLoader : TextBasedLoader
                 }
             }
 
-            Log.Default.WriteLine(LogLevels.Trace, "Object [{0}] parsed", vnum);
+            Logger.LogTrace("Object [{0}] parsed", vnum);
             Debug.WriteLine("Object [{0}] parsed", vnum);
 
             // Save object data
@@ -442,7 +443,7 @@ public class RotLoader : TextBasedLoader
 
     private void ParseResets()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Resets section");
+        Logger.LogTrace("Resets section");
 
         int iLastObj = 0; // TODO: replace with RoomData
         int iLastRoom = 0; // TODO: replace with RoomData
@@ -575,7 +576,7 @@ public class RotLoader : TextBasedLoader
 
     private void ParseRooms()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Rooms section");
+        Logger.LogTrace("Rooms section");
 
         while (true)
         {
@@ -688,7 +689,7 @@ public class RotLoader : TextBasedLoader
                 else
                     RaiseParseException("ParseRooms: vnum {0} has unknown flag", vnum);
             }
-            Log.Default.WriteLine(LogLevels.Trace, "Room [{0}] parsed", vnum);
+            Logger.LogTrace("Room [{0}] parsed", vnum);
             Debug.WriteLine("Room [{0}] parsed", vnum);
 
             // Save room data
@@ -698,7 +699,7 @@ public class RotLoader : TextBasedLoader
 
     private void ParseShops()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Shops section");
+        Logger.LogTrace("Shops section");
 
         while (true)
         {
@@ -722,7 +723,7 @@ public class RotLoader : TextBasedLoader
                 shopData.CloseHour = (int)ReadNumber();
                 mobileData.Shop = shopData;
 
-                Log.Default.WriteLine(LogLevels.Trace, "Shop [{0}] parsed", keeper);
+                Logger.LogTrace("Shop [{0}] parsed", keeper);
             }
             ReadToEol();
         }
@@ -730,7 +731,7 @@ public class RotLoader : TextBasedLoader
 
     private void ParseSpecials()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Specials section");
+        Logger.LogTrace("Specials section");
 
         while (true)
         {
@@ -749,7 +750,7 @@ public class RotLoader : TextBasedLoader
                     mobileData.Special = special;
                 else
                     Warn("ParseSpecials: 'M' unknown mobile vnum {0}", vnum);
-                Log.Default.WriteLine(LogLevels.Trace, "Specials [{0}] parsed", vnum);
+                Logger.LogTrace("Specials [{0}] parsed", vnum);
             }
             else
                 RaiseParseException("ParseSpecials: letter {0} not *MS", letter);

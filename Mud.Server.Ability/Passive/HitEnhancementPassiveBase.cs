@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -7,8 +8,8 @@ namespace Mud.Server.Ability.Passive;
 
 public abstract class HitEnhancementPassiveBase : PassiveBase, IHitEnhancementPassive
 {
-    protected HitEnhancementPassiveBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected HitEnhancementPassiveBase(ILogger<HitEnhancementPassiveBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
@@ -21,8 +21,8 @@ public class ItemWeapon : ItemBase<ItemWeaponBlueprint, ItemWeaponData>, IItemWe
 {
     public ITableValues TableValues { get; }
 
-    public ItemWeapon(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemWeapon(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         TableValues = tableValues;
 
@@ -35,8 +35,8 @@ public class ItemWeapon : ItemBase<ItemWeaponBlueprint, ItemWeaponData>, IItemWe
         DamageNoun = blueprint.DamageNoun;
     }
 
-    public ItemWeapon(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemData, containedInto)
+    public ItemWeapon(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemData, containedInto)
     {
         TableValues = tableValues;
 
@@ -55,7 +55,7 @@ public class ItemWeapon : ItemBase<ItemWeaponBlueprint, ItemWeaponData>, IItemWe
 
     public override void Recompute() // overriding recompute and calling base will cause every collection to be iterate twice
     {
-        Log.Default.WriteLine(LogLevels.Debug, "ItemWeapon.Recompute: {0}", DebugName);
+        Logger.LogDebug("ItemWeapon.Recompute: {name}", DebugName);
 
         base.Recompute();
 

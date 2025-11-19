@@ -76,7 +76,7 @@ internal class ConsoleClient : IClient
                 break;
             }
         }
-        //Log.Default.WriteLine(LogLevels.Info, "[{0}] <= [[[" + data + "]]]", Name);
+        //Logger.LogInformation("[{0}] <= [[[" + data + "]]]", Name);
     }
 
     public void Disconnect()

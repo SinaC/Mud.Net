@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -18,7 +19,8 @@ public class AcidBreath : OffensiveSpellBase
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public AcidBreath(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager) : base(randomManager)
+    public AcidBreath(ILogger<AcidBreath> logger, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+        : base(logger, randomManager)
     {
         AuraManager = auraManager;
         ItemManager = itemManager;
@@ -37,13 +39,13 @@ public class AcidBreath : OffensiveSpellBase
 
         if (Victim.SavesSpell(Level, SchoolTypes.Acid))
         {
-            AcidEffect effect = new (RandomManager, AuraManager, ItemManager);
+            AcidEffect effect = new (Logger, RandomManager, AuraManager, ItemManager);
             effect.Apply(Victim, Caster, SpellName, Level/2, damage/4);
             Victim.AbilityDamage(Caster, damage / 2, SchoolTypes.Acid, "blast of acid", true);
         }
         else
         {
-            AcidEffect effect = new (RandomManager, AuraManager, ItemManager);
+            AcidEffect effect = new (Logger, RandomManager, AuraManager, ItemManager);
             effect.Apply(Victim, Caster, SpellName, Level, damage);
             Victim.AbilityDamage(Caster, damage, SchoolTypes.Acid, "blast of acid", true);
         }

@@ -1,29 +1,39 @@
-﻿using Mud.Common;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
 namespace Mud.Server.GameAction;
 
-public static class CommandHelpers
+public class CommandParser : ICommandParser
 {
-    public static readonly ICommandParameter[] NoParameters = Enumerable.Empty<ICommandParameter>().ToArray();
+    private static readonly ICommandParameter[] _noParameters = Enumerable.Empty<ICommandParameter>().ToArray();
 
     private static readonly CommandParameter EmptyCommandParameter = new(string.Empty, string.Empty, false);
 
-    public static bool ExtractCommandAndParameters(string input, out string command, out ICommandParameter[] parameters)
+    private ILogger<CommandParser> Logger { get; }
+
+    public CommandParser(ILogger<CommandParser> logger)
+    {
+        Logger = logger;
+    }
+
+    public ICommandParameter[] NoParameters
+        => _noParameters;
+
+    public bool ExtractCommandAndParameters(string input, out string command, out ICommandParameter[] parameters)
     {
         return ExtractCommandAndParameters(null, input, out command, out parameters, out _);
     }
 
-    public static bool ExtractCommandAndParameters(Func<bool, IReadOnlyDictionary<string,string>?>? aliasesFunc, string? input, out string command, out ICommandParameter[] parameters, out bool forceOutOfGame)
+    public bool ExtractCommandAndParameters(Func<bool, IReadOnlyDictionary<string,string>?>? aliasesFunc, string? input, out string command, out ICommandParameter[] parameters, out bool forceOutOfGame)
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Extracting command and parameters [{0}]", input ?? "(none)");
+        Logger.LogTrace("Extracting command and parameters [{0}]", input ?? "(none)");
 
         // No command ?
         if (string.IsNullOrWhiteSpace(input))
         {
-            Log.Default.WriteLine(LogLevels.Warning, "Empty command");
+            Logger.LogWarning("Empty command");
             command = default!;
             parameters = default!;
             forceOutOfGame = false;
@@ -50,7 +60,7 @@ public static class CommandHelpers
         {
             if (aliases.TryGetValue(command, out var alias))
             {
-                Log.Default.WriteLine(LogLevels.Debug, "Alias found : {0} -> {1}", command, alias);
+                Logger.LogDebug("Alias found : {0} -> {1}", command, alias);
                 // Extract command and raw parameters
                 var aliasExtractedCommandInfo = ExtractCommandAndTokens(alias);
                 tokens = aliasExtractedCommandInfo.tokens;
@@ -62,16 +72,16 @@ public static class CommandHelpers
 
         if (parameters.Any(x => x == CommandParameter.InvalidCommandParameter))
         {
-            Log.Default.WriteLine(LogLevels.Warning, "Invalid command parameters");
+            Logger.LogWarning("Invalid command parameters");
             return false;
         }
 
         return true;
     }
 
-    private static (string command, IEnumerable<string> tokens) ExtractCommandAndTokens(string commandLine)
+    private (string command, IEnumerable<string> tokens) ExtractCommandAndTokens(string commandLine)
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Extracting command [{0}]", commandLine);
+        Logger.LogTrace("Extracting command [{0}]", commandLine);
 
         // handle special case of ' command (alias for say)
         var startsWithSimpleQuote = commandLine.StartsWith('\'');
@@ -85,7 +95,7 @@ public static class CommandHelpers
         return (command, tokens.Skip(1)); // return command and remaining tokens
     }
 
-    public static IEnumerable<string> SplitParameters(string parameters)
+    public IEnumerable<string> SplitParameters(string parameters)
     {
         if (string.IsNullOrWhiteSpace(parameters))
             yield break;
@@ -115,7 +125,7 @@ public static class CommandHelpers
             yield return sb.ToString();
     }
 
-    public static ICommandParameter ParseParameter(string parameter)
+    public ICommandParameter ParseParameter(string parameter)
     {
         if (string.IsNullOrWhiteSpace(parameter))
             return EmptyCommandParameter;
@@ -141,7 +151,7 @@ public static class CommandHelpers
         return new CommandParameter(parameter, value, count);
     }
 
-    public static string JoinParameters(IEnumerable<ICommandParameter> parameters)
+    public string JoinParameters(IEnumerable<ICommandParameter> parameters)
     {
         var commandParameters = parameters as ICommandParameter[] ?? parameters.ToArray();
         if (commandParameters.Length == 0)

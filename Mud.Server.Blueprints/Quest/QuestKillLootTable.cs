@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Random;
 
 namespace Mud.Server.Blueprints.Quest;
@@ -7,13 +7,15 @@ namespace Mud.Server.Blueprints.Quest;
 public class QuestKillLootTable<T> // this represents additional provided by kill mob while working on this quest
     where T:IEquatable<T>
 {
+    private ILogger<QuestKillLootTable<T>> Logger { get; }
     private IRandomManager RandomManager { get; }
 
     public string Name { get; set; } = default!;
     public List<QuestKillLootTableEntry<T>> Entries { get; set; } = default!;
 
-    public QuestKillLootTable(IRandomManager randomManager)
+    public QuestKillLootTable(ILogger<QuestKillLootTable<T>> logger, IRandomManager randomManager)
     {
+        Logger = logger;
         RandomManager = randomManager;
     }
 
@@ -42,7 +44,7 @@ public class QuestKillLootTable<T> // this represents additional provided by kil
             }
         }
         else
-            Log.Default.WriteLine(LogLevels.Warning, "QuestLootTable.GenerateLoots: No entries");
+            Logger.LogWarning("QuestLootTable.GenerateLoots: No entries");
         return loots;
     }
 }

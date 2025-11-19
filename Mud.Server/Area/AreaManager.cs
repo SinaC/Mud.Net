@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Interfaces.Area;
 
@@ -6,11 +6,15 @@ namespace Mud.Server.Area;
 
 public class AreaManager : IAreaManager
 {
+    private ILogger<AreaManager> Logger { get; }
+
     private readonly Dictionary<int, AreaBlueprint> _areaBlueprints;
     private readonly List<IArea> _areas;
 
-    public AreaManager()
+    public AreaManager(ILogger<AreaManager> logger)
     {
+        Logger = logger;
+
         _areaBlueprints = [];
         _areas = [];
     }
@@ -26,7 +30,7 @@ public class AreaManager : IAreaManager
     public void AddAreaBlueprint(AreaBlueprint blueprint)
     {
         if (_areaBlueprints.ContainsKey(blueprint.Id))
-            Log.Default.WriteLine(LogLevels.Error, "Area blueprint duplicate {0}!!!", blueprint.Id);
+            Logger.LogError("Area blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
             _areaBlueprints.Add(blueprint.Id, blueprint);
     }

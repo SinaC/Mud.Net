@@ -1,5 +1,5 @@
-﻿using Mud.DataStructures.Flags;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
@@ -34,8 +34,13 @@ public class WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
             _ => base.PrettyPrint(flag, shortDisplay),
         };
 
+    public WeaponFlagValues(ILogger<WeaponFlagValues> logger)
+        : base(logger)
+    {
+    }
+
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Log.Default.WriteLine(LogLevels.Error, $"Weapon flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError($"Weapon flags '{string.Join(",", values)}' not found in {GetType().FullName}");
     }
 }

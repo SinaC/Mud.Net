@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -21,26 +22,28 @@ namespace Mud.Server.Rom24.Tests.Abilities
         [TestMethod]
         public void CastFireballFromItem()
         {
+            Mock<ILogger> logger = new Mock<ILogger>();
             Mock<IRandomManager> randomManagerMock = new Mock<IRandomManager>();
             Mock<IAbilityManager> abilityManagerMock = new Mock<IAbilityManager>();
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
-            ItemCastSpellSkillBaseTestsSkill skill = new ItemCastSpellSkillBaseTestsSkill(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object, "Fireball", 50);
+            ItemCastSpellSkillBaseTestsSkill skill = new ItemCastSpellSkillBaseTestsSkill(new Mock<ILogger<ItemCastSpellSkillBaseTestsSkill>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object, "Fireball", 50);
 
-            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(logger.Object, typeof(Fireball)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(new Mock<ILogger<Fireball>>().Object, randomManagerMock.Object));
 
             Mock<IRoom> roomMock = new Mock<IRoom>();
             Mock<ICharacter> userMock = new Mock<ICharacter>();
             Mock<ICharacter> targetMock = new Mock<ICharacter>();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+            userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            roomMock.SetupGet(x => x.People).Returns(new[] { userMock.Object, targetMock.Object});
+            roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
 
             var actionInput = BuildActionInput<ItemCastSpellSkillBaseTestsSkill>(userMock.Object, "whatever target");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(logger.Object, skill.GetType()), userMock.Object);
             string result = skill.Setup(skillActionInput);
 
             skill.Execute();
@@ -51,13 +54,15 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
         [Command("ItemCastSpellSkillBaseTestsSkill")]
         [Skill(SkillName, AbilityEffects.None)]
-        internal class ItemCastSpellSkillBaseTestsSkill : ItemCastSpellSkillBase<IItemScroll>
+        public class ItemCastSpellSkillBaseTestsSkill : ItemCastSpellSkillBase<IItemScroll>
         {
             protected string SpellName { get; }
             protected int SpellLevel { get; }
 
-            public ItemCastSpellSkillBaseTestsSkill(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager, string spellName, int spellLevel)
-                : base(randomManager, abilityManager, itemManager)
+            protected override string ActionWord => "Woot";
+
+            public ItemCastSpellSkillBaseTestsSkill(ILogger<ItemCastSpellSkillBaseTestsSkill> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager, string spellName, int spellLevel)
+                : base(logger, randomManager, abilityManager, itemManager)
             {
                 SpellName = spellName;
                 SpellLevel = spellLevel;

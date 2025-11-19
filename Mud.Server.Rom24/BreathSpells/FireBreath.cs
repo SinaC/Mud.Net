@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -20,8 +21,8 @@ public class FireBreath : OffensiveSpellBase
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public FireBreath(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
-        : base(randomManager)
+    public FireBreath(ILogger<FireBreath> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;
@@ -41,7 +42,7 @@ public class FireBreath : OffensiveSpellBase
 
         BreathAreaAction breathAreaAction = new ();
         breathAreaAction.Apply(Victim, Caster, Level, damage, SchoolTypes.Fire, "blast of fire", SpellName,
-            () => new FireEffect(ServiceProvider, RandomManager, AuraManager, ItemManager),
-            () => new FireEffect(ServiceProvider, RandomManager, AuraManager, ItemManager));
+            () => new FireEffect(Logger, ServiceProvider, RandomManager, AuraManager, ItemManager),
+            () => new FireEffect(Logger, ServiceProvider, RandomManager, AuraManager, ItemManager));
     }
 }

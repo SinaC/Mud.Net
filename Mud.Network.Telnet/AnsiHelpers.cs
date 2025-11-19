@@ -1,5 +1,4 @@
-﻿using Mud.Logger;
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Mud.Network.Telnet;
@@ -61,7 +60,6 @@ public static class AnsiHelpers
             string key = match.Groups[1].Value;
             if (!ColorMap.TryGetValue(key, out var mapped))
             {
-                Log.Default.WriteLine(LogLevels.Error, "Unknown color code [{0}] in {1}", key, input);
                 mapped = string.Empty;
             }
             return mapped;

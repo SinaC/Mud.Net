@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -16,8 +16,8 @@ public class Recall : NoTargetSkillBase
 {
     private const string SkillName = "Recall";
 
-    public Recall(IRandomManager randomManager)
-        : base(randomManager)
+    public Recall(ILogger<Recall> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 
@@ -37,7 +37,7 @@ public class Recall : NoTargetSkillBase
         RecallRoom = pcUser.RecallRoom;
         if (RecallRoom == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "No recall room found for {0}", pcUser.DebugName);
+            Logger.LogError("No recall room found for {0}", pcUser.DebugName);
             return "You are completely lost.";
         }
 

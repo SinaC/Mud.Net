@@ -21,10 +21,12 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
         "[cmd] list")]
 public class Quest : PlayableCharacterGameAction
 {
+    private ICommandParser CommandParser { get; }
     private IGameActionManager GameActionManager { get; }
 
-    public Quest(IGameActionManager gameActionManager)
+    public Quest(ICommandParser commandParser, IGameActionManager gameActionManager)
     {
+        CommandParser = commandParser;
         GameActionManager = gameActionManager;
     }
 
@@ -71,7 +73,7 @@ public class Quest : PlayableCharacterGameAction
         // quest abandon id
         if ("abandon".StartsWith(actionInput.Parameters[0].Value))
         {
-            CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
+            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
             Action = Actions.Abandon;
             return null;
         }
@@ -79,7 +81,7 @@ public class Quest : PlayableCharacterGameAction
         // quest complete id
         if ("complete".StartsWith(actionInput.Parameters[0].Value))
         {
-            CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
+            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
             Action = Actions.Complete;
             return null;
         }
@@ -87,7 +89,7 @@ public class Quest : PlayableCharacterGameAction
         // quest get all|title
         if ("get".StartsWith(actionInput.Parameters[0].Value))
         {
-            CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
+            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
             Action = Actions.Get;
             return null;
         }
@@ -95,7 +97,7 @@ public class Quest : PlayableCharacterGameAction
         // quest list
         if ("list".StartsWith(actionInput.Parameters[0].Value))
         {
-            CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
+            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
             Action = Actions.List;
             return null;
         }

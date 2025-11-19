@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
@@ -20,8 +21,8 @@ public class Sleep : OffensiveSpellBase
     private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
 
-    public Sleep(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager)
+    public Sleep(ILogger<Sleep> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;

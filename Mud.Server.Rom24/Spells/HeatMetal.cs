@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -13,8 +14,8 @@ public class HeatMetal : OffensiveSpellBase
 {
     private const string SpellName = "Heat Metal";
 
-    public HeatMetal(IRandomManager randomManager)
-        : base(randomManager)
+    public HeatMetal(ILogger<HeatMetal> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

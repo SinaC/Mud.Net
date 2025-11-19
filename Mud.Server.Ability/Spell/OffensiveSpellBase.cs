@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -10,12 +11,12 @@ namespace Mud.Server.Ability.Spell;
 
 public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
 {
-    protected ICharacter Victim { get; set; } = default!;
-
-    protected OffensiveSpellBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected OffensiveSpellBase(ILogger<OffensiveSpellBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
+
+    protected ICharacter Victim { get; set; } = default!;
 
     public override void Execute()
     {
@@ -40,9 +41,6 @@ public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
         }
     }
 
-    public IEnumerable<IEntity> ValidTargets(ICharacter caster)
-        => caster.Room.People.Where(x => x != caster && caster.CanSee(x) && IsTargetValid(caster, x));
-
     protected override string? SetTargets(ISpellActionInput spellActionInput)
     {
         if (spellActionInput.IsCastFromItem && spellActionInput.CastFromItemOptions.PredefinedTarget != null)
@@ -62,7 +60,7 @@ public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
                     : "Cast the spell on whom?";
         }
         else
-            Victim = FindHelpers.FindByName(ValidTargets(Caster).OfType<ICharacter>(), spellActionInput.Parameters[0])!;
+            Victim = FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee).OfType<ICharacter>(), spellActionInput.Parameters[0])!; // original code was not testing CanSee
         if (Victim == null)
             return "They aren't here.";
         if (Caster is IPlayableCharacter)
@@ -80,6 +78,9 @@ public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
         // victim found
         return null;
     }
+
+    public IEnumerable<IEntity> ValidTargets(ICharacter caster) // is intended to be used by inherited class overriding SetTargets
+        => caster.Room.People.Where(x => x != caster && caster.CanSee(x) && IsTargetValid(caster, x));
 
     private static bool IsTargetValid(ICharacter caster, ICharacter victim)
     {

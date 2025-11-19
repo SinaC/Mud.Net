@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
@@ -11,8 +12,8 @@ public class Parry : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Parry";
 
-    public Parry(IRandomManager randomManager)
-        : base(randomManager)
+    public Parry(ILogger<Parry> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -16,8 +17,8 @@ public class Disarm : FightingSkillBase
 {
     private const string SkillName = "Disarm";
 
-    public Disarm(IRandomManager randomManager)
-        : base(randomManager)
+    public Disarm(ILogger<Disarm> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
@@ -33,6 +33,7 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
         Domain.EquipmentSlots.Float,
     ];
 
+    protected ILogger<PlayableRaceBase> Logger { get; }
     protected IAbilityManager AbilityManager { get; }
 
     #region IRace
@@ -51,9 +52,10 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
 
     #endregion
 
-    protected PlayableRaceBase(IServiceProvider serviceProvider, IAbilityManager abilityManager)
+    protected PlayableRaceBase(ILogger<PlayableRaceBase> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)
         : base(serviceProvider)
     {
+        Logger = logger;
         AbilityManager = abilityManager;
 
         _abilities = [];
@@ -69,7 +71,7 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
         var abilityInfo = AbilityManager[abilityName];
         if (abilityInfo == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to add unknown ability [{0}] to race [{1}]", abilityName, Name);
+            Logger.LogError("Trying to add unknown ability [{abilityName}] to race [{name}]", abilityName, Name);
             return;
         }
         //

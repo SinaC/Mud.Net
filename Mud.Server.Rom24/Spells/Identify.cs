@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -17,8 +18,8 @@ public class Identify : ItemInventorySpellBase
 
     private const string SpellName = "Identify";
 
-    public Identify(IRandomManager randomManager, ITableValues tableValues)
-        : base(randomManager)
+    public Identify(ILogger<Identify> logger, IRandomManager randomManager, ITableValues tableValues)
+        : base(logger, randomManager)
     {
         TableValues = tableValues;
     }

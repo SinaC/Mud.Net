@@ -1,7 +1,7 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
@@ -31,9 +31,9 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
     protected IRoomManager RoomManager { get; }
     protected IAuraManager AuraManager { get; }
 
-    protected ItemBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
         Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
-        : base(gameActionManager, abilityManager, settings, guid, name, description)
+        : base(logger, gameActionManager, commandParser, abilityManager, settings, guid, name, description)
     {
         ServiceProvider = serviceProvider;
         RoomManager = roomManager;
@@ -52,15 +52,15 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
         ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), BaseItemFlags, null);
     }
 
-    protected ItemBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
         Guid guid, TBlueprint blueprint, IContainer containedInto)
-        : this(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto)
     {
     }
 
-    protected ItemBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
         Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
-        : this(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, name, shortDescription, description, containedInto)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, name, shortDescription, description, containedInto)
     {
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
@@ -74,9 +74,9 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
         }
     }
 
-    protected ItemBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
         Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
-        : this(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
@@ -112,7 +112,7 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
 
     public override void Recompute()
     {
-        Log.Default.WriteLine(LogLevels.Debug, "ItemBase.Recompute: {0}", DebugName);
+        Logger.LogDebug("ItemBase.Recompute: {name}", DebugName);
 
         // 0) Reset
         ResetAttributes();
@@ -214,11 +214,11 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
     {
         if (container == this)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to put a container in itself!!");
+            Logger.LogError("Trying to put a container in itself!!");
             return false;
         }
 
-        Log.Default.WriteLine(LogLevels.Info, "ChangeContainer: {0} : {1} -> {2}", DebugName, ContainedInto == null ? "<<??>>" : ContainedInto.DebugName, container == null ? "<<??>>" : container.DebugName);
+        Logger.LogInformation("ChangeContainer: {name} : {containedInto} -> {container}", DebugName, ContainedInto == null ? "<<??>>" : ContainedInto.DebugName, container == null ? "<<??>>" : container.DebugName);
 
         ContainedInto?.GetFromContainer(this);
         //Debug.Assert(container != null, "ChangeContainer: an item cannot be outside a container"); // False, equipment are not stored in any container
@@ -234,7 +234,7 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
     {
         var previousEquippedBy = EquippedBy;
         EquippedBy?.Unequip(this);
-        Log.Default.WriteLine(LogLevels.Info, "ChangeEquippedBy: {0} : {1} -> {2}", DebugName, EquippedBy?.DebugName ?? "<<??>>", character?.DebugName ?? "<<??>>");
+        Logger.LogInformation("ChangeEquippedBy: {name} : {equippedBy} -> {character}", DebugName, EquippedBy?.DebugName ?? "<<??>>", character?.DebugName ?? "<<??>>");
         EquippedBy = character;
         character?.Equip(this);
         if (recompute)

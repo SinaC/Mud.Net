@@ -14,6 +14,13 @@ namespace Mud.Server.Commands.Character.Communication;
 players/mobs in the room can't hear the message.")]
 public class Whisper : CharacterGameAction
 {
+    private ICommandParser CommandParser { get; }
+
+    public Whisper(ICommandParser commandParser)
+    {
+        CommandParser = commandParser;
+    }
+
     protected ICharacter Whom { get; set; } = default!;
     protected string What { get; set; } = default!;
 
@@ -30,7 +37,7 @@ public class Whisper : CharacterGameAction
         if (Whom == null)
             return StringHelpers.CharacterNotFound;
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
+        What = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
         return null;
     }
 

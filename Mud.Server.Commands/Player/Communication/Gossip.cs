@@ -1,5 +1,6 @@
 ﻿using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Player.Communication;
@@ -11,8 +12,8 @@ namespace Mud.Server.Commands.Player.Communication;
 [Help(@"[cmd] sends a message to all players in the world (Out Of Character channel).")]
 public class Gossip : CommunicationGameActionBase
 {
-    public Gossip(IPlayerManager playerManager)
-        : base(playerManager)
+    public Gossip(ICommandParser commandParser, IPlayerManager playerManager)
+        : base(commandParser, playerManager)
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -12,8 +13,8 @@ public class ChainLightning : OffensiveSpellBase
 {
     private const string SpellName = "Chain Lightning";
 
-    public ChainLightning(IRandomManager randomManager)
-        : base(randomManager)
+    public ChainLightning(ILogger<ChainLightning> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

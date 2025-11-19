@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -17,8 +17,10 @@ namespace Mud.Server.Item;
 
 public class ItemManager : IItemManager
 {
+    private ILogger<ItemManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private IGameActionManager GameActionManager { get; }
+    private ICommandParser CommandParser { get; }
     private IAbilityManager AbilityManager { get; }
     private ISettings Settings { get; }
     private IRoomManager RoomManager { get; }
@@ -29,10 +31,12 @@ public class ItemManager : IItemManager
     private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
     private readonly List<IItem> _items;
 
-    public ItemManager(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, ITableValues tableValues)
+    public ItemManager(ILogger<ItemManager> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, ITableValues tableValues)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
         GameActionManager = gameActionManager;
+        CommandParser = commandParser;
         AbilityManager = abilityManager;
         Settings = settings;
         RoomManager = roomManager;
@@ -60,7 +64,7 @@ public class ItemManager : IItemManager
     public void AddItemBlueprint(ItemBlueprintBase blueprint)
     {
         if (_itemBlueprints.ContainsKey(blueprint.Id))
-            Log.Default.WriteLine(LogLevels.Error, "Item blueprint duplicate {0}!!!", blueprint.Id);
+            Logger.LogError("Item blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
             _itemBlueprints.Add(blueprint.Id, blueprint);
     }
@@ -70,7 +74,7 @@ public class ItemManager : IItemManager
     public IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim)
     {
         var blueprint = GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) ?? throw new Exception($"Corpse blueprint {Settings.CorpseBlueprintId} not found");
-        var item = new ItemCorpse(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, RandomManager, this, guid, blueprint, room, victim);
+        var item = new ItemCorpse(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, RandomManager, this, guid, blueprint, room, victim);
         _items.Add(item);
         item.Recompute();
         return item;
@@ -79,7 +83,7 @@ public class ItemManager : IItemManager
     public IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer)
     {
         var blueprint = GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) ?? throw new Exception($"Corpse blueprint {Settings.CorpseBlueprintId} not found");
-        var item = new ItemCorpse(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, RandomManager, this, guid, blueprint, room, victim, killer);
+        var item = new ItemCorpse(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, RandomManager, this, guid, blueprint, room, victim, killer);
         _items.Add(item);
         item.Recompute();
         return item;
@@ -91,12 +95,12 @@ public class ItemManager : IItemManager
         goldCoins = Math.Max(0, goldCoins);
         if (silverCoins == 0 && goldCoins == 0)
         {
-            Log.Default.WriteLine(LogLevels.Error, "World.AddItemMoney: 0 silver and 0 gold.");
+            Logger.LogError("World.AddItemMoney: 0 silver and 0 gold.");
             return null;
         }
         int blueprintId = Settings.CoinsBlueprintId;
         var blueprint = GetItemBlueprint<ItemMoneyBlueprint>(blueprintId) ?? throw new Exception($"Money blueprint {blueprintId} not found");
-        var money = new ItemMoney(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, blueprint, silverCoins, goldCoins, container);
+        var money = new ItemMoney(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, blueprint, silverCoins, goldCoins, container);
         _items.Add(money);
         return money;
     }
@@ -108,58 +112,58 @@ public class ItemManager : IItemManager
         switch (blueprint)
         {
             case ItemArmorBlueprint armorBlueprint:
-                item = new ItemArmor(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, armorBlueprint, container);
+                item = new ItemArmor(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, armorBlueprint, container);
                 break;
             case ItemBoatBlueprint boatBlueprint:
-                item = new ItemBoat(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, boatBlueprint, container);
+                item = new ItemBoat(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, boatBlueprint, container);
                 break;
             case ItemClothingBlueprint clothingBlueprint:
-                item = new ItemClothing(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, clothingBlueprint, container);
+                item = new ItemClothing(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, clothingBlueprint, container);
                 break;
             case ItemContainerBlueprint containerBlueprint:
-                item = new ItemContainer(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, this, guid, containerBlueprint, container);
+                item = new ItemContainer(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, this, guid, containerBlueprint, container);
                 break;
             case ItemCorpseBlueprint corpseBlueprint:
-                item = new ItemCorpse(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, RandomManager, this, guid, corpseBlueprint, container);
+                item = new ItemCorpse(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, RandomManager, this, guid, corpseBlueprint, container);
                 break;
             case ItemDrinkContainerBlueprint drinkContainerBlueprint:
-                item = new ItemDrinkContainer(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, drinkContainerBlueprint, container);
+                item = new ItemDrinkContainer(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, drinkContainerBlueprint, container);
                 break;
             case ItemFoodBlueprint foodBlueprint:
-                item = new ItemFood(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, foodBlueprint, container);
+                item = new ItemFood(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, foodBlueprint, container);
                 break;
             case ItemFurnitureBlueprint furnitureBlueprint:
-                item = new ItemFurniture(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, furnitureBlueprint, container);
+                item = new ItemFurniture(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, furnitureBlueprint, container);
                 break;
             case ItemFountainBlueprint fountainBlueprint:
-                item = new ItemFountain(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, fountainBlueprint, container);
+                item = new ItemFountain(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, fountainBlueprint, container);
                 break;
             case ItemGemBlueprint gemBlueprint:
-                item = new ItemGem(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, gemBlueprint, container);
+                item = new ItemGem(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, gemBlueprint, container);
                 break;
             case ItemJewelryBlueprint jewelryBlueprint:
-                item = new ItemJewelry(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, jewelryBlueprint, container);
+                item = new ItemJewelry(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, jewelryBlueprint, container);
                 break;
             case ItemJukeboxBlueprint jukeboxBlueprint:
-                item = new ItemJukebox(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, jukeboxBlueprint, container);
+                item = new ItemJukebox(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, jukeboxBlueprint, container);
                 break;
             case ItemKeyBlueprint keyBlueprint:
-                item = new ItemKey(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, keyBlueprint, container);
+                item = new ItemKey(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, keyBlueprint, container);
                 break;
             case ItemLightBlueprint lightBlueprint:
-                item = new ItemLight(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, lightBlueprint, container);
+                item = new ItemLight(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, lightBlueprint, container);
                 break;
             case ItemMapBlueprint mapBlueprint:
-                item = new ItemMap(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, mapBlueprint, container);
+                item = new ItemMap(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, mapBlueprint, container);
                 break;
             case ItemMoneyBlueprint moneyBlueprint:
-                item = new ItemMoney(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, moneyBlueprint, container);
+                item = new ItemMoney(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, moneyBlueprint, container);
                 break;
             case ItemPillBlueprint pillBlueprint:
-                item = new ItemPill(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, pillBlueprint, container);
+                item = new ItemPill(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, pillBlueprint, container);
                 break;
             case ItemPotionBlueprint potionBlueprint:
-                item = new ItemPotion(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, potionBlueprint, container);
+                item = new ItemPotion(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, potionBlueprint, container);
                 break;
             case ItemPortalBlueprint portalBlueprint:
                 {
@@ -170,41 +174,41 @@ public class ItemManager : IItemManager
                         if (destination == null)
                         {
                             destination = RoomManager.DefaultRecallRoom;
-                            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: PortalBlueprint {0} unknown destination {1} setting to recall {2}", blueprint.Id, portalBlueprint.Destination, Settings.DefaultRecallRoomId);
+                            Logger.LogError("World.AddItem: PortalBlueprint {blueprintId} unknown destination {blueprintDestinationId} setting to recall {defaultRecallRoomId}", blueprint.Id, portalBlueprint.Destination, Settings.DefaultRecallRoomId);
                         }
                     }
-                    item = new ItemPortal(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, portalBlueprint, destination!, container);
+                    item = new ItemPortal(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, portalBlueprint, destination!, container);
                     break;
                 }
             case ItemQuestBlueprint questBlueprint:
-                item = new ItemQuest(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, questBlueprint, container);
+                item = new ItemQuest(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, questBlueprint, container);
                 break;
             case ItemScrollBlueprint scrollBlueprint:
-                item = new ItemScroll(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, scrollBlueprint, container);
+                item = new ItemScroll(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, scrollBlueprint, container);
                 break;
             case ItemShieldBlueprint shieldBlueprint:
-                item = new ItemShield(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, shieldBlueprint, container);
+                item = new ItemShield(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, shieldBlueprint, container);
                 break;
             case ItemStaffBlueprint staffBlueprint:
-                item = new ItemStaff(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, staffBlueprint, container);
+                item = new ItemStaff(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, staffBlueprint, container);
                 break;
             case ItemTrashBlueprint trashBlueprint:
-                item = new ItemTrash(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, trashBlueprint, container);
+                item = new ItemTrash(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, trashBlueprint, container);
                 break;
             case ItemTreasureBlueprint treasureBlueprint:
-                item = new ItemTreasure(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, treasureBlueprint, container);
+                item = new ItemTreasure(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, treasureBlueprint, container);
                 break;
             case ItemWandBlueprint wandBlueprint:
-                item = new ItemWand(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, wandBlueprint, container);
+                item = new ItemWand(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, wandBlueprint, container);
                 break;
             case ItemWarpStoneBlueprint warpstoneBlueprint:
-                item = new ItemWarpstone(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, warpstoneBlueprint, container);
+                item = new ItemWarpstone(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, warpstoneBlueprint, container);
                 break;
             case ItemWeaponBlueprint weaponBlueprint:
-                item = new ItemWeapon(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, TableValues, guid, weaponBlueprint, container);
+                item = new ItemWeapon(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, TableValues, guid, weaponBlueprint, container);
                 break;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: unknown Item blueprint type {0}.", blueprint.GetType());
+                Logger.LogError("World.AddItem: unknown Item blueprint type {blueprintType}.", blueprint.GetType());
                 break;
         }
         if (item != null)
@@ -214,7 +218,7 @@ public class ItemManager : IItemManager
             return item;
         }
 
-        Log.Default.WriteLine(LogLevels.Error, "World.AddItem: unknown Item blueprint type {0}.", blueprint.GetType());
+        Logger.LogError("World.AddItem: unknown Item blueprint type {blueprintType}.", blueprint.GetType());
         return null;
     }
 
@@ -223,7 +227,7 @@ public class ItemManager : IItemManager
         var blueprint = GetItemBlueprint(itemData.ItemId);
         if (blueprint == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Item blueprint Id {0} doesn't exist anymore.", itemData.ItemId);
+            Logger.LogError("World.AddItem: Item blueprint Id {blueprintId} doesn't exist anymore.", itemData.ItemId);
             return null;
         }
 
@@ -231,58 +235,58 @@ public class ItemManager : IItemManager
         switch (blueprint)
         {
             case ItemArmorBlueprint armorBlueprint:
-                item = new ItemArmor(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, armorBlueprint, itemData, container); // no specific ItemData
+                item = new ItemArmor(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, armorBlueprint, itemData, container); // no specific ItemData
                 break;
             case ItemBoatBlueprint boatBlueprint:
-                item = new ItemBoat(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, boatBlueprint, itemData, container);
+                item = new ItemBoat(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, boatBlueprint, itemData, container);
                 break;
             case ItemClothingBlueprint clothingBlueprint:
-                item = new ItemClothing(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, clothingBlueprint, itemData, container);
+                item = new ItemClothing(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, clothingBlueprint, itemData, container);
                 break;
             case ItemContainerBlueprint containerBlueprint:
-                item = new ItemContainer(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, this, guid, containerBlueprint, itemData as ItemContainerData, container);
+                item = new ItemContainer(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, this, guid, containerBlueprint, itemData as ItemContainerData, container);
                 break;
             case ItemCorpseBlueprint corpseBlueprint:
-                item = new ItemCorpse(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, RandomManager, this, guid, corpseBlueprint, itemData as ItemCorpseData, container);
+                item = new ItemCorpse(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, RandomManager, this, guid, corpseBlueprint, itemData as ItemCorpseData, container);
                 break;
             case ItemDrinkContainerBlueprint drinkContainerBlueprint:
-                item = new ItemDrinkContainer(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, drinkContainerBlueprint, itemData as ItemDrinkContainerData, container);
+                item = new ItemDrinkContainer(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, drinkContainerBlueprint, itemData as ItemDrinkContainerData, container);
                 break;
             case ItemFoodBlueprint foodBlueprint:
-                item = new ItemFood(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, foodBlueprint, itemData as ItemFoodData, container);
+                item = new ItemFood(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, foodBlueprint, itemData as ItemFoodData, container);
                 break;
             case ItemFurnitureBlueprint furnitureBlueprint:
-                item = new ItemFurniture(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, furnitureBlueprint, itemData, container);
+                item = new ItemFurniture(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, furnitureBlueprint, itemData, container);
                 break;
             case ItemFountainBlueprint fountainBlueprint:
-                item = new ItemFountain(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, fountainBlueprint, itemData, container);
+                item = new ItemFountain(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, fountainBlueprint, itemData, container);
                 break;
             case ItemGemBlueprint gemBlueprint:
-                item = new ItemGem(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, gemBlueprint, itemData, container);
+                item = new ItemGem(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, gemBlueprint, itemData, container);
                 break;
             case ItemJewelryBlueprint jewelryBlueprint:
-                item = new ItemJewelry(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, jewelryBlueprint, itemData, container);
+                item = new ItemJewelry(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, jewelryBlueprint, itemData, container);
                 break;
             case ItemJukeboxBlueprint jukeboxBlueprint:
-                item = new ItemJukebox(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, jukeboxBlueprint, itemData, container);
+                item = new ItemJukebox(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, jukeboxBlueprint, itemData, container);
                 break;
             case ItemKeyBlueprint keyBlueprint:
-                item = new ItemKey(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, keyBlueprint, itemData, container);
+                item = new ItemKey(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, keyBlueprint, itemData, container);
                 break;
             case ItemLightBlueprint lightBlueprint:
-                item = new ItemLight(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, lightBlueprint, itemData as ItemLightData, container);
+                item = new ItemLight(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, lightBlueprint, itemData as ItemLightData, container);
                 break;
             case ItemMapBlueprint mapBlueprint:
-                item = new ItemMap(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, mapBlueprint, itemData, container);
+                item = new ItemMap(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, mapBlueprint, itemData, container);
                 break;
             case ItemMoneyBlueprint moneyBlueprint:
-                item = new ItemMoney(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, moneyBlueprint, itemData, container);
+                item = new ItemMoney(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, moneyBlueprint, itemData, container);
                 break;
             case ItemPillBlueprint pillBlueprint:
-                item = new ItemPill(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, pillBlueprint, itemData, container);
+                item = new ItemPill(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, pillBlueprint, itemData, container);
                 break;
             case ItemPotionBlueprint potionBlueprint:
-                item = new ItemPotion(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, potionBlueprint, itemData, container);
+                item = new ItemPotion(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, potionBlueprint, itemData, container);
                 break;
             case ItemPortalBlueprint portalBlueprint:
                 {
@@ -294,41 +298,41 @@ public class ItemManager : IItemManager
                         if (destination == null)
                         {
                             destination = RoomManager.DefaultRecallRoom;
-                            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: ItemPortalData unknown destination {0} setting to recall {1}", itemPortalData.DestinationRoomId, Settings.DefaultRecallRoomId);
+                            Logger.LogError("World.AddItem: ItemPortalData unknown destination {destinationRoomId} setting to recall {defaultRecallRoomId}", itemPortalData.DestinationRoomId, Settings.DefaultRecallRoomId);
                         }
                     }
-                    item = new ItemPortal(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, portalBlueprint, itemPortalData!, destination!, container);
+                    item = new ItemPortal(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, portalBlueprint, itemPortalData!, destination!, container);
                 }
                 break;
             case ItemQuestBlueprint questBlueprint:
-                item = new ItemQuest(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, questBlueprint, itemData, container);
+                item = new ItemQuest(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, questBlueprint, itemData, container);
                 break;
             case ItemScrollBlueprint scrollBlueprint:
-                item = new ItemScroll(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, scrollBlueprint, itemData, container);
+                item = new ItemScroll(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, scrollBlueprint, itemData, container);
                 break;
             case ItemShieldBlueprint shieldBlueprint:
-                item = new ItemShield(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, shieldBlueprint, itemData, container);
+                item = new ItemShield(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, shieldBlueprint, itemData, container);
                 break;
             case ItemStaffBlueprint staffBlueprint:
-                item = new ItemStaff(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, staffBlueprint, itemData as ItemStaffData, container);
+                item = new ItemStaff(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, staffBlueprint, itemData as ItemStaffData, container);
                 break;
             case ItemTrashBlueprint trashBlueprint:
-                item = new ItemTrash(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, trashBlueprint, itemData, container);
+                item = new ItemTrash(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, trashBlueprint, itemData, container);
                 break;
             case ItemTreasureBlueprint treasureBlueprint:
-                item = new ItemTreasure(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, treasureBlueprint, itemData, container);
+                item = new ItemTreasure(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, treasureBlueprint, itemData, container);
                 break;
             case ItemWandBlueprint wandBlueprint:
-                item = new ItemWand(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, wandBlueprint, itemData as ItemWandData, container);
+                item = new ItemWand(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, wandBlueprint, itemData as ItemWandData, container);
                 break;
             case ItemWarpStoneBlueprint warpstoneBlueprint:
-                item = new ItemWarpstone(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, guid, warpstoneBlueprint, itemData, container);
+                item = new ItemWarpstone(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, guid, warpstoneBlueprint, itemData, container);
                 break;
             case ItemWeaponBlueprint weaponBlueprint:
-                item = new ItemWeapon(ServiceProvider, GameActionManager, AbilityManager, Settings, RoomManager, AuraManager, TableValues, guid, weaponBlueprint, itemData as ItemWeaponData, container);
+                item = new ItemWeapon(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RoomManager, AuraManager, TableValues, guid, weaponBlueprint, itemData as ItemWeaponData, container);
                 break;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Unknown Item blueprint type {0}", blueprint.GetType());
+                Logger.LogError("World.AddItem: Unknown Item blueprint type {blueprintType}", blueprint.GetType());
                 break;
         }
 
@@ -338,7 +342,7 @@ public class ItemManager : IItemManager
             _items.Add(item);
             return item;
         }
-        Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Invalid blueprint type  {0}", blueprint.GetType());
+        Logger.LogError("World.AddItem: Invalid blueprint type  {blueprintType}", blueprint.GetType());
         return null;
     }
 
@@ -347,12 +351,12 @@ public class ItemManager : IItemManager
         var blueprint = GetItemBlueprint(blueprintId);
         if (blueprint == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Item blueprint Id {0} doesn't exist anymore.", blueprintId);
+            Logger.LogError("World.AddItem: Item blueprint Id {blueprintId} doesn't exist anymore.", blueprintId);
             return null;
         }
         var item = AddItem(guid, blueprint, container);
         if (item == null)
-            Log.Default.WriteLine(LogLevels.Error, "World.AddItem: Unknown blueprint id {0} or type {1}.", blueprintId, blueprint.GetType().FullName ?? "???");
+            Logger.LogError("World.AddItem: Unknown blueprint id {blueprintId} or type {blueprintType}.", blueprintId, blueprint.GetType().FullName ?? "???");
         return item;
     }
 
@@ -383,7 +387,7 @@ public class ItemManager : IItemManager
     public void Cleanup()
     {
         if (_items.Any(x => !x.IsValid))
-            Log.Default.WriteLine(LogLevels.Debug, $"Cleaning {_items.Count(x => !x.IsValid)} item(s)");
+            Logger.LogDebug("Cleaning {count} item(s)", _items.Count(x => !x.IsValid));
 
         var itemsToRemove = _items.Where(x => !x.IsValid).ToArray();
         foreach (var item in itemsToRemove)

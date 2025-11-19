@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -15,8 +16,8 @@ public class Quaff : CastSpellCharacterGameActionBase
 {
     private IItemManager ItemManager { get; }
 
-    public Quaff(IAbilityManager abilityManager, IItemManager itemManager)
-        : base(abilityManager)
+    public Quaff(ILogger<Quaff> logger, ICommandParser commandParser, IAbilityManager abilityManager, IItemManager itemManager)
+        : base(logger, commandParser, abilityManager)
     {
         ItemManager = itemManager;
     }

@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Random;
 
 namespace Mud.Server.Blueprints.LootTable;
@@ -7,6 +7,7 @@ namespace Mud.Server.Blueprints.LootTable;
 public class CharacterLootTable<T>
     where T:IEquatable<T>
 {
+    private ILogger<CharacterLootTable<T>> Logger { get; }
     private IRandomManager RandomManager { get; }
 
     public int MinLoot { get; set; }
@@ -14,8 +15,9 @@ public class CharacterLootTable<T>
     public List<CharacterLootTableEntry<T>> Entries { get; set; } = default!;
     //public List<T> AlwaysDrop { get; set; }
 
-    public CharacterLootTable(IRandomManager randomManager)
+    public CharacterLootTable(ILogger<CharacterLootTable<T>> logger, IRandomManager randomManager)
     {
+        Logger = logger;
         RandomManager = randomManager;
 
         MinLoot = 1;
@@ -40,7 +42,7 @@ public class CharacterLootTable<T>
         List<CharacterLootTableEntry<T>> history = [];
         List<T> lootList = [];
         int lootCount = RandomManager.Next(MinLoot, MaxLoot + 1);
-        //Log.Default.WriteLine(LogLevels.Debug, "#Loot: {0}", lootCount);
+        //Logger.LogDebug("#Loot: {0}", lootCount);
         if (Entries != null)
         {
             for (int loop = 1; loop <= lootCount; loop++)
@@ -48,7 +50,7 @@ public class CharacterLootTable<T>
                 var randomEntry = RandomManager.RandomOccurancy<CharacterLootTableEntry<T>, TreasureTable<T>>(Entries);
                 if (randomEntry != null)
                 {
-                    //Log.Default.WriteLine(LogLevels.Debug, "Table: {0}", randomEntry.Value.Name);
+                    //Logger.LogDebug("Table: {0}", randomEntry.Value.Name);
                     if (randomEntry.Value.Entries != null) // shortcut for empty table
                     {
                         if (history.Count(x => x.Value == randomEntry.Value) < randomEntry.Max) // check if max loot in this entry reached
@@ -59,17 +61,17 @@ public class CharacterLootTable<T>
                                 lootList.Add(loot);
                         }
                         //else
-                        //    Log.Default.WriteLine(LogLevels.Debug, "Table rejected #>Max");
+                        //    Logger.LogDebug("Table rejected #>Max");
                     }
                     //else
-                    //    Log.Default.WriteLine(LogLevels.Debug, "Empty table");
+                    //    Logger.LogDebug("Empty table");
                 }
                 else
-                    Log.Default.WriteLine(LogLevels.Warning, "CharacterLootTable.GenerateLoots: no treasure table found");
+                    Logger.LogWarning("CharacterLootTable.GenerateLoots: no treasure table found");
             }
         }
         else
-            Log.Default.WriteLine(LogLevels.Warning, "CharacterLootTable.GenerateLoots: No entries");
+            Logger.LogWarning("CharacterLootTable.GenerateLoots: No entries");
         //if (AlwaysDrop != null)
         //    lootList.AddRange(AlwaysDrop);
         return lootList;

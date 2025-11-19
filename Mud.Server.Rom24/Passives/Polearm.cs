@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Random;
 
@@ -9,8 +10,8 @@ public class Polearm : PassiveBase
 {
     private const string PassiveName = "Polearm";
 
-    public Polearm(IRandomManager randomManager)
-        : base(randomManager)
+    public Polearm(ILogger<Polearm> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 }

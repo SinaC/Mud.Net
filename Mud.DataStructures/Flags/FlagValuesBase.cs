@@ -1,7 +1,11 @@
-﻿namespace Mud.DataStructures.Flags;
+﻿using Microsoft.Extensions.Logging;
+
+namespace Mud.DataStructures.Flags;
 
 public abstract class FlagValuesBase<T> : IFlagValues<T>
 {
+    protected ILogger<FlagValuesBase<T>> Logger { get; }
+
     protected abstract HashSet<T> HashSet { get; }
 
     public virtual bool this[T flag] => HashSet.Contains(flag);
@@ -9,6 +13,11 @@ public abstract class FlagValuesBase<T> : IFlagValues<T>
     public virtual IEnumerable<T> AvailableValues => HashSet;
 
     public virtual string PrettyPrint(T flag, bool shortDisplay) => flag?.ToString() ?? string.Empty;
+
+    protected FlagValuesBase(ILogger<FlagValuesBase<T>> logger)
+    {
+        Logger = logger;
+    }
 
     public virtual void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<T> values)
     {
