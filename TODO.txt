@@ -1,4 +1,5 @@
 INGOING
+refactor settings
 
 TODO
 remove every manual call to GetService/GetRequiredService
@@ -9,6 +10,12 @@ dangerous call sequence (luckily we set Room to NullRoom in the first lines of c
                 Room.ApplyAuras which could kill PlayableCharacter we are trying to create
 CharacterFactory, ItemFactory, RoomFactory to handle characters, items and rooms creation (to avoid new everywhere in the code and replace with DI more easily later if needed)
 
+
+fix this warning Logger.LogWarning("GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???");
+    set CommandAttribute and GameActionBase as abstract
+    add ActorCommandAttribute and RoomCommandAttribute
+    add ActorGameActionInfo and use as base class for PlayerGameActionInfo
+    add RoomGameActionInfo and RoomGameAction
 
 character default size seems to be tiny for ROM24
 finish ROM24 classes
@@ -30,8 +37,6 @@ check all nuget package updates and update them
 check nullable reference types
 check all properties for nullability (such as Room, ContainedInto, Race, Class, ...)
 remove yield extension where not needed
-
-refactor settings
 
 UNIT TESTS
 use xunit + moq
