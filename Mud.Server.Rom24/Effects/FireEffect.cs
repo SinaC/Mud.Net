@@ -117,7 +117,7 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
                 msg = "{0} melts and drips!";
                 break;
             default:
-                Logger.LogError("FireEffect: default message for unexpected item type {0}", item.GetType());
+                Logger.LogError("FireEffect: default message for unexpected item type {itemType}", item.GetType());
                 msg = "{0} burns."; 
                 break;
         }

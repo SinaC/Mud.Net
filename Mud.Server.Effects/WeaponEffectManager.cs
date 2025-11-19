@@ -51,7 +51,7 @@ public class WeaponEffectManager : IWeaponEffectManager
 
         if (weaponEffect is not TWeaponEffect instance)
         {
-            Logger.LogError("WeaponEffectManager: weapon effect {0} cannot be created or is not of type {expectedWeaponEffectType}", weaponEffectType.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
+            Logger.LogError("WeaponEffectManager: weapon effect {weaponEffectType} cannot be created or is not of type {expectedWeaponEffectType}", weaponEffectType.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
             return null;
         }
 

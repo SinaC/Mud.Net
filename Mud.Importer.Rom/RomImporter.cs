@@ -42,7 +42,7 @@ public class RomImporter
             if (areaFilename.Contains("$"))
                 break;
             if (areaFilename.StartsWith("-"))
-                Logger.LogInformation("Skipping {0}", areaFilename);
+                Logger.LogInformation("Skipping {area}", areaFilename);
             else
             {
                 string areaFullName = Path.Combine(path, RemoveCommentIfAny(areaFilename));
@@ -305,9 +305,9 @@ public class RomImporter
                 case 'M':
                     Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset M arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning($"Reset M arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning("Reset M arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     if (reset.Arg4 == 0)
-                        Logger.LogWarning($"Reset M arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning("Reset M arg4 (local limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new CharacterReset
                     {
                         RoomId = roomData.VNum,
@@ -319,7 +319,7 @@ public class RomImporter
                 case 'O':
                     Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset O arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning($"Reset O arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning("Reset O arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new ItemInRoomReset
                     {
                         RoomId = roomData.VNum,
@@ -330,9 +330,9 @@ public class RomImporter
                     break;
                 case 'P':
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning($"Reset P arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning("Reset P arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     if (reset.Arg4 == 0)
-                        Logger.LogWarning($"Reset P arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning("Reset P arg4 (local limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new ItemInItemReset
                     {
                         RoomId = roomData.VNum,
@@ -344,7 +344,7 @@ public class RomImporter
                     break;
                 case 'G':
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning($"Reset G arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning("Reset G arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new ItemInCharacterReset
                     {
                         RoomId = roomData.VNum,
@@ -354,7 +354,7 @@ public class RomImporter
                     break;
                 case 'E':
                     if (reset.Arg2 == 0)
-                        Logger.LogWarning($"Reset E arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning("Reset E arg2 (global limit) is 0 for room id '{vnum}'.", roomData.VNum);
                     yield return new ItemInEquipmentReset
                     {
                         RoomId = roomData.VNum,
@@ -379,7 +379,7 @@ public class RomImporter
                     };
                     break;
                 default:
-                    Logger.LogError("Unknown Reset {0} for room {1}", reset.Command, roomData.VNum);
+                    Logger.LogError("Unknown Reset {reset} for room {vnum}", reset.Command, roomData.VNum);
                     break;
             }
         }
@@ -919,7 +919,7 @@ public class RomImporter
                     NoTake = IsNoTake(objectData),
                 };
             default:
-                Logger.LogWarning($"ItemBlueprint cannot be created: [{objectData.VNum}] [{objectData.ItemType}] [{objectData.WearFlags}] : {objectData.Name}");
+                Logger.LogWarning("ItemBlueprint cannot be created: [{vnum}] [{type}] [{wearFlags}] : {name}", objectData.VNum, objectData.ItemType, objectData.WearFlags, objectData.Name);
                 break;
         }
 
@@ -956,7 +956,7 @@ public class RomImporter
             case ITEM_WEAR_FLOAT: return WearLocations.Float;
         }
 
-        Logger.LogWarning("Unknown wear location: {0} for item {1}", objectData.WearFlags, objectData.VNum);
+        Logger.LogWarning("Unknown wear location: {wearFlags} for item {vnum}", objectData.WearFlags, objectData.VNum);
         return WearLocations.None;
     }
 
@@ -1010,7 +1010,7 @@ public class RomImporter
             case "polearm": return WeaponTypes.Polearm;
         }
 
-        Logger.LogWarning("Unknown weapon type: {0} for item {1}", weaponType, objectData.VNum);
+        Logger.LogWarning("Unknown weapon type: {weaponType} for item {vnum}", weaponType, objectData.VNum);
         return WeaponTypes.Exotic;
     }
 
@@ -1094,7 +1094,7 @@ public class RomImporter
         if (IsSet(flag, STAND_AT) || IsSet(flag, SIT_AT) || IsSet(flag, REST_AT) || IsSet(flag, SLEEP_AT)) return FurniturePlacePrepositions.At;
         if (IsSet(flag, STAND_ON) || IsSet(flag, SIT_ON) || IsSet(flag, REST_ON) || IsSet(flag, SLEEP_ON)) return FurniturePlacePrepositions.On;
         if (IsSet(flag, STAND_IN) || IsSet(flag, SIT_IN) || IsSet(flag, REST_IN) || IsSet(flag, SLEEP_IN)) return FurniturePlacePrepositions.In;
-        Logger.LogWarning("Unknown Furniture preposition {0} for item {1}", flag, objectData.VNum);
+        Logger.LogWarning("Unknown Furniture preposition {flag} for item {vnum}", flag, objectData.VNum);
         return FurniturePlacePrepositions.None;
     }
 
@@ -1484,19 +1484,19 @@ public class RomImporter
                 case ITEM_FOUNTAIN: yield return typeof(ItemFountainBlueprint); break;
                 case ITEM_PILL: yield return typeof(ItemPillBlueprint); break;
                 case ITEM_PROTECT:
-                    Logger.LogWarning("Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
+                    Logger.LogWarning("Invalid buy type {buyType} for mob {keeper}", buyType, shopData.Keeper);
                     break;
                 case ITEM_MAP: yield return typeof(ItemMapBlueprint); break;
                 case ITEM_PORTAL: yield return typeof(ItemPortalBlueprint); break;
                 case ITEM_WARP_STONE: yield return typeof(ItemWarpStoneBlueprint); break;
                 case ITEM_ROOM_KEY:
-                    Logger.LogWarning("Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
+                    Logger.LogWarning("Invalid buy type {buyType} for mob {keeper}", buyType, shopData.Keeper);
                     break;
                 case ITEM_GEM: yield return typeof(ItemGemBlueprint); break;
                 case ITEM_JEWELRY: yield return typeof(ItemJewelryBlueprint); break;
                 case ITEM_JUKEBOX: yield return typeof(ItemJukeboxBlueprint); break;
                 default:
-                    Logger.LogWarning("Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
+                    Logger.LogWarning("Invalid buy type {buyType} for mob {keeper}", buyType, shopData.Keeper);
                     break;
             }
         }
@@ -1781,7 +1781,7 @@ public class RomImporter
             case DAM_SOUND: return SchoolTypes.Sound;
         }
 
-        Logger.LogWarning("Unknown damage type {0} for {1}", damageType, errorMsg);
+        Logger.LogWarning("Unknown damage type {type} for {msg}", damageType, errorMsg);
         return SchoolTypes.None;
     }
 

@@ -48,6 +48,6 @@ public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Logger.LogError($"Character flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError("Character flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

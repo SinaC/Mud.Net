@@ -45,12 +45,12 @@ public class GameActionManager : IGameActionManager
         var gameActionInstance = ServiceProvider.GetService(gameActionInfo.CommandExecutionType);
         if (gameActionInstance == null)
         {
-            Logger.LogError("GameAction {0} not found in DependencyContainer.", gameActionInfo.Name);
+            Logger.LogError("GameAction {name} not found in DependencyContainer.", gameActionInfo.Name);
             return "Something goes wrong.";
         }
         if (gameActionInstance is not IGameAction gameAction)
         {
-            Logger.LogError("GameAction {0} cannot be created or is not {1}.", gameActionInfo.Name, typeof(IGameAction).FullName ?? "???");
+            Logger.LogError("GameAction {name} cannot be created or is not {type}.", gameActionInfo.Name, typeof(IGameAction).FullName ?? "???");
             return "Something goes wrong.";
         }
         var actionInput = new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
@@ -67,7 +67,7 @@ public class GameActionManager : IGameActionManager
         var gameActionType = typeof(TGameAction);
         if (!_gameActionInfosByExecutionType.TryGetValue(gameActionType, out var gameActionInfo))
         {
-            Logger.LogError("GameAction type {0} not found in GameActionManager.", gameActionType.FullName ?? "???");
+            Logger.LogError("GameAction type {type} not found in GameActionManager.", gameActionType.FullName ?? "???");
             return "Something goes wrong.";
         }
         string command = gameActionInfo.Name;
@@ -83,7 +83,7 @@ public class GameActionManager : IGameActionManager
         var gameActionInfo = _gameActionInfosByExecutionType.Values.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, command));
         if (gameActionInfo == null)
         {
-            Logger.LogError("GameAction matching name {0} not found in GameActionManager.", command);
+            Logger.LogError("GameAction matching name {command} not found in GameActionManager.", command);
             return "Something goes wrong.";
         }
         string commandLine = command + CommandParser.JoinParameters(parameters);
@@ -191,7 +191,7 @@ public class GameActionManager : IGameActionManager
                             }
                     }
                     else
-                        Logger.LogError("Type {0} doesn't any generic type argument of type {1}.", type.FullName ?? "???", baseActorType.FullName ?? "???");
+                        Logger.LogError("Type {type} doesn't any generic type argument of type {actorType}.", type.FullName ?? "???", baseActorType.FullName ?? "???");
                 }
 
                 if (doneWithThisType)

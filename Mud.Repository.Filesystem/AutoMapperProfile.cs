@@ -233,17 +233,25 @@ public class AutoMapperProfile : Profile
             .ForMember(x => x.CostAmountOperator, opt => opt.MapFrom(x => MapCostAmountOperator(x.CostAmountOperator)));
     }
 
-    private Domain.PairData<string, string>[] MapFromDictionary(Dictionary<string, string> dictionary) => dictionary?.Select(x => new Domain.PairData<string, string>(x.Key, x.Value)).ToArray();
+    private Domain.PairData<string, string>[] MapFromDictionary(Dictionary<string, string> dictionary)
+        => dictionary?.Select(x => new Domain.PairData<string, string>(x.Key, x.Value)).ToArray();
 
-    private Dictionary<string, string> MapToDictionary(Domain.PairData<string, string>[] array) => array?.ToLookup(x => x.Key, x => x.Value).ToDictionary(x => x.Key, x => x.First());
+    private Dictionary<string, string> MapToDictionary(Domain.PairData<string, string>[] array)
+        => array?.ToLookup(x => x.Key, x => x.Value).ToDictionary(x => x.Key, x => x.First());
 
-    private Domain.PairData<string, int>[] MapFromDictionary(Dictionary<string, int> dictionary) => dictionary?.Select(x => new Domain.PairData<string, int>(x.Key, x.Value)).ToArray();
+    private Domain.PairData<string, int>[] MapFromDictionary(Dictionary<string, int> dictionary)
+        => dictionary?.Select(x => new Domain.PairData<string, int>(x.Key, x.Value)).ToArray();
 
-    private Dictionary<string, int> MapToDictionary(Domain.PairData<string, int>[] array) => array?.ToLookup(x => x.Key, x => x.Value).ToDictionary(x => x.Key, x => x.First());
+    private Dictionary<string, int> MapToDictionary(Domain.PairData<string, int>[] array)
+        => array?.ToLookup(x => x.Key, x => x.Value).ToDictionary(x => x.Key, x => x.First());
 
-    private Domain.PairData<int, int>[] MapFromDictionary<T>(Dictionary<T, int> dictionary, Func<T,int> mapKeyFunc) => dictionary?.Select(x => new Domain.PairData<int, int>(mapKeyFunc(x.Key), x.Value)).ToArray();
+    private Domain.PairData<int, int>[] MapFromDictionary<T>(Dictionary<T, int> dictionary, Func<T,int> mapKeyFunc)
+        where T: notnull
+        => dictionary?.Select(x => new Domain.PairData<int, int>(mapKeyFunc(x.Key), x.Value)).ToArray();
 
-    private Dictionary<T, int> MapToDictionary<T>(Domain.PairData<int, int>[] array, Func<int,T> mapKeyFunc) => array?.ToLookup(x => mapKeyFunc(x.Key), x => x.Value).ToDictionary(x => x.Key, x => x.First());
+    private Dictionary<T, int> MapToDictionary<T>(Domain.PairData<int, int>[] array, Func<int,T> mapKeyFunc)
+        where T: notnull
+        => array?.ToLookup(x => mapKeyFunc(x.Key), x => x.Value).ToDictionary(x => x.Key, x => x.First());
 
     private Mud.Domain.WiznetFlags MapWiznetFlags(int flags)
     {

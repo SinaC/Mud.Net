@@ -40,10 +40,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         Position = Positions.Standing;
         Race = raceManager[blueprint.Race];
         if (Race == null && !string.IsNullOrWhiteSpace(blueprint.Race))
-            Logger.LogWarning("Unknown race '{0}' for npc {1}", blueprint.Race, blueprint.Id);
+            Logger.LogWarning("Unknown race '{race}' for npc {blueprintId}", blueprint.Race, blueprint.Id);
         Class = classManager[blueprint.Class];
         if (Class == null && !string.IsNullOrWhiteSpace(blueprint.Race))
-            Logger.LogWarning("Unknown class '{0}' for npc {1}", blueprint.Class, blueprint.Id);
+            Logger.LogWarning("Unknown class '{class}' for npc {blueprintId}", blueprint.Class, blueprint.Id);
         DamageNoun = blueprint.DamageNoun;
         DamageType = blueprint.DamageType;
         DamageDiceCount = blueprint.DamageDiceCount;

@@ -70,6 +70,6 @@ public class PlayerRepository : RepositoryBase, IPlayerRepository
         if (directory != null)
             Directory.CreateDirectory(directory);
         else
-            Logger.LogError("Invalid directory in player path: {0}", PlayerRepositoryPath);
+            Logger.LogError("Invalid directory in player path: {path}", PlayerRepositoryPath);
     }
 }
