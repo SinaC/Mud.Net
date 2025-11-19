@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -10,12 +11,12 @@ namespace Mud.Server.Ability.Spell;
 
 public abstract class ItemOrDefensiveSpellBase : SpellBase, ITargetedAction
 {
-    protected IEntity Target { get; set; } = default!;
-
-    protected ItemOrDefensiveSpellBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected ItemOrDefensiveSpellBase(ILogger<ItemOrDefensiveSpellBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
+
+    protected IEntity Target { get; set; } = default!;
 
     public IEnumerable<IEntity> ValidTargets(ICharacter caster)
         =>

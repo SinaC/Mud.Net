@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
@@ -12,8 +13,8 @@ public class ShieldBlock : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Shield Block";
 
-    public ShieldBlock(IRandomManager randomManager)
-        : base(randomManager)
+    public ShieldBlock(ILogger<ShieldBlock> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

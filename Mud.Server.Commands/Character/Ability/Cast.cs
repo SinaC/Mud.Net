@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
@@ -40,10 +40,12 @@ See also the help sections for individual spells.
 Use the 'spells' command to see the spells you already have (help spells).")]
 public class Cast : CharacterGameAction
 {
+    private ILogger<Cast> Logger { get; }
     private IAbilityManager AbilityManager { get; }
 
-    public Cast(IAbilityManager abilityManager)
+    public Cast(ILogger<Cast> logger, IAbilityManager abilityManager)
     {
+        Logger = logger;
         AbilityManager = abilityManager;
     }
 
@@ -67,7 +69,7 @@ public class Cast : CharacterGameAction
         SpellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name)!;
         if (SpellInstance == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Spell {0} cannot be created.", abilityInfo.Name);
+            Logger.LogError("Spell {abilityName} cannot be created.", abilityInfo.Name);
             return "Something goes wrong.";
         }
 

@@ -11,10 +11,12 @@ namespace Mud.Server.Commands.Player.Communication;
 [Help(@"[cmd] sends a message to one player anywhere in the world.")]
 public class Tell : TellGameActionBase
 {
+    private ICommandParser CommandParser { get; }
     private IPlayerManager PlayerManager { get; }
 
-    public Tell(IPlayerManager playerManager)
+    public Tell(ICommandParser commandParser, IPlayerManager playerManager)
     {
+        CommandParser = commandParser;
         PlayerManager = playerManager;
     }
 
@@ -34,7 +36,7 @@ public class Tell : TellGameActionBase
         if (Whom == null)
             return StringHelpers.CharacterNotFound;
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
+        What = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
 
         return null;
     }

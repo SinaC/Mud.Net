@@ -1,4 +1,5 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+
 #pragma warning disable 642
 
 namespace Mud.Importer.Mystery;
@@ -61,7 +62,8 @@ public class MysteryLoader : TextBasedLoader
 
     public IReadOnlyCollection<RoomData> Rooms => _rooms.AsReadOnly();
 
-    public MysteryLoader()
+    public MysteryLoader(ILogger<MysteryLoader> logger)
+        : base(logger)
     {
         _areas = [];
         _mobiles = [];
@@ -97,7 +99,7 @@ public class MysteryLoader : TextBasedLoader
                 ParseSpecials();
             else if (word.ToUpper() == "STYLE")
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Specific area file Style not yet available");
+                Logger.LogWarning("Specific area file Style not yet available");
                 return;
             }
             else
@@ -107,7 +109,7 @@ public class MysteryLoader : TextBasedLoader
 
     private void ParseArea()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Area section");
+        Logger.LogTrace("Area section");
 
         AreaData area = new();
         while (true)
@@ -133,7 +135,7 @@ public class MysteryLoader : TextBasedLoader
             else if (word == "End") // done
                 break;
         }
-        Log.Default.WriteLine(LogLevels.Trace, "Area [{0}] parsed", area.Name);
+        Logger.LogTrace("Area [{0}] parsed", area.Name);
 
         // Set unique number and filename
         area.VNum = _areas.Count;
@@ -146,7 +148,7 @@ public class MysteryLoader : TextBasedLoader
 
     private void ParseMobiles()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Mobiles section");
+        Logger.LogTrace("Mobiles section");
 
         while (true)
         {
@@ -254,7 +256,7 @@ public class MysteryLoader : TextBasedLoader
             // TODO: convert act flags (see db.C:626)
             // TODO: fix parts (see db.C:520)
 
-            Log.Default.WriteLine(LogLevels.Trace, "Mobile [{0}] parsed", vnum);
+            Logger.LogTrace("Mobile [{0}] parsed", vnum);
 
             // Save mobile data
             _mobiles.Add(mobileData);
@@ -263,7 +265,7 @@ public class MysteryLoader : TextBasedLoader
 
     private void ParseObjects()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Objects section");
+        Logger.LogTrace("Objects section");
 
         while (true)
         {
@@ -400,7 +402,7 @@ public class MysteryLoader : TextBasedLoader
                     string keyword = ReadString();
                     string description = ReadString();
                     if (objectData.ExtraDescr.ContainsKey(keyword))
-                        Log.Default.WriteLine(LogLevels.Error, "ParseObjects: item [vnum:{0}] Extra desc already exists", vnum);
+                        Logger.LogError("ParseObjects: item [vnum:{0}] Extra desc already exists", vnum);
                     else
                         objectData.ExtraDescr.Add(keyword, description);
                 }
@@ -423,7 +425,7 @@ public class MysteryLoader : TextBasedLoader
                 }
             }
 
-            Log.Default.WriteLine(LogLevels.Trace, "Object [{0}] parsed", vnum);
+            Logger.LogTrace("Object [{0}] parsed", vnum);
 
             // Save object data
             _objects.Add(objectData);
@@ -432,7 +434,7 @@ public class MysteryLoader : TextBasedLoader
 
     private void ParseResets()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Resets section");
+        Logger.LogTrace("Resets section");
 
         int iLastObj = 0; // TODO: replace with RoomData
         int iLastRoom = 0; // TODO: replace with RoomData
@@ -581,7 +583,7 @@ public class MysteryLoader : TextBasedLoader
 
     private void ParseRooms()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Rooms section");
+        Logger.LogTrace("Rooms section");
 
         while (true)
         {
@@ -676,7 +678,7 @@ public class MysteryLoader : TextBasedLoader
                 else
                     RaiseParseException("ParseRooms: vnum {0} has unknown flag", vnum);
             }
-            Log.Default.WriteLine(LogLevels.Trace, "Room [{0}] parsed", vnum);
+            Logger.LogTrace("Room [{0}] parsed", vnum);
 
             // Save room data
             _rooms.Add(roomData);
@@ -685,7 +687,7 @@ public class MysteryLoader : TextBasedLoader
 
     private void ParseShops()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Shops section");
+        Logger.LogTrace("Shops section");
 
         while (true)
         {
@@ -709,7 +711,7 @@ public class MysteryLoader : TextBasedLoader
                 shopData.CloseHour = (int) ReadNumber();
                 mobileData.Shop = shopData;
 
-                Log.Default.WriteLine(LogLevels.Trace, "Shop [{0}] parsed", keeper);
+                Logger.LogTrace("Shop [{0}] parsed", keeper);
             }
             ReadToEol();
         }
@@ -717,7 +719,7 @@ public class MysteryLoader : TextBasedLoader
 
     private void ParseSpecials()
     {
-        Log.Default.WriteLine(LogLevels.Trace, "Specials section");
+        Logger.LogTrace("Specials section");
 
         while (true)
         {
@@ -736,7 +738,7 @@ public class MysteryLoader : TextBasedLoader
                     mobileData.Special = special;
                 else
                     Warn("ParseSpecials: 'M' unknown mobile vnum {0}", vnum);
-                Log.Default.WriteLine(LogLevels.Trace, "Specials [{0}] parsed", vnum);
+                Logger.LogTrace("Specials [{0}] parsed", vnum);
             }
             else
                 RaiseParseException("ParseSpecials: letter {0} not *MS", letter);

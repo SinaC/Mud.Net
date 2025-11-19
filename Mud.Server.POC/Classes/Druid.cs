@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Interfaces.Ability;
 
@@ -64,8 +65,8 @@ public class Druid : ClassBase
 
     #endregion
 
-    public Druid(IAbilityManager abilityManager)
-        : base(abilityManager)
+    public Druid(ILogger<Druid> logger, IAbilityManager abilityManager)
+        : base(logger, abilityManager)
     {
         // Test class with all skills + Passive
         foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))

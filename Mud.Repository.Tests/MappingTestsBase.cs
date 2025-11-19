@@ -1,5 +1,6 @@
 ﻿using AutoBogus;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
@@ -17,17 +18,15 @@ namespace Mud.Repository.Tests
         {
             var serviceProviderMock = new Mock<IServiceProvider>();
             serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
-                .Returns(new Rom24CharacterFlags());
-            serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues)))
-                .Returns(new Rom24CharacterFlags());
+                .Returns(new Rom24CharacterFlags(new Mock<ILogger<Rom24CharacterFlags>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlagValues)))
-                .Returns(new Rom24RoomFlags());
+                .Returns(new Rom24RoomFlags(new Mock<ILogger<Rom24RoomFlags>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlagValues)))
-                .Returns(new Rom24ItemFlagValues());
+                .Returns(new Rom24ItemFlagValues(new Mock<ILogger<Rom24ItemFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlagValues)))
-                .Returns(new Rom24WeaponFlagValues());
+                .Returns(new Rom24WeaponFlagValues(new Mock<ILogger<Rom24WeaponFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlagValues)))
-                .Returns(new Rom24IRVFlagValues());
+                .Returns(new Rom24IRVFlagValues(new Mock<ILogger<Rom24IRVFlagValues>>().Object));
             var mapper = CreateMapper();
             serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))) 
                 .Returns(mapper);
@@ -74,7 +73,7 @@ namespace Mud.Repository.Tests
 
     }
 
-    internal class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
+    public class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
@@ -111,9 +110,15 @@ namespace Mud.Repository.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24CharacterFlags(ILogger<Rom24CharacterFlags> logger)
+        : base(logger)
+        {
+
+        }
     }
 
-    internal class Rom24RoomFlags : FlagValuesBase<string>, IRoomFlagValues
+    public class Rom24RoomFlags : FlagValuesBase<string>, IRoomFlagValues
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
@@ -134,9 +139,15 @@ namespace Mud.Repository.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24RoomFlags(ILogger<Rom24RoomFlags> logger)
+        : base(logger)
+        {
+
+        }
     }
 
-    internal class Rom24ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
+    public class Rom24ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
@@ -169,9 +180,15 @@ namespace Mud.Repository.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24ItemFlagValues(ILogger<Rom24ItemFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
-    internal class Rom24WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
+    public class Rom24WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
@@ -187,9 +204,15 @@ namespace Mud.Repository.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24WeaponFlagValues(ILogger<Rom24WeaponFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
-    internal class Rom24IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
+    public class Rom24IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
     {
         public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
@@ -219,5 +242,11 @@ namespace Mud.Repository.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24IRVFlagValues(ILogger<Rom24IRVFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 }

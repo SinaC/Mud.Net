@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
@@ -11,8 +12,8 @@ public class EnhancedDamage : HitEnhancementPassiveBase
 {
     private const string PassiveName = "Enhanced Damage";
 
-    public EnhancedDamage(IRandomManager randomManager)
-        : base(randomManager)
+    public EnhancedDamage(ILogger<EnhancedDamage> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -14,8 +15,8 @@ public class Cancellation : DefensiveSpellBase
 
     private IDispelManager DispelManager { get; }
 
-    public Cancellation(IRandomManager randomManager, IDispelManager dispelManager)
-        : base(randomManager)
+    public Cancellation(ILogger<Cancellation> logger, IRandomManager randomManager, IDispelManager dispelManager)
+        : base(logger, randomManager)
     {
         DispelManager = dispelManager;
     }

@@ -14,6 +14,13 @@ several dozen built-in social commands, such as CACKLE, HUG, and THANK
 (type socials or help socials for a listing).")]
 public class Emote : CharacterGameAction
 {
+    private ICommandParser CommandParser { get; }
+
+    public Emote(ICommandParser commandParser)
+    {
+        CommandParser = commandParser;
+    }
+
     protected string What { get; set; } = default!;
 
     public override string? Guards(IActionInput actionInput)
@@ -25,7 +32,7 @@ public class Emote : CharacterGameAction
         if (actionInput.Parameters.Length == 0)
             return "Emote what?";
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        What = CommandParser.JoinParameters(actionInput.Parameters);
 
         return null;
     }

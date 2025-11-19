@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -16,8 +17,8 @@ public class Frenzy : DefensiveSpellBase
 
     private IAuraManager AuraManager { get; }
 
-    public Frenzy(IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager)
+    public Frenzy(ILogger<Frenzy> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         AuraManager = auraManager;
     }

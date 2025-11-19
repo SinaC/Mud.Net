@@ -1,13 +1,14 @@
 INGOING
-command help
-    commands
-    races
-    classes
-    abilities
+replace nlog with microsoft logging
+check each parameter for every Logger.LogXXX
+    search {0}  and  ($
 
+TODO
+remove every manual call to GetService/GetRequiredService
+ChracterFactory, ItemFactory, RoomFactory to handle characters, items and rooms creation (to avoid new everywhere in the code and replace with DI more easily later if needed)
 character default size seems to be tiny for ROM24
 finish ROM24 classes
-use DI for Room, Item, Character, ...
+use DI for Room, Item, Character, ... (don't forget to change ILogger to ILogger<> in ActorBase, ...)
 when a player connects, if no avatar found -> switch to avatar create state machine
 move IClass/IRace to IPlayableCharacter as non-nullable
 move IClass/IRace to INonPlayableCharacter as nullable

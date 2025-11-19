@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -7,7 +8,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Effects;
-using Mud.Server.Rom24.Spells;
 
 namespace Mud.Server.Rom24.BreathSpells;
 
@@ -19,8 +19,8 @@ public class FrostBreath : OffensiveSpellBase
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public FrostBreath(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
-        : base(randomManager)
+    public FrostBreath(ILogger<FrostBreath> logger, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+        : base(logger, randomManager)
     {
         AuraManager = auraManager;
         ItemManager = itemManager;

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 using Mud.Settings.Interfaces;
@@ -11,8 +12,8 @@ public abstract class ItemCreationSpellBase : NoTargetSpellBase
     protected IItemManager ItemManager { get; }
     protected ISettings Settings { get; }
 
-    protected ItemCreationSpellBase(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
-        : base(randomManager)
+    protected ItemCreationSpellBase(ILogger<ItemCreationSpellBase> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
+        : base(logger, randomManager)
     {
         Wiznet = wiznet;
         ItemManager = itemManager;

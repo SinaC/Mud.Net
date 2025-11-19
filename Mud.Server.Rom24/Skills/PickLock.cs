@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
@@ -22,8 +23,8 @@ public class PickLock : SkillBase
 {
     private const string SkillName = "Pick Lock";
 
-    public PickLock(IRandomManager randomManager)
-        : base(randomManager)
+    public PickLock(ILogger<PickLock> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

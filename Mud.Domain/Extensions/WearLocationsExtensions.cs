@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Logger;
 
 namespace Mud.Domain.Extensions;
 
@@ -29,7 +28,7 @@ public static class WearLocationsExtensions
             case WearLocations.Wield2H: return EquipmentSlots.MainHand.Yield();
             case WearLocations.Float: return EquipmentSlots.Float.Yield();
             default:
-                Log.Default.WriteLine(LogLevels.Error, "ToEquipmentSlots: Invalid wear location {0}", wearLocation);
+                //Logger.LogError("ToEquipmentSlots: Invalid wear location {0}", wearLocation);
                 return EquipmentSlots.None.Yield();
         }
     }

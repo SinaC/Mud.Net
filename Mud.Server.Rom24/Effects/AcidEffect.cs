@@ -1,6 +1,6 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Affects;
 using Mud.Server.Common;
 using Mud.Server.Effects;
@@ -18,12 +18,14 @@ namespace Mud.Server.Rom24.Effects;
 [Effect("Acid")]
 public class AcidEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
 {
+    private ILogger Logger { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public AcidEffect(IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public AcidEffect(ILogger logger, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
     {
+        Logger = logger;
         RandomManager = randomManager;
         AuraManager = auraManager;
         ItemManager = itemManager;
@@ -96,7 +98,7 @@ public class AcidEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
                 msg = "{0} is burned into waste.";
                 break;
             default:
-                Log.Default.WriteLine( LogLevels.Error, "AcidEffect: default message for unexpected item type {0}", item.GetType());
+                Logger.LogError("AcidEffect: default message for unexpected item type {itemType}", item.GetType());
                 msg = "{0} burns.";
                 break;
         }

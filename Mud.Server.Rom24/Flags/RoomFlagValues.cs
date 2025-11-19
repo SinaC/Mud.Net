@@ -1,5 +1,5 @@
-﻿using Mud.DataStructures.Flags;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
@@ -25,8 +25,13 @@ public class RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
 
     protected override HashSet<string> HashSet => Flags;
 
+    public RoomFlagValues(ILogger<RoomFlagValues> logger)
+        : base(logger)
+    {
+    }
+
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Log.Default.WriteLine(LogLevels.Error, $"Room flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError($"Room flags '{string.Join(",", values)}' not found in {GetType().FullName}");
     }
 }

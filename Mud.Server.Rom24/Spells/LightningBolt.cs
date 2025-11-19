@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -11,8 +12,8 @@ public class LightningBolt : DamageTableSpellBase
 {
     private const string SpellName = "Lightning Bolt";
 
-    public LightningBolt(IRandomManager randomManager)
-        : base(randomManager)
+    public LightningBolt(ILogger<LightningBolt> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -17,8 +18,8 @@ public class Portal : TransportationSpellBase
     private IItemManager ItemManager { get; }
     private ISettings Settings { get; }
 
-    public Portal(IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, ISettings settings)
-        : base(randomManager, characterManager)
+    public Portal(ILogger<Portal> logger, IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, ISettings settings)
+        : base(logger, randomManager, characterManager)
     {
         ItemManager = itemManager;
         Settings = settings;

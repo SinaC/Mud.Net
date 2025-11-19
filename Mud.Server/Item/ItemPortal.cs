@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -16,9 +17,9 @@ public class ItemPortal : ItemBase<ItemPortalBlueprint, ItemPortalData>, IItemPo
     public const int InfiniteChargeCount = -1;
     public const int NoDestinationRoomId = -1;
 
-    public ItemPortal(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+    public ItemPortal(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
         Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer containedInto) 
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
     {
         Destination = destination;
         KeyId = blueprint.Key;
@@ -27,9 +28,9 @@ public class ItemPortal : ItemBase<ItemPortalBlueprint, ItemPortalData>, IItemPo
         CurrentChargeCount = blueprint.CurrentChargeCount;
     }
 
-    public ItemPortal(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
+    public ItemPortal(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, 
         Guid guid, ItemPortalBlueprint blueprint, ItemPortalData itemData, IRoom destination, IContainer containedInto)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemData, containedInto)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemData, containedInto)
     {
         Destination = destination;
         KeyId = blueprint.Key;

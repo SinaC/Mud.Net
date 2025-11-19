@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -16,8 +16,8 @@ public class Teleport : TransportationSpellBase
 
     private IRoomManager RoomManager { get; }
 
-    public Teleport(IRandomManager randomManager, IRoomManager roomManager, ICharacterManager characterManager)
-        : base(randomManager, characterManager)
+    public Teleport(ILogger<Teleport> logger, IRandomManager randomManager, IRoomManager roomManager, ICharacterManager characterManager)
+        : base(logger, randomManager, characterManager)
     {
         RoomManager = roomManager;
     }
@@ -27,7 +27,7 @@ public class Teleport : TransportationSpellBase
         IRoom destination = RoomManager.GetRandomRoom(Caster);
         if (destination == null)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "Teleport: no random room available for {0}", Victim.DebugName);
+            Logger.LogWarning("Teleport: no random room available for {0}", Victim.DebugName);
             Caster.Send("Spell failed.");
             return;
         }

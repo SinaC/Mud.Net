@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -11,8 +12,8 @@ public class Gate : TransportationSpellBase
 {
     private const string SpellName = "Gate";
 
-    public Gate(IRandomManager randomManager, ICharacterManager characterManager)
-        : base(randomManager, characterManager)
+    public Gate(ILogger<Gate> logger, IRandomManager randomManager, ICharacterManager characterManager)
+        : base(logger, randomManager, characterManager)
     {
     }
 

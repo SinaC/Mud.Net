@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -11,8 +12,8 @@ public class GeneralPurpose : DamageSpellBase
 {
     private const string SpellName = "General Purpose";
 
-    public GeneralPurpose(IRandomManager randomManager)
-        : base(randomManager)
+    public GeneralPurpose(ILogger<GeneralPurpose> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

@@ -1,6 +1,4 @@
-﻿using Mud.Logger;
-
-namespace Mud.Domain.Extensions;
+﻿namespace Mud.Domain.Extensions;
 
 public static class BasicAttributesExtensions
 {
@@ -14,7 +12,7 @@ public static class BasicAttributesExtensions
             case BasicAttributes.Dexterity: return "Dex";
             case BasicAttributes.Constitution: return "Con";
             default:
-                Log.Default.WriteLine(LogLevels.Error, "BasicAttributes.ShortName: Invalid attribute {0}", attribute);
+                //Logger.LogError("BasicAttributes.ShortName: Invalid attribute {0}", attribute);
                 return attribute.ToString();
         }
     }

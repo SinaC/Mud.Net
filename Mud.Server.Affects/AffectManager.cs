@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using System.Reflection;
@@ -8,11 +8,13 @@ namespace Mud.Server.Affects;
 
 public class AffectManager : IAffectManager
 {
+    private ILogger<AffectManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private Dictionary<string, IAffectInfo> AffectsByName { get; }
 
-    public AffectManager(IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
+    public AffectManager(ILogger<AffectManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
 
         var iAffectType = typeof(IAffect);
@@ -26,7 +28,7 @@ public class AffectManager : IAffectManager
     {
         if (!AffectsByName.TryGetValue(name, out var affectInfo))
         {
-            Log.Default.WriteLine(LogLevels.Error, "AffectManager: effect {0} not found.", name);
+            Logger.LogError("AffectManager: effect {name} not found.", name);
             return null;
         }
 
@@ -64,11 +66,11 @@ public class AffectManager : IAffectManager
                     if (affect is ICustomAffect customAffect)
                         customAffect.Initialize(data);
                     else
-                        Log.Default.WriteLine(LogLevels.Error, "AffectType type {0} should implement {1}.", data.GetType(), typeof(ICustomAffect).FullName ?? "???");
+                        Logger.LogError("AffectType type {dataType} should implement {customAffectType}.", data.GetType(), typeof(ICustomAffect).FullName ?? "???");
                     return affect;
                 }
                 else
-                    Log.Default.WriteLine(LogLevels.Error, "Unexpected AffectType type {0}.", data.GetType());
+                    Logger.LogError("Unexpected AffectType type {dataType}.", data.GetType());
                 break;
         }
 
@@ -83,13 +85,13 @@ public class AffectManager : IAffectManager
         var affect = ServiceProvider.GetService(affectInfo.AffectType);
         if (affect == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "AffectManager: effect {0} not found in DependencyContainer.", affectInfo.AffectType.FullName ?? "???");
+            Logger.LogError("AffectManager: affect {affectType} not found in DependencyContainer.", affectInfo.AffectType.FullName ?? "???");
             return null;
         }
 
         if (affect is not IAffect instance)
         {
-            Log.Default.WriteLine(LogLevels.Error, "AffectManager: effect {0} cannot be create or is not of type {1}", affectInfo.AffectType.FullName ?? "???", typeof(IAffect).FullName ?? "???");
+            Logger.LogError("AffectManager: affect {affectType} cannot be create or is not of type {expectedAffectType}", affectInfo.AffectType.FullName ?? "???", typeof(IAffect).FullName ?? "???");
             return null;
         }
         return instance;

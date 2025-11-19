@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using System.Text;
 
 namespace Mud.Importer;
@@ -12,11 +12,18 @@ public abstract class TextBasedLoader
 
     public string CurrentFilename { get; private set; } = default!;
 
+    protected ILogger<TextBasedLoader> Logger { get; }
+
+    protected TextBasedLoader(ILogger<TextBasedLoader> logger)
+    {
+        Logger = logger;
+    }
+
     public void Load(string filename)
     {
         if (!File.Exists(filename))
             throw new FileNotFoundException("Cannot load file", filename);
-        Log.Default.WriteLine(LogLevels.Debug, "Reading " + filename);
+        Logger.LogDebug("Reading " + filename);
 
         CurrentFilename = filename;
         using (TextReader tr = new StreamReader(filename))
@@ -32,13 +39,13 @@ public abstract class TextBasedLoader
     protected void Warn(string format, params object[] parameters)
     {
         string message = CurrentFilename + ":" + _currentLine + "->" + string.Format(format, parameters);
-        Log.Default.WriteLine(LogLevels.Warning, message);
+        Logger.LogWarning(message);
     }
 
     protected void RaiseParseException(string format, params object[] parameters)
     {
         string message = CurrentFilename + ":" + _currentLine + "->" + string.Format(format, parameters);
-        Log.Default.WriteLine(LogLevels.Error, message);
+        Logger.LogError(message);
         throw new ParseException(message);
     }
 
@@ -163,7 +170,7 @@ public abstract class TextBasedLoader
             c = GetChar();
             if (IsEof())
             {
-                Log.Default.WriteLine(LogLevels.Error, "ReadString: EOF");
+                Logger.LogError("ReadString: EOF");
                 return null!;
             }
             else if (c == '\n')
@@ -229,7 +236,7 @@ public abstract class TextBasedLoader
         {
             c = GetChar();
             if (c != '\'')
-                Log.Default.WriteLine(LogLevels.Error, "Wrong flag format. (Double quote expected)");
+                Logger.LogError("Wrong flag format. (Double quote expected)");
             return 0;
         }
 
@@ -313,7 +320,7 @@ public abstract class TextBasedLoader
         return char.ToUpper(s[0]) + s[1..];
     }
 
-    protected static long FlagConvert(char letter)
+    protected long FlagConvert(char letter)
     {
         long bitsum = 0;
         char i;
@@ -333,7 +340,7 @@ public abstract class TextBasedLoader
 
         if (bitsum < 0)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Negative bit!!!!");
+            Logger.LogError("Negative bit!!!!");
             return 0;
         }
         return bitsum;

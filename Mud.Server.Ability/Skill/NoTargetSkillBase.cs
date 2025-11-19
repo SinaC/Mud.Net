@@ -1,12 +1,13 @@
-﻿using Mud.Server.Interfaces.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.Ability.Skill;
 
 public abstract class NoTargetSkillBase : SkillBase
 {
-    protected NoTargetSkillBase(IRandomManager randomManager) 
-        : base(randomManager)
+    protected NoTargetSkillBase(ILogger<NoTargetSkillBase> logger, IRandomManager randomManager) 
+        : base(logger, randomManager)
     {
     }
 

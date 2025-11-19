@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 
@@ -7,11 +7,15 @@ namespace Mud.Server.Character;
 
 public class EquippedItem : IEquippedItem
 {
+    private ILogger Logger { get; }
+
     public EquipmentSlots Slot { get; }
     public IItem? Item { get; set; }
 
-    public EquippedItem(EquipmentSlots slot)
+    public EquippedItem(ILogger logger, EquipmentSlots slot)
     {
+        Logger = logger;
+
         Slot = slot;
     }
 
@@ -66,7 +70,7 @@ public class EquippedItem : IEquippedItem
             case EquipmentSlots.Float:
                 return "%C%<floating nearby>        %x%";
             default:
-                Log.Default.WriteLine(LogLevels.Error, "DoEquipment: missing WearLocation {0}", Slot);
+                Logger.LogError("DoEquipment: missing WearLocation {slot}", Slot);
                 break;
         }
         return "%C%<unknown>%x%";

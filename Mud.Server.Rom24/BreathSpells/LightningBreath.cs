@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -16,8 +17,8 @@ public class LightningBreath : OffensiveSpellBase
 
     private IItemManager ItemManager { get; }
 
-    public LightningBreath(IRandomManager randomManager, IItemManager itemManager)
-        : base(randomManager)
+    public LightningBreath(ILogger<LightningBreath> logger, IRandomManager randomManager, IItemManager itemManager)
+        : base(logger, randomManager)
     {
         ItemManager = itemManager;
     }

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -10,14 +11,14 @@ namespace Mud.Server.Ability.Spell;
 
 public abstract class ItemInventorySpellBase : SpellBase, ITargetedAction
 {
-    protected IItem Item { get; set; } = default!;
-
-    protected ItemInventorySpellBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected ItemInventorySpellBase(ILogger<ItemInventorySpellBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 
     public IEnumerable<IEntity> ValidTargets(ICharacter caster) => caster.Inventory.Where(caster.CanSee);
+
+    protected IItem Item { get; set; } = default!;
 
     protected override string? SetTargets(ISpellActionInput spellActionInput)
     {
@@ -43,8 +44,8 @@ public abstract class ItemInventorySpellBase<TItem> : SpellBase, ITargetedAction
 {
     protected TItem Item { get; set; } = default!;
 
-    protected ItemInventorySpellBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected ItemInventorySpellBase(ILogger<ItemInventorySpellBase<TItem>> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

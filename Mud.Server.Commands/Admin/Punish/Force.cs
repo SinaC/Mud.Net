@@ -19,11 +19,13 @@ This is typically used for 'force all save'.")]
 // TODO: check if force mob murder player is possible (should not be)
 public class Force : AdminGameAction
 {
+    private ICommandParser CommandParser { get; }
     private ICharacterManager CharacterManager { get; }
     private IWiznet Wiznet { get; }
 
-    public Force(ICharacterManager characterManager, IWiznet wiznet)
+    public Force(ICommandParser commandParser, ICharacterManager characterManager, IWiznet wiznet)
     {
+        CommandParser = commandParser;
         CharacterManager = characterManager;
         Wiznet = wiznet;
     }
@@ -53,7 +55,7 @@ public class Force : AdminGameAction
             if (Whom == Impersonating || Whom == Actor.Incarnating)
                 return "Aye aye, right away!";
         }
-        What = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
+        What = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
         return null;
     }
 

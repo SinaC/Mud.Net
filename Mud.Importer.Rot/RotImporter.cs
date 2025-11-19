@@ -1,5 +1,6 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -13,6 +14,7 @@ namespace Mud.Importer.Rot;
 
 public class RotImporter
 {
+    private ILogger<RotImporter> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
 
     private readonly List<AreaBlueprint> _areaBlueprints = [];
@@ -25,21 +27,22 @@ public class RotImporter
     public IReadOnlyCollection<ItemBlueprintBase> Items => _itemBlueprints.AsReadOnly();
     public IReadOnlyCollection<CharacterBlueprintBase> Characters => _characterBlueprints.AsReadOnly();
 
-    public RotImporter(IServiceProvider serviceProvider)
+    public RotImporter(ILogger<RotImporter> logger, IServiceProvider serviceProvider)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
     }
 
     public void ImportByList(string path, string areaLst)
     {
-        RotLoader loader = new ();
+        RotLoader loader = new(ServiceProvider.GetRequiredService<ILogger<RotLoader>>()); // TODO: register RotLoader
         string[] areaFilenames = File.ReadAllLines(Path.Combine(path, areaLst));
         foreach (string areaFilename in areaFilenames)
         {
             if (areaFilename.Contains("$"))
                 break;
             if (areaFilename.StartsWith("-"))
-                Log.Default.WriteLine(LogLevels.Info, "Skipping {0}", areaFilename);
+                Logger.LogInformation("Skipping {0}", areaFilename);
             else
             {
                 string areaFullName = Path.Combine(path, RemoveCommentIfAny(areaFilename));
@@ -53,7 +56,7 @@ public class RotImporter
 
     public void Import(string path, params string[] filenames)
     {
-        RotLoader loader = new ();
+        RotLoader loader = new(ServiceProvider.GetRequiredService<ILogger<RotLoader>>()); // TODO: register RotLoader
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);
@@ -66,7 +69,7 @@ public class RotImporter
 
     public void Import(string path, IEnumerable<string> filenames)
     {
-        RotLoader loader = new RotLoader();
+        RotLoader loader = new(ServiceProvider.GetRequiredService<ILogger<RotLoader>>()); // TODO: register RotLoader
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);
@@ -296,9 +299,9 @@ public class RotImporter
                 case 'M':
                     Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset M arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
                     if (reset.Arg2 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset M arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset M arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                     if (reset.Arg4 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset M arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset M arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
                     yield return new CharacterReset
                     {
                         RoomId = roomData.VNum,
@@ -319,9 +322,9 @@ public class RotImporter
                     break;
                 case 'P':
                     if (reset.Arg2 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset P arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset P arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                     if (reset.Arg4 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset P arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset P arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
                     yield return new ItemInItemReset
                     {
                         RoomId = roomData.VNum,
@@ -333,7 +336,7 @@ public class RotImporter
                     break;
                 case 'G':
                     if (reset.Arg2 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset G arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset G arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                     yield return new ItemInCharacterReset
                     {
                         RoomId = roomData.VNum,
@@ -343,7 +346,7 @@ public class RotImporter
                     break;
                 case 'E':
                     if (reset.Arg2 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset E arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset E arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                     yield return new ItemInEquipmentReset
                     {
                         RoomId = roomData.VNum,
@@ -368,7 +371,7 @@ public class RotImporter
                     };
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unknown Reset {0} for room {1}", reset.Command, roomData.VNum);
+                    Logger.LogError("Unknown Reset {0} for room {1}", reset.Command, roomData.VNum);
                     break;
             }
         }
@@ -915,7 +918,7 @@ public class RotImporter
             //case "passbook":
             //case "vehicle":
             default:
-                Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: [{objectData.VNum}] [{objectData.ItemType}] [{objectData.WearFlags}] : {objectData.Name}");
+                Logger.LogWarning($"ItemBlueprint cannot be created: [{objectData.VNum}] [{objectData.ItemType}] [{objectData.WearFlags}] : {objectData.Name}");
                 break;
         }
         // Material, Condition, Affects, Clan, Guild not used
@@ -954,7 +957,7 @@ public class RotImporter
                 //ITEM_WEAR_FACE
         }
 
-        Log.Default.WriteLine(LogLevels.Warning, "Unknown wear location: {0} for item {1}", objectData.WearFlags, objectData.VNum);
+        Logger.LogWarning("Unknown wear location: {0} for item {1}", objectData.WearFlags, objectData.VNum);
         return WearLocations.None;
     }
 
@@ -1012,7 +1015,7 @@ public class RotImporter
             case "polearm": return WeaponTypes.Polearm;
         }
 
-        Log.Default.WriteLine(LogLevels.Warning, "Unknown weapon type: {0} for item {1}", weaponType, objectData.VNum);
+        Logger.LogWarning("Unknown weapon type: {0} for item {1}", weaponType, objectData.VNum);
         return WeaponTypes.Exotic;
     }
 
@@ -1062,7 +1065,7 @@ public class RotImporter
         if (IsSet(flag, STAND_AT) || IsSet(flag, SIT_AT) || IsSet(flag, REST_AT) || IsSet(flag, SLEEP_AT)) return FurniturePlacePrepositions.At;
         if (IsSet(flag, STAND_ON) || IsSet(flag, SIT_ON) || IsSet(flag, REST_ON) || IsSet(flag, SLEEP_ON)) return FurniturePlacePrepositions.On;
         if (IsSet(flag, STAND_IN) || IsSet(flag, SIT_IN) || IsSet(flag, REST_IN) || IsSet(flag, SLEEP_IN)) return FurniturePlacePrepositions.In;
-        Log.Default.WriteLine(LogLevels.Warning, "Unknown Furniture preposition {0} for item {1}", flag, objectData.VNum);
+        Logger.LogWarning("Unknown Furniture preposition {0} for item {1}", flag, objectData.VNum);
         return FurniturePlacePrepositions.None;
     }
 
@@ -1329,7 +1332,7 @@ public class RotImporter
             case "huge": return Sizes.Huge;
             case "giant": return Sizes.Giant;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "Invalid size {0} for mob {1}", mobileData.Size, mobileData.VNum);
+                Logger.LogError("Invalid size {0} for mob {1}", mobileData.Size, mobileData.VNum);
                 return Sizes.Medium;
         }
     }
@@ -1563,13 +1566,13 @@ public class RotImporter
                 case ITEM_FOUNTAIN: yield return typeof(ItemFountainBlueprint); break;
                 case ITEM_PILL: yield return typeof(ItemPillBlueprint); break;
                 case ITEM_PROTECT:
-                    Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
+                    Logger.LogWarning("Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                     break;
                 case ITEM_MAP: yield return typeof(ItemMapBlueprint); break;
                 case ITEM_PORTAL: yield return typeof(ItemPortalBlueprint); break;
                 case ITEM_WARP_STONE: yield return typeof(ItemWarpStoneBlueprint); break;
                 case ITEM_ROOM_KEY:
-                    Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
+                    Logger.LogWarning("Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                     break;
                 case ITEM_GEM: yield return typeof(ItemGemBlueprint); break;
                 case ITEM_JEWELRY: yield return typeof(ItemJewelryBlueprint); break;
@@ -1580,7 +1583,7 @@ public class RotImporter
                 case ITEM_PASSBOOK:
                 case ITEM_VEHICLE:
                 default:
-                    Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
+                    Logger.LogWarning("Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                     break;
             }
         }
@@ -1823,7 +1826,7 @@ public class RotImporter
             case DAM_SOUND: return SchoolTypes.Sound;
         }
 
-        Log.Default.WriteLine(LogLevels.Warning, "Unknown damage type {0} for {1}", damageType, errorMsg);
+        Logger.LogWarning("Unknown damage type {0} for {1}", damageType, errorMsg);
         return SchoolTypes.None;
     }
 
@@ -1920,7 +1923,7 @@ public class RotImporter
     private void RaiseConvertException(string format, params object[] parameters)
     {
         string message = string.Format(format, parameters);
-        Log.Default.WriteLine(LogLevels.Error, message);
+        Logger.LogError(message);
         throw new RotConvertException(message);
     }
 

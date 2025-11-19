@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Quest;
@@ -18,16 +18,18 @@ public class Quest : IQuest
 {
     private readonly List<IQuestObjective> _objectives;
 
-    protected ISettings Settings { get; }
-    protected ITimeManager TimeManager { get; }
-    protected IItemManager ItemManager { get; }
-    protected IRoomManager RoomManager { get; }
-    protected ICharacterManager CharacterManager { get; }
-    protected IQuestManager QuestManager { get; }
+    private ILogger Logger { get; }
+    private ISettings Settings { get; }
+    private ITimeManager TimeManager { get; }
+    private IItemManager ItemManager { get; }
+    private IRoomManager RoomManager { get; }
+    private ICharacterManager CharacterManager { get; }
+    private IQuestManager QuestManager { get; }
 
-    public Quest(ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
+    public Quest(ILogger logger, ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
         QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
     {
+        Logger = logger;
         Settings = settings;
         TimeManager = timeManager;
         ItemManager = itemManager;
@@ -44,9 +46,10 @@ public class Quest : IQuest
         BuildObjectives(blueprint, character);
     }
 
-    public Quest(ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
+    public Quest(ILogger logger, ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
         CurrentQuestData questData, IPlayableCharacter character)
     {
+        Logger = logger;
         Settings = settings;
         TimeManager = timeManager;
         ItemManager = itemManager;
@@ -67,14 +70,14 @@ public class Quest : IQuest
         var characterQuestorBlueprint = CharacterManager.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
         if (characterQuestorBlueprint == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Quest giver blueprint id {0} not found!!!", questData.GiverId);
+            Logger.LogError("Quest giver blueprint id {0} not found!!!", questData.GiverId);
         }
         else
         {
             var giver = CharacterManager.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? CharacterManager.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
             if (giver == null)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Quest giver blueprint id {0} room blueprint Id {1} not found!!!", questData.GiverId, questData.GiverRoomId);
+                Logger.LogError("Quest giver blueprint id {0} room blueprint Id {1} not found!!!", questData.GiverId, questData.GiverRoomId);
             }
             Giver = giver;
         }
@@ -96,7 +99,7 @@ public class Quest : IQuest
                     questObjectiveLocation.Explored = objectiveData.Count > 0;
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Quest ({0}) objective ({1}) cannot be found for character {2}.", questData.QuestId, objectiveData.ObjectiveId, character.DisplayName);
+                    Logger.LogError("Quest ({0}) objective ({1}) cannot be found for character {2}.", questData.QuestId, objectiveData.ObjectiveId, character.DisplayName);
                     break;
             }
         }
@@ -134,11 +137,11 @@ public class Quest : IQuest
                 if (ItemManager.GetItemBlueprint(loot) is ItemQuestBlueprint questItemBlueprint)
                 {
                     ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, container);
-                    Log.Default.WriteLine(LogLevels.Debug, $"Loot objective {loot} generated for {Character.DisplayName}");
+                    Logger.LogDebug($"Loot objective {loot} generated for {Character.DisplayName}");
                 }
                 else
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Loot objective {0} doesn't exist (or is not quest item) for quest {1}", loot, Blueprint.Id);
+                    Logger.LogError("Loot objective {0} doesn't exist (or is not quest item) for quest {1}", loot, Blueprint.Id);
                 }
             }
         }
@@ -290,7 +293,7 @@ public class Quest : IQuest
 
     #endregion
 
-    private static int ComputeObjectiveCurrentQuestObjectiveDataCount(IQuestObjective questObjective)
+    private int ComputeObjectiveCurrentQuestObjectiveDataCount(IQuestObjective questObjective)
     {
         switch (questObjective)
         {
@@ -299,7 +302,7 @@ public class Quest : IQuest
             case LocationQuestObjective questObjectiveLocation:
                 return questObjectiveLocation.Explored ? 1: 0;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "Cannot convert quest objective {0} type {1} to count", questObjective.Id, questObjective.GetType().Name);
+                Logger.LogError("Cannot convert quest objective {0} type {1} to count", questObjective.Id, questObjective.GetType().Name);
                 break;
         }
 
@@ -322,7 +325,7 @@ public class Quest : IQuest
                         Total = itemObjective.Count
                     });
                 else
-                    Log.Default.WriteLine(LogLevels.Warning, $"Loot objective {itemObjective.ItemBlueprintId} doesn't exist (or is not quest item) for quest {blueprint.Id}");
+                    Logger.LogWarning($"Loot objective {itemObjective.ItemBlueprintId} doesn't exist (or is not quest item) for quest {blueprint.Id}");
             }
         }
         if (Blueprint.KillObjectives != null)
@@ -339,7 +342,7 @@ public class Quest : IQuest
                         Total = killObjective.Count
                     });
                 else
-                    Log.Default.WriteLine(LogLevels.Warning, $"Kill objective {killObjective.CharacterBlueprintId} doesn't exist for quest {blueprint.Id}");
+                    Logger.LogWarning($"Kill objective {killObjective.CharacterBlueprintId} doesn't exist for quest {blueprint.Id}");
             }
         }
         if (Blueprint.LocationObjectives != null)
@@ -355,7 +358,7 @@ public class Quest : IQuest
                         Explored = character.Room?.Blueprint?.Id == roomBlueprint.Id
                     });
                 else
-                    Log.Default.WriteLine(LogLevels.Warning, $"Location objective {locationObjective.RoomBlueprintId} doesn't exist for quest {blueprint.Id}");
+                    Logger.LogWarning($"Location objective {locationObjective.RoomBlueprintId} doesn't exist for quest {blueprint.Id}");
             }
         }
     }
@@ -366,7 +369,7 @@ public class Quest : IQuest
         var questItems = Character.Inventory.Where(x => x.Blueprint != null && Blueprint.ItemObjectives.Any(i => i.ItemBlueprintId == x.Blueprint.Id)).ToList();
         foreach (var questItem in questItems)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "Destroying quest item {0} in {1}", questItem.DebugName, Character.DebugName);
+            Logger.LogDebug("Destroying quest item {0} in {1}", questItem.DebugName, Character.DebugName);
             ItemManager.RemoveItem(questItem);
         }
     }

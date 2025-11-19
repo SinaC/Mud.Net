@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -22,8 +22,10 @@ namespace Mud.Server.Character;
 
 public class CharacterManager : ICharacterManager
 {
+    private ILogger<CharacterManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private IGameActionManager GameActionManager { get; }
+    private ICommandParser CommandParser { get; }
     private IAbilityManager AbilityManager { get; }
     private ISettings Settings { get; }
     private IRandomManager RandomManager { get; }
@@ -41,10 +43,12 @@ public class CharacterManager : ICharacterManager
     private readonly Dictionary<int, CharacterBlueprintBase> _characterBlueprints;
     private readonly List<ICharacter> _characters;
 
-    public CharacterManager(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, ITimeManager timeManager, IQuestManager questManager)
+    public CharacterManager(ILogger<CharacterManager> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, ITimeManager timeManager, IQuestManager questManager)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
         GameActionManager = gameActionManager;
+        CommandParser = commandParser;
         AbilityManager = abilityManager;
         Settings = settings;
         RandomManager = randomManager;
@@ -81,7 +85,7 @@ public class CharacterManager : ICharacterManager
     public void AddCharacterBlueprint(CharacterBlueprintBase blueprint)
     {
         if (_characterBlueprints.ContainsKey(blueprint.Id))
-            Log.Default.WriteLine(LogLevels.Error, "Character blueprint duplicate {0}!!!", blueprint.Id);
+            Logger.LogError("Character blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
             _characterBlueprints.Add(blueprint.Id, blueprint);
     }
@@ -94,7 +98,7 @@ public class CharacterManager : ICharacterManager
 
     public IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData playableCharacterData, IPlayer player, IRoom room) // PC
     {
-        var character = new PlayableCharacter.PlayableCharacter(ServiceProvider, GameActionManager, AbilityManager, Settings, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, TimeManager, QuestManager, guid, playableCharacterData, player, room);
+        var character = new PlayableCharacter.PlayableCharacter(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, TimeManager, QuestManager, guid, playableCharacterData, player, room);
         _characters.Add(character);
         character.Recompute();
         room.Recompute();
@@ -104,7 +108,7 @@ public class CharacterManager : ICharacterManager
     public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
     {
         ArgumentNullException.ThrowIfNull(blueprint);
-        var character = new NonPlayableCharacter.NonPlayableCharacter(ServiceProvider, GameActionManager, AbilityManager, Settings, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, guid, blueprint, room);
+        var character = new NonPlayableCharacter.NonPlayableCharacter(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, guid, blueprint, room);
         _characters.Add(character);
         character.Recompute();
         room.Recompute();
@@ -114,7 +118,7 @@ public class CharacterManager : ICharacterManager
     public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // pet
     {
         ArgumentNullException.ThrowIfNull(blueprint);
-        var character = new NonPlayableCharacter.NonPlayableCharacter(ServiceProvider, GameActionManager, AbilityManager, Settings, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, guid, blueprint, petData, room);
+        var character = new NonPlayableCharacter.NonPlayableCharacter(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, Settings, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, guid, blueprint, petData, room);
         _characters.Add(character);
         character.Recompute();
         room.Recompute();
@@ -158,7 +162,7 @@ public class CharacterManager : ICharacterManager
     public void Cleanup()
     {
         if (_characters.Any(x => !x.IsValid))
-            Log.Default.WriteLine(LogLevels.Debug, $"Cleaning {_characters.Count(x => !x.IsValid)} character(s)");
+            Logger.LogDebug("Cleaning {count} character(s)", _characters.Count(x => !x.IsValid));
 
         var charactersToRemove = _characters.Where(x => !x.IsValid).ToArray();
         foreach (var character in charactersToRemove)

@@ -1,5 +1,6 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -13,6 +14,7 @@ namespace Mud.Importer.Mystery;
 
 public class MysteryImporter
 {
+    private ILogger<MysteryImporter> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
 
     private readonly List<AreaBlueprint> _areaBlueprints = [];
@@ -25,21 +27,22 @@ public class MysteryImporter
     public IReadOnlyCollection<ItemBlueprintBase> Items => _itemBlueprints.AsReadOnly();
     public IReadOnlyCollection<CharacterBlueprintBase> Characters => _characterBlueprints.AsReadOnly();
 
-    public MysteryImporter(IServiceProvider serviceProvider)
+    public MysteryImporter(ILogger<MysteryImporter> logger, IServiceProvider serviceProvider)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
     }
 
     public void ImportByList(string path, string areaLst)
     {
-        MysteryLoader loader = new ();
+        MysteryLoader loader = new (ServiceProvider.GetRequiredService<ILogger<MysteryLoader>>()); // TODO: register MysteryLoader
         string[] areaFilenames = File.ReadAllLines(Path.Combine(path, areaLst));
         foreach (string areaFilename in areaFilenames)
         {
             if (areaFilename.Contains('$'))
                 break;
             if (areaFilename.StartsWith('-'))
-                Log.Default.WriteLine(LogLevels.Info, "Skipping {0}", areaFilename);
+                Logger.LogInformation("Skipping {0}", areaFilename);
             else
             {
                 string areaFullName = Path.Combine(path, RemoveCommentIfAny(areaFilename));
@@ -53,7 +56,7 @@ public class MysteryImporter
 
     public void Import(string path, params string[] filenames)
     {
-        MysteryLoader loader = new ();
+        MysteryLoader loader = new(ServiceProvider.GetRequiredService<ILogger<MysteryLoader>>()); // TODO: register MysteryLoader
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);
@@ -66,7 +69,7 @@ public class MysteryImporter
 
     public void Import(string path, IEnumerable<string> filenames)
     {
-        MysteryLoader loader = new ();
+        MysteryLoader loader = new(ServiceProvider.GetRequiredService<ILogger<MysteryLoader>>()); // TODO: register MysteryLoader
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);
@@ -302,9 +305,9 @@ public class MysteryImporter
                 case 'M':
                     Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset M arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
                     if (reset.Arg2 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset M arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset M arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                     if (reset.Arg4 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset M arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset M arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
                     yield return new CharacterReset
                     {
                         RoomId = roomData.VNum,
@@ -316,7 +319,7 @@ public class MysteryImporter
                 case 'O':
                     Debug.Assert(reset.Arg3 == roomData.VNum, $"Reset O arg3 '{reset.Arg3}' should be equal to room id '{roomData.VNum}'.");
                     if (reset.Arg2 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset O arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset O arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                     yield return new ItemInRoomReset
                     {
                         RoomId = roomData.VNum,
@@ -327,9 +330,9 @@ public class MysteryImporter
                     break;
                 case 'P':
                     if (reset.Arg2 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset P arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset P arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                     if (reset.Arg4 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset P arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset P arg4 (local limit) is 0 for room id '{roomData.VNum}'.");
                     yield return new ItemInItemReset
                     {
                         RoomId = roomData.VNum,
@@ -341,7 +344,7 @@ public class MysteryImporter
                     break;
                 case 'G':
                     if (reset.Arg2 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset G arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset G arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                     yield return new ItemInCharacterReset
                     {
                         RoomId = roomData.VNum,
@@ -351,7 +354,7 @@ public class MysteryImporter
                     break;
                 case 'E':
                     if (reset.Arg2 == 0)
-                        Log.Default.WriteLine(LogLevels.Warning, $"Reset E arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
+                        Logger.LogWarning($"Reset E arg2 (global limit) is 0 for room id '{roomData.VNum}'.");
                     yield return new ItemInEquipmentReset
                     {
                         RoomId = roomData.VNum,
@@ -376,7 +379,7 @@ public class MysteryImporter
                     };
                     break;
                 default:
-                    Log.Default.WriteLine(LogLevels.Error, "Unknown Reset {0} for room {1}", reset.Command, roomData.VNum);
+                    Logger.LogError("Unknown Reset {0} for room {1}", reset.Command, roomData.VNum);
                     break;
             }
         }
@@ -933,7 +936,7 @@ public class MysteryImporter
             //TODO: rope
 
             default:
-                Log.Default.WriteLine(LogLevels.Warning, $"ItemBlueprint cannot be created: Vnum: [{objectData.VNum}] Type: {objectData.ItemType} Flags: {objectData.WearFlags} : {objectData.Name}");
+                Logger.LogWarning($"ItemBlueprint cannot be created: Vnum: [{objectData.VNum}] Type: {objectData.ItemType} Flags: {objectData.WearFlags} : {objectData.Name}");
                 break;
         }
 
@@ -972,7 +975,7 @@ public class MysteryImporter
             //TODO: ITEM_WEAR_EYES
         }
 
-        Log.Default.WriteLine(LogLevels.Warning, "Unknown wear location: {0} for item {1}", objectData.WearFlags, objectData.VNum);
+        Logger.LogWarning("Unknown wear location: {0} for item {1}", objectData.WearFlags, objectData.VNum);
         return WearLocations.None;
     }
 
@@ -1029,7 +1032,7 @@ public class MysteryImporter
             //TODO: ranged
         }
 
-        Log.Default.WriteLine(LogLevels.Warning, "Unknown weapon type: {0} for item {1}", weaponType, objectData.VNum);
+        Logger.LogWarning("Unknown weapon type: {0} for item {1}", weaponType, objectData.VNum);
         return WeaponTypes.Exotic;
     }
 
@@ -1113,7 +1116,7 @@ public class MysteryImporter
         if (IsSet(flag, STAND_AT) || IsSet(flag, SIT_AT) || IsSet(flag, REST_AT) || IsSet(flag, SLEEP_AT)) return FurniturePlacePrepositions.At;
         if (IsSet(flag, STAND_ON) || IsSet(flag, SIT_ON) || IsSet(flag, REST_ON) || IsSet(flag, SLEEP_ON)) return FurniturePlacePrepositions.On;
         if (IsSet(flag, STAND_IN) || IsSet(flag, SIT_IN) || IsSet(flag, REST_IN) || IsSet(flag, SLEEP_IN)) return FurniturePlacePrepositions.In;
-        Log.Default.WriteLine(LogLevels.Warning, "Unknown Furniture preposition {0} for item {1}", flag, objectData.VNum);
+        Logger.LogWarning("Unknown Furniture preposition {0} for item {1}", flag, objectData.VNum);
         return FurniturePlacePrepositions.None;
     }
 
@@ -1352,7 +1355,7 @@ public class MysteryImporter
             case "huge": return Sizes.Huge;
             case "giant": return Sizes.Giant;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "Invalid size {0} for mob {1}", mobileData.Size, mobileData.VNum);
+                Logger.LogError("Invalid size {0} for mob {1}", mobileData.Size, mobileData.VNum);
                 return Sizes.Medium;
         }
     }
@@ -1540,7 +1543,7 @@ public class MysteryImporter
                 case ITEM_PORTAL: yield return typeof(ItemPortalBlueprint); break;
                 case ITEM_WARP_STONE: yield return typeof(ItemWarpStoneBlueprint); break;
                 case ITEM_COMPONENT:
-                    Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
+                    Logger.LogWarning("Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                     break;
                 case ITEM_GEM: yield return typeof(ItemGemBlueprint); break;
                 case ITEM_JEWELRY: yield return typeof(ItemJewelryBlueprint); break;
@@ -1550,7 +1553,7 @@ public class MysteryImporter
                 case ITEM_SADDLE:
                 case ITEM_ROPE:
                 default:
-                    Log.Default.WriteLine(LogLevels.Warning, "Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
+                    Logger.LogWarning("Invalid buy type {0} for mob {1}", buyType, shopData.Keeper);
                     break;
             }
         }
@@ -1880,7 +1883,7 @@ public class MysteryImporter
             // DAYLIGHT, EARTH, WEAKEN
         }
 
-        Log.Default.WriteLine(LogLevels.Warning, "Unknown damage type {0} for {1}", damageType, errorMsg);
+        Logger.LogWarning("Unknown damage type {0} for {1}", damageType, errorMsg);
         return SchoolTypes.None;
     }
 
@@ -1963,7 +1966,7 @@ public class MysteryImporter
     private void RaiseConvertException(string format, params object[] parameters)
     {
         string message = string.Format(format, parameters);
-        Log.Default.WriteLine(LogLevels.Error, message);
+        Logger.LogError(message);
         throw new MysteryConvertException(message);
     }
 

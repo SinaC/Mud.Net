@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
@@ -7,12 +8,13 @@ namespace Mud.Server.Ability.Spell;
 
 public abstract class OptionalItemInventorySpellBase : SpellBase
 {
-    protected IItem Item { get; set; } = default!;
-
-    protected OptionalItemInventorySpellBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected OptionalItemInventorySpellBase(ILogger<OptionalItemInventorySpellBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
+
+    protected IItem Item { get; set; } = default!;
+
 
     protected override string? SetTargets(ISpellActionInput spellActionInput)
     {

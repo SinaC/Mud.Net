@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Interfaces.Ability;
 
@@ -6,8 +7,8 @@ namespace Mud.Server.Rom24.Classes;
 
 public class Thief : ClassBase
 {
-    public Thief(IAbilityManager abilityManager)
-        : base(abilityManager)
+    public Thief(ILogger<Thief> logger, IAbilityManager abilityManager)
+        : base(logger, abilityManager)
     {
     }
 

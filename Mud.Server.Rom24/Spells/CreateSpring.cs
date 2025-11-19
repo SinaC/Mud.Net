@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces;
@@ -15,8 +16,8 @@ public class CreateSpring : ItemCreationSpellBase
 {
     private const string SpellName = "Create Spring";
 
-    public CreateSpring(IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
-        : base(randomManager, wiznet, itemManager, settings)
+    public CreateSpring(ILogger<CreateSpring> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
+        : base(logger, randomManager, wiznet, itemManager, settings)
     {
     }
 

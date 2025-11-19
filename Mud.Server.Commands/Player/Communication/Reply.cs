@@ -13,6 +13,13 @@ even if you can't see the player, and without revealing their identity.  This
 is handy for talking to invisible or switched immortal players.")]
 public class Reply : TellGameActionBase
 {
+    private ICommandParser CommandParser { get; }
+
+    public Reply(ICommandParser commandParser)
+    {
+        CommandParser = commandParser;
+    }
+
     protected string What { get; set; } = default!;
 
     public override string? Guards(IActionInput actionInput)
@@ -26,7 +33,7 @@ public class Reply : TellGameActionBase
         if (Actor.LastTeller == null)
             return StringHelpers.CharacterNotFound;
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        What = CommandParser.JoinParameters(actionInput.Parameters);
         return null;
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Affects;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
@@ -25,8 +26,8 @@ public class Eat : CastSpellCharacterGameActionBase
     private IAffectManager AffectManager { get; }
     private IItemManager ItemManager { get; }
 
-    public Eat(IServiceProvider serviceProvider, IAbilityManager abilityManager, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IItemManager itemManager)
-        : base(abilityManager)
+    public Eat(ILogger<Eat> logger, IServiceProvider serviceProvider, ICommandParser commandParser, IAbilityManager abilityManager, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IItemManager itemManager)
+        : base(logger, commandParser, abilityManager)
     {
         ServiceProvider = serviceProvider;
         RandomManager = randomManager;

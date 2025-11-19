@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
@@ -6,10 +7,12 @@ namespace Mud.Server.Ability.Passive;
 
 public abstract class PassiveBase : IPassive
 {
+    protected ILogger<PassiveBase> Logger { get; }
     protected IRandomManager RandomManager { get; }
 
-    protected PassiveBase(IRandomManager randomManager)
+    protected PassiveBase(ILogger<PassiveBase> logger, IRandomManager randomManager)
     {
+        Logger = logger;
         RandomManager = randomManager;
     }
 
@@ -18,7 +21,7 @@ public abstract class PassiveBase : IPassive
         var pcUser = user as IPlayableCharacter;
 
         // 1) get ability info
-        var abilityInfo = new AbilityInfo(GetType());
+        var abilityInfo = new AbilityInfo(Logger, GetType());
         var abilityLearned = user.GetAbilityLearnedInfo(abilityInfo.Name);
         learnPercentage = abilityLearned.percentage;
 

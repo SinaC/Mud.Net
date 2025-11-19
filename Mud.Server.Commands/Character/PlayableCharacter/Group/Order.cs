@@ -21,6 +21,13 @@ Most charmed creatures lose their aggresive nature (while charmed).
 If your charmed creature engages in combat, that will break the charm.")]
 public class Order : PlayableCharacterGameAction
 {
+    private ICommandParser CommandParser { get; }
+
+    public Order(ICommandParser commandParser)
+    {
+        CommandParser = commandParser;
+    }
+
     protected INonPlayableCharacter[] Whom { get; set; } = default!;
     protected string CommandLine { get; set; } = default!;
 
@@ -50,7 +57,7 @@ public class Order : PlayableCharacterGameAction
         if (Whom.Length == 0)
             return "You don't have followers here.";
 
-        CommandLine = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1));
+        CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
         return null;
     }
 

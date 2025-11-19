@@ -1,17 +1,22 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability.Spell;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
 public abstract class CastSpellCharacterGameActionBase : CharacterGameAction
 {
+    private ILogger<CastSpellCharacterGameActionBase> Logger { get; }
+    private ICommandParser CommandParser { get; }
     private IAbilityManager AbilityManager { get; }
 
-    protected CastSpellCharacterGameActionBase(IAbilityManager abilityManager)
+    protected CastSpellCharacterGameActionBase(ILogger<CastSpellCharacterGameActionBase> logger, ICommandParser commandParser, IAbilityManager abilityManager)
     {
+        Logger = logger;
+        CommandParser = commandParser;
         AbilityManager = abilityManager;
     }
 
@@ -22,16 +27,16 @@ public abstract class CastSpellCharacterGameActionBase : CharacterGameAction
         var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
         if (abilityInfo == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Unknown spell '{0}' on item {1}.", spellName, item.DebugName);
+            Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, item.DebugName);
             return "Something goes wrong.";
         }
         var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
         if (spellInstance == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Spell '{0}' on item {1} cannot be instantiated.", spellName, item.DebugName);
+            Logger.LogError("Spell '{spellName}' on item {item} cannot be instantiated.", spellName, item.DebugName);
             return "Something goes wrong.";
         }
-        var spellActionInput = new SpellActionInput(abilityInfo, Actor, spellLevel, new CastFromItemOptions { Item = item }, CommandHelpers.NoParameters);
+        var spellActionInput = new SpellActionInput(abilityInfo, Actor, spellLevel, new CastFromItemOptions { Item = item }, CommandParser.NoParameters);
         var spellInstanceGuards = spellInstance.Setup(spellActionInput);
         if (spellInstanceGuards != null)
             return spellInstanceGuards;

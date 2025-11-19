@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -10,8 +11,8 @@ public abstract class CureSpellBase : DefensiveSpellBase
     protected IAbilityManager AbilityManager { get; }
     protected IDispelManager DispelManager { get; }
 
-    protected CureSpellBase(IRandomManager randomManager, IAbilityManager abilityManager, IDispelManager dispelManager)
-        : base(randomManager)
+    protected CureSpellBase(ILogger<CureSpellBase> logger, IRandomManager randomManager, IAbilityManager abilityManager, IDispelManager dispelManager)
+        : base(logger, randomManager)
     {
         AbilityManager = abilityManager;
         DispelManager = dispelManager;

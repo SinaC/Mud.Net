@@ -1,9 +1,8 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Actor;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
@@ -17,6 +16,7 @@ namespace Mud.Server.Player;
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class Player : ActorBase, IPlayer
 {
+    protected ICommandParser CommandParser { get; }
     protected ITimeManager TimeManager { get; }
     protected ICharacterManager CharacterManager { get; }
 
@@ -29,9 +29,10 @@ public class Player : ActorBase, IPlayer
 
     protected IInputTrap<IPlayer>? CurrentStateMachine;
 
-    public Player(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name)
-        : base(gameActionManager)
+    public Player(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name)
+        : base(logger, gameActionManager)
     {
+        CommandParser = commandParser;
         TimeManager = timeManager;
         CharacterManager = characterManager;
 
@@ -50,15 +51,15 @@ public class Player : ActorBase, IPlayer
     }
 
     // Used for promote
-    public Player(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
-        : this(gameActionManager, timeManager, characterManager, id, name)
+    public Player(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
+        : this(logger, gameActionManager, commandParser, timeManager, characterManager, id, name)
     {
         _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         _avatarList = avatarList?.ToList() ?? [];
     }
 
-    public Player(IGameActionManager gameActionManager, ITimeManager timeManager, ICharacterManager characterManager, Guid id, PlayerData data)
-        : this(gameActionManager, timeManager, characterManager, id, data.Name)
+    public Player(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, PlayerData data)
+        : this(logger, gameActionManager, commandParser, timeManager, characterManager, id, data.Name)
     {
         PagingLineCount = data.PagingLineCount;
         _aliases.Clear();
@@ -113,7 +114,7 @@ public class Player : ActorBase, IPlayer
             }
 
             // Extract command and parameters
-            bool extractedSuccessfully = CommandHelpers.ExtractCommandAndParameters(
+            bool extractedSuccessfully = CommandParser.ExtractCommandAndParameters(
                 isForceOutOfGame => isForceOutOfGame || Impersonating == null
                     ? Aliases
                     : Impersonating?.Aliases,
@@ -121,7 +122,7 @@ public class Player : ActorBase, IPlayer
                 out string command, out ICommandParameter[] parameters, out bool forceOutOfGame);
             if (!extractedSuccessfully)
             {
-                Log.Default.WriteLine(LogLevels.Warning, "Command and parameters not extracted successfully");
+                Logger.LogWarning("Command and parameters not extracted successfully");
                 Send("Invalid command or parameters.");
                 return false;
             }
@@ -196,13 +197,13 @@ public class Player : ActorBase, IPlayer
     {
         if (Impersonating == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated while not impersonated.");
+            Logger.LogError("UpdateCharacterDataFromImpersonated while not impersonated.");
             return;
         }
         int index = _avatarList.FindIndex(x => StringCompareHelpers.StringEquals(x.Name, Impersonating.Name));
         if (index < 0)
         {
-            Log.Default.WriteLine(LogLevels.Error, "UpdateCharacterDataFromImpersonated: unknown avatar {0} for player {1}", Impersonating.DebugName, DisplayName);
+            Logger.LogError("UpdateCharacterDataFromImpersonated: unknown avatar {impersonating} for player {playerName}", Impersonating.DebugName, DisplayName);
             return;
         }
 
@@ -297,7 +298,7 @@ public class Player : ActorBase, IPlayer
     {
         if (Impersonating == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "StopImpersonating while not impersonated.");
+            Logger.LogError("StopImpersonating while not impersonated.");
             return;
         }
         Impersonating.StopImpersonation();
@@ -393,21 +394,21 @@ public class Player : ActorBase, IPlayer
         bool executedSuccessfully;
         if (forceOutOfGame || Impersonating == null)
         {
-            Log.Default.WriteLine(LogLevels.Debug, "[{0}] executing [{1}]", DisplayName, commandLine);
+            Logger.LogDebug("[{name}] executing [{command}]", DisplayName, commandLine);
             executedSuccessfully = ExecuteCommand(commandLine, command, parameters);
         }
         else if (Impersonating != null) // impersonating
         {
-            Log.Default.WriteLine(LogLevels.Debug, "[{0}]|[{1}] executing [{2}]", DisplayName, Impersonating.DebugName, commandLine);
+            Logger.LogDebug("[{name}]|[{impersonatingName}] executing [{command}]", DisplayName, Impersonating.DebugName, commandLine);
             executedSuccessfully = Impersonating.ExecuteCommand(commandLine, command, parameters);
         }
         else
         {
-            Log.Default.WriteLine(LogLevels.Error, "[{0}] is neither out of game nor impersonating", DisplayName);
+            Logger.LogError("[{name}] is neither out of game nor impersonating", DisplayName);
             executedSuccessfully = false;
         }
         if (!executedSuccessfully)
-            Log.Default.WriteLine(LogLevels.Warning, "Error while executing command");
+            Logger.LogWarning("Error while executing command");
         return executedSuccessfully;
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -15,8 +16,8 @@ public class Trip : OffensiveSkillBase
 {
     private const string SkillName = "Trip";
 
-    public Trip(IRandomManager randomManager)
-        : base(randomManager)
+    public Trip(ILogger<Trip> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

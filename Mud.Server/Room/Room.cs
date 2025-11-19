@@ -1,8 +1,8 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Logger;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common.Helpers;
@@ -33,8 +33,8 @@ public class Room : EntityBase, IRoom
     private readonly List<ICharacter> _people;
     private readonly List<IItem> _content;
 
-    public Room(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, ITimeManager timeManager, Guid guid, RoomBlueprint blueprint, IArea area)
-        : base(gameActionManager, abilityManager, settings, guid, blueprint.Name, blueprint.Description)
+    public Room(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, ITimeManager timeManager, Guid guid, RoomBlueprint blueprint, IArea area)
+        : base(logger, gameActionManager, commandParser, abilityManager, settings, guid, blueprint.Name, blueprint.Description)
     {
         TimeManager = timeManager;
 
@@ -81,7 +81,7 @@ public class Room : EntityBase, IRoom
 
     public override void Recompute()
     {
-        Log.Default.WriteLine(LogLevels.Debug, "Room.Recompute: {0}", DebugName);
+        Logger.LogDebug("Room.Recompute: {name}", DebugName);
 
         // 0) Reset
         ResetAttributes();
@@ -119,7 +119,7 @@ public class Room : EntityBase, IRoom
     {
         //if (obj.ContainedInto != null)
         //{
-        //    Log.Default.WriteLine(LogLevels.Error, "PutInContainer: {0} is already in container {1}.", obj.DebugName, obj.ContainedInto.DebugName);
+        //    Logger.LogError("PutInContainer: {0} is already in container {1}.", obj.DebugName, obj.ContainedInto.DebugName);
         //    return false;
         //}
         _content.Add(obj);
@@ -217,7 +217,7 @@ public class Room : EntityBase, IRoom
     public bool Enter(ICharacter character)
     {
         if (_people.Contains(character))
-            Log.Default.WriteLine(LogLevels.Error, "IRoom.Enter: Character {0} is already in Room {1}", character.DebugName, character.Room.DebugName);
+            Logger.LogError("IRoom.Enter: Character {characterName} is already in Room {roomName}", character.DebugName, character.Room.DebugName);
         else
             _people.Add(character);
         // Update light
@@ -390,7 +390,7 @@ public class Room : EntityBase, IRoom
                 HealRate = affect.Modifier;
                 break;
             default:
-                Log.Default.WriteLine(LogLevels.Warning, "Room.ApplyAffect(IRoomHealRateAffect): wrong operator {0}.", affect.Operator);
+                Logger.LogWarning("Room.ApplyAffect(IRoomHealRateAffect): wrong operator {operator}.", affect.Operator);
                 break;
         }
     }
@@ -406,7 +406,7 @@ public class Room : EntityBase, IRoom
                 ResourceRate = affect.Modifier;
                 break;
             default:
-                Log.Default.WriteLine(LogLevels.Warning, "Room.ApplyAffect(IRoomResourceRateAffect): wrong operator {0}.", affect.Operator);
+                Logger.LogWarning("Room.ApplyAffect(IRoomResourceRateAffect): wrong operator {operator}.", affect.Operator);
                 break;
         }
     }

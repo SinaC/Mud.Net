@@ -40,7 +40,7 @@ public class Area : IArea
     {
         //if (room.Area != null)
         //{
-        //    Log.Default.WriteLine(LogLevels.Error, $"Area.AddRoom: Room {room.DebugName}");
+        //    Logger.LogError($"Area.AddRoom: Room {room.DebugName}");
         //    return false;
         //}
         // TODO: some checks ?

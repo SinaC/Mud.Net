@@ -10,6 +10,13 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Communication;
 [Syntax("[cmd] <message>")]
 public class GroupSay : PlayableCharacterGameAction
 {
+    private ICommandParser CommandParser { get; }
+
+    public GroupSay(ICommandParser commandParser)
+    {
+        CommandParser = commandParser;
+    }
+
     protected string What { get; set; } = default!;
 
     public override string? Guards(IActionInput actionInput)
@@ -21,7 +28,7 @@ public class GroupSay : PlayableCharacterGameAction
         if (actionInput.Parameters.Length == 0)
             return "Say your group what?";
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        What = CommandParser.JoinParameters(actionInput.Parameters);
         return null;
     }
 

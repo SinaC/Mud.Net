@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -12,8 +13,8 @@ public class EnergyDrain : OffensiveSpellBase
 {
     private const string SpellName = "Energy Drain";
 
-    public EnergyDrain(IRandomManager randomManager)
-        : base(randomManager)
+    public EnergyDrain(ILogger<EnergyDrain> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

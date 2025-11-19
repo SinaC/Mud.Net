@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -10,8 +11,8 @@ public abstract class HitAvoidancePassiveBase : PassiveBase, IHitAvoidancePassiv
     protected abstract string AvoiderPhrase { get; }
     protected abstract string AggressorPhrase { get; }
 
-    protected HitAvoidancePassiveBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected HitAvoidancePassiveBase(ILogger<HitAvoidancePassiveBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

@@ -1,11 +1,12 @@
-﻿using Mud.Server.Random;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Random;
 
 namespace Mud.Server.Ability.Spell;
 
 public abstract class HealSpellBase : DefensiveSpellBase
 {
-    protected HealSpellBase(IRandomManager randomManager) 
-        : base(randomManager)
+    protected HealSpellBase(ILogger<HealSpellBase> logger, IRandomManager randomManager) 
+        : base(logger, randomManager)
     {
     }
 

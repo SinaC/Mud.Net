@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -14,8 +15,8 @@ public class DispelMagic : OffensiveSpellBase
 
     private IDispelManager DispelManager { get; }
 
-    public DispelMagic(IRandomManager randomManager, IDispelManager dispelManager)
-        : base(randomManager)
+    public DispelMagic(ILogger<DispelMagic> logger, IRandomManager randomManager, IDispelManager dispelManager)
+        : base(logger, randomManager)
     {
         DispelManager = dispelManager;
     }

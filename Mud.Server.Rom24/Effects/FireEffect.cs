@@ -1,6 +1,6 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
-using Mud.Logger;
 using Mud.Server.Affects;
 using Mud.Server.Effects;
 using Mud.Server.Flags;
@@ -18,13 +18,15 @@ namespace Mud.Server.Rom24.Effects;
 [Effect("Fire")]
 public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
 {
+    private ILogger Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public FireEffect(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public FireEffect(ILogger logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
         RandomManager = randomManager;
         AuraManager = auraManager;
@@ -115,7 +117,7 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
                 msg = "{0} melts and drips!";
                 break;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "FireEffect: default message for unexpected item type {0}", item.GetType());
+                Logger.LogError("FireEffect: default message for unexpected item type {0}", item.GetType());
                 msg = "{0} burns."; 
                 break;
         }

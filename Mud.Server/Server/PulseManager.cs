@@ -1,32 +1,41 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Interfaces;
 using System.Diagnostics;
 
 namespace Mud.Server.Server;
 
-public class PulseManager
+public class PulseManager : IPulseManager
 {
     private class PulseEntry
     {
+        public required string Name { get; init; }
+        public required int PulseResetValue { get; init; }
+        public required Action<int> PulseAction { get; init; }
+
         public required int PulseCurrentValue { get; set; }
-        public required int PulseResetValue { get; set; }
-        public required Action<int> PulseAction { get; set; }
     }
+
+    private ILogger<PulseManager> Logger { get; }
 
     private readonly List<PulseEntry> _entries;
 
-    public PulseManager()
+    public PulseManager(ILogger<PulseManager> logger)
     {
+        Logger = logger;
+
         _entries = [];
     }
 
-    public void Add(int initialValue, int resetValue, Action<int> method)
+    public void Add(string name, int initialValue, int resetValue, Action<int> action)
     {
         _entries.Add(new PulseEntry
         {
+            Name = name,
             PulseCurrentValue = initialValue,
             PulseResetValue = resetValue,
-            PulseAction = method
+            PulseAction = action
         });
+        Logger.LogInformation("Adding Pulse {name} initial value: {initialValue} reset value: {resetValue} method: {methodName}", name, initialValue, resetValue, action.Method.Name);
     }
 
     public void Pulse()
@@ -42,13 +51,14 @@ public class PulseManager
                 sw.Restart();
                 entry.PulseAction(entry.PulseResetValue);
                 sw.Stop();
-                Log.Default.WriteLine(LogLevels.Trace, $"PULSE: {entry.PulseAction.Method.Name} in {sw.ElapsedMilliseconds} ms");
+                Logger.LogTrace("PULSE: {name} in {duration} ms", entry.Name, sw.ElapsedMilliseconds);
             }
         }
     }
 
     public void Clear()
     {
+        Logger.LogInformation("Clear all pulses");
         _entries.Clear();
     }
 }

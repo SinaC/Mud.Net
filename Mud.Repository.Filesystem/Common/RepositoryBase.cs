@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using Mud.Settings.Interfaces;
 using System.Xml.Serialization;
 
@@ -6,11 +7,13 @@ namespace Mud.Repository.Filesystem.Common;
 
 public abstract class RepositoryBase
 {
+    protected ILogger<RepositoryBase> Logger { get; }
     protected IMapper Mapper { get; }
     protected ISettings Settings { get; }
 
-    protected RepositoryBase(IMapper mapper, ISettings settings)
+    protected RepositoryBase(ILogger<RepositoryBase> logger, IMapper mapper, ISettings settings)
     {
+        Logger = logger;
         Mapper = mapper;
         Settings = settings;
     }

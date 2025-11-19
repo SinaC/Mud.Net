@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
@@ -24,8 +25,8 @@ public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCo
     private IRandomManager RandomManager { get; }
     private IItemManager ItemManager { get; }
 
-    public ItemCorpse(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, BuildName(victim.DisplayName, false, blueprint), BuildShortDescription(victim.DisplayName, false, blueprint), BuildDescription(victim.DisplayName, false, blueprint), room)
+    public ItemCorpse(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, BuildName(victim.DisplayName, false, blueprint), BuildShortDescription(victim.DisplayName, false, blueprint), BuildDescription(victim.DisplayName, false, blueprint), room)
     {
         RandomManager = randomManager;
         ItemManager = itemManager;
@@ -107,8 +108,8 @@ public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCo
         }
     }
 
-    public ItemCorpse(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer)
-        : this(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, randomManager, itemManager, guid, blueprint, room, victim)
+    public ItemCorpse(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, randomManager, itemManager, guid, blueprint, room, victim)
     {
         // Check killer quest table (only if killer is PC and victim is NPC) // TODO: only visible for people on quest???
         if (killer != null && killer is IPlayableCharacter playableCharacterKiller && victim is INonPlayableCharacter nonPlayableCharacterVictim)
@@ -123,8 +124,8 @@ public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCo
         }
     }
 
-    public ItemCorpse(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, ItemCorpseData itemCorpseData, IContainer container)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemCorpseData, BuildName(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildShortDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), container)
+    public ItemCorpse(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, ItemCorpseData itemCorpseData, IContainer container)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemCorpseData, BuildName(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildShortDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), container)
     {
         RandomManager = randomManager;
         ItemManager = itemManager;
@@ -141,8 +142,8 @@ public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCo
         }
     }
 
-    public ItemCorpse(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, IContainer container)
-        : base(serviceProvider, gameActionManager, abilityManager, settings, roomManager, auraManager, guid, blueprint, container)
+    public ItemCorpse(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, IContainer container)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, container)
     {
         RandomManager = randomManager;
         ItemManager = itemManager;

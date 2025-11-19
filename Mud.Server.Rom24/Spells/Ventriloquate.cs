@@ -1,10 +1,11 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
@@ -14,9 +15,12 @@ public class Ventriloquate : SpellBase
 {
     private const string SpellName = "Ventriloquate";
 
-    public Ventriloquate(IRandomManager randomManager)
-        : base(randomManager)
+    private ICommandParser CommandParser { get; }
+
+    public Ventriloquate(ILogger<Ventriloquate> logger, IRandomManager randomManager, ICommandParser commandParser)
+        : base(logger, randomManager)
     {
+        CommandParser = commandParser;
     }
 
     protected ICharacter Victim { get; set; } = default!;
@@ -37,7 +41,7 @@ public class Ventriloquate : SpellBase
             return "They aren't here.";
         if (Victim == Caster)
             return "Just say it.";
-        Phrase = CommandHelpers.JoinParameters(spellActionInput.Parameters.Skip(1));
+        Phrase = CommandParser.JoinParameters(spellActionInput.Parameters.Skip(1));
         return null;
     }
 

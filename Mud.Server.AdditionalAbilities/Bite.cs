@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -14,8 +15,8 @@ public class Bite : FightingSkillBase
 {
     private const string SkillName = "Bite";
 
-    public Bite(IRandomManager randomManager)
-        : base(randomManager)
+    public Bite(ILogger<Bite> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

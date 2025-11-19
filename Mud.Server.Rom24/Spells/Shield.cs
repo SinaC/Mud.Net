@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
@@ -15,8 +16,8 @@ public class Shield : CharacterBuffSpellBase
 {
     private const string SpellName = "Shield";
 
-    public Shield(IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager, auraManager)
+    public Shield(ILogger<Shield> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager, auraManager)
     {
     }
 

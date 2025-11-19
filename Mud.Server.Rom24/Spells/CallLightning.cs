@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces;
@@ -16,8 +17,8 @@ public class CallLightning : NoTargetSpellBase
 
     private ITimeManager TimeManager { get; }
 
-    public CallLightning(IRandomManager randomManager, ITimeManager timeManager)
-        : base(randomManager)
+    public CallLightning(ILogger<CallLightning> logger, IRandomManager randomManager, ITimeManager timeManager)
+        : base(logger, randomManager)
     {
         TimeManager = timeManager;
     }

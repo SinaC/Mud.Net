@@ -9,18 +9,12 @@ public class Group : IGroup
 
     private readonly List<IPlayableCharacter> _members;
 
-    //public Group(IPlayableCharacter leader)
-    //{
-    //    _members = [];
-    //    IsValid = true;
-
-    //    AddMember(leader);
-    //}
-
-    public Group()
+    public Group(IPlayableCharacter leader)
     {
         _members = [];
         IsValid = true;
+        
+        AddMember(leader);
     }
 
     #region IGroup

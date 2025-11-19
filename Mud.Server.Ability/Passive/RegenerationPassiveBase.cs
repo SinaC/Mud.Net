@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -7,8 +8,8 @@ namespace Mud.Server.Ability.Passive;
 
 public abstract class RegenerationPassiveBase : PassiveBase, IRegenerationPassive
 {
-    protected RegenerationPassiveBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected RegenerationPassiveBase(ILogger<RegenerationPassiveBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

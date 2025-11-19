@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -17,8 +18,8 @@ public class Crush : FightingSkillBase
 
     private ITableValues TableValues { get; }
 
-    public Crush(IRandomManager randomManager, ITableValues tableValues)
-        : base(randomManager)
+    public Crush(ILogger<Crush> logger, IRandomManager randomManager, ITableValues tableValues)
+        : base(logger, randomManager)
     {
         TableValues = tableValues;
     }

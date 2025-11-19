@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -14,6 +15,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Skills;
 using Mud.Server.Rom24.Spells;
+using static Mud.Server.Rom24.Tests.Abilities.OptionalItemInventorySpellBaseTests;
 
 namespace Mud.Server.Rom24.Tests.Abilities
 {
@@ -31,8 +33,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Earthquake)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(new Mock<ILogger<Earthquake>>().Object, randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -51,9 +53,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Earthquake");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -71,8 +73,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Fireball)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(new Mock<ILogger<Fireball>>().Object, randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -91,9 +93,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireball");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
 
@@ -110,8 +112,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Armor)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Armor)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(new Mock<ILogger<Armor>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -130,9 +132,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Armor");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -151,8 +153,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Fireproof)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -171,9 +173,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireproof");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
 
@@ -191,8 +193,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IDispelManager> dispelManagerMock = new Mock<IDispelManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Curse)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -211,9 +213,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
 
@@ -231,8 +233,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IDispelManager> dispelManagerMock = new Mock<IDispelManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Invisibility)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -251,9 +253,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Invisibility");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -271,8 +273,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Earthquake)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(new Mock<ILogger<Earthquake>>().Object, randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -295,9 +297,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Earthquake");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -316,8 +318,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IItemManager> itemManagerMock = new Mock<IItemManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Fireball)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(new Mock<ILogger<Fireball>>().Object, randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -340,9 +342,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireball");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -361,8 +363,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Armor)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Armor)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(new Mock<ILogger<Armor>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -385,9 +387,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Armor");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -406,8 +408,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Fireproof)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -430,9 +432,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireproof");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
 
@@ -450,8 +452,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IDispelManager> dispelManagerMock = new Mock<IDispelManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Curse)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -474,9 +476,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -497,8 +499,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IDispelManager> dispelManagerMock = new Mock<IDispelManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Invisibility)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -521,9 +523,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Invisibility");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -542,8 +544,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Earthquake)));
-                        abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Earthquake)));
+                        abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(new Mock<ILogger<Earthquake>>().Object, randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -565,9 +567,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Earthquake");
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -586,8 +588,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireball)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(randomManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Fireball)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(new Mock<ILogger<Fireball>>().Object, randomManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -609,9 +611,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireball");
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
 
@@ -629,8 +631,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Armor)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Armor)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(new Mock<ILogger<Armor>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -652,9 +654,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Armor");
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
 
@@ -671,8 +673,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new Mock<IAuraManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Fireproof)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Fireproof)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -694,9 +696,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Fireproof");
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -718,8 +720,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IDispelManager> dispelManagerMock = new Mock<IDispelManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Curse)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Curse)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -741,9 +743,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -764,8 +766,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IDispelManager> dispelManagerMock = new Mock<IDispelManager>();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Invisibility)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(_serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Invisibility)));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new Mock<IArea>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
@@ -787,9 +789,9 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Invisibility");
             userMock.SetupGet(x => x.Inventory).Returns(new IItem[] { scrollMock.Object, itemMock.Object });
 
-            Scrolls skill = new Scrolls(randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
+            Scrolls skill = new Scrolls(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
-            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
             string result = skill.Setup(skillActionInput);
             skill.Execute();

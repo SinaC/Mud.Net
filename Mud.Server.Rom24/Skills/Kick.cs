@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -15,8 +16,8 @@ public class Kick : FightingSkillBase
 {
     private const string SkillName = "Kick";
 
-    public Kick(IRandomManager randomManager) 
-        : base(randomManager)
+    public Kick(ILogger<Kick> logger, IRandomManager randomManager) 
+        : base(logger, randomManager)
     {
     }
 

@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -10,8 +11,8 @@ public class FastHealing : RegenerationPassiveBase
 {
     private const string PassiveName = "Fast Healing";
 
-    public FastHealing(IRandomManager randomManager)
-        : base(randomManager)
+    public FastHealing(ILogger<FastHealing> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

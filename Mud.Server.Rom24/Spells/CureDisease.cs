@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -11,8 +12,8 @@ public class CureDisease : CureSpellBase
 {
     private const string SpellName = "Cure Disease";
 
-    public CureDisease(IRandomManager randomManager, IAbilityManager abilityManager, IDispelManager dispelManager)
-        : base(randomManager, abilityManager, dispelManager)
+    public CureDisease(ILogger<CureDisease> logger, IRandomManager randomManager, IAbilityManager abilityManager, IDispelManager dispelManager)
+        : base(logger, randomManager, abilityManager, dispelManager)
     {
     }
 

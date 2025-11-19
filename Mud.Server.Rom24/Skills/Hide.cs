@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -12,8 +13,8 @@ public class Hide : NoTargetSkillBase
 {
     private const string SkillName = "Hide";
 
-    public Hide(IRandomManager randomManager)
-        : base(randomManager)
+    public Hide(ILogger<Hide> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

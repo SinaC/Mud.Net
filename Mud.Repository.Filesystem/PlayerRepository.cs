@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Mud.Logger;
+using Microsoft.Extensions.Logging;
 using Mud.Repository.Filesystem.Common;
 using Mud.Settings.Interfaces;
 
@@ -11,8 +11,8 @@ public class PlayerRepository : RepositoryBase, IPlayerRepository
 
     private string BuildFilename(string playerName) => Path.Combine(PlayerRepositoryPath, playerName + ".data");
 
-    public PlayerRepository(IMapper mapper, ISettings settings)
-        : base(mapper, settings)
+    public PlayerRepository(ILogger<LoginRepository> logger, IMapper mapper, ISettings settings)
+        : base(logger, mapper, settings)
     {
     }
 
@@ -70,6 +70,6 @@ public class PlayerRepository : RepositoryBase, IPlayerRepository
         if (directory != null)
             Directory.CreateDirectory(directory);
         else
-            Log.Default.WriteLine(LogLevels.Error, "Invalid directory in player path: {0}", PlayerRepositoryPath);
+            Logger.LogError("Invalid directory in player path: {0}", PlayerRepositoryPath);
     }
 }

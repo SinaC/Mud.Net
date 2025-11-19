@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Logger;
 
 namespace Mud.Domain.Extensions;
 
@@ -26,7 +25,7 @@ public static class EquipmentSlotsExtensions
             case EquipmentSlots.OffHand: return [WearLocations.Hold, WearLocations.Wield, WearLocations.Shield];
             case EquipmentSlots.Float: return WearLocations.Float.Yield();
             default:
-                Log.Default.WriteLine(LogLevels.Error, "ToWearLocations: Invalid equipment slot {0}", equipmentSlot);
+                //Logger.LogError("ToWearLocations: Invalid equipment slot {0}", equipmentSlot);
                 return WearLocations.None.Yield();
         }
     }

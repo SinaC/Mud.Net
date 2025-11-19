@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -11,8 +12,8 @@ public class HighExplosive : DamageSpellBase
 {
     private const string SpellName = "High Explosive";
 
-    public HighExplosive(IRandomManager randomManager)
-        : base(randomManager)
+    public HighExplosive(ILogger<HighExplosive> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

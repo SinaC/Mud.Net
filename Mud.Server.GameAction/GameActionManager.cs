@@ -1,6 +1,6 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.DataStructures.Trie;
-using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Actor;
@@ -12,14 +12,18 @@ namespace Mud.Server.GameAction;
 
 public class GameActionManager : IGameActionManager
 {
+    private ILogger<GameActionManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
+    private ICommandParser CommandParser { get; }
 
     private readonly Dictionary<Type, IGameActionInfo> _gameActionInfosByExecutionType;
     private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
-    public GameActionManager(IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
+    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
+        CommandParser = commandParser;
 
         _gameActionInfosTrieByActorType = []; // will be filled when a call to GetGameActions will be called
 
@@ -41,12 +45,12 @@ public class GameActionManager : IGameActionManager
         var gameActionInstance = ServiceProvider.GetService(gameActionInfo.CommandExecutionType);
         if (gameActionInstance == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "GameAction {0} not found in DependencyContainer.", gameActionInfo.Name);
+            Logger.LogError("GameAction {0} not found in DependencyContainer.", gameActionInfo.Name);
             return "Something goes wrong.";
         }
         if (gameActionInstance is not IGameAction gameAction)
         {
-            Log.Default.WriteLine(LogLevels.Error, "GameAction {0} cannot be created or is not {1}.", gameActionInfo.Name, typeof(IGameAction).FullName ?? "???");
+            Logger.LogError("GameAction {0} cannot be created or is not {1}.", gameActionInfo.Name, typeof(IGameAction).FullName ?? "???");
             return "Something goes wrong.";
         }
         var actionInput = new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
@@ -63,13 +67,13 @@ public class GameActionManager : IGameActionManager
         var gameActionType = typeof(TGameAction);
         if (!_gameActionInfosByExecutionType.TryGetValue(gameActionType, out var gameActionInfo))
         {
-            Log.Default.WriteLine(LogLevels.Error, "GameAction type {0} not found in GameActionManager.", gameActionType.FullName ?? "???");
+            Logger.LogError("GameAction type {0} not found in GameActionManager.", gameActionType.FullName ?? "???");
             return "Something goes wrong.";
         }
         string command = gameActionInfo.Name;
         var parameters = commandLine == null
             ? Enumerable.Empty<ICommandParameter>().ToArray()
-            : CommandHelpers.SplitParameters(commandLine).Select(CommandHelpers.ParseParameter).ToArray();
+            : CommandParser.SplitParameters(commandLine).Select(CommandParser.ParseParameter).ToArray();
         return Execute(gameActionInfo, actor, commandLine!, command, parameters);
     }
 
@@ -79,10 +83,10 @@ public class GameActionManager : IGameActionManager
         var gameActionInfo = _gameActionInfosByExecutionType.Values.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, command));
         if (gameActionInfo == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "GameAction matching name {0} not found in GameActionManager.", command);
+            Logger.LogError("GameAction matching name {0} not found in GameActionManager.", command);
             return "Something goes wrong.";
         }
-        string commandLine = command + CommandHelpers.JoinParameters(parameters);
+        string commandLine = command + CommandParser.JoinParameters(parameters);
         return Execute(gameActionInfo, actor, commandLine, command, parameters);
     }
 
@@ -118,7 +122,7 @@ public class GameActionManager : IGameActionManager
         return gameActionInfos.SelectMany(x => x!.Names, (gameActionInfo, name) => new TrieEntry<IGameActionInfo>(name, gameActionInfo!));
     }
 
-    private static IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute)
+    private IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute)
     {
         switch (commandAttribute)
         {
@@ -131,7 +135,7 @@ public class GameActionManager : IGameActionManager
             case CharacterCommandAttribute characterCommandAttribute:
                 return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             default:
-                Log.Default.WriteLine(LogLevels.Warning, "GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???");
+                Logger.LogWarning("GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???");
                 return new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
         }
     }
@@ -156,7 +160,7 @@ public class GameActionManager : IGameActionManager
     }
 
     // search among collection, which type has in its inheritance an interface matching actorType, if multiple type are eligible, choose the one with highest level of nesting
-    private static T? PolymorphismSimulator<T>(Type actorType, Type baseActorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<T> collection, Func<T,Type> selectorFunc)
+    private T? PolymorphismSimulator<T>(Type actorType, Type baseActorType, Type[] actorTypeSortedImplementedInterfaces, string name, IEnumerable<T> collection, Func<T,Type> selectorFunc)
         where T: class
     {
         T? best = default;
@@ -187,7 +191,7 @@ public class GameActionManager : IGameActionManager
                             }
                     }
                     else
-                        Log.Default.WriteLine(LogLevels.Error, "Type {0} doesn't any generic type argument of type {1}.", type.FullName ?? "???", baseActorType.FullName ?? "???");
+                        Logger.LogError("Type {0} doesn't any generic type argument of type {1}.", type.FullName ?? "???", baseActorType.FullName ?? "???");
                 }
 
                 if (doneWithThisType)

@@ -26,6 +26,13 @@ alias kick use kick --> kick orc will equal typing 'use kick orc'
 Only the first word on the line will be subsituted at this time.")]
 public class Alias : PlayerGameAction
 {
+    private ICommandParser CommandParser { get; }
+
+    public Alias(ICommandParser commandParser)
+    {
+        CommandParser = commandParser;
+    }
+
     protected enum Actions
     {
         DisplayAll,
@@ -67,7 +74,7 @@ public class Alias : PlayerGameAction
             return "That shall not be done.";
 
         Action = Actions.Assign;
-        TargetCommand = CommandHelpers.JoinParameters(actionInput.Parameters.Skip(1)); // merge parameters except first one
+        TargetCommand = CommandParser.JoinParameters(actionInput.Parameters.Skip(1)); // merge parameters except first one
         return null;
     }
 

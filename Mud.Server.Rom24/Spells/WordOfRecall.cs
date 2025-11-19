@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
@@ -14,8 +14,8 @@ public class WordOfRecall : SpellBase
 {
     private const string SpellName = "Word of Recall";
 
-    public WordOfRecall(IRandomManager randomManager)
-        : base(randomManager)
+    public WordOfRecall(ILogger<WordOfRecall> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 
@@ -49,7 +49,7 @@ public class WordOfRecall : SpellBase
         var recallRoom = Victim.RecallRoom;
         if (recallRoom == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "No recall room found for {0}", Victim.DebugName);
+            Logger.LogError("No recall room found for {0}", Victim.DebugName);
             Caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} completely lost.", Victim);
             return;
         }

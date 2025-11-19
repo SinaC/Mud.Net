@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Mud.Logger;
+using Microsoft.Extensions.Logging;
 using Mud.Repository.Filesystem.Common;
 using Mud.Settings.Interfaces;
 
@@ -11,8 +11,8 @@ public class AdminRepository : RepositoryBase, IAdminRepository
 
     private string BuildFilename(string adminName) => Path.Combine(AdminRepositoryPath, adminName + ".data");
 
-    public AdminRepository(IMapper mapper, ISettings settings)
-        : base(mapper, settings)
+    public AdminRepository(ILogger<AdminRepository> logger, IMapper mapper, ISettings settings)
+        : base(logger, mapper, settings)
     {
     }
 
@@ -61,6 +61,6 @@ public class AdminRepository : RepositoryBase, IAdminRepository
         if (directory != null)
             Directory.CreateDirectory(directory);
         else
-            Log.Default.WriteLine(LogLevels.Error, "Invalid directory in admin path: {0}", AdminRepositoryPath);
+            Logger.LogError("Invalid directory in admin path: {0}", AdminRepositoryPath);
     }
 }

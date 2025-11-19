@@ -15,10 +15,12 @@ namespace Mud.Server.Commands.Character.Communication;
 shouting, [cmd] imposes a three-second delay on the shouter.")]
 public class Shout : CharacterGameAction
 {
+    private ICommandParser CommandParser { get; }
     private IPlayerManager PlayerManager { get; }
 
-    public Shout(IPlayerManager playerManager)
+    public Shout(ICommandParser commandParser, IPlayerManager playerManager)
     {
+        CommandParser = commandParser;
         PlayerManager = playerManager;
     }
 
@@ -33,7 +35,7 @@ public class Shout : CharacterGameAction
         if (actionInput.Parameters.Length == 0)
             return "Shout what?";
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        What = CommandParser.JoinParameters(actionInput.Parameters);
 
         return null;
     }

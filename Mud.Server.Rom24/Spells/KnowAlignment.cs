@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -11,8 +12,8 @@ public class KnowAlignment : DefensiveSpellBase
 {
     private const string SpellName = "Known Alignment";
 
-    public KnowAlignment(IRandomManager randomManager)
-        : base(randomManager)
+    public KnowAlignment(ILogger<KnowAlignment> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

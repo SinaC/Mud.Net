@@ -12,7 +12,6 @@
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
-    <ProjectReference Include="..\Mud.Logger\Mud.Logger.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />

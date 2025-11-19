@@ -1,6 +1,6 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Logger;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -18,6 +18,13 @@ namespace Mud.Server.Commands.Character.Movement;
 [Help(@"[cmd] open an object or a door.")]
 public class Open : CharacterGameAction
 {
+    private ILogger<Open> Logger { get; }
+
+    public Open(ILogger<Open> logger)
+    {
+        Logger = logger;
+    }
+
     protected ICloseable What { get; set; } = default!;
     protected ExitDirections ExitDirection { get; set; }
 
@@ -87,7 +94,7 @@ public class Open : CharacterGameAction
                 Actor.Act(exit.Destination.People, "The {0} opens.", otherSideExit);
             }
             else
-                Log.Default.WriteLine(LogLevels.Warning, $"Non bidirectional exit in room {Actor.Room.Blueprint.Id} direction {ExitDirection}");
+                Logger.LogWarning("Non bidirectional exit in room {bluePrintId} direction {exitDirection}", Actor.Room.Blueprint.Id, ExitDirection);
         }
     }
 }

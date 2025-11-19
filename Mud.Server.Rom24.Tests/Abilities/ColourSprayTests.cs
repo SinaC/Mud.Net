@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -41,8 +42,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
             roomMock.SetupGet(x => x.People).Returns([casterMock.Object, targetMock.Object]);
 
             var parameters = BuildParameters("target");
-            ColourSpray spell = new (_serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
-            SpellActionInput abilityActionInput = new (new AbilityInfo(spell.GetType()), casterMock.Object, 10, null, parameters);
+            ColourSpray spell = new (new Mock<ILogger<ColourSpray>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            SpellActionInput abilityActionInput = new (new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
             var setupResult = spell.Setup(abilityActionInput);
 
             spell.Execute();

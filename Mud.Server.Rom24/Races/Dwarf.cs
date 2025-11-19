@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -10,8 +10,8 @@ namespace Mud.Server.Rom24.Races;
 
 public class Dwarf : PlayableRaceBase
 {
-    public Dwarf(IServiceProvider serviceProvider, IAbilityManager abilityManager)
-        : base(serviceProvider, abilityManager)
+    public Dwarf(ILogger<Dwarf> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)
+        : base(logger, serviceProvider, abilityManager)
     {
         AddAbility("Berserk");
     }
@@ -55,7 +55,7 @@ public class Dwarf : PlayableRaceBase
             case CharacterAttributes.ArmorSlash: return 100;
             case CharacterAttributes.ArmorExotic: return 100;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "Unexpected start attribute {0} for {1}", attribute, Name);
+                Logger.LogError("Unexpected start attribute {0} for {1}", attribute, Name);
                 return 0;
         }
     }
@@ -79,7 +79,7 @@ public class Dwarf : PlayableRaceBase
             case CharacterAttributes.ArmorSlash: return 100;
             case CharacterAttributes.ArmorExotic: return 100;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "Unexpected max attribute {0} for {1}", attribute, Name);
+                Logger.LogError("Unexpected max attribute {0} for {1}", attribute, Name);
                 return 0;
         }
     }

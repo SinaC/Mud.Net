@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
@@ -6,13 +7,13 @@ namespace Mud.Server.Ability.Spell;
 
 public abstract class DamageSpellBase : OffensiveSpellBase
 {
-    protected bool SavesSpellResult { get; private set; }
-    protected DamageResults DamageResult { get; private set; }
-
-    protected DamageSpellBase(IRandomManager randomManager)
-        : base(randomManager)
+    protected DamageSpellBase(ILogger<DamageSpellBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
+
+    protected bool SavesSpellResult { get; private set; }
+    protected DamageResults DamageResult { get; private set; }
 
     protected override void Invoke()
     {

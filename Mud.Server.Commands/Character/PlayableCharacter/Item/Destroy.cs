@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -13,10 +13,12 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 [Syntax("[cmd] <item>")]
 public class Destroy : PlayableCharacterGameAction
 {
+    private ILogger<Destroy> Logger { get; }
     private IItemManager ItemManager { get; }
 
-    public Destroy(IItemManager itemManager)
+    public Destroy(ILogger<Destroy> logger, IItemManager itemManager)
     {
+        Logger = logger;
         ItemManager = itemManager;
     }
 
@@ -49,7 +51,7 @@ public class Destroy : PlayableCharacterGameAction
                 quest.Update(itemQuest, true);
         }
         //
-        Log.Default.WriteLine(LogLevels.Debug, "Manually destroying item {0} by {1}", What.DebugName, Actor.DebugName);
+        Logger.LogDebug("Manually destroying item {item} by {actor}", What.DebugName, Actor.DebugName);
         Actor.Send($"You destroy {What.RelativeDisplayName(Actor)}.");
 
         ItemManager.RemoveItem(What);

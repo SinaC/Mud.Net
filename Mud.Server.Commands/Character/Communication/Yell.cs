@@ -10,6 +10,13 @@ namespace Mud.Server.Commands.Character.Communication;
 [Help(@"[cmd] sends a message to all awake players within your area.")]
 public class Yell : CharacterGameAction
 {
+    private ICommandParser CommandParser { get; }
+
+    public Yell(ICommandParser commandParser)
+    {
+        CommandParser = commandParser;
+    }
+
     protected string What { get; set; } = default!;
 
     public override string? Guards(IActionInput actionInput)
@@ -21,7 +28,7 @@ public class Yell : CharacterGameAction
         if (actionInput.Parameters.Length == 0)
             return "Yell what?";
 
-        What = CommandHelpers.JoinParameters(actionInput.Parameters);
+        What = CommandParser.JoinParameters(actionInput.Parameters);
 
         return null;
     }

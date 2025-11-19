@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
@@ -17,8 +18,8 @@ public class DetectEvil : CharacterFlagsSpellBase
 
     private IServiceProvider ServiceProvider { get; }
 
-    public DetectEvil(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager, auraManager)
+    public DetectEvil(ILogger<DetectEvil> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager, auraManager)
     {
         ServiceProvider = serviceProvider;
     }

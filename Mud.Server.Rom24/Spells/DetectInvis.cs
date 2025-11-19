@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
@@ -17,8 +18,8 @@ public class DetectInvis : CharacterFlagsSpellBase
 
     private IServiceProvider ServiceProvider { get; }
 
-    public DetectInvis(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager, auraManager)
+    public DetectInvis(ILogger<DetectInvis> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager, auraManager)
     {
         ServiceProvider = serviceProvider;
     }

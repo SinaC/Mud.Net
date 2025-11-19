@@ -1,4 +1,4 @@
-﻿using Mud.Logger;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
@@ -8,11 +8,13 @@ namespace Mud.Server.Effects;
 
 public class EffectManager : IEffectManager
 {
+    private ILogger<EffectManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private Dictionary<string, Type> EffectsByName { get; }
 
-    public EffectManager(IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
+    public EffectManager(ILogger<EffectManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
+        Logger = logger;
         ServiceProvider = serviceProvider;
 
         Type iEffectType = typeof(IEffect);
@@ -27,20 +29,20 @@ public class EffectManager : IEffectManager
     {
         if (!EffectsByName.TryGetValue(effectName, out var effectType))
         {
-            Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} not found.", effectName);
+            Logger.LogError("EffectManager: effect {effectName} not found.", effectName);
             return null;
         }
 
         var effect = ServiceProvider.GetService(effectType);
         if (effect == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} not found in DependencyContainer.", effectType.FullName ?? "???");
+            Logger.LogError("EffectManager: effect {effectType} not found in DependencyContainer.", effectType.FullName ?? "???");
             return null;
         }
 
         if (effect is not IEffect<TEntity> instance)
         {
-            Log.Default.WriteLine(LogLevels.Error, "EffectManager: effect {0} cannot be created or is not of type {1}", effectType.FullName ?? "???", typeof(IEffect<TEntity>).FullName ?? "???");
+            Logger.LogError("EffectManager: effect {effectType} cannot be created or is not of type {expectedEffectType}", effectType.FullName ?? "???", typeof(IEffect<TEntity>).FullName ?? "???");
             return null;
         }
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
@@ -178,6 +179,12 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24CharacterFlagValues(ILogger<Rom24CharacterFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
     internal class Rom24RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
@@ -201,6 +208,12 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24RoomFlagValues(ILogger<Rom24RoomFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
     internal class Rom24ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
@@ -235,6 +248,12 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24ItemFlagValues(ILogger<Rom24ItemFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
     internal class Rom24WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
@@ -252,6 +271,12 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24WeaponFlagValues(ILogger<Rom24WeaponFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
     internal class Rom24IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
@@ -284,6 +309,12 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24IRVFlagValues(ILogger<Rom24IRVFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
     internal class Rom24ActFlagValues : FlagValuesBase<string>, IActFlagValues
@@ -314,6 +345,12 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24ActFlagValues(ILogger<Rom24ActFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
     internal class Rom24AssistFlagValues : FlagValuesBase<string>, IAssistFlagValues
@@ -339,6 +376,12 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24AssistFlagValues(ILogger<Rom24AssistFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
     internal class Rom24BodyFormValues : FlagValuesBase<string>, IBodyFormValues
@@ -376,6 +419,12 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24BodyFormValues(ILogger<Rom24BodyFormValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
     internal class Rom24BodyPartValues : FlagValuesBase<string>, IBodyPartValues
@@ -408,6 +457,12 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24BodyPartValues(ILogger<Rom24BodyPartValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 
     internal class Rom24OffensiveFlagValues : FlagValuesBase<string>, IOffensiveFlagValues
@@ -433,5 +488,11 @@ namespace Mud.Server.Tests
         };
 
         protected override HashSet<string> HashSet => Flags;
+
+        public Rom24OffensiveFlagValues(ILogger<Rom24OffensiveFlagValues> logger)
+        : base(logger)
+        {
+
+        }
     }
 }

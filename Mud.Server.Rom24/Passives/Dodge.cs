@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Interfaces.Character;
@@ -11,8 +12,8 @@ public class Dodge : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Dodge";
 
-    public Dodge(IRandomManager randomManager)
-        : base(randomManager)
+    public Dodge(ILogger<Dodge> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

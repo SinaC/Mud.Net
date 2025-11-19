@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -22,13 +23,13 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var serviceProviderMock = new Mock<IServiceProvider>();
             
             serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
-                .Returns(new CharacterFlagValues());
+                .Returns(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlagValues)))
-                .Returns(new RoomFlagValues());
+                .Returns(new RoomFlagValues(new Mock<ILogger<RoomFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IOffensiveFlagValues)))
-                .Returns(new OffensiveFlagValues());
+                .Returns(new OffensiveFlagValues(new Mock<ILogger<OffensiveFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlagValues)))
-                .Returns(new ItemFlagValues());
+                .Returns(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object));
 
             RegisterAdditionalDependencies(serviceProviderMock);
 
@@ -41,7 +42,8 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
         protected ICommandParameter[] BuildParameters(string parameters)
         {
-            return CommandHelpers.SplitParameters(parameters).Select(CommandHelpers.ParseParameter).ToArray();
+            var parser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+            return parser.SplitParameters(parameters).Select(parser.ParseParameter).ToArray();
         }
 
         protected IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
@@ -72,7 +74,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
                     break;
             }
 
-            CommandHelpers.ExtractCommandAndParameters(commandLine, out var command, out var parameters);
+            new CommandParser(new Mock<ILogger<CommandParser>>().Object).ExtractCommandAndParameters(commandLine, out var command, out var parameters);
             return new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
         }
 
@@ -86,7 +88,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             return mock.Object;
         }
 
-        protected class AssemblyHelper : IAssemblyHelper
+        public class AssemblyHelper : IAssemblyHelper
         {
             public IEnumerable<Assembly> AllReferencedAssemblies => new[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly };
         }

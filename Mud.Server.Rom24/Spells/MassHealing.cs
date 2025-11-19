@@ -1,4 +1,5 @@
-﻿using Mud.Server.Ability;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -12,8 +13,8 @@ public class MassHealing : NoTargetSpellBase
 {
     private const string SpellName = "Mass Healing";
 
-    public MassHealing(IRandomManager randomManager)
-        : base(randomManager)
+    public MassHealing(ILogger<MassHealing> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

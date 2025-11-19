@@ -1,7 +1,7 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Logger;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -53,9 +53,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IWeaponEffectManager WeaponEffectManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(IServiceProvider serviceProvider, IGameActionManager gameActionManager, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet,
+    protected CharacterBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet,
         Guid guid, string name, string description)
-        : base(gameActionManager, abilityManager, settings, guid, name, description)
+        : base(logger, gameActionManager, commandParser, abilityManager, settings, guid, name, description)
     {
         RandomManager = randomManager;
         TableValues = tableValues;
@@ -125,7 +125,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         //if (obj.ContainedInto != null)
         //{
-        //    Log.Default.WriteLine(LogLevels.Error, "PutInContainer: {0} is already in container {1}.", obj.DebugName, obj.ContainedInto.DebugName);
+        //    Logger.LogError("PutInContainer: {0} is already in container {1}.", obj.DebugName, obj.ContainedInto.DebugName);
         //    return false;
         //}
         _inventory.Insert(0, obj);
@@ -171,12 +171,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         if (GoldCoins < 0)
         {
-            Log.Default.WriteLine(LogLevels.Error, "DeductCost: gold {0} < 0", GoldCoins);
+            Logger.LogError("DeductCost: gold {gold} < 0", GoldCoins);
             GoldCoins = 0;
         }
         if (SilverCoins < 0)
         {
-            Log.Default.WriteLine(LogLevels.Error, "DeductCost: silver {0} < 0", SilverCoins);
+            Logger.LogError("DeductCost: silver {silver} < 0", SilverCoins);
             SilverCoins = 0;
         }
 
@@ -230,7 +230,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             int index = (int)attribute;
             if (index >= _currentAttributes.Length)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to get current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
+                Logger.LogError("Trying to get current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", attribute, index);
                 return 0;
             }
             return _currentAttributes[index];
@@ -240,7 +240,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             int index = (int)attribute;
             if (index >= _currentAttributes.Length)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to set current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
+                Logger.LogError("Trying to set current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", attribute, index);
                 return;
             }
             _currentAttributes[index] = value;
@@ -259,7 +259,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             int index = (int)resource;
             if (index >= _currentResources.Length)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to get current resource for resource {0} (index {1}) but current resource length is smaller", resource, index);
+                Logger.LogError("Trying to get current resource for resource {resource} (index {index}) but current resource length is smaller", resource, index);
                 return 0;
             }
             return _currentResources[index];
@@ -269,7 +269,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             int index = (int)resource;
             if (index >= _currentResources.Length)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to set current resource for resource {0} (index {1}) but current resource length is smaller", resource, index);
+                Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resource, index);
                 return;
             }
             _currentResources[index] = value;
@@ -547,7 +547,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         int index = (int)attribute;
         if (index >= _baseAttributes.Length)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to get base attribute for attribute {0} (index {1}) but base attribute length is smaller", attribute, index);
+            Logger.LogError("Trying to get base attribute for attribute {attribute} (index {index}) but base attribute length is smaller", attribute, index);
             return 0;
         }
         return _baseAttributes[index];
@@ -558,13 +558,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
         int index = (int)attribute;
         if (index >= _baseAttributes.Length)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to set base attribute for attribute {0} (index {1}) but base attribute length is smaller", attribute, index);
+            Logger.LogError("Trying to set base attribute for attribute {attribute} (index {index}) but base attribute length is smaller", attribute, index);
             return;
         }
         _baseAttributes[index] += amount;
         if (index >= _currentAttributes.Length)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to set base current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
+            Logger.LogError("Trying to set base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", attribute, index);
             return;
         }
         _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
@@ -575,7 +575,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         int index = (int)resourceKind;
         if (index >= _maxResources.Length)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to get max resource for resource {0} (index {1}) but max resource length is smaller", resourceKind, index);
+            Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return 0;
         }
         return _maxResources[index];
@@ -586,13 +586,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
         int index = (int)resourceKind;
         if (index >= _maxResources.Length)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to get max resource for resource {0} (index {1}) but max resource length is smaller", resourceKind, index);
+            Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return;
         }
         _maxResources[index] += amount;
         if (index >= _currentResources.Length)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to set current resource for resource {0} (index {1}) but current resource length is smaller", resourceKind, index);
+            Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
             return;
         }
         _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
@@ -745,7 +745,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public override void Recompute()
     {
-        Log.Default.WriteLine(LogLevels.Debug, "CharacterBase.Recompute: {0}", DebugName);
+        Logger.LogDebug("CharacterBase.Recompute: {name}", DebugName);
 
         // Reset current attributes
         ResetAttributes();
@@ -1020,17 +1020,17 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (!IsValid)
         {
-            Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeRoom: {0} is not valid anymore", DebugName);
+            Logger.LogError("ICharacter.ChangeRoom: {name} is not valid anymore", DebugName);
             return;
         }
 
         if (destination == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "ICharacter.ChangeRoom: {0} from: {1} to null", DebugName, Room == null ? "<<no room>>" : Room.DebugName);
+            Logger.LogError("ICharacter.ChangeRoom: {name} from: {room} to null", DebugName, Room == null ? "<<no room>>" : Room.DebugName);
             Wiznet.Log($"Null destination room for character {DebugName}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
 
-        Log.Default.WriteLine(LogLevels.Debug, "ICharacter.ChangeRoom: {0} from: {1} to {2}", DebugName, Room == null ? "<<no room>>" : Room.DebugName, destination == null ? "<<no room>>" : destination.DebugName);
+        Logger.LogDebug("ICharacter.ChangeRoom: {name} from: {fromRoom} to {toRoom}", DebugName, Room == null ? "<<no room>>" : Room.DebugName, destination == null ? "<<no room>>" : destination.DebugName);
         Room?.Leave(this);
         if (recompute)
             Room?.Recompute();
@@ -1045,11 +1045,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (!IsValid)
         {
-            Log.Default.WriteLine(LogLevels.Error, "StartFighting: {0} is not valid anymore", DebugName);
+            Logger.LogError("StartFighting: {name} is not valid anymore", DebugName);
             return false;
         }
 
-        Log.Default.WriteLine(LogLevels.Debug, "{0} starts fighting {1}", DebugName, victim.DebugName);
+        Logger.LogDebug("{name} starts fighting {victimName}", DebugName, victim.DebugName);
 
         Fighting = victim;
         return true;
@@ -1057,7 +1057,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public bool StopFighting(bool both) // equivalent to stop_fighting in fight.C:3441
     {
-        Log.Default.WriteLine(LogLevels.Debug, "{0} stops fighting {1}", Name, Fighting?.Name ?? "<<no victim>>");
+        Logger.LogDebug("{name} stops fighting {victimName}", Name, Fighting?.Name ?? "<<no victim>>");
 
         Fighting = null;
         Stunned = 0;
@@ -1341,7 +1341,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 irvFlags = "Sound";
                 break;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "CharacterBase.CheckResistance: Unknown {0} {1}", nameof(SchoolTypes), damageType);
+                Logger.LogError("CharacterBase.CheckResistance: Unknown {schoolType} {damageType}", nameof(SchoolTypes), damageType);
                 return defaultResistance;
         }
         // Following code has been reworked because Rom24 was testing on currently computed resistance (imm) instead of defaultResistance (def)
@@ -1370,7 +1370,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (!IsValid)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "RawKilled: {0} is not valid anymore", DebugName);
+            Logger.LogWarning("RawKilled: {name} is not valid anymore", DebugName);
             return null;
         }
 
@@ -1398,7 +1398,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
         else
         {
-            Log.Default.WriteLine(LogLevels.Error, "ItemCorpseBlueprint (id:{0}) doesn't exist !!!", Settings.CorpseBlueprintId);
+            Logger.LogError("ItemCorpseBlueprint (id:{corpseBlueprintId}) doesn't exist !!!", Settings.CorpseBlueprintId);
         }
 
         // Gain/lose xp/reputation auto loot/gold/sac
@@ -1856,7 +1856,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                         sb.AppendFormat("{0}.", Fighting.RelativeDisplayName(viewer));
                     else
                     {
-                        Log.Default.WriteLine(LogLevels.Warning, "{0} is fighting {1} in a different room.", DebugName, Fighting.DebugName);
+                        Logger.LogWarning("{name} is fighting {fightingName} in a different room.", DebugName, Fighting.DebugName);
                         sb.Append("someone who left??");
                     }
                 }
@@ -1960,7 +1960,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                     break;
                 case AffectOperators.Or:
                 case AffectOperators.Nor:
-                    Log.Default.WriteLine(LogLevels.Error, "Invalid AffectOperators {0} for CharacterAttributeAffect Characteristics", affect.Operator);
+                    Logger.LogError("Invalid AffectOperators {operator} for CharacterAttributeAffect Characteristics", affect.Operator);
                     break;
             }
             return;
@@ -1983,7 +1983,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                     break;
                 case AffectOperators.Or:
                 case AffectOperators.Nor:
-                    Log.Default.WriteLine(LogLevels.Error, "Invalid AffectOperators {0} for CharacterAttributeAffect AllArmor", affect.Operator);
+                    Logger.LogError("Invalid AffectOperators {operator} for CharacterAttributeAffect AllArmor", affect.Operator);
                     break;
             }
             return;
@@ -2006,7 +2006,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             case CharacterAttributeAffectLocations.ArmorSlash: attribute = CharacterAttributes.ArmorSlash; break;
             case CharacterAttributeAffectLocations.ArmorMagic: attribute = CharacterAttributes.ArmorExotic; break;
             default:
-                Log.Default.WriteLine(LogLevels.Error, "CharacterBase.ApplyAffect: Unexpected CharacterAttributeAffectLocations {0}", affect.Location);
+                Logger.LogError("CharacterBase.ApplyAffect: Unexpected CharacterAttributeAffectLocations {location}", affect.Location);
                 return;
         }
         switch (affect.Operator)
@@ -2019,7 +2019,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 break;
             case AffectOperators.Or:
             case AffectOperators.Nor:
-                Log.Default.WriteLine(LogLevels.Error, "Invalid AffectOperators {0} for CharacterAttributeAffect {1}", affect.Operator, affect.Location);
+                Logger.LogError("Invalid AffectOperators {operator} for CharacterAttributeAffect {location}", affect.Operator, affect.Location);
                 break;
         }
     }
@@ -2074,12 +2074,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
             case ActOptions.ToRoom:
                 return Room.People.Where(x => x != this);
             case ActOptions.ToGroup:
-                Log.Default.WriteLine(LogLevels.Warning, "Act with option ToGroup used on generic CharacterBase");
+                Logger.LogWarning("Act with option ToGroup used on generic CharacterBase");
                 return []; // defined only for PlayableCharacter
             case ActOptions.ToCharacter:
                 return [this];
             default:
-                Log.Default.WriteLine(LogLevels.Error, "Act with invalid option: {0}", option);
+                Logger.LogError("Act with invalid option: {option}", option);
                 return [];
         }
     }
@@ -2281,29 +2281,29 @@ public abstract class CharacterBase : EntityBase, ICharacter
             }
 
             _equipments.Clear();
-            _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquippedItem(x)));
+            _equipments.AddRange(Race.EquipmentSlots.Select(x => new EquippedItem(Logger, x)));
             //Recompute();
         }
         else
         {
-            _equipments.Add(new EquippedItem(EquipmentSlots.Light));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Head));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Amulet)); // 2 amulets
-            _equipments.Add(new EquippedItem(EquipmentSlots.Amulet));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Chest));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Cloak));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Waist));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Wrists)); // 2 wrists
-            _equipments.Add(new EquippedItem(EquipmentSlots.Wrists));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Arms));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Hands));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Ring)); // 2 rings
-            _equipments.Add(new EquippedItem(EquipmentSlots.Ring));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Legs));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Feet));
-            _equipments.Add(new EquippedItem(EquipmentSlots.MainHand)); // 2 hands
-            _equipments.Add(new EquippedItem(EquipmentSlots.OffHand));
-            _equipments.Add(new EquippedItem(EquipmentSlots.Float));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Light));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Head));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Amulet)); // 2 amulets
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Amulet));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Chest));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Cloak));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Waist));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Wrists)); // 2 wrists
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Wrists));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Arms));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Hands));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Ring)); // 2 rings
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Ring));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Legs));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Feet));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.MainHand)); // 2 hands
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.OffHand));
+            _equipments.Add(new EquippedItem(Logger, EquipmentSlots.Float));
         }
     }
 
@@ -2399,7 +2399,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         int index = (int)resourceKind;
         if (index >= _maxResources.Length)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to set max resource for resource {0} (index {1}) but max resource length is smaller", resourceKind, index);
+            Logger.LogError("Trying to set max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return;
         }
         _maxResources[index] = value;
@@ -2407,7 +2407,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         {
             if (index >= _currentResources.Length)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to set current resource for resource {0} (index {1}) but current resource length is smaller", resourceKind, index);
+                Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
                 return;
             }
             _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
@@ -2419,7 +2419,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         int index = (int)attribute;
         if (index >= _baseAttributes.Length)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Trying to set base attribute for attribute {0} (index {1}) but max attribute length is smaller", attribute, index);
+            Logger.LogError("Trying to set base attribute for attribute {resource} (index {index}) but max attribute length is smaller", attribute, index);
             return;
         }
         _baseAttributes[index] = value;
@@ -2427,7 +2427,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         {
             if (index >= _currentAttributes.Length)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Trying to set base current attribute for attribute {0} (index {1}) but current attribute length is smaller", attribute, index);
+                Logger.LogError("Trying to set base current attribute for attribute {resource} (index {resource}) but current attribute length is smaller", attribute, index);
                 return;
             }
             _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
@@ -2438,7 +2438,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (!_learnedAbilities.ContainsKey(abilityUsage.Name))
         {
-            var abilityLearned = new AbilityLearned(abilityUsage);
+            var abilityLearned = new AbilityLearned(Logger, abilityUsage);
             _learnedAbilities.Add(abilityLearned.Name, abilityLearned);
             if (naturalBorn)
             {
@@ -2486,13 +2486,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
             var (_, abilityLearned) = GetAbilityLearnedInfo(abilityUsage.Name);
             if (abilityLearned != null)
             {
-                //Log.Default.WriteLine(LogLevels.Debug, "Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
+                //Logger.LogDebug("Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
                 abilityLearned.Update(Math.Min(abilityUsage.Level, abilityUsage.Level), Math.Min(abilityUsage.Rating, abilityUsage.Rating), Math.Min(abilityUsage.CostAmount, abilityUsage.CostAmount));
                 // TODO: what should be we if multiple resource kind or operator ?
             }
             else
             {
-                Log.Default.WriteLine(LogLevels.Debug, "Adding AbilityLearned from AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Name);
+                Logger.LogDebug("Adding AbilityLearned from AbilityUsage for {name} Ability {abilityUsageName}", DebugName, abilityUsage.Name);
                 AddLearnedAbility(abilityUsage, naturalBorn);
             }
         }

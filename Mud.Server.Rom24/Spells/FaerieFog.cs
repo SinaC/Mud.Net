@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces.Ability;
@@ -13,8 +14,8 @@ public class FaerieFog : NoTargetSpellBase
 {
     private const string SpellName = "Faerie Fog";
 
-    public FaerieFog(IRandomManager randomManager)
-        : base(randomManager)
+    public FaerieFog(ILogger<FaerieFog> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

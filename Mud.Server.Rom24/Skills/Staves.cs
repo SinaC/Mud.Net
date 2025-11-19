@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.GameAction;
@@ -16,10 +17,12 @@ public class Staves : ItemCastSpellSkillBase<IItemStaff>
 {
     private const string SkillName = "Staves";
 
-    public Staves(IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
-        : base(randomManager, abilityManager, itemManager)
+    public Staves(ILogger<Staves> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
+        : base(logger, randomManager, abilityManager, itemManager)
     {
     }
+
+    protected override string ActionWord => "Brandish";
 
     protected override string? SetTargets(ISkillActionInput skillActionInput)
     {

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
@@ -19,8 +20,8 @@ public class ProtectionEvil : CharacterBuffSpellBase
 
     private IServiceProvider ServiceProvider { get; }
 
-    public ProtectionEvil(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
-        : base(randomManager, auraManager)
+    public ProtectionEvil(ILogger<ProtectionEvil> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager, auraManager)
     {
         ServiceProvider = serviceProvider;
     }

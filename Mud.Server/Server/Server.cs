@@ -1,7 +1,7 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Logger;
 using Mud.Network.Interfaces;
 using Mud.Repository;
 using Mud.Server.Blueprints.Character;
@@ -66,6 +66,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private readonly List<TreasureTable<int>> _treasureTables;
 
+    private ILogger<Server> Logger { get; }
     private ISettings Settings { get; }
     private ILoginRepository LoginRepository { get; }
     private IPlayerRepository PlayerRepository { get; }
@@ -74,6 +75,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private ITimeManager TimeManager { get; }
     private IRandomManager RandomManager { get; }
     private IGameActionManager GameActionManager { get; }
+    private ICommandParser CommandParser { get; }
     private IClassManager ClassManager { get; }
     private IRaceManager RaceManager { get; }
     private IAbilityManager AbilityManager { get; }
@@ -86,14 +88,16 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private IResetManager ResetManager { get; }
     private IAdminManager AdminManager { get; }
     private IWiznet Wiznet { get; }
+    private IPulseManager PulseManager { get; }
 
-    public Server(ISettings settings,
+    public Server(ILogger<Server> logger, ISettings settings,
         ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
-        IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager,
+        IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager, ICommandParser commandParser,
         IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IWeaponEffectManager weaponEffectManager,
         IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IResetManager resetManager,
-        IAdminManager adminManager, IWiznet wiznet)
+        IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager)
     {
+        Logger = logger;
         Settings = settings;
         LoginRepository = loginRepository;
         PlayerRepository = playerRepository;
@@ -102,6 +106,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         TimeManager = timeManager;
         RandomManager = randomManager;
         GameActionManager = gameActionManager;
+        CommandParser = commandParser;
         ClassManager = classManager;
         RaceManager = raceManager;
         AbilityManager = abilityManager;
@@ -114,6 +119,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         ResetManager = resetManager;
         AdminManager = adminManager;
         Wiznet = wiznet;
+        PulseManager = pulseManager;
 
         _clients = new ConcurrentDictionary<IClient, PlayingClient>();
         _players = new ConcurrentDictionary<IPlayer, PlayingClient>();
@@ -134,14 +140,16 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
         TimeManager.Initialize();
 
+        // TODO: check room specific id
+
         if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
+            Logger.LogError("Item corpse blueprint {corpseBlueprintId} not found or not a corpse", Settings.CorpseBlueprintId);
             throw new Exception($"Item corpse blueprint {Settings.CorpseBlueprintId} not found or not a corpse");
         }
         if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(Settings.CoinsBlueprintId) == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Item coins blueprint {0} not found or not money", Settings.CoinsBlueprintId);
+            Logger.LogError("Item coins blueprint {coinsBlueprintId} not found or not money", Settings.CoinsBlueprintId);
             throw new Exception($"Item coins blueprint {Settings.CoinsBlueprintId} not found or not money");
         }
 
@@ -182,7 +190,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         try
         {
-            foreach (INetworkServer networkServer in _networkServers)
+            foreach (var networkServer in _networkServers)
             {
                 networkServer.Stop();
                 networkServer.NewClientConnected -= NetworkServerOnNewClientConnected;
@@ -194,11 +202,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
         catch (OperationCanceledException ex)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "Operation canceled exception while stopping. Exception: {0}", ex);
+            Logger.LogWarning("Operation canceled exception while stopping. Exception: {ex}", ex);
         }
         catch (AggregateException ex)
         {
-            Log.Default.WriteLine(LogLevels.Warning, "Aggregate exception while stopping. Exception: {0}", ex.Flatten());
+            Logger.LogWarning("Aggregate exception while stopping. Exception: {ex}", ex.Flatten());
         }
     }
 
@@ -250,7 +258,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void FixItems()
     {
-        Log.Default.WriteLine(LogLevels.Info, "Fixing items");
+        Logger.LogInformation("Fixing items");
         foreach (var itemBlueprint in ItemManager.ItemBlueprints.OrderBy(x => x.Id))
         {
             switch (itemBlueprint)
@@ -258,7 +266,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 case ItemLightBlueprint _:
                     if (itemBlueprint.WearLocation != WearLocations.Light)
                     {
-                        Log.Default.WriteLine(LogLevels.Error, "Light {0} has wear location {1} -> set wear location to Light", itemBlueprint.Id, itemBlueprint.WearLocation);
+                        Logger.LogError("Light {blueprintId} has wear location {location} -> set wear location to Light", itemBlueprint.Id, itemBlueprint.WearLocation);
                         itemBlueprint.WearLocation = WearLocations.Light;
                     }
 
@@ -269,7 +277,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         var newWearLocation = WearLocations.Wield;
                         if (weaponBlueprint.Flags.IsSet("TwoHands"))
                             newWearLocation = WearLocations.Wield2H;
-                        Log.Default.WriteLine(LogLevels.Error, "Weapon {0} has wear location {1} -> set wear location to {2}", itemBlueprint.Id, itemBlueprint.WearLocation, newWearLocation);
+                        Logger.LogError("Weapon {blueprintId} has wear location {location} -> set wear location to {newLocation}", itemBlueprint.Id, itemBlueprint.WearLocation, newWearLocation);
                         itemBlueprint.WearLocation = newWearLocation;
                     }
 
@@ -277,7 +285,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 case ItemShieldBlueprint _:
                     if (itemBlueprint.WearLocation != WearLocations.Shield)
                     {
-                        Log.Default.WriteLine(LogLevels.Error, "Shield {0} has wear location {1} -> set wear location to Shield", itemBlueprint.Id, itemBlueprint.WearLocation);
+                        Logger.LogError("Shield {blueprintId} has wear location {location} -> set wear location to Shield", itemBlueprint.Id, itemBlueprint.WearLocation);
                         itemBlueprint.WearLocation = WearLocations.Shield;
                     }
 
@@ -286,7 +294,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 case ItemWandBlueprint _:
                     if (itemBlueprint.WearLocation != WearLocations.Hold)
                     {
-                        Log.Default.WriteLine(LogLevels.Error, "{0} {1} has wear location {2} -> set wear location to Hold", itemBlueprint.ItemType(), itemBlueprint.Id, itemBlueprint.WearLocation);
+                        Logger.LogError("{blueprintId} {blueprintType} has wear location {location} -> set wear location to Hold", itemBlueprint.ItemType(), itemBlueprint.Id, itemBlueprint.WearLocation);
                         itemBlueprint.WearLocation = WearLocations.Hold;
                     }
 
@@ -294,12 +302,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
         }
 
-        Log.Default.WriteLine(LogLevels.Info, "items fixed");
+        Logger.LogInformation("items fixed");
     }
 
     private void FixResets()
     {
-        Log.Default.WriteLine(LogLevels.Info, "Fixing resets");
+        Logger.LogInformation("Fixing resets");
 
         // Global count is used to check global limit to 0
         Dictionary<int, int> characterResetGlobalCountById = [];
@@ -349,7 +357,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             int localLimit = characterReset.LocalLimit;
                             if (localCount > localLimit)
                             {
-                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: M: character {1} found {2} times in room but local limit is {3} -> modifying local limit to {4}", room.Blueprint.Id, characterReset.CharacterId, localCount, localLimit, localCount);
+                                Logger.LogError("Room {blueprintId}: M: character {characterId} found {count} times in room but local limit is {limit} -> modifying local limit to {newLimit}", room.Blueprint.Id, characterReset.CharacterId, localCount, localLimit, localCount);
                                 characterReset.LocalLimit = localCount;
                             }
 
@@ -362,7 +370,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             int localLimit = itemInRoomReset.LocalLimit;
                             if (localCount > localLimit)
                             {
-                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: O: item {1} found {2} times in room but local limit is {3} -> modifying local limit to {4}", room.Blueprint.Id, itemInRoomReset.ItemId, localCount, localLimit, localCount);
+                                Logger.LogError("Room {blueprintId}: O: item {itemId} found {count} times in room but local limit is {limit} -> modifying local limit to {newLimit}", room.Blueprint.Id, itemInRoomReset.ItemId, localCount, localLimit, localCount);
                                 itemInRoomReset.LocalLimit = localCount;
                             }
 
@@ -375,7 +383,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             int localLimit = itemInItemReset.LocalLimit;
                             if (localCount > localLimit)
                             {
-                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: O: item {1} found {2} times in room but local limit is {3} -> modifying local limit to {4}", room.Blueprint.Id, itemInItemReset.ItemId, localCount, localLimit, localCount);
+                                Logger.LogError("Room {blueprintId}: O: item {itemId} found {count} times in room but local limit is {limit} -> modifying local limit to {newLimit}", room.Blueprint.Id, itemInItemReset.ItemId, localCount, localLimit, localCount);
                                 itemInItemReset.LocalLimit = localCount;
                             }
 
@@ -394,7 +402,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                                 {
                                     var wearLocations = itemInEquipmentReset.EquipmentSlot.ToWearLocations().ToArray();
                                     var newWearLocation = wearLocations.FirstOrDefault(); // TODO: which one to choose from ?
-                                    Log.Default.WriteLine(LogLevels.Error, "Room {0}: E: item {1} has no wear location but reset equipment slot {2} -> modifying item wear location to {3}", room.Blueprint.Id, itemInEquipmentReset.ItemId, itemInEquipmentReset.EquipmentSlot, newWearLocation);
+                                    Logger.LogError("Room {blueprintId}: E: item {itemId} has no wear location but reset equipment slot {slot} -> modifying item wear location to {location}", room.Blueprint.Id, itemInEquipmentReset.ItemId, itemInEquipmentReset.EquipmentSlot, newWearLocation);
                                     blueprint.WearLocation = newWearLocation;
                                 }
                                 else
@@ -403,7 +411,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                                     if (equipmentSlots.All(x => x != itemInEquipmentReset.EquipmentSlot))
                                     {
                                         var newEquipmentSlot = equipmentSlots.First();
-                                        Log.Default.WriteLine(LogLevels.Error, "Room {0}: E: item {1} reset equipment slot {2} incompatible with wear location {3} -> modifying reset equipment slot to {4}", room.Blueprint.Id, itemInEquipmentReset.ItemId, itemInEquipmentReset.EquipmentSlot, blueprint.WearLocation, newEquipmentSlot);
+                                        Logger.LogError("Room {blueprintId}: E: item {itemId} reset equipment slot {slot} incompatible with wear location {location} -> modifying reset equipment slot to {newSlot}", room.Blueprint.Id, itemInEquipmentReset.ItemId, itemInEquipmentReset.EquipmentSlot, blueprint.WearLocation, newEquipmentSlot);
                                         itemInEquipmentReset.EquipmentSlot = newEquipmentSlot;
                                     }
                                 }
@@ -427,11 +435,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             int globalCount = characterResetGlobalCountById[characterReset.CharacterId];
                             if (characterReset.GlobalLimit == 0)
                             {
-                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: M: character {1} found {2} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, characterReset.CharacterId, globalCount);
+                                Logger.LogError("Room {blueprintId}: M: character {characterId} found {count} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, characterReset.CharacterId, globalCount);
                                 characterReset.GlobalLimit = 1;
                             }
                             else if (characterReset.GlobalLimit != -1 && characterReset.GlobalLimit < globalCount)
-                                Log.Default.WriteLine(LogLevels.Warning, "Room {0}: M: character {1} found {2} times in world but global limit is {3}", room.Blueprint.Id, characterReset.CharacterId, globalCount, characterReset.GlobalLimit);
+                                Logger.LogWarning("Room {blueprintId}: M: character {characterId} found {count} times in world but global limit is {limit}", room.Blueprint.Id, characterReset.CharacterId, globalCount, characterReset.GlobalLimit);
 
                             break;
                         }
@@ -445,11 +453,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             int globalCount = itemResetCountGlobalById[itemInCharacterReset.ItemId];
                             if (itemInCharacterReset.GlobalLimit == 0)
                             {
-                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: G: item {1} found {2} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, itemInCharacterReset.ItemId, globalCount);
+                                Logger.LogError("Room {blueprintId}: G: item {itemId} found {count} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, itemInCharacterReset.ItemId, globalCount);
                                 itemInCharacterReset.GlobalLimit = 1;
                             }
                             else if (itemInCharacterReset.GlobalLimit != -1 && itemInCharacterReset.GlobalLimit < globalCount)
-                                Log.Default.WriteLine(LogLevels.Warning, "Room {0}: G: item {1} found {2} times in world but global limit is {3}", room.Blueprint.Id, itemInCharacterReset.ItemId, globalCount, itemInCharacterReset.GlobalLimit);
+                                Logger.LogWarning("Room {blueprintId}: G: item {itemId} found {count} times in world but global limit is {limit}", room.Blueprint.Id, itemInCharacterReset.ItemId, globalCount, itemInCharacterReset.GlobalLimit);
 
                             break;
                         }
@@ -458,11 +466,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             int globalCount = itemResetCountGlobalById[itemInEquipmentReset.ItemId];
                             if (itemInEquipmentReset.GlobalLimit == 0)
                             {
-                                Log.Default.WriteLine(LogLevels.Error, "Room {0}: E: item {1} found {2} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, itemInEquipmentReset.ItemId, globalCount);
+                                Logger.LogError("Room {blueprintId}: E: item {itemId} found {count} times in world but global limit is 0 -> modifying global limit to 1", room.Blueprint.Id, itemInEquipmentReset.ItemId, globalCount);
                                 itemInEquipmentReset.GlobalLimit = 1;
                             }
                             else if (itemInEquipmentReset.GlobalLimit != -1 && itemInEquipmentReset.GlobalLimit < globalCount)
-                                Log.Default.WriteLine(LogLevels.Warning, "Room {0}: E: item {1} found {2} times in world but global limit is {3}", room.Blueprint.Id, itemInEquipmentReset.ItemId, globalCount, itemInEquipmentReset.GlobalLimit);
+                                Logger.LogWarning("Room {blueprintId}: E: item {itemId} found {count} times in world but global limit is {limit}", room.Blueprint.Id, itemInEquipmentReset.ItemId, globalCount, itemInEquipmentReset.GlobalLimit);
 
                             break;
                         }
@@ -470,7 +478,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
         }
 
-        Log.Default.WriteLine(LogLevels.Info, "Resets fixed");
+        Logger.LogInformation("Resets fixed");
     }
 
     #endregion
@@ -505,18 +513,18 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         // TODO: should be done atomically
         if (player is IAdmin)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Promote: client is already admin");
+            Logger.LogError("Promote: client is already admin");
             return;
         }
         _players.TryGetValue(player, out var playingClient);
         if (playingClient == null)
         {
-            Log.Default.WriteLine(LogLevels.Error, "Promote: client not found");
+            Logger.LogError("Promote: client not found");
             return;
         }
 
         // Let's go
-        Log.Default.WriteLine(LogLevels.Info, "Promoting {0} to {1}", player.Name, level);
+        Logger.LogInformation("Promoting {0} to {1}", player.Name, level);
         Wiznet.Log($"Promoting {player.Name} to {level}", WiznetFlags.Promote);
 
         // Remove from playing client
@@ -543,7 +551,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
 
         // Create admin
-        Admin.Admin admin = new (GameActionManager, TimeManager, CharacterManager, player.Id, player.Name, level, player.Aliases, player.Avatars);
+        Admin.Admin admin = new (Logger, GameActionManager, CommandParser, TimeManager, CharacterManager, player.Id, player.Name, level, player.Aliases, player.Avatars);
 
         // Replace player by admin in playingClient
         playingClient.Player = admin;
@@ -582,20 +590,20 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         _players.TryGetValue(player, out var playingClient);
         if (playingClient == null)
-            Log.Default.WriteLine(LogLevels.Error, "Save: client not found");
+            Logger.LogError("Save: client not found");
         else
         {
             if (playingClient.Player is IAdmin admin)
             {
                 var data = admin.MapPlayerData() as AdminData;
                 AdminRepository.Save(data);
-                Log.Default.WriteLine(LogLevels.Info, $"Admin {playingClient.Player.DisplayName} saved");
+                Logger.LogInformation($"Admin {playingClient.Player.DisplayName} saved");
             }
             else
             {
                 var data = playingClient.Player.MapPlayerData();
                 PlayerRepository.Save(data);
-                Log.Default.WriteLine(LogLevels.Info, $"Player {playingClient.Player.DisplayName} saved");
+                Logger.LogInformation($"Player {playingClient.Player.DisplayName} saved");
             }
         }
     }
@@ -605,7 +613,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         Save(player);
         _players.TryGetValue(player, out var playingClient);
         if (playingClient == null)
-            Log.Default.WriteLine(LogLevels.Error, "Quit: client not found");
+            Logger.LogError("Quit: client not found");
         else
             ClientPlayingOnDisconnected(playingClient.Client);
     }
@@ -614,7 +622,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         _players.TryGetValue(player, out var playingClient);
         if (playingClient == null)
-            Log.Default.WriteLine(LogLevels.Error, "Delete: client not found");
+            Logger.LogError("Delete: client not found");
         else
         {
             string playerName = player.DisplayName;
@@ -623,7 +631,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             UniquenessManager.RemoveAvatarNames(player.Avatars?.Select(x => x.Name));
             ClientPlayingOnDisconnected(playingClient.Client);
             //
-            Log.Default.WriteLine(LogLevels.Info, "Player {0} has been deleted", playerName);
+            Logger.LogInformation("Player {0} has been deleted", playerName);
         }
     }
 
@@ -633,7 +641,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void NetworkServerOnNewClientConnected(IClient client)
     {
-        Log.Default.WriteLine(LogLevels.Info, "NetworkServerOnNewClientConnected");
+        Logger.LogInformation("NetworkServerOnNewClientConnected");
         // Create/store a login state machine and starts it
         LoginStateMachine loginStateMachine = new (LoginRepository, UniquenessManager);
         _loginInClients.TryAdd(client, loginStateMachine);
@@ -647,7 +655,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void NetworkServerOnClientDisconnected(IClient client)
     {
-        Log.Default.WriteLine(LogLevels.Info, "NetworkServerOnClientDisconnected");
+        Logger.LogInformation("NetworkServerOnClientDisconnected");
         _loginInClients.TryRemove(client, out var loginStateMachine);
 
         if (loginStateMachine != null) // no player yet, disconnected while log in
@@ -670,12 +678,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         if (loginStateMachine != null)
             loginStateMachine.ProcessInput(client, command);
         else
-            Log.Default.WriteLine(LogLevels.Error, "ClientLoginOnDataReceived: LoginStateMachine not found for a client!!!");
+            Logger.LogError("ClientLoginOnDataReceived: LoginStateMachine not found for a client!!!");
     }
 
     private void LoginStateMachineOnLoginSuccessful(IClient client, string username, bool isAdmin, bool isNewPlayer)
     {
-        Log.Default.WriteLine(LogLevels.Info, "LoginStateMachineOnLoginSuccessful");
+        Logger.LogInformation("LoginStateMachineOnLoginSuccessful");
 
         IPlayer playerOrAdmin = null!;
         // if same user is already connected, remove old client and link new client to old player
@@ -686,7 +694,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
         if (previousPlayerPair.Key != null)
         {
-            Log.Default.WriteLine(LogLevels.Info, "Player was already connected, disconnect previous client and reuse player");
+            Logger.LogInformation("Player was already connected, disconnect previous client and reuse player");
 
             // Keep player
             playerOrAdmin = previousPlayerPair.Key; // TODO: pause client ????
@@ -727,7 +735,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             loginStateMachine.LoginSuccessful -= LoginStateMachineOnLoginSuccessful;
         }
         else
-            Log.Default.WriteLine(LogLevels.Error, "LoginStateMachineOnLoginSuccessful: LoginStateMachine not found for a client!!!");
+            Logger.LogError("LoginStateMachineOnLoginSuccessful: LoginStateMachine not found for a client!!!");
 
         // Remove login handlers
         client.DataReceived -= ClientLoginOnDataReceived;
@@ -751,7 +759,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     Aliases = [],
                     Characters = []
                 };
-                playerOrAdmin = new Admin.Admin(GameActionManager, TimeManager, CharacterManager, Guid.NewGuid(), data);
+                playerOrAdmin = new Admin.Admin(Logger, GameActionManager, CommandParser, TimeManager, CharacterManager, Guid.NewGuid(), data);
             }
             else
             {
@@ -762,7 +770,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     Aliases = [],
                     Characters = []
                 };
-                playerOrAdmin = new Player.Player(GameActionManager, TimeManager, CharacterManager, Guid.NewGuid(), data);
+                playerOrAdmin = new Player.Player(Logger, GameActionManager, CommandParser, TimeManager, CharacterManager, Guid.NewGuid(), data);
             }
             //
             playerOrAdmin.SendData += PlayerOnSendData;
@@ -808,14 +816,14 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         lock (_playingClientLockObject)
             _clients.TryGetValue(client, out playingClient);
         if (playingClient == null)
-            Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDataReceived: null client");
+            Logger.LogError("ClientPlayingOnDataReceived: null client");
         else if (command != null)
             playingClient.EnqueueReceivedData(command);
     }
 
     private void ClientPlayingOnDisconnected(IClient client)
     {
-        Log.Default.WriteLine(LogLevels.Info, "ClientPlayingOnDisconnected");
+        Logger.LogInformation("ClientPlayingOnDisconnected");
 
         PlayingClient? playingClient;
         bool removed;
@@ -832,7 +840,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
 
         if (!removed)
-            Log.Default.WriteLine(LogLevels.Error, "ClientPlayingOnDisconnected: playingClient not found!!!");
+            Logger.LogError("ClientPlayingOnDisconnected: playingClient not found!!!");
         else
         {
             Wiznet.Log($"{playingClient!.Player.DisplayName} has disconnected.", WiznetFlags.Logins);
@@ -858,7 +866,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         _players.TryGetValue(player, out var playingClient);
         if (playingClient == null)
-            Log.Default.WriteLine(LogLevels.Error, "PlayerOnSendData: playingClient not found!!!");
+            Logger.LogError("PlayerOnSendData: playingClient not found!!!");
         else
             playingClient.EnqueueDataToSend(data);
     }
@@ -867,7 +875,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         bool found = _players.TryGetValue(player, out var playingClient);
         if (!found || playingClient == null)
-            Log.Default.WriteLine(LogLevels.Error, "PlayerOnPageData: playingClient not found!!!");
+            Logger.LogError("PlayerOnPageData: playingClient not found!!!");
         else if (data.Length > 0)
         {
             // Save data to page
@@ -970,11 +978,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while processing input of {0} [{1}]. Exception: {2}", playingClient.Player.Name, command ?? "???", ex);
+                    Logger.LogError("Exception while processing input of {0} [{1}]. Exception: {2}", playingClient.Player.Name, command ?? "???", ex);
                 }
             }
             else
-                Log.Default.WriteLine(LogLevels.Error, "ProcessInput: playing client without Player");
+                Logger.LogError("ProcessInput: playing client without Player");
         }
     }
 
@@ -997,11 +1005,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while processing output of {0}. Exception: {1}", playingClient.Player.Name, ex);
+                    Logger.LogError("Exception while processing output of {0}. Exception: {1}", playingClient.Player.Name, ex);
                 }
             }
             else
-                Log.Default.WriteLine(LogLevels.Error, "ProcessOutput: playing client without Player");
+                Logger.LogError("ProcessOutput: playing client without Player");
         }
     }
 
@@ -1019,10 +1027,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void SanityCheckAbilities()
     {
-        Log.Default.WriteLine(LogLevels.Info, "#Abilities: {0}", AbilityManager.Abilities.Count());
-        Log.Default.WriteLine(LogLevels.Info, "#Passives: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Passive));
-        Log.Default.WriteLine(LogLevels.Info, "#Spells: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Spell));
-        Log.Default.WriteLine(LogLevels.Info, "#Skills: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Skill));
+        Logger.LogInformation("#Abilities: {0}", AbilityManager.Abilities.Count());
+        Logger.LogInformation("#Passives: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Passive));
+        Logger.LogInformation("#Spells: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Spell));
+        Logger.LogInformation("#Skills: {0}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Skill));
     }
 
     private void SanityCheckClasses()
@@ -1030,22 +1038,22 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         foreach (IClass c in ClassManager.Classes)
         {
             if (c.MaxHitPointGainPerLevel < c.MinHitPointGainPerLevel)
-                Log.Default.WriteLine(LogLevels.Warning, "Class {0} max hp per level < min hp per level");
+                Logger.LogWarning("Class {0} max hp per level < min hp per level");
             if (c.ResourceKinds == null || !c.ResourceKinds.Any())
-                Log.Default.WriteLine(LogLevels.Warning, "Class {0} doesn't have any allowed resources", c.Name);
+                Logger.LogWarning("Class {0} doesn't have any allowed resources", c.Name);
             else
             {
                 foreach (IAbilityUsage abilityUsage in c.Abilities)
                     if (abilityUsage.ResourceKind.HasValue && !c.ResourceKinds.Contains(abilityUsage.ResourceKind.Value))
-                        Log.Default.WriteLine(LogLevels.Warning, "Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Name, abilityUsage.ResourceKind);
+                        Logger.LogWarning("Class {0} is allowed to use ability {1} [resource:{2}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Name, abilityUsage.ResourceKind);
             }
         }
-        Log.Default.WriteLine(LogLevels.Info, "#Classes: {0}", ClassManager.Classes.Count());
+        Logger.LogInformation("#Classes: {0}", ClassManager.Classes.Count());
     }
 
     private void SanityCheckRaces()
     {
-        Log.Default.WriteLine(LogLevels.Info, "#Races: {0}", RaceManager.PlayableRaces.Count());
+        Logger.LogInformation("#Races: {0}", RaceManager.PlayableRaces.Count());
     }
 
     private void SanityCheckQuests()
@@ -1053,47 +1061,47 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         foreach (QuestBlueprint questBlueprint in QuestManager.QuestBlueprints)
         {
             if (questBlueprint.ItemObjectives?.Length == 0 && questBlueprint.KillObjectives?.Length == 0 && questBlueprint.LocationObjectives?.Length == 0)
-                Log.Default.WriteLine(LogLevels.Error, "Quest id {0} doesn't have any objectives.", questBlueprint.Id);
+                Logger.LogError("Quest id {0} doesn't have any objectives.", questBlueprint.Id);
             else
             {
                 var duplicateIds = (questBlueprint.ItemObjectives ?? Enumerable.Empty<QuestItemObjectiveBlueprint>()).Select(x => x.Id).Union((questBlueprint.KillObjectives ?? Enumerable.Empty<QuestKillObjectiveBlueprint>()).Select(x => x.Id)).Union((questBlueprint.LocationObjectives ?? Enumerable.Empty<QuestLocationObjectiveBlueprint>()).Select(x => x.Id))
                     .GroupBy(x => x, (id, ids) => new { objectiveId = id, count = ids.Count() }).Where(x => x.count > 1);
                 foreach (var duplicateId in duplicateIds)
-                    Log.Default.WriteLine(LogLevels.Error, "Quest id {0} has objectives with duplicate id {1} count {2}", questBlueprint.Id, duplicateId.objectiveId, duplicateId.count);
+                    Logger.LogError("Quest id {0} has objectives with duplicate id {1} count {2}", questBlueprint.Id, duplicateId.objectiveId, duplicateId.count);
             }
         }
-        Log.Default.WriteLine(LogLevels.Info, "#QuestBlueprints: {0}", QuestManager.QuestBlueprints.Count);
+        Logger.LogInformation("#QuestBlueprints: {0}", QuestManager.QuestBlueprints.Count);
     }
 
     private void SanityCheckRooms()
     {
-        Log.Default.WriteLine(LogLevels.Info, "#RoomBlueprints: {0}", RoomManager.RoomBlueprints.Count);
-        Log.Default.WriteLine(LogLevels.Info, "#Rooms: {0}", RoomManager.Rooms.Count());
+        Logger.LogInformation("#RoomBlueprints: {0}", RoomManager.RoomBlueprints.Count);
+        Logger.LogInformation("#Rooms: {0}", RoomManager.Rooms.Count());
     }
 
     private void SanityCheckItems()
     {
-        Log.Default.WriteLine(LogLevels.Info, "#ItemBlueprints: {0}", ItemManager.ItemBlueprints.Count);
-        Log.Default.WriteLine(LogLevels.Info, "#Items: {0}", ItemManager.Items.Count());
+        Logger.LogInformation("#ItemBlueprints: {0}", ItemManager.ItemBlueprints.Count);
+        Logger.LogInformation("#Items: {0}", ItemManager.Items.Count());
         if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
-            Log.Default.WriteLine(LogLevels.Error, "Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
+            Logger.LogError("Item corpse blueprint {0} not found or not a corpse", Settings.CorpseBlueprintId);
         if (ItemManager.GetItemBlueprint<ItemFoodBlueprint>(Settings.MushroomBlueprintId) == null)
-            Log.Default.WriteLine(LogLevels.Error, "'a Magic mushroom' blueprint {0} not found or not food (needed for spell CreateFood)", Settings.MushroomBlueprintId);
+            Logger.LogError("'a Magic mushroom' blueprint {0} not found or not food (needed for spell CreateFood)", Settings.MushroomBlueprintId);
         if (ItemManager.GetItemBlueprint<ItemFountainBlueprint>(Settings.SpringBlueprintId) == null)
-            Log.Default.WriteLine(LogLevels.Error, "'a magical spring' blueprint {0} not found or not a fountain (needed for spell CreateSpring)", Settings.SpringBlueprintId);
+            Logger.LogError("'a magical spring' blueprint {0} not found or not a fountain (needed for spell CreateSpring)", Settings.SpringBlueprintId);
         if (ItemManager.GetItemBlueprint<ItemLightBlueprint>(Settings.LightBallBlueprintId) == null)
-            Log.Default.WriteLine(LogLevels.Error, "'a bright ball of light' blueprint {0} not found or not an light (needed for spell ContinualLight)", Settings.LightBallBlueprintId);
+            Logger.LogError("'a bright ball of light' blueprint {0} not found or not an light (needed for spell ContinualLight)", Settings.LightBallBlueprintId);
     }
 
     private void SanityCheckCharacters()
     {
-        Log.Default.WriteLine(LogLevels.Info, "#CharacterBlueprints: {0}", CharacterManager.CharacterBlueprints.Count);
-        Log.Default.WriteLine(LogLevels.Info, "#Characters: {0}", CharacterManager.Characters.Count());
+        Logger.LogInformation("#CharacterBlueprints: {0}", CharacterManager.CharacterBlueprints.Count);
+        Logger.LogInformation("#Characters: {0}", CharacterManager.Characters.Count());
     }
 
     private void SanityCheckWeaponEffects()
     {
-        Log.Default.WriteLine(LogLevels.Info, "#WeaponEffects: {0}", WeaponEffectManager.Count);
+        Logger.LogInformation("#WeaponEffects: {0}", WeaponEffectManager.Count);
     }
 
     private void DumpCommands()
@@ -1111,7 +1119,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         //foreach (Type actorType in actorTypes)
         //    DumpCommandByType(actorType);
         StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate("Commands", GameActionManager.GameActions.OrderBy(x => x.Name));
-        Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+        Logger.LogDebug(sb.ToString()); // Dump in log
     }
 
     //private void DumpCommandByType(Type t)
@@ -1121,11 +1129,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     //        IGameActionInfo[] query = GameActionManager.GetCommands(t).GetByPrefix(c.ToString()).Select(x => x.Value).OrderBy(x => x.Priority).ToArray();
 
     //        if (query.Length == 0)
-    //            Log.Default.WriteLine(LogLevels.Debug, $"No commands for {t.Name} prefix '{c}'"); // Dump in log
+    //            Logger.LogDebug($"No commands for {t.Name} prefix '{c}'"); // Dump in log
     //        else
     //        {
     //            StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
-    //            Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+    //            Logger.LogDebug(sb.ToString()); // Dump in log
     //        }
     //    }
     //}
@@ -1133,19 +1141,19 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private void DumpClasses()
     {
         StringBuilder sb = TableGenerators.ClassTableGenerator.Value.Generate("Classes", ClassManager.Classes.OrderBy(x => x.Name));
-        Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+        Logger.LogDebug(sb.ToString()); // Dump in log
     }
 
     private void DumpRaces()
     {
         StringBuilder sb = TableGenerators.PlayableRaceTableGenerator.Value.Generate("Races", RaceManager.PlayableRaces.OrderBy(x => x.Name));
-        Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+        Logger.LogDebug(sb.ToString()); // Dump in log
     }
 
     private void DumpAbilities()
     {
         StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities.OrderBy(x => x.Name));
-        Log.Default.WriteLine(LogLevels.Debug, sb.ToString()); // Dump in log
+        Logger.LogDebug(sb.ToString()); // Dump in log
     }
 
     private void HandleShutdown()
@@ -1201,12 +1209,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     {
                         try
                         {
-                            Log.Default.WriteLine(LogLevels.Debug, "HandleAggressiveNonPlayableCharacters: starting a fight between {0} and {1}", aggressor.DebugName, victim.DebugName);
+                            Logger.LogDebug("HandleAggressiveNonPlayableCharacters: starting a fight between {0} and {1}", aggressor.DebugName, victim.DebugName);
                             aggressor.MultiHit(victim); // TODO: undefined type
                         }
                         catch (Exception ex)
                         {
-                            Log.Default.WriteLine(LogLevels.Error, "Exception while handling aggressive behavior {0} on {1}. Exception: {2}", aggressor.DebugName, victim.DebugName, ex);
+                            Logger.LogError("Exception while handling aggressive behavior {0} on {1}. Exception: {2}", aggressor.DebugName, victim.DebugName, ex);
                         }
                     }
                 }
@@ -1264,7 +1272,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of character {0}. Exception: {1}", character.DebugName, ex);
+                Logger.LogError("Exception while handling auras of character {0}. Exception: {1}", character.DebugName, ex);
             }
         }
         foreach (var item in ItemManager.Items.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
@@ -1292,7 +1300,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of item {0}. Exception: {1}", item.DebugName, ex);
+                Logger.LogError("Exception while handling auras of item {0}. Exception: {1}", item.DebugName, ex);
             }
         }
         foreach (var room in RoomManager.Rooms.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
@@ -1318,7 +1326,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Exception while handling auras of room {0}. Exception: {1}", room.DebugName, ex);
+                Logger.LogError("Exception while handling auras of room {0}. Exception: {1}", room.DebugName, ex);
             }
         }
     }
@@ -1339,7 +1347,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Exception while handling cooldowns of {0}. Exception: {1}", character.DebugName, ex);
+                Logger.LogError("Exception while handling cooldowns of {0}. Exception: {1}", character.DebugName, ex);
             }
         }
     }
@@ -1363,14 +1371,14 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Exception while handling cooldowns of {0}. Exception: {1}", player.Impersonating!.DebugName, ex);
+                Logger.LogError("Exception while handling cooldowns of {0}. Exception: {1}", player.Impersonating!.DebugName, ex);
             }
         }
     }
 
     private void HandleViolence(int pulseCount)
     {
-        //Log.Default.WriteLine(LogLevels.Debug, "HandleViolence: {0}", DateTime.Now);
+        //Logger.LogDebug("HandleViolence: {0}", DateTime.Now);
         var clone = new ReadOnlyCollection<ICharacter>(CharacterManager.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
         foreach (var character in clone)
         {
@@ -1384,16 +1392,16 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 {
                     if (character.Position > Positions.Sleeping && victim.Room == character.Room) // fight continue only if in the same room and awake
                     {
-                        Log.Default.WriteLine(LogLevels.Debug, "Continue fight between {0} and {1}", character.DebugName, victim.DebugName);
+                        Logger.LogDebug("Continue fight between {0} and {1}", character.DebugName, victim.DebugName);
                         character.MultiHit(victim);
                     }
                     else
                     {
-                        Log.Default.WriteLine(LogLevels.Debug, "Stop fighting between {0} and {1}, because not in same room", character.DebugName, victim.DebugName);
+                        Logger.LogDebug("Stop fighting between {0} and {1}, because not in same room", character.DebugName, victim.DebugName);
                         character.StopFighting(false);
                         if (npcCharacter != null)
                         {
-                            Log.Default.WriteLine(LogLevels.Debug, "Non-playable character stop fighting, resetting it");
+                            Logger.LogDebug("Non-playable character stop fighting, resetting it");
                             npcCharacter.Reset();
                         }
                     }
@@ -1451,7 +1459,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling violence {0}. Exception: {1}", character.DebugName, ex);
+                    Logger.LogError("Exception while handling violence {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
         }
@@ -1486,7 +1494,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Exception while handling player {0}. Exception: {1}", playingClient.Player.Name, ex);
+                Logger.LogError("Exception while handling player {0}. Exception: {1}", playingClient.Player.Name, ex);
             }
         }
     }
@@ -1499,7 +1507,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             {
                 var pc = character as IPlayableCharacter;
                 if (pc != null && pc.ImpersonatedBy == null) // TODO: remove after x minutes
-                    Log.Default.WriteLine(LogLevels.Warning, "Impersonable {0} is not impersonated", character.DebugName);
+                    Logger.LogWarning("Impersonable {0} is not impersonated", character.DebugName);
 
                 // TODO: check to see if need to go home
                 // Update resources
@@ -1546,7 +1554,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             { 
-                Log.Default.WriteLine(LogLevels.Error, "Exception while handling character {0}. Exception: {1}", character.DebugName, ex);
+                Logger.LogError("Exception while handling character {0}. Exception: {1}", character.DebugName, ex);
             }
         }
     }
@@ -1571,7 +1579,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             long gold = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 50000;
                             if (silver > 0 || gold > 0)
                             {
-                                Log.Default.WriteLine(LogLevels.Debug, "Giving {0} silver {1} gold to {2}.", silver, gold, npc.DebugName);
+                                Logger.LogDebug("Giving {0} silver {1} gold to {2}.", silver, gold, npc.DebugName);
                                 npc.UpdateMoney(silver, gold);
                             }
                         }
@@ -1584,7 +1592,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     // scavenger
                     if (npc.ActFlags.IsSet("Scavenger") && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
                     {
-                        //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
+                        //Logger.LogDebug("Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
                         // get most valuable item in room
                         var mostValuable = npc.Room.Content.Where(x => !x.NoTake && x.Cost > 0 /*&& CanLoot(npc, item)*/).OrderByDescending(x => x.Cost).FirstOrDefault();
                         if (mostValuable != null)
@@ -1597,7 +1605,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     // sentinel
                     if (!npc.ActFlags.IsSet("Sentinel") && RandomManager.Range(0, 7) == 0)
                     {
-                        //Log.Default.WriteLine(LogLevels.Debug, "Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
+                        //Logger.LogDebug("Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
                         int exitNumber = RandomManager.Range(0, 31);
                         if (exitNumber < EnumHelpers.GetCount<ExitDirections>())
                         {
@@ -1617,24 +1625,24 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Exception while handling npc {0}. Exception: {1}", npc.DebugName, ex);
+                Logger.LogError("Exception while handling npc {0}. Exception: {1}", npc.DebugName, ex);
             }
         }
     }
 
     private void HandleItems(int pulseCount)
     {
-        //Log.Default.WriteLine(LogLevels.Debug, "HandleItems {0} {1}", CurrentTime, DateTime.Now);
+        //Logger.LogDebug("HandleItems {0} {1}", CurrentTime, DateTime.Now);
         var clone = new ReadOnlyCollection<IItem>(ItemManager.Items.Where(x => x.DecayPulseLeft > 0).ToList()); // clone bause decaying item will be removed from list
         foreach (var item in clone)
         {
             try
             {
-                //Log.Default.WriteLine(LogLevels.Debug, $"HandleItems {item.DebugName} with {item.DecayPulseLeft} pulse left");
+                //Logger.LogDebug($"HandleItems {item.DebugName} with {item.DecayPulseLeft} pulse left");
                 item.DecreaseDecayPulseLeft(pulseCount);
                 if (item.DecayPulseLeft == 0)
                 {
-                    Log.Default.WriteLine(LogLevels.Debug, "Item {0} decays", item.DebugName);
+                    Logger.LogDebug("Item {0} decays", item.DebugName);
                     string msg = "{0:N} crumbles into dust.";
                     switch (item)
                     {
@@ -1677,10 +1685,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         bool moveItems = !(item is IItemCorpse itemCorpse && !itemCorpse.IsPlayableCharacterCorpse); // don't perform if NPC corpse
                         if (moveItems)
                         {
-                            Log.Default.WriteLine(LogLevels.Debug, "Move item content to room");
+                            Logger.LogDebug("Move item content to room");
                             var newContainer = item.ContainedInto;
                             if (newContainer == null)
-                                Log.Default.WriteLine(LogLevels.Error, "Item was in the void");
+                                Logger.LogError("Item was in the void");
                             else
                             {
                                 var cloneContent = new ReadOnlyCollection<IItem>(container.Content.Where(x => !(x is IItemQuest)).ToList()); // except quest item
@@ -1694,7 +1702,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             {
-                Log.Default.WriteLine(LogLevels.Error, "Exception while handling item {0}. Exception: {1}", item.DebugName, ex);
+                Logger.LogError("Exception while handling item {0}. Exception: {1}", item.DebugName, ex);
             }
         }
     }
@@ -1707,7 +1715,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private void HandleTime(int pulseCount)
     {
         string timeUpdate = TimeManager.Update();
-        Log.Default.WriteLine(LogLevels.Debug, "HandleTime: {0}", !string.IsNullOrWhiteSpace(timeUpdate) ? timeUpdate : "no update");
+        Logger.LogDebug("HandleTime: {0}", !string.IsNullOrWhiteSpace(timeUpdate) ? timeUpdate : "no update");
         if (!string.IsNullOrWhiteSpace(timeUpdate))
         {
             // inform non-sleeping and outdoors players
@@ -1724,7 +1732,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 }
                 catch (Exception ex)
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "Exception while handling time character {0}. Exception: {1}", character.DebugName, ex);
+                    Logger.LogError("Exception while handling time character {0}. Exception: {1}", character.DebugName, ex);
                 }
             }
         }
@@ -1737,18 +1745,17 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void GameLoopTask()
     {
-        PulseManager pulseManager = new ();
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleAuras);
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleCooldowns);
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleQuests);
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulseViolence, HandleViolence);
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 4, HandleNonPlayableCharacters);
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleCharacters);
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleItems);
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
-        pulseManager.Add(Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleTime); // 1 minute IRL = 1 hour IG
-        pulseManager.Add(Pulse.PulsePerMinutes * 3, Pulse.PulsePerMinutes * 3, HandleAreas);
+        PulseManager.Add("Auras", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleAuras);
+        PulseManager.Add("CDs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleCooldowns);
+        PulseManager.Add("Quests", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleQuests);
+        PulseManager.Add("Violence", Pulse.PulsePerSeconds, Pulse.PulseViolence, HandleViolence);
+        PulseManager.Add("NPCs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 4, HandleNonPlayableCharacters);
+        PulseManager.Add("NPCs+PCs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleCharacters);
+        PulseManager.Add("PCs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);
+        PulseManager.Add("Items", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleItems);
+        PulseManager.Add("Rooms", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleRooms);
+        PulseManager.Add("Time", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleTime); // 1 minute IRL = 1 hour IG
+        PulseManager.Add("Areas", Pulse.PulsePerMinutes * 3, Pulse.PulsePerMinutes * 3, HandleAreas);
 
         try
         {
@@ -1758,7 +1765,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 sw.Restart();
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
-                    Log.Default.WriteLine(LogLevels.Info, "Stop GameLoopTask requested");
+                    Logger.LogInformation("Stop GameLoopTask requested");
                     break;
                 }
 
@@ -1767,7 +1774,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 ProcessInput();
 
                 HandleShutdown();
-                pulseManager.Pulse();
+                PulseManager.Pulse();
                 HandleAggressiveNonPlayableCharacters();
 
                 ProcessOutput();
@@ -1781,24 +1788,24 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     int sleepTime = (int)(Pulse.PulseDelay - elapsedMs); // game loop should iterate every 250ms
                     //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
                     //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
-                    //Log.Default.WriteLine(LogLevels.Debug, "Elapsed {0}ms | {1}ticks | {2}ns -> sleep {3}ms", elapsedMs, elapsedTick, elapsedNs, sleepTime);
+                    //Logger.LogDebug("Elapsed {0}ms | {1}ticks | {2}ns -> sleep {3}ms", elapsedMs, elapsedTick, elapsedNs, sleepTime);
                     _cancellationTokenSource.Token.WaitHandle.WaitOne(sleepTime);
                 }
                 else
                 {
-                    Log.Default.WriteLine(LogLevels.Error, "!!! No sleep for GameLoopTask. Elapsed {0}", elapsedMs);
+                    Logger.LogError("!!! No sleep for GameLoopTask. Elapsed {0}", elapsedMs);
                     _cancellationTokenSource.Token.WaitHandle.WaitOne(1);
                 }
             }
         }
         catch (TaskCanceledException ex)
         {
-            Log.Default.WriteLine(LogLevels.Error, "GameLoopTask exception. Exception: {0}", ex);
+            Logger.LogError("GameLoopTask exception. Exception: {0}", ex);
         }
 
-        pulseManager.Clear();
+        PulseManager.Clear();
 
-        Log.Default.WriteLine(LogLevels.Info, "GameLoopTask stopped");
+        Logger.LogInformation("GameLoopTask stopped");
     }
 
     #region IDisposable

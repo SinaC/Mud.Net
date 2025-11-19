@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Interfaces.Ability;
 
@@ -6,8 +7,8 @@ namespace Mud.Server.Rom24.Classes;
 
 public class Mage : ClassBase
 {
-    public Mage(IAbilityManager abilityManager)
-        : base(abilityManager)
+    public Mage(ILogger<Mage> logger, IAbilityManager abilityManager)
+        : base(logger, abilityManager)
     {
         AddAbility(2, "Detect Magic", Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed, 1);
         AddAbility(3, "Detect Invis", Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed, 1);
