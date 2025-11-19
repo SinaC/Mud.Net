@@ -1,11 +1,15 @@
 INGOING
-replace nlog with microsoft logging
-check each parameter for every Logger.LogXXX
-    search {0}  and  ($
 
 TODO
 remove every manual call to GetService/GetRequiredService
-ChracterFactory, ItemFactory, RoomFactory to handle characters, items and rooms creation (to avoid new everywhere in the code and replace with DI more easily later if needed)
+dangerous call sequence (luckily we set Room to NullRoom in the first lines of ctor):
+    PlayableCharacter.ctor
+        CharacterManager.AddNonPlayableCharacter (when creating pet)
+            Room.Recompute
+                Room.ApplyAuras which could kill PlayableCharacter we are trying to create
+CharacterFactory, ItemFactory, RoomFactory to handle characters, items and rooms creation (to avoid new everywhere in the code and replace with DI more easily later if needed)
+
+
 character default size seems to be tiny for ROM24
 finish ROM24 classes
 use DI for Room, Item, Character, ... (don't forget to change ILogger to ILogger<> in ActorBase, ...)

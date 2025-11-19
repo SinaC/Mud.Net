@@ -42,6 +42,6 @@ public class IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Logger.LogError($"IRV flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError("IRV flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

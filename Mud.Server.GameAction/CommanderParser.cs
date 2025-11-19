@@ -28,7 +28,7 @@ public class CommandParser : ICommandParser
 
     public bool ExtractCommandAndParameters(Func<bool, IReadOnlyDictionary<string,string>?>? aliasesFunc, string? input, out string command, out ICommandParameter[] parameters, out bool forceOutOfGame)
     {
-        Logger.LogTrace("Extracting command and parameters [{0}]", input ?? "(none)");
+        Logger.LogTrace("Extracting command and parameters [{input}]", input ?? "(none)");
 
         // No command ?
         if (string.IsNullOrWhiteSpace(input))
@@ -60,7 +60,7 @@ public class CommandParser : ICommandParser
         {
             if (aliases.TryGetValue(command, out var alias))
             {
-                Logger.LogDebug("Alias found : {0} -> {1}", command, alias);
+                Logger.LogDebug("Alias found : {command} -> {alias}", command, alias);
                 // Extract command and raw parameters
                 var aliasExtractedCommandInfo = ExtractCommandAndTokens(alias);
                 tokens = aliasExtractedCommandInfo.tokens;
@@ -81,7 +81,7 @@ public class CommandParser : ICommandParser
 
     private (string command, IEnumerable<string> tokens) ExtractCommandAndTokens(string commandLine)
     {
-        Logger.LogTrace("Extracting command [{0}]", commandLine);
+        Logger.LogTrace("Extracting command [{command}]", commandLine);
 
         // handle special case of ' command (alias for say)
         var startsWithSimpleQuote = commandLine.StartsWith('\'');

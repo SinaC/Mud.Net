@@ -127,7 +127,7 @@ public class LoginRepository : RepositoryBase, ILoginRepository
             if (directory != null)
                 Directory.CreateDirectory(directory);
             else
-                Logger.LogError("Invalid directory in logins path: {0}", LoginRepositoryFilename);
+                Logger.LogError("Invalid directory in logins path: {filename}", LoginRepositoryFilename);
             using (var file = File.OpenRead(LoginRepositoryFilename))
             {
                 var repository = (LoginRepositoryData)deserializer.Deserialize(file)!;
@@ -137,7 +137,7 @@ public class LoginRepository : RepositoryBase, ILoginRepository
         }
         catch (Exception ex)
         {
-            Logger.LogError("LoadIfNeeded: unable to load. Exception: {0}", ex);
+            Logger.LogError("LoadIfNeeded: unable to load. Exception: {ex}", ex);
         }
     }
 
@@ -150,7 +150,7 @@ public class LoginRepository : RepositoryBase, ILoginRepository
             if (directory != null)
                 Directory.CreateDirectory(directory);
             else
-                Logger.LogError("Invalid directory in logins path: {0}", LoginRepositoryFilename);
+                Logger.LogError("Invalid directory in logins path: {filename}", LoginRepositoryFilename);
             using (var file = File.Create(LoginRepositoryFilename))
             {
                 LoginRepositoryData repository = new()
@@ -162,7 +162,7 @@ public class LoginRepository : RepositoryBase, ILoginRepository
         }
         catch (Exception ex)
         {
-            Logger.LogError("Save: unable to save. Exception: {0}", ex);
+            Logger.LogError("Save: unable to save. Exception: {ex}", ex);
         }
     }
 }

@@ -32,6 +32,6 @@ public class RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Logger.LogError($"Room flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError("Room flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

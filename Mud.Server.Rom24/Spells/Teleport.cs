@@ -27,7 +27,7 @@ public class Teleport : TransportationSpellBase
         IRoom destination = RoomManager.GetRandomRoom(Caster);
         if (destination == null)
         {
-            Logger.LogWarning("Teleport: no random room available for {0}", Victim.DebugName);
+            Logger.LogWarning("Teleport: no random room available for {name}", Victim.DebugName);
             Caster.Send("Spell failed.");
             return;
         }

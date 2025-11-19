@@ -35,6 +35,6 @@ public class OffensiveFlagValues : FlagValuesBase<string>, IOffensiveFlagValues
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Logger.LogError($"Offensive flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError("Offensive flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

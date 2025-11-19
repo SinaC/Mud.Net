@@ -53,7 +53,7 @@ public class Human : PlayableRaceBase
             case CharacterAttributes.ArmorSlash: return 100;
             case CharacterAttributes.ArmorExotic: return 100;
             default:
-                Logger.LogError("Unexpected start attribute {0} for {1}", attribute, Name);
+                Logger.LogError("Unexpected start attribute {attribute} for {name}", attribute, Name);
                 return 0;
         }
     }
@@ -77,7 +77,7 @@ public class Human : PlayableRaceBase
             case CharacterAttributes.ArmorSlash: return 100;
             case CharacterAttributes.ArmorExotic: return 100;
             default:
-                Logger.LogError("Unexpected max attribute {0} for {1}", attribute, Name);
+                Logger.LogError("Unexpected max attribute {attribute} for {name}", attribute, Name);
                 return 0;
         }
     }

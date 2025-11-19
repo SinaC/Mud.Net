@@ -154,7 +154,7 @@ public partial class ServerWindow : Window, INetworkServer
         for (int i = 0; i < 10; i++)
         {
             List<int> loots = spiderTable.GenerateLoots();
-            Logger.LogInformation("***LOOT {0}: {1}", i, string.Join(",", loots));
+            Logger.LogInformation("***LOOT {idx}: {loots}", i, string.Join(",", loots));
         }
     }
 

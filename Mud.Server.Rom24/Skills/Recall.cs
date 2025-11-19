@@ -37,7 +37,7 @@ public class Recall : NoTargetSkillBase
         RecallRoom = pcUser.RecallRoom;
         if (RecallRoom == null)
         {
-            Logger.LogError("No recall room found for {0}", pcUser.DebugName);
+            Logger.LogError("No recall room found for {name}", pcUser.DebugName);
             return "You are completely lost.";
         }
 

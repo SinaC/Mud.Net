@@ -98,7 +98,7 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
 
         // Bind the socket to the local endpoint and listen for incoming connections.
         _serverSocket.Bind(localEndPoint);
-        Logger.LogInformation("Socket server bound to " + hostName + " on port " + localEndPoint.Port);
+        Logger.LogInformation("Socket server bound to {hostName} on port {port}", hostName, localEndPoint.Port);
 
         _status = ServerStatus.Initialized;
         Logger.LogInformation("Socket server initialized");
@@ -152,11 +152,11 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
         }
         catch (OperationCanceledException ex)
         {
-            Logger.LogWarning("Operation canceled exception while stopping. Exception: {0}", ex);
+            Logger.LogWarning("Operation canceled exception while stopping. Exception: {ex}", ex);
         }
         catch (AggregateException ex)
         {
-            Logger.LogWarning("Aggregate exception while stopping. Exception: {0}", ex.Flatten());
+            Logger.LogWarning("Aggregate exception while stopping. Exception: {ex}", ex.Flatten());
         }
 
         Logger.LogInformation("Socket server stopped");
@@ -198,7 +198,7 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
         }
         catch (TaskCanceledException ex)
         {
-            Logger.LogError("ListenTask exception. Exception: {0}", ex);
+            Logger.LogError("ListenTask exception. Exception: {ex}", ex);
         }
 
         Logger.LogInformation("ListenTask stopped");
@@ -215,7 +215,7 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
             Socket listener = (Socket) ar.AsyncState;
             Socket clientSocket = listener.EndAccept(ar);
 
-            Logger.LogDebug("Client connected from " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address);
+            Logger.LogDebug("Client connected from {address}", (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???");
 
             // Create the state object.
             ClientTelnetStateObject client = new (this)
@@ -251,7 +251,7 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
             // Read data from the client socket. 
             int bytesRead = clientSocket.EndReceive(ar);
 
-            Logger.LogDebug("Received " + bytesRead + " bytes from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address);
+            Logger.LogDebug("Received {count} bytes from {address}", bytesRead, (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???");
 
             if (bytesRead == 0)
             {
@@ -276,17 +276,17 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
                 // Remove protocol character
                 if (bytesRead % 3 == 0 && client.Buffer[0] == 0xFF)// && client.Buffer[1] == 0xFB)
                 {
-                    Logger.LogInformation("Protocol received from client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(client.Buffer, bytesRead));
+                    Logger.LogInformation("Protocol received from {address} : {protocol}", (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???", ByteArrayToString(client.Buffer, bytesRead));
                 }
                 else if (client.State == ClientStates.Connected)
                 {
                     string dataReceived = Encoding.ASCII.GetString(client.Buffer, 0, bytesRead);
 
-                    Logger.LogDebug("Data received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + dataReceived);
+                    Logger.LogDebug("Data received from {address} : {data} ", (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???", dataReceived);
 
                     // If data ends with CRLF, remove CRLF and consider command as complete
                     bool commandComplete = false;
-                    if (dataReceived.EndsWith("\n") || dataReceived.EndsWith("\r"))
+                    if (dataReceived.EndsWith('\n') || dataReceived.EndsWith('\r'))
                     {
                         commandComplete = true;
                         dataReceived = dataReceived.TrimEnd('\r', '\n');
@@ -303,7 +303,7 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
                     {
                         // Get command
                         string command = client.Command.ToString();
-                        Logger.LogInformation("Command received from client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address + " : " + command);
+                        Logger.LogInformation("Command received from {address} : {command} ", (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???", command);
 
                         // Reset command
                         client.Command.Clear();
@@ -333,7 +333,7 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
         {
             Socket clientSocket = client.ClientSocket;
 
-            Logger.LogDebug("Send data to client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + data);
+            Logger.LogDebug("Send data to {address} : {data} ", (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???", data);
 
             // Colorize or strip color
             string colorizedData = client.ColorAccepted 
@@ -361,7 +361,7 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
         {
             Socket clientSocket = client.ClientSocket;
 
-            Logger.LogDebug("Send data to client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " : " + ByteArrayToString(byteData, byteData.Length));
+            Logger.LogDebug("Send data to {adress} : {data}", (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???", ByteArrayToString(byteData, byteData.Length));
 
             // Begin sending the data to the remote device.
             clientSocket.BeginSend(byteData, 0, byteData.Length, 0, SendCallback, client);
@@ -386,7 +386,7 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
             // Complete sending the data to the remote device.
             int bytesSent = clientSocket.EndSend(ar);
 
-            Logger.LogDebug("Sent " + bytesSent + " bytes to client at " + ((IPEndPoint) clientSocket.RemoteEndPoint).Address);
+            Logger.LogDebug("Sent {count} bytes to {address}", bytesSent, (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???");
         }
         catch (ObjectDisposedException)
         {
@@ -408,7 +408,7 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
         // Only if not connected
         if (clientSocket.Connected)
         {
-            Logger.LogInformation("Client at " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address + " has disconnected");
+            Logger.LogInformation("Client {address} has disconnected", (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???");
 
             // Close socket
             clientSocket.Shutdown(SocketShutdown.Both);

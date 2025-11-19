@@ -29,7 +29,7 @@ public class QuestManager : IQuestManager
     public void AddQuestBlueprint(QuestBlueprint blueprint)
     {
         if (_questBlueprints.ContainsKey(blueprint.Id))
-            Logger.LogError("Quest blueprint duplicate {0}!!!", blueprint.Id);
+            Logger.LogError("Quest blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
             _questBlueprints.Add(blueprint.Id, blueprint);
     }

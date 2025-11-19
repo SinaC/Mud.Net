@@ -40,6 +40,6 @@ public class ActFlagValues : FlagValuesBase<string>, IActFlagValues
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Logger.LogError($"Act flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError("Act flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

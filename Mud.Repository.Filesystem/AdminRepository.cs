@@ -61,6 +61,6 @@ public class AdminRepository : RepositoryBase, IAdminRepository
         if (directory != null)
             Directory.CreateDirectory(directory);
         else
-            Logger.LogError("Invalid directory in admin path: {0}", AdminRepositoryPath);
+            Logger.LogError("Invalid directory in admin path: {path}", AdminRepositoryPath);
     }
 }

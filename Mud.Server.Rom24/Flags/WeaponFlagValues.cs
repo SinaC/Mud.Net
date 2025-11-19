@@ -41,6 +41,6 @@ public class WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Logger.LogError($"Weapon flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError("Weapon flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

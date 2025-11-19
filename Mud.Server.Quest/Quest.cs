@@ -70,14 +70,14 @@ public class Quest : IQuest
         var characterQuestorBlueprint = CharacterManager.GetCharacterBlueprint<CharacterQuestorBlueprint>(questData.GiverId);
         if (characterQuestorBlueprint == null)
         {
-            Logger.LogError("Quest giver blueprint id {0} not found!!!", questData.GiverId);
+            Logger.LogError("Quest giver blueprint id {giverId} not found!!!", questData.GiverId);
         }
         else
         {
             var giver = CharacterManager.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id && x.Room?.Blueprint?.Id == questData.GiverRoomId) ?? CharacterManager.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint?.Id == characterQuestorBlueprint.Id);
             if (giver == null)
             {
-                Logger.LogError("Quest giver blueprint id {0} room blueprint Id {1} not found!!!", questData.GiverId, questData.GiverRoomId);
+                Logger.LogError("Quest giver blueprint id {blueprintId} room blueprint Id {giverRoomId} not found!!!", questData.GiverId, questData.GiverRoomId);
             }
             Giver = giver;
         }
@@ -99,7 +99,7 @@ public class Quest : IQuest
                     questObjectiveLocation.Explored = objectiveData.Count > 0;
                     break;
                 default:
-                    Logger.LogError("Quest ({0}) objective ({1}) cannot be found for character {2}.", questData.QuestId, objectiveData.ObjectiveId, character.DisplayName);
+                    Logger.LogError("Quest ({questId}) objective ({objectiveId}) cannot be found for character {name}.", questData.QuestId, objectiveData.ObjectiveId, character.DisplayName);
                     break;
             }
         }
@@ -302,7 +302,7 @@ public class Quest : IQuest
             case LocationQuestObjective questObjectiveLocation:
                 return questObjectiveLocation.Explored ? 1: 0;
             default:
-                Logger.LogError("Cannot convert quest objective {0} type {1} to count", questObjective.Id, questObjective.GetType().Name);
+                Logger.LogError("Cannot convert quest objective {objectiveId} type {type} to count", questObjective.Id, questObjective.GetType().Name);
                 break;
         }
 
@@ -325,7 +325,7 @@ public class Quest : IQuest
                         Total = itemObjective.Count
                     });
                 else
-                    Logger.LogWarning($"Loot objective {itemObjective.ItemBlueprintId} doesn't exist (or is not quest item) for quest {blueprint.Id}");
+                    Logger.LogWarning("Loot objective {itemBlueprintId} doesn't exist (or is not quest item) for quest {blueprintId}", itemObjective.ItemBlueprintId, blueprint.Id);
             }
         }
         if (Blueprint.KillObjectives != null)
@@ -342,7 +342,7 @@ public class Quest : IQuest
                         Total = killObjective.Count
                     });
                 else
-                    Logger.LogWarning($"Kill objective {killObjective.CharacterBlueprintId} doesn't exist for quest {blueprint.Id}");
+                    Logger.LogWarning("Kill objective {objectiveBlueprintId} doesn't exist for quest {blueprintId}", killObjective.CharacterBlueprintId, blueprint.Id);
             }
         }
         if (Blueprint.LocationObjectives != null)
@@ -358,7 +358,7 @@ public class Quest : IQuest
                         Explored = character.Room?.Blueprint?.Id == roomBlueprint.Id
                     });
                 else
-                    Logger.LogWarning($"Location objective {locationObjective.RoomBlueprintId} doesn't exist for quest {blueprint.Id}");
+                    Logger.LogWarning("Location objective {objectiveBlueprintId} doesn't exist for quest {blueprintId}", locationObjective.RoomBlueprintId, blueprint.Id);
             }
         }
     }
@@ -369,7 +369,7 @@ public class Quest : IQuest
         var questItems = Character.Inventory.Where(x => x.Blueprint != null && Blueprint.ItemObjectives.Any(i => i.ItemBlueprintId == x.Blueprint.Id)).ToList();
         foreach (var questItem in questItems)
         {
-            Logger.LogDebug("Destroying quest item {0} in {1}", questItem.DebugName, Character.DebugName);
+            Logger.LogDebug("Destroying quest item {itemName} in {characterName}", questItem.DebugName, Character.DebugName);
             ItemManager.RemoveItem(questItem);
         }
     }

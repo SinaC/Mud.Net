@@ -500,7 +500,7 @@ public abstract class EntityBase : ActorBase, IEntity
                     }
                     break;
                 default:
-                    Logger.LogError("Act: invalid format {0} for ICharacter", format ?? "???");
+                    Logger.LogError("Act: invalid format {format} for ICharacter", format ?? "???");
                     result.Append("<???>");
                     break;
             }

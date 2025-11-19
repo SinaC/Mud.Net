@@ -25,6 +25,6 @@ public class AssistFlagValues : FlagValuesBase<string>, IAssistFlagValues
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Logger.LogError($"Assist flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError("Assist flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

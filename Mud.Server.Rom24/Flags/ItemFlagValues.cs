@@ -44,6 +44,6 @@ public class ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Logger.LogError($"Item flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError("Item flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

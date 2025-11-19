@@ -42,6 +42,6 @@ public class BodyPartValues : FlagValuesBase<string>, IBodyPartValues
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
-        Logger.LogError($"Body parts flags '{string.Join(",", values)}' not found in {GetType().FullName}");
+        Logger.LogError("Body part flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

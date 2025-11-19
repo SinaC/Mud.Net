@@ -135,7 +135,7 @@ public class MysteryLoader : TextBasedLoader
             else if (word == "End") // done
                 break;
         }
-        Logger.LogTrace("Area [{0}] parsed", area.Name);
+        Logger.LogTrace("Area [{area}] parsed", area.Name);
 
         // Set unique number and filename
         area.VNum = _areas.Count;
@@ -256,7 +256,7 @@ public class MysteryLoader : TextBasedLoader
             // TODO: convert act flags (see db.C:626)
             // TODO: fix parts (see db.C:520)
 
-            Logger.LogTrace("Mobile [{0}] parsed", vnum);
+            Logger.LogTrace("Mobile [{vnum}] parsed", vnum);
 
             // Save mobile data
             _mobiles.Add(mobileData);
@@ -402,7 +402,7 @@ public class MysteryLoader : TextBasedLoader
                     string keyword = ReadString();
                     string description = ReadString();
                     if (objectData.ExtraDescr.ContainsKey(keyword))
-                        Logger.LogError("ParseObjects: item [vnum:{0}] Extra desc already exists", vnum);
+                        Logger.LogError("ParseObjects: item [vnum:{vnum}] Extra desc already exists", vnum);
                     else
                         objectData.ExtraDescr.Add(keyword, description);
                 }
@@ -425,7 +425,7 @@ public class MysteryLoader : TextBasedLoader
                 }
             }
 
-            Logger.LogTrace("Object [{0}] parsed", vnum);
+            Logger.LogTrace("Object [{vnum}] parsed", vnum);
 
             // Save object data
             _objects.Add(objectData);
@@ -678,7 +678,7 @@ public class MysteryLoader : TextBasedLoader
                 else
                     RaiseParseException("ParseRooms: vnum {0} has unknown flag", vnum);
             }
-            Logger.LogTrace("Room [{0}] parsed", vnum);
+            Logger.LogTrace("Room [{vnum}] parsed", vnum);
 
             // Save room data
             _rooms.Add(roomData);
@@ -711,7 +711,7 @@ public class MysteryLoader : TextBasedLoader
                 shopData.CloseHour = (int) ReadNumber();
                 mobileData.Shop = shopData;
 
-                Logger.LogTrace("Shop [{0}] parsed", keeper);
+                Logger.LogTrace("Shop [{vnum}] parsed", keeper);
             }
             ReadToEol();
         }
@@ -738,7 +738,7 @@ public class MysteryLoader : TextBasedLoader
                     mobileData.Special = special;
                 else
                     Warn("ParseSpecials: 'M' unknown mobile vnum {0}", vnum);
-                Logger.LogTrace("Specials [{0}] parsed", vnum);
+                Logger.LogTrace("Specials [{vnum}] parsed", vnum);
             }
             else
                 RaiseParseException("ParseSpecials: letter {0} not *MS", letter);

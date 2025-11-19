@@ -49,7 +49,7 @@ public class WordOfRecall : SpellBase
         var recallRoom = Victim.RecallRoom;
         if (recallRoom == null)
         {
-            Logger.LogError("No recall room found for {0}", Victim.DebugName);
+            Logger.LogError("No recall room found for {name}", Victim.DebugName);
             Caster.Act(ActOptions.ToCharacter, "{0:N} {0:b} completely lost.", Victim);
             return;
         }

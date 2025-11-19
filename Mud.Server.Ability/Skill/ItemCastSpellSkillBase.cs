@@ -72,7 +72,7 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         }
         if (AbilityManager.CreateInstance<ISpell>(abilityInfo.Name) is not ITargetedAction getTargetedAction)
         {
-            Logger.LogError("Spell '{0}' on item {spellName} cannot be instantiated or is not a targeted action.", spellName, Item.DebugName);
+            Logger.LogError("Spell '{spellName}' on item {item} cannot be instantiated or is not a targeted action.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
 
