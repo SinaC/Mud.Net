@@ -38,7 +38,7 @@ public class SanityCheck : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        StringBuilder info = Whom.PerformSanityCheck();
+        StringBuilder info = Whom.PerformSanityChecks();
         Actor.Page(info);
     }
 }

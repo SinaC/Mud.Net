@@ -363,7 +363,7 @@ public class Player : ActorBase, IPlayer
         return data;
     }
 
-    public virtual StringBuilder PerformSanityCheck()
+    public virtual StringBuilder PerformSanityChecks()
     {
         StringBuilder sb = new();
 

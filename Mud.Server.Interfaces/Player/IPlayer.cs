@@ -78,7 +78,7 @@ public interface IPlayer : IActor
 
     void OnDisconnected();
 
-    StringBuilder PerformSanityCheck();
+    StringBuilder PerformSanityChecks();
 
     PlayerData MapPlayerData();
 }

@@ -89,6 +89,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private IAdminManager AdminManager { get; }
     private IWiznet Wiznet { get; }
     private IPulseManager PulseManager { get; }
+    private IReadOnlyCollection<ISanityCheck> SanityChecks { get; }
     private ServerOptions ServerOptions { get; }
     private WorldOptions WorldOptions { get; }
 
@@ -97,7 +98,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager, ICommandParser commandParser,
         IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IWeaponEffectManager weaponEffectManager,
         IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IResetManager resetManager,
-        IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager)
+        IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager, IEnumerable<ISanityCheck> sanityChecks)
     {
         Logger = logger;
         ServerOptions = serverOptions.Value;
@@ -123,6 +124,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         AdminManager = adminManager;
         Wiznet = wiznet;
         PulseManager = pulseManager;
+        SanityChecks = sanityChecks.ToArray();
 
         _clients = new ConcurrentDictionary<IClient, PlayingClient>();
         _players = new ConcurrentDictionary<IPlayer, PlayingClient>();
@@ -144,7 +146,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         TimeManager.Initialize();
 
         // TODO: check room specific id
-
+        // TODO: move this in sanity checks
         if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(WorldOptions.BlueprintIds.Corpse) == null)
         {
             Logger.LogError("Item corpse blueprint {corpseBlueprintId} not found or not a corpse", WorldOptions.BlueprintIds.Corpse);
@@ -157,8 +159,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
 
         // Perform some validity/sanity checks
-        if (ServerOptions.PerformSanityCheck)
-            SanityChecks();
+        if (ServerOptions.PerformSanityChecks)
+        {
+            PerformSanityChecks();
+        }
 
         // Dump config
         if (ServerOptions.DumpOnInitialize)
@@ -1016,8 +1020,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
     }
 
-    private void SanityChecks()
+    private void PerformSanityChecks()
     {
+        var fatalErrorFound = false;
         SanityCheckQuests();
         SanityCheckAbilities();
         SanityCheckClasses();
@@ -1026,6 +1031,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         SanityCheckItems();
         SanityCheckCharacters();
         SanityCheckWeaponEffects();
+        foreach (var sanityCheck in SanityChecks)
+        {
+            fatalErrorFound |= sanityCheck.PerformSanityChecks();
+        }
+        if (fatalErrorFound)
+            throw new Exception("Fatal sanity check fail detected. Stopping");
     }
 
     private void SanityCheckAbilities()
@@ -1088,13 +1099,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         Logger.LogInformation("#Items: {count}", ItemManager.Items.Count());
         if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(WorldOptions.BlueprintIds.Corpse) == null)
             Logger.LogError("Item corpse blueprint {blueprintId} not found or not a corpse", WorldOptions.BlueprintIds.Corpse);
-        // TODO: Rom24 sanity checks
-        //if (ItemManager.GetItemBlueprint<ItemFoodBlueprint>(WorldOptions.BlueprintIds.Mushroom) == null)
-        //    Logger.LogError("'a Magic mushroom' blueprint {blueprintId} not found or not food (needed for spell CreateFood)", WorldOptions.BlueprintIds.Mushroom);
-        //if (ItemManager.GetItemBlueprint<ItemFountainBlueprint>(WorldOptions.BlueprintIds.Spring) == null)
-        //    Logger.LogError("'a magical spring' blueprint {blueprintId} not found or not a fountain (needed for spell CreateSpring)", WorldOptions.BlueprintIds.Spring);
-        //if (ItemManager.GetItemBlueprint<ItemLightBlueprint>(WorldOptions.BlueprintIds.LightBall) == null)
-        //    Logger.LogError("'a bright ball of light' blueprint {blueprintId} not found or not an light (needed for spell ContinualLight)", WorldOptions.BlueprintIds.LightBall);
+        if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(WorldOptions.BlueprintIds.Coins) == null)
+            Logger.LogError("Item coins blueprint {blueprintId} not found or not money", WorldOptions.BlueprintIds.Coins);
+        // TODO: stop server if no corpse or no money found
     }
 
     private void SanityCheckCharacters()

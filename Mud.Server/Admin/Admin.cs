@@ -73,9 +73,9 @@ public class Admin : Player.Player, IAdmin
         return data;
     }
 
-    public override StringBuilder PerformSanityCheck()
+    public override StringBuilder PerformSanityChecks()
     {
-        var sb = base.PerformSanityCheck();
+        var sb = base.PerformSanityChecks();
 
         sb.AppendLine("--Admin--");
         sb.AppendLine($"Incarnating: {Incarnating?.DebugName ?? "none"}");

@@ -58,7 +58,6 @@ public partial class App : Application
     {
         var assemblyHelper = new AssemblyHelper();
 
-        // Configure Logging
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
@@ -68,10 +67,13 @@ public partial class App : Application
         //    .WriteTo.File(settings.LogPath, rollingInterval: RollingInterval.Day)
         //    .CreateLogger();
         //services.AddLogging(builder => builder.AddSerilog(Log.Logger));
+
+        // Configure Logging
         var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(configuration)
             .WriteTo.RichTextBoxSink()
             .CreateLogger();
+        services.AddLogging(builder => builder.AddSerilog(logger));
 
         // Configure options
         ConfigureOptions(services, configuration);
@@ -138,39 +140,6 @@ public partial class App : Application
         services.Configure<WorldOptions>(options => configuration.GetSection(WorldOptions.SectionName).Bind(options));
     }
 
-    //public sealed class CustomLogger(string scopeName) : ILogger
-    //{
-    //    public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default!;
-
-    //    public bool IsEnabled(LogLevel logLevel) =>
-    //        true;
-
-    //    public void Log<TState>(
-    //        LogLevel logLevel,
-    //        EventId eventId,
-    //        TState state,
-    //        Exception? exception,
-    //        Func<TState, Exception?, string> formatter)
-    //    {
-    //        if (!IsEnabled(logLevel))
-    //        {
-    //            return;
-    //        }
-
-    //        ServerWindow.LogScopedMethod(logLevel.ToString(), scopeName, formatter(state, exception));
-    //    }
-    //}
-
-    //private class CustomLoggerProvider : ILoggerProvider
-    //{
-    //    public ILogger CreateLogger(string categoryName)
-    //        => new CustomLogger(categoryName);
-
-    //    public void Dispose()
-    //    {
-    //    }
-    //}
-
     private void OnExit(object sender, ExitEventArgs e)
     {
         // Dispose of services if needed
@@ -204,6 +173,13 @@ public partial class App : Application
         {
             Debug.Print("Registering class type {0}.", cl.FullName);
             services.AddSingleton(iClass, cl);
+        }
+        // register sanity checks
+        var iSanityCheck = typeof(ISanityCheck);
+        foreach (var sanityCheck in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iSanityCheck.IsAssignableFrom(t))))
+        {
+            Debug.Print("Registering sanity check type {0}.", sanityCheck.FullName);
+            services.AddSingleton(iSanityCheck, sanityCheck);
         }
     }
 

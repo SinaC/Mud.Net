@@ -112,15 +112,14 @@ internal class Program
             .AddJsonFile("appsettings.json")
             .Build();
 
+        // Configure Logging
         var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(configuration)
             .CreateLogger();
+        services.AddLogging(builder => builder.AddSerilog(logger));
 
         // Configure options
         ConfigureOptions(services, configuration);
-
-        // Configure Logging
-        services.AddLogging(builder => builder.AddSerilog(logger));
 
         // Register Services
         services.AddSingleton<ITelnetNetworkServer, TelnetServer>();
