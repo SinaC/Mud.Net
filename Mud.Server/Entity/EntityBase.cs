@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
@@ -12,7 +13,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
@@ -25,14 +26,17 @@ public abstract class EntityBase : ActorBase, IEntity
 
     protected ICommandParser CommandParser { get; }
     protected IAbilityManager AbilityManager { get; }
-    protected ISettings Settings { get; }
+    protected bool PrefixForwardedMessages { get; }
+    protected bool ForwardSlaveMessages { get; }
 
-    protected EntityBase(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, Guid guid, string name, string description)
+    protected EntityBase(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions,
+        Guid guid, string name, string description)
         : base(logger, gameActionManager)
     {
         CommandParser = commandParser;
         AbilityManager = abilityManager;
-        Settings = settings;
+        PrefixForwardedMessages = messageForwardOptions.Value.PrefixForwardedMessages;
+        ForwardSlaveMessages = messageForwardOptions.Value.ForwardSlaveMessages;
 
         IsValid = true;
         if (guid == Guid.Empty)
@@ -72,7 +76,7 @@ public abstract class EntityBase : ActorBase, IEntity
 
         if (IncarnatedBy != null)
         {
-            if (Settings.PrefixForwardedMessages)
+            if (PrefixForwardedMessages)
                 message = "<INC|" + DisplayName + ">" + message;
             IncarnatedBy.Send(message, addTrailingNewLine);
         }

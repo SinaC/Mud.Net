@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
@@ -6,7 +7,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -16,13 +16,13 @@ public class Nexus : TransportationSpellBase
     private const string SpellName = "Nexus";
 
     private IItemManager ItemManager { get; }
-    private ISettings Settings { get; }
+    private int PortalBlueprintId { get; }
 
-    public Nexus(ILogger<Nexus> logger, IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, ISettings settings)
+    public Nexus(ILogger<Nexus> logger, IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, IOptions<Rom24Options> options)
         : base(logger, randomManager, characterManager)
     {
         ItemManager = itemManager;
-        Settings = settings;
+        PortalBlueprintId = options.Value.BlueprintIds.Portal;
     }
 
     protected override void Invoke()
@@ -46,7 +46,7 @@ public class Nexus : TransportationSpellBase
         int duration = 1 + Level / 10;
 
         // create portal one (Caster -> victim)
-        var portal1 = ItemManager.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, Caster.Room) as IItemPortal;
+        var portal1 = ItemManager.AddItem(Guid.NewGuid(), PortalBlueprintId, Caster.Room) as IItemPortal;
         if (portal1 == null)
         {
             Caster.Send("The spell fails to create a portal.");
@@ -63,7 +63,7 @@ public class Nexus : TransportationSpellBase
             return; // no second portal if rooms are the same
 
         // create portal two (victim -> Caster)
-        var portal2 = ItemManager.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, Victim.Room) as IItemPortal;
+        var portal2 = ItemManager.AddItem(Guid.NewGuid(), PortalBlueprintId, Victim.Room) as IItemPortal;
         if (portal2 == null)
         {
             Caster.Send("The spell fails to create a portal.");

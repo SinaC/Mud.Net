@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -16,7 +17,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 using System.Diagnostics;
 using System.Text;
 
@@ -31,9 +32,9 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
     protected IRoomManager RoomManager { get; }
     protected IAuraManager AuraManager { get; }
 
-    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager,
         Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
-        : base(logger, gameActionManager, commandParser, abilityManager, settings, guid, name, description)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, guid, name, description)
     {
         ServiceProvider = serviceProvider;
         RoomManager = roomManager;
@@ -52,15 +53,15 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
         ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), BaseItemFlags, null);
     }
 
-    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager,
         Guid guid, TBlueprint blueprint, IContainer containedInto)
-        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto)
     {
     }
 
-    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager,
         Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
-        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, name, shortDescription, description, containedInto)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, name, shortDescription, description, containedInto)
     {
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
@@ -74,9 +75,9 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
         }
     }
 
-    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager,
+    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager,
         Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
-        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
     {
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;

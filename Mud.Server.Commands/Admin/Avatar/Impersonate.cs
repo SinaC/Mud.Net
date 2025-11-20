@@ -1,31 +1,32 @@
-﻿using Mud.Server.GameAction;
+﻿using Microsoft.Extensions.Options;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
 [AdminCommand("impersonate", "Avatar", Priority = 0)]
 [Syntax(
     "[cmd]",
-    "[cmd] <character>")]
+    "[cmd] <avatar name>")]
 public class Impersonate : AdminGameAction
 {
     private IServerPlayerCommand ServerPlayerCommand { get; }
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
-    private ISettings Settings { get; }
     private IWiznet Wiznet { get; }
+    private Player.Avatar.Impersonate PlayerImpersonate { get; }
 
-    public Impersonate(IServerPlayerCommand serverPlayerCommand, IRoomManager roomManager, ICharacterManager characterManager, ISettings settings, IWiznet wiznet)
+    public Impersonate(IServerPlayerCommand serverPlayerCommand, IRoomManager roomManager, ICharacterManager characterManager, IOptions<WorldOptions> worldOptions, IWiznet wiznet)
     {
         ServerPlayerCommand = serverPlayerCommand;
         RoomManager = roomManager;
         CharacterManager = characterManager;
-        Settings = settings;
         Wiznet = wiznet;
+        PlayerImpersonate = new(ServerPlayerCommand, RoomManager, CharacterManager, worldOptions, Wiznet);
     }
 
     public override string? Guards(IActionInput actionInput)
@@ -42,11 +43,10 @@ public class Impersonate : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Player.Avatar.Impersonate impersonate = new(ServerPlayerCommand, RoomManager, CharacterManager, Settings, Wiznet);
-        var guards = impersonate.Guards(actionInput);
+        var guards = PlayerImpersonate.Guards(actionInput);
         if (guards != null)
             Actor.Send(guards);
         else
-            impersonate.Execute(actionInput);
+            PlayerImpersonate.Execute(actionInput);
     }
 }

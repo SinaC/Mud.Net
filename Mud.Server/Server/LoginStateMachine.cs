@@ -1,6 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Network.Interfaces;
-using Mud.Repository;
+using Mud.Repository.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using System.Security.Cryptography;

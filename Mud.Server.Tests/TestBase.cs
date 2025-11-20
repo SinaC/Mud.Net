@@ -21,7 +21,6 @@ using Mud.Server.Interfaces.World;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Spells;
 using Mud.Server.Tests.Mocking;
-using Mud.Settings.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

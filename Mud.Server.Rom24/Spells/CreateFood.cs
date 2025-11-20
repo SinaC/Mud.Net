@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
@@ -7,7 +8,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -16,18 +16,21 @@ public class CreateFood : ItemCreationSpellBase
 {
     private const string SpellName = "Create Food";
 
-    public CreateFood(ILogger<CreateFood> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
-        : base(logger, randomManager, wiznet, itemManager, settings)
+    private int MushroomBlueprintId { get; }
+
+    public CreateFood(ILogger<CreateFood> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, IOptions<Rom24Options> options)
+        : base(logger, randomManager, wiznet, itemManager)
     {
+        MushroomBlueprintId = options.Value.BlueprintIds.Mushroom;
     }
 
     protected override void Invoke()
     {
-        var mushroom = ItemManager.AddItem(Guid.NewGuid(), Settings.MushroomBlueprintId, Caster.Room) as IItemFood;
+        var mushroom = ItemManager.AddItem(Guid.NewGuid(), MushroomBlueprintId, Caster.Room) as IItemFood;
         if (mushroom == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Log($"SpellCreateFood: cannot create item from blueprint {Settings.MushroomBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"SpellCreateFood: cannot create item from blueprint {MushroomBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
             return;
         }
         mushroom.SetHours(Level / 2, Level);

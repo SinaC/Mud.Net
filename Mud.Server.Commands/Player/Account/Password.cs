@@ -1,4 +1,4 @@
-﻿using Mud.Repository;
+﻿using Mud.Repository.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;

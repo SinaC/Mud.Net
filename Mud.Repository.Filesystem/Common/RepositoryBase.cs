@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
-using Mud.Settings.Interfaces;
+using Microsoft.Extensions.Options;
 using System.Xml.Serialization;
 
 namespace Mud.Repository.Filesystem.Common;
@@ -9,13 +9,13 @@ public abstract class RepositoryBase
 {
     protected ILogger<RepositoryBase> Logger { get; }
     protected IMapper Mapper { get; }
-    protected ISettings Settings { get; }
+    protected FileRepositoryOptions Options { get; }
 
-    protected RepositoryBase(ILogger<RepositoryBase> logger, IMapper mapper, ISettings settings)
+    protected RepositoryBase(ILogger<RepositoryBase> logger, IMapper mapper, IOptions<FileRepositoryOptions> options)
     {
         Logger = logger;
         Mapper = mapper;
-        Settings = settings;
+        Options = options.Value;
     }
 
     protected T Load<T>(string filename)

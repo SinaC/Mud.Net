@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
@@ -6,7 +7,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -16,13 +16,13 @@ public class Portal : TransportationSpellBase
     private const string SpellName = "Portal";
 
     private IItemManager ItemManager { get; }
-    private ISettings Settings { get; }
+    private int PortalBlueprintId { get; }
 
-    public Portal(ILogger<Portal> logger, IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, ISettings settings)
+    public Portal(ILogger<Portal> logger, IRandomManager randomManager, ICharacterManager characterManager, IItemManager itemManager, IOptions<Rom24Options> options)
         : base(logger, randomManager, characterManager)
     {
         ItemManager = itemManager;
-        Settings = settings;
+        PortalBlueprintId = options.Value.BlueprintIds.Portal;
     }
 
     protected override void Invoke()
@@ -44,7 +44,7 @@ public class Portal : TransportationSpellBase
         }
 
         // create portal
-        var portal = ItemManager.AddItem(Guid.NewGuid(), Settings.PortalBlueprintId, Caster.Room) as IItemPortal;
+        var portal = ItemManager.AddItem(Guid.NewGuid(), PortalBlueprintId, Caster.Room) as IItemPortal;
         if (portal == null)
         {
             Caster.Send("The spell fails to create a portal.");

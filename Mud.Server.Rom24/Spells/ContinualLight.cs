@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
@@ -11,7 +12,6 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -24,16 +24,16 @@ public class ContinualLight : OptionalItemInventorySpellBase
     private IWiznet Wiznet { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
-    private ISettings Settings { get; }
+    private int LightBallBlueprintId { get; }
 
-    public ContinualLight(ILogger<ContinualLight> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager, ISettings settings)
+    public ContinualLight(ILogger<ContinualLight> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager, IOptions<Rom24Options> options)
         : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         Wiznet = wiznet;
         AuraManager = auraManager;
         ItemManager = itemManager;
-        Settings = settings;
+        LightBallBlueprintId = options.Value.BlueprintIds.LightBall;
     }
 
     protected override void Invoke()
@@ -52,11 +52,11 @@ public class ContinualLight : OptionalItemInventorySpellBase
             return;
         }
         // create item
-        var light = ItemManager.AddItem(Guid.NewGuid(), Settings.LightBallBlueprintId, Caster.Room);
+        var light = ItemManager.AddItem(Guid.NewGuid(), LightBallBlueprintId, Caster.Room);
         if (light == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Log($"ContinualLight: cannot create item from blueprint {Settings.LightBallBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"ContinualLight: cannot create item from blueprint {LightBallBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
             return;
         }
         Caster.Act(ActOptions.ToAll, "{0} twiddle{0:v} {0:s} thumbs and {1} appears.", Caster, light);

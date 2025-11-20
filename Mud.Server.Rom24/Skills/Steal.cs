@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
@@ -10,8 +11,8 @@ using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Options;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Rom24.Skills;
 
@@ -23,13 +24,13 @@ public class Steal : SkillBase
     private const string SkillName = "Steal";
 
     private IGameActionManager GameActionManager { get; }
-    private ISettings Settings { get; }
+    private int MaxLevel { get; }
 
-    public Steal(ILogger<Steal> logger, IRandomManager randomManager, IGameActionManager gameActionManager, ISettings settings)
+    public Steal(ILogger<Steal> logger, IRandomManager randomManager, IGameActionManager gameActionManager, IOptions<WorldOptions> worldOptions)
         : base(logger, randomManager)
     {
         GameActionManager = gameActionManager;
-        Settings = settings;
+        MaxLevel = worldOptions.Value.MaxLevel;
     }
 
     protected ICharacter Victim { get; set; } = default!;
@@ -67,8 +68,8 @@ public class Steal : SkillBase
             || StringCompareHelpers.StringEquals(whatParameter.Value, "silver")
             || StringCompareHelpers.StringEquals(whatParameter.Value, "gold"))
         {
-            Gold = (Victim.GoldCoins * RandomManager.Range(1, Actor.Level)) / Settings.MaxLevel;
-            Silver = (Victim.SilverCoins * RandomManager.Range(1, Actor.Level)) / Settings.MaxLevel;
+            Gold = (Victim.GoldCoins * RandomManager.Range(1, Actor.Level)) / MaxLevel;
+            Silver = (Victim.SilverCoins * RandomManager.Range(1, Actor.Level)) / MaxLevel;
             if (Gold <= 0 && Silver <= 0)
                 return "You couldn't get any coins.";
             return null;

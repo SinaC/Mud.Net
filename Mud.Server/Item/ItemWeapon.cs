@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Flags;
@@ -12,7 +13,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 using System.Text;
 
 namespace Mud.Server.Item;
@@ -21,8 +22,8 @@ public class ItemWeapon : ItemBase<ItemWeaponBlueprint, ItemWeaponData>, IItemWe
 {
     public ITableValues TableValues { get; }
 
-    public ItemWeapon(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemWeapon(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
     {
         TableValues = tableValues;
 
@@ -35,8 +36,8 @@ public class ItemWeapon : ItemBase<ItemWeaponBlueprint, ItemWeaponData>, IItemWe
         DamageNoun = blueprint.DamageNoun;
     }
 
-    public ItemWeapon(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, roomManager, auraManager, guid, blueprint, itemData, containedInto)
+    public ItemWeapon(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, itemData, containedInto)
     {
         TableValues = tableValues;
 

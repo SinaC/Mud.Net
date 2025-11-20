@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
@@ -24,12 +24,13 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
+using Mud.Server.Options;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 using System.Collections.ObjectModel;
 using System.Text;
 
 namespace Mud.Server.Character;
+
 public abstract class CharacterBase : EntityBase, ICharacter
 {
     private const int MinAlignment = -1000;
@@ -53,9 +54,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IWeaponEffectManager WeaponEffectManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet,
+    protected CharacterBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet,
         Guid guid, string name, string description)
-        : base(logger, gameActionManager, commandParser, abilityManager, settings, guid, name, description)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, guid, name, description)
     {
         RandomManager = randomManager;
         TableValues = tableValues;
@@ -1387,19 +1388,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
         ActToNotVictim(this, "You hear {0}'s death cry.", this); // TODO: custom death cry
 
         // Create corpse
-        var itemCorpseBlueprint = ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId);
-        IItemCorpse corpse = null!;
-        if (itemCorpseBlueprint != null)
-        {
-            if (killer != null)
-                corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this, killer);
-            else
-                corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this);
-        }
+        IItemCorpse? corpse = null;
+        if (killer != null)
+            corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this, killer);
         else
-        {
-            Logger.LogError("ItemCorpseBlueprint (id:{corpseBlueprintId}) doesn't exist !!!", Settings.CorpseBlueprintId);
-        }
+            corpse = ItemManager.AddItemCorpse(Guid.NewGuid(), Room!, this);
 
         // Gain/lose xp/reputation auto loot/gold/sac
         if (payoff)
@@ -1414,7 +1407,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return corpse;
     }
 
-    public abstract void KillingPayoff(ICharacter victim, IItemCorpse corpse);
+    public abstract void KillingPayoff(ICharacter victim, IItemCorpse? corpse);
 
     public bool SavesSpell(int level, SchoolTypes damageType)
     {

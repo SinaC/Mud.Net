@@ -174,7 +174,7 @@ public interface ICharacter : IEntity, IContainer
     DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display); // 'this' is dealt damage by 'source' using 'damageNoun'
     ResistanceLevels CheckResistance(SchoolTypes damageType);
     IItemCorpse? RawKilled(ICharacter? killer, bool payoff);
-    void KillingPayoff(ICharacter victim, IItemCorpse corpse);
+    void KillingPayoff(ICharacter victim, IItemCorpse? corpse);
     bool SavesSpell(int level, SchoolTypes damageType);
     bool IsSafeSpell(ICharacter caster, bool area);
     string? IsSafe(ICharacter aggressor);

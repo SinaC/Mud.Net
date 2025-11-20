@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -18,9 +19,9 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
+using Mud.Server.Options;
 using Mud.Server.Quest;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
@@ -30,9 +31,9 @@ namespace Mud.Server.Character.NonPlayableCharacter;
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 {
-    protected NonPlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
+    protected NonPlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
         Guid guid, string name, string description, CharacterBlueprintBase blueprint, IRoom room)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, name, description)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, name, description)
     {
         Blueprint = blueprint;
 
@@ -108,18 +109,18 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         room.Enter(this);
     }
 
-    public NonPlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
+    public NonPlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
         Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
-        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, blueprint.Name, blueprint.Description, blueprint, room)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, blueprint.Name, blueprint.Description, blueprint, room)
     {
         RecomputeKnownAbilities();
         ResetAttributes();
         RecomputeCurrentResourceKinds();
     }
 
-    public NonPlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
+    public NonPlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager,
         Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // Pet
-        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, petData.Name, blueprint.Description, blueprint, room)
+        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, raceManager, classManager, guid, petData.Name, blueprint.Description, blueprint, room)
     {
         BaseSex = petData.Sex;
         BaseSize = petData.Size;
@@ -229,9 +230,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public override void Send(string message, bool addTrailingNewLine)
     {
         base.Send(message, addTrailingNewLine);
-        if (Settings.ForwardSlaveMessages && Master != null)
+        if (ForwardSlaveMessages && Master != null)
         {
-            if (Settings.PrefixForwardedMessages)
+            if (PrefixForwardedMessages)
                 message = "<CTRL|" + DisplayName + ">" + message;
             Master.Send(message, addTrailingNewLine);
         }
@@ -240,7 +241,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public override void Page(StringBuilder text)
     {
         base.Page(text);
-        if (Settings.ForwardSlaveMessages)
+        if (ForwardSlaveMessages)
             Master?.Page(text);
     }
 
@@ -428,7 +429,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
     }
 
-    public override void KillingPayoff(ICharacter victim, IItemCorpse corpse)
+    public override void KillingPayoff(ICharacter victim, IItemCorpse? corpse)
     {
         // NOP
     }
