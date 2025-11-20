@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
@@ -7,7 +8,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -16,25 +16,28 @@ public class FloatingDisc : ItemCreationSpellBase
 {
     private const string SpellName = "Floating Disc";
 
-    public FloatingDisc(ILogger<FloatingDisc> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings)
-        : base(logger, randomManager, wiznet, itemManager, settings)
+    private int FloatingDiscBlueprintId { get; }
+
+    public FloatingDisc(ILogger<FloatingDisc> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, IOptions<Rom24Options> options)
+        : base(logger, randomManager, wiznet, itemManager)
     {
+        FloatingDiscBlueprintId = options.Value.BlueprintIds.FloatingDisc;
     }
 
     protected override void Invoke()
     {
         // TODO: using data is kindy hacky to perform a custom level item
-        var item = ItemManager.AddItem(Guid.NewGuid(), Settings.FloatingDiscBlueprintId, Caster);
+        var item = ItemManager.AddItem(Guid.NewGuid(), FloatingDiscBlueprintId, Caster);
         if (item == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Log($"SpellFloatingDisc: cannot create item from blueprint {Settings.FloatingDiscBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"SpellFloatingDisc: cannot create item from blueprint {FloatingDiscBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
             return;
         }
         if (item is not IItemContainer floatingDisc)
         {
             Caster.Send("Somehing went wrong.");
-            Wiznet.Log($"SpellFloatingDisc: blueprint {Settings.FloatingDiscBlueprintId} is not a container.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"SpellFloatingDisc: blueprint {FloatingDiscBlueprintId} is not a container.", WiznetFlags.Bugs, AdminLevels.Implementor);
             ItemManager.RemoveItem(item); // destroy it if invalid
             return;
         }

@@ -6,22 +6,32 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
     <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="10.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
     <PackageReference Include="Microsoft.Extensions.Primitives" Version="10.0.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="8.14.0" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.14.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Logging" Version="8.14.0" />
-    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.14.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Abstractions" Version="8.15.0" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.15.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Logging" Version="8.15.0" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.15.0" />
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="9.0.0" />
     <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
@@ -36,13 +46,13 @@
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\Mud.Importer.Rom\Mud.Importer.Rom.csproj" />
     <ProjectReference Include="..\Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj" />
-    <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj" />
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
     <ProjectReference Include="..\Mud.Importer.Mystery\Mud.Importer.Mystery.csproj" />
     <ProjectReference Include="..\Mud.Importer\Mud.Importer.csproj" />
     <ProjectReference Include="..\Mud.Network.Telnet\Mud.Network.Telnet.csproj" />
     <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.POC\Mud.POC.csproj" />
+    <ProjectReference Include="..\Mud.Repository.Interfaces\Mud.Repository.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
     <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj" />
@@ -53,13 +63,12 @@
     <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Options\Mud.Server.Options.csproj" />
     <ProjectReference Include="..\Mud.Server.Quest\Mud.Server.Quest.csproj" />
     <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj" />
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
     <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj" />
     <ProjectReference Include="..\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj" />
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
-    <ProjectReference Include="..\Mud.Settings.ConfigurationManager\Mud.Settings.ConfigurationManager.csproj" />
-    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj" />
   </ItemGroup>
 </Project>

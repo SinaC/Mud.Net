@@ -1,10 +1,11 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Options;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Group;
@@ -20,11 +21,11 @@ SPLIT commands.  If anyone in your group is attacked, you will automatically
 join the fight.")]
 public class Group : PlayableCharacterGameAction
 {
-    private ISettings Settings { get; }
+    private int MaxLevel { get; }
 
-    public Group(ISettings settings)
+    public Group(IOptions<WorldOptions> worldOptions)
     {
-        Settings = settings;
+        MaxLevel = worldOptions.Value.MaxLevel;
     }
 
     protected enum Actions
@@ -153,7 +154,7 @@ public class Group : PlayableCharacterGameAction
     private void AppendPlayerGroupMemberInfo(StringBuilder sb, IPlayableCharacter member)
     {
         sb.AppendFormat("[{0,3} {1,3}] {2,20} {3,5}/{4,5} hp {5} {6,5}/{7,5} mv", member.Level, member.Class.ShortName, member.DisplayName.MaxLength(20), member.HitPoints, member.MaxHitPoints, BuildResources(member), member.MovePoints, member.MaxMovePoints);
-        if (member.Level >= Settings.MaxLevel)
+        if (member.Level >= MaxLevel)
             sb.AppendFormat(" {0} nxt", member.ExperienceToLevel);
         sb.AppendLine();
     }

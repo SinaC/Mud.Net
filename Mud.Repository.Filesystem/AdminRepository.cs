@@ -1,18 +1,19 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Repository.Filesystem.Common;
-using Mud.Settings.Interfaces;
+using Mud.Repository.Interfaces;
 
 namespace Mud.Repository.Filesystem;
 
 public class AdminRepository : RepositoryBase, IAdminRepository
 {
-    private string AdminRepositoryPath => Settings.AdminRepositoryPath;
+    private string AdminRepositoryPath => Options.AdminPath;
 
     private string BuildFilename(string adminName) => Path.Combine(AdminRepositoryPath, adminName + ".data");
 
-    public AdminRepository(ILogger<AdminRepository> logger, IMapper mapper, ISettings settings)
-        : base(logger, mapper, settings)
+    public AdminRepository(ILogger<AdminRepository> logger, IMapper mapper, IOptions<FileRepositoryOptions> options)
+        : base(logger, mapper, options)
     {
     }
 

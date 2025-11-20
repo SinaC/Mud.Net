@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Mud.DataStructures.Flags;
 using Mud.Network.Interfaces;
 using Mud.Network.Telnet;
-using Mud.Repository;
+using Mud.Repository.Interfaces;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -21,12 +22,14 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.World;
+using Mud.Server.Options;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
+using Mud.Server.Rom24;
 using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
@@ -53,18 +56,29 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-        var settings = new Settings.ConfigurationManager.Settings();
         var assemblyHelper = new AssemblyHelper();
 
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json")
+            .Build();
+        //Log.Logger = new LoggerConfiguration()
+        //    .WriteTo.RichTextBoxSink()
+        //    .WriteTo.File(settings.LogPath, rollingInterval: RollingInterval.Day)
+        //    .CreateLogger();
+        //services.AddLogging(builder => builder.AddSerilog(Log.Logger));
+
         // Configure Logging
-        Log.Logger = new LoggerConfiguration()
+        var logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(configuration)
             .WriteTo.RichTextBoxSink()
-            .WriteTo.File(settings.LogPath, rollingInterval: RollingInterval.Day)
             .CreateLogger();
-        services.AddLogging(builder => builder.AddSerilog(Log.Logger));
+        services.AddLogging(builder => builder.AddSerilog(logger));
+
+        // Configure options
+        ConfigureOptions(services, configuration);
 
         // Register Services
-        services.AddSingleton<ISettings>(settings);
         services.AddSingleton<ITelnetNetworkServer, TelnetServer>();
         services.AddSingleton<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
         services.AddSingleton<IAssemblyHelper>(assemblyHelper);
@@ -113,38 +127,18 @@ public partial class App : Application
         services.AddSingleton<ServerWindow>();
     }
 
-    //public sealed class CustomLogger(string scopeName) : ILogger
-    //{
-    //    public IDisposable? BeginScope<TState>(TState state) where TState : notnull => default!;
-
-    //    public bool IsEnabled(LogLevel logLevel) =>
-    //        true;
-
-    //    public void Log<TState>(
-    //        LogLevel logLevel,
-    //        EventId eventId,
-    //        TState state,
-    //        Exception? exception,
-    //        Func<TState, Exception?, string> formatter)
-    //    {
-    //        if (!IsEnabled(logLevel))
-    //        {
-    //            return;
-    //        }
-
-    //        ServerWindow.LogScopedMethod(logLevel.ToString(), scopeName, formatter(state, exception));
-    //    }
-    //}
-
-    //private class CustomLoggerProvider : ILoggerProvider
-    //{
-    //    public ILogger CreateLogger(string categoryName)
-    //        => new CustomLogger(categoryName);
-
-    //    public void Dispose()
-    //    {
-    //    }
-    //}
+    private static void ConfigureOptions(IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<AvatarOptions>(options => configuration.GetSection(AvatarOptions.SectionName).Bind(options));
+        services.Configure<AuraOptions>(options => configuration.GetSection(AuraOptions.SectionName).Bind(options));
+        services.Configure<Repository.Filesystem.FileRepositoryOptions>(options => configuration.GetSection(Repository.Filesystem.FileRepositoryOptions.SectionName).Bind(options));
+        services.Configure<ImportOptions>(options => configuration.GetSection(ImportOptions.SectionName).Bind(options));
+        services.Configure<MessageForwardOptions>(options => configuration.GetSection(MessageForwardOptions.SectionName).Bind(options));
+        services.Configure<Rom24Options>(options => configuration.GetSection(Rom24Options.SectionName).Bind(options));
+        services.Configure<ServerOptions>(options => configuration.GetSection(ServerOptions.SectionName).Bind(options));
+        services.Configure<TelnetOptions>(options => configuration.GetSection(TelnetOptions.SectionName).Bind(options));
+        services.Configure<WorldOptions>(options => configuration.GetSection(WorldOptions.SectionName).Bind(options));
+    }
 
     private void OnExit(object sender, ExitEventArgs e)
     {
@@ -179,6 +173,13 @@ public partial class App : Application
         {
             Debug.Print("Registering class type {0}.", cl.FullName);
             services.AddSingleton(iClass, cl);
+        }
+        // register sanity checks
+        var iSanityCheck = typeof(ISanityCheck);
+        foreach (var sanityCheck in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iSanityCheck.IsAssignableFrom(t))))
+        {
+            Debug.Print("Registering sanity check type {0}.", sanityCheck.FullName);
+            services.AddSingleton(iSanityCheck, sanityCheck);
         }
     }
 

@@ -1,18 +1,19 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Repository.Filesystem.Common;
-using Mud.Settings.Interfaces;
+using Mud.Repository.Interfaces;
 
 namespace Mud.Repository.Filesystem;
 
 public class PlayerRepository : RepositoryBase, IPlayerRepository
 {
-    private string PlayerRepositoryPath => Settings.PlayerRepositoryPath;
+    private string PlayerRepositoryPath => Options.PlayerPath;
 
     private string BuildFilename(string playerName) => Path.Combine(PlayerRepositoryPath, playerName + ".data");
 
-    public PlayerRepository(ILogger<LoginRepository> logger, IMapper mapper, ISettings settings)
-        : base(logger, mapper, settings)
+    public PlayerRepository(ILogger<LoginRepository> logger, IMapper mapper, IOptions<FileRepositoryOptions> options)
+        : base(logger, mapper, options)
     {
     }
 

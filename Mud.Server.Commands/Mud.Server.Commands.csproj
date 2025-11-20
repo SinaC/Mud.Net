@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
-    <ProjectReference Include="..\Mud.Repository\Mud.Repository.csproj" />
+    <ProjectReference Include="..\Mud.Repository.Interfaces\Mud.Repository.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
     <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
@@ -17,7 +17,6 @@
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Quest\Mud.Server.Quest.csproj" />
     <ProjectReference Include="..\Mud.Server.TableGenerator\Mud.Server.TableGenerator.csproj" />
-    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

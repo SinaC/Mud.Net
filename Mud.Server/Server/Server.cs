@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Network.Interfaces;
-using Mud.Repository;
+using Mud.Repository.Interfaces;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
@@ -28,9 +29,9 @@ using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
+using Mud.Server.Options;
 using Mud.Server.Random;
 using Mud.Server.TableGenerator;
-using Mud.Settings.Interfaces;
 using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -67,7 +68,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private readonly List<TreasureTable<int>> _treasureTables;
 
     private ILogger<Server> Logger { get; }
-    private ISettings Settings { get; }
     private ILoginRepository LoginRepository { get; }
     private IPlayerRepository PlayerRepository { get; }
     private IAdminRepository AdminRepository { get; }
@@ -89,16 +89,20 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private IAdminManager AdminManager { get; }
     private IWiznet Wiznet { get; }
     private IPulseManager PulseManager { get; }
+    private IReadOnlyCollection<ISanityCheck> SanityChecks { get; }
+    private ServerOptions ServerOptions { get; }
+    private WorldOptions WorldOptions { get; }
 
-    public Server(ILogger<Server> logger, ISettings settings,
+    public Server(ILogger<Server> logger, IOptions<ServerOptions> serverOptions, IOptions<WorldOptions> worldOptions,
         ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
         IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager, ICommandParser commandParser,
         IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IWeaponEffectManager weaponEffectManager,
         IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IResetManager resetManager,
-        IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager)
+        IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager, IEnumerable<ISanityCheck> sanityChecks)
     {
         Logger = logger;
-        Settings = settings;
+        ServerOptions = serverOptions.Value;
+        WorldOptions = worldOptions.Value;
         LoginRepository = loginRepository;
         PlayerRepository = playerRepository;
         AdminRepository = adminRepository;
@@ -120,6 +124,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         AdminManager = adminManager;
         Wiznet = wiznet;
         PulseManager = pulseManager;
+        SanityChecks = sanityChecks.ToArray();
 
         _clients = new ConcurrentDictionary<IClient, PlayingClient>();
         _players = new ConcurrentDictionary<IPlayer, PlayingClient>();
@@ -141,24 +146,26 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         TimeManager.Initialize();
 
         // TODO: check room specific id
-
-        if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
+        // TODO: move this in sanity checks
+        if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(WorldOptions.BlueprintIds.Corpse) == null)
         {
-            Logger.LogError("Item corpse blueprint {corpseBlueprintId} not found or not a corpse", Settings.CorpseBlueprintId);
-            throw new Exception($"Item corpse blueprint {Settings.CorpseBlueprintId} not found or not a corpse");
+            Logger.LogError("Item corpse blueprint {corpseBlueprintId} not found or not a corpse", WorldOptions.BlueprintIds.Corpse);
+            throw new Exception($"Item corpse blueprint {WorldOptions.BlueprintIds.Corpse} not found or not a corpse");
         }
-        if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(Settings.CoinsBlueprintId) == null)
+        if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(WorldOptions.BlueprintIds.Coins) == null)
         {
-            Logger.LogError("Item coins blueprint {coinsBlueprintId} not found or not money", Settings.CoinsBlueprintId);
-            throw new Exception($"Item coins blueprint {Settings.CoinsBlueprintId} not found or not money");
+            Logger.LogError("Item coins blueprint {coinsBlueprintId} not found or not money", WorldOptions.BlueprintIds.Coins);
+            throw new Exception($"Item coins blueprint {WorldOptions.BlueprintIds.Coins} not found or not money");
         }
 
         // Perform some validity/sanity checks
-        if (Settings.PerformSanityCheck)
-            SanityChecks();
+        if (ServerOptions.PerformSanityChecks)
+        {
+            PerformSanityChecks();
+        }
 
         // Dump config
-        if (Settings.DumpOnInitialize)
+        if (ServerOptions.DumpOnInitialize)
             Dump();
 
         // TODO: other sanity checks
@@ -1013,8 +1020,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
     }
 
-    private void SanityChecks()
+    private void PerformSanityChecks()
     {
+        var fatalErrorFound = false;
         SanityCheckQuests();
         SanityCheckAbilities();
         SanityCheckClasses();
@@ -1023,6 +1031,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         SanityCheckItems();
         SanityCheckCharacters();
         SanityCheckWeaponEffects();
+        foreach (var sanityCheck in SanityChecks)
+        {
+            fatalErrorFound |= sanityCheck.PerformSanityChecks();
+        }
+        if (fatalErrorFound)
+            throw new Exception("Fatal sanity check fail detected. Stopping");
     }
 
     private void SanityCheckAbilities()
@@ -1083,14 +1097,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         Logger.LogInformation("#ItemBlueprints: {count}", ItemManager.ItemBlueprints.Count);
         Logger.LogInformation("#Items: {count}", ItemManager.Items.Count());
-        if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(Settings.CorpseBlueprintId) == null)
-            Logger.LogError("Item corpse blueprint {blueprintId} not found or not a corpse", Settings.CorpseBlueprintId);
-        if (ItemManager.GetItemBlueprint<ItemFoodBlueprint>(Settings.MushroomBlueprintId) == null)
-            Logger.LogError("'a Magic mushroom' blueprint {blueprintId} not found or not food (needed for spell CreateFood)", Settings.MushroomBlueprintId);
-        if (ItemManager.GetItemBlueprint<ItemFountainBlueprint>(Settings.SpringBlueprintId) == null)
-            Logger.LogError("'a magical spring' blueprint {blueprintId} not found or not a fountain (needed for spell CreateSpring)", Settings.SpringBlueprintId);
-        if (ItemManager.GetItemBlueprint<ItemLightBlueprint>(Settings.LightBallBlueprintId) == null)
-            Logger.LogError("'a bright ball of light' blueprint {blueprintId} not found or not an light (needed for spell ContinualLight)", Settings.LightBallBlueprintId);
+        if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(WorldOptions.BlueprintIds.Corpse) == null)
+            Logger.LogError("Item corpse blueprint {blueprintId} not found or not a corpse", WorldOptions.BlueprintIds.Corpse);
+        if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(WorldOptions.BlueprintIds.Coins) == null)
+            Logger.LogError("Item coins blueprint {blueprintId} not found or not money", WorldOptions.BlueprintIds.Coins);
+        // TODO: stop server if no corpse or no money found
     }
 
     private void SanityCheckCharacters()
@@ -1478,13 +1489,13 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
                 // If idle for too long, unimpersonate or disconnect
                 TimeSpan ts = TimeManager.CurrentTime - playingClient.LastReceivedDataTimestamp;
-                if (ts.TotalMinutes > Settings.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
+                if (ts.TotalMinutes > ServerOptions.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
                 {
                     playingClient.Client.WriteData("Idle for too long, unimpersonating..." + Environment.NewLine);
                     playingClient.Player.Impersonating.StopFighting(true);
                     playingClient.Player.StopImpersonating();
                 }
-                else if (ts.TotalMinutes > Settings.IdleMinutesBeforeDisconnect)
+                else if (ts.TotalMinutes > ServerOptions.IdleMinutesBeforeDisconnect)
                 {
                     playingClient.Client.WriteData("Idle for too long, disconnecting..." + Environment.NewLine);
                     ClientPlayingOnDisconnected(playingClient.Client);

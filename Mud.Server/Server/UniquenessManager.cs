@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Repository;
+using Mud.Repository.Interfaces;
 using Mud.Server.Interfaces;
 
 namespace Mud.Server.Server;

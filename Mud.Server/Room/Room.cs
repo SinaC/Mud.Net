@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -19,7 +20,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 using System.Diagnostics;
 using System.Text;
 
@@ -33,8 +34,8 @@ public class Room : EntityBase, IRoom
     private readonly List<ICharacter> _people;
     private readonly List<IItem> _content;
 
-    public Room(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, ITimeManager timeManager, Guid guid, RoomBlueprint blueprint, IArea area)
-        : base(logger, gameActionManager, commandParser, abilityManager, settings, guid, blueprint.Name, blueprint.Description)
+    public Room(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager, Guid guid, RoomBlueprint blueprint, IArea area)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, guid, blueprint.Name, blueprint.Description)
     {
         TimeManager = timeManager;
 

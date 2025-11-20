@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -10,7 +11,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 
 namespace Mud.Server.Quest;
 
@@ -19,25 +20,30 @@ public class Quest : IQuest
     private readonly List<IQuestObjective> _objectives;
 
     private ILogger Logger { get; }
-    private ISettings Settings { get; }
     private ITimeManager TimeManager { get; }
     private IItemManager ItemManager { get; }
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
     private IQuestManager QuestManager { get; }
+    private int MaxLevel { get; }
 
-    public Quest(ILogger logger, ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
-        QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
+    private Quest(ILogger logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager)
     {
         Logger = logger;
-        Settings = settings;
         TimeManager = timeManager;
         ItemManager = itemManager;
         RoomManager = roomManager;
         CharacterManager = characterManager;
         QuestManager = questManager;
+        MaxLevel = worldOptions.Value.MaxLevel;
+    }
 
+    public Quest(ILogger logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
+        QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
+        : this(logger, worldOptions, timeManager, itemManager, roomManager, characterManager, questManager)
+    {
         Character = character;
+
         StartTime = TimeManager.CurrentTime;
         PulseLeft = blueprint.TimeLimit * Pulse.PulsePerMinutes;
         Blueprint = blueprint;
@@ -46,17 +52,10 @@ public class Quest : IQuest
         BuildObjectives(blueprint, character);
     }
 
-    public Quest(ILogger logger, ISettings settings, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
+    public Quest(ILogger logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
         CurrentQuestData questData, IPlayableCharacter character)
+        : this(logger, worldOptions, timeManager, itemManager, roomManager, characterManager, questManager)
     {
-        Logger = logger;
-        Settings = settings;
-        TimeManager = timeManager;
-        ItemManager = itemManager;
-        RoomManager = roomManager;
-        CharacterManager = characterManager;
-        QuestManager = questManager;
-        
         Character = character;
 
         // Extract informations from QuestData
@@ -236,7 +235,7 @@ public class Quest : IQuest
         int goldGain = Blueprint.Gold;
 
         // XP: http://wow.gamepedia.com/Experience_point#Quest_XP
-        if (Character.Level < Settings.MaxLevel)
+        if (Character.Level < MaxLevel)
         {
             int factorPercentage = 100;
             if (Character.Level == Blueprint.Level + 6)

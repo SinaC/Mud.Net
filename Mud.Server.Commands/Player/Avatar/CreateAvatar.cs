@@ -1,10 +1,11 @@
-﻿using Mud.Server.GameAction;
+﻿using Microsoft.Extensions.Options;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
@@ -18,9 +19,9 @@ public class CreateAvatar : PlayerGameAction
     private ITimeManager TimeManager { get; }
     private IRoomManager RoomManager { get; }
     private IGameActionManager GameActionManager { get; }
-    private ISettings Settings { get; }
+    private int MaxAvatarCount { get; }
 
-    public CreateAvatar(IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IGameActionManager gameActionManager, ISettings settings)
+    public CreateAvatar(IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IGameActionManager gameActionManager, IOptions<AvatarOptions> avatarOptions)
     {
         ServerPlayerCommand = serverPlayerCommand;
         RaceManager = raceManager;
@@ -29,7 +30,7 @@ public class CreateAvatar : PlayerGameAction
         TimeManager = timeManager;
         RoomManager = roomManager;
         GameActionManager = gameActionManager;
-        Settings = settings;
+        MaxAvatarCount = avatarOptions.Value.MaxCount;
     }
 
     public override string? Guards(IActionInput actionInput)
@@ -38,7 +39,7 @@ public class CreateAvatar : PlayerGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (Actor.Avatars.Count() >= Settings.MaxAvatarCount)
+        if (Actor.Avatars.Count() >= MaxAvatarCount)
             return "Max. avatar count reached. Delete one before creating a new one.";
         return null;
     }

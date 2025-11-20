@@ -1,6 +1,4 @@
-﻿using Mud.Repository;
-using System;
-using System.Collections.Generic;
+﻿using Mud.Repository.Interfaces;
 
 namespace Mud.Server.Tests.Mocking
 {

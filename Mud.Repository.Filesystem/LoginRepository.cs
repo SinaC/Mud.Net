@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Repository.Filesystem.Common;
 using Mud.Repository.Filesystem.Domain;
-using Mud.Settings.Interfaces;
+using Mud.Repository.Interfaces;
 using System.Xml.Serialization;
 
 namespace Mud.Repository.Filesystem;
@@ -11,13 +12,13 @@ public class LoginRepository : RepositoryBase, ILoginRepository
 {
     private const bool CheckLoginPassword = false;
 
-    private string LoginRepositoryFilename => Settings.LoginRepositoryFilename;
+    private string LoginRepositoryFilename => Options.LoginFilename;
 
-    private Dictionary<string, LoginData> _table = new Dictionary<string, LoginData>();
+    private Dictionary<string, LoginData> _table = [];
     private bool _loaded;
 
-    public LoginRepository(ILogger<LoginRepository> logger, IMapper mapper, ISettings settings)
-        : base(logger, mapper, settings)
+    public LoginRepository(ILogger<LoginRepository> logger, IMapper mapper, IOptions<FileRepositoryOptions> options)
+        : base(logger, mapper, options)
     {
         _loaded = false;
     }

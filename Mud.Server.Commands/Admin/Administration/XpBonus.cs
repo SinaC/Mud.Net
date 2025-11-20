@@ -1,11 +1,12 @@
-﻿using Mud.Domain;
+﻿using Microsoft.Extensions.Options;
+using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
@@ -15,15 +16,15 @@ public class XpBonus : AdminGameAction
 {
     private IPlayerManager PlayerManager { get; }
     private IServerPlayerCommand ServerPlayerCommand { get; }
-    private ISettings Settings { get; }
     private IWiznet Wiznet { get; }
+    private int MaxLevel { get; }
 
-    public XpBonus(IPlayerManager playerManager, IServerPlayerCommand serverPlayerCommand , ISettings settings, IWiznet wiznet)
+    public XpBonus(IPlayerManager playerManager, IServerPlayerCommand serverPlayerCommand , IOptions<WorldOptions> worldOptions, IWiznet wiznet)
     {
         PlayerManager = playerManager;
         ServerPlayerCommand = serverPlayerCommand;
-        Settings = settings;
         Wiznet = wiznet;
+        MaxLevel = worldOptions.Value.MaxLevel;
     }
 
     protected IPlayableCharacter Whom { get; set; } = default!;
@@ -49,7 +50,7 @@ public class XpBonus : AdminGameAction
         if (Experience < 1)
             return "Experience must be greater than 1.";
 
-        if (Whom.Level >= Settings.MaxLevel)
+        if (Whom.Level >= MaxLevel)
             return $"{Whom.DisplayName} is already at max level.";
 
         return null;

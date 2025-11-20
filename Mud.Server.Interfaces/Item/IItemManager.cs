@@ -22,8 +22,8 @@ public interface IItemManager
     IItem? AddItem(Guid guid, ItemData itemData, IContainer container);
     IItem? AddItem(Guid guid, int blueprintId, IContainer container);
 
-    IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim);
-    IItemCorpse AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer);
+    IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim);
+    IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer);
     IItemMoney? AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container);
 
     void RemoveItem(IItem item);

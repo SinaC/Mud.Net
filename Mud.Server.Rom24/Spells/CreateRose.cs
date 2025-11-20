@@ -1,11 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -14,9 +14,12 @@ public class CreateRose : ItemCreationSpellBase
 {
     private const string SpellName = "Create Rose";
 
-    public CreateRose(ILogger<CreateRose> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, ISettings settings) 
-        : base(logger, randomManager, wiznet, itemManager, settings)
+    private int RoseBlueprintId { get; }
+
+    public CreateRose(ILogger<CreateRose> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, IOptions<Rom24Options> options) 
+        : base(logger, randomManager, wiznet, itemManager)
     {
+        RoseBlueprintId = options.Value.BlueprintIds.Rose;
     }
 
     public override string? Setup(ISpellActionInput spellActionInput)

@@ -1,11 +1,12 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Options;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
-using Mud.Settings.Interfaces;
+using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
@@ -18,16 +19,16 @@ public class Impersonate : PlayerGameAction
     private IServerPlayerCommand ServerPlayerCommand { get; }
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
-    private ISettings Settings { get; }
     private IWiznet Wiznet { get; }
+    private int DefaultRoomId { get; }
 
-    public Impersonate(IServerPlayerCommand serverPlayerCommand, IRoomManager roomManager, ICharacterManager characterManager, ISettings settings, IWiznet wiznet)
+    public Impersonate(IServerPlayerCommand serverPlayerCommand, IRoomManager roomManager, ICharacterManager characterManager, IOptions<WorldOptions> worldOptions, IWiznet wiznet)
     {
         ServerPlayerCommand = serverPlayerCommand;
         RoomManager = roomManager;
         CharacterManager = characterManager;
-        Settings = settings;
         Wiznet = wiznet;
+        DefaultRoomId = worldOptions.Value.BlueprintIds.DefaultRoom;
     }
 
     protected PlayableCharacterData Whom { get; set; } = default!;
@@ -79,7 +80,7 @@ public class Impersonate : PlayerGameAction
         var location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == Whom.RoomId);
         if (location == null)
         {
-            location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == Settings.DefaultRoomId)!;
+            location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == DefaultRoomId)!;
             Wiznet.Log($"Invalid roomId {Whom.RoomId} for character {Whom.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
         var avatar = CharacterManager.AddPlayableCharacter(Guid.NewGuid(), Whom, Actor, location);

@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
@@ -22,8 +22,8 @@
     <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
+    <ProjectReference Include="..\Mud.Server.Options\Mud.Server.Options.csproj" />
     <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj" />
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
-    <ProjectReference Include="..\Mud.Settings.Interfaces\Mud.Settings.Interfaces.csproj" />
   </ItemGroup>
 </Project>

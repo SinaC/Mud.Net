@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Network.Interfaces;
 using System.Net;
 using System.Net.Sockets;
@@ -14,7 +15,6 @@ internal enum ServerStatus
 {
     Creating,
     Created,
-    PortInitialized,
     Initializing,
     Initialized,
     Starting,
@@ -38,9 +38,9 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
     private ServerStatus _status;
     private List<ClientTelnetStateObject> _clients { get; } = default!;
 
-    public int Port { get; private set; }
+    public int Port { get; }
 
-    public TelnetServer(ILogger<TelnetServer> logger)
+    public TelnetServer(ILogger<TelnetServer> logger, IOptions<TelnetOptions> options)
     {
         Logger = logger;
 
@@ -48,33 +48,20 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
         Logger.LogInformation("Socket server creating");
 
         _clients = [];
+        Port = options.Value.Port;
 
         Logger.LogInformation("Socket server created");
         _status = ServerStatus.Created;
     }
 
-    #region INetworkServer
+    #region ITelnetNetworkServer
 
     public event NewClientConnectedEventHandler? NewClientConnected;
     public event ClientDisconnectedEventHandler? ClientDisconnected;
 
-    public void SetPort(int port)
-    {
-        Port = port;
-
-        if (_status != ServerStatus.Created)
-        {
-            Logger.LogError("Socket server cannot set port. Status: {status}", _status);
-            return;
-        }
-
-        _status = ServerStatus.PortInitialized;
-
-    }
-
     public void Initialize()
     {
-        if (_status != ServerStatus.PortInitialized)
+        if (_status != ServerStatus.Created)
         {
             Logger.LogError("Socket server cannot be initialized. Status: {status}", _status);
             return;

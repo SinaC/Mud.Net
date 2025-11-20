@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Importer.Rom;
@@ -19,8 +20,8 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Options;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,6 @@ public partial class ServerWindow : Window, INetworkServer
 
     private ILogger<ServerWindow> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
-    private ISettings Settings { get; }
     private IServer Server { get; }
     private IServerAdminCommand ServerPlayerCommand { get; }
     private IPlayerManager PlayerManager { get; }
@@ -52,12 +52,14 @@ public partial class ServerWindow : Window, INetworkServer
     private IItemManager ItemManager { get; }
     private IQuestManager QuestManager { get; }
     private IRandomManager RandomManager { get; }
+    private ImportOptions ImportOptions { get; }
+    private WorldOptions WorldOptions { get; }
 
-    public ServerWindow(ILogger<ServerWindow> logger, IServiceProvider serviceProvider, ISettings settings, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager)
+    public ServerWindow(ILogger<ServerWindow> logger, IServiceProvider serviceProvider, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager,
+        IOptions<ImportOptions> importOptions, IOptions<WorldOptions> worldOptions)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
-        Settings = settings;
         Server = server;
         ServerPlayerCommand = serverAdminCommand;
         PlayerManager = playerManager;
@@ -68,6 +70,8 @@ public partial class ServerWindow : Window, INetworkServer
         ItemManager = itemManager;
         QuestManager = questManager;
         RandomManager = randomManager;
+        ImportOptions = importOptions.Value;
+        WorldOptions = worldOptions.Value;
 
         _serverWindowInstance = this;
 
@@ -186,7 +190,6 @@ public partial class ServerWindow : Window, INetworkServer
 
         //
         var telnetServer = ServiceProvider.GetRequiredService<ITelnetNetworkServer>();
-        telnetServer.SetPort(Settings.TelnetPort);
         Server.Initialize(new List<INetworkServer> { telnetServer, this });
         Server.Start();
 
@@ -357,7 +360,7 @@ public partial class ServerWindow : Window, INetworkServer
 
     private void CreateWorld()
     {
-        var path = Settings.ImportAreaPath;
+        var path = ImportOptions.Path;
 
         Logger.LogInformation("Importing from {path}", path);
 
@@ -461,35 +464,35 @@ public partial class ServerWindow : Window, INetworkServer
         CharacterManager.AddCharacterBlueprint(construct);
 
         // MANDATORY ITEMS
-        if (ItemManager.GetItemBlueprint(Settings.CorpseBlueprintId) == null)
+        if (ItemManager.GetItemBlueprint(WorldOptions.BlueprintIds.Corpse) == null)
         {
             ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
             {
-                Id = Settings.CorpseBlueprintId,
+                Id = WorldOptions.BlueprintIds.Corpse,
                 NoTake = true,
                 Name = "corpse"
             };
             ItemManager.AddItemBlueprint(corpseBlueprint);
         }
-        if (ItemManager.GetItemBlueprint(Settings.CoinsBlueprintId) == null)
+        if (ItemManager.GetItemBlueprint(WorldOptions.BlueprintIds.Coins) == null)
         {
             ItemMoneyBlueprint moneyBlueprint = new ItemMoneyBlueprint
             {
-                Id = Settings.CoinsBlueprintId,
+                Id = WorldOptions.BlueprintIds.Coins,
                 NoTake = true,
                 Name = "coins"
             };
             ItemManager.AddItemBlueprint(moneyBlueprint);
         }
         // MANDATORY ROOM
-        RoomBlueprint voidBlueprint = RoomManager.GetRoomBlueprint(Settings.NullRoomId);
+        RoomBlueprint voidBlueprint = RoomManager.GetRoomBlueprint(WorldOptions.BlueprintIds.NullRoom);
         if (voidBlueprint == null)
         {
             IArea area = AreaManager.Areas.First();
-            Logger.LogError("NullRoom not found -> creation of null room with id {0} in area {1}", Settings.NullRoomId, area.DisplayName);
+            Logger.LogError("NullRoom not found -> creation of null room with id {0} in area {1}", WorldOptions.BlueprintIds.NullRoom, area.DisplayName);
             voidBlueprint = new RoomBlueprint
             {
-                Id = Settings.NullRoomId,
+                Id = WorldOptions.BlueprintIds.NullRoom,
                 Name = "The void",
                 RoomFlags = new RoomFlags(ServiceProvider, "NoRecall", "NoScan", "NoWhere")
             };

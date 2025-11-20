@@ -2,5 +2,4 @@
 
 public interface ITelnetNetworkServer : INetworkServer
 {
-    void SetPort(int port);
 }

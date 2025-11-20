@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -21,9 +22,9 @@ using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
+using Mud.Server.Options;
 using Mud.Server.Quest;
 using Mud.Server.Random;
-using Mud.Settings.Interfaces;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
@@ -37,15 +38,19 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     public static readonly int MinCondition = 0;
     public static readonly int MaxCondition = 48;
 
+    private int MaxLevel { get; }
+
     private readonly List<IQuest> _quests;
     private readonly int[] _conditions;
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
 
-    public PlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ISettings settings, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, ITimeManager timeManager, IQuestManager questManager,
+    public PlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, ITimeManager timeManager, IQuestManager questManager,
         Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, settings, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, data.Name, string.Empty)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, data.Name, string.Empty)
     {
+        MaxLevel = worldOptions.Value.MaxLevel;
+
         _quests = [];
         _conditions = new int[EnumHelpers.GetCount<Conditions>()];
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
@@ -181,7 +186,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (data.CurrentQuests != null)
         {
             foreach (CurrentQuestData questData in data.CurrentQuests)
-                _quests.Add(new Quest.Quest(logger, settings, timeManager, itemManager, roomManager, characterManager, questManager, questData, this));
+                _quests.Add(new Quest.Quest(logger, worldOptions, timeManager, itemManager, roomManager, characterManager, questManager, questData, this));
         }
         // Auras
         if (data.Auras != null)
@@ -264,7 +269,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         base.Send(message, addTrailingNewLine);
         if (ImpersonatedBy != null)
         {
-            if (Settings.PrefixForwardedMessages)
+            if (PrefixForwardedMessages)
                 message = "<IMP|" + DisplayName + ">" + message;
             ImpersonatedBy.Send(message, addTrailingNewLine);
         }
@@ -430,7 +435,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         //    return;
     }
 
-    public override void KillingPayoff(ICharacter victim, IItemCorpse corpse) // Gain xp/gold/reputation/...
+    public override void KillingPayoff(ICharacter victim, IItemCorpse? corpse) // Gain xp/gold/reputation/...
     {
         // Gain xp and alignment
         if (this != victim && victim is INonPlayableCharacter) // gain xp only for non-playable victim
@@ -563,7 +568,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     public DateTime CreationTime { get; protected set; }
 
     public long ExperienceToLevel =>
-        Level >= Settings.MaxLevel
+        Level >= MaxLevel
             ? 0
             : (ExperienceByLevel * Level) - Experience;
 
@@ -753,7 +758,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     // Combat
     public void GainExperience(long experience)
     {
-        if (Level < Settings.MaxLevel)
+        if (Level < MaxLevel)
         {
             bool levelGained = false;
             Experience = Math.Max(ExperienceByLevel * (Level-1), Experience + experience); // don't go below current level
@@ -761,7 +766,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             if (experience > 0)
             {
                 // In case multiple level are gain, check max level
-                while (ExperienceToLevel <= 0 && Level < Settings.MaxLevel)
+                while (ExperienceToLevel <= 0 && Level < MaxLevel)
                 {
                     levelGained = true;
                     Level++;
