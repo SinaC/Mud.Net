@@ -1,5 +1,4 @@
 INGOING
-refactor settings
 
 TODO
 remove every manual call to GetService/GetRequiredService
@@ -17,6 +16,7 @@ fix this warning Logger.LogWarning("GameActionManager.CreateGameActionInfo: defa
     add ActorGameActionInfo and use as base class for PlayerGameActionInfo
     add RoomGameActionInfo and RoomGameAction
 
+sanity check in server should be moved to dedicated classes
 character default size seems to be tiny for ROM24
 finish ROM24 classes
 use DI for Room, Item, Character, ... (don't forget to change ILogger to ILogger<> in ActorBase, ...)
