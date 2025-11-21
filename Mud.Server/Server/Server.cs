@@ -145,24 +145,13 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
         TimeManager.Initialize();
 
-        // TODO: check room specific id
-        // TODO: move this in sanity checks
-        if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(WorldOptions.BlueprintIds.Corpse) == null)
-        {
-            Logger.LogError("Item corpse blueprint {corpseBlueprintId} not found or not a corpse", WorldOptions.BlueprintIds.Corpse);
-            throw new Exception($"Item corpse blueprint {WorldOptions.BlueprintIds.Corpse} not found or not a corpse");
-        }
-        if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(WorldOptions.BlueprintIds.Coins) == null)
-        {
-            Logger.LogError("Item coins blueprint {coinsBlueprintId} not found or not money", WorldOptions.BlueprintIds.Coins);
-            throw new Exception($"Item coins blueprint {WorldOptions.BlueprintIds.Coins} not found or not money");
-        }
-
         // Perform some validity/sanity checks
         if (ServerOptions.PerformSanityChecks)
         {
             PerformSanityChecks();
         }
+
+        DisplayStats();
 
         // Dump config
         if (ServerOptions.DumpOnInitialize)
@@ -225,6 +214,54 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         DumpClasses();
         DumpAbilities();
     }
+
+    private void DisplayStats()
+    {
+        Logger.LogInformation("#WeaponEffects: {count}", WeaponEffectManager.Count);
+        Logger.LogInformation("#Abilities: {count}", AbilityManager.Abilities.Count());
+        Logger.LogInformation("#Passives: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Passive));
+        Logger.LogInformation("#Spells: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Spell));
+        Logger.LogInformation("#Skills: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Skill));
+        Logger.LogInformation("#Classes: {count}", ClassManager.Classes.Count());
+        Logger.LogInformation("#Races: {count}", RaceManager.PlayableRaces.Count());
+        Logger.LogInformation("#QuestBlueprints: {count}", QuestManager.QuestBlueprints.Count);
+        Logger.LogInformation("#RoomBlueprints: {count}", RoomManager.RoomBlueprints.Count);
+        Logger.LogInformation("#Rooms: {count}", RoomManager.Rooms.Count());
+        Logger.LogInformation("#CharacterBlueprints: {count}", CharacterManager.CharacterBlueprints.Count);
+        Logger.LogInformation("#Characters: {count}", CharacterManager.Characters.Count());
+        Logger.LogInformation("#ItemBlueprints: {count}", ItemManager.ItemBlueprints.Count);
+        Logger.LogInformation("#Items: {count}", ItemManager.Items.Count());
+    }
+
+    private void PerformSanityChecks()
+    {
+        var fatalErrorFound = false;
+        foreach (var sanityCheck in SanityChecks)
+        {
+            fatalErrorFound |= sanityCheck.PerformSanityChecks();
+        }
+        if (fatalErrorFound)
+            throw new Exception("Fatal sanity check fail detected. Stopping");
+    }
+
+    private void DumpCommands()
+    {
+        //DumpCommandByType(typeof(Admin.Admin));
+        //DumpCommandByType(typeof(Player.Player));
+        //DumpCommandByType(typeof(NonPlayableCharacter));
+        //DumpCommandByType(typeof(PlayableCharacter));
+        //DumpCommandByType(typeof(Item.ItemBase<>));
+        //DumpCommandByType(typeof(Room.Room));
+        //Type actorBaseType = typeof(Actor.ActorBase);
+        //var actorTypes = Assembly.GetExecutingAssembly().GetTypes()
+        //    .Where(x => x.IsClass && !x.IsAbstract && actorBaseType.IsAssignableFrom(x))
+        //    .ToList();
+        //foreach (Type actorType in actorTypes)
+        //    DumpCommandByType(actorType);
+        StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate("Commands", GameActionManager.GameActions.OrderBy(x => x.Name));
+        Logger.LogDebug(sb.ToString()); // Dump in log
+    }
+
 
     #endregion
 
@@ -1020,119 +1057,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
     }
 
-    private void PerformSanityChecks()
-    {
-        var fatalErrorFound = false;
-        SanityCheckQuests();
-        SanityCheckAbilities();
-        SanityCheckClasses();
-        SanityCheckRaces();
-        SanityCheckRooms();
-        SanityCheckItems();
-        SanityCheckCharacters();
-        SanityCheckWeaponEffects();
-        foreach (var sanityCheck in SanityChecks)
-        {
-            fatalErrorFound |= sanityCheck.PerformSanityChecks();
-        }
-        if (fatalErrorFound)
-            throw new Exception("Fatal sanity check fail detected. Stopping");
-    }
-
-    private void SanityCheckAbilities()
-    {
-        Logger.LogInformation("#Abilities: {count}", AbilityManager.Abilities.Count());
-        Logger.LogInformation("#Passives: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Passive));
-        Logger.LogInformation("#Spells: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Spell));
-        Logger.LogInformation("#Skills: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Skill));
-    }
-
-    private void SanityCheckClasses()
-    {
-        foreach (IClass c in ClassManager.Classes)
-        {
-            if (c.MaxHitPointGainPerLevel < c.MinHitPointGainPerLevel)
-                Logger.LogWarning("Class {name} max hp per level < min hp per level", c.Name);
-            if (c.ResourceKinds == null || !c.ResourceKinds.Any())
-                Logger.LogWarning("Class {name} doesn't have any allowed resources", c.Name);
-            else
-            {
-                foreach (IAbilityUsage abilityUsage in c.Abilities)
-                    if (abilityUsage.ResourceKind.HasValue && !c.ResourceKinds.Contains(abilityUsage.ResourceKind.Value))
-                        Logger.LogWarning("Class {name} is allowed to use ability {abilityName} [resource:{resource}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Name, abilityUsage.ResourceKind);
-            }
-        }
-        Logger.LogInformation("#Classes: {count}", ClassManager.Classes.Count());
-    }
-
-    private void SanityCheckRaces()
-    {
-        Logger.LogInformation("#Races: {count}", RaceManager.PlayableRaces.Count());
-    }
-
-    private void SanityCheckQuests()
-    {
-        foreach (QuestBlueprint questBlueprint in QuestManager.QuestBlueprints)
-        {
-            if (questBlueprint.ItemObjectives?.Length == 0 && questBlueprint.KillObjectives?.Length == 0 && questBlueprint.LocationObjectives?.Length == 0)
-                Logger.LogError("Quest id {blueprintId} doesn't have any objectives.", questBlueprint.Id);
-            else
-            {
-                var duplicateIds = (questBlueprint.ItemObjectives ?? Enumerable.Empty<QuestItemObjectiveBlueprint>()).Select(x => x.Id).Union((questBlueprint.KillObjectives ?? Enumerable.Empty<QuestKillObjectiveBlueprint>()).Select(x => x.Id)).Union((questBlueprint.LocationObjectives ?? Enumerable.Empty<QuestLocationObjectiveBlueprint>()).Select(x => x.Id))
-                    .GroupBy(x => x, (id, ids) => new { objectiveId = id, count = ids.Count() }).Where(x => x.count > 1);
-                foreach (var duplicateId in duplicateIds)
-                    Logger.LogError("Quest id {blueprintId} has objectives with duplicate id {objectiveId} count {count}", questBlueprint.Id, duplicateId.objectiveId, duplicateId.count);
-            }
-        }
-        Logger.LogInformation("#QuestBlueprints: {count}", QuestManager.QuestBlueprints.Count);
-    }
-
-    private void SanityCheckRooms()
-    {
-        Logger.LogInformation("#RoomBlueprints: {count}", RoomManager.RoomBlueprints.Count);
-        Logger.LogInformation("#Rooms: {count}", RoomManager.Rooms.Count());
-    }
-
-    private void SanityCheckItems()
-    {
-        Logger.LogInformation("#ItemBlueprints: {count}", ItemManager.ItemBlueprints.Count);
-        Logger.LogInformation("#Items: {count}", ItemManager.Items.Count());
-        if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(WorldOptions.BlueprintIds.Corpse) == null)
-            Logger.LogError("Item corpse blueprint {blueprintId} not found or not a corpse", WorldOptions.BlueprintIds.Corpse);
-        if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(WorldOptions.BlueprintIds.Coins) == null)
-            Logger.LogError("Item coins blueprint {blueprintId} not found or not money", WorldOptions.BlueprintIds.Coins);
-        // TODO: stop server if no corpse or no money found
-    }
-
-    private void SanityCheckCharacters()
-    {
-        Logger.LogInformation("#CharacterBlueprints: {count}", CharacterManager.CharacterBlueprints.Count);
-        Logger.LogInformation("#Characters: {count}", CharacterManager.Characters.Count());
-    }
-
-    private void SanityCheckWeaponEffects()
-    {
-        Logger.LogInformation("#WeaponEffects: {count}", WeaponEffectManager.Count);
-    }
-
-    private void DumpCommands()
-    {
-        //DumpCommandByType(typeof(Admin.Admin));
-        //DumpCommandByType(typeof(Player.Player));
-        //DumpCommandByType(typeof(NonPlayableCharacter));
-        //DumpCommandByType(typeof(PlayableCharacter));
-        //DumpCommandByType(typeof(Item.ItemBase<>));
-        //DumpCommandByType(typeof(Room.Room));
-        //Type actorBaseType = typeof(Actor.ActorBase);
-        //var actorTypes = Assembly.GetExecutingAssembly().GetTypes()
-        //    .Where(x => x.IsClass && !x.IsAbstract && actorBaseType.IsAssignableFrom(x))
-        //    .ToList();
-        //foreach (Type actorType in actorTypes)
-        //    DumpCommandByType(actorType);
-        StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate("Commands", GameActionManager.GameActions.OrderBy(x => x.Name));
-        Logger.LogDebug(sb.ToString()); // Dump in log
-    }
-
     //private void DumpCommandByType(Type t)
     //{
     //    for (char c = 'a'; c <= 'z'; c++)
@@ -1771,7 +1695,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         try
         {
             Stopwatch tickStopwatch = new();
-            Stopwatch stepStopwatch = new();
+            Stopwatch sw = new();
             while (true)
             {
                 tickStopwatch.Restart();
@@ -1783,32 +1707,17 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
                 TimeManager.FixCurrentTime();
 
-                stepStopwatch.Restart();
-                ProcessInput();
-                stepStopwatch.Stop();
-                var inputElapsed = stepStopwatch.ElapsedMilliseconds;
+                var inputElapsed = MonitorAction(sw, ProcessInput);
 
                 HandleShutdown();
 
-                stepStopwatch.Restart();
-                PulseManager.Pulse();
-                stepStopwatch.Stop();
-                var pulseElapsed = stepStopwatch.ElapsedMilliseconds;
+                var pulseElapsed = MonitorAction(sw, PulseManager.Pulse);
 
-                stepStopwatch.Restart();
-                HandleAggressiveNonPlayableCharacters();
-                stepStopwatch.Stop();
-                var aggressiveNpcElapsed = stepStopwatch.ElapsedMilliseconds;
+                var aggressiveNpcElapsed = MonitorAction(sw, HandleAggressiveNonPlayableCharacters);
 
-                stepStopwatch.Restart();
-                ProcessOutput();
-                stepStopwatch.Stop();
-                var outputElapsed = stepStopwatch.ElapsedMilliseconds;
+                var outputElapsed = MonitorAction(sw, ProcessOutput);
 
-                stepStopwatch.Restart();
-                Cleanup();
-                stepStopwatch.Stop();
-                var cleanupElapsed = stepStopwatch.ElapsedMilliseconds;
+                var cleanupElapsed = MonitorAction(sw, Cleanup);
 
                 tickStopwatch.Stop();
                 long elapsedMs = tickStopwatch.ElapsedMilliseconds; // in milliseconds
@@ -1841,6 +1750,14 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         PulseManager.Clear();
 
         Logger.LogInformation("GameLoopTask stopped");
+    }
+
+    private static long MonitorAction(Stopwatch sw, Action action)
+    {
+        sw.Restart();
+        action();
+        sw.Stop();
+        return sw.ElapsedMilliseconds;
     }
 
     #region IDisposable

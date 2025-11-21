@@ -310,6 +310,13 @@
         NoPass      = 0x00000080,
     }
 
+    public enum DoorOperations
+    {
+        OpenedAndUnlocked = 0,
+        ClosedAndUnlocked = 1,
+        ClosedAndLocked = 2,
+    }
+
     [Flags]
     public enum PortalFlags
     {

@@ -19,7 +19,9 @@ fix this warning Logger.LogWarning("GameActionManager.CreateGameActionInfo: defa
 should see glowing item if in a dark room
 glowing item on the floor of dark room should increase light
 
-door reset operation
+reimplement hot/dot
+implement resource dynamically changed depending on some status (bear/cat/... form for druid)
+
 sanity check in server should be moved to dedicated classes
 character default size seems to be tiny for ROM24
 finish ROM24 classes

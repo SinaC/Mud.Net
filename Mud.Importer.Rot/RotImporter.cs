@@ -360,14 +360,14 @@ public class RotImporter
                     {
                         RoomId = roomData.VNum,
                         ExitDirection = (ExitDirections)reset.Arg2,
-                        Operation = reset.Arg3
+                        Operation = (DoorOperations)reset.Arg3
                     };
                     break;
                 case 'R':
                     yield return new RandomizeExitsReset
                     {
                         RoomId = roomData.VNum,
-                        MaxDoors = reset.Arg2
+                        MaxDirections = reset.Arg2
                     };
                     break;
                 default:

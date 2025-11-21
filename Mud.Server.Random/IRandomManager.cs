@@ -9,8 +9,12 @@ public interface IRandomManager
     int Range(int min, int max);
     long Range(long min, long max);
     int Fuzzy(int number);
+
     T? Random<T>()
         where T : Enum;
+    T? Random<T>(Func<T, bool> filterFunc)
+        where T : Enum;
+
     T? Random<T>(IEnumerable<T> values);
     T? RandomOccurancy<T>(IEnumerable<IOccurancy<T>> occurancies);
     T? RandomOccurancy<T>(IEnumerable<IOccurancy<T>> occurancies, IEnumerable<T> history);
