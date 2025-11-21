@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Mud.POC.TestLua
+namespace Mud.POC.TestNLua
 {
     public class TestLuaIntegration : TestLuaBase
     {
@@ -20,7 +20,7 @@ namespace Mud.POC.TestLua
         {
             CreateWorld();
 
-            Lua lua = new Lua();
+            NLua.Lua lua = new NLua.Lua();
             lua.RegisterFunction("print", typeof(LuaOutput).GetMethod("Print"));
 
             //// Create Lua table for each blueprint script table name

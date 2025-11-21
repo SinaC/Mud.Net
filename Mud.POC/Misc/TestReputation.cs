@@ -1,4 +1,4 @@
-﻿namespace Mud.POC
+﻿namespace Mud.POC.Misc
 {
     //http://wowwiki.wikia.com/wiki/Reputation
     public class ReputationBlueprint

@@ -1,11 +1,5 @@
 INGOING
-add energy/rage resource
-cat form
-    in Rom24, a skill can always be used even if Learned = 0, the skill must implement its behavior based on Learned
-    -> add an additional parameter in attribute to disable this behavior, use only if known
-    -> find a way to set a skill to 100%
-!! current Form should affect the whole player: resource, spells, parts, ...
-implement resource dynamically changed depending on some status (bear/cat/... form for druid)
+lua-csharp testing
 
 TODO
 remove every manual call to GetService/GetRequiredService
@@ -16,6 +10,14 @@ dangerous call sequence (luckily we set Room to NullRoom in the first lines of c
                 Room.ApplyAuras which could kill PlayableCharacter we are trying to create
 CharacterFactory, ItemFactory, RoomFactory to handle characters, items and rooms creation (to avoid new everywhere in the code and replace with DI more easily later if needed)
 
+
+add energy/rage resource
+cat form
+    in Rom24, a skill can always be used even if Learned = 0, the skill must implement its behavior based on Learned
+    -> add an additional parameter in attribute to disable this behavior, use only if known
+    -> find a way to set a skill to 100%
+!! current Form should affect the whole player: resource, spells, parts, ...
+implement resource dynamically changed depending on some status (bear/cat/... form for druid)
 
 fix this warning Logger.LogWarning("GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???");
     set CommandAttribute and GameActionBase as abstract

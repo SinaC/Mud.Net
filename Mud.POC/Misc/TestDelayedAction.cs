@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Mud.POC
+namespace Mud.POC.Misc
 {
     // This would allow to add casting time to spell
     public class DelayedAction<T> // Looks similar to PeriodicAura

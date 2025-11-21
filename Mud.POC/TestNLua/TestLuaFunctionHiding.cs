@@ -3,7 +3,7 @@ using System.Diagnostics;
 using NLua;
 using NLua.Exceptions;
 
-namespace Mud.POC.TestLua
+namespace Mud.POC.TestNLua
 {
     public interface ILuaComplexEntityTrigger
     {
@@ -48,7 +48,7 @@ namespace Mud.POC.TestLua
 
     public class ComplexEntityScript : LuaScript<ILuaComplexEntity>, ILuaComplexEntityTrigger
     {
-        public ComplexEntityScript(Lua lua, ILuaComplexEntity entity, string scriptName)
+        public ComplexEntityScript(NLua.Lua lua, ILuaComplexEntity entity, string scriptName)
             : base(lua, entity, scriptName)
         {
         }
@@ -68,7 +68,7 @@ namespace Mud.POC.TestLua
 
     public class AlmostCorrectComplexEntityScript : LuaScript<ComplexEntity>, ILuaComplexEntity, ILuaComplexEntityTrigger
     {
-        public AlmostCorrectComplexEntityScript(Lua lua, ComplexEntity entity, string tableName)
+        public AlmostCorrectComplexEntityScript(NLua.Lua lua, ComplexEntity entity, string tableName)
             : base(lua, entity, tableName)
         {
         }
@@ -99,7 +99,7 @@ namespace Mud.POC.TestLua
     {
         private readonly LuaComplexEntity _luaComplexEntity;
 
-        public CorrectComplexEntityScript(Lua lua, ComplexEntity entity, string tableName)
+        public CorrectComplexEntityScript(NLua.Lua lua, ComplexEntity entity, string tableName)
             : base(lua, entity, tableName)
         {
             _luaComplexEntity = new LuaComplexEntity(entity);
@@ -138,7 +138,7 @@ namespace Mud.POC.TestLua
 
     public class NewCorrectComplexEntityScript : NewLuaScript<ComplexEntity, ILuaComplexEntity>, ILuaComplexEntityTrigger
     {
-        public NewCorrectComplexEntityScript(Lua lua, ComplexEntity entity, string tableName)
+        public NewCorrectComplexEntityScript(NLua.Lua lua, ComplexEntity entity, string tableName)
             :base(lua, entity, new LuaComplexEntity(entity), tableName)
         {
         }
@@ -177,7 +177,7 @@ namespace Mud.POC.TestLua
     {
         public void Test()
         {
-            Lua lua = new Lua();
+            NLua.Lua lua = new NLua.Lua();
             lua.RegisterFunction("print", typeof(LuaOutput).GetMethod("Print"));
 
             lua.DoString(

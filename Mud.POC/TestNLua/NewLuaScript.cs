@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using NLua;
 
-namespace Mud.POC.TestLua
+namespace Mud.POC.TestNLua
 {
     public abstract class NewLuaScript<TEntity, TEntityWrapper>
         where TEntity : TEntityWrapper // maybe this is too constraining (for existing code) but it makes sense
@@ -12,7 +12,7 @@ namespace Mud.POC.TestLua
         protected TEntity Entity { get; }
         protected TEntityWrapper EntityWrapper { get; }
 
-        protected NewLuaScript(Lua lua, TEntity entity, TEntityWrapper entityWrapper, string tableName)
+        protected NewLuaScript(NLua.Lua lua, TEntity entity, TEntityWrapper entityWrapper, string tableName)
         {
             Entity = entity;
             EntityWrapper = entityWrapper;

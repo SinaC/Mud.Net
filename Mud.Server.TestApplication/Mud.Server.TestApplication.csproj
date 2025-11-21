@@ -51,7 +51,6 @@
     <ProjectReference Include="..\Mud.Importer\Mud.Importer.csproj" />
     <ProjectReference Include="..\Mud.Network.Telnet\Mud.Network.Telnet.csproj" />
     <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.POC\Mud.POC.csproj" />
     <ProjectReference Include="..\Mud.Repository.Interfaces\Mud.Repository.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />

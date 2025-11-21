@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Mud.POC.TestLua
+namespace Mud.POC.TestNLua
 {
     public class LuaOutput
     {

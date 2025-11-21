@@ -4,41 +4,41 @@ using System.Diagnostics;
 using System.Reflection;
 using NLua;
 
-namespace Mud.POC.TestLua
+namespace Mud.POC.TestNLua
 {
     //https://www.gamedev.net/articles/programming/general-and-gameplay-programming/using-lua-with-c-r2275/
 
     [AttributeUsage(AttributeTargets.Method)]
     public class AttrLuaFunc : Attribute
     {
-        private String FunctionName;
-        private String FunctionDoc;
-        private String[] FunctionParameters = null;
+        private string FunctionName;
+        private string FunctionDoc;
+        private string[] FunctionParameters = null;
 
-        public AttrLuaFunc(String strFuncName, String strFuncDoc, params String[] strParamDocs)
+        public AttrLuaFunc(string strFuncName, string strFuncDoc, params string[] strParamDocs)
         {
             FunctionName = strFuncName;
             FunctionDoc = strFuncDoc;
             FunctionParameters = strParamDocs;
         }
 
-        public AttrLuaFunc(String strFuncName, String strFuncDoc)
+        public AttrLuaFunc(string strFuncName, string strFuncDoc)
         {
             FunctionName = strFuncName;
             FunctionDoc = strFuncDoc;
         }
 
-        public String getFuncName()
+        public string getFuncName()
         {
             return FunctionName;
         }
 
-        public String getFuncDoc()
+        public string getFuncDoc()
         {
             return FunctionDoc;
         }
 
-        public String[] getFuncParams()
+        public string[] getFuncParams()
         {
             return FunctionParameters;
         }
@@ -46,24 +46,24 @@ namespace Mud.POC.TestLua
 
     public class LuaFuncDescriptor
     {
-        private String FunctionName;
-        private String FunctionDoc;
+        private string FunctionName;
+        private string FunctionDoc;
         private ArrayList FunctionParameters;
         private ArrayList FunctionParamDocs;
-        private String FunctionDocString;
+        private string FunctionDocString;
 
-        public LuaFuncDescriptor(String strFuncName, String strFuncDoc, ArrayList strParams, ArrayList strParamDocs)
+        public LuaFuncDescriptor(string strFuncName, string strFuncDoc, ArrayList strParams, ArrayList strParamDocs)
         {
             FunctionName = strFuncName;
             FunctionDoc = strFuncDoc;
             FunctionParameters = strParams;
             FunctionParamDocs = strParamDocs;
 
-            String strFuncHeader = strFuncName + "(%params%) - " + strFuncDoc;
-            String strFuncBody = "\n\n";
-            String strFuncParams = "";
+            string strFuncHeader = strFuncName + "(%params%) - " + strFuncDoc;
+            string strFuncBody = "\n\n";
+            string strFuncParams = "";
 
-            Boolean bFirst = true;
+            bool bFirst = true;
 
             foreach (var t in strParams)
             {
@@ -83,12 +83,12 @@ namespace Mud.POC.TestLua
             FunctionDocString = strFuncHeader.Replace("%params%", strFuncParams) + strFuncBody;
         }
 
-        public String getFuncName()
+        public string getFuncName()
         {
             return FunctionName;
         }
 
-        public String getFuncDoc()
+        public string getFuncDoc()
         {
             return FunctionDoc;
         }
@@ -103,7 +103,7 @@ namespace Mud.POC.TestLua
             return FunctionParamDocs;
         }
 
-        public String getFuncHeader()
+        public string getFuncHeader()
         {
             if (FunctionDocString.IndexOf("\n") == -1)
                 return FunctionDocString;
@@ -111,7 +111,7 @@ namespace Mud.POC.TestLua
             return FunctionDocString.Substring(0, FunctionDocString.IndexOf("\n"));
         }
 
-        public String getFuncFullDoc()
+        public string getFuncFullDoc()
         {
             return FunctionDocString;
         }
@@ -171,12 +171,12 @@ namespace Mud.POC.TestLua
 
     public class TestLuaRegisterFunction
     {
-        public Lua pLuaVM { get; }
+        public NLua.Lua pLuaVM { get; }
         public Hashtable pLuaFuncs { get; }
 
         public TestLuaRegisterFunction()
         {
-            pLuaVM = new Lua();
+            pLuaVM = new NLua.Lua();
             pLuaFuncs = new Hashtable();
         }
 
@@ -201,7 +201,7 @@ print(tostring(self));
             }
         }
 
-        public void registerLuaFunctions(Object pTarget)
+        public void registerLuaFunctions(object pTarget)
         {
             // Sanity checks
             if (pLuaVM == null || pLuaFuncs == null)
@@ -223,9 +223,9 @@ print(tostring(self));
                         Hashtable pParams = new Hashtable();
 
                         // Get the desired function name and doc string, along with parameter info
-                        String strFName = pAttr.getFuncName();
-                        String strFDoc = pAttr.getFuncDoc();
-                        String[] pPrmDocs = pAttr.getFuncParams();
+                        string strFName = pAttr.getFuncName();
+                        string strFDoc = pAttr.getFuncDoc();
+                        string[] pPrmDocs = pAttr.getFuncParams();
 
                         // Now get the expected parameters from the MethodInfo object
                         ParameterInfo[] pPrmInfo = mInfo.GetParameters();

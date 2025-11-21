@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.Room;
 using System;
 using System.Linq;
 
-namespace Mud.POC.TestLua
+namespace Mud.POC.TestNLua
 {
     public abstract class TestLuaBase
     {

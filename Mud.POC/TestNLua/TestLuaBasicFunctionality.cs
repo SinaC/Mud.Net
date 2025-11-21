@@ -5,7 +5,7 @@ using Mud.Server.Interfaces.Room;
 using NLua;
 using System.Linq;
 
-namespace Mud.POC.TestLua
+namespace Mud.POC.TestNLua
 {
     public class TestLuaBasicFunctionality : TestLuaBase
     {
@@ -47,7 +47,7 @@ namespace Mud.POC.TestLua
 
         public override void Test()
         {
-            Lua lua = new Lua();
+            NLua.Lua lua = new NLua.Lua();
 
             ////
             //TestLuaFunctions testLuaFunctions = new TestLuaFunctions();

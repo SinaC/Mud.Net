@@ -1,4 +1,4 @@
-﻿namespace Mud.POC
+﻿namespace Mud.POC.Misc
 {
     //http://stackoverflow.com/questions/6749022/adding-a-setter-to-a-derived-interface
 

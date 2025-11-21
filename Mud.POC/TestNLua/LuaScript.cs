@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using NLua;
 
-namespace Mud.POC.TestLua
+namespace Mud.POC.TestNLua
 {
     public class LuaScript<T>
     {
@@ -10,7 +10,7 @@ namespace Mud.POC.TestLua
 
         protected readonly T Entity;
 
-        protected LuaScript(Lua lua, T entity, string tableName)
+        protected LuaScript(NLua.Lua lua, T entity, string tableName)
         {
             Entity = entity;
 

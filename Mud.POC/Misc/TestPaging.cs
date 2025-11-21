@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Mud.POC
+namespace Mud.POC.Misc
 {
     public class TestPaging
     {

@@ -4,7 +4,7 @@ using Mud.Server.Interfaces.Room;
 using System;
 using System.Collections.Generic;
 
-namespace Mud.POC
+namespace Mud.POC.Misc
 {
     //#region IFormattable
 
@@ -81,8 +81,8 @@ namespace Mud.POC
                 foreach (ICharacter to in character.Room.People)
                 {
                     if (options == ActOptions.ToAll
-                        || (options == ActOptions.ToRoom && to != character)
-                        || (options == ActOptions.ToNotVictim && to != (ICharacter) param1))
+                        || options == ActOptions.ToRoom && to != character
+                        || options == ActOptions.ToNotVictim && to != (ICharacter) param1)
                     {
                         string phrase = Format(rawPhrase, to, character, param1, param2);
                         to.Send(phrase);
@@ -181,8 +181,8 @@ namespace Mud.POC
                 foreach (ICharacter to in character.Room.People)
                 {
                     if (option == ActOptions.ToAll
-                        || (option == ActOptions.ToRoom && to != character)
-                        || (option == ActOptions.ToNotVictim && to != victim))
+                        || option == ActOptions.ToRoom && to != character
+                        || option == ActOptions.ToNotVictim && to != victim)
                     {
                         string phrase = createPhraseFunc(character);
                         to.Send(phrase);
