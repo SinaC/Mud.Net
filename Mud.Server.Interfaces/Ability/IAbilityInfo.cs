@@ -11,6 +11,9 @@ public interface IAbilityInfo
 
     Type AbilityExecutionType { get; }
 
+    string? Help { get; }
+    string[]? Syntax { get; }
+
     bool HasCharacterWearOffMessage { get; }
     string? CharacterWearOffMessage { get; }
 

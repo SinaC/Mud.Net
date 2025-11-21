@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
@@ -12,6 +14,10 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection)]
 [AbilityCharacterWearOffMessage("You no longer see in the dark.")]
 [AbilityDispellable]
+[Syntax("cast [spell] <character>")]
+[Help(
+@"This spell enables the target character to see warm-blooded creatures even
+while in the dark, and exits of a room as well.")]
 public class Infravision : CharacterFlagsSpellBase
 {
     private const string SpellName = "Infravision";

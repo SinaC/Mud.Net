@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -16,6 +17,11 @@ namespace Mud.Server.Rom24.Skills;
 [Syntax("[cmd] <victim>")]
 [Skill(SkillName, AbilityEffects.Damage | AbilityEffects.Debuff, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
 [AbilityCharacterWearOffMessage("You rub the dirt out of your eyes.")]
+[Help(
+@"Consider by some to be a cowardly skill, dirt kicking gives the clever 
+combatant a chance to blind his opponent by casting dirt into his eyes.  The
+blindness does not last long, but can provide an edge in combat.  Dexterity
+helps in hitting or avoiding a dirt kick.")]
 public class DirtKicking : OffensiveSkillBase
 {
     private const string SkillName = "Dirt Kicking";

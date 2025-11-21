@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -14,6 +16,9 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Debuff)]
 [AbilityCharacterWearOffMessage("You feel stronger.")]
 [AbilityDispellable("{0:N} looks stronger.")]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"This spell reduces the strength of the victim by two points.")]
 public class Weaken : CharacterDebuffSpellBase
 {
     private const string SpellName = "Weaken";

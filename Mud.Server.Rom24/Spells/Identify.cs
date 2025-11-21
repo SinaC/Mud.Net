@@ -2,6 +2,8 @@
 using Mud.Common;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Item;
@@ -12,6 +14,9 @@ using System.Text;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Detection)]
+[Syntax("cast [spell] <object>")]
+[Help(
+@"This spell reveals information about the object.")]
 public class Identify : ItemInventorySpellBase
 {
     private ITableValues TableValues { get; }

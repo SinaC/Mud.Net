@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -16,6 +18,14 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Dispel)]
 [AbilityCharacterWearOffMessage("You feel less righteous.")]
 [AbilityItemWearOffMessage("{0}'s holy aura fades.")]
+[Syntax(
+    "cast [spell] <character>",
+    "cast [spell] <object>")]
+[Help(
+@"This spell improves the to-hit roll and saving throw versus spell of the
+target character by 1 for every 8 levels of the caster. It may also be
+cast on an object to temporarily bless it (blessed weapons, for example,
+are more effective against demonic beings).")]
 public class Bless : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Bless";

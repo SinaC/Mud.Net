@@ -2,6 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Character;
@@ -10,6 +12,10 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Dispel)]
+[Syntax("cast [spell]")]
+[Help(
+@"This spell reveals all manner of invisible, hidden, and sneaking creatures in
+the same room as you.")]
 public class FaerieFog : NoTargetSpellBase
 {
     private const string SpellName = "Faerie Fog";

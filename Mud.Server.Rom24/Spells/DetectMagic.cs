@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
@@ -12,6 +14,9 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection)]
 [AbilityCharacterWearOffMessage("The detect magic wears off.")]
 [AbilityDispellable]
+[Syntax("cast [spell]")]
+[Help(
+@"This spell enables the caster to detect magical objects.")]
 public class DetectMagic : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Magic";

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -8,6 +9,17 @@ using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races;
 
+[Help(
+@"Elves are slightly taller than humans, but have a much lighter build.  They
+lack the strength and stamina of the other races, but are for more agile,
+both in body and mind.  Elves are superb mages and thieves, but have at
+best fair talent as warriors or priests.
+
+Elves resist charm spells most effectively, due to their magical nature.
+However, they are burned by the touch of iron, and so are barred from the
+use of iron or steel in their adventuring careers.  Elves are notoriously 
+hard to spot, and so elven warriors and thieves recieve the sneak and hiding
+automatically. They may see in the dark with infravision.")]
 public class Elf : PlayableRaceBase
 {
     public Elf(ILogger<Elf> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)

@@ -2,6 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -9,6 +11,10 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Damage)]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"This spell saps the experience points, mana, and movement points of its
+target.")]
 public class EnergyDrain : OffensiveSpellBase
 {
     private const string SpellName = "Energy Drain";

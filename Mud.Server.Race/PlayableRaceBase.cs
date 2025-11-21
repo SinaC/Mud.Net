@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
 using Mud.Server.Ability;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Race;
+using System.Reflection;
 
 namespace Mud.Server.Race;
 
@@ -36,9 +38,11 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
     protected ILogger<PlayableRaceBase> Logger { get; }
     protected IAbilityManager AbilityManager { get; }
 
-    #region IRace
+    #region IPlayableRace
 
     public abstract string ShortName { get; }
+
+    public string? Help { get; }
 
     public IEnumerable<IAbilityUsage> Abilities => _abilities;
 
@@ -59,6 +63,8 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
         AbilityManager = abilityManager;
 
         _abilities = [];
+        var helpAttribute = GetType().GetCustomAttribute<HelpAttribute>();
+        Help = helpAttribute?.Help;
     }
 
     protected void AddAbility(string abilityName)

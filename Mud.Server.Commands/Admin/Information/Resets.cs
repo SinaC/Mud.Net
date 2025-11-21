@@ -2,6 +2,8 @@
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
+using Mud.Server.Commands.Character.Item;
+using Mud.Server.Commands.Character.Movement;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -68,7 +70,7 @@ public class Resets : AdminGameAction
         int resetId = 0;
         CharacterBlueprintBase? previousCharacter = null;
         ItemBlueprintBase? previousItem = null;
-        foreach (ResetBase reset in Room.Blueprint.Resets)
+        foreach (var reset in Room.Blueprint.Resets)
         {
             sb.AppendFormat("[{0,2}] ", resetId);
             switch (reset)
@@ -177,6 +179,30 @@ public class Resets : AdminGameAction
                         }
 
                         sb.AppendFormatLine("O[{0,5}] {1,-13} {2,-19} M[{3,5}]       {4,-15}", itemInEquipmentReset.ItemId, itemBlueprint.ShortDescription.MaxLength(13), itemInEquipmentReset.EquipmentSlot, previousCharacter.Id, previousCharacter.ShortDescription.MaxLength(15));
+                        break;
+                    }
+
+                case DoorReset doorReset: // 'D'
+                    {
+                        var exit = Room[doorReset.ExitDirection];
+                        if (exit == null)
+                        { 
+                            sb.AppendFormatLine("Door - Bad Exit {0}", doorReset.ExitDirection);
+                            continue;
+                        }
+                        if (exit.Destination == null)
+                        {
+                            sb.AppendFormatLine("Door - Destination Room not found for {0}", doorReset.ExitDirection);
+                            continue;
+                        }
+                        var roomBlueprintId = exit.Destination.Blueprint.Id;
+                        sb.AppendFormatLine("D[{0,5}] {1} of {2,-19} reset to {3}", doorReset.RoomId, doorReset.ExitDirection, exit.Destination.Name, doorReset.Operation);
+                        break;
+                    }
+
+                case RandomizeExitsReset randomizeExitsReset: // 'R'
+                    {
+                        sb.AppendFormatLine("R[{0,5}] Exits are randomized in {1}", randomizeExitsReset.RoomId, Room.Name);
                         break;
                     }
 

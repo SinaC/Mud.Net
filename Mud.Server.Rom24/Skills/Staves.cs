@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -13,6 +14,13 @@ namespace Mud.Server.Rom24.Skills;
 [CharacterCommand("brandish", "Ability", "Skill")]
 [Syntax("[cmd] <staff>")]
 [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
+[Help(
+@"[cmd] brandishes a magical staff. You must HOLD a staff before using [cmd].
+Staves have multiple charges, when a magical object has no more charges,
+it will be consumed.
+Magical items require training to use properly.  If your character lacks the
+necessary skill to use an item, he will fail, possibly destroying it. Staves is
+the use of staves and similar devices")]
 public class Staves : ItemCastSpellSkillBase<IItemStaff>
 {
     private const string SkillName = "Staves";

@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
+using Mud.Server.Common;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Passives;
 
 [Passive(PassiveName, LearnDifficultyMultiplier = 5)]
+[Help(@"the use of pole weapons (except spears), including halberds")]
 public class Polearm : PassiveBase
 {
     private const string PassiveName = "Polearm";

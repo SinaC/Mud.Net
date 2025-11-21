@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -11,6 +13,14 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24)]
+[Syntax("cast [spell] <target>")]
+[Help(
+@"The portal spell is similar to gate, but creates a lasting one-way portal
+to the target creature, instead of transporting the caster.  Portals are
+entered using 'enter' or 'go' command, as in 'go portal'.  Portals cannot
+be made to certain destinations, nor used to escape from gate-proof rooms.
+Portal requires a special source of power to be used, unfortunately the
+secret of this material component has been lost...")]
 public class Portal : TransportationSpellBase
 {
     private const string SpellName = "Portal";

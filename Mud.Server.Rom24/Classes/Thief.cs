@@ -1,10 +1,20 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
 using Mud.Server.Class;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 
 namespace Mud.Server.Rom24.Classes;
 
+[Help(
+@"Thieves are a marginal class. They do few things better than any other class,
+but have the widest range of skills available.  Thieves are specialists at
+thievery and covert actions, being capable of entering areas undetected where
+more powerful adventurers would fear to tread.  They are better fighters than
+clerics, but lack the wide weapon selection of warriors.
+
+All thieves begin with the dagger combat skill, and are learned in steal as 
+well.")]
 public class Thief : ClassBase
 {
     public Thief(ILogger<Thief> logger, IAbilityManager abilityManager)

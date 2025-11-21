@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -9,6 +11,12 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Enchantment | AbilityEffects.Creation, PulseWaitTime = 24)]
+[Syntax("cast [spell] <item>")]
+[Help(
+@"The recharge spell is used to restore energy to depleted wands and staves.
+Fully exhausted items cannot be recharged, and the difficulty of the spell
+is proportional to the number of charges used.  Magic items can only be
+recharged one time successfully.")]
 public class Recharge : ItemInventorySpellBase<IItemCastSpellsCharge>
 {
     private const string SpellName = "Recharge";

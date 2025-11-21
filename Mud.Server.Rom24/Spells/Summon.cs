@@ -3,6 +3,8 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -10,6 +12,10 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Transportation)]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"This spell summons a character from anywhere else in the world into your room.
+Characters who are fighting may not be summoned.")]
 public class Summon : TransportationSpellBase
 {
     private const string SpellName = "Summon";

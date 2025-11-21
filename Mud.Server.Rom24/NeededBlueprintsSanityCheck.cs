@@ -43,7 +43,7 @@ namespace Mud.Server.Rom24
                 Logger.LogError("'a portal' blueprint {blueprintId} not found or not a portal (needed for spells Portal and Nexus)", PortalBlueprintId);
             if (ItemManager.GetItemBlueprint<ItemTrashBlueprint>(RoseBlueprintId) == null)
                 Logger.LogError("'a beautiful rose' blueprint {blueprintId} not found or not a trash (needed for spell CreateRose)", RoseBlueprintId);
-            return true;
+            return false;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -12,6 +13,19 @@ namespace Mud.Server.Rom24.Skills;
 
 [CharacterCommand("recall", "Ability", "Skill", "Transportation")]
 [Skill(SkillName, AbilityEffects.Transportation, LearnDifficultyMultiplier = 6)]
+[Help(
+@"[cmd] prays to your god for miraculous transportation from where you are
+back to your recall point.  '/' is a synonym for [cmd].
+
+If you [cmd] during combat, you will lose experience (more than for fleeing),
+and you will have a chance of failing (again, more than for fleeing).  This
+chance is based on your recall skill, although a 100% recall does not 
+insure success.
+
+[cmd] costs half of your movement points.
+
+[cmd] doesn't work in certain god-forsaken rooms.  Characters afflicted by a
+curse may not recall at all.")]
 public class Recall : NoTargetSkillBase
 {
     private const string SkillName = "Recall";

@@ -2,6 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
@@ -10,6 +12,10 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Transportation)]
+[Syntax("cast [spell]")]
+[Help(
+@"This spell takes you from your current location to a random location somewhere
+in the world.")]
 public class Teleport : TransportationSpellBase
 {
     private const string SpellName = "Teleport";

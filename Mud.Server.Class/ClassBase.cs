@@ -2,8 +2,10 @@
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
+using System.Reflection;
 
 namespace Mud.Server.Class;
 
@@ -21,6 +23,8 @@ public abstract class ClassBase : IClass
     public string DisplayName => Name.UpperFirstLetter();
 
     public abstract string ShortName { get; }
+
+    public string? Help { get; }
 
     public abstract IEnumerable<ResourceKinds> ResourceKinds { get; }
 
@@ -46,6 +50,8 @@ public abstract class ClassBase : IClass
         AbilityManager = abilityManager;
 
         _abilities = [];
+        var helpAttribute = GetType().GetCustomAttribute<HelpAttribute>();
+        Help = helpAttribute?.Help;
     }
 
     protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)

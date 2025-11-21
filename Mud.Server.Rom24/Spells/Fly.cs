@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -14,6 +16,9 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18)]
 [AbilityCharacterWearOffMessage("You slowly float to the ground.")]
 [AbilityDispellable("{0:N} falls to the ground!")]
+[Syntax("cast [spell] <character>")]
+[Help(
+@"This spell enables the target character to fly.")]
 public class Fly : DefensiveSpellBase
 {
     private const string SpellName = "Fly";

@@ -2,12 +2,19 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Passives;
 
 [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
+[Help(
+@"In the words of one wise warrior, 'the best way to block a blow is to not
+be where it lands'.  The dodge skill honors this tradition, by improving the
+character's natural agility to the point where many blows will miss the 
+target. The chance of dodging is also affected by the dexterity of the
+attacker and the target.  Any class may learn dodging.")]
 public class Dodge : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Dodge";

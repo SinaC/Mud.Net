@@ -3,6 +3,8 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -13,6 +15,10 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18)]
 [AbilityCharacterWearOffMessage("Your skin feels soft again.")]
 [AbilityDispellable("{0:N}'s skin regains its normal texture.")]
+[Syntax("cast [spell]")]
+[Help(
+@"These spells protect the caster by decreasing (improving) the caster's armor
+class. It provides 40 points of armor.")]
 public class StoneSkin : DefensiveSpellBase
 {
     private const string SpellName = "Stone Skin";

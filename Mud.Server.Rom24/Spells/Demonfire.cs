@@ -2,6 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -9,6 +11,11 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Damage)]
+[Syntax("cast [spell] <target>")]
+[Help(
+@"Demonfire is a spell of blackest evil, and as such can only be used by those
+who follow the paths of darkness.  It conjures forth demonic spirits to 
+inflict terrible wounds on the enemies of the caster.")]
 public class Demonfire : DamageSpellBase
 {
     private const string SpellName = "Demonfire";

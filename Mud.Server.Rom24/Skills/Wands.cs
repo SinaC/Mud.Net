@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -14,6 +15,14 @@ namespace Mud.Server.Rom24.Skills;
 [CharacterCommand("zap", "Ability", "Skill")]
 [Syntax("[cmd] <wand> [<target>]")]
 [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
+[Help(
+@"[cmd] zaps a magical wand at a target.  If the target is not specified,
+and you are fighting someone, then that character is used for a target.
+Wands have multiple charges, when a magical object has no more charges,
+it will be consumed.
+Magical items require training to use properly.  If your character lacks the
+necessary skill to use an item, he will fail, possibly destroying it. Wands is
+the use of wands and similar items ")]
 public class Wands : ItemCastSpellSkillBase<IItemWand>
 {
     private const string SkillName = "Wands";

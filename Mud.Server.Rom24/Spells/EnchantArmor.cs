@@ -6,6 +6,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
 using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -16,6 +17,12 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24)]
+[Syntax("cast [spell] <armor>")]
+[Help(
+@"The enchant armor spell imbues armor with powerful protective magics. It is
+not nearly as reliable as enchant weapon, being far more prone to destructive
+effects.  Each succesful enchant increases the plus of the armor by 1 or 2
+points, and raises its level by one.")]
 public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
 {
     private const string SpellName = "Enchant Armor";

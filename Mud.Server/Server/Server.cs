@@ -1770,10 +1770,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
         try
         {
-            Stopwatch sw = new ();
+            Stopwatch tickStopwatch = new();
+            Stopwatch stepStopwatch = new();
             while (true)
             {
-                sw.Restart();
+                tickStopwatch.Restart();
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
                     Logger.LogInformation("Stop GameLoopTask requested");
@@ -1782,18 +1783,35 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
                 TimeManager.FixCurrentTime();
 
+                stepStopwatch.Restart();
                 ProcessInput();
+                stepStopwatch.Stop();
+                var inputElapsed = stepStopwatch.ElapsedMilliseconds;
 
                 HandleShutdown();
+
+                stepStopwatch.Restart();
                 PulseManager.Pulse();
+                stepStopwatch.Stop();
+                var pulseElapsed = stepStopwatch.ElapsedMilliseconds;
+
+                stepStopwatch.Restart();
                 HandleAggressiveNonPlayableCharacters();
+                stepStopwatch.Stop();
+                var aggressiveNpcElapsed = stepStopwatch.ElapsedMilliseconds;
 
+                stepStopwatch.Restart();
                 ProcessOutput();
+                stepStopwatch.Stop();
+                var outputElapsed = stepStopwatch.ElapsedMilliseconds;
 
+                stepStopwatch.Restart();
                 Cleanup();
+                stepStopwatch.Stop();
+                var cleanupElapsed = stepStopwatch.ElapsedMilliseconds;
 
-                sw.Stop();
-                long elapsedMs = sw.ElapsedMilliseconds; // in milliseconds
+                tickStopwatch.Stop();
+                long elapsedMs = tickStopwatch.ElapsedMilliseconds; // in milliseconds
                 if (elapsedMs < Pulse.PulseDelay)
                 {
                     int sleepTime = (int)(Pulse.PulseDelay - elapsedMs); // game loop should iterate every 250ms
@@ -1805,6 +1823,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 else
                 {
                     Logger.LogError("!!! No sleep for GameLoopTask. Elapsed {duration}", elapsedMs);
+                    Logger.LogError("Input ms: {inputElapsed}", inputElapsed);
+                    Logger.LogError("pulse ms: {pulseElapsed}", pulseElapsed);
+                    Logger.LogError("aggressive npc ms: {aggressiveNpcElapsed}", aggressiveNpcElapsed);
+                    Logger.LogError("output ms: {outputElapsed}", outputElapsed);
+                    Logger.LogError("cleanup ms: {cleanupElapsed}", cleanupElapsed);
+
                     _cancellationTokenSource.Token.WaitHandle.WaitOne(1);
                 }
             }

@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -17,6 +19,13 @@ namespace Mud.Server.Rom24.Spells;
 [AbilityCharacterWearOffMessage("The curse wears off.")]
 [AbilityItemWearOffMessage("{0} is no longer impure.")]
 [AbilityDispellable("{0} is no longer impure.")]
+[Syntax("cast [spell] <character>")]
+[Help(
+@"This spell reduces the character's to-hit roll and save versus spells.
+It also renders the character unclean in the eyes of Mota and
+unable to RECALL. Curse may be used to fill equipment with evil power,
+allowing (for example) weapons to do more damage to particularly holy
+opponents.")]
 public class Curse : ItemOrOffensiveSpellBase
 {
     private const string SpellName = "Curse";

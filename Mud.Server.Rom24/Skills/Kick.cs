@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -12,6 +13,9 @@ namespace Mud.Server.Rom24.Skills;
 [CharacterCommand("kick", "Ability", "Skill", "Combat")]
 [Syntax("[cmd] <victim>")]
 [Skill(SkillName, AbilityEffects.Damage)]
+[Help(
+@"Kicking allows the adventurer to receive an extra attack in combat, a powerful
+kick. However, a failed kick may throw an unwary fighter off balance.")]
 public class Kick : FightingSkillBase
 {
     private const string SkillName = "Kick";

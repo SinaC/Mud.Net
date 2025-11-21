@@ -16,6 +16,10 @@ fix this warning Logger.LogWarning("GameActionManager.CreateGameActionInfo: defa
     add ActorGameActionInfo and use as base class for PlayerGameActionInfo
     add RoomGameActionInfo and RoomGameAction
 
+should see glowing item if in a dark room
+glowing item on the floor of dark room should increase light
+
+door reset operation
 sanity check in server should be moved to dedicated classes
 character default size seems to be tiny for ROM24
 finish ROM24 classes
@@ -30,10 +34,11 @@ choose between flags as bits or strings (example RoomFlags and CharacterFlags)
 check usage of OnCleaned/OnRemoved
 stop cloning list and stop removing while iterating -> flag the entity as soft deleted and remove them in Cleanup phase
 
+missing help: use dumpcommands
+
 MIGRATION .NET 8
 check all warnings and fix them
 check all obsolete and fix them
-check all nuget package updates and update them
 check nullable reference types
 check all properties for nullability (such as Room, ContainedInto, Race, Class, ...)
 remove yield extension where not needed
@@ -59,7 +64,7 @@ outfit command to give basic equipement
 healer
 pet shop
 offensive flags: rescue, ...
-clan/guild, auction house, help, socials, wimpy, note
+clan/guild, auction house, socials, wimpy, note
 commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
 	heal, autoaffect, wake, myclan, petition, clanlist
 admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
@@ -138,7 +143,6 @@ guild
 reputation
 achievements
 AH
-help
 notes
 lua for mob IA
 gods

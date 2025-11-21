@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -16,6 +18,14 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Debuff)]
 [AbilityCharacterWearOffMessage("You feel less sick.")]
 [AbilityItemWearOffMessage("The poison on {0} dries up.")]
+[Syntax(
+    "cast [spell] <victim>",
+    "cast [spell] <object>")]
+[Help(
+@"This spell reduces the strength of the victim by two, as well as reducing the
+victim's regeneration rate. It may also be used to poison food, drink, or
+a weapon in a fashion similar to envenom ('help envenom'), but with 
+drastically reduced effectiveness.")]
 public class Poison : ItemOrOffensiveSpellBase
 {
     private const string SpellName = "Poison";

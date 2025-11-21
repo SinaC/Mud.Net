@@ -19,6 +19,12 @@ namespace Mud.Server.Rom24.Skills;
 [CharacterCommand(SkillName, "Item")]
 [Syntax("[cmd] <item|coin> <victim>")]
 [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
+[Help(
+@"Theft is the defining skill of the thief, and is only available to that class.
+It allows items to be stolen from the inventory of monsters and characters,
+and even from shops!  But beware, shop keepers gaurd their merchandise 
+carefully, and attempting to steal from a character earns you a THIEF flag
+if you are caught (making you free game for killing).")]
 public class Steal : SkillBase
 {
     private const string SkillName = "Steal";

@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -13,6 +15,13 @@ namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Enchantment)]
 [AbilityItemWearOffMessage("{0:N}'s protective aura fades.")]
+[Syntax("cast [spell] <object>")]
+[Help(
+@"The fireproof spell creates a short-lived protective aura around an object,
+to protect it from the harmful effects of acid and flame.  Items protected
+by this spell are not harmed by acid, fire, or the heat metal spell.
+Although inexpensive to use, the spell's short duration makes it impractical
+for protecting large numbers of objects.")]
 public class Fireproof : ItemInventorySpellBase
 {
     private const string SpellName = "Fireproof";

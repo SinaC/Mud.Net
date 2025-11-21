@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -8,6 +9,17 @@ using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races;
 
+[Help(
+@"Giants are the largest of the races, ranging from 9-12 feet in height.  They
+are stronger than any other race, and almost as durable as the dwarves.  
+They aren't too bright, however, and their huge size makes them more clumsy
+than the other races.  Giants make the best warriors of any race, but are
+ill-suited for any other profession.
+
+Giants resist heat and cold with nary a mark, due to their huge mass.  However,
+their slow minds make them extremely vulnerable to mental attacks.  Giants,
+due to their size and stamina, receive the fast healing and bash skills for
+free. (Only giant warriors receive bash).")]
 public class Giant : PlayableRaceBase
 {
     public Giant(ILogger<Giant> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)

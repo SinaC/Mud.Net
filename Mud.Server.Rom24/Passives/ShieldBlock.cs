@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
@@ -9,6 +10,12 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Passives;
 
 [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
+[Help(
+@"Shield block is a rather fancy name for the art of parrying with a shield.
+Characters with no shield block skill will not be able to defend themselves
+well with a shield.  All classes may learn shield block, but only warriors and
+clerics are good at it.  Beware, flails ignore shield blocking attempts, and
+whips have an easier time getting around them.  Axes may split shields in two.")]
 public class ShieldBlock : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Shield Block";

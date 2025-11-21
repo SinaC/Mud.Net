@@ -3,6 +3,8 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -13,6 +15,10 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Damage | AbilityEffects.Debuff)]
 [AbilityCharacterWearOffMessage("You feel less cold.")]
 [AbilityDispellable("{0:N} looks warmer.")]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"This spell inflicts damage on the victim and also reduces the victim's
+strength by one.")]
 public class ChillTouch : DamageTableSpellBase
 {
     private const string SpellName = "Chill Touch";

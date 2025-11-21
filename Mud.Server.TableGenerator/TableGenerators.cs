@@ -124,6 +124,7 @@ public static class TableGenerators
         generator.AddColumn("WearOff", 20, x => x.CharacterWearOffMessage?.ToString() ?? string.Empty);
         generator.AddColumn("ItemWearOff", 20, x => x.ItemWearOffMessage?.ToString() ?? string.Empty);
         generator.AddColumn("DispelRoom", 20, x => x.DispelRoomMessage?.ToString() ?? string.Empty);
+        generator.AddColumn("H", 4, x => ConvertBool(x.Help != null));
         return generator;
     });
 

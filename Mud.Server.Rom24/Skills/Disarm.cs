@@ -2,17 +2,21 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Passives;
 
 namespace Mud.Server.Rom24.Skills;
 
 [CharacterCommand("disarm", "Ability", "Skill", "Combat")]
 [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24)]
+[Help(
+@"Disarm is a somewhat showy and unreliable skill, designed to relieve your
+opponent of his weapon.  The best possible chance of disarming occurs when you
+are skilled both your own and your opponent's weapon.")]
 public class Disarm : FightingSkillBase
 {
     private const string SkillName = "Disarm";

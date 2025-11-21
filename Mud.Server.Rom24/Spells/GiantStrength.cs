@@ -3,6 +3,8 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -13,6 +15,9 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Buff)]
 [AbilityCharacterWearOffMessage("You feel weaker.")]
 [AbilityDispellable("{0:N} no longer looks so mighty.")]
+[Syntax("cast [spell] <character>")]
+[Help(
+@"This spell increases the strength of the target character.")]
 public class GiantStrength : DefensiveSpellBase
 {
     private const string SpellName = "Giant Strength";

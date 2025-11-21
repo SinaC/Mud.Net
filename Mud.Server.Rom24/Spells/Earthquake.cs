@@ -2,6 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -10,6 +12,11 @@ using System.Collections.ObjectModel;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.DamageArea)]
+[Syntax("cast [spell]")]
+[Help(
+@"This spell inflicts damage on every enemy character in the room.
+Beware that other characters who are not yet fighting may attack
+you as a result!")]
 public class Earthquake : NoTargetSpellBase
 {
     private const string SpellName = "Earthquake";

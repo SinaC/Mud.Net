@@ -8,6 +8,7 @@ public interface IClass
     string Name { get; }
     string DisplayName { get; }
     string ShortName { get; }
+    string? Help { get; }
 
     // Kind of resource available for class
     IEnumerable<ResourceKinds> ResourceKinds { get; } // TOOD: use

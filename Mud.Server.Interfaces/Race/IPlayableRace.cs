@@ -7,6 +7,7 @@ namespace Mud.Server.Interfaces.Race;
 public interface IPlayableRace : IRace
 {
     string ShortName { get; }
+    string? Help { get; }
 
     IEnumerable<IAbilityUsage> Abilities { get; }
 

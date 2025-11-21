@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
+using Mud.Server.Common;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Passives;
 
 [Passive(PassiveName, LearnDifficultyMultiplier = 5)]
+[Help(@"the use of axes, ranging from hand to great (but not halberds)")]
 public class Axe : PassiveBase
 {
     private const string PassiveName = "Axe";

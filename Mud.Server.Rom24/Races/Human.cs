@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -7,6 +8,12 @@ using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races;
 
+[Help(
+@"Humans are the most common race in the world, and make up the majority of
+adventurers. Although they have no special talents like the other races,
+they are more versitile, being skilled in all four classes. Humans may
+also train their primary stat higher than any other race, and are able to
+gain more benefit from magical devices.")]
 public class Human : PlayableRaceBase
 {
     public Human(ILogger<Human> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)

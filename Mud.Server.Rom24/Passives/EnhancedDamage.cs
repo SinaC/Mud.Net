@@ -2,12 +2,18 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Passives;
 
 [Passive(PassiveName, LearnDifficultyMultiplier = 6)]
+[Help(
+@"Warriors and skilled thieves can become skilled enough in combat that they are
+able to inflict more damage than other classes.  Enhanced damage is checked
+for with each hit, although with a low skill, the chance of receiving a bonus
+is very low indeed.")]
 public class EnhancedDamage : HitEnhancementPassiveBase
 {
     private const string PassiveName = "Enhanced Damage";

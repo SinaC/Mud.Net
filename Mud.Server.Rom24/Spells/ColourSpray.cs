@@ -2,6 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -11,6 +13,10 @@ using Mud.Server.Rom24.Effects;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Damage | AbilityEffects.Debuff)]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"These spells inflict damage on the victim.  The higher-level spells do
+more damage.")]
 public class ColourSpray : DamageTableSpellBase
 {
     private const string SpellName = "Colour Spray";
