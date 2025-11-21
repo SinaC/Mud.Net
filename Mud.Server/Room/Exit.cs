@@ -1,9 +1,11 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Interfaces.Room;
+using System.Diagnostics;
 
 namespace Mud.Server.Room;
 
+[DebuggerDisplay("{DebuggerDisplay,nq}")]
 public class Exit : IExit
 {
     public Exit(ExitBlueprint blueprint, IRoom destination)
@@ -79,4 +81,7 @@ public class Exit : IExit
     {
         ExitFlags &= ~flags;
     }
+
+    //
+    private string DebuggerDisplay => $"Exit {Name} Dir:{Blueprint?.Direction} Dest:{Destination?.Blueprint?.Id} Flags:{ExitFlags}";
 }

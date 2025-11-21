@@ -8,6 +8,7 @@ using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Random;
 
 namespace Mud.Server.Server
 {
@@ -16,13 +17,15 @@ namespace Mud.Server.Server
         private ILogger<ResetManager> Logger { get; }
         private ICharacterManager CharacterManager { get; }
         private IItemManager ItemManager { get; }
+        private IRandomManager RandomManager { get; }
         private IWiznet Wiznet { get; }
 
-        public ResetManager(ILogger<ResetManager> logger, ICharacterManager characterManager, IItemManager itemManager, IWiznet wiznet)
+        public ResetManager(ILogger<ResetManager> logger, ICharacterManager characterManager, IItemManager itemManager, IRandomManager randomManager, IWiznet wiznet)
         {
             Logger = logger;
             CharacterManager = characterManager;
             ItemManager = itemManager;
+            RandomManager = randomManager;
             Wiznet = wiznet;
         }
 
@@ -260,18 +263,18 @@ namespace Mud.Server.Server
                             {
                                 switch (doorReset.Operation)
                                 {
-                                    case 0:
-                                        Logger.LogDebug("Room {blueprintId}: D: Open/Unlock {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
+                                    case DoorOperations.OpenedAndUnlocked:
+                                        Logger.LogDebug("Room {blueprintId}: D: set opened/unlocked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         exit.Open();
                                         exit.Unlock();
                                         break;
-                                    case 1:
-                                        Logger.LogDebug("Room {blueprintId}: D: Close/Unlock {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
+                                    case DoorOperations.ClosedAndUnlocked:
+                                        Logger.LogDebug("Room {blueprintId}: D: set closed/unlocked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         exit.Close();
                                         exit.Unlock();
                                         break;
-                                    case 2:
-                                        Logger.LogDebug("Room {blueprintId}: D: Close/Lock {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
+                                    case DoorOperations.ClosedAndLocked:
+                                        Logger.LogDebug("Room {blueprintId}: D: set closed/locked {exitDirection}", room.Blueprint.Id, doorReset.ExitDirection);
                                         exit.Close();
                                         exit.Lock();
                                         break;
@@ -285,7 +288,19 @@ namespace Mud.Server.Server
 
                             break;
                         }
-                        // TODO: R: randomize room exits
+                    case RandomizeExitsReset randomizeExitsReset: // 'R'
+                        {
+                            for (var idx = 0; idx < randomizeExitsReset.MaxDirections; idx++)
+                            {
+                                // get random direction within range
+                                var randomIdx = RandomManager.Next(randomizeExitsReset.MaxDirections);
+                                // swap exits
+                                var exit = room.Exits[idx];
+                                room.Exits[idx] = room.Exits[randomIdx];
+                                room.Exits[randomIdx] = exit;
+                            }
+                            break;
+                        }
                 }
             }
         }

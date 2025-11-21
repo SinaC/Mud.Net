@@ -6,6 +6,7 @@ public static class AutoFlagsExtensions
     {
         switch (flag)
         {
+            case AutoFlags.Affect: return "autoaffect";
             case AutoFlags.Assist: return "autoassist";
             case AutoFlags.Exit: return "autoexit";
             case AutoFlags.Sacrifice: return "autosacrifice";
