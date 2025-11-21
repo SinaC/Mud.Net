@@ -2,12 +2,17 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Damage)]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"This spell inflicts damage on the victim.")]
 public class Flamestrike : DamageSpellBase
 {
     private const string SpellName = "Flamestrike";

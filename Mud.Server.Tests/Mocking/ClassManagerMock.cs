@@ -27,6 +27,8 @@ namespace Mud.Server.Tests.Mocking
 
         public string ShortName => Name;
 
+        public string? Help => Name;
+
         public IEnumerable<ResourceKinds> ResourceKinds => Enumerable.Empty<ResourceKinds>();
 
         public IEnumerable<IAbilityUsage> Abilities => Enumerable.Empty<IAbilityUsage>();

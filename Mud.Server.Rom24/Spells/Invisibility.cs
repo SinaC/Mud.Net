@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -16,6 +18,13 @@ namespace Mud.Server.Rom24.Spells;
 [AbilityCharacterWearOffMessage("You are no longer invisible.")]
 [AbilityItemWearOffMessage("{0} fades into view.")]
 [AbilityDispellable("{0:N} fades into existence.")]
+[Syntax(
+    "cast [spell] <character>",
+    "cast [spell] <object>")]
+[Help(
+@"The INVIS spell makes the target character invisible.  Invisible characters
+will become visible when they attack. It may also be cast on an object
+to render the object invisible.")]
 public class Invisibility : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Invisibility";

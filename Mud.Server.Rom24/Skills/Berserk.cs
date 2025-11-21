@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -15,6 +16,11 @@ namespace Mud.Server.Rom24.Skills;
 [CharacterCommand("berserk", "Ability", "Skill", "Combat")]
 [Skill(SkillName, AbilityEffects.Buff, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
 [AbilityCharacterWearOffMessage("You feel your pulse slow down.")]
+[Help(
+@"Only powerful warriors can master berserking, the ability to enter insane rage
+in combat.  Its effects are not altogether unlike the frenzy spell -- a huge
+surge of combat prowess, coupled with a disregard for personal safety.  
+Berserking warriors are more resistant to the effects of magic.")]
 public class Berserk : NoTargetSkillBase
 {
     private const string SkillName = "Berserk";

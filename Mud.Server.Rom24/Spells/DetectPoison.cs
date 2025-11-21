@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
@@ -8,6 +10,9 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Detection)]
+[Syntax("cast [spell] <object>")]
+[Help(
+@"This spell detects the presence of poison in food or drink.")]
 public class DetectPoison : ItemInventorySpellBase<IItemPoisonable>
 {
     private const string SpellName = "Detect Poison";

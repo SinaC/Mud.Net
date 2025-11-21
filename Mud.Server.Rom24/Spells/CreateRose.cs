@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Options;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Item;
@@ -10,6 +12,10 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Creation)]
+[Syntax("cast [spell]")]
+[Help(
+@"A romantic spell that creates a fragrant red rose, with utterly no game
+use whatsoever.")]
 public class CreateRose : ItemCreationSpellBase
 {
     private const string SpellName = "Create Rose";

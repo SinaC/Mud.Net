@@ -2,6 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -11,6 +13,13 @@ using Mud.Server.Rom24.Effects;
 namespace Mud.Server.Rom24.BreathSpells;
 
 [Spell(SpellName, AbilityEffects.Damage | AbilityEffects.Debuff)]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"These spells are for the use of dragons.  Acid, fire, frost, and lightning
+damage one victim, whereas gas damages every PC in the room.  Fire and
+frost can break objects, and acid can damage armor.
+
+High level mages may learn and cast these spells as well.")]
 public class LightningBreath : OffensiveSpellBase
 {
     private const string SpellName = "Lightning Breath";

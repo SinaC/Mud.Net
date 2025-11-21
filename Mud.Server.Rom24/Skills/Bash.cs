@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -12,6 +13,12 @@ namespace Mud.Server.Rom24.Skills;
 [CharacterCommand("bash", "Ability", "Skill", "Combat")]
 [Syntax("[cmd] <victim>")]
 [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 20)]
+[Help(
+@"Bash is a brute-force attack designed to knock your foe to his or her
+knees.  Its success depends on many factors, including the bash rating, your
+weight, and the size of your opponent.  Bashing a dragon is not generally a
+wise idea.  Bashing has a small percentage chance to knock an item off of
+your opponent.")]
 public class Bash : OffensiveSkillBase
 {
     private const string SkillName = "Bash";

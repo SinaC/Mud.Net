@@ -2,6 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -13,6 +15,13 @@ namespace Mud.Server.Rom24.BreathSpells;
 
 [Spell(SpellName, AbilityEffects.DamageArea | AbilityEffects.Debuff, PulseWaitTime = 24)]
 [AbilityCharacterWearOffMessage("The smoke leaves your eyes.")]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"These spells are for the use of dragons.  Acid, fire, frost, and lightning
+damage one victim, whereas gas damages every PC in the room.  Fire and
+frost can break objects, and acid can damage armor.
+
+High level mages may learn and cast these spells as well.")]
 public class FireBreath : OffensiveSpellBase
 {
     private const string SpellName = "Fire Breath";

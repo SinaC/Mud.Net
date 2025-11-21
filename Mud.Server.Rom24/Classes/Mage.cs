@@ -1,10 +1,20 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
 using Mud.Server.Class;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 
 namespace Mud.Server.Rom24.Classes;
 
+[Help(
+@"Mages specialize in the casting of spells, offensive ones in particular.
+Mages have the highest-powered magic of any class, and are the only classes
+able to use the draconian and enchanting spell groups.  They are also very
+skilled at the use of magical items, though their combat skills are the 
+weakest of any class.
+
+All mages begin with skill in the dagger. Any other weapon skills must be
+purchased, at a very high rate.")]
 public class Mage : ClassBase
 {
     public Mage(ILogger<Mage> logger, IAbilityManager abilityManager)

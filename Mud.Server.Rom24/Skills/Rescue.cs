@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -11,6 +12,13 @@ namespace Mud.Server.Rom24.Skills;
 [CharacterCommand("rescue", "Ability", "Skill", "Combat")]
 [Syntax("[cmd] <victim>")]
 [Skill(SkillName, AbilityEffects.None)]
+[Help(
+@"A friend in need is a friend indeed.  And when in combat, a warrior with
+the rescue skill is just the friend you need.  Rescue allows you to intercede
+in combat, protecting weaker characters from bodily harm. Hopefully the
+favor will be returned.  Success in rescuing depends on the skill rating, as
+well as a comparision of level, dexterity, and speed between the character and
+the target. (note: you rescue a friend, not the monster)")]
 public class Rescue : OffensiveSkillBase
 {
     private const string SkillName = "Rescue";

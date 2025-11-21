@@ -3,6 +3,8 @@ using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -12,6 +14,10 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Creation)]
+[Syntax("cast [spell]")]
+[Help(
+@"This spell brings forth a magical spring from the ground, which has the
+same properties as a fountain.")]
 public class CreateSpring : ItemCreationSpellBase
 {
     private const string SpellName = "Create Spring";

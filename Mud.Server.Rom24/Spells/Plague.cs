@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -14,6 +16,12 @@ namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Damage)]
 [AbilityCharacterWearOffMessage("Your sores vanish.")]
+[Syntax("cast [spell] <target>")]
+[Help(
+@"The plague spell infests the target with a magical disease of great virulence,
+sapping its strength and causing horrific suffering, possibly leading to
+death.  It is a risky spell to use, as the contagion can spread like
+wildfire if the victim makes it to a populated area.")]
 public class Plague : OffensiveSpellBase
 {
     private const string SpellName = "Plague";

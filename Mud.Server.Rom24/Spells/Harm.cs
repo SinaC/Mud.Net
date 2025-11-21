@@ -2,12 +2,18 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Damage)]
+[Syntax("cast [spell] <character>")]
+[Help(
+@"These spells cure damage on the target character.  The higher-level spells
+heal more damage.")]
 public class Harm : OffensiveSpellBase
 {
     private const string SpellName = "Harm";

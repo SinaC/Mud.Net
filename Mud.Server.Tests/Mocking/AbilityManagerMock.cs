@@ -29,6 +29,11 @@ namespace Mud.Server.Tests.Mocking
         public IAbilityInfo Search(string pattern, AbilityTypes type) => Abilities.FirstOrDefault(x => x.Type == type && x.Name.StartsWith(pattern, StringComparison.InvariantCultureIgnoreCase));
 
         public IAbilityInfo Search(ICommandParameter parameter) => Abilities.FirstOrDefault(x => x.Name.StartsWith(parameter.Value, StringComparison.InvariantCultureIgnoreCase));
+        public IEnumerable<IAbilityInfo> SearchAbilities<TAbility>()
+            where TAbility: class, IAbility
+        {
+            throw new NotImplementedException();
+        }
 
         IEnumerable<IAbilityInfo> IAbilityManager.SearchAbilitiesByExecutionType<TAbility>() => Abilities.Where(x => x.AbilityExecutionType is TAbility);
 

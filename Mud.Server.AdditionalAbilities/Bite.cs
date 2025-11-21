@@ -9,7 +9,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.AdditionalAbilities;
 
-[CharacterCommand("bite", "Ability", "Skills", "Combat")]
+[CharacterCommand("bite", "Ability", "Skill", "Combat")]
 [Skill(SkillName, AbilityEffects.Damage, LearnDifficultyMultiplier = 1, PulseWaitTime = 12)]
 public class Bite : FightingSkillBase
 {

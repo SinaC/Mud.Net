@@ -2,6 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -9,6 +11,10 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Damage)]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"This spell invokes the wrath of Mota on an evil victim. It can be very
+dangerous for casters who are not pure of heart.")]
 public class DispelEvil : DamageSpellBase
 {
     private const string SpellName = "Dispel Evil";

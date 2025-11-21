@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -10,6 +12,13 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Cure)]
+[Syntax(
+    "cast [spell] <character>",
+    "cast [spell] <object>")]
+[Help(
+@"This spell removes a curse from a character, and might possibly uncurse
+a cursed object.  It may also be targeted on an object in the caster's
+inventory, in which case it's chance of success is significantly higher.")]
 public class RemoveCurse : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Remove Curse";

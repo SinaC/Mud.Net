@@ -49,6 +49,14 @@ public class AbilityManager : IAbilityManager
         }
     }
 
+    public IEnumerable<IAbilityInfo> SearchAbilities<TAbility>()
+            where TAbility : class, IAbility
+    {
+        Type tAbilityType = typeof(TAbility);
+        var abilities = Abilities.Where(x => tAbilityType.IsAssignableFrom(x.AbilityExecutionType)).ToArray();
+        return abilities;
+    }
+
     public IEnumerable<IAbilityInfo> SearchAbilitiesByExecutionType<TAbility>()
         where TAbility : class, IAbility
     {

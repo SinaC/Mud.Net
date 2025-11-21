@@ -6,6 +6,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
 using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -16,6 +17,13 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24)]
+[Syntax("cast [spell] <weapon>")]
+[Help(
+@"This spell magically enchants a weapon, increasing its to-hit and to-dam
+bonuses by one or two points.  Multiple enchants may be cast, but as the
+weapon grows more and more powerful, it is more likely to be drained or
+destroyed by the magic.  Also, every successful enchant increases the level
+of the weapon by one...and there is no turning back.")]
 public class EnchantWeapon : ItemInventorySpellBase<IItemWeapon>
 {
     private const string SpellName = "Enchant Weapon";

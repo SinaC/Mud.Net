@@ -62,7 +62,7 @@ public class Get : CharacterGameAction
             // get item
             var itemInRoom = FindHelpers.FindByName(Actor.Room.Content.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
             if (itemInRoom == null)
-                return "I see no {0} here.";
+                return $"I see no {whatParameter.Value} here.";
             What = [itemInRoom];
             return null;
         }

@@ -3,6 +3,8 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -12,6 +14,10 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18)]
 [AbilityCharacterWearOffMessage("Your force shield shimmers then fades away.")]
 [AbilityDispellable("The shield protecting {0:n} vanishes.")]
+[Syntax("cast [spell]")]
+[Help(
+@"These spells protect the caster by decreasing (improving) the caster's armor
+class. It provides 20 points of armor.")]
 public class Shield : CharacterBuffSpellBase
 {
     private const string SpellName = "Shield";

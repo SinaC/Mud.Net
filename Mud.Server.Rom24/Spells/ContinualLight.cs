@@ -6,6 +6,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
 using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -16,6 +17,13 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Creation | AbilityEffects.Buff)]
+[Syntax(
+    "cast [spell]",
+    "cast [spell] <object>")]
+[Help(
+@"This spell creates a ball of light, which you can hold as a light source.
+The ball of light will last indefinitely. It may also be used on an object
+to give it an enchanted glow.")]
 public class ContinualLight : OptionalItemInventorySpellBase
 {
     private const string SpellName = "Continual Light";

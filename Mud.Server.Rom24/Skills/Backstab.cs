@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -13,6 +14,13 @@ namespace Mud.Server.Rom24.Skills;
 [CharacterCommand("backstab", "Ability", "Skill", "Combat")]
 [Syntax("[cmd] <victim>")]
 [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 24)]
+[Help(
+@"Backstab is the favored attack of thieves, murderers, and other rogues.  It
+can be used with any weapon type, but is most effective with piercing
+weapons such as daggers.  The damage inflicted by a backstab is determined by
+the attacker's level, his weapon skill, his backstab skill, and the power of
+his opponent.  You must be not visible to the mob (i.e. sneaking or hiding)
+in order to backstab.")]
 public class Backstab : OffensiveSkillBase
 {
     private const string SkillName = "Backstab";

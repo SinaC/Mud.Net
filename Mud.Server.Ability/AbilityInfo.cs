@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using System.Reflection;
 
@@ -17,6 +19,9 @@ public class AbilityInfo : IAbilityInfo
     public int LearnDifficultyMultiplier { get; }
     public Type AbilityExecutionType { get; }
 
+    public string? Help { get; }
+    public string[]? Syntax { get; }
+
     public bool HasCharacterWearOffMessage { get; }
     public string? CharacterWearOffMessage { get; }
 
@@ -33,7 +38,6 @@ public class AbilityInfo : IAbilityInfo
         AbilityExecutionType = abilityExecutionType;
 
         var abilityBaseAttribute = abilityExecutionType.GetCustomAttribute<AbilityBaseAttribute>();
-
         Type = abilityBaseAttribute!.Type;
         string pascalCaseName = abilityBaseAttribute.Name.ToPascalCase();
         if (pascalCaseName != abilityBaseAttribute.Name)
@@ -45,6 +49,11 @@ public class AbilityInfo : IAbilityInfo
             ? (int?)null
             : abilityBaseAttribute.CooldownInSeconds;
         LearnDifficultyMultiplier = abilityBaseAttribute.LearnDifficultyMultiplier;
+
+        var helpAttribute = abilityExecutionType.GetCustomAttribute<HelpAttribute>();
+        Help = helpAttribute?.Help;
+        var syntaxAttribute = abilityExecutionType.GetCustomAttribute<SyntaxAttribute>();
+        Syntax = syntaxAttribute?.Syntax;
 
         var additionalInfoAttributes = abilityExecutionType.GetCustomAttributes<AbilityAdditionalInfoAttribute>().ToArray();
         HasCharacterWearOffMessage = additionalInfoAttributes.OfType<AbilityCharacterWearOffMessageAttribute>().Any();

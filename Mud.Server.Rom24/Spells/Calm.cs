@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -14,6 +16,15 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Debuff)]
 [AbilityCharacterWearOffMessage("You have lost your peace of mind.")]
 [AbilityDispellable("{0:N} no longer looks so peaceful...")]
+[Syntax("cast [spell]")]
+[Help(
+@"One of the most useful and often overlooked abilities of the master cleric is
+the calm spell, which can put an end to all violence in a room.  Calmed
+creatures will not attack of their own volition, and are at a disadvantage
+in combat as long as the spell soothes their minds.  The more violence 
+activity there is in a room, the harder the spell, and it is all or nothing --
+either all combat in the room is ended (with the exception of those who
+are immune to magic) or none is.")]
 public class Calm : NoTargetSpellBase
 {
     private const string SpellName = "Calm";

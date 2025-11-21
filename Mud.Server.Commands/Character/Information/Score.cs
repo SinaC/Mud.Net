@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
@@ -52,10 +53,13 @@ public class Score : CharacterGameAction
         sb.AppendLine("+------------------------------+-------------------------+");
         if (pc != null)
         {
-            if (pc.IsImmortal)
-                sb.AppendLine("You are %G%IMMORTAL%x%");
-            else
-                sb.AppendLine("You are %R%MORTAL%x%");
+            if (pc.ImpersonatedBy is IAdmin)
+            {
+                if (pc.IsImmortal)
+                    sb.AppendLine("You are %G%IMMORTAL%x%");
+                else
+                    sb.AppendLine("You are %R%MORTAL%x%");
+            }
             if (pc.AutoFlags.HasFlag(AutoFlags.Affect))
             {
                 if (Actor.Auras.Any())

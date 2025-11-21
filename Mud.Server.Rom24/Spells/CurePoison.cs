@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
@@ -8,6 +10,9 @@ using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Cure)]
+[Syntax("cast [spell] <character>")]
+[Help(
+@"This spell cures poison in one so unfortunate.")]
 public class CurePoison : CureSpellBase
 {
     private const string SpellName = "Cure Poison";

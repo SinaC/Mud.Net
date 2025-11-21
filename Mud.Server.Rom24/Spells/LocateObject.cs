@@ -3,6 +3,7 @@ using Mud.Common;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -14,6 +15,9 @@ using System.Text;
 namespace Mud.Server.Rom24.Spells;
 
 [Spell(SpellName, AbilityEffects.Detection, PulseWaitTime = 18)]
+[Syntax("cast [spell] <name>")]
+[Help(
+@"This spell reveals the location of all objects with the given name.")]
 public class LocateObject : SpellBase
 {
     private const string SpellName = "Locate Object";

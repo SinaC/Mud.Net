@@ -19,6 +19,11 @@ namespace Mud.Server.Rom24.Skills;
         "[cmd] <door>",
         "[cmd] <container>|<portal>")]
 [Skill(SkillName, AbilityEffects.None, LearnDifficultyMultiplier = 2)]
+[Help(
+@"Lock picking is one of the prime skills of thieves, allowing them to gain
+access to many secured areas.  Lock picking chances are improved by  
+intelligence, and hindered by the difficulty of the lock. Other classes may
+learn to pick locks, but they will never find it easy.")]
 public class PickLock : SkillBase
 {
     private const string SkillName = "Pick Lock";

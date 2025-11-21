@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
@@ -9,6 +10,13 @@ namespace Mud.Server.Rom24.Skills;
 
 [CharacterCommand("hide", "Ability", "Skill")]
 [Skill(SkillName, AbilityEffects.Buff, LearnDifficultyMultiplier = 3)]
+[Help(
+@"Hide and sneak are similar skills, both related to remaining undetected.
+Hide has a very high chance of success, but only works for as long as the
+character remains stationary.  Sneak may be used when moving (including to
+sneak by monsters), but has a lower chance of success.  Typing hide or sneak
+a second time will cancel them.  Hide has the added benefit of increasing
+the chance of a backstab hitting your opponent.")]
 public class Hide : NoTargetSkillBase
 {
     private const string SkillName = "Hide";

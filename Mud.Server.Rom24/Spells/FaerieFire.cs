@@ -3,7 +3,9 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects;
+using Mud.Server.Common;
 using Mud.Server.Flags;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -14,6 +16,10 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Debuff)]
 [AbilityCharacterWearOffMessage("The pink aura around you fades away.")]
 [AbilityDispellable("{0:N}'s outline fades.")]
+[Syntax("cast [spell] <victim>")]
+[Help(
+@"This spell increases (makes worse) the armor class of its victim.  For each
+level of the caster, the victim's armor class is increased by two points.")]
 public class FaerieFire : OffensiveSpellBase
 {
     private const string SpellName = "Faerie Fire";

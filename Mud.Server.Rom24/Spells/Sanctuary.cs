@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
@@ -12,6 +14,10 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Buff)]
 [AbilityCharacterWearOffMessage("The white aura around your body fades.")]
 [AbilityDispellable("The white aura around {0:n}'s body vanishes.")]
+[Syntax("cast [spell] <character>")]
+[Help(
+@"The SANCTUARY spell reduces the damage taken by the character from any attack
+by one half.")]
 public class Sanctuary : CharacterFlagsSpellBase
 {
     private const string SpellName = "Sanctuary";
