@@ -1,4 +1,11 @@
 INGOING
+add energy/rage resource
+cat form
+    in Rom24, a skill can always be used even if Learned = 0, the skill must implement its behavior based on Learned
+    -> add an additional parameter in attribute to disable this behavior, use only if known
+    -> find a way to set a skill to 100%
+!! current Form should affect the whole player: resource, spells, parts, ...
+implement resource dynamically changed depending on some status (bear/cat/... form for druid)
 
 TODO
 remove every manual call to GetService/GetRequiredService
@@ -20,7 +27,6 @@ should see glowing item if in a dark room
 glowing item on the floor of dark room should increase light
 
 reimplement hot/dot
-implement resource dynamically changed depending on some status (bear/cat/... form for druid)
 
 sanity check in server should be moved to dedicated classes
 character default size seems to be tiny for ROM24
@@ -79,7 +85,6 @@ Move CanSee in IEntity
 each time operator IS or AS is used, this should be replaced with an overridable method
 pull/push
 Multiple wear location
-Reset 'R'
 quest: add quest item on the fly when player takes the quest or reconnect
 item: protect, room_key
 Monitor Recompute calls: recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer

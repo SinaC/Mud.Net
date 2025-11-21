@@ -80,8 +80,8 @@ public class Practice : PlayableCharacterGameAction
         }
 
         Actor.UpdateTrainsAndPractices(0, -1);
-        int learned = Math.Max(1, TableValues.LearnBonus(Actor) / AbilityLearned.Rating);
-        AbilityLearned.IncrementLearned(learned);
+        int learnedIncrement = (TableValues.LearnBonus(Actor) / AbilityLearned.Rating).Range(1, AbilityLearned.Learned - 75); // cannot go higher than 75
+        AbilityLearned.IncrementLearned(learnedIncrement);
         int maxPractice = Actor.Class?.MaxPracticePercentage ?? 50;
         if (AbilityLearned.Learned < maxPractice)
         {
