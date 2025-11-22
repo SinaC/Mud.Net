@@ -186,7 +186,7 @@ damage(ch, victim, dam, dt, dam_type, show)
 	switch(check_immune(victim, dam_type))
 		case immune: immune = true, dam = 0
 		case resist: dam -= dam / 3
-		case vuln: dam += dam*2
+		case vuln: dam += dam/2
 	if show -> dam_message(ch, victim, dam, dt, immune)
 	if dam = 0 -> return false
 	// hurt the victim

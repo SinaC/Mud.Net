@@ -57,7 +57,7 @@ public class Rstat : AdminGameAction
         sb.AppendFormatLine("DisplayName: {0}", Room.DisplayName);
         sb.AppendFormatLine("Description: {0}", Room.Description);
         sb.AppendFormatLine("Flags: {0} (base: {1})", Room.RoomFlags, Room.BaseRoomFlags);
-        sb.AppendFormatLine("Light: {0} Sector: {1} MaxSize: {2}", Room.Light, Room.SectorType, Room.MaxSize ?? Sizes.Tiny);
+        sb.AppendFormatLine("Light: {0} Sector: {1} MaxSize: {2}", Room.Light, Room.SectorType, Room.MaxSize?.ToString() ?? "NoSize");
         sb.AppendFormatLine("Heal rate: {0}% (base {1}%) Resource rate: {2}% (base {3}%)", Room.HealRate, Room.BaseHealRate, Room.ResourceRate, Room.BaseResourceRate);
         if (Room.ExtraDescriptions != null)
         {

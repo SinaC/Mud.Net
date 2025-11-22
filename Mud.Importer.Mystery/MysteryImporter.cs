@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
@@ -167,7 +168,7 @@ public class MysteryImporter
             ResourceRate = roomData.ManaRate,
             Exits = ConvertExits(roomData),
             Resets = ConvertResets(roomData).ToList(),
-            MaxSize = null, // doesn't exist in Rom2.4b6
+            MaxSize = ConvertRoomMaxSize(roomData.MaxSize)
         };
     }
 
@@ -194,6 +195,21 @@ public class MysteryImporter
         }
 
         return blueprints;
+    }
+
+    private Sizes? ConvertRoomMaxSize(int size)
+    {
+        switch (size)
+        {
+            case SIZE_TINY: return Sizes.Tiny;
+            case SIZE_SMALL: return Sizes.Small;
+            case SIZE_MEDIUM: return Sizes.Medium;
+            case SIZE_LARGE: return Sizes.Large;
+            case SIZE_HUGE: return Sizes.Huge;
+            case SIZE_GIANT: return Sizes.Giant;
+            case SIZE_NOSIZE: return null;
+            default: return null;
+        }
     }
 
     private SectorTypes ConvertSectorTypes(int sector)
@@ -250,6 +266,15 @@ public class MysteryImporter
         // EX_NOLOCK
         return flags;
     }
+
+    // size
+    private const int SIZE_TINY = 0;
+    private const int SIZE_SMALL = 1;
+    private const int SIZE_MEDIUM = 2;
+    private const int SIZE_LARGE = 3;
+    private const int SIZE_HUGE = 4;
+    private const int SIZE_GIANT = 5;
+    private const int SIZE_NOSIZE = 6;
 
     // Sector types
     private const int SECT_INSIDE = 0;

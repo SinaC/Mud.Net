@@ -1083,9 +1083,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return Damage(source, damage, damageType, damageNoun, display);
     }
 
-    public DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, string? damageNoun, bool display) // 'this' is dealt damage by 'source' using a weapon
+    public DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
     {
-        return Damage(source, damage, damageType, damageNoun, display);
+        string damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
+        return Damage(source, damage, damageType, damageNoun ?? "hit", display);
     }
 
     public DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display) // 'this' is dealt damage by 'source'
@@ -1229,6 +1230,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (this is IPlayableCharacter { IsImmortal: true }
             && HitPoints < 1)
             HitPoints = 1;
+        // TODO: in original code, position is updating depending on hitpoints and a specific message depending on position is displayed (check update_pos)
         bool isDead = HitPoints <= 0;
         if (isDead)
         {
@@ -2151,8 +2153,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 victim.AbilityDamage(this, 0, damageType, hitModifier.DamageNoun ?? "hit", true); // miss
             else
             {
-                string damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
-                victim.HitDamage(this, wield, 0, damageType, damageNoun ?? "hit", true);
+                victim.HitDamage(this, wield, 0, damageType, true);
             }
 
             return;
@@ -2223,8 +2224,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             damageResult = victim.AbilityDamage(this, damage, damageType, hitModifier.DamageNoun ?? "hit", true);
         else
         {
-            string damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
-            damageResult = victim.HitDamage(this, wield, damage, damageType, damageNoun ?? "hit", true);
+            damageResult = victim.HitDamage(this, wield, damage, damageType, true);
         }
 
         if (Fighting != victim)
