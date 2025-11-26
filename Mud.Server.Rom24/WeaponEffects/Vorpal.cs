@@ -11,10 +11,10 @@ namespace Mud.Server.Rom24.WeaponEffects;
 [WeaponEffect("Vorpal")]
 public class Vorpal : IInstantDeathWeaponEffect
 {
-    private ILogger Logger { get; }
+    private ILogger<Vorpal> Logger { get; }
     private IRandomManager RandomManager { get; }
 
-    public Vorpal(ILogger logger, IRandomManager randomManager)
+    public Vorpal(ILogger<Vorpal> logger, IRandomManager randomManager)
     {
         Logger = logger;
         RandomManager = randomManager;

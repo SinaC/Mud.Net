@@ -5,7 +5,6 @@ using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using System.Diagnostics;
 
 namespace Mud.Server.Server
 {

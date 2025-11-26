@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mud.DataStructures.Flags;
 using Mud.Network.Interfaces;
 using Mud.Network.Telnet;
@@ -74,6 +75,7 @@ public partial class App : Application
             .WriteTo.RichTextBoxSink()
             .CreateLogger();
         services.AddLogging(builder => builder.AddSerilog(logger));
+        //services.AddSingleton(provider => provider.GetRequiredService<ILoggerFactory>().CreateLogger("NonGenericILogger"));
 
         // Configure options
         ConfigureOptions(services, configuration);

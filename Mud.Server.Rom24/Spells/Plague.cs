@@ -48,10 +48,18 @@ public class Plague : OffensiveSpellBase
             return;
         }
 
-        AuraManager.AddAura(Victim, SpellName, Caster, (3 * Level) / 4, TimeSpan.FromMinutes(Level), AuraFlags.None, true,
-            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Plague"), Operator = AffectOperators.Or },
-            new PlagueSpreadAndDamageAffect(ServiceProvider, RandomManager, AuraManager));
-        Victim.Act(ActOptions.ToAll, "{0:N} scream{0:V} in agony as plague sores erupt from {0:s} skin.", Victim);
+        var level = (3 * Level) / 4;
+        var duration = Level;
+        var plagueAura = Victim.GetAura(SpellName);
+        if (plagueAura != null)
+            plagueAura.Update(level, TimeSpan.FromMinutes(duration));
+        else
+        {
+            AuraManager.AddAura(Victim, SpellName, Caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Plague"), Operator = AffectOperators.Or },
+                new PlagueSpreadAndDamageAffect(ServiceProvider, RandomManager, AuraManager));
+            Victim.Act(ActOptions.ToAll, "{0:N} scream{0:V} in agony as plague sores erupt from {0:s} skin.", Victim);
+        }
     }
 }

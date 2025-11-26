@@ -90,7 +90,10 @@ public class Help : ActorGameAction
             // classes
             AppendClasses(sb, Filter);
             // TODO: help not related to commands nor abilities nor races/classes
-            Actor.Page(sb);
+            if (sb.Length > 0)
+                Actor.Page(sb);
+            else
+                Actor.Send("No topic found.");
         }
     }
 
