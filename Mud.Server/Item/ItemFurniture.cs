@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -14,12 +16,18 @@ using System.Text;
 
 namespace Mud.Server.Item;
 
-public class ItemFurniture : ItemBase<ItemFurnitureBlueprint, ItemData>, IItemFurniture
+[Export(typeof(IItemFurniture))]
+public class ItemFurniture : ItemBase, IItemFurniture
 {
-    public ItemFurniture(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemFurnitureBlueprint blueprint, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemFurniture(ILogger<ItemFurniture> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
+    }
+
+    public void Initialize(Guid guid, ItemFurnitureBlueprint blueprint, IContainer containedInto)
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         MaxPeople = blueprint.MaxPeople;
         MaxWeight = blueprint.MaxWeight;
         FurnitureActions = blueprint.FurnitureActions;
@@ -28,10 +36,10 @@ public class ItemFurniture : ItemBase<ItemFurnitureBlueprint, ItemData>, IItemFu
         ResourceBonus = blueprint.ResourceBonus;
     }
 
-    public ItemFurniture(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemFurnitureBlueprint blueprint, ItemData itemData, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, itemData, containedInto)
+    public void Initialize(Guid guid, ItemFurnitureBlueprint blueprint, ItemData itemData, IContainer containedInto)
     {
+        base.Initialize(guid, blueprint, itemData, containedInto);
+
         MaxPeople = blueprint.MaxPeople;
         MaxWeight = blueprint.MaxWeight;
         FurnitureActions = blueprint.FurnitureActions;
@@ -42,16 +50,22 @@ public class ItemFurniture : ItemBase<ItemFurnitureBlueprint, ItemData>, IItemFu
 
     #region IItemFurniture
 
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemFurniture>();
+
+    #endregion
+
     // Count number of people in room using 'this' as furniture
     public IEnumerable<ICharacter>? People
         => (ContainedInto as IRoom)?.People?.Where(x => x.Furniture == this);
 
-    public int MaxPeople { get; }
-    public int MaxWeight { get; }
-    public FurnitureActions FurnitureActions { get; }
-    public FurniturePlacePrepositions FurniturePlacePreposition { get; }
-    public int HealBonus { get; }
-    public int ResourceBonus { get; }
+    public int MaxPeople { get; private set; }
+    public int MaxWeight { get; private set; }
+    public FurnitureActions FurnitureActions { get; private set; }
+    public FurniturePlacePrepositions FurniturePlacePreposition { get; private set; }
+    public int HealBonus { get; private set; }
+    public int ResourceBonus { get; private set; }
 
     public bool CanStand => FurnitureActions.HasFlag(FurnitureActions.Stand);
     public bool CanSit => FurnitureActions.HasFlag(FurnitureActions.Sit);

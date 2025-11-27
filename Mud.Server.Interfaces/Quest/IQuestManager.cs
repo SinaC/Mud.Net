@@ -1,4 +1,6 @@
-﻿using Mud.Server.Blueprints.Quest;
+﻿using Mud.Domain;
+using Mud.Server.Blueprints.Quest;
+using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Interfaces.Quest;
 
@@ -9,4 +11,7 @@ public interface IQuestManager
     QuestBlueprint? GetQuestBlueprint(int id);
 
     void AddQuestBlueprint(QuestBlueprint blueprint);
+
+    IQuest AddQuest(QuestBlueprint questBlueprint, IPlayableCharacter pc, INonPlayableCharacter questGiver);
+    IQuest AddQuest(CurrentQuestData questData, IPlayableCharacter pc);
 }

@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Domain;
-using Mud.Server.Blueprints.Item;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
-using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
@@ -12,17 +11,17 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public class ItemJukebox : ItemBase<ItemJukeboxBlueprint, ItemData>, IItemJukebox
+[Export(typeof(IItemJukebox))]
+public class ItemJukebox : ItemBase, IItemJukebox
 {
-    public ItemJukebox(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemJukeboxBlueprint blueprint, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemJukebox(ILogger<ItemJukebox> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
     }
 
-    public ItemJukebox(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemJukeboxBlueprint blueprint, ItemData data, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, data, containedInto)
-    {
-    }
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemJukebox>();
+
+    #endregion
 }

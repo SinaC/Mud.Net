@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -15,22 +17,34 @@ using Mud.Server.Quest;
 
 namespace Mud.Server.Item;
 
-public class ItemQuest : ItemBase<ItemQuestBlueprint, ItemData>, IItemQuest
+[Export(typeof(IItemQuest))]
+public class ItemQuest : ItemBase, IItemQuest
 {
-    public ItemQuest(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemQuestBlueprint blueprint, IContainer containedInto) 
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemQuest(ILogger<ItemQuest> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
+    }
+
+    public void Initialize(Guid guid, ItemQuestBlueprint blueprint, IContainer containedInto) 
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         UpdateQuestObjective(containedInto, false);
     }
 
-    public ItemQuest(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemQuestBlueprint blueprint, ItemData itemData, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, itemData, containedInto)
+    public void Initialize(Guid guid, ItemQuestBlueprint blueprint, ItemData itemData, IContainer containedInto)
     {
+        base.Initialize(guid, blueprint, itemData, containedInto);
+
         // don't call UpdateQuestObjective because it will increase objective item count each time the player reconnect
         // could maybe call it with force = true
     }
+
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemQuest>();
+
+    #endregion
 
     #region ItemBase
 

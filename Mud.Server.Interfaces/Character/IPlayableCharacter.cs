@@ -8,6 +8,8 @@ namespace Mud.Server.Interfaces.Character;
 
 public interface IPlayableCharacter : ICharacter
 {
+    void Initialize(Guid guid, PlayableCharacterData data, IPlayer player, IRoom room);
+
     DateTime CreationTime { get; }
 
     IReadOnlyDictionary<string, string> Aliases { get; }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -12,33 +14,45 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public class ItemMoney : ItemBase<ItemMoneyBlueprint, ItemData>, IItemMoney
+[Export(typeof(IItemMoney))]
+public class ItemMoney : ItemBase, IItemMoney
 {
-    public ItemMoney(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemMoneyBlueprint blueprint, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemMoney(ILogger<ItemMoney> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
+    }
+
+    public void Initialize(Guid guid, ItemMoneyBlueprint blueprint, IContainer containedInto)
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         SilverCoins = blueprint.SilverCoins;
         GoldCoins = blueprint.GoldCoins;
     }
 
-    public ItemMoney(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemMoneyBlueprint blueprint, ItemData data, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, data, containedInto)
+    public void Initialize(Guid guid, ItemMoneyBlueprint blueprint, ItemData data, IContainer containedInto)
     {
+        base.Initialize(guid, blueprint, data, containedInto);
+
         SilverCoins = blueprint.SilverCoins;
         GoldCoins = blueprint.GoldCoins;
     }
 
-    public ItemMoney(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemMoneyBlueprint blueprint, long silverCoins, long goldCoins, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, BuildName(silverCoins, goldCoins), BuildShortDescription(silverCoins, goldCoins), BuildDescription(silverCoins, goldCoins), containedInto)
+    public void Initialize(Guid guid, ItemMoneyBlueprint blueprint, long silverCoins, long goldCoins, IContainer containedInto)
     {
+        Initialize(guid, blueprint, BuildName(silverCoins, goldCoins), BuildShortDescription(silverCoins, goldCoins), BuildDescription(silverCoins, goldCoins), containedInto);
+
         SilverCoins = silverCoins;
         GoldCoins = goldCoins;
     }
 
     #region IItemMoney
+
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemMoney>();
+
+    #endregion
 
     public long SilverCoins { get; protected set; }
 

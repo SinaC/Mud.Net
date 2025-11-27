@@ -1,11 +1,15 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Interfaces.Character;
 
 public interface INonPlayableCharacter : ICharacter
 {
+    void Initialize(Guid guid, CharacterBlueprintBase blueprint, IRoom room); // NPC
+    void Initialize(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room); // Pet
+
     CharacterBlueprintBase Blueprint { get; }
 
     string DamageNoun { get; }

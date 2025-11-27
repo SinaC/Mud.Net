@@ -13,6 +13,8 @@ namespace Mud.Server.Interfaces.Room;
 
 public interface IRoom : IEntity, IContainer
 {
+    void Initialize(Guid guid, RoomBlueprint blueprint, IArea area);
+
     RoomBlueprint Blueprint { get; }
 
     ILookup<string, string> ExtraDescriptions { get; } // keyword -> descriptions

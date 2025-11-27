@@ -6,9 +6,9 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using System.Text;
 
-namespace Mud.Server.Commands.Room;
+namespace Mud.Server.POC.Commands.Room;
 
-[Command("look", "Information")]
+[Command("look", "POC")]
 public class Look : GameActionBase<IRoom, IGameActionInfo>
 {
     public override void Execute(IActionInput actionInput)

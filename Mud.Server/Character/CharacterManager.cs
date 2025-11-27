@@ -1,22 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.Effect;
-using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.Quest;
-using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.Table;
-using Mud.Server.Options;
-using Mud.Server.Random;
 using System.Collections.ObjectModel;
 
 namespace Mud.Server.Character;
@@ -25,46 +15,18 @@ public class CharacterManager : ICharacterManager
 {
     private ILogger<CharacterManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
-    private IGameActionManager GameActionManager { get; }
-    private ICommandParser CommandParser { get; }
-    private IAbilityManager AbilityManager { get; }
-    private IOptions<MessageForwardOptions> MessageForwardOptions { get; }
-    private IOptions<WorldOptions> WorldOptions { get; }
-    private IRandomManager RandomManager { get; }
-    private ITableValues TableValues { get; }
     private IRoomManager RoomManager { get; }
     private IItemManager ItemManager { get; }
-    private IAuraManager AuraManager { get; }
-    private IWeaponEffectManager WeaponEffectManager { get; }
-    private IWiznet Wiznet { get; }
-    private IRaceManager RaceManager { get; }
-    private IClassManager ClassManager { get; }
-    private ITimeManager TimeManager { get; }
-    private IQuestManager QuestManager { get; }
 
     private readonly Dictionary<int, CharacterBlueprintBase> _characterBlueprints;
     private readonly List<ICharacter> _characters;
 
-    public CharacterManager(ILogger<CharacterManager> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, ITimeManager timeManager, IQuestManager questManager)
+    public CharacterManager(ILogger<CharacterManager> logger, IServiceProvider serviceProvider, IRoomManager roomManager, IItemManager itemManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
-        GameActionManager = gameActionManager;
-        CommandParser = commandParser;
-        AbilityManager = abilityManager;
-        MessageForwardOptions = messageForwardOptions;
-        WorldOptions = worldOptions;
-        RandomManager = randomManager;
-        TableValues = tableValues;
         RoomManager = roomManager;
         ItemManager = itemManager;
-        AuraManager = auraManager;
-        WeaponEffectManager = weaponEffectManager;
-        Wiznet = wiznet;
-        RaceManager = raceManager;
-        ClassManager = classManager;
-        TimeManager = timeManager;
-        QuestManager = questManager;
 
         _characterBlueprints = [];
         _characters = [];
@@ -101,31 +63,34 @@ public class CharacterManager : ICharacterManager
 
     public IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData playableCharacterData, IPlayer player, IRoom room) // PC
     {
-        var character = new PlayableCharacter.PlayableCharacter(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, MessageForwardOptions, WorldOptions, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, TimeManager, QuestManager, guid, playableCharacterData, player, room);
-        _characters.Add(character);
-        character.Recompute();
+        var pc = ServiceProvider.GetRequiredService<IPlayableCharacter>();
+        pc.Initialize(guid, playableCharacterData, player, room);
+        _characters.Add(pc);
+        pc.Recompute();
         room.Recompute();
-        return character;
+        return pc;
     }
 
     public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room) // NPC
     {
         ArgumentNullException.ThrowIfNull(blueprint);
-        var character = new NonPlayableCharacter.NonPlayableCharacter(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, MessageForwardOptions, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, guid, blueprint, room);
-        _characters.Add(character);
-        character.Recompute();
+        var npc = ServiceProvider.GetRequiredService<INonPlayableCharacter>();
+        npc.Initialize(guid, blueprint, room);
+        _characters.Add(npc);
+        npc.Recompute();
         room.Recompute();
-        return character;
+        return npc;
     }
 
     public INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // pet
     {
         ArgumentNullException.ThrowIfNull(blueprint);
-        var character = new NonPlayableCharacter.NonPlayableCharacter(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, MessageForwardOptions, RandomManager, TableValues, RoomManager, ItemManager, this, AuraManager, WeaponEffectManager, Wiznet, RaceManager, ClassManager, guid, blueprint, petData, room);
-        _characters.Add(character);
-        character.Recompute();
+        var npc = ServiceProvider.GetRequiredService<INonPlayableCharacter>();
+        npc.Initialize(guid, blueprint, petData, room);
+        _characters.Add(npc);
+        npc.Recompute();
         room.Recompute();
-        return character;
+        return npc;
     }
 
     public void RemoveCharacter(ICharacter character)

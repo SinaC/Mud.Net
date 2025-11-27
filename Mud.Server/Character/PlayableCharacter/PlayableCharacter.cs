@@ -1,6 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
@@ -32,12 +34,18 @@ using System.Text;
 namespace Mud.Server.Character.PlayableCharacter;
 
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
+[Export(typeof(IPlayableCharacter))]
 public class PlayableCharacter : CharacterBase, IPlayableCharacter
 {
     public static readonly int NoCondition = -1;
     public static readonly int MinCondition = 0;
     public static readonly int MaxCondition = 48;
 
+    private IServiceProvider ServiceProvider { get; }
+    private IOptions<WorldOptions> WorldOptions { get; }
+    private IClassManager ClassManager { get; }
+    private IRaceManager RaceManager { get; }
+    private IQuestManager QuestManager { get; }
     private int MaxLevel { get; }
 
     private readonly List<IQuest> _quests;
@@ -45,16 +53,25 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
 
-    public PlayableCharacter(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, ITimeManager timeManager, IQuestManager questManager,
-        Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet, guid, data.Name, string.Empty)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet)
     {
-        MaxLevel = worldOptions.Value.MaxLevel;
+        ServiceProvider = serviceProvider;
+        WorldOptions = worldOptions;
+        ClassManager = classManager;
+        RaceManager = raceManager;
+        QuestManager = questManager;
+        MaxLevel = WorldOptions.Value.MaxLevel;
 
         _quests = [];
         _conditions = new int[EnumHelpers.GetCount<Conditions>()];
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         _pets = [];
+    }
+
+    public void Initialize(Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
+    {
+        Initialize(guid, data.Name, string.Empty);
 
         ImpersonatedBy = player;
 
@@ -62,16 +79,16 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
         // Extract informations from PlayableCharacterData
         CreationTime = data.CreationTime;
-        Class = classManager[data.Class];
+        Class = ClassManager[data.Class]!;
         if (Class == null)
         {
-            Class = classManager.Classes.First();
+            Class = ClassManager.Classes.First();
             Wiznet.Log($"Invalid class '{data.Class}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
-        Race = raceManager[data.Race];
+        Race = RaceManager[data.Race]!;
         if (Race == null)
         {
-            Race = raceManager.PlayableRaces.First();
+            Race = RaceManager.PlayableRaces.First();
             Wiznet.Log($"Invalid race '{data.Race}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
         BaseBodyForms = Race.BodyForms;
@@ -110,7 +127,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 this[conditionData.Key] = conditionData.Value;
         }
         //
-        BaseCharacterFlags = data.CharacterFlags ?? new CharacterFlags(serviceProvider);
+        BaseCharacterFlags = data.CharacterFlags ?? new CharacterFlags(ServiceProvider);
         BaseImmunities = data.Immunities;
         BaseResistances = data.Resistances;
         BaseVulnerabilities = data.Vulnerabilities;
@@ -186,7 +203,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (data.CurrentQuests != null)
         {
             foreach (CurrentQuestData questData in data.CurrentQuests)
-                _quests.Add(new Quest.Quest(logger, worldOptions, timeManager, itemManager, roomManager, characterManager, questManager, questData, this));
+            {
+                QuestManager.AddQuest(questData, this);
+            }
         }
         // Auras
         if (data.Auras != null)
@@ -204,7 +223,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     Wiznet.Log($"LearnedAbility:  Ability {learnedAbilityData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 else
                 {
-                    var abilityLearned = new AbilityLearned(logger, learnedAbilityData, abilityInfo);
+                    var abilityLearned = new AbilityLearned(Logger, learnedAbilityData, abilityInfo);
                     AddLearnedAbility(abilityLearned);
                 }
             }

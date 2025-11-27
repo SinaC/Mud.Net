@@ -12,13 +12,17 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public abstract class ItemCastSpellsNoChargeBase<TBlueprint> : ItemBase<TBlueprint, ItemData>, IItemCastSpellsNoCharge
-    where TBlueprint : ItemCastSpellsNoChargeBlueprintBase
+public abstract class ItemCastSpellsNoChargeBase : ItemBase, IItemCastSpellsNoCharge
 {
-    protected ItemCastSpellsNoChargeBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, TBlueprint blueprint, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    protected ItemCastSpellsNoChargeBase(ILogger<ItemCastSpellsNoChargeBase> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+    : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
+    }
+
+    public void Initialize(Guid guid, ItemCastSpellsNoChargeBlueprintBase blueprint, IContainer containedInto)
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         SpellLevel = blueprint.SpellLevel;
         FirstSpellName = blueprint.Spell1;
         SecondSpellName = blueprint.Spell2;
@@ -26,10 +30,10 @@ public abstract class ItemCastSpellsNoChargeBase<TBlueprint> : ItemBase<TBluepri
         FourthSpellName = blueprint.Spell4;
     }
 
-    protected ItemCastSpellsNoChargeBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, TBlueprint blueprint, ItemData data, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, data, containedInto)
+    public void Initialize(Guid guid, ItemCastSpellsNoChargeBlueprintBase blueprint, ItemData data, IContainer containedInto)
     {
+        base.Initialize(guid, blueprint, data, containedInto); 
+
         SpellLevel = blueprint.SpellLevel;
         FirstSpellName = blueprint.Spell1;
         SecondSpellName = blueprint.Spell2;
@@ -39,15 +43,15 @@ public abstract class ItemCastSpellsNoChargeBase<TBlueprint> : ItemBase<TBluepri
 
     #region IItemCastSpellsNoCharge
 
-    public int SpellLevel { get; }
+    public int SpellLevel { get; private set; }
 
-    public string FirstSpellName { get; }
+    public string FirstSpellName { get; private set; } = null!;
 
-    public string SecondSpellName { get; }
+    public string SecondSpellName { get; private set; } = null!;
 
-    public string ThirdSpellName { get; }
+    public string ThirdSpellName { get; private set; } = null!;
 
-    public string FourthSpellName { get; }
+    public string FourthSpellName { get; private set; } = null!;
 
     #endregion
 }

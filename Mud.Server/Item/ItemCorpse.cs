@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
@@ -17,24 +19,56 @@ using System.Collections.ObjectModel;
 
 namespace Mud.Server.Item;
 
-public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCorpse
+[Export(typeof(IItemCorpse))]
+public class ItemCorpse : ItemBase, IItemCorpse
 {
-    private readonly string _corpseName;
     private readonly List<IItem> _content;
-    private readonly bool _hasBeenGeneratedByKillingCharacter;
 
     private IRandomManager RandomManager { get; }
     private IItemManager ItemManager { get; }
 
-    public ItemCorpse(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, BuildName(victim.DisplayName, false, blueprint), BuildShortDescription(victim.DisplayName, false, blueprint), BuildDescription(victim.DisplayName, false, blueprint), room)
+    private string CorpseName { get; set; } = null!;
+    private bool HasBeenGeneratedByKillingCharacter { get; set; }
+
+    public ItemCorpse(ILogger<ItemCorpse> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
         RandomManager = randomManager;
         ItemManager = itemManager;
 
         _content = [];
-        _corpseName = victim.DisplayName;
-        _hasBeenGeneratedByKillingCharacter = true;
+    }
+
+    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, IContainer container)
+    {
+        base.Initialize(guid, blueprint, container);
+
+        CorpseName = null!;
+        HasBeenGeneratedByKillingCharacter = false;
+        IsPlayableCharacterCorpse = false;
+    }
+
+    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, ItemCorpseData itemCorpseData, IContainer container)
+    {
+        base.Initialize(guid, blueprint, itemCorpseData, BuildName(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildShortDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), container);
+
+        CorpseName = itemCorpseData.CorpseName;
+        HasBeenGeneratedByKillingCharacter = itemCorpseData.HasBeenGeneratedByKillingCharacter;
+
+        IsPlayableCharacterCorpse = itemCorpseData.IsPlayableCharacterCorpse;
+        if (itemCorpseData.Contains?.Length > 0)
+        {
+            foreach (ItemData itemData in itemCorpseData.Contains)
+                ItemManager.AddItem(Guid.NewGuid(), itemData, this);
+        }
+    }
+
+    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
+    {
+        Initialize(guid, blueprint, BuildName(victim.DisplayName, false, blueprint), BuildShortDescription(victim.DisplayName, false, blueprint), BuildDescription(victim.DisplayName, false, blueprint), room);
+
+        CorpseName = victim.DisplayName;
+        HasBeenGeneratedByKillingCharacter = true;
 
         IsPlayableCharacterCorpse = victim is IPlayableCharacter;
 
@@ -109,9 +143,10 @@ public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCo
         }
     }
 
-    public ItemCorpse(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer)
-        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, randomManager, itemManager, guid, blueprint, room, victim)
+    public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim, ICharacter killer)
     {
+        Initialize(guid, blueprint, room, victim);
+
         // Check killer quest table (only if killer is PC and victim is NPC) // TODO: only visible for people on quest???
         if (killer != null && killer is IPlayableCharacter playableCharacterKiller && victim is INonPlayableCharacter nonPlayableCharacterVictim)
         {
@@ -123,36 +158,6 @@ public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCo
                 quest.GenerateKillLoot(nonPlayableCharacterVictim, this);
             }
         }
-    }
-
-    public ItemCorpse(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, ItemCorpseData itemCorpseData, IContainer container)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, itemCorpseData, BuildName(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildShortDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), BuildDescription(itemCorpseData.CorpseName, itemCorpseData.HasBeenGeneratedByKillingCharacter, blueprint), container)
-    {
-        RandomManager = randomManager;
-        ItemManager = itemManager;
-
-        _content = new List<IItem>();
-        _corpseName = itemCorpseData.CorpseName;
-        _hasBeenGeneratedByKillingCharacter = itemCorpseData.HasBeenGeneratedByKillingCharacter;
-
-        IsPlayableCharacterCorpse = itemCorpseData.IsPlayableCharacterCorpse;
-        if (itemCorpseData.Contains?.Length > 0)
-        {
-            foreach (ItemData itemData in itemCorpseData.Contains)
-                ItemManager.AddItem(Guid.NewGuid(), itemData, this);
-        }
-    }
-
-    public ItemCorpse(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IRandomManager randomManager, IItemManager itemManager, Guid guid, ItemCorpseBlueprint blueprint, IContainer container)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, container)
-    {
-        RandomManager = randomManager;
-        ItemManager = itemManager;
-
-        _content = [];
-        _corpseName = null!;
-        _hasBeenGeneratedByKillingCharacter = false;
-        IsPlayableCharacterCorpse = false;
     }
 
     #region IItemCorpse
@@ -179,6 +184,12 @@ public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCo
 
     #endregion
 
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemCorpse>();
+
+    #endregion
+
     #region ItemBase
 
     public override ItemData MapItemData()
@@ -186,14 +197,14 @@ public class ItemCorpse : ItemBase<ItemCorpseBlueprint, ItemCorpseData>, IItemCo
         return new ItemCorpseData
         {
             ItemId = Blueprint.Id,
-            CorpseName = _corpseName,
+            CorpseName = CorpseName,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
             ItemFlags = BaseItemFlags,
             Auras = MapAuraData(),
             Contains = MapContent(),
             IsPlayableCharacterCorpse = IsPlayableCharacterCorpse,
-            HasBeenGeneratedByKillingCharacter = _hasBeenGeneratedByKillingCharacter,
+            HasBeenGeneratedByKillingCharacter = HasBeenGeneratedByKillingCharacter,
         };
     }
 

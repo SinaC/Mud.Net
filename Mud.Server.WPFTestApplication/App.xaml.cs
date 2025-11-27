@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
 using Mud.Network.Interfaces;
 using Mud.Network.Telnet;
@@ -33,6 +34,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Metadata;
 using System.Windows;
 
 namespace Mud.Server.WPFTestApplication;
@@ -162,6 +164,12 @@ public partial class App : Application
             Debug.Print("Registering type {0}.", registrable.FullName);
             services.AddTransient(registrable);
         }
+        // register using ExportAttribute
+        foreach (var type in assemblies.SelectMany(x => x.GetTypes()).Where(t => t.CustomAttributes.Any(a => a.AttributeType.Name.Equals(nameof(ExportAttribute)))))
+        {
+            Debug.Print("Registering type {0}.", type.FullName);
+            ExportInspector.Register(services, type);
+        }
         // register races
         var iRace = typeof(IRace);
         foreach (var race in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRace.IsAssignableFrom(t))))
@@ -219,6 +227,7 @@ public partial class App : Application
         [
             typeof(Server.Server).Assembly,
             typeof(Commands.Actor.Commands).Assembly,
+            typeof(Quest.Quest).Assembly,
             typeof(Rom24.Spells.AcidBlast).Assembly,
             typeof(AdditionalAbilities.Crush).Assembly,
             typeof(POC.Classes.Druid).Assembly

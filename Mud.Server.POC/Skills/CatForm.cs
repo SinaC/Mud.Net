@@ -9,7 +9,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.POC.Skills
 {
-    [CharacterCommand("catform", "Ability", "Skill", "Shapeshift")]
+    [CharacterCommand("catform", "Ability", "Skill", "Shapeshift", "POC")]
     [Syntax("[cmd] <victim>")]
     [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 20)]
     [Help(

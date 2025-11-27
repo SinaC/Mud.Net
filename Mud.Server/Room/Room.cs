@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.Extensions;
@@ -27,25 +28,33 @@ using System.Text;
 namespace Mud.Server.Room;
 
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
+[Export(typeof(IRoom))]
 public class Room : EntityBase, IRoom
 {
+    private IServiceProvider ServiceProvider { get; }
     private ITimeManager TimeManager { get; }
 
     private readonly List<ICharacter> _people;
     private readonly List<IItem> _content;
 
-    public Room(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager, Guid guid, RoomBlueprint blueprint, IArea area)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, guid, blueprint.Name, blueprint.Description)
+    public Room(ILogger<Room> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
+        ServiceProvider = serviceProvider;
         TimeManager = timeManager;
 
-        Blueprint = blueprint;
         _people = [];
         _content = [];
         Exits = new IExit[EnumHelpers.GetCount<ExitDirections>()];
+    }
 
-        BaseRoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(serviceProvider), blueprint.RoomFlags, null);
-        RoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(serviceProvider), BaseRoomFlags, null);
+    public void Initialize(Guid guid, RoomBlueprint blueprint, IArea area)
+    {
+        Initialize(guid, blueprint.Name, blueprint.Description);
+
+        Blueprint = blueprint;
+        BaseRoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(ServiceProvider), blueprint.RoomFlags, null);
+        RoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(ServiceProvider), BaseRoomFlags, null);
         SectorType = blueprint.SectorType;
         BaseHealRate = blueprint.HealRate;
         HealRate = BaseHealRate;
@@ -135,14 +144,14 @@ public class Room : EntityBase, IRoom
 
     #endregion
 
-    public RoomBlueprint Blueprint { get; private set; }
+    public RoomBlueprint Blueprint { get; private set; } = null!;
 
     public ILookup<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
-    public IRoomFlags BaseRoomFlags { get; protected set; }
-    public IRoomFlags RoomFlags { get; protected set; }
+    public IRoomFlags BaseRoomFlags { get; protected set; } = null!;
+    public IRoomFlags RoomFlags { get; protected set; } = null!;
 
-    public IArea Area { get; }
+    public IArea Area { get; private set; } = null!;
 
     public IEnumerable<ICharacter> People => _people.Where(x => x.IsValid);
 
@@ -157,17 +166,17 @@ public class Room : EntityBase, IRoom
             yield return (character, (character.Blueprint as TBlueprint)!);
     }
 
-    public Sizes? MaxSize { get; }
+    public Sizes? MaxSize { get; private set; }
 
-    public int BaseHealRate { get; }
+    public int BaseHealRate { get; private set; }
     public int HealRate { get; protected set; }
 
-    public int BaseResourceRate { get; }
+    public int BaseResourceRate { get; private set; }
     public int ResourceRate { get; protected set; }
 
     public int Light { get; protected set; }
 
-    public SectorTypes SectorType { get; }
+    public SectorTypes SectorType { get; private set; }
 
     public bool IsPrivate
     {

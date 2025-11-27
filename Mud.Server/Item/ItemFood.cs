@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -12,27 +14,39 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public class ItemFood : ItemBase<ItemFoodBlueprint, ItemFoodData>, IItemFood
+[Export(typeof(IItemFood))]
+public class ItemFood : ItemBase, IItemFood
 {
-    public ItemFood(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemFoodBlueprint blueprint, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemFood(ILogger<ItemFood> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+       : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
+    }
+
+    public void Initialize(Guid guid, ItemFoodBlueprint blueprint, IContainer containedInto)
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         FullHours = blueprint.FullHours;
         HungerHours = blueprint.HungerHours;
         IsPoisoned = blueprint.IsPoisoned;
     }
 
-    public ItemFood(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemFoodBlueprint blueprint, ItemFoodData data, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, data, containedInto)
+    public void Initialize(Guid guid, ItemFoodBlueprint blueprint, ItemFoodData data, IContainer containedInto)
     {
+        base.Initialize(guid, blueprint, data, containedInto);
+
         FullHours = data.FullHours;
         HungerHours = data.HungerHours;
         IsPoisoned = data.IsPoisoned;
     }
 
     #region IItemFood
+
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemFood>();
+
+    #endregion
 
     #region IItemPoisonable
 

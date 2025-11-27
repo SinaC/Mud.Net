@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -13,38 +15,80 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public class ItemPortal : ItemBase<ItemPortalBlueprint, ItemPortalData>, IItemPortal
+[Export(typeof(IItemPortal))]
+public class ItemPortal : ItemBase, IItemPortal
 {
-    public const int InfiniteChargeCount = -1;
-    public const int NoDestinationRoomId = -1;
+    private const int InfiniteChargeCount = -1;
+    private const int NoDestinationRoomId = -1;
 
-    public ItemPortal(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemPortalBlueprint blueprint, IRoom destination, IContainer containedInto) 
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemPortal(ILogger<ItemPortal> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
-        Destination = destination;
+    }
+
+    public void Initialize(Guid guid, ItemPortalBlueprint blueprint, IContainer containedInto) 
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
+        Destination = FindDestination(blueprint);
         KeyId = blueprint.Key;
         PortalFlags = blueprint.PortalFlags;
         MaxChargeCount = blueprint.MaxChargeCount;
         CurrentChargeCount = blueprint.CurrentChargeCount;
     }
 
-    public ItemPortal(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemPortalBlueprint blueprint, ItemPortalData itemData, IRoom destination, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, itemData, containedInto)
+    public void Initialize(Guid guid, ItemPortalBlueprint blueprint, ItemPortalData itemData, IContainer containedInto)
     {
-        Destination = destination;
+        base.Initialize(guid, blueprint, itemData, containedInto);
+
+        Destination = FindDestination(itemData);
         KeyId = blueprint.Key;
         PortalFlags = itemData.PortalFlags;
         MaxChargeCount = itemData.MaxChargeCount;
         CurrentChargeCount = itemData.CurrentChargeCount;
     }
 
+    private IRoom? FindDestination(ItemPortalBlueprint portalBlueprint)
+    {
+        IRoom? destination = null;
+        if (portalBlueprint.Destination != NoDestinationRoomId)
+        {
+            destination = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint?.Id == portalBlueprint.Destination);
+            if (destination == null)
+            {
+                destination = RoomManager.DefaultRecallRoom;
+                Logger.LogError("World.AddItem: PortalBlueprint {blueprintId} unknown destination {blueprintDestinationId} setting to recall {defaultRecallRoomId}", portalBlueprint.Id, portalBlueprint.Destination, destination.Blueprint.Id);
+            }
+        }
+        return destination;
+    }
+
+    private IRoom? FindDestination(ItemPortalData itemPortalData)
+    {
+        IRoom? destination = null;
+        if (itemPortalData != null && itemPortalData.DestinationRoomId != NoDestinationRoomId)
+        {
+            destination = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint?.Id == itemPortalData.DestinationRoomId);
+            if (destination == null)
+            {
+                destination = RoomManager.DefaultRecallRoom;
+                Logger.LogError("World.AddItem: ItemPortalData unknown destination {destinationRoomId} setting to recall {defaultRecallRoomId}", itemPortalData.DestinationRoomId, destination.Blueprint.Id);
+            }
+        }
+        return destination;
+    }
+
     #region IItemPortal
+
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemPortal>();
+
+    #endregion
 
     #region IItemCloseable
 
-    public int KeyId { get; }
+    public int KeyId { get; private set; }
 
     public bool IsCloseable => !PortalFlags.HasFlag(PortalFlags.NoClose);
     public bool IsLockable => !PortalFlags.HasFlag(PortalFlags.NoLock) && KeyId > 0;
@@ -78,8 +122,8 @@ public class ItemPortal : ItemBase<ItemPortalBlueprint, ItemPortalData>, IItemPo
 
     #endregion
 
-    public IRoom Destination { get; protected set; }
-    
+    public IRoom? Destination { get; protected set; }
+
     public PortalFlags PortalFlags { get; protected set; }
 
     public int MaxChargeCount { get; protected set; }
@@ -93,7 +137,7 @@ public class ItemPortal : ItemBase<ItemPortalBlueprint, ItemPortalData>, IItemPo
         return CurrentChargeCount > 0;
     }
 
-    public void ChangeDestination(IRoom destination)
+    public void ChangeDestination(IRoom? destination)
     {
         Destination = destination;
     }

@@ -24,21 +24,24 @@ using System.Text;
 namespace Mud.Server.Item;
 
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
-public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
-    where TBlueprint : ItemBlueprintBase
-    where TData: ItemData
+public abstract class ItemBase: EntityBase, IItem
 {
     protected IServiceProvider ServiceProvider { get; }
     protected IRoomManager RoomManager { get; }
     protected IAuraManager AuraManager { get; }
 
-    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager,
-        Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, guid, name, description)
+    protected ItemBase(ILogger<ItemBase> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         ServiceProvider = serviceProvider;
         RoomManager = roomManager;
         AuraManager = auraManager;
+    }
+
+    protected void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
+        where TBlueprint : ItemBlueprintBase
+    {
+        Initialize(guid, name, description);
 
         Blueprint = blueprint;
         ShortDescription = shortDescription;
@@ -49,24 +52,27 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
         Weight = blueprint.Weight;
         Cost = blueprint.Cost;
         NoTake = blueprint.NoTake;
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), blueprint.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), BaseItemFlags, null);
+
+        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(ServiceProvider), blueprint.ItemFlags, null);
+        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(ServiceProvider), BaseItemFlags, null);
     }
 
-    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager,
-        Guid guid, TBlueprint blueprint, IContainer containedInto)
-        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto)
+    public void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, IContainer containedInto)
+        where TBlueprint : ItemBlueprintBase
     {
+        Initialize(guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto);
     }
 
-    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager,
-        Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
-        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, name, shortDescription, description, containedInto)
+    public void Initialize<TBlueprint, TData>(Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
+        where TBlueprint : ItemBlueprintBase
+        where TData : ItemData
     {
+        Initialize(guid, blueprint, name, shortDescription, description, containedInto);
+
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), data.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), BaseItemFlags, null);
+        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(ServiceProvider), data.ItemFlags, null);
+        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(ServiceProvider), BaseItemFlags, null);
         // Auras
         if (data.Auras != null)
         {
@@ -75,31 +81,16 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
         }
     }
 
-    protected ItemBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager,
-        Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
-        : this(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public void Initialize<TBlueprint, TData>(Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
+        where TBlueprint : ItemBlueprintBase
+        where TData : ItemData
     {
-        Level = data.Level;
-        DecayPulseLeft = data.DecayPulseLeft;
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), data.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(serviceProvider), BaseItemFlags, null);
-        // Auras
-        if (data.Auras != null)
-        {
-            foreach (AuraData auraData in data.Auras)
-                AuraManager.AddAura(this, auraData, false);
-        }
+        Initialize(guid, blueprint, data, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto);
     }
 
     #region IItem
 
     #region IEntity
-
-    #region IActor
-
-    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemBase<TBlueprint, TData>>();
-
-    #endregion
 
     public override string DisplayName => ShortDescription ?? Blueprint.ShortDescription ?? Name.UpperFirstLetter();
 
@@ -176,15 +167,15 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
 
     #endregion
 
-    public IContainer ContainedInto { get; private set; }
+    public IContainer ContainedInto { get; private set; } = null!;
 
-    public ItemBlueprintBase Blueprint { get; private set; }
+    public ItemBlueprintBase Blueprint { get; private set; } = null!;
 
-    public string ShortDescription { get; protected set; }
+    public string ShortDescription { get; private set; } = null!;
 
     public ILookup<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
-    public WearLocations WearLocation { get; }
+    public WearLocations WearLocation { get; private set; }
 
     public ICharacter? EquippedBy { get; private set; }
 
@@ -192,9 +183,9 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
 
     public int Level { get; protected set; }
 
-    public int Weight { get; }
+    public int Weight { get; private set; }
 
-    public int Cost { get; }
+    public int Cost { get; private set; }
 
     public bool NoTake { get; protected set; }
 
@@ -202,9 +193,9 @@ public abstract class ItemBase<TBlueprint, TData> : EntityBase, IItem
 
     public virtual int CarryCount => 1;
 
-    public IItemFlags BaseItemFlags { get; protected set; }
+    public IItemFlags BaseItemFlags { get; protected set; } = null!;
 
-    public IItemFlags ItemFlags { get; protected set; }
+    public IItemFlags ItemFlags { get; protected set; } = null!;
 
     public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
     {

@@ -1,6 +1,9 @@
 INGOING
 
 TODO
+use Export attribute instead of IRegistable (no contract type)
+use Export for IClass, IRace, IXXXManager, ISanityCheck
+
 remove every manual call to GetService/GetRequiredService
 dangerous call sequence (luckily we set Room to NullRoom in the first lines of ctor):
     PlayableCharacter.ctor
@@ -30,7 +33,6 @@ reimplement hot/dot
 
 sanity check in server should be moved to dedicated classes
 finish ROM24 classes
-use DI for Room, Item, Character, ... (don't forget to change ILogger to ILogger<> in ActorBase, ...)
 when a player connects, if no avatar found -> switch to avatar create state machine
 move IClass/IRace to IPlayableCharacter as non-nullable
 move IClass/IRace to INonPlayableCharacter as nullable

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -12,22 +14,28 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public class ItemArmor : ItemBase<ItemArmorBlueprint, ItemData>, IItemArmor
+[Export(typeof(IItemArmor))]
+public class ItemArmor : ItemBase, IItemArmor
 {
-    public ItemArmor(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemArmorBlueprint blueprint, IContainer containedInto) 
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemArmor(ILogger<ItemArmor> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager) 
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
+    }
+
+    public void Initialize(Guid guid, ItemArmorBlueprint blueprint, IContainer containedInto)
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         Bash = blueprint.Bash;
         Pierce = blueprint.Pierce;
         Slash = blueprint.Slash;
         Exotic = blueprint.Exotic;
     }
 
-    public ItemArmor(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemArmorBlueprint blueprint, ItemData itemData, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, itemData, containedInto)
+    public void Initialize(Guid guid, ItemArmorBlueprint blueprint, ItemData itemData, IContainer containedInto)
     {
+        base.Initialize(guid, blueprint, itemData, containedInto);
+
         Bash = blueprint.Bash;
         Pierce = blueprint.Pierce;
         Slash = blueprint.Slash;
@@ -36,10 +44,16 @@ public class ItemArmor : ItemBase<ItemArmorBlueprint, ItemData>, IItemArmor
 
     #region IItemArmor
 
-    public int Bash { get; }
-    public int Pierce { get; }
-    public int Slash { get; }
-    public int Exotic { get; }
+    public int Bash { get; private set; }
+    public int Pierce { get; private set; }
+    public int Slash { get; private set; }
+    public int Exotic { get; private set; }
+
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemArmor>();
+
+    #endregion
 
     #endregion
 }

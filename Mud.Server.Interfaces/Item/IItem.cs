@@ -10,6 +10,15 @@ namespace Mud.Server.Interfaces.Item;
 
 public interface IItem : IEntity
 {
+    void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, IContainer containedInto)
+       where TBlueprint : ItemBlueprintBase;
+    void Initialize<TBlueprint, TData>(Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
+        where TBlueprint : ItemBlueprintBase
+        where TData : ItemData;
+    void Initialize<TBlueprint, TData>(Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
+        where TBlueprint : ItemBlueprintBase
+        where TData : ItemData;
+
     IContainer ContainedInto { get; }
 
     ItemBlueprintBase Blueprint { get; }

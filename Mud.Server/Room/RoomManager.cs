@@ -1,12 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Domain;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Random;
@@ -17,12 +15,7 @@ public class RoomManager : IRoomManager
 {
     private ILogger<RoomManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
-    private IOptions<MessageForwardOptions> MessageForwardOptions { get; }
     private IRandomManager RandomManager { get; }
-    private IGameActionManager GameActionManager { get; }
-    private ICommandParser CommandParser { get; }
-    private IAbilityManager AbilityManager { get; }
-    private ITimeManager TimeManager { get; }
 
     private int NullRoomId { get; }
     private int DefaultRecallRoomId { get; }
@@ -35,16 +28,11 @@ public class RoomManager : IRoomManager
     private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
     private readonly List<IRoom> _rooms;
 
-    public RoomManager(ILogger<RoomManager> logger, IServiceProvider serviceProvider, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, ITimeManager timeManager)
+    public RoomManager(ILogger<RoomManager> logger, IServiceProvider serviceProvider, IOptions<WorldOptions> worldOptions, IRandomManager randomManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
-        MessageForwardOptions = messageForwardOptions;
         RandomManager = randomManager;
-        GameActionManager = gameActionManager;
-        CommandParser = commandParser;
-        AbilityManager = abilityManager;
-        TimeManager = timeManager;
 
         NullRoomId = worldOptions.Value.BlueprintIds.NullRoom;
         DefaultRecallRoomId = worldOptions.Value.BlueprintIds.DefaultRecallRoom;
@@ -93,7 +81,8 @@ public class RoomManager : IRoomManager
     public IRoom AddRoom(Guid guid, RoomBlueprint blueprint, IArea area)
     {
         ArgumentNullException.ThrowIfNull(blueprint);
-        var room = new Room(Logger, ServiceProvider, GameActionManager, CommandParser, AbilityManager, MessageForwardOptions, TimeManager, Guid.NewGuid(), blueprint, area);
+        var room = ServiceProvider.GetRequiredService<IRoom>();
+        room.Initialize(Guid.NewGuid(), blueprint, area);
         room.Recompute();
         _rooms.Add(room);
         return room;

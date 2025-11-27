@@ -8,10 +8,10 @@ namespace Mud.Server.Actor;
 
 public abstract class ActorBase : IActor
 {
-    protected ILogger Logger { get; }
+    protected ILogger<ActorBase> Logger { get; }
     protected IGameActionManager GameActionManager { get; }
 
-    protected ActorBase(ILogger logger, IGameActionManager gameActionManager)
+    protected ActorBase(ILogger<ActorBase> logger, IGameActionManager gameActionManager)
     {
         Logger = logger;
         GameActionManager = gameActionManager;
