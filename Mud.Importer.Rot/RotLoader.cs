@@ -110,7 +110,7 @@ public class RotLoader : TextBasedLoader
             }
             else if (word.ToUpper() == "DREAMS")
             {
-                Logger.LogWarning("Specific '{0}' not handled", word);
+                Logger.LogWarning("Specific '{word}' not handled", word);
                 ReadToNextSection();
             }
             else
@@ -142,7 +142,7 @@ public class RotLoader : TextBasedLoader
             else if (word == "End") // done
                 break;
         }
-        Logger.LogTrace("Area [{0}] parsed", area.Name);
+        Logger.LogTrace("Area [{name}] parsed", area.Name);
 
         // Set unique number and filename
         area.VNum = 10 + _areas.Count;
@@ -263,8 +263,7 @@ public class RotLoader : TextBasedLoader
                 }
             }
 
-            Logger.LogTrace("Mobile [{0}] parsed", vnum);
-            Debug.WriteLine("Mobile [{0}] parsed", vnum);
+            Logger.LogTrace("Mobile [{vnum}] parsed", vnum);
 
             // Save mobile data
             _mobiles.Add(mobileData);
@@ -389,7 +388,7 @@ public class RotLoader : TextBasedLoader
                         case 'V': aff.Where = ObjectAffect.WhereToVuln; break;
                         case 'S': aff.Where = ObjectAffect.WhereToShields; break;
                         default:
-                            Logger.LogError("ParseObjects: item [vnum:{0}] Invalid affect where '{1}'", vnum, where);
+                            Logger.LogError("ParseObjects: item [vnum:{vnum}] Invalid affect where '{where}'", vnum, where);
                             break;
                     }
                 }
@@ -398,7 +397,7 @@ public class RotLoader : TextBasedLoader
                     string keyword = ReadString();
                     string description = ReadString();
                     if (objectData.ExtraDescr.ContainsKey(keyword))
-                        Logger.LogError("ParseObjects: item [vnum:{0}] Extra desc '{1}' already exists", vnum, keyword);
+                        Logger.LogError("ParseObjects: item [vnum:{vnum}] Extra desc '{keyword}' already exists", vnum, keyword);
                     else
                         objectData.ExtraDescr.Add(keyword, description);
                 }
@@ -433,8 +432,7 @@ public class RotLoader : TextBasedLoader
                 }
             }
 
-            Logger.LogTrace("Object [{0}] parsed", vnum);
-            Debug.WriteLine("Object [{0}] parsed", vnum);
+            Logger.LogTrace("Object [{vnum}] parsed", vnum);
 
             // Save object data
             _objects.Add(objectData);
@@ -689,8 +687,7 @@ public class RotLoader : TextBasedLoader
                 else
                     RaiseParseException("ParseRooms: vnum {0} has unknown flag", vnum);
             }
-            Logger.LogTrace("Room [{0}] parsed", vnum);
-            Debug.WriteLine("Room [{0}] parsed", vnum);
+            Logger.LogTrace("Room [{vnum}] parsed", vnum);
 
             // Save room data
             _rooms.Add(roomData);
@@ -723,7 +720,7 @@ public class RotLoader : TextBasedLoader
                 shopData.CloseHour = (int)ReadNumber();
                 mobileData.Shop = shopData;
 
-                Logger.LogTrace("Shop [{0}] parsed", keeper);
+                Logger.LogTrace("Shop [{vnum}] parsed", keeper);
             }
             ReadToEol();
         }
@@ -750,7 +747,7 @@ public class RotLoader : TextBasedLoader
                     mobileData.Special = special;
                 else
                     Warn("ParseSpecials: 'M' unknown mobile vnum {0}", vnum);
-                Logger.LogTrace("Specials [{0}] parsed", vnum);
+                Logger.LogTrace("Specials [{vnum}] parsed", vnum);
             }
             else
                 RaiseParseException("ParseSpecials: letter {0} not *MS", letter);

@@ -290,7 +290,6 @@ public class RomLoader : TextBasedLoader
             // TODO: fix parts (see db.C:520)
 
             Logger.LogTrace("Mobile [{vnum}] parsed", vnum);
-            Debug.WriteLine("Mobile [{0}] parsed", vnum);
 
             // Save mobile data
             _mobiles.Add(mobileData);
@@ -429,7 +428,7 @@ public class RomLoader : TextBasedLoader
                     string keyword = ReadString();
                     string description = ReadString();
                     if (objectData.ExtraDescr.ContainsKey(keyword))
-                        Logger.LogError("ParseObjects: item [vnum:{vnum}] Extra desc already exists", vnum);
+                        Logger.LogError("ParseObjects: item [vnum:{vnum}] Extra desc '{keyword}' already exists", vnum, keyword);
                     else
                         objectData.ExtraDescr.Add(keyword, description);
                 }
@@ -453,7 +452,6 @@ public class RomLoader : TextBasedLoader
             }
 
             Logger.LogTrace("Object [{vnum}] parsed", vnum);
-            Debug.WriteLine("Object [{0}] parsed", vnum);
 
             // Save object data
             _objects.Add(objectData);
@@ -696,7 +694,6 @@ public class RomLoader : TextBasedLoader
                     RaiseParseException("ParseRooms: vnum {0} has unknown flag", vnum);
             }
             Logger.LogTrace("Room [{vnum}] parsed", vnum);
-            Debug.WriteLine("Room [{0}] parsed", vnum);
 
             // Save room data
             _rooms.Add(roomData);
@@ -729,7 +726,7 @@ public class RomLoader : TextBasedLoader
                 shopData.CloseHour = (int)ReadNumber();
                 mobileData.Shop = shopData;
 
-                Logger.LogTrace("Shop [{keeper}] parsed", keeper);
+                Logger.LogTrace("Shop [{vnum}] parsed", keeper);
             }
             ReadToEol();
         }

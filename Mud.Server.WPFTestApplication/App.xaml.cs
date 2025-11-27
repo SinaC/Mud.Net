@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
 using Mud.Network.Interfaces;
@@ -30,11 +29,9 @@ using Mud.Server.Rom24;
 using Serilog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Metadata;
 using System.Windows;
 
 namespace Mud.Server.WPFTestApplication;
@@ -59,19 +56,22 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
+        // Configure Serilog logger immediately on application start
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug() // Set the minimum level
+            .WriteTo.Debug() // Add a sink to write to the debug output
+            .WriteTo.Console() // Add a sink to write to the console
+            .WriteTo.RichTextBoxSink() // add a sink to write to the RichTextBox
+            .CreateLogger();
+
         var assemblyHelper = new AssemblyHelper();
 
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
-        //Log.Logger = new LoggerConfiguration()
-        //    .WriteTo.RichTextBoxSink()
-        //    .WriteTo.File(settings.LogPath, rollingInterval: RollingInterval.Day)
-        //    .CreateLogger();
-        //services.AddLogging(builder => builder.AddSerilog(Log.Logger));
 
-        // Configure Logging
+        // Configure Logging to use once application start
         var logger = new LoggerConfiguration()
             .ReadFrom.Configuration(configuration)
             .WriteTo.RichTextBoxSink()
@@ -153,42 +153,40 @@ public partial class App : Application
         }
     }
 
-    // TODO: find a way to replace Debug.Print with Log
-
     internal void RegisterAllRegistrableTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         // register commands and abilities
         var iRegistrable = typeof(IRegistrable);
         foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
         {
-            Debug.Print("Registering type {0}.", registrable.FullName);
+            Log.Information("Registering type {0}.", registrable.FullName);
             services.AddTransient(registrable);
         }
         // register using ExportAttribute
         foreach (var type in assemblies.SelectMany(x => x.GetTypes()).Where(t => t.CustomAttributes.Any(a => a.AttributeType.Name.Equals(nameof(ExportAttribute)))))
         {
-            Debug.Print("Registering type {0}.", type.FullName);
+            Log.Information("Registering type {0}.", type.FullName);
             ExportInspector.Register(services, type);
         }
         // register races
         var iRace = typeof(IRace);
         foreach (var race in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRace.IsAssignableFrom(t))))
         {
-            Debug.Print("Registering race type {0}.", race.FullName);
+            Log.Information("Registering race type {0}.", race.FullName);
             services.AddSingleton(iRace, race);
         }
         // register classes
         var iClass = typeof(IClass);
         foreach (var cl in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iClass.IsAssignableFrom(t))))
         {
-            Debug.Print("Registering class type {0}.", cl.FullName);
+            Log.Information("Registering class type {0}.", cl.FullName);
             services.AddSingleton(iClass, cl);
         }
         // register sanity checks
         var iSanityCheck = typeof(ISanityCheck);
         foreach (var sanityCheck in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iSanityCheck.IsAssignableFrom(t))))
         {
-            Debug.Print("Registering sanity check type {0}.", sanityCheck.FullName);
+            Log.Information("Registering sanity check type {0}.", sanityCheck.FullName);
             services.AddSingleton(iSanityCheck, sanityCheck);
         }
     }
@@ -213,10 +211,10 @@ public partial class App : Application
         var iFlagValuesType = typeof(TFlagValue);
         var concreteFlagValuesType = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iFlagValuesType.IsAssignableFrom(t))).SingleOrDefault();
         if (concreteFlagValuesType == null)
-            Debug.Print("Cannot find an implementation for {0}.", iFlagValuesType.FullName);
+            Log.Warning("Cannot find an implementation for {0}.", iFlagValuesType.FullName);
         else
         {
-            Debug.Print("Registering flag values type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
+            Log.Information("Registering flag values type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
             services.AddTransient(iFlagValuesType, concreteFlagValuesType);
         }
     }
