@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Interfaces;
@@ -13,19 +14,27 @@ using System.Text;
 namespace Mud.Server.Admin;
 
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
+[Export(typeof(IAdmin))]
 public class Admin : Player.Player, IAdmin
 {
-    public Admin(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, AdminData data)
-        : base(logger, gameActionManager, commandParser, timeManager, characterManager, id, data)
+    public Admin(ILogger<Admin> logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager)
+        : base(logger, gameActionManager, commandParser, timeManager, characterManager)
     {
+    }
+
+    public void Initialize(Guid id, AdminData data)
+    {
+        base.Initialize(id, data);
+
         Level = data.AdminLevel;
         WiznetFlags = data.WiznetFlags;
     }
 
     // used for promotion
-    public Admin(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
-        : base(logger, gameActionManager, commandParser, timeManager, characterManager, id, name, aliases, avatarList)
+    public void Initialize(Guid id, string name, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
     {
+        Initialize(id, name, aliases, avatarList);
+
         Level = level;
     }
 
@@ -87,7 +96,7 @@ public class Admin : Player.Player, IAdmin
 
     #endregion
 
-    public AdminLevels Level { get; }
+    public AdminLevels Level { get; private set; }
 
     public WiznetFlags WiznetFlags { get; private set; }
 

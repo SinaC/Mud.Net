@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -15,11 +16,12 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Quest;
 
+[Export(typeof(IQuest))]
 public class Quest : IQuest
 {
     private readonly List<IQuestObjective> _objectives;
 
-    private ILogger Logger { get; }
+    private ILogger<Quest> Logger { get; }
     private ITimeManager TimeManager { get; }
     private IItemManager ItemManager { get; }
     private IRoomManager RoomManager { get; }
@@ -27,7 +29,7 @@ public class Quest : IQuest
     private IQuestManager QuestManager { get; }
     private int MaxLevel { get; }
 
-    private Quest(ILogger logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager)
+    public Quest(ILogger<Quest> logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager)
     {
         Logger = logger;
         TimeManager = timeManager;
@@ -36,11 +38,11 @@ public class Quest : IQuest
         CharacterManager = characterManager;
         QuestManager = questManager;
         MaxLevel = worldOptions.Value.MaxLevel;
+
+        _objectives = [];
     }
 
-    public Quest(ILogger logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
-        QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
-        : this(logger, worldOptions, timeManager, itemManager, roomManager, characterManager, questManager)
+    public void Initialize(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
     {
         Character = character;
 
@@ -48,13 +50,10 @@ public class Quest : IQuest
         PulseLeft = blueprint.TimeLimit * Pulse.PulsePerMinutes;
         Blueprint = blueprint;
         Giver = giver;
-        _objectives = new List<IQuestObjective>();
         BuildObjectives(blueprint, character);
     }
 
-    public Quest(ILogger logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager,
-        CurrentQuestData questData, IPlayableCharacter character)
-        : this(logger, worldOptions, timeManager, itemManager, roomManager, characterManager, questManager)
+    public void Initialize(CurrentQuestData questData, IPlayableCharacter character)
     {
         Character = character;
 
@@ -82,7 +81,6 @@ public class Quest : IQuest
         }
         // TODO: if Giver is null, player will not be able to complete quest
 
-        _objectives = [];
         BuildObjectives(questBlueprint, character);
         foreach (CurrentQuestObjectiveData objectiveData in questData.Objectives)
         {
@@ -106,15 +104,15 @@ public class Quest : IQuest
 
     #region IQuest
 
-    public QuestBlueprint Blueprint { get; }
+    public QuestBlueprint Blueprint { get; private set; } = null!;
 
-    public IPlayableCharacter Character { get; }
+    public IPlayableCharacter Character { get; private set; } = null!;
 
-    public INonPlayableCharacter Giver { get; }
+    public INonPlayableCharacter Giver { get; private set; } = null!;
 
     public bool IsCompleted => Objectives == null || Objectives.All(x => x.IsCompleted);
 
-    public DateTime StartTime { get; }
+    public DateTime StartTime { get; private set; }
 
     public int PulseLeft { get; private set; }
 

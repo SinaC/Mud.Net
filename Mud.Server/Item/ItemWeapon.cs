@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Flags;
@@ -18,41 +20,52 @@ using System.Text;
 
 namespace Mud.Server.Item;
 
-public class ItemWeapon : ItemBase<ItemWeaponBlueprint, ItemWeaponData>, IItemWeapon
+[Export(typeof(IItemWeapon))]
+public class ItemWeapon : ItemBase, IItemWeapon
 {
-    public ITableValues TableValues { get; }
+    private ITableValues TableValues { get; }
 
-    public ItemWeapon(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemWeapon(ILogger<ItemWeapon> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues)
+       : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
         TableValues = tableValues;
+    }
+
+    public void Initialize(Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
+    {
+        base.Initialize(guid, blueprint, containedInto);
 
         Type = blueprint.Type;
         DiceCount = blueprint.DiceCount;
         DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
-        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(serviceProvider), blueprint.Flags, null);
-        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(serviceProvider), BaseWeaponFlags, null);
+        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(ServiceProvider), blueprint.Flags, null);
+        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(ServiceProvider), BaseWeaponFlags, null);
         DamageNoun = blueprint.DamageNoun;
     }
 
-    public ItemWeapon(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, itemData, containedInto)
+    public void Initialize(Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
     {
-        TableValues = tableValues;
+        base.Initialize(guid, blueprint, itemData, containedInto);
 
         Type = blueprint.Type;
         DiceCount = blueprint.DiceCount;
         DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
-        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(serviceProvider), itemData.WeaponFlags, null);
-        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(serviceProvider), BaseWeaponFlags, null);
+        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(ServiceProvider), itemData.WeaponFlags, null);
+        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => new WeaponFlags(ServiceProvider), BaseWeaponFlags, null);
         DamageNoun = blueprint.DamageNoun;
     }
 
     #region IItemWeapon
 
     #region IItem
+
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemWeapon>();
+
+    #endregion
 
     public override void Recompute() // overriding recompute and calling base will cause every collection to be iterate twice
     {
@@ -78,15 +91,15 @@ public class ItemWeapon : ItemBase<ItemWeaponBlueprint, ItemWeaponData>, IItemWe
 
     #endregion
 
-    public WeaponTypes Type { get; }
-    public int DiceCount { get; }
-    public int DiceValue { get; }
-    public SchoolTypes DamageType { get; }
+    public WeaponTypes Type { get; private set; }
+    public int DiceCount { get; private set; }
+    public int DiceValue { get; private set; }
+    public SchoolTypes DamageType { get; private set; }
 
-    public IWeaponFlags BaseWeaponFlags { get; protected set; }
-    public IWeaponFlags WeaponFlags { get; protected set; }
+    public IWeaponFlags BaseWeaponFlags { get; protected set; } = null!;
+    public IWeaponFlags WeaponFlags { get; protected set; } = null!;
 
-    public string DamageNoun { get; protected set; }
+    public string DamageNoun { get; private set; } = null!;
 
     public bool CanWield(ICharacter character)
     {

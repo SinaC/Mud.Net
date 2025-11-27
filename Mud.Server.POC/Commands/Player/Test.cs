@@ -3,9 +3,9 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.TableGenerator;
 using System.Text;
 
-namespace Mud.Server.POC.Commands;
+namespace Mud.Server.POC.Commands.Player;
 
-[PlayerCommand("test", "!!Test!!")]
+[PlayerCommand("test", "POC")]
 public class Test : PlayerGameAction
 {
     public override void Execute(IActionInput actionInput)

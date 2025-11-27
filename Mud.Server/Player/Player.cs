@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Actor;
@@ -14,6 +15,7 @@ using System.Text;
 namespace Mud.Server.Player;
 
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
+[Export(typeof(IPlayer))]
 public class Player : ActorBase, IPlayer
 {
     protected ICommandParser CommandParser { get; }
@@ -29,21 +31,24 @@ public class Player : ActorBase, IPlayer
 
     protected IInputTrap<IPlayer>? CurrentStateMachine;
 
-    public Player(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name)
+    public Player(ILogger<Player> logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager)
         : base(logger, gameActionManager)
     {
         CommandParser = commandParser;
         TimeManager = timeManager;
         CharacterManager = characterManager;
 
+        _delayedTells = [];
+        _avatarList = [];
+        _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+    }
+
+    public void Initialize(Guid id, string name)
+    {
         Id = id;
         Name = name;
 
         PlayerState = PlayerStates.Loading;
-
-        _delayedTells = [];
-        _avatarList = [];
-        _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
 
         CurrentStateMachine = null!;
         DeletionConfirmationNeeded = false;
@@ -51,16 +56,20 @@ public class Player : ActorBase, IPlayer
     }
 
     // Used for promote
-    public Player(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
-        : this(logger, gameActionManager, commandParser, timeManager, characterManager, id, name)
+    public void Initialize(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
     {
-        _aliases = aliases?.ToDictionary(x => x.Key, x => x.Value) ?? new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
-        _avatarList = avatarList?.ToList() ?? [];
+        Initialize(id, name);
+
+        foreach(var alias in aliases)
+            _aliases.Add(alias.Key, alias.Value);
+        foreach(var avatar in avatarList)
+            _avatarList.Add(avatar);
     }
 
-    public Player(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, ITimeManager timeManager, ICharacterManager characterManager, Guid id, PlayerData data)
-        : this(logger, gameActionManager, commandParser, timeManager, characterManager, id, data.Name)
+    public void Initialize(Guid id, PlayerData data)
     {
+        Initialize(id, data.Name);
+
         PagingLineCount = data.PagingLineCount;
         _aliases.Clear();
         _avatarList.Clear();
@@ -170,8 +179,8 @@ public class Player : ActorBase, IPlayer
     public event SendDataEventHandler? SendData;
     public event PageDataEventHandler? PageData;
 
-    public Guid Id { get; }
-    public string Name { get; }
+    public Guid Id { get; private set; }
+    public string Name { get; private set; } = null!;
 
     public string DisplayName => Name.UpperFirstLetter();
 

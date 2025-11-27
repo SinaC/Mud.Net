@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -12,27 +14,39 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public class ItemLight : ItemBase<ItemLightBlueprint, ItemData>, IItemLight
+[Export(typeof(IItemLight))]
+public class ItemLight : ItemBase, IItemLight
 {
     private const int Infinite = -1;
 
-    public ItemLight(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemLightBlueprint blueprint, IContainer containedInto) 
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemLight(ILogger<ItemLight> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
+    }
+
+    public void Initialize(Guid guid, ItemLightBlueprint blueprint, IContainer containedInto) 
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         TimeLeft = blueprint.DurationHours == Infinite
             ? Infinite
             : blueprint.DurationHours * 60;
     }
 
-    public ItemLight(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemLightBlueprint blueprint, ItemLightData itemData, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, itemData, containedInto)
+    public void Initialize(Guid guid, ItemLightBlueprint blueprint, ItemLightData itemData, IContainer containedInto)
     {
+        base.Initialize(guid, blueprint, itemData, containedInto);
+
         TimeLeft = itemData.TimeLeft;
     }
 
     #region IItemLight
+
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemLight>();
+
+    #endregion
 
     public bool IsLighten => TimeLeft == Infinite || TimeLeft > 0;
 

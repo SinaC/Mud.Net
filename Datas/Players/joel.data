@@ -588,5 +588,128 @@
         </CharacterData>
       </Pets>
     </PlayableCharacterData>
+    <PlayableCharacterData>
+      <Name>linh</Name>
+      <Race>human</Race>
+      <Class>cleric</Class>
+      <Level>1</Level>
+      <Sex>2</Sex>
+      <Size>2</Size>
+      <HitPoints>100</HitPoints>
+      <MovePoints>100</MovePoints>
+      <CurrentResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </CurrentResources>
+      <MaxResources>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </MaxResources>
+      <Equipments />
+      <Inventory />
+      <Auras />
+      <CharacterFlags />
+      <Immunities />
+      <Resistances />
+      <Vulnerabilities />
+      <Attributes>
+        <PairDataOfInt32Int32>
+          <Key>0</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>15</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>4</Key>
+          <Value>13</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>5</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>6</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>7</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>8</Key>
+          <Value>0</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>9</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>10</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>11</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>12</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>13</Key>
+          <Value>100</Value>
+        </PairDataOfInt32Int32>
+      </Attributes>
+      <CreationTime>2025-11-27T13:01:30.2726181+01:00</CreationTime>
+      <RoomId>3001</RoomId>
+      <SilverCoins>0</SilverCoins>
+      <GoldCoins>0</GoldCoins>
+      <Experience>0</Experience>
+      <Alignment>0</Alignment>
+      <Trains>3</Trains>
+      <Practices>5</Practices>
+      <AutoFlags>0</AutoFlags>
+      <CurrentQuests />
+      <LearnedAbilities />
+      <Conditions>
+        <PairDataOfInt32Int32>
+          <Key>1</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>2</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+        <PairDataOfInt32Int32>
+          <Key>3</Key>
+          <Value>48</Value>
+        </PairDataOfInt32Int32>
+      </Conditions>
+      <Aliases />
+      <Cooldowns />
+      <Pets />
+    </PlayableCharacterData>
   </Characters>
 </PlayerData>

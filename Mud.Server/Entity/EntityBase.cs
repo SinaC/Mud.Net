@@ -29,8 +29,7 @@ public abstract class EntityBase : ActorBase, IEntity
     protected bool PrefixForwardedMessages { get; }
     protected bool ForwardSlaveMessages { get; }
 
-    protected EntityBase(ILogger logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions,
-        Guid guid, string name, string description)
+    protected EntityBase(ILogger<EntityBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions)
         : base(logger, gameActionManager)
     {
         CommandParser = commandParser;
@@ -38,7 +37,11 @@ public abstract class EntityBase : ActorBase, IEntity
         PrefixForwardedMessages = messageForwardOptions.Value.PrefixForwardedMessages;
         ForwardSlaveMessages = messageForwardOptions.Value.ForwardSlaveMessages;
 
-        IsValid = true;
+        _auras = [];
+    }
+
+    protected void Initialize(Guid guid, string name, string description)
+    {
         if (guid == Guid.Empty)
             guid = Guid.NewGuid();
         Id = guid;
@@ -48,7 +51,7 @@ public abstract class EntityBase : ActorBase, IEntity
 
         Incarnatable = true; // TODO: test purpose
 
-        _auras = [];
+        IsValid = true;
     }
 
     #region IEntity
@@ -89,12 +92,12 @@ public abstract class EntityBase : ActorBase, IEntity
 
     #endregion
 
-    public Guid Id { get; }
+    public Guid Id { get; private set; }
     public bool IsValid { get; private set; }
-    public string Name { get; }
+    public string Name { get; private set; } = null!;
     public abstract string DisplayName { get; }
-    public IEnumerable<string> Keywords { get; }
-    public string Description { get; }
+    public IEnumerable<string> Keywords { get; private set; } = Array.Empty<string>();
+    public string Description { get; private set; } = null!;
     public abstract string DebugName { get; }
 
     public bool Incarnatable { get; protected set; } // TODO: assign

@@ -54,9 +54,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IWeaponEffectManager WeaponEffectManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet,
-        Guid guid, string name, string description)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, guid, name, description)
+    protected CharacterBase(ILogger<CharacterBase> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         RandomManager = randomManager;
         TableValues = tableValues;
@@ -933,7 +932,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // Default destination is portal stored destination
-        IRoom destination = portal.Destination;
+        IRoom? destination = portal.Destination;
         // Random portal will fix it's destination once used
         if (portal.PortalFlags.HasFlag(PortalFlags.Random) && portal.Destination == null)
         {

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -12,18 +14,25 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public class ItemContainer : ItemBase<ItemContainerBlueprint, ItemContainerData>, IItemContainer
+[Export(typeof(IItemContainer))]
+public class ItemContainer : ItemBase, IItemContainer
 {
     private readonly List<IItem> _content;
 
     private IItemManager ItemManager { get; }
 
-    public ItemContainer(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IItemManager itemManager, Guid guid, ItemContainerBlueprint blueprint, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemContainer(ILogger<ItemContainer> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IItemManager itemManager)
+            : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
         ItemManager = itemManager;
 
         _content = [];
+    }
+
+    public void Initialize(Guid guid, ItemContainerBlueprint blueprint, IContainer containedInto)
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         MaxWeight = blueprint.MaxWeight;
         ContainerFlags = blueprint.ContainerFlags;
         KeyId = blueprint.Key;
@@ -31,12 +40,10 @@ public class ItemContainer : ItemBase<ItemContainerBlueprint, ItemContainerData>
         WeightMultiplier = blueprint.WeightMultiplier;
     }
 
-    public ItemContainer(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IItemManager itemManager, Guid guid, ItemContainerBlueprint blueprint, ItemContainerData itemContainerData, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, itemContainerData, containedInto)
+    public void Initialize(Guid guid, ItemContainerBlueprint blueprint, ItemContainerData itemContainerData, IContainer containedInto)
     {
-        ItemManager = itemManager;
-
-        _content = [];
+        base.Initialize(guid, blueprint, itemContainerData, containedInto);
+        
         MaxWeight = itemContainerData.MaxWeight;
         ContainerFlags = itemContainerData.ContainerFlags;
         KeyId = blueprint.Key;
@@ -53,7 +60,7 @@ public class ItemContainer : ItemBase<ItemContainerBlueprint, ItemContainerData>
 
     #region IItemCloseable
 
-    public int KeyId { get; }
+    public int KeyId { get; private set; }
 
     public bool IsCloseable => !ContainerFlags.HasFlag(ContainerFlags.NoClose);
     public bool IsLockable => !ContainerFlags.HasFlag(ContainerFlags.NoLock) && KeyId > 0;
@@ -93,6 +100,12 @@ public class ItemContainer : ItemBase<ItemContainerBlueprint, ItemContainerData>
 
     public override int CarryCount => _content.Sum(x => x.CarryCount);
 
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemContainer>();
+
+    #endregion
+
     #endregion
 
     #region IContainer
@@ -122,7 +135,7 @@ public class ItemContainer : ItemBase<ItemContainerBlueprint, ItemContainerData>
     #endregion
 
     public ContainerFlags ContainerFlags { get; protected set; }
-    public int WeightMultiplier { get; } // percentage
+    public int WeightMultiplier { get; private set; } // percentage
 
     public void SetCustomValues(int level, int maxWeight, int maxWeightPerItem) // TODO: should be remove once a system to create item with custom values is implemented
     {

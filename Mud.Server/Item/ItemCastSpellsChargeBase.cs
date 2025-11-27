@@ -12,14 +12,17 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public abstract class ItemCastSpellsChargeBase<TBlueprint, TData> : ItemBase<TBlueprint, TData>, IItemCastSpellsCharge
-    where TBlueprint : ItemCastSpellsChargeBlueprintBase
-    where TData: ItemCastSpellsChargeData
+public abstract class ItemCastSpellsChargeBase : ItemBase, IItemCastSpellsCharge
 {
-    protected ItemCastSpellsChargeBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, TBlueprint blueprint, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    protected ItemCastSpellsChargeBase(ILogger<ItemCastSpellsChargeBase> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
+    }
+
+    public void Initialize(Guid guid, ItemCastSpellsChargeBlueprintBase blueprint, IContainer containedInto)
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         SpellLevel = blueprint.SpellLevel;
         MaxChargeCount = blueprint.MaxChargeCount;
         CurrentChargeCount = blueprint.CurrentChargeCount;
@@ -27,10 +30,10 @@ public abstract class ItemCastSpellsChargeBase<TBlueprint, TData> : ItemBase<TBl
         AlreadyRecharged = blueprint.AlreadyRecharged;
     }
 
-    protected ItemCastSpellsChargeBase(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, data, containedInto)
+    public void Initialize(Guid guid, ItemCastSpellsChargeBlueprintBase blueprint, ItemCastSpellsChargeData data, IContainer containedInto)
     {
+        base.Initialize(guid, blueprint, data, containedInto);
+
         SpellLevel = blueprint.SpellLevel;
         MaxChargeCount = data.MaxChargeCount;
         CurrentChargeCount = data.CurrentChargeCount;
@@ -40,10 +43,10 @@ public abstract class ItemCastSpellsChargeBase<TBlueprint, TData> : ItemBase<TBl
 
     #region IItemCastSpellsCharge
 
-    public int SpellLevel { get; }
+    public int SpellLevel { get; private set; }
     public int CurrentChargeCount { get; protected set; }
     public int MaxChargeCount { get; protected set; }
-    public string SpellName { get; }
+    public string SpellName { get; private set; } = null!;
     public bool AlreadyRecharged { get; protected set; }
 
     public void Use()
@@ -57,6 +60,25 @@ public abstract class ItemCastSpellsChargeBase<TBlueprint, TData> : ItemBase<TBl
         MaxChargeCount = maxChargeCount;
         CurrentChargeCount = Math.Min(currentChargeCount, MaxChargeCount);
     }
+
+    #region IItem
+
+    public override ItemData MapItemData()
+    {
+        return new ItemWandData
+        {
+            ItemId = Blueprint.Id,
+            Level = Level,
+            DecayPulseLeft = DecayPulseLeft,
+            ItemFlags = BaseItemFlags,
+            Auras = MapAuraData(),
+            MaxChargeCount = MaxChargeCount,
+            CurrentChargeCount = CurrentChargeCount,
+            AlreadyRecharged = AlreadyRecharged
+        };
+    }
+
+    #endregion
 
     #endregion
 }

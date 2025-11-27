@@ -1,7 +1,14 @@
-﻿namespace Mud.Server.Interfaces.Item;
+﻿using Mud.Domain;
+using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces.Entity;
+
+namespace Mud.Server.Interfaces.Item;
 
 public interface IItemCastSpellsCharge : IItem
 {
+    void Initialize(Guid guid, ItemCastSpellsChargeBlueprintBase blueprint, IContainer containedInto);
+    void Initialize(Guid guid, ItemCastSpellsChargeBlueprintBase blueprint, ItemCastSpellsChargeData data, IContainer containedInto);
+
     int SpellLevel { get; }
     int MaxChargeCount { get; }
     int CurrentChargeCount { get; }

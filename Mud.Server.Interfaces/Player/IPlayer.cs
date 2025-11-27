@@ -19,6 +19,10 @@ public delegate void PageDataEventHandler(IPlayer player, StringBuilder data);
 
 public interface IPlayer : IActor
 {
+    void Initialize(Guid id, string name);
+    void Initialize(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList); // Used for promote
+    void Initialize(Guid id, PlayerData data);
+
     event SendDataEventHandler SendData;
     event PageDataEventHandler PageData;
 

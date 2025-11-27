@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Ability;
@@ -12,22 +14,28 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-public class ItemDrinkContainer : ItemBase<ItemDrinkContainerBlueprint, ItemDrinkContainerData>, IItemDrinkContainer
+[Export(typeof(IItemDrinkContainer))]
+public class ItemDrinkContainer : ItemBase, IItemDrinkContainer
 {
-    public ItemDrinkContainer(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemDrinkContainerBlueprint blueprint, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, containedInto)
+    public ItemDrinkContainer(ILogger<ItemDrinkContainer> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+            : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
+    }
+
+    public void Initialize(Guid guid, ItemDrinkContainerBlueprint blueprint, IContainer containedInto)
+    {
+        base.Initialize(guid, blueprint, containedInto);
+
         LiquidName = blueprint.LiquidType;
         MaxLiquid = blueprint.MaxLiquidAmount;
         LiquidLeft = blueprint.CurrentLiquidAmount;
         IsPoisoned = blueprint.IsPoisoned;
     }
 
-    public ItemDrinkContainer(ILogger logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, 
-        Guid guid, ItemDrinkContainerBlueprint blueprint, ItemDrinkContainerData data, IContainer containedInto)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, guid, blueprint, data, containedInto)
+    public void Initialize(Guid guid, ItemDrinkContainerBlueprint blueprint, ItemDrinkContainerData data, IContainer containedInto)
     {
+        base.Initialize(guid, blueprint, data, containedInto);
+
         LiquidName = data.LiquidName;
         MaxLiquid = data.MaxLiquidAmount;
         LiquidLeft = data.CurrentLiquidAmount;
@@ -54,7 +62,7 @@ public class ItemDrinkContainer : ItemBase<ItemDrinkContainerBlueprint, ItemDrin
 
     #endregion
 
-    public string LiquidName { get; protected set; }
+    public string LiquidName { get; protected set; } = null!;
 
     public int LiquidLeft { get; protected set; }
 
@@ -88,6 +96,12 @@ public class ItemDrinkContainer : ItemBase<ItemDrinkContainerBlueprint, ItemDrin
         LiquidLeft = 0;
         IsPoisoned = false;
     }
+
+    #endregion
+
+    #region IActor
+
+    public override IReadOnlyTrie<IGameActionInfo> GameActions => GameActionManager.GetGameActions<ItemDrinkContainer>();
 
     #endregion
 

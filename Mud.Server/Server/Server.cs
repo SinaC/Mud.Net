@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
@@ -30,6 +31,7 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Options;
+using Mud.Server.Player;
 using Mud.Server.Random;
 using Mud.Server.TableGenerator;
 using System.Collections.Concurrent;
@@ -68,6 +70,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private readonly List<TreasureTable<int>> _treasureTables;
 
     private ILogger<Server> Logger { get; }
+    private IServiceProvider ServiceProvider { get; }
     private ILoginRepository LoginRepository { get; }
     private IPlayerRepository PlayerRepository { get; }
     private IAdminRepository AdminRepository { get; }
@@ -93,7 +96,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private ServerOptions ServerOptions { get; }
     private WorldOptions WorldOptions { get; }
 
-    public Server(ILogger<Server> logger, IOptions<ServerOptions> serverOptions, IOptions<WorldOptions> worldOptions,
+    public Server(ILogger<Server> logger, IServiceProvider serviceProvider, IOptions<ServerOptions> serverOptions, IOptions<WorldOptions> worldOptions,
         ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
         IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager, ICommandParser commandParser,
         IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IWeaponEffectManager weaponEffectManager,
@@ -101,6 +104,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager, IEnumerable<ISanityCheck> sanityChecks)
     {
         Logger = logger;
+        ServiceProvider = serviceProvider;
         ServerOptions = serverOptions.Value;
         WorldOptions = worldOptions.Value;
         LoginRepository = loginRepository;
@@ -595,7 +599,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
 
         // Create admin
-        Admin.Admin admin = new (Logger, GameActionManager, CommandParser, TimeManager, CharacterManager, player.Id, player.Name, level, player.Aliases, player.Avatars);
+        var admin = ServiceProvider.GetRequiredService<IAdmin>();
+        admin.Initialize(player.Id, player.Name, level, player.Aliases, player.Avatars);
 
         // Replace player by admin in playingClient
         playingClient.Player = admin;
@@ -803,7 +808,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     Aliases = [],
                     Characters = []
                 };
-                playerOrAdmin = new Admin.Admin(Logger, GameActionManager, CommandParser, TimeManager, CharacterManager, Guid.NewGuid(), data);
+                var admin = ServiceProvider.GetRequiredService<IAdmin>();
+                admin.Initialize(Guid.NewGuid(), data);
+                playerOrAdmin = admin;
             }
             else
             {
@@ -814,7 +821,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     Aliases = [],
                     Characters = []
                 };
-                playerOrAdmin = new Player.Player(Logger, GameActionManager, CommandParser, TimeManager, CharacterManager, Guid.NewGuid(), data);
+                var player = ServiceProvider.GetRequiredService<IPlayer>();
+                player.Initialize(Guid.NewGuid(), data);
+                playerOrAdmin = player;
             }
             //
             playerOrAdmin.SendData += PlayerOnSendData;
