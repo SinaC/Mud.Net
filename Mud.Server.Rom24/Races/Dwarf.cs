@@ -99,7 +99,7 @@ public class Dwarf : PlayableRaceBase
         }
     }
 
-    public override int ClassExperiencePercentageMultiplier(IClass c) 
+    public override int ClassExperiencePercentageMultiplier(IClass? c) 
     {
         if (c is Classes.Mage)
             return 150;

@@ -53,7 +53,10 @@ public class PulseManager : IPulseManager
                 sw.Restart();
                 entry.PulseAction(entry.PulseResetValue);
                 sw.Stop();
-                Logger.LogDebug("PULSE: {name} in {duration} ms", entry.Name, sw.ElapsedMilliseconds);
+                if (sw.ElapsedMilliseconds > Common.Pulse.PulseDelay)
+                    Logger.LogWarning("PULSE SLOW: {name} in {duration} ms", entry.Name, sw.ElapsedMilliseconds);
+                else
+                    Logger.LogTrace("PULSE: {name} in {duration} ms", entry.Name, sw.ElapsedMilliseconds);
             }
         }
     }

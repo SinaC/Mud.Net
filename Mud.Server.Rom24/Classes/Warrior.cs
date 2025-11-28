@@ -29,7 +29,10 @@ public class Warrior : ClassBase
 
     public override string ShortName => "War";
 
-    public override IEnumerable<ResourceKinds> ResourceKinds { get; } = [];
+    public override IEnumerable<ResourceKinds> ResourceKinds { get; } =
+    [
+        Domain.ResourceKinds.Mana
+    ];
 
     public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)
     {

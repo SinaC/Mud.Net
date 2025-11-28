@@ -1,3 +1,45 @@
+[2025-11-29 00:46:18 WRN] Unknown wear location: 16401 for item 304
+[2025-11-29 00:46:18 WRN] Unknown wear location: 16389 for item 2220
+[2025-11-29 00:46:18 WRN] Unknown wear location: 17409 for item 1345
+[2025-11-29 00:46:18 WRN] Unknown wear location: 16389 for item 9501
+[2025-11-29 00:46:18 WRN] Unknown wear location: 1033 for item 9552
+[2025-11-29 00:46:18 WRN] Unknown wear location: 16389 for item 9587
+[2025-11-29 00:46:18 WRN] Unknown wear location: 16389 for item 9587
+[2025-11-29 00:46:18 WRN] Invalid buy type 6 for mob 3003
+[2025-11-29 00:46:18 WRN] Invalid buy type 7 for mob 3003
+[2025-11-29 00:46:18 WRN] Invalid buy type 21 for mob 1306
+[2025-11-29 00:46:18 WRN] Invalid buy type 16 for mob 9513
+[2025-11-29 00:46:18 WRN] Invalid buy type 21 for mob 9513
+[2025-11-29 00:46:18 WRN] Invalid buy type 6 for mob 9517
+[2025-11-29 00:46:18 WRN] Invalid buy type 7 for mob 9517
+
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7745 direction South
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7746 direction East
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7747 direction Up
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7748 direction West
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7749 direction Up
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7749 direction Down
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7768 direction East
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 1418 direction North
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 1418 direction South
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 1418 direction West
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 1499 direction Down
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 8318 direction South
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 3518 direction East
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 3519 direction West
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 9511 direction South
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 9667 direction East
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 9667 direction West
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7105 direction Down
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7122 direction East
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7301 direction North
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7301 direction Up
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7434 direction Down
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7903 direction West
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7910 direction East
+[2025-11-29 00:46:18 WRN] Destination room -1 not found for room 7912 direction Down
+
+
 SHORT TERM TODO:
 grove.are: the second jar will never appear
 O 0 8902   2 8915	* a spice jar

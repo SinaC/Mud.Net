@@ -5,7 +5,7 @@ using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
 
-namespace Mud.Server.Rom24.Races.NonPlayableRaces;
+namespace Mud.Server.POC.Races.NonPlayableRaces;
 
 [Export(typeof(IRace)), Shared]
 public class Pixie : RaceBase

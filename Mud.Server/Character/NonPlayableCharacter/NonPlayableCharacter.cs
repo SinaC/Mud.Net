@@ -57,7 +57,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (Race == null && !string.IsNullOrWhiteSpace(blueprint.Race))
             Logger.LogWarning("Unknown race '{race}' for npc {blueprintId}", blueprint.Race, blueprint.Id);
         Class = ClassManager[blueprint.Class]!;
-        if (Class == null && !string.IsNullOrWhiteSpace(blueprint.Race))
+        if (Class == null && !string.IsNullOrWhiteSpace(blueprint.Class))
             Logger.LogWarning("Unknown class '{class}' for npc {blueprintId}", blueprint.Class, blueprint.Id);
         DamageNoun = blueprint.DamageNoun;
         DamageType = blueprint.DamageType;

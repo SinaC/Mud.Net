@@ -42,7 +42,7 @@ public class ResetManager : IResetManager
     public void ResetRoom(IRoom room)
     {
         INonPlayableCharacter? lastCharacter = null;
-        bool wasPreviousLoaded = false;
+        bool wasPreviousResetLoaded = false;
         foreach (ResetBase reset in room.Blueprint.Resets)
         {
             switch (reset)
@@ -60,13 +60,13 @@ public class ResetManager : IResetManager
                                 {
                                     lastCharacter = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, room);
                                     Logger.LogDebug("Room {blueprintId}: M: Mob {characterId} added", room.Blueprint.Id, characterReset.CharacterId);
-                                    wasPreviousLoaded = true;
+                                    wasPreviousResetLoaded = true;
                                 }
                                 else
-                                    wasPreviousLoaded = false;
+                                    wasPreviousResetLoaded = false;
                             }
                             else
-                                wasPreviousLoaded = false;
+                                wasPreviousResetLoaded = false;
                         }
                         else
                             Logger.LogWarning("Room {blueprintId}: M: Mob {characterId} not found", room.Blueprint.Id, characterReset.CharacterId);
@@ -88,10 +88,10 @@ public class ResetManager : IResetManager
                                 {
                                     var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, room);
                                     Logger.LogDebug("Room {blueprintId}: O: Obj {itemId} added room", room.Blueprint.Id, itemInRoomReset.ItemId);
-                                    wasPreviousLoaded = true;
+                                    wasPreviousResetLoaded = true;
                                 }
                                 else
-                                    wasPreviousLoaded = false;
+                                    wasPreviousResetLoaded = false;
                             }
                         }
                         else
@@ -126,27 +126,27 @@ public class ResetManager : IResetManager
                                             {
                                                 ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, container);
                                                 Logger.LogDebug("Room {blueprintId}: P: Obj {itemId} added in {containerId}", room.Blueprint.Id, itemInItemReset.ItemId, container.Blueprint.Id);
-                                                wasPreviousLoaded = true;
+                                                wasPreviousResetLoaded = true;
                                             }
                                             else
-                                                wasPreviousLoaded = false;
+                                                wasPreviousResetLoaded = false;
                                         }
                                         else
                                         {
                                             Logger.LogWarning("Room {blueprintId}: P: Container Obj {containerId} not found in room nor character in room", room.Blueprint.Id, itemInItemReset.ContainerId);
-                                            wasPreviousLoaded = false;
+                                            wasPreviousResetLoaded = false;
                                         }
                                     }
                                     else
                                     {
                                         Logger.LogWarning("Room {blueprintId}: P: Container Obj {containerId} is not a container", room.Blueprint.Id, itemInItemReset.ContainerId);
-                                        wasPreviousLoaded = false;
+                                        wasPreviousResetLoaded = false;
                                     }
                                 }
                                 else
                                 {
                                     Logger.LogWarning("Room {blueprintId}: P: Container Obj {containerId} not found", room.Blueprint.Id, itemInItemReset.ContainerId);
-                                    wasPreviousLoaded = false;
+                                    wasPreviousResetLoaded = false;
                                 }
                             }
                         }
@@ -161,7 +161,7 @@ public class ResetManager : IResetManager
                         var blueprint = ItemManager.GetItemBlueprint(itemInCharacterReset.ItemId);
                         if (blueprint != null)
                         {
-                            if (wasPreviousLoaded)
+                            if (wasPreviousResetLoaded)
                             {
                                 int globalCount = itemInCharacterReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Items.Count(x => x.Blueprint.Id == itemInCharacterReset.ItemId);
                                 if (globalCount < itemInCharacterReset.GlobalLimit)
@@ -178,23 +178,24 @@ public class ResetManager : IResetManager
                                                 item.Recompute();
                                             }
                                             Logger.LogDebug("Room {blueprintId}: G: Obj {itemId} added on {lastCharacterId}", room.Blueprint.Id, itemInCharacterReset.ItemId, lastCharacter.Blueprint.Id);
-                                            wasPreviousLoaded = true;
+                                            wasPreviousResetLoaded = true;
                                         }
                                         else
                                         {
                                             Logger.LogError("Room {blueprintId}: G: Obj {itemId} NOT added on {lastCharacterId}", room.Blueprint.Id, itemInCharacterReset.ItemId, lastCharacter.Blueprint.Id);
-                                            wasPreviousLoaded = false;
+                                            wasPreviousResetLoaded = false;
                                         }
                                     }
                                     else
                                     {
                                         Logger.LogWarning("Room {blueprintId}: G: Obj {itemId} No last character", room.Blueprint.Id, itemInCharacterReset.ItemId);
-                                        wasPreviousLoaded = false;
+                                        wasPreviousResetLoaded = false;
                                     }
                                 }
                             }
-                            else
-                                Logger.LogWarning("Room {blueprintId}: G: Obj {itemId} previous reset was not loaded successfully", room.Blueprint.Id, itemInCharacterReset.ItemId);
+                            // this is not an issue, if the mob was already loaded in previous room reset, wasPreviousResetLoaded will be false: the mob exists but has not been loaded now
+                            //else
+                            //    Logger.LogWarning("Room {blueprintId}: G: Obj {itemId} previous reset was not loaded successfully", room.Blueprint.Id, itemInCharacterReset.ItemId);
                         }
                         else
                             Logger.LogWarning("Room {blueprintId}: G: Obj {itemId} not found", room.Blueprint.Id, itemInCharacterReset.ItemId);
@@ -207,18 +208,18 @@ public class ResetManager : IResetManager
                         var blueprint = ItemManager.GetItemBlueprint(itemInEquipmentReset.ItemId);
                         if (blueprint != null)
                         {
-                            if (wasPreviousLoaded)
+                            if (wasPreviousResetLoaded)
                             {
                                 int globalCount = itemInEquipmentReset.GlobalLimit == -1 ? int.MinValue : ItemManager.Items.Count(x => x.Blueprint.Id == itemInEquipmentReset.ItemId);
                                 if (globalCount < itemInEquipmentReset.GlobalLimit)
                                 {
                                     if (lastCharacter != null)
                                     {
-                                        var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter);
+                                        var item = ItemManager.AddItem(Guid.NewGuid(), blueprint.Id, lastCharacter); // will be added in inventory
                                         if (item != null)
                                         {
                                             Logger.LogDebug("Room {blueprintId}: E: Obj {itemId} added on {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, lastCharacter.Blueprint.Id);
-                                            wasPreviousLoaded = true;
+                                            wasPreviousResetLoaded = true;
                                             // try to equip
                                             if (item.WearLocation != WearLocations.None)
                                             {
@@ -230,7 +231,7 @@ public class ResetManager : IResetManager
                                                     item.ChangeEquippedBy(lastCharacter, true); // set as equipped by lastCharacter
                                                 }
                                                 else
-                                                    Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} wear location {wearLocation} doesn't exist on last character {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, item.WearLocation, lastCharacter.Blueprint.Id);
+                                                    Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} wear location {wearLocation} doesn't exist or is not available on last character {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, item.WearLocation, lastCharacter.Blueprint.Id);
                                             }
                                             else
                                                 Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} cannot be equipped", room.Blueprint.Id, itemInEquipmentReset.ItemId);
@@ -238,19 +239,20 @@ public class ResetManager : IResetManager
                                         else
                                         {
                                             Logger.LogError("Room {blueprintId}: E: Obj {itemId} NOT added on {lastCharacterId}", room.Blueprint.Id, itemInEquipmentReset.ItemId, lastCharacter.Blueprint.Id);
-                                            wasPreviousLoaded = false;
+                                            wasPreviousResetLoaded = false;
 
                                         }
                                     }
                                     else
                                     {
                                         Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} Last character doesn't exist", room.Blueprint.Id, itemInEquipmentReset.ItemId);
-                                        wasPreviousLoaded = false;
+                                        wasPreviousResetLoaded = false;
                                     }
                                 }
                             }
-                            else
-                                Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} previous reset was not loaded successfully", room.Blueprint.Id, itemInEquipmentReset.ItemId);
+                            // this is not an issue, if the mob was already loaded in previous room reset, wasPreviousResetLoaded will be false: the mob exists but has not been loaded now
+                            //else
+                            //    Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} previous reset was not loaded successfully", room.Blueprint.Id, itemInEquipmentReset.ItemId);
                         }
                         else
                             Logger.LogWarning("Room {blueprintId}: E: Obj {itemId} not found", room.Blueprint.Id, itemInEquipmentReset.ItemId);
