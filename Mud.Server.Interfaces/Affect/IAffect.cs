@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Mud.Server.Interfaces.Affect;
 
-public interface IAffect : IRegistrable
+public interface IAffect
 {
     void Append(StringBuilder sb);
 

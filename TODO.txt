@@ -1,8 +1,12 @@
 INGOING
+    Unable to resolve service for type 'Microsoft.Extensions.Logging.ILogger' while attempting to activate 'Mud.Server.Rom24.Effects.FireEffect'.
 
 TODO
-use Export attribute instead of IRegistable (no contract type)
 use Export for IClass, IRace, IXXXManager, ISanityCheck
+
+rename IAffectManager into IAffectFactory and check if other managers should be renamed into factories such as WeaponEffectManager and EffectManager
+add AffectName in AffectDataBase and use it in AffectFactory.CreateInstance(AffectDataBase data) -> call Activator.CreateInstance with data as parameter
+it's possible to remove ServiceProvider from Flags ?
 
 remove every manual call to GetService/GetRequiredService
 dangerous call sequence (luckily we set Room to NullRoom in the first lines of ctor):

@@ -5,11 +5,10 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Effect;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.BreathSpells;
 
@@ -26,16 +25,12 @@ public class FireBreath : OffensiveSpellBase
 {
     private const string SpellName = "Fire Breath";
 
-    private IServiceProvider ServiceProvider { get; }
-    private IAuraManager AuraManager { get; }
-    private IItemManager ItemManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public FireBreath(ILogger<FireBreath> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public FireBreath(ILogger<FireBreath> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
-        AuraManager = auraManager;
-        ItemManager = itemManager;
+        EffectManager = effectManager;
     }
 
     protected override void Invoke()
@@ -51,7 +46,7 @@ public class FireBreath : OffensiveSpellBase
 
         BreathAreaAction breathAreaAction = new ();
         breathAreaAction.Apply(Victim, Caster, Level, damage, SchoolTypes.Fire, "blast of fire", SpellName,
-            () => new FireEffect(Logger, ServiceProvider, RandomManager, AuraManager, ItemManager),
-            () => new FireEffect(Logger, ServiceProvider, RandomManager, AuraManager, ItemManager));
+            () => EffectManager.CreateInstance<IRoom>("Fire"),
+            () => EffectManager.CreateInstance<ICharacter>("Fire"));
     }
 }

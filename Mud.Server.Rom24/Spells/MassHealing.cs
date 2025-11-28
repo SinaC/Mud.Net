@@ -5,8 +5,8 @@ using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -20,9 +20,12 @@ public class MassHealing : NoTargetSpellBase
 {
     private const string SpellName = "Mass Healing";
 
-    public MassHealing(ILogger<MassHealing> logger, IRandomManager randomManager)
+    private IEffectManager EffectManager { get; }
+
+    public MassHealing(ILogger<MassHealing> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
+        EffectManager = effectManager;
     }
 
     protected override void Invoke()
@@ -32,10 +35,10 @@ public class MassHealing : NoTargetSpellBase
             if ((Caster is IPlayableCharacter && victim is IPlayableCharacter)
                 || (Caster is INonPlayableCharacter && victim is INonPlayableCharacter))
             {
-                HealEffect healEffect = new ();
-                healEffect.Apply(victim, Caster, "Heal", Level, 0);
-                RefreshEffect refreshEffect = new ();
-                refreshEffect.Apply(victim, Caster, "Refresh", Level, 0);
+                var healEffect = EffectManager.CreateInstance<ICharacter>("Heal");
+                healEffect?.Apply(victim, Caster, "Heal", Level, 0);
+                var refreshEffect = EffectManager.CreateInstance<ICharacter>("Refresh");
+                refreshEffect?.Apply(victim, Caster, "Refresh", Level, 0);
             }
         }
     }

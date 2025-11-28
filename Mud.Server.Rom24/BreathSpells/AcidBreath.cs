@@ -5,11 +5,9 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.BreathSpells;
 
@@ -25,14 +23,12 @@ public class AcidBreath : OffensiveSpellBase
 {
     private const string SpellName = "Acid Breath";
 
-    private IAuraManager AuraManager { get; }
-    private IItemManager ItemManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public AcidBreath(ILogger<AcidBreath> logger, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public AcidBreath(ILogger<AcidBreath> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
-        AuraManager = auraManager;
-        ItemManager = itemManager;
+        EffectManager = effectManager;
     }
 
     protected override void Invoke()
@@ -48,14 +44,14 @@ public class AcidBreath : OffensiveSpellBase
 
         if (Victim.SavesSpell(Level, SchoolTypes.Acid))
         {
-            AcidEffect effect = new (Logger, RandomManager, AuraManager, ItemManager);
-            effect.Apply(Victim, Caster, SpellName, Level/2, damage/4);
+            var effect = EffectManager.CreateInstance<ICharacter>("Acid");
+            effect?.Apply(Victim, Caster, SpellName, Level/2, damage/4);
             Victim.AbilityDamage(Caster, damage / 2, SchoolTypes.Acid, "blast of acid", true);
         }
         else
         {
-            AcidEffect effect = new (Logger, RandomManager, AuraManager, ItemManager);
-            effect.Apply(Victim, Caster, SpellName, Level, damage);
+            var effect = EffectManager.CreateInstance<ICharacter>("Acid");
+            effect?.Apply(Victim, Caster, SpellName, Level, damage);
             Victim.AbilityDamage(Caster, damage, SchoolTypes.Acid, "blast of acid", true);
         }
     }

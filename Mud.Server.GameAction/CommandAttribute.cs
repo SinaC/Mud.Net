@@ -1,9 +1,10 @@
-﻿using Mud.Domain;
+﻿using Mud.Common.Attributes;
+using Mud.Domain;
 
 namespace Mud.Server.GameAction;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class CommandAttribute : Attribute
+public class CommandAttribute : ExportAttribute // every command will be exported without ContractType
 {
     public const int DefaultPriority = 500;
     public const string DefaultCategory = "";

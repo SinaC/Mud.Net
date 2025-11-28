@@ -1,10 +1,11 @@
 ﻿using Mud.Domain;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Affects;
+namespace Mud.Server.Affects.Item;
 
+[Affect("ItemWeaponFlagsAffect", typeof(ItemWeaponFlagsAffectData))]
 public class ItemWeaponFlagsAffect : FlagsAffectBase<IWeaponFlags, IWeaponFlagValues>, IItemWeaponFlagsAffect
 {
     protected override string Target => "Weapon flags";

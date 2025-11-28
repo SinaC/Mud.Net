@@ -1,10 +1,11 @@
 ﻿using Mud.Domain;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using System.Text;
 
-namespace Mud.Server.Affects;
+namespace Mud.Server.Affects.Character;
 
+[Affect("CharacterSexAffect", typeof(CharacterSexAffectData))]
 public class CharacterSexAffect : ICharacterSexAffect
 {
     public Sex Value { get; set; }

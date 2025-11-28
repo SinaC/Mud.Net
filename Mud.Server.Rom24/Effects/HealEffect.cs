@@ -1,9 +1,11 @@
-﻿using Mud.Server.Interfaces.Character;
+﻿using Mud.Server.Effects;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Rom24.Effects;
 
+[Effect("Heal")]
 public class HealEffect : IEffect<ICharacter>
 {
     public void Apply(ICharacter victim, IEntity source, string abilityName, int level, int _)

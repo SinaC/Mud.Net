@@ -1,8 +1,10 @@
 ﻿using Mud.Domain;
-using Mud.Server.Affects;
+using Mud.Server.Affects.Character;
 using Mud.Server.Effects;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
+using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;

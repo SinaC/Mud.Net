@@ -185,13 +185,6 @@ internal class Program
 
     internal static void RegisterAllRegistrableTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
-        // register commands and abilities
-        var iRegistrable = typeof(IRegistrable);
-        foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
-        {
-            Log.Information("Registering type {0}.", registrable.FullName);
-            services.AddTransient(registrable);
-        }
         // register using ExportAttribute
         foreach (var type in assemblies.SelectMany(x => x.GetTypes()).Where(t => t.CustomAttributes.Any(a => a.AttributeType.Name.Equals(nameof(ExportAttribute)))))
         {

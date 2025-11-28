@@ -42,7 +42,7 @@ public interface IFlags<T, TFlagValues>
 
     int Count { get; }
 
-    IEnumerable<T> Items { get; }
+    IEnumerable<T> Values { get; }
 
     string Map();
 }

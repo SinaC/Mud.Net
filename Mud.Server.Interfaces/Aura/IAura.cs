@@ -20,7 +20,7 @@ public interface IAura
 
     void Update(int level, TimeSpan duration);
 
-    T? AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
+    T? AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T?> createFunc, Action<T>? updateFunc)
         where T : IAffect;
 
     bool DecreasePulseLeft(int pulseCount); // return true if timed out

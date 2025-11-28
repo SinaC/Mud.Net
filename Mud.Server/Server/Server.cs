@@ -16,7 +16,7 @@ using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;

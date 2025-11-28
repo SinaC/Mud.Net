@@ -2,7 +2,7 @@
 
 namespace Mud.Server.Interfaces.Effect;
 
-public interface IEffect : IRegistrable
+public interface IEffect
 {
 }
 

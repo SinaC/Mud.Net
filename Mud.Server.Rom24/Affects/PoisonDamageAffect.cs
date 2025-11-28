@@ -1,6 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using System.Text;
@@ -12,7 +13,7 @@ public class PoisonDamageAffect : ICharacterPeriodicAffect, ICustomAffect
 {
     public void Initialize(AffectDataBase data)
     {
-        //(PoisonDamageAffectData)
+        //TODO: PoisonDamageAffectData
     }
 
     public void Append(StringBuilder sb)

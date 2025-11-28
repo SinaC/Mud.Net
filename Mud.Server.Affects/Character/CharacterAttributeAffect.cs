@@ -1,11 +1,12 @@
 ﻿using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using System.Text;
 
-namespace Mud.Server.Affects;
+namespace Mud.Server.Affects.Character;
 
+[Affect("CharacterAttributeAffect", typeof(CharacterAttributeAffectData))]
 public class CharacterAttributeAffect : ICharacterAttributeAffect
 {
     public CharacterAttributeAffectLocations Location { get; set; }

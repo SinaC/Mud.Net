@@ -2,7 +2,7 @@
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
