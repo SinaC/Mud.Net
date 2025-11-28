@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Rom24.Classes;
 
@@ -15,6 +17,7 @@ weakest of any class.
 
 All mages begin with skill in the dagger. Any other weapon skills must be
 purchased, at a very high rate.")]
+[Export(typeof(IClass)), Shared]
 public class Mage : ClassBase
 {
     public Mage(ILogger<Mage> logger, IAbilityManager abilityManager)

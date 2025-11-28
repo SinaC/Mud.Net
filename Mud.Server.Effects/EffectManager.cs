@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
@@ -6,6 +7,7 @@ using System.Reflection;
 
 namespace Mud.Server.Effects;
 
+[Export(typeof(IEffectManager)), Shared]
 public class EffectManager : IEffectManager
 {
     private ILogger<EffectManager> Logger { get; }

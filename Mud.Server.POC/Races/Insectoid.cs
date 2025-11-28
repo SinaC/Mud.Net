@@ -1,13 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
 
 namespace Mud.Server.POC.Races;
 
+[Export(typeof(IRace)), Shared]
 public class Insectoid : PlayableRaceBase // 4-arms
 {
     public Insectoid(ILogger<Insectoid> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)

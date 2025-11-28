@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.POC.Classes;
 
+[Export(typeof(IClass)), Shared]
 public class Druid : ClassBase
 {
     //private readonly List<ResourceKinds> _rageOnly = new List<ResourceKinds>

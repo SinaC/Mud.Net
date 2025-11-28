@@ -1,10 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Blueprints.Quest;
-using Mud.Server.Blueprints.Room;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -15,6 +14,7 @@ using System.Collections.ObjectModel;
 
 namespace Mud.Server.Item;
 
+[Export(typeof(IItemManager)), Shared]
 public class ItemManager : IItemManager
 {
     private ILogger<ItemManager> Logger { get; }

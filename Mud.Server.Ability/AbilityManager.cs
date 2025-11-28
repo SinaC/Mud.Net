@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Ability;
 
+[Export(typeof(IAbilityManager)), Shared]
 public class AbilityManager : IAbilityManager
 {
     private ILogger<AbilityManager> Logger { get; }

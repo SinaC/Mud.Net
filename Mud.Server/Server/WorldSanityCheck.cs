@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Item;
@@ -8,6 +9,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Server
 {
+    [Export(typeof(ISanityCheck)), Shared]
     public class WorldSanityCheck : ISanityCheck
     {
         private ILogger<WorldSanityCheck> Logger { get; }

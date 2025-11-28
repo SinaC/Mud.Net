@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Interfaces.Area;
@@ -11,6 +12,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Room;
 
+[Export(typeof(IRoomManager)), Shared]
 public class RoomManager : IRoomManager
 {
     private ILogger<RoomManager> Logger { get; }

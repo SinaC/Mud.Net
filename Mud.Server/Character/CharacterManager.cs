@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Interfaces.Aura;
@@ -11,6 +12,7 @@ using System.Collections.ObjectModel;
 
 namespace Mud.Server.Character;
 
+[Export(typeof(ICharacterManager)), Shared]
 public class CharacterManager : ICharacterManager
 {
     private ILogger<CharacterManager> Logger { get; }

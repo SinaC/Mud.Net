@@ -12,6 +12,7 @@ using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Common;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;

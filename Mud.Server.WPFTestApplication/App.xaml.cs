@@ -2,29 +2,12 @@
 using Microsoft.Extensions.DependencyInjection;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
-using Mud.Network.Interfaces;
-using Mud.Network.Telnet;
-using Mud.Repository.Interfaces;
+using Mud.Server.Commands.Character.Movement;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Affect;
-using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Aura;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.Effect;
-using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
-using Mud.Server.Interfaces.Quest;
-using Mud.Server.Interfaces.Race;
-using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.Table;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Options;
-using Mud.Server.Random;
 using Mud.Server.Rom24;
 using Serilog;
 using System;
@@ -33,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls.Ribbon;
 
 namespace Mud.Server.WPFTestApplication;
 
@@ -64,12 +48,13 @@ public partial class App : Application
             .WriteTo.RichTextBoxSink() // add a sink to write to the RichTextBox
             .CreateLogger();
 
-        var assemblyHelper = new AssemblyHelper();
-
+        // Build configuration
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
+
+        var assemblyHelper = new AssemblyHelper(configuration);
 
         // Configure Logging to use once application start
         var logger = new LoggerConfiguration()
@@ -77,51 +62,23 @@ public partial class App : Application
             .WriteTo.RichTextBoxSink()
             .CreateLogger();
         services.AddLogging(builder => builder.AddSerilog(logger));
-        //services.AddSingleton(provider => provider.GetRequiredService<ILoggerFactory>().CreateLogger("NonGenericILogger"));
 
         // Configure options
         ConfigureOptions(services, configuration);
 
         // Register Services
-        services.AddSingleton<ITelnetNetworkServer, TelnetServer>();
-        services.AddSingleton<IRandomManager>(new RandomManager()); // 2 ctors => injector can't decide which one to choose
         services.AddSingleton<IAssemblyHelper>(assemblyHelper);
-        services.AddSingleton<ICommandParser, GameAction.CommandParser>();
-        services.AddSingleton<IAbilityManager, Ability.AbilityManager>();
-        services.AddSingleton<IGameActionManager, GameAction.GameActionManager>();
-        services.AddSingleton<ITimeManager, Server.TimeManager>();
-        services.AddSingleton<IQuestManager, Quest.QuestManager>();
-        services.AddSingleton<IAuraManager, Aura.AuraManager>();
-        services.AddSingleton<IItemManager, Item.ItemManager>();
-        services.AddSingleton<ICharacterManager, Character.CharacterManager>();
-        services.AddSingleton<IRoomManager, Room.RoomManager>();
-        services.AddSingleton<IAreaManager, Area.AreaManager>();
-        services.AddSingleton<IAdminManager, Admin.AdminManager>();
-        services.AddSingleton<IWiznet, Server.Wiznet>();
-        services.AddSingleton<IResetManager, Server.ResetManager>();
-        services.AddSingleton<IPulseManager, Server.PulseManager>();
+        // how can be configured to use multiple implementations?
         services.AddSingleton<Server.Server>();
         services.AddSingleton<IServer>(x => x.GetRequiredService<Server.Server>());
         services.AddSingleton<IWorld>(x => x.GetRequiredService<Server.Server>()); // Server also implements IWorld
         services.AddSingleton<IPlayerManager>(x => x.GetRequiredService<Server.Server>()); // Server also implements IPlayerManager
         services.AddSingleton<IServerAdminCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerAdminCommand
         services.AddSingleton<IServerPlayerCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerPlayerCommand
-        services.AddSingleton<IClassManager, Class.ClassManager>();
-        services.AddSingleton<IRaceManager, Race.RaceManager>();
-        services.AddSingleton<IUniquenessManager, Server.UniquenessManager>();
-        services.AddSingleton<ITableValues, Table.TableValues>();
-        services.AddSingleton<IDispelManager, Aura.DispelManager>();
-        services.AddSingleton<IEffectManager, Effects.EffectManager>();
-        services.AddSingleton<IAffectManager, Affects.AffectManager>();
-        services.AddSingleton<IWeaponEffectManager, Effects.WeaponEffectManager>();
-
-        services.AddSingleton<ILoginRepository, Repository.Filesystem.LoginRepository>();
-        services.AddSingleton<IPlayerRepository, Repository.Filesystem.PlayerRepository>();
-        services.AddSingleton<IAdminRepository, Repository.Filesystem.AdminRepository>();
 
         services.AddAutoMapper(typeof(Repository.Filesystem.AutoMapperProfile).Assembly);
 
-        RegisterAllRegistrableTypes(services, assemblyHelper.AllReferencedAssemblies);
+        RegisterUsingExportAttribute(services, assemblyHelper.AllReferencedAssemblies);
         RegisterFlagValues(services, assemblyHelper.AllReferencedAssemblies);
 
         //// Register ViewModels
@@ -140,7 +97,7 @@ public partial class App : Application
         services.Configure<MessageForwardOptions>(options => configuration.GetSection(MessageForwardOptions.SectionName).Bind(options));
         services.Configure<Rom24Options>(options => configuration.GetSection(Rom24Options.SectionName).Bind(options));
         services.Configure<ServerOptions>(options => configuration.GetSection(ServerOptions.SectionName).Bind(options));
-        services.Configure<TelnetOptions>(options => configuration.GetSection(TelnetOptions.SectionName).Bind(options));
+        services.Configure<Network.Telnet.TelnetOptions>(options => configuration.GetSection(Network.Telnet.TelnetOptions.SectionName).Bind(options));
         services.Configure<WorldOptions>(options => configuration.GetSection(WorldOptions.SectionName).Bind(options));
     }
 
@@ -153,7 +110,7 @@ public partial class App : Application
         }
     }
 
-    internal void RegisterAllRegistrableTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
+    private void RegisterUsingExportAttribute(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         // register using ExportAttribute
         var exportAttributeType = typeof(ExportAttribute);
@@ -162,30 +119,9 @@ public partial class App : Application
             Log.Information("Registering type {0}.", type.FullName);
             ExportInspector.Register(services, type);
         }
-        // register races
-        var iRace = typeof(IRace);
-        foreach (var race in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRace.IsAssignableFrom(t))))
-        {
-            Log.Information("Registering race type {0}.", race.FullName);
-            services.AddSingleton(iRace, race);
-        }
-        // register classes
-        var iClass = typeof(IClass);
-        foreach (var cl in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iClass.IsAssignableFrom(t))))
-        {
-            Log.Information("Registering class type {0}.", cl.FullName);
-            services.AddSingleton(iClass, cl);
-        }
-        // register sanity checks
-        var iSanityCheck = typeof(ISanityCheck);
-        foreach (var sanityCheck in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iSanityCheck.IsAssignableFrom(t))))
-        {
-            Log.Information("Registering sanity check type {0}.", sanityCheck.FullName);
-            services.AddSingleton(iSanityCheck, sanityCheck);
-        }
     }
 
-    internal void RegisterFlagValues(IServiceCollection services, IEnumerable<Assembly> assemblies)
+    private void RegisterFlagValues(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         RegisterFlagValues<ICharacterFlagValues>(services, assemblies);
         RegisterFlagValues<IRoomFlagValues>(services, assemblies);
@@ -199,7 +135,7 @@ public partial class App : Application
         RegisterFlagValues<IBodyPartValues>(services, assemblies);
     }
 
-    internal void RegisterFlagValues<TFlagValue>(IServiceCollection services, IEnumerable<Assembly> assemblies)
+    private void RegisterFlagValues<TFlagValue>(IServiceCollection services, IEnumerable<Assembly> assemblies)
         where TFlagValue : IFlagValues<string>
     {
         var iFlagValuesType = typeof(TFlagValue);
@@ -215,15 +151,58 @@ public partial class App : Application
 
     internal class AssemblyHelper : IAssemblyHelper
     {
-        public IEnumerable<Assembly> AllReferencedAssemblies =>
-        [
-            typeof(Server.Server).Assembly,
-            typeof(Commands.Actor.Commands).Assembly,
-            typeof(Affects.Character.CharacterAttributeAffect).Assembly,
-            typeof(Quest.Quest).Assembly,
-            typeof(Rom24.Spells.AcidBlast).Assembly,
-            typeof(AdditionalAbilities.Crush).Assembly,
-            typeof(POC.Classes.Druid).Assembly
-        ];
+        private string[] ReferencedAssemblies { get; }
+
+        private Assembly[] _assemblies;
+        public IEnumerable<Assembly> AllReferencedAssemblies => _assemblies ??= GetAssemblies().ToArray();
+
+        public AssemblyHelper(IConfiguration configuration)
+        {
+            var dependency = new Dependency();
+            configuration.GetSection("Application.Dependency").Bind(dependency);
+            ReferencedAssemblies = dependency.Assemblies;
+        }
+
+        private IEnumerable<Assembly> GetAssemblies()
+        {
+            if (ReferencedAssemblies?.Length > 0)
+            {
+                foreach (var assembly in ReferencedAssemblies)
+                {
+                    var a = Assembly.Load(assembly);
+                    if (null != a)
+                    {
+                        yield return a;
+                    }
+                }
+            }
+            else
+            {
+                var hash = new HashSet<string>();
+                var stack = new Stack<Assembly>();
+
+                stack.Push(Assembly.GetEntryAssembly());
+                while (stack.Count > 0)
+                {
+                    var assembly = stack.Pop();
+
+                    yield return assembly;
+
+                    foreach (var reference in assembly.GetReferencedAssemblies().Where(x => x.FullName?.StartsWith("Mud") == true))
+                    {
+                        if (!hash.Contains(reference.FullName))
+                        {
+                            stack.Push(Assembly.Load(reference));
+                            hash.Add(reference.FullName);
+                        }
+                    }
+                }
+            }
+        }
+
+        private class Dependency
+        {
+            public string[] Assemblies { get; set; }
+        }
     }
 }

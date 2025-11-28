@@ -1,10 +1,13 @@
-﻿using Mud.Domain;
+﻿using Mud.Common.Attributes;
+using Mud.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races.NonPlayableRaces;
 
+[Export(typeof(IRace)), Shared]
 public class Dragon : RaceBase
 {
     public Dragon(IServiceProvider serviceProvider)

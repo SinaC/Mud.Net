@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Table;
 
 namespace Mud.Server.Table;
 
+[Export(typeof(ITableValues)), Shared]
 public class TableValues : ITableValues
 {
     private ILogger<TableValues> Logger { get; }

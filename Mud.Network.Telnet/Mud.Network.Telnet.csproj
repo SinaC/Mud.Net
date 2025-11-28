@@ -10,6 +10,7 @@
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj" />
   </ItemGroup>
 </Project>

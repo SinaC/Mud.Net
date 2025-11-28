@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Interfaces;
 using Mud.Server.Random;
@@ -6,6 +7,7 @@ using System.Text;
 
 namespace Mud.Server.Server;
 
+[Export(typeof(ITimeManager)), Shared]
 public class TimeManager : ITimeManager
 {
     private IRandomManager RandomManager { get; }

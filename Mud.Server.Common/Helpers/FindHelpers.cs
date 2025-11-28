@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
 
-namespace Mud.Server.Common;
+namespace Mud.Server.Common.Helpers;
 
 public static class FindHelpers
 {

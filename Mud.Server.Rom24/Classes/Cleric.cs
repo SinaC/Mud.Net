@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Rom24.Classes;
 
@@ -15,6 +17,7 @@ protective magics, as well as fair combat prowess.
 
 All clerics begin with skill in the mace.  Other weapon or shield skills must
 be purchased, many at a very dear cost.")]
+[Export(typeof(IClass)), Shared]
 public class Cleric : ClassBase
 {
     public Cleric(ILogger<Cleric> logger, IAbilityManager abilityManager)

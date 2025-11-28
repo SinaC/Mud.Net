@@ -5,8 +5,6 @@ VisualStudioVersion = 17.14.36603.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Interfaces", "Mud.Network.Interfaces\Mud.Network.Interfaces.csproj", "{C911CF12-D355-4814-91BB-A68D05ADE97C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.TestApplication", "Mud.Server.TestApplication\Mud.Server.TestApplication.csproj", "{EF338509-9608-4B2F-B9D1-6355A03BCC82}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5337A639-8D6A-4F63-83CC-E2CED6D36DD5}"
 	ProjectSection(SolutionItems) = preProject
 		ConfigSample.txt = ConfigSample.txt
@@ -116,18 +114,6 @@ Global
 		{C911CF12-D355-4814-91BB-A68D05ADE97C}.Release|x64.Build.0 = Release|x64
 		{C911CF12-D355-4814-91BB-A68D05ADE97C}.Release|x86.ActiveCfg = Release|x86
 		{C911CF12-D355-4814-91BB-A68D05ADE97C}.Release|x86.Build.0 = Release|x86
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Debug|x64.ActiveCfg = Debug|x64
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Debug|x64.Build.0 = Debug|x64
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Debug|x86.ActiveCfg = Debug|x86
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Debug|x86.Build.0 = Debug|x86
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Release|x64.ActiveCfg = Release|x64
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Release|x64.Build.0 = Release|x64
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Release|x86.ActiveCfg = Release|x86
-		{EF338509-9608-4B2F-B9D1-6355A03BCC82}.Release|x86.Build.0 = Release|x86
 		{B461B0BD-82F7-41E5-B3BA-E364A3F1F61D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B461B0BD-82F7-41E5-B3BA-E364A3F1F61D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B461B0BD-82F7-41E5-B3BA-E364A3F1F61D}.Debug|x64.ActiveCfg = Debug|x64
