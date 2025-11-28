@@ -17,7 +17,7 @@ public class EffectManager : IEffectManager
         Logger = logger;
         ServiceProvider = serviceProvider;
 
-        Type iEffectType = typeof(IEffect);
+        var iEffectType = typeof(IEffect);
         EffectsByName = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iEffectType.IsAssignableFrom(t)))
             .Select(t => new { executionType = t, attribute = t.GetCustomAttribute<EffectAttribute>()! })
             .Where(x => x.attribute != null)

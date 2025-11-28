@@ -1,10 +1,11 @@
 ﻿using Mud.Domain;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 
-namespace Mud.Server.Affects;
+namespace Mud.Server.Affects.Character;
 
+[Affect("CharacterIRVAffect", typeof(CharacterIRVAffectData))]
 public class CharacterIRVAffect : FlagsAffectBase<IIRVFlags, IIRVFlagValues>, ICharacterIRVAffect
 {
     public IRVAffectLocations Location { get; set; }

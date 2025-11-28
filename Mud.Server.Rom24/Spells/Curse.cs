@@ -2,16 +2,17 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Affects;
+using Mud.Server.Affects.Character;
+using Mud.Server.Affects.Item;
 using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -32,20 +33,22 @@ public class Curse : ItemOrOffensiveSpellBase
 
     private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
+    private IEffectManager EffectManager { get; }
     private IDispelManager DispelManager { get; }
 
-    public Curse(ILogger<Curse> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
+    public Curse(ILogger<Curse> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IEffectManager effectManager, IDispelManager dispelManager)
         : base(logger, randomManager)
     {
         ServiceProvider = serviceProvider;
         AuraManager = auraManager;
+        EffectManager = effectManager;
         DispelManager = dispelManager;
     }
 
     protected override void Invoke(ICharacter victim)
     {
-        CurseEffect effect = new (ServiceProvider, AuraManager);
-        effect.Apply(victim, Caster, SpellName, Level, 0);
+        var effect = EffectManager.CreateInstance<ICharacter>("Curse");
+        effect?.Apply(victim, Caster, SpellName, Level, 0);
     }
 
     protected override void Invoke(IItem item)

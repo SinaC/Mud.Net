@@ -1,6 +1,6 @@
 ﻿using Mud.Domain;
 
-namespace Mud.Server.Interfaces.Affect;
+namespace Mud.Server.Interfaces.Affect.Character;
 
 public interface ICharacterAttributeAffect : ICharacterAffect
 {

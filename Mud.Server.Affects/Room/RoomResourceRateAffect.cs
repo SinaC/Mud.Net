@@ -1,11 +1,12 @@
 ﻿using Mud.Domain;
 using Mud.Domain.Extensions;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Room;
 using System.Text;
 
-namespace Mud.Server.Affects;
+namespace Mud.Server.Affects.Room;
 
+[Affect("RoomResourceRateAffect", typeof(RoomResourceRateAffectData))]
 public class RoomResourceRateAffect : IRoomResourceRateAffect
 {
     public int Modifier { get; set; }

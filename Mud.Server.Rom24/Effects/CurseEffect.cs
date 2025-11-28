@@ -1,5 +1,5 @@
 ﻿using Mud.Domain;
-using Mud.Server.Affects;
+using Mud.Server.Affects.Character;
 using Mud.Server.Effects;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;

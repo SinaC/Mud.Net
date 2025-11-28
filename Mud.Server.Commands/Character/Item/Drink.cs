@@ -1,5 +1,5 @@
 ﻿using Mud.Domain;
-using Mud.Server.Affects;
+using Mud.Server.Affects.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Flags;

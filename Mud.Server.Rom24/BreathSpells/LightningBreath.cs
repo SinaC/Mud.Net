@@ -6,9 +6,8 @@ using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.BreathSpells;
 
@@ -24,12 +23,12 @@ public class LightningBreath : OffensiveSpellBase
 {
     private const string SpellName = "Lightning Breath";
 
-    private IItemManager ItemManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public LightningBreath(ILogger<LightningBreath> logger, IRandomManager randomManager, IItemManager itemManager)
+    public LightningBreath(ILogger<LightningBreath> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
-        ItemManager = itemManager;
+        EffectManager = effectManager;
     }
 
     protected override void Invoke()
@@ -45,14 +44,14 @@ public class LightningBreath : OffensiveSpellBase
 
         if (Victim.SavesSpell(Level, SchoolTypes.Lightning))
         {
-            var victimShockEffect = new ShockEffect(RandomManager, ItemManager);
-            victimShockEffect.Apply(Victim, Caster, SpellName, Level / 2, damage / 4);
+            var victimShockEffect = EffectManager.CreateInstance<ICharacter>("Shock");
+            victimShockEffect?.Apply(Victim, Caster, SpellName, Level / 2, damage / 4);
             Victim.AbilityDamage(Caster, damage / 2, SchoolTypes.Lightning, "blast of lightning", true);
         }
         else
         {
-            var victimShockEffect = new ShockEffect(RandomManager, ItemManager);
-            victimShockEffect.Apply(Victim, Caster, SpellName, Level, damage);
+            var victimShockEffect = EffectManager.CreateInstance<ICharacter>("Shock");
+            victimShockEffect?.Apply(Victim, Caster, SpellName, Level, damage);
             Victim.AbilityDamage(Caster, damage, SchoolTypes.Lightning, "blast of lightning", true);
         }
     }

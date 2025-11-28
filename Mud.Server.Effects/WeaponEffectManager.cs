@@ -62,7 +62,7 @@ public class WeaponEffectManager : IWeaponEffectManager
         where TWeaponEffect : IWeaponEffect
     {
         var tWeaponEffectType = typeof(TWeaponEffect);
-        foreach (var weaponFlag in weapon.WeaponFlags.Items)
+        foreach (var weaponFlag in weapon.WeaponFlags.Values)
         {
             if (WeaponEffectsByWeaponFlag.TryGetValue(weaponFlag, out var weaponEffect))
             {

@@ -23,7 +23,7 @@ namespace Mud.Server.Flags
 
         public virtual StringBuilder Append(StringBuilder sb, bool shortDisplay)
         {
-            foreach (string flag in Items)
+            foreach (string flag in Values)
                 sb.AppendFormat("{0}", FlagValues.PrettyPrint(flag, shortDisplay));
             return sb;
         }

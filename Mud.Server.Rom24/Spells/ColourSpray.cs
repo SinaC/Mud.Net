@@ -5,10 +5,9 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -21,14 +20,12 @@ public class ColourSpray : DamageTableSpellBase
 {
     private const string SpellName = "Colour Spray";
 
-    private IServiceProvider ServiceProvider { get; }
-    private IAuraManager AuraManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public ColourSpray(ILogger<ColourSpray> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public ColourSpray(ILogger<ColourSpray> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
-        AuraManager = auraManager;
+        EffectManager = effectManager;
     }
 
     protected override SchoolTypes DamageType => SchoolTypes.Light;
@@ -48,7 +45,7 @@ public class ColourSpray : DamageTableSpellBase
         base.Invoke();
         if (SavesSpellResult || DamageResult != DamageResults.Done)
             return;
-        BlindnessEffect blindnessEffect = new (ServiceProvider, AuraManager);
-        blindnessEffect.Apply(Victim, Caster, "Blindness", Level, 0);
+        var blindnessEffect = EffectManager.CreateInstance<ICharacter>("Blindness");
+        blindnessEffect?.Apply(Victim, Caster, "Blindness", Level, 0);
     }
 }

@@ -1,10 +1,11 @@
 ﻿using Mud.Domain;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Room;
 
-namespace Mud.Server.Affects;
+namespace Mud.Server.Affects.Room;
 
+[Affect("RoomFlagsAffect", typeof(RoomFlagsAffectData))]
 public class RoomFlagsAffect : FlagsAffectBase<IRoomFlags, IRoomFlagValues>, IRoomFlagsAffect
 {
     protected override string Target => "Room flags";

@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Server.Affects.Character;
+using Mud.Server.Affects.Item;
+using Mud.Server.Affects.Room;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using System.Reflection;
@@ -10,7 +13,9 @@ public class AffectManager : IAffectManager
 {
     private ILogger<AffectManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
-    private Dictionary<string, IAffectInfo> AffectsByName { get; }
+
+    private Dictionary<string, AffectInfo> AffectsByName { get; }
+    private Dictionary<Type, AffectInfo> AffectsByDataType { get; }
 
     public AffectManager(ILogger<AffectManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
@@ -18,10 +23,13 @@ public class AffectManager : IAffectManager
         ServiceProvider = serviceProvider;
 
         var iAffectType = typeof(IAffect);
-        AffectsByName = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAffectType.IsAssignableFrom(t)))
+        var affectInfos = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAffectType.IsAssignableFrom(t)))
             .Select(t => new { executionType = t, attribute = t.GetCustomAttribute<AffectAttribute>()! })
             .Where(x => x.attribute != null)
-            .ToDictionary(x => x.attribute.Name, x => CreateAffectInfo(x.executionType, x.attribute));
+            .Select(x => new AffectInfo(x.executionType, x.attribute.Name, x.attribute.AffectDataType, x.attribute))
+            .ToArray();
+        AffectsByName = affectInfos.ToDictionary(x => x.Name, x => x);
+        AffectsByDataType = affectInfos.ToDictionary(x => x.AffectDataType, x => x);
     }
 
     public IAffect? CreateInstance(string name)
@@ -59,8 +67,11 @@ public class AffectManager : IAffectManager
                 return new RoomResourceRateAffect(roomResourceRateAffectData);
             default:
                 var dataType = data.GetType();
-                var affectInfo = AffectsByName.Values.FirstOrDefault(x => x.AffectDataType == dataType);
-                if (affectInfo != null)
+                if (!AffectsByDataType.TryGetValue(dataType, out var affectInfo))
+                {
+                    Logger.LogError("Unexpected AffectType type {dataType}.", data.GetType());
+                }
+                else
                 {
                     var affect = CreateInstance(affectInfo);
                     if (affect is ICustomAffect customAffect)
@@ -69,18 +80,13 @@ public class AffectManager : IAffectManager
                         Logger.LogError("AffectType type {dataType} should implement {customAffectType}.", data.GetType(), typeof(ICustomAffect).FullName ?? "???");
                     return affect;
                 }
-                else
-                    Logger.LogError("Unexpected AffectType type {dataType}.", data.GetType());
                 break;
         }
 
         return null;
     }
 
-    private static IAffectInfo CreateAffectInfo(Type executionType, AffectAttribute attribute)
-        => new AffectInfo(executionType, attribute.Name, attribute.AffectDataType);
-
-    private IAffect? CreateInstance(IAffectInfo affectInfo)
+    private IAffect? CreateInstance(AffectInfo affectInfo)
     {
         var affect = ServiceProvider.GetService(affectInfo.AffectType);
         if (affect == null)

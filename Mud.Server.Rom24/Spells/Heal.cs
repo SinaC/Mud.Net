@@ -4,8 +4,9 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -18,14 +19,17 @@ public class Heal : DefensiveSpellBase
 {
     private const string SpellName = "Heal";
 
-    public Heal(ILogger<Heal> logger, IRandomManager randomManager)
+    private IEffectManager EffectManager { get; }
+
+    public Heal(ILogger<Heal> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
+        EffectManager = effectManager;
     }
 
     protected override void Invoke()
     {
-        HealEffect effect = new ();
-        effect.Apply(Victim, Caster, SpellName, Level, 0);
+        var effect = EffectManager.CreateInstance<ICharacter>("Heal");
+        effect?.Apply(Victim, Caster, SpellName, Level, 0);
     }
 }

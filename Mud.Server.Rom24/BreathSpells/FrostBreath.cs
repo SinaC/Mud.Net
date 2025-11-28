@@ -5,11 +5,10 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Effect;
+using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.BreathSpells;
 
@@ -25,14 +24,12 @@ public class FrostBreath : OffensiveSpellBase
 {
     private const string SpellName = "Frost Breath";
 
-    private IAuraManager AuraManager { get; }
-    private IItemManager ItemManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public FrostBreath(ILogger<FrostBreath> logger, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public FrostBreath(ILogger<FrostBreath> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
-        AuraManager = auraManager;
-        ItemManager = itemManager;
+        EffectManager = effectManager;
     }
 
     protected override void Invoke()
@@ -47,6 +44,8 @@ public class FrostBreath : OffensiveSpellBase
         int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);
 
         BreathAreaAction breathAreaAction = new ();
-        breathAreaAction.Apply(Victim, Caster, Level, damage, SchoolTypes.Cold, "blast of frost", "Chill Touch", () => new ColdEffect(RandomManager, AuraManager, ItemManager), () => new ColdEffect(RandomManager, AuraManager, ItemManager));
+        breathAreaAction.Apply(Victim, Caster, Level, damage, SchoolTypes.Cold, "blast of frost", "Chill Touch",
+            () => EffectManager.CreateInstance<IRoom>("Cold"),
+            () => EffectManager.CreateInstance<ICharacter>("Cold"));
     }
 }

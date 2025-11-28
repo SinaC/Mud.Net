@@ -1,6 +1,6 @@
 ﻿using Mud.Server.Interfaces.Item;
 
-namespace Mud.Server.Interfaces.Affect;
+namespace Mud.Server.Interfaces.Affect.Item;
 
 public interface IItemAffect<in T> : IAffect
         where T : IItem

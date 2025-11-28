@@ -1,7 +1,9 @@
-﻿namespace Mud.Server.Affects;
+﻿using Mud.Common.Attributes;
+
+namespace Mud.Server.Affects;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class AffectAttribute : Attribute
+public class AffectAttribute : ExportAttribute // every affect will be exported without ContractType
 {
     public string Name { get; }
     public Type AffectDataType { get; }

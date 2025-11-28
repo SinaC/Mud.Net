@@ -142,8 +142,8 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
     public bool HasAny(IFlags<string, TFlagValues> flags)
     {
         if (!CheckValues(flags))
-            FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, UnknownValues(flags.Items));
-        return flags.Items.Any(x => _hashSet.Contains(x));
+            FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, UnknownValues(flags.Values));
+        return flags.Values.Any(x => _hashSet.Contains(x));
     }
     public bool HasAll(params string[] flags)
     {
@@ -154,8 +154,8 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
     public bool HasAll(IFlags<string, TFlagValues> flags)
     {
         if (!CheckValues(flags))
-            FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAll, UnknownValues(flags.Items));
-        return flags.Items.All(x => _hashSet.Contains(x));
+            FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAll, UnknownValues(flags.Values));
+        return flags.Values.All(x => _hashSet.Contains(x));
     }
 
     public void Set(string flag)
@@ -174,8 +174,8 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
     public void Set(IFlags<string, TFlagValues> flags)
     {
         if (!CheckValues(flags))
-            FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, UnknownValues(flags.Items));
-        foreach (string flag in flags.Items)
+            FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, UnknownValues(flags.Values));
+        foreach (string flag in flags.Values)
             _hashSet.Add(flag);
     }
 
@@ -195,14 +195,14 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
     public void Unset(IFlags<string, TFlagValues> flags)
     {
         if (!CheckValues(flags))
-            FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, UnknownValues(flags.Items));
-        foreach (string flag in flags.Items)
+            FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, UnknownValues(flags.Values));
+        foreach (string flag in flags.Values)
             _hashSet.Remove(flag);
     }
 
     public int Count => _hashSet.Count;
 
-    public IEnumerable<string> Items => _hashSet;
+    public IEnumerable<string> Values => _hashSet;
 
     public string Map() => string.Join(",", _hashSet.OrderBy(x => x));
 
@@ -211,6 +211,6 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
     public override string ToString() => string.Join(", ", _hashSet.OrderBy(x => x));
 
     private bool CheckValues(params string[] flags) => flags.All(x => FlagValues.AvailableValues.Contains(x));
-    private bool CheckValues(IFlags<string, TFlagValues> flags) => flags.Items.All(x => FlagValues.AvailableValues.Contains(x));
+    private bool CheckValues(IFlags<string, TFlagValues> flags) => flags.Values.All(x => FlagValues.AvailableValues.Contains(x));
     private IEnumerable<string> UnknownValues(IEnumerable<string> flags) => flags.Where(x => !FlagValues.AvailableValues.Contains(x));
 }

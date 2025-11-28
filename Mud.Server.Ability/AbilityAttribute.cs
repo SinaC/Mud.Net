@@ -1,9 +1,10 @@
-﻿using Mud.Server.Interfaces.Ability;
+﻿using Mud.Common.Attributes;
+using Mud.Server.Interfaces.Ability;
 
 namespace Mud.Server.Ability;
 
 [AttributeUsage(AttributeTargets.Class)]
-public abstract class AbilityBaseAttribute : Attribute
+public abstract class AbilityBaseAttribute : ExportAttribute // every ability will be exported without ContractType
 {
     public abstract AbilityTypes Type { get; }
     public string Name { get; set; }

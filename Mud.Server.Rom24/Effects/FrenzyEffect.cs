@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
-using Mud.Server.Affects;
+using Mud.Server.Affects.Character;
+using Mud.Server.Effects;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -7,6 +8,7 @@ using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Rom24.Effects;
 
+[Effect("Frenzy")]
 public class FrenzyEffect : IEffect<ICharacter>
 {
     private IAuraManager AuraManager { get; }

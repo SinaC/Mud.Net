@@ -2,7 +2,8 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Affects;
+using Mud.Server.Affects.Character;
+using Mud.Server.Affects.Item;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;

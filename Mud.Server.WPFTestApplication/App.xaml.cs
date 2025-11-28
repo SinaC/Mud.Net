@@ -155,15 +155,9 @@ public partial class App : Application
 
     internal void RegisterAllRegistrableTypes(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
-        // register commands and abilities
-        var iRegistrable = typeof(IRegistrable);
-        foreach (var registrable in assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
-        {
-            Log.Information("Registering type {0}.", registrable.FullName);
-            services.AddTransient(registrable);
-        }
         // register using ExportAttribute
-        foreach (var type in assemblies.SelectMany(x => x.GetTypes()).Where(t => t.CustomAttributes.Any(a => a.AttributeType.Name.Equals(nameof(ExportAttribute)))))
+        var exportAttributeType = typeof(ExportAttribute);
+        foreach (var type in assemblies.SelectMany(x => x.GetTypes()).Where(t => t.CustomAttributes.Any(a => exportAttributeType.IsAssignableFrom(a.AttributeType))))
         {
             Log.Information("Registering type {0}.", type.FullName);
             ExportInspector.Register(services, type);
@@ -225,6 +219,7 @@ public partial class App : Application
         [
             typeof(Server.Server).Assembly,
             typeof(Commands.Actor.Commands).Assembly,
+            typeof(Affects.Character.CharacterAttributeAffect).Assembly,
             typeof(Quest.Quest).Assembly,
             typeof(Rom24.Spells.AcidBlast).Assembly,
             typeof(AdditionalAbilities.Crush).Assembly,

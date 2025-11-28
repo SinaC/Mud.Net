@@ -1,6 +1,6 @@
 ﻿namespace Mud.Server.Interfaces.GameAction;
 
-public interface IGameAction : IRegistrable
+public interface IGameAction
 {
     // Guards the action against incorrect usage
     // Returns null if all guard pass

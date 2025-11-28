@@ -1,10 +1,11 @@
 ﻿using Mud.Domain;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using System.Text;
 
-namespace Mud.Server.Affects;
+namespace Mud.Server.Affects.Character;
 
+[Affect("CharacterSizeAffect", typeof(CharacterSizeAffectData))]
 public class CharacterSizeAffect : ICharacterSizeAffect
 {
     public Sizes Value { get; set; }

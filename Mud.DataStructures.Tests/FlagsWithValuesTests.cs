@@ -484,7 +484,7 @@ public class FlagsWithValuesTests
     {
         var flags = new CharacterFlags(_serviceProvider);
 
-        IEnumerable<string> items = flags.Items;
+        IEnumerable<string> items = flags.Values;
 
         Assert.AreEqual(flags.Count, items.Count());
     }
@@ -494,7 +494,7 @@ public class FlagsWithValuesTests
     {
         var flags = new CharacterFlags(_serviceProvider, "Blind");
 
-        IEnumerable<string> items = flags.Items;
+        IEnumerable<string> items = flags.Values;
 
         Assert.AreEqual(flags.Count, items.Count());
         Assert.AreEqual("Blind", items.First());
@@ -505,7 +505,7 @@ public class FlagsWithValuesTests
     {
         var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide", "Berserk");
 
-        IEnumerable<string> items = flags.Items;
+        IEnumerable<string> items = flags.Values;
 
         Assert.AreEqual(flags.Count, items.Count());
         Assert.AreEqual(1, items.Count(x => x == "Blind"));

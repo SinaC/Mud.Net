@@ -67,7 +67,7 @@ public class Aura : IAura
         PulseLeft = Pulse.FromTimeSpan(duration);
     }
 
-    public T? AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T> createFunc, Action<T> updateFunc)
+    public T? AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T?> createFunc, Action<T>? updateFunc)
         where T : IAffect
     {
         var affect = _affects.OfType<T>().FirstOrDefault(filterFunc);
@@ -76,7 +76,10 @@ public class Aura : IAura
             if (createFunc != null)
             {
                 affect = createFunc();
-                _affects.Add(affect);
+                if (affect != null)
+                {
+                    _affects.Add(affect);
+                }
             }
         }
         else

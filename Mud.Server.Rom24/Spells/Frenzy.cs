@@ -4,9 +4,9 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Aura;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -25,17 +25,17 @@ public class Frenzy : DefensiveSpellBase
 {
     private const string SpellName = "Frenzy";
 
-    private IAuraManager AuraManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public Frenzy(ILogger<Frenzy> logger, IRandomManager randomManager, IAuraManager auraManager)
+    public Frenzy(ILogger<Frenzy> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
-        AuraManager = auraManager;
+        EffectManager = effectManager;
     }
 
     protected override void Invoke()
     {
-        FrenzyEffect effect = new (AuraManager);
-        effect.Apply(Victim, Caster, SpellName, Level, 0);
+        var effect = EffectManager.CreateInstance<ICharacter>("Frenzy");
+        effect?.Apply(Victim, Caster, SpellName, Level, 0);
     }
 }

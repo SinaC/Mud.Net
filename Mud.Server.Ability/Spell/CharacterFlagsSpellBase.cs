@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
-using Mud.Server.Affects;
+using Mud.Server.Affects.Character;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;

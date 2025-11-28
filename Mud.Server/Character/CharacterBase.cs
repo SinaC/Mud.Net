@@ -13,7 +13,7 @@ using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -2232,7 +2232,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // funky weapon ?
         if (damageResult == DamageResults.Done && wield != null)
         {
-            foreach (var postHitDamageWeaponEffect in WeaponEffectManager.WeaponEffectsByType<IPostHitDamageWeaponEffect>(wield))
+            var clone = new ReadOnlyCollection<string>(WeaponEffectManager.WeaponEffectsByType<IPostHitDamageWeaponEffect>(wield).ToList()); // some weapon effect can worn off when used -> collection could be modified while applying effects
+            foreach (var postHitDamageWeaponEffect in clone)
             {
                 var effect = WeaponEffectManager.CreateInstance<IPostHitDamageWeaponEffect>(postHitDamageWeaponEffect);
                 effect?.Apply(this, victim, wield);

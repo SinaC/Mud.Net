@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Affects;
+using Mud.Server.Affects.Character;
 using Mud.Server.Effects;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;
@@ -18,13 +18,13 @@ namespace Mud.Server.Rom24.Effects;
 [Effect("Fire")]
 public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
 {
-    private ILogger Logger { get; }
+    private ILogger<FireEffect> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public FireEffect(ILogger logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public FireEffect(ILogger<FireEffect> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;

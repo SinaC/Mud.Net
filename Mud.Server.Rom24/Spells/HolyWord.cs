@@ -5,10 +5,9 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.Spells;
@@ -28,19 +27,17 @@ public class HolyWord : NoTargetSpellBase
 {
     private const string SpellName = "Holy Word";
 
-    private IServiceProvider ServiceProvider { get; }
-    private IAuraManager AuraManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public HolyWord(ILogger<HolyWord> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public HolyWord(ILogger<HolyWord> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
-        AuraManager = auraManager;
+        EffectManager = effectManager;
     }
 
     protected override void Invoke()
     {
-        Caster.Act(ActOptions.ToRoom, "{0:N} utters a word of divine power!");
+        Caster.Act(ActOptions.ToRoom, "{0:N} utters a word of divine power!", Caster);
         Caster.Send("You utter a word of divine power.");
 
         var clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.ToList()); // to avoid modification during iteration
@@ -51,10 +48,10 @@ public class HolyWord : NoTargetSpellBase
                 || (Caster.IsEvil && victim.IsEvil))
             {
                 victim.Send("You feel full more powerful.");
-                FrenzyEffect frenzyEffect = new (AuraManager);
-                frenzyEffect.Apply(victim, Caster, "Frenzy", Level, 0);
-                BlessEffect blessEffect = new (AuraManager);
-                blessEffect.Apply(victim, Caster, "Bless", Level, 0);
+                var frenzyEffect = EffectManager.CreateInstance<ICharacter>("Frenzy");
+                frenzyEffect?.Apply(victim, Caster, "Frenzy", Level, 0);
+                var blessEffect = EffectManager.CreateInstance<ICharacter>("Bless");
+                blessEffect?.Apply(victim, Caster, "Bless", Level, 0);
             }
             else if ((Caster.IsGood && victim.IsEvil)
                      || (Caster.IsEvil && victim.IsGood))
@@ -66,8 +63,8 @@ public class HolyWord : NoTargetSpellBase
                     var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
                     if (damageResult == DamageResults.Done)
                     {
-                        CurseEffect curseEffect = new (ServiceProvider, AuraManager);
-                        curseEffect.Apply(victim, Caster, "Curse", Level, 0);
+                        var curseEffect = EffectManager.CreateInstance<ICharacter>("Curse");
+                        curseEffect?.Apply(victim, Caster, "Curse", Level, 0);
                     }
                 }
 
@@ -80,8 +77,8 @@ public class HolyWord : NoTargetSpellBase
                         var damageResult = victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "divine wrath", true);
                         if (damageResult == DamageResults.Done)
                         {
-                            CurseEffect curseEffect = new (ServiceProvider, AuraManager);
-                            curseEffect.Apply(victim, Caster, "Curse", Level, 0);
+                            var curseEffect = EffectManager.CreateInstance<ICharacter>("Curse");
+                            curseEffect?.Apply(victim, Caster, "Curse", Level, 0);
                         }
                     }
                 }

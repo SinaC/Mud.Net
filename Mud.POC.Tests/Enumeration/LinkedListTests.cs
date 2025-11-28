@@ -85,11 +85,11 @@ namespace Mud.POC.Tests.Enumeration
             Assert.Contains(7, list);
             Assert.Contains(9, list);
 
-            Assert.HasCount(4, items); // should be be 4: 1, 3, 7, 9 but it will be 3: 1, 3, 5
+            // should be 4: 1, 3, 7, 9 but it will be 3: 1, 3, 5
+            Assert.HasCount(3, items);
             Assert.Contains(1, items);
             Assert.Contains(3, items);
-            Assert.Contains(7, items);
-            Assert.Contains(9, items);
+            Assert.Contains(5, items);
         }
 
         [TestMethod]

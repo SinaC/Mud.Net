@@ -10,7 +10,7 @@ using Mud.Server.Entity;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;

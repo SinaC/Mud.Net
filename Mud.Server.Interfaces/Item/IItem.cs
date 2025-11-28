@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using System.Text;

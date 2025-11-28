@@ -5,10 +5,9 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Effect;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Effects;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -23,14 +22,12 @@ public class RayOfTruth : OffensiveSpellBase
 {
     private const string SpellName = "Ray of Truth";
 
-    private IServiceProvider ServiceProvider { get; }
-    private IAuraManager AuraManager { get; }
+    private IEffectManager EffectManager { get; }
 
-    public RayOfTruth(ILogger<RayOfTruth> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public RayOfTruth(ILogger<RayOfTruth> logger, IRandomManager randomManager, IEffectManager effectManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
-        AuraManager = auraManager;
+        EffectManager = effectManager;
     }
 
     protected override string? SetTargets(ISpellActionInput spellActionInput)
@@ -74,8 +71,8 @@ public class RayOfTruth : OffensiveSpellBase
         var damageResult = Victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "ray of truth", true);
         if (damageResult == DamageResults.Done)
         {
-            BlindnessEffect effect = new (ServiceProvider, AuraManager);
-            effect.Apply(Victim, Caster, "Blindness", 3*Level/4, 0);
+            var blindnessEffect = EffectManager.CreateInstance<ICharacter>("Blindness");
+            blindnessEffect?.Apply(Victim, Caster, "Blindness", 3*Level/4, 0);
         }
     }
 }
