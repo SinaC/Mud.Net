@@ -9,7 +9,6 @@ using Mud.Repository.Interfaces;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.LootTable;
-using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
@@ -32,7 +31,6 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.World;
 using Mud.Server.Options;
-using Mud.Server.Player;
 using Mud.Server.Random;
 using Mud.Server.TableGenerator;
 using System.Collections.Concurrent;
@@ -79,7 +77,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private ITimeManager TimeManager { get; }
     private IRandomManager RandomManager { get; }
     private IGameActionManager GameActionManager { get; }
-    private ICommandParser CommandParser { get; }
     private IClassManager ClassManager { get; }
     private IRaceManager RaceManager { get; }
     private IAbilityManager AbilityManager { get; }
@@ -95,11 +92,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private IPulseManager PulseManager { get; }
     private IReadOnlyCollection<ISanityCheck> SanityChecks { get; }
     private ServerOptions ServerOptions { get; }
-    private WorldOptions WorldOptions { get; }
 
-    public Server(ILogger<Server> logger, IServiceProvider serviceProvider, IOptions<ServerOptions> serverOptions, IOptions<WorldOptions> worldOptions,
+    public Server(ILogger<Server> logger, IServiceProvider serviceProvider, IOptions<ServerOptions> serverOptions,
         ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
-        IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager, ICommandParser commandParser,
+        IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager,
         IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IWeaponEffectManager weaponEffectManager,
         IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IResetManager resetManager,
         IAdminManager adminManager, IWiznet wiznet, IPulseManager pulseManager, IEnumerable<ISanityCheck> sanityChecks)
@@ -107,7 +103,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         Logger = logger;
         ServiceProvider = serviceProvider;
         ServerOptions = serverOptions.Value;
-        WorldOptions = worldOptions.Value;
         LoginRepository = loginRepository;
         PlayerRepository = playerRepository;
         AdminRepository = adminRepository;
@@ -115,7 +110,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         TimeManager = timeManager;
         RandomManager = randomManager;
         GameActionManager = gameActionManager;
-        CommandParser = commandParser;
         ClassManager = classManager;
         RaceManager = raceManager;
         AbilityManager = abilityManager;

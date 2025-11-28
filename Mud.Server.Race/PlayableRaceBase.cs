@@ -52,7 +52,7 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
 
     public abstract int GetMaxAttribute(CharacterAttributes attribute);
 
-    public virtual int ClassExperiencePercentageMultiplier(IClass c) => 100;
+    public virtual int ClassExperiencePercentageMultiplier(IClass? c) => 100;
 
     #endregion
 

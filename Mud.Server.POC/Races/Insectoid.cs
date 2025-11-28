@@ -128,7 +128,7 @@ public class Insectoid : PlayableRaceBase // 4-arms
         }
     }
 
-    public override int ClassExperiencePercentageMultiplier(IClass c) => 250;
+    public override int ClassExperiencePercentageMultiplier(IClass? c) => 250;
 
     #endregion
 }
