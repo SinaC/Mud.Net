@@ -104,7 +104,7 @@ public partial class ClientWindow : Window, IClient
 
         Dispatcher.InvokeAsync(() =>
         {
-            Paragraph paragraph = new Paragraph();
+            Paragraph paragraph = new();
 
             // Parse color code
             Brush currentColor = Brushes.LightGray;
@@ -115,8 +115,8 @@ public partial class ClientWindow : Window, IClient
                 //Debug.WriteLine($"StartIndex:[{startIndex}]");
                 if (startIndex >= 0)
                 {
-                    string preceding = remaining.Substring(0, startIndex);
-                    remaining = remaining.Substring(startIndex + 1);
+                    string preceding = remaining[..startIndex];
+                    remaining = remaining[(startIndex + 1)..];
                     //Debug.WriteLine($"Preceding:[{preceding}]");
                     //Debug.WriteLine($"Remaining:[{remaining}]");
                     AddColoredTextToParagraph(paragraph, currentColor, preceding);
@@ -125,13 +125,13 @@ public partial class ClientWindow : Window, IClient
                     //Debug.WriteLine($"EndIndex:[{endIndex}]");
                     if (endIndex == 1) // %c%
                     {
-                        string colorCode = remaining.Substring(0, endIndex);
+                        string colorCode = remaining[..endIndex];
                         //Debug.WriteLine($"ColorCode:[{colorCode}]");
-                        Brush newColor = GetColor(colorCode);
+                        var newColor = GetColor(colorCode);
                         if (newColor != null)
                         {
                             currentColor = newColor;
-                            remaining = remaining.Substring(endIndex + 1);
+                            remaining = remaining[(endIndex + 1)..];
                         }
                         else
                         {
@@ -157,15 +157,13 @@ public partial class ClientWindow : Window, IClient
         });
     }
 
-    private void AddColoredTextToParagraph(Paragraph paragraph, Brush color, string text)
-    {
-        paragraph.Inlines.Add(new Run(text)
+    private static void AddColoredTextToParagraph(Paragraph paragraph, Brush color, string text)
+        => paragraph.Inlines.Add(new Run(text)
         {
             Foreground = color
         });
-    }
 
-    private Brush GetColor(string colorCode)
+    private SolidColorBrush GetColor(string colorCode)
     {
         if (!ColorAccepted)
             return Brushes.LightGray;

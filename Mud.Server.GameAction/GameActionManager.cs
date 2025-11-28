@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
@@ -10,6 +11,7 @@ using System.Reflection;
 
 namespace Mud.Server.GameAction;
 
+[Export(typeof(IGameActionManager)), Shared]
 public class GameActionManager : IGameActionManager
 {
     private ILogger<GameActionManager> Logger { get; }

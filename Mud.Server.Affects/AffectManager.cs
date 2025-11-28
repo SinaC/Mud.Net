@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
@@ -9,6 +10,7 @@ using System.Reflection;
 
 namespace Mud.Server.Affects;
 
+[Export(typeof(IAffectManager)), Shared]
 public class AffectManager : IAffectManager
 {
     private ILogger<AffectManager> Logger { get; }

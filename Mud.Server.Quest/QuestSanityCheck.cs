@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Quest
 {
+    [Export(typeof(ISanityCheck)), Shared]
     public class QuestSanityCheck : ISanityCheck
     {
         private ILogger<QuestSanityCheck> Logger { get; }

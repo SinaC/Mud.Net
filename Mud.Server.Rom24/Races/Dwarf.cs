@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races;
@@ -19,6 +21,8 @@ mages or thieves.
 Dwarves are very resistant to poison and disease, but cannot swim, and so
 are very vulnerable to drowning.  They recieve the berserk skill for free
 (if warriors), and can see in the dark with infravision.")]
+
+[Export(typeof(IRace)), Shared]
 public class Dwarf : PlayableRaceBase
 {
     public Dwarf(ILogger<Dwarf> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)

@@ -1,4 +1,4 @@
-﻿using Mud.Server.Common;
+﻿using Mud.Server.Common.Extensions;
 using System.Text;
 
 namespace Mud.Server.TableGenerator;

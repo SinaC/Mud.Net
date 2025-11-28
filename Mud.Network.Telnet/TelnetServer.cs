@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
 using Mud.Network.Interfaces;
 using System.Net;
 using System.Net.Sockets;
@@ -24,6 +25,7 @@ internal enum ServerStatus
 }
 
 // TODO: problem with simple telnet terminal without handshake
+[Export(typeof(ITelnetNetworkServer)), Shared]
 public class TelnetServer : ITelnetNetworkServer, IDisposable
 {
     private static readonly Regex AsciiRegEx = new Regex(@"[^\u0020-\u007E]", RegexOptions.Compiled); // match ascii-only char

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
 using Mud.Repository.Filesystem.Common;
 using Mud.Repository.Filesystem.Domain;
 using Mud.Repository.Interfaces;
@@ -8,6 +9,7 @@ using System.Xml.Serialization;
 
 namespace Mud.Repository.Filesystem;
 
+[Export(typeof(ILoginRepository)), Shared]
 public class LoginRepository : RepositoryBase, ILoginRepository
 {
     private const bool CheckLoginPassword = false;

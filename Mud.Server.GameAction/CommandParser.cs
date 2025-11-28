@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
 namespace Mud.Server.GameAction;
 
+[Export(typeof(ICommandParser)), Shared]
 public class CommandParser : ICommandParser
 {
     private static readonly ICommandParameter[] _noParameters = Enumerable.Empty<ICommandParameter>().ToArray();

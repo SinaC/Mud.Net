@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Interfaces.Character;
@@ -7,6 +8,7 @@ using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Quest;
 
+[Export(typeof(IQuestManager)), Shared]
 public class QuestManager : IQuestManager
 {
     private ILogger<QuestManager> Logger { get; }

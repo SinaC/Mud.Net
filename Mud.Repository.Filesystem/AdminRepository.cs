@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
 using Mud.Repository.Filesystem.Common;
 using Mud.Repository.Interfaces;
 
 namespace Mud.Repository.Filesystem;
 
+[Export(typeof(IAdminRepository)), Shared]
 public class AdminRepository : RepositoryBase, IAdminRepository
 {
     private string AdminRepositoryPath => Options.AdminPath;

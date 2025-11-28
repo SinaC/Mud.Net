@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Class;
 
+[Export(typeof(ISanityCheck)), Shared]
 public class ClassSanityCheck : ISanityCheck
 {
     private ILogger<ClassSanityCheck> Logger { get; }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Rom24.Classes;
 
@@ -15,6 +17,7 @@ clerics, but lack the wide weapon selection of warriors.
 
 All thieves begin with the dagger combat skill, and are learned in steal as 
 well.")]
+[Export(typeof(IClass)), Shared]
 public class Thief : ClassBase
 {
     public Thief(ILogger<Thief> logger, IAbilityManager abilityManager)

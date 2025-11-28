@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24
 {
+    [Export(typeof(ISanityCheck)), Shared]
     public class NeededBlueprintsSanityCheck : ISanityCheck
     {
         private ILogger<NeededBlueprintsSanityCheck> Logger { get; }

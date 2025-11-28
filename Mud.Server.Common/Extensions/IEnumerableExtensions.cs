@@ -1,7 +1,8 @@
 ﻿using Mud.Common;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Random;
 
-namespace Mud.Server.Common;
+namespace Mud.Server.Common.Extensions;
 
 public static class IEnumerableExtensions
 {

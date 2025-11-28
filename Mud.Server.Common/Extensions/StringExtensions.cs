@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Mud.Server.Common;
+namespace Mud.Server.Common.Extensions;
 
 public static class StringExtensions
 {

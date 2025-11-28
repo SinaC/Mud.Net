@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -8,6 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace Mud.Server.Aura;
 
+[Export(typeof(IDispelManager)), Shared]
 public class DispelManager : IDispelManager
 {
     private IRandomManager RandomManager { get; }

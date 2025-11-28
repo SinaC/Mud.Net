@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Server.Interfaces;
 using System.Diagnostics;
 
 namespace Mud.Server.Server;
 
+[Export(typeof(IPulseManager)), Shared]
 public class PulseManager : IPulseManager
 {
     private class PulseEntry
@@ -51,7 +53,7 @@ public class PulseManager : IPulseManager
                 sw.Restart();
                 entry.PulseAction(entry.PulseResetValue);
                 sw.Stop();
-                Logger.LogTrace("PULSE: {name} in {duration} ms", entry.Name, sw.ElapsedMilliseconds);
+                Logger.LogDebug("PULSE: {name} in {duration} ms", entry.Name, sw.ElapsedMilliseconds);
             }
         }
     }

@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common.Attributes;
 using Mud.Repository.Filesystem.Common;
 using Mud.Repository.Interfaces;
 
 namespace Mud.Repository.Filesystem;
 
+[Export(typeof(IPlayerRepository)), Shared]
 public class PlayerRepository : RepositoryBase, IPlayerRepository
 {
     private string PlayerRepositoryPath => Options.PlayerPath;

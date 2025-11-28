@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races;
@@ -14,6 +16,7 @@ adventurers. Although they have no special talents like the other races,
 they are more versitile, being skilled in all four classes. Humans may
 also train their primary stat higher than any other race, and are able to
 gain more benefit from magical devices.")]
+[Export(typeof(IRace)), Shared]
 public class Human : PlayableRaceBase
 {
     public Human(ILogger<Human> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)

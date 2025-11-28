@@ -83,73 +83,66 @@ public partial class ServerWindow : Window, INetworkServer
     {
         var logger = ServiceProvider.GetRequiredService<ILogger<TreasureTable<int>>>();
 
-        TreasureTable<int> tableSpider = new TreasureTable<int>(logger, RandomManager)
+        TreasureTable<int> tableSpider = new(logger, RandomManager)
         {
             Name = "TreasureList_Spider",
-            Entries = new List<TreasureTableEntry<int>>
-            {
-                new TreasureTableEntry<int>
-                {
+            Entries =
+            [
+                new() {
                     Value = 1, // Spider venom
                     Occurancy = 25,
                     MaxOccurancy = 1
                 },
-                new TreasureTableEntry<int>
-                {
+                new() {
                     Value = 2, // Spider webbing
                     Occurancy = 65,
                     MaxOccurancy = 1
                 },
-                new TreasureTableEntry<int>
-                {
+                new() {
                     Value = 3, // Severed spider leg
                     Occurancy = 10,
                     MaxOccurancy = 1
                 }
-            }
+            ]
         };
-        TreasureTable<int> tableRareLoot = new TreasureTable<int>(logger, RandomManager)
+        TreasureTable<int> tableRareLoot = new(logger, RandomManager)
         {
             Name = "TreasureList_RareLoot",
-            Entries = new List<TreasureTableEntry<int>>
-            {
-                new TreasureTableEntry<int>
-                {
+            Entries =
+            [
+                new() {
                     Value = 4, // Ubber-sword
                     Occurancy = 1,
                     MaxOccurancy = 1,
                 }
-            }
+            ]
         };
-        TreasureTable<int> tableEmpty = new TreasureTable<int>(logger, RandomManager)
+        TreasureTable<int> tableEmpty = new(logger, RandomManager)
         {
             Name = "TreasureList_Empty",
         };
-        CharacterLootTable<int> spiderTable = new CharacterLootTable<int>(ServiceProvider.GetRequiredService<ILogger<CharacterLootTable<int>>>(), RandomManager)
+        CharacterLootTable<int> spiderTable = new(ServiceProvider.GetRequiredService<ILogger<CharacterLootTable<int>>>(), RandomManager)
         {
             MinLoot = 1,
             MaxLoot = 3,
-            Entries = new List<CharacterLootTableEntry<int>>
-            {
-                new CharacterLootTableEntry<int>
-                {
+            Entries =
+            [
+                new() {
                     Value = tableSpider,
                     Occurancy = 45,
                     Max = 2
                 },
-                new CharacterLootTableEntry<int>
-                {
+                new() {
                     Value = tableRareLoot,
                     Occurancy = 5,
                     Max = 1
                 },
-                new CharacterLootTableEntry<int>
-                {
+                new() {
                     Value = tableEmpty,
                     Occurancy = 50,
                     Max = 1
                 }
-            },
+            ],
             //AlwaysDrop = new List<int>
             //{
             //    99
@@ -190,7 +183,7 @@ public partial class ServerWindow : Window, INetworkServer
 
         //
         var telnetServer = ServiceProvider.GetRequiredService<ITelnetNetworkServer>();
-        Server.Initialize(new List<INetworkServer> { telnetServer, this });
+        Server.Initialize([telnetServer, this]);
         Server.Start();
 
         //CreateNewClientWindow();
@@ -277,7 +270,7 @@ public partial class ServerWindow : Window, INetworkServer
 
     private void CreateNewClientWindow()
     {
-        ClientWindow window = new ClientWindow
+        ClientWindow window = new()
         {
             ColorAccepted = true
         };
@@ -353,7 +346,7 @@ public partial class ServerWindow : Window, INetworkServer
     //
     private void OutputText(string text)
     {
-        Paragraph paragraph = new Paragraph();
+        Paragraph paragraph = new ();
         paragraph.Inlines.Add(text);
         _serverWindowInstance.OutputRichTextBox.Document.Blocks.Add(paragraph);
     }
@@ -367,8 +360,19 @@ public partial class ServerWindow : Window, INetworkServer
         RomImporter importer = new (ServiceProvider.GetRequiredService<ILogger<RomImporter>>(), ServiceProvider);
         //MysteryImporter importer = new MysteryImporter();
         //RotImporter importer = new RotImporter();
-        importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
+        //importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
         //importer.ImportByList(path, "area.lst");
+        if (ImportOptions.Lists != null && ImportOptions.Lists.Length > 0)
+        {
+            foreach (string list in ImportOptions.Lists)
+            {
+                importer.ImportByList(path, list);
+            }
+        }
+        if (ImportOptions.Areas != null && ImportOptions.Areas.Length > 0)
+        {
+            importer.Import(path, ImportOptions.Areas);
+        }
 
         // Area
         foreach (AreaBlueprint blueprint in importer.Areas)
@@ -384,7 +388,7 @@ public partial class ServerWindow : Window, INetworkServer
             IArea area = AreaManager.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
             if (area == null)
             {
-                Logger.LogError("Area id {0} not found", blueprint.AreaId);
+                Logger.LogError("Area id {id} not found", blueprint.AreaId);
             }
             else
                 RoomManager.AddRoom(Guid.NewGuid(), blueprint, area);
@@ -396,7 +400,7 @@ public partial class ServerWindow : Window, INetworkServer
             {
                 IRoom to = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == exitBlueprint.Destination);
                 if (to == null)
-                    Logger.LogWarning("Destination room {0} not found for room {1} direction {2}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
+                    Logger.LogWarning("Destination room {id} not found for room {blueprintId} direction {dir}", exitBlueprint.Destination, room.Blueprint.Id, exitBlueprint.Direction);
                 else
                     RoomManager.AddExit(room, to, exitBlueprint, exitBlueprint.Direction);
             }
@@ -411,7 +415,7 @@ public partial class ServerWindow : Window, INetworkServer
             ItemManager.AddItemBlueprint(blueprint);
 
         // Custom blueprint to test
-        ItemQuestBlueprint questItem1Blueprint = new ItemQuestBlueprint
+        ItemQuestBlueprint questItem1Blueprint = new()
         {
             Id = 80000,
             Name = "Quest item 1",
@@ -419,7 +423,7 @@ public partial class ServerWindow : Window, INetworkServer
             Description = "The quest item 1 has been left here."
         };
         ItemManager.AddItemBlueprint(questItem1Blueprint);
-        ItemQuestBlueprint questItem2Blueprint = new ItemQuestBlueprint
+        ItemQuestBlueprint questItem2Blueprint = new()
         {
             Id = 80001,
             Name = "Quest item 2",
@@ -427,7 +431,7 @@ public partial class ServerWindow : Window, INetworkServer
             Description = "The quest item 2 has been left here."
         };
         ItemManager.AddItemBlueprint(questItem2Blueprint);
-        CharacterNormalBlueprint construct = new CharacterNormalBlueprint
+        CharacterNormalBlueprint construct = new()
         {
             Id = 80000,
             Name = "Construct",
@@ -466,7 +470,7 @@ public partial class ServerWindow : Window, INetworkServer
         // MANDATORY ITEMS
         if (ItemManager.GetItemBlueprint(WorldOptions.BlueprintIds.Corpse) == null)
         {
-            ItemCorpseBlueprint corpseBlueprint = new ItemCorpseBlueprint
+            ItemCorpseBlueprint corpseBlueprint = new()
             {
                 Id = WorldOptions.BlueprintIds.Corpse,
                 NoTake = true,
@@ -476,7 +480,7 @@ public partial class ServerWindow : Window, INetworkServer
         }
         if (ItemManager.GetItemBlueprint(WorldOptions.BlueprintIds.Coins) == null)
         {
-            ItemMoneyBlueprint moneyBlueprint = new ItemMoneyBlueprint
+            ItemMoneyBlueprint moneyBlueprint = new()
             {
                 Id = WorldOptions.BlueprintIds.Coins,
                 NoTake = true,
@@ -489,7 +493,7 @@ public partial class ServerWindow : Window, INetworkServer
         if (voidBlueprint == null)
         {
             IArea area = AreaManager.Areas.First();
-            Logger.LogError("NullRoom not found -> creation of null room with id {0} in area {1}", WorldOptions.BlueprintIds.NullRoom, area.DisplayName);
+            Logger.LogError("NullRoom not found -> creation of null room with id {id} in area {name}", WorldOptions.BlueprintIds.NullRoom, area.DisplayName);
             voidBlueprint = new RoomBlueprint
             {
                 Id = WorldOptions.BlueprintIds.NullRoom,
@@ -512,19 +516,18 @@ public partial class ServerWindow : Window, INetworkServer
         ItemManager.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
 
         // Quest
-        QuestKillLootTable<int> quest1KillLoot = new QuestKillLootTable<int>(ServiceProvider.GetRequiredService<ILogger<QuestKillLootTable<int>>>(), RandomManager)
+        QuestKillLootTable<int> quest1KillLoot = new(ServiceProvider.GetRequiredService<ILogger<QuestKillLootTable<int>>>(), RandomManager)
         {
             Name = "Quest 1 kill 1 table",
-            Entries = new List<QuestKillLootTableEntry<int>>
-            {
-                new QuestKillLootTableEntry<int>
-                {
+            Entries =
+            [
+                new() {
                     Value = questItem1Blueprint.Id,
                     Percentage = 80,
                 }
-            }
+            ]
         };
-        QuestBlueprint questBlueprint1 = new QuestBlueprint
+        QuestBlueprint questBlueprint1 = new()
         {
             Id = 1,
             Title = "Complex quest",
@@ -533,17 +536,17 @@ public partial class ServerWindow : Window, INetworkServer
             Experience = 50000,
             Gold = 20,
             ShouldQuestItemBeDestroyed = true,
-            KillObjectives = new []
-            {
+            KillObjectives =
+            [
                 new QuestKillObjectiveBlueprint
                 {
                     Id = 0,
                     CharacterBlueprintId = 3062, // fido
                     Count = 3
                 }
-            },
-            ItemObjectives = new []
-            {
+            ],
+            ItemObjectives =
+            [
                 new QuestItemObjectiveBlueprint
                 {
                     Id = 1,
@@ -556,15 +559,15 @@ public partial class ServerWindow : Window, INetworkServer
                     ItemBlueprintId = questItem1Blueprint.Id,
                     Count = 2
                 }
-            },
-            LocationObjectives = new []
-            {
+            ],
+            LocationObjectives =
+            [
                 new QuestLocationObjectiveBlueprint
                 {
                     Id = 3,
                     RoomBlueprintId = templeSquare.Blueprint.Id,
                 }
-            },
+            ],
             KillLootTable = new Dictionary<int, QuestKillLootTable<int>> // when killing mob 3065, we receive quest item 1 (80%)
             {
                 { 3065, quest1KillLoot } // beggar
@@ -573,7 +576,7 @@ public partial class ServerWindow : Window, INetworkServer
         };
         QuestManager.AddQuestBlueprint(questBlueprint1);
 
-        QuestBlueprint questBlueprint2 = new QuestBlueprint
+        QuestBlueprint questBlueprint2 = new()
         {
             Id = 2,
             Title = "Simple exploration quest",
@@ -582,8 +585,8 @@ public partial class ServerWindow : Window, INetworkServer
             Experience = 10000,
             Gold = 20,
             TimeLimit = 5,
-            LocationObjectives = new []
-            {
+            LocationObjectives =
+            [
                 new QuestLocationObjectiveBlueprint
                 {
                     Id = 0,
@@ -604,12 +607,12 @@ public partial class ServerWindow : Window, INetworkServer
                     Id = 3,
                     RoomBlueprintId = commonSquare.Blueprint.Id
                 }
-            },
+            ],
             // TODO: rewards
         };
         QuestManager.AddQuestBlueprint(questBlueprint2);
 
-        CharacterQuestorBlueprint mob10Blueprint = new CharacterQuestorBlueprint
+        CharacterQuestorBlueprint mob10Blueprint = new()
         {
             Id = 10,
             Name = "mob10 questor",
@@ -617,11 +620,11 @@ public partial class ServerWindow : Window, INetworkServer
             Description = "Tenth mob (neutral questor) is here",
             Sex = Sex.Neutral,
             Level = 60,
-            QuestBlueprints = new []
-            {
+            QuestBlueprints =
+            [
                 questBlueprint1,
                 questBlueprint2
-            }
+            ]
         };
         CharacterManager.AddCharacterBlueprint(mob10Blueprint);
         ICharacter mob10 = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);

@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races;
@@ -20,6 +22,7 @@ Giants resist heat and cold with nary a mark, due to their huge mass.  However,
 their slow minds make them extremely vulnerable to mental attacks.  Giants,
 due to their size and stamina, receive the fast healing and bash skills for
 free. (Only giant warriors receive bash).")]
+[Export(typeof(IRace)), Shared]
 public class Giant : PlayableRaceBase
 {
     public Giant(ILogger<Giant> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)

@@ -1,7 +1,9 @@
-﻿using Mud.Server.Interfaces.Class;
+﻿using Mud.Common.Attributes;
+using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Class;
 
+[Export(typeof(IClassManager)), Shared]
 public class ClassManager : IClassManager
 {
     private readonly Dictionary<string, IClass> _classByNames;

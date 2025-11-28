@@ -1,10 +1,12 @@
-﻿using Mud.Domain;
+﻿using Mud.Common.Attributes;
+using Mud.Domain;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Aura;
 
+[Export(typeof(IAuraManager)), Shared]
 public class AuraManager : IAuraManager
 {
     private IAffectManager AffectManager { get; }

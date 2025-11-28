@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Rom24.Classes;
 
@@ -13,6 +15,7 @@ talents of mages and priests.  Warriors are best for those who don't mind
 taking the direct approach, even when another method might be called for.
 
 Warriors begin with skill in the sword, and gain a second attack in combat.")]
+[Export(typeof(IClass)), Shared]
 public class Warrior : ClassBase
 {
     public Warrior(ILogger<Warrior> logger, IAbilityManager abilityManager)

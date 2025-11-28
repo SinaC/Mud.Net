@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Repository.Interfaces;
 using Mud.Server.Interfaces;
 
 namespace Mud.Server.Server;
 
+[Export(typeof(IUniquenessManager)), Shared]
 public class UniquenessManager : IUniquenessManager
 {
     private readonly HashSet<string> _unavailableNames = new(1024); // Lock ?

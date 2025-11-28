@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
 
 namespace Mud.Server.Rom24.Races;
@@ -20,6 +22,7 @@ However, they are burned by the touch of iron, and so are barred from the
 use of iron or steel in their adventuring careers.  Elves are notoriously 
 hard to spot, and so elven warriors and thieves recieve the sneak and hiding
 automatically. They may see in the dark with infravision.")]
+[Export(typeof(IRace)), Shared]
 public class Elf : PlayableRaceBase
 {
     public Elf(ILogger<Elf> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)

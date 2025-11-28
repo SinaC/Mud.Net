@@ -1,14 +1,16 @@
 INGOING
-    Unable to resolve service for type 'Microsoft.Extensions.Logging.ILogger' while attempting to activate 'Mud.Server.Rom24.Effects.FireEffect'.
-
+    
 TODO
-use Export for IClass, IRace, IXXXManager, ISanityCheck
+
+RichTextBoxSink should use Dispatcher.BeginInvoke instead of Invoke to avoid deadlock when logging from UI thread
 
 rename IAffectManager into IAffectFactory and check if other managers should be renamed into factories such as WeaponEffectManager and EffectManager
 add AffectName in AffectDataBase and use it in AffectFactory.CreateInstance(AffectDataBase data) -> call Activator.CreateInstance with data as parameter
 it's possible to remove ServiceProvider from Flags ?
 
-remove every manual call to GetService/GetRequiredService
+move IClass/IRace to IPlayableCharacter as non-nullable
+move IClass/IRace to INonPlayableCharacter as nullable
+
 dangerous call sequence (luckily we set Room to NullRoom in the first lines of ctor):
     PlayableCharacter.ctor
         CharacterManager.AddNonPlayableCharacter (when creating pet)
@@ -38,8 +40,6 @@ reimplement hot/dot
 sanity check in server should be moved to dedicated classes
 finish ROM24 classes
 when a player connects, if no avatar found -> switch to avatar create state machine
-move IClass/IRace to IPlayableCharacter as non-nullable
-move IClass/IRace to INonPlayableCharacter as nullable
 stop trying to be compatible with ROM24/Merc/Diku assume being Mystery mud :)
 compatibility must only be in blueprint loading
 check CanSee usage, if lambda can be removed

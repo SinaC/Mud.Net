@@ -1,7 +1,9 @@
-﻿using Mud.Server.Interfaces.Race;
+﻿using Mud.Common.Attributes;
+using Mud.Server.Interfaces.Race;
 
 namespace Mud.Server.Race;
 
+[Export(typeof(IRaceManager)), Shared]
 public class RaceManager : IRaceManager
 {
     private readonly Dictionary<string, IRace> _raceByNames;
