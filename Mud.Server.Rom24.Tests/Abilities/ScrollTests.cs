@@ -45,7 +45,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -85,7 +85,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -124,7 +124,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -156,7 +156,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Fireproof)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new();
             Mock<IRoom> roomMock = new();
@@ -165,7 +165,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -197,7 +197,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Curse)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new();
             Mock<IRoom> roomMock = new();
@@ -206,7 +206,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -216,7 +216,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new CurseEffect(_serviceProvider, auraManagerMock.Object));
+                .Returns(new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
 
             Scrolls skill = new(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
@@ -239,7 +239,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Invisibility)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _characterFlagFactory, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new();
             Mock<IRoom> roomMock = new();
@@ -248,7 +248,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -292,7 +292,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -337,7 +337,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -382,7 +382,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -414,7 +414,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Fireproof)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new();
             Mock<IRoom> roomMock = new();
@@ -427,7 +427,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -459,7 +459,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Curse)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new();
             Mock<IRoom> roomMock = new();
@@ -472,7 +472,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -482,7 +482,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new CurseEffect(_serviceProvider, auraManagerMock.Object));
+                .Returns(new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
 
             Scrolls skill = new(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
@@ -509,7 +509,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Invisibility)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _characterFlagFactory, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new();
             Mock<IRoom> roomMock = new();
@@ -522,7 +522,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -569,7 +569,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(_itemFlagFactory.CreateInstance());
             Mock<IItemScroll> scrollMock = new();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
@@ -613,7 +613,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(_itemFlagFactory.CreateInstance());
             Mock<IItemScroll> scrollMock = new();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
@@ -656,7 +656,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(_itemFlagFactory.CreateInstance());
             Mock<IItemScroll> scrollMock = new();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
@@ -683,7 +683,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Fireproof)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new();
             Mock<IRoom> roomMock = new();
@@ -698,7 +698,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(_itemFlagFactory.CreateInstance());
             Mock<IItemScroll> scrollMock = new();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
@@ -731,7 +731,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Curse)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new();
             Mock<IRoom> roomMock = new();
@@ -746,14 +746,14 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(_itemFlagFactory.CreateInstance());
             Mock<IItemScroll> scrollMock = new();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
             userMock.SetupGet(x => x.Inventory).Returns([scrollMock.Object, itemMock.Object]);
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new CurseEffect(_serviceProvider, auraManagerMock.Object));
+                .Returns(new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
 
             Scrolls skill = new(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");
@@ -780,7 +780,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
             abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(new Mock<ILogger>().Object, typeof(Invisibility)));
-            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object));
+            abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _characterFlagFactory, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new();
             Mock<IRoom> roomMock = new();
@@ -795,7 +795,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(_serviceProvider));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(_itemFlagFactory.CreateInstance());
             Mock<IItemScroll> scrollMock = new();
             scrollMock.SetupGet(x => x.Name).Returns("scroll");
             scrollMock.SetupGet(x => x.Keywords).Returns("scroll".Yield());

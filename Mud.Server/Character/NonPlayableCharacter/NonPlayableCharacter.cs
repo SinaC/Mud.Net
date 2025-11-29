@@ -7,7 +7,6 @@ using Mud.Domain;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common.Helpers;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -33,16 +32,16 @@ namespace Mud.Server.Character.NonPlayableCharacter;
 [Export(typeof(INonPlayableCharacter))]
 public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 {
-    private IServiceProvider ServiceProvider { get; }
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
+    private IFlagFactory FlagFactory { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IFlagFactory flagFactory)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, flagFactory, wiznet)
     {
-        ServiceProvider = serviceProvider;
         RaceManager = raceManager;
         ClassManager = classManager;
+        FlagFactory = flagFactory;
     }
 
     protected void Initialize(Guid guid, string name, string description, CharacterBlueprintBase blueprint, IRoom room)
@@ -64,15 +63,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         DamageDiceCount = blueprint.DamageDiceCount;
         DamageDiceValue = blueprint.DamageDiceValue;
         DamageDiceBonus = blueprint.DamageDiceBonus;
-        ActFlags = NewAndCopyAndSet<IActFlags, IActFlagValues>(() => new ActFlags(ServiceProvider), blueprint.ActFlags, Race?.ActFlags);
-        OffensiveFlags = NewAndCopyAndSet<IOffensiveFlags, IOffensiveFlagValues>(() => new OffensiveFlags(ServiceProvider), blueprint.OffensiveFlags, Race?.OffensiveFlags);
-        AssistFlags = NewAndCopyAndSet<IAssistFlags, IAssistFlagValues>(() => new AssistFlags(ServiceProvider), blueprint.AssistFlags, Race?.AssistFlags);
-        BaseBodyForms = NewAndCopyAndSet<IBodyForms, IBodyFormValues>(() => new BodyForms(ServiceProvider), Blueprint.BodyForms, Race?.BodyForms);
-        BaseBodyParts = NewAndCopyAndSet<IBodyParts, IBodyPartValues>(() => new BodyParts(ServiceProvider), Blueprint.BodyParts, Race?.BodyParts);
-        BaseCharacterFlags = NewAndCopyAndSet<ICharacterFlags, ICharacterFlagValues>(() => new CharacterFlags(ServiceProvider), blueprint.CharacterFlags, Race?.CharacterFlags);
-        BaseImmunities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(ServiceProvider), blueprint.Immunities, Race?.Immunities);
-        BaseResistances = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(ServiceProvider), blueprint.Resistances, Race?.Resistances);
-        BaseVulnerabilities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => new IRVFlags(ServiceProvider), blueprint.Vulnerabilities, Race?.Vulnerabilities);
+        ActFlags = NewAndCopyAndSet<IActFlags, IActFlagValues>(() => FlagFactory.CreateInstance<IActFlags, IActFlagValues>(), blueprint.ActFlags, Race?.ActFlags);
+        OffensiveFlags = NewAndCopyAndSet<IOffensiveFlags, IOffensiveFlagValues>(() => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>(), blueprint.OffensiveFlags, Race?.OffensiveFlags);
+        AssistFlags = NewAndCopyAndSet<IAssistFlags, IAssistFlagValues>(() => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>(), blueprint.AssistFlags, Race?.AssistFlags);
+        BaseBodyForms = NewAndCopyAndSet<IBodyForms, IBodyFormValues>(() => FlagFactory.CreateInstance<IBodyForms, IBodyFormValues>(), Blueprint.BodyForms, Race?.BodyForms);
+        BaseBodyParts = NewAndCopyAndSet<IBodyParts, IBodyPartValues>(() => FlagFactory.CreateInstance<IBodyParts, IBodyPartValues>(), Blueprint.BodyParts, Race?.BodyParts);
+        BaseCharacterFlags = NewAndCopyAndSet<ICharacterFlags, ICharacterFlagValues>(() => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(), blueprint.CharacterFlags, Race?.CharacterFlags);
+        BaseImmunities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(), blueprint.Immunities, Race?.Immunities);
+        BaseResistances = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(), blueprint.Resistances, Race?.Resistances);
+        BaseVulnerabilities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(), blueprint.Vulnerabilities, Race?.Vulnerabilities);
         BaseSex = blueprint.Sex;
         BaseSize = blueprint.Size;
         Alignment = blueprint.Alignment.Range(-1000, 1000);

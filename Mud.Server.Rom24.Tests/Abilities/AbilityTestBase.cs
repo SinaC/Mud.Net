@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -16,24 +18,51 @@ namespace Mud.Server.Rom24.Tests.Abilities
     public abstract class AbilityTestBase
     {
         protected IServiceProvider _serviceProvider = default!;
+        protected IFlagFactory<ICharacterFlags, ICharacterFlagValues> _characterFlagFactory = default!;
+        protected IFlagFactory<IOffensiveFlags, IOffensiveFlagValues> _offensiveFlagFactory = default!;
+        protected IFlagFactory<IItemFlags, IItemFlagValues> _itemFlagFactory = default!;
 
         [TestInitialize]
         public void TestInitialize()
         {
             var serviceProviderMock = new Mock<IServiceProvider>();
-            
+            _serviceProvider = serviceProviderMock.Object;
+
             serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
                 .Returns(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlags)))
+                .Returns(new CharacterFlags(_serviceProvider.GetRequiredService<ICharacterFlagValues>()));
+
             serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlagValues)))
                 .Returns(new RoomFlagValues(new Mock<ILogger<RoomFlagValues>>().Object));
-            serviceProviderMock.Setup(x => x.GetService(typeof(IOffensiveFlagValues)))
-                .Returns(new OffensiveFlagValues(new Mock<ILogger<OffensiveFlagValues>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlags)))
+                .Returns(new RoomFlags(_serviceProvider.GetRequiredService<IRoomFlagValues>()));
+
             serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlagValues)))
                 .Returns(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlags)))
+                .Returns(new ItemFlags(_serviceProvider.GetRequiredService<IItemFlagValues>()));
+
+            serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlagValues)))
+                .Returns(new WeaponFlagValues(new Mock<ILogger<WeaponFlagValues>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlags)))
+                .Returns(new WeaponFlags(_serviceProvider.GetRequiredService<IWeaponFlagValues>()));
+
+            serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlagValues)))
+                .Returns(new IRVFlagValues(new Mock<ILogger<IRVFlagValues>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlags)))
+                .Returns(new IRVFlags(_serviceProvider.GetRequiredService<IIRVFlagValues>()));
+
+            serviceProviderMock.Setup(x => x.GetService(typeof(IOffensiveFlagValues)))
+                .Returns(new OffensiveFlagValues(new Mock<ILogger<OffensiveFlagValues>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IOffensiveFlags)))
+                .Returns(new OffensiveFlags(_serviceProvider.GetRequiredService<IOffensiveFlagValues>()));
+
+            _characterFlagFactory = new CharacterFlagsFactory(_serviceProvider);
+            _offensiveFlagFactory = new OffensiveFlagsFactory(_serviceProvider);
+            _itemFlagFactory = new ItemFlagsFactory(_serviceProvider);
 
             RegisterAdditionalDependencies(serviceProviderMock);
-
-            _serviceProvider = serviceProviderMock.Object;
         }
 
         protected virtual void RegisterAdditionalDependencies(Mock<IServiceProvider> serviceProviderMock)

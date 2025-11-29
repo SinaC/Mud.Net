@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -18,14 +18,14 @@ public class SpellTest : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Test";
 
-    private IServiceProvider ServiceProvider { get; }
     private IAuraManager AuraManager { get; }
+    private IFlagFactory FlagFactory { get; }
 
-    public SpellTest(ILogger<SpellTest> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager) 
+    public SpellTest(ILogger<SpellTest> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory flagFactory) 
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
         AuraManager = auraManager;
+        FlagFactory = flagFactory;
     }
 
     protected override void Invoke(ICharacter victim)
@@ -43,9 +43,9 @@ public class SpellTest : ItemOrDefensiveSpellBase
 
         // Immune to all damages
         AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(1), AuraFlags.NoDispel, true,
-            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Pouet")},
-            new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags(ServiceProvider,"Magic"), Operator = AffectOperators.Or },
-            new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = new IRVFlags(ServiceProvider, "Weapon"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Pouet")},
+            new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Magic"), Operator = AffectOperators.Or },
+            new CharacterIRVAffect { Location = IRVAffectLocations.Immunities, Modifier = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Weapon"), Operator = AffectOperators.Or });
     }
 
     protected override void Invoke(IItem item)
@@ -59,12 +59,12 @@ public class SpellTest : ItemOrDefensiveSpellBase
         if (item is IItemWeapon itemWeapon)
         {
             AuraManager.AddAura(itemWeapon, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
-                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags(ServiceProvider, "Flaming", "Frost", "Vampiric", "Sharp", "Vorpal", "Shocking", "Poison") });
+                new ItemWeaponFlagsAffect { Modifier = FlagFactory.CreateInstance<IWeaponFlags, IWeaponFlagValues>("Flaming", "Frost", "Vampiric", "Sharp", "Vorpal", "Shocking", "Poison") });
         }
 
         AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
-            new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Glowing", "Humming", "Magic") },
+            new ItemFlagsAffect { Modifier = FlagFactory.CreateInstance<IItemFlags, IItemFlagValues>("Glowing", "Humming", "Magic") },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -Level, Operator = AffectOperators.Add},
-        new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Characteristics, Modifier = Level, Operator = AffectOperators.Add });
+            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Characteristics, Modifier = Level, Operator = AffectOperators.Add });
     }
 }

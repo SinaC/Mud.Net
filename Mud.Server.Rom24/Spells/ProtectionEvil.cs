@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -26,12 +26,12 @@ public class ProtectionEvil : CharacterBuffSpellBase
 {
     private const string SpellName = "Protection Evil";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public ProtectionEvil(ILogger<ProtectionEvil> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public ProtectionEvil(ILogger<ProtectionEvil> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
     }
 
     protected override string SelfAlreadyAffectedMessage => "You are already protected.";
@@ -43,7 +43,7 @@ public class ProtectionEvil : CharacterBuffSpellBase
         new IAffect[] 
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "ProtectEvil"), Operator = AffectOperators.Or }
+            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("ProtectEvil"), Operator = AffectOperators.Or }
         });
     
 }

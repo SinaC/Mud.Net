@@ -2,7 +2,6 @@
 using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Common;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
@@ -25,8 +24,8 @@ free. (Only giant warriors receive bash).")]
 [Export(typeof(IRace)), Shared]
 public class Giant : PlayableRaceBase
 {
-    public Giant(ILogger<Giant> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)
-        : base(logger, serviceProvider, abilityManager)
+    public Giant(ILogger<Giant> logger, IFlagFactory flagFactory, IAbilityManager abilityManager)
+        : base(logger, flagFactory, abilityManager)
     {
         AddAbility("Bash");
         AddAbility("Fast healing");
@@ -39,18 +38,18 @@ public class Giant : PlayableRaceBase
 
     public override Sizes Size => Sizes.Large;
 
-    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider);
+    public override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
 
-    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider);
-    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider, "Fire", "Cold");
-    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider, "Mental", "Lightning");
+    public override IIRVFlags Immunities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
+    public override IIRVFlags Resistances => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Fire", "Cold");
+    public override IIRVFlags Vulnerabilities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Mental", "Lightning");
 
-    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Edible", "Sentient", "Biped", "Mammal");
-    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
+    public override IBodyForms BodyForms => FlagFactory.CreateInstance<IBodyForms, IBodyFormValues>( "Edible", "Sentient", "Biped", "Mammal");
+    public override IBodyParts BodyParts => FlagFactory.CreateInstance<IBodyParts, IBodyPartValues>( "Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
 
-    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider);
-    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider);
+    public override IActFlags ActFlags => FlagFactory.CreateInstance<IActFlags, IActFlagValues>();
+    public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
+    public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
 
     public override int GetStartAttribute(CharacterAttributes attribute)
     {

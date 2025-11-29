@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Repository.Filesystem;
@@ -433,15 +432,15 @@ public class AutoMapperProfile : Profile
 
     public class StringToItemFlagsConverter : ITypeConverter<string, IItemFlags>
     {
-        private IServiceProvider ServiceProvider { get; }
+        private IFlagFactory FlagFactory { get; }
 
-        public StringToItemFlagsConverter(IServiceProvider serviceProvider)
+        public StringToItemFlagsConverter(IFlagFactory flagFactory)
         {
-            ServiceProvider = serviceProvider;
+            FlagFactory = flagFactory;
         }
 
         public IItemFlags Convert(string source, IItemFlags destination, ResolutionContext context)
-            => new ItemFlags(ServiceProvider, source);
+            =>  FlagFactory.CreateInstance<IItemFlags, IItemFlagValues>(source);
     }
 
     private Mud.Domain.AffectOperators MapAffectOperators(int op)
@@ -564,28 +563,28 @@ public class AutoMapperProfile : Profile
 
     public class StringToIRVFlagsConverter : ITypeConverter<string, IIRVFlags>
     {
-        private IServiceProvider ServiceProvider { get; }
+        private IFlagFactory FlagFactory { get; }
 
-        public StringToIRVFlagsConverter(IServiceProvider serviceProvider)
+        public StringToIRVFlagsConverter(IFlagFactory flagFactory)
         {
-            ServiceProvider = serviceProvider;
+            FlagFactory = flagFactory;
         }
 
         public IIRVFlags Convert(string source, IIRVFlags destination, ResolutionContext context)
-            => new IRVFlags(ServiceProvider, source);
+            => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(source);
     }
 
     public class StringToWeaponFlagsConverter : ITypeConverter<string, IWeaponFlags>
     {
-        private IServiceProvider ServiceProvider { get; }
+        private IFlagFactory FlagFactory { get; }
 
-        public StringToWeaponFlagsConverter(IServiceProvider serviceProvider)
+        public StringToWeaponFlagsConverter(IFlagFactory flagFactory)
         {
-            ServiceProvider = serviceProvider;
+            FlagFactory = flagFactory;
         }
 
         public IWeaponFlags Convert(string source, IWeaponFlags destination, ResolutionContext context)
-            => new WeaponFlags(ServiceProvider, source);
+            => FlagFactory.CreateInstance<IWeaponFlags, IWeaponFlagValues>(source);
     }
 
     private Mud.Domain.CharacterAttributes MapCharacterAttributes(int attr)
@@ -795,27 +794,27 @@ public class AutoMapperProfile : Profile
 
     public class StringToCharacterFlagsConverter : ITypeConverter<string, ICharacterFlags>
     {
-        private IServiceProvider ServiceProvider { get; }
+        private IFlagFactory FlagFactory { get; }
 
-        public StringToCharacterFlagsConverter(IServiceProvider serviceProvider)
+        public StringToCharacterFlagsConverter(IFlagFactory flagFactory)
         {
-            ServiceProvider = serviceProvider;
+            FlagFactory = flagFactory;
         }
 
         public ICharacterFlags Convert(string source, ICharacterFlags destination, ResolutionContext context)
-            => new CharacterFlags(ServiceProvider, source);
+            => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(source);
     }
 
     public class StringToRoomFlagsConverter : ITypeConverter<string, IRoomFlags>
     {
-        private IServiceProvider ServiceProvider { get; }
+        private IFlagFactory FlagFactory { get; }
 
-        public StringToRoomFlagsConverter(IServiceProvider serviceProvider)
+        public StringToRoomFlagsConverter(IFlagFactory flagFactory)
         {
-            ServiceProvider = serviceProvider;
+            FlagFactory = flagFactory;
         }
 
         public IRoomFlags Convert(string source, IRoomFlags destination, ResolutionContext context)
-            => new RoomFlags(ServiceProvider, source);
+            => FlagFactory.CreateInstance<IRoomFlags, IRoomFlagValues>(source);
     }
 }

@@ -157,6 +157,9 @@ public class Look : CharacterGameAction
         {
             StringBuilder sb = new();
             sb.AppendLine("It is pitch black ... ");
+            //// display items
+            //ItemsHelpers.AppendItems(sb, Actor.Room.Content.Where(Actor.CanSee), Actor, false, false);
+            // display characters
             foreach (ICharacter victim in Actor.Room.People.Where(x => x != Actor))
             {
                 //  (see act_info.C:714 show_char_to_char)

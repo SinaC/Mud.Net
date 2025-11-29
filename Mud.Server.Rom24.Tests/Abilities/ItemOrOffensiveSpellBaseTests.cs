@@ -38,7 +38,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Cast the spell on whom or what?", result);
         }
@@ -66,7 +66,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
@@ -89,7 +89,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("target");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You don't see that here.", result);
         }
@@ -115,7 +115,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("target");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You don't see that here.", result);
         }
@@ -144,7 +144,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("target");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Not on that victim!!!!", result);
         }
@@ -165,7 +165,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
-            casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider, "Charm"));
+            casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance("Charm"));
             casterMock.SetupGet(x => x.Master).Returns(victimMock.Object);
             casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(new ICharacter[] { casterMock.Object, victimMock.Object });
@@ -174,7 +174,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("target");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You can't do that on your own follower.", result);
         }
@@ -202,7 +202,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("target");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
@@ -232,7 +232,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("item");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
@@ -262,7 +262,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("item");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
@@ -292,7 +292,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("item");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }

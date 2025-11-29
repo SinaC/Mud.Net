@@ -7,11 +7,11 @@ namespace Mud.Server.Race;
 
 public abstract class RaceBase : IRace
 {
-    protected IServiceProvider ServiceProvider { get; }
+    protected IFlagFactory FlagFactory { get; }
 
-    protected RaceBase(IServiceProvider serviceProvider)
+    protected RaceBase(IFlagFactory flagFactory)
     {
-        ServiceProvider = serviceProvider;
+        FlagFactory = flagFactory;
     }
 
     #region IRace

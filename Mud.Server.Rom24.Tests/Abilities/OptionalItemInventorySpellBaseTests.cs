@@ -37,7 +37,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("item");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You are not carrying that.", result);
         }
@@ -60,7 +60,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
@@ -88,7 +88,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("item");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You are not carrying that.", result);
         }
@@ -116,7 +116,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("item");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You are not carrying that.", result);
         }
@@ -144,7 +144,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("item");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }

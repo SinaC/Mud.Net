@@ -3,7 +3,6 @@ using Moq;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Commands.Character.Ability;
-using Mud.Server.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
@@ -40,7 +39,7 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
         casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
-        casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+        casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Sleeping);
         victimMock.SetupGet(x => x.Name).Returns("target");
         victimMock.SetupGet(x => x.Keywords).Returns(["target"]);
@@ -69,7 +68,7 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
         casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
-        casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+        casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Resting);
         victimMock.SetupGet(x => x.Name).Returns("target");
         victimMock.SetupGet(x => x.Keywords).Returns(["target"]);
@@ -98,7 +97,7 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
         casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
-        casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+        casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Sitting);
         victimMock.SetupGet(x => x.Name).Returns("target");
         victimMock.SetupGet(x => x.Keywords).Returns(["target"]);
@@ -127,7 +126,7 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
         casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
-        casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+        casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Stunned).Returns(10);
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -157,7 +156,7 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
         casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
-        casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+        casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         victimMock.SetupGet(x => x.Name).Returns("target");
         victimMock.SetupGet(x => x.Keywords).Returns(["target"]);
@@ -186,7 +185,7 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
         casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
-        casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+        casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         victimMock.SetupGet(x => x.Name).Returns("target");
         victimMock.SetupGet(x => x.Keywords).Returns(["target"]);
@@ -216,7 +215,7 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
         casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
-        casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+        casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         victimMock.SetupGet(x => x.Name).Returns("target");
         victimMock.SetupGet(x => x.Keywords).Returns(["target"]);
@@ -247,7 +246,7 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
         casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
-        casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider, "Charm"));
+        casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance("Charm"));
         casterMock.SetupGet(x => x.Master).Returns(victimMock.Object);
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -280,7 +279,7 @@ public class AcidBlastTests : AbilityTestBase
         casterMock.SetupGet(x => x.Level).Returns(50);
         casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
         casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(x => (100, acidBlastLearned));
-        casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+        casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana

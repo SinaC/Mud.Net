@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -25,13 +25,13 @@ public class Berserk : NoTargetSkillBase
 {
     private const string SkillName = "Berserk";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Berserk(ILogger<Berserk> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager) 
+    public Berserk(ILogger<Berserk> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager) 
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -85,7 +85,7 @@ public class Berserk : NoTargetSkillBase
             int modifier = Math.Max(1, User.Level / 5);
             int acModifier = Math.Max(10, 10 * (User.Level / 5));
             AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Berserk"), Operator = AffectOperators.Or },
+                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Berserk"), Operator = AffectOperators.Or },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = acModifier, Operator = AffectOperators.Add });

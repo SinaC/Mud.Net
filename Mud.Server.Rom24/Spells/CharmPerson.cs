@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -25,13 +25,13 @@ public class CharmPerson : OffensiveSpellBase
 {
     private const string SpellName = "Charm Person";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public CharmPerson(ILogger<CharmPerson> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public CharmPerson(ILogger<CharmPerson> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -81,7 +81,7 @@ public class CharmPerson : OffensiveSpellBase
 
         int duration = RandomManager.Fuzzy(Level / 4);
         AuraManager.AddAura(npcVictim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Charm"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Charm"), Operator = AffectOperators.Or });
 
         npcVictim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", Caster);
         if (Caster != npcVictim)

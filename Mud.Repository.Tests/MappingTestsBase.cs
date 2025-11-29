@@ -1,8 +1,10 @@
 ﻿using AutoBogus;
 using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.DataStructures.Flags;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using static Mud.Repository.Filesystem.AutoMapperProfile;
 
@@ -12,21 +14,39 @@ namespace Mud.Repository.Tests
     public abstract class MappingTestsBase
     {
         protected IServiceProvider _serviceProvider = default!;
+        protected IFlagFactory _flagFactory = default!;
 
         [TestInitialize]
         public void TestInitialize()
         {
             var serviceProviderMock = new Mock<IServiceProvider>();
+            _serviceProvider = serviceProviderMock.Object;
+
             serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
                 .Returns(new Rom24CharacterFlags(new Mock<ILogger<Rom24CharacterFlags>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlags)))
+                .Returns(new CharacterFlags(_serviceProvider.GetRequiredService<ICharacterFlagValues>()));
+
             serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlagValues)))
                 .Returns(new Rom24RoomFlags(new Mock<ILogger<Rom24RoomFlags>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlags)))
+                .Returns(new RoomFlags(_serviceProvider.GetRequiredService<IRoomFlagValues>()));
+
             serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlagValues)))
                 .Returns(new Rom24ItemFlagValues(new Mock<ILogger<Rom24ItemFlagValues>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlags)))
+                .Returns(new ItemFlags(_serviceProvider.GetRequiredService<IItemFlagValues>()));
+
             serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlagValues)))
                 .Returns(new Rom24WeaponFlagValues(new Mock<ILogger<Rom24WeaponFlagValues>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlags)))
+                .Returns(new WeaponFlags(_serviceProvider.GetRequiredService<IWeaponFlagValues>()));
+
             serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlagValues)))
                 .Returns(new Rom24IRVFlagValues(new Mock<ILogger<Rom24IRVFlagValues>>().Object));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlags)))
+                .Returns(new IRVFlags(_serviceProvider.GetRequiredService<IIRVFlagValues>()));
+
             var mapper = CreateMapper();
             serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))) 
                 .Returns(mapper);
@@ -39,7 +59,7 @@ namespace Mud.Repository.Tests
                   .WithRecursiveDepth(10); // Configures how deep nested types should recurse
             });
 
-            _serviceProvider = serviceProviderMock.Object;
+            _flagFactory = new FlagsFactory(_serviceProvider);
         }
 
         private IMapper CreateMapper()
@@ -52,15 +72,15 @@ namespace Mud.Repository.Tests
                 cfg.ConstructServicesUsing(t =>
                 {
                     if (t == typeof(StringToItemFlagsConverter))
-                        return new StringToItemFlagsConverter(_serviceProvider);
+                        return new StringToItemFlagsConverter(_flagFactory);
                     if (t == typeof(StringToIRVFlagsConverter))
-                        return new StringToIRVFlagsConverter(_serviceProvider);
+                        return new StringToIRVFlagsConverter(_flagFactory);
                     if (t == typeof(StringToWeaponFlagsConverter))
-                        return new StringToWeaponFlagsConverter(_serviceProvider);
+                        return new StringToWeaponFlagsConverter(_flagFactory);
                     if (t == typeof(StringToCharacterFlagsConverter))
-                        return new StringToCharacterFlagsConverter(_serviceProvider);
+                        return new StringToCharacterFlagsConverter(_flagFactory);
                     if (t == typeof(StringToRoomFlagsConverter))
-                        return new StringToRoomFlagsConverter(_serviceProvider);
+                        return new StringToRoomFlagsConverter(_flagFactory);
                     return null;
                 });
             });

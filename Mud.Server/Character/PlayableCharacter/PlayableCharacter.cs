@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Common.Attributes;
@@ -9,7 +8,7 @@ using Mud.Domain.Extensions;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -41,11 +40,11 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     public static readonly int MinCondition = 0;
     public static readonly int MaxCondition = 48;
 
-    private IServiceProvider ServiceProvider { get; }
     private IOptions<WorldOptions> WorldOptions { get; }
     private IClassManager ClassManager { get; }
     private IRaceManager RaceManager { get; }
     private IQuestManager QuestManager { get; }
+    private IFlagFactory FlagFactory { get; }
     private int MaxLevel { get; }
 
     private readonly List<IQuest> _quests;
@@ -53,14 +52,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, wiznet)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IFlagFactory flagFactory)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, flagFactory, wiznet)
     {
-        ServiceProvider = serviceProvider;
         WorldOptions = worldOptions;
         ClassManager = classManager;
         RaceManager = raceManager;
         QuestManager = questManager;
+        FlagFactory = flagFactory;
         MaxLevel = WorldOptions.Value.MaxLevel;
 
         _quests = [];
@@ -127,7 +126,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 this[conditionData.Key] = conditionData.Value;
         }
         //
-        BaseCharacterFlags = data.CharacterFlags ?? new CharacterFlags(ServiceProvider);
+        BaseCharacterFlags = data.CharacterFlags ?? FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
         BaseImmunities = data.Immunities;
         BaseResistances = data.Resistances;
         BaseVulnerabilities = data.Vulnerabilities;

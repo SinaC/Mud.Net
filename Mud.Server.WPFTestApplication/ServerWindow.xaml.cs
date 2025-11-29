@@ -12,6 +12,7 @@ using Mud.Server.Blueprints.LootTable;
 using Mud.Server.Blueprints.Quest;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Area;
@@ -52,10 +53,11 @@ public partial class ServerWindow : Window, INetworkServer
     private IItemManager ItemManager { get; }
     private IQuestManager QuestManager { get; }
     private IRandomManager RandomManager { get; }
+    private IFlagFactory FlagFactory { get; }
     private ImportOptions ImportOptions { get; }
     private WorldOptions WorldOptions { get; }
 
-    public ServerWindow(ILogger<ServerWindow> logger, IServiceProvider serviceProvider, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager,
+    public ServerWindow(ILogger<ServerWindow> logger, IServiceProvider serviceProvider, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager, IFlagFactory flagFactory,
         IOptions<ImportOptions> importOptions, IOptions<WorldOptions> worldOptions)
     {
         Logger = logger;
@@ -70,6 +72,7 @@ public partial class ServerWindow : Window, INetworkServer
         ItemManager = itemManager;
         QuestManager = questManager;
         RandomManager = randomManager;
+        FlagFactory = flagFactory;
         ImportOptions = importOptions.Value;
         WorldOptions = worldOptions.Value;
 
@@ -77,6 +80,26 @@ public partial class ServerWindow : Window, INetworkServer
 
         InitializeComponent();
         Loaded += OnLoaded;
+    }
+
+    private void TestFlagFactory()
+    {
+        try
+        {
+            var actFlagsFactory = ServiceProvider.GetRequiredService<IFlagFactory<IActFlags, IActFlagValues>>();
+            var actFlags = actFlagsFactory.CreateInstance("Aggressive", "IsHealer", "Warrior");
+
+            var irvFlagsFactory = ServiceProvider.GetRequiredService<IFlagFactory<IIRVFlags, IIRVFlagValues>>();
+            var irvFlags = irvFlagsFactory.CreateInstance("Fire", "Cold", "Invalid");
+
+            var flagFactory = ServiceProvider.GetRequiredService<IFlagFactory>();
+            var actFlags_ = flagFactory.CreateInstance<IActFlags, IActFlagValues>("Sneak", "Hide");
+            var irvFlags_ = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Earth", "Water", "Invalid");
+        }
+        catch(Exception ex)
+        {
+            Logger.LogError("Error testing FlagFactory: {ex}", ex.ToString());
+        }
     }
 
     private void TestLootTable()
@@ -167,7 +190,8 @@ public partial class ServerWindow : Window, INetworkServer
         }
 
         //
-        TestLootTable();
+        //TestFlagFactory();
+        //TestLootTable();
 
         try
         {
@@ -357,7 +381,7 @@ public partial class ServerWindow : Window, INetworkServer
 
         Logger.LogInformation("Importing from {path}", path);
 
-        RomImporter importer = new (ServiceProvider.GetRequiredService<ILogger<RomImporter>>(), ServiceProvider);
+        RomImporter importer = new (ServiceProvider.GetRequiredService<ILogger<RomImporter>>(), ServiceProvider, ServiceProvider.GetRequiredService<IFlagFactory>());
         //MysteryImporter importer = new MysteryImporter();
         //RotImporter importer = new RotImporter();
         //importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
@@ -458,12 +482,12 @@ public partial class ServerWindow : Window, INetworkServer
             ArmorPierce = 200,
             ArmorSlash = 400,
             ArmorExotic = 0,
-            ActFlags = new ActFlags(ServiceProvider, "Pet"),
-            OffensiveFlags = new OffensiveFlags(ServiceProvider, "Bash"),
-            CharacterFlags = new CharacterFlags(ServiceProvider, "Haste"),
-            Immunities = new IRVFlags(ServiceProvider),
-            Resistances = new IRVFlags(ServiceProvider, "Slash", "Fire"),
-            Vulnerabilities = new IRVFlags(ServiceProvider, "Acid"),
+            ActFlags = FlagFactory.CreateInstance<IActFlags, IActFlagValues>("Pet"),
+            OffensiveFlags = FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>("Bash"),
+            CharacterFlags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Haste"),
+            Immunities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(),
+            Resistances = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Slash", "Fire"),
+            Vulnerabilities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Acid"),
         };
         CharacterManager.AddCharacterBlueprint(construct);
 
@@ -498,7 +522,7 @@ public partial class ServerWindow : Window, INetworkServer
             {
                 Id = WorldOptions.BlueprintIds.NullRoom,
                 Name = "The void",
-                RoomFlags = new RoomFlags(ServiceProvider, "NoRecall", "NoScan", "NoWhere")
+                RoomFlags = FlagFactory.CreateInstance<IRoomFlags, IRoomFlagValues>("NoRecall", "NoScan", "NoWhere")
             };
             RoomManager.AddRoomBlueprint(voidBlueprint);
             RoomManager.AddRoom(Guid.NewGuid(), voidBlueprint, area);

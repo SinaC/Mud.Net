@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects;
 using Mud.Server.Affects.Character;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
@@ -14,13 +14,13 @@ namespace Mud.Server.Rom24.Affects;
 [Affect("Plague", typeof(PlagueSpreadAndDamageAffectData))]
 public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect, ICustomAffect
 {
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
 
-    public PlagueSpreadAndDamageAffect(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public PlagueSpreadAndDamageAffect(IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         RandomManager = randomManager;
         AuraManager = auraManager;
     }
@@ -61,8 +61,8 @@ public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect, ICustomAffe
                     int duration = RandomManager.Range(1, 2 * aura.Level);
                     AuraManager.AddAura(victim, aura.AbilityName, character, aura.Level - 1, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                         new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add},
-                        new CharacterFlagsAffect {Modifier = new CharacterFlags(ServiceProvider, "Plague"), Operator = AffectOperators.Or},
-                        new PlagueSpreadAndDamageAffect(ServiceProvider, RandomManager, AuraManager));
+                        new CharacterFlagsAffect {Modifier = CharacterFlagFactory.CreateInstance("Plague"), Operator = AffectOperators.Or},
+                        new PlagueSpreadAndDamageAffect(CharacterFlagFactory, RandomManager, AuraManager));
                 }
             }
         }

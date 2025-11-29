@@ -2,7 +2,6 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -21,15 +20,15 @@ public class DetectInvis : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Invis";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public DetectInvis(ILogger<DetectInvis> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public DetectInvis(ILogger<DetectInvis> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "DetectInvis");
+    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("DetectInvis");
     protected override string SelfAlreadyAffected => "You can already see invisible.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already see invisible things.";
     protected override string SelfSuccess => "Your eyes tingle.";

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Mud.Common;
+﻿using Mud.Common;
 
 namespace Mud.DataStructures.Flags;
 
@@ -51,7 +50,9 @@ public class Flags : IFlags<string>
     #endregion
 
     public bool HasAny(Flags flags) => flags.Items.Any(x => _hashSet.Contains(x));
+
     public bool HasAll(Flags flags) => flags.Items.All(x => _hashSet.Contains(x));
+
     public void Set(Flags flags)
     {
         _hashSet.UnionWith(flags.Items);
@@ -81,38 +82,13 @@ public class Flags : IFlags<string>
 public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
     where TFlagValues : IFlagValues<string>
 {
-    private IServiceProvider ServiceProvider { get; }
+    protected TFlagValues FlagValues { get; }
 
-    private TFlagValues? _flagsValues;
-    protected TFlagValues FlagValues
+    private readonly HashSet<string> _hashSet = new(StringComparer.InvariantCultureIgnoreCase);
+
+    protected Flags(TFlagValues flagValues)
     {
-        get
-        {
-            _flagsValues ??= (TFlagValues)ServiceProvider.GetRequiredService(typeof(TFlagValues));
-            return _flagsValues;
-        }
-    }
-
-    private readonly HashSet<string> _hashSet;
-
-    protected Flags(IServiceProvider serviceProvider)
-    {
-        ServiceProvider = serviceProvider;
-
-        _hashSet = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
-    }
-
-    protected Flags(IServiceProvider serviceProvider, string flags)
-        : this(serviceProvider)
-    {
-        if (!string.IsNullOrWhiteSpace(flags))
-            Set(flags.Split(','));
-    }
-
-    protected Flags(IServiceProvider serviceProvider, params string[] flags)
-        : this(serviceProvider)
-    {
-        Set(flags);
+        FlagValues = flagValues;
     }
 
     #region IFlags
@@ -124,7 +100,6 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
             Set(flags);
     }
 
-
     public bool IsNone => _hashSet.Count == 0;
 
     public bool IsSet(string flag)
@@ -133,24 +108,28 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
             FlagValues.OnUnknownValues(UnknownFlagValueContext.IsSet, UnknownValues(flag.Yield()));
         return _hashSet.Contains(flag);
     }
+
     public bool HasAny(params string[] flags)
     {
         if (!CheckValues(flags))
             FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, UnknownValues(flags));
         return flags.Any(x => _hashSet.Contains(x));
     }
+ 
     public bool HasAny(IFlags<string, TFlagValues> flags)
     {
         if (!CheckValues(flags))
             FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAny, UnknownValues(flags.Values));
         return flags.Values.Any(x => _hashSet.Contains(x));
     }
+
     public bool HasAll(params string[] flags)
     {
         if (!CheckValues(flags))
             FlagValues.OnUnknownValues(UnknownFlagValueContext.HasAll, UnknownValues(flags));
         return flags.All(x => _hashSet.Contains(x));
     }
+
     public bool HasAll(IFlags<string, TFlagValues> flags)
     {
         if (!CheckValues(flags))
@@ -158,19 +137,24 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
         return flags.Values.All(x => _hashSet.Contains(x));
     }
 
-    public void Set(string flag)
+    public void Set(string flags)
     {
-        if (!CheckValues(flag))
-            FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, UnknownValues(flag.Yield()));
-        _hashSet.Add(flag);
+        if (string.IsNullOrWhiteSpace(flags))
+            return;
+        Set(flags.Split(','));
     }
+
     public void Set(params string[] flags)
     {
         if (!CheckValues(flags))
             FlagValues.OnUnknownValues(UnknownFlagValueContext.Set, UnknownValues(flags));
-        foreach (string flag in flags)
-            _hashSet.Add(flag);
+        foreach (var flag in flags)
+        {
+            if (!string.IsNullOrWhiteSpace(flag))
+                _hashSet.Add(flag);
+        }
     }
+
     public void Set(IFlags<string, TFlagValues> flags)
     {
         if (!CheckValues(flags))
@@ -185,6 +169,7 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
             FlagValues.OnUnknownValues(UnknownFlagValueContext.UnSet, UnknownValues(flag.Yield()));
         _hashSet.Remove(flag);
     }
+
     public void Unset(params string[] flags)
     {
         if (!CheckValues(flags))
@@ -192,6 +177,7 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
         foreach (string flag in flags)
             _hashSet.Remove(flag);
     }
+
     public void Unset(IFlags<string, TFlagValues> flags)
     {
         if (!CheckValues(flags))

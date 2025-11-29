@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
 
+[Export(typeof(IWeaponFlagValues)), Shared]
 public class WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
 {
     private static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)

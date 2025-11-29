@@ -2,7 +2,6 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -22,15 +21,15 @@ public class Infravision : CharacterFlagsSpellBase
 {
     private const string SpellName = "Infravision";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public Infravision(ILogger<Infravision> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public Infravision(ILogger<Infravision> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Infrared");
+    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("Infrared");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(2*Level);
     protected override string SelfAlreadyAffected => "You can already see in the dark.";
     protected override string NotSelfAlreadyAffected => "{0} already has infravision.";

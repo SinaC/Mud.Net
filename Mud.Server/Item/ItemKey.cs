@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.GameAction;
@@ -14,8 +15,8 @@ namespace Mud.Server.Item;
 [Export(typeof(IItemKey))]
 public class ItemKey : ItemBase, IItemKey
 {
-    public ItemKey(ILogger<ItemKey> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
-        : base(logger, serviceProvider, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
+    public ItemKey(ILogger<ItemKey> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, itemFlagFactory)
     {
     }
 

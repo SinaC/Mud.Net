@@ -8,7 +8,6 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -54,7 +53,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IWeaponEffectManager WeaponEffectManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagFactory flagFactory, IWiznet wiznet)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         RandomManager = randomManager;
@@ -78,12 +77,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Position = Positions.Standing;
         Form = Forms.Normal;
 
-        CharacterFlags = new CharacterFlags(serviceProvider);
-        BodyParts = new BodyParts(serviceProvider);
-        BodyForms = new BodyForms(serviceProvider);
-        Immunities = new IRVFlags(serviceProvider);
-        Resistances = new IRVFlags(serviceProvider);
-        Vulnerabilities = new IRVFlags(serviceProvider);
+        CharacterFlags = flagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
+        BodyParts = flagFactory.CreateInstance<IBodyParts, IBodyPartValues>();
+        BodyForms = flagFactory.CreateInstance<IBodyForms, IBodyFormValues>();
+        Immunities = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
+        Resistances = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
+        Vulnerabilities = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
     }
 
     #region ICharacter

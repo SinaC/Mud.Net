@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -25,13 +25,13 @@ public class Sneak : NoTargetSkillBase
 {
     private const string SkillName = "Sneak";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Sneak(ILogger<Sneak> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public Sneak(ILogger<Sneak> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -55,7 +55,7 @@ public class Sneak : NoTargetSkillBase
         if (RandomManager.Chance(Learned))
         {
             AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(User.Level), AuraFlags.None, true,
-                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Sneak"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Sneak"), Operator = AffectOperators.Or });
             return true;
         }
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
@@ -13,8 +12,8 @@ namespace Mud.Server.POC.Races;
 [Export(typeof(IRace)), Shared]
 public class Insectoid : PlayableRaceBase // 4-arms
 {
-    public Insectoid(ILogger<Insectoid> logger, IServiceProvider serviceProvider, IAbilityManager abilityManager)
-        : base(logger, serviceProvider, abilityManager)
+    public Insectoid(ILogger<Insectoid> logger, IFlagFactory flagFactory, IAbilityManager abilityManager)
+        : base(logger, flagFactory, abilityManager)
     {
         AddAbility(1, "Test", null, 0, CostAmountOperators.None, 0);
         AddAbility(1, "Dual Wield", null, 0, CostAmountOperators.None, 0);
@@ -65,20 +64,20 @@ public class Insectoid : PlayableRaceBase // 4-arms
     public override string ShortName => "Ins";
 
     public override Sizes Size => Sizes.Medium;
-    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Haste");
+    public override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Haste");
 
     public override IEnumerable<EquipmentSlots> EquipmentSlots => _slots;
 
-    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider);
-    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider, "Bash", "Slash", "Poison", "Disease", "Acid");
-    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider, "Pierce", "Fire", "Cold");
+    public override IIRVFlags Immunities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
+    public override IIRVFlags Resistances => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Bash", "Slash", "Poison", "Disease", "Acid");
+    public override IIRVFlags Vulnerabilities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Pierce", "Fire", "Cold");
 
-    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Poison", "Sentient", "Biped", "Insect", "FourArms");
-    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
+    public override IBodyForms BodyForms => FlagFactory.CreateInstance<IBodyForms, IBodyFormValues>("Poison", "Sentient", "Biped", "Insect", "FourArms");
+    public override IBodyParts BodyParts => FlagFactory.CreateInstance<IBodyParts, IBodyPartValues>("Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
 
-    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider, "Fast");
-    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider);
+    public override IActFlags ActFlags => FlagFactory.CreateInstance<IActFlags, IActFlagValues>();
+    public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>("Fast");
+    public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
 
     public override int GetStartAttribute(CharacterAttributes attribute)
     {

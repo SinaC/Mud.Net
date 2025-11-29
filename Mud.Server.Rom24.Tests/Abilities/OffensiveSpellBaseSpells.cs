@@ -161,7 +161,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
-            casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider, "Charm"));
+            casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance("Charm"));
             casterMock.SetupGet(x => x.Master).Returns(victimMock.Object);
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]);

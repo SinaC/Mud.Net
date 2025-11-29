@@ -2,7 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Affects.Character;
 using Mud.Server.Effects;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -18,13 +18,13 @@ namespace Mud.Server.Rom24.Effects;
 [Effect("Poison")]
 public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
 {
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
 
-    public PoisonEffect(IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public PoisonEffect(IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         RandomManager = randomManager;
         AuraManager = auraManager;
     }
@@ -61,7 +61,7 @@ public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             else
                 AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
                     new PoisonDamageAffect());
         }
         // equipment

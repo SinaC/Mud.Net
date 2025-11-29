@@ -2,7 +2,6 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -21,15 +20,15 @@ public class DetectHidden : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Hidden";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public DetectHidden(ILogger<DetectHidden> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public DetectHidden(ILogger<DetectHidden> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "DetectHidden");
+    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("DetectHidden");
     protected override string SelfAlreadyAffected => "You are already as alert as you can be.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already sense hidden lifeforms.";
     protected override string SelfSuccess => "Your awareness improves.";

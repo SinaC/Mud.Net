@@ -3,7 +3,7 @@ using Mud.Domain;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -20,20 +20,20 @@ namespace Mud.Server.Commands.Character.Item;
 [Help(@"When you are hungry, [cmd] something.")]
 public class Eat : CastSpellCharacterGameActionBase
 {
-    private IServiceProvider ServiceProvider { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IAffectManager AffectManager { get; }
     private IItemManager ItemManager { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public Eat(ILogger<Eat> logger, IServiceProvider serviceProvider, ICommandParser commandParser, IAbilityManager abilityManager, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IItemManager itemManager)
+    public Eat(ILogger<Eat> logger, ICommandParser commandParser, IAbilityManager abilityManager, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IItemManager itemManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
         : base(logger, commandParser, abilityManager)
     {
-        ServiceProvider = serviceProvider;
         RandomManager = randomManager;
         AuraManager = auraManager;
         AffectManager = affectManager;
         ItemManager = itemManager;
+        CharacterFlagFactory = characterFlagFactory;
     }
 
     protected IItemFood Food { get; set; } = default!;
@@ -97,7 +97,7 @@ public class Eat : CastSpellCharacterGameActionBase
                 {
                     var poisonAffect = AffectManager.CreateInstance("Poison");
                     AuraManager.AddAura(Actor, "Poison", Food, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                        new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or },
+                        new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
                         poisonAffect);
                 }
                 Actor.Recompute();

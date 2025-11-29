@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mono.Cecil;
 using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Flags;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -35,16 +35,17 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.CanSee(targetMock.Object)).Returns<IEntity>(_ => true);
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             targetMock.Setup(x => x.AbilityDamage(It.IsAny<ICharacter>(), It.IsAny<int>(), It.IsAny<SchoolTypes>(), It.IsAny<string>(), It.IsAny<bool>())).Returns(DamageResults.Done);
             roomMock.SetupGet(x => x.People).Returns([casterMock.Object, targetMock.Object]);
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new BlindnessEffect(_serviceProvider, auraManagerMock.Object));
+                .Returns(new BlindnessEffect(_characterFlagFactory, auraManagerMock.Object));
 
             var parameters = BuildParameters("target");
             ColourSpray spell = new (new Mock<ILogger<ColourSpray>>().Object, randomManagerMock.Object, effectManagerMock.Object);

@@ -3,7 +3,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Affects.Character;
 using Mud.Server.Effects;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -19,15 +19,15 @@ namespace Mud.Server.Rom24.Effects;
 public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
 {
     private ILogger<FireEffect> Logger { get; }
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public FireEffect(ILogger<FireEffect> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public FireEffect(ILogger<FireEffect> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
     {
         Logger = logger;
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         RandomManager = randomManager;
         AuraManager = auraManager;
         ItemManager = itemManager;
@@ -53,7 +53,7 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             int duration = RandomManager.Range(1, level / 10);
             AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false, // TODO:
                 new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = -4, Location = CharacterAttributeAffectLocations.HitRoll },
-                new CharacterFlagsAffect { Operator = AffectOperators.Or, Modifier = new CharacterFlags(ServiceProvider, "Blind") });
+                new CharacterFlagsAffect { Operator = AffectOperators.Or, Modifier = CharacterFlagFactory.CreateInstance("Blind") });
         }
         // getting thirsty
         (victim as IPlayableCharacter)?.GainCondition(Conditions.Thirst, modifier / 20);

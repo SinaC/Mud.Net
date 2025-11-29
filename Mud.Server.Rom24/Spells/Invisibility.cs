@@ -5,7 +5,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -30,13 +30,15 @@ public class Invisibility : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Invisibility";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
+    private IFlagFactory<IItemFlags, IItemFlagValues> ItemFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Invisibility(ILogger<Invisibility> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public Invisibility(ILogger<Invisibility> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
+        ItemFlagFactory = itemFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -47,7 +49,7 @@ public class Invisibility : ItemOrDefensiveSpellBase
 
         victim.Act(ActOptions.ToAll, "{0:N} fade{0:v} out of existence.", victim);
         AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), AuraFlags.None, true,
-            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Invisible"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Invisible"), Operator = AffectOperators.Or });
     }
 
     protected override void Invoke(IItem item)
@@ -60,6 +62,6 @@ public class Invisibility : ItemOrDefensiveSpellBase
 
         Caster.Act(ActOptions.ToAll, "{0} fades out of sight.", item);
         AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 12), AuraFlags.None, true,
-            new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Invis"), Operator = AffectOperators.Or });
+            new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Invis"), Operator = AffectOperators.Or });
     }
 }

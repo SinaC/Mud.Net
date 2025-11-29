@@ -44,7 +44,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var actionInput = BuildActionInput<ItemCastSpellSkillBaseTestsSkill>(userMock.Object, "whatever target");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(logger.Object, skill.GetType()), userMock.Object);
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
 
             skill.Execute();
 
