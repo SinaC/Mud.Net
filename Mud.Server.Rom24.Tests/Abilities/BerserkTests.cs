@@ -4,7 +4,6 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
@@ -27,11 +26,11 @@ namespace Mud.Server.Rom24.Tests.Abilities
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You turn red in the face, but nothing happens.", result);
         }
@@ -47,11 +46,11 @@ namespace Mud.Server.Rom24.Tests.Abilities
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You turn red in the face, but nothing happens.", result);
         }
@@ -65,16 +64,16 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<INonPlayableCharacter> userMock = new Mock<INonPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
-            userMock.SetupGet(x => x.OffensiveFlags).Returns(new OffensiveFlags(_serviceProvider, "Berserk"));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
+            userMock.SetupGet(x => x.OffensiveFlags).Returns(_offensiveFlagFactory.CreateInstance("Berserk"));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You turn red in the face, but nothing happens.", result);
         }
@@ -88,17 +87,17 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider, "Berserk"));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance("Berserk"));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You get a little madder.", result);
         }
@@ -112,17 +111,17 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.Setup(x => x.GetAura("Berserk")).Returns<string>(_ => new Mock<IAura>().Object);
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You get a little madder.", result);
         }
@@ -136,17 +135,17 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider, "Calm"));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance("Calm"));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You're feeling to mellow to berserk.", result);
         }
@@ -160,16 +159,16 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(0);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
 
             Assert.AreEqual("You can't get up enough energy.", result);
         }
@@ -184,17 +183,17 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
             skill.Execute();
 
             Assert.IsNull(result);
@@ -211,17 +210,17 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
             SkillActionInput skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
 
-            string result = skill.Setup(skillActionInput);
+            var result = skill.Setup(skillActionInput);
             skill.Execute();
 
             Assert.IsNull(result);
@@ -238,14 +237,14 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IPlayableCharacter> userMock = new Mock<IPlayableCharacter>();
             Mock<IRoom> roomMock = new Mock<IRoom>();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(_serviceProvider));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
             userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _serviceProvider, randomManagerMock.Object, auraManagerMock.Object);
+            Berserk skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var result = skill.Guards(actionInput);
             skill.Execute(actionInput);
 

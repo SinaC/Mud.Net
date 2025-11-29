@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -29,13 +29,13 @@ public class Calm : NoTargetSpellBase
 {
     private const string SpellName = "Calm";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Calm(ILogger<Calm> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public Calm(ILogger<Calm> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -90,7 +90,7 @@ public class Calm : NoTargetSpellBase
             AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add, },
-                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Calm"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Calm"), Operator = AffectOperators.Or });
         }
     }
 }

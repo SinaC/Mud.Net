@@ -3,7 +3,6 @@ using AutoMapper;
 using Bogus;
 using DeepEqual.Syntax;
 using Microsoft.Extensions.DependencyInjection;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Repository.Tests
@@ -15,10 +14,10 @@ namespace Mud.Repository.Tests
         public void Test_PlayerData_Success()
         {
             var faker = new Faker<Domain.PlayerData>()
-                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(_serviceProvider, Rom24CharacterFlags.Flags.First()))
-                .RuleForType<IItemFlags>(typeof(IItemFlags), x => new ItemFlags(_serviceProvider, Rom24ItemFlagValues.Flags.First()))
-                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => new WeaponFlags(_serviceProvider, Rom24WeaponFlagValues.Flags.First()))
-                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => new IRVFlags(_serviceProvider, Rom24IRVFlagValues.Flags.First()));
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => _flagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(Rom24CharacterFlags.Flags.First()))
+                .RuleForType<IItemFlags>(typeof(IItemFlags), x =>_flagFactory.CreateInstance<IItemFlags, IItemFlagValues>(Rom24ItemFlagValues.Flags.First()))
+                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => _flagFactory.CreateInstance<IWeaponFlags, IWeaponFlagValues>(Rom24WeaponFlagValues.Flags.First()))
+                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => _flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(Rom24IRVFlagValues.Flags.First()));
             var original = faker.Generate();
 
             var internalPlayerData = _serviceProvider.GetService<IMapper>()?.Map<Domain.PlayerData, Filesystem.Domain.PlayerData>(original);
@@ -31,10 +30,10 @@ namespace Mud.Repository.Tests
         public void Test_PlayerData_Failed()
         {
             var faker = new Faker<Domain.PlayerData>()
-                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(_serviceProvider, Rom24CharacterFlags.Flags.First()))
-                .RuleForType<IItemFlags>(typeof(IItemFlags), x => new ItemFlags(_serviceProvider, Rom24ItemFlagValues.Flags.First()))
-                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => new WeaponFlags(_serviceProvider, Rom24WeaponFlagValues.Flags.First()))
-                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => new IRVFlags(_serviceProvider, Rom24IRVFlagValues.Flags.First()));
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => _flagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(Rom24CharacterFlags.Flags.First()))
+                .RuleForType<IItemFlags>(typeof(IItemFlags), x =>_flagFactory.CreateInstance<IItemFlags, IItemFlagValues>(Rom24ItemFlagValues.Flags.First()))
+                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => _flagFactory.CreateInstance<IWeaponFlags, IWeaponFlagValues>(Rom24WeaponFlagValues.Flags.First()))
+                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => _flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(Rom24IRVFlagValues.Flags.First()));
             var original = faker.Generate();
 
             var internalPlayerData = _serviceProvider.GetService<IMapper>()?.Map<Domain.PlayerData, Filesystem.Domain.PlayerData>(original);
@@ -49,10 +48,10 @@ namespace Mud.Repository.Tests
         public void Test_AdminData_Success()
         {
             var faker = new Faker<Domain.AdminData>()
-                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(_serviceProvider, Rom24CharacterFlags.Flags.First()))
-                .RuleForType<IItemFlags>(typeof(IItemFlags), x => new ItemFlags(_serviceProvider, Rom24ItemFlagValues.Flags.First()))
-                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => new WeaponFlags(_serviceProvider, Rom24WeaponFlagValues.Flags.First()))
-                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => new IRVFlags(_serviceProvider, Rom24IRVFlagValues.Flags.First()));
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => _flagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(Rom24CharacterFlags.Flags.First()))
+                .RuleForType<IItemFlags>(typeof(IItemFlags), x =>_flagFactory.CreateInstance<IItemFlags, IItemFlagValues>(Rom24ItemFlagValues.Flags.First()))
+                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => _flagFactory.CreateInstance<IWeaponFlags, IWeaponFlagValues>(Rom24WeaponFlagValues.Flags.First()))
+                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => _flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(Rom24IRVFlagValues.Flags.First()));
             var original = faker.Generate();
 
             var internalAdminData = _serviceProvider.GetService<IMapper>()?.Map<Domain.AdminData, Filesystem.Domain.AdminData>(original);
@@ -65,10 +64,10 @@ namespace Mud.Repository.Tests
         public void Test_AdminData_Failed()
         {
             var faker = new Faker<Domain.AdminData>()
-                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => new CharacterFlags(_serviceProvider, Rom24CharacterFlags.Flags.First()))
-                .RuleForType<IItemFlags>(typeof(IItemFlags), x => new ItemFlags(_serviceProvider, Rom24ItemFlagValues.Flags.First()))
-                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => new WeaponFlags(_serviceProvider, Rom24WeaponFlagValues.Flags.First()))
-                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => new IRVFlags(_serviceProvider, Rom24IRVFlagValues.Flags.First()));
+                .RuleForType<ICharacterFlags>(typeof(ICharacterFlags), x => _flagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(Rom24CharacterFlags.Flags.First()))
+                .RuleForType<IItemFlags>(typeof(IItemFlags), x =>_flagFactory.CreateInstance<IItemFlags, IItemFlagValues>(Rom24ItemFlagValues.Flags.First()))
+                .RuleForType<IWeaponFlags>(typeof(IWeaponFlags), x => _flagFactory.CreateInstance<IWeaponFlags, IWeaponFlagValues>(Rom24WeaponFlagValues.Flags.First()))
+                .RuleForType<IIRVFlags>(typeof(IIRVFlags), x => _flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(Rom24IRVFlagValues.Flags.First()));
             var original = faker.Generate();
 
             var internalAdminData = _serviceProvider.GetService<IMapper>()?.Map<Domain.AdminData, Filesystem.Domain.AdminData>(original);
@@ -93,12 +92,12 @@ namespace Mud.Repository.Tests
                 [
                     new Domain.ItemWeaponFlagsAffectData 
                     {
-                        Modifier = new WeaponFlags(_serviceProvider,"Holy"),
+                        Modifier = _flagFactory.CreateInstance<IWeaponFlags, IWeaponFlagValues>("Holy"),
                         Operator = Domain.AffectOperators.Assign,
                     },
                     new Domain.ItemFlagsAffectData
                     {
-                        Modifier = new ItemFlags(_serviceProvider,"Evil"),
+                        Modifier = _flagFactory.CreateInstance<IItemFlags, IItemFlagValues>("Evil"),
                         Operator = Domain.AffectOperators.Or,
                     },
                     new Domain.CharacterSexAffectData
@@ -108,12 +107,12 @@ namespace Mud.Repository.Tests
                     new Domain.CharacterIRVAffectData
                     {
                         Location = Domain.IRVAffectLocations.Resistances,
-                        Modifier = new IRVFlags(_serviceProvider,"Cold"),
+                        Modifier = _flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Cold"),
                         Operator = Domain.AffectOperators.Add,
                     },
                     new Domain.CharacterFlagsAffectData
                     {
-                        Modifier = new CharacterFlags(_serviceProvider,"Regeneration"),
+                        Modifier = _flagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Regeneration"),
                         Operator = Domain.AffectOperators.Nor,
                     },
                     new Domain.CharacterAttributeAffectData

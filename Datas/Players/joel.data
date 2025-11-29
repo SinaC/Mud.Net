@@ -155,7 +155,7 @@
           <CostAmount>7</CostAmount>
           <CostAmountOperator>1</CostAmountOperator>
           <Level>6</Level>
-          <Learned>1</Learned>
+          <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
         <LearnedAbilityData>

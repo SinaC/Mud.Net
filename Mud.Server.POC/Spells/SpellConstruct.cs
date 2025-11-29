@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -17,16 +17,16 @@ public class SpellConstruct : NoTargetSpellBase
 {
     private const string SpellName = "Construct";
 
-    private IServiceProvider ServiceProvider { get; }
     private ICharacterManager CharacterManager { get; }
     private IAuraManager AuraManager { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public SpellConstruct(ILogger<SpellConstruct> logger, IServiceProvider serviceProvider, IRandomManager randomManager, ICharacterManager characterManager, IAuraManager auraManager)
+    public SpellConstruct(ILogger<SpellConstruct> logger, IRandomManager randomManager, ICharacterManager characterManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
         CharacterManager = characterManager;
         AuraManager = auraManager;
+        CharacterFlagFactory = characterFlagFactory;
     }
 
     protected override void Invoke()
@@ -37,7 +37,7 @@ public class SpellConstruct : NoTargetSpellBase
             INonPlayableCharacter construct = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
             pcCaster.AddPet(construct);
             AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Charm"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Charm"), Operator = AffectOperators.Or });
         }
     }
 }

@@ -6,7 +6,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -28,14 +28,14 @@ public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
 {
     private const string SpellName = "Enchant Armor";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<IItemFlags, IItemFlagValues> ItemFlagFactory { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
 
-    public EnchantArmor(ILogger<EnchantArmor> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
+    public EnchantArmor(ILogger<EnchantArmor> logger, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory, IRandomManager randomManager, IAuraManager auraManager, IItemManager itemManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
+        ItemFlagFactory = itemFlagFactory;
         AuraManager = auraManager;
         ItemManager = itemManager;
     }
@@ -118,12 +118,12 @@ public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
                     x => x.Modifier += amount);
             existingAura.AddOrUpdateAffect(
                     x => x.Modifier.IsSet( "Magic"),
-                    () => new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Magic"), Operator = AffectOperators.Or },
+                    () => new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or },
                     _ => { });
             if (addGlowing)
                 existingAura.AddOrUpdateAffect(
                    x => x.Modifier.IsSet("Glowing"),
-                   () => new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Glowing"), Operator = AffectOperators.Or },
+                   () => new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or },
                    _ => { });
         }
         else
@@ -131,10 +131,10 @@ public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
             List<IAffect> affects =
             [
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = amount, Operator = AffectOperators.Add },
-                new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Magic"), Operator = AffectOperators.Or }
+                new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or }
             ];
             if (addGlowing)
-                affects.Add(new ItemFlagsAffect { Modifier = new ItemFlags(ServiceProvider, "Glowing"), Operator = AffectOperators.Or });
+                affects.Add(new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or });
             AuraManager.AddAura(armor, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false, affects.ToArray());
         }
         armor.Recompute();

@@ -2,7 +2,6 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -22,15 +21,15 @@ public class Sanctuary : CharacterFlagsSpellBase
 {
     private const string SpellName = "Sanctuary";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public Sanctuary(ILogger<Sanctuary> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public Sanctuary(ILogger<Sanctuary> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Sanctuary");
+    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("Sanctuary");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
     protected override string SelfAlreadyAffected => "You are already in sanctuary.";
     protected override string NotSelfAlreadyAffected => "{0:N} is already in sanctuary.";

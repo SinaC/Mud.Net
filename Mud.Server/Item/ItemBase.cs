@@ -1,13 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
-using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Item;
@@ -26,16 +24,16 @@ namespace Mud.Server.Item;
 [DebuggerDisplay("{DebuggerDisplay,nq}")]
 public abstract class ItemBase: EntityBase, IItem
 {
-    protected IServiceProvider ServiceProvider { get; }
     protected IRoomManager RoomManager { get; }
     protected IAuraManager AuraManager { get; }
+    protected IFlagFactory<IItemFlags, IItemFlagValues> ItemFlagFactory { get; }
 
-    protected ItemBase(ILogger<ItemBase> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+    protected ItemBase(ILogger<ItemBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
-        ServiceProvider = serviceProvider;
         RoomManager = roomManager;
         AuraManager = auraManager;
+        ItemFlagFactory = itemFlagFactory;
     }
 
     protected void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
@@ -53,8 +51,8 @@ public abstract class ItemBase: EntityBase, IItem
         Cost = blueprint.Cost;
         NoTake = blueprint.NoTake;
 
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(ServiceProvider), blueprint.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(ServiceProvider), BaseItemFlags, null);
+        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), blueprint.ItemFlags, null);
+        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), BaseItemFlags, null);
     }
 
     public void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, IContainer containedInto)
@@ -71,8 +69,8 @@ public abstract class ItemBase: EntityBase, IItem
 
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(ServiceProvider), data.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => new ItemFlags(ServiceProvider), BaseItemFlags, null);
+        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), data.ItemFlags, null);
+        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), BaseItemFlags, null);
         // Auras
         if (data.Auras != null)
         {
@@ -264,7 +262,7 @@ public abstract class ItemBase: EntityBase, IItem
     public void Disenchant()
     {
         RemoveAuras(_ => true, false);
-        BaseItemFlags = new ItemFlags(ServiceProvider);
+        BaseItemFlags = ItemFlagFactory.CreateInstance();
         Recompute();
     }
 

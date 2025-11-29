@@ -5,7 +5,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -31,13 +31,15 @@ public class Poison : ItemOrOffensiveSpellBase
 {
     private const string SpellName = "Poison";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
+    private IFlagFactory<IWeaponFlags, IWeaponFlagValues> WeaponFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Poison(ILogger<Poison> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public Poison(ILogger<Poison> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IFlagFactory<IWeaponFlags, IWeaponFlagValues> weaponFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
+        WeaponFlagFactory = weaponFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -57,7 +59,7 @@ public class Poison : ItemOrOffensiveSpellBase
         else
             AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or },
+                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
                 new PoisonDamageAffect());
         victim.Send("You feel very sick.");
         victim.Act(ActOptions.ToRoom, "{0:N} looks very ill.", victim);
@@ -92,7 +94,7 @@ public class Poison : ItemOrOffensiveSpellBase
             }
             int duration = Level / 8;
             AuraManager.AddAura(weapon, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or });
+                new ItemWeaponFlagsAffect { Modifier = WeaponFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToCharacter, "{0} is coated with deadly venom.", weapon);
             return;
         }

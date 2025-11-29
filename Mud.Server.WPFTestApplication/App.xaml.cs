@@ -79,7 +79,6 @@ public partial class App : Application
         services.AddAutoMapper(typeof(Repository.Filesystem.AutoMapperProfile).Assembly);
 
         RegisterUsingExportAttribute(services, assemblyHelper.AllReferencedAssemblies);
-        RegisterFlagValues(services, assemblyHelper.AllReferencedAssemblies);
 
         //// Register ViewModels
         //services.AddSingleton<IMainViewModel, MainViewModel>();
@@ -118,34 +117,6 @@ public partial class App : Application
         {
             Log.Information("Registering type {0}.", type.FullName);
             ExportInspector.Register(services, type);
-        }
-    }
-
-    private void RegisterFlagValues(IServiceCollection services, IEnumerable<Assembly> assemblies)
-    {
-        RegisterFlagValues<ICharacterFlagValues>(services, assemblies);
-        RegisterFlagValues<IRoomFlagValues>(services, assemblies);
-        RegisterFlagValues<IItemFlagValues>(services, assemblies);
-        RegisterFlagValues<IWeaponFlagValues>(services, assemblies);
-        RegisterFlagValues<IActFlagValues>(services, assemblies);
-        RegisterFlagValues<IOffensiveFlagValues>(services, assemblies);
-        RegisterFlagValues<IAssistFlagValues>(services, assemblies);
-        RegisterFlagValues<IIRVFlagValues>(services, assemblies);
-        RegisterFlagValues<IBodyFormValues>(services, assemblies);
-        RegisterFlagValues<IBodyPartValues>(services, assemblies);
-    }
-
-    private void RegisterFlagValues<TFlagValue>(IServiceCollection services, IEnumerable<Assembly> assemblies)
-        where TFlagValue : IFlagValues<string>
-    {
-        var iFlagValuesType = typeof(TFlagValue);
-        var concreteFlagValuesType = assemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iFlagValuesType.IsAssignableFrom(t))).SingleOrDefault();
-        if (concreteFlagValuesType == null)
-            Log.Warning("Cannot find an implementation for {0}.", iFlagValuesType.FullName);
-        else
-        {
-            Log.Information("Registering flag values type {0} for {1}.", concreteFlagValuesType.FullName, iFlagValuesType.FullName);
-            services.AddTransient(iFlagValuesType, concreteFlagValuesType);
         }
     }
 

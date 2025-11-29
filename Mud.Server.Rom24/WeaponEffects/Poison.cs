@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects.Character;
 using Mud.Server.Effects;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Affect.Item;
@@ -15,13 +15,13 @@ namespace Mud.Server.Rom24.WeaponEffects;
 [WeaponEffect("Poison")]
 public class Poison : IPostHitDamageWeaponEffect
 {
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
     private IAffectManager AffectManager { get; }
 
-    public Poison(IServiceProvider serviceProvider, IAuraManager auraManager, IAffectManager affectManager)
+    public Poison(IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IAuraManager auraManager, IAffectManager affectManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
         AffectManager = affectManager;
     }
@@ -41,7 +41,7 @@ public class Poison : IPostHitDamageWeaponEffect
             {
                 var poisonAffect = AffectManager.CreateInstance("Poison");
                 AuraManager.AddAura(victim, "Poison", holder, 3 * level / 4, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Poison"), Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
                     poisonAffect);
             }

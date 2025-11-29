@@ -1,10 +1,9 @@
 INGOING
-    
+
 TODO
 
 rename IAffectManager into IAffectFactory and check if other managers should be renamed into factories such as WeaponEffectManager and EffectManager
 add AffectName in AffectDataBase and use it in AffectFactory.CreateInstance(AffectDataBase data) -> call Activator.CreateInstance with data as parameter
-it's possible to remove ServiceProvider from Flags ?
 
 dangerous call sequence (luckily we set Room to NullRoom in the first lines of ctor):
     PlayableCharacter.ctor
@@ -12,6 +11,10 @@ dangerous call sequence (luckily we set Room to NullRoom in the first lines of c
             Room.Recompute
                 Room.ApplyAuras which could kill PlayableCharacter we are trying to create
 CharacterFactory, ItemFactory, RoomFactory to handle characters, items and rooms creation (to avoid new everywhere in the code and replace with DI more easily later if needed)
+
+RomImporter should be related to Mud.Server.Rom24
+RotImporter should be related to Mud.Server.Rot
+MysteryImporter should be related to Mud.Server.Mystery
 
 add energy/rage resource
 cat form

@@ -2,7 +2,6 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -22,15 +21,15 @@ public class DetectGood : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Good";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public DetectGood(ILogger<DetectGood> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public DetectGood(ILogger<DetectGood> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "DetectGood");
+    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("DetectGood");
     protected override string SelfAlreadyAffected => "You can already sense good.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already detect good.";
     protected override string SelfSuccess => "Your eyes tingle.";

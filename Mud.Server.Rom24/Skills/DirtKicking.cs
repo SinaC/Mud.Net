@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -26,13 +26,13 @@ public class DirtKicking : OffensiveSkillBase
 {
     private const string SkillName = "Dirt Kicking";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public DirtKicking(ILogger<DirtKicking> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager)
+    public DirtKicking(ILogger<DirtKicking> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -118,7 +118,7 @@ public class DirtKicking : OffensiveSkillBase
             if (damageResults == DamageResults.Done)
                 AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(1)/*originally 0*/, AuraFlags.NoDispel, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Blind"), Operator = AffectOperators.Or });
+                    new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Blind"), Operator = AffectOperators.Or });
             return true;
         }
         else

@@ -1,22 +1,23 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Mud.DataStructures.Trie;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using System.Diagnostics;
 
 namespace Mud.Importer.Mystery;
 
+[Export, Shared]
 public class MysteryImporter
 {
     private ILogger<MysteryImporter> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory FlagFactory { get; }
 
     private readonly List<AreaBlueprint> _areaBlueprints = [];
     private readonly List<RoomBlueprint> _roomBlueprints = [];
@@ -28,10 +29,11 @@ public class MysteryImporter
     public IReadOnlyCollection<ItemBlueprintBase> Items => _itemBlueprints.AsReadOnly();
     public IReadOnlyCollection<CharacterBlueprintBase> Characters => _characterBlueprints.AsReadOnly();
 
-    public MysteryImporter(ILogger<MysteryImporter> logger, IServiceProvider serviceProvider)
+    public MysteryImporter(ILogger<MysteryImporter> logger, IServiceProvider serviceProvider, IFlagFactory flagFactory)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
+        FlagFactory = flagFactory;
     }
 
     public void ImportByList(string path, string areaLst)
@@ -232,7 +234,7 @@ public class MysteryImporter
 
     private IRoomFlags ConvertRoomFlags(long input)
     {
-        var flags = new RoomFlags(ServiceProvider);
+        var flags = FlagFactory.CreateInstance<IRoomFlags, IRoomFlagValues>();
         if (IsSet(input, ROOM_DARK)) flags.Set("Dark");
         if (IsSet(input, ROOM_NO_MOB)) flags.Set("NoMob");
         if (IsSet(input, ROOM_INDOORS)) flags.Set("Indoors");
@@ -1006,7 +1008,7 @@ public class MysteryImporter
 
     private IItemFlags ConvertExtraFlags(ObjectData objectData)
     {
-        var itemFlags = new ItemFlags(ServiceProvider);
+        var itemFlags = FlagFactory.CreateInstance<IItemFlags, IItemFlagValues>();
         if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) itemFlags.Set("Glowing");
         if (IsSet(objectData.ExtraFlags, ITEM_HUM)) itemFlags.Set("Humming");
         if (IsSet(objectData.ExtraFlags, ITEM_DARK)) itemFlags.Set("Dark");
@@ -1074,7 +1076,7 @@ public class MysteryImporter
         }
 
         long weaponType2 = objectData.Values[4] == null ? 0L : System.Convert.ToInt64(objectData.Values[4]);
-        var weaponFlags = new WeaponFlags(ServiceProvider);
+        var weaponFlags = FlagFactory.CreateInstance<IWeaponFlags, IWeaponFlagValues>();
         if (IsSet(weaponType2, WEAPON_FLAMING)) weaponFlags.Set("Flaming");
         if (IsSet(weaponType2, WEAPON_FROST)) weaponFlags.Set("Frost");
         if (IsSet(weaponType2, WEAPON_VAMPIRIC)) weaponFlags.Set("Vampiric");
@@ -1387,7 +1389,7 @@ public class MysteryImporter
 
     private IIRVFlags ConvertMysteryIRV(long value)
     {
-        var flags = new IRVFlags(ServiceProvider);
+        var flags = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
         if (IsSet(value, IRV_SUMMON)) flags.Set("Summon");
         if (IsSet(value, IRV_CHARM)) flags.Set("Charm");
         if (IsSet(value, IRV_MAGIC)) flags.Set("Magic");
@@ -1420,7 +1422,7 @@ public class MysteryImporter
 
     private ICharacterFlags ConvertMysteryCharacterFlags(long affectedBy)
     {
-        var flags = new CharacterFlags(ServiceProvider);
+        var flags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
         if (IsSet(affectedBy, AFF_BLIND)) flags.Set("Blind");
         if (IsSet(affectedBy, AFF_INVISIBLE)) flags.Set("Invisible");
         if (IsSet(affectedBy, AFF_DETECT_EVIL)) flags.Set("DetectEvil");
@@ -1470,7 +1472,7 @@ public class MysteryImporter
 
     private IActFlags ConvertMysteryActFlags(long act)
     {
-        var flags = new ActFlags(ServiceProvider);
+        var flags = FlagFactory.CreateInstance<IActFlags, IActFlagValues>();
         //ACT_IS_NPC not used
         if (IsSet(act, ACT_SENTINEL)) flags.Set("Sentinel");
         if (IsSet(act, ACT_SCAVENGER)) flags.Set("Scavenger");
@@ -1505,7 +1507,7 @@ public class MysteryImporter
 
     private (IOffensiveFlags, IAssistFlags) ConvertMysteryOffensiveFlags(long input)
     {
-        var off = new OffensiveFlags(ServiceProvider);
+        var off = FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
         if (IsSet(input, OFF_AREA_ATTACK)) off.Set("AreaAttack");
         if (IsSet(input, OFF_BACKSTAB)) off.Set("Backstab");
         if (IsSet(input, OFF_BASH)) off.Set("Bash");
@@ -1524,7 +1526,7 @@ public class MysteryImporter
         //OFF_COUNTER
         //OFF_BITE
 
-        var assist = new AssistFlags(ServiceProvider);
+        var assist = FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
         if (IsSet(input, ASSIST_ALL)) assist.Set("All");
         if (IsSet(input, ASSIST_ALIGN)) assist.Set("Align");
         if (IsSet(input, ASSIST_RACE)) assist.Set("Race");
@@ -1587,7 +1589,7 @@ public class MysteryImporter
 
     private IBodyForms ConvertBodyForms(long input)
     {
-        var forms = new BodyForms(ServiceProvider);
+        var forms = FlagFactory.CreateInstance<IBodyForms, IBodyFormValues>();
         if (IsSet(input, FORM_EDIBLE)) forms.Set("Edible");
         if (IsSet(input, FORM_POISON)) forms.Set("Poison");
         if (IsSet(input, FORM_MAGICAL)) forms.Set("Magical");
@@ -1622,7 +1624,7 @@ public class MysteryImporter
 
     private IBodyParts ConvertBodyParts(long input)
     {
-        var parts = new BodyParts(ServiceProvider);
+        var parts = FlagFactory.CreateInstance<IBodyParts, IBodyPartValues>();
         if (IsSet(input, PART_HEAD)) parts.Set("Head");
         if (IsSet(input, PART_ARMS)) parts.Set("Arms");
         if (IsSet(input, PART_LEGS)) parts.Set("Legs");

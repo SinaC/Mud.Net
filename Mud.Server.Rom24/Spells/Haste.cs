@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -27,14 +27,14 @@ public class Haste : DefensiveSpellBase
 {
     private const string SpellName = "Haste";
 
-    private IServiceProvider ServiceProvider { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
     private IDispelManager DispelManager { get; }
 
-    public Haste(ILogger<Haste> logger, IServiceProvider serviceProvider, IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
+    public Haste(ILogger<Haste> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
         : base(logger, randomManager)
     {
-        ServiceProvider = serviceProvider;
+        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
         DispelManager = dispelManager;
     }
@@ -69,7 +69,7 @@ public class Haste : DefensiveSpellBase
         int modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = new CharacterFlags(ServiceProvider, "Haste"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Haste"), Operator = AffectOperators.Or });
         Victim.Send("You feel yourself moving more quickly.");
         Victim.Act(ActOptions.ToRoom, "{0:N} is moving more quickly.", Victim);
         if (Caster != Victim)

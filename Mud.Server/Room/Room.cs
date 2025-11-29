@@ -9,7 +9,6 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -31,17 +30,17 @@ namespace Mud.Server.Room;
 [Export(typeof(IRoom))]
 public class Room : EntityBase, IRoom
 {
-    private IServiceProvider ServiceProvider { get; }
     private ITimeManager TimeManager { get; }
+    private IFlagFactory<IRoomFlags, IRoomFlagValues> RoomFlagFactory { get; }
 
     private readonly List<ICharacter> _people;
     private readonly List<IItem> _content;
 
-    public Room(ILogger<Room> logger, IServiceProvider serviceProvider, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager)
+    public Room(ILogger<Room> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager, IFlagFactory<IRoomFlags, IRoomFlagValues> roomFlagFactory)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
-        ServiceProvider = serviceProvider;
         TimeManager = timeManager;
+        RoomFlagFactory = roomFlagFactory;
 
         _people = [];
         _content = [];
@@ -53,8 +52,8 @@ public class Room : EntityBase, IRoom
         Initialize(guid, blueprint.Name, blueprint.Description);
 
         Blueprint = blueprint;
-        BaseRoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(ServiceProvider), blueprint.RoomFlags, null);
-        RoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => new RoomFlags(ServiceProvider), BaseRoomFlags, null);
+        BaseRoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => RoomFlagFactory.CreateInstance(), blueprint.RoomFlags, null);
+        RoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => RoomFlagFactory.CreateInstance(), BaseRoomFlags, null);
         SectorType = blueprint.SectorType;
         BaseHealRate = blueprint.HealRate;
         HealRate = BaseHealRate;

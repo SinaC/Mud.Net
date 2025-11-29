@@ -1,23 +1,14 @@
-﻿using Mud.DataStructures.Flags;
+﻿using Mud.Common.Attributes;
+using Mud.DataStructures.Flags;
 using Mud.Server.Flags.Interfaces;
 
-namespace Mud.Server.Flags
+namespace Mud.Server.Flags;
+
+[Export(typeof(IItemFlags))]
+public class ItemFlags : Flags<IItemFlagValues>, IItemFlags
 {
-    public class ItemFlags : Flags<IItemFlagValues>, IItemFlags
+    public ItemFlags(IItemFlagValues flagValues)
+        : base(flagValues)
     {
-        public ItemFlags(IServiceProvider serviceProvider)
-            : base(serviceProvider)
-        {
-        }
-
-        public ItemFlags(IServiceProvider serviceProvider, string flags)
-            : base(serviceProvider, flags)
-        {
-        }
-
-        public ItemFlags(IServiceProvider serviceProvider, params string[] flags)
-            : base(serviceProvider, flags)
-        {
-        }
     }
 }

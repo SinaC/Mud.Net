@@ -1,6 +1,5 @@
 ﻿using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
@@ -10,17 +9,17 @@ namespace Mud.Server.Rom24.Races.NonPlayableRaces;
 [Export(typeof(IRace)), Shared]
 public class Kobold : RaceBase
 {
-    public Kobold(IServiceProvider serviceProvider)
-    : base(serviceProvider)
+    public Kobold(IFlagFactory flagFactory)
+        : base(flagFactory)
     {
     }
 
     public override string Name => "kobold";
     public override Sizes Size => Sizes.Small;
-    public override ICharacterFlags CharacterFlags => new CharacterFlags(ServiceProvider, "Infrared");
-    public override IIRVFlags Immunities => new IRVFlags(ServiceProvider);
-    public override IIRVFlags Resistances => new IRVFlags(ServiceProvider, "Poison");
-    public override IIRVFlags Vulnerabilities => new IRVFlags(ServiceProvider, "Magic");
+    public override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Infrared");
+    public override IIRVFlags Immunities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
+    public override IIRVFlags Resistances => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Poison");
+    public override IIRVFlags Vulnerabilities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Magic");
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
         Domain.EquipmentSlots.Light,
@@ -42,9 +41,9 @@ public class Kobold : RaceBase
         Domain.EquipmentSlots.OffHand,
         Domain.EquipmentSlots.Float,
     ];
-    public override IBodyForms BodyForms => new BodyForms(ServiceProvider, "Edible", "Poison", "Sentient", "Biped", "Mammal");
-    public override IBodyParts BodyParts => new BodyParts(ServiceProvider, "Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Tail");
-    public override IActFlags ActFlags => new ActFlags(ServiceProvider);
-    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags(ServiceProvider);
-    public override IAssistFlags AssistFlags => new AssistFlags(ServiceProvider, "Race");
+    public override IBodyForms BodyForms => FlagFactory.CreateInstance<IBodyForms, IBodyFormValues>( "Edible", "Poison", "Sentient", "Biped", "Mammal");
+    public override IBodyParts BodyParts => FlagFactory.CreateInstance<IBodyParts, IBodyPartValues>( "Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Tail");
+    public override IActFlags ActFlags => FlagFactory.CreateInstance<IActFlags, IActFlagValues>();
+    public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
+    public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>("Race");
 }

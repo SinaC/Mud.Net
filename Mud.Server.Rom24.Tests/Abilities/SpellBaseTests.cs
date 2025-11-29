@@ -26,7 +26,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("");
             SpellActionInput abilityActionInput = new SpellActionInput(null, characterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Internal error: AbilityInfo is null.", result);
         }
@@ -39,7 +39,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), null, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("Spell must be cast by a character.", result);
         }
@@ -53,7 +53,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), characterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.AreEqual("You are nowhere...", result);
         }
@@ -72,7 +72,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("player");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.Contains("is in cooldown", result);
         }
@@ -92,7 +92,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("player");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.Contains("as resource for the moment.", result);
         }
@@ -113,7 +113,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("player");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.Contains("You don't have enough", result);
         }
@@ -134,7 +134,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             var parameters = BuildParameters("player");
             SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
 
-            string result = spell.Setup(abilityActionInput);
+            var result = spell.Setup(abilityActionInput);
 
             Assert.IsNull(result);
         }
