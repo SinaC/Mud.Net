@@ -78,6 +78,9 @@ public interface ICharacter : IEntity, IContainer
     IIRVFlags BaseVulnerabilities { get; }
     IIRVFlags Vulnerabilities { get; }
 
+    IShieldFlags BaseShieldFlags { get; }
+    IShieldFlags ShieldFlags { get; }
+
     Sex BaseSex { get; }
     Sex Sex { get; }
 
@@ -172,7 +175,6 @@ public interface ICharacter : IEntity, IContainer
     DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display); // 'this' is dealt damage by 'source' using an ability
     DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using a weapon
     DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display); // 'this' is dealt damage by 'source' using 'damageNoun'
-    ResistanceLevels CheckResistance(SchoolTypes damageType);
     IItemCorpse? RawKilled(ICharacter? killer, bool payoff);
     void KillingPayoff(ICharacter victim, IItemCorpse? corpse);
     bool SavesSpell(int level, SchoolTypes damageType);
@@ -207,6 +209,7 @@ public interface ICharacter : IEntity, IContainer
     // Affects
     void ApplyAffect(ICharacterFlagsAffect affect);
     void ApplyAffect(ICharacterIRVAffect affect);
+    void ApplyAffect(ICharacterShieldFlagsAffect affect);
     void ApplyAffect(ICharacterAttributeAffect affect);
     void ApplyAffect(ICharacterSexAffect affect);
     void ApplyAffect(ICharacterSizeAffect affect);

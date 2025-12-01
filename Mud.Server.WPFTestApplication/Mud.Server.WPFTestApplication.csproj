@@ -49,7 +49,6 @@
     <ProjectReference Include="..\Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj" />
     <ProjectReference Include="..\Mud.Repository.Interfaces\Mud.Repository.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
-    <ProjectReference Include="..\Mud.Server.AdditionalAbilities\Mud.Server.AdditionalAbilities.csproj" />
     <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj" />
     <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
     <ProjectReference Include="..\Mud.Server.Class\Mud.Server.Class.csproj" />

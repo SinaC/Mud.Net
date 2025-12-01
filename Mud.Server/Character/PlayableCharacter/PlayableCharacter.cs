@@ -52,8 +52,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IFlagFactory flagFactory)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, flagFactory, wiznet)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagFactory, wiznet)
     {
         WorldOptions = worldOptions;
         ClassManager = classManager;
@@ -381,23 +381,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
 
         var mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
-        var offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
-        // 1/ main hand attack
+        // main hand attack
         int attackCount = 0;
         OneHit(victim, mainHand, multiHitModifier);
         attackCount++;
         if (Fighting != victim)
             return;
-        // 2/ off hand attack
-        var dualWield = AbilityManager.CreateInstance<IPassive>("Dual Wield");
-        if (offHand != null && dualWield != null && dualWield.IsTriggered(this, victim, true, out _, out _))
-            OneHit(victim, offHand, multiHitModifier);
-        attackCount++;
-        if (Fighting != victim)
-            return;
-        if (multiHitModifier?.MaxAttackCount <= 1)
-            return;
-        // 3/ main hand haste attack
+        // main hand haste attack
         if (CharacterFlags.IsSet("Haste"))
             OneHit(victim, mainHand, multiHitModifier);
         attackCount++;
@@ -405,7 +395,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return;
         if (multiHitModifier?.MaxAttackCount <= 2)
             return;
-        // additional hits (second, third attack, ...)
+        // additional hits (dual wield, second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
         foreach (var additionalHitAbilityInfo in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
         {
@@ -415,7 +405,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
         foreach (var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex))
         {
-            if (additionalHitAbility.IsTriggered(this, victim, false, out _, out _))
+            if (additionalHitAbility.IsTriggered(this, victim, true, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
             attackCount++;
             if (Fighting != victim)
@@ -990,6 +980,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Immunities = BaseImmunities,
             Resistances = BaseResistances,
             Vulnerabilities = BaseVulnerabilities,
+            ShieldFlags = BaseShieldFlags,
             Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
             LearnedAbilities = LearnedAbilities.Select(x => x.MapLearnedAbilityData()).ToArray(),
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),

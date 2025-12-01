@@ -53,6 +53,8 @@ public class AffectManager : IAffectManager
                 return new CharacterAttributeAffect(characterAttributeAffectData);
             case CharacterFlagsAffectData characterFlagsAffectData:
                 return new CharacterFlagsAffect(characterFlagsAffectData);
+            case CharacterShieldFlagsAffectData characterShieldFlagsAffectData:
+                return new CharacterShieldFlagsAffect(characterShieldFlagsAffectData);
             case CharacterIRVAffectData characterIRVAffectData:
                 return new CharacterIRVAffect(characterIRVAffectData);
             case CharacterSexAffectData characterSexAffectData:

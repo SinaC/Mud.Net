@@ -1,4 +1,6 @@
-﻿namespace Mud.DataStructures.Flags;
+﻿using System.Text;
+
+namespace Mud.DataStructures.Flags;
 
 public interface IFlags<T>
 {

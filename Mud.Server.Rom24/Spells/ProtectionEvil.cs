@@ -26,12 +26,12 @@ public class ProtectionEvil : CharacterBuffSpellBase
 {
     private const string SpellName = "Protection Evil";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
+    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
 
-    public ProtectionEvil(ILogger<ProtectionEvil> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
+    public ProtectionEvil(ILogger<ProtectionEvil> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory)
         : base(logger, randomManager, auraManager)
     {
-        CharacterFlagFactory = characterFlagFactory;
+        ShieldFlagFactory = shieldFlagFactory;
     }
 
     protected override string SelfAlreadyAffectedMessage => "You are already protected.";
@@ -43,7 +43,7 @@ public class ProtectionEvil : CharacterBuffSpellBase
         new IAffect[] 
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("ProtectEvil"), Operator = AffectOperators.Or }
+            new CharacterShieldFlagsAffect { Modifier = ShieldFlagFactory.CreateInstance("ProtectEvil"), Operator = AffectOperators.Or }
         });
     
 }

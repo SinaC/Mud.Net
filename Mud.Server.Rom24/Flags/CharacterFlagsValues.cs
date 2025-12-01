@@ -17,13 +17,10 @@ public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
         "DetectMagic",
         "DetectHidden",
         "DetectGood",
-        "Sanctuary",
         "FaerieFire",
         "Infrared",
         "Curse",
         "Poison",
-        "ProtectEvil",
-        "ProtectGood",
         "Sneak",
         "Hide",
         "Sleep",
@@ -46,6 +43,38 @@ public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
     public CharacterFlagValues(ILogger<CharacterFlagValues> logger)
         : base(logger)
     {
+    }
+
+    public string PrettyPrint(string flag, bool shortDisplay)
+    {
+        //if (shortDisplay)
+        //    return flag switch
+        //    {
+        //        "Charm" => "%C%(C)%x%",
+        //        "Flying" => "%c%(F)%x%",
+        //        "Invisible" => "%y%(I)%x%",
+        //        "Hide" => "%b%(H)%x%",
+        //        "Sneak" => "%R%(S)%x%",
+        //        "PassDoor" => "%c%(T)%x%",
+        //        "FaerieFire" => "%m%(P)%x%",
+        //        "DetectEvil" => "%r%(R)%x%",
+        //        "DetectGood" => "%Y%(G)%x%",
+        //        _ => string.Empty, // we don't want to display the other flags
+        //    };
+        //else
+            return flag switch
+            {
+                "Charm" => "%C%(Charmed)%x%",
+                "Flying" => "%c%(Flying)%x%",
+                "Invisible" => "%y%(Invis)%x%",
+                "Hide" => "%b%(Hide)%x%",
+                "Sneak" => "%R%(Sneaking)%x%",
+                "PassDoor" => "%c%(Translucent)%x%",
+                "FaerieFire" => "%m%(Pink Aura)%x%",
+                "DetectEvil" => "%r%(Red Aura)%x%",
+                "DetectGood" => "%Y%(Golden Aura)%x%",
+                _ => string.Empty, // we don't want to display the other flags
+            };
     }
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)

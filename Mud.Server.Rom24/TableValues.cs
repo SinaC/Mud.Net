@@ -5,7 +5,7 @@ using Mud.Domain;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Table;
 
-namespace Mud.Server.Table;
+namespace Mud.Server.Rom24;
 
 [Export(typeof(ITableValues)), Shared]
 public class TableValues : ITableValues

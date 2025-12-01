@@ -37,6 +37,7 @@ public abstract class CharacterData
     public required IIRVFlags Resistances { get; set; }
 
     public required IIRVFlags Vulnerabilities { get; set; }
+    public required IShieldFlags ShieldFlags { get; set; }
 
     public required Dictionary<CharacterAttributes, int> Attributes { get; set; }
 }

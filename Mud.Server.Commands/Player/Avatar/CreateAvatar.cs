@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Options;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Class;
@@ -18,10 +19,11 @@ public class CreateAvatar : PlayerGameAction
     private IUniquenessManager UniquenessManager { get; }
     private ITimeManager TimeManager { get; }
     private IRoomManager RoomManager { get; }
+    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
     private IGameActionManager GameActionManager { get; }
     private int MaxAvatarCount { get; }
 
-    public CreateAvatar(IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IGameActionManager gameActionManager, IOptions<AvatarOptions> avatarOptions)
+    public CreateAvatar(IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, IGameActionManager gameActionManager, IOptions<AvatarOptions> avatarOptions)
     {
         ServerPlayerCommand = serverPlayerCommand;
         RaceManager = raceManager;
@@ -29,6 +31,7 @@ public class CreateAvatar : PlayerGameAction
         UniquenessManager = uniquenessManager;
         TimeManager = timeManager;
         RoomManager = roomManager;
+        ShieldFlagFactory = shieldFlagFactory;
         GameActionManager = gameActionManager;
         MaxAvatarCount = avatarOptions.Value.MaxCount;
     }
@@ -47,6 +50,6 @@ public class CreateAvatar : PlayerGameAction
     public override void Execute(IActionInput actionInput)
     {
         Actor.Send("Please choose an avatar name (type quit to stop and cancel creation).");
-        Actor.SetStateMachine(new AvatarCreationStateMachine(ServerPlayerCommand, RaceManager, ClassManager, UniquenessManager, TimeManager, RoomManager, GameActionManager));
+        Actor.SetStateMachine(new AvatarCreationStateMachine(ServerPlayerCommand, RaceManager, ClassManager, UniquenessManager, TimeManager, RoomManager, ShieldFlagFactory, GameActionManager));
     }
 }

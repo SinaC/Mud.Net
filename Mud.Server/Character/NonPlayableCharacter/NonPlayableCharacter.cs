@@ -36,8 +36,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     private IClassManager ClassManager { get; }
     private IFlagFactory FlagFactory { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IFlagFactory flagFactory)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, flagFactory, wiznet)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagFactory, wiznet)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
@@ -343,16 +343,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                 OneHit(character, mainHand, multiHitModifier);
             attackCount++;
         }
-        // off hand attack
-        var offHand = GetEquipment<IItemWeapon>(EquipmentSlots.OffHand);
-        var dualWield = AbilityManager.CreateInstance<IPassive>("Dual Wield");
-        if (offHand != null && dualWield != null && dualWield.IsTriggered(this, victim, false, out _, out _))
-            OneHit(victim, offHand, multiHitModifier);
-        attackCount++;
-        if (Fighting != victim)
-            return;
-        if (multiHitModifier?.MaxAttackCount <= attackCount)
-            return;
         // main hand haste attack
         if ((CharacterFlags.IsSet("Haste") || OffensiveFlags.IsSet("Fast"))
             && !CharacterFlags.IsSet("Slow"))
@@ -362,7 +352,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             return;
         if (multiHitModifier?.MaxAttackCount <= attackCount)
             return;
-        // additional hits (second, third attack, ...)
+        // additional hits (dual wield, second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
         foreach (var additionalHitAbilityInfo in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
         {
@@ -380,6 +370,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (multiHitModifier?.MaxAttackCount <= attackCount)
                 return;
         }
+        // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
         // TODO: only if wielding 3 or 4 weapons
         //// 3rd hand
         //var thirdWieldLearnInfo = GetLearnInfo("Third wield");
@@ -516,6 +507,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             Immunities = BaseImmunities,
             Resistances = BaseResistances,
             Vulnerabilities = BaseVulnerabilities,
+            ShieldFlags = BaseShieldFlags,
             Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
             //KnownAbilities = KnownAbilities.Select(x => x.MapKnownAbilityData()).ToArray(),
             //Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key.Id, x => x.Value),

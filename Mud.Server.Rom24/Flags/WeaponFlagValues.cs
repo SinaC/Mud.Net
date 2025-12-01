@@ -22,23 +22,39 @@ public class WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
 
     protected override HashSet<string> HashSet => Flags;
 
-    public override string PrettyPrint(string flag, bool shortDisplay)
-        => flag switch
-        {
-            "Flaming" => "%R%(Flaming)%x%",
-            "Frost" => "%C%(Frost)%x%",
-            "Vampiric" => "%D%(Vampiric)%x%",
-            "Sharp" => "%W%(Sharp)%x%",
-            "Vorpal" => "%M%(Vorpal)%x%",
-            "TwoHands" => "%W%(Two-handed)%x%",
-            "Shocking" => "%Y%(Sparkling)%x%",
-            "Poison" => "%G%(Envenomed)%x%",
-            _ => base.PrettyPrint(flag, shortDisplay),
-        };
-
     public WeaponFlagValues(ILogger<WeaponFlagValues> logger)
         : base(logger)
     {
+    }
+
+    public string PrettyPrint(string flag, bool shortDisplay)
+    {
+        //if (shortDisplay)
+        //    return flag switch
+        //    {
+        //        "Flaming" => "%R%(F)%x%",
+        //        "Frost" => "%C%(F)%x%",
+        //        "Vampiric" => "%D%(V)%x%",
+        //        "Sharp" => "%W%(S)%x%",
+        //        "Vorpal" => "%M%(V)%x%",
+        //        "TwoHands" => "%W%(T)%x%",
+        //        "Shocking" => "%Y%(S)%x%",
+        //        "Poison" => "%G%(E)%x%",
+        //        _ => flag.ToString(),
+        //    };
+        //else
+            return flag switch
+            {
+                "Flaming" => "%R%(Flaming)%x%",
+                "Frost" => "%C%(Frost)%x%",
+                "Vampiric" => "%D%(Vampiric)%x%",
+                "Sharp" => "%W%(Sharp)%x%",
+                "Vorpal" => "%M%(Vorpal)%x%",
+                "TwoHands" => "%W%(Two-handed)%x%",
+                "Shocking" => "%Y%(Sparkling)%x%",
+                "Poison" => "%G%(Envenomed)%x%",
+                _ => flag.ToString(),
+            };
     }
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)

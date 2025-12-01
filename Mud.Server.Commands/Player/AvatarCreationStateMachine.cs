@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Class;
@@ -37,11 +38,12 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
     protected IUniquenessManager UniquenessManager { get; }
     protected ITimeManager TimeManager { get; }
     protected IRoomManager RoomManager { get; }
+    protected IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
     protected IGameActionManager GameActionManager { get; }
 
     public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
-    public AvatarCreationStateMachine(IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IGameActionManager gameActionManager)
+    public AvatarCreationStateMachine(IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, IGameActionManager gameActionManager)
     {
         ServerPlayerCommand = serverPlayerCommand;
         RaceManager = raceManager;
@@ -49,6 +51,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         UniquenessManager = uniquenessManager;
         TimeManager = timeManager;
         RoomManager = roomManager;
+        ShieldFlagFactory = shieldFlagFactory;
         GameActionManager = gameActionManager;
 
         KeepInputAsIs = false;
@@ -211,6 +214,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
                 Immunities = _race!.Immunities,
                 Resistances = _race!.Resistances,
                 Vulnerabilities = _race!.Vulnerabilities,
+                ShieldFlags = ShieldFlagFactory.CreateInstance(),
                 Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => GetStartAttributeValue(x, _race!, _class!)),
                 LearnedAbilities = [], // known abilities will be created in PlayableCharacter ctor
                 Cooldowns = [],

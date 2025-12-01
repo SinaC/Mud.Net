@@ -17,19 +17,19 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"The SANCTUARY spell reduces the damage taken by the character from any attack
 by one half.")]
-public class Sanctuary : CharacterFlagsSpellBase
+public class Sanctuary : ShieldFlagsSpellBase
 {
     private const string SpellName = "Sanctuary";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
+    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
 
-    public Sanctuary(ILogger<Sanctuary> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
+    public Sanctuary(ILogger<Sanctuary> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory)
         : base(logger, randomManager, auraManager)
     {
-        CharacterFlagFactory = characterFlagFactory;
+        ShieldFlagFactory = shieldFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("Sanctuary");
+    protected override IShieldFlags ShieldFlags => ShieldFlagFactory.CreateInstance("Sanctuary");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
     protected override string SelfAlreadyAffected => "You are already in sanctuary.";
     protected override string NotSelfAlreadyAffected => "{0:N} is already in sanctuary.";

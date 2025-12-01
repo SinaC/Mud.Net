@@ -42,7 +42,7 @@ namespace Mud.Server.Server;
 
 // Player lifecycle:
 //  when INetworkServer detects a new connection, NewClientConnected is raised
-//  a new login state machine is created/started and associated to client, client inputs/outputs are handled by login state machine instead if ProcessInput (via ClientLoginOnDataReceived)
+//  a new login state machine is created/started and associated to client, client inputs/outputs are handled by login state machine instead of ProcessInput (via ClientLoginOnDataReceived)
 //      --> client is considered as connecting
 //  if login is failed, client is disconnected
 //  if login is successful, login state machine is discarded, player/admin is created and client input/outputs are handled with ProcessInput/ProcessOutput
@@ -1134,6 +1134,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleAggressiveNonPlayableCharacters()
     {
+        // for each pc
+        //   for each aggresive npc in pc room
+        //     pick a random valid victim in room
         var pcClone = new ReadOnlyCollection<IPlayableCharacter>(CharacterManager.PlayableCharacters.Where(x => x.Room != null).ToList()); // TODO: !immortal
         foreach (var pc in pcClone)
         {
@@ -1480,11 +1483,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 var periodicAuras = character.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
                 if (periodicAuras.Length > 0)
                 {
-                    var aura = periodicAuras.Random(RandomManager);
-                    if (aura != null)
+                    var periodicAura = periodicAuras.Random(RandomManager);
+                    if (periodicAura != null)
                     {
-                        var affect = aura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
-                        affect?.Apply(aura, character);
+                        var affect = periodicAura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
+                        affect?.Apply(periodicAura, character);
                     }
                 }
 

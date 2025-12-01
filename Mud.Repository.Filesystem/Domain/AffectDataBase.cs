@@ -4,6 +4,7 @@ namespace Mud.Repository.Filesystem.Domain;
 
 [XmlInclude(typeof(CharacterAttributeAffectData))]
 [XmlInclude(typeof(CharacterFlagsAffectData))]
+[XmlInclude(typeof(CharacterShieldFlagsAffectData))]
 [XmlInclude(typeof(CharacterIRVAffectData))]
 [XmlInclude(typeof(CharacterSexAffectData))]
 [XmlInclude(typeof(ItemFlagsAffectData))]

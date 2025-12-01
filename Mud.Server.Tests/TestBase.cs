@@ -184,6 +184,9 @@ namespace Mud.Server.Tests
         {
 
         }
+
+        public string PrettyPrint(string flag, bool shortDisplay)
+            => flag.ToString();
     }
 
     internal class Rom24RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
@@ -276,6 +279,9 @@ namespace Mud.Server.Tests
         {
 
         }
+
+        public string PrettyPrint(string flag, bool shortDisplay)
+            => flag.ToString();
     }
 
     internal class Rom24IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues

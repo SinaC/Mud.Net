@@ -10,4 +10,5 @@ public interface IWeaponFlags : IFlags<string, IWeaponFlagValues>
 
 public interface IWeaponFlagValues : IFlagValues<string>
 {
+    string PrettyPrint(string flag, bool shortDisplay);
 }

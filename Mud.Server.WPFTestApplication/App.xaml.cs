@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
-using Mud.Server.Commands.Character.Movement;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.World;
@@ -15,8 +12,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls.Ribbon;
 
 namespace Mud.Server.WPFTestApplication;
 
@@ -29,6 +26,10 @@ public partial class App : Application
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        base.OnStartup(e);
+
+        SetupExceptionHandling();
+
         var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
 
@@ -175,5 +176,23 @@ public partial class App : Application
         {
             public string[] Assemblies { get; set; }
         }
+    }
+
+    private void SetupExceptionHandling()
+    {
+        AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+            Log.Error((Exception)e.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException");
+
+        DispatcherUnhandledException += (s, e) =>
+        {
+            Log.Error(e.Exception, "Application.Current.DispatcherUnhandledException");
+            e.Handled = true;
+        };
+
+        TaskScheduler.UnobservedTaskException += (s, e) =>
+        {
+            Log.Error(e.Exception, "TaskScheduler.UnobservedTaskException");
+            e.SetObserved();
+        };
     }
 }

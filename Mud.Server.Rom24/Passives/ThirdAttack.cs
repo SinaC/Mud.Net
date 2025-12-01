@@ -35,5 +35,4 @@ public class ThirdAttack : PassiveBase, IAdditionalHitPassive
 
         return diceRoll < chance;
     }
-
 }

@@ -7,15 +7,15 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
-namespace Mud.Server.AdditionalAbilities;
+namespace Mud.Server.Rom24.Skills.NonPlayableCharacter;
 
-[CharacterCommand("bite", "Ability", "Skill", "Combat")]
-[Skill(SkillName, AbilityEffects.Damage, LearnDifficultyMultiplier = 1, PulseWaitTime = 12)]
-public class Bite : FightingSkillBase
+[CharacterCommand("tail", "Ability", "Skill", "Combat")]
+[Skill(SkillName, AbilityEffects.Damage, LearnDifficultyMultiplier = 1, PulseWaitTime = 18)]
+public class Tail : FightingSkillBase
 {
-    private const string SkillName = "Bite";
+    private const string SkillName = "Tail";
 
-    public Bite(ILogger<Bite> logger, IRandomManager randomManager)
+    public Tail(ILogger<Tail> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {
     }
@@ -28,8 +28,8 @@ public class Bite : FightingSkillBase
 
         var npcUser = User as INonPlayableCharacter;
         if (Learned == 0
-            || (npcUser != null && !npcUser.OffensiveFlags.IsSet("Bite")))
-            return "Hmmm...";
+            || npcUser != null && !npcUser.OffensiveFlags.IsSet("Tail"))
+            return "You don't have any tail...";
 
         return null;
     }
@@ -38,8 +38,9 @@ public class Bite : FightingSkillBase
     {
         if (RandomManager.Chance(Learned))
         {
-            int damage = RandomManager.Range(1, 2 * User.Level);
-            Victim.AbilityDamage(User, damage, SchoolTypes.Pierce, "bite", true);
+            int damage = RandomManager.Range(2*User.Level, 3*User.Level);
+            Victim.AbilityDamage(User, damage, SchoolTypes.Bash, "tailsweep", true);
+            //DAZE_STATE(victim, 2 * PULSE_VIOLENCE);
             //check_killer(ch,victim);
             return true;
         }

@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
+using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Commands.Character.PlayableCharacter.Shop;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
@@ -51,9 +53,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected ICharacterManager CharacterManager { get; }
     protected IAuraManager AuraManager { get; }
     protected IWeaponEffectManager WeaponEffectManager { get; }
+    protected IDamageModifierManager DamageModifierManager { get; }
+    protected IHitAfterDamageManager HitAfterDamageManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagFactory flagFactory, IWiznet wiznet)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory, IWiznet wiznet)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         RandomManager = randomManager;
@@ -63,6 +67,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         CharacterManager = characterManager;
         AuraManager = auraManager;
         WeaponEffectManager = weaponEffectManager;
+        DamageModifierManager = damageModifierManager;
+        HitAfterDamageManager = hitAfterDamageManager;
         Wiznet = wiznet;
 
         _inventory = [];
@@ -83,6 +89,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Immunities = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
         Resistances = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
         Vulnerabilities = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
+        ShieldFlags = flagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>();
     }
 
     #region ICharacter
@@ -210,6 +217,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public IIRVFlags Resistances { get; protected set; }
     public IIRVFlags BaseVulnerabilities { get; protected set; }
     public IIRVFlags Vulnerabilities { get; protected set; }
+
+    public IShieldFlags BaseShieldFlags { get; protected set; }
+    public IShieldFlags ShieldFlags { get; protected set; }
 
     public Sex BaseSex { get; protected set; }
     public Sex Sex { get; protected set; }
@@ -1128,27 +1138,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 source.Act(ActOptions.ToRoom, "{0:N} fades into existence.", source);
         }
         // damage modifiers
-        if (damage > 1 && this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
-            damage -= damage / 10;
-        if (damage > 1 && CharacterFlags.IsSet("Sanctuary"))
-            damage /= 2;
-        if (damage > 1
-            && ((CharacterFlags.IsSet("ProtectEvil") && source.IsEvil)
-                || (CharacterFlags.IsSet("ProtectGood") && source.IsGood)))
-            damage -= damage / 4;
-        ResistanceLevels resistanceLevel = CheckResistance(damageType);
-        switch (resistanceLevel)
-        {
-            case ResistanceLevels.Immune:
-                damage = 0;
-                break;
-            case ResistanceLevels.Resistant:
-                damage -= damage / 3;
-                break;
-            case ResistanceLevels.Vulnerable:
-                damage += damage / 2;
-                break;
-        }
+        var resistanceLevel = DamageModifierManager.ModifyDamage(source, this, damageType, ref damage);
 
         if (display)
         {
@@ -1263,110 +1253,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return DamageResults.Done;
     }
 
-    public ResistanceLevels CheckResistance(SchoolTypes damageType)
-    {
-        string irvFlags;
-        // Generic resistance
-        ResistanceLevels defaultResistance = ResistanceLevels.Normal;
-        if (damageType <= SchoolTypes.Slash) // Physical
-        {
-            if (Immunities.IsSet("Weapon"))
-                defaultResistance = ResistanceLevels.Immune;
-            else if (Resistances.IsSet("Weapon"))
-                defaultResistance = ResistanceLevels.Resistant;
-            else if (Vulnerabilities.IsSet("Weapon"))
-                defaultResistance = ResistanceLevels.Normal;
-        }
-        else // Magic
-        {
-            if (Immunities.IsSet("Magic"))
-                defaultResistance = ResistanceLevels.Immune;
-            else if (Resistances.IsSet("Magic"))
-                defaultResistance = ResistanceLevels.Resistant;
-            else if (Vulnerabilities.IsSet("Magic"))
-                defaultResistance = ResistanceLevels.Normal;
-        }
-        switch (damageType)
-        {
-            case SchoolTypes.None:
-                return ResistanceLevels.None; // no Resistance
-            case SchoolTypes.Bash:
-            case SchoolTypes.Pierce:
-            case SchoolTypes.Slash:
-                irvFlags = "Weapon";
-                break;
-            case SchoolTypes.Fire:
-                irvFlags = "Fire";
-                break;
-            case SchoolTypes.Cold:
-                irvFlags = "Cold";
-                break;
-            case SchoolTypes.Lightning:
-                irvFlags = "Lightning";
-                break;
-            case SchoolTypes.Acid:
-                irvFlags = "Acid";
-                break;
-            case SchoolTypes.Poison:
-                irvFlags = "Poison";
-                break;
-            case SchoolTypes.Negative:
-                irvFlags = "Negative";
-                break;
-            case SchoolTypes.Holy:
-                irvFlags = "Holy";
-                break;
-            case SchoolTypes.Energy:
-                irvFlags = "Energy";
-                break;
-            case SchoolTypes.Mental:
-                irvFlags = "Mental";
-                break;
-            case SchoolTypes.Disease:
-                irvFlags = "Disease";
-                break;
-            case SchoolTypes.Drowning:
-                irvFlags = "Drowning";
-                break;
-            case SchoolTypes.Light:
-                irvFlags = "Light";
-                break;
-            case SchoolTypes.Other: // no specific IRV
-                return defaultResistance;
-            case SchoolTypes.Harm: // no specific IRV
-                return defaultResistance;
-            case SchoolTypes.Charm:
-                irvFlags = "Charm";
-                break;
-            case SchoolTypes.Sound:
-                irvFlags = "Sound";
-                break;
-            default:
-                Logger.LogError("CharacterBase.CheckResistance: Unknown {schoolType} {damageType}", nameof(SchoolTypes), damageType);
-                return defaultResistance;
-        }
-        // Following code has been reworked because Rom24 was testing on currently computed resistance (imm) instead of defaultResistance (def)
-        ResistanceLevels resistance = ResistanceLevels.None;
-        if (Immunities.IsSet(irvFlags))
-            resistance = ResistanceLevels.Immune;
-        else if (Resistances.IsSet(irvFlags) && defaultResistance != ResistanceLevels.Immune)
-            resistance = ResistanceLevels.Resistant;
-        else if (Vulnerabilities.IsSet(irvFlags))
-        {
-            if (defaultResistance == ResistanceLevels.Immune)
-                resistance = ResistanceLevels.Resistant;
-            else if (defaultResistance == ResistanceLevels.Resistant)
-                resistance = ResistanceLevels.Normal;
-            else
-                resistance = ResistanceLevels.Vulnerable;
-        }
-        // if no specific resistance found, return generic one
-        if (resistance == ResistanceLevels.None)
-            return defaultResistance;
-        // else, return specific resistance
-        return resistance;
-    }
-
     public IItemCorpse? RawKilled(ICharacter? killer, bool payoff)
     {
         if (!IsValid)
@@ -1415,7 +1301,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         int save = 50 + (victim.Level - level) * 5 - victim[CharacterAttributes.SavingThrow] * 2;
         if (victim.CharacterFlags.IsSet("Berserk"))
             save += victim.Level / 2;
-        ResistanceLevels resist = victim.CheckResistance(damageType);
+        ResistanceLevels resist = DamageModifierManager.CheckResistance(victim, damageType);
         switch (resist)
         {
             case ResistanceLevels.Immune:
@@ -1469,14 +1355,16 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 // no charmed creatures unless owner
                 if (victim.CharacterFlags.IsSet("Charm") && (area || caster != npcVictim.Master))
                     return true;
-                // TODO: legal kill? -- cannot hit mob fighting non-group member
-                //if (victim->fighting != NULL && !is_same_group(ch,victim->fighting)) -> true
+                // legal kill? -- cannot hit mob fighting non-group member
+                if (victim.Fighting != null && !caster.IsSameGroupOrPet(victim.Fighting))
+                    return true;
             }
             // Player doing the killing
             else
             {
-                // TODO: area effect spells do not hit other mobs
-                //if (area && !is_same_group(victim,ch->fighting)) -> true
+                // area effect spells do not hit other mobs
+                if (area && caster.Fighting != null && !victim.IsSameGroupOrPet(caster.Fighting))
+                    return true;
             }
         }
         // Killing players
@@ -1493,8 +1381,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 // safe room
                 if (victim.Room.RoomFlags.IsSet("Safe"))
                     return true;
-                // TODO:  legal kill? -- mobs only hit players grouped with opponent
-                //if (ch->fighting != NULL && !is_same_group(ch->fighting, victim))
+                // legal kill? -- mobs only hit players grouped with opponent
+                if (caster.Fighting != null && !caster.Fighting.IsSameGroupOrPet(victim))
+                    return true;
             }
             // Player doing the killing
             else
@@ -1795,26 +1684,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public StringBuilder AppendInRoom(StringBuilder sb, ICharacter viewer)
     {
         // display flags
-        if (CharacterFlags.IsSet("Charm"))
-            sb.Append("%C%(Charmed)%x%");
-        if (CharacterFlags.IsSet("Flying"))
-            sb.Append("%c%(Flying)%x%");
-        if (CharacterFlags.IsSet("Invisible"))
-            sb.Append("%y%(Invis)%x%");
-        if (CharacterFlags.IsSet("Hide"))
-            sb.Append("%b%(Hide)%x%");
-        if (CharacterFlags.IsSet("Sneak"))
-            sb.Append("%R%(Sneaking)%x%");
-        if (CharacterFlags.IsSet("PassDoor"))
-            sb.Append("%c%(Translucent)%x%");
-        if (CharacterFlags.IsSet("FaerieFire"))
-            sb.Append("%m%(Pink Aura)%x%");
-        if (CharacterFlags.IsSet("DetectEvil"))
-            sb.Append("%r%(Red Aura)%x%");
-        if (CharacterFlags.IsSet("DetectGood"))
-            sb.Append("%Y%(Golden Aura)%x%");
-        if (CharacterFlags.IsSet("Sanctuary"))
-            sb.Append("%W%(White Aura)%x%");
+        CharacterFlags.Append(sb, false);
+        ShieldFlags.Append(sb, false);
+
         // TODO: killer/thief
         // TODO: display long description and stop if position = start position for NPC
 
@@ -1925,6 +1797,24 @@ public abstract class CharacterBase : EntityBase, ICharacter
                         Resistances.Unset(affect.Modifier);
                         break;
                 }
+                break;
+        }
+    }
+
+    public void ApplyAffect(ICharacterShieldFlagsAffect affect)
+    {
+        switch (affect.Operator)
+        {
+            case AffectOperators.Add:
+            case AffectOperators.Or:
+                
+                ShieldFlags.Set(affect.Modifier);
+                break;
+            case AffectOperators.Assign:
+                ShieldFlags.Copy(affect.Modifier);
+                break;
+            case AffectOperators.Nor:
+                ShieldFlags.Unset(affect.Modifier);
                 break;
         }
     }
@@ -2198,7 +2088,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             weaponAbility?.IsTriggered(this, victim, true, out _, out _); // TODO: maybe we should test return value (imagine a big bad boss which add CD to every skill)
         }
 
-        // bonus
+        // bonus damage such as EnhancedDamage
         foreach (var enhancementAbility in AbilityManager.SearchAbilitiesByExecutionType<IHitEnhancementPassive>())
         {
             var ability = AbilityManager.CreateInstance<IHitEnhancementPassive>(enhancementAbility);
@@ -2240,6 +2130,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 if (Fighting != victim) // stop if not anymore fighting
                     return;
             }
+        }
+
+        // shield ?
+        if (damageResult == DamageResults.Done)
+        {
+            HitAfterDamageManager.OnHit(this, victim);
         }
     }
 
