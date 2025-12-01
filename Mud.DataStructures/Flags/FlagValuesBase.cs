@@ -12,8 +12,6 @@ public abstract class FlagValuesBase<T> : IFlagValues<T>
 
     public virtual IEnumerable<T> AvailableValues => HashSet;
 
-    public virtual string PrettyPrint(T flag, bool shortDisplay) => flag?.ToString() ?? string.Empty;
-
     protected FlagValuesBase(ILogger<FlagValuesBase<T>> logger)
     {
         Logger = logger;

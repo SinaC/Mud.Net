@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
 using Mud.Server.Effects;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
@@ -13,11 +14,13 @@ public class Vorpal : IInstantDeathWeaponEffect
 {
     private ILogger<Vorpal> Logger { get; }
     private IRandomManager RandomManager { get; }
+    private IDamageModifierManager DamageModifierManager { get; }
 
-    public Vorpal(ILogger<Vorpal> logger, IRandomManager randomManager)
+    public Vorpal(ILogger<Vorpal> logger, IRandomManager randomManager, IDamageModifierManager damageModifierManager)
     {
         Logger = logger;
         RandomManager = randomManager;
+        DamageModifierManager = damageModifierManager;
     }
 
     public bool Trigger(ICharacter holder, ICharacter victim, IItemWeapon weapon, SchoolTypes damageType)
@@ -31,26 +34,15 @@ public class Vorpal : IInstantDeathWeaponEffect
         if (victim.BodyParts.IsSet("Head")
             && !(victim is IPlayableCharacter pcVictim && pcVictim.IsImmortal))
         {
-            int chance;
-            ResistanceLevels resistanceLevel = victim.CheckResistance(damageType);
-            switch (resistanceLevel)
+            ResistanceLevels resistanceLevel = DamageModifierManager.CheckResistance(victim, damageType);
+            var chance = resistanceLevel switch
             {
-                case ResistanceLevels.Immune:
-                    chance = 0;
-                    break;
-                case ResistanceLevels.Resistant:
-                    chance = 1;
-                    break;
-                case ResistanceLevels.Vulnerable:
-                    chance = 5;
-                    break;
-                case ResistanceLevels.Normal:
-                    chance = 2;
-                    break;
-                default:
-                    chance = 0;
-                    break;
-            }
+                ResistanceLevels.Immune => 0,
+                ResistanceLevels.Resistant => 1,
+                ResistanceLevels.Vulnerable => 5,
+                ResistanceLevels.Normal => 2,
+                _ => 0,
+            };
             if (chance > 0 && RandomManager.Range(0, 999) < chance)
             {
                 Logger.LogDebug("Vorpal: who {victim} what {weapon} by {effect}", victim, weapon, this);

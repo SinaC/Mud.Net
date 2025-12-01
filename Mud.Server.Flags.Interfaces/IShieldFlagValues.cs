@@ -3,12 +3,12 @@ using System.Text;
 
 namespace Mud.Server.Flags.Interfaces;
 
-public interface ICharacterFlags : IFlags<string, ICharacterFlagValues>
+public interface IShieldFlags : IFlags<string, IShieldFlagValues>
 {
     StringBuilder Append(StringBuilder sb, bool shortDisplay);
 }
 
-public interface ICharacterFlagValues : IFlagValues<string>
+public interface IShieldFlagValues : IFlagValues<string>
 {
     string PrettyPrint(string flag, bool shortDisplay);
 }

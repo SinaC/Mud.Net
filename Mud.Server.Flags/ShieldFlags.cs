@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Mud.Server.Flags;
 
-[Export(typeof(IWeaponFlags))]
-public class WeaponFlags : Flags<IWeaponFlagValues>, IWeaponFlags
+[Export(typeof(IShieldFlags))]
+public class ShieldFlags : Flags<IShieldFlagValues>, IShieldFlags
 {
-    public WeaponFlags(IWeaponFlagValues flagValues)
+    public ShieldFlags(IShieldFlagValues flagValues)
         : base(flagValues)
     {
     }

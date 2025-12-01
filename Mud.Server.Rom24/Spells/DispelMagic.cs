@@ -36,7 +36,7 @@ public class DispelMagic : OffensiveSpellBase
 
     protected override void Invoke()
     {
-        if (Victim.SavesSpell(Level, SchoolTypes.Other))
+        if (Victim.IsSafeSpell(Caster, false))
         {
             Victim.Send("You feel a brief tingling sensation.");
             Caster.Send("You failed.");

@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using System.Text;
 
 namespace Mud.DataStructures.Flags;
 

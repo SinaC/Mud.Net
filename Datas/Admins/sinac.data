@@ -242,7 +242,7 @@
           <PulseLeft>960</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
-            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+            <AffectDataBase xsi:type="CharacterShieldFlagsAffectData">
               <Operator>1</Operator>
               <Modifier>Sanctuary</Modifier>
             </AffectDataBase>
@@ -312,7 +312,7 @@
               <Location>8</Location>
               <Modifier>-1</Modifier>
             </AffectDataBase>
-            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+            <AffectDataBase xsi:type="CharacterShieldFlagsAffectData">
               <Operator>1</Operator>
               <Modifier>ProtectEvil</Modifier>
             </AffectDataBase>
@@ -375,10 +375,11 @@
           </Affects>
         </AuraData>
       </Auras>
-      <CharacterFlags>Berserk,ProtectEvil,Sanctuary</CharacterFlags>
+      <CharacterFlags>Berserk</CharacterFlags>
       <Immunities />
       <Resistances>Acid,Bash,Disease,Poison,Slash</Resistances>
       <Vulnerabilities>Cold,Fire,Pierce</Vulnerabilities>
+      <ShieldFlags>ProtectEvil,Sanctuary</ShieldFlags>
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -1830,6 +1831,7 @@
       <Immunities />
       <Resistances>Disease,Poison</Resistances>
       <Vulnerabilities>Drowning</Vulnerabilities>
+      <ShieldFlags />
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -1967,6 +1969,7 @@
       <Immunities />
       <Resistances />
       <Vulnerabilities />
+      <ShieldFlags />
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -2410,6 +2413,7 @@
       <Immunities />
       <Resistances>Cold,Fire</Resistances>
       <Vulnerabilities>Lightning,Mental</Vulnerabilities>
+      <ShieldFlags />
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -2556,6 +2560,7 @@
       <Immunities />
       <Resistances>Charm</Resistances>
       <Vulnerabilities>Iron</Vulnerabilities>
+      <ShieldFlags />
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -3017,6 +3022,7 @@
       <Immunities />
       <Resistances>Charm</Resistances>
       <Vulnerabilities>Iron</Vulnerabilities>
+      <ShieldFlags />
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -3478,6 +3484,7 @@
       <Immunities />
       <Resistances>Charm</Resistances>
       <Vulnerabilities>Iron</Vulnerabilities>
+      <ShieldFlags />
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>
@@ -3911,11 +3918,11 @@
       <Sex>0</Sex>
       <Size>2</Size>
       <HitPoints>218</HitPoints>
-      <MovePoints>218</MovePoints>
+      <MovePoints>200</MovePoints>
       <CurrentResources>
         <PairDataOfInt32Int32>
           <Key>0</Key>
-          <Value>301</Value>
+          <Value>186</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
@@ -3934,6 +3941,17 @@
       </MaxResources>
       <Equipments>
         <EquippedItemData>
+          <Slot>1</Slot>
+          <Item xsi:type="ItemLightData">
+            <ItemId>21</ItemId>
+            <Level>0</Level>
+            <DecayPulseLeft>0</DecayPulseLeft>
+            <ItemFlags>Glowing</ItemFlags>
+            <Auras />
+            <TimeLeft>-1</TimeLeft>
+          </Item>
+        </EquippedItemData>
+        <EquippedItemData>
           <Slot>13</Slot>
           <Item xsi:type="ItemWeaponData">
             <ItemId>3350</ItemId>
@@ -3943,8 +3961,8 @@
             <Auras>
               <AuraData>
                 <AbilityName>Envenom</AbilityName>
-                <Level>7</Level>
-                <PulseLeft>2424</PulseLeft>
+                <Level>1</Level>
+                <PulseLeft>2108</PulseLeft>
                 <AuraFlags>2</AuraFlags>
                 <Affects>
                   <AffectDataBase xsi:type="ItemWeaponFlagsAffectData">
@@ -3962,14 +3980,98 @@
       <Auras>
         <AuraData>
           <AbilityName>Giant Strength</AbilityName>
-          <Level>43</Level>
-          <PulseLeft>11692</PulseLeft>
+          <Level>29</Level>
+          <PulseLeft>11376</PulseLeft>
           <AuraFlags>0</AuraFlags>
           <Affects>
             <AffectDataBase xsi:type="CharacterAttributeAffectData">
               <Operator>0</Operator>
               <Location>1</Location>
               <Modifier>4</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Detect Evil</AbilityName>
+          <Level>41</Level>
+          <PulseLeft>11572</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>DetectEvil</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Detect Good</AbilityName>
+          <Level>39</Level>
+          <PulseLeft>11604</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>DetectGood</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Detect Invis</AbilityName>
+          <Level>44</Level>
+          <PulseLeft>11620</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>DetectInvis</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Detect Hidden</AbilityName>
+          <Level>48</Level>
+          <PulseLeft>11676</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>DetectHidden</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Shock Shield</AbilityName>
+          <Level>48</Level>
+          <PulseLeft>1884</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterShieldFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>ShockShield</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Fire Shield</AbilityName>
+          <Level>47</Level>
+          <PulseLeft>1900</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterShieldFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>FireShield</Modifier>
+            </AffectDataBase>
+          </Affects>
+        </AuraData>
+        <AuraData>
+          <AbilityName>Ice Shield</AbilityName>
+          <Level>49</Level>
+          <PulseLeft>1912</PulseLeft>
+          <AuraFlags>0</AuraFlags>
+          <Affects>
+            <AffectDataBase xsi:type="CharacterShieldFlagsAffectData">
+              <Operator>1</Operator>
+              <Modifier>IceShield</Modifier>
             </AffectDataBase>
           </Affects>
         </AuraData>
@@ -4037,7 +4139,7 @@
         </PairDataOfInt32Int32>
       </Attributes>
       <CreationTime>2025-11-11T16:31:33.7841739+01:00</CreationTime>
-      <RoomId>1308</RoomId>
+      <RoomId>1309</RoomId>
       <SilverCoins>0</SilverCoins>
       <GoldCoins>0</GoldCoins>
       <Experience>120002</Experience>
@@ -5343,6 +5445,51 @@
           <Learned>100</Learned>
           <Rating>1</Rating>
         </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Cat Form</Name>
+          <ResourceKind>-1</ResourceKind>
+          <CostAmount>0</CostAmount>
+          <CostAmountOperator>0</CostAmountOperator>
+          <Level>20</Level>
+          <Learned>1</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Fire Shield</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Ice Shield</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Shadow Word: Pain</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
+        <LearnedAbilityData>
+          <Name>Shock Shield</Name>
+          <ResourceKind>0</ResourceKind>
+          <CostAmount>5</CostAmount>
+          <CostAmountOperator>2</CostAmountOperator>
+          <Level>1</Level>
+          <Learned>100</Learned>
+          <Rating>1</Rating>
+        </LearnedAbilityData>
       </LearnedAbilities>
       <Conditions>
         <PairDataOfInt32Int32>
@@ -5351,15 +5498,15 @@
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>1</Key>
-          <Value>10</Value>
+          <Value>8</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>2</Key>
-          <Value>29</Value>
+          <Value>28</Value>
         </PairDataOfInt32Int32>
         <PairDataOfInt32Int32>
           <Key>3</Key>
-          <Value>29</Value>
+          <Value>28</Value>
         </PairDataOfInt32Int32>
       </Conditions>
       <Aliases />
@@ -5402,6 +5549,7 @@
       <Immunities />
       <Resistances>Acid,Bash,Disease,Poison,Slash</Resistances>
       <Vulnerabilities>Cold,Fire,Pierce</Vulnerabilities>
+      <ShieldFlags />
       <Attributes>
         <PairDataOfInt32Int32>
           <Key>0</Key>

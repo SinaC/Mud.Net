@@ -56,7 +56,7 @@ public class HolyWord : NoTargetSpellBase
             else if ((Caster.IsGood && victim.IsEvil)
                      || (Caster.IsEvil && victim.IsGood))
             {
-                if (!victim.SavesSpell(Level, SchoolTypes.Holy))
+                if (!victim.IsSafeSpell(Caster, true))
                 {
                     victim.Send("You are struck down!");
                     int damage = RandomManager.Dice(Level, 6);
@@ -70,7 +70,7 @@ public class HolyWord : NoTargetSpellBase
 
                 else if (Caster.IsNeutral)
                 {
-                    if (!victim.SavesSpell(Level, SchoolTypes.Holy))
+                    if (!victim.IsSafeSpell(Caster, true))
                     {
                         victim.Send("You are struck down!");
                         int damage = RandomManager.Dice(Level, 4);

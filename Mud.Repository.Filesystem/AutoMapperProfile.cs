@@ -28,6 +28,7 @@ public class AutoMapperProfile : Profile
             .Include<Mud.Domain.PetData, Domain.PetData>()
             .ForMember(x => x.Sex, opt => opt.MapFrom(x => MapSex(x.Sex)))
             .ForMember(x => x.CharacterFlags, opt => opt.MapFrom(x => x.CharacterFlags.Map()))
+            .ForMember(x => x.ShieldFlags, opt => opt.MapFrom(x => x.ShieldFlags.Map()))
             .ForMember(x => x.Immunities, opt => opt.MapFrom(x => x.Immunities.Map()))
             .ForMember(x => x.Resistances, opt => opt.MapFrom(x => x.Resistances.Map()))
             .ForMember(x => x.Vulnerabilities, opt => opt.MapFrom(x => x.Vulnerabilities.Map()))
@@ -78,6 +79,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Mud.Domain.AffectDataBase, Domain.AffectDataBase>()
             .Include<Mud.Domain.CharacterAttributeAffectData, Domain.CharacterAttributeAffectData>()
             .Include<Mud.Domain.CharacterFlagsAffectData, Domain.CharacterFlagsAffectData>()
+            .Include<Mud.Domain.CharacterShieldFlagsAffectData, Domain.CharacterShieldFlagsAffectData>()
             .Include<Mud.Domain.CharacterIRVAffectData, Domain.CharacterIRVAffectData>()
             .Include<Mud.Domain.CharacterSexAffectData, Domain.CharacterSexAffectData>()
             .Include<Mud.Domain.ItemFlagsAffectData, Domain.ItemFlagsAffectData>()
@@ -92,6 +94,9 @@ public class AutoMapperProfile : Profile
             .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
             .ForMember(x => x.Location, opt => opt.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
         CreateMap<Mud.Domain.CharacterFlagsAffectData, Domain.CharacterFlagsAffectData>()
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
+            .ForMember(x => x.Modifier, opt => opt.MapFrom(x => x.Modifier.Map()));
+        CreateMap<Mud.Domain.CharacterShieldFlagsAffectData, Domain.CharacterShieldFlagsAffectData>()
             .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
             .ForMember(x => x.Modifier, opt => opt.MapFrom(x => x.Modifier.Map()));
         CreateMap<Mud.Domain.CharacterIRVAffectData, Domain.CharacterIRVAffectData>()
@@ -133,6 +138,8 @@ public class AutoMapperProfile : Profile
             .ConvertUsing<StringToWeaponFlagsConverter>();
         CreateMap<string, ICharacterFlags>()
             .ConvertUsing<StringToCharacterFlagsConverter>();
+        CreateMap<string, IShieldFlags>()
+            .ConvertUsing<StringToCharacterShieldFlagsConverter>();
         CreateMap<string, IRoomFlags>()
             .ConvertUsing<StringToRoomFlagsConverter>();
 
@@ -192,6 +199,7 @@ public class AutoMapperProfile : Profile
         CreateMap<Domain.AffectDataBase, Mud.Domain.AffectDataBase>()
             .Include<Domain.CharacterAttributeAffectData, Mud.Domain.CharacterAttributeAffectData>()
             .Include<Domain.CharacterFlagsAffectData, Mud.Domain.CharacterFlagsAffectData>()
+            .Include<Domain.CharacterShieldFlagsAffectData, Mud.Domain.CharacterShieldFlagsAffectData>()
             .Include<Domain.CharacterIRVAffectData, Mud.Domain.CharacterIRVAffectData>()
             .Include<Domain.CharacterSexAffectData, Mud.Domain.CharacterSexAffectData>()
             .Include<Domain.ItemFlagsAffectData, Mud.Domain.ItemFlagsAffectData>()
@@ -206,6 +214,8 @@ public class AutoMapperProfile : Profile
             .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)))
             .ForMember(x => x.Location, opt => opt.MapFrom(x => MapCharacterAttributeAffectLocations(x.Location)));
         CreateMap<Domain.CharacterFlagsAffectData, Mud.Domain.CharacterFlagsAffectData>()
+            .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
+        CreateMap<Domain.CharacterShieldFlagsAffectData, Mud.Domain.CharacterShieldFlagsAffectData>()
             .ForMember(x => x.Operator, opt => opt.MapFrom(x => MapAffectOperators(x.Operator)));
         CreateMap<Domain.CharacterIRVAffectData, Mud.Domain.CharacterIRVAffectData>()
             .ForMember(x => x.Location, opt => opt.MapFrom(x => MapIRVAffectLocations(x.Location)))
@@ -804,6 +814,20 @@ public class AutoMapperProfile : Profile
         public ICharacterFlags Convert(string source, ICharacterFlags destination, ResolutionContext context)
             => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(source);
     }
+
+    public class StringToCharacterShieldFlagsConverter : ITypeConverter<string, IShieldFlags>
+    {
+        private IFlagFactory FlagFactory { get; }
+
+        public StringToCharacterShieldFlagsConverter(IFlagFactory flagFactory)
+        {
+            FlagFactory = flagFactory;
+        }
+
+        public IShieldFlags Convert(string source, IShieldFlags destination, ResolutionContext context)
+            => FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>(source);
+    }
+
 
     public class StringToRoomFlagsConverter : ITypeConverter<string, IRoomFlags>
     {

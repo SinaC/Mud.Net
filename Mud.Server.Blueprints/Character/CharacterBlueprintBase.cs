@@ -110,6 +110,9 @@ public abstract class CharacterBlueprintBase
     public IIRVFlags Vulnerabilities { get; set; } = default!;
 
     [DataMember]
+    public IShieldFlags ShieldFlags { get; set; } = default!;
+
+    [DataMember]
     public string Race { get; set; } = default!;
 
     [DataMember]

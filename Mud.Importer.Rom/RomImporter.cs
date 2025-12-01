@@ -1216,7 +1216,8 @@ public class RomImporter
             damageNoun = attackTableEntry.noun;
         }
 
-        (IOffensiveFlags offensiveFlags, IAssistFlags assistFlags) offAssistFlags = ConvertOffensiveFlags(mobileData.OffFlags);
+        (IOffensiveFlags offensiveFlags, IAssistFlags assistFlags) = ConvertOffensiveFlags(mobileData.OffFlags);
+        (ICharacterFlags characterFlags, IShieldFlags shieldFlags) = ConvertCharacterFlags(mobileData.AffectedBy);
 
         if (mobileData.Shop == null)
             return new CharacterNormalBlueprint
@@ -1247,13 +1248,14 @@ public class RomImporter
                 ArmorBash = mobileData.Armor[1],
                 ArmorSlash = mobileData.Armor[2],
                 ArmorExotic = mobileData.Armor[3],
-                CharacterFlags = ConvertCharacterFlags(mobileData.AffectedBy),
+                CharacterFlags = characterFlags,
                 ActFlags = ConvertActFlags(mobileData.Act),
-                OffensiveFlags = offAssistFlags.offensiveFlags,
-                AssistFlags = offAssistFlags.assistFlags,
+                OffensiveFlags = offensiveFlags,
+                AssistFlags = assistFlags,
                 Immunities = ConvertIRV(mobileData.ImmFlags),
                 Resistances = ConvertIRV(mobileData.ResFlags),
                 Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
+                ShieldFlags = shieldFlags,
                 Race = mobileData.Race,
                 BodyForms = ConvertBodyForms(mobileData.Form),
                 BodyParts = ConvertBodyParts(mobileData.Parts),
@@ -1287,13 +1289,14 @@ public class RomImporter
                 ArmorBash = mobileData.Armor[1],
                 ArmorSlash = mobileData.Armor[2],
                 ArmorExotic = mobileData.Armor[3],
-                CharacterFlags = ConvertCharacterFlags(mobileData.AffectedBy),
+                CharacterFlags = characterFlags,
                 ActFlags = ConvertActFlags(mobileData.Act),
-                OffensiveFlags = offAssistFlags.offensiveFlags,
-                AssistFlags = offAssistFlags.assistFlags,
+                OffensiveFlags = offensiveFlags,
+                AssistFlags = assistFlags,
                 Immunities = ConvertIRV(mobileData.ImmFlags),
                 Resistances = ConvertIRV(mobileData.ResFlags),
                 Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
+                ShieldFlags = shieldFlags,
                 Race = mobileData.Race,
                 BodyForms = ConvertBodyForms(mobileData.Form),
                 BodyParts = ConvertBodyParts(mobileData.Parts),
@@ -1361,41 +1364,42 @@ public class RomImporter
         return flags;
     }
 
-    private ICharacterFlags ConvertCharacterFlags(long affectedBy)
+    private (ICharacterFlags characterFlags, IShieldFlags shieldFlags) ConvertCharacterFlags(long affectedBy)
     {
-        var flags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
-        if (IsSet(affectedBy, AFF_BLIND)) flags.Set("Blind");
-        if (IsSet(affectedBy, AFF_INVISIBLE)) flags.Set("Invisible");
-        if (IsSet(affectedBy, AFF_DETECT_EVIL)) flags.Set("DetectEvil");
-        if (IsSet(affectedBy, AFF_DETECT_INVIS)) flags.Set("DetectInvis");
-        if (IsSet(affectedBy, AFF_DETECT_MAGIC)) flags.Set("DetectMagic");
-        if (IsSet(affectedBy, AFF_DETECT_HIDDEN)) flags.Set("DetectHidden");
-        if (IsSet(affectedBy, AFF_DETECT_GOOD)) flags.Set("DetectGood");
-        if (IsSet(affectedBy, AFF_SANCTUARY)) flags.Set("Sanctuary");
-        if (IsSet(affectedBy, AFF_FAERIE_FIRE)) flags.Set("FaerieFire");
-        if (IsSet(affectedBy, AFF_INFRARED)) flags.Set("Infrared");
-        if (IsSet(affectedBy, AFF_CURSE)) flags.Set("Curse");
+        var characterFlags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
+        var shieldFlags = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>();
+        if (IsSet(affectedBy, AFF_BLIND)) characterFlags.Set("Blind");
+        if (IsSet(affectedBy, AFF_INVISIBLE)) characterFlags.Set("Invisible");
+        if (IsSet(affectedBy, AFF_DETECT_EVIL)) characterFlags.Set("DetectEvil");
+        if (IsSet(affectedBy, AFF_DETECT_INVIS)) characterFlags.Set("DetectInvis");
+        if (IsSet(affectedBy, AFF_DETECT_MAGIC)) characterFlags.Set("DetectMagic");
+        if (IsSet(affectedBy, AFF_DETECT_HIDDEN)) characterFlags.Set("DetectHidden");
+        if (IsSet(affectedBy, AFF_DETECT_GOOD)) characterFlags.Set("DetectGood");
+        if (IsSet(affectedBy, AFF_SANCTUARY)) shieldFlags.Set("Sanctuary");
+        if (IsSet(affectedBy, AFF_FAERIE_FIRE)) characterFlags.Set("FaerieFire");
+        if (IsSet(affectedBy, AFF_INFRARED)) characterFlags.Set("Infrared");
+        if (IsSet(affectedBy, AFF_CURSE)) characterFlags.Set("Curse");
         // AFF_ROOTED
-        if (IsSet(affectedBy, AFF_POISON)) flags.Set("Poison");
-        if (IsSet(affectedBy, AFF_PROTECT_EVIL)) flags.Set("ProtectEvil");
-        if (IsSet(affectedBy, AFF_PROTECT_GOOD)) flags.Set("ProtectGood");
-        if (IsSet(affectedBy, AFF_SNEAK)) flags.Set("Sneak");
-        if (IsSet(affectedBy, AFF_HIDE)) flags.Set("Hide");
-        if (IsSet(affectedBy, AFF_SLEEP)) flags.Set("Sleep");
-        if (IsSet(affectedBy, AFF_CHARM)) flags.Set("Charm");
-        if (IsSet(affectedBy, AFF_FLYING)) flags.Set("Flying");
-        if (IsSet(affectedBy, AFF_PASS_DOOR)) flags.Set("PassDoor");
-        if (IsSet(affectedBy, AFF_HASTE)) flags.Set("Haste");
-        if (IsSet(affectedBy, AFF_CALM)) flags.Set("Calm");
-        if (IsSet(affectedBy, AFF_PLAGUE)) flags.Set("Plague");
-        if (IsSet(affectedBy, AFF_WEAKEN)) flags.Set("Weaken");
-        if (IsSet(affectedBy, AFF_DARK_VISION)) flags.Set("DarkVision");
-        if (IsSet(affectedBy, AFF_BERSERK)) flags.Set("Berserk");
-        if (IsSet(affectedBy, AFF_SWIM)) flags.Set("Swim");
-        if (IsSet(affectedBy, AFF_REGENERATION)) flags.Set("Regeneration");
-        if (IsSet(affectedBy, AFF_SLOW)) flags.Set("Slow");
+        if (IsSet(affectedBy, AFF_POISON)) characterFlags.Set("Poison");
+        if (IsSet(affectedBy, AFF_PROTECT_EVIL)) shieldFlags.Set("ProtectEvil");
+        if (IsSet(affectedBy, AFF_PROTECT_GOOD)) shieldFlags.Set("ProtectGood");
+        if (IsSet(affectedBy, AFF_SNEAK)) characterFlags.Set("Sneak");
+        if (IsSet(affectedBy, AFF_HIDE)) characterFlags.Set("Hide");
+        if (IsSet(affectedBy, AFF_SLEEP)) characterFlags.Set("Sleep");
+        if (IsSet(affectedBy, AFF_CHARM)) characterFlags.Set("Charm");
+        if (IsSet(affectedBy, AFF_FLYING)) characterFlags.Set("Flying");
+        if (IsSet(affectedBy, AFF_PASS_DOOR)) characterFlags.Set("PassDoor");
+        if (IsSet(affectedBy, AFF_HASTE)) characterFlags.Set("Haste");
+        if (IsSet(affectedBy, AFF_CALM)) characterFlags.Set("Calm");
+        if (IsSet(affectedBy, AFF_PLAGUE)) characterFlags.Set("Plague");
+        if (IsSet(affectedBy, AFF_WEAKEN)) characterFlags.Set("Weaken");
+        if (IsSet(affectedBy, AFF_DARK_VISION)) characterFlags.Set("DarkVision");
+        if (IsSet(affectedBy, AFF_BERSERK)) characterFlags.Set("Berserk");
+        if (IsSet(affectedBy, AFF_SWIM)) characterFlags.Set("Swim");
+        if (IsSet(affectedBy, AFF_REGENERATION)) characterFlags.Set("Regeneration");
+        if (IsSet(affectedBy, AFF_SLOW)) characterFlags.Set("Slow");
 
-        return flags;
+        return (characterFlags, shieldFlags);
     }
 
     private IActFlags ConvertActFlags(long act)

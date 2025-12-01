@@ -2,6 +2,11 @@ INGOING
 
 TODO
 
+Poison/Plague/... should not specify character as source
+    new Damage function without a source with additional message when dying (see update_affect.C:103)
+
+passives could be shared instead of transient
+
 rename IAffectManager into IAffectFactory and check if other managers should be renamed into factories such as WeaponEffectManager and EffectManager
 add AffectName in AffectDataBase and use it in AffectFactory.CreateInstance(AffectDataBase data) -> call Activator.CreateInstance with data as parameter
 
@@ -107,7 +112,7 @@ leaving impersonation should not stop fighting -> PlayableCharacter can still di
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
 alignment at creation ?
-Idea: move HP and move in ResourceKinds
+Idea: move HP and moves in ResourceKinds
 Use SafeList where List is used
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 store an Aura list in World this will avoid looping on all room/character/item to check aura

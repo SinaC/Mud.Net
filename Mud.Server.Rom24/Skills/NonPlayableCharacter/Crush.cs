@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Random;
 
-namespace Mud.Server.AdditionalAbilities;
+namespace Mud.Server.Rom24.Skills.NonPlayableCharacter;
 
 [CharacterCommand("crush", "Ability", "Skill", "Combat")]
 [Skill(SkillName, AbilityEffects.Damage, LearnDifficultyMultiplier = 3, PulseWaitTime = 12)]
@@ -32,7 +32,7 @@ public class Crush : FightingSkillBase
 
         var npcUser = User as INonPlayableCharacter;
         if (Learned == 0
-            || (npcUser != null && !npcUser.OffensiveFlags.IsSet("Crush")))
+            || npcUser != null && !npcUser.OffensiveFlags.IsSet("Crush"))
             return "Crushing, how do you do that again?";
 
         return null;

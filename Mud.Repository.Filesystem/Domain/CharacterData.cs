@@ -39,6 +39,7 @@ public abstract class CharacterData
     public string Resistances { get; set; }
 
     public string Vulnerabilities { get; set; }
+    public string ShieldFlags { get; set; }
 
     public PairData<int,int>[] Attributes { get; set; }
 }
