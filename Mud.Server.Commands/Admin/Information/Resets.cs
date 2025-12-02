@@ -2,8 +2,6 @@
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Reset;
-using Mud.Server.Commands.Character.Item;
-using Mud.Server.Commands.Character.Movement;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;

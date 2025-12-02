@@ -18,6 +18,13 @@ namespace Mud.Server.Rom24
 
         public ResistanceLevels ModifyDamage(ICharacter source, ICharacter victim, SchoolTypes damageType, ref int damage)
         {
+            // TODO: only NPC
+            // damage reduction
+            if (damage > 35)
+                damage = (damage - 35) / 2 + 35;
+            if (damage > 80)
+                damage = (damage - 80) / 2 + 80;
+
             if (damage > 1 && this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
                 damage -= damage / 10;
             if (damage > 1 && victim.ShieldFlags.IsSet("Sanctuary"))
@@ -26,7 +33,7 @@ namespace Mud.Server.Rom24
                 && ((victim.ShieldFlags.IsSet("ProtectEvil") && source.IsEvil)
                     || (victim.ShieldFlags.IsSet("ProtectGood") && source.IsGood)))
                 damage -= damage / 4;
-            ResistanceLevels resistanceLevel = CheckResistance(victim, damageType);
+            var resistanceLevel = CheckResistance(victim, damageType);
             switch (resistanceLevel)
             {
                 case ResistanceLevels.Immune:
@@ -42,6 +49,34 @@ namespace Mud.Server.Rom24
             return resistanceLevel ;
         }
 
+        public ResistanceLevels ModifyDamage(ICharacter victim, SchoolTypes damageType, ref int damage)
+        {
+            // TODO: only NPC
+            // damage reduction
+            if (damage > 35)
+                damage = (damage - 35) / 2 + 35;
+            if (damage > 80)
+                damage = (damage - 80) / 2 + 80;
+
+            if (damage > 1 && this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
+                damage -= damage / 10;
+            if (damage > 1 && victim.ShieldFlags.IsSet("Sanctuary"))
+                damage /= 2;
+            var resistanceLevel = CheckResistance(victim, damageType);
+            switch (resistanceLevel)
+            {
+                case ResistanceLevels.Immune:
+                    damage = 0;
+                    break;
+                case ResistanceLevels.Resistant:
+                    damage -= damage / 3;
+                    break;
+                case ResistanceLevels.Vulnerable:
+                    damage += damage / 2;
+                    break;
+            }
+            return resistanceLevel;
+        }
 
         public ResistanceLevels CheckResistance(ICharacter victim, SchoolTypes damageType)
         {

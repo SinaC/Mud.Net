@@ -98,7 +98,7 @@ public class Path : AdminGameAction
             StringBuilder sb = new(500);
             while (true)
             {
-                sb.Insert(0, previous.Item2.ShortExitDirections());
+                sb.Insert(0, previous.Item2.ShortName());
                 if (previous.Item1 == origin)
                     break;
                 if (!previousRoom.TryGetValue(previous.Item1, out previous))
