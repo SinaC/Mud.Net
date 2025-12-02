@@ -17,6 +17,8 @@ dangerous call sequence (luckily we set Room to NullRoom in the first lines of c
                 Room.ApplyAuras which could kill PlayableCharacter we are trying to create
 CharacterFactory, ItemFactory, RoomFactory to handle characters, items and rooms creation (to avoid new everywhere in the code and replace with DI more easily later if needed)
 
+move GetAbilityLearnedInfo, Regen, RegenBaseValues, OneHit NPC (the end checking skills), ... to Rom24
+
 RomImporter should be related to Mud.Server.Rom24
 RotImporter should be related to Mud.Server.Rot
 MysteryImporter should be related to Mud.Server.Mystery
@@ -40,10 +42,10 @@ glowing item on the floor of dark room should increase light
 
 reimplement hot/dot
 
-sanity check in server should be moved to dedicated classes
+capacity in container
+
 finish ROM24 classes
 when a player connects, if no avatar found -> switch to avatar create state machine
-stop trying to be compatible with ROM24/Merc/Diku assume being Mystery mud :)
 compatibility must only be in blueprint loading
 check CanSee usage, if lambda can be removed
 choose between flags as bits or strings (example RoomFlags and CharacterFlags)
@@ -98,8 +100,6 @@ item: protect, room_key
 Monitor Recompute calls: recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 skills: lore
-spells: create rose, farsight
-assign abilities to classes
 UnitTests on Rom24Effects
 specials
 assist_guard
@@ -147,7 +147,6 @@ multitable generator, paging a table should repeat the header at the beginning o
 prompt modifiable by user
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 move blueprints to Mud.Domain + refactor Mud.Domain
-IWorld: should create IReadonlyWorld which only contains getter
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 

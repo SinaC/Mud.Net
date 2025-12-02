@@ -24,7 +24,7 @@ public class Frost : IPostHitDamageWeaponEffect
         int damage = RandomManager.Range(1, 2 + weapon.Level / 6);
         victim.Act(ActOptions.ToRoom, "{0} freezes {1}.", weapon, victim);
         victim.Act(ActOptions.ToCharacter, "The cold touch of {0} surrounds you with ice.", weapon);
-        victim.Damage(holder, damage, SchoolTypes.Cold, null, false);
+        victim.AbilityDamage(holder, damage, SchoolTypes.Cold, null, false);
         var coldEffect = EffectManager.CreateInstance<ICharacter>("Cold");
         coldEffect?.Apply(victim, holder, "Chill touch", weapon.Level / 2, damage);
         return true;

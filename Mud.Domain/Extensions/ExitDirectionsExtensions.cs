@@ -3,7 +3,7 @@
 public static class ExitDirectionsExtensions
 {
 
-    public static string ShortExitDirections(this ExitDirections exitDirections)
+    public static string ShortName(this ExitDirections exitDirections)
         => exitDirections switch
         {
             ExitDirections.North => "N",

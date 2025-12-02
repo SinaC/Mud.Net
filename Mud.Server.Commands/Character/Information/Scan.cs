@@ -23,10 +23,10 @@ public class Scan : CharacterGameAction
 
         if (Actor.Room == null)
             return "You are nowhere.";
-
+        if (Actor.CharacterFlags.IsSet("Blind"))
+            return "Maybe it would help if you could see?";
         if (Actor.Room.RoomFlags.IsSet("NoScan"))
             return "Your vision is clouded by a mysterious force.";
-
         return null;
     }
 

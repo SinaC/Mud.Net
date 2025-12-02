@@ -36,7 +36,7 @@ public class CreateSpring : ItemCreationSpellBase
         if (fountain == null)
         {
             Caster.Send("The spell fizzles and dies.");
-            Wiznet.Log($"SpellCreateFood: cannot create item from blueprint {SpringBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            Wiznet.Log($"SpellCreateSpring: cannot create item from blueprint {SpringBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
             return;
         }
         int duration = Level;

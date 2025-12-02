@@ -22,7 +22,7 @@ public class Vampiric : IPostHitDamageWeaponEffect
         int damage = RandomManager.Range(1, 1 + weapon.Level / 5);
         victim.Act(ActOptions.ToRoom, "{0} draws life from {1}.", weapon, victim);
         victim.Act(ActOptions.ToCharacter, "You feel {0} drawing your life away.", weapon);
-        victim.Damage(holder, damage, SchoolTypes.Negative, null, false);
+        victim.AbilityDamage(holder, damage, SchoolTypes.Negative, null, false);
         holder.UpdateHitPoints(damage / 2);
         holder.UpdateAlignment(-1);
         return true;

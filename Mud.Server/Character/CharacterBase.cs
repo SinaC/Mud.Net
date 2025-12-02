@@ -1,12 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
-using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Ability;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Commands.Character.PlayableCharacter.Shop;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
@@ -748,6 +746,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Immunities.Copy(BaseImmunities);
         Resistances.Copy(BaseResistances);
         Vulnerabilities.Copy(BaseVulnerabilities);
+        ShieldFlags.Copy(BaseShieldFlags);
         BodyForms.Copy(BaseBodyForms);
         BodyParts.Copy(BaseBodyParts);
     }
@@ -1097,161 +1096,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return Damage(source, damage, damageType, damageNoun ?? "hit", display);
     }
 
-    public DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display) // 'this' is dealt damage by 'source'
-    {
-        if (HitPoints <= 0)
-            return DamageResults.Dead;
-        // damage reduction
-        if (damage > 35)
-            damage = (damage - 35) / 2 + 35;
-        if (damage > 80)
-            damage = (damage - 80) / 2 + 80;
-
-        if (this != source)
-        {
-            // Certain attacks are forbidden.
-            // Most other attacks are returned.
-            var safeResult = IsSafe(source);
-            if (safeResult != null)
-            {
-                source.Send(safeResult);
-                return DamageResults.Safe;
-            }
-            // TODO: check_killer
-            if (Fighting == null)
-                StartFighting(source);
-            // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
-            if (source.Fighting == null)
-                source.StartFighting(this);
-            // more charm stuff
-            if (this is INonPlayableCharacter npcVictim && npcVictim.Master == source) // TODO: no more cast like this
-                npcVictim.ChangeMaster(null);
-        }
-        // inviso attack
-        if (source.CharacterFlags.IsSet("Invisible"))
-        {
-            source.RemoveBaseCharacterFlags(false, "Invisible");
-            source.RemoveAuras(x => x.AbilityName == "Invisibility", false);
-            source.Recompute(); // force a recompute to check if there is something special that gives invis
-            // if not anymore invis
-            if (!source.CharacterFlags.IsSet("Invisible"))
-                source.Act(ActOptions.ToRoom, "{0:N} fades into existence.", source);
-        }
-        // damage modifiers
-        var resistanceLevel = DamageModifierManager.ModifyDamage(source, this, damageType, ref damage);
-
-        if (display)
-        {
-            string phraseOther; // {0}: source {1}: victim {2}: damage display {3}: damage noun {4}: damage value
-            string phraseSource; // {0}: victim {1}: damage display {2}: damage noun {3}: damage value
-            string phraseVictim = string.Empty; // {0}: source {1}: damage display {2}: damage noun {3}: damage value
-            // build phrases
-            if (string.IsNullOrWhiteSpace(damageNoun))
-            {
-                if (this == source)
-                {
-                    phraseOther = "{0:N} {2} {0:f}.[{4}]";
-                    phraseSource = "You {1} yourself.[{3}]";
-                }
-                else
-                {
-                    phraseOther = "{0:N} {2} {1}.[{4}]";
-                    phraseSource = "You {1} {0}.[{3}]";
-                    phraseVictim = "{0:N} {1} you.[{3}]";
-                }
-            }
-            else
-            {
-                if (resistanceLevel == ResistanceLevels.Immune)
-                {
-                    if (this == source)
-                    {
-                        phraseOther = "{0:N} is unaffected by {0:s} own {2}.";
-                        phraseSource = "Luckily, you are immune to that.";
-                    }
-                    else
-                    {
-                        phraseOther = "{1:N} is unaffected by {0:p} {2}!";
-                        phraseSource = "{0} is unaffected by your {1}!";
-                        phraseVictim = "{0:p} {1} is powerless against you.";
-                    }
-                }
-                else
-                {
-                    if (this == source)
-                    {
-                        phraseOther = "{0:P} {3} {2} {0:m}.[{4}]";
-                        phraseSource = "Your {2} {1} you.[{3}]";
-                    }
-                    else
-                    {
-                        phraseOther = "{0:P} {3} {2} {1}.[{4}]";
-                        phraseSource = "Your {2} {1} {0}.[{3}]";
-                        phraseVictim = "{0:P} {2} {1} you.[{3}]";
-                    }
-                }
-            }
-
-            // display phrases
-            string damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
-            string damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
-            if (this == source)
-            {
-                source.Act(ActOptions.ToRoom, phraseOther, source, this, damagePhraseOther, damageNoun ?? "", damage);
-                source.Act(ActOptions.ToCharacter, phraseSource, this, damagePhraseSelf, damageNoun ?? "", damage);
-            }
-            else
-            {
-                source.ActToNotVictim(this, phraseOther, source, this, damagePhraseOther, damageNoun ?? "", damage);
-                source.Act(ActOptions.ToCharacter, phraseSource, this, damagePhraseSelf, damageNoun ?? "", damage);
-                Act(ActOptions.ToCharacter, phraseVictim, source, damagePhraseOther, damageNoun ?? "", damage);
-            }
-        }
-
-        // no damage done, stops here
-        if (damage <= 0)
-            return DamageResults.NoDamage;
-
-        // hurt the victim
-        HitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
-        // immortals don't really die
-        if (this is IPlayableCharacter { IsImmortal: true }
-            && HitPoints < 1)
-            HitPoints = 1;
-        // TODO: in original code, position is updating depending on hitpoints and a specific message depending on position is displayed (check update_pos)
-        bool isDead = HitPoints <= 0;
-        if (isDead)
-        {
-            Send("You have been KILLED!!");
-            Act(ActOptions.ToRoom, "{0:N} is dead.", this);
-        }
-        else
-        { 
-            if (damage > MaxHitPoints / 4)
-                Send("That really did HURT!");
-            else if (HitPoints < MaxHitPoints / 4)
-                Send("You sure are BLEEDING!");
-        }
-
-        // dead or sleep spells
-        if (isDead || Position == Positions.Sleeping)
-            StopFighting(true); // StopFighting will set position to standing
-
-        // handle dead people
-        if (isDead)
-        {
-            RawKilled(source, true); // group group_gain + dying penalty + raw_kill
-            return DamageResults.Killed;
-        }
-
-        if (this == source)
-            return DamageResults.Done;
-
-        // TODO: take care of link-dead people
-        HandleWimpy(damage);
-
-        return DamageResults.Done;
-    }
 
     public IItemCorpse? RawKilled(ICharacter? killer, bool payoff)
     {
@@ -2384,5 +2228,160 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 AddLearnedAbility(abilityUsage, naturalBorn);
             }
         }
+    }
+
+    protected DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display) // 'this' is dealt damage by 'source'
+    {
+        if (HitPoints <= 0)
+            return DamageResults.Dead;
+
+        // check safe + start fight
+        if (this != source)
+        {
+            // Certain attacks are forbidden.
+            // Most other attacks are returned.
+            var safeResult = IsSafe(source);
+            if (safeResult != null)
+            {
+                source.Send(safeResult);
+                return DamageResults.Safe;
+            }
+            // TODO: check_killer
+            if (Fighting == null)
+                StartFighting(source);
+            // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
+            if (source.Fighting == null)
+                source.StartFighting(this);
+            // more charm stuff
+            if (this is INonPlayableCharacter npcVictim && npcVictim.Master == source) // TODO: no more cast like this
+                npcVictim.ChangeMaster(null);
+        }
+
+        // inviso attack
+        if (source.CharacterFlags.IsSet("Invisible"))
+        {
+            source.RemoveBaseCharacterFlags(false, "Invisible");
+            source.RemoveAuras(x => x.AbilityName == "Invisibility", false);
+            source.Recompute(); // force a recompute to check if there is something special that gives invis
+            // if not anymore invis
+            if (!source.CharacterFlags.IsSet("Invisible"))
+                source.Act(ActOptions.ToRoom, "{0:N} fades into existence.", source);
+        }
+
+        // damage modifiers
+        var resistanceLevel = DamageModifierManager.ModifyDamage(source, this, damageType, ref damage);
+
+        // display
+        if (display)
+        {
+            string phraseOther; // {0}: source {1}: victim {2}: damage display {3}: damage noun {4}: damage value
+            string phraseSource; // {0}: victim {1}: damage display {2}: damage noun {3}: damage value
+            string phraseVictim = string.Empty; // {0}: source {1}: damage display {2}: damage noun {3}: damage value
+            // build phrases
+            if (string.IsNullOrWhiteSpace(damageNoun))
+            {
+                if (this == source)
+                {
+                    phraseOther = "{0:N} {2} {0:f}.[{4}]";
+                    phraseSource = "You {1} yourself.[{3}]";
+                }
+                else
+                {
+                    phraseOther = "{0:N} {2} {1}.[{4}]";
+                    phraseSource = "You {1} {0}.[{3}]";
+                    phraseVictim = "{0:N} {1} you.[{3}]";
+                }
+            }
+            else
+            {
+                if (resistanceLevel == ResistanceLevels.Immune)
+                {
+                    if (this == source)
+                    {
+                        phraseOther = "{0:N} is unaffected by {0:s} own {2}.";
+                        phraseSource = "Luckily, you are immune to that.";
+                    }
+                    else
+                    {
+                        phraseOther = "{1:N} is unaffected by {0:p} {2}!";
+                        phraseSource = "{0} is unaffected by your {1}!";
+                        phraseVictim = "{0:p} {1} is powerless against you.";
+                    }
+                }
+                else
+                {
+                    if (this == source)
+                    {
+                        phraseOther = "{0:P} {3} {2} {0:m}.[{4}]";
+                        phraseSource = "Your {2} {1} you.[{3}]";
+                    }
+                    else
+                    {
+                        phraseOther = "{0:P} {3} {2} {1}.[{4}]";
+                        phraseSource = "Your {2} {1} {0}.[{3}]";
+                        phraseVictim = "{0:P} {2} {1} you.[{3}]";
+                    }
+                }
+            }
+
+            // display phrases
+            var damagePhraseSelf = StringHelpers.DamagePhraseSelf(damage);
+            var damagePhraseOther = StringHelpers.DamagePhraseOther(damage);
+            if (this == source)
+            {
+                source.Act(ActOptions.ToRoom, phraseOther, source, this, damagePhraseOther, damageNoun ?? "", damage);
+                source.Act(ActOptions.ToCharacter, phraseSource, this, damagePhraseSelf, damageNoun ?? "", damage);
+            }
+            else
+            {
+                source.ActToNotVictim(this, phraseOther, source, this, damagePhraseOther, damageNoun ?? "", damage);
+                source.Act(ActOptions.ToCharacter, phraseSource, this, damagePhraseSelf, damageNoun ?? "", damage);
+                Act(ActOptions.ToCharacter, phraseVictim, source, damagePhraseOther, damageNoun ?? "", damage);
+            }
+        }
+
+        // no damage done, stops here
+        if (damage <= 0)
+            return DamageResults.NoDamage;
+
+        // hurt the victim
+        HitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
+        // immortals don't really die
+        if (this is IPlayableCharacter { IsImmortal: true }
+            && HitPoints < 1)
+            HitPoints = 1;
+        // TODO: in original code, position is updating depending on hitpoints and a specific message depending on position is displayed (check update_pos)
+        var isDead = HitPoints <= 0;
+        if (isDead)
+        {
+            Send("You have been KILLED!!");
+            Act(ActOptions.ToRoom, "{0:N} is dead.", this);
+        }
+        else
+        {
+            if (damage > MaxHitPoints / 4)
+                Send("That really did HURT!");
+            if (HitPoints < MaxHitPoints / 4)
+                Send("You sure are BLEEDING!");
+        }
+
+        // dead or sleep spells
+        if (isDead || Position == Positions.Sleeping)
+            StopFighting(true); // StopFighting will set position to standing
+
+        // handle dead people
+        if (isDead)
+        {
+            RawKilled(source, true); // group group_gain + dying penalty + raw_kill
+            return DamageResults.Killed;
+        }
+
+        if (this == source)
+            return DamageResults.Done;
+
+        // TODO: take care of link-dead people
+        HandleWimpy(damage);
+
+        return DamageResults.Done;
     }
 }

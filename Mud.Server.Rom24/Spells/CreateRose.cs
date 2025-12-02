@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 
@@ -28,17 +30,18 @@ public class CreateRose : ItemCreationSpellBase
         RoseBlueprintId = options.Value.BlueprintIds.Rose;
     }
 
-    public override string? Setup(ISpellActionInput spellActionInput)
-    {
-        var baseSetup = base.Setup(spellActionInput);
-        if (baseSetup != null)
-            return baseSetup;
-
-        return "Not Yet Implemented";
-    }
-
     protected override void Invoke()
     {
-        //TODO: add rose blueprint
+        var rose = ItemManager.AddItem(Guid.NewGuid(), RoseBlueprintId, Caster) as IItemTrash;
+        if (rose == null)
+        {
+            Caster.Send("The spell fizzles and dies.");
+            Wiznet.Log($"SpellCreateRose: cannot create item from blueprint {RoseBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
+            return;
+        }
+        int duration = Level;
+        rose.SetTimer(TimeSpan.FromMinutes(duration));
+        Caster.Act(ActOptions.ToRoom, "{0:N} has created a beautiful %R%red rose%x%.", Caster);
+        Caster.Send("You create a beautiful %R%red rose%x%.");
     }
 }
