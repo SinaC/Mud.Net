@@ -129,6 +129,12 @@ public abstract class CharacterBlueprintBase
     // TODO: affects, ...
 
     [DataMember]
+    public string SpecialBehavior { get; init; } = default!;
+
+    [DataMember]
+    public int Group { get; init; }
+
+    [DataMember]
     public CharacterLootTable<int> LootTable { get; set; } = default!;
 
     [DataMember]

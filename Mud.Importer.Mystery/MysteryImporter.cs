@@ -1314,6 +1314,8 @@ public class MysteryImporter
                 Race = mobileData.Race,
                 BodyForms = ConvertBodyForms(mobileData.Form),
                 BodyParts = ConvertBodyParts(mobileData.Parts),
+                SpecialBehavior = mobileData.Special,
+                Group = mobileData.Group,
                 //Class = mobileData.Classes
             };
         else
@@ -1356,6 +1358,7 @@ public class MysteryImporter
                 Race = mobileData.Race,
                 BodyForms = ConvertBodyForms(mobileData.Form),
                 BodyParts = ConvertBodyParts(mobileData.Parts),
+                Group = mobileData.Group,
                 //Class = mobileData.Classes
                 //
                 BuyBlueprintTypes = ConvertBuyTypes(mobileData.Shop).ToList(),

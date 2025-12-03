@@ -1503,65 +1503,73 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleNonPlayableCharacters(int pulseCount)
     {
-        foreach (var npc in CharacterManager.NonPlayableCharacters.Where(x => x.IsValid && x.Room != null && !x.CharacterFlags.IsSet("Charm")))
+        // non-charmies, valid, in a room and is mob update always or area not empty
+        var clone = new ReadOnlyCollection<INonPlayableCharacter>(CharacterManager.NonPlayableCharacters.Where(x =>
+                x.IsValid
+                && x.Room != null
+                && !x.CharacterFlags.IsSet("Charm")
+                && (x.ActFlags.IsSet("UpdateAlways") || x.Room.Area.PlayableCharacters.Any())).ToList()); // clone because special behavior could kill character and then modify list
+        foreach (var npc in clone)
         {
             try
             {
-                // is mob update always or area not empty
-                if (npc.ActFlags.IsSet("UpdateAlways") || npc.Room.Area.PlayableCharacters.Any())
+                // special behavior ?
+                if (npc.SpecialBehavior != null)
                 {
-                    // TODO: invoke spec_fun
-
-                    // give some money to shopkeeper
-                    if (npc.Blueprint is CharacterShopBlueprint)
-                    {
-                        if (npc.SilverCoins + npc.GoldCoins * 100 < npc.Blueprint.Wealth)
-                        {
-                            long silver = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 5000000;
-                            long gold = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 50000;
-                            if (silver > 0 || gold > 0)
-                            {
-                                Logger.LogDebug("Giving {silver} silver {gold} gold to {name}.", silver, gold, npc.DebugName);
-                                npc.UpdateMoney(silver, gold);
-                            }
-                        }
-                    }
-
-                    // that's all for all sleeping/busy monsters
-                    if (npc.Position != Positions.Standing)
+                    bool executed = npc.SpecialBehavior.Execute(npc);
+                    if (executed)
                         continue;
+                }
 
-                    // scavenger
-                    if (npc.ActFlags.IsSet("Scavenger") && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
+                // give some money to shopkeeper
+                if (npc.Blueprint is CharacterShopBlueprint)
+                {
+                    if (npc.SilverCoins + npc.GoldCoins * 100 < npc.Blueprint.Wealth)
                     {
-                        //Logger.LogDebug("Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
-                        // get most valuable item in room
-                        var mostValuable = npc.Room.Content.Where(x => !x.NoTake && x.Cost > 0 /*&& CanLoot(npc, item)*/).OrderByDescending(x => x.Cost).FirstOrDefault();
-                        if (mostValuable != null)
+                        long silver = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 5000000;
+                        long gold = npc.Blueprint.Wealth * RandomManager.Range(1, 20) / 50000;
+                        if (silver > 0 || gold > 0)
                         {
-                            npc.Act(ActOptions.ToRoom, "{0} gets {1}.", npc, mostValuable);
-                            mostValuable.ChangeContainer(npc);
+                            Logger.LogDebug("Giving {silver} silver {gold} gold to {name}.", silver, gold, npc.DebugName);
+                            npc.UpdateMoney(silver, gold);
                         }
                     }
+                }
 
-                    // sentinel
-                    if (!npc.ActFlags.IsSet("Sentinel") && RandomManager.Range(0, 7) == 0)
+                // that's all for all sleeping/busy monsters
+                if (npc.Position != Positions.Standing)
+                    continue;
+
+                // scavenger
+                if (npc.ActFlags.IsSet("Scavenger") && npc.Room.Content.Any() && RandomManager.Range(0, 63) == 0)
+                {
+                    //Logger.LogDebug("Server.HandleNonPlayableCharacters: scavenger {0} on action", npc.DebugName);
+                    // get most valuable item in room
+                    var mostValuable = npc.Room.Content.Where(x => !x.NoTake && x.Cost > 0 /*&& npc.CanLoot(item)*/).OrderByDescending(x => x.Cost).FirstOrDefault();
+                    if (mostValuable != null)
                     {
-                        //Logger.LogDebug("Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
-                        int exitNumber = RandomManager.Range(0, 31);
-                        if (exitNumber < EnumHelpers.GetCount<ExitDirections>())
-                        {
-                            var exitDirection = (ExitDirections)exitNumber;
-                            var exit = npc.Room[exitDirection];
-                            if (exit != null
-                                && exit.Destination != null
-                                && !exit.IsClosed
-                                && !exit.Destination.RoomFlags.IsSet("NoMob")
-                                && (!npc.ActFlags.IsSet("StayArea") || npc.Room.Area == exit.Destination.Area)
-                                && (!npc.ActFlags.IsSet("Outdoors") || !exit.Destination.RoomFlags.IsSet("Indoors"))
-                                && (!npc.ActFlags.IsSet("Indoors") || exit.Destination.RoomFlags.IsSet("Indoors")))
-                                npc.Move(exitDirection, false, true);
-                        }
+                        npc.Act(ActOptions.ToRoom, "{0} gets {1}.", npc, mostValuable);
+                        mostValuable.ChangeContainer(npc);
+                    }
+                }
+
+                // sentinel
+                if (!npc.ActFlags.IsSet("Sentinel") && RandomManager.Range(0, 7) == 0)
+                {
+                    //Logger.LogDebug("Server.HandleNonPlayableCharacters: sentinel {0} on action", npc.DebugName);
+                    int exitNumber = RandomManager.Range(0, 31);
+                    if (exitNumber < EnumHelpers.GetCount<ExitDirections>())
+                    {
+                        var exitDirection = (ExitDirections)exitNumber;
+                        var exit = npc.Room[exitDirection];
+                        if (exit != null
+                            && exit.Destination != null
+                            && !exit.IsClosed
+                            && !exit.Destination.RoomFlags.IsSet("NoMob")
+                            && (!npc.ActFlags.IsSet("StayArea") || npc.Room.Area == exit.Destination.Area)
+                            && (!npc.ActFlags.IsSet("Outdoors") || !exit.Destination.RoomFlags.IsSet("Indoors"))
+                            && (!npc.ActFlags.IsSet("Indoors") || exit.Destination.RoomFlags.IsSet("Indoors")))
+                            npc.Move(exitDirection, false, true);
                     }
                 }
             }

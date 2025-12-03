@@ -1,0 +1,41 @@
+﻿using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
+using Mud.Server.Interfaces.Special;
+using Mud.Server.Specials;
+using System.Collections.ObjectModel;
+
+namespace Mud.Server.Rom24.Specials
+{
+    [SpecialBehavior("spec_fido")]
+    public class Fido : ISpecialBehavior
+    {
+        private IItemManager ItemManager { get; }
+
+        public Fido(IItemManager itemManager)
+        {
+            ItemManager = itemManager;
+        }
+
+        public bool Execute(INonPlayableCharacter npc)
+        {
+            // must be awake
+            if (!npc.IsValid || npc.Room == null
+                || npc.Position <= Domain.Positions.Sleeping)
+                return false;
+
+            // devours npc corpse
+            var npcCorpse = npc.Room.Content.OfType<IItemCorpse>().FirstOrDefault(x => !x.IsPlayableCharacterCorpse);
+            if (npcCorpse == null)
+                return false;
+
+            npc.Act(ActOptions.ToRoom, "{0} savagely devours a corpse.", npc);
+            // move corpse content to the ground and destroy corpse
+            var clone = new ReadOnlyCollection<IItem>(npcCorpse.Content.ToList());
+            foreach (var item in clone)
+                item.ChangeContainer(npc.Room);
+            ItemManager.RemoveItem(npcCorpse);
+
+            return true;
+        }
+    }
+}

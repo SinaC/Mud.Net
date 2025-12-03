@@ -32,7 +32,7 @@ public class FloatingDisc : ItemCreationSpellBase
     public FloatingDisc(ILogger<FloatingDisc> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, IOptions<Rom24Options> options)
         : base(logger, randomManager, wiznet, itemManager)
     {
-        FloatingDiscBlueprintId = options.Value.BlueprintIds.FloatingDisc;
+        FloatingDiscBlueprintId = options.Value.SpellBlueprintIds.FloatingDisc;
     }
 
     protected override void Invoke()

@@ -41,7 +41,7 @@ public class ContinualLight : OptionalItemInventorySpellBase
         Wiznet = wiznet;
         AuraManager = auraManager;
         ItemManager = itemManager;
-        LightBallBlueprintId = options.Value.BlueprintIds.LightBall;
+        LightBallBlueprintId = options.Value.SpellBlueprintIds.LightBall;
     }
 
     protected override void Invoke()

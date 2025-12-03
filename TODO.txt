@@ -1,8 +1,13 @@
 INGOING
-capacity in container
-
 
 TODO
+
+remaining specials:
+dependent on PK: spec_executioner, spec_guard
+additional context when casting a spell (no mana, no ability check): spec_breath_any, spec_breath_acid, spec_breath_fire, spec_breath_frost, spec_breath_gas, spec_breath_lightning, spec_cast_adept, spec_cast_cleric, spec_cast_judge, spec_cast_mage, spec_cast_undead
+spec_mayor
+
+item owner -> to be used in CanLoot
 
 Poison/Plague/... should not specify character as source
     new Damage function without a source with additional message when dying (see update_affect.C:103)
@@ -87,7 +92,7 @@ commands: auction, channels, clantalk, compare, report, read, socials, whois, be
 	heal, autoaffect, wake, myclan, petition, clanlist
 admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
 	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
-PK
+PK+THIEF
 furniture max weight (doesn't exist in Rom)
 prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead

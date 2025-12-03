@@ -2,6 +2,7 @@
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Special;
 
 namespace Mud.Server.Interfaces.Character;
 
@@ -21,6 +22,9 @@ public interface INonPlayableCharacter : ICharacter
     IActFlags ActFlags { get; }
     IOffensiveFlags OffensiveFlags { get; }
     IAssistFlags AssistFlags { get; }
+
+    // Special behavior
+    ISpecialBehavior? SpecialBehavior { get; }
 
     bool IsQuestObjective(IPlayableCharacter questingCharacter);
 

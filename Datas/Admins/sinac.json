@@ -1837,10 +1837,10 @@
     },
     {
       "CreationTime": "2020-07-03T08:51:55.1055791+02:00",
-      "RoomId": 7018,
+      "RoomId": 127,
       "SilverCoins": 2,
       "GoldCoins": 0,
-      "Experience": 1488,
+      "Experience": 1478,
       "Alignment": 0,
       "Trains": 4,
       "Practices": 6,
@@ -2178,8 +2178,8 @@
       "Level": 2,
       "Sex": 1,
       "Size": 2,
-      "HitPoints": 84,
-      "MovePoints": 106,
+      "HitPoints": 66,
+      "MovePoints": 102,
       "CurrentResources": {
         "Mana": 18,
         "Psy": 100
@@ -2190,7 +2190,30 @@
       },
       "Equipments": [],
       "Inventory": [],
-      "Auras": [],
+      "Auras": [
+        {
+          "AbilityName": "Poison",
+          "Level": 8,
+          "PulseLeft": 1892,
+          "AuraFlags": 0,
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": 0,
+              "Location": 1,
+              "Modifier": -2
+            },
+            {
+              "$type": "characterFlags",
+              "Operator": 1,
+              "Modifier": "Poison"
+            },
+            {
+              "$type": "poison"
+            }
+          ]
+        }
+      ],
       "CharacterFlags": "",
       "Immunities": "",
       "Resistances": "",
@@ -3484,7 +3507,7 @@
     },
     {
       "CreationTime": "2025-11-11T16:31:33.7841739+01:00",
-      "RoomId": 1309,
+      "RoomId": 2135,
       "SilverCoins": 0,
       "GoldCoins": 0,
       "Experience": 120002,
@@ -4838,9 +4861,9 @@
       ],
       "Conditions": {
         "Drunk": 0,
-        "Full": 8,
-        "Thirst": 28,
-        "Hunger": 28
+        "Full": 6,
+        "Thirst": 27,
+        "Hunger": 27
       },
       "Aliases": {},
       "Cooldowns": {},
@@ -4852,9 +4875,9 @@
       "Sex": 0,
       "Size": 2,
       "HitPoints": 218,
-      "MovePoints": 200,
+      "MovePoints": 218,
       "CurrentResources": {
-        "Mana": 186,
+        "Mana": 191,
         "Psy": 100
       },
       "MaxResources": {
@@ -4887,7 +4910,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 2108,
+                "PulseLeft": 1748,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -4901,12 +4924,76 @@
           }
         }
       ],
-      "Inventory": [],
+      "Inventory": [
+        {
+          "$type": "corpse",
+          "Contains": [
+            {
+              "$type": "base",
+              "ItemId": 5,
+              "Level": 0,
+              "DecayPulseLeft": 0,
+              "ItemFlags": "",
+              "Auras": []
+            },
+            {
+              "$type": "light",
+              "TimeLeft": 29999,
+              "ItemId": 3365,
+              "Level": 8,
+              "DecayPulseLeft": 0,
+              "ItemFlags": "Glowing,Magic",
+              "Auras": []
+            },
+            {
+              "$type": "base",
+              "ItemId": 3355,
+              "Level": 5,
+              "DecayPulseLeft": 0,
+              "ItemFlags": "",
+              "Auras": []
+            },
+            {
+              "$type": "base",
+              "ItemId": 3353,
+              "Level": 5,
+              "DecayPulseLeft": 0,
+              "ItemFlags": "",
+              "Auras": []
+            },
+            {
+              "$type": "base",
+              "ItemId": 3364,
+              "Level": 16,
+              "DecayPulseLeft": 0,
+              "ItemFlags": "Magic",
+              "Auras": []
+            },
+            {
+              "$type": "weapon",
+              "WeaponFlags": "",
+              "ItemId": 3350,
+              "Level": 16,
+              "DecayPulseLeft": 0,
+              "ItemFlags": "Magic",
+              "Auras": []
+            }
+          ],
+          "IsPlayableCharacterCorpse": false,
+          "CorpseName": "the cityguard",
+          "HasBeenGeneratedByKillingCharacter": true,
+          "ItemId": 10,
+          "Level": 0,
+          "DecayPulseLeft": 480,
+          "ItemFlags": "",
+          "Auras": []
+        }
+      ],
       "Auras": [
         {
           "AbilityName": "Giant Strength",
-          "Level": 29,
-          "PulseLeft": 11376,
+          "Level": 14,
+          "PulseLeft": 11016,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -4919,8 +5006,8 @@
         },
         {
           "AbilityName": "Detect Evil",
-          "Level": 41,
-          "PulseLeft": 11572,
+          "Level": 16,
+          "PulseLeft": 11212,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -4932,8 +5019,8 @@
         },
         {
           "AbilityName": "Detect Good",
-          "Level": 39,
-          "PulseLeft": 11604,
+          "Level": 25,
+          "PulseLeft": 11244,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -4945,8 +5032,8 @@
         },
         {
           "AbilityName": "Detect Invis",
-          "Level": 44,
-          "PulseLeft": 11620,
+          "Level": 32,
+          "PulseLeft": 11260,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -4958,8 +5045,8 @@
         },
         {
           "AbilityName": "Detect Hidden",
-          "Level": 48,
-          "PulseLeft": 11676,
+          "Level": 33,
+          "PulseLeft": 11316,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -4971,8 +5058,8 @@
         },
         {
           "AbilityName": "Shock Shield",
-          "Level": 48,
-          "PulseLeft": 1884,
+          "Level": 28,
+          "PulseLeft": 1524,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -4984,8 +5071,8 @@
         },
         {
           "AbilityName": "Fire Shield",
-          "Level": 47,
-          "PulseLeft": 1900,
+          "Level": 32,
+          "PulseLeft": 1540,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -4997,8 +5084,8 @@
         },
         {
           "AbilityName": "Ice Shield",
-          "Level": 49,
-          "PulseLeft": 1912,
+          "Level": 27,
+          "PulseLeft": 1552,
           "AuraFlags": 0,
           "Affects": [
             {

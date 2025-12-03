@@ -1260,6 +1260,8 @@ public class RomImporter
                 Race = mobileData.Race,
                 BodyForms = ConvertBodyForms(mobileData.Form),
                 BodyParts = ConvertBodyParts(mobileData.Parts),
+                SpecialBehavior = mobileData.Special,
+                Group = mobileData.Group,
             };
         else
             return new CharacterShopBlueprint
@@ -1301,6 +1303,7 @@ public class RomImporter
                 Race = mobileData.Race,
                 BodyForms = ConvertBodyForms(mobileData.Form),
                 BodyParts = ConvertBodyParts(mobileData.Parts),
+                Group = mobileData.Group,
                 //
                 BuyBlueprintTypes = ConvertBuyTypes(mobileData.Shop).ToList(),
                 ProfitBuy = mobileData.Shop.ProfitBuy,

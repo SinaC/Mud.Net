@@ -7,7 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Network.Interfaces", "M
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5337A639-8D6A-4F63-83CC-E2CED6D36DD5}"
 	ProjectSection(SolutionItems) = preProject
-		ConfigSample.txt = ConfigSample.txt
 		ISSUES.txt = ISSUES.txt
 		MERC file format.txt = MERC file format.txt
 		README.txt = README.txt
@@ -89,6 +88,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Options", "Mud.Server.Options\Mud.Server.Options.csproj", "{62D6759A-E69C-4DFB-B98A-EF2A9FD5A56D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Filesystem.Json", "Mud.Repository.Filesystem.Json\Mud.Repository.Filesystem.Json.csproj", "{B8065A3A-6B06-5DE2-8C9C-9301998E7F00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Specials", "Mud.Server.Specials\Mud.Server.Specials.csproj", "{C6EABB72-135C-4D65-B842-3C9BBCCF7266}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -556,6 +557,18 @@ Global
 		{B8065A3A-6B06-5DE2-8C9C-9301998E7F00}.Release|x64.Build.0 = Release|Any CPU
 		{B8065A3A-6B06-5DE2-8C9C-9301998E7F00}.Release|x86.ActiveCfg = Release|Any CPU
 		{B8065A3A-6B06-5DE2-8C9C-9301998E7F00}.Release|x86.Build.0 = Release|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Debug|x64.Build.0 = Debug|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Debug|x86.Build.0 = Debug|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Release|x64.ActiveCfg = Release|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Release|x64.Build.0 = Release|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Release|x86.ActiveCfg = Release|Any CPU
+		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
