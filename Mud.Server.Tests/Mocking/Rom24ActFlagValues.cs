@@ -1,0 +1,42 @@
+﻿using Microsoft.Extensions.Logging;
+using Mud.DataStructures.Flags;
+using Mud.Server.Flags.Interfaces;
+
+namespace Mud.Server.Tests.Mocking
+{
+    public class Rom24ActFlagValues : FlagValuesBase<string>, IActFlagValues
+    {
+        public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Sentinel",
+            "Scavenger",
+            "StayArea",
+            "Aggressive",
+            "Wimpy",
+            "Pet",
+            "Undead",
+            "NoAlign",
+            "NoPurge",
+            "Outdoors",
+            "Indoors",
+            "UpdateAlways",
+            "Train",
+            "IsHealer",
+            "Gain",
+            "Practice",
+            "Aware",
+            "Warrior",
+            "Thief",
+            "Cleric",
+            "Mage",
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+
+        public Rom24ActFlagValues(ILogger<Rom24ActFlagValues> logger)
+        : base(logger)
+        {
+
+        }
+    }
+}

@@ -1,503 +1,324 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
+using Mud.Server.Blueprints.Character;
+using Mud.Server.Blueprints.Item;
+using Mud.Server.Blueprints.Room;
+using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Area;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
-using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
-using Mud.Server.Interfaces.World;
+using Mud.Server.Interfaces.Table;
+using Mud.Server.Item;
+using Mud.Server.Options;
 using Mud.Server.Random;
-using Mud.Server.Rom24.Spells;
 using Mud.Server.Tests.Mocking;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
 
 namespace Mud.Server.Tests
 {
     [TestClass]
     public abstract class TestBase
     {
-        /*
-        protected IWorld World => Container.DependencyContainer.Current.GetInstance<IWorld>();
-        protected IRoomManager RoomManager => Container.DependencyContainer.Current.GetInstance<IRoomManager>();
-        protected IItemManager ItemManager => Container.DependencyContainer.Current.GetInstance<IItemManager>();
-        protected ICharacterManager CharacterManager => Container.DependencyContainer.Current.GetInstance<ICharacterManager>();
-        protected IQuestManager QuestManager => Container.DependencyContainer.Current.GetInstance<IQuestManager>();
-
-        [TestInitialize]
-        public void TestInitialize()
+        protected static INonPlayableCharacter GenerateNPC(string characterFlags, IRoom room)
         {
-            (Container.DependencyContainer.Current.GetInstance<IWorld>() as WorldMock).Clear();
-            (Container.DependencyContainer.Current.GetInstance<IRoomManager>() as RoomManagerMock).Clear();
-            (Container.DependencyContainer.Current.GetInstance<IItemManager>() as ItemManagerMock).Clear();
-            (Container.DependencyContainer.Current.GetInstance<ICharacterManager>() as CharacterManagerMock).Clear();
-        }
-
-        [AssemblyInitialize]
-        public static void AssemblyInitialize(TestContext context)
-        {
-            Container.DependencyContainer.Current.Options.EnableAutoVerification = false;
-
-            Container.DependencyContainer.Current.RegisterInstance<ISettings>(new SettingsMock());
-            Container.DependencyContainer.Current.RegisterInstance<ITimeManager>(new TimeManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<IRaceManager>(new RaceManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<IClassManager>(new ClassManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<IAbilityManager>(new AbilityManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<IWorld>(new WorldMock());
-            Container.DependencyContainer.Current.RegisterInstance<IWiznet>(new WiznetMock());
-            Container.DependencyContainer.Current.RegisterInstance<IRoomManager>(new RoomManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<IAreaManager>(new AreaManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<ICharacterManager>(new CharacterManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<IItemManager>(new ItemManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<IQuestManager>(new QuestManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<IRandomManager>(new RandomManager());
-            Container.DependencyContainer.Current.RegisterInstance<IGameActionManager>(new GameActionManager(new AssemblyHelper()));
-            //Container.DependencyContainer.Current.RegisterInstance<IPlayerManager>(new PlayerManagerMock());
-            //Container.DependencyContainer.Current.RegisterInstance<IAdminManager>(new AdminManagerMock());
-            //Container.DependencyContainer.Current.RegisterInstance<IServerPlayerCommand>(new ServerPlayerCommandMock());
-            //Container.DependencyContainer.Current.RegisterInstance<IServerAdminCommand>(new ServerAdminCommandMock());
-            //Container.DependencyContainer.Current.RegisterInstance<ILoginRepository>(new LoginRepositoryMock());
-            //Container.DependencyContainer.Current.RegisterInstance<IPlayerRepository>(new PlayerRepositoryMock());
-            //Container.DependencyContainer.Current.RegisterInstance<IAdminRepository>(new AdminRepositoryMock());
-            //Container.DependencyContainer.Current.RegisterInstance<ITableValues>(new TableValuesMock());
-            Container.DependencyContainer.Current.RegisterInstance<IAuraManager>(new AuraManagerMock());
-            Container.DependencyContainer.Current.RegisterInstance<ICharacterFlagValues>(new Rom24CharacterFlagValues());
-            Container.DependencyContainer.Current.RegisterInstance<IRoomFlagValues>(new Rom24RoomFlagValues());
-            Container.DependencyContainer.Current.RegisterInstance<IItemFlagValues>(new Rom24ItemFlagValues());
-            Container.DependencyContainer.Current.RegisterInstance<IWeaponFlagValues>(new Rom24WeaponFlagValues());
-            Container.DependencyContainer.Current.RegisterInstance<IIRVFlagValues>(new Rom24IRVFlagValues());
-            Container.DependencyContainer.Current.RegisterInstance<IActFlagValues>(new Rom24ActFlagValues());
-            Container.DependencyContainer.Current.RegisterInstance<IAssistFlagValues>(new Rom24AssistFlagValues());
-            Container.DependencyContainer.Current.RegisterInstance<IBodyFormValues>(new Rom24BodyFormValues());
-            Container.DependencyContainer.Current.RegisterInstance<IBodyPartValues>(new Rom24BodyPartValues());
-            Container.DependencyContainer.Current.RegisterInstance<IOffensiveFlagValues>(new Rom24OffensiveFlagValues());
-
-            IAssemblyHelper assemblyHelper = new AssemblyHelper();
-            Type iRegistrable = typeof(IRegistrable);
-            foreach (var registrable in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iRegistrable.IsAssignableFrom(t))))
-                Container.DependencyContainer.Current.Register(registrable);
-        }
-        */
-
-        internal class AssemblyHelper : IAssemblyHelper
-        {
-            public IEnumerable<Assembly> AllReferencedAssemblies => new[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly };
-        }
-        /*
-        internal static PlayableCharacterData CreatePlayableCharacterData(string name, int level, Sex sex, string className, string raceName, int roomId)
-        {
-            return new PlayableCharacterData
+            var blueprint = new CharacterNormalBlueprint
             {
-                Name = name,
-                Level = level,
-                Sex = sex,
-                Class = className,
-                Race = raceName,
-                RoomId = roomId,
-                Aliases = [],
-                Alignment = 0,
-                Attributes = [],
-                Auras = [],
-                CharacterFlags = new CharacterFlags(),
-                Cooldowns = [],
-                Conditions = [],
-                AutoFlags = AutoFlags.None,
-                CreationTime = DateTime.UtcNow,
-                CurrentQuests = [],
-                CurrentResources = [],
-                Equipments = [],
-                Experience = 0,
-                GoldCoins = 0,
-                HitPoints = 100,
-                Inventory = [],
-                Immunities = new IRVFlags(),
-                MaxResources = [],
-                LearnedAbilities = [],
-                MovePoints = 100,
-                Pets = [],
-                Practices = 0,
-                Resistances = new IRVFlags(),
-                SilverCoins = 0,
+                Name = "NPC",
+                Race = "Human",
+                Class = "Warrior",
+                Level = 6,
+                Sex = Sex.Male,
                 Size = Sizes.Medium,
-                Trains = 0,
-                Vulnerabilities = new IRVFlags(),
+                CharacterFlags = CreateCharacterFlags(characterFlags),
+                Immunities = CreateIRV(),
+                Resistances = CreateIRV(),
+                Vulnerabilities = CreateIRV(),
+                ShieldFlags = new Mock<IShieldFlags>().Object,
             };
-        }
-    */
-    }
 
-    internal class Rom24CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
-        {
-            "Blind",
-            "Invisible",
-            "DetectEvil",
-            "DetectInvis",
-            "DetectMagic",
-            "DetectHidden",
-            "DetectGood",
-            "Sanctuary",
-            "FaerieFire",
-            "Infrared",
-            "Curse",
-            "Poison",
-            "ProtectEvil",
-            "ProtectGood",
-            "Sneak",
-            "Hide",
-            "Sleep",
-            "Charm",
-            "Flying",
-            "PassDoor",
-            "Haste",
-            "Calm",
-            "Plague",
-            "Weaken",
-            "DarkVision",
-            "Berserk",
-            "Swim",
-            "Regeneration",
-            "Slow",
-            "Test", // TEST PURPOSE
-        };
-
-        protected override HashSet<string> HashSet => Flags;
-
-        public Rom24CharacterFlagValues(ILogger<Rom24CharacterFlagValues> logger)
-        : base(logger)
-        {
-
+            return GenerateNPC(blueprint, room);
         }
 
-        public string PrettyPrint(string flag, bool shortDisplay)
-            => flag.ToString();
-    }
-
-    internal class Rom24RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        protected static INonPlayableCharacter GenerateNPC(CharacterNormalBlueprint blueprint, IRoom room)
         {
-            "Dark",
-            "NoMob",
-            "Indoors",
-            "NoScan",
-            "Private",
-            "Safe",
-            "Solitary",
-            "NoRecall",
-            "ImpOnly",
-            "GodsOnly",
-            "NewbiesOnly",
-            "Law",
-            "NoWhere",
-            "Test", // TEST PURPOSE
-        };
+            var loggerMock = new Mock<ILogger<NonPlayableCharacter>>();
+            var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+            var flagFactoryMock = new Mock<IFlagFactory>();
+            var classManagerMock = new Mock<IClassManager>();
+            var raceManagerMock = new Mock<IRaceManager>();
+            var damageModifierManagerMock = new Mock<IDamageModifierManager>();
+            var randomManagerMock = new Mock<IRandomManager>();
+            var tableValuesMock = new Mock<ITableValues>();
 
-        protected override HashSet<string> HashSet => Flags;
+            classManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IClass>().Object);
+            raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IRace>().Object);
+            tableValuesMock.Setup(x => x.DefensiveBonus(It.IsAny<ICharacter>())).Returns(blueprint.Level);
+            tableValuesMock.Setup(x => x.HitBonus(It.IsAny<ICharacter>())).Returns(blueprint.Level-5);
+            tableValuesMock.Setup(x => x.DamBonus(It.IsAny<ICharacter>())).Returns(blueprint.Level-20);
+            flagFactoryMock.Setup(x => x.CreateInstance<ICharacterFlags, ICharacterFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateCharacterFlags);
+            flagFactoryMock.Setup(x => x.CreateInstance<IBodyForms, IBodyFormValues>(It.IsAny<string[]>())).Returns<string[]>(CreateBodyForms);
+            flagFactoryMock.Setup(x => x.CreateInstance<IBodyParts, IBodyPartValues>(It.IsAny<string[]>())).Returns<string[]>(CreateBodyParts);
+            flagFactoryMock.Setup(x => x.CreateInstance<IShieldFlags, IShieldFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateShieldFlags);
+            flagFactoryMock.Setup(x => x.CreateInstance<IIRVFlags, IIRVFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateIRV);
+            flagFactoryMock.Setup(x => x.CreateInstance<IActFlags, IActFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateActFlags);
+            flagFactoryMock.Setup(x => x.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateOffensiveFlags);
+            flagFactoryMock.Setup(x => x.CreateInstance<IAssistFlags, IAssistFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateAssistFlags);
 
-        public Rom24RoomFlagValues(ILogger<Rom24RoomFlagValues> logger)
-        : base(logger)
-        {
+            var npc = new NonPlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, randomManagerMock.Object, tableValuesMock.Object, null, null, null, null, null, null, raceManagerMock.Object, classManagerMock.Object, damageModifierManagerMock.Object, null, flagFactoryMock.Object);
+            npc.Initialize(Guid.NewGuid(), blueprint, room);
 
-        }
-    }
-
-    internal class Rom24ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
-        {
-            "Glowing",
-            "Humming",
-            "Dark",
-            "Lock",
-            "Evil",
-            "Invis",
-            "Magic",
-            "NoDrop", // Cannot be dropped once in inventory (cannot be put in container) [can be uncursed]
-            "Bless",
-            "AntiGood",
-            "AntiEvil",
-            "AntiNeutral",
-            "NoRemove", // Cannot be removed once equipped [can be uncursed]
-            "Inventory",
-            "NoPurge",
-            "RotDeath", // Disappear when holder dies
-            "VisibleDeath", // Visible when holder dies
-            "NonMetal",
-            "NoLocate",
-            "MeltOnDrop", // Melt when dropped
-            "HadTimer",
-            "SellExtract",
-            "BurnProof",
-            "NoUncurse",
-            "NoSacrifice",
-        };
-
-        protected override HashSet<string> HashSet => Flags;
-
-        public Rom24ItemFlagValues(ILogger<Rom24ItemFlagValues> logger)
-        : base(logger)
-        {
-
-        }
-    }
-
-    internal class Rom24WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
-        {
-            "Flaming",
-            "Frost",
-            "Vampiric",
-            "Sharp",
-            "Vorpal",
-            "TwoHands",
-            "Shocking",
-            "Poison",
-        };
-
-        protected override HashSet<string> HashSet => Flags;
-
-        public Rom24WeaponFlagValues(ILogger<Rom24WeaponFlagValues> logger)
-        : base(logger)
-        {
-
+            return npc;
         }
 
-        public string PrettyPrint(string flag, bool shortDisplay)
-            => flag.ToString();
-    }
-
-    internal class Rom24IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        protected static IItemWeapon GenerateWeapon(string itemFlags, string weaponFlags, IRoom room)
         {
-            "Summon",
-            "Charm",
-            "Magic",
-            "Weapon",
-            "Bash",
-            "Pierce",
-            "Slash",
-            "Fire",
-            "Cold",
-            "Lightning",
-            "Acid",
-            "Poison",
-            "Negative",
-            "Holy",
-            "Energy",
-            "Mental",
-            "Disease",
-            "Drowning",
-            "Light",
-            "Sound",
-            "Wood",
-            "Silver",
-            "Iron",
-        };
+            var loggerMock = new Mock<ILogger<ItemWeapon>>();
+            var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+            var itemFlagsFactory = new Mock<IFlagFactory<IItemFlags, IItemFlagValues>>();
+            var weaponFlagsFactory = new Mock<IFlagFactory<IWeaponFlags, IWeaponFlagValues>>();
 
-        protected override HashSet<string> HashSet => Flags;
+            itemFlagsFactory.Setup(x => x.CreateInstance(It.IsAny<string[]>())).Returns<string[]>(CreateItemFlags);
+            weaponFlagsFactory.Setup(x => x.CreateInstance(It.IsAny<string[]>())).Returns<string[]>(CreateWeaponFlags);
 
-        public Rom24IRVFlagValues(ILogger<Rom24IRVFlagValues> logger)
-        : base(logger)
-        {
+            var weaponBlueprint = new ItemWeaponBlueprint
+            {
+                Name = "weapon",
+                ShortDescription = "weapon",
+                Level = 1,
+                ItemFlags = CreateItemFlags(itemFlags),
+                Flags = CreateWeaponFlags(weaponFlags),
+            };
 
+            var weapon = new ItemWeapon(loggerMock.Object, null, null, null, messageForwardOptions, null, null, null, itemFlagsFactory.Object, weaponFlagsFactory.Object);
+            weapon.Initialize(Guid.NewGuid(), weaponBlueprint, room);
+
+            return weapon;
         }
-    }
 
-    internal class Rom24ActFlagValues : FlagValuesBase<string>, IActFlagValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        protected static IItemArmor GenerateArmor(string itemFlags, IRoom room)
         {
-            "Sentinel",
-            "Scavenger",
-            "StayArea",
-            "Aggressive",
-            "Wimpy",
-            "Pet",
-            "Undead",
-            "NoAlign",
-            "NoPurge",
-            "Outdoors",
-            "Indoors",
-            "UpdateAlways",
-            "Train",
-            "IsHealer",
-            "Gain",
-            "Practice",
-            "Aware",
-            "Warrior",
-            "Thief",
-            "Cleric",
-            "Mage",
-        };
+            var loggerMock = new Mock<ILogger<ItemArmor>>();
+            var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+            var itemFlagsFactory = new Mock<IFlagFactory<IItemFlags, IItemFlagValues>>();
 
-        protected override HashSet<string> HashSet => Flags;
+            itemFlagsFactory.Setup(x => x.CreateInstance(It.IsAny<string[]>())).Returns<string[]>(CreateItemFlags);
 
-        public Rom24ActFlagValues(ILogger<Rom24ActFlagValues> logger)
-        : base(logger)
-        {
+            var armorBlueprint = new ItemArmorBlueprint
+            {
+                Name = "armor",
+                ShortDescription = "armor",
+                Level = 1,
+                ItemFlags = CreateItemFlags(itemFlags),
+            };
 
+            var armor = new ItemArmor(loggerMock.Object, null, null, null, messageForwardOptions, null, null, itemFlagsFactory.Object);
+            armor.Initialize(Guid.NewGuid(), armorBlueprint, room);
+
+            return armor;
         }
-    }
 
-    internal class Rom24AssistFlagValues : FlagValuesBase<string>, IAssistFlagValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        protected static IRoom GenerateRoom(string roomFlags)
         {
-            "AreaAttack",
-            "Backstab",
-            "Bash",
-            "Berserk",
-            "Disarm",
-            "Dodge",
-            "Fade",
-            "Fast",
-            "Kick",
-            "DirtKick",
-            "Parry",
-            "Rescue",
-            "Tail",
-            "Trip",
-            "Crush",
-            "Bite",
-        };
+            var loggerMock = new Mock<ILogger<Room.Room>>();
+            var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
+            var roomFlagsFactory = new Mock<IFlagFactory<IRoomFlags, IRoomFlagValues>>();
+            var areaMock = new Mock<IArea>();
 
-        protected override HashSet<string> HashSet => Flags;
+            roomFlagsFactory.Setup(x => x.CreateInstance(It.IsAny<string[]>())).Returns<string[]>(CreateRoomFlags);
 
-        public Rom24AssistFlagValues(ILogger<Rom24AssistFlagValues> logger)
-        : base(logger)
-        {
+            var roomBlueprint = new RoomBlueprint
+            {
+                Name = "room",
+                RoomFlags = CreateRoomFlags(roomFlags),
+            };
 
+            var room = new Room.Room(loggerMock.Object, null, null, null, messageForwardOptions, null, roomFlagsFactory.Object);
+            room.Initialize(Guid.NewGuid(), roomBlueprint, areaMock.Object);
+
+            return room;
         }
-    }
 
-    internal class Rom24BodyFormValues : FlagValuesBase<string>, IBodyFormValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        protected static ICharacterFlags CreateCharacterFlags(params string[] flags)
         {
-            "Edible",
-            "Poison",
-            "Magical",
-            "InstantDecay",
-            "Other", // defined by material
-            "Animal",
-            "Sentient",
-            "Undead",
-            "Construct",
-            "Mist",
-            "Intangible",
-            "Biped",
-            "Centaur",
-            "Insect",
-            "Spider",
-            "Crustacean",
-            "Worm",
-            "Blob",
-            "Mammal",
-            "Bird",
-            "Reptile",
-            "Snake",
-            "Dragon",
-            "Amphibian",
-            "Fish",
-            "ColdBlood",
-            "Fur",
-            "FourArms",
-        };
-
-        protected override HashSet<string> HashSet => Flags;
-
-        public Rom24BodyFormValues(ILogger<Rom24BodyFormValues> logger)
-        : base(logger)
-        {
-
+            var characterFlags = new CharacterFlags(new Rom24CharacterFlagValues(new Mock<ILogger<Rom24CharacterFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        characterFlags.Set(flag);
+                    }
+                }
+            }
+            return characterFlags;
         }
-    }
 
-    internal class Rom24BodyPartValues : FlagValuesBase<string>, IBodyPartValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        protected static IIRVFlags CreateIRV(params string[] flags)
         {
-            "Head",
-            "Arms",
-            "Legs",
-            "Heart",
-            "Brains",
-            "Guts",
-            "Hands",
-            "Feet",
-            "Fingers",
-            "Ear",
-            "Eye",
-            "LongTongue",
-            "Eyestalks",
-            "Tentacles",
-            "Fins",
-            "Wings",
-            "Tail",
-            "Body",
-            "Claws",
-            "Fangs",
-            "Horns",
-            "Scales",
-            "Tusks",
-        };
-
-        protected override HashSet<string> HashSet => Flags;
-
-        public Rom24BodyPartValues(ILogger<Rom24BodyPartValues> logger)
-        : base(logger)
-        {
-
+            var irv = new IRVFlags(new Rom24IRVFlagValues(new Mock<ILogger<Rom24IRVFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        irv.Set(flag);
+                    }
+                }
+            }
+            return irv;
         }
-    }
 
-    internal class Rom24OffensiveFlagValues : FlagValuesBase<string>, IOffensiveFlagValues
-    {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        protected static IBodyForms CreateBodyForms(params string[] flags)
         {
-            "AreaAttack",
-            "Backstab",
-            "Bash",
-            "Berserk",
-            "Disarm",
-            "Dodge",
-            "Fade",
-            "Fast",
-            "Kick",
-            "DirtKick",
-            "Parry",
-            "Rescue",
-            "Tail",
-            "Trip",
-            "Crush",
-            "Bite",
-        };
+            var bodyForms = new BodyForms(new Rom24BodyFormValues(new Mock<ILogger<Rom24BodyFormValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        bodyForms.Set(flag);
+                    }
+                }
+            }
+            return bodyForms;
+        }
 
-        protected override HashSet<string> HashSet => Flags;
-
-        public Rom24OffensiveFlagValues(ILogger<Rom24OffensiveFlagValues> logger)
-        : base(logger)
+        protected static IBodyParts CreateBodyParts(params string[] flags)
         {
+            var bodyParts = new BodyParts(new Rom24BodyPartValues(new Mock<ILogger<Rom24BodyPartValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        bodyParts.Set(flag);
+                    }
+                }
+            }
+            return bodyParts;
+        }
 
+        protected static IShieldFlags CreateShieldFlags(params string[] flags)
+        {
+            var ShieldFlags = new ShieldFlags(new Rom24ShieldFlagValues(new Mock<ILogger<Rom24ShieldFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        ShieldFlags.Set(flag);
+                    }
+                }
+            }
+            return ShieldFlags;
+        }
+
+        protected static IActFlags CreateActFlags(params string[] flags)
+        {
+            var ActFlags = new ActFlags(new Rom24ActFlagValues(new Mock<ILogger<Rom24ActFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        ActFlags.Set(flag);
+                    }
+                }
+            }
+            return ActFlags;
+        }
+
+        protected static IOffensiveFlags CreateOffensiveFlags(params string[] flags)
+        {
+            var OffensiveFlags = new OffensiveFlags(new Rom24OffensiveFlagValues(new Mock<ILogger<Rom24OffensiveFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        OffensiveFlags.Set(flag);
+                    }
+                }
+            }
+            return OffensiveFlags;
+        }
+
+        protected static IAssistFlags CreateAssistFlags(params string[] flags)
+        {
+            var AssistFlags = new AssistFlags(new Rom24AssistFlagValues(new Mock<ILogger<Rom24AssistFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        AssistFlags.Set(flag);
+                    }
+                }
+            }
+            return AssistFlags;
+        }
+
+        protected static IItemFlags CreateItemFlags(params string[] flags)
+        {
+            var itemFlags = new ItemFlags(new Rom24ItemFlagValues(new Mock<ILogger<Rom24ItemFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        itemFlags.Set(flag);
+                    }
+                }
+            }
+            return itemFlags;
+        }
+
+        protected static IWeaponFlags CreateWeaponFlags(params string[] flags)
+        {
+            var weaponFlags = new WeaponFlags(new Rom24WeaponFlagValues(new Mock<ILogger<Rom24WeaponFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        weaponFlags.Set(flag);
+                    }
+                }
+            }
+            return weaponFlags;
+        }
+
+        protected static IRoomFlags CreateRoomFlags(params string[] flags)
+        {
+            var roomFlags = new RoomFlags(new Rom24RoomFlagValues(new Mock<ILogger<Rom24RoomFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        roomFlags.Set(flag);
+                    }
+                }
+            }
+            return roomFlags;
         }
     }
 }

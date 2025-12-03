@@ -29,34 +29,34 @@ namespace Mud.Server.Rom24.Tests.Abilities
             _serviceProvider = serviceProviderMock.Object;
 
             serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
-                .Returns(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object));
+                .Returns(() => new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlags)))
-                .Returns(new CharacterFlags(_serviceProvider.GetRequiredService<ICharacterFlagValues>()));
+                .Returns(() => new CharacterFlags(_serviceProvider.GetRequiredService<ICharacterFlagValues>()));
 
             serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlagValues)))
-                .Returns(new RoomFlagValues(new Mock<ILogger<RoomFlagValues>>().Object));
+                .Returns(() => new RoomFlagValues(new Mock<ILogger<RoomFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlags)))
-                .Returns(new RoomFlags(_serviceProvider.GetRequiredService<IRoomFlagValues>()));
+                .Returns(() => new RoomFlags(_serviceProvider.GetRequiredService<IRoomFlagValues>()));
 
             serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlagValues)))
-                .Returns(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object));
+                .Returns(() => new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlags)))
-                .Returns(new ItemFlags(_serviceProvider.GetRequiredService<IItemFlagValues>()));
+                .Returns(() => new ItemFlags(_serviceProvider.GetRequiredService<IItemFlagValues>()));
 
             serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlagValues)))
-                .Returns(new WeaponFlagValues(new Mock<ILogger<WeaponFlagValues>>().Object));
+                .Returns(() => new WeaponFlagValues(new Mock<ILogger<WeaponFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlags)))
-                .Returns(new WeaponFlags(_serviceProvider.GetRequiredService<IWeaponFlagValues>()));
+                .Returns(() => new WeaponFlags(_serviceProvider.GetRequiredService<IWeaponFlagValues>()));
 
             serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlagValues)))
-                .Returns(new IRVFlagValues(new Mock<ILogger<IRVFlagValues>>().Object));
+                .Returns(() => new IRVFlagValues(new Mock<ILogger<IRVFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlags)))
-                .Returns(new IRVFlags(_serviceProvider.GetRequiredService<IIRVFlagValues>()));
+                .Returns(() => new IRVFlags(_serviceProvider.GetRequiredService<IIRVFlagValues>()));
 
             serviceProviderMock.Setup(x => x.GetService(typeof(IOffensiveFlagValues)))
-                .Returns(new OffensiveFlagValues(new Mock<ILogger<OffensiveFlagValues>>().Object));
+                .Returns(() => new OffensiveFlagValues(new Mock<ILogger<OffensiveFlagValues>>().Object));
             serviceProviderMock.Setup(x => x.GetService(typeof(IOffensiveFlags)))
-                .Returns(new OffensiveFlags(_serviceProvider.GetRequiredService<IOffensiveFlagValues>()));
+                .Returns(() => new OffensiveFlags(_serviceProvider.GetRequiredService<IOffensiveFlagValues>()));
 
             _characterFlagFactory = new CharacterFlagsFactory(_serviceProvider);
             _offensiveFlagFactory = new OffensiveFlagsFactory(_serviceProvider);
@@ -69,13 +69,13 @@ namespace Mud.Server.Rom24.Tests.Abilities
         {
         }
 
-        protected ICommandParameter[] BuildParameters(string parameters)
+        protected static ICommandParameter[] BuildParameters(string parameters)
         {
             var parser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
             return parser.SplitParameters(parameters).Select(parser.ParseParameter).ToArray();
         }
 
-        protected IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
+        protected static IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
             where TGameAction:IGameAction
         {
             Type type = typeof(TGameAction);
@@ -107,7 +107,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             return new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
         }
 
-        protected IAbilityLearned BuildAbilityLearned(string name)
+        protected static IAbilityLearned BuildAbilityLearned(string name)
         {
             var mock = new Mock<IAbilityLearned>();
             mock.SetupGet(x => x.Name).Returns(name);

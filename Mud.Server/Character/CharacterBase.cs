@@ -1142,11 +1142,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public bool SavesSpell(int level, SchoolTypes damageType)
     {
         var victim = this;
-        int save = 50 + (victim.Level - level) * 5 - victim[CharacterAttributes.SavingThrow] * 2;
+        var save = 50 + (victim.Level - level) * 5 - victim[CharacterAttributes.SavingThrow] * 2;
         if (victim.CharacterFlags.IsSet("Berserk"))
             save += victim.Level / 2;
-        ResistanceLevels resist = DamageModifierManager.CheckResistance(victim, damageType);
-        switch (resist)
+        var resistanceResult = DamageModifierManager.CheckResistance(victim, damageType);
+        switch (resistanceResult)
         {
             case ResistanceLevels.Immune:
                 return true;

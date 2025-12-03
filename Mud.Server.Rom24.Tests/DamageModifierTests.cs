@@ -1,0 +1,165 @@
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
+using Mud.DataStructures.Flags;
+using Mud.Domain;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
+using Mud.Server.Interfaces.Character;
+using Mud.Server.Rom24.Flags;
+using Mud.Server.Rom24.Spells;
+
+namespace Mud.Server.Rom24.Tests
+{
+    [TestClass]
+    public class DamageModifierTests
+    {
+        [TestMethod]
+        [DataRow("Weapon,Magic", "", "", SchoolTypes.None, ResistanceLevels.None)]
+        [DataRow("Weapon", "", "", SchoolTypes.Bash, ResistanceLevels.Immune)]
+        [DataRow("Weapon", "", "", SchoolTypes.Pierce, ResistanceLevels.Immune)]
+        [DataRow("Weapon", "", "", SchoolTypes.Slash, ResistanceLevels.Immune)]
+        [DataRow("Weapon", "", "", SchoolTypes.Fire, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Cold, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Lightning, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Acid, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Poison, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Negative, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Holy, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Energy, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Mental, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Disease, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Drowning, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Light, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Other, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Harm, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Charm, ResistanceLevels.Normal)]
+        [DataRow("Weapon", "", "", SchoolTypes.Sound, ResistanceLevels.Normal)]
+        [DataRow("Magic", "", "", SchoolTypes.Bash, ResistanceLevels.Normal)]
+        [DataRow("Magic", "", "", SchoolTypes.Pierce, ResistanceLevels.Normal)]
+        [DataRow("Magic", "", "", SchoolTypes.Slash, ResistanceLevels.Normal)]
+        [DataRow("Magic", "", "", SchoolTypes.Fire, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Cold, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Lightning, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Acid, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Poison, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Negative, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Holy, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Energy, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Mental, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Disease, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Drowning, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Light, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Other, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Harm, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Charm, ResistanceLevels.Immune)]
+        [DataRow("Magic", "", "", SchoolTypes.Sound, ResistanceLevels.Immune)]
+        [DataRow("", "Weapon", "", SchoolTypes.Bash, ResistanceLevels.Resistant)]
+        [DataRow("", "Weapon", "", SchoolTypes.Pierce, ResistanceLevels.Resistant)]
+        [DataRow("", "Weapon", "", SchoolTypes.Slash, ResistanceLevels.Resistant)]
+        [DataRow("", "Weapon", "", SchoolTypes.Fire, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Cold, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Lightning, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Acid, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Poison, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Negative, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Holy, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Energy, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Mental, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Disease, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Drowning, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Light, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Other, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Harm, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Charm, ResistanceLevels.Normal)]
+        [DataRow("", "Weapon", "", SchoolTypes.Sound, ResistanceLevels.Normal)]
+        [DataRow("", "Magic", "", SchoolTypes.Bash, ResistanceLevels.Normal)]
+        [DataRow("", "Magic", "", SchoolTypes.Pierce, ResistanceLevels.Normal)]
+        [DataRow("", "Magic", "", SchoolTypes.Slash, ResistanceLevels.Normal)]
+        [DataRow("", "Magic", "", SchoolTypes.Fire, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Cold, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Lightning, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Acid, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Poison, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Negative, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Holy, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Energy, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Mental, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Disease, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Drowning, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Light, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Other, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Harm, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Charm, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "", SchoolTypes.Sound, ResistanceLevels.Resistant)]
+        [DataRow("", "", "Weapon", SchoolTypes.Bash, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Weapon", SchoolTypes.Pierce, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Weapon", SchoolTypes.Slash, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Weapon", SchoolTypes.Fire, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Cold, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Lightning, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Acid, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Poison, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Negative, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Holy, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Energy, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Mental, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Disease, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Drowning, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Light, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Other, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Harm, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Charm, ResistanceLevels.Normal)]
+        [DataRow("", "", "Weapon", SchoolTypes.Sound, ResistanceLevels.Normal)]
+        [DataRow("", "", "Magic", SchoolTypes.Bash, ResistanceLevels.Normal)]
+        [DataRow("", "", "Magic", SchoolTypes.Pierce, ResistanceLevels.Normal)]
+        [DataRow("", "", "Magic", SchoolTypes.Slash, ResistanceLevels.Normal)]
+        [DataRow("", "", "Magic", SchoolTypes.Fire, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Cold, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Lightning, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Acid, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Poison, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Negative, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Holy, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Energy, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Mental, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Disease, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Drowning, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Light, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Other, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Harm, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Charm, ResistanceLevels.Vulnerable)]
+        [DataRow("", "", "Magic", SchoolTypes.Sound, ResistanceLevels.Vulnerable)]
+        [DataRow("Magic", "", "Fire", SchoolTypes.Fire, ResistanceLevels.Resistant)]
+        [DataRow("", "Magic", "Fire", SchoolTypes.Fire, ResistanceLevels.Normal)]
+        public void CheckResistance(string imm, string res, string vuln, SchoolTypes damageType, ResistanceLevels expected)
+        {
+            var damagerModifierManager = new DamageModifierManager(new Mock<ILogger<DamageModifierManager>>().Object);
+            var victim = new Mock<ICharacter>();
+            victim.SetupGet(x => x.Immunities).Returns(CreateIRV(imm));
+            victim.SetupGet(x => x.Resistances).Returns(CreateIRV(res));
+            victim.SetupGet(x => x.Vulnerabilities).Returns(CreateIRV(vuln));
+
+            var result = damagerModifierManager.CheckResistance(victim.Object, damageType);
+
+            Assert.AreEqual(expected, result);
+        }
+
+        //
+        private static IIRVFlags CreateIRV(params string[] flags)
+        {
+            var irv = new IRVFlags(new IRVFlagValues(new Mock<ILogger<IRVFlagValues>>().Object));
+            if (flags.Length > 0)
+            {
+                foreach (var flag in flags)
+                {
+                    if (!string.IsNullOrWhiteSpace(flag))
+                    {
+                        irv.Set(flag);
+                    }
+                }
+            }
+            return irv;
+        }
+    }
+}

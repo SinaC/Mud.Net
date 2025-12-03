@@ -130,6 +130,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         BaseImmunities = data.Immunities;
         BaseResistances = data.Resistances;
         BaseVulnerabilities = data.Vulnerabilities;
+        BaseShieldFlags = data.ShieldFlags;
         BaseSex = data.Sex;
         BaseSize = data.Size;
         if (data.Attributes != null)

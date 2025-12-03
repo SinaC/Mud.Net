@@ -82,7 +82,7 @@ namespace Mud.Server.Rom24
         {
             string irvFlags;
             // Generic resistance
-            ResistanceLevels defaultResistance = ResistanceLevels.Normal;
+            var defaultResistance = ResistanceLevels.Normal;
             if (damageType <= SchoolTypes.Slash) // Physical
             {
                 if (victim.Immunities.IsSet("Weapon"))
@@ -90,7 +90,7 @@ namespace Mud.Server.Rom24
                 else if (victim.Resistances.IsSet("Weapon"))
                     defaultResistance = ResistanceLevels.Resistant;
                 else if (victim.Vulnerabilities.IsSet("Weapon"))
-                    defaultResistance = ResistanceLevels.Normal;
+                    defaultResistance = ResistanceLevels.Vulnerable;
             }
             else // Magic
             {
@@ -99,7 +99,7 @@ namespace Mud.Server.Rom24
                 else if (victim.Resistances.IsSet("Magic"))
                     defaultResistance = ResistanceLevels.Resistant;
                 else if (victim.Vulnerabilities.IsSet("Magic"))
-                    defaultResistance = ResistanceLevels.Normal;
+                    defaultResistance = ResistanceLevels.Vulnerable;
             }
             switch (damageType)
             {
@@ -160,8 +160,11 @@ namespace Mud.Server.Rom24
                     Logger.LogError("CharacterBase.CheckResistance: Unknown {schoolType} {damageType}", nameof(SchoolTypes), damageType);
                     return defaultResistance;
             }
-            // Following code has been reworked because Rom24 was testing on currently computed resistance (imm) instead of defaultResistance (def)
-            ResistanceLevels resistance = ResistanceLevels.None;
+            // if immune to input damage -> immune
+            // if globally immune but resistant to input damage -> resistant
+            // if globally immune but vulnerable to input damage -> resistant
+            // if globally resistant but vulnerable to input damage -> normal
+            var resistance = ResistanceLevels.None;
             if (victim.Immunities.IsSet(irvFlags))
                 resistance = ResistanceLevels.Immune;
             else if (victim.Resistances.IsSet(irvFlags) && defaultResistance != ResistanceLevels.Immune)

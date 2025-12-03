@@ -22,7 +22,7 @@ public class AcidBlastTests : AbilityTestBase
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(x => true);
         randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((count, value) => count * value);
         serviceProviderMock.Setup(x => x.GetService(typeof(AcidBlast)))
-            .Returns(new AcidBlast(logger.Object, randomManagerMock.Object));
+            .Returns(() => new AcidBlast(logger.Object, randomManagerMock.Object));
     }
 
     [TestMethod]
