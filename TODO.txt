@@ -1,6 +1,6 @@
 INGOING
-migrate repository to json
-remove .Map in flags
+capacity in container
+
 
 TODO
 
@@ -43,8 +43,6 @@ should see glowing item if in a dark room
 glowing item on the floor of dark room should increase light
 
 reimplement hot/dot
-
-capacity in container
 
 finish ROM24 classes
 when a player connects, if no avatar found -> switch to avatar create state machine

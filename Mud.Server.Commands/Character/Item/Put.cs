@@ -83,7 +83,12 @@ public class Put : CharacterGameAction
             Actor.Send("You can't let go of it.");
             return false;
         }
-        int itemWeight = item.TotalWeight;
+        if (container.Content.Count() + 1 > container.MaxItems)
+        {
+            Actor.Send("It won't fit.");
+            return false;
+        }
+        var itemWeight = item.TotalWeight;
         if (itemWeight + container.TotalWeight > container.MaxWeight
             || itemWeight > container.MaxWeightPerItem)
         {

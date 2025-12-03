@@ -113,6 +113,7 @@ public class ItemContainer : ItemBase, IItemContainer
 
     public IEnumerable<IItem> Content => _content;
 
+    public int MaxItems { get; protected set; }
     public int MaxWeight { get; protected set; }
     public int MaxWeightPerItem { get; protected set; }
 

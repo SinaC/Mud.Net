@@ -68,9 +68,9 @@ namespace Mud.Repository.Tests
             Assert.HasCount(2, deserialized.Aliases);
             Assert.HasCount(9, deserialized.Characters);
             Assert.HasCount(11, deserialized.Characters.Single(x => x.Name == "sinac").Equipments);
-            Assert.ContainsSingle(deserialized.Characters.Single(x => x.Name == "sinac").Equipments.Where(x => x.Item is IItemLight));
-            Assert.ContainsSingle(deserialized.Characters.Single(x => x.Name == "sinac").Equipments.Where(x => x.Item is IItemWeapon));
-            Assert.ContainsSingle(deserialized.Characters.Single(x => x.Name == "sinac").Equipments.Where(x => x.Item is IItemWand));
+            Assert.ContainsSingle(deserialized.Characters.Single(x => x.Name == "sinac").Equipments.Where(x => x.Item is ItemLightData));
+            Assert.ContainsSingle(deserialized.Characters.Single(x => x.Name == "sinac").Equipments.Where(x => x.Item is ItemWeaponData));
+            Assert.ContainsSingle(deserialized.Characters.Single(x => x.Name == "sinac").Equipments.Where(x => x.Item is ItemWandData));
             Assert.HasCount(4, deserialized.Characters.Single(x => x.Name == "sinac").Inventory);
             Assert.HasCount(8, deserialized.Characters.Single(x => x.Name == "sinac").Auras);
             Assert.HasCount(14, deserialized.Characters.Single(x => x.Name == "sinac").Attributes);

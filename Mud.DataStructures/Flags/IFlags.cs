@@ -45,6 +45,4 @@ public interface IFlags<T, TFlagValues>
     int Count { get; }
 
     IEnumerable<T> Values { get; }
-
-    string Map();
 }
