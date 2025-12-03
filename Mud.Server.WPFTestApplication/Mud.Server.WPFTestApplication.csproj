@@ -10,7 +10,6 @@
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <PackageReference Include="AutoMapper" Version="14.0.0" />
     <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
     <PackageReference Include="Microsoft.Bcl.TimeProvider" Version="10.0.0" />
@@ -46,7 +45,7 @@
     <ProjectReference Include="..\Mud.Importer.Rom\Mud.Importer.Rom.csproj" />
     <ProjectReference Include="..\Mud.Network.Telnet\Mud.Network.Telnet.csproj" />
     <ProjectReference Include="..\Mud.Network.Interfaces\Mud.Network.Interfaces.csproj" />
-    <ProjectReference Include="..\Mud.Repository.Filesystem\Mud.Repository.Filesystem.csproj" />
+    <ProjectReference Include="..\Mud.Repository.Filesystem.Json\Mud.Repository.Filesystem.Json.csproj" />
     <ProjectReference Include="..\Mud.Repository.Interfaces\Mud.Repository.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj" />

@@ -28,12 +28,15 @@ public class OffensiveFlagValues : FlagValuesBase<string>, IOffensiveFlagValues
         "Bite",
     };
 
-    protected override HashSet<string> HashSet => Flags;
+    private ILogger<OffensiveFlagValues> Logger { get; }
 
     public OffensiveFlagValues(ILogger<OffensiveFlagValues> logger)
-        : base(logger)
     {
+        Logger = logger;
     }
+
+    protected override HashSet<string> HashSet => Flags;
+
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {

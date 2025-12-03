@@ -1,5 +1,6 @@
 INGOING
-update server.test unit tests
+migrate repository to json
+remove .Map in flags
 
 TODO
 

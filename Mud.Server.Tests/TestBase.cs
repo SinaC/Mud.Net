@@ -147,7 +147,7 @@ namespace Mud.Server.Tests
 
         protected static ICharacterFlags CreateCharacterFlags(params string[] flags)
         {
-            var characterFlags = new CharacterFlags(new Rom24CharacterFlagValues(new Mock<ILogger<Rom24CharacterFlagValues>>().Object));
+            var characterFlags = new CharacterFlags(new Rom24CharacterFlagValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -163,7 +163,7 @@ namespace Mud.Server.Tests
 
         protected static IIRVFlags CreateIRV(params string[] flags)
         {
-            var irv = new IRVFlags(new Rom24IRVFlagValues(new Mock<ILogger<Rom24IRVFlagValues>>().Object));
+            var irv = new IRVFlags(new Rom24IRVFlagValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -179,7 +179,7 @@ namespace Mud.Server.Tests
 
         protected static IBodyForms CreateBodyForms(params string[] flags)
         {
-            var bodyForms = new BodyForms(new Rom24BodyFormValues(new Mock<ILogger<Rom24BodyFormValues>>().Object));
+            var bodyForms = new BodyForms(new Rom24BodyFormValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -195,7 +195,7 @@ namespace Mud.Server.Tests
 
         protected static IBodyParts CreateBodyParts(params string[] flags)
         {
-            var bodyParts = new BodyParts(new Rom24BodyPartValues(new Mock<ILogger<Rom24BodyPartValues>>().Object));
+            var bodyParts = new BodyParts(new Rom24BodyPartValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -211,7 +211,7 @@ namespace Mud.Server.Tests
 
         protected static IShieldFlags CreateShieldFlags(params string[] flags)
         {
-            var ShieldFlags = new ShieldFlags(new Rom24ShieldFlagValues(new Mock<ILogger<Rom24ShieldFlagValues>>().Object));
+            var ShieldFlags = new ShieldFlags(new Rom24ShieldFlagValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -227,7 +227,7 @@ namespace Mud.Server.Tests
 
         protected static IActFlags CreateActFlags(params string[] flags)
         {
-            var ActFlags = new ActFlags(new Rom24ActFlagValues(new Mock<ILogger<Rom24ActFlagValues>>().Object));
+            var ActFlags = new ActFlags(new Rom24ActFlagValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -243,7 +243,7 @@ namespace Mud.Server.Tests
 
         protected static IOffensiveFlags CreateOffensiveFlags(params string[] flags)
         {
-            var OffensiveFlags = new OffensiveFlags(new Rom24OffensiveFlagValues(new Mock<ILogger<Rom24OffensiveFlagValues>>().Object));
+            var OffensiveFlags = new OffensiveFlags(new Rom24OffensiveFlagValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -259,7 +259,7 @@ namespace Mud.Server.Tests
 
         protected static IAssistFlags CreateAssistFlags(params string[] flags)
         {
-            var AssistFlags = new AssistFlags(new Rom24AssistFlagValues(new Mock<ILogger<Rom24AssistFlagValues>>().Object));
+            var AssistFlags = new AssistFlags(new Rom24AssistFlagValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -275,7 +275,7 @@ namespace Mud.Server.Tests
 
         protected static IItemFlags CreateItemFlags(params string[] flags)
         {
-            var itemFlags = new ItemFlags(new Rom24ItemFlagValues(new Mock<ILogger<Rom24ItemFlagValues>>().Object));
+            var itemFlags = new ItemFlags(new Rom24ItemFlagValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -291,7 +291,7 @@ namespace Mud.Server.Tests
 
         protected static IWeaponFlags CreateWeaponFlags(params string[] flags)
         {
-            var weaponFlags = new WeaponFlags(new Rom24WeaponFlagValues(new Mock<ILogger<Rom24WeaponFlagValues>>().Object));
+            var weaponFlags = new WeaponFlags(new Rom24WeaponFlagValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)
@@ -307,7 +307,7 @@ namespace Mud.Server.Tests
 
         protected static IRoomFlags CreateRoomFlags(params string[] flags)
         {
-            var roomFlags = new RoomFlags(new Rom24RoomFlagValues(new Mock<ILogger<Rom24RoomFlagValues>>().Object));
+            var roomFlags = new RoomFlags(new Rom24RoomFlagValues());
             if (flags.Length > 0)
             {
                 foreach (var flag in flags)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Mud.Common.Attributes;
+using Mud.Repository.Filesystem.Json;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.World;
@@ -77,8 +78,6 @@ public partial class App : Application
         services.AddSingleton<IServerAdminCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerAdminCommand
         services.AddSingleton<IServerPlayerCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerPlayerCommand
 
-        services.AddAutoMapper(typeof(Repository.Filesystem.AutoMapperProfile).Assembly);
-
         RegisterUsingExportAttribute(services, assemblyHelper.AllReferencedAssemblies);
 
         //// Register ViewModels
@@ -92,7 +91,7 @@ public partial class App : Application
     {
         services.Configure<AvatarOptions>(options => configuration.GetSection(AvatarOptions.SectionName).Bind(options));
         services.Configure<AuraOptions>(options => configuration.GetSection(AuraOptions.SectionName).Bind(options));
-        services.Configure<Repository.Filesystem.FileRepositoryOptions>(options => configuration.GetSection(Repository.Filesystem.FileRepositoryOptions.SectionName).Bind(options));
+        services.Configure<FileRepositoryOptions>(options => configuration.GetSection(FileRepositoryOptions.SectionName).Bind(options));
         services.Configure<ImportOptions>(options => configuration.GetSection(ImportOptions.SectionName).Bind(options));
         services.Configure<MessageForwardOptions>(options => configuration.GetSection(MessageForwardOptions.SectionName).Bind(options));
         services.Configure<Rom24Options>(options => configuration.GetSection(Rom24Options.SectionName).Bind(options));

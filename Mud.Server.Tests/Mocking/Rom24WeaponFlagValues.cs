@@ -20,12 +20,6 @@ namespace Mud.Server.Tests.Mocking
 
         protected override HashSet<string> HashSet => Flags;
 
-        public Rom24WeaponFlagValues(ILogger<Rom24WeaponFlagValues> logger)
-        : base(logger)
-        {
-
-        }
-
         public string PrettyPrint(string flag, bool shortDisplay)
             => flag.ToString();
     }

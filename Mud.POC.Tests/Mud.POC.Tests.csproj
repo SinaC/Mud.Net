@@ -9,6 +9,7 @@
 		<PackageReference Include="AutoBogus" Version="2.13.1" />
 		<PackageReference Include="Bogus" Version="35.6.5" />
 		<PackageReference Include="Castle.Core" Version="5.2.1" />
+		<PackageReference Include="DeepEqual" Version="5.1.0" />
 		<PackageReference Include="Microsoft.ApplicationInsights" Version="2.23.0" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.0" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />

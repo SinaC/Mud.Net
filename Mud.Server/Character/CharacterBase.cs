@@ -2335,7 +2335,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             else
             {
                 source.ActToNotVictim(this, phraseOther, source, this, damagePhraseOther, damageNoun ?? "", damage);
-                source.Act(ActOptions.ToCharacter, phraseSource, this, damagePhraseSelf, damageNoun ?? "", damage);
+                source.Act(ActOptions.ToCharacter, phraseSource, this, damagePhraseOther, damageNoun ?? "", damage);
                 Act(ActOptions.ToCharacter, phraseVictim, source, damagePhraseOther, damageNoun ?? "", damage);
             }
         }

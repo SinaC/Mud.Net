@@ -37,12 +37,14 @@ public class ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
         "NoSacrifice",
     };
 
-    protected override HashSet<string> HashSet => Flags;
+    private ILogger<ItemFlagValues> Logger { get; }
 
     public ItemFlagValues(ILogger<ItemFlagValues> logger)
-        : base(logger)
     {
+        Logger = logger;
     }
+
+    protected override HashSet<string> HashSet => Flags;
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {

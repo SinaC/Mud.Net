@@ -20,12 +20,14 @@ public class WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
         "Poison",
     };
 
-    protected override HashSet<string> HashSet => Flags;
+    private ILogger<WeaponFlagValues> Logger { get; }
 
     public WeaponFlagValues(ILogger<WeaponFlagValues> logger)
-        : base(logger)
     {
+        Logger = logger;
     }
+
+    protected override HashSet<string> HashSet => Flags;
 
     public string PrettyPrint(string flag, bool shortDisplay)
     {

@@ -15,12 +15,14 @@ public class ShieldFlagValues : FlagValuesBase<string>, IShieldFlagValues
         "ProtectGood"
     };
 
-    protected override HashSet<string> HashSet => Flags;
+    private ILogger<ShieldFlagValues> Logger { get; }
 
     public ShieldFlagValues(ILogger<ShieldFlagValues> logger)
-        : base(logger)
     {
+        Logger = logger;
     }
+
+    protected override HashSet<string> HashSet => Flags;
 
     public string PrettyPrint(string flag, bool shortDisplay)
     {

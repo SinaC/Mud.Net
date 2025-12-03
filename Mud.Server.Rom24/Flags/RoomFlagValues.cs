@@ -25,12 +25,15 @@ public class RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
         "NoWhere",
     };
 
-    protected override HashSet<string> HashSet => Flags;
+    private ILogger<RoomFlagValues> Logger { get; }
 
     public RoomFlagValues(ILogger<RoomFlagValues> logger)
-        : base(logger)
     {
+        Logger = logger;
     }
+
+    protected override HashSet<string> HashSet => Flags;
+
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {
