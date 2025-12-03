@@ -26,7 +26,7 @@ public class CreateFood : ItemCreationSpellBase
     public CreateFood(ILogger<CreateFood> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, IOptions<Rom24Options> options)
         : base(logger, randomManager, wiznet, itemManager)
     {
-        MushroomBlueprintId = options.Value.BlueprintIds.Mushroom;
+        MushroomBlueprintId = options.Value.SpellBlueprintIds.Mushroom;
     }
 
     protected override void Invoke()

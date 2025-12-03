@@ -18,6 +18,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.Interfaces.Special;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using Mud.Server.Quest;
@@ -35,13 +36,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
     private IFlagFactory FlagFactory { get; }
+    private ISpecialBehaviorManager SpecialBehaviorManager { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory, ISpecialBehaviorManager specialBehaviorManager)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagFactory, wiznet)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
         FlagFactory = flagFactory;
+        SpecialBehaviorManager = specialBehaviorManager;
     }
 
     protected void Initialize(Guid guid, string name, string description, CharacterBlueprintBase blueprint, IRoom room)
@@ -115,6 +118,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         HitPoints = BaseAttribute(CharacterAttributes.MaxHitPoints); // can't use this[MaxHitPoints] because current has been been computed, it will be computed in ResetCurrentAttributes
         MovePoints = BaseAttribute(CharacterAttributes.MaxMovePoints);
+
+        if (!string.IsNullOrWhiteSpace(blueprint.SpecialBehavior))
+            SpecialBehavior = SpecialBehaviorManager.CreateInstance(blueprint.SpecialBehavior);
 
         BuildEquipmentSlots();
 
@@ -453,6 +459,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public IOffensiveFlags OffensiveFlags { get; protected set; } = null!;
 
     public IAssistFlags AssistFlags { get; protected set; } = null!;
+
+    // special behavior
+    public ISpecialBehavior? SpecialBehavior { get; protected set; } = null!;
 
     public bool IsQuestObjective(IPlayableCharacter questingCharacter)
     {

@@ -47,11 +47,11 @@ public class Get : CharacterGameAction
                 bool allDot = false;
                 if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
                 {
-                    What = FindHelpers.FindAllByName(Actor.Room.Content.Where(x => Actor.CanSee(x)), whatParameter).ToArray();
+                    What = FindHelpers.FindAllByName(Actor.Room.Content.Where(Actor.CanSee), whatParameter).ToArray();
                     allDot = true;
                 }
                 else // get all
-                    What = Actor.Room.Content.Where(x => Actor.CanSee(x)).ToArray();
+                    What = Actor.Room.Content.Where(Actor.CanSee).ToArray();
                 if (What.Length == 0)
                 {
                     if (allDot)
@@ -61,7 +61,7 @@ public class Get : CharacterGameAction
                 return null;
             }
             // get item
-            var itemInRoom = FindHelpers.FindByName(Actor.Room.Content.Where(x => Actor.CanSee(x)), actionInput.Parameters[0]);
+            var itemInRoom = FindHelpers.FindByName(Actor.Room.Content.Where(Actor.CanSee), actionInput.Parameters[0]);
             if (itemInRoom == null)
                 return $"I see no {whatParameter.Value} here.";
             What = [itemInRoom];
@@ -90,11 +90,11 @@ public class Get : CharacterGameAction
             bool allDot = false;
             if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item [from] container
             {
-                What = FindHelpers.FindAllByName(Where.Content.Where(x => Actor.CanSee(x)), whatParameter).ToArray();
+                What = FindHelpers.FindAllByName(Where.Content.Where(Actor.CanSee), whatParameter).ToArray();
                 allDot = true;
             }
             else // get all [from] container
-                What = Where.Content.Where(x => Actor.CanSee(x)).ToArray();
+                What = Where.Content.Where(Actor.CanSee).ToArray();
             if (What.Length == 0)
             {
                 if (allDot)
@@ -104,7 +104,7 @@ public class Get : CharacterGameAction
             return null;
         }
         // get item [from] container
-        var item = FindHelpers.FindByName(Where.Content.Where(x => Actor.CanSee(x)), whatParameter);
+        var item = FindHelpers.FindByName(Where.Content.Where(Actor.CanSee), whatParameter);
         if (item == null)
             return $"I see nothing like that in the {whereParameter}.";
         What = [item];

@@ -47,6 +47,10 @@ public interface ICharacter : IEntity, IContainer
     long SilverCoins { get; }
     long GoldCoins { get; }
     (long silver, long gold) DeductCost(long cost);
+    void IncrementSilver(long increment);
+    void IncrementGold(long increment);
+    long DecrementSilver(long decrement);
+    long DecrementGold(long decrement);
 
     // Furniture (sleep/sit/stand)
     IItemFurniture? Furniture { get; }

@@ -64,6 +64,7 @@
     <ProjectReference Include="..\Mud.Server.Race\Mud.Server.Race.csproj" />
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
     <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj" />
+    <ProjectReference Include="..\Mud.Server.Specials\Mud.Server.Specials.csproj" />
     <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,7 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Commands.Character.Information;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
 using Mud.Server.Flags.Interfaces;

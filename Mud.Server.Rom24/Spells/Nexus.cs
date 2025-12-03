@@ -31,7 +31,7 @@ public class Nexus : TransportationSpellBase
         : base(logger, randomManager, characterManager)
     {
         ItemManager = itemManager;
-        PortalBlueprintId = options.Value.BlueprintIds.Portal;
+        PortalBlueprintId = options.Value.SpellBlueprintIds.Portal;
     }
 
     protected override void Invoke()

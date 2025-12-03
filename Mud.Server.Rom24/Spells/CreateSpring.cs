@@ -27,7 +27,7 @@ public class CreateSpring : ItemCreationSpellBase
     public CreateSpring(ILogger<CreateSpring> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, IOptions<Rom24Options> options)
         : base(logger, randomManager, wiznet, itemManager)
     {
-        SpringBlueprintId = options.Value.BlueprintIds.Spring;
+        SpringBlueprintId = options.Value.SpellBlueprintIds.Spring;
     }
 
     protected override void Invoke()

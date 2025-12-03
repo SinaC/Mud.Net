@@ -50,7 +50,7 @@ public class Cinfo : AdminGameAction
         sb.AppendFormatLine("ShortDescription: {0}", Blueprint.ShortDescription);
         sb.AppendFormatLine("LongDescription: {0}", Blueprint.LongDescription);
         sb.AppendFormatLine("Description: {0}", Blueprint.Description);
-        sb.AppendFormatLine("Level: {0} Sex: {1}", Blueprint.Level, Blueprint.Sex);
+        sb.AppendFormatLine("Level: {0} Group: {1} Sex: {2}", Blueprint.Level, Blueprint.Group, Blueprint.Sex);
         sb.AppendFormatLine("Race: {0} Class: {1}", Blueprint.Race, Blueprint.Class);
         sb.AppendFormatLine("Wealth: {0} Alignment {1}", Blueprint.Wealth, Blueprint.Alignment);
         sb.AppendFormatLine("Damage: {0}d{1}+{2} DamageType: {3} DamageNoun: {4}", Blueprint.DamageDiceCount, Blueprint.DamageDiceValue, Blueprint.DamageDiceBonus, Blueprint.DamageType, Blueprint.DamageNoun);
@@ -64,6 +64,7 @@ public class Cinfo : AdminGameAction
         sb.AppendFormatLine("Immunities: {0}", Blueprint.Immunities);
         sb.AppendFormatLine("Resistances: {0}", Blueprint.Resistances);
         sb.AppendFormatLine("Vulnerabilities: {0}", Blueprint.Vulnerabilities);
+        sb.AppendFormatLine("Specials: {0}", Blueprint.SpecialBehavior);
         // TODO: loot table, script
         // TODO: specific Blueprint
         switch (Blueprint)

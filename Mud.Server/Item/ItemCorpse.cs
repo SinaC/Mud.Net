@@ -66,7 +66,7 @@ public class ItemCorpse : ItemBase, IItemCorpse
 
     public void Initialize(Guid guid, ItemCorpseBlueprint blueprint, IRoom room, ICharacter victim)
     {
-        Initialize(guid, blueprint, BuildName(victim.DisplayName, false, blueprint), BuildShortDescription(victim.DisplayName, false, blueprint), BuildDescription(victim.DisplayName, false, blueprint), room);
+        Initialize(guid, blueprint, BuildName(victim.DisplayName, true, blueprint), BuildShortDescription(victim.DisplayName, true, blueprint), BuildDescription(victim.DisplayName, true, blueprint), room);
 
         CorpseName = victim.DisplayName;
         HasBeenGeneratedByKillingCharacter = true;
@@ -213,16 +213,16 @@ public class ItemCorpse : ItemBase, IItemCorpse
 
     private static string BuildName(string corpseName, bool generated, ItemCorpseBlueprint blueprint) 
         => generated
-            ? blueprint.Name
-            : "corpse " + corpseName;
+            ? "corpse " + corpseName
+            : blueprint.Name;
     private static string BuildShortDescription(string corpseName, bool generated, ItemCorpseBlueprint blueprint)
         => generated
-            ? blueprint.ShortDescription
-            : "the corpse of " + corpseName;
+            ? "the corpse of " + corpseName
+            : blueprint.ShortDescription;
     private static string BuildDescription(string corpseName, bool generated, ItemCorpseBlueprint blueprint)
         => generated
-            ? blueprint.Description
-         : $"The corpse of {corpseName} is lying here.";
+            ? $"The corpse of {corpseName} is lying here."
+            : blueprint.Description;
 
     // Perform actions on item before putting it in corpse
     // returns false if item must be destroyed instead of being put in corpse

@@ -71,7 +71,7 @@ namespace Mud.Server.Tests
             flagFactoryMock.Setup(x => x.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateOffensiveFlags);
             flagFactoryMock.Setup(x => x.CreateInstance<IAssistFlags, IAssistFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateAssistFlags);
 
-            var npc = new NonPlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, randomManagerMock.Object, tableValuesMock.Object, null, null, null, null, null, null, raceManagerMock.Object, classManagerMock.Object, damageModifierManagerMock.Object, null, flagFactoryMock.Object);
+            var npc = new NonPlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, randomManagerMock.Object, tableValuesMock.Object, null, null, null, null, null, null, raceManagerMock.Object, classManagerMock.Object, damageModifierManagerMock.Object, null, flagFactoryMock.Object, null);
             npc.Initialize(Guid.NewGuid(), blueprint, room);
 
             return npc;

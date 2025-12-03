@@ -101,7 +101,7 @@ public class AffectManager : IAffectManager
 
         if (affect is not IAffect instance)
         {
-            Logger.LogError("AffectManager: affect {affectType} cannot be create or is not of type {expectedAffectType}", affectInfo.AffectType.FullName ?? "???", typeof(IAffect).FullName ?? "???");
+            Logger.LogError("AffectManager: affect {affectType} cannot be created or is not of type {expectedAffectType}", affectInfo.AffectType.FullName ?? "???", typeof(IAffect).FullName ?? "???");
             return null;
         }
         return instance;

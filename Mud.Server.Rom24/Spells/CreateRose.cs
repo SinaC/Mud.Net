@@ -27,7 +27,7 @@ public class CreateRose : ItemCreationSpellBase
     public CreateRose(ILogger<CreateRose> logger, IRandomManager randomManager, IWiznet wiznet, IItemManager itemManager, IOptions<Rom24Options> options) 
         : base(logger, randomManager, wiznet, itemManager)
     {
-        RoseBlueprintId = options.Value.BlueprintIds.Rose;
+        RoseBlueprintId = options.Value.SpellBlueprintIds.Rose;
     }
 
     protected override void Invoke()

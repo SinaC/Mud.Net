@@ -187,6 +187,39 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return (silver, gold);
     }
 
+    public void IncrementSilver(long increment)
+    {
+        SilverCoins += increment;
+    }
+
+    public void IncrementGold(long increment)
+    {
+        GoldCoins += increment;
+    }
+
+    public long DecrementSilver(long decrement)
+    {
+        if (decrement > SilverCoins)
+        {
+            var available = SilverCoins;
+            SilverCoins = 0;
+            return available;
+        }
+        SilverCoins -= decrement;
+        return decrement;
+    }
+
+    public long DecrementGold(long decrement)
+    {
+        if (decrement > GoldCoins)
+        {
+            var available = GoldCoins;
+            GoldCoins = 0;
+            return available;
+        }
+        GoldCoins -= decrement;
+        return decrement;
+    }
 
     // Furniture (sleep/sit/stand)
     public IItemFurniture? Furniture { get; protected set; }

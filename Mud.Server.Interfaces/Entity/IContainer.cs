@@ -6,6 +6,7 @@ public interface IContainer : IEntity
 {
     IEnumerable<IItem> Content { get; }
 
+    // these methods should only be called in ItemBase
     bool PutInContainer(IItem obj);
     bool GetFromContainer(IItem obj);
 }
