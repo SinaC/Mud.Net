@@ -34,6 +34,8 @@ public abstract class ItemBase: EntityBase, IItem
         RoomManager = roomManager;
         AuraManager = auraManager;
         ItemFlagFactory = itemFlagFactory;
+
+        ItemFlags = itemFlagFactory.CreateInstance();
     }
 
     protected void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
@@ -52,13 +54,13 @@ public abstract class ItemBase: EntityBase, IItem
         NoTake = blueprint.NoTake;
 
         BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), blueprint.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), BaseItemFlags, null);
     }
 
     public void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, IContainer containedInto)
         where TBlueprint : ItemBlueprintBase
     {
         Initialize(guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto);
+        ResetAttributes();
     }
 
     public void Initialize<TBlueprint, TData>(Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
@@ -70,13 +72,13 @@ public abstract class ItemBase: EntityBase, IItem
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
         BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), data.ItemFlags, null);
-        ItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), BaseItemFlags, null);
         // Auras
         if (data.Auras != null)
         {
             foreach (AuraData auraData in data.Auras)
                 AuraManager.AddAura(this, auraData, false);
         }
+        ResetAttributes();
     }
 
     public void Initialize<TBlueprint, TData>(Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)

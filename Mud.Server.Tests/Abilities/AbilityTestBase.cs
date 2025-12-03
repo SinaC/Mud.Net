@@ -1,0 +1,61 @@
+﻿using Microsoft.Extensions.Logging;
+using Moq;
+using Mud.Server.GameAction;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Actor;
+using Mud.Server.Interfaces.GameAction;
+using System.Reflection;
+
+namespace Mud.Server.Tests.Abilities;
+
+[TestClass]
+public abstract class AbilityTestBase : TestBase
+{
+    protected static ICommandParameter[] BuildParameters(string parameters)
+    {
+        var parser = new CommandParser(new Mock<ILogger<CommandParser>>().Object);
+        return parser.SplitParameters(parameters).Select(parser.ParseParameter).ToArray();
+    }
+
+    protected static IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
+        where TGameAction : IGameAction
+    {
+        Type type = typeof(TGameAction);
+        CommandAttribute commandAttribute = type.GetCustomAttribute<CommandAttribute>();
+        SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
+        IEnumerable<AliasAttribute> aliasAttributes = type.GetCustomAttributes<AliasAttribute>();
+
+        IGameActionInfo gameActionInfo;
+        switch (commandAttribute)
+        {
+            case AdminCommandAttribute adminCommandAttribute:
+                gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
+            case PlayerCommandAttribute playerCommandAttribute:
+                gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
+            case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
+                gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
+            case CharacterCommandAttribute characterCommandAttribute:
+                gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
+            default:
+                gameActionInfo = new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
+        }
+
+        new CommandParser(new Mock<ILogger<CommandParser>>().Object).ExtractCommandAndParameters(commandLine, out var command, out var parameters);
+        return new ActionInput(gameActionInfo, actor, commandLine, command, parameters);
+    }
+
+    protected static IAbilityLearned BuildAbilityLearned(string name)
+    {
+        var mock = new Mock<IAbilityLearned>();
+        mock.SetupGet(x => x.Name).Returns(name);
+        mock.SetupGet(x => x.ResourceKind).Returns(Domain.ResourceKinds.Mana);
+        mock.SetupGet(x => x.CostAmount).Returns(50);
+        mock.SetupGet(x => x.CostAmountOperator).Returns(Domain.CostAmountOperators.Fixed);
+        return mock.Object;
+    }
+}

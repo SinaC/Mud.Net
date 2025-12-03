@@ -4,7 +4,6 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Area;
@@ -17,7 +16,6 @@ using Mud.Server.Random;
 using Mud.Server.Rom24.Effects;
 using Mud.Server.Rom24.Skills;
 using Mud.Server.Rom24.Spells;
-using static Mud.Server.Rom24.Tests.Abilities.OptionalItemInventorySpellBaseTests;
 
 namespace Mud.Server.Rom24.Tests.Abilities
 {
@@ -216,7 +214,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
+                .Returns(() => new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
 
             Scrolls skill = new(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll");
@@ -482,7 +480,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
             userMock.SetupGet(x => x.Inventory).Returns(scrollMock.Object.Yield());
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
+                .Returns(() => new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
 
             Scrolls skill = new(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll target");
@@ -753,7 +751,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             scrollMock.SetupGet(x => x.FirstSpellName).Returns("Curse");
             userMock.SetupGet(x => x.Inventory).Returns([scrollMock.Object, itemMock.Object]);
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
+                .Returns(() => new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
 
             Scrolls skill = new(new Mock<ILogger<Scrolls>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Scrolls>(userMock.Object, "recite scroll item");

@@ -30,6 +30,8 @@ public class ItemWeapon : ItemBase, IItemWeapon
     {
         TableValues = tableValues;
         WeaponFlagFactory = weaponFlagFactory;
+
+        WeaponFlags = weaponFlagFactory.CreateInstance();
     }
 
     public void Initialize(Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
@@ -41,8 +43,9 @@ public class ItemWeapon : ItemBase, IItemWeapon
         DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
         BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => WeaponFlagFactory.CreateInstance(), blueprint.Flags, null);
-        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => WeaponFlagFactory.CreateInstance(), BaseWeaponFlags, null);
         DamageNoun = blueprint.DamageNoun;
+
+        ResetAttributes();
     }
 
     public void Initialize(Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
@@ -54,8 +57,9 @@ public class ItemWeapon : ItemBase, IItemWeapon
         DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
         BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => WeaponFlagFactory.CreateInstance(), itemData.WeaponFlags, null);
-        WeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => WeaponFlagFactory.CreateInstance(), BaseWeaponFlags, null);
         DamageNoun = blueprint.DamageNoun;
+
+        ResetAttributes();
     }
 
     #region IItemWeapon
@@ -68,11 +72,12 @@ public class ItemWeapon : ItemBase, IItemWeapon
 
     #endregion
 
-    public override void Recompute() // overriding recompute and calling base will cause every collection to be iterate twice
+    public override void Recompute()
     {
         Logger.LogDebug("ItemWeapon.Recompute: {name}", DebugName);
 
-        base.Recompute();
+        // don't call base.Recompute because it would apply IItem aura and IItemAura would be applied again in ApplyAura<IItemWeapon>
+        //base.Recompute();
 
         // 1/ Apply auras from room containing item if in a room
         if (ContainedInto is IRoom room && room.IsValid)

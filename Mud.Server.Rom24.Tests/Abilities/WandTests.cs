@@ -43,7 +43,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -83,7 +83,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
@@ -121,7 +121,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -162,7 +162,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -203,7 +203,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -215,7 +215,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             wandMock.SetupGet(x => x.SpellName).Returns("Curse");
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
+                .Returns(() => new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
 
             Wands skill = new(new Mock<ILogger<Wands>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Wands>(userMock.Object, "zap");
@@ -246,7 +246,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -287,13 +287,13 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> targetMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -333,13 +333,13 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> targetMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -379,13 +379,13 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> targetMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -425,13 +425,13 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> targetMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -471,13 +471,13 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> targetMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -487,7 +487,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             wandMock.SetupGet(x => x.SpellName).Returns("Curse");
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
+                .Returns(() => new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
 
             Wands skill = new(new Mock<ILogger<Wands>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Wands>(userMock.Object, "zap target");
@@ -522,13 +522,13 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> targetMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            targetMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
             roomMock.SetupGet(x => x.Area).Returns(areaMock.Object);
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
@@ -568,7 +568,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -576,7 +576,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(() => new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -614,7 +614,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -622,7 +622,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(() => new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -659,7 +659,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -667,7 +667,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(() => new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -703,7 +703,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -711,7 +711,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(() => new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -754,7 +754,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -762,7 +762,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(() => new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new();
             wandMock.SetupGet(x => x.Name).Returns("wand");
@@ -770,7 +770,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             wandMock.SetupGet(x => x.SpellName).Returns("Curse");
             userMock.Setup(x => x.GetEquipment<IItemWand>(EquipmentSlots.OffHand)).Returns<EquipmentSlots>(_ => wandMock.Object);
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
+                .Returns(() => new CurseEffect(_characterFlagFactory, auraManagerMock.Object));
 
             Wands skill = new(new Mock<ILogger<Wands>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Wands>(userMock.Object, "zap item");
@@ -805,7 +805,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<ICharacter> userMock = new();
             userMock.SetupGet(x => x.Name).Returns("user");
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            userMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
+            userMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags(new CharacterFlagValues(new Mock<ILogger<CharacterFlagValues>>().Object)));
             userMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
             userMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns<ICharacter>(_ => true);
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
@@ -813,7 +813,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             areaMock.SetupGet(x => x.Characters).Returns(roomMock.Object.People);
             itemMock.SetupGet(x => x.Name).Returns("item");
             itemMock.SetupGet(x => x.Keywords).Returns("item".Yield());
-            itemMock.SetupGet(x => x.ItemFlags).Returns(new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
+            itemMock.SetupGet(x => x.ItemFlags).Returns(() => new ItemFlags(new ItemFlagValues(new Mock<ILogger<ItemFlagValues>>().Object)));
             userMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
             Mock<IItemWand> wandMock = new();
             wandMock.SetupGet(x => x.Name).Returns("wand");

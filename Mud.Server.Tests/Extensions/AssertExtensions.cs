@@ -1,6 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Mud.DataStructures.Flags;
-using System.Linq;
+﻿using Mud.DataStructures.Flags;
 
 namespace Mud.Server.Tests.Extensions
 {

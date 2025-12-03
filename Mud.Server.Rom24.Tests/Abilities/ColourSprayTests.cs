@@ -45,7 +45,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             targetMock.Setup(x => x.AbilityDamage(It.IsAny<ICharacter>(), It.IsAny<int>(), It.IsAny<SchoolTypes>(), It.IsAny<string>(), It.IsAny<bool>())).Returns(DamageResults.Done);
             roomMock.SetupGet(x => x.People).Returns([casterMock.Object, targetMock.Object]);
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))
-                .Returns(new BlindnessEffect(_characterFlagFactory, auraManagerMock.Object));
+                .Returns(() => new BlindnessEffect(_characterFlagFactory, auraManagerMock.Object));
 
             var parameters = BuildParameters("target");
             ColourSpray spell = new (new Mock<ILogger<ColourSpray>>().Object, randomManagerMock.Object, effectManagerMock.Object);

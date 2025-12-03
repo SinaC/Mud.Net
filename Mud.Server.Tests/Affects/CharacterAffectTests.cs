@@ -1,25 +1,19 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Moq;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Area;
-using Mud.Server.Affects;
-using Mud.Server.Flags;
+﻿using Mud.Domain;
+using Mud.Server.Affects.Character;
 using Mud.Server.Interfaces.Aura;
 
 namespace Mud.Server.Tests.Affects
 {
-    /*
     // TODO: CharacterFlagsAffect, CharacterIRVAffect, CharacterSexAffect
     [TestClass]
-    public class CharacterAffectTests
+    public class CharacterAffectTests : TestBase
     {
-
         [TestMethod]
         public void Character_OneCharacerAddAffect_DifferentBaseValue_Test()
         {
-            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1", CharacterFlags = new CharacterFlags("Charm") }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
-            IAura characterAura = new Aura.Aura(null, null, Domain.AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new CharacterFlagsAffect { Operator = Domain.AffectOperators.Add, Modifier = new CharacterFlags("Haste") });
+            var room = GenerateRoom("");
+            var npc = GenerateNPC("Charm", room);
+            var characterAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new CharacterFlagsAffect { Operator = AffectOperators.Add, Modifier = CreateCharacterFlags("Haste") });
             npc.AddAura(characterAura, false);
             npc.Recompute();
 
@@ -30,101 +24,104 @@ namespace Mud.Server.Tests.Affects
         [TestMethod]
         public void OneNormalAttribute_Add_Test()
         {
-            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
-            CharacterAttributeAffect strAffect = new CharacterAttributeAffect
+            var room = GenerateRoom("");
+            var npc = GenerateNPC("", room);
+            var strAffect = new CharacterAttributeAffect
             {
-                Location = Domain.CharacterAttributeAffectLocations.Strength,
-                Operator = Domain.AffectOperators.Add,
+                Location = CharacterAttributeAffectLocations.Strength,
+                Operator = AffectOperators.Add,
                 Modifier = 6
             };
 
-            int originalBaseStr = npc.BaseAttribute(Domain.CharacterAttributes.Strength);
-            int originalCurrentStr = npc[Domain.CharacterAttributes.Strength];
+            int originalBaseStr = npc.BaseAttribute(CharacterAttributes.Strength);
+            int originalCurrentStr = npc[CharacterAttributes.Strength];
             npc.ApplyAffect(strAffect);
 
-            Assert.AreEqual(originalBaseStr, npc.BaseAttribute(Domain.CharacterAttributes.Strength));
-            Assert.AreEqual(originalCurrentStr + 6, npc[Domain.CharacterAttributes.Strength]);
+            Assert.AreEqual(originalBaseStr, npc.BaseAttribute(CharacterAttributes.Strength));
+            Assert.AreEqual(originalCurrentStr + 6, npc[CharacterAttributes.Strength]);
         }
 
         [TestMethod]
         public void OneNormalAttribute_Assign_Test()
         {
-            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
-            CharacterAttributeAffect intAffect = new CharacterAttributeAffect
+            var room = GenerateRoom("");
+            var npc = GenerateNPC("", room);
+            var intAffect = new CharacterAttributeAffect
             {
-                Location = Domain.CharacterAttributeAffectLocations.Intelligence,
-                Operator = Domain.AffectOperators.Assign,
+                Location = CharacterAttributeAffectLocations.Intelligence,
+                Operator = AffectOperators.Assign,
                 Modifier = 6
             };
 
-            int originalBaseInt = npc.BaseAttribute(Domain.CharacterAttributes.Intelligence);
+            int originalBaseInt = npc.BaseAttribute(CharacterAttributes.Intelligence);
             npc.ApplyAffect(intAffect);
 
-            Assert.AreEqual(originalBaseInt, npc.BaseAttribute(Domain.CharacterAttributes.Intelligence));
-            Assert.AreEqual(6, npc[Domain.CharacterAttributes.Intelligence]);
+            Assert.AreEqual(originalBaseInt, npc.BaseAttribute(CharacterAttributes.Intelligence));
+            Assert.AreEqual(6, npc[CharacterAttributes.Intelligence]);
         }
 
         [TestMethod]
         public void OneCombinedAttribute_Add_Test()
         {
-            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
-            CharacterAttributeAffect caracAffect = new CharacterAttributeAffect
+            var room = GenerateRoom("");
+            var npc = GenerateNPC("", room);
+            var caracAffect = new CharacterAttributeAffect
             {
-                Location = Domain.CharacterAttributeAffectLocations.Characteristics,
-                Operator = Domain.AffectOperators.Add,
+                Location = CharacterAttributeAffectLocations.Characteristics,
+                Operator = AffectOperators.Add,
                 Modifier = 3
             };
 
-            int originalBaseStr = npc.BaseAttribute(Domain.CharacterAttributes.Strength);
-            int originalCurrentStr = npc[Domain.CharacterAttributes.Strength];
-            int originalBaseInt = npc.BaseAttribute(Domain.CharacterAttributes.Intelligence);
-            int originalCurrentInt = npc[Domain.CharacterAttributes.Intelligence];
-            int originalBaseWis = npc.BaseAttribute(Domain.CharacterAttributes.Wisdom);
-            int originalCurrentWis = npc[Domain.CharacterAttributes.Wisdom];
-            int originalBaseDex = npc.BaseAttribute(Domain.CharacterAttributes.Dexterity);
-            int originalCurrentDex = npc[Domain.CharacterAttributes.Dexterity];
-            int originalBaseCon = npc.BaseAttribute(Domain.CharacterAttributes.Constitution);
-            int originalCurrentCon = npc[Domain.CharacterAttributes.Constitution];
+            int originalBaseStr = npc.BaseAttribute(CharacterAttributes.Strength);
+            int originalCurrentStr = npc[CharacterAttributes.Strength];
+            int originalBaseInt = npc.BaseAttribute(CharacterAttributes.Intelligence);
+            int originalCurrentInt = npc[CharacterAttributes.Intelligence];
+            int originalBaseWis = npc.BaseAttribute(CharacterAttributes.Wisdom);
+            int originalCurrentWis = npc[CharacterAttributes.Wisdom];
+            int originalBaseDex = npc.BaseAttribute(CharacterAttributes.Dexterity);
+            int originalCurrentDex = npc[CharacterAttributes.Dexterity];
+            int originalBaseCon = npc.BaseAttribute(CharacterAttributes.Constitution);
+            int originalCurrentCon = npc[CharacterAttributes.Constitution];
             npc.ApplyAffect(caracAffect);
 
-            Assert.AreEqual(originalBaseStr, npc.BaseAttribute(Domain.CharacterAttributes.Strength));
-            Assert.AreEqual(originalCurrentStr + 3, npc[Domain.CharacterAttributes.Strength]);
-            Assert.AreEqual(originalBaseInt, npc.BaseAttribute(Domain.CharacterAttributes.Intelligence));
-            Assert.AreEqual(originalCurrentInt + 3, npc[Domain.CharacterAttributes.Intelligence]);
-            Assert.AreEqual(originalBaseWis, npc.BaseAttribute(Domain.CharacterAttributes.Wisdom));
-            Assert.AreEqual(originalCurrentWis + 3, npc[Domain.CharacterAttributes.Wisdom]);
-            Assert.AreEqual(originalBaseDex, npc.BaseAttribute(Domain.CharacterAttributes.Dexterity));
-            Assert.AreEqual(originalCurrentDex + 3, npc[Domain.CharacterAttributes.Dexterity]);
-            Assert.AreEqual(originalBaseCon, npc.BaseAttribute(Domain.CharacterAttributes.Constitution));
-            Assert.AreEqual(originalCurrentCon + 3, npc[Domain.CharacterAttributes.Constitution]);
+            Assert.AreEqual(originalBaseStr, npc.BaseAttribute(CharacterAttributes.Strength));
+            Assert.AreEqual(originalCurrentStr + 3, npc[CharacterAttributes.Strength]);
+            Assert.AreEqual(originalBaseInt, npc.BaseAttribute(CharacterAttributes.Intelligence));
+            Assert.AreEqual(originalCurrentInt + 3, npc[CharacterAttributes.Intelligence]);
+            Assert.AreEqual(originalBaseWis, npc.BaseAttribute(CharacterAttributes.Wisdom));
+            Assert.AreEqual(originalCurrentWis + 3, npc[CharacterAttributes.Wisdom]);
+            Assert.AreEqual(originalBaseDex, npc.BaseAttribute(CharacterAttributes.Dexterity));
+            Assert.AreEqual(originalCurrentDex + 3, npc[CharacterAttributes.Dexterity]);
+            Assert.AreEqual(originalBaseCon, npc.BaseAttribute(CharacterAttributes.Constitution));
+            Assert.AreEqual(originalCurrentCon + 3, npc[CharacterAttributes.Constitution]);
         }
 
         [TestMethod]
         public void OneCombinedAttribute_Assign_Test()
         {
-            INonPlayableCharacter npc = new Character.NonPlayableCharacter.NonPlayableCharacter(Guid.NewGuid(), new Blueprints.Character.CharacterNormalBlueprint { Id = 1, Name = "Mob1" }, new Room.Room(Guid.NewGuid(), new Blueprints.Room.RoomBlueprint { Id = 1, Name = "Room1" }, new Mock<IArea>().Object));
-            CharacterAttributeAffect caracAffect = new CharacterAttributeAffect
+            var room = GenerateRoom("");
+            var npc = GenerateNPC("", room);
+            var caracAffect = new CharacterAttributeAffect
             {
-                Location = Domain.CharacterAttributeAffectLocations.AllArmor,
-                Operator = Domain.AffectOperators.Assign,
+                Location = CharacterAttributeAffectLocations.AllArmor,
+                Operator = AffectOperators.Assign,
                 Modifier = 3
             };
 
-            int originalBaseBash = npc.BaseAttribute(Domain.CharacterAttributes.ArmorBash);
-            int originalBasePierce = npc.BaseAttribute(Domain.CharacterAttributes.ArmorPierce);
-            int originalBaseSlash = npc.BaseAttribute(Domain.CharacterAttributes.ArmorSlash);
-            int originalBaseMagic = npc.BaseAttribute(Domain.CharacterAttributes.ArmorExotic);
+            int originalBaseBash = npc.BaseAttribute(CharacterAttributes.ArmorBash);
+            int originalBasePierce = npc.BaseAttribute(CharacterAttributes.ArmorPierce);
+            int originalBaseSlash = npc.BaseAttribute(CharacterAttributes.ArmorSlash);
+            int originalBaseMagic = npc.BaseAttribute(CharacterAttributes.ArmorExotic);
             npc.ApplyAffect(caracAffect);
 
-            Assert.AreEqual(originalBaseBash, npc.BaseAttribute(Domain.CharacterAttributes.ArmorBash));
-            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorBash]);
-            Assert.AreEqual(originalBasePierce, npc.BaseAttribute(Domain.CharacterAttributes.ArmorPierce));
-            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorPierce]);
-            Assert.AreEqual(originalBaseSlash, npc.BaseAttribute(Domain.CharacterAttributes.ArmorSlash));
-            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorSlash]);
-            Assert.AreEqual(originalBaseMagic, npc.BaseAttribute(Domain.CharacterAttributes.ArmorExotic));
-            Assert.AreEqual(3, npc[Domain.CharacterAttributes.ArmorExotic]);
+            Assert.AreEqual(originalBaseBash, npc.BaseAttribute(CharacterAttributes.ArmorBash));
+            Assert.AreEqual(3, npc[CharacterAttributes.ArmorBash]);
+            Assert.AreEqual(originalBasePierce, npc.BaseAttribute(CharacterAttributes.ArmorPierce));
+            Assert.AreEqual(3, npc[CharacterAttributes.ArmorPierce]);
+            Assert.AreEqual(originalBaseSlash, npc.BaseAttribute(CharacterAttributes.ArmorSlash));
+            Assert.AreEqual(3, npc[CharacterAttributes.ArmorSlash]);
+            Assert.AreEqual(originalBaseMagic, npc.BaseAttribute(CharacterAttributes.ArmorExotic));
+            Assert.AreEqual(3, npc[CharacterAttributes.ArmorExotic]);
         }
     }
-    */
 }
