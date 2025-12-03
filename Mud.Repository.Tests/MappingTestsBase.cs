@@ -1,12 +1,11 @@
 ﻿using AutoBogus;
-using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.DataStructures.Flags;
+using Mud.Repository.Filesystem.Json.Converters;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
-using static Mud.Repository.Filesystem.AutoMapperProfile;
+using System.Text.Json;
 
 namespace Mud.Repository.Tests
 {
@@ -15,6 +14,7 @@ namespace Mud.Repository.Tests
     {
         protected IServiceProvider _serviceProvider = default!;
         protected IFlagFactory _flagFactory = default!;
+        protected JsonSerializerOptions _options = default!;
 
         [TestInitialize]
         public void TestInitialize()
@@ -23,33 +23,57 @@ namespace Mud.Repository.Tests
             _serviceProvider = serviceProviderMock.Object;
 
             serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
-                .Returns(() => new Rom24CharacterFlags(new Mock<ILogger<Rom24CharacterFlags>>().Object));
+                .Returns(() => new Rom24CharacterFlags());
             serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlags)))
                 .Returns(() => new CharacterFlags(_serviceProvider.GetRequiredService<ICharacterFlagValues>()));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IFlagFactory<ICharacterFlags, ICharacterFlagValues>)))
+                .Returns(() => new CharacterFlagsFactory(_serviceProvider));
 
             serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlagValues)))
-                .Returns(() => new Rom24RoomFlags(new Mock<ILogger<Rom24RoomFlags>>().Object));
+                .Returns(() => new Rom24RoomFlags());
             serviceProviderMock.Setup(x => x.GetService(typeof(IRoomFlags)))
                 .Returns(() => new RoomFlags(_serviceProvider.GetRequiredService<IRoomFlagValues>()));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IFlagFactory<IRoomFlags, IRoomFlagValues>)))
+                .Returns(() => new RoomFlagsFactory(_serviceProvider));
 
             serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlagValues)))
-                .Returns(() => new Rom24ItemFlagValues(new Mock<ILogger<Rom24ItemFlagValues>>().Object));
+                .Returns(() => new Rom24ItemFlagValues());
             serviceProviderMock.Setup(x => x.GetService(typeof(IItemFlags)))
                 .Returns(() => new ItemFlags(_serviceProvider.GetRequiredService<IItemFlagValues>()));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IFlagFactory<IItemFlags, IItemFlagValues>)))
+                .Returns(() => new ItemFlagsFactory(_serviceProvider));
 
             serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlagValues)))
-                .Returns(() => new Rom24WeaponFlagValues(new Mock<ILogger<Rom24WeaponFlagValues>>().Object));
+                .Returns(() => new Rom24WeaponFlagValues());
             serviceProviderMock.Setup(x => x.GetService(typeof(IWeaponFlags)))
                 .Returns(() => new WeaponFlags(_serviceProvider.GetRequiredService<IWeaponFlagValues>()));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IFlagFactory<IWeaponFlags, IWeaponFlagValues>)))
+                .Returns(() => new WeaponFlagsFactory(_serviceProvider));
 
             serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlagValues)))
-                .Returns(() => new Rom24IRVFlagValues(new Mock<ILogger<Rom24IRVFlagValues>>().Object));
+                .Returns(() => new Rom24IRVFlagValues());
             serviceProviderMock.Setup(x => x.GetService(typeof(IIRVFlags)))
                 .Returns(() => new IRVFlags(_serviceProvider.GetRequiredService<IIRVFlagValues>()));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IFlagFactory<IIRVFlags, IIRVFlagValues>)))
+                .Returns(() => new IRVFlagsFactory(_serviceProvider));
 
-            var mapper = CreateMapper();
-            serviceProviderMock.Setup(x => x.GetService(typeof(IMapper))) 
-                .Returns(mapper);
+            serviceProviderMock.Setup(x => x.GetService(typeof(IShieldFlagValues)))
+               .Returns(() => new Rom24ShieldFlags());
+            serviceProviderMock.Setup(x => x.GetService(typeof(IShieldFlags)))
+                .Returns(() => new ShieldFlags(_serviceProvider.GetRequiredService<IShieldFlagValues>()));
+            serviceProviderMock.Setup(x => x.GetService(typeof(IFlagFactory<IShieldFlags, IShieldFlagValues>)))
+                .Returns(() => new ShieldFlagsFactory(_serviceProvider));
+
+
+            _flagFactory = new FlagsFactory(_serviceProvider);
+
+            _options = new JsonSerializerOptions { WriteIndented = true };
+            _options.Converters.Add(new CharacterFlagsJsonConverter(_flagFactory));
+            _options.Converters.Add(new IRVFlagsJsonConverter(_flagFactory));
+            _options.Converters.Add(new ShieldFlagsJsonConverter(_flagFactory));
+            _options.Converters.Add(new ItemFlagsJsonConverter(_flagFactory));
+            _options.Converters.Add(new WeaponFlagsJsonConverter(_flagFactory));
+            _options.Converters.Add(new RoomFlagsJsonConverter(_flagFactory));
 
             AutoFaker.Configure(builder =>
             {
@@ -58,44 +82,12 @@ namespace Mud.Repository.Tests
                   .WithRepeatCount(5)    // Configures the number of items in a collection
                   .WithRecursiveDepth(10); // Configures how deep nested types should recurse
             });
-
-            _flagFactory = new FlagsFactory(_serviceProvider);
         }
-
-        private IMapper CreateMapper()
-        {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AllowNullCollections = true;
-                cfg.AllowNullDestinationValues = true;
-                cfg.AddProfile<Filesystem.AutoMapperProfile>(); 
-                cfg.ConstructServicesUsing(t =>
-                {
-                    if (t == typeof(StringToItemFlagsConverter))
-                        return new StringToItemFlagsConverter(_flagFactory);
-                    if (t == typeof(StringToIRVFlagsConverter))
-                        return new StringToIRVFlagsConverter(_flagFactory);
-                    if (t == typeof(StringToWeaponFlagsConverter))
-                        return new StringToWeaponFlagsConverter(_flagFactory);
-                    if (t == typeof(StringToCharacterFlagsConverter))
-                        return new StringToCharacterFlagsConverter(_flagFactory);
-                    if (t == typeof(StringToRoomFlagsConverter))
-                        return new StringToRoomFlagsConverter(_flagFactory);
-                    return null;
-                });
-            });
-
-            config.AssertConfigurationIsValid();
-
-            var mapper = new Mapper(config);
-            return mapper;
-        }
-
     }
 
     public class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
     {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
         {
             "Blind",
             "Invisible",
@@ -104,13 +96,10 @@ namespace Mud.Repository.Tests
             "DetectMagic",
             "DetectHidden",
             "DetectGood",
-            "Sanctuary",
             "FaerieFire",
             "Infrared",
             "Curse",
             "Poison",
-            "ProtectEvil",
-            "ProtectGood",
             "Sneak",
             "Hide",
             "Sleep",
@@ -131,19 +120,46 @@ namespace Mud.Repository.Tests
 
         protected override HashSet<string> HashSet => Flags;
 
-        public Rom24CharacterFlags(ILogger<Rom24CharacterFlags> logger)
-        : base(logger)
+        public Rom24CharacterFlags()
         {
+        }
 
+        public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
+        {
+            // NOP
         }
 
         public string PrettyPrint(string flag, bool shortDisplay)
             => flag.ToString();
     }
 
+    public class Rom24ShieldFlags : FlagValuesBase<string>, IShieldFlagValues
+    {
+        public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
+        {
+            "Sanctuary",
+            "ProtectGood",
+            "ProtectEvil"
+        };
+
+        protected override HashSet<string> HashSet => Flags;
+
+        public Rom24ShieldFlags()
+        {
+        }
+
+        public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
+        {
+            // NOP
+        }
+
+        public string PrettyPrint(string flag, bool shortDisplay)
+           => flag.ToString();
+    }
+
     public class Rom24RoomFlags : FlagValuesBase<string>, IRoomFlagValues
     {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
         {
             "Dark",
             "NoMob",
@@ -163,16 +179,19 @@ namespace Mud.Repository.Tests
 
         protected override HashSet<string> HashSet => Flags;
 
-        public Rom24RoomFlags(ILogger<Rom24RoomFlags> logger)
-        : base(logger)
+        public Rom24RoomFlags()
         {
+        }
 
+        public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
+        {
+            // NOP
         }
     }
 
     public class Rom24ItemFlagValues : FlagValuesBase<string>, IItemFlagValues
     {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
         {
             "None",
             "Glowing",
@@ -204,16 +223,19 @@ namespace Mud.Repository.Tests
 
         protected override HashSet<string> HashSet => Flags;
 
-        public Rom24ItemFlagValues(ILogger<Rom24ItemFlagValues> logger)
-        : base(logger)
+        public Rom24ItemFlagValues()
         {
+        }
 
+        public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
+        {
+            // NOP
         }
     }
 
     public class Rom24WeaponFlagValues : FlagValuesBase<string>, IWeaponFlagValues
     {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
         {
             "Flaming",
             "Frost",
@@ -228,10 +250,13 @@ namespace Mud.Repository.Tests
 
         protected override HashSet<string> HashSet => Flags;
 
-        public Rom24WeaponFlagValues(ILogger<Rom24WeaponFlagValues> logger)
-        : base(logger)
+        public Rom24WeaponFlagValues()
         {
+        }
 
+        public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
+        {
+            // NOP
         }
 
         public string PrettyPrint(string flag, bool shortDisplay)
@@ -240,7 +265,7 @@ namespace Mud.Repository.Tests
 
     public class Rom24IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
     {
-        public static readonly HashSet<string> Flags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+        public static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
         {
             "Summon",
             "Charm",
@@ -269,10 +294,13 @@ namespace Mud.Repository.Tests
 
         protected override HashSet<string> HashSet => Flags;
 
-        public Rom24IRVFlagValues(ILogger<Rom24IRVFlagValues> logger)
-        : base(logger)
+        public Rom24IRVFlagValues()
         {
+        }
 
+        public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
+        {
+            // NOP
         }
     }
 }

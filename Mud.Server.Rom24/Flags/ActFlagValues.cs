@@ -33,12 +33,14 @@ public class ActFlagValues : FlagValuesBase<string>, IActFlagValues
         "Mage",
     };
 
-    protected override HashSet<string> HashSet => Flags;
+    private ILogger<ActFlagValues> Logger { get; }
 
     public ActFlagValues(ILogger<ActFlagValues> logger)
-    : base(logger)
     {
+        Logger = logger;
     }
+
+    protected override HashSet<string> HashSet => Flags;
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {

@@ -617,7 +617,7 @@ public class FlagsWithValuesTests
     {
         var serviceProviderMock = new Mock<IServiceProvider>();
         serviceProviderMock.Setup(x => x.GetService(typeof(ICharacterFlagValues))) // don't mock IServiceProvider.GetRequiredService because it's an extension method
-            .Returns(() => new Rom24CharacterFlags(new Mock<ILogger<Rom24CharacterFlags>>().Object));
+            .Returns(() => new Rom24CharacterFlags());
         _serviceProvider = serviceProviderMock.Object;
     }
 
@@ -689,10 +689,4 @@ public class Rom24CharacterFlags : FlagValuesBase<string>, ICharacterFlagValues
     };
 
     protected override HashSet<string> HashSet => Flags;
-
-    public Rom24CharacterFlags(ILogger<Rom24CharacterFlags> logger)
-        : base(logger)
-    {
-        
-    }
 }

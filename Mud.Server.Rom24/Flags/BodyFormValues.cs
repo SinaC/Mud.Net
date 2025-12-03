@@ -40,12 +40,14 @@ public class BodyFormValues : FlagValuesBase<string>, IBodyFormValues
         "FourArms",
     };
 
-    protected override HashSet<string> HashSet => Flags;
+    private ILogger<BodyFormValues> Logger { get; }
 
     public BodyFormValues(ILogger<BodyFormValues> logger)
-        : base(logger)
     {
+        Logger = logger;
     }
+
+    protected override HashSet<string> HashSet => Flags;
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {

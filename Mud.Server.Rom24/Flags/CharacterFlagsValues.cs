@@ -38,12 +38,14 @@ public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
         "Slow",
     };
 
-    protected override HashSet<string> HashSet => Flags;
+    private ILogger<CharacterFlagValues> Logger { get; }
 
     public CharacterFlagValues(ILogger<CharacterFlagValues> logger)
-        : base(logger)
     {
+        Logger = logger;
     }
+
+    protected override HashSet<string> HashSet => Flags;
 
     public string PrettyPrint(string flag, bool shortDisplay)
     {

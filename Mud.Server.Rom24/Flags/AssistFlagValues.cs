@@ -18,12 +18,14 @@ public class AssistFlagValues : FlagValuesBase<string>, IAssistFlagValues
         "Vnum",
     };
 
-    protected override HashSet<string> HashSet => Flags;
+    private ILogger<AssistFlagValues> Logger { get; }
 
     public AssistFlagValues(ILogger<AssistFlagValues> logger)
-        : base(logger)
     {
+        Logger = logger;
     }
+
+    protected override HashSet<string> HashSet => Flags;
 
     public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
     {

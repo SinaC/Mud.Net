@@ -15,11 +15,6 @@ namespace Mud.Server.Tests.Mocking
 
         protected override HashSet<string> HashSet => Flags;
 
-        public Rom24ShieldFlagValues(ILogger<Rom24ShieldFlagValues> logger)
-        : base(logger)
-        {
-        }
-
         public string PrettyPrint(string flag, bool shortDisplay)
             => flag.ToString();
     }

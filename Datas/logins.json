@@ -1,0 +1,14 @@
+{
+  "Logins": [
+    {
+      "Username": "sinac",
+      "Password": "password",
+      "IsAdmin": true
+    },
+    {
+      "Username": "joel",
+      "Password": "password",
+      "IsAdmin": false
+    }
+  ]
+}
