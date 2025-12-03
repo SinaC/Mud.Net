@@ -9,6 +9,7 @@ public interface IItemContainer : IItemCloseable, IItemCanContain
     void Initialize(Guid guid, ItemContainerBlueprint blueprint, IContainer containedInto);
     void Initialize(Guid guid, ItemContainerBlueprint blueprint, ItemContainerData itemContainerData, IContainer containedInto);
 
+    int MaxItems { get; }
     int MaxWeight { get; }
     ContainerFlags ContainerFlags { get; }
     // Key already found in ICloseable

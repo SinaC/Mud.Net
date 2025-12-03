@@ -679,6 +679,7 @@ public class RotImporter
                     WearLocation = ConvertWearLocation(objectData),
                     ItemFlags = ConvertExtraFlags(objectData),
                     NoTake = IsNoTake(objectData),
+                    MaxItems = 99,
                     MaxWeight = System.Convert.ToInt32(objectData.Values[0]),
                     ContainerFlags = ConvertContainerFlags(objectData),
                     Key = System.Convert.ToInt32(objectData.Values[2]),

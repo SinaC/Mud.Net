@@ -560,28 +560,7 @@ public class FlagsWithValuesTests
 
     #endregion
 
-    #region Map
-
-    [TestMethod]
-    public void Map_NoValue()
-    {
-        var flags = new CharacterFlags(_serviceProvider);
-
-        Assert.AreEqual(string.Empty, flags.Map());
-    }
-
-
-    [TestMethod]
-    public void Map_MultipleValues()
-    {
-        var flags = new CharacterFlags(_serviceProvider, "Blind", "Charm", "Hide");
-
-        Assert.AreEqual("Blind,Charm,Hide", flags.Map());
-    }
-
-    #endregion
-
-    #region ICharacterFlags
+      #region ICharacterFlags
 
     [TestMethod]
     public void HasAny_ICharacterFlags()
