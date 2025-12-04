@@ -65,4 +65,40 @@ public abstract class ClassBase : IClass
         //
         _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, abilityInfo));
     }
+
+    protected void AddSpell(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
+    {
+        var abilityInfo = AbilityManager[abilityName];
+        if (abilityInfo == null)
+        {
+            Logger.LogError("Trying to add unknown ability [{abilityName}] to class [{name}]", abilityName, Name);
+            return;
+        }
+        //
+        _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, abilityInfo));
+    }
+
+    protected void AddSkill(int level, string abilityName, int rating)
+    {
+        var abilityInfo = AbilityManager[abilityName];
+        if (abilityInfo == null)
+        {
+            Logger.LogError("Trying to add unknown ability [{abilityName}] to class [{name}]", abilityName, Name);
+            return;
+        }
+        //
+        _abilities.Add(new AbilityUsage(abilityName, level, null, 0, CostAmountOperators.None, rating, abilityInfo));
+    }
+
+    protected void AddPassive(int level, string abilityName, int rating)
+    {
+        var abilityInfo = AbilityManager[abilityName];
+        if (abilityInfo == null)
+        {
+            Logger.LogError("Trying to add unknown ability [{abilityName}] to class [{name}]", abilityName, Name);
+            return;
+        }
+        //
+        _abilities.Add(new AbilityUsage(abilityName, level, null, 0, CostAmountOperators.None, rating, abilityInfo));
+    }
 }

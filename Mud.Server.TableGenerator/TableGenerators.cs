@@ -180,6 +180,8 @@ public static class TableGenerators
             });
         generator.AddColumn("Type", 10, x => x.AbilityInfo.Type.ToString());
         generator.AddColumn("Rating", 8, x => x.Rating.ToString());
+        generator.AddColumn("GCD", 5, x => x.AbilityInfo.PulseWaitTime?.ToString());
+        generator.AddColumn("CD", 4, x => x.AbilityInfo.CooldownInSeconds?.ToString());
         return generator;
     });
 
