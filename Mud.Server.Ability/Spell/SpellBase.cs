@@ -87,7 +87,7 @@ public abstract class SpellBase : ISpell
         var (_, abilityLearned) = Caster.GetAbilityLearnedInfo(AbilityInfo.Name);
         if (abilityLearned != null && abilityLearned.ResourceKind.HasValue && abilityLearned.CostAmount > 0 && abilityLearned.CostAmountOperator != CostAmountOperators.None)
         {
-            ResourceKinds resourceKind = abilityLearned.ResourceKind.Value;
+            var resourceKind = abilityLearned.ResourceKind.Value;
             if (!Caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
                 return $"You can't use {resourceKind} as resource for the moment.";
             int resourceLeft = Caster[resourceKind];

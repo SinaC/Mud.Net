@@ -73,7 +73,10 @@ public class Druid : ClassBase
     {
         // Test class with all skills + Passive
         foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
-            AddAbility(20, abilityInfo.Name, null, 0, CostAmountOperators.None, 1);
+            if (abilityInfo.Name == "Berserk")
+                AddAbility(20, abilityInfo.Name, Domain.ResourceKinds.Mana, 35, CostAmountOperators.Fixed, 1);
+            else
+                AddSkill(20, abilityInfo.Name, 1);
         foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive))
             AddAbility(10, abilityInfo.Name, null, 0, CostAmountOperators.None, 1);
     }

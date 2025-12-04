@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -18,6 +19,8 @@ public abstract class SkillBase : CharacterGameAction, ISkill
     protected IAbilityInfo AbilityInfo { get; private set; } = default!;
     protected ICharacter User { get; private set; } = default!;
     protected int Learned { get; private set; }
+    protected int? Cost { get; private set; }
+    protected ResourceKinds? ResourceKind { get; private set; }
 
     protected SkillBase(ILogger<SkillBase> logger, IRandomManager randomManager)
     {
@@ -46,10 +49,43 @@ public abstract class SkillBase : CharacterGameAction, ISkill
             return "You are nowhere...";
 
         // 3) get ability percentage
-        var (percentage, _) = User.GetAbilityLearnedInfo(AbilityInfo.Name);
+        var (percentage, abilityLearned) = User.GetAbilityLearnedInfo(AbilityInfo.Name);
         Learned = percentage;
 
-        // 4) check targets
+        // 4) check resource cost
+        if (abilityLearned != null && abilityLearned.ResourceKind.HasValue && abilityLearned.CostAmount > 0 && abilityLearned.CostAmountOperator != CostAmountOperators.None)
+        {
+            var resourceKind = abilityLearned.ResourceKind.Value;
+            if (!User.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
+                return $"You can't use {resourceKind} as resource for the moment.";
+            int resourceLeft = User[resourceKind];
+            int cost;
+            switch (abilityLearned.CostAmountOperator)
+            {
+                case CostAmountOperators.Fixed:
+                    cost = abilityLearned.CostAmount;
+                    break;
+                case CostAmountOperators.Percentage:
+                    cost = User.MaxResource(resourceKind) * abilityLearned.CostAmount / 100;
+                    break;
+                default:
+                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityInfo.Name);
+                    cost = 100;
+                    break;
+            }
+            bool enoughResource = cost <= resourceLeft;
+            if (!enoughResource)
+                return $"You don't have enough {resourceKind}.";
+            Cost = cost;
+            ResourceKind = resourceKind;
+        }
+        else
+        {
+            Cost = null;
+            ResourceKind = null;
+        }
+
+        // 5) check targets
         var setTargetResult = SetTargets(skillActionInput);
         if (setTargetResult != null)
             return setTargetResult;
@@ -72,15 +108,24 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         // 1) invoke skill
         var result = Invoke();
 
-        // 9) GCD
+        // 2) pay resource
+        if (Cost.HasValue && Cost.Value >= 1 && ResourceKind.HasValue)
+        {
+            if (result)
+                User.UpdateResource(ResourceKind.Value, -Cost.Value);
+            else
+                User.UpdateResource(ResourceKind.Value, -Cost.Value / 2); // half cost if failed
+        }
+
+        // 3) GCD
         if (AbilityInfo.PulseWaitTime.HasValue)
             pcUser?.ImpersonatedBy?.SetGlobalCooldown(AbilityInfo.PulseWaitTime.Value);
 
-        // 10) set cooldown
+        // 4) set cooldown
         if (AbilityInfo.CooldownInSeconds.HasValue && AbilityInfo.CooldownInSeconds.Value > 0)
             User.SetCooldown(AbilityInfo.Name, TimeSpan.FromSeconds(AbilityInfo.CooldownInSeconds.Value));
 
-        // 11) check improve true
+        // 5) check improve true
         pcUser?.CheckAbilityImprove(AbilityInfo.Name, result, AbilityInfo.LearnDifficultyMultiplier);
     }
 

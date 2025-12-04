@@ -49,7 +49,11 @@ glowing item on the floor of dark room should increase light
 
 reimplement hot/dot
 
-finish ROM24 classes
+race abilities min level ?
+class starting abilities should be set at 75 on creation
+skill/spell/passive groups
+alignment/groups/... selection during avatar creation
+
 when a player connects, if no avatar found -> switch to avatar create state machine
 compatibility must only be in blueprint loading
 check CanSee usage, if lambda can be removed

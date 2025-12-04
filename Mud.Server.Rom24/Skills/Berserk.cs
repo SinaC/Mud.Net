@@ -53,9 +53,6 @@ public class Berserk : NoTargetSkillBase
         if (User.CharacterFlags.IsSet("Calm"))
             return "You're feeling to mellow to berserk.";
 
-        if (User[ResourceKinds.Mana] < 50)
-            return "You can't get up enough energy.";
-
         return null;
     }
 
@@ -74,7 +71,6 @@ public class Berserk : NoTargetSkillBase
         //
         if (RandomManager.Chance(chance))
         {
-            User.UpdateResource(ResourceKinds.Mana, 50);
             User.UpdateMovePoints(User.MovePoints / 2);
             User.UpdateHitPoints(User.Level * 2);
 
@@ -93,7 +89,6 @@ public class Berserk : NoTargetSkillBase
         }
         else
         {
-            User.UpdateResource(ResourceKinds.Mana, 25);
             User.UpdateMovePoints(User.MovePoints / 2);
 
             User.Send("Your pulse speeds up, but nothing happens.");
