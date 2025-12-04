@@ -3518,6 +3518,24 @@
       "CurrentQuests": [],
       "LearnedAbilities": [
         {
+          "Name": "Berserk",
+          "ResourceKind": 0,
+          "CostAmount": 35,
+          "CostAmountOperator": 1,
+          "Level": 20,
+          "Learned": 94,
+          "Rating": 1
+        },
+        {
+          "Name": "Cat Form",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 20,
+          "Learned": 1,
+          "Rating": 1
+        },
+        {
           "Name": "Backstab",
           "ResourceKind": null,
           "CostAmount": 0,
@@ -3528,15 +3546,6 @@
         },
         {
           "Name": "Bash",
-          "ResourceKind": null,
-          "CostAmount": 0,
-          "CostAmountOperator": 0,
-          "Level": 20,
-          "Learned": 1,
-          "Rating": 1
-        },
-        {
-          "Name": "Berserk",
           "ResourceKind": null,
           "CostAmount": 0,
           "CostAmountOperator": 0,
@@ -3707,15 +3716,6 @@
           "Rating": 0
         },
         {
-          "Name": "Dual Wield",
-          "ResourceKind": null,
-          "CostAmount": 0,
-          "CostAmountOperator": 0,
-          "Level": 1,
-          "Learned": 1,
-          "Rating": 0
-        },
-        {
           "Name": "Third Wield",
           "ResourceKind": null,
           "CostAmount": 0,
@@ -3752,12 +3752,21 @@
           "Rating": 1
         },
         {
+          "Name": "Dual Wield",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 0
+        },
+        {
           "Name": "Enhanced Damage",
           "ResourceKind": null,
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 10,
-          "Learned": 100,
+          "Learned": 1,
           "Rating": 1
         },
         {
@@ -3766,7 +3775,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 10,
-          "Learned": 100,
+          "Learned": 1,
           "Rating": 1
         },
         {
@@ -3820,7 +3829,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 10,
-          "Learned": 2,
+          "Learned": 1,
           "Rating": 1
         },
         {
@@ -3847,7 +3856,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 10,
-          "Learned": 100,
+          "Learned": 1,
           "Rating": 1
         },
         {
@@ -3883,7 +3892,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 10,
-          "Learned": 100,
+          "Learned": 1,
           "Rating": 1
         },
         {
@@ -3892,7 +3901,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 10,
-          "Learned": 100,
+          "Learned": 1,
           "Rating": 1
         },
         {
@@ -3907,8 +3916,44 @@
         {
           "Name": "Test",
           "ResourceKind": null,
-          "CostAmount": 5,
+          "CostAmount": 0,
           "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Fire Shield",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Ice Shield",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Shadow Word: Pain",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Shock Shield",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
           "Level": 1,
           "Learned": 100,
           "Rating": 1
@@ -3923,7 +3968,7 @@
           "Rating": 1
         },
         {
-          "Name": "Testroom",
+          "Name": "Giant Size",
           "ResourceKind": 0,
           "CostAmount": 5,
           "CostAmountOperator": 2,
@@ -3932,7 +3977,7 @@
           "Rating": 1
         },
         {
-          "Name": "Giant Size",
+          "Name": "Testroom",
           "ResourceKind": 0,
           "CostAmount": 5,
           "CostAmountOperator": 2,
@@ -4812,51 +4857,6 @@
           "Level": 1,
           "Learned": 100,
           "Rating": 1
-        },
-        {
-          "Name": "Cat Form",
-          "ResourceKind": null,
-          "CostAmount": 0,
-          "CostAmountOperator": 0,
-          "Level": 20,
-          "Learned": 1,
-          "Rating": 1
-        },
-        {
-          "Name": "Fire Shield",
-          "ResourceKind": 0,
-          "CostAmount": 5,
-          "CostAmountOperator": 2,
-          "Level": 1,
-          "Learned": 100,
-          "Rating": 1
-        },
-        {
-          "Name": "Ice Shield",
-          "ResourceKind": 0,
-          "CostAmount": 5,
-          "CostAmountOperator": 2,
-          "Level": 1,
-          "Learned": 100,
-          "Rating": 1
-        },
-        {
-          "Name": "Shadow Word: Pain",
-          "ResourceKind": 0,
-          "CostAmount": 5,
-          "CostAmountOperator": 2,
-          "Level": 1,
-          "Learned": 100,
-          "Rating": 1
-        },
-        {
-          "Name": "Shock Shield",
-          "ResourceKind": 0,
-          "CostAmount": 5,
-          "CostAmountOperator": 2,
-          "Level": 1,
-          "Learned": 100,
-          "Rating": 1
         }
       ],
       "Conditions": {
@@ -4877,7 +4877,7 @@
       "HitPoints": 218,
       "MovePoints": 218,
       "CurrentResources": {
-        "Mana": 191,
+        "Mana": 156,
         "Psy": 100
       },
       "MaxResources": {
@@ -4910,7 +4910,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 1748,
+                "PulseLeft": 1656,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -4992,8 +4992,8 @@
       "Auras": [
         {
           "AbilityName": "Giant Strength",
-          "Level": 14,
-          "PulseLeft": 11016,
+          "Level": 12,
+          "PulseLeft": 10924,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -5006,8 +5006,8 @@
         },
         {
           "AbilityName": "Detect Evil",
-          "Level": 16,
-          "PulseLeft": 11212,
+          "Level": 11,
+          "PulseLeft": 11120,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -5019,8 +5019,8 @@
         },
         {
           "AbilityName": "Detect Good",
-          "Level": 25,
-          "PulseLeft": 11244,
+          "Level": 19,
+          "PulseLeft": 11152,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -5032,8 +5032,8 @@
         },
         {
           "AbilityName": "Detect Invis",
-          "Level": 32,
-          "PulseLeft": 11260,
+          "Level": 28,
+          "PulseLeft": 11168,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -5045,8 +5045,8 @@
         },
         {
           "AbilityName": "Detect Hidden",
-          "Level": 33,
-          "PulseLeft": 11316,
+          "Level": 27,
+          "PulseLeft": 11224,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -5058,8 +5058,8 @@
         },
         {
           "AbilityName": "Shock Shield",
-          "Level": 28,
-          "PulseLeft": 1524,
+          "Level": 25,
+          "PulseLeft": 1432,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -5071,8 +5071,8 @@
         },
         {
           "AbilityName": "Fire Shield",
-          "Level": 32,
-          "PulseLeft": 1540,
+          "Level": 30,
+          "PulseLeft": 1448,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -5084,14 +5084,45 @@
         },
         {
           "AbilityName": "Ice Shield",
-          "Level": 27,
-          "PulseLeft": 1552,
+          "Level": 23,
+          "PulseLeft": 1460,
           "AuraFlags": 0,
           "Affects": [
             {
               "$type": "shieldFlags",
               "Operator": 1,
               "Modifier": "IceShield"
+            }
+          ]
+        },
+        {
+          "AbilityName": "Berserk",
+          "Level": 47,
+          "PulseLeft": 1408,
+          "AuraFlags": 2,
+          "Affects": [
+            {
+              "$type": "characterFlags",
+              "Operator": 1,
+              "Modifier": "Berserk"
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": 0,
+              "Location": 9,
+              "Modifier": 9
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": 0,
+              "Location": 10,
+              "Modifier": 9
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": 0,
+              "Location": 16,
+              "Modifier": 90
             }
           ]
         }

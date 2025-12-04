@@ -159,7 +159,7 @@ public class SkillDefinition
 		=> Type switch
 		{
 			SkillType.Passive => $"AddPassive({level}, \"{Name}\", {rating});",
-			SkillType.Spell => $"AddAbility({level}, \"{Name}\", Domain.ResourceKinds.Mana, {Cost}, CostAmountOperators.Fixed, {rating});",
+			SkillType.Spell => $"AddSpell({level}, \"{Name}\", Domain.ResourceKinds.Mana, {Cost}, CostAmountOperators.Fixed, {rating});",
 			SkillType.Skill => $"AddSkill({level}, \"{Name}\", {rating});"
 		};
 } 

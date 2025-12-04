@@ -2252,7 +2252,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             if (abilityLearned != null)
             {
                 //Logger.LogDebug("Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
-                abilityLearned.Update(Math.Min(abilityUsage.Level, abilityUsage.Level), Math.Min(abilityUsage.Rating, abilityUsage.Rating), Math.Min(abilityUsage.CostAmount, abilityUsage.CostAmount));
+                abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Min(abilityUsage.CostAmount, abilityLearned.CostAmount));
                 // TODO: what should be we if multiple resource kind or operator ?
             }
             else
