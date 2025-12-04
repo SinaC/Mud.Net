@@ -201,13 +201,13 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
             _listenEvent.Set();
 
             // Get the socket that handles the client request.
-            Socket listener = (Socket) ar.AsyncState;
+            Socket listener = (Socket)ar.AsyncState;
             Socket clientSocket = listener.EndAccept(ar);
 
             Logger.LogDebug("Client connected from {address}", (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???");
 
             // Create the state object.
-            ClientTelnetStateObject client = new (this)
+            ClientTelnetStateObject client = new(this)
             {
                 ClientSocket = clientSocket,
             };
@@ -218,6 +218,11 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
             NewClientConnected?.Invoke(client);
             //
             clientSocket.BeginReceive(client.Buffer, 0, ClientTelnetStateObject.BufferSize, 0, ReadCallback, client);
+        }
+        catch (SocketException ex) when (ex.SocketErrorCode == SocketError.OperationAborted)
+        {
+            if (_status != ServerStatus.Stopping && _status != ServerStatus.Stopped)
+                throw;
         }
         catch (ObjectDisposedException)
         {

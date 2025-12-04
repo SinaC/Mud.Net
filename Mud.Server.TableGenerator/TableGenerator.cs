@@ -25,7 +25,7 @@ public class TableGenerator<T>
     {
         public required string Header { get; init; }
         public required int Width { get; init; }
-        public required Func<T,string> GetValueFunc { get; init; }
+        public required Func<T,string?> GetValueFunc { get; init; }
 
         public required ColumnOptions Options { get; init; }
     }
@@ -37,12 +37,12 @@ public class TableGenerator<T>
         _columns = [];
     }
 
-    public void AddColumn(string header, int width, Func<T, string> getValueFunc)
+    public void AddColumn(string header, int width, Func<T, string?> getValueFunc)
     {
         AddColumn(header, width, getValueFunc, new ColumnOptions());
     }
 
-    public void AddColumn(string header, int width, Func<T, string> getValueFunc, ColumnOptions options)
+    public void AddColumn(string header, int width, Func<T, string?> getValueFunc, ColumnOptions options)
     {
         Column column = new() { Header = header, Width = width, GetValueFunc = getValueFunc, Options = options};
         _columns.Add(column);
@@ -166,7 +166,7 @@ public class TableGenerator<T>
                 {
                     var column = _columns[index];
 
-                    string value = column.GetValueFunc(item) ?? "!!!";
+                    string value = column.GetValueFunc(item) ?? "";
                     bool hasToMergeIdenticalValue = column.Options.MergeIdenticalValue && columnRepetionCount == 1 && value == previousValues[index];
                     var trailingSpace = column.Options.AlignLeft
                         ? AlignLeftFunc?.Invoke(item)

@@ -6,7 +6,7 @@ using Mud.Server.Specials;
 
 namespace Mud.Server.Rom24.Specials
 {
-    [SpecialBehavior("Thief")]
+    [SpecialBehavior("spec_thief")]
     public class Thief : ISpecialBehavior
     {
         private IRandomManager RandomManager { get; }

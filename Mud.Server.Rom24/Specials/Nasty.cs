@@ -27,9 +27,9 @@ namespace Mud.Server.Rom24.Specials
                 return false;
 
             // if not fighting, backstab
-            if (npc.Fighting != null)
+            if (npc.Fighting == null)
             {
-                var pcVictims = npc.Room.People.Where(x => x is IPlayableCharacter pc && pc.Level > npc.Level && pc.Level < npc.Level + 10).ToArray();
+                var pcVictims = npc.Room.People.OfType<IPlayableCharacter>().Where(pc => pc.Level > npc.Level && pc.Level < npc.Level + 10).ToArray();
                 var pcVictim = RandomManager.Random(pcVictims);
                 if (pcVictim == null)
                     return false; // no one to attack
