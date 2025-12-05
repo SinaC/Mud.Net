@@ -39,7 +39,7 @@ public class Train : PlayableCharacterGameAction
     }
 
     protected Actions Action { get; set; }
-    protected CharacterAttributes? Attribute { get; set; }
+    protected BasicAttributes? Attribute { get; set; }
     protected ResourceKinds? ResourceKind { get; set; }
     protected int Cost { get; set; }
 
@@ -60,12 +60,12 @@ public class Train : PlayableCharacterGameAction
             return null;
         }
         // basic attribute
-        var attributeFound = EnumHelpers.GetValues<BasicAttributes>().Select(x => new { attribute = (CharacterAttributes)x, name = x.ToString() }).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.name, actionInput.Parameters[0].Value));
+        var attributeFound = Enum.GetValues<BasicAttributes>().Select(x => new { attribute = x, name = x.ToString() }).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.name, actionInput.Parameters[0].Value));
         if (attributeFound != null)
         {
-            CharacterAttributes attribute = attributeFound.attribute;
-            int max = GetMaxAttributeValue(attribute, Actor.Race as IPlayableRace, Actor.Class);
-            if (Actor.BaseAttribute(attribute) >= max)
+            BasicAttributes attribute = attributeFound.attribute;
+            var max = GetMaxAttributeValue(attribute, Actor.Race as IPlayableRace, Actor.Class);
+            if (Actor.BaseAttribute((CharacterAttributes)attribute) >= max)
                 return $"Your {attributeFound.name} is already at maximum.";
             Cost = 1;
             Attribute = attributeFound.attribute;
@@ -108,7 +108,7 @@ public class Train : PlayableCharacterGameAction
                 {
                     if (Attribute.HasValue)
                     {
-                        Actor.UpdateBaseAttribute(Attribute.Value, 1);
+                        Actor.UpdateBaseAttribute((CharacterAttributes)Attribute.Value, 1);
                         Actor.UpdateTrainsAndPractices(-1, 0);
                         Actor.Act(ActOptions.ToAll, "{0:p} {1} increases!", Actor, Attribute.Value.ToString());
                         Actor.Recompute();
@@ -139,10 +139,10 @@ public class Train : PlayableCharacterGameAction
         }
     }
 
-    private static int GetMaxAttributeValue(CharacterAttributes attribute, IPlayableRace? race, IClass? @class)
+    private static int GetMaxAttributeValue(BasicAttributes attribute, IPlayableRace? race, IClass? @class)
     {
         int value = race?.GetMaxAttribute(attribute) ?? 18;
-        if (@class != null && (BasicAttributes)attribute == @class.PrimeAttribute)
+        if (@class != null && attribute == @class.PrimeAttribute)
         {
             value += 2;
             if (race?.EnhancedPrimeAttribute == true)

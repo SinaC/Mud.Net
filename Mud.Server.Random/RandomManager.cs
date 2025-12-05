@@ -73,12 +73,12 @@ public class RandomManager : IRandomManager
     }
 
     public T? Random<T>()
-        where T : Enum
-        => Random(EnumHelpers.GetValues<T>());
+        where T : struct, Enum
+        => Random(Enum.GetValues<T>());
 
     public T? Random<T>(Func<T, bool> filterFunc)
-        where T : Enum
-        => Random(EnumHelpers.GetValues<T>().Where(filterFunc));
+        where T : struct, Enum
+        => Random(Enum.GetValues<T>().Where(filterFunc));
 
     public T? Random<T>(IEnumerable<T> values) // https://stackoverflow.com/questions/648196/random-row-from-linq-to-sql/648240#648240
     {

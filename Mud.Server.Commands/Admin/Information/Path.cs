@@ -74,7 +74,7 @@ public class Path : AdminGameAction
                 break;
             if (nearest == null)
                 break; // no path found
-            foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
+            foreach (ExitDirections direction in Enum.GetValues<ExitDirections>())
             {
                 var neighbour = nearest.GetRoom(direction);
                 if (neighbour != null && !distance.ContainsKey(neighbour))

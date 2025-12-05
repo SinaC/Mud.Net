@@ -51,9 +51,9 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
 
     public virtual bool EnhancedPrimeAttribute => false;
 
-    public abstract int GetStartAttribute(CharacterAttributes attribute);
+    public abstract int GetStartAttribute(BasicAttributes attribute);
 
-    public abstract int GetMaxAttribute(CharacterAttributes attribute);
+    public abstract int GetMaxAttribute(BasicAttributes attribute);
 
     public virtual int ClassExperiencePercentageMultiplier(IClass? c) => 100;
 

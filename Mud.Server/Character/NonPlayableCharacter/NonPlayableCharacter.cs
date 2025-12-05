@@ -112,7 +112,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
         // resources (should be extracted from blueprint)
         int maxMana = RandomManager.Dice(blueprint.ManaDiceCount, blueprint.ManaDiceValue) + blueprint.ManaDiceBonus;
-        foreach (var resource in EnumHelpers.GetValues<ResourceKinds>())
+        foreach (var resource in Enum.GetValues<ResourceKinds>())
         {
             SetMaxResource(resource, maxMana, false);
             this[resource] = maxMana;
@@ -154,7 +154,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         {
             Wiznet.Log($"NonPlayableCharacter.ctor: attributes not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
-            foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
+            foreach (CharacterAttributes attribute in Enum.GetValues<CharacterAttributes>())
                 this[attribute] = 1;
         }
         // resources
@@ -167,7 +167,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         {
             Wiznet.Log($"NonPlayableCharacter.ctor: currentResources not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
-            foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
+            foreach (ResourceKinds resource in Enum.GetValues<ResourceKinds>())
                 this[resource] = 1;
         }
         if (petData.MaxResources != null)
@@ -508,8 +508,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             //GoldCoins = GoldCoins,
             HitPoints = HitPoints,
             MovePoints = MovePoints,
-            CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
-            MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
+            CurrentResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
+            MaxResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
             Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
             Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
             Auras = MapAuraData(),
@@ -518,7 +518,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             Resistances = BaseResistances,
             Vulnerabilities = BaseVulnerabilities,
             ShieldFlags = BaseShieldFlags,
-            Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
+            Attributes = Enum.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
             //KnownAbilities = KnownAbilities.Select(x => x.MapKnownAbilityData()).ToArray(),
             //Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key.Id, x => x.Value),
         };

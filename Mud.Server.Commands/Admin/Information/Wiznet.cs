@@ -56,7 +56,7 @@ public class Wiznet : AdminGameAction
         if (Display)
         {
             StringBuilder sb = new();
-            foreach (WiznetFlags loopFlag in EnumHelpers.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
+            foreach (WiznetFlags loopFlag in Enum.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
             {
                 var isOnLoop = Actor.WiznetFlags.HasFlag(loopFlag);
                 sb.AppendLine($"{loopFlag,-16} : {(isOnLoop ? "ON" : "OFF")}");
@@ -66,7 +66,7 @@ public class Wiznet : AdminGameAction
         }
         if (!FlagToToggle.HasValue)
         {
-            foreach (WiznetFlags wiznetFlag in EnumHelpers.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
+            foreach (WiznetFlags wiznetFlag in Enum.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
                 Actor.AddWiznet(wiznetFlag);
             Actor.Send("You will now see every wiznet informations.");
             return;

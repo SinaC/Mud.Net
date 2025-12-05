@@ -76,7 +76,7 @@ public class Farsight : NoTargetSpellBase
             foreach (ICharacter victim in Caster.Room.People.Where(x => Caster.CanSee(x)))
                 sb.AppendFormatLine(DistanceFormat[0], victim.RelativeDisplayName(Caster));
             // Scan in each direction with a max distance of 1
-            foreach (var direction in EnumHelpers.GetValues<ExitDirections>())
+            foreach (var direction in Enum.GetValues<ExitDirections>())
                 ScanOneDirection(sb, direction, 1);
         }
         else

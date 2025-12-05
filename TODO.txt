@@ -1,9 +1,17 @@
 INGOING
 DONE
-    Polearm weapon passive was refering to Poleram (instead of Polearm) weapon type
+    GetValues removed from EnumHelpers
+    MaxAttributes capping refactored
+    issue fixed in armor value in damage function
+    ! cannot be used with deleteavatar
+    once any other command than deleteavatar is used, reset deleteavatar 1st try
+    logger removed from AbilityInfo
 ==========
 == TODO ==
 ==========
+
+issue with learned ability when gaining level
+    how could we differentiate an ability learned but not yet practiced from an ability not yet learned
 
 oaffects/iaffects display affects from equipments
 finish score
@@ -173,6 +181,8 @@ alignment/groups/... selection during avatar creation
     }
 }
 
+
+SkillBase,PassiveBase: we should find another way to retrive ability info than using new(GetType()) (using AbilityManager ?)
 
 check antievil/antigood/... zap (see handler.c:1586)
 

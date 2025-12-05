@@ -2,10 +2,6 @@
 
 public static class EnumHelpers
 {
-    public static IEnumerable<T> GetValues<T>()
-        where T : Enum
-        => Enum.GetValues(typeof(T)).Cast<T>();
-
     public static bool TryFindByName<T>(string name, out T value)
         where T : struct, Enum
         => Enum.TryParse(name, true, out value);

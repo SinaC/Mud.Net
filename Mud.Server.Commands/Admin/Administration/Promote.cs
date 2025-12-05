@@ -45,7 +45,7 @@ public class Promote : AdminGameAction
 
         // what
         if (!EnumHelpers.TryFindByName(actionInput.Parameters[1].Value, out AdminLevels level))
-            return $"{actionInput.Parameters[1].Value} is not a valid admin levels. Values are : {string.Join(", ", EnumHelpers.GetValues<AdminLevels>().Select(x => x.ToString()))}";
+            return $"{actionInput.Parameters[1].Value} is not a valid admin levels. Values are : {string.Join(", ", Enum.GetNames<AdminLevels>())}";
         Level = level;
 
         return null;

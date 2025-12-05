@@ -13,8 +13,8 @@ public interface IPlayableRace : IRace
 
     IEnumerable<IAbilityUsage> Abilities { get; }
 
-    int GetStartAttribute(CharacterAttributes attribute);
-    int GetMaxAttribute(CharacterAttributes attribute);
+    int GetStartAttribute(BasicAttributes attribute);
+    int GetMaxAttribute(BasicAttributes attribute);
 
     int ClassExperiencePercentageMultiplier(IClass c);
 

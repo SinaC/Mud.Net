@@ -296,7 +296,7 @@ public class Room : EntityBase, IRoom
             sb.AppendLine("Obvious exits:");
         var exitFound = false;
         var isImmortal = viewer is IPlayableCharacter { IsImmortal: true };
-        foreach (var direction in EnumHelpers.GetValues<ExitDirections>())
+        foreach (var direction in Enum.GetValues<ExitDirections>())
         {
             var exit = this[direction];
             var destination = exit?.Destination;
@@ -459,7 +459,7 @@ public class Room : EntityBase, IRoom
         }
         wasAskingForDirection = false;
         //exit = Room.Exits.FirstOrDefault(x => x?.Destination != null && x.IsDoor && x.Keywords.Any(k => FindHelpers.StringStartsWith(k, parameter.Value)));
-        foreach (var direction in EnumHelpers.GetValues<ExitDirections>())
+        foreach (var direction in Enum.GetValues<ExitDirections>())
         {
             var exit = this[direction];
             if (exit?.Destination != null && exit.IsDoor && exit.Keywords.Any(k => StringCompareHelpers.StringStartsWith(k, parameter.Value)))

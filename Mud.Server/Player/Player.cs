@@ -27,6 +27,7 @@ public class Player : ActorBase, IPlayer
     private readonly List<PlayableCharacterData> _avatarList;
     private readonly Dictionary<string, string> _aliases;
 
+    private string? _lastInput;
     private string? _lastCommand;
     private DateTime? _lastCommandTimestamp;
 
@@ -112,14 +113,15 @@ public class Player : ActorBase, IPlayer
                 {
                     Send("Cannot use '!' to repeat 'delete' or 'deleteavatar' command");
                     DeletionConfirmationNeeded = false; // reset delete confirmation
+                    AvatarNameDeletionConfirmationNeeded = null; // reset avatar delete confirmation
                     return false;
                 }
-                input = _lastCommand!;
+                input = _lastInput!;
                 _lastCommandTimestamp = TimeManager.CurrentTime;
             }
             else
             {
-                _lastCommand = input;
+                _lastInput = input;
                 _lastCommandTimestamp = TimeManager.CurrentTime;
             }
 
@@ -130,6 +132,7 @@ public class Player : ActorBase, IPlayer
                     : Impersonating?.Aliases,
                 input,
                 out string command, out ICommandParameter[] parameters, out bool forceOutOfGame);
+            _lastCommand = command;
             if (!extractedSuccessfully)
             {
                 Logger.LogWarning("Command and parameters not extracted successfully");
@@ -402,7 +405,7 @@ public class Player : ActorBase, IPlayer
         sb.AppendLine($"Id: {Id}");
         sb.AppendLine($"Name: {Name}");
         sb.AppendLine($"DisplayName: {DisplayName}");
-        sb.AppendLine($"_lastCommand: {_lastCommand} Timestamp: {_lastCommandTimestamp}");
+        sb.AppendLine($"_lastInput: {_lastInput} Timestamp: {_lastCommandTimestamp}");
         sb.AppendLine($"IsAfk: {IsAfk}");
         sb.AppendLine($"PlayerState: {PlayerState}");
         sb.AppendLine($"GCD: {GlobalCooldown}");

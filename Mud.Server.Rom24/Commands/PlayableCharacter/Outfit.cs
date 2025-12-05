@@ -64,7 +64,7 @@ courtesy of the Mayor's warehouses.  Only empty equipment slots are affected.")]
                 // search weapon with highest learned percentage
                 var currentBestPercentage = 0;
                 var currentBestWeaponType = WeaponTypes.Sword; // by default
-                foreach (var weaponType in EnumHelpers.GetValues<WeaponTypes>())
+                foreach (var weaponType in Enum.GetValues<WeaponTypes>())
                 {
                     var weaponAbilityInfo = AbilityManager[weaponType];
                     if (weaponAbilityInfo != null)
