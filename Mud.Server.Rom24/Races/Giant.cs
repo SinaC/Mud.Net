@@ -31,7 +31,7 @@ public class Giant : PlayableRaceBase
         AddAbility("Fast healing");
     }
 
-    #region IRace
+    #region IRace/IPlayableRace
 
     public override string Name => "giant";
     public override string ShortName => "Gia";
@@ -100,17 +100,14 @@ public class Giant : PlayableRaceBase
     }
 
     public override int ClassExperiencePercentageMultiplier(IClass? c)
-    {
-        if (c is Classes.Mage)
-            return 200;
-        if (c is Classes.Cleric)
-            return 150;
-        if (c is Classes.Thief)
-            return 150;
-        if (c is Classes.Warrior)
-            return 105;
-        return 100;
-    }
+        => c switch
+        {
+            Classes.Mage => 200,
+            Classes.Cleric => 150,
+            Classes.Thief => 150,
+            Classes.Warrior => 105,
+            _ => 100,
+        };
 
     #endregion
 }

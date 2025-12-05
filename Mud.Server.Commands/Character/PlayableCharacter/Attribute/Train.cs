@@ -142,10 +142,10 @@ public class Train : PlayableCharacterGameAction
     private static int GetMaxAttributeValue(CharacterAttributes attribute, IPlayableRace? race, IClass? @class)
     {
         int value = race?.GetMaxAttribute(attribute) ?? 18;
-        if (@class != null && (int)attribute == (int)@class.PrimeAttribute)
+        if (@class != null && (BasicAttributes)attribute == @class.PrimeAttribute)
         {
             value += 2;
-            if (race?.Name == "Human")
+            if (race?.EnhancedPrimeAttribute == true)
                 value++;
         }
         return value;

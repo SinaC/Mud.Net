@@ -1,15 +1,12 @@
 INGOING
 DONE
-    default weapon should be at 50%
-    starting skills/spells/weapons
-    class starting abilities should be set at 75 on creation
-    weapon choice during avatar creation
-    outfit command
-TODO
 
-ROM24
-    lore ability
-    known alignment spell
+==========
+== TODO ==
+==========
+
+skill/spell/passive groups
+alignment/groups/... selection during avatar creation
 
 check antievil/antigood/... zap (see handler.c:1586)
 
@@ -61,10 +58,6 @@ should see glowing item if in a dark room
 glowing item on the floor of dark room should increase light
 
 reimplement hot/dot
-
-race abilities min level ?
-skill/spell/passive groups
-alignment/groups/... selection during avatar creation
 
 when a player connects, if no avatar found -> switch to avatar create state machine
 compatibility must only be in blueprint loading

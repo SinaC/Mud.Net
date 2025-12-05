@@ -368,7 +368,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         if ((int)attribute == (int)@class.PrimeAttribute)
         {
             value += 2;
-            if (race.Name == "Human")
+            if (race.EnhancedPrimeAttribute == true)
                 value++;
         }
         return value;

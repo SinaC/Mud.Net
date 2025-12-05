@@ -15,7 +15,7 @@ namespace Mud.Server.Rom24.Spells;
 @"This spell reveals the alignment of the target character.")]
 public class KnowAlignment : DefensiveSpellBase
 {
-    private const string SpellName = "Known Alignment";
+    private const string SpellName = "Know Alignment";
 
     public KnowAlignment(ILogger<KnowAlignment> logger, IRandomManager randomManager)
         : base(logger, randomManager)

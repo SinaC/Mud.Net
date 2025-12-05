@@ -30,7 +30,7 @@ public class Dwarf : PlayableRaceBase
         AddAbility(1, "berserk", ResourceKinds.Mana, 50, CostAmountOperators.Fixed, 5);
     }
 
-    #region IRace
+    #region IRace/IPlayableRace
 
     public override string Name => "dwarf";
     public override string ShortName => "Dwa";
@@ -98,14 +98,15 @@ public class Dwarf : PlayableRaceBase
         }
     }
 
-    public override int ClassExperiencePercentageMultiplier(IClass? c) 
-    {
-        if (c is Classes.Mage)
-            return 150;
-        if (c is Classes.Cleric)
-            return 125;
-        return 100;
-    }
+    public override int ClassExperiencePercentageMultiplier(IClass? c)
+        => c switch
+        {
+            Classes.Mage => 150,
+            Classes.Cleric => 100,
+            Classes.Thief => 125,
+            Classes.Warrior => 100,
+            _ => 100,
+        };
 
     #endregion
 }

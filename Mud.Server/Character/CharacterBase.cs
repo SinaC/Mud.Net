@@ -681,11 +681,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public void Regen()
     {
         // Hp/Move
-        (int hitGain, int moveGain, int manaGain, int psyGain) gains = RegenBaseValues();
-        int hitGain = gains.hitGain;
-        int moveGain = gains.moveGain;
-        int manaGain = gains.manaGain;
-        int psyGain = gains.psyGain;
+        var (hitGain, moveGain, manaGain, psyGain) = RegenBaseValues();
 
         hitGain = hitGain * Room.HealRate / 100;
         manaGain = manaGain * Room.ResourceRate / 100;
@@ -849,6 +845,26 @@ public abstract class CharacterBase : EntityBase, ICharacter
         MovePoints = Math.Min(MovePoints, MaxMovePoints);
         for (int i = 0; i < _currentResources.Length; i++)
             _currentResources[i] = Math.Min(_currentResources[i], _maxResources[i]);
+        // keep in valid range
+        //  3->25 for NPC
+        //  3->MIN(25, max)
+        //      where max = max race + 2 if prime attribute + 1 if enhanced prime attribute
+        for (int i = 0; i < _currentAttributes.Length; i++)
+        {
+            var maxAllowed = 25;
+            if (this is IPlayableCharacter pc && pc.Race is IPlayableRace playableRace)
+            {
+                var max = playableRace.GetMaxAttribute((CharacterAttributes)i) + 4;
+                if (Class != null && (BasicAttributes)i == Class.PrimeAttribute)
+                {
+                    max += 2;
+                    if (playableRace?.EnhancedPrimeAttribute == true)
+                        max++;
+                }
+                maxAllowed = Math.Min(max, 25);
+            }
+            _currentAttributes[i] = _currentAttributes[i].Range(3, maxAllowed);
+        }
     }
 
     // Move
@@ -1987,9 +2003,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (hitModifier?.AbilityName != null)
             damageResult = victim.AbilityDamage(this, damage, damageType, hitModifier.DamageNoun ?? "hit", true);
         else
-        {
             damageResult = victim.HitDamage(this, wield, damage, damageType, true);
-        }
 
         if (Fighting != victim)
             return;
