@@ -1,39 +1,61 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Ability;
 
-public class AbilityLearned : AbilityUsage, IAbilityLearned
+public class AbilityLearned : IAbilityLearned
 {
-    private ILogger Logger { get; }
+    public string Name { get; }
+
+    public int Level { get; protected set; }
+
+    public ResourceKinds? ResourceKind { get; }
+
+    public int CostAmount { get; protected set; }
+
+    public CostAmountOperators CostAmountOperator { get; }
+
+    public int Rating { get; protected set; }
+
+    public IAbilityInfo AbilityInfo { get; }
+
     public int Learned { get; protected set; }
 
-    public AbilityLearned(ILogger logger, IAbilityUsage abilityUsage)
-        : base(abilityUsage.Name, abilityUsage.Level, abilityUsage.ResourceKind, abilityUsage.CostAmount, abilityUsage.CostAmountOperator, abilityUsage.Rating, abilityUsage.AbilityInfo)
+    public AbilityLearned(IAbilityUsage abilityUsage)
+        : base()
     {
-        Logger = logger;
-
+        Name = abilityUsage.Name;
+        Level = abilityUsage.Level;
+        ResourceKind = abilityUsage.ResourceKind;
+        CostAmount = abilityUsage.CostAmount;
+        CostAmountOperator = abilityUsage.CostAmountOperator;
+        Rating = abilityUsage.Rating;
+        AbilityInfo = abilityUsage.AbilityInfo;
         Learned = 0; // can be gained but not yet learned
     }
 
-    public AbilityLearned(ILogger logger, LearnedAbilityData learnedAbilityData, IAbilityInfo abilityInfo)
-        : base(learnedAbilityData.Name, learnedAbilityData.Level, learnedAbilityData.ResourceKind, learnedAbilityData.CostAmount, learnedAbilityData.CostAmountOperator, learnedAbilityData.Rating, abilityInfo)
+    public AbilityLearned(LearnedAbilityData learnedAbilityData, IAbilityInfo abilityInfo)
     {
-        Logger = logger;
-
+        Name = learnedAbilityData.Name;
+        Level = learnedAbilityData.Level;
+        ResourceKind = learnedAbilityData.ResourceKind;
+        CostAmount = learnedAbilityData.CostAmount;
+        CostAmountOperator = learnedAbilityData.CostAmountOperator;
+        Rating = learnedAbilityData.Rating;
+        AbilityInfo = abilityInfo;
         Learned = learnedAbilityData.Learned;
     }
 
     public void IncrementLearned(int amount)
     {
-        if (amount <= 0)
-        {
-            Logger.LogError("Trying to decrement learned of ability {Name} by {amount}.", Name, amount);
-            return;
-        }
         Learned = Math.Min(100, Learned + amount);
+    }
+
+    public void SetLearned(int amount)
+    {
+        Learned = amount.Range(0, 100);
     }
 
     public LearnedAbilityData MapLearnedAbilityData()
@@ -50,6 +72,23 @@ public class AbilityLearned : AbilityUsage, IAbilityLearned
         };
     }
 
-    public bool CanBeGained(IPlayableCharacter playableCharacter) => Level <= playableCharacter.Level && Learned == 0;
-    public bool CanBePracticed(IPlayableCharacter playableCharacter) => Level <= playableCharacter.Level && Learned > 0;
+    public void Update(int level, int rating, int costAmount, int learned)
+    {
+        Level = level;
+        Rating = rating;
+        CostAmount = costAmount;
+        Learned = learned;
+    }
+
+    public void Update(int level, int rating, int learned)
+    {
+        Level = level;
+        Rating = rating;
+        Learned = learned;
+    }
+
+    public bool CanBeGained(IPlayableCharacter playableCharacter)
+        => Level <= playableCharacter.Level && Learned == 0;
+    public bool CanBePracticed(IPlayableCharacter playableCharacter)
+        => Level <= playableCharacter.Level && Learned > 0;
 }

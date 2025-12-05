@@ -577,6 +577,27 @@ public class ItemManager : IItemManager
         return item;
     }
 
+    public TItem? AddItem<TItem>(Guid guid, int blueprintId, IContainer container)
+        where TItem : class, IItem
+    {
+        var blueprint = GetItemBlueprint(blueprintId);
+        if (blueprint == null)
+        {
+            Logger.LogError("World.AddItem: Item blueprint Id {blueprintId} doesn't exist anymore.", blueprintId);
+            return null;
+        }
+        var instance = AddItem(guid, blueprint, container);
+        if (instance == null)
+        {
+            Logger.LogError("World.AddItem: Unknown blueprint id {blueprintId} or type {blueprintType}.", blueprintId, blueprint.GetType().FullName ?? "???");
+            return null;
+        }
+        var item = instance as TItem;
+        if (item == null)
+            Logger.LogError("World.AddItem: trying to cast item blueprint id {blueprintId} type {blueprintType} to item type {itemType}.", blueprintId, blueprint.GetType().FullName ?? "???", typeof(TItem).FullName);
+        return item;
+    }
+
     public void RemoveItem(IItem item)
     {
         item.ChangeContainer(RoomManager.NullRoom); // move to NullRoom

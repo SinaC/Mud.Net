@@ -60,7 +60,7 @@ public class ContinualLight : OptionalItemInventorySpellBase
             return;
         }
         // create item
-        var light = ItemManager.AddItem(Guid.NewGuid(), LightBallBlueprintId, Caster.Room);
+        var light = ItemManager.AddItem<IItemLight>(Guid.NewGuid(), LightBallBlueprintId, Caster.Room);
         if (light == null)
         {
             Caster.Send("The spell fizzles and dies.");

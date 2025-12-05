@@ -37,7 +37,7 @@ public class Thief : ClassBase
         AddPassive(1, "whip", 5);
         AddSkill(1, "backstab", 5);
         AddSkill(1, "hide", 4);
-        AddSkill(1, "recall", 2);
+        AddSkill(1, "recall", 2, 40);
         AddSkill(1, "scrolls", 5);
         AddSkill(1, "staves", 5);
         AddSkill(1, "trip", 4);

@@ -432,7 +432,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     }
 
     // Furniture
-    public bool ChangeFurniture(IItemFurniture furniture)
+    public bool ChangeFurniture(IItemFurniture? furniture)
     {
         Furniture = furniture;
         return true;
@@ -2202,15 +2202,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (!_learnedAbilities.ContainsKey(abilityUsage.Name))
         {
-            var abilityLearned = new AbilityLearned(Logger, abilityUsage);
+            var abilityLearned = new AbilityLearned(abilityUsage);
             _learnedAbilities.Add(abilityLearned.Name, abilityLearned);
             if (naturalBorn)
-            {
-                abilityLearned.Update(1, 1);
-                abilityLearned.IncrementLearned(100);
-            }
+                abilityLearned.Update(1, 1, 100);
             else
-                abilityLearned.IncrementLearned(1); // set to 1%
+                abilityLearned.SetLearned(abilityUsage.MinLearned); // set to MinLearned
         }
     }
 
@@ -2251,7 +2248,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             if (abilityLearned != null)
             {
                 //Logger.LogDebug("Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
-                abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Min(abilityUsage.CostAmount, abilityLearned.CostAmount));
+                abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Min(abilityUsage.CostAmount, abilityLearned.CostAmount), Math.Max(abilityUsage.MinLearned, abilityLearned.Learned));
                 // TODO: what should be we if multiple resource kind or operator ?
             }
             else

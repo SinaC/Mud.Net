@@ -1,3 +1,6 @@
+most Furniture item are Trash/Clothing/...
+there is no Furniture (in rom24) that can be used as furniture, furniture flags are always 0
+
 [2025-11-29 00:46:18 WRN] Unknown wear location: 16401 for item 304
 [2025-11-29 00:46:18 WRN] Unknown wear location: 16389 for item 2220
 [2025-11-29 00:46:18 WRN] Unknown wear location: 17409 for item 1345

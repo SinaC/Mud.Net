@@ -33,7 +33,7 @@ public class Warrior : ClassBase
         AddPassive(1, "sword", 2);
         AddPassive(1, "whip", 4);
         AddSkill(1, "bash", 4);
-        AddSkill(1, "recall", 2);
+        AddSkill(1, "recall", 2, 40);
         AddSkill(1, "rescue", 4);
         AddSkill(1, "scrolls", 8);
         AddSkill(1, "staves", 8);

@@ -1,10 +1,19 @@
 INGOING
 DONE
-    link between weapon skill and weapon type
-    avoidance fix
-    DeleteAvatar command
-    Pulse test command
+    default weapon should be at 50%
+    starting skills/spells/weapons
+    class starting abilities should be set at 75 on creation
+    weapon choice during avatar creation
+    outfit command
 TODO
+
+ROM24
+    lore ability
+    known alignment spell
+
+check antievil/antigood/... zap (see handler.c:1586)
+
+human: can practice up to 90% and easier check improve
 
 remaining specials:
 dependent on PK: spec_executioner, spec_guard
@@ -54,7 +63,6 @@ glowing item on the floor of dark room should increase light
 reimplement hot/dot
 
 race abilities min level ?
-class starting abilities should be set at 75 on creation
 skill/spell/passive groups
 alignment/groups/... selection during avatar creation
 

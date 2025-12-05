@@ -138,7 +138,7 @@ public interface ICharacter : IEntity, IContainer
     void UpdateMoney(long silverCoins, long goldCoins);
 
     // Furniture
-    bool ChangeFurniture(IItemFurniture furniture);
+    bool ChangeFurniture(IItemFurniture? furniture);
 
     // Position
     bool ChangePosition(Positions position);

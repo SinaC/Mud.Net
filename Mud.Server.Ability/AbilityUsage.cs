@@ -7,19 +7,21 @@ public class AbilityUsage : IAbilityUsage
 {
     public string Name { get; }
 
-    public int Level { get; protected set; }
+    public int Level { get; }
 
     public ResourceKinds? ResourceKind { get; }
 
-    public int CostAmount { get; protected set; }
+    public int CostAmount { get; }
 
     public CostAmountOperators CostAmountOperator { get; }
 
-    public int Rating { get; protected set; }
+    public int Rating { get; }
+
+    public int MinLearned { get; }
 
     public IAbilityInfo AbilityInfo { get; }
 
-    public AbilityUsage(string name, int level, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, IAbilityInfo abilityInfo)
+    public AbilityUsage(string name, int level, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int minLearned, IAbilityInfo abilityInfo)
     {
         Name = name;
         Level = level;
@@ -27,18 +29,7 @@ public class AbilityUsage : IAbilityUsage
         CostAmount = costAmount;
         CostAmountOperator = costAmountOperator;
         Rating = rating;
+        MinLearned = minLearned;
         AbilityInfo = abilityInfo;
-    }
-
-    public void Update(int level, int rating, int costAmount)
-    {
-        Update(level, rating);
-        CostAmount = costAmount;
-    }
-
-    public void Update(int level, int rating)
-    {
-        Level = level;
-        Rating = rating;
     }
 }

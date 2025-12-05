@@ -32,7 +32,7 @@ public class CreateSpring : ItemCreationSpellBase
 
     protected override void Invoke()
     {
-        var fountain = ItemManager.AddItem(Guid.NewGuid(), SpringBlueprintId, Caster.Room) as IItemFountain;
+        var fountain = ItemManager.AddItem<IItemFountain>(Guid.NewGuid(), SpringBlueprintId, Caster.Room);
         if (fountain == null)
         {
             Caster.Send("The spell fizzles and dies.");

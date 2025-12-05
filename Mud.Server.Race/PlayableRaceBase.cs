@@ -82,6 +82,6 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
             return;
         }
         //
-        _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, abilityInfo));
+        _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, 100, abilityInfo));
     }
 }

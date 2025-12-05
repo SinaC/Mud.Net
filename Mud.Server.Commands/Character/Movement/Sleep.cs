@@ -13,7 +13,7 @@ namespace Mud.Server.Commands.Character.Movement;
       "[cmd] <furniture>")]
 public class Sleep : CharacterGameAction
 {
-    protected IItemFurniture What { get; set; } = default!;
+    protected IItemFurniture? What { get; set; } = default!;
 
     public override string? Guards(IActionInput actionInput)
     {
@@ -39,10 +39,13 @@ public class Sleep : CharacterGameAction
             What = furniture;
         }
         else
-            What = Actor.Furniture!;
+            What = Actor.Furniture;
+
+        if (What == null)
+            return null;
 
         // Check furniture validity
-        if (What == null || !What.CanSleep)
+        if (!What.CanSleep)
             return "You can't sleep on that.";
 
         // If already on furniture, don't count
@@ -54,9 +57,8 @@ public class Sleep : CharacterGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Actor.ChangeFurniture(What);
-
         // Change position
+        Actor.ChangeFurniture(What);
         if (What == null)
             Actor.Act(ActOptions.ToAll, "{0:N} go{0:v} to sleep.", Actor);
         else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)

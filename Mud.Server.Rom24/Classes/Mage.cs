@@ -32,7 +32,7 @@ public class Mage : ClassBase
         AddPassive(1, "spear", 4);
         AddPassive(1, "sword", 5);
         AddPassive(1, "whip", 6);
-        AddSkill(1, "recall", 2);
+        AddSkill(1, "recall", 2, 40);
         AddSkill(1, "scrolls", 2);
         AddSkill(1, "staves", 2);
         AddSkill(1, "wands", 2);

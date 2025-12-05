@@ -32,7 +32,7 @@ public class CreateRose : ItemCreationSpellBase
 
     protected override void Invoke()
     {
-        var rose = ItemManager.AddItem(Guid.NewGuid(), RoseBlueprintId, Caster) as IItemTrash;
+        var rose = ItemManager.AddItem<IItemTrash>(Guid.NewGuid(), RoseBlueprintId, Caster);
         if (rose == null)
         {
             Caster.Send("The spell fizzles and dies.");

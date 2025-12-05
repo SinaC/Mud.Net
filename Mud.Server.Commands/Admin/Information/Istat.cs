@@ -68,7 +68,7 @@ public class Istat : AdminGameAction
             sb.AppendFormatLine("Contained in {0}", What.ContainedInto.DebugName);
         sb.AppendFormatLine("Equipped by {0} on {1}", What.EquippedBy?.DebugName ?? "(none)", What.WearLocation);
         if (What.NoTake)
-            sb.Append("Cannot be taken");
+            sb.AppendLine("Cannot be taken");
         sb.AppendFormatLine("Level: {0}", What.Level);
         sb.AppendFormatLine("Cost: {0} Weight: {1}", What.Cost, What.Weight);
         sb.AppendFormatLine("CarryCount: {0} TotalWeight: {1}", What.CarryCount, What.TotalWeight);
