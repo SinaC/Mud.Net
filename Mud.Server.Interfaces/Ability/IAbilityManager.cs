@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.GameAction;
+﻿using Mud.Domain;
+using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Interfaces.Ability
 {
@@ -6,6 +7,7 @@ namespace Mud.Server.Interfaces.Ability
     {
         IEnumerable<IAbilityInfo> Abilities { get; }
         IAbilityInfo? this[string abilityName] { get; }
+        IAbilityInfo? this[WeaponTypes weaponType] { get; }
 
         IEnumerable<IAbilityInfo> SearchAbilities<TAbility>()
             where TAbility: class, IAbility;

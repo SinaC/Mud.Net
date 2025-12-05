@@ -63,7 +63,7 @@ public class Cast : CharacterGameAction
         var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
         if (abilityInfo == null)
             return "This spell doesn't exist.";
-        var abilityLearned = Actor.GetAbilityLearned(abilityInfo.Name);
+        var (_, abilityLearned) = Actor.GetAbilityLearnedInfo(abilityInfo.Name);
         if (abilityLearned == null)
             return "You don't know any spells of that name.";
         SpellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name)!;

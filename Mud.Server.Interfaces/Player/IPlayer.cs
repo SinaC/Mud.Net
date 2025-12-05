@@ -66,7 +66,11 @@ public interface IPlayer : IActor
 
     void SetSnoopBy(IAdmin? snooper);
 
+    string? AvatarNameDeletionConfirmationNeeded { get; }
+    void SetAvatarNameDeletionConfirmationNeeded(string avatarName);
+    void ResetAvatarNameDeletionConfirmationNeeded();
     void AddAvatar(PlayableCharacterData playableCharacterData);
+    bool DeleteAvatar(string avatarName);
     void StartImpersonating(IPlayableCharacter avatar);
     void StopImpersonating();
 

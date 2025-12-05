@@ -532,7 +532,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public override (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedInfo(IItemWeapon? weapon)
     {
         int learned;
-        if (weapon == null)
+        if (weapon == null) // hand to hand
             learned = 40 + 2 * Level;
         else
         {

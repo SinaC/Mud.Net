@@ -1,5 +1,9 @@
 INGOING
-
+DONE
+    link between weapon skill and weapon type
+    avoidance fix
+    DeleteAvatar command
+    Pulse test command
 TODO
 
 remaining specials:

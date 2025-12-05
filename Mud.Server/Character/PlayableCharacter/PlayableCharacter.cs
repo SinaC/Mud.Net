@@ -493,51 +493,19 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         string abilityName = null!;
         if (weapon == null)
-            abilityName = "Hand to hand";
+            abilityName = "Hand to Hand";
         else
         {
-            switch (weapon.Type)
-            {
-                case WeaponTypes.Exotic:
-                    // no ability
-                    break;
-                case WeaponTypes.Sword:
-                    abilityName = "Sword";
-                    break;
-                case WeaponTypes.Dagger:
-                    abilityName = "Dagger";
-                    break;
-                case WeaponTypes.Spear:
-                    abilityName = "Spear";
-                    break;
-                case WeaponTypes.Mace:
-                    abilityName = "Mace";
-                    break;
-                case WeaponTypes.Axe:
-                    abilityName = "Axe";
-                    break;
-                case WeaponTypes.Flail:
-                    abilityName = "Flail";
-                    break;
-                case WeaponTypes.Whip:
-                    abilityName = "Whip";
-                    break;
-                case WeaponTypes.Polearm:
-                    abilityName = "Polearm";
-                    break;
-                case WeaponTypes.Staff:
-                    abilityName = "Staff(weapon)";
-                    break;
-                default:
-                    Wiznet.Log($"PlayableCharacter.GetWeaponLearned: Invalid WeaponType {weapon.Type}", WiznetFlags.Bugs, AdminLevels.Implementor);
-                    break;
-            }
+            // search weapon ability from weapon type
+            var weaponAbility = AbilityManager[weapon.Type];
+            if (weaponAbility != null)
+                abilityName = weaponAbility.Name;
         }
 
-        // no ability -> 3*level
+        // no ability (exotic) -> 3*level
         if (abilityName == null)
         {
-            int learned = (3 * Level).Range(0, 100);
+            var learned = (3 * Level).Range(0, 100);
             return (learned, null);
         }
         // ability, check %
