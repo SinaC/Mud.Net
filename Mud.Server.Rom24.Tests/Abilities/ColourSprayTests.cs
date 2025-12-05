@@ -49,7 +49,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var parameters = BuildParameters("target");
             ColourSpray spell = new (new Mock<ILogger<ColourSpray>>().Object, randomManagerMock.Object, effectManagerMock.Object);
-            SpellActionInput abilityActionInput = new (new AbilityInfo(new Mock<ILogger>().Object, spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new (new AbilityInfo( spell.GetType()), casterMock.Object, 10, null, parameters);
             var setupResult = spell.Setup(abilityActionInput);
 
             spell.Execute();

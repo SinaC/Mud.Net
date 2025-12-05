@@ -162,7 +162,7 @@ public class CastTests : AbilityTestBase
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
         characterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         Mock<IAbilityManager> abilityManagerMock = new();
-        abilityManagerMock.Setup(x => x.Search(It.IsAny<string>(), It.IsAny<AbilityTypes>())).Returns<string, AbilityTypes>((_1, _2) => new AbilityInfo(new Mock<ILogger<AbilityInfo>>().Object, typeof(Rom24AcidBlast)));
+        abilityManagerMock.Setup(x => x.Search(It.IsAny<string>(), It.IsAny<AbilityTypes>())).Returns<string, AbilityTypes>((_1, _2) => new AbilityInfo(typeof(Rom24AcidBlast)));
         var cast = new Cast(new Mock<ILogger<Cast>>().Object, abilityManagerMock.Object);
         var actionInput = BuildActionInput<Cast>(characterMock.Object, "cast Acid");
 

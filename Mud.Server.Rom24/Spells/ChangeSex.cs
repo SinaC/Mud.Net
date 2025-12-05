@@ -42,7 +42,7 @@ public class ChangeSex : DefensiveSpellBase
         if (Victim.SavesSpell(Level, SchoolTypes.Other))
             return;
 
-        var newSex = RandomManager.Random(EnumHelpers.GetValues<Sex>().Where(x => x != Victim.Sex));
+        var newSex = RandomManager.Random(Enum.GetValues<Sex>().Where(x => x != Victim.Sex));
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
             new CharacterSexAffect { Value = newSex });
         Victim.Send("You feel different.");

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Mud.Common;
+﻿using Mud.Common;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -33,16 +32,13 @@ public class AbilityInfo : IAbilityInfo
 
     #endregion
 
-    public AbilityInfo(ILogger logger, Type abilityExecutionType)
+    public AbilityInfo(Type abilityExecutionType)
     {
         AbilityExecutionType = abilityExecutionType;
 
         var abilityBaseAttribute = abilityExecutionType.GetCustomAttribute<AbilityBaseAttribute>();
         Type = abilityBaseAttribute!.Type;
-        string pascalCaseName = abilityBaseAttribute.Name.ToPascalCase();
-        if (pascalCaseName != abilityBaseAttribute.Name)
-            logger.LogWarning("Ability: {abilityBaseAttributeName} is not a valid name, its has been modified to {pascalCaseName}.", abilityBaseAttribute.Name, pascalCaseName);
-        Name = pascalCaseName;
+        Name = abilityBaseAttribute.Name.ToPascalCase();
         Effects = abilityBaseAttribute.Effects;
         PulseWaitTime = (abilityBaseAttribute as ActiveAbilityBaseAttribute)?.PulseWaitTime;
         CooldownInSeconds = abilityBaseAttribute.CooldownInSeconds <= 0

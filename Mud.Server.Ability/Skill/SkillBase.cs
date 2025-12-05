@@ -139,7 +139,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (baseGuards != null)
             return baseGuards;
 
-        var abilityInfo = new AbilityInfo(Logger, GetType());
+        var abilityInfo = new AbilityInfo(GetType());
         var skillActionInput = new SkillActionInput(actionInput, abilityInfo, Actor);
         var setupResult = Setup(skillActionInput);
         return setupResult;

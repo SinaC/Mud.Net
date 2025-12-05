@@ -28,7 +28,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -48,7 +48,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -72,7 +72,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -97,7 +97,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -122,7 +122,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -147,7 +147,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -169,7 +169,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -195,7 +195,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -223,7 +223,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -249,7 +249,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(new Mock<ILogger>().Object, skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
             skill.Execute();

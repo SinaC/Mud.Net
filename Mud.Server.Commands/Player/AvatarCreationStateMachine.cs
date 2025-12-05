@@ -13,6 +13,7 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
+using System;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -253,12 +254,12 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
                     // TODO: other resource
                 },
                 Experience = 0,
-                Alignment = 0,
+                Alignment = 0, // TODO
                 Trains = 3,
                 Practices = 5,
                 GoldCoins = 0,
                 SilverCoins = 0,
-                Conditions = EnumHelpers.GetValues<Conditions>().Where(x => x != Conditions.Drunk).ToDictionary(x => x, x => 48),
+                Conditions = Enum.GetValues<Conditions>().Where(x => x != Conditions.Drunk).ToDictionary(x => x, x => 48),
                 Equipments = [], //TODO: Equipments
                 Inventory = [], //TODO: Inventory
                 CurrentQuests = [], //TODO: CurrentQuests
@@ -268,7 +269,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
                 Resistances = _race!.Resistances,
                 Vulnerabilities = _race!.Vulnerabilities,
                 ShieldFlags = ShieldFlagFactory.CreateInstance(),
-                Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => GetStartAttributeValue(x, _race!, _class!)),
+                Attributes = GetStartAttributeValues(_race!, _class!),
                 LearnedAbilities = learnedAbilities.ToArray(),
                 Cooldowns = [],
                 Pets = []
@@ -363,15 +364,37 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         player.Send(weapons);
     }
 
-    private static int GetStartAttributeValue(CharacterAttributes attribute, IPlayableRace race, IClass @class)
+    private Dictionary<CharacterAttributes, int> GetStartAttributeValues(IPlayableRace race, IClass @class)
+        => Enum.GetValues<CharacterAttributes>().ToDictionary(x => x, x => GetStartAttributeValue(x, race, @class));
+
+    private int GetStartAttributeValue(CharacterAttributes characterAttribute, IPlayableRace race, IClass @class)
     {
-        int value = race.GetStartAttribute(attribute);
-        if ((int)attribute == (int)@class.PrimeAttribute)
+        switch (characterAttribute)
         {
-            value += 2;
-            if (race.EnhancedPrimeAttribute == true)
-                value++;
+            case CharacterAttributes.Strength:
+            case CharacterAttributes.Intelligence:
+            case CharacterAttributes.Wisdom:
+            case CharacterAttributes.Dexterity:
+            case CharacterAttributes.Constitution:
+                {
+                    var basicAttribute = (BasicAttributes)characterAttribute;
+                    var value = race.GetStartAttribute(basicAttribute);
+                    if (basicAttribute == @class.PrimeAttribute)
+                        value += 3;
+                    return value;
+                }
+            case CharacterAttributes.MaxHitPoints: return 100;
+            case CharacterAttributes.SavingThrow: return 0;
+            case CharacterAttributes.HitRoll: return 0;
+            case CharacterAttributes.DamRoll: return 0;
+            case CharacterAttributes.MaxMovePoints: return 100;
+            case CharacterAttributes.ArmorBash: return 0;
+            case CharacterAttributes.ArmorPierce: return 0;
+            case CharacterAttributes.ArmorSlash: return 0;
+            case CharacterAttributes.ArmorExotic: return 0;
+            default:
+                Logger.LogError("Unexpected character attribute {characterAttribute} during avatar creation", characterAttribute);
+                return 0;
         }
-        return value;
     }
 }

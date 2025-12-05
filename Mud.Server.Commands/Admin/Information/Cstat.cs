@@ -121,9 +121,9 @@ public class Cstat : AdminGameAction
         sb.AppendFormatLine("Parts: {0} (base: {1})", Whom.BodyParts, Whom.BaseBodyParts);
         sb.AppendFormatLine("Alignment: {0}", Whom.Alignment);
         sb.AppendLine("Attributes:");
-        foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
+        foreach (CharacterAttributes attribute in Enum.GetValues<CharacterAttributes>())
             sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, Whom[attribute], Whom.BaseAttribute(attribute));
-        foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>())
+        foreach (ResourceKinds resourceKind in Enum.GetValues<ResourceKinds>())
             sb.AppendFormatLine("{0}: {1} Max: {2}", resourceKind, Whom[resourceKind], Whom.MaxResource(resourceKind));
         if (nonPlayableWhom != null)
         {
@@ -134,7 +134,7 @@ public class Cstat : AdminGameAction
         if (playableWhom != null)
         {
             sb.Append("Conditions: ");
-            sb.AppendLine(string.Join(" ", EnumHelpers.GetValues<Conditions>().Select(x => $"{x}: {playableWhom[x]}")));
+            sb.AppendLine(string.Join(" ", Enum.GetValues<Conditions>().Select(x => $"{x}: {playableWhom[x]}")));
         }
         foreach (IAura aura in Whom.Auras)
             aura.Append(sb);

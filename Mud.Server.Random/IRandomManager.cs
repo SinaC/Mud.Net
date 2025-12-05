@@ -11,9 +11,9 @@ public interface IRandomManager
     int Fuzzy(int number);
 
     T? Random<T>()
-        where T : Enum;
+        where T : struct, Enum;
     T? Random<T>(Func<T, bool> filterFunc)
-        where T : Enum;
+        where T : struct, Enum;
 
     T? Random<T>(IEnumerable<T> values);
     T? RandomOccurancy<T>(IEnumerable<IOccurancy<T>> occurancies);

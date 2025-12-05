@@ -109,7 +109,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         {
             Wiznet.Log($"PlayableCharacter.ctor: currentResources not found in pfile for {data.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
-            foreach (ResourceKinds resource in EnumHelpers.GetValues<ResourceKinds>())
+            foreach (ResourceKinds resource in Enum.GetValues<ResourceKinds>())
                 this[resource] = 1;
         }
         if (data.MaxResources != null)
@@ -143,7 +143,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         {
             Wiznet.Log($"PlayableCharacter.ctor: attributes not found in pfile for {data.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
-            foreach (CharacterAttributes attribute in EnumHelpers.GetValues<CharacterAttributes>())
+            foreach (CharacterAttributes attribute in Enum.GetValues<CharacterAttributes>())
                 this[attribute] = 1;
         }
         // TODO: set not-found attributes to base value (from class/race)
@@ -762,7 +762,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 ResetCooldowns();
                 HitPoints = MaxHitPoints;
                 MovePoints = MaxMovePoints;
-                foreach (ResourceKinds resourceKind in EnumHelpers.GetValues<ResourceKinds>())
+                foreach (ResourceKinds resourceKind in Enum.GetValues<ResourceKinds>())
                     this[resourceKind] = MaxResource(resourceKind);
                 ImpersonatedBy?.SetSaveNeeded();
             }
@@ -934,14 +934,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             GoldCoins = GoldCoins,
             HitPoints = HitPoints,
             MovePoints = MovePoints,
-            CurrentResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
-            MaxResources = EnumHelpers.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
+            CurrentResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
+            MaxResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
             Alignment = Alignment,
             Experience = Experience,
             Trains = Trains,
             Practices = Practices,
             AutoFlags = AutoFlags,
-            Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => this[x]),
+            Conditions = Enum.GetValues<Conditions>().ToDictionary(x => x, x => this[x]),
             Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
             Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
             CurrentQuests = Quests.Select(x => x.MapQuestData()).ToArray(),
@@ -951,7 +951,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Resistances = BaseResistances,
             Vulnerabilities = BaseVulnerabilities,
             ShieldFlags = BaseShieldFlags,
-            Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
+            Attributes = Enum.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
             LearnedAbilities = LearnedAbilities.Select(x => x.MapLearnedAbilityData()).ToArray(),
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
             Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key, x => x.Value),
@@ -1059,7 +1059,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             {
                 Act(ActOptions.ToCharacter, "You feel a little drunk.. not to mention kind of lost..", this);
                 Act(ActOptions.ToRoom, "{0:N} looks a little drunk.. not to mention kind of lost..", this);
-                direction = RandomManager.Random<ExitDirections>(); // change direction
+                var newDirection = RandomManager.Random<ExitDirections>() ?? direction; // change direction if possible
+                direction = newDirection;
             }
             else
             {
@@ -1165,7 +1166,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         ChangePosition(Positions.Resting);
         HitPoints = 1;
         MovePoints = 1;
-        foreach (var resourceKind in EnumHelpers.GetValues<ResourceKinds>())
+        foreach (var resourceKind in Enum.GetValues<ResourceKinds>())
             this[resourceKind] = 1;
         ResetCooldowns();
         // release pets

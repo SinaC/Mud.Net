@@ -131,9 +131,9 @@ public class Info : AdminGameAction
                     $"Vulnerabilities: %r%{Race.Vulnerabilities}%x%",
                     $"Exp/Level:     %W%{string.Join(" ", ClassManager.Classes.Select(x => $"{x.ShortName,5}"))}%x%",
                     $"               %r%{string.Join(" ", ClassManager.Classes.Select(x => $"{Race.ClassExperiencePercentageMultiplier(x)*10,5}"))}%x%", // *10 because base experience is 1000
-                    $"Attributes:       %Y%{string.Join(" ", EnumHelpers.GetValues<BasicAttributes>().Select(x => $"{x.ShortName(),3}"))}%x%",
-                    $"Attributes start: %c%{string.Join(" ", EnumHelpers.GetValues<BasicAttributes>().Select(x => $"{Race.GetStartAttribute((CharacterAttributes)x),3}"))}%x%",
-                    $"Attributes max:   %B%{string.Join(" ", EnumHelpers.GetValues<BasicAttributes>().Select(x => $"{Race.GetMaxAttribute((CharacterAttributes)x),3}"))}%x%",
+                    $"Attributes:       %Y%{string.Join(" ", Enum.GetValues<BasicAttributes>().Select(x => $"{x.ShortName(),3}"))}%x%",
+                    $"Attributes start: %c%{string.Join(" ", Enum.GetValues<BasicAttributes>().Select(x => $"{Race.GetStartAttribute(x),3}"))}%x%",
+                    $"Attributes max:   %B%{string.Join(" ", Enum.GetValues<BasicAttributes>().Select(x => $"{Race.GetMaxAttribute(x),3}"))}%x%",
                     $"Forms: {Race.BodyForms}",
                     $"Parts: {Race.BodyParts}",
                 ],

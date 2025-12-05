@@ -845,17 +845,17 @@ public abstract class CharacterBase : EntityBase, ICharacter
         MovePoints = Math.Min(MovePoints, MaxMovePoints);
         for (int i = 0; i < _currentResources.Length; i++)
             _currentResources[i] = Math.Min(_currentResources[i], _maxResources[i]);
-        // keep in valid range
+        // keep basic attributes in valid range
         //  3->25 for NPC
         //  3->MIN(25, max)
         //      where max = max race + 2 if prime attribute + 1 if enhanced prime attribute
-        for (int i = 0; i < _currentAttributes.Length; i++)
+        foreach(var basicAttribute in Enum.GetValues<BasicAttributes>())
         {
             var maxAllowed = 25;
             if (this is IPlayableCharacter pc && pc.Race is IPlayableRace playableRace)
             {
-                var max = playableRace.GetMaxAttribute((CharacterAttributes)i) + 4;
-                if (Class != null && (BasicAttributes)i == Class.PrimeAttribute)
+                var max = playableRace.GetMaxAttribute(basicAttribute) + 4;
+                if (Class != null && basicAttribute == Class.PrimeAttribute)
                 {
                     max += 2;
                     if (playableRace?.EnhancedPrimeAttribute == true)
@@ -863,7 +863,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 }
                 maxAllowed = Math.Min(max, 25);
             }
-            _currentAttributes[i] = _currentAttributes[i].Range(3, maxAllowed);
+            var attributeIndex = (int)basicAttribute;
+            _currentAttributes[attributeIndex] = _currentAttributes[attributeIndex].Range(3, maxAllowed);
         }
     }
 
@@ -1379,7 +1380,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Try 6 times to find an exit
         for (int attempt = 0; attempt < 6; attempt++)
         {
-            var randomExit = RandomManager.Random<ExitDirections>();
+            var randomExit = RandomManager.Random<ExitDirections>() ?? ExitDirections.North;
             var exit = Room.Exits[(int) randomExit];
             var destination = exit?.Destination;
             if (destination != null && exit?.IsClosed == false
@@ -1905,13 +1906,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
             thac0 = hitModifier.Thac0Modifier(thac0);
         var victimAc = damageType switch
         {
-            SchoolTypes.Bash => victim[Armors.Bash],
-            SchoolTypes.Pierce => victim[Armors.Pierce],
-            SchoolTypes.Slash => victim[Armors.Slash],
-            _ => victim[Armors.Exotic],
+            SchoolTypes.Bash => victim[Armors.Bash] / 10,
+            SchoolTypes.Pierce => victim[Armors.Pierce] / 10,
+            SchoolTypes.Slash => victim[Armors.Slash] / 10,
+            _ => victim[Armors.Exotic] / 10,
         };
         if (victimAc < -15)
-            victimAc = -15 + (victimAc + 15) / 2;
+            victimAc =  (victimAc + 15) / 5 - 15;
         if (!CanSee(victim))
             victimAc -= 4;
         if (victim.Position < Positions.Standing)
@@ -2169,7 +2170,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected void RecomputeCurrentResourceKinds()
     {
         // Get current resource kind from class if any, every resource otherwise
-        CurrentResourceKinds = (Class?.CurrentResourceKinds(Form) ?? EnumHelpers.GetValues<ResourceKinds>()).ToList();
+        CurrentResourceKinds = (Class?.CurrentResourceKinds(Form) ?? Enum.GetValues<ResourceKinds>()).ToList();
     }
 
     protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)

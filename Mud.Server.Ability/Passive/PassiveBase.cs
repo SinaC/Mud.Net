@@ -19,7 +19,7 @@ public abstract class PassiveBase : IPassive
     public virtual bool IsTriggered(ICharacter user, ICharacter victim, bool checkImprove, out int diceRoll, out int learnPercentage)
     {
         // 1) get ability info
-        var abilityInfo = new AbilityInfo(Logger, GetType());
+        var abilityInfo = new AbilityInfo(GetType());
         var abilityLearned = user.GetAbilityLearnedInfo(abilityInfo.Name);
         learnPercentage = abilityLearned.percentage;
 

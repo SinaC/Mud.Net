@@ -41,7 +41,7 @@ public class Scan : CharacterGameAction
         else
             sb.Append(currentScan);
         // Scan in one direction for each distance, then starts with another direction
-        foreach (var direction in EnumHelpers.GetValues<ExitDirections>())
+        foreach (var direction in Enum.GetValues<ExitDirections>())
         {
             IRoom currentRoom = Actor.Room; // starting point
             for (int distance = 1; distance < 4; distance++)

@@ -3468,6 +3468,77 @@
         "ArmorSlash": 100,
         "ArmorExotic": 100
       }
+    },
+    {
+      "CreationTime": "2025-12-05T23:37:49.4335981+01:00",
+      "RoomId": 3700,
+      "SilverCoins": 0,
+      "GoldCoins": 0,
+      "Experience": 0,
+      "Alignment": 0,
+      "Trains": 3,
+      "Practices": 5,
+      "AutoFlags": 0,
+      "CurrentQuests": [],
+      "LearnedAbilities": [
+        {
+          "Name": "mace",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 50,
+          "Rating": 2
+        }
+      ],
+      "Conditions": {
+        "Full": 48,
+        "Thirst": 48,
+        "Hunger": 48
+      },
+      "Aliases": {},
+      "Cooldowns": {},
+      "Pets": [],
+      "Name": "toto",
+      "Race": "dwarf",
+      "Class": "cleric",
+      "Level": 1,
+      "Sex": 1,
+      "Size": 1,
+      "HitPoints": 100,
+      "MovePoints": 100,
+      "CurrentResources": {
+        "Mana": 100,
+        "Psy": 100
+      },
+      "MaxResources": {
+        "Mana": 100,
+        "Psy": 100
+      },
+      "Equipments": [],
+      "Inventory": [],
+      "Auras": [],
+      "CharacterFlags": "Infrared",
+      "Immunities": "",
+      "Resistances": "Poison,Disease",
+      "Vulnerabilities": "Drowning",
+      "ShieldFlags": "",
+      "Attributes": {
+        "Strength": 14,
+        "Intelligence": 12,
+        "Wisdom": 17,
+        "Dexterity": 10,
+        "Constitution": 15,
+        "MaxHitPoints": 100,
+        "SavingThrow": 0,
+        "HitRoll": 0,
+        "DamRoll": 0,
+        "MaxMovePoints": 100,
+        "ArmorBash": 0,
+        "ArmorPierce": 0,
+        "ArmorSlash": 0,
+        "ArmorExotic": 0
+      }
     }
   ]
 }

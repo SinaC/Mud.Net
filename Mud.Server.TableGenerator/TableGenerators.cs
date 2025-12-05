@@ -96,11 +96,11 @@ public static class TableGenerators
         generator.AddColumn("Name", 16, x => x.DisplayName, new TableGenerator<IPlayableRace>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("", 5, x => x.ShortName);
         generator.AddColumn("Size", 8, x => x.Size.ToString());
-        generator.AddColumn(BasicAttributes.Strength.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, CharacterAttributes.Strength));
-        generator.AddColumn(BasicAttributes.Intelligence.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, CharacterAttributes.Intelligence));
-        generator.AddColumn(BasicAttributes.Wisdom.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, CharacterAttributes.Wisdom));
-        generator.AddColumn(BasicAttributes.Dexterity.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, CharacterAttributes.Dexterity));
-        generator.AddColumn(BasicAttributes.Constitution.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, CharacterAttributes.Constitution));
+        generator.AddColumn(BasicAttributes.Strength.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, BasicAttributes.Strength));
+        generator.AddColumn(BasicAttributes.Intelligence.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, BasicAttributes.Intelligence));
+        generator.AddColumn(BasicAttributes.Wisdom.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, BasicAttributes.Wisdom));
+        generator.AddColumn(BasicAttributes.Dexterity.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, BasicAttributes.Dexterity));
+        generator.AddColumn(BasicAttributes.Constitution.ShortName(), 8, x => DisplayPlayableRaceAttribute(x, BasicAttributes.Constitution));
         generator.AddColumn("Affects", 10, x => x.CharacterFlags?.ToString() ?? "???");
         generator.AddColumn("Imm", 10, x => x.Immunities?.ToString() ?? "???");
         generator.AddColumn("Res", 10, x => x.Immunities?.ToString() ?? "???");
@@ -115,7 +115,7 @@ public static class TableGenerators
         return generator;
     });
 
-    private static string DisplayPlayableRaceAttribute(IPlayableRace race, CharacterAttributes attr)
+    private static string DisplayPlayableRaceAttribute(IPlayableRace race, BasicAttributes attr)
         => $"{race.GetStartAttribute(attr)}->{race.GetMaxAttribute(attr)}";
 
     public static readonly Lazy<TableGenerator<IArea>> FullInfoAreaTableGenerator = new(() =>

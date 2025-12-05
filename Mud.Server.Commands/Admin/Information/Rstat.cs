@@ -65,7 +65,7 @@ public class Rstat : AdminGameAction
                 foreach (string extraDescr in lookup)
                     sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", lookup.Key, extraDescr);
         }
-        foreach (ExitDirections direction in EnumHelpers.GetValues<ExitDirections>())
+        foreach (ExitDirections direction in Enum.GetValues<ExitDirections>())
         {
             var exit = Room[direction];
             if (exit?.Destination != null)

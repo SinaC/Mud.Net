@@ -70,7 +70,7 @@ public class Alias : PlayerGameAction
             return "Sorry, that word is reserved.";
         if (TargetAlias.Any(c => c == '\'' || c == '"' || c == ' '))
             return "Aliases with that kind of characters are not allowed!";
-        if (TargetAlias.StartsWith("delete"))
+        if (TargetAlias.StartsWith("delete") || TargetAlias.StartsWith("deleteavatar"))
             return "That shall not be done.";
 
         Action = Actions.Assign;

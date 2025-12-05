@@ -42,7 +42,7 @@ public class Force : AdminGameAction
         if (actionInput.Parameters.Length < 2)
             return BuildCommandSyntax();
 
-        if (actionInput.Parameters[1].Value == "delete")
+        if (actionInput.Parameters[1].Value == "delete" || actionInput.Parameters[1].Value == "deleteavatar")
             return "That will NOT be done.";
 
         if (!actionInput.Parameters[0].IsAll)

@@ -74,7 +74,7 @@ public class Auto : PlayableCharacterGameAction
         if (Display)
         {
             StringBuilder sb = new ();
-            foreach (var autoFlag in EnumHelpers.GetValues<AutoFlags>().Where(x => x != AutoFlags.None).OrderBy(x => x.ToString()))
+            foreach (var autoFlag in Enum.GetValues<AutoFlags>().Where(x => x != AutoFlags.None).OrderBy(x => x.ToString()))
                 sb.AppendFormatLine("{0}: {1}", autoFlag.PrettyPrint(), Actor.AutoFlags.HasFlag(autoFlag) ? "ON" : "OFF");
 
             Actor.Send(sb);
@@ -83,7 +83,7 @@ public class Auto : PlayableCharacterGameAction
 
         if (SetAll)
         {
-            foreach (var autoFlag in EnumHelpers.GetValues<AutoFlags>().Where(x => x != AutoFlags.None).OrderBy(x => x.ToString()))
+            foreach (var autoFlag in Enum.GetValues<AutoFlags>().Where(x => x != AutoFlags.None).OrderBy(x => x.ToString()))
                 Actor.AddAutoFlags(autoFlag);
             Actor.Send("Ok.");
             return;

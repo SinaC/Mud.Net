@@ -51,48 +51,30 @@ public class Giant : PlayableRaceBase
     public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
     public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
 
-    public override int GetStartAttribute(CharacterAttributes attribute)
+    public override int GetStartAttribute(BasicAttributes attribute)
     {
         switch (attribute)
         {
-            case CharacterAttributes.Strength: return 16;
-            case CharacterAttributes.Intelligence: return 11;
-            case CharacterAttributes.Wisdom: return 13;
-            case CharacterAttributes.Dexterity: return 11;
-            case CharacterAttributes.Constitution: return 14;
-            case CharacterAttributes.MaxHitPoints: return 100;
-            case CharacterAttributes.SavingThrow: return 0;
-            case CharacterAttributes.HitRoll: return 0;
-            case CharacterAttributes.DamRoll: return 0;
-            case CharacterAttributes.MaxMovePoints: return 100;
-            case CharacterAttributes.ArmorBash: return 100;
-            case CharacterAttributes.ArmorPierce: return 100;
-            case CharacterAttributes.ArmorSlash: return 100;
-            case CharacterAttributes.ArmorExotic: return 100;
+            case BasicAttributes.Strength: return 16;
+            case BasicAttributes.Intelligence: return 11;
+            case BasicAttributes.Wisdom: return 13;
+            case BasicAttributes.Dexterity: return 11;
+            case BasicAttributes.Constitution: return 14;
             default:
                 Logger.LogError("Unexpected start attribute {attribute} for {name}", attribute, Name);
                 return 0;
         }
     }
 
-    public override int GetMaxAttribute(CharacterAttributes attribute)
+    public override int GetMaxAttribute(BasicAttributes attribute)
     {
         switch (attribute)
         {
-            case CharacterAttributes.Strength: return 22;
-            case CharacterAttributes.Intelligence: return 15;
-            case CharacterAttributes.Wisdom: return 18;
-            case CharacterAttributes.Dexterity: return 15;
-            case CharacterAttributes.Constitution: return 20;
-            case CharacterAttributes.MaxHitPoints: return 100;
-            case CharacterAttributes.SavingThrow: return 0;
-            case CharacterAttributes.HitRoll: return 0;
-            case CharacterAttributes.DamRoll: return 0;
-            case CharacterAttributes.MaxMovePoints: return 100;
-            case CharacterAttributes.ArmorBash: return 100;
-            case CharacterAttributes.ArmorPierce: return 100;
-            case CharacterAttributes.ArmorSlash: return 100;
-            case CharacterAttributes.ArmorExotic: return 100;
+            case BasicAttributes.Strength: return 22;
+            case BasicAttributes.Intelligence: return 15;
+            case BasicAttributes.Wisdom: return 18;
+            case BasicAttributes.Dexterity: return 15;
+            case BasicAttributes.Constitution: return 20;
             default:
                 Logger.LogError("Unexpected max attribute {attribute} for {name}", attribute, Name);
                 return 0;

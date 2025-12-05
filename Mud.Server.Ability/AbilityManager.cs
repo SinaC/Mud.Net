@@ -31,7 +31,7 @@ public class AbilityManager : IAbilityManager
         foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && iAbilityType.IsAssignableFrom(t))))
         {
-            AbilityInfo abilityInfo = new (logger, abilityType);
+            AbilityInfo abilityInfo = new (abilityType);
             if (AbilityByName.ContainsKey(abilityInfo.Name))
                 Logger.LogError("Duplicate ability {abilityInfoName}", abilityInfo.Name);
             else
