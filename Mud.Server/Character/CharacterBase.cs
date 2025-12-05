@@ -361,7 +361,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (character is INonPlayableCharacter npcCharacter)
         {
             npcCharacter.RemoveBaseCharacterFlags(true, "Charm");
-            npcCharacter.RemoveAuras(x => x.AbilityName == "Charm Person", true);
+            npcCharacter.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Charm Person"), true); // TODO: do this differently
             npcCharacter.ChangeMaster(null);
         }
     }
@@ -2304,7 +2304,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (source.CharacterFlags.IsSet("Invisible"))
         {
             source.RemoveBaseCharacterFlags(false, "Invisible");
-            source.RemoveAuras(x => x.AbilityName == "Invisibility", false);
+            source.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Invisibility"), false); // TODO: do this differently
             source.Recompute(); // force a recompute to check if there is something special that gives invis
             // if not anymore invis
             if (!source.CharacterFlags.IsSet("Invisible"))

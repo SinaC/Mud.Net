@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Ability;
 using Mud.Server.Common;
 using Mud.Server.Flags.Interfaces;

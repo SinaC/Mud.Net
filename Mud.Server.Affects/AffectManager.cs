@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
-using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Affects.Room;

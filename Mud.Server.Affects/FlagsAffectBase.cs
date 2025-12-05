@@ -1,6 +1,7 @@
 ﻿using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Domain.Extensions;
+using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Affect;
 using System.Text;
 

@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using System.Text;

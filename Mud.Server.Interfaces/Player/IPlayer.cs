@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;

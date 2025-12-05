@@ -7,7 +7,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Passives;
 
-[Weapon(PassiveName, ["Poleram"], LearnDifficultyMultiplier = 5)]
+[Weapon(PassiveName, ["Polearm"], LearnDifficultyMultiplier = 5)]
 [Help(@"the use of pole weapons (except spears), including halberds")]
 public class Polearm : PassiveBase, IWeaponPassive
 {

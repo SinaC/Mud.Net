@@ -2,6 +2,7 @@
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;

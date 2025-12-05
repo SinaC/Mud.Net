@@ -1,5 +1,6 @@
 ﻿using DeepEqual.Syntax;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Item;
 using System.Text.Json;

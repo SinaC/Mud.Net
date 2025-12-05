@@ -1,5 +1,6 @@
 ﻿using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.DataStructures.Flags;
-using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Actor;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces.Ability;
@@ -153,7 +153,7 @@ public abstract class EntityBase : ActorBase, IEntity
             return null;
         }
 
-        return _auras.FirstOrDefault(x => x.AbilityName == abilityName);
+        return _auras.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.AbilityName, abilityName));
     }
 
     public void AddAura(IAura aura, bool recompute)
@@ -190,7 +190,7 @@ public abstract class EntityBase : ActorBase, IEntity
                 }
             }
             // TODO: remove this crappy thing, replace with wear off func
-            if (aura.AbilityName == "Charm Person" && this is INonPlayableCharacter npc)
+            if (StringCompareHelpers.StringEquals(aura.AbilityName!, "Charm Person") && this is INonPlayableCharacter npc)
                 npc.ChangeMaster(null);
         }
         if (recompute && removed)

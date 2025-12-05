@@ -57,7 +57,7 @@ public class DispelManager : IDispelManager
     public TryDispelReturnValues TryDispel(int dispelLevel, ICharacter victim, string abilityName) // was called check_dispel in Rom24
     {
         bool found = false;
-        foreach (IAura aura in victim.Auras.Where(x => x.AbilityName == abilityName)) // no need to clone because at most one entry will be removed
+        foreach (IAura aura in victim.Auras.Where(x => StringCompareHelpers.StringEquals(x.AbilityName, abilityName))) // no need to clone because at most one entry will be removed
         {
             if (!SavesDispel(dispelLevel, aura))
             {

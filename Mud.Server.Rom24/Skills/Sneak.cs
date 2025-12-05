@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
@@ -42,7 +43,7 @@ public class Sneak : NoTargetSkillBase
             return baseSetup;
 
         User.Send("You attempt to move silently.");
-        User.RemoveAuras(x => x.AbilityName == SkillName, true);
+        User.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, SkillName), true);
 
         if (User.CharacterFlags.IsSet("Sneak"))
             return string.Empty;

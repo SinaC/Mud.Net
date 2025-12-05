@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Class;
@@ -73,7 +74,7 @@ public class Druid : ClassBase
     {
         // Test class with all skills + Passive
         foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
-            if (abilityInfo.Name == "Berserk")
+            if (StringCompareHelpers.StringEquals(abilityInfo.Name, "Berserk"))
                 AddAbility(20, abilityInfo.Name, Domain.ResourceKinds.Mana, 35, CostAmountOperators.Fixed, 1);
             else
                 AddSkill(20, abilityInfo.Name, 1);

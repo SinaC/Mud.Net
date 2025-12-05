@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 

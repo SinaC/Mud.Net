@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Domain.SerializationData;
 using System.Text;
 
 namespace Mud.Server.Interfaces.Affect;

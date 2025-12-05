@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Domain.SerializationData;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Room;

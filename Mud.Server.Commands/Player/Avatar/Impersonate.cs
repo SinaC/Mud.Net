@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;

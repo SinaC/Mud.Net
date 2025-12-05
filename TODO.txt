@@ -1,16 +1,180 @@
 INGOING
 DONE
-
+    Polearm weapon passive was refering to Poleram (instead of Polearm) weapon type
 ==========
 == TODO ==
 ==========
 
+oaffects/iaffects display affects from equipments
+finish score
+
 skill/spell/passive groups
+gain command can also gain group of abilities (we should display which abilities are already known when displaying group)
 alignment/groups/... selection during avatar creation
 
-check antievil/antigood/... zap (see handler.c:1586)
+// every player: rom basics
+// every class: 'class' basics
+// default if no customization: 'class' default
 
-human: can practice up to 90% and easier check improve
+{
+    // name, cost:{mage, cleric, thief, warrior}
+    // group/spell list
+    {
+	"rom basics",		{ 0, 0, 0, 0 },
+	{ "scrolls", "staves", "wands", "recall" }
+    },
+
+    {
+	"mage basics",		{ 0, -1, -1, -1 },
+	{ "dagger" }
+    },
+
+    {
+	"cleric basics",	{ -1, 0, -1, -1 },
+	{ "mace" }
+    },
+   
+    {
+	"thief basics",		{ -1, -1, 0, -1 },
+	{ "dagger", "steal" }
+    },
+
+    {
+	"warrior basics",	{ -1, -1, -1, 0 },
+	{ "sword", "second attack" }
+    },
+
+    {
+	"mage default",		{ 40, -1, -1, -1 },
+	{ "lore", "beguiling", "combat", "detection", "enhancement", "illusion",
+	  "maladictions", "protective", "transportation", "weather" }
+    },
+
+    {
+	"cleric default",	{ -1, 40, -1, -1 },
+	{ "flail", "attack", "creation", "curative",  "benedictions", 
+	  "detection", "healing", "maladictions", "protective", "shield block", 
+	  "transportation", "weather" }
+    },
+ 
+    {
+	"thief default",	{ -1, -1, 40, -1 },
+	{ "mace", "sword", "backstab", "disarm", "dodge", "second attack",
+	  "trip", "hide", "peek", "pick lock", "sneak" }
+    },
+
+    {
+	"warrior default",	{ -1, -1, -1, 40 },
+	{ "weaponsmaster", "shield block", "bash", "disarm", "enhanced damage", 
+	  "parry", "rescue", "third attack" }
+    },
+
+    {
+	"weaponsmaster",	{ 40, 40, 40, 20 },
+	{ "axe", "dagger", "flail", "mace", "polearm", "spear", "sword","whip" }
+    },
+
+    {
+	"attack",		{ -1, 5, -1, 8 },
+	{ "demonfire", "dispel evil", "dispel good", "earthquake", 
+	  "flamestrike", "heat metal", "ray of truth" }
+    },
+
+    {
+	"beguiling",		{ 4, -1, 6, -1 },
+	{ "calm", "charm person", "sleep" }
+    },
+
+    {
+	"benedictions",		{ -1, 4, -1, 8 },
+	{ "bless", "calm", "frenzy", "holy word", "remove curse" }
+    },
+
+    {
+	"combat",		{ 6, -1, 10, 9 },
+	{ "acid blast", "burning hands", "chain lightning", "chill touch",
+	  "colour spray", "fireball", "lightning bolt", "magic missile",
+	  "shocking grasp"  }
+    },
+
+    {
+	"creation",		{ 4, 4, 8, 8 },
+	{ "continual light", "create food", "create spring", "create water",
+	  "create rose", "floating disc" }
+    },
+
+    {
+	"curative",		{ -1, 4, -1, 8 },
+	{ "cure blindness", "cure disease", "cure poison" }
+    }, 
+
+    {
+	"detection",		{ 4, 3, 6, -1 },
+ 	{ "detect evil", "detect good", "detect hidden", "detect invis", 
+	  "detect magic", "detect poison", "farsight", "identify", 
+	  "know alignment", "locate object" } 
+    },
+
+    {
+	"draconian",		{ 8, -1, -1, -1 },
+	{ "acid breath", "fire breath", "frost breath", "gas breath",
+	  "lightning breath"  }
+    },
+
+    {
+	"enchantment",		{ 6, -1, -1, -1 },
+	{ "enchant armor", "enchant weapon", "fireproof", "recharge" }
+    },
+
+    { 
+	"enhancement",		{ 5, -1, 9, 9 },
+	{ "giant strength", "haste", "infravision", "refresh" }
+    },
+
+    {
+	"harmful",		{ -1, 3, -1, 6 },
+	{ "cause critical", "cause light", "cause serious", "harm" }
+    },
+
+    {   
+	"healing",		{ -1, 3, -1, 6 },
+ 	{ "cure critical", "cure light", "cure serious", "heal", 
+	  "mass healing", "refresh" }
+    },
+
+    {
+	"illusion",		{ 4, -1, 7, -1 },
+	{ "invis", "mass invis", "ventriloquate" }
+    },
+  
+    {
+	"maladictions",		{ 5, 5, 9, 9 },
+	{ "blindness", "change sex", "curse", "energy drain", "plague", 
+	  "poison", "slow", "weaken" }
+    },
+
+    { 
+	"protective",		{ 4, 4, 7, 8 },
+	{ "armor", "cancellation", "dispel magic", "fireproof",
+	  "protection evil", "protection good", "sanctuary", "shield", 
+	  "stone skin" }
+    },
+
+    {
+	"transportation",	{ 4, 4, 8, 9 },
+	{ "fly", "gate", "nexus", "pass door", "portal", "summon", "teleport", 
+	  "word of recall" }
+    },
+   
+    {
+	"weather",		{ 4, 4, 8, 8 },
+	{ "call lightning", "control weather", "faerie fire", "faerie fog",
+	  "lightning bolt" }
+    }
+}
+
+
+check antievil/antigood/... zap (see handler.c:1586)
 
 remaining specials:
 dependent on PK: spec_executioner, spec_guard
@@ -92,7 +256,7 @@ commands dynamically added to Character depending on room they are, for example
 
 module/plugin to enable load on demand of skills/spells/commands/...
 
-outfit command to give basic equipement
+jukebox
 healer
 pet shop
 offensive flags: rescue, ...
@@ -113,7 +277,6 @@ quest: add quest item on the fly when player takes the quest or reconnect
 item: protect, room_key
 Monitor Recompute calls: recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
-skills: lore
 UnitTests on Rom24Effects
 specials
 assist_guard
@@ -148,15 +311,6 @@ better command parser: should be able to specify something like     will be poss
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world
     [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipment
-wear item
-     all
-     all.item
-look no arg
-     in|on|into container
-     character
-     item
-     extradescription
-     direction
 multitable generator, paging a table should repeat the header at the beginning of each page
 prompt modifiable by user
 merge IAdminRepository and IPlayerRepository -> IAccountRepository

@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Player;
 

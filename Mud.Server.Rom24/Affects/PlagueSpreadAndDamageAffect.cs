@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
 using Mud.Server.Affects.Character;
 using Mud.Server.Flags.Interfaces;
