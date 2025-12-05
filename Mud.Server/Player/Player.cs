@@ -3,6 +3,7 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Actor;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
@@ -107,9 +108,9 @@ public class Player : ActorBase, IPlayer
             // ! means repeat last command (only when last command was not delete)
             if (input != null && input.Length >= 1 && input[0] == '!')
             {
-                if (_lastCommand != null && _lastCommand.ToLowerInvariant() == "delete")
+                if (_lastCommand != null && (StringCompareHelpers.StringEquals(_lastCommand, "delete") || StringCompareHelpers.StringEquals(_lastCommand, "deleteavatar")))
                 {
-                    Send("Cannot use '!' to repeat 'delete' command");
+                    Send("Cannot use '!' to repeat 'delete' or 'deleteavatar' command");
                     DeletionConfirmationNeeded = false; // reset delete confirmation
                     return false;
                 }

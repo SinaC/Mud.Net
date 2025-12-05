@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Character.PlayableCharacter;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;

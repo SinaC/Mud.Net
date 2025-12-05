@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
-using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;

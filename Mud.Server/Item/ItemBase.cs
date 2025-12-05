@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;

@@ -1,4 +1,5 @@
 ﻿using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;

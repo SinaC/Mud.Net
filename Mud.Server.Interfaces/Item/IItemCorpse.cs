@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;

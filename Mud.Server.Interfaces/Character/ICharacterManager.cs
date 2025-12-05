@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;

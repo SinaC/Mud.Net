@@ -83,13 +83,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.TableGenerator",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Quest", "Mud.Server.Quest\Mud.Server.Quest.csproj", "{8E39B1FE-77E5-4D34-A913-F2CDD11F366F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Group", "Mud.Server.Group\Mud.Server.Group.csproj", "{89092185-300C-425C-9F5A-D6A2E1D6D284}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Options", "Mud.Server.Options\Mud.Server.Options.csproj", "{62D6759A-E69C-4DFB-B98A-EF2A9FD5A56D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Repository.Filesystem.Json", "Mud.Repository.Filesystem.Json\Mud.Repository.Filesystem.Json.csproj", "{B8065A3A-6B06-5DE2-8C9C-9301998E7F00}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Specials", "Mud.Server.Specials\Mud.Server.Specials.csproj", "{C6EABB72-135C-4D65-B842-3C9BBCCF7266}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mud.Server.Group", "Mud.Server.Group\Mud.Server.Group.csproj", "{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -521,18 +521,6 @@ Global
 		{8E39B1FE-77E5-4D34-A913-F2CDD11F366F}.Release|x64.Build.0 = Release|Any CPU
 		{8E39B1FE-77E5-4D34-A913-F2CDD11F366F}.Release|x86.ActiveCfg = Release|Any CPU
 		{8E39B1FE-77E5-4D34-A913-F2CDD11F366F}.Release|x86.Build.0 = Release|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Debug|x64.Build.0 = Debug|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Debug|x86.Build.0 = Debug|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Release|Any CPU.Build.0 = Release|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Release|x64.ActiveCfg = Release|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Release|x64.Build.0 = Release|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Release|x86.ActiveCfg = Release|Any CPU
-		{89092185-300C-425C-9F5A-D6A2E1D6D284}.Release|x86.Build.0 = Release|Any CPU
 		{62D6759A-E69C-4DFB-B98A-EF2A9FD5A56D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{62D6759A-E69C-4DFB-B98A-EF2A9FD5A56D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62D6759A-E69C-4DFB-B98A-EF2A9FD5A56D}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -569,6 +557,18 @@ Global
 		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Release|x64.Build.0 = Release|Any CPU
 		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Release|x86.ActiveCfg = Release|Any CPU
 		{C6EABB72-135C-4D65-B842-3C9BBCCF7266}.Release|x86.Build.0 = Release|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Debug|x64.Build.0 = Debug|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Debug|x86.Build.0 = Debug|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Release|x64.ActiveCfg = Release|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Release|x64.Build.0 = Release|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Release|x86.ActiveCfg = Release|Any CPU
+		{3B5038FC-CEDC-FE73-904C-A1538AFDD65F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

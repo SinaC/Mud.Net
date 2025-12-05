@@ -4,6 +4,7 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common.Helpers;

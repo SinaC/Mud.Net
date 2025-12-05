@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.Extensions;
+using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Room;
 using System.Text;

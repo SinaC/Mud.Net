@@ -58,7 +58,7 @@ public class EnchantWeapon : ItemInventorySpellBase<IItemWeapon>
         // find existing bonuses
         foreach (IAura aura in weapon.Auras)
         {
-            if (aura.AbilityName == SpellName)
+            if (StringCompareHelpers.StringEquals(aura.AbilityName, SpellName))
                 existingAura = aura;
             bool found = false;
             foreach (CharacterAttributeAffect characterAttributeAffect in aura.Affects.OfType<CharacterAttributeAffect>().Where(x => x.Location == CharacterAttributeAffectLocations.HitRoll || x.Location == CharacterAttributeAffectLocations.DamRoll))

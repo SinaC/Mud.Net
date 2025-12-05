@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common.Attributes;
-using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Repository.Filesystem.Json.Converters;
 using Mud.Repository.Interfaces;
 using Mud.Server.Flags.Interfaces;

@@ -57,7 +57,7 @@ public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
         // find existing bonuses
         foreach (var aura in armor.Auras)
         {
-            if (aura.AbilityName == SpellName)
+            if (StringCompareHelpers.StringEquals(aura.AbilityName, SpellName))
                 existingAura = aura;
             bool found = false;
             foreach (var characterAttributeAffect in aura.Affects.OfType<CharacterAttributeAffect>().Where(x => x.Location == CharacterAttributeAffectLocations.AllArmor))
