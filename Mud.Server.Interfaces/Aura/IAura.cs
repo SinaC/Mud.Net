@@ -32,6 +32,8 @@ public interface IAura
 
     // Display
     StringBuilder Append(StringBuilder sb, bool shortDisplay = false);
+    StringBuilder Append<TAffect>(StringBuilder sb, bool shortDisplay = false)
+        where TAffect : IAffect;
 
     // Serialization
     AuraData MapAuraData();

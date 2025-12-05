@@ -108,6 +108,10 @@ public class Aura : IAura
     }
 
     public StringBuilder Append(StringBuilder sb, bool shortDisplay = false)
+        => Append<IAffect>(sb, shortDisplay);
+
+    public StringBuilder Append<TAffect>(StringBuilder sb, bool shortDisplay = false)
+        where TAffect : IAffect
     {
         // TODO // if lvl < 10: only ability
         // TODO // if lvl < 15: only ability and duration
@@ -126,7 +130,7 @@ public class Aura : IAura
                     ? ""
                     : AuraFlags.ToString());
         if (!shortDisplay)
-            foreach (IAffect affect in Affects)
+            foreach (TAffect affect in Affects.OfType<TAffect>())
             {
                 sb.Append("    ");
                 affect.Append(sb);
