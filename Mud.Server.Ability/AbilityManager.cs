@@ -26,9 +26,10 @@ public class AbilityManager : IAbilityManager
         AbilityByName = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
         WeaponAbilityByWeaponType = [];
         // Get abilities
-        Type iAbility = typeof(IAbility);
+        var iWeaponPassiveType = typeof(IWeaponPassive);
+        var iAbilityType = typeof(IAbility);
         foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
-            .Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
+            .Where(t => t.IsClass && !t.IsAbstract && iAbilityType.IsAssignableFrom(t))))
         {
             AbilityInfo abilityInfo = new (logger, abilityType);
             if (AbilityByName.ContainsKey(abilityInfo.Name))
@@ -36,19 +37,23 @@ public class AbilityManager : IAbilityManager
             else
                 AbilityByName.Add(abilityInfo.Name, abilityInfo);
 
-            var weaponAttribute = abilityType.GetCustomAttribute<WeaponAttribute>();
-            if (weaponAttribute != null)
+            // if weapon passive, add to weapon ability by weapon type cache
+            if (iWeaponPassiveType.IsAssignableFrom(abilityType))
             {
-                foreach (var weaponTypeName in weaponAttribute.WeaponTypes)
+                var weaponAttribute = abilityType.GetCustomAttribute<WeaponAttribute>();
+                if (weaponAttribute != null)
                 {
-                    if (!Enum.TryParse<WeaponTypes>( weaponTypeName, out var weaponType))
-                        Logger.LogError("Weapon passive ability {abilityInfoName} refers to an unknown weapon type {weaponType}", abilityInfo.Name, weaponTypeName);
-                    else
+                    foreach (var weaponTypeName in weaponAttribute.WeaponTypes)
                     {
-                        if (WeaponAbilityByWeaponType.ContainsKey(weaponType))
-                            Logger.LogError("Duplicate weapon passive ability {weaponType}", weaponType);
+                        if (!Enum.TryParse<WeaponTypes>(weaponTypeName, out var weaponType))
+                            Logger.LogError("Weapon passive ability {abilityInfoName} refers to an unknown weapon type {weaponType}", abilityInfo.Name, weaponTypeName);
                         else
-                            WeaponAbilityByWeaponType.Add(weaponType, abilityInfo);
+                        {
+                            if (WeaponAbilityByWeaponType.ContainsKey(weaponType))
+                                Logger.LogError("Duplicate weapon passive ability {weaponType}", weaponType);
+                            else
+                                WeaponAbilityByWeaponType.Add(weaponType, abilityInfo);
+                        }
                     }
                 }
             }

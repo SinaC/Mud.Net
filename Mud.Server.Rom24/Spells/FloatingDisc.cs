@@ -38,18 +38,11 @@ public class FloatingDisc : ItemCreationSpellBase
     protected override void Invoke()
     {
         // TODO: using data is kindy hacky to perform a custom level item
-        var item = ItemManager.AddItem(Guid.NewGuid(), FloatingDiscBlueprintId, Caster);
-        if (item == null)
+        var floatingDisc = ItemManager.AddItem<IItemContainer>(Guid.NewGuid(), FloatingDiscBlueprintId, Caster);
+        if (floatingDisc == null)
         {
             Caster.Send("The spell fizzles and dies.");
             Wiznet.Log($"SpellFloatingDisc: cannot create item from blueprint {FloatingDiscBlueprintId}.", WiznetFlags.Bugs, AdminLevels.Implementor);
-            return;
-        }
-        if (item is not IItemContainer floatingDisc)
-        {
-            Caster.Send("Somehing went wrong.");
-            Wiznet.Log($"SpellFloatingDisc: blueprint {FloatingDiscBlueprintId} is not a container.", WiznetFlags.Bugs, AdminLevels.Implementor);
-            ItemManager.RemoveItem(item); // destroy it if invalid
             return;
         }
         int maxWeight = Level * 10;

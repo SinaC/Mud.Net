@@ -31,7 +31,7 @@ public class CreateFood : ItemCreationSpellBase
 
     protected override void Invoke()
     {
-        var mushroom = ItemManager.AddItem(Guid.NewGuid(), MushroomBlueprintId, Caster.Room) as IItemFood;
+        var mushroom = ItemManager.AddItem<IItemFood>(Guid.NewGuid(), MushroomBlueprintId, Caster.Room);
         if (mushroom == null)
         {
             Caster.Send("The spell fizzles and dies.");

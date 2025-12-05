@@ -21,6 +21,8 @@ public interface IItemManager
     IItem? AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container);
     IItem? AddItem(Guid guid, ItemData itemData, IContainer container);
     IItem? AddItem(Guid guid, int blueprintId, IContainer container);
+    TItem? AddItem<TItem>(Guid guid, int blueprintId, IContainer container)
+        where TItem : class, IItem;
 
     IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim);
     IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer);

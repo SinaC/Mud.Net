@@ -54,7 +54,7 @@ public abstract class ClassBase : IClass
         Help = helpAttribute?.Help;
     }
 
-    protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
+    protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int baseLearned = 0)
     {
         var abilityInfo = AbilityManager[abilityName];
         if (abilityInfo == null)
@@ -62,43 +62,17 @@ public abstract class ClassBase : IClass
             Logger.LogError("Trying to add unknown ability [{abilityName}] to class [{name}]", abilityName, Name);
             return;
         }
+        // TODO: check level >= 1, amount >= 0, rating >= 0, baseLearned >= 1
         //
-        _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, abilityInfo));
+        _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, baseLearned, abilityInfo));
     }
 
-    protected void AddSpell(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
-    {
-        var abilityInfo = AbilityManager[abilityName];
-        if (abilityInfo == null)
-        {
-            Logger.LogError("Trying to add unknown ability [{abilityName}] to class [{name}]", abilityName, Name);
-            return;
-        }
-        //
-        _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, abilityInfo));
-    }
+    protected void AddSpell(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int baseLearned = 0)
+        => AddAbility(level, abilityName, resourceKind, costAmount, costAmountOperator, rating, baseLearned);
 
-    protected void AddSkill(int level, string abilityName, int rating)
-    {
-        var abilityInfo = AbilityManager[abilityName];
-        if (abilityInfo == null)
-        {
-            Logger.LogError("Trying to add unknown ability [{abilityName}] to class [{name}]", abilityName, Name);
-            return;
-        }
-        //
-        _abilities.Add(new AbilityUsage(abilityName, level, null, 0, CostAmountOperators.None, rating, abilityInfo));
-    }
+    protected void AddSkill(int level, string abilityName, int rating, int baseLearned = 0)
+        => AddAbility(level, abilityName, null, 0, CostAmountOperators.None, rating, baseLearned);
 
-    protected void AddPassive(int level, string abilityName, int rating)
-    {
-        var abilityInfo = AbilityManager[abilityName];
-        if (abilityInfo == null)
-        {
-            Logger.LogError("Trying to add unknown ability [{abilityName}] to class [{name}]", abilityName, Name);
-            return;
-        }
-        //
-        _abilities.Add(new AbilityUsage(abilityName, level, null, 0, CostAmountOperators.None, rating, abilityInfo));
-    }
+    protected void AddPassive(int level, string abilityName, int rating, int baseLearned = 0)
+        => AddAbility(level, abilityName, null, 0, CostAmountOperators.None, rating, baseLearned);
 }

@@ -1,8 +1,11 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Ability;
 using Mud.Server.Common;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
@@ -10,6 +13,7 @@ using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace Mud.Server.Commands.Player;
 
@@ -19,7 +23,8 @@ public enum AvatarCreationStates
     NameConfirmation, // -> NameChoice | SexChoice | Quit
     SexChoice, // -> SexChoice | RaceChoice | Quit
     RaceChoice, // -> RaceChoice | ClassChoice | Quit
-    ClassChoice, // -> ClassChoice | AvatarCreated | ImmediateImpersonate | Quit
+    ClassChoice, // -> ClassChoice | WeaponChoice
+    WeaponChoice, // -> AvatarCreated | ImmediateImpersonate | Quit
     ImmediateImpersonate, // -> CreationComplete
     CreationComplete,
     Quit
@@ -32,9 +37,11 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
     private IPlayableRace? _race;
     private IClass? _class;
 
+    private ILogger Logger { get; }
     protected IServerPlayerCommand ServerPlayerCommand { get; }
     protected IRaceManager RaceManager { get; }
     protected IClassManager ClassManager { get; }
+    protected IAbilityManager AbilityManager { get; }
     protected IUniquenessManager UniquenessManager { get; }
     protected ITimeManager TimeManager { get; }
     protected IRoomManager RoomManager { get; }
@@ -43,11 +50,13 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
 
     public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
-    public AvatarCreationStateMachine(IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, IGameActionManager gameActionManager)
+    public AvatarCreationStateMachine(ILogger logger, IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IAbilityManager abilityManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, IGameActionManager gameActionManager)
     {
+        Logger = logger;
         ServerPlayerCommand = serverPlayerCommand;
         RaceManager = raceManager;
         ClassManager = classManager;
+        AbilityManager = abilityManager;
         UniquenessManager = uniquenessManager;
         TimeManager = timeManager;
         RoomManager = roomManager;
@@ -62,6 +71,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             {AvatarCreationStates.SexChoice, ProcessSexChoice},
             {AvatarCreationStates.RaceChoice, ProcessRaceChoice},
             {AvatarCreationStates.ClassChoice, ProcessClassChoice},
+            {AvatarCreationStates.WeaponChoice, ProcessWeaponChoice},
             {AvatarCreationStates.ImmediateImpersonate, ProcessImmediateImpersonate},
             {AvatarCreationStates.CreationComplete, ProcessCreationComplete},
             {AvatarCreationStates.Quit, ProcessQuit}
@@ -169,9 +179,51 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             return AvatarCreationStates.Quit;
         }
         var classes = ClassManager.Classes.Where(x => StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
-        if (classes.Count == 1) // create is finished
+        if (classes.Count == 1)
         {
             _class = classes[0];
+            player.Send("Please pick a weapon from the following choices:");
+            DisplayWeaponList(player, false);
+            return AvatarCreationStates.WeaponChoice;
+
+        }
+        DisplayClassList(player);
+        return AvatarCreationStates.ClassChoice;
+    }
+
+    private AvatarCreationStates ProcessWeaponChoice(IPlayer player, string input)
+    {
+        if (input == "quit")
+        {
+            player.Send("Creation cancelled.");
+            return AvatarCreationStates.Quit;
+        }
+        var weaponAbilityInfos = AbilityManager.SearchAbilitiesByExecutionType<IWeaponPassive>().Where(x => StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
+        if (weaponAbilityInfos.Count == 1)
+        {
+            var learnedAbilities = new List<LearnedAbilityData>();
+            // set default weapon to 50%
+            var weaponAbilityInfo = weaponAbilityInfos.Single();
+            var weaponAbilityUsage = _class!.Abilities.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, weaponAbilityInfo.Name));
+            if (weaponAbilityUsage == null)
+                Logger.LogError("AvatarCreationStateMachine: no matching ability usage found on class {className} for weapon {weaponAbilityName}", _class.Name, weaponAbilityInfo.Name);
+            else
+            {
+                var weaponLearnedAbility = new LearnedAbilityData
+                {
+                    Name = weaponAbilityUsage.Name,
+                    ResourceKind = weaponAbilityUsage.ResourceKind,
+                    CostAmount = weaponAbilityUsage.CostAmount,
+                    CostAmountOperator = weaponAbilityUsage.CostAmountOperator,
+                    Level = weaponAbilityUsage.Level,
+                    Learned = Math.Max(weaponAbilityUsage.MinLearned, 50),
+                    Rating = weaponAbilityUsage.Rating,
+                };
+                learnedAbilities.Add(weaponLearnedAbility);
+            }
+            // TODO: abilities+ability groups (aka customization)
+            // additional known abilities will be added in PlayableCharacter ctor
+
             var startingRoom = RoomManager.MudSchoolRoom; // todo: mud school
             PlayableCharacterData playableCharacterData = new()
             {
@@ -216,20 +268,22 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
                 Vulnerabilities = _race!.Vulnerabilities,
                 ShieldFlags = ShieldFlagFactory.CreateInstance(),
                 Attributes = EnumHelpers.GetValues<CharacterAttributes>().ToDictionary(x => x, x => GetStartAttributeValue(x, _race!, _class!)),
-                LearnedAbilities = [], // known abilities will be created in PlayableCharacter ctor
+                LearnedAbilities = learnedAbilities.ToArray(),
                 Cooldowns = [],
                 Pets = []
             };
+
             player.AddAvatar(playableCharacterData);
             ServerPlayerCommand.Save(player);
             UniquenessManager.AddAvatarName(_name!);
+            // set weapon to 40
             // TODO: better wording
             player.Send("Your avatar is created. Name: {0} Sex: {1} Race: {2} Class: {3}.", _name!.UpperFirstLetter(), _sex!, _race!.DisplayName, _class!.DisplayName);
             player.Send("Would you like to impersonate it now? (y/n)");
             return AvatarCreationStates.ImmediateImpersonate;
         }
-        DisplayClassList(player);
-        return AvatarCreationStates.ClassChoice;
+        DisplayWeaponList(player, false);
+        return AvatarCreationStates.WeaponChoice;
     }
 
     private AvatarCreationStates ProcessImmediateImpersonate(IPlayer player, string input)
@@ -298,6 +352,14 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             player.Send("Please choose a class (type quit to stop creation).");
         string classes = string.Join(" | ", ClassManager.Classes.Select(x => x.DisplayName));
         player.Send(classes);
+    }
+
+    private void DisplayWeaponList(IPlayer player, bool displayHeader = true)
+    {
+        if (displayHeader)
+            player.Send("Please choose a weapon (type quit to stop creation).");
+        string weapons = string.Join(" | ", AbilityManager.SearchAbilitiesByExecutionType<IWeaponPassive>().Select(x => x.Name));
+        player.Send(weapons);
     }
 
     private static int GetStartAttributeValue(CharacterAttributes attribute, IPlayableRace race, IClass @class)

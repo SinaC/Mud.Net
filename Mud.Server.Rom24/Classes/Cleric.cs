@@ -32,7 +32,7 @@ public class Cleric : ClassBase
         AddPassive(1, "spear", 4);
         AddPassive(1, "sword", 6);
         AddPassive(1, "whip", 5);
-        AddSkill(1, "recall", 2);
+        AddSkill(1, "recall", 2, 40);
         AddSkill(1, "scrolls", 3);
         AddSkill(1, "staves", 3);
         AddSkill(1, "wands", 3);

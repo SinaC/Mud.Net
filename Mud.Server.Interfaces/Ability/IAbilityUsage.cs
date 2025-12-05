@@ -16,8 +16,7 @@ public interface IAbilityUsage
 
     int Rating { get; }
 
-    IAbilityInfo AbilityInfo { get; }
+    int MinLearned { get; }
 
-    void Update(int level, int rating, int costAmount);
-    void Update(int level, int rating);
+    IAbilityInfo AbilityInfo { get; }
 }

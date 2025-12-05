@@ -223,7 +223,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     Wiznet.Log($"LearnedAbility:  Ability {learnedAbilityData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 else
                 {
-                    var abilityLearned = new AbilityLearned(Logger, learnedAbilityData, abilityInfo);
+                    var abilityLearned = new AbilityLearned(learnedAbilityData, abilityInfo);
                     AddLearnedAbility(abilityLearned);
                 }
             }
@@ -231,13 +231,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // Aliases
         if (data.Aliases != null)
         {
-            foreach (KeyValuePair<string, string> alias in data.Aliases)
+            foreach (var alias in data.Aliases)
                 _aliases.Add(alias.Key, alias.Value);
         }
         // Cooldowns
         if (data.Cooldowns != null)
         {
-            foreach (KeyValuePair<string, int> cooldown in data.Cooldowns)
+            foreach (var cooldown in data.Cooldowns)
             {
                 var abilityInfo = AbilityManager[cooldown.Key];
                 if (abilityInfo == null)
@@ -249,7 +249,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // Pets
         if (data.Pets != null)
         {
-            foreach (PetData petData in data.Pets)
+            foreach (var petData in data.Pets)
             {
                 var blueprint = CharacterManager.GetCharacterBlueprint<CharacterNormalBlueprint>(petData.BlueprintId);
                 if (blueprint == null)
