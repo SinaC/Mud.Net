@@ -13,7 +13,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.POC.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, CooldownInSeconds = 1)]
+[Spell(SpellName, AbilityEffects.Buff, CooldownInSeconds = 5)]
 public class SpellTest : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Test";
@@ -64,7 +64,7 @@ public class SpellTest : ItemOrDefensiveSpellBase
 
         AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(10), AuraFlags.NoDispel, true,
             new ItemFlagsAffect { Modifier = FlagFactory.CreateInstance<IItemFlags, IItemFlagValues>("Glowing", "Humming", "Magic") },
-            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -Level, Operator = AffectOperators.Add},
+            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -Level*10, Operator = AffectOperators.Add},
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Characteristics, Modifier = Level, Operator = AffectOperators.Add });
     }
 }

@@ -31,7 +31,7 @@ public class Elf : PlayableRaceBase
         AddAbility("Hide");
     }
 
-    #region IRace
+    #region IRace/IPlayableRace
 
     public override string Name => "elf";
     public override string ShortName => "Elf";
@@ -99,7 +99,15 @@ public class Elf : PlayableRaceBase
         }
     }
 
-    public override int ClassExperiencePercentageMultiplier(IClass? c) => c is Classes.Cleric ? 125 : 100;
+    public override int ClassExperiencePercentageMultiplier(IClass? c)
+        => c switch
+        {
+            Classes.Mage => 100,
+            Classes.Cleric => 125,
+            Classes.Thief => 100,
+            Classes.Warrior => 120,
+            _ => 100,
+        };
 
     #endregion
 }

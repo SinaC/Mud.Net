@@ -23,7 +23,7 @@ public class Human : PlayableRaceBase
     {
     }
 
-    #region IRace
+    #region IRace/IPlayableRace
 
     public override string Name => "human";
     public override string ShortName => "Hum";
@@ -42,6 +42,8 @@ public class Human : PlayableRaceBase
     public override IActFlags ActFlags => FlagFactory.CreateInstance<IActFlags, IActFlagValues>();
     public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
     public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
+
+    public override bool EnhancedPrimeAttribute => true;
 
     public override int GetStartAttribute(CharacterAttributes attribute)
     {

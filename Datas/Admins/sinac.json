@@ -1766,7 +1766,7 @@
     {
       "CreationTime": "2025-11-11T16:31:33.7841739+01:00",
       "RoomId": 2135,
-      "SilverCoins": 0,
+      "SilverCoins": 109,
       "GoldCoins": 0,
       "Experience": 120002,
       "Alignment": 0,
@@ -1970,7 +1970,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 1,
+          "Learned": 100,
           "Rating": 0
         },
         {
@@ -1979,7 +1979,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 1,
+          "Learned": 100,
           "Rating": 0
         },
         {
@@ -2015,7 +2015,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 1,
+          "Learned": 100,
           "Rating": 0
         },
         {
@@ -2178,7 +2178,7 @@
           "CostAmountOperator": 0,
           "Level": 1,
           "Learned": 100,
-          "Rating": 1
+          "Rating": 0
         },
         {
           "Name": "Fire Shield",
@@ -2802,15 +2802,6 @@
           "Rating": 1
         },
         {
-          "Name": "Known Alignment",
-          "ResourceKind": 0,
-          "CostAmount": 5,
-          "CostAmountOperator": 2,
-          "Level": 1,
-          "Learned": 100,
-          "Rating": 1
-        },
-        {
           "Name": "Lightning Bolt",
           "ResourceKind": 0,
           "CostAmount": 5,
@@ -3115,6 +3106,24 @@
           "Level": 1,
           "Learned": 100,
           "Rating": 1
+        },
+        {
+          "Name": "Lore",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 20,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "Know Alignment",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
         }
       ],
       "Conditions": {
@@ -3156,6 +3165,43 @@
           }
         },
         {
+          "Slot": 4,
+          "Item": {
+            "$type": "base",
+            "ItemId": 2114,
+            "Level": 10,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "",
+            "Auras": [
+              {
+                "AbilityName": "Test",
+                "Level": 48,
+                "PulseLeft": 2344,
+                "AuraFlags": 2,
+                "Affects": [
+                  {
+                    "$type": "itemFlags",
+                    "Operator": 0,
+                    "Modifier": "Glowing,Humming,Magic"
+                  },
+                  {
+                    "$type": "characterAttribute",
+                    "Operator": 0,
+                    "Location": 16,
+                    "Modifier": -490
+                  },
+                  {
+                    "$type": "characterAttribute",
+                    "Operator": 0,
+                    "Location": 6,
+                    "Modifier": 49
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
           "Slot": 13,
           "Item": {
             "$type": "weapon",
@@ -3168,7 +3214,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 1656,
+                "PulseLeft": 1468,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3245,13 +3291,29 @@
           "DecayPulseLeft": 480,
           "ItemFlags": "",
           "Auras": []
+        },
+        {
+          "$type": "base",
+          "ItemId": 2111,
+          "Level": 10,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "$type": "base",
+          "ItemId": 2104,
+          "Level": 3,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
         }
       ],
       "Auras": [
         {
           "AbilityName": "Giant Strength",
-          "Level": 12,
-          "PulseLeft": 10924,
+          "Level": 5,
+          "PulseLeft": 10736,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3264,8 +3326,8 @@
         },
         {
           "AbilityName": "Detect Evil",
-          "Level": 11,
-          "PulseLeft": 11120,
+          "Level": 1,
+          "PulseLeft": 10932,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3277,8 +3339,8 @@
         },
         {
           "AbilityName": "Detect Good",
-          "Level": 19,
-          "PulseLeft": 11152,
+          "Level": 14,
+          "PulseLeft": 10964,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3290,8 +3352,8 @@
         },
         {
           "AbilityName": "Detect Invis",
-          "Level": 28,
-          "PulseLeft": 11168,
+          "Level": 21,
+          "PulseLeft": 10980,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3303,8 +3365,8 @@
         },
         {
           "AbilityName": "Detect Hidden",
-          "Level": 27,
-          "PulseLeft": 11224,
+          "Level": 26,
+          "PulseLeft": 11036,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3316,8 +3378,8 @@
         },
         {
           "AbilityName": "Shock Shield",
-          "Level": 25,
-          "PulseLeft": 1432,
+          "Level": 16,
+          "PulseLeft": 1244,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3329,8 +3391,8 @@
         },
         {
           "AbilityName": "Fire Shield",
-          "Level": 30,
-          "PulseLeft": 1448,
+          "Level": 18,
+          "PulseLeft": 1260,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3342,8 +3404,8 @@
         },
         {
           "AbilityName": "Ice Shield",
-          "Level": 23,
-          "PulseLeft": 1460,
+          "Level": 17,
+          "PulseLeft": 1272,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3355,8 +3417,8 @@
         },
         {
           "AbilityName": "Berserk",
-          "Level": 47,
-          "PulseLeft": 1408,
+          "Level": 36,
+          "PulseLeft": 1220,
           "AuraFlags": 2,
           "Affects": [
             {
@@ -3407,5 +3469,5 @@
         "ArmorExotic": 100
       }
     }
-    ]
+  ]
 }

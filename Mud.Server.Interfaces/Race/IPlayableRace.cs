@@ -9,6 +9,8 @@ public interface IPlayableRace : IRace
     string ShortName { get; }
     string? Help { get; }
 
+    bool EnhancedPrimeAttribute { get; }
+
     IEnumerable<IAbilityUsage> Abilities { get; }
 
     int GetStartAttribute(CharacterAttributes attribute);
