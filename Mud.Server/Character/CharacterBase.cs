@@ -1398,13 +1398,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public abstract (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedInfo(string abilityName);
 
-    public IAbilityLearned? GetAbilityLearned(string abilityName)
-    {
-        if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
-            return null;
-        return abilityLearned;
-    }
-
     public IDictionary<string, int> AbilitiesInCooldown => _cooldownsPulseLeft;
 
     public bool HasAbilitiesInCooldown => _cooldownsPulseLeft.Count != 0;
@@ -1925,14 +1918,20 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // avoidance
-        foreach (var avoidanceAbility in AbilityManager.SearchAbilitiesByExecutionType<IHitAvoidancePassive>())
+        foreach (var avoidanceAbilityInfo in AbilityManager.SearchAbilitiesByExecutionType<IHitAvoidancePassive>())
         {
-            var ability = AbilityManager.CreateInstance<IHitAvoidancePassive>(avoidanceAbility);
-            if (ability != null)
+            // check victim learned percentage
+            var (avoidancePercentage, _) = victim.GetAbilityLearnedInfo(avoidanceAbilityInfo.Name);
+            if (avoidancePercentage > 0)
             {
-                bool success = ability.Avoid(victim, this, damageType);
-                if (success)
-                    return; // stops here
+                // check if avoidance is triggered
+                var avoidanceAbility = AbilityManager.CreateInstance<IHitAvoidancePassive>(avoidanceAbilityInfo);
+                if (avoidanceAbility != null)
+                {
+                    bool success = avoidanceAbility.Avoid(victim, this, damageType);
+                    if (success)
+                        return; // stops here-> no damage
+                }
             }
         }
 
@@ -2417,4 +2416,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         return DamageResults.Done;
     }
+
+    //
+    protected IAbilityLearned? GetAbilityLearned(string abilityName)
+    {
+        if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
+            return null;
+        return abilityLearned;
+    }
+
 }

@@ -18,8 +18,6 @@ public abstract class PassiveBase : IPassive
 
     public virtual bool IsTriggered(ICharacter user, ICharacter victim, bool checkImprove, out int diceRoll, out int learnPercentage)
     {
-        var pcUser = user as IPlayableCharacter;
-
         // 1) get ability info
         var abilityInfo = new AbilityInfo(Logger, GetType());
         var abilityLearned = user.GetAbilityLearnedInfo(abilityInfo.Name);
@@ -45,7 +43,10 @@ public abstract class PassiveBase : IPassive
 
         // 5) check improve true
         if (checkImprove)
+        {
+            var pcUser = user as IPlayableCharacter;
             pcUser?.CheckAbilityImprove(abilityInfo.Name, true, abilityInfo.LearnDifficultyMultiplier);
+        }
 
         return true;
     }

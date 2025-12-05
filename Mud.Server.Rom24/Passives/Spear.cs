@@ -2,13 +2,14 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Common;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Passives;
 
-[Passive(PassiveName, LearnDifficultyMultiplier = 5)]
+[Weapon(PassiveName, ["Spear"], LearnDifficultyMultiplier = 5)]
 [Help(@"this skill covers both spears and staves, but not polearms")]
-public class Spear : PassiveBase
+public class Spear : PassiveBase, IWeaponPassive
 {
     private const string PassiveName = "Spear";
 

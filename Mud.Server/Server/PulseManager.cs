@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Common.Attributes;
+using Mud.Server.Commands.Character.Movement;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces;
 using System.Diagnostics;
 
@@ -42,7 +45,7 @@ public class PulseManager : IPulseManager
 
     public void Pulse()
     {
-        Stopwatch sw = new ();
+        Stopwatch sw = new();
         foreach (var entry in _entries)
         {
             if (entry.PulseCurrentValue > 0)
@@ -61,9 +64,22 @@ public class PulseManager : IPulseManager
         }
     }
 
+    public void Pulse(string name)
+    {
+        var entry = _entries.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, name));
+        if (entry == null)
+            return;
+        entry.PulseAction(entry.PulseResetValue);
+    }
+
     public void Clear()
     {
         Logger.LogInformation("Clear all pulses");
         _entries.Clear();
+    }
+
+    private void Pulse(PulseEntry entry)
+    {
+       
     }
 }

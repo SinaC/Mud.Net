@@ -289,9 +289,30 @@ public class Player : ActorBase, IPlayer
         SnoopBy = snooper;
     }
 
+    public string? AvatarNameDeletionConfirmationNeeded { get; private set; }
+
+    public void SetAvatarNameDeletionConfirmationNeeded(string avatarName)
+    {
+        AvatarNameDeletionConfirmationNeeded = avatarName;
+    }
+
+    public void ResetAvatarNameDeletionConfirmationNeeded()
+    {
+        AvatarNameDeletionConfirmationNeeded = null;
+    }
+
     public void AddAvatar(PlayableCharacterData playableCharacterData)
     {
         _avatarList.Add(playableCharacterData);
+    }
+
+    public bool DeleteAvatar(string avatarName)
+    {
+        var avatar = _avatarList.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, avatarName));
+        if (avatar == null)
+            return false;
+        _avatarList.Remove(avatar);
+        return true;
     }
 
     public void StartImpersonating(IPlayableCharacter avatar)

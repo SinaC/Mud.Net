@@ -62,6 +62,19 @@ public class PassiveAttribute : AbilityBaseAttribute
     }
 }
 
+public class WeaponAttribute : AbilityBaseAttribute
+{
+    public override AbilityTypes Type => AbilityTypes.Passive;
+
+    public string[] WeaponTypes { get; set; }
+
+    public WeaponAttribute(string name, string[] weaponTypes)
+        : base(name, AbilityEffects.None)
+    {
+        WeaponTypes = weaponTypes;
+    }
+}
+
 [AttributeUsage(AttributeTargets.Class)]
 public abstract class AbilityAdditionalInfoAttribute : Attribute
 {

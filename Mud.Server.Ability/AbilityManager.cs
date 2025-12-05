@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
+using Mud.Domain;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
+using System.Reflection;
 
 namespace Mud.Server.Ability;
 
@@ -15,6 +16,7 @@ public class AbilityManager : IAbilityManager
     private IServiceProvider ServiceProvider { get; }
     private Dictionary<string, IAbilityInfo> AbilityByName { get; } // TODO: trie to optimize Search ?
     private Dictionary<Type, IAbilityInfo[]> AbilitiesByExecutionType { get; }
+    private Dictionary<WeaponTypes, IAbilityInfo> WeaponAbilityByWeaponType { get; }
 
     public AbilityManager(ILogger<AbilityManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
@@ -22,16 +24,34 @@ public class AbilityManager : IAbilityManager
         ServiceProvider = serviceProvider;
 
         AbilityByName = new Dictionary<string, IAbilityInfo>(StringComparer.InvariantCultureIgnoreCase);
+        WeaponAbilityByWeaponType = [];
         // Get abilities
         Type iAbility = typeof(IAbility);
         foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && iAbility.IsAssignableFrom(t))))
         {
-            AbilityInfo abilityInfo = new (logger, abilityType); // TODO: use DI
+            AbilityInfo abilityInfo = new (logger, abilityType);
             if (AbilityByName.ContainsKey(abilityInfo.Name))
                 Logger.LogError("Duplicate ability {abilityInfoName}", abilityInfo.Name);
             else
                 AbilityByName.Add(abilityInfo.Name, abilityInfo);
+
+            var weaponAttribute = abilityType.GetCustomAttribute<WeaponAttribute>();
+            if (weaponAttribute != null)
+            {
+                foreach (var weaponTypeName in weaponAttribute.WeaponTypes)
+                {
+                    if (!Enum.TryParse<WeaponTypes>( weaponTypeName, out var weaponType))
+                        Logger.LogError("Weapon passive ability {abilityInfoName} refers to an unknown weapon type {weaponType}", abilityInfo.Name, weaponTypeName);
+                    else
+                    {
+                        if (WeaponAbilityByWeaponType.ContainsKey(weaponType))
+                            Logger.LogError("Duplicate weapon passive ability {weaponType}", weaponType);
+                        else
+                            WeaponAbilityByWeaponType.Add(weaponType, abilityInfo);
+                    }
+                }
+            }
         }
         //
         AbilitiesByExecutionType = []; // will be filled at each call to AbilitiesByExecutionType
@@ -46,6 +66,16 @@ public class AbilityManager : IAbilityManager
         get
         {
             if (!AbilityByName.TryGetValue(abilityName, out var abilityInfo))
+                return null;
+            return abilityInfo;
+        }
+    }
+
+    public IAbilityInfo? this[WeaponTypes weaponType]
+    {
+        get
+        {
+            if (!WeaponAbilityByWeaponType.TryGetValue(weaponType, out var abilityInfo))
                 return null;
             return abilityInfo;
         }
@@ -78,7 +108,8 @@ public class AbilityManager : IAbilityManager
         return Abilities.FirstOrDefault(x => x.Type == type && StringCompareHelpers.StringStartsWith(x.Name, pattern));
     }
 
-    public IAbilityInfo? Search(ICommandParameter parameter) => Abilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
+    public IAbilityInfo? Search(ICommandParameter parameter)
+        => Abilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
 
     public TAbility? CreateInstance<TAbility>(string abilityName)
         where TAbility : class, IAbility

@@ -17,7 +17,7 @@ public class AcidBlastTests : AbilityTestBase
     protected override void RegisterAdditionalDependencies(Mock<IServiceProvider> serviceProviderMock)
     {
         // SpellBase needs IRandomManager to check if cast loses his/her/its concentration
-        Mock<ILogger<AcidBlast>> logger = new Mock<ILogger<AcidBlast>>();
+        Mock<ILogger<AcidBlast>> logger = new();
         Mock<IRandomManager> randomManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(x => true);
         randomManagerMock.Setup(x => x.Dice(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((count, value) => count * value);
@@ -38,7 +38,7 @@ public class AcidBlastTests : AbilityTestBase
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
-        casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
+        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns((100,acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Sleeping);
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -67,7 +67,7 @@ public class AcidBlastTests : AbilityTestBase
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
-        casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
+        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns((100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Resting);
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -96,7 +96,7 @@ public class AcidBlastTests : AbilityTestBase
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
-        casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
+        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns((100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Sitting);
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -125,7 +125,7 @@ public class AcidBlastTests : AbilityTestBase
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
-        casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
+        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns((100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Stunned).Returns(10);
@@ -155,7 +155,7 @@ public class AcidBlastTests : AbilityTestBase
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
-        casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
+        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns((100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -184,7 +184,7 @@ public class AcidBlastTests : AbilityTestBase
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
-        casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
+        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns((100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -214,7 +214,7 @@ public class AcidBlastTests : AbilityTestBase
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
-        casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
+        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns((100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         victimMock.SetupGet(x => x.Name).Returns("target");
@@ -245,7 +245,7 @@ public class AcidBlastTests : AbilityTestBase
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
-        casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
+        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns((100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance("Charm"));
         casterMock.SetupGet(x => x.Master).Returns(victimMock.Object);
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
@@ -277,8 +277,7 @@ public class AcidBlastTests : AbilityTestBase
         //
         casterMock.SetupGet(x => x.Name).Returns("caster");
         casterMock.SetupGet(x => x.Level).Returns(50);
-        casterMock.Setup(x => x.GetAbilityLearned(It.IsAny<string>())).Returns(acidBlastLearned);
-        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(x => (100, acidBlastLearned));
+        casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns((100, acidBlastLearned));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
         casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana

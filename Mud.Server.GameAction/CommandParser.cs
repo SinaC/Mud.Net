@@ -65,6 +65,7 @@ public class CommandParser : ICommandParser
                 Logger.LogDebug("Alias found : {command} -> {alias}", command, alias);
                 // Extract command and raw parameters
                 var aliasExtractedCommandInfo = ExtractCommandAndTokens(alias);
+                command = aliasExtractedCommandInfo.command;
                 tokens = aliasExtractedCommandInfo.tokens;
             }
         }
