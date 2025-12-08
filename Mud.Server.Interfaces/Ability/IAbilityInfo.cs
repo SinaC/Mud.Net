@@ -28,7 +28,8 @@ public enum AbilityTypes
 {
     Skill,
     Spell,
-    Passive
+    Passive,
+    Weapon
 }
 
 [Flags]

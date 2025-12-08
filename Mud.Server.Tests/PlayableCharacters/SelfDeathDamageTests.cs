@@ -78,13 +78,14 @@ namespace Mud.Server.Tests.PlayableCharacters
                 AutoFlags = AutoFlags.None,
                 CurrentQuests = [],
                 LearnedAbilities = [],
+                LearnedAbilityGroups = [],
                 Conditions = [],
                 Aliases = [],
                 Cooldowns = [],
                 Pets = []
             };
 
-            var pc = new PlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, worldOptions, null, null, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null, null, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null, damageModifierManagerMock.Object, null, flagFactoryMock.Object);
+            var pc = new PlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, worldOptions, null, null, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null, null, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null, damageModifierManagerMock.Object, null, null, flagFactoryMock.Object);
             pc.Initialize(Guid.NewGuid(), pcData, playerMock.Object, roomMock.Object);
             pc.AbilityDamage(pc, 100000, SchoolTypes.Poison, "poison", false);
 

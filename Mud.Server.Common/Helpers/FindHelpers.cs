@@ -82,24 +82,24 @@ public static class FindHelpers
         where T : IEntity?
     {
         return perfectMatch
-            ? list.Where(x => StringCompareHelpers.StringListsEquals(x!.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1)
-            : list.Where(x => StringCompareHelpers.StringListsStartsWith(x!.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
+            ? list.Where(x => StringCompareHelpers.AllStringsEquals(x!.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1)
+            : list.Where(x => StringCompareHelpers.AllStringsStartsWith(x!.Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
     }
 
     public static IEnumerable<T> FindAllByName<T>(IEnumerable<T> list, ICommandParameter parameter, bool perfectMatch = false)
         where T : IEntity
     {
         return perfectMatch
-            ? list.Where(x => StringCompareHelpers.StringListsEquals(x.Keywords, parameter.Tokens))
-            : list.Where(x => StringCompareHelpers.StringListsStartsWith(x.Keywords, parameter.Tokens));
+            ? list.Where(x => StringCompareHelpers.AllStringsEquals(x.Keywords, parameter.Tokens))
+            : list.Where(x => StringCompareHelpers.AllStringsStartsWith(x.Keywords, parameter.Tokens));
     }
 
     public static IEnumerable<T> FindAllByName<T>(IEnumerable<T> list, string parameter, bool perfectMatch = false)
         where T : IEntity
     {
         return perfectMatch
-            ? list.Where(x => StringCompareHelpers.StringListEquals(x.Keywords, parameter))
-            : list.Where(x => StringCompareHelpers.StringListStartsWith(x.Keywords, parameter));
+            ? list.Where(x => StringCompareHelpers.AnyStringEquals(x.Keywords, parameter))
+            : list.Where(x => StringCompareHelpers.AnyStringStartsWith(x.Keywords, parameter));
     }
 
     //public static IEnumerable<IPlayer> FindAllByName(IEnumerable<IPlayer> list, CommandParameter parameter, bool perfectMatch = false)
@@ -114,8 +114,8 @@ public static class FindHelpers
         where TEntity : IEntity
     {
         return perfectMatch
-            ? collection.Where(x => StringCompareHelpers.StringListsEquals(getItemFunc(x).Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1)
-            : collection.Where(x => StringCompareHelpers.StringListsStartsWith(getItemFunc(x).Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
+            ? collection.Where(x => StringCompareHelpers.AllStringsEquals(getItemFunc(x).Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1)
+            : collection.Where(x => StringCompareHelpers.AllStringsStartsWith(getItemFunc(x).Keywords, parameter.Tokens)).ElementAtOrDefault(parameter.Count - 1);
     }
 
     // FindLocation

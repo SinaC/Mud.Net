@@ -11,6 +11,7 @@ using Mud.Server.Entity;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
@@ -2155,17 +2156,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return Equipments.Where(x => x.Slot == EquipmentSlots.OffHand && x.Item == null).ElementAtOrDefault(countMainhand2H);
     }
 
-    protected virtual void RecomputeKnownAbilities()
-    {
-        // Add abilities from Class/Race/...
-
-        // Admins know every abilities
-        //if (ImpersonatedBy is IAdmin)
-        //    _knownAbilities.AddRange(AbilityManager.Abilities.Select(x => new AbilityAndLevel(1,x)));
-        //else
-        if (Class != null)
-            MergeAbilities(Class.Abilities, false);
-    }
+    protected abstract void RecomputeKnownAbilities();
 
     protected void RecomputeCurrentResourceKinds()
     {
@@ -2259,18 +2250,23 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // If multiple identical abilities, keep only one with lowest level
         foreach (IAbilityUsage abilityUsage in abilities)
         {
-            var (_, abilityLearned) = GetAbilityLearnedInfo(abilityUsage.Name);
-            if (abilityLearned != null)
-            {
-                //Logger.LogDebug("Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
-                abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Min(abilityUsage.CostAmount, abilityLearned.CostAmount), Math.Max(abilityUsage.MinLearned, abilityLearned.Learned));
-                // TODO: what should be we if multiple resource kind or operator ?
-            }
-            else
-            {
-                Logger.LogDebug("Adding AbilityLearned from AbilityUsage for {name} Ability {abilityUsageName}", DebugName, abilityUsage.Name);
-                AddLearnedAbility(abilityUsage, naturalBorn);
-            }
+            MergeAbility(abilityUsage, naturalBorn);
+        }
+    }
+
+    protected void MergeAbility(IAbilityUsage abilityUsage, bool naturalBorn)
+    {
+        var (_, abilityLearned) = GetAbilityLearnedInfo(abilityUsage.Name);
+        if (abilityLearned != null)
+        {
+            //Logger.LogDebug("Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
+            abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Min(abilityUsage.CostAmount, abilityLearned.CostAmount), Math.Max(abilityUsage.MinLearned, abilityLearned.Learned));
+            // TODO: what should be we if multiple resource kind or operator ?
+        }
+        else
+        {
+            Logger.LogDebug("Adding AbilityLearned from AbilityUsage for {name} Ability {abilityUsageName}", DebugName, abilityUsage.Name);
+            AddLearnedAbility(abilityUsage, naturalBorn);
         }
     }
 

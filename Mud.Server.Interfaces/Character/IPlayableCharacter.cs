@@ -1,5 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData;
+using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Quest;
@@ -62,6 +64,7 @@ public interface IPlayableCharacter : ICharacter
     void GainExperience(long experience); // add/substract experience
 
     // Ability
+    IEnumerable<IAbilityGroupLearned> LearnedAbilityGroups { get; }
     bool CheckAbilityImprove(string abilityName, bool abilityUsedSuccessfully, int multiplier);
 
     // Immortality

@@ -4,6 +4,7 @@ using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.POC.Classes;
@@ -69,8 +70,8 @@ public class Druid : ClassBase
 
     #endregion
 
-    public Druid(ILogger<Druid> logger, IAbilityManager abilityManager)
-        : base(logger, abilityManager)
+    public Druid(ILogger<Druid> logger, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager)
+        : base(logger, abilityManager, abilityGroupManager)
     {
         // Test class with all skills + Passive
         foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
@@ -78,7 +79,7 @@ public class Druid : ClassBase
                 AddAbility(20, abilityInfo.Name, Domain.ResourceKinds.Mana, 35, CostAmountOperators.Fixed, 1);
             else
                 AddSkill(20, abilityInfo.Name, 1);
-        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive))
+        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive || x.Type == AbilityTypes.Weapon))
             AddAbility(10, abilityInfo.Name, null, 0, CostAmountOperators.None, 1);
     }
 }

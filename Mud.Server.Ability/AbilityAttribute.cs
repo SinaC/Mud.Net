@@ -64,7 +64,7 @@ public class PassiveAttribute : AbilityBaseAttribute
 
 public class WeaponAttribute : AbilityBaseAttribute
 {
-    public override AbilityTypes Type => AbilityTypes.Passive;
+    public override AbilityTypes Type => AbilityTypes.Weapon;
 
     public string[] WeaponTypes { get; set; }
 

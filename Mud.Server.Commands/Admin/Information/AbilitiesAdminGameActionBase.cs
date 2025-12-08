@@ -54,6 +54,7 @@ public abstract class AbilitiesAdminGameActionBase : AdminGameAction
         {
             title = AbilityTypesFilter.Value switch
             {
+                AbilityTypes.Weapon => "Weapons",
                 AbilityTypes.Passive => "Passives",
                 AbilityTypes.Spell => "Spells",
                 AbilityTypes.Skill => "Skills",
@@ -75,7 +76,7 @@ public abstract class AbilitiesAdminGameActionBase : AdminGameAction
         // filter on class?
         if (Class != null)
         {
-            var sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {Class.DisplayName}", Class.Abilities
+            var sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {Class.DisplayName}", Class.AvailableAbilities
                 .Where(x => !AbilityTypesFilter.HasValue || x.AbilityInfo.Type == AbilityTypesFilter.Value)
                 .OrderBy(x => x.Level)
                 .ThenBy(x => x.Name));

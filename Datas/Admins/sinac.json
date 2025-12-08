@@ -1344,6 +1344,7 @@
           "Rating": 1
         }
       ],
+      "LearnedAbilityGroups": [],
       "Conditions": {
         "Drunk": 0,
         "Full": 24,
@@ -3126,6 +3127,7 @@
           "Rating": 1
         }
       ],
+      "LearnedAbilityGroups": [],
       "Conditions": {
         "Drunk": 0,
         "Full": 6,
@@ -3470,7 +3472,474 @@
       }
     },
     {
-      "CreationTime": "2025-12-05T23:37:49.4335981+01:00",
+      "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
+      "RoomId": 3721,
+      "SilverCoins": 91,
+      "GoldCoins": 0,
+      "Experience": 1232,
+      "Alignment": 0,
+      "Trains": 1,
+      "Practices": 7,
+      "AutoFlags": 127,
+      "CurrentQuests": [],
+      "LearnedAbilities": [
+        {
+          "Name": "sword",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 40,
+          "Rating": 2
+        },
+        {
+          "Name": "scrolls",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 8
+        },
+        {
+          "Name": "staves",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 8
+        },
+        {
+          "Name": "wands",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 8
+        },
+        {
+          "Name": "recall",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 40,
+          "Rating": 2
+        },
+        {
+          "Name": "second attack",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 5,
+          "Learned": 0,
+          "Rating": 3
+        },
+        {
+          "Name": "shield block",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 2
+        },
+        {
+          "Name": "bash",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "disarm",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 11,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "enhanced damage",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 3
+        },
+        {
+          "Name": "parry",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "rescue",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "third attack",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 12,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "axe",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "dagger",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 2
+        },
+        {
+          "Name": "flail",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "mace",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 3
+        },
+        {
+          "Name": "polearm",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "spear",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 3
+        },
+        {
+          "Name": "whip",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "Fast healing",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        }
+      ],
+      "LearnedAbilityGroups": [
+        {
+          "Name": "rom basics",
+          "Cost": 0
+        },
+        {
+          "Name": "warrior basics",
+          "Cost": 0
+        },
+        {
+          "Name": "warrior default",
+          "Cost": 40
+        }
+      ],
+      "Conditions": {
+        "Drunk": 0,
+        "Full": 8,
+        "Thirst": 38,
+        "Hunger": 28
+      },
+      "Aliases": {},
+      "Cooldowns": {},
+      "Pets": [],
+      "Name": "fnar",
+      "Race": "giant",
+      "Class": "warrior",
+      "Level": 2,
+      "Sex": 1,
+      "Size": 3,
+      "HitPoints": 109,
+      "MovePoints": 109,
+      "CurrentResources": {
+        "Mana": 102,
+        "Psy": 100
+      },
+      "MaxResources": {
+        "Mana": 102,
+        "Psy": 100
+      },
+      "Equipments": [
+        {
+          "Slot": 1,
+          "Item": {
+            "$type": "light",
+            "TimeLeft": 11990,
+            "ItemId": 3716,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "Glowing,Magic",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 2,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3706,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 3,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3705,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 3,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3705,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 4,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3703,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 5,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3711,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 6,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3712,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 7,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3713,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 7,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3713,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 8,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3710,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 9,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3709,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 11,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3707,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 12,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3708,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 13,
+          "Item": {
+            "$type": "weapon",
+            "WeaponFlags": "",
+            "ItemId": 3702,
+            "Level": 1,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        },
+        {
+          "Slot": 14,
+          "Item": {
+            "$type": "base",
+            "ItemId": 3704,
+            "Level": 0,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "MeltOnDrop",
+            "Auras": []
+          }
+        }
+      ],
+      "Inventory": [
+        {
+          "$type": "base",
+          "ItemId": 3715,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "Magic,MeltOnDrop",
+          "Auras": []
+        },
+        {
+          "$type": "base",
+          "ItemId": 3712,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "MeltOnDrop",
+          "Auras": []
+        },
+        {
+          "$type": "base",
+          "ItemId": 3707,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "MeltOnDrop",
+          "Auras": []
+        },
+        {
+          "$type": "base",
+          "ItemId": 3714,
+          "Level": 0,
+          "DecayPulseLeft": 720,
+          "ItemFlags": "",
+          "Auras": []
+        }
+      ],
+      "Auras": [],
+      "CharacterFlags": "",
+      "Immunities": "",
+      "Resistances": "Fire,Cold",
+      "Vulnerabilities": "Mental,Lightning",
+      "ShieldFlags": "",
+      "Attributes": {
+        "Strength": 19,
+        "Intelligence": 11,
+        "Wisdom": 16,
+        "Dexterity": 11,
+        "Constitution": 14,
+        "MaxHitPoints": 109,
+        "SavingThrow": 0,
+        "HitRoll": 0,
+        "DamRoll": 0,
+        "MaxMovePoints": 109,
+        "ArmorBash": 0,
+        "ArmorPierce": 0,
+        "ArmorSlash": 0,
+        "ArmorExotic": 0
+      }
+    },
+    {
+      "CreationTime": "2025-12-08T12:40:06.9440394+01:00",
       "RoomId": 3700,
       "SilverCoins": 0,
       "GoldCoins": 0,
@@ -3482,13 +3951,576 @@
       "CurrentQuests": [],
       "LearnedAbilities": [
         {
-          "Name": "mace",
+          "Name": "dagger",
           "ResourceKind": null,
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 50,
+          "Learned": 40,
           "Rating": 2
+        },
+        {
+          "Name": "scrolls",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 2
+        },
+        {
+          "Name": "staves",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 2
+        },
+        {
+          "Name": "wands",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 2
+        },
+        {
+          "Name": "recall",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 40,
+          "Rating": 2
+        },
+        {
+          "Name": "lore",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 10,
+          "Learned": 0,
+          "Rating": 6
+        },
+        {
+          "Name": "calm",
+          "ResourceKind": 0,
+          "CostAmount": 30,
+          "CostAmountOperator": 1,
+          "Level": 48,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "charm person",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 20,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "sleep",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 10,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "acid blast",
+          "ResourceKind": 0,
+          "CostAmount": 20,
+          "CostAmountOperator": 1,
+          "Level": 28,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "burning hands",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 7,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "chain lightning",
+          "ResourceKind": 0,
+          "CostAmount": 25,
+          "CostAmountOperator": 1,
+          "Level": 33,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "chill touch",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 4,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "colour spray",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 16,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "fireball",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 22,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "lightning bolt",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 13,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "magic missile",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "shocking grasp",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 10,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "detect evil",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 11,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "detect good",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 11,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "detect hidden",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 15,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "detect invis",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 3,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "detect magic",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 2,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "detect poison",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 15,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "farsight",
+          "ResourceKind": 0,
+          "CostAmount": 36,
+          "CostAmountOperator": 1,
+          "Level": 14,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "identify",
+          "ResourceKind": 0,
+          "CostAmount": 12,
+          "CostAmountOperator": 1,
+          "Level": 15,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "know alignment",
+          "ResourceKind": 0,
+          "CostAmount": 9,
+          "CostAmountOperator": 1,
+          "Level": 12,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "locate object",
+          "ResourceKind": 0,
+          "CostAmount": 20,
+          "CostAmountOperator": 1,
+          "Level": 9,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "giant strength",
+          "ResourceKind": 0,
+          "CostAmount": 20,
+          "CostAmountOperator": 1,
+          "Level": 11,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "haste",
+          "ResourceKind": 0,
+          "CostAmount": 30,
+          "CostAmountOperator": 1,
+          "Level": 21,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "infravision",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 9,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "refresh",
+          "ResourceKind": 0,
+          "CostAmount": 12,
+          "CostAmountOperator": 1,
+          "Level": 8,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "mass invis",
+          "ResourceKind": 0,
+          "CostAmount": 20,
+          "CostAmountOperator": 1,
+          "Level": 22,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "ventriloquate",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 1,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "blindness",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 12,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "curse",
+          "ResourceKind": 0,
+          "CostAmount": 20,
+          "CostAmountOperator": 1,
+          "Level": 18,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "energy drain",
+          "ResourceKind": 0,
+          "CostAmount": 35,
+          "CostAmountOperator": 1,
+          "Level": 19,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "plague",
+          "ResourceKind": 0,
+          "CostAmount": 20,
+          "CostAmountOperator": 1,
+          "Level": 23,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "poison",
+          "ResourceKind": 0,
+          "CostAmount": 10,
+          "CostAmountOperator": 1,
+          "Level": 17,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "slow",
+          "ResourceKind": 0,
+          "CostAmount": 30,
+          "CostAmountOperator": 1,
+          "Level": 23,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "weaken",
+          "ResourceKind": 0,
+          "CostAmount": 20,
+          "CostAmountOperator": 1,
+          "Level": 11,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "armor",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 7,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "cancellation",
+          "ResourceKind": 0,
+          "CostAmount": 20,
+          "CostAmountOperator": 1,
+          "Level": 18,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "dispel magic",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 16,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "fireproof",
+          "ResourceKind": 0,
+          "CostAmount": 10,
+          "CostAmountOperator": 1,
+          "Level": 13,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "protection evil",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 12,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "protection good",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 12,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "sanctuary",
+          "ResourceKind": 0,
+          "CostAmount": 75,
+          "CostAmountOperator": 1,
+          "Level": 36,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "shield",
+          "ResourceKind": 0,
+          "CostAmount": 12,
+          "CostAmountOperator": 1,
+          "Level": 20,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "stone skin",
+          "ResourceKind": 0,
+          "CostAmount": 12,
+          "CostAmountOperator": 1,
+          "Level": 25,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "fly",
+          "ResourceKind": 0,
+          "CostAmount": 10,
+          "CostAmountOperator": 1,
+          "Level": 10,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "gate",
+          "ResourceKind": 0,
+          "CostAmount": 80,
+          "CostAmountOperator": 1,
+          "Level": 27,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "nexus",
+          "ResourceKind": 0,
+          "CostAmount": 150,
+          "CostAmountOperator": 1,
+          "Level": 40,
+          "Learned": 0,
+          "Rating": 2
+        },
+        {
+          "Name": "pass door",
+          "ResourceKind": 0,
+          "CostAmount": 20,
+          "CostAmountOperator": 1,
+          "Level": 24,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "portal",
+          "ResourceKind": 0,
+          "CostAmount": 100,
+          "CostAmountOperator": 1,
+          "Level": 35,
+          "Learned": 0,
+          "Rating": 2
+        },
+        {
+          "Name": "summon",
+          "ResourceKind": 0,
+          "CostAmount": 50,
+          "CostAmountOperator": 1,
+          "Level": 24,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "teleport",
+          "ResourceKind": 0,
+          "CostAmount": 35,
+          "CostAmountOperator": 1,
+          "Level": 13,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "word of recall",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 32,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "call lightning",
+          "ResourceKind": 0,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 26,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "control weather",
+          "ResourceKind": 0,
+          "CostAmount": 25,
+          "CostAmountOperator": 1,
+          "Level": 15,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "faerie fire",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 1,
+          "Level": 6,
+          "Learned": 0,
+          "Rating": 1
+        },
+        {
+          "Name": "faerie fog",
+          "ResourceKind": 0,
+          "CostAmount": 12,
+          "CostAmountOperator": 1,
+          "Level": 14,
+          "Learned": 0,
+          "Rating": 1
+        }
+      ],
+      "LearnedAbilityGroups": [
+        {
+          "Name": "rom basics",
+          "Cost": 0
+        },
+        {
+          "Name": "mage basics",
+          "Cost": 0
+        },
+        {
+          "Name": "mage default",
+          "Cost": 40
         }
       ],
       "Conditions": {
@@ -3499,12 +4531,12 @@
       "Aliases": {},
       "Cooldowns": {},
       "Pets": [],
-      "Name": "toto",
-      "Race": "dwarf",
-      "Class": "cleric",
+      "Name": "alhazred",
+      "Race": "elf",
+      "Class": "mage",
       "Level": 1,
       "Sex": 1,
-      "Size": 1,
+      "Size": 2,
       "HitPoints": 100,
       "MovePoints": 100,
       "CurrentResources": {
@@ -3518,17 +4550,17 @@
       "Equipments": [],
       "Inventory": [],
       "Auras": [],
-      "CharacterFlags": "Infrared",
+      "CharacterFlags": "",
       "Immunities": "",
-      "Resistances": "Poison,Disease",
-      "Vulnerabilities": "Drowning",
+      "Resistances": "Charm",
+      "Vulnerabilities": "Iron",
       "ShieldFlags": "",
       "Attributes": {
-        "Strength": 14,
-        "Intelligence": 12,
-        "Wisdom": 17,
-        "Dexterity": 10,
-        "Constitution": 15,
+        "Strength": 12,
+        "Intelligence": 17,
+        "Wisdom": 13,
+        "Dexterity": 15,
+        "Constitution": 11,
         "MaxHitPoints": 100,
         "SavingThrow": 0,
         "HitRoll": 0,

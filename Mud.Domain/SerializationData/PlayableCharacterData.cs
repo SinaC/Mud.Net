@@ -23,6 +23,7 @@ public class PlayableCharacterData : CharacterData
     public required CurrentQuestData[] CurrentQuests { get; set; }
 
     public required LearnedAbilityData[] LearnedAbilities { get; set; }
+    public /*required*/ LearnedAbilityGroupData[] LearnedAbilityGroups { get; set; } = [];
 
     public required Dictionary<Conditions, int> Conditions { get; set; }
 
