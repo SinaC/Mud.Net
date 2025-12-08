@@ -50,6 +50,8 @@ public class Practice : PlayableCharacterGameAction
             Display = true;
             return null;
         }
+        if (actionInput.Parameters[0].IsAll)
+            return "You can't practice that.";
 
         // practice
         var practicer = Actor.Room?.NonPlayableCharacters.FirstOrDefault(x => Actor.CanSee(x) && x.ActFlags.IsSet("Practice"));

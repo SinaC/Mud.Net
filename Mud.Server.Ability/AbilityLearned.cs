@@ -25,7 +25,6 @@ public class AbilityLearned : IAbilityLearned
     public int Learned { get; protected set; }
 
     public AbilityLearned(IAbilityUsage abilityUsage)
-        : base()
     {
         Name = abilityUsage.Name;
         Level = abilityUsage.Level;

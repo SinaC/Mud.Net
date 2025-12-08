@@ -4,6 +4,7 @@ using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Rom24.Classes;
@@ -18,8 +19,8 @@ Warriors begin with skill in the sword, and gain a second attack in combat.")]
 [Export(typeof(IClass)), Shared]
 public class Warrior : ClassBase
 {
-    public Warrior(ILogger<Warrior> logger, IAbilityManager abilityManager)
-        : base(logger, abilityManager)
+    public Warrior(ILogger<Warrior> logger, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager)
+        : base(logger, abilityManager, abilityGroupManager)
     {
         AddPassive(1, "axe", 4);
         AddPassive(1, "dagger", 2);
@@ -33,7 +34,7 @@ public class Warrior : ClassBase
         AddPassive(1, "sword", 2);
         AddPassive(1, "whip", 4);
         AddSkill(1, "bash", 4);
-        AddSkill(1, "recall", 2, 40);
+        AddSkill(1, "recall", 2, 50);
         AddSkill(1, "rescue", 4);
         AddSkill(1, "scrolls", 8);
         AddSkill(1, "staves", 8);
@@ -130,6 +131,23 @@ public class Warrior : ClassBase
         AddSpell(46, "mass healing", Domain.ResourceKinds.Mana, 100, CostAmountOperators.Fixed, 4);
         AddSpell(47, "ray of truth", Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 2);
         AddSpell(50, "gas breath", Domain.ResourceKinds.Mana, 175, CostAmountOperators.Fixed, 2);
+
+        AddAbilityGroup("weaponsmaster", 20);
+        AddAbilityGroup("attack", 8);
+        AddAbilityGroup("benedictions", 4);
+        AddAbilityGroup("combat", 9);
+        AddAbilityGroup("creation", 8);
+        AddAbilityGroup("curative", 8);
+        AddAbilityGroup("enhancement", 9);
+        AddAbilityGroup("harmful", 6);
+        AddAbilityGroup("healing", 6);
+        AddAbilityGroup("maladictions", 9);
+        AddAbilityGroup("protective", 8);
+        AddAbilityGroup("transportation", 9);
+        AddAbilityGroup("weather", 8);
+        AddBasicAbilityGroup("rom basics");
+        AddBasicAbilityGroup("warrior basics");
+        AddDefaultAbilityGroup("warrior default", 40);
     }
 
     #region IClass

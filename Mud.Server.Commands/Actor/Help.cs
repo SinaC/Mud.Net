@@ -5,6 +5,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Race;
+using Mud.Server.TableGenerator;
 using System.Text;
 
 namespace Mud.Server.Commands.Actor;
@@ -203,26 +204,33 @@ public class Help : ActorGameAction
 
     private void AppendRaces(StringBuilder sb, Func<string, bool> nameFilterFunc)
     {
-        foreach (var raceInfo in RaceManager.PlayableRaces.Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
+        foreach (var race in RaceManager.PlayableRaces.Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
         {
-            sb.AppendLine($"%C%{raceInfo.Name.ToPascalCase()}%x% [Race]");
-            if (raceInfo.Help != null)
+            sb.AppendLine($"%C%{race.Name.ToPascalCase()}%x% [Race]");
+            if (race.Help != null)
             {
-                sb.AppendLine(raceInfo.Help);
+                sb.AppendLine(race.Help);
             }
+
             sb.AppendLine();
         }
     }
 
     private void AppendClasses(StringBuilder sb, Func<string, bool> nameFilterFunc)
     {
-        foreach (var classInfo in ClassManager.Classes.Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
+        foreach (var @class in ClassManager.Classes.Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
         {
-            sb.AppendLine($"%C%{classInfo.Name.ToPascalCase()}%x% [Class]");
-            if (classInfo.Help != null)
+            sb.AppendLine($"%C%{@class.Name.ToPascalCase()}%x% [Class]");
+            if (@class.Help != null)
             {
-                sb.AppendLine(classInfo.Help);
+                sb.AppendLine(@class.Help);
             }
+            var basicAbilityGroups = TableGenerators.AbilityGroupTableGenerator.Value.Generate("Basics:", 3, @class.BasicAbilityGroups);
+            sb.Append(basicAbilityGroups);
+            var defaultAbilityGroups = TableGenerators.AbilityGroupTableGenerator.Value.Generate("Default:", 3, @class.DefaultAbilityGroups);
+            sb.Append(defaultAbilityGroups);
+            var availableAbilityGroups = TableGenerators.AbilityGroupTableGenerator.Value.Generate("Available:", 3, @class.AvailableAbilityGroups.OrderByDescending(x => x.Cost).ThenBy(x => x.Name));
+            sb.Append(availableAbilityGroups);
             sb.AppendLine();
         }
     }

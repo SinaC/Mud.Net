@@ -219,6 +219,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         Logger.LogInformation("#WeaponEffects: {count}", WeaponEffectManager.Count);
         Logger.LogInformation("#Abilities: {count}", AbilityManager.Abilities.Count());
+        Logger.LogInformation("#Weapons: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Weapon));
         Logger.LogInformation("#Passives: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Passive));
         Logger.LogInformation("#Spells: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Spell));
         Logger.LogInformation("#Skills: {count}", AbilityManager.Abilities.Count(x => x.Type == AbilityTypes.Skill));

@@ -2,8 +2,10 @@
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
+using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Class;
 using System.Reflection;
 
@@ -11,10 +13,14 @@ namespace Mud.Server.Class;
 
 public abstract class ClassBase : IClass
 {
-    private readonly List<AbilityUsage> _abilities;
+    private readonly List<IAbilityUsage> _availableAbilities;
+    private readonly List<IAbilityGroupUsage> _availableAbilityGroups;
+    private readonly List<IAbilityGroupUsage> _basicAbilityGroups;
+    private readonly List<IAbilityGroupUsage> _defaultAbilityGroups;
 
     protected ILogger<ClassBase> Logger { get; }
     protected IAbilityManager AbilityManager { get; }
+    protected IAbilityGroupManager AbilityGroupManager { get; }
 
     #region IClass
 
@@ -32,7 +38,10 @@ public abstract class ClassBase : IClass
 
     public abstract BasicAttributes PrimeAttribute { get; }
 
-    public IEnumerable<IAbilityUsage> Abilities => _abilities;
+    public IEnumerable<IAbilityUsage> AvailableAbilities => _availableAbilities;
+    public IEnumerable<IAbilityGroupUsage> AvailableAbilityGroups => _availableAbilityGroups;
+    public IEnumerable<IAbilityGroupUsage> BasicAbilityGroups => _basicAbilityGroups;
+    public IEnumerable<IAbilityGroupUsage> DefaultAbilityGroups => _defaultAbilityGroups;
 
     public abstract int MaxPracticePercentage { get; }
 
@@ -44,12 +53,17 @@ public abstract class ClassBase : IClass
 
     #endregion
 
-    protected ClassBase(ILogger<ClassBase> logger, IAbilityManager abilityManager)
+    protected ClassBase(ILogger<ClassBase> logger, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager)
     {
         Logger = logger;
         AbilityManager = abilityManager;
+        AbilityGroupManager = abilityGroupManager;
 
-        _abilities = [];
+        _availableAbilities = [];
+        _availableAbilityGroups = [];
+        _basicAbilityGroups = [];
+        _defaultAbilityGroups = [];
+
         var helpAttribute = GetType().GetCustomAttribute<HelpAttribute>();
         Help = helpAttribute?.Help;
     }
@@ -64,7 +78,7 @@ public abstract class ClassBase : IClass
         }
         // TODO: check level >= 1, amount >= 0, rating >= 0, baseLearned >= 1
         //
-        _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, baseLearned, abilityInfo));
+        _availableAbilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, baseLearned, abilityInfo));
     }
 
     protected void AddSpell(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int baseLearned = 0)
@@ -75,4 +89,61 @@ public abstract class ClassBase : IClass
 
     protected void AddPassive(int level, string abilityName, int rating, int baseLearned = 0)
         => AddAbility(level, abilityName, null, 0, CostAmountOperators.None, rating, baseLearned);
+
+    protected void AddAbilityGroup(string abilityGroupName, int cost)
+        => AddGroup(abilityGroupName, cost);
+
+    protected void AddBasicAbilityGroup(string abilityGroupName)
+    {
+        if (_basicAbilityGroups.Any(x => StringCompareHelpers.StringEquals(x.Name, abilityGroupName)))
+        {
+            Logger.LogWarning("Trying to add ability group [{abilityGroupName}] in basic ability group but it has already been added", abilityGroupName);
+            return;
+        }
+        // let create the ability group and add it to available ability groups
+        var abilityGroupUsage = AddGroup(abilityGroupName, 0);
+        if (abilityGroupUsage != null)
+        {
+            // add this group to default groups
+            _basicAbilityGroups.Add(abilityGroupUsage);
+        }
+    }
+
+    protected void AddDefaultAbilityGroup(string abilityGroupName, int cost)
+    {
+        if (_defaultAbilityGroups.Any(x => StringCompareHelpers.StringEquals(x.Name, abilityGroupName)))
+        {
+            Logger.LogWarning("Trying to add ability group [{abilityGroupName}] in default ability group but it has already been added", abilityGroupName);
+            return;
+        }
+        // let create the ability group and add it to available ability groups
+        var abilityGroupUsage = AddGroup(abilityGroupName, cost);
+        if (abilityGroupUsage != null)
+        {
+            // add this group to default groups
+            _defaultAbilityGroups.Add(abilityGroupUsage);
+        }
+    }
+
+    private IAbilityGroupUsage? AddGroup(string abilityGroupName, int cost)
+    {
+        // check if it exists
+        var abilityGroupInfo = AbilityGroupManager[abilityGroupName];
+        if (abilityGroupInfo == null)
+        {
+            Logger.LogError("Trying to add unknown ability group [{abilityGroupName}] to class [{name}]", abilityGroupName, Name);
+            return null;
+        }
+        // check if already been added
+        var abilityGroupUsage = _availableAbilityGroups.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityGroupName));
+        if (abilityGroupUsage != null)
+        {
+            Logger.LogWarning("Trying to add ability group [{abilityGroupName}] in available ability group but it has already been added", abilityGroupName);
+            return abilityGroupUsage;
+        }
+        //
+        abilityGroupUsage = new AbilityGroupUsage(abilityGroupName, cost, abilityGroupInfo);
+        _availableAbilityGroups.Add(abilityGroupUsage);
+        return abilityGroupUsage;
+    }
 }

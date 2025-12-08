@@ -28,7 +28,7 @@ public class ClassSanityCheck : ISanityCheck
                 Logger.LogWarning("Class {name} doesn't have any allowed resources", c.Name);
             else
             {
-                foreach (IAbilityUsage abilityUsage in c.Abilities)
+                foreach (IAbilityUsage abilityUsage in c.AvailableAbilities)
                     if (abilityUsage.ResourceKind.HasValue && !c.ResourceKinds.Contains(abilityUsage.ResourceKind.Value))
                         Logger.LogWarning("Class {name} is allowed to use ability {abilityName} [resource:{resource}] but doesn't have access to that resource", c.DisplayName, abilityUsage.Name, abilityUsage.ResourceKind);
             }

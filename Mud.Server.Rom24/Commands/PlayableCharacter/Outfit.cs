@@ -99,7 +99,7 @@ courtesy of the Mayor's warehouses.  Only empty equipment slots are affected.")]
             // shield
             if (Actor.GetEquipment(EquipmentSlots.OffHand) == null && Actor.GetEquipment(EquipmentSlots.MainHand) != null)
             {
-                var shield = ItemManager.AddItem<IItemShield>(Guid.NewGuid(), Options.MudSchool.Vest, Actor);
+                var shield = ItemManager.AddItem<IItemShield>(Guid.NewGuid(), Options.MudSchool.Shield, Actor);
                 if (shield != null)
                     WearItem(shield, false);
             }

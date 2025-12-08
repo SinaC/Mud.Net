@@ -113,7 +113,7 @@ public class Info : AdminGameAction
                     $"Max practice percentage: %W%{Class.MaxPracticePercentage}%x%",
                     $"Hp/level: min: %W%{Class.MinHitPointGainPerLevel}%x% max: %W%{Class.MaxHitPointGainPerLevel}%x%"
                 ],
-                Class.Abilities.OrderBy(x => x.Level).ThenBy(x => x.Name));
+                Class.AvailableAbilities.OrderBy(x => x.Level).ThenBy(x => x.Name));
             Actor.Page(sb);
             return;
         }

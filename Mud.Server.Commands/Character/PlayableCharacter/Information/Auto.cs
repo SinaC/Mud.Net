@@ -12,6 +12,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 [PlayableCharacterCommand("auto", "Information")]
 [Syntax(
     "[cmd]",
+    "[cmd] all",
     "[cmd] assist",
     "[cmd] exit",
     "[cmd] sacrifice",
@@ -23,6 +24,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 @"To ease the boredom of always splitting gold and sacrificing corpses.
 The commands are as follows:
 
+all       : active every 'auto'
 assit     : makes you help group members in combat
 exit      : display room exits upon entering a room
 sacrifice : sacrifice dead monsters (if autoloot is on, only empty corpes)

@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 
 namespace Mud.Server.Interfaces.Class;
 
@@ -17,8 +18,16 @@ public interface IClass
 
     // Will give a +2 to this attribute
     BasicAttributes PrimeAttribute { get; }
+
     // Abilities available for this class
-    IEnumerable<IAbilityUsage> Abilities { get; }
+    IEnumerable<IAbilityUsage> AvailableAbilities { get; }
+    // Ability groups available for this class
+    IEnumerable<IAbilityGroupUsage> AvailableAbilityGroups { get; }
+    // Ability groups given for free during creation
+    IEnumerable<IAbilityGroupUsage> BasicAbilityGroups { get; }
+    // Ability groups given when no customization is done
+    IEnumerable<IAbilityGroupUsage> DefaultAbilityGroups { get; }
+
     // Max practice percentage (learned in KnownAbility)
     int MaxPracticePercentage { get; }
 

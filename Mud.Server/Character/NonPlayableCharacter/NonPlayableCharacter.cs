@@ -730,6 +730,12 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         // NOP
     }
 
+    protected override void RecomputeKnownAbilities()
+    {
+        if (Class != null)
+            MergeAbilities(Class.AvailableAbilities, false);
+    }
+
     #endregion
 
     protected bool UseSkill(string skillName, params ICommandParameter[] parameters)

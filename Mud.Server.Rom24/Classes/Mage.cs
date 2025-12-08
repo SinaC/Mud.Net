@@ -4,6 +4,7 @@ using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Rom24.Classes;
@@ -20,8 +21,8 @@ purchased, at a very high rate.")]
 [Export(typeof(IClass)), Shared]
 public class Mage : ClassBase
 {
-    public Mage(ILogger<Mage> logger, IAbilityManager abilityManager)
-        : base(logger, abilityManager)
+    public Mage(ILogger<Mage> logger, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager)
+        : base(logger, abilityManager, abilityGroupManager)
     {
         AddPassive(1, "axe", 6);
         AddPassive(1, "dagger", 2);
@@ -32,7 +33,7 @@ public class Mage : ClassBase
         AddPassive(1, "spear", 4);
         AddPassive(1, "sword", 5);
         AddPassive(1, "whip", 6);
-        AddSkill(1, "recall", 2, 40);
+        AddSkill(1, "recall", 2, 50);
         AddSkill(1, "scrolls", 2);
         AddSkill(1, "staves", 2);
         AddSkill(1, "wands", 2);
@@ -118,6 +119,23 @@ public class Mage : ClassBase
         AddSpell(40, "nexus", Domain.ResourceKinds.Mana, 150, CostAmountOperators.Fixed, 2);
         AddPassive(45, "enhanced damage", 10);
         AddSpell(48, "calm", Domain.ResourceKinds.Mana, 30, CostAmountOperators.Fixed, 1);
+
+        AddAbilityGroup("weaponsmaster", 40);
+        AddAbilityGroup("beguiling", 4);
+        AddAbilityGroup("combat", 6);
+        AddAbilityGroup("creation", 4);
+        AddAbilityGroup("detection", 3);
+        AddAbilityGroup("draconian", 8);
+        AddAbilityGroup("enchantment", 6);
+        AddAbilityGroup("enhancement", 5);
+        AddAbilityGroup("illusion", 4);
+        AddAbilityGroup("maladictions", 5);
+        AddAbilityGroup("protective", 4);
+        AddAbilityGroup("transportation", 4);
+        AddAbilityGroup("weather", 4);
+        AddBasicAbilityGroup("rom basics");
+        AddBasicAbilityGroup("mage basics");
+        AddDefaultAbilityGroup("mage default", 40);
     }
 
     #region IClass

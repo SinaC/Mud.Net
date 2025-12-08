@@ -39,11 +39,11 @@ public abstract class AbilitiesCharacterGameActionBase : CharacterGameAction
     {
         IEnumerable<IAbilityLearned> abilities = Actor.LearnedAbilities
             //.Where(x => (displayAll || x.Level <= Level) && (displayAll || x.Learned > 0) && filterOnAbilityKind(x.Ability.Kind))
-            .Where(x => (DisplayAll || x.Level <= Actor.Level) && x.Learned > 0 && AbilityTypeFilterFunc(x.AbilityInfo.Type))
+            .Where(x => (DisplayAll || (x.Level <= Actor.Level && x.Learned > 0)) && AbilityTypeFilterFunc(x.AbilityInfo.Type))
             .OrderBy(x => x.Level)
             .ThenBy(x => x.Name);
 
-        var sb = TableGenerators.LearnedAbilitiesTableGenerator.Value.Generate("Abilities", abilities);
+        var sb = TableGenerators.LearnedAbilitiesTableGenerator.Value.Generate(Title, abilities);
         Actor.Page(sb);
     }
 }

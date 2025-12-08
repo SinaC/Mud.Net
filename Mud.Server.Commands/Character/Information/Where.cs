@@ -61,7 +61,7 @@ public class Where : CharacterGameAction
                                                                          && !x.CharacterFlags.IsSet("Sneak")
                                                                          && !x.CharacterFlags.IsSet("Hide")
                                                                          && Actor.CanSee(x)
-                                                                         && StringCompareHelpers.StringListsStartsWith(x.Keywords, Pattern.Tokens));
+                                                                         && StringCompareHelpers.AllStringsStartsWith(x.Keywords, Pattern.Tokens));
             notFound = $"You didn't find any {Pattern.Value}.";
         }
         bool found = false;

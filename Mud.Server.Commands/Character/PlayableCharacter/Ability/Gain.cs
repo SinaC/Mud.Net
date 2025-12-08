@@ -67,6 +67,9 @@ public class Gain : PlayableCharacterGameAction
         if (actionInput.Parameters.Length == 0)
             return Actor.ActPhrase("{0:N} tells you 'Pardon me?'", Trainer);
 
+        if (actionInput.Parameters[0].IsAll)
+            return "You can't gain that.";
+
         // list
         if (StringCompareHelpers.StringStartsWith("list", actionInput.Parameters[0].Value))
         {
@@ -76,13 +79,13 @@ public class Gain : PlayableCharacterGameAction
         // skills + passives
         if (StringCompareHelpers.StringStartsWith("skills", actionInput.Parameters[0].Value))
         {
-            Action = Actions.DisplaySpells;
+            Action = Actions.DisplaySkillsAndPassives;
             return null;
         }
         // spells
         if (StringCompareHelpers.StringStartsWith("spells", actionInput.Parameters[0].Value))
         {
-            Action = Actions.DisplaySkillsAndPassives;
+            Action = Actions.DisplaySpells;
             return null;
         }
         // convert
@@ -127,7 +130,7 @@ public class Gain : PlayableCharacterGameAction
                 }
             case Actions.DisplaySpells:
                 {
-                    StringBuilder sb = GainAbilityTableGenerator.Value.Generate("Skills and Passives", 3, Actor.LearnedAbilities.Where(x => (x.AbilityInfo.Type == AbilityTypes.Skill || x.AbilityInfo.Type == AbilityTypes.Passive) && x.CanBeGained(Actor)).OrderBy(x => x.Level).ThenBy(x => x.Name));
+                    StringBuilder sb = GainAbilityTableGenerator.Value.Generate("Skills/Passives/Weapons", 3, Actor.LearnedAbilities.Where(x => (x.AbilityInfo.Type == AbilityTypes.Skill || x.AbilityInfo.Type == AbilityTypes.Passive || x.AbilityInfo.Type == AbilityTypes.Weapon) && x.CanBeGained(Actor)).OrderBy(x => x.Level).ThenBy(x => x.Name));
                     Actor.Send(sb);
                     return;
                 }

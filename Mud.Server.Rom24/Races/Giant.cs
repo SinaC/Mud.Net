@@ -27,8 +27,8 @@ public class Giant : PlayableRaceBase
     public Giant(ILogger<Giant> logger, IFlagFactory flagFactory, IAbilityManager abilityManager)
         : base(logger, flagFactory, abilityManager)
     {
-        AddAbility("Bash");
-        AddAbility("Fast healing");
+        AddAbility("bash");
+        AddAbility("fast healing");
     }
 
     #region IRace/IPlayableRace

@@ -4,6 +4,7 @@ using Mud.Domain.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
@@ -25,6 +26,8 @@ public static class TableGenerators
                 return "n/a";
             if (x.AbilityInfo.Type == AbilityTypes.Passive)
                 return "%m%passive%x%";
+            else if (x.AbilityInfo.Type == AbilityTypes.Weapon)
+                return "%y%weapon%x%";
             if (x.CostAmountOperator == CostAmountOperators.Percentage)
             {
                 if (x.ResourceKind.HasValue)
@@ -74,7 +77,7 @@ public static class TableGenerators
         generator.AddColumn("Prime attr", 12, x => x.PrimeAttribute.ShortName());
         generator.AddColumn("#Abilities", 12, x =>
         {
-            int count = x.Abilities.Count();
+            int count = x.AvailableAbilities.Count();
             return count == 0
                 ? "---"
                 : count.ToString();
@@ -115,9 +118,6 @@ public static class TableGenerators
         return generator;
     });
 
-    private static string DisplayPlayableRaceAttribute(IPlayableRace race, BasicAttributes attr)
-        => $"{race.GetStartAttribute(attr)}->{race.GetMaxAttribute(attr)}";
-
     public static readonly Lazy<TableGenerator<IArea>> FullInfoAreaTableGenerator = new(() =>
     {
         TableGenerator<IArea> generator = new();
@@ -125,6 +125,14 @@ public static class TableGenerators
         generator.AddColumn("Builders", 15, area => area.Builders, new TableGenerator<IArea>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("Credits", 45, area => area.Credits, new TableGenerator<IArea>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("Ids", 16, area => $"{area.Rooms.Min(x => x.Blueprint.Id)}-{area.Rooms.Max(x => x.Blueprint.Id)}");
+        return generator;
+    });
+
+    public static readonly Lazy<TableGenerator<IAbilityGroupUsage>> AbilityGroupTableGenerator = new(() =>
+    {
+        TableGenerator<IAbilityGroupUsage> generator = new ();
+        generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbilityGroupUsage>.ColumnOptions { AlignLeft = true });
+        generator.AddColumn("Cost", 6, x => x.Cost.ToString());
         return generator;
     });
 
@@ -153,6 +161,8 @@ public static class TableGenerators
             {
                 if (x.AbilityInfo.Type == AbilityTypes.Passive)
                     return "%m%passive%x%";
+                else if (x.AbilityInfo.Type == AbilityTypes.Weapon)
+                    return "%y%weapon%x%";
                 if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                 {
                     if (x.ResourceKind.HasValue)
@@ -166,7 +176,7 @@ public static class TableGenerators
             {
                 GetMergeLengthFunc = x =>
                 {
-                    if (x.AbilityInfo.Type == AbilityTypes.Passive)
+                    if (x.AbilityInfo.Type == AbilityTypes.Passive || x.AbilityInfo.Type == AbilityTypes.Weapon)
                         return 1;
                     if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                         return 0;
@@ -185,10 +195,6 @@ public static class TableGenerators
         return generator;
     });
 
-    private static string ConvertBool(bool value) => value ? "%G%v%x%" : "x";
-
-    private static string ConvertPriority(int priority) => priority != CommandAttribute.DefaultPriority ? $"%y%{priority}%x%" : $"{priority}";
-
     public static readonly Lazy<TableGenerator<IGameActionInfo>> GameActionInfoTableGenerator = new(() =>
     {
         TableGenerator<IGameActionInfo> generator = new();
@@ -202,6 +208,13 @@ public static class TableGenerators
         generator.AddColumn("Method", 50, x => x.CommandExecutionType.FullName ?? "???");
         return generator;
     });
+
+    private static string DisplayPlayableRaceAttribute(IPlayableRace race, BasicAttributes attr)
+        => $"{race.GetStartAttribute(attr)}->{race.GetMaxAttribute(attr)}";
+
+    private static string ConvertBool(bool value) => value ? "%G%v%x%" : "x";
+
+    private static string ConvertPriority(int priority) => priority != CommandAttribute.DefaultPriority ? $"%y%{priority}%x%" : $"{priority}";
 
     private static string ConvertSHFN(IGameActionInfo actionInfo)
     {

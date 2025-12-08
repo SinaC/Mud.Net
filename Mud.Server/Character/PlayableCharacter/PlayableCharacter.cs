@@ -7,11 +7,13 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Domain.SerializationData;
 using Mud.Server.Ability;
+using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -45,6 +47,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private IClassManager ClassManager { get; }
     private IRaceManager RaceManager { get; }
     private IQuestManager QuestManager { get; }
+    private IAbilityGroupManager AbilityGroupManager { get; }
     private IFlagFactory FlagFactory { get; }
     private int MaxLevel { get; }
 
@@ -52,14 +55,16 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly int[] _conditions;
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
+    private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IAbilityGroupManager abilityGroupManager, IFlagFactory flagFactory)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagFactory, wiznet)
     {
         WorldOptions = worldOptions;
         ClassManager = classManager;
         RaceManager = raceManager;
         QuestManager = questManager;
+        AbilityGroupManager = abilityGroupManager;
         FlagFactory = flagFactory;
         MaxLevel = WorldOptions.Value.MaxLevel;
 
@@ -67,6 +72,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         _conditions = new int[EnumHelpers.GetCount<Conditions>()];
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         _pets = [];
+        _learnedAbilityGroups = [];
     }
 
     public void Initialize(Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
@@ -226,6 +232,21 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 {
                     var abilityLearned = new AbilityLearned(learnedAbilityData, abilityInfo);
                     AddLearnedAbility(abilityLearned);
+                }
+            }
+        }
+        // Learn ability groups
+        if (data.LearnedAbilityGroups != null)
+        {
+            foreach (var learnedAbilityGroupData in data.LearnedAbilityGroups)
+            {
+                var abilityGroupInfo = AbilityGroupManager[learnedAbilityGroupData.Name];
+                if (abilityGroupInfo == null)
+                    Wiznet.Log($"LearnedAbilityGroup:  Ability group {learnedAbilityGroupData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                else
+                {
+                    var abilityGroupLearned = new AbilityGroupLearned(learnedAbilityGroupData, abilityGroupInfo);
+                    AddLearnedAbilityGroup(abilityGroupLearned);
                 }
             }
         }
@@ -770,6 +791,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     // Ability
+    public IEnumerable<IAbilityGroupLearned> LearnedAbilityGroups => _learnedAbilityGroups.Values;
+
     public bool CheckAbilityImprove(string abilityName, bool abilityUsedSuccessfully, int multiplier)
     {
         var abilityLearned = GetAbilityLearned(abilityName);
@@ -953,6 +976,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             ShieldFlags = BaseShieldFlags,
             Attributes = Enum.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
             LearnedAbilities = LearnedAbilities.Select(x => x.MapLearnedAbilityData()).ToArray(),
+            LearnedAbilityGroups = LearnedAbilityGroups.Select(x => x.MapLearnedAbilityGroupData()).ToArray(),
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
             Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key, x => x.Value),
             Pets = Pets.Select(x => x.MapPetData()).ToArray(),
@@ -1227,11 +1251,32 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         GainExperience(loss);
     }
 
+    protected void AddLearnedAbilityGroup(AbilityGroupLearned abilityGroupLearned)
+    {
+        if (!_learnedAbilityGroups.ContainsKey(abilityGroupLearned.Name))
+            _learnedAbilityGroups.Add(abilityGroupLearned.Name, abilityGroupLearned);
+    }
+
     protected override void RecomputeKnownAbilities()
     {
-        base.RecomputeKnownAbilities();
         if (Race is IPlayableRace playableRace)
             MergeAbilities(playableRace.Abilities, true);
+        // loop among learned ability groups
+        foreach (var learnedAbilityGroup in _learnedAbilityGroups)
+        {
+            var abilityGroupUsage = Class.AvailableAbilityGroups.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, learnedAbilityGroup.Key));
+            if (abilityGroupUsage != null)
+            {
+                foreach (var abilityInfo in abilityGroupUsage.AbilityGroupInfo.AbilityInfos)
+                {
+                    var abilityUsage = Class.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, learnedAbilityGroup.Key));
+                    if (abilityUsage != null)
+                    {
+                        MergeAbility(abilityUsage, false);
+                    }
+                }
+            }
+        }
     }
 
     #endregion

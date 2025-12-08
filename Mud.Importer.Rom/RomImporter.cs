@@ -250,6 +250,8 @@ public class RomImporter
         // EX_INFURIATING
         // EX_NOCLOSE
         // EX_NOLOCK
+        if (flags != 0)
+            flags |= ExitFlags.Door; // force door if another flag found
         return flags;
     }
 

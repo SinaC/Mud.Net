@@ -262,7 +262,7 @@ public class Look : CharacterGameAction
                     }
             }
             // Search in item keywords
-            if (StringCompareHelpers.StringListsStartsWith(item.Keywords, parameter.Tokens)
+            if (StringCompareHelpers.AllStringsStartsWith(item.Keywords, parameter.Tokens)
                 && ++count == parameter.Count)
             {
                 StringBuilder sb = new();

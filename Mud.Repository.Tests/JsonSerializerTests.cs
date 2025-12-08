@@ -47,6 +47,7 @@ namespace Mud.Repository.Tests
                 AutoFlags = AutoFlags.None,
                 CurrentQuests = [],
                 LearnedAbilities = [],
+                LearnedAbilityGroups = [],
                 Conditions = [],
                 Aliases = [],
                 Cooldowns = [],

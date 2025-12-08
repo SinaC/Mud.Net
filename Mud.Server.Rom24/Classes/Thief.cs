@@ -4,6 +4,7 @@ using Mud.Domain;
 using Mud.Server.Class;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Class;
 
 namespace Mud.Server.Rom24.Classes;
@@ -20,8 +21,8 @@ well.")]
 [Export(typeof(IClass)), Shared]
 public class Thief : ClassBase
 {
-    public Thief(ILogger<Thief> logger, IAbilityManager abilityManager)
-        : base(logger, abilityManager)
+    public Thief(ILogger<Thief> logger, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager)
+        : base(logger, abilityManager, abilityGroupManager)
     {
         AddPassive(1, "axe", 5);
         AddPassive(1, "dagger", 2);
@@ -37,7 +38,7 @@ public class Thief : ClassBase
         AddPassive(1, "whip", 5);
         AddSkill(1, "backstab", 5);
         AddSkill(1, "hide", 4);
-        AddSkill(1, "recall", 2, 40);
+        AddSkill(1, "recall", 2, 50);
         AddSkill(1, "scrolls", 5);
         AddSkill(1, "staves", 5);
         AddSkill(1, "trip", 4);
@@ -126,6 +127,21 @@ public class Thief : ClassBase
         AddSpell(50, "calm", Domain.ResourceKinds.Mana, 30, CostAmountOperators.Fixed, 2);
         AddSpell(50, "fire breath", Domain.ResourceKinds.Mana, 200, CostAmountOperators.Fixed, 2);
         AddSpell(50, "nexus", Domain.ResourceKinds.Mana, 150, CostAmountOperators.Fixed, 4);
+
+        AddAbilityGroup("weaponsmaster", 40);
+        AddAbilityGroup("beguiling", 6);
+        AddAbilityGroup("combat", 10);
+        AddAbilityGroup("creation", 8);
+        AddAbilityGroup("detection", 6);
+        AddAbilityGroup("enhancement", 9);
+        AddAbilityGroup("illusion", 7);
+        AddAbilityGroup("maladictions", 9);
+        AddAbilityGroup("protective", 7);
+        AddAbilityGroup("transportation", 8);
+        AddAbilityGroup("weather", 8);
+        AddBasicAbilityGroup("rom basics");
+        AddBasicAbilityGroup("thief basics");
+        AddDefaultAbilityGroup("thief default", 40);
     }
 
     #region IClass
