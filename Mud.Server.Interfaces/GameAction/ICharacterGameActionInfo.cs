@@ -2,7 +2,7 @@
 
 namespace Mud.Server.Interfaces.GameAction;
 
-public interface ICharacterGameActionInfo : IGameActionInfo
+public interface ICharacterGameActionInfo : IActorGameActionInfo
 {
     Positions MinPosition { get; }
     bool NotInCombat { get; }

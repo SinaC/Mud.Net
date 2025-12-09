@@ -6,8 +6,8 @@ using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.POC.Commands.Item.Weapon;
 
-[Command("poke", "POC")]
-public class Poke : GameActionBase<IItemWeapon, IGameActionInfo>
+[ItemCommand("poke", "POC")]
+public class Poke : ItemGameActionBase<IItemWeapon, IItemGameActionInfo>
 {
     public override void Execute(IActionInput actionInput)
     {

@@ -6,8 +6,8 @@ using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.POC.Commands.Item.Fountain;
 
-[Command("pour", "POC")]
-public class Pour : GameActionBase<IItemFountain, IGameActionInfo>
+[ItemCommand("pour", "POC")]
+public class Pour : ItemGameActionBase<IItemFountain, IItemGameActionInfo>
 {
     public override void Execute(IActionInput actionInput)
     {

@@ -4,6 +4,7 @@
     {
         string Name { get; }
         int Cost { get; }
+        bool IsBasics { get; }
         IAbilityGroupDefinition AbilityGroupDefinition { get; }
     }
 }

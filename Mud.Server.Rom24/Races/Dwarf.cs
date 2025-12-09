@@ -50,6 +50,8 @@ public class Dwarf : PlayableRaceBase
     public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
     public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
 
+    public override int CreationPointsStartValue => 8;
+
     public override int GetStartAttribute(BasicAttributes attribute)
     {
         switch (attribute)

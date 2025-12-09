@@ -36,7 +36,7 @@ public class Impersonate : AdminGameAction
             return baseGuards;
 
         if (Actor.Incarnating != null)
-            return $"You are already incarnating {Actor.Incarnating.DisplayName}.";
+            return $"Stop incarnating {Actor.Incarnating.DisplayName} before trying to impersonate.";
 
         return null;
     }

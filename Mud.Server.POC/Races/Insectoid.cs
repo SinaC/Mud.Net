@@ -79,6 +79,8 @@ public class Insectoid : PlayableRaceBase // 4-arms
     public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>("Fast");
     public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
 
+    public override int CreationPointsStartValue =>  20;
+
     public override int GetStartAttribute(BasicAttributes attribute)
     {
         switch (attribute)

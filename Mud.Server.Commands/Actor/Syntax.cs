@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Actor;
 
-[Command("syntax", Priority = 999)]
+[ActorCommand("syntax", Priority = 999)]
 [Syntax(
         "[cmd] all",
         "[cmd] <command>")]

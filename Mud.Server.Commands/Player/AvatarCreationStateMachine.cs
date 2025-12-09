@@ -13,6 +13,8 @@ using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
+using Mud.Server.TableGenerator;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Mud.Server.Commands.Player;
@@ -23,12 +25,16 @@ public enum AvatarCreationStates
     NameConfirmation, // -> NameChoice | SexChoice | Quit
     SexChoice, // -> SexChoice | RaceChoice | Quit
     RaceChoice, // -> RaceChoice | ClassChoice | Quit
-    ClassChoice, // -> ClassChoice | WeaponChoice
+    ClassChoice, // -> ClassChoice | CustomizationChoice | Quit
+    CustomizationChoice, // -> WeaponChoice | Customize | Quit
+    Customize, // -> Customize | WeaponChoice | Quit
     WeaponChoice, // -> CreationComplete | ImmediateImpersonate | Quit
     ImmediateImpersonate, // -> CreationComplete
     CreationComplete,
     Quit
 }
+
+//list,learned,premise,add,drop,info,help, and done
 
 internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreationStates>
 {
@@ -36,22 +42,27 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
     private Sex? _sex;
     private IPlayableRace? _race;
     private IClass? _class;
+    private int _creationPoints;
     private List<IAbilityUsage> _learnedAbilities = [];
     private List<IAbilityGroupUsage> _learnedAbilityGroups = [];
+    private List<IAbilityUsage> _chosenAbilities = [];
+    private List<IAbilityGroupUsage> _chosenAbilityGroups = [];
 
     private ILogger Logger { get; }
-    protected IServerPlayerCommand ServerPlayerCommand { get; }
-    protected IRaceManager RaceManager { get; }
-    protected IClassManager ClassManager { get; }
-    protected IUniquenessManager UniquenessManager { get; }
-    protected ITimeManager TimeManager { get; }
-    protected IRoomManager RoomManager { get; }
-    protected IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
-    protected IGameActionManager GameActionManager { get; }
+    private IServerPlayerCommand ServerPlayerCommand { get; }
+    private IRaceManager RaceManager { get; }
+    private IClassManager ClassManager { get; }
+    private IUniquenessManager UniquenessManager { get; }
+    private ITimeManager TimeManager { get; }
+    private IRoomManager RoomManager { get; }
+    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
+    private IGameActionManager GameActionManager { get; }
+    private ICommandParser CommandParser { get; }
+    private IAbilityGroupManager AbilityGroupManager { get; }
 
     public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
-    public AvatarCreationStateMachine(ILogger logger, IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, IGameActionManager gameActionManager)
+    public AvatarCreationStateMachine(ILogger logger, IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityGroupManager abilityGroupManager)
     {
         Logger = logger;
         ServerPlayerCommand = serverPlayerCommand;
@@ -62,6 +73,8 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         RoomManager = roomManager;
         ShieldFlagFactory = shieldFlagFactory;
         GameActionManager = gameActionManager;
+        CommandParser = commandParser;
+        AbilityGroupManager = abilityGroupManager;
 
         KeepInputAsIs = false;
         StateMachine = new Dictionary<AvatarCreationStates, Func<IPlayer, string, AvatarCreationStates>>
@@ -71,6 +84,8 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             {AvatarCreationStates.SexChoice, ProcessSexChoice},
             {AvatarCreationStates.RaceChoice, ProcessRaceChoice},
             {AvatarCreationStates.ClassChoice, ProcessClassChoice},
+            {AvatarCreationStates.CustomizationChoice, ProcessCustomizationChoice},
+            {AvatarCreationStates.Customize, ProcessCustomize},
             {AvatarCreationStates.WeaponChoice, ProcessWeaponChoice},
             {AvatarCreationStates.ImmediateImpersonate, ProcessImmediateImpersonate},
             {AvatarCreationStates.CreationComplete, ProcessCreationComplete},
@@ -163,6 +178,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         if (races.Count == 1)
         {
             _race = races[0];
+            _creationPoints = _race.CreationPointsStartValue;
             player.Send("Good choice! Now, please choose a class (type quit to stop creation).");
             DisplayClassList(player, false);
             return AvatarCreationStates.ClassChoice;
@@ -187,24 +203,201 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             {
                 _learnedAbilityGroups.Add(basicAbilityGroup);
             }
-            // TODO: customization
-            // add default ability groups
-            foreach (var defaultAbilityGroup in _class.DefaultAbilityGroups)
-            {
-                _learnedAbilityGroups.Add(defaultAbilityGroup);
-            }
-            // add abilities found in group
-            foreach (var learnedAbilityGroup in _learnedAbilityGroups)
-            {
-                AddLearnedAbilitiesFromLearnedAbilityGroup(learnedAbilityGroup.AbilityGroupDefinition);
-            }
-            player.Send("Please pick a weapon from the following choices:");
-            DisplayWeaponList(player, false);
-            return AvatarCreationStates.WeaponChoice;
+            // customization ?
+            player.Send("Do you wish to customize this character?");
+            player.Send("Customization takes time, but allows a wider range of skills and abilities.");
+            player.Send("Customize (Y/N)?");
+            return AvatarCreationStates.CustomizationChoice;
 
         }
         DisplayClassList(player);
         return AvatarCreationStates.ClassChoice;
+    }
+
+    private AvatarCreationStates ProcessCustomizationChoice(IPlayer player, string input)
+    {
+        if (input == "quit")
+        {
+            player.Send("Creation cancelled.");
+            return AvatarCreationStates.Quit;
+        }
+
+        if (input == "y" || input == "yes")
+        {
+            DisplayCustomizeList(player);
+            // display choices
+            player.Send("Choice (add,drop,list,learned,premise,help,info,done)");
+            return AvatarCreationStates.Customize;
+        }
+        else if (input == "n" || input == "no")
+        {
+            // add default ability groups
+            foreach (var defaultAbilityGroup in _class!.DefaultAbilityGroups)
+            {
+                _learnedAbilityGroups.Add(defaultAbilityGroup);
+            }
+            // add abilities found in groups
+            foreach (var learnedAbilityGroup in _learnedAbilityGroups)
+            {
+                AddLearnedAbilitiesFromLearnedAbilityGroup(learnedAbilityGroup.AbilityGroupDefinition);
+            }
+
+            player.Send("Please pick a weapon from the following choices:");
+            DisplayWeaponList(player, false);
+            return AvatarCreationStates.WeaponChoice;
+        }
+        player.Send("Please answer (Y/N)?");
+        return AvatarCreationStates.CustomizationChoice;
+    }
+
+    private AvatarCreationStates ProcessCustomize(IPlayer player, string input)
+    {
+        if (input == "quit")
+        {
+            player.Send("Creation cancelled.");
+            return AvatarCreationStates.Quit;
+        }
+
+        // available choices: add/drop/list/learned/premise/help/info/done
+        if (input == "done")
+        {
+            // add chosen abilities to learned abilities
+            foreach (var chosenAbility in _chosenAbilities)
+            {
+                if (!_learnedAbilities.Contains(chosenAbility))
+                    _learnedAbilities.Add(chosenAbility);
+            }
+            // add chosen groups to learned groups
+            foreach (var chosenAbilityGroup in _chosenAbilityGroups)
+            {
+                if (!_chosenAbilityGroups.Contains(chosenAbilityGroup))
+                    _learnedAbilityGroups.Add(chosenAbilityGroup);
+            }
+            // add abilities found in learned groups
+            foreach (var learnedAbilityGroup in _learnedAbilityGroups)
+            {
+                AddLearnedAbilitiesFromLearnedAbilityGroup(learnedAbilityGroup.AbilityGroupDefinition);
+            }
+
+            player.Send("Please pick a weapon from the following choices:");
+            DisplayWeaponList(player, false);
+            return AvatarCreationStates.WeaponChoice;
+        }
+        var tokens = CommandParser.SplitParameters(input).ToArray();
+        var command = tokens[0];
+        var parameter = tokens.Length > 1
+            ? string.Join(" ", tokens.Skip(1))
+            : string.Empty;
+        // from here, we will stay in state Customize
+        if (command == "list")
+        {
+            DisplayCustomizeList(player);
+        }
+        else if (command == "learned")
+        {
+            DisplayCustomizeChosen(player);
+        }
+        else if (command == "add")
+        {
+            CustomizeAddAbilityGroupOrAbility(player, parameter);
+        }
+        else if (command == "drop")
+        {
+            CustomizeDropAbilityGroupOrAbility(player, parameter);
+        }
+        else if (command == "premise")
+        {
+            player.Send(
+@"The ROM skill system allows you to fully customize your new character, making
+him or her skilled in the skills you choose.  But beware, the skills you pick
+at character creation are the only skills you will ever learn.  Skills are 
+paid for with creation points, and the more creation points you have, the
+harder it is to gain a level.  Furthermore, higher-cost skills are harder to
+practice.
+
+Skill groups are like package deals for characters -- sets of skills or spells
+that are closely related, and hence can be learned as a unit.  There is a 
+default skill group for each class, which can be selected for a balanced 
+selection of skills at a somewhat reduced cost.
+
+The experience breakdown is as follows: 
+points   exp/level     points   exp/level
+40        1000         90        6000
+50        1500         100       8000
+60	  2000         110      12000
+70        3000         120      16000 
+80        4000         130      24000
+The table continues in a similar manner for higher point totals.");
+        }
+        else if (command == "help")
+        {
+            if (string.IsNullOrWhiteSpace(parameter))
+            {
+                player.Send(
+@"The following commands are available:
+list         display all groups and skills not yet bought
+learned      show all groups and skills bought 
+premise      brief explanation of creation points and skill groups
+add <name>   buy a skill or group
+drop <name>  discard a skill or group
+info <name>  list the skills or spells contained within a group
+help <name>  help on skills and groups, or other help topics
+done	     exit the character generation process");
+            }
+            else
+            {
+                parameter = "'" + parameter + "'";
+                if (player is IAdmin admin)
+                {
+                    GameActionManager.Execute<Actor.Help, IAdmin>(admin, parameter);
+                }
+                else
+                {
+                    GameActionManager.Execute<Actor.Help, IPlayer>(player, parameter);
+                }
+            }
+        }
+        else if (command == "info" || command == "groups")
+        {
+            // display learned groups if not parameter
+            if (string.IsNullOrWhiteSpace(parameter))
+            {
+                var sb = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Learned groups", _learnedAbilityGroups.OrderBy(x => x.Name));
+                player.Page(sb);
+            }
+            // 
+            else
+            {
+                // search ability group
+                var abilityGroupDefinition = AbilityGroupManager.Search(CommandParser.ParseParameter(parameter));
+                if (abilityGroupDefinition == null)
+                    player.Send("No group of that name exist.");
+                else
+                {
+                    var sb = new StringBuilder();
+                    sb.AppendLine($"%W%{abilityGroupDefinition.Name.ToPascalCase()}%x%");
+                    if (abilityGroupDefinition.Help != null)
+                    {
+                        sb.AppendLine(abilityGroupDefinition.Help);
+                    }
+                    if (abilityGroupDefinition.AbilityDefinitions.Any())
+                    {
+                        var abilities = TableGenerators.AbilityDefinitionTableGenerator.Value.Generate("Abilities", true, abilityGroupDefinition.AbilityDefinitions);
+                        sb.Append(abilities);
+                    }
+                    if (abilityGroupDefinition.AbilityGroupDefinitions.Any())
+                    {
+                        var subAbilityGroups = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", true, abilityGroupDefinition.AbilityGroupDefinitions);
+                        sb.Append(subAbilityGroups);
+                    }
+                    player.Page(sb);
+                }
+            }
+        }
+
+        // display choices
+        player.Send("Choice (add,drop,list,learned,premise,help,info,done)");
+        return AvatarCreationStates.Customize;
     }
 
     private AvatarCreationStates ProcessWeaponChoice(IPlayer player, string input)
@@ -215,6 +408,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             return AvatarCreationStates.Quit;
         }
 
+        // search weapon matching input
         var matchingWeaponAbilityUsages = _learnedAbilities.Where(x => x.AbilityDefinition.Type == AbilityTypes.Weapon && StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
         if (matchingWeaponAbilityUsages.Count == 1)
         {
@@ -286,8 +480,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
                 }
             }
 
-            // TODO: abilities+ability groups (aka customization)
-            // additional known abilities will be added in PlayableCharacter ctor
+            // known abilities will be generated in PlayableCharacter ctor when avatar will be impersonated
 
             var startingRoom = RoomManager.MudSchoolRoom;
             PlayableCharacterData playableCharacterData = new()
@@ -302,7 +495,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
                 Level = 1,
                 Sex = _sex!.Value,
                 Size = _race!.Size,
-                HitPoints = 100,
+                HitPoints = 20,
                 MovePoints = 100,
                 CurrentResources = new Dictionary<ResourceKinds, int>
                 {
@@ -323,10 +516,10 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
                 GoldCoins = 0,
                 SilverCoins = 0,
                 Conditions = Enum.GetValues<Conditions>().Where(x => x != Conditions.Drunk).ToDictionary(x => x, x => 48),
-                Equipments = [], //TODO: Equipments
-                Inventory = [], //TODO: Inventory
-                CurrentQuests = [], //TODO: CurrentQuests
-                Auras = [], //TODO: Auras
+                Equipments = [],
+                Inventory = [],
+                CurrentQuests = [],
+                Auras = [],
                 CharacterFlags = _race!.CharacterFlags,
                 Immunities = _race!.Immunities,
                 Resistances = _race!.Resistances,
@@ -359,9 +552,9 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             // Impersonate
             State = AvatarCreationStates.CreationComplete;
             string? executeResult;
-            if (player is IAdmin)
+            if (player is IAdmin admin)
             {
-                executeResult = GameActionManager.Execute<Admin.Avatar.Impersonate, IPlayer>(player, _name);
+                executeResult = GameActionManager.Execute<Admin.Avatar.Impersonate, IAdmin>(admin, _name);
             }
             else
             {
@@ -427,6 +620,75 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         player.Send(weapons);
     }
 
+    private void DisplayCustomizeList(IPlayer player)
+    {
+        // display available groups with cost
+        var availableAbilityGroupsNotYetLearned = GetAvailableAbilityGroupsNotYetLearnedNotChosen();
+        var sbGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Available groups", 3, availableAbilityGroupsNotYetLearned.OrderBy(x => x.Name));
+        player.Send(sbGroups);
+        // display available skills
+        var availableSkillsNotYetLearned = GetAvailableSkillsNotYetLearnedNorChosen();
+        var sbSkills = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Available skills", 3, availableSkillsNotYetLearned.OrderBy(x => x.Name));
+        player.Send(sbSkills);
+        // display creation points
+        player.Send("Creation points: {0}", _creationPoints);
+        // TODO: display exp/level
+    }
+
+    private void DisplayCustomizeChosen(IPlayer player)
+    {
+        var sbGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Chosen groups", 3, _chosenAbilityGroups.OrderBy(x => x.Name));
+        player.Send(sbGroups);
+        var sbSkills = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Chosen skills", 3, _chosenAbilities.OrderBy(x => x.Name));
+        player.Send(sbSkills);
+    }
+
+    private void CustomizeAddAbilityGroupOrAbility(IPlayer player, string name)
+    {
+        // search in groups
+        var abilityGroupUsage = GetAvailableAbilityGroupsNotYetLearnedNotChosen().FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, name));
+        if (abilityGroupUsage != null)
+        {
+            _chosenAbilityGroups.Add(abilityGroupUsage);
+            _creationPoints += abilityGroupUsage.Cost;
+            player.Send("{0} group added", abilityGroupUsage.Name.ToPascalCase());
+            return;
+        }
+        // search in skills
+        var skillUsage = GetAvailableSkillsNotYetLearnedNorChosen().FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, name));
+        if (skillUsage != null)
+        {
+            _chosenAbilities.Add(skillUsage);
+            _creationPoints += skillUsage.Rating;
+            player.Send("{0} skill added", skillUsage.Name.ToPascalCase());
+            return;
+        }
+        player.Send("No skills or groups by that name...");
+    }
+
+    private void CustomizeDropAbilityGroupOrAbility(IPlayer player, string name)
+    {
+        // search in chosen groups
+        var abilityGroupUsage = _chosenAbilityGroups.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, name));
+        if (abilityGroupUsage != null)
+        {
+            _chosenAbilityGroups.Remove(abilityGroupUsage);
+            _creationPoints -= abilityGroupUsage.Cost;
+            player.Send("{0} group dropped", abilityGroupUsage.Name.ToPascalCase());
+            return;
+        }
+        // search in chosen skills
+        var skillUsage = _chosenAbilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, name));
+        if (skillUsage != null)
+        {
+            _chosenAbilities.Remove(skillUsage);
+            _creationPoints -= skillUsage.Rating;
+            player.Send("{0} skill dropped", skillUsage.Name.ToPascalCase());
+            return;
+        }
+        player.Send("You haven't bought any such skill or group.");
+    }
+
     private Dictionary<CharacterAttributes, int> GetStartAttributeValues(IPlayableRace race, IClass @class)
         => Enum.GetValues<CharacterAttributes>().ToDictionary(x => x, x => GetStartAttributeValue(x, race, @class));
 
@@ -479,4 +741,15 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         foreach (var subGroup in abilityGroupDefinition.AbilityGroupDefinitions)
             AddLearnedAbilitiesFromLearnedAbilityGroup(subGroup);
     }
+
+    private IEnumerable<IAbilityGroupUsage> GetAvailableAbilityGroupsNotYetLearnedNotChosen()
+        => _class!.AvailableAbilityGroups.Where(x => 
+            _chosenAbilityGroups.All(y => !StringCompareHelpers.StringEquals(y.Name, x.Name))
+            && _learnedAbilityGroups.All(y => !StringCompareHelpers.StringEquals(y.Name, x.Name)));
+
+    private IEnumerable<IAbilityUsage> GetAvailableSkillsNotYetLearnedNorChosen()
+        => _class!.AvailableAbilities.Where(x =>
+            (x.AbilityDefinition.Type == AbilityTypes.Skill || x.AbilityDefinition.Type == AbilityTypes.Passive || x.AbilityDefinition.Type == AbilityTypes.Weapon)
+            && _chosenAbilities.All(y => !StringCompareHelpers.StringEquals(y.Name, x.Name))
+            && _learnedAbilities.All(y => !StringCompareHelpers.StringEquals(y.Name, x.Name)));
 }

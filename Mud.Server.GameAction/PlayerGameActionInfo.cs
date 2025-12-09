@@ -3,7 +3,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.GameAction;
 
-public class PlayerGameActionInfo : GameActionInfo, IPlayerGameActionInfo
+public class PlayerGameActionInfo : ActorGameActionInfo, IPlayerGameActionInfo
 {
     public bool MustBeImpersonated { get; }
 

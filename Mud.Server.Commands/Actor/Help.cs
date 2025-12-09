@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -12,7 +11,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Actor;
 
-[Command("help", Priority = 0)]
+[ActorCommand("help", Priority = 0)]
 [Syntax(
     "[help] <topic>")]
 [Help(

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Race;
@@ -24,9 +24,11 @@ public class CreateAvatar : PlayerGameAction
     private IRoomManager RoomManager { get; }
     private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
     private IGameActionManager GameActionManager { get; }
+    private ICommandParser CommandParser { get; }
+    private IAbilityGroupManager AbilityGroupManager { get; }
     private int MaxAvatarCount { get; }
 
-    public CreateAvatar(ILogger<CreateAvatar> logger, IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, IGameActionManager gameActionManager, IOptions<AvatarOptions> avatarOptions)
+    public CreateAvatar(ILogger<CreateAvatar> logger, IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityGroupManager abilityGroupManager, IOptions<AvatarOptions> avatarOptions)
     {
         Logger = logger;
         ServerPlayerCommand = serverPlayerCommand;
@@ -37,6 +39,8 @@ public class CreateAvatar : PlayerGameAction
         RoomManager = roomManager;
         ShieldFlagFactory = shieldFlagFactory;
         GameActionManager = gameActionManager;
+        CommandParser = commandParser;
+        AbilityGroupManager = abilityGroupManager;
         MaxAvatarCount = avatarOptions.Value.MaxCount;
     }
 
@@ -54,6 +58,6 @@ public class CreateAvatar : PlayerGameAction
     public override void Execute(IActionInput actionInput)
     {
         Actor.Send("Please choose an avatar name (type quit to stop and cancel creation).");
-        Actor.SetStateMachine(new AvatarCreationStateMachine(Logger, ServerPlayerCommand, RaceManager, ClassManager, UniquenessManager, TimeManager, RoomManager, ShieldFlagFactory, GameActionManager));
+        Actor.SetStateMachine(new AvatarCreationStateMachine(Logger, ServerPlayerCommand, RaceManager, ClassManager, UniquenessManager, TimeManager, RoomManager, ShieldFlagFactory, GameActionManager, CommandParser, AbilityGroupManager));
     }
 }

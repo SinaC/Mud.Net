@@ -112,6 +112,7 @@ public interface ICharacter : IEntity, IContainer
 
     // Abilities
     IEnumerable<IAbilityLearned> LearnedAbilities { get; }
+    void AddLearnedAbility(IAbilityUsage abilityUsage);
 
     // Form
     Forms Form { get; }
