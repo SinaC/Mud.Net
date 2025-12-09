@@ -20,6 +20,7 @@ character in the room is saying your message.  Victims who make their saving
 throw will know that someone is using ventriloquism, but not who.  Victims who
 fail their saving throw will think that the object or character really did say
 your message.")]
+[OneLineHelp("allows the caster to put words in someone's mouth")]
 public class Ventriloquate : SpellBase
 {
     private const string SpellName = "Ventriloquate";

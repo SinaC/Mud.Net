@@ -18,6 +18,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"A romantic spell that creates a fragrant red rose, with utterly no game
 use whatsoever.")]
+[OneLineHelp("creates a beautiful red rose")]
 public class CreateRose : ItemCreationSpellBase
 {
     private const string SpellName = "Create Rose";

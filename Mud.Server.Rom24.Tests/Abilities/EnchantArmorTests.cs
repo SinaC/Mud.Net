@@ -34,7 +34,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
@@ -45,7 +45,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 0); // must be below 25/5
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo( spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityDefinition( spell.GetType()), casterMock.Object, 0, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -72,7 +72,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
@@ -83,7 +83,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 7); // must be between 25/5 and 25/3
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo( spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityDefinition( spell.GetType()), casterMock.Object, 0, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -110,7 +110,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
@@ -121,7 +121,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 20); // must be between 25/3 and 25
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo( spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityDefinition( spell.GetType()), casterMock.Object, 0, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -149,7 +149,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
@@ -160,7 +160,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 50); // must be between 25 and 90
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo( spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityDefinition( spell.GetType()), casterMock.Object, 0, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
             spell.Execute();
@@ -188,7 +188,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
             casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             armorMock.SetupGet(x => x.Name).Returns("armor");
@@ -199,7 +199,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             randomManagerMock.Setup(x => x.Range(It.IsAny<int>(), It.IsAny<int>())).Returns<int, int>((min, max) => 100); // must be greater than 90
 
             var parameters = BuildParameters("armor");
-            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityInfo( spell.GetType()), casterMock.Object, 0, null, parameters);
+            SpellActionInput abilityActionInput = new SpellActionInput(new AbilityDefinition( spell.GetType()), casterMock.Object, 0, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
             spell.Execute();

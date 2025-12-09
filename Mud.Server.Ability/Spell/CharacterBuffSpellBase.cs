@@ -22,7 +22,7 @@ public abstract class CharacterBuffSpellBase : DefensiveSpellBase
         if (IsAffected)
             return;
         var (level, duration, affects) = AuraInfo;
-        AuraManager.AddAura(Victim, AbilityInfo.Name, Caster, level, duration, AuraFlags.None, true, affects);
+        AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, level, duration, AuraFlags.None, true, affects);
         Victim.Act(ActOptions.ToCharacter, VictimAffectMessage, Caster);
         if (Victim != Caster)
             Caster.Act(ActOptions.ToCharacter, CasterAffectMessage, Victim);
@@ -39,7 +39,7 @@ public abstract class CharacterBuffSpellBase : DefensiveSpellBase
     {
         get
         {
-            if (Victim.GetAura(AbilityInfo.Name) != null)
+            if (Victim.GetAura(AbilityDefinition.Name) != null)
             {
                 if (Victim != Caster)
                     Caster.Send(SelfAlreadyAffectedMessage);

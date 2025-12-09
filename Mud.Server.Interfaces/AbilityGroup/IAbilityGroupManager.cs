@@ -1,7 +1,14 @@
-﻿namespace Mud.Server.Interfaces.AbilityGroup
+﻿using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.GameAction;
+
+namespace Mud.Server.Interfaces.AbilityGroup
 {
     public interface IAbilityGroupManager
     {
-        IAbilityGroupInfo? this[string abilityGroupName] { get; }
+        IEnumerable<IAbilityGroupDefinition> AbilityGroups { get; }
+
+        IAbilityGroupDefinition? this[string abilityGroupName] { get; }
+
+        IAbilityGroupDefinition? Search(ICommandParameter parameter);
     }
 }

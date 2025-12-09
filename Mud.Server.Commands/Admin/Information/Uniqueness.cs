@@ -1,0 +1,26 @@
+﻿using Mud.Server.GameAction;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.GameAction;
+using Mud.Server.TableGenerator;
+
+namespace Mud.Server.Commands.Admin.Information;
+
+
+[AdminCommand("Uniqueness", "Information")]
+[Syntax(
+    "[cmd]")]
+public class Uniqueness : AdminGameAction
+{
+    private IUniquenessManager UniquenessManager { get; }
+
+    public Uniqueness(IUniquenessManager uniquenessManager)
+    {
+        UniquenessManager = uniquenessManager;
+    }
+
+    public override void Execute(IActionInput actionInput)
+    {
+        var sb = TableGenerators.UnavailableNamesTableGenerator.Value.Generate("Unavailable names", 3, UniquenessManager.UnavailableNames);
+        Actor.Page(sb);
+    }
+}

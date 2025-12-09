@@ -21,6 +21,7 @@ wrath is coupled with a tendency to ignore threats to personal safety,
 making the character easier to hit.  Frenzy provides immunity to the calm
 spell (see 'help calm'), and may only be used on those of the caster's 
 alignment.")]
+[OneLineHelp("puts the recipient into beserker rage")]
 public class Frenzy : DefensiveSpellBase
 {
     private const string SpellName = "Frenzy";

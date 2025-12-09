@@ -2,20 +2,19 @@
 using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Interfaces.AbilityGroup;
 
-namespace Mud.Server.Rom24.AbilityGroups
+namespace Mud.Server.Rom24.AbilityGroups;
+
+[Export(typeof(IAbilityGroup)), Shared]
+public class MageBasics : AbilityGroupBase
 {
-    [Export(typeof(IAbilityGroup)), Shared]
-    public class MageBasics : AbilityGroupBase
+    public MageBasics()
     {
-        public MageBasics()
-        {
-            AddAbility("dagger");
-        }
-
-        #region IAbilityGroup
-
-        public override string Name => "mage basics";
-
-        #endregion
+        AddAbility("dagger");
     }
+
+    #region IAbilityGroup
+
+    public override string Name => "mage basics";
+
+    #endregion
 }

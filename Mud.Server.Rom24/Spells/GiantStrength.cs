@@ -18,6 +18,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <character>")]
 [Help(
 @"This spell increases the strength of the target character.")]
+[OneLineHelp("grants increased strength")]
 public class GiantStrength : DefensiveSpellBase
 {
     private const string SpellName = "Giant Strength";

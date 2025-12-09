@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
     "cast [spell] worse")]
 [Help(
 @"This spell makes the weather either better or worse.")]
+[OneLineHelp("changes the weather in the manner desired by the caster")]
 public class ControlWeather : NoTargetSpellBase
 {
     private const string SpellName = "Control Weather";

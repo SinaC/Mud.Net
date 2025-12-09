@@ -1,6 +1,6 @@
 ﻿namespace Mud.Server.Interfaces.Ability;
 
-public interface IAbilityInfo
+public interface IAbilityDefinition
 {
     AbilityTypes Type { get; }
     string Name { get; }
@@ -12,6 +12,7 @@ public interface IAbilityInfo
     Type AbilityExecutionType { get; }
 
     string? Help { get; }
+    string? OneLineHelp { get; }
     string[]? Syntax { get; }
 
     bool HasCharacterWearOffMessage { get; }

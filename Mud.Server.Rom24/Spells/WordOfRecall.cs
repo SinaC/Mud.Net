@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 @"This spell duplicates the built-in RECALL ability.  It is provided solely for
 Merc-based muds which wish to eliminate the built-in ability while still
 providing the spell.")]
+[OneLineHelp("transports the caster to safety in Midgaard")]
 public class WordOfRecall : SpellBase
 {
     private const string SpellName = "Word of Recall";

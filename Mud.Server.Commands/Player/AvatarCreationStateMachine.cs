@@ -2,7 +2,6 @@
 using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
-using Mud.Server.Commands.Character.Ability;
 using Mud.Server.Common;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
@@ -25,7 +24,7 @@ public enum AvatarCreationStates
     SexChoice, // -> SexChoice | RaceChoice | Quit
     RaceChoice, // -> RaceChoice | ClassChoice | Quit
     ClassChoice, // -> ClassChoice | WeaponChoice
-    WeaponChoice, // -> AvatarCreated | ImmediateImpersonate | Quit
+    WeaponChoice, // -> CreationComplete | ImmediateImpersonate | Quit
     ImmediateImpersonate, // -> CreationComplete
     CreationComplete,
     Quit
@@ -197,7 +196,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             // add abilities found in group
             foreach (var learnedAbilityGroup in _learnedAbilityGroups)
             {
-                AddLearnedAbilitiesFromLearnedAbilityGroup(learnedAbilityGroup.AbilityGroupInfo);
+                AddLearnedAbilitiesFromLearnedAbilityGroup(learnedAbilityGroup.AbilityGroupDefinition);
             }
             player.Send("Please pick a weapon from the following choices:");
             DisplayWeaponList(player, false);
@@ -216,15 +215,15 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             return AvatarCreationStates.Quit;
         }
 
-        var matchingWeaponAbilityInfos = _learnedAbilities.Where(x => x.AbilityInfo.Type == AbilityTypes.Weapon && StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
-        if (matchingWeaponAbilityInfos.Count == 1)
+        var matchingWeaponAbilityUsages = _learnedAbilities.Where(x => x.AbilityDefinition.Type == AbilityTypes.Weapon && StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
+        if (matchingWeaponAbilityUsages.Count == 1)
         {
             // set default weapon to 40%
-            var weaponAbilityInfo = matchingWeaponAbilityInfos.Single();
-            var weaponAbilityUsage = _learnedAbilities.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, weaponAbilityInfo.Name));
+            var matchingWeaponAbilityUsage = matchingWeaponAbilityUsages.Single();
+            var weaponAbilityUsage = _learnedAbilities.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, matchingWeaponAbilityUsage.Name));
             var learnedAbilityDatas = new List<LearnedAbilityData>();
             if (weaponAbilityUsage == null)
-                Logger.LogError("AvatarCreationStateMachine: no matching ability usage found on class {className} for weapon {weaponAbilityName}", _class!.Name, weaponAbilityInfo.Name);
+                Logger.LogError("AvatarCreationStateMachine: no matching ability usage found on class {className} for weapon {weaponAbilityName}", _class!.Name, matchingWeaponAbilityUsage.Name);
             else
             {
                 var weaponLearnedAbilityData = new LearnedAbilityData
@@ -259,7 +258,9 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
                         CostAmount = learnedAbility.CostAmount,
                         CostAmountOperator = learnedAbility.CostAmountOperator,
                         Level = learnedAbility.Level,
-                        Learned = learnedAbility.MinLearned,
+                        Learned = learnedAbility.Level <= 1
+                            ? Math.Max(1, learnedAbility.MinLearned)
+                            : Math.Max(0, learnedAbility.MinLearned),
                         Rating = learnedAbility.Rating,
                     };
                     learnedAbilityDatas.Add(learnedAbilityData);
@@ -422,7 +423,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
     {
         if (displayHeader)
             player.Send("Please choose a weapon (type quit to stop creation).");
-        var weapons = string.Join(" | ", _learnedAbilities.Where(x => x.AbilityInfo.Type == AbilityTypes.Weapon).Select(x => x.Name));
+        var weapons = string.Join(" | ", _learnedAbilities.Where(x => x.AbilityDefinition.Type == AbilityTypes.Weapon).Select(x => x.Name));
         player.Send(weapons);
     }
 
@@ -460,22 +461,22 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         }
     }
 
-    private void AddLearnedAbilitiesFromLearnedAbilityGroup(IAbilityGroupInfo abilityGroupInfo)
+    private void AddLearnedAbilitiesFromLearnedAbilityGroup(IAbilityGroupDefinition abilityGroupDefinition)
     {
-        foreach (var abilityInfo in abilityGroupInfo.AbilityInfos)
+        foreach (var abilityDefinition in abilityGroupDefinition.AbilityDefinitions)
         {
-            if (_learnedAbilities.Any(x => StringCompareHelpers.StringEquals(x.AbilityInfo.Name, abilityInfo.Name)))
-                Logger.LogWarning("Ability {abillityName} defined in ability group {abilityGroupName} is defined multiple times in ability groups for class {className}", abilityInfo.Name, abilityGroupInfo.Name, _class!.Name);
+            if (_learnedAbilities.Any(x => StringCompareHelpers.StringEquals(x.AbilityDefinition.Name, abilityDefinition.Name)))
+                Logger.LogWarning("Ability {abillityName} defined in ability group {abilityGroupName} is defined multiple times in ability groups for class {className}", abilityDefinition.Name, abilityGroupDefinition.Name, _class!.Name);
             else
             {
-                var abilityUsage = _class!.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.AbilityInfo.Name, abilityInfo.Name));
+                var abilityUsage = _class!.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.AbilityDefinition.Name, abilityDefinition.Name));
                 if (abilityUsage == null)
-                    Logger.LogError("Ability {abillityName} defined in ability group {abilityGroupName} is not available for class {className}", abilityInfo.Name, abilityGroupInfo.Name, _class!.Name);
+                    Logger.LogError("Ability {abillityName} defined in ability group {abilityGroupName} is not available for class {className}", abilityDefinition.Name, abilityGroupDefinition.Name, _class!.Name);
                 else
                     _learnedAbilities.Add(abilityUsage);
             }
         }
-        foreach (var subGroup in abilityGroupInfo.AbilityGroupInfos)
+        foreach (var subGroup in abilityGroupDefinition.AbilityGroupDefinitions)
             AddLearnedAbilitiesFromLearnedAbilityGroup(subGroup);
     }
 }

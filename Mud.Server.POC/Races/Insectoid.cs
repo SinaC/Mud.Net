@@ -21,8 +21,8 @@ public class Insectoid : PlayableRaceBase // 4-arms
         AddAbility(1, "Fourth Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
 
         // Test race with all spells
-        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))
-            AddAbility(1, abilityInfo.Name, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);
+        foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))
+            AddAbility(1, abilityDefinition.Name, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);
     }
 
     #region IRace

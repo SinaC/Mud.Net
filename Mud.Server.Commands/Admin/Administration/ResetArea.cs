@@ -38,7 +38,14 @@ public class ResetArea : AdminGameAction
             return BuildCommandSyntax();
 
         if (actionInput.Parameters.Length == 0)
-            Area = Impersonating.Room.Area;
+        {
+            if (Impersonating != null)
+                Area = Impersonating.Room.Area;
+            else
+                return "You are not impersonating, please specity an area name.";
+        }
+        else if (actionInput.Parameters[0].IsAll)
+            return "You cannot do that.";
         else
             Area = AreaManager.Areas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.DisplayName, actionInput.Parameters[0].Value))!;
 

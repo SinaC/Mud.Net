@@ -16,6 +16,7 @@ Characters with no shield block skill will not be able to defend themselves
 well with a shield.  All classes may learn shield block, but only warriors and
 clerics are good at it.  Beware, flails ignore shield blocking attempts, and
 whips have an easier time getting around them.  Axes may split shields in two.")]
+[OneLineHelp("the art of parrying with a shield")]
 public class ShieldBlock : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Shield Block";

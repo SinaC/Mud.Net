@@ -33,9 +33,9 @@ public class DispelManager : IDispelManager
                 string? dispelRoomMessage = null;
                 if (aura.AbilityName != null)
                 {
-                    var abilityInfo = AbilityManager[aura.AbilityName];
-                    isDispellable = abilityInfo?.IsDispellable == true;
-                    dispelRoomMessage = abilityInfo?.DispelRoomMessage;
+                    var abilityDefinition = AbilityManager[aura.AbilityName];
+                    isDispellable = abilityDefinition?.IsDispellable == true;
+                    dispelRoomMessage = abilityDefinition?.DispelRoomMessage;
                 }
 
                 if (isDispellable)
@@ -62,8 +62,8 @@ public class DispelManager : IDispelManager
             if (!SavesDispel(dispelLevel, aura))
             {
                 victim.RemoveAura(aura, true); // RemoveAura will display DispelMessage
-                var abilityInfo = AbilityManager[aura.AbilityName];
-                var dispelRoomMessage = abilityInfo?.DispelRoomMessage;
+                var abilityDefinition = AbilityManager[aura.AbilityName];
+                var dispelRoomMessage = abilityDefinition?.DispelRoomMessage;
                 if (!string.IsNullOrWhiteSpace(dispelRoomMessage))
                     victim.Act(ActOptions.ToRoom, dispelRoomMessage, victim);
                 return TryDispelReturnValues.Dispelled; // stop at first aura dispelled

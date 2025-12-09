@@ -2,21 +2,20 @@
 using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Interfaces.AbilityGroup;
 
-namespace Mud.Server.Rom24.AbilityGroups
+namespace Mud.Server.Rom24.AbilityGroups;
+
+[Export(typeof(IAbilityGroup)), Shared]
+public class WarriorBasics : AbilityGroupBase
 {
-    [Export(typeof(IAbilityGroup)), Shared]
-    public class WarriorBasics : AbilityGroupBase
+    public WarriorBasics()
     {
-        public WarriorBasics()
-        {
-            AddAbility("sword");
-            AddAbility("second attack");
-        }
-
-        #region IAbilityGroup
-
-        public override string Name => "warrior basics";
-
-        #endregion
+        AddAbility("sword");
+        AddAbility("second attack");
     }
+
+    #region IAbilityGroup
+
+    public override string Name => "warrior basics";
+
+    #endregion
 }

@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 @"Dispel good brings forth evil energies that inflict horrific torment on 
 the pure of heart.  Good-aligned characters use this dark magic at their
 peril.")]
+[OneLineHelp("calls down unholy power on good creatures")]
 public class DispelGood : DamageSpellBase
 {
     private const string SpellName = "Dispel Good";

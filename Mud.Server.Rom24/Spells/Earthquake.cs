@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 @"This spell inflicts damage on every enemy character in the room.
 Beware that other characters who are not yet fighting may attack
 you as a result!")]
+[OneLineHelp("brings the power of earth to bear against your foes")]
 public class Earthquake : NoTargetSpellBase
 {
     private const string SpellName = "Earthquake";

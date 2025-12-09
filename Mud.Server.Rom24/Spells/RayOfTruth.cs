@@ -18,6 +18,7 @@ namespace Mud.Server.Rom24.Spells;
 a beam of light of sufficient purity to harm or or annihilate the servants
 of evil.  It cannot harm the pure of heart, and will turn and strike 
 casters who are tainted by evil.")]
+[OneLineHelp("sends forth a blinding ray of holy energy")]
 public class RayOfTruth : OffensiveSpellBase
 {
     private const string SpellName = "Ray of Truth";
@@ -68,7 +69,7 @@ public class RayOfTruth : OffensiveSpellBase
 
         damage = (damage * alignment * alignment) / (1000 * 1000);
 
-        var damageResult = Victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, "ray of truth", true);
+        var damageResult = Victim.AbilityDamage(Caster, damage, SchoolTypes.Holy, SpellName, true);
         if (damageResult == DamageResults.Done)
         {
             var blindnessEffect = EffectManager.CreateInstance<ICharacter>("Blindness");

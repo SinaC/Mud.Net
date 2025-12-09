@@ -21,6 +21,7 @@ weapons such as daggers.  The damage inflicted by a backstab is determined by
 the attacker's level, his weapon skill, his backstab skill, and the power of
 his opponent.  You must be not visible to the mob (i.e. sneaking or hiding)
 in order to backstab.")]
+[OneLineHelp("the art of hitting your opponent by surprise")]
 public class Backstab : OffensiveSkillBase
 {
     private const string SkillName = "Backstab";

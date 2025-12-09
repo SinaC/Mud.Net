@@ -15,6 +15,13 @@ namespace Mud.Server.TableGenerator;
 
 public static class TableGenerators
 {
+    public static readonly Lazy<TableGenerator<string>> UnavailableNamesTableGenerator = new(() =>
+    {
+        TableGenerator<string> generator = new();
+        generator.AddColumn("Name", 20, x => x);
+        return generator;
+    } );
+
     public static readonly Lazy<TableGenerator<IAbilityLearned>> LearnedAbilitiesTableGenerator = new(() =>
     {
         TableGenerator<IAbilityLearned> generator = new();
@@ -24,9 +31,9 @@ public static class TableGenerators
         {
             if (x.Learned == 0)
                 return "n/a";
-            if (x.AbilityInfo.Type == AbilityTypes.Passive)
+            if (x.AbilityDefinition.Type == AbilityTypes.Passive)
                 return "%m%passive%x%";
-            else if (x.AbilityInfo.Type == AbilityTypes.Weapon)
+            else if (x.AbilityDefinition.Type == AbilityTypes.Weapon)
                 return "%y%weapon%x%";
             if (x.CostAmountOperator == CostAmountOperators.Percentage)
             {
@@ -53,8 +60,8 @@ public static class TableGenerators
                 else
                     return $"{x.Learned}%";
             });
-        generator.AddColumn("Type", 10, x => x.AbilityInfo.Type.ToString());
-        generator.AddColumn("Cooldown", 10, x => x.AbilityInfo.CooldownInSeconds.HasValue ? x.AbilityInfo.CooldownInSeconds.Value.FormatDelayShort() : "---");
+        generator.AddColumn("Type", 10, x => x.AbilityDefinition.Type.ToString());
+        generator.AddColumn("Cooldown", 10, x => x.AbilityDefinition.CooldownInSeconds.HasValue ? x.AbilityDefinition.CooldownInSeconds.Value.FormatDelayShort() : "---");
         return generator;
     });
 
@@ -118,6 +125,30 @@ public static class TableGenerators
         return generator;
     });
 
+    public static readonly Lazy<TableGenerator<IAbilityGroupUsage>> AbilityGroupUsageTableGenerator = new(() =>
+    {
+        TableGenerator<IAbilityGroupUsage> generator = new();
+        generator.AddColumn("Name", 23, x => x.Name.ToPascalCase(), new TableGenerator<IAbilityGroupUsage>.ColumnOptions { AlignLeft = true });
+        generator.AddColumn("Cost", 6, x => x.Cost.ToString());
+        return generator;
+    });
+
+    public static readonly Lazy<TableGenerator<IAbilityGroupDefinition>> AbilityGroupDefinitionTableGenerator = new(() =>
+    {
+        TableGenerator<IAbilityGroupDefinition> generator = new();
+        generator.AddColumn("Name", 23, x => x.Name.ToPascalCase(), new TableGenerator<IAbilityGroupDefinition>.ColumnOptions { AlignLeft = true });
+        generator.AddColumn("", 65, x => x.OneLineHelp, new TableGenerator<IAbilityGroupDefinition>.ColumnOptions { AlignLeft = true });
+        return generator;
+    });
+
+    public static readonly Lazy<TableGenerator<IAbilityDefinition>> AbilityDefinitionTableGenerator = new(() =>
+    {
+        TableGenerator<IAbilityDefinition> generator = new();
+        generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbilityDefinition>.ColumnOptions { AlignLeft = true });
+        generator.AddColumn("", 65, x => x.OneLineHelp, new TableGenerator<IAbilityDefinition>.ColumnOptions { AlignLeft = true });
+        return generator;
+    });
+
     public static readonly Lazy<TableGenerator<IArea>> FullInfoAreaTableGenerator = new(() =>
     {
         TableGenerator<IArea> generator = new();
@@ -128,18 +159,10 @@ public static class TableGenerators
         return generator;
     });
 
-    public static readonly Lazy<TableGenerator<IAbilityGroupUsage>> AbilityGroupTableGenerator = new(() =>
+    public static readonly Lazy<TableGenerator<IAbilityDefinition>> FullInfoAbilityTableGenerator = new(() =>
     {
-        TableGenerator<IAbilityGroupUsage> generator = new ();
-        generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbilityGroupUsage>.ColumnOptions { AlignLeft = true });
-        generator.AddColumn("Cost", 6, x => x.Cost.ToString());
-        return generator;
-    });
-
-    public static readonly Lazy<TableGenerator<IAbilityInfo>> FullInfoAbilityTableGenerator = new(() =>
-    {
-        TableGenerator<IAbilityInfo> generator = new();
-        generator.AddColumn("Name", 23, x => x.Name, new TableGenerator<IAbilityInfo>.ColumnOptions { AlignLeft = true });
+        TableGenerator<IAbilityDefinition> generator = new();
+        generator.AddColumn("Name", 23, x => x.Name.ToPascalCase(), new TableGenerator<IAbilityDefinition>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("Type", 9, x => x.Type.ToString());
         generator.AddColumn("GCD", 5, x => x.PulseWaitTime?.ToString() ?? "???");
         generator.AddColumn("Cooldown", 10, x => x.CooldownInSeconds.HasValue ? x.CooldownInSeconds.Value.FormatDelayShort() : "---");
@@ -155,13 +178,13 @@ public static class TableGenerators
         // Merge resource and cost if free cost ability
         TableGenerator<IAbilityUsage> generator = new();
         generator.AddColumn("Lvl", 5, x => x.Level.ToString());
-        generator.AddColumn("Name", 35, x => x.Name, new TableGenerator<IAbilityUsage>.ColumnOptions { AlignLeft = true });
+        generator.AddColumn("Name", 35, x => x.Name.ToPascalCase(), new TableGenerator<IAbilityUsage>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("Resource", 10,
             x =>
             {
-                if (x.AbilityInfo.Type == AbilityTypes.Passive)
+                if (x.AbilityDefinition.Type == AbilityTypes.Passive)
                     return "%m%passive%x%";
-                else if (x.AbilityInfo.Type == AbilityTypes.Weapon)
+                else if (x.AbilityDefinition.Type == AbilityTypes.Weapon)
                     return "%y%weapon%x%";
                 if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                 {
@@ -176,7 +199,7 @@ public static class TableGenerators
             {
                 GetMergeLengthFunc = x =>
                 {
-                    if (x.AbilityInfo.Type == AbilityTypes.Passive || x.AbilityInfo.Type == AbilityTypes.Weapon)
+                    if (x.AbilityDefinition.Type == AbilityTypes.Passive || x.AbilityDefinition.Type == AbilityTypes.Weapon)
                         return 1;
                     if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed)
                         return 0;
@@ -188,17 +211,17 @@ public static class TableGenerators
             {
                 GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "%" : " "
             });
-        generator.AddColumn("Type", 10, x => x.AbilityInfo.Type.ToString());
+        generator.AddColumn("Type", 10, x => x.AbilityDefinition.Type.ToString());
         generator.AddColumn("Rating", 8, x => x.Rating.ToString());
-        generator.AddColumn("GCD", 5, x => x.AbilityInfo.PulseWaitTime?.ToString());
-        generator.AddColumn("CD", 4, x => x.AbilityInfo.CooldownInSeconds?.ToString());
+        generator.AddColumn("GCD", 5, x => x.AbilityDefinition.PulseWaitTime?.ToString());
+        generator.AddColumn("CD", 4, x => x.AbilityDefinition.CooldownInSeconds?.ToString());
         return generator;
     });
 
     public static readonly Lazy<TableGenerator<IGameActionInfo>> GameActionInfoTableGenerator = new(() =>
     {
         TableGenerator<IGameActionInfo> generator = new();
-        generator.AddColumn("Name", 20, x => x.Name, new TableGenerator<IGameActionInfo>.ColumnOptions { AlignLeft = true });
+        generator.AddColumn("Name", 20, x => x.Name.ToPascalCase(), new TableGenerator<IGameActionInfo>.ColumnOptions { AlignLeft = true });
         //generator.AddColumn("Names", 20, x => string.Join(",", x.Names), new TableGenerator<IGameActionInfo>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("Categories", 20, x => string.Join(",", x.Categories));
         generator.AddColumn("Aliases", 20, x => string.Join(",", x.Aliases));

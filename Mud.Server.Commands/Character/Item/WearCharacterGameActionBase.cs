@@ -106,7 +106,7 @@ public abstract class WearCharacterGameActionBase : CharacterGameAction
 
     private string GetWeaponConfidence(IItemWeapon weapon)
     {
-        var (percentage, _) = Actor.GetWeaponLearnedInfo(weapon);
+        var (percentage, _) = Actor.GetWeaponLearnedAndPercentage(weapon);
         if (percentage >= 100)
             return "{0:N} feels like a part of you!";
         if (percentage > 85)

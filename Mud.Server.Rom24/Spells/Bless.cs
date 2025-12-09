@@ -27,6 +27,7 @@ namespace Mud.Server.Rom24.Spells;
 target character by 1 for every 8 levels of the caster. It may also be
 cast on an object to temporarily bless it (blessed weapons, for example,
 are more effective against demonic beings).")]
+[OneLineHelp("bestows divine favor upon the target")]
 public class Bless : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Bless";

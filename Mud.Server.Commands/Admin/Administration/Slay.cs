@@ -46,7 +46,7 @@ public class Slay : AdminGameAction
     {
         Wiznet.Log($"{Actor.DisplayName} slayed {Whom.DebugName}.", WiznetFlags.Punish);
 
-        Whom.Act(ActOptions.ToAll, "{0:N} slay{0:v} {1} in cold blood!", Actor.Impersonating!, Whom);
+        Whom.Act(ActOptions.ToAll, "%R%{0:N} slay{0:v} {1} in cold blood!%x%", Actor.Impersonating!, Whom);
         Whom.RawKilled(Actor.Impersonating, false);
     }
 }

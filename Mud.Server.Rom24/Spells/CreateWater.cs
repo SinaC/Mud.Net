@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <drink-container>")]
 [Help(
 @"This spell replenishes a drink container with water.")]
+[OneLineHelp("fills any available container with water")]
 public class CreateWater : ItemInventorySpellBase<IItemDrinkContainer>
 {
     private const string SpellName = "Create Water";

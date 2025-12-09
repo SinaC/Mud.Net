@@ -28,7 +28,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IItemManager> itemManagerMock = new();
             ItemCastSpellSkillBaseTestsSkill skill = new(new Mock<ILogger<ItemCastSpellSkillBaseTestsSkill>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object, "Acid Blast", 50);
 
-            abilityManagerMock.Setup(x => x.Search("Acid Blast", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo(typeof(Rom24AcidBlast)));
+            abilityManagerMock.Setup(x => x.Search("Acid Blast", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition(typeof(Rom24AcidBlast)));
             abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Rom24AcidBlast(new Mock<ILogger<Rom24AcidBlast>>().Object, randomManagerMock.Object));
 
             Mock<IRoom> roomMock = new();
@@ -43,7 +43,7 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.People).Returns([userMock.Object, targetMock.Object]);
 
             var actionInput = BuildActionInput<ItemCastSpellSkillBaseTestsSkill>(userMock.Object, "whatever target");
-            SkillActionInput skillActionInput = new(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
             var result = skill.Setup(skillActionInput);
 
             skill.Execute();

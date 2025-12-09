@@ -32,7 +32,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
             casterMock.SetupGet(x => x.Name).Returns("caster");
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.CanSee(targetMock.Object)).Returns<IEntity>(_ => true);
             targetMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
@@ -49,7 +49,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var parameters = BuildParameters("target");
             ColourSpray spell = new (new Mock<ILogger<ColourSpray>>().Object, randomManagerMock.Object, effectManagerMock.Object);
-            SpellActionInput abilityActionInput = new (new AbilityInfo( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new (new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
             var setupResult = spell.Setup(abilityActionInput);
 
             spell.Execute();

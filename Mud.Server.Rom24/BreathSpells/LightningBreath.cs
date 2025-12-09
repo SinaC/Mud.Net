@@ -19,6 +19,7 @@ damage one victim, whereas gas damages every PC in the room.  Fire and
 frost can break objects, and acid can damage armor.
 
 High level mages may learn and cast these spells as well.")]
+[OneLineHelp("summons the electrical fury of a blue dragon")]
 public class LightningBreath : OffensiveSpellBase
 {
     private const string SpellName = "Lightning Breath";

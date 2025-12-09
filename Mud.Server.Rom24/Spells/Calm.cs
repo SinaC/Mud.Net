@@ -25,6 +25,7 @@ in combat as long as the spell soothes their minds.  The more violence
 activity there is in a room, the harder the spell, and it is all or nothing --
 either all combat in the room is ended (with the exception of those who
 are immune to magic) or none is.")]
+[OneLineHelp("if successful, stops all fighting in the room")]
 public class Calm : NoTargetSpellBase
 {
     private const string SpellName = "Calm";

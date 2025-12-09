@@ -20,6 +20,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell increases (makes worse) the armor class of its victim.  For each
 level of the caster, the victim's armor class is increased by two points.")]
+[OneLineHelp("surrounds the target in a glowing aura")]
 public class FaerieFire : OffensiveSpellBase
 {
     private const string SpellName = "Faerie Fire";

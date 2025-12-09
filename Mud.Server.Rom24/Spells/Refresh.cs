@@ -15,6 +15,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell refreshes the movement points of a character who is out of movement
 points.")]
+[OneLineHelp("restores energy to tired adventurers")]
 public class Refresh : DefensiveSpellBase
 {
     private const string SpellName = "Refresh";

@@ -14,6 +14,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells inflict damage on the victim.  The higher-level spells do
 more damage.")]
+[OneLineHelp("sends forth a single bolt of lightning into an enemy")]
 public class LightningBolt : DamageTableSpellBase
 {
     private const string SpellName = "Lightning Bolt";

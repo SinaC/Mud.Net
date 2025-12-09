@@ -25,6 +25,7 @@ concentration, often leaving the caster helpless for several minutes.
 The spell may be used for a general scan that reaches a short distance in
 all directions, or with a directional component to see creatures much
 farther away.")]
+[OneLineHelp("searches for living beings near the caster")]
 public class Farsight : NoTargetSpellBase
 {
     private const string SpellName = "Farsight";

@@ -70,15 +70,15 @@ public abstract class ClassBase : IClass
 
     protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int baseLearned = 0)
     {
-        var abilityInfo = AbilityManager[abilityName];
-        if (abilityInfo == null)
+        var abilityDefinition = AbilityManager[abilityName];
+        if (abilityDefinition == null)
         {
             Logger.LogError("Trying to add unknown ability [{abilityName}] to class [{name}]", abilityName, Name);
             return;
         }
         // TODO: check level >= 1, amount >= 0, rating >= 0, baseLearned >= 1
         //
-        _availableAbilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, baseLearned, abilityInfo));
+        _availableAbilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, baseLearned, abilityDefinition));
     }
 
     protected void AddSpell(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int baseLearned = 0)
@@ -128,8 +128,8 @@ public abstract class ClassBase : IClass
     private IAbilityGroupUsage? AddGroup(string abilityGroupName, int cost)
     {
         // check if it exists
-        var abilityGroupInfo = AbilityGroupManager[abilityGroupName];
-        if (abilityGroupInfo == null)
+        var abilityGroupDefinition = AbilityGroupManager[abilityGroupName];
+        if (abilityGroupDefinition == null)
         {
             Logger.LogError("Trying to add unknown ability group [{abilityGroupName}] to class [{name}]", abilityGroupName, Name);
             return null;
@@ -142,7 +142,7 @@ public abstract class ClassBase : IClass
             return abilityGroupUsage;
         }
         //
-        abilityGroupUsage = new AbilityGroupUsage(abilityGroupName, cost, abilityGroupInfo);
+        abilityGroupUsage = new AbilityGroupUsage(abilityGroupName, cost, abilityGroupDefinition);
         _availableAbilityGroups.Add(abilityGroupUsage);
         return abilityGroupUsage;
     }

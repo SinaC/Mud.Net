@@ -34,7 +34,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IItemManager> itemManagerMock = new();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo( typeof(Earthquake)));
+            abilityManagerMock.Setup(x => x.Search("Earthquake", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition( typeof(Earthquake)));
             abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Earthquake(new Mock<ILogger<Earthquake>>().Object, randomManagerMock.Object));
 
             Mock<IArea> areaMock = new();
@@ -76,7 +76,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             Staves skill = new(new Mock<ILogger<Staves>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
-            SkillActionInput skillActionInput = new(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -92,7 +92,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IItemManager> itemManagerMock = new();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo( typeof(Fireball)));
+            abilityManagerMock.Setup(x => x.Search("Fireball", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition( typeof(Fireball)));
             abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireball(new Mock<ILogger<Fireball>>().Object, randomManagerMock.Object));
 
             Mock<IArea> areaMock = new();
@@ -134,7 +134,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             Staves skill = new(new Mock<ILogger<Staves>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
-            SkillActionInput skillActionInput = new(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -154,7 +154,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo( typeof(Armor)));
+            abilityManagerMock.Setup(x => x.Search("Armor", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition( typeof(Armor)));
             abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Armor(new Mock<ILogger<Armor>>().Object, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new();
@@ -196,7 +196,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             Staves skill = new(new Mock<ILogger<Staves>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
-            SkillActionInput skillActionInput = new(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -216,7 +216,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IAuraManager> auraManagerMock = new();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo( typeof(Fireproof)));
+            abilityManagerMock.Setup(x => x.Search("Fireproof", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition( typeof(Fireproof)));
             abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Fireproof(new Mock<ILogger<Fireproof>>().Object, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new();
@@ -258,7 +258,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             Staves skill = new(new Mock<ILogger<Staves>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
-            SkillActionInput skillActionInput = new(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -281,7 +281,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IDispelManager> dispelManagerMock = new();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo( typeof(Curse)));
+            abilityManagerMock.Setup(x => x.Search("Curse", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition( typeof(Curse)));
             abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Curse(new Mock<ILogger<Curse>>().Object, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object, effectManagerMock.Object, dispelManagerMock.Object));
 
             Mock<IArea> areaMock = new();
@@ -331,7 +331,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             Staves skill = new(new Mock<ILogger<Staves>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
-            SkillActionInput skillActionInput = new(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -358,7 +358,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IDispelManager> dispelManagerMock = new();
             randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
 
-            abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityInfo( typeof(Invisibility)));
+            abilityManagerMock.Setup(x => x.Search("Invisibility", AbilityTypes.Spell)).Returns<string, AbilityTypes>((x, y) => new AbilityDefinition( typeof(Invisibility)));
             abilityManagerMock.Setup(x => x.CreateInstance<ISpell>(It.IsAny<string>())).Returns<string>(x => new Invisibility(new Mock<ILogger<Invisibility>>().Object, _characterFlagFactory, _itemFlagFactory, randomManagerMock.Object, auraManagerMock.Object));
 
             Mock<IArea> areaMock = new();
@@ -400,7 +400,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             Staves skill = new(new Mock<ILogger<Staves>>().Object, randomManagerMock.Object, abilityManagerMock.Object, itemManagerMock.Object);
             var actionInput = BuildActionInput<Staves>(userMock.Object, "brandish");
-            SkillActionInput skillActionInput = new(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            SkillActionInput skillActionInput = new(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
             skill.Execute();

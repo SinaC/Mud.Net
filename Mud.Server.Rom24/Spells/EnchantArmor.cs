@@ -24,6 +24,7 @@ namespace Mud.Server.Rom24.Spells;
 not nearly as reliable as enchant weapon, being far more prone to destructive
 effects.  Each succesful enchant increases the plus of the armor by 1 or 2
 points, and raises its level by one.")]
+[OneLineHelp("increases the protective value of armor")]
 public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
 {
     private const string SpellName = "Enchant Armor";

@@ -225,12 +225,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         {
             foreach (LearnedAbilityData learnedAbilityData in data.LearnedAbilities)
             {
-                var abilityInfo = AbilityManager[learnedAbilityData.Name];
-                if (abilityInfo == null)
+                var abilityDefinition = AbilityManager[learnedAbilityData.Name];
+                if (abilityDefinition == null)
                     Wiznet.Log($"LearnedAbility:  Ability {learnedAbilityData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 else
                 {
-                    var abilityLearned = new AbilityLearned(learnedAbilityData, abilityInfo);
+                    var abilityLearned = new AbilityLearned(learnedAbilityData, abilityDefinition);
                     AddLearnedAbility(abilityLearned);
                 }
             }
@@ -240,12 +240,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         {
             foreach (var learnedAbilityGroupData in data.LearnedAbilityGroups)
             {
-                var abilityGroupInfo = AbilityGroupManager[learnedAbilityGroupData.Name];
-                if (abilityGroupInfo == null)
+                var abilityGroupDefinition = AbilityGroupManager[learnedAbilityGroupData.Name];
+                if (abilityGroupDefinition == null)
                     Wiznet.Log($"LearnedAbilityGroup:  Ability group {learnedAbilityGroupData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 else
                 {
-                    var abilityGroupLearned = new AbilityGroupLearned(learnedAbilityGroupData, abilityGroupInfo);
+                    var abilityGroupLearned = new AbilityGroupLearned(learnedAbilityGroupData, abilityGroupDefinition);
                     AddLearnedAbilityGroup(abilityGroupLearned);
                 }
             }
@@ -261,8 +261,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         {
             foreach (var cooldown in data.Cooldowns)
             {
-                var abilityInfo = AbilityManager[cooldown.Key];
-                if (abilityInfo == null)
+                var abilityDefinition = AbilityManager[cooldown.Key];
+                if (abilityDefinition == null)
                     Wiznet.Log($"Cooldown: ability {cooldown.Key} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 else
                     SetCooldown(cooldown.Key, Pulse.FromPulse(cooldown.Value));
@@ -420,9 +420,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return;
         // additional hits (dual wield, second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
-        foreach (var additionalHitAbilityInfo in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
+        foreach (var additionalHitAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
         {
-            var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityInfo);
+            var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityDefinition);
             if (additionalHitAbility != null)
                 additionalHitAbilities.Add(additionalHitAbility);
         }
@@ -511,7 +511,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     // Abilities
-    public override (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedInfo(IItemWeapon? weapon)
+    public override (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedAndPercentage(IItemWeapon? weapon)
     {
         string abilityName = null!;
         if (weapon == null)
@@ -531,11 +531,11 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return (learned, null);
         }
         // ability, check %
-        var learnInfo = GetAbilityLearnedInfo(abilityName);
+        var learnInfo = GetAbilityLearnedAndPercentage(abilityName);
         return learnInfo;
     }
 
-    public override (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedInfo(string abilityName)
+    public override (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedAndPercentage(string abilityName)
     {
         var learnedAbility = GetAbilityLearned(abilityName);
         int learned = 0;
@@ -770,7 +770,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     levelGained = true;
                     Level++;
                     Wiznet.Log($"{DebugName} has attained level {Level}", WiznetFlags.Levels);
-                    Send("You raise a level!!");
+                    Send("%G%You raise a level!!%x%");
                     Act(ActOptions.ToGroup, "{0} has attained level {1}", this, Level);
                     AdvanceLevel();
                 }
@@ -843,6 +843,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
 
         return false;
+    }
+
+    public void AddLearnedAbilityGroup(IAbilityGroupUsage abilityGroupUsage)
+    {
+        var learnedAbilityGroup = new AbilityGroupLearned(abilityGroupUsage);
+        if (!_learnedAbilityGroups.ContainsKey(learnedAbilityGroup.Name))
+            _learnedAbilityGroups.Add(learnedAbilityGroup.Name, learnedAbilityGroup);
+        RecomputeKnownAbilities();
     }
 
     // Immortality
@@ -1236,7 +1244,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         get
         {
-            var (percentage, _) = GetAbilityLearnedInfo("Hand to hand");
+            var (percentage, _) = GetAbilityLearnedAndPercentage("Hand to hand");
             int learned = percentage;
             return RandomManager.Range(1 + 4 * learned / 100, 2 * Level / 3 * learned / 100);
         }
@@ -1251,7 +1259,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         GainExperience(loss);
     }
 
-    protected void AddLearnedAbilityGroup(AbilityGroupLearned abilityGroupLearned)
+    protected void AddLearnedAbilityGroup(IAbilityGroupLearned abilityGroupLearned)
     {
         if (!_learnedAbilityGroups.ContainsKey(abilityGroupLearned.Name))
             _learnedAbilityGroups.Add(abilityGroupLearned.Name, abilityGroupLearned);
@@ -1267,9 +1275,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             var abilityGroupUsage = Class.AvailableAbilityGroups.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, learnedAbilityGroup.Key));
             if (abilityGroupUsage != null)
             {
-                foreach (var abilityInfo in abilityGroupUsage.AbilityGroupInfo.AbilityInfos)
+                foreach (var abilityDefinition in abilityGroupUsage.AbilityGroupDefinition.AbilityDefinitions)
                 {
-                    var abilityUsage = Class.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, learnedAbilityGroup.Key));
+                    var abilityUsage = Class.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
                     if (abilityUsage != null)
                     {
                         MergeAbility(abilityUsage, false);
@@ -1434,7 +1442,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         var newAbilities = LearnedAbilities.Where(x => x.Level == Level && x.Learned == 0).ToArray();
         if (newAbilities.Length != 0)
         {
-            StringBuilder sb = new ("You can now gain following abilities: %C%");
+            StringBuilder sb = new ();
+            sb.AppendLine("You can now gain following abilities: %c%");
             foreach (var abilityLearned in newAbilities)
             {
                 sb.AppendLine(abilityLearned.Name);

@@ -8,7 +8,7 @@ namespace Mud.Server.Interfaces.AbilityGroup
 
         int Cost { get; }
 
-        IAbilityGroupInfo AbilityGroupInfo { get; }
+        IAbilityGroupDefinition AbilityGroupDefinition { get; }
 
         LearnedAbilityGroupData MapLearnedAbilityGroupData();
     }

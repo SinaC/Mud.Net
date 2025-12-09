@@ -30,6 +30,8 @@ public class UniquenessManager : IUniquenessManager
         BuildUnavailableNameCacheIfNeeded();
     }
 
+    public IEnumerable<string> UnavailableNames => _unavailableNames;
+
     public bool IsAvatarNameAvailable(string avatarName)
     {
         BuildUnavailableNameCacheIfNeeded();

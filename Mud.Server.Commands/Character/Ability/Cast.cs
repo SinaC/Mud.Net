@@ -60,21 +60,21 @@ public class Cast : CharacterGameAction
         var spellName = actionInput.Parameters.Length > 0 ? actionInput.Parameters[0].Value : null;
         if (string.IsNullOrWhiteSpace(spellName))
             return "Cast what ?";
-        var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
-        if (abilityInfo == null)
+        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        if (abilityDefinition == null)
             return "This spell doesn't exist.";
-        var (_, abilityLearned) = Actor.GetAbilityLearnedInfo(abilityInfo.Name);
+        var (_, abilityLearned) = Actor.GetAbilityLearnedAndPercentage(abilityDefinition.Name);
         if (abilityLearned == null)
             return "You don't know any spells of that name.";
-        SpellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name)!;
+        SpellInstance = AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name)!;
         if (SpellInstance == null)
         {
-            Logger.LogError("Spell {abilityName} cannot be created.", abilityInfo.Name);
+            Logger.LogError("Spell {abilityName} cannot be created.", abilityDefinition.Name);
             return "Something goes wrong.";
         }
 
         var newParameters = actionInput.Parameters.Skip(1).ToArray();
-        var spellActionInput = new SpellActionInput(abilityInfo, Actor, Actor.Level, newParameters);
+        var spellActionInput = new SpellActionInput(abilityDefinition, Actor, Actor.Level, newParameters);
         var spellInstanceGuards = SpellInstance.Setup(spellActionInput);
         return spellInstanceGuards;
     }

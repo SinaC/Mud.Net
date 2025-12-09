@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell enables the target character to see warm-blooded creatures even
 while in the dark, and exits of a room as well.")]
+[OneLineHelp("allows monsters to be seen in the dark")]
 public class Infravision : CharacterFlagsSpellBase
 {
     private const string SpellName = "Infravision";

@@ -22,6 +22,7 @@ nature of the scroll. Scrolls have a single use and will be consume after use.
 Magical items require training to use properly.  If your character lacks the
 necessary skill to use an item, he will fail, possibly destroying it. Scroll is 
 the reading of magical scrolls and books")]
+[OneLineHelp("reading of scrolls and other magical volumes")]
 public class Scrolls : ItemCastSpellSkillBase<IItemScroll>
 {
     private const string SkillName = "Scrolls";

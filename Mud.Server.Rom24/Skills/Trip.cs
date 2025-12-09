@@ -18,6 +18,7 @@ namespace Mud.Server.Rom24.Skills;
 using any one of a number of methods to bring your opponent down to the ground.
 Tripping large monsters is generally not a good idea, and agile ones will
 find the attack easy to avoid.  Thieves and warriors may learn trip.")]
+[OneLineHelp("a good way to introduce an opponent to the floor")]
 public class Trip : OffensiveSkillBase
 {
     private const string SkillName = "Trip";
@@ -40,8 +41,8 @@ public class Trip : OffensiveSkillBase
 
         if (Victim == User)
         {
-            User.Act(ActOptions.ToRoom, "{0:N} trips over {0:s} own feet!", User);
-            return "You fall flat on your face!";
+            User.Act(ActOptions.ToRoom, "%W%{0:N} trips over {0:s} own feet!%x%", User);
+            return "%W%You fall flat on your face!%x%";
         }
 
         var safeResult = Victim.IsSafe(User);
@@ -82,9 +83,9 @@ public class Trip : OffensiveSkillBase
         // now the attack
         if (RandomManager.Chance(chance))
         {
-            Victim.Act(ActOptions.ToCharacter, "{0:N} trips you and you go down!", User);
-            User.Act(ActOptions.ToCharacter, "You trip {0} and {0} goes down!", Victim);
-            User.ActToNotVictim(Victim, "{0} trips {1}, sending {1:m} to the ground.", User, Victim);
+            Victim.Act(ActOptions.ToCharacter, "%W%{0:N} trips you and you go down!%x%", User);
+            User.Act(ActOptions.ToCharacter, "%W%You trip {0} and {0} goes down!%x%", Victim);
+            User.ActToNotVictim(Victim, "%W%{0} trips {1}, sending {1:m} to the ground.%x%", User, Victim);
             //DAZE_STATE(Victim, 2 * PULSE_VIOLENCE);
             Victim.ChangePosition(Positions.Resting);
             // TODO: check_killer(ch, Victim)

@@ -22,6 +22,7 @@ namespace Mud.Server.Rom24.Spells;
 sapping its strength and causing horrific suffering, possibly leading to
 death.  It is a risky spell to use, as the contagion can spread like
 wildfire if the victim makes it to a populated area.")]
+[OneLineHelp("causes the target to suffer a slow, painful death from plague")]
 public class Plague : OffensiveSpellBase
 {
     private const string SpellName = "Plague";

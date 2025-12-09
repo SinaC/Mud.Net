@@ -66,11 +66,11 @@ courtesy of the Mayor's warehouses.  Only empty equipment slots are affected.")]
                 var currentBestWeaponType = WeaponTypes.Sword; // by default
                 foreach (var weaponType in Enum.GetValues<WeaponTypes>())
                 {
-                    var weaponAbilityInfo = AbilityManager[weaponType];
-                    if (weaponAbilityInfo != null)
+                    var weaponAbilityDefinition = AbilityManager[weaponType];
+                    if (weaponAbilityDefinition != null)
                     {
-                        var weaponAbilityName = weaponAbilityInfo.Name;
-                        var (weaponPercentage, _) = Actor.GetAbilityLearnedInfo(weaponAbilityName);
+                        var weaponAbilityName = weaponAbilityDefinition.Name;
+                        var (weaponPercentage, _) = Actor.GetAbilityLearnedAndPercentage(weaponAbilityName);
                         if (weaponPercentage > currentBestPercentage)
                         {
                             currentBestPercentage = weaponPercentage;

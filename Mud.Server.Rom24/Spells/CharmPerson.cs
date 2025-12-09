@@ -21,6 +21,7 @@ from you.  Use ORDER to order your charmed followers.
 
 You are responsible for the actions of your followers.  Conversely, other
 people who attack your followers will be penalized as if they attacked you.")]
+[OneLineHelp("turns an enemy into a trusted friend")]
 public class CharmPerson : OffensiveSpellBase
 {
     private const string SpellName = "Charm Person";

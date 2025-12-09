@@ -39,7 +39,7 @@ public class Syntax : ActorGameAction
         foreach (var gameActionInfo in commands.Select(x => x.Value).DistinctBy(x => x.Name).OrderBy(x => x.Name))
         {
             var names = gameActionInfo.Names.ToArray();
-            var title = $"%C%{string.Join(", ", names)}%x%";
+            var title = $"%W%{string.Join(", ", names)}%x%";
             sb.AppendLine($"Command{(names.Length > 1 ? "s" : string.Empty)} {title}:");
             var commandNames = string.Join("|", names);
             StringBuilder sbSyntax = BuildCommandSyntax(commandNames, gameActionInfo.Syntax, true);

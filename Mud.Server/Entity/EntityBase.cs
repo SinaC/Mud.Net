@@ -178,15 +178,15 @@ public abstract class EntityBase : ActorBase, IEntity
         else
         {
             // TODO: replace with virtual method
-            var abilityInfo = AbilityManager[aura.AbilityName!]; // TODO: why aura.AbilityName! instead of aura.AbilityName
-            if (abilityInfo != null)
+            var abilityDefinition = AbilityManager[aura.AbilityName!]; // TODO: why aura.AbilityName! instead of aura.AbilityName
+            if (abilityDefinition != null)
             {
-                if (this is ICharacter && abilityInfo.HasCharacterWearOffMessage)
-                    Send(abilityInfo.CharacterWearOffMessage!);
-                else if (this is IItem item && abilityInfo.HasItemWearOffMessage)
+                if (this is ICharacter && abilityDefinition.HasCharacterWearOffMessage)
+                    Send(abilityDefinition.CharacterWearOffMessage!);
+                else if (this is IItem item && abilityDefinition.HasItemWearOffMessage)
                 {
                     var holder = item.ContainedInto as ICharacter ?? item.EquippedBy;
-                    holder?.Act(ActOptions.ToCharacter, abilityInfo.ItemWearOffMessage!, this);
+                    holder?.Act(ActOptions.ToCharacter, abilityDefinition.ItemWearOffMessage!, this);
                 }
             }
             // TODO: remove this crappy thing, replace with wear off func

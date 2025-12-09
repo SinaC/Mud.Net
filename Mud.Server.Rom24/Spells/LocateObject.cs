@@ -19,6 +19,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <name>")]
 [Help(
 @"This spell reveals the location of all objects with the given name.")]
+[OneLineHelp("finds a specific item")]
 public class LocateObject : SpellBase
 {
     private const string SpellName = "Locate Object";

@@ -8,19 +8,19 @@ public class SkillActionInput : ISkillActionInput
 {
     public ICharacter User { get; }
     public ICommandParameter[] Parameters { get; }
-    public IAbilityInfo AbilityInfo { get; }
+    public IAbilityDefinition AbilityDefinition { get; }
 
-    public SkillActionInput(IActionInput actionInput, IAbilityInfo abilityInfo, ICharacter user)
+    public SkillActionInput(IActionInput actionInput, IAbilityDefinition abilityDefinition, ICharacter user)
     {
         User = user;
         Parameters = actionInput.Parameters;
-        AbilityInfo = abilityInfo;
+        AbilityDefinition = abilityDefinition;
     }
 
-    public SkillActionInput(IAbilityInfo abilityInfo, ICharacter user, params ICommandParameter[] parameters)
+    public SkillActionInput(IAbilityDefinition abilityDefinition, ICharacter user, params ICommandParameter[] parameters)
     {
         User = user;
         Parameters = parameters;
-        AbilityInfo = abilityInfo;
+        AbilityDefinition = abilityDefinition;
     }
 }

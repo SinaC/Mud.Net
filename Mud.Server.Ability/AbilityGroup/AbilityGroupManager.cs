@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
+using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
+using Mud.Server.Interfaces.GameAction;
+using System.Reflection;
 
 namespace Mud.Server.Ability.AbilityGroup
 {
@@ -12,76 +15,84 @@ namespace Mud.Server.Ability.AbilityGroup
         private ILogger<AbilityGroupManager> Logger { get; }
         private IAbilityManager AbilityManager { get; }
 
-        private readonly Dictionary<string, IAbilityGroupInfo> _abilityGroupByName;
+        private readonly Dictionary<string, IAbilityGroupDefinition> _abilityGroupByName; // TODO: trie to optimize Search ?
 
         public AbilityGroupManager(ILogger<AbilityGroupManager> logger, IAbilityManager abilityManager, IEnumerable<IAbilityGroup> abilityGroups)
         {
             Logger = logger;
             AbilityManager = abilityManager;
 
-            _abilityGroupByName = new Dictionary<string, IAbilityGroupInfo>(StringComparer.InvariantCultureIgnoreCase);
-            GenerateAbilityGroupInfos(abilityGroups);
+            _abilityGroupByName = new Dictionary<string, IAbilityGroupDefinition>(StringComparer.InvariantCultureIgnoreCase);
+            GenerateAbilityGroupDefinitions(abilityGroups);
         }
 
-        public IAbilityGroupInfo? this[string abilityGroupName]
+        public IEnumerable<IAbilityGroupDefinition> AbilityGroups => _abilityGroupByName.Values;
+
+        public IAbilityGroupDefinition? this[string abilityGroupName]
         {
             get
             {
-                if (!_abilityGroupByName.TryGetValue(abilityGroupName, out var abilityGroupInfo))
+                if (!_abilityGroupByName.TryGetValue(abilityGroupName, out var abilityGroupDefinition))
                     return null;
-                return abilityGroupInfo;
+                return abilityGroupDefinition;
             }
         }
 
-        private void GenerateAbilityGroupInfos(IEnumerable<IAbilityGroup> abilityGroups)
+        public IAbilityGroupDefinition? Search(ICommandParameter parameter)
+            => AbilityGroups.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
+
+        private void GenerateAbilityGroupDefinitions(IEnumerable<IAbilityGroup> abilityGroups)
         {
             foreach (var abilityGroup in abilityGroups)
             {
                 if (!_abilityGroupByName.ContainsKey(abilityGroup.Name))
                 {
-                    GenerateAbilityGroupInfo(abilityGroup.Name, abilityGroup.AbilityGroups, abilityGroup.Abilities, abilityGroups);
+                    GenerateAbilityGroupDefinition(abilityGroup, abilityGroups);
                 }
             }
         }
 
-        private IAbilityGroupInfo GenerateAbilityGroupInfo(string groupName, IEnumerable<string> subGroupNames, IEnumerable<string> abilityNames, IEnumerable<IAbilityGroup> abilityGroups)
+        private IAbilityGroupDefinition GenerateAbilityGroupDefinition(IAbilityGroup abilityGroup, IEnumerable<IAbilityGroup> abilityGroups)
         {
             // TODO: handle cycle
             // TODO: what if a group is defined twice with a different ability composition ?
-            if (_abilityGroupByName.TryGetValue(groupName, out var existingAbilityGroupInfo))
-                return existingAbilityGroupInfo;
-            var subAbilityGroupInfos = new List<IAbilityGroupInfo>();
-            foreach (var subGroupName in subGroupNames)
+            if (_abilityGroupByName.TryGetValue(abilityGroup.Name, out var existingAbilityGroupDefinition))
+                return existingAbilityGroupDefinition;
+            var subAbilityGroupDefinitions = new List<IAbilityGroupDefinition>();
+            foreach (var subGroupName in abilityGroup.AbilityGroups)
             {
-                if (_abilityGroupByName.TryGetValue(subGroupName, out var subAbilityGroupInfo))
-                    subAbilityGroupInfos.Add(subAbilityGroupInfo);
+                if (_abilityGroupByName.TryGetValue(subGroupName, out var subAbilityGroupDefinition))
+                    subAbilityGroupDefinitions.Add(subAbilityGroupDefinition);
                 else
                 {
+                    // search sub ability group name in ability group types found in DI
                     var subAbilityGroup = abilityGroups.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, subGroupName));
                     if (subAbilityGroup == null)
-                        Logger.LogError("Ability group [{subGroupName}] defined in ability group [{groupName}] doesn't exist", subGroupName, groupName);
+                        Logger.LogError("Ability group [{subGroupName}] defined in ability group [{groupName}] doesn't exist", subGroupName, abilityGroup.Name);
                     else
                     {
-                        subAbilityGroupInfo = GenerateAbilityGroupInfo(subGroupName, subAbilityGroup.AbilityGroups, subAbilityGroup.Abilities, abilityGroups);
-                        subAbilityGroupInfos.Add(subAbilityGroupInfo);
+                        subAbilityGroupDefinition = GenerateAbilityGroupDefinition(subAbilityGroup, abilityGroups);
+                        subAbilityGroupDefinitions.Add(subAbilityGroupDefinition);
                     }
                 }
 
             }
-            var abilityInfos = new List<IAbilityInfo>();
-            foreach (var abilityName in abilityNames)
+            var abilityDefinitions = new List<IAbilityDefinition>();
+            foreach (var abilityName in abilityGroup.Abilities)
             {
-                var abilityInfo = AbilityManager[abilityName];
-                if (abilityInfo == null)
-                    Logger.LogError("Ability [{abilityName}] defined in group [{abilityGroupName}] doesn't exist", abilityName, groupName);
+                var abilityDefinition = AbilityManager[abilityName];
+                if (abilityDefinition == null)
+                    Logger.LogError("Ability [{abilityName}] defined in group [{abilityGroupName}] doesn't exist", abilityName, abilityGroup.Name);
                 else
                 {
-                    abilityInfos.Add(abilityInfo);
+                    abilityDefinitions.Add(abilityDefinition);
                 }
             }
-            var abilityGroupInfo = new AbilityGroupInfo(groupName, subAbilityGroupInfos, abilityInfos);
-            _abilityGroupByName.Add(groupName, abilityGroupInfo);
-            return abilityGroupInfo;
+            var helpAttribute = abilityGroup.GetType().GetCustomAttribute<HelpAttribute>();
+            var oneLineHelpAttribute = abilityGroup.GetType().GetCustomAttribute<OneLineHelpAttribute>();
+            var abilityGroupDefinition = new AbilityGroupDefinition(abilityGroup.Name, subAbilityGroupDefinitions, abilityDefinitions, helpAttribute, oneLineHelpAttribute);
+            _abilityGroupByName.Add(abilityGroup.Name, abilityGroupDefinition);
+            return abilityGroupDefinition;
         }
     }
 }

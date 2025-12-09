@@ -18,6 +18,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell decreases (improves) the armor class of the target character
 by 20 points.")]
+[OneLineHelp("provides the target with an extra layer of defense")]
 public class Armor : CharacterBuffSpellBase
 {
     private const string SpellName = "Armor";

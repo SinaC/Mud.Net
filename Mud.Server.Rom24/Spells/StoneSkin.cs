@@ -19,6 +19,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells protect the caster by decreasing (improving) the caster's armor
 class. It provides 40 points of armor.")]
+[OneLineHelp("turns skin hard as stone, providing a huge armor boost")]
 public class StoneSkin : DefensiveSpellBase
 {
     private const string SpellName = "Stone Skin";

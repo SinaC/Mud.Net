@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell reveals all manner of invisible, hidden, and sneaking creatures in
 the same room as you.")]
+[OneLineHelp("reveals all hidden creatures in the room")]
 public class FaerieFog : NoTargetSpellBase
 {
     private const string SpellName = "Faerie Fog";

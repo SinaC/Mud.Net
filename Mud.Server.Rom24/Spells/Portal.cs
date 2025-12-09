@@ -21,6 +21,7 @@ entered using 'enter' or 'go' command, as in 'go portal'.  Portals cannot
 be made to certain destinations, nor used to escape from gate-proof rooms.
 Portal requires a special source of power to be used, unfortunately the
 secret of this material component has been lost...")]
+[OneLineHelp("creates a one-way portal to a destination")]
 public class Portal : TransportationSpellBase
 {
     private const string SpellName = "Portal";

@@ -8,13 +8,13 @@ namespace Mud.Server.Ability.AbilityGroup
 
         public int Cost { get; }
 
-        public IAbilityGroupInfo AbilityGroupInfo { get; }
+        public IAbilityGroupDefinition AbilityGroupDefinition { get; }
 
-        public AbilityGroupUsage(string name, int cost, IAbilityGroupInfo abilityGroupInfo)
+        public AbilityGroupUsage(string name, int cost, IAbilityGroupDefinition abilityGroupDefinition)
         {
             Name = name;
             Cost = cost;
-            AbilityGroupInfo = abilityGroupInfo;
+            AbilityGroupDefinition = abilityGroupDefinition;
         }
     }
 }

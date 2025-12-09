@@ -12,8 +12,9 @@ namespace Mud.Server.Rom24.Spells;
 [Spell(SpellName, AbilityEffects.Damage)]
 [Syntax("cast [spell] <character>")]
 [Help(
-@"These spells cure damage on the target character.  The higher-level spells
-heal more damage.")]
+@"These spells inflict damage on the victim.  The higher-level spells do
+more damage.")]
+[OneLineHelp("the most deadly harmful spell")]
 public class Harm : OffensiveSpellBase
 {
     private const string SpellName = "Harm";

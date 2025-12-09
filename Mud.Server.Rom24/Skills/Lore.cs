@@ -23,6 +23,7 @@ concerning its power and uses.  It also may occasionally increase the value
 of an object, because more will be known about its worth.  All classes may
 learn lore, although thieves are best at it, and warriors find it very hard
 to use.")]
+[OneLineHelp("the lore of magical items")]
 public class Lore : ItemInventorySkillBase
 {
     private const string SkillName = "Lore";

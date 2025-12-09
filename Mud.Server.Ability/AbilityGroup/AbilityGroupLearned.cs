@@ -9,20 +9,20 @@ namespace Mud.Server.Ability.AbilityGroup
 
         public int Cost { get; }
 
-        public IAbilityGroupInfo AbilityGroupInfo { get; }
+        public IAbilityGroupDefinition AbilityGroupDefinition { get; }
 
         public AbilityGroupLearned(IAbilityGroupUsage abilityGroupUsage)
         {
             Name = abilityGroupUsage.Name;
             Cost = abilityGroupUsage.Cost;
-            AbilityGroupInfo = abilityGroupUsage.AbilityGroupInfo;
+            AbilityGroupDefinition = abilityGroupUsage.AbilityGroupDefinition;
         }
 
-        public AbilityGroupLearned(LearnedAbilityGroupData learnedAbilityGroupData, IAbilityGroupInfo abilityGroupInfo)
+        public AbilityGroupLearned(LearnedAbilityGroupData learnedAbilityGroupData, IAbilityGroupDefinition abilityGroupDefinition)
         {
             Name = learnedAbilityGroupData.Name;
             Cost = learnedAbilityGroupData.Cost;
-            AbilityGroupInfo = abilityGroupInfo;
+            AbilityGroupDefinition = abilityGroupDefinition;
         }
 
         public LearnedAbilityGroupData MapLearnedAbilityGroupData()

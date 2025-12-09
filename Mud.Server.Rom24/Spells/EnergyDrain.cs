@@ -15,6 +15,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell saps the experience points, mana, and movement points of its
 target.")]
+[OneLineHelp("drains experience and mana, while strengthening the caster")]
 public class EnergyDrain : OffensiveSpellBase
 {
     private const string SpellName = "Energy Drain";

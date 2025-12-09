@@ -13,6 +13,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells cure damage on the target character.  The higher-level spells
 heal more damage.")]
+[OneLineHelp("heals minor wounds")]
 public class CureLight : HealSpellBase
 {
     private const string SpellName = "Cure Light";

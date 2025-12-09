@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <object>")]
 [Help(
 @"This spell reveals information about the object.")]
+[OneLineHelp("gives information about the nature of an object")]
 public class Identify : ItemInventorySpellBase
 {
     private ITableValues TableValues { get; }

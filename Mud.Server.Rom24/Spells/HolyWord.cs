@@ -23,6 +23,7 @@ opposite morals (or both good and evil in the case of neutral priests)
 are struck down by holy (or unholy might) and cursed.  The cleric suffers
 greatly from the strain of this spell, being left unable to move and 
 drained of vitality.  Experience loss is no longer associated with the spell.")]
+[OneLineHelp("aids your allies while calling divine wrath upon your foes")]
 public class HolyWord : NoTargetSpellBase
 {
     private const string SpellName = "Holy Word";

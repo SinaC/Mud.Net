@@ -20,7 +20,7 @@ public class AbilityLearned : IAbilityLearned
 
     public int Rating { get; protected set; }
 
-    public IAbilityInfo AbilityInfo { get; }
+    public IAbilityDefinition AbilityDefinition { get; }
 
     public int Learned { get; protected set; }
 
@@ -32,11 +32,11 @@ public class AbilityLearned : IAbilityLearned
         CostAmount = abilityUsage.CostAmount;
         CostAmountOperator = abilityUsage.CostAmountOperator;
         Rating = abilityUsage.Rating;
-        AbilityInfo = abilityUsage.AbilityInfo;
+        AbilityDefinition = abilityUsage.AbilityDefinition;
         Learned = 0; // can be gained but not yet learned
     }
 
-    public AbilityLearned(LearnedAbilityData learnedAbilityData, IAbilityInfo abilityInfo)
+    public AbilityLearned(LearnedAbilityData learnedAbilityData, IAbilityDefinition abilityDefinition)
     {
         Name = learnedAbilityData.Name;
         Level = learnedAbilityData.Level;
@@ -44,7 +44,7 @@ public class AbilityLearned : IAbilityLearned
         CostAmount = learnedAbilityData.CostAmount;
         CostAmountOperator = learnedAbilityData.CostAmountOperator;
         Rating = learnedAbilityData.Rating;
-        AbilityInfo = abilityInfo;
+        AbilityDefinition = abilityDefinition;
         Learned = learnedAbilityData.Learned;
     }
 

@@ -13,6 +13,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell inflicts damage on the victim.")]
+[OneLineHelp("sends a column of flame from the heavens")]
 public class Flamestrike : DamageSpellBase
 {
     private const string SpellName = "Flamestrike";

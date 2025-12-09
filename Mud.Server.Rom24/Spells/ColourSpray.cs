@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells inflict damage on the victim.  The higher-level spells do
 more damage.")]
+[OneLineHelp("blasts your opponent with a rainbow spray, which may blind him")]
 public class ColourSpray : DamageTableSpellBase
 {
     private const string SpellName = "Colour Spray";

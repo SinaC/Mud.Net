@@ -13,6 +13,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <object>")]
 [Help(
 @"This spell detects the presence of poison in food or drink.")]
+[OneLineHelp("determines if food is safe to eat")]
 public class DetectPoison : ItemInventorySpellBase<IItemPoisonable>
 {
     private const string SpellName = "Detect Poison";

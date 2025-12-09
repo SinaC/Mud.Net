@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell enables the caster to detect evil characters, which will
 reveal a characteristic red aura.")]
+[OneLineHelp("reveals the aura of evil monsters")]
 public class DetectEvil : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Evil";

@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell takes you from your current location to a random location somewhere
 in the world.")]
+[OneLineHelp("sends the target to a random location")]
 public class Teleport : TransportationSpellBase
 {
     private const string SpellName = "Teleport";

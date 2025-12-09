@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Skills;
 @"Disarm is a somewhat showy and unreliable skill, designed to relieve your
 opponent of his weapon.  The best possible chance of disarming occurs when you
 are skilled both your own and your opponent's weapon.")]
+[OneLineHelp("used to deprive your opponent of his weapon")]
 public class Disarm : FightingSkillBase
 {
     private const string SkillName = "Disarm";
@@ -44,7 +45,7 @@ public class Disarm : FightingSkillBase
         // User has a weapon or hand to hand
         
         var userWield = User.GetEquipment(EquipmentSlots.MainHand) as IItemWeapon;
-        Hand2HandLearned = User.GetAbilityLearnedInfo("Hand to Hand").percentage;
+        Hand2HandLearned = User.GetAbilityLearnedAndPercentage("Hand to Hand").percentage;
         if (userWield == null
             && (Hand2HandLearned == 0
                 || (npcUser != null && !npcUser.OffensiveFlags.IsSet("Disarm"))))
@@ -63,9 +64,9 @@ public class Disarm : FightingSkillBase
     protected override bool Invoke()
     {
         // find weapon learned
-        int userLearned = User.GetWeaponLearnedInfo(UserWield).percentage;
-        int victimLearned = Victim.GetWeaponLearnedInfo(UserWield).percentage;
-        int userOnVictimWeaponLearned = User.GetWeaponLearnedInfo(VictimWield).percentage;
+        int userLearned = User.GetWeaponLearnedAndPercentage(UserWield).percentage;
+        int victimLearned = Victim.GetWeaponLearnedAndPercentage(UserWield).percentage;
+        int userOnVictimWeaponLearned = User.GetWeaponLearnedAndPercentage(VictimWield).percentage;
 
         int chance = Learned;
         // modifiers
@@ -85,13 +86,13 @@ public class Disarm : FightingSkillBase
         {
             if (VictimWield.ItemFlags.IsSet("NoRemove"))
             {
-                User.Act(ActOptions.ToCharacter, "{0:S} weapon won't budge!", Victim);
-                Victim.Act(ActOptions.ToCharacter, "{0:N} tries to disarm you, but your weapon won't budge!", User);
-                Victim.Act(ActOptions.ToRoom, "{0} tries to disarm {1}, but fails.", User, Victim); // equivalent of NO_NOTVICT
+                User.Act(ActOptions.ToCharacter, "%W%{0:S} weapon won't budge!%x%", Victim);
+                Victim.Act(ActOptions.ToCharacter, "%W%{0:N} tries to disarm you, but your weapon won't budge!%x%", User);
+                Victim.Act(ActOptions.ToRoom, "%W%{0} tries to disarm {1}, but fails.%x%", User, Victim); // equivalent of NO_NOTVICT
             }
 
-            Victim.Act(ActOptions.ToCharacter, "{0:N} DISARMS you and sends your weapon flying!", User);
-            Victim.Act(ActOptions.ToRoom, "{0:N} disarm{0:v} {1}", User, Victim);
+            Victim.Act(ActOptions.ToCharacter, "%W%{0:N} DISARMS you and sends your weapon flying!%x%", User);
+            Victim.Act(ActOptions.ToRoom, "%W%{0:N} disarm{0:v} {1}%x%", User, Victim);
 
             VictimWield.ChangeEquippedBy(null, true);
             if (!VictimWield.ItemFlags.HasAny("NoDrop", "Inventory"))
@@ -107,8 +108,8 @@ public class Disarm : FightingSkillBase
         }
         else
         {
-            User.Act(ActOptions.ToCharacter, "You fail to disarm {0}.", Victim);
-            User.Act(ActOptions.ToRoom, "{0:N} tries to disarm {1}, but fails.", User, Victim);
+            User.Act(ActOptions.ToCharacter, "%W%You fail to disarm {0}.%x%", Victim);
+            User.Act(ActOptions.ToRoom, "%W%{0:N} tries to disarm {1}, but fails.%x%", User, Victim);
             // TODO  check_killer(ch, Victim);
             return false;
         }

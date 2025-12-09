@@ -1,29 +1,40 @@
 INGOING
 DONE
-    ability group definition
-    classes expose ability group usage: group name + cost
-    ability group manager exposes ability group info: group name + help + abilities infos (similar to ability manager) + included groups
-    ability group in avatar creation
-    don't merge anymore abilities from class with learned abilities, use ability group instead
-    characters exposes learned ability group : group name + cost
-        --> quite similar to learned abilities
 
 ==========
 == TODO ==
 ==========
 
-add 'unique' admin command to display entries in UniquenessManager
+multi table generator for ability group
+    +-------------------------------------+
+    | [group name]                        |
+    +-------------------------------------+
+    | [help line1]                        |
+    | [help line2]                        |
+    | [help line3]                        |
+    | ...                                 |
+    +-------------------------------------+
+    | Abilities                           |
+    +-------------------------------------+
+    | [ability1] : mini help              |
+    | [ability2] : mini help              |
+    | ...                                 |
+    +-------------------------------------+
+    | Groups                              |
+    +-------------------------------------+
+    | [group1] : mini help                |
+    | [group2] : mini help                |
+    | [group3] : mini help                |
+    | ...                                 |
+    +-------------------------------------+
 
 IsAll in command parser has a side effect
-    -> parameter.value is empty and if the command uses StartWith it will match the first item in the list
-
-once a mob has been bashed it cannot be bashed again because it's position will not be set to stand
-    -> did we miss something in XXXUpdate in Server ?
+    -> parameter.value is empty and if the command uses StartsWith it will match the first item in the list
 
 customization
 ability group
-    gain command can also gain group of abilities (we should display which abilities are already known when displaying group)
-    help about ability group
+
+add colors everywhere :)
 
 finish score
 
@@ -41,7 +52,7 @@ item owner -> to be used in CanLoot
 Poison/Plague/... should not specify character for damage source
     new Damage function without a source with additional message when dying (see update_affect.C:103)
 
-passives could be shared instead of transient
+passives/weapons could be shared instead of transient
 
 rename IAffectManager into IAffectFactory and check if other managers should be renamed into factories such as WeaponEffectManager and EffectManager
 add AffectName in AffectDataBase and use it in AffectFactory.CreateInstance(AffectDataBase data) -> call Activator.CreateInstance with data as parameter

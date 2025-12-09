@@ -25,6 +25,7 @@ bonuses by one or two points.  Multiple enchants may be cast, but as the
 weapon grows more and more powerful, it is more likely to be drained or
 destroyed by the magic.  Also, every successful enchant increases the level
 of the weapon by one...and there is no turning back.")]
+[OneLineHelp("increases the hit and damage bonuses of a weapon")]
 public class EnchantWeapon : ItemInventorySpellBase<IItemWeapon>
 {
     private const string SpellName = "Enchant Weapon";

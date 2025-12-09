@@ -14,6 +14,7 @@ namespace Mud.Server.Rom24.Passives;
 in combat -- allow a 100% second attack does NOT guarantee 2 attacks every
 round.  Any class may learn this skill, although clerics and mages have a 
 very hard time with it.")]
+[OneLineHelp("with training, the skilled thief can hit twice as fast")]
 public class SecondAttack : PassiveBase, IAdditionalHitPassive
 {
     private const string PassiveName = "Second Attack";

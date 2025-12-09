@@ -14,6 +14,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells inflict damage on the victim.  The higher-level spells do
 more damage.")]
+[OneLineHelp("sends a blast of fire into your foe")]
 public class BurningHands : DamageTableSpellBase
 {
     private const string SpellName = "Burning Hands";
