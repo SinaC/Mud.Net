@@ -91,7 +91,7 @@ public abstract class ClassBase : IClass
         => AddAbility(level, abilityName, null, 0, CostAmountOperators.None, rating, baseLearned);
 
     protected void AddAbilityGroup(string abilityGroupName, int cost)
-        => AddGroup(abilityGroupName, cost);
+        => AddGroup(abilityGroupName, cost, false);
 
     protected void AddBasicAbilityGroup(string abilityGroupName)
     {
@@ -101,7 +101,7 @@ public abstract class ClassBase : IClass
             return;
         }
         // let create the ability group and add it to available ability groups
-        var abilityGroupUsage = AddGroup(abilityGroupName, 0);
+        var abilityGroupUsage = AddGroup(abilityGroupName, 0, true);
         if (abilityGroupUsage != null)
         {
             // add this group to default groups
@@ -117,7 +117,7 @@ public abstract class ClassBase : IClass
             return;
         }
         // let create the ability group and add it to available ability groups
-        var abilityGroupUsage = AddGroup(abilityGroupName, cost);
+        var abilityGroupUsage = AddGroup(abilityGroupName, cost, false);
         if (abilityGroupUsage != null)
         {
             // add this group to default groups
@@ -125,7 +125,7 @@ public abstract class ClassBase : IClass
         }
     }
 
-    private IAbilityGroupUsage? AddGroup(string abilityGroupName, int cost)
+    private IAbilityGroupUsage? AddGroup(string abilityGroupName, int cost, bool isBasics)
     {
         // check if it exists
         var abilityGroupDefinition = AbilityGroupManager[abilityGroupName];
@@ -142,7 +142,7 @@ public abstract class ClassBase : IClass
             return abilityGroupUsage;
         }
         //
-        abilityGroupUsage = new AbilityGroupUsage(abilityGroupName, cost, abilityGroupDefinition);
+        abilityGroupUsage = new AbilityGroupUsage(abilityGroupName, cost, isBasics, abilityGroupDefinition);
         _availableAbilityGroups.Add(abilityGroupUsage);
         return abilityGroupUsage;
     }

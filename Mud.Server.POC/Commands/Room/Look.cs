@@ -3,13 +3,12 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Room;
 using System.Text;
 
 namespace Mud.Server.POC.Commands.Room;
 
-[Command("look", "POC")]
-public class Look : GameActionBase<IRoom, IGameActionInfo>
+[RoomCommand("look", "POC")]
+public class Look : RoomGameAction
 {
     public override void Execute(IActionInput actionInput)
     {

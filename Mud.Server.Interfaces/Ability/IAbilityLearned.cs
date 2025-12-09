@@ -28,7 +28,6 @@ public interface IAbilityLearned
     void Update(int level, int rating, int costAmount, int learned);
     void Update(int level, int rating, int learned);
 
-    bool CanBeGained(IPlayableCharacter playableCharacter);
     bool CanBePracticed(IPlayableCharacter playableCharacter);
 
     LearnedAbilityData MapLearnedAbilityData();

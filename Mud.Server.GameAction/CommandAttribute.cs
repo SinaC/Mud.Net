@@ -4,7 +4,7 @@ using Mud.Domain;
 namespace Mud.Server.GameAction;
 
 [AttributeUsage(AttributeTargets.Class)]
-public class CommandAttribute : ExportAttribute // every command will be exported without ContractType
+public abstract class CommandAttribute : ExportAttribute // every command will be exported without ContractType
 {
     public const int DefaultPriority = 500;
     public const string DefaultCategory = "";
@@ -30,7 +30,26 @@ public class CommandAttribute : ExportAttribute // every command will be exporte
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class CharacterCommandAttribute : CommandAttribute
+public class ItemCommandAttribute : ActorCommandAttribute
+{
+    public ItemCommandAttribute(string name, params string[] categories)
+        : base(name, categories)
+    {
+    }
+}
+
+[AttributeUsage(AttributeTargets.Class)]
+public class RoomCommandAttribute : ActorCommandAttribute
+{
+    public RoomCommandAttribute(string name, params string[] categories)
+        : base(name, categories)
+    {
+    }
+}
+
+
+[AttributeUsage(AttributeTargets.Class)]
+public class CharacterCommandAttribute : ActorCommandAttribute
 {
     public Positions MinPosition { get; set; }
     public bool NotInCombat { get; set; }
@@ -52,7 +71,7 @@ public class PlayableCharacterCommandAttribute : CharacterCommandAttribute // Mu
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class PlayerCommandAttribute : CommandAttribute
+public class PlayerCommandAttribute : ActorCommandAttribute
 {
     public bool MustBeImpersonated { get; set; }
     public bool CannotBeImpersonated { get; set; }
@@ -69,6 +88,15 @@ public class AdminCommandAttribute : PlayerCommandAttribute
     public AdminLevels MinLevel { get; set; }
 
     public AdminCommandAttribute(string name, params string[] categories)
+        : base(name, categories)
+    {
+    }
+}
+
+[AttributeUsage(AttributeTargets.Class)]
+public class ActorCommandAttribute : CommandAttribute
+{
+    public ActorCommandAttribute(string name, params string[] categories)
         : base(name, categories)
     {
     }

@@ -9,8 +9,8 @@ using System.Text;
 
 namespace Mud.Server.POC.Commands.Item;
 
-[Command("look", "POC")]
-public class Look : GameActionBase<IItem, IGameActionInfo>
+[ItemCommand("look", "POC")]
+public class Look : ItemGameActionBase<IItem, IItemGameActionInfo>
 {
     public override void Execute(IActionInput actionInput)
     {

@@ -327,6 +327,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     // Abilities
     public IEnumerable<IAbilityLearned> LearnedAbilities => _learnedAbilities.Values;
 
+    public void AddLearnedAbility(IAbilityUsage abilityUsage)
+        => AddLearnedAbility(abilityUsage, false);
+
     // Form
     public Forms Form { get; private set; }
 

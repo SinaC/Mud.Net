@@ -128,14 +128,20 @@ public class GameActionManager : IGameActionManager
     {
         switch (commandAttribute)
         {
-            case AdminCommandAttribute adminCommandAttribute:
-                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
-            case PlayerCommandAttribute playerCommandAttribute:
-                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
                 return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case CharacterCommandAttribute characterCommandAttribute:
                 return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            case AdminCommandAttribute adminCommandAttribute:
+                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            case PlayerCommandAttribute playerCommandAttribute:
+                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            case ItemCommandAttribute itemCommandAttribute:
+                return new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            case RoomCommandAttribute roomCommandAttribute:
+                return new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            case ActorCommandAttribute actorCommandAttribute:
+                return new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             default:
                 Logger.LogWarning("GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???");
                 return new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);

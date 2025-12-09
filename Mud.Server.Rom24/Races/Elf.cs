@@ -51,6 +51,8 @@ public class Elf : PlayableRaceBase
     public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
     public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
 
+    public override int CreationPointsStartValue => 5;
+
     public override int GetStartAttribute(BasicAttributes attribute)
     {
         switch (attribute)

@@ -5,6 +5,15 @@ DONE
 == TODO ==
 ==========
 
+add remaining position: STUNNED, INCAP, ...
+
+add help at each step of avatar creation
+
+when columnRepetionCount > 1 is used, dont double the column separator
+add GenerateOptions
+        ColumnRepetitionCount
+        HideHeaders
+        HideBorders
 multi table generator for ability group
     +-------------------------------------+
     | [group name]                        |
@@ -31,10 +40,9 @@ multi table generator for ability group
 IsAll in command parser has a side effect
     -> parameter.value is empty and if the command uses StartsWith it will match the first item in the list
 
-customization
-ability group
-
 add colors everywhere :)
+
+alignment during avatar creation
 
 finish score
 
@@ -77,12 +85,6 @@ cat form
     -> find a way to set a skill to 100%
 !! current Form should affect the whole player: resource, spells, parts, ...
 implement resource dynamically changed depending on some status (bear/cat/... form for druid)
-
-fix this warning Logger.LogWarning("GameActionManager.CreateGameActionInfo: default game action info for type {0}", type.FullName ?? "???");
-    set CommandAttribute and GameActionBase as abstract
-    add ActorCommandAttribute and RoomCommandAttribute
-    add ActorGameActionInfo and use as base class for PlayerGameActionInfo
-    add RoomGameActionInfo and RoomGameAction
 
 should see glowing item if in a dark room
 glowing item on the floor of dark room should increase light

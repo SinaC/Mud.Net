@@ -65,6 +65,16 @@ public static class TableGenerators
         return generator;
     });
 
+    public static readonly Lazy<TableGenerator<IArea>> FullInfoAreaTableGenerator = new(() =>
+    {
+        TableGenerator<IArea> generator = new();
+        generator.AddColumn("Name", 30, area => area.DisplayName, new TableGenerator<IArea>.ColumnOptions { AlignLeft = true });
+        generator.AddColumn("Builders", 15, area => area.Builders, new TableGenerator<IArea>.ColumnOptions { AlignLeft = true });
+        generator.AddColumn("Credits", 45, area => area.Credits, new TableGenerator<IArea>.ColumnOptions { AlignLeft = true });
+        generator.AddColumn("Ids", 16, area => $"{area.Rooms.Min(x => x.Blueprint.Id)}-{area.Rooms.Max(x => x.Blueprint.Id)}");
+        return generator;
+    });
+
     public static readonly Lazy<TableGenerator<IArea>> AreaTableGenerator = new(() =>
     {
         TableGenerator<IArea> generator = new();
@@ -149,13 +159,11 @@ public static class TableGenerators
         return generator;
     });
 
-    public static readonly Lazy<TableGenerator<IArea>> FullInfoAreaTableGenerator = new(() =>
+    public static readonly Lazy<TableGenerator<IAbilityUsage>> AbilityUsageTableGenerator = new(() =>
     {
-        TableGenerator<IArea> generator = new();
-        generator.AddColumn("Name", 30, area => area.DisplayName, new TableGenerator<IArea>.ColumnOptions { AlignLeft = true });
-        generator.AddColumn("Builders", 15, area => area.Builders, new TableGenerator<IArea>.ColumnOptions { AlignLeft = true });
-        generator.AddColumn("Credits", 45, area => area.Credits, new TableGenerator<IArea>.ColumnOptions { AlignLeft = true });
-        generator.AddColumn("Ids", 16, area => $"{area.Rooms.Min(x => x.Blueprint.Id)}-{area.Rooms.Max(x => x.Blueprint.Id)}");
+        TableGenerator<IAbilityUsage> generator = new();
+        generator.AddColumn("Name", 18, x => x.Name.ToPascalCase());
+        generator.AddColumn("Cost", 5, x => x.Rating.ToString());
         return generator;
     });
 

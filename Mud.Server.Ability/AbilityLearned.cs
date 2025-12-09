@@ -87,8 +87,6 @@ public class AbilityLearned : IAbilityLearned
         Learned = learned;
     }
 
-    public bool CanBeGained(IPlayableCharacter playableCharacter)
-        => Level <= playableCharacter.Level && Learned == 0;
     public bool CanBePracticed(IPlayableCharacter playableCharacter)
         => Level <= playableCharacter.Level && Learned > 0;
 }

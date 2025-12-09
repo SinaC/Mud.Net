@@ -52,7 +52,7 @@ namespace Mud.Server.Tests.Abilities
             targetMock.Verify(x => x.AbilityDamage(userMock.Object, It.IsAny<int>(), SchoolTypes.Acid, "acid blast", It.IsAny<bool>()), Times.Once);
         }
 
-        [Command("ItemCastSpellSkillBaseTestsSkill")]
+        [CharacterCommand("ItemCastSpellSkillBaseTestsSkill")]
         [Skill(SkillName, AbilityEffects.None)]
         public class ItemCastSpellSkillBaseTestsSkill : ItemCastSpellSkillBase<IItemScroll>
         {

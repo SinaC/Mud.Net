@@ -4,7 +4,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.GameAction;
 
-public abstract class CharacterGameActionBase<TCharacter, TCharacterGameActionInfo> : GameActionBase<TCharacter, TCharacterGameActionInfo>
+public abstract class CharacterGameActionBase<TCharacter, TCharacterGameActionInfo> : ActorGameActionBase<TCharacter, TCharacterGameActionInfo>
     where TCharacter: class, ICharacter
     where TCharacterGameActionInfo: class, ICharacterGameActionInfo
 {

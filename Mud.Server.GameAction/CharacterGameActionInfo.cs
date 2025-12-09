@@ -4,7 +4,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.GameAction;
 
-public class CharacterGameActionInfo : GameActionInfo, ICharacterGameActionInfo
+public class CharacterGameActionInfo : ActorGameActionInfo, ICharacterGameActionInfo
 {
     public Positions MinPosition { get; }
     public bool NotInCombat { get; }
