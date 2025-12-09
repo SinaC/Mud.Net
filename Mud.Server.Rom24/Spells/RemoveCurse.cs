@@ -19,6 +19,7 @@ namespace Mud.Server.Rom24.Spells;
 @"This spell removes a curse from a character, and might possibly uncurse
 a cursed object.  It may also be targeted on an object in the caster's
 inventory, in which case it's chance of success is significantly higher.")]
+[OneLineHelp("removes malevolent magic from players and items")]
 public class RemoveCurse : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Remove Curse";

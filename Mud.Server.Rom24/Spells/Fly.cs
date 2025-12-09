@@ -19,6 +19,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <character>")]
 [Help(
 @"This spell enables the target character to fly.")]
+[OneLineHelp("allows the target to fly over nearly all obstacles")]
 public class Fly : DefensiveSpellBase
 {
     private const string SpellName = "Fly";

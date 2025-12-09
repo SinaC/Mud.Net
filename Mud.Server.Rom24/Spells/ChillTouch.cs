@@ -19,6 +19,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell inflicts damage on the victim and also reduces the victim's
 strength by one.")]
+[OneLineHelp("weakens your enemy with a frigid grasp")]
 public class ChillTouch : DamageTableSpellBase
 {
     private const string SpellName = "Chill Touch";

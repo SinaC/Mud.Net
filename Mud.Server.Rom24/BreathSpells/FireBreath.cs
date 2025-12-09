@@ -21,6 +21,7 @@ damage one victim, whereas gas damages every PC in the room.  Fire and
 frost can break objects, and acid can damage armor.
 
 High level mages may learn and cast these spells as well.")]
+[OneLineHelp("calls forth the flames of a red dragon")]
 public class FireBreath : OffensiveSpellBase
 {
     private const string SpellName = "Fire Breath";

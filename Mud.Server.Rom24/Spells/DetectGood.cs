@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell enables the caster to detect good characters, which will
 reveal a characteristic golden aura.")]
+[OneLineHelp("reveals the aura of good monsters")]
 public class DetectGood : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Good";

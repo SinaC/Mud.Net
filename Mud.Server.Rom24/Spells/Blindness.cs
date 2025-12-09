@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell renders the target character blind.")]
+[OneLineHelp("strikes the target blind")]
 public class Blindness : OffensiveSpellBase
 {
     private const string SpellName = "Blindness";

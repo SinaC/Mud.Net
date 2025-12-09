@@ -1,7 +1,9 @@
 ﻿using Mud.Common;
+using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Race;
@@ -26,16 +28,19 @@ public class Help : ActorGameAction
     private const string SpellsCategory = "Spells";
     private const string RacesCategory = "Races";
     private const string ClassesCategory = "Classes";
+    private const string AbilityGroupsCategory = "Groups";
 
     private IAbilityManager AbilityManager { get; }
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
+    private IAbilityGroupManager AbilityGroupManager { get; }
 
-    public Help(IAbilityManager abilityManager, IRaceManager raceManager, IClassManager classManager)
+    public Help(IAbilityManager abilityManager, IRaceManager raceManager, IClassManager classManager, IAbilityGroupManager abilityGroupManager)
     {
         AbilityManager = abilityManager;
         RaceManager = raceManager;
         ClassManager = classManager;
+        AbilityGroupManager = abilityGroupManager;
     }
 
     private bool ShouldDisplayCategoriesAndCommands { get; set; }
@@ -47,7 +52,7 @@ public class Help : ActorGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
+        if (actionInput.Parameters.Length == 0 || actionInput.Parameters[0].IsAll)
             ShouldDisplayCategoriesAndCommands = true;
         else
         {
@@ -87,6 +92,8 @@ public class Help : ActorGameAction
             AppendRaces(sb, Filter);
             // classes
             AppendClasses(sb, Filter);
+            // ability groups
+            AppendAbilityGroups(sb, Filter);
             // TODO: help not related to commands nor abilities nor races/classes
             if (sb.Length > 0)
                 Actor.Page(sb);
@@ -131,7 +138,7 @@ public class Help : ActorGameAction
             foreach (var gameActionInfo in gameActionInfosByExecutionType)
             {
                 var names = gameActionInfo.Names.ToArray();
-                var title = $"%C%{string.Join(", ", names)}%x%";
+                var title = $"%W%{string.Join(", ", names)}%x%";
                 sb.AppendLine(title);
                 var commandNames = string.Join("|", names);
                 var sbSyntax = BuildCommandSyntax(commandNames, gameActionInfo.Syntax, false);
@@ -151,24 +158,24 @@ public class Help : ActorGameAction
     {
         // displayed as skill and replace [cmd] with command names
         var iSkillType = typeof(ISkill);
-        foreach (var abilityInfo in AbilityManager.SearchAbilities<ISkill>().Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
+        foreach (var abilityDefinition in AbilityManager.SearchAbilities<ISkill>().Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
         {
             // search game action infos matching skill
-            var gameActionInfos = Actor.GameActions.Where(x => x.Value.CommandExecutionType == abilityInfo.AbilityExecutionType);
+            var gameActionInfos = Actor.GameActions.Where(x => x.Value.CommandExecutionType == abilityDefinition.AbilityExecutionType);
             var commandNames = string.Join("|", gameActionInfos.Select(x => x.Key));
-            sb.AppendLine($"%C%{abilityInfo.Name}%x% [Skill]");
-            if (abilityInfo.Syntax != null)
+            sb.AppendLine($"%W%{abilityDefinition.Name}%x% [Skill]");
+            if (abilityDefinition.Syntax != null)
             {
-                foreach (string syntaxEntry in abilityInfo.Syntax)
+                foreach (string syntaxEntry in abilityDefinition.Syntax)
                 {
                     string enrichedSyntax = syntaxEntry.Replace("[cmd]", commandNames);
                     sb.AppendLine("Syntax: " + enrichedSyntax);
                 }
                 sb.AppendLine();
             }
-            if (abilityInfo.Help != null)
+            if (abilityDefinition.Help != null)
             {
-                var help = abilityInfo.Help!.Replace("[cmd]", commandNames);
+                var help = abilityDefinition.Help!.Replace("[cmd]", commandNames);
                 sb.AppendLine(help);
             }
             sb.AppendLine();
@@ -178,23 +185,23 @@ public class Help : ActorGameAction
     private void AppendAbilities<TAbility>(StringBuilder sb, Func<string, bool> nameFilterFunc)
         where TAbility: class, IAbility
     {
-        foreach (var abilityInfo in AbilityManager.SearchAbilities<TAbility>().Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
+        foreach (var abilityDefinition in AbilityManager.SearchAbilities<TAbility>().Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
         {
-            sb.AppendLine($"%C%{abilityInfo.Name}%x% [{abilityInfo.Type}]");
-            if (abilityInfo.Syntax != null)
+            sb.AppendLine($"%W%{abilityDefinition.Name}%x% [{abilityDefinition.Type}]");
+            if (abilityDefinition.Syntax != null)
             {
-                foreach (string syntaxEntry in abilityInfo.Syntax)
+                foreach (string syntaxEntry in abilityDefinition.Syntax)
                 {
-                    string enrichedSyntax = syntaxEntry.Replace("[spell]", $"'{abilityInfo.Name.ToLowerInvariant()}'");
+                    string enrichedSyntax = syntaxEntry.Replace("[spell]", $"'{abilityDefinition.Name.ToLowerInvariant()}'");
                     sb.AppendLine("Syntax: " + enrichedSyntax);
                 }
                 sb.AppendLine();
             }
-            if (abilityInfo.Help != null)
+            if (abilityDefinition.Help != null)
             {
-                sb.AppendLine(abilityInfo.Help!);
+                sb.AppendLine(abilityDefinition.Help!);
             }
-            if (abilityInfo.Syntax == null && abilityInfo.Help == null)
+            if (abilityDefinition.Syntax == null && abilityDefinition.Help == null)
             {
                 sb.AppendLine("no syntax nor help section for this");
             }
@@ -206,7 +213,7 @@ public class Help : ActorGameAction
     {
         foreach (var race in RaceManager.PlayableRaces.Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
         {
-            sb.AppendLine($"%C%{race.Name.ToPascalCase()}%x% [Race]");
+            sb.AppendLine($"%W%{race.Name.ToPascalCase()}%x% [Race]");
             if (race.Help != null)
             {
                 sb.AppendLine(race.Help);
@@ -220,18 +227,40 @@ public class Help : ActorGameAction
     {
         foreach (var @class in ClassManager.Classes.Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
         {
-            sb.AppendLine($"%C%{@class.Name.ToPascalCase()}%x% [Class]");
+            sb.AppendLine($"%W%{@class.Name.ToPascalCase()}%x% [Class]");
             if (@class.Help != null)
             {
                 sb.AppendLine(@class.Help);
             }
-            var basicAbilityGroups = TableGenerators.AbilityGroupTableGenerator.Value.Generate("Basics:", 3, @class.BasicAbilityGroups);
+            var basicAbilityGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Basics", 3, @class.BasicAbilityGroups);
             sb.Append(basicAbilityGroups);
-            var defaultAbilityGroups = TableGenerators.AbilityGroupTableGenerator.Value.Generate("Default:", 3, @class.DefaultAbilityGroups);
+            var defaultAbilityGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Default", 3, @class.DefaultAbilityGroups);
             sb.Append(defaultAbilityGroups);
-            var availableAbilityGroups = TableGenerators.AbilityGroupTableGenerator.Value.Generate("Available:", 3, @class.AvailableAbilityGroups.OrderByDescending(x => x.Cost).ThenBy(x => x.Name));
+            var availableAbilityGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Available", 3, @class.AvailableAbilityGroups.OrderByDescending(x => x.Cost).ThenBy(x => x.Name));
             sb.Append(availableAbilityGroups);
             sb.AppendLine();
+        }
+    }
+
+    private void AppendAbilityGroups(StringBuilder sb, Func<string, bool> nameFilterFunc)
+    {
+        foreach (var abilityGroup in AbilityGroupManager.AbilityGroups.Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
+        {
+            sb.AppendLine($"%W%{abilityGroup.Name.ToPascalCase()}%x% [Ability group]");
+            if (abilityGroup.Help != null)
+            {
+                sb.AppendLine(abilityGroup.Help);
+            }
+            if (abilityGroup.AbilityDefinitions.Any())
+            {
+                var abilities = TableGenerators.AbilityDefinitionTableGenerator.Value.Generate("Abilities", true, abilityGroup.AbilityDefinitions);
+                sb.Append(abilities);
+            }
+            if (abilityGroup.AbilityGroupDefinitions.Any())
+            {
+                var subAbilityGroups = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", true, abilityGroup.AbilityGroupDefinitions);
+                sb.Append(subAbilityGroups);
+            }
         }
     }
 
@@ -260,10 +289,13 @@ public class Help : ActorGameAction
         var raceTopics = RaceManager.PlayableRaces
             .Select(x => new Topic(RacesCategory, 4, x.Name, 0));
         // classes
-        var classesTopics = ClassManager.Classes
+        var classTopics = ClassManager.Classes
             .Select(x => new Topic(ClassesCategory, 5, x.Name, 0));
+        // ability groups
+        var abilityGroupTopics = AbilityGroupManager.AbilityGroups
+            .Select(x => new Topic(AbilityGroupsCategory, 6, x.Name, 0));
         // TODO: help not related to commands nor abilities nor races/classes
-        return gameActionTopics.Concat(passiveTopics).Concat(skillTopics).Concat(spellTopics);
+        return gameActionTopics.Concat(passiveTopics).Concat(skillTopics).Concat(spellTopics).Concat(raceTopics).Concat(classTopics).Concat(abilityGroupTopics);
     }
 
     private record Topic(string Category, int CategoryPriority, string Name, int NamePriority);

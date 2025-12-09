@@ -27,9 +27,9 @@ public class AbilityManagerTests : AbilityTestBase
         assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(Rom24AcidBlast).Assembly.Yield());
         AbilityManager abilityManager = new (new Mock<ILogger<AbilityManager>>().Object, null, assemblyHelperMock.Object);
 
-        var abilityInfo = abilityManager["Acid Blast"];
+        var abilityDefinition = abilityManager["Acid Blast"];
 
-        Assert.IsNotNull(abilityInfo);
+        Assert.IsNotNull(abilityDefinition);
     }
 
     [TestMethod]
@@ -39,8 +39,8 @@ public class AbilityManagerTests : AbilityTestBase
         assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(Rom24AcidBlast).Assembly.Yield());
         AbilityManager abilityManager = new (new Mock<ILogger<AbilityManager>>().Object, null, assemblyHelperMock.Object);
 
-        var abilityInfo = abilityManager["Pouet"];
+        var abilityDefinition = abilityManager["Pouet"];
 
-        Assert.IsNull(abilityInfo);
+        Assert.IsNull(abilityDefinition);
     }
 }

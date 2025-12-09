@@ -15,7 +15,7 @@ public abstract class SpellBase : ISpell
     protected IRandomManager RandomManager { get; }
 
     protected bool IsSetupExecuted { get; private set; }
-    protected IAbilityInfo AbilityInfo { get; private set; } = default!;
+    protected IAbilityDefinition AbilityDefinition { get; private set; } = default!;
     protected ICharacter Caster { get; private set; } = default!;
     protected int Level { get; private set; }
     protected int? Cost { get; private set; }
@@ -59,11 +59,11 @@ public abstract class SpellBase : ISpell
     private string? SetupFromCast(ISpellActionInput spellActionInput)
     {
         // 1) check context
-        AbilityInfo = spellActionInput.AbilityInfo;
-        if (AbilityInfo == null)
-            return "Internal error: AbilityInfo is null.";
-        if (AbilityInfo.AbilityExecutionType != GetType())
-            return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
+        AbilityDefinition = spellActionInput.AbilityDefinition;
+        if (AbilityDefinition == null)
+            return "Internal error: AbilityDefinition is null.";
+        if (AbilityDefinition.AbilityExecutionType != GetType())
+            return $"Internal error: AbilityDefinition is not of the right type: {AbilityDefinition.GetType().Name} instead of {GetType().Name}.";
 
         // 2) check caster
         Caster = spellActionInput.Caster;
@@ -79,12 +79,12 @@ public abstract class SpellBase : ISpell
             return setTargetResult;
 
         // 4) check cooldown
-        int cooldownPulseLeft = Caster.CooldownPulseLeft(AbilityInfo.Name);
+        int cooldownPulseLeft = Caster.CooldownPulseLeft(AbilityDefinition.Name);
         if (cooldownPulseLeft > 0)
-            return $"{AbilityInfo.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
+            return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
 
         // 5) check resource cost
-        var (_, abilityLearned) = Caster.GetAbilityLearnedInfo(AbilityInfo.Name);
+        var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
         if (abilityLearned != null && abilityLearned.ResourceKind.HasValue && abilityLearned.CostAmount > 0 && abilityLearned.CostAmountOperator != CostAmountOperators.None)
         {
             var resourceKind = abilityLearned.ResourceKind.Value;
@@ -101,7 +101,7 @@ public abstract class SpellBase : ISpell
                     cost = Caster.MaxResource(resourceKind) * abilityLearned.CostAmount / 100;
                     break;
                 default:
-                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityInfo.Name);
+                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityDefinition.Name);
                     cost = 100;
                     break;
             }
@@ -122,11 +122,11 @@ public abstract class SpellBase : ISpell
     private string? SetupFromItem(ISpellActionInput spellActionInput)
     {
         // 1) check context
-        AbilityInfo = spellActionInput.AbilityInfo;
-        if (AbilityInfo == null)
-            return "Internal error: AbilityInfo is null.";
-        if (AbilityInfo.AbilityExecutionType != GetType())
-            return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
+        AbilityDefinition = spellActionInput.AbilityDefinition;
+        if (AbilityDefinition == null)
+            return "Internal error: AbilityDefinition is null.";
+        if (AbilityDefinition.AbilityExecutionType != GetType())
+            return $"Internal error: AbilityDefinition is not of the right type: {AbilityDefinition.GetType().Name} instead of {GetType().Name}.";
 
         // 2) check caster
         Caster = spellActionInput.Caster;
@@ -148,11 +148,11 @@ public abstract class SpellBase : ISpell
         var pcCaster = Caster as IPlayableCharacter;
 
         // 1) check if failed
-        var abilityLearned = Caster.GetAbilityLearnedInfo(AbilityInfo.Name);
+        var abilityLearned = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
         if (!RandomManager.Chance(abilityLearned.percentage))
         {
             Caster.Send("You lost your concentration.");
-            pcCaster?.CheckAbilityImprove(AbilityInfo.Name, false, 1);
+            pcCaster?.CheckAbilityImprove(AbilityDefinition.Name, false, 1);
             // pay half resource
             if (Cost.HasValue && Cost.Value > 1 && ResourceKind.HasValue)
                 Caster.UpdateResource(ResourceKind.Value, -Cost.Value / 2);
@@ -170,15 +170,15 @@ public abstract class SpellBase : ISpell
         Invoke();
 
         // 5) GCD
-        if (AbilityInfo.PulseWaitTime.HasValue)
-            pcCaster?.ImpersonatedBy?.SetGlobalCooldown(AbilityInfo.PulseWaitTime.Value);
+        if (AbilityDefinition.PulseWaitTime.HasValue)
+            pcCaster?.ImpersonatedBy?.SetGlobalCooldown(AbilityDefinition.PulseWaitTime.Value);
 
         // 6) set cooldown if any
-        if (AbilityInfo.CooldownInSeconds.HasValue && AbilityInfo.CooldownInSeconds.Value > 0)
-            Caster.SetCooldown(AbilityInfo.Name, TimeSpan.FromSeconds(AbilityInfo.CooldownInSeconds.Value));
+        if (AbilityDefinition.CooldownInSeconds.HasValue && AbilityDefinition.CooldownInSeconds.Value > 0)
+            Caster.SetCooldown(AbilityDefinition.Name, TimeSpan.FromSeconds(AbilityDefinition.CooldownInSeconds.Value));
 
         // 7) check improve true
-        pcCaster?.CheckAbilityImprove(AbilityInfo.Name, true, AbilityInfo.LearnDifficultyMultiplier);
+        pcCaster?.CheckAbilityImprove(AbilityDefinition.Name, true, AbilityDefinition.LearnDifficultyMultiplier);
     }
 
     private void ExecuteFromItem()
@@ -227,7 +227,7 @@ public abstract class SpellBase : ISpell
 
         // Build mystical words for spell
         StringBuilder mysticalWords = new();
-        string abilityName = AbilityInfo.Name.ToLowerInvariant();
+        string abilityName = AbilityDefinition.Name.ToLowerInvariant();
         string remaining = abilityName;
         while (remaining.Length > 0)
         {
@@ -246,16 +246,16 @@ public abstract class SpellBase : ISpell
             {
                 mysticalWords.Append('?');
                 remaining = remaining[1..];
-                Logger.LogWarning("Spell {abilityName} contains a character which is not found in syllable table", AbilityInfo.Name);
+                Logger.LogWarning("Spell {abilityName} contains a character which is not found in syllable table", AbilityDefinition.Name);
             }
         }
 
         // Say to people in room except source
         foreach (ICharacter target in Caster.Room.People.Where(x => x != Caster))
         {
-            var (_, abilityLearned) = target.GetAbilityLearnedInfo(AbilityInfo.Name);
+            var (_, abilityLearned) = target.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
             if (abilityLearned != null && abilityLearned.Level < target.Level)
-                target.Act(ActOptions.ToCharacter, "{0} casts the spell '{1}'.", Caster, AbilityInfo.Name); // known the spell
+                target.Act(ActOptions.ToCharacter, "{0} casts the spell '{1}'.", Caster, AbilityDefinition.Name); // known the spell
             else
                 target.Act(ActOptions.ToCharacter, "{0} utters the words, '{1}'.", Caster, mysticalWords); // doesn't known the spell
         }

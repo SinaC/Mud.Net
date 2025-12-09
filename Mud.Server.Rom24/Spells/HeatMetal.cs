@@ -20,6 +20,7 @@ according to the armor of the victim.  It heats up the metal equipment
 causing him or her to drop them if possible, taking serious burns in the
 process (possibly fatal if the equipment is too heavy to remove easily).
 This spell does no damage to creatures who are immune to fire.")]
+[OneLineHelp("heats metal equipment to searing tempatures")]
 public class HeatMetal : OffensiveSpellBase
 {
     private const string SpellName = "Heat Metal";

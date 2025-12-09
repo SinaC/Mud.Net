@@ -77,13 +77,13 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
 
     protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
     {
-        var abilityInfo = AbilityManager[abilityName];
-        if (abilityInfo == null)
+        var abilityDefinition = AbilityManager[abilityName];
+        if (abilityDefinition == null)
         {
             Logger.LogError("Trying to add unknown ability [{abilityName}] to race [{name}]", abilityName, Name);
             return;
         }
         //
-        _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, 100, abilityInfo));
+        _abilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, 100, abilityDefinition));
     }
 }

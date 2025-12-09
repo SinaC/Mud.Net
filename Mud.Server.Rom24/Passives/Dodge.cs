@@ -15,6 +15,7 @@ be where it lands'.  The dodge skill honors this tradition, by improving the
 character's natural agility to the point where many blows will miss the 
 target. The chance of dodging is also affected by the dexterity of the
 attacker and the target.  Any class may learn dodging.")]
+[OneLineHelp("the best way to take a punch is not to be there")]
 public class Dodge : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Dodge";

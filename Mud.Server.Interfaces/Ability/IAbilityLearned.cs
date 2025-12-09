@@ -18,7 +18,7 @@ public interface IAbilityLearned
 
     int Rating { get; }
 
-    IAbilityInfo AbilityInfo { get; }
+    IAbilityDefinition AbilityDefinition { get; }
 
     int Learned { get; }
 

@@ -15,6 +15,7 @@ attacks, and is succesful more often than dodge.  Parry requires a weapon for
 full success, the hand-to-hand skill may also be used, but results in reduced
 damage instead of no damage.  The best chance of parrying occurs when the
 defender is skilled in both his and his opponent's weapon type.")]
+[OneLineHelp("the art of parrying with weapons")]
 public class Parry : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Parry";

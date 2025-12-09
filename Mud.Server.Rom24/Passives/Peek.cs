@@ -12,6 +12,7 @@ namespace Mud.Server.Rom24.Passives;
 the better to use the steal command with.  More intelligent characters are
 harder to peek at.  All characters may learn peek, but thieves are the most
 common practicioners.")]
+[OneLineHelp("used to look into a person's belongings")]
 public class Peek : PassiveBase
 {
     private const string PassiveName = "Peek";

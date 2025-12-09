@@ -5,10 +5,11 @@ using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Passives;
+namespace Mud.Server.Rom24.Weapons;
 
 [Weapon(PassiveName, ["Sword"], LearnDifficultyMultiplier = 5)]
 [Help(@"the warrior's standby, from rapier to claymore")]
+[OneLineHelp(@"the warrior's standby, from rapier to claymore")]
 public class Sword : PassiveBase, IWeaponPassive
 {
     private const string PassiveName = "Sword";

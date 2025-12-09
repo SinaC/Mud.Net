@@ -20,6 +20,7 @@ only difference being that while portal creates a one-way gate, a nexus
 spell makes a two-sided gate.  It also lasts longer than the lower-powered
 portal spell.  Both spells require an additional power source, the secret
 of which has been lost...")]
+[OneLineHelp("forms a two-way portal to a far off destination")]
 public class Nexus : TransportationSpellBase
 {
     private const string SpellName = "Nexus";

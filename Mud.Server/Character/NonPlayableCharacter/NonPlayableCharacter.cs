@@ -361,9 +361,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             return;
         // additional hits (dual wield, second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
-        foreach (var additionalHitAbilityInfo in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
+        foreach (var additionalHitAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
         {
-            var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityInfo);
+            var additionalHitAbility = AbilityManager.CreateInstance<IAdditionalHitPassive>(additionalHitAbilityDefinition);
             if (additionalHitAbility != null)
                 additionalHitAbilities.Add(additionalHitAbility);
         }
@@ -530,7 +530,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     #region CharacterBase
 
     // Abilities
-    public override (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedInfo(IItemWeapon? weapon)
+    public override (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedAndPercentage(IItemWeapon? weapon)
     {
         int learned;
         if (weapon == null) // hand to hand
@@ -549,7 +549,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         return (learned, null);
     }
 
-    public override (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedInfo(string abilityName) // TODO: replace with npc class
+    public override (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedAndPercentage(string abilityName) // TODO: replace with npc class
     {
         var abilityLearned = GetAbilityLearned(abilityName);
         //int learned = 0;
@@ -741,21 +741,27 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     protected bool UseSkill(string skillName, params ICommandParameter[] parameters)
     {
         Logger.LogInformation("{name} tries to use {skillName} on {fightingName}.", DebugName, skillName, Fighting?.DebugName ?? "???");
-        var abilityInfo = AbilityManager[skillName];
-        if (abilityInfo == null)
+        var abilityDefinition = AbilityManager[skillName];
+        if (abilityDefinition == null)
         {
             Logger.LogWarning("Unknown skill {skillName}.", skillName);
             Send("This skill doesn't exist.");
             return false;
         }
-        var skillInstance = AbilityManager.CreateInstance<ISkill>(abilityInfo.Name);
+        if (abilityDefinition.Type != AbilityTypes.Skill)
+        {
+            Logger.LogWarning("{skillName} is not a skill.", skillName);
+            Send("This is not a skill.");
+            return false;
+        }
+        var skillInstance = AbilityManager.CreateInstance<ISkill>(abilityDefinition.Name);
         if (skillInstance == null)
         {
             Logger.LogWarning("Skill {skillName} cannot be instantiated.", skillName);
             Send("This skill cannot be used.");
             return false;
         }
-        var skillActionInput = new SkillActionInput(abilityInfo, this, parameters);
+        var skillActionInput = new SkillActionInput(abilityDefinition, this, parameters);
         var setupResult = skillInstance.Setup(skillActionInput);
         if (setupResult != null)
         {

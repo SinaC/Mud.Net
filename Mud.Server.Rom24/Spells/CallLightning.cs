@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell works only out of doors, and only when the weather is bad.
 It calls down lightning bolts from Mota.")]
+[OneLineHelp("summons a huge bolt from the heavens, if the weather is right")]
 public class CallLightning : NoTargetSpellBase
 {
     private const string SpellName = "Call Lightning";

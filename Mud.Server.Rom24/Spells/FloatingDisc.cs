@@ -23,6 +23,7 @@ usually less.  It can hold 10 pounds per level of the caster, with a
 maximum of five pounds per item.  The spell requires an open float location
 on the character, and the only way to remove the disc is to die or allow it
 to run out of energy.")]
+[OneLineHelp("creates a floating disc of force perfect for hauling treasure")]
 public class FloatingDisc : ItemCreationSpellBase
 {
     private const string SpellName = "Floating Disc";

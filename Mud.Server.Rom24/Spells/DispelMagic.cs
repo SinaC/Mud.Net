@@ -22,6 +22,7 @@ harmful and benign spells.
 The chance of dispelling is based on the level of the spell. Permanent spells
 (such as mobile sanctuary) are much harder to remove.  Not all spells may
 be dispelled, notable examples are poison and plague.")]
+[OneLineHelp("removes spells from enemies, not as effective as cancellation")]
 public class DispelMagic : OffensiveSpellBase
 {
     private const string SpellName = "Dispel Magic";

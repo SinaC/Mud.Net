@@ -23,6 +23,7 @@ an extra attack (or even a backstab) in combat, and improving evasive
 abilities in combat.  However, it produces a great strain on the system,
 such that recuperative abilities are halved.  Haste is capable of negating
 the slow spell. (see 'help slow').")]
+[OneLineHelp("doubles the speed of the target, but slows down healing")]
 public class Haste : DefensiveSpellBase
 {
     private const string SpellName = "Haste";

@@ -17,6 +17,7 @@ character remains stationary.  Sneak may be used when moving (including to
 sneak by monsters), but has a lower chance of success.  Typing hide or sneak
 a second time will cancel them.  Hide has the added benefit of increasing
 the chance of a backstab hitting your opponent.")]
+[OneLineHelp("the art of remaining undetected in a room")]
 public class Hide : NoTargetSkillBase
 {
     private const string SkillName = "Hide";

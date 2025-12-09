@@ -18,6 +18,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells protect the caster by decreasing (improving) the caster's armor
 class. It provides 20 points of armor.")]
+[OneLineHelp("puts a shimmering shield between you and your enemies")]
 public class Shield : CharacterBuffSpellBase
 {
     private const string SpellName = "Shield";

@@ -13,6 +13,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <character>")]
 [Help(
 @"This spell reveals the alignment of the target character.")]
+[OneLineHelp("determines the moral character of a monster or person")]
 public class KnowAlignment : DefensiveSpellBase
 {
     private const string SpellName = "Know Alignment";

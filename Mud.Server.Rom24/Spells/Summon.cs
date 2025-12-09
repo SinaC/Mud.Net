@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell summons a character from anywhere else in the world into your room.
 Characters who are fighting may not be summoned.")]
+[OneLineHelp("transports the target to the caster")]
 public class Summon : TransportationSpellBase
 {
     private const string SpellName = "Summon";

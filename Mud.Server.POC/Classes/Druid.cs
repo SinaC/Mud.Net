@@ -74,12 +74,12 @@ public class Druid : ClassBase
         : base(logger, abilityManager, abilityGroupManager)
     {
         // Test class with all skills + Passive
-        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
-            if (StringCompareHelpers.StringEquals(abilityInfo.Name, "Berserk"))
-                AddAbility(20, abilityInfo.Name, Domain.ResourceKinds.Mana, 35, CostAmountOperators.Fixed, 1);
+        foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
+            if (StringCompareHelpers.StringEquals(abilityDefinition.Name, "Berserk"))
+                AddAbility(20, abilityDefinition.Name, Domain.ResourceKinds.Mana, 35, CostAmountOperators.Fixed, 1);
             else
-                AddSkill(20, abilityInfo.Name, 1);
-        foreach (var abilityInfo in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive || x.Type == AbilityTypes.Weapon))
-            AddAbility(10, abilityInfo.Name, null, 0, CostAmountOperators.None, 1);
+                AddSkill(20, abilityDefinition.Name, 1);
+        foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive || x.Type == AbilityTypes.Weapon))
+            AddAbility(10, abilityDefinition.Name, null, 0, CostAmountOperators.None, 1);
     }
 }

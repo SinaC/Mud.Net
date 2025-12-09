@@ -25,14 +25,14 @@ namespace Mud.Server.Tests.Abilities
             Mock<IPlayableCharacter> casterMock = new();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             OffensiveSpellBaseSpellsSpell spell = new (new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("");
-            SpellActionInput abilityActionInput = new (new AbilityInfo( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new (new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -48,7 +48,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IPlayableCharacter> casterMock = new();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             Mock<ICharacter> victimMock = new();
@@ -60,7 +60,7 @@ namespace Mud.Server.Tests.Abilities
             OffensiveSpellBaseSpellsSpell spell = new (new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("");
-            SpellActionInput abilityActionInput = new (new AbilityInfo( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new (new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -76,14 +76,14 @@ namespace Mud.Server.Tests.Abilities
             Mock<IPlayableCharacter> casterMock = new();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             OffensiveSpellBaseSpellsSpell spell = new (new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("target");
-            SpellActionInput abilityActionInput = new (new AbilityInfo( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new (new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -99,7 +99,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IPlayableCharacter> casterMock = new();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]);
             casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
@@ -110,7 +110,7 @@ namespace Mud.Server.Tests.Abilities
             OffensiveSpellBaseSpellsSpell spell = new (new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("target");
-            SpellActionInput abilityActionInput = new (new AbilityInfo( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new (new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -126,7 +126,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IPlayableCharacter> casterMock = new();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]);
             casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
@@ -139,7 +139,7 @@ namespace Mud.Server.Tests.Abilities
             OffensiveSpellBaseSpellsSpell spell = new (new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("target");
-            SpellActionInput abilityActionInput = new (new AbilityInfo( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new (new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -159,7 +159,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<INonPlayableCharacter> casterMock = new();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x.CharacterFlags).Returns(() => CreateCharacterFlags("Charm"));
             casterMock.SetupGet(x => x.Master).Returns(victimMock.Object);
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -169,7 +169,7 @@ namespace Mud.Server.Tests.Abilities
             OffensiveSpellBaseSpellsSpell spell = new (new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("target");
-            SpellActionInput abilityActionInput = new (new AbilityInfo( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new (new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -185,7 +185,7 @@ namespace Mud.Server.Tests.Abilities
             Mock<IPlayableCharacter> casterMock = new();
             casterMock.SetupGet(x => x.Name).Returns("player");
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-            casterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
             casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]);
             casterMock.Setup(x => x.CanSee(It.IsAny<ICharacter>())).Returns(true);
@@ -197,7 +197,7 @@ namespace Mud.Server.Tests.Abilities
             OffensiveSpellBaseSpellsSpell spell = new (new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("target");
-            SpellActionInput abilityActionInput = new (new AbilityInfo( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new (new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
 
             var result = spell.Setup(abilityActionInput);
 

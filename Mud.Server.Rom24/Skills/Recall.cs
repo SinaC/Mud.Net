@@ -15,7 +15,7 @@ namespace Mud.Server.Rom24.Skills;
 [Skill(SkillName, AbilityEffects.Transportation, LearnDifficultyMultiplier = 6)]
 [Help(
 @"[cmd] prays to your god for miraculous transportation from where you are
-back to your recall point.  '/' is a synonym for [cmd].
+back to your recall point.
 
 If you [cmd] during combat, you will lose experience (more than for fleeing),
 and you will have a chance of failing (again, more than for fleeing).  This
@@ -26,6 +26,7 @@ insure success.
 
 [cmd] doesn't work in certain god-forsaken rooms.  Characters afflicted by a
 curse may not recall at all.")]
+[OneLineHelp("essential escape skill (see help recall)")]
 public class Recall : NoTargetSkillBase
 {
     private const string SkillName = "Recall";

@@ -18,6 +18,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell brings forth a magical spring from the ground, which has the
 same properties as a fountain.")]
+[OneLineHelp("calls forth a small but pure spring from the ground")]
 public class CreateSpring : ItemCreationSpellBase
 {
     private const string SpellName = "Create Spring";

@@ -14,6 +14,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells inflict damage on the victim.  The higher-level spells do
 more damage.")]
+[OneLineHelp("send a weak energy bolt into a foe")]
 public class MagicMissile : DamageTableSpellBase
 {
     private const string SpellName = "Magic Missile";

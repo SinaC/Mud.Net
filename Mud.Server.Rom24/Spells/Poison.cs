@@ -27,6 +27,7 @@ namespace Mud.Server.Rom24.Spells;
 victim's regeneration rate. It may also be used to poison food, drink, or
 a weapon in a fashion similar to envenom ('help envenom'), but with 
 drastically reduced effectiveness.")]
+[OneLineHelp("weaker than plague, but often fatal")]
 public class Poison : ItemOrOffensiveSpellBase
 {
     private const string SpellName = "Poison";

@@ -4,6 +4,6 @@
     {
         string Name { get; }
         int Cost { get; }
-        IAbilityGroupInfo AbilityGroupInfo { get; }
+        IAbilityGroupDefinition AbilityGroupDefinition { get; }
     }
 }

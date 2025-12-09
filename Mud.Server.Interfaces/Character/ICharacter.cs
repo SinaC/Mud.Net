@@ -186,8 +186,8 @@ public interface ICharacter : IEntity, IContainer
     bool Flee();
 
     // Abilities
-    (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedInfo(IItemWeapon? weapon);
-    (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedInfo(string abilityName); // percentage is dynamically computed and can be different than abilityLearned.Learned
+    (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedAndPercentage(IItemWeapon? weapon);
+    (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedAndPercentage(string abilityName); // percentage is dynamically computed and can be different than abilityLearned.Learned
     IDictionary<string, int> AbilitiesInCooldown { get; }
     bool HasAbilitiesInCooldown { get; }
     int CooldownPulseLeft(string abilityName); // Return cooldown seconds left for an ability (Int.MinValue if was not in CD)

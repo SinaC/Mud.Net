@@ -2,20 +2,19 @@
 using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Interfaces.AbilityGroup;
 
-namespace Mud.Server.Rom24.AbilityGroups
+namespace Mud.Server.Rom24.AbilityGroups;
+
+[Export(typeof(IAbilityGroup)), Shared]
+public class ClericBasics : AbilityGroupBase
 {
-    [Export(typeof(IAbilityGroup)), Shared]
-    public class ClericBasics : AbilityGroupBase
+    public ClericBasics()
     {
-        public ClericBasics()
-        {
-            AddAbility("mace");
-        }
-
-        #region IAbilityGroup
-
-        public override string Name => "cleric basics";
-
-        #endregion
+        AddAbility("mace");
     }
+
+    #region IAbilityGroup
+
+    public override string Name => "cleric basics";
+
+    #endregion
 }

@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 @"Demonfire is a spell of blackest evil, and as such can only be used by those
 who follow the paths of darkness.  It conjures forth demonic spirits to 
 inflict terrible wounds on the enemies of the caster.")]
+[OneLineHelp("a powerful, but very evil, spell")]
 public class Demonfire : DamageSpellBase
 {
     private const string SpellName = "Demonfire";

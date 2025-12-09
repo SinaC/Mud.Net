@@ -5,10 +5,11 @@ using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
-namespace Mud.Server.Rom24.Passives;
+namespace Mud.Server.Rom24.Weapons;
 
 [Weapon(PassiveName, ["Axe"], LearnDifficultyMultiplier = 5)]
 [Help(@"the use of axes, ranging from hand to great (but not halberds)")]
+[OneLineHelp(@"the use of axes, ranging from hand to great (but not halberds)")]
 public class Axe : PassiveBase, IWeaponPassive
 {
     private const string PassiveName = "Axe";

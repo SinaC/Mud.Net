@@ -21,6 +21,7 @@ with it's own unique set of effects.  When cast on an unfortunate victim,
 it slows its movements, making it easier to hit and reducing its rate
 of attack.  The effect of slow also double movement costs and halve healing
 rates, due to reduced metabolism.")]
+[OneLineHelp("slows your enemies down, reducing their rate of attack")]
 public class Slow : OffensiveSpellBase
 {
     private const string SpellName = "Slow";

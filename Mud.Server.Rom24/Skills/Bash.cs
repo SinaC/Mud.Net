@@ -19,6 +19,7 @@ knees.  Its success depends on many factors, including the bash rating, your
 weight, and the size of your opponent.  Bashing a dragon is not generally a
 wise idea.  Bashing has a small percentage chance to knock an item off of
 your opponent.")]
+[OneLineHelp("a forceful rush with the body, designed to flatten your foes")]
 public class Bash : OffensiveSkillBase
 {
     private const string SkillName = "Bash";
@@ -82,15 +83,15 @@ public class Bash : OffensiveSkillBase
         chance += User.Level - Victim.Level;
 
         // dodge?
-        var (percentage, _) = Victim.GetAbilityLearnedInfo("Dodge");
+        var (percentage, _) = Victim.GetAbilityLearnedAndPercentage("Dodge");
         if (chance < percentage)
             chance -= 3 * (percentage - chance);
 
         // now the attack
         if (RandomManager.Chance(chance))
         {
-            User.Act(ActOptions.ToCharacter, "You slam into {0}, and send {0:m} flying!", Victim);
-            User.Act(ActOptions.ToRoom, "{0:N} sends {1} sprawling with a powerful bash.", User, Victim);
+            User.Act(ActOptions.ToCharacter, "%W%You slam into {0}, and send {0:m} flying!%x%", Victim);
+            User.Act(ActOptions.ToRoom, "%W%{0:N} sends {1} sprawling with a powerful bash%x%.", User, Victim);
             // TODO: Victim daze
             Victim.ChangePosition(Positions.Resting);
             int damage = RandomManager.Range(2, 2 + 2 * (int)User.Size + chance / 20);
@@ -99,9 +100,9 @@ public class Bash : OffensiveSkillBase
             return true;
         }
         Victim.AbilityDamage(User, 0, SchoolTypes.Bash, "bash", false); // starts a fight
-        User.Send("You fall flat on your face!");
-        User.Act(ActOptions.ToRoom, "{0:N} fall{0:v} flat on {0:s} face!", User);
-        Victim.Act(ActOptions.ToCharacter, "You evade {0:p} bash, causing {0:m} to fall flat on {0:s} face.", User);
+        User.Send("%W%You fall flat on your face!%x%");
+        User.Act(ActOptions.ToRoom, "%W%{0:N} fall{0:v} flat on {0:s} face!%x%", User);
+        Victim.Act(ActOptions.ToCharacter, "%W%You evade {0:p} bash, causing {0:m} to fall flat on {0:s} face.%x%", User);
         User.ChangePosition(Positions.Resting);
         // TODO: check_killer(ch,Victim);
         return false;

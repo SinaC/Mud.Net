@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 @"The mass healing spell, as its name might suggest, performs a healing spell
 on all players in the room.  It also throws in a refresh spell for good
 measure.")]
+[OneLineHelp("casts a heal spell on each player in the room")]
 public class MassHealing : NoTargetSpellBase
 {
     private const string SpellName = "Mass Healing";

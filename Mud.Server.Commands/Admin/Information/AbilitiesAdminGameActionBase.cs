@@ -77,7 +77,7 @@ public abstract class AbilitiesAdminGameActionBase : AdminGameAction
         if (Class != null)
         {
             var sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {Class.DisplayName}", Class.AvailableAbilities
-                .Where(x => !AbilityTypesFilter.HasValue || x.AbilityInfo.Type == AbilityTypesFilter.Value)
+                .Where(x => !AbilityTypesFilter.HasValue || x.AbilityDefinition.Type == AbilityTypesFilter.Value)
                 .OrderBy(x => x.Level)
                 .ThenBy(x => x.Name));
             Actor.Page(sb);
@@ -88,7 +88,7 @@ public abstract class AbilitiesAdminGameActionBase : AdminGameAction
         if (Race != null)
         {
             var sb = TableGenerators.FullInfoAbilityUsageTableGenerator.Value.Generate($"{title} for {Race.DisplayName}", Race.Abilities
-                .Where(x => !AbilityTypesFilter.HasValue || x.AbilityInfo.Type == AbilityTypesFilter.Value)
+                .Where(x => !AbilityTypesFilter.HasValue || x.AbilityDefinition.Type == AbilityTypesFilter.Value)
                 .OrderBy(x => x.Level)
                 .ThenBy(x => x.Name));
             Actor.Page(sb);

@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell]")]
 [Help(
 @"This spell enables the caster to detect invisible objects and characters.")]
+[OneLineHelp("allows the caster to see the unseeable")]
 public class DetectInvis : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Invis";

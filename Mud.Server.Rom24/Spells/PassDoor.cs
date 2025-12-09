@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell]")]
 [Help(
 @"This spell enables the caster to pass through closed doors.")]
+[OneLineHelp("allows the caster to walk through walls")]
 public class PassDoor : CharacterFlagsSpellBase
 {
     private const string SpellName = "Pass Door";

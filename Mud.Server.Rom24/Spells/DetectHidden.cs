@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell]")]
 [Help(
 @"This spell enables the caster to detect hidden creatures.")]
+[OneLineHelp("shows the whereabouts of hidden foes")]
 public class DetectHidden : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Hidden";

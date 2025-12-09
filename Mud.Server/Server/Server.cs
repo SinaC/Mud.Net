@@ -1454,6 +1454,16 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     Logger.LogWarning("Impersonable {name} is not impersonated", character.DebugName);
 
                 // TODO: check to see if need to go home
+                /*
+                 *  if (IS_NPC(ch) && ch->zone != NULL && ch->zone != ch->in_room->area
+            && ch->desc == NULL &&  ch->fighting == NULL 
+	    && !IS_AFFECTED(ch,AFF_CHARM) && number_percent() < 5)
+            {
+            	act("$n wanders on home.",ch,NULL,NULL,TO_ROOM);
+            	extract_char(ch,TRUE);
+            	continue;
+            }*/
+
                 // Update resources
                 character.Regen();
 

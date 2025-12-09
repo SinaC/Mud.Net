@@ -16,6 +16,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell]")]
 [Help(
 @"This spell enables the caster to detect magical objects.")]
+[OneLineHelp("reveals magical auras to the caster")]
 public class DetectMagic : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Magic";

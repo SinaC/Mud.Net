@@ -40,19 +40,19 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
     {
         if (string.IsNullOrWhiteSpace(spellName))
             return null; // not really an error but don't continue
-        var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
-        if (abilityInfo == null)
+        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
-        var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
+        var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name);
         if (spellInstance == null)
         {
             Logger.LogError("Spell '{spellName}' on item {item} cannot be instantiated.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
-        var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item }, parameters);
+        var spellActionInput = new SpellActionInput(abilityDefinition, User, spellLevel, new CastFromItemOptions { Item = Item }, parameters);
         var spellInstanceGuards = spellInstance.Setup(spellActionInput);
         if (spellInstanceGuards != null)
             return spellInstanceGuards;
@@ -64,13 +64,13 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
     {
         if (string.IsNullOrWhiteSpace(spellName))
             return null; // not really an error but don't continue
-        var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
-        if (abilityInfo == null)
+        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
-        if (AbilityManager.CreateInstance<ISpell>(abilityInfo.Name) is not ITargetedAction getTargetedAction)
+        if (AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name) is not ITargetedAction getTargetedAction)
         {
             Logger.LogError("Spell '{spellName}' on item {item} cannot be instantiated or is not a targeted action.", spellName, Item.DebugName);
             return "Something goes wrong.";
@@ -80,10 +80,10 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         IEnumerable<IEntity> predefinedTargets = getTargetedAction.ValidTargets(User);
         foreach (var predefinedTarget in predefinedTargets)
         {
-            var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
+            var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name);
             if (spellInstance != null)
             {
-                var spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = predefinedTarget }, parameters);
+                var spellActionInput = new SpellActionInput(abilityDefinition, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = predefinedTarget }, parameters);
                 var spellInstanceGuards = spellInstance.Setup(spellActionInput);
                 if (spellInstanceGuards != null)
                     User.Send(spellInstanceGuards); // not usual way Setup/Guards
@@ -104,14 +104,14 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         target = default!;
         if (string.IsNullOrWhiteSpace(spellName))
             return null; // not really an error but don't continue
-        var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
-        if (abilityInfo == null)
+        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
             return "Something goes wrong.";
         }
 
-        var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
+        var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name);
         if (spellInstance == null)
         {
             Logger.LogError("Cannot create instance of spell '{spellName}' on item {item}.", spellName, Item.DebugName);
@@ -122,13 +122,13 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         // no target specified
         if (parameters.Length == 0)
         {
-            spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, parameters);
+            spellActionInput = new SpellActionInput(abilityDefinition, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, parameters);
         }
         else
         {
             if (spellInstance is not ITargetedAction getTargetedAction)
             {
-                spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, parameters);
+                spellActionInput = new SpellActionInput(abilityDefinition, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = null }, parameters);
             }
             else
             {
@@ -144,7 +144,7 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
                 if (target == null)
                     return "You can't find it.";
 
-                spellActionInput = new SpellActionInput(abilityInfo, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = target }, parameters);
+                spellActionInput = new SpellActionInput(abilityDefinition, User, spellLevel, new CastFromItemOptions { Item = Item, PredefinedTarget = target }, parameters);
             }
         }
         var spellInstanceGuards = spellInstance.Setup(spellActionInput);

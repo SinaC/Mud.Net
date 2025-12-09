@@ -23,6 +23,7 @@ it will be consumed.
 Magical items require training to use properly.  If your character lacks the
 necessary skill to use an item, he will fail, possibly destroying it. Wands is
 the use of wands and similar items ")]
+[OneLineHelp("use of magical wands")]
 public class Wands : ItemCastSpellSkillBase<IItemWand>
 {
     private const string SkillName = "Wands";

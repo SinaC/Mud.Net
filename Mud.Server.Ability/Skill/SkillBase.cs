@@ -16,7 +16,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
     protected IRandomManager RandomManager { get; }
 
     protected bool IsSetupExecuted { get; private set; }
-    protected IAbilityInfo AbilityInfo { get; private set; } = default!;
+    protected IAbilityDefinition AbilityDefinition { get; private set; } = default!;
     protected ICharacter User { get; private set; } = default!;
     protected int Learned { get; private set; }
     protected int? Cost { get; private set; }
@@ -35,11 +35,11 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         IsSetupExecuted = true;
 
         // 1) check context
-        AbilityInfo = skillActionInput.AbilityInfo;
-        if (AbilityInfo == null)
-            return "Internal error: AbilityInfo is null.";
-        if (AbilityInfo.AbilityExecutionType != GetType())
-            return $"Internal error: AbilityInfo is not of the right type: {AbilityInfo.GetType().Name} instead of {GetType().Name}.";
+        AbilityDefinition = skillActionInput.AbilityDefinition;
+        if (AbilityDefinition == null)
+            return "Internal error: AbilityDefinition is null.";
+        if (AbilityDefinition.AbilityExecutionType != GetType())
+            return $"Internal error: AbilityDefinition is not of the right type: {AbilityDefinition.GetType().Name} instead of {GetType().Name}.";
 
         // 2) check actor
         User = skillActionInput.User;
@@ -49,7 +49,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
             return "You are nowhere...";
 
         // 3) get ability percentage
-        var (percentage, abilityLearned) = User.GetAbilityLearnedInfo(AbilityInfo.Name);
+        var (percentage, abilityLearned) = User.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
         Learned = percentage;
 
         // 4) check resource cost
@@ -69,7 +69,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
                     cost = User.MaxResource(resourceKind) * abilityLearned.CostAmount / 100;
                     break;
                 default:
-                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityInfo.Name);
+                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityDefinition.Name);
                     cost = 100;
                     break;
             }
@@ -91,9 +91,9 @@ public abstract class SkillBase : CharacterGameAction, ISkill
             return setTargetResult;
 
         // 5) check cooldown
-        int cooldownPulseLeft = User.CooldownPulseLeft(AbilityInfo.Name);
+        int cooldownPulseLeft = User.CooldownPulseLeft(AbilityDefinition.Name);
         if (cooldownPulseLeft > 0)
-            return $"{AbilityInfo.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
+            return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
 
         return null;
     }
@@ -118,15 +118,15 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         }
 
         // 3) GCD
-        if (AbilityInfo.PulseWaitTime.HasValue)
-            pcUser?.ImpersonatedBy?.SetGlobalCooldown(AbilityInfo.PulseWaitTime.Value);
+        if (AbilityDefinition.PulseWaitTime.HasValue)
+            pcUser?.ImpersonatedBy?.SetGlobalCooldown(AbilityDefinition.PulseWaitTime.Value);
 
         // 4) set cooldown
-        if (AbilityInfo.CooldownInSeconds.HasValue && AbilityInfo.CooldownInSeconds.Value > 0)
-            User.SetCooldown(AbilityInfo.Name, TimeSpan.FromSeconds(AbilityInfo.CooldownInSeconds.Value));
+        if (AbilityDefinition.CooldownInSeconds.HasValue && AbilityDefinition.CooldownInSeconds.Value > 0)
+            User.SetCooldown(AbilityDefinition.Name, TimeSpan.FromSeconds(AbilityDefinition.CooldownInSeconds.Value));
 
         // 5) check improve true
-        pcUser?.CheckAbilityImprove(AbilityInfo.Name, result, AbilityInfo.LearnDifficultyMultiplier);
+        pcUser?.CheckAbilityImprove(AbilityDefinition.Name, result, AbilityDefinition.LearnDifficultyMultiplier);
     }
 
     #endregion
@@ -139,8 +139,8 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (baseGuards != null)
             return baseGuards;
 
-        var abilityInfo = new AbilityInfo(GetType());
-        var skillActionInput = new SkillActionInput(actionInput, abilityInfo, Actor);
+        var abilityDefinition = new AbilityDefinition(GetType());
+        var skillActionInput = new SkillActionInput(actionInput, abilityDefinition, Actor);
         var setupResult = Setup(skillActionInput);
         return setupResult;
     }

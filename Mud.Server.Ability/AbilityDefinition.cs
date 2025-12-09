@@ -6,9 +6,9 @@ using System.Reflection;
 
 namespace Mud.Server.Ability;
 
-public class AbilityInfo : IAbilityInfo
+public class AbilityDefinition : IAbilityDefinition
 {
-    #region IAbilityInfo
+    #region IAbilityDefinition
 
     public AbilityTypes Type { get; }
     public string Name { get; }
@@ -19,6 +19,7 @@ public class AbilityInfo : IAbilityInfo
     public Type AbilityExecutionType { get; }
 
     public string? Help { get; }
+    public string? OneLineHelp { get; }
     public string[]? Syntax { get; }
 
     public bool HasCharacterWearOffMessage { get; }
@@ -32,7 +33,7 @@ public class AbilityInfo : IAbilityInfo
 
     #endregion
 
-    public AbilityInfo(Type abilityExecutionType)
+    public AbilityDefinition(Type abilityExecutionType)
     {
         AbilityExecutionType = abilityExecutionType;
 
@@ -46,10 +47,9 @@ public class AbilityInfo : IAbilityInfo
             : abilityBaseAttribute.CooldownInSeconds;
         LearnDifficultyMultiplier = abilityBaseAttribute.LearnDifficultyMultiplier;
 
-        var helpAttribute = abilityExecutionType.GetCustomAttribute<HelpAttribute>();
-        Help = helpAttribute?.Help;
-        var syntaxAttribute = abilityExecutionType.GetCustomAttribute<SyntaxAttribute>();
-        Syntax = syntaxAttribute?.Syntax;
+        Help = abilityExecutionType.GetCustomAttribute<HelpAttribute>()?.Help;
+        OneLineHelp = abilityExecutionType.GetCustomAttribute<OneLineHelpAttribute>()?.OneLineHelp;
+        Syntax = abilityExecutionType.GetCustomAttribute<SyntaxAttribute>()?.Syntax;
 
         var additionalInfoAttributes = abilityExecutionType.GetCustomAttributes<AbilityAdditionalInfoAttribute>().ToArray();
         HasCharacterWearOffMessage = additionalInfoAttributes.OfType<AbilityCharacterWearOffMessageAttribute>().Any();

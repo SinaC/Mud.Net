@@ -5,21 +5,21 @@ namespace Mud.Server.Interfaces.Ability
 {
     public interface IAbilityManager
     {
-        IEnumerable<IAbilityInfo> Abilities { get; }
-        IAbilityInfo? this[string abilityName] { get; }
-        IAbilityInfo? this[WeaponTypes weaponType] { get; }
+        IEnumerable<IAbilityDefinition> Abilities { get; }
+        IAbilityDefinition? this[string abilityName] { get; }
+        IAbilityDefinition? this[WeaponTypes weaponType] { get; }
 
-        IEnumerable<IAbilityInfo> SearchAbilities<TAbility>()
+        IEnumerable<IAbilityDefinition> SearchAbilities<TAbility>()
             where TAbility: class, IAbility;
-        IEnumerable<IAbilityInfo> SearchAbilitiesByExecutionType<TAbility>()
+        IEnumerable<IAbilityDefinition> SearchAbilitiesByExecutionType<TAbility>()
             where TAbility : class, IAbility;
 
-        IAbilityInfo? Search(string pattern, AbilityTypes type);
-        IAbilityInfo? Search(ICommandParameter parameter);
+        IAbilityDefinition? Search(string pattern, AbilityTypes type);
+        IAbilityDefinition? Search(ICommandParameter parameter);
 
         TAbility? CreateInstance<TAbility>(string abilityName)
             where TAbility : class, IAbility;
-        TAbility? CreateInstance<TAbility>(IAbilityInfo abilityInfo)
+        TAbility? CreateInstance<TAbility>(IAbilityDefinition abilityDefinition)
             where TAbility : class, IAbility;
     }
 }

@@ -22,7 +22,7 @@ public class Cooldowns : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (actionInput.Parameters.Length == 0)
+        if (actionInput.Parameters.Length == 0 || actionInput.Parameters[0].IsAll)
             return null;
 
         AbilityLearned = Actor.LearnedAbilities.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;

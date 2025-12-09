@@ -19,6 +19,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell puts its victim to sleep.")]
+[OneLineHelp("puts a foe into enchanted slumber")]
 public class Sleep : OffensiveSpellBase
 {
     private const string SpellName = "Sleep";

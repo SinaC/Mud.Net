@@ -19,6 +19,7 @@ expended.  Allies of the caster may be hit by this spell if they are members
 of a clan, while the caster himself will not be struck unless no other
 viable target remains.  Chain lightning is most effective when used on
 groups of creatures.")]
+[OneLineHelp("sends lightning bolts arcing through foes")]
 public class ChainLightning : OffensiveSpellBase
 {
     private const string SpellName = "Chain Lightning";

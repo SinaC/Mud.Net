@@ -19,6 +19,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell reduces the strength of the victim by two points.")]
+[OneLineHelp("drains the strength of the target")]
 public class Weaken : CharacterDebuffSpellBase
 {
     private const string SpellName = "Weaken";

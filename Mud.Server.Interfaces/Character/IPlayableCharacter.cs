@@ -66,6 +66,7 @@ public interface IPlayableCharacter : ICharacter
     // Ability
     IEnumerable<IAbilityGroupLearned> LearnedAbilityGroups { get; }
     bool CheckAbilityImprove(string abilityName, bool abilityUsedSuccessfully, int multiplier);
+    void AddLearnedAbilityGroup(IAbilityGroupUsage abilityGroupUsage);
 
     // Immortality
     void ChangeImmortalState(bool isImmortal);

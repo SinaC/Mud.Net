@@ -27,6 +27,7 @@ It also renders the character unclean in the eyes of Mota and
 unable to RECALL. Curse may be used to fill equipment with evil power,
 allowing (for example) weapons to do more damage to particularly holy
 opponents.")]
+[OneLineHelp("prevents recalling and weakens the target in combat")]
 public class Curse : ItemOrOffensiveSpellBase
 {
     private const string SpellName = "Curse";
@@ -73,7 +74,7 @@ public class Curse : ItemOrOffensiveSpellBase
                 Caster.Act(ActOptions.ToCharacter, "The holy aura of {0} is too powerful for you to overcome.");
             return;
         }
-        AuraManager.AddAura(item, AbilityInfo.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
+        AuraManager.AddAura(item, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = 1, Operator = AffectOperators.Add },
             new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Evil"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a malevolent aura.", item);

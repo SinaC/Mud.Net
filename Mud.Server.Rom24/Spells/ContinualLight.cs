@@ -24,6 +24,7 @@ namespace Mud.Server.Rom24.Spells;
 @"This spell creates a ball of light, which you can hold as a light source.
 The ball of light will last indefinitely. It may also be used on an object
 to give it an enchanted glow.")]
+[OneLineHelp("creates an eternal light source")]
 public class ContinualLight : OptionalItemInventorySpellBase
 {
     private const string SpellName = "Continual Light";

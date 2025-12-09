@@ -4,6 +4,8 @@ public interface IUniquenessManager
 {
     void Initialize();
 
+    public IEnumerable<string> UnavailableNames { get; }
+
     bool IsAvatarNameAvailable(string avatarName);
     bool IsAccountNameAvailable(string accountName);
 

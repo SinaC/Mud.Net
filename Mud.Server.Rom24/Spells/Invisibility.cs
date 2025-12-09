@@ -26,6 +26,7 @@ namespace Mud.Server.Rom24.Spells;
 @"The INVIS spell makes the target character invisible.  Invisible characters
 will become visible when they attack. It may also be cast on an object
 to render the object invisible.")]
+[OneLineHelp("turns the target invisible")]
 public class Invisibility : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Invisibility";

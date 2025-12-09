@@ -24,19 +24,19 @@ public abstract class CastSpellCharacterGameActionBase : CharacterGameAction
     {
         if (string.IsNullOrWhiteSpace(spellName))
             return null; // not really an error but don't continue
-        var abilityInfo = AbilityManager.Search(spellName, AbilityTypes.Spell);
-        if (abilityInfo == null)
+        var abilityDefinition = AbilityManager.Search(spellName, AbilityTypes.Spell);
+        if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, item.DebugName);
             return "Something goes wrong.";
         }
-        var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityInfo.Name);
+        var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name);
         if (spellInstance == null)
         {
             Logger.LogError("Spell '{spellName}' on item {item} cannot be instantiated.", spellName, item.DebugName);
             return "Something goes wrong.";
         }
-        var spellActionInput = new SpellActionInput(abilityInfo, Actor, spellLevel, new CastFromItemOptions { Item = item }, CommandParser.NoParameters);
+        var spellActionInput = new SpellActionInput(abilityDefinition, Actor, spellLevel, new CastFromItemOptions { Item = item }, CommandParser.NoParameters);
         var spellInstanceGuards = spellInstance.Setup(spellActionInput);
         if (spellInstanceGuards != null)
             return spellInstanceGuards;

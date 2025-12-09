@@ -14,6 +14,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells inflict damage on the victim.  The higher-level spells do
 more damage.")]
+[OneLineHelp("a powerful spell, great for burning your enemy to ashes")]
 public class Fireball : DamageTableSpellBase
 {
     private const string SpellName = "Fireball";

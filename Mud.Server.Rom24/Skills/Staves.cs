@@ -21,6 +21,7 @@ it will be consumed.
 Magical items require training to use properly.  If your character lacks the
 necessary skill to use an item, he will fail, possibly destroying it. Staves is
 the use of staves and similar devices")]
+[OneLineHelp("use of magical staves")]
 public class Staves : ItemCastSpellSkillBase<IItemStaff>
 {
     private const string SkillName = "Staves";

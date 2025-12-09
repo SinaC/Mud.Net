@@ -28,7 +28,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo(skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -48,7 +48,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -72,7 +72,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -89,7 +89,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRoom> roomMock = new();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
-            userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance("Berserk"));
             userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
@@ -97,7 +97,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -114,7 +114,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRoom> roomMock = new();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
-            userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.Setup(x => x.GetAura("Berserk")).Returns<string>(_ => new Mock<IAura>().Object);
             userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
@@ -122,7 +122,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -139,7 +139,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRoom> roomMock = new();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
-            userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance("Calm"));
             userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
@@ -147,7 +147,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -164,12 +164,12 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRoom> roomMock = new();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
-            userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -187,7 +187,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRoom> roomMock = new();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
-            userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
@@ -195,7 +195,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -215,7 +215,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRoom> roomMock = new();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
-            userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(10); // NOT enough mana
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
@@ -223,7 +223,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
 
@@ -241,7 +241,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRoom> roomMock = new();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
-            userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
@@ -249,7 +249,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
             var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, _characterFlagFactory, randomManagerMock.Object, auraManagerMock.Object);
             var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-            var skillActionInput = new SkillActionInput(actionInput, new AbilityInfo( skill.GetType()), userMock.Object);
+            var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
 
             var result = skill.Setup(skillActionInput);
             skill.Execute();
@@ -269,7 +269,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             Mock<IRoom> roomMock = new();
             userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             userMock.SetupGet(x => x.CharacterFlags).Returns(_characterFlagFactory.CreateInstance());
-            userMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
+            userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
             userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
             userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);

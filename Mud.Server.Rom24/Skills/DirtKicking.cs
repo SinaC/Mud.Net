@@ -108,9 +108,9 @@ public class DirtKicking : OffensiveSkillBase
         // now the attack
         if (RandomManager.Chance(chance))
         {
-            Victim.Act(ActOptions.ToRoom, "{0:N} is blinded by the dirt in {0:s} eyes!", Victim);
-            Victim.Act(ActOptions.ToCharacter, "{0:N} kicks dirt in your eyes!", User);
-            Victim.Send("You can't see a thing!");
+            Victim.Act(ActOptions.ToRoom, "%W%{0:N} is blinded by the dirt in {0:s} eyes!%x%", Victim);
+            Victim.Act(ActOptions.ToCharacter, "%W%{0:N} kicks dirt in your eyes!%x%", User);
+            Victim.Send("%W%You can't see a thing!%x%");
 
             int damage = RandomManager.Range(2, 5);
             DamageResults damageResults = Victim.AbilityDamage(User, damage, SchoolTypes.None, "kicked dirt", false);

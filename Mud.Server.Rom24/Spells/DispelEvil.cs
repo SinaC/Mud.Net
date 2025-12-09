@@ -15,6 +15,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"This spell invokes the wrath of Mota on an evil victim. It can be very
 dangerous for casters who are not pure of heart.")]
+[OneLineHelp("torments evil foes")]
 public class DispelEvil : DamageSpellBase
 {
     private const string SpellName = "Dispel Evil";

@@ -25,6 +25,7 @@ namespace Mud.Server.Rom24.Skills;
 access to many secured areas.  Lock picking chances are improved by  
 intelligence, and hindered by the difficulty of the lock. Other classes may
 learn to pick locks, but they will never find it easy.")]
+[OneLineHelp("a useful skill for breaking and entering")]
 public class PickLock : SkillBase
 {
     private const string SkillName = "Pick Lock";

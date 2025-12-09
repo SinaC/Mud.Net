@@ -3473,12 +3473,12 @@
     },
     {
       "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-      "RoomId": 3721,
-      "SilverCoins": 91,
+      "RoomId": 3050,
+      "SilverCoins": 94,
       "GoldCoins": 0,
-      "Experience": 1232,
+      "Experience": 1792,
       "Alignment": 0,
-      "Trains": 1,
+      "Trains": 50,
       "Practices": 7,
       "AutoFlags": 127,
       "CurrentQuests": [],
@@ -3498,7 +3498,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 8
         },
         {
@@ -3507,7 +3507,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 8
         },
         {
@@ -3516,7 +3516,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 8
         },
         {
@@ -3525,7 +3525,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 40,
+          "Learned": 50,
           "Rating": 2
         },
         {
@@ -3543,7 +3543,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 2
         },
         {
@@ -3570,7 +3570,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 3
         },
         {
@@ -3579,7 +3579,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 4
         },
         {
@@ -3588,7 +3588,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 4
         },
         {
@@ -3606,7 +3606,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 4
         },
         {
@@ -3615,7 +3615,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 2
         },
         {
@@ -3624,7 +3624,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 4
         },
         {
@@ -3633,7 +3633,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 3
         },
         {
@@ -3642,7 +3642,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 4
         },
         {
@@ -3651,7 +3651,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 3
         },
         {
@@ -3660,7 +3660,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 1,
           "Rating": 4
         },
         {
@@ -3689,9 +3689,9 @@
       ],
       "Conditions": {
         "Drunk": 0,
-        "Full": 8,
-        "Thirst": 38,
-        "Hunger": 28
+        "Full": 0,
+        "Thirst": 36,
+        "Hunger": 24
       },
       "Aliases": {},
       "Cooldowns": {},
@@ -3703,7 +3703,7 @@
       "Sex": 1,
       "Size": 3,
       "HitPoints": 109,
-      "MovePoints": 109,
+      "MovePoints": 21,
       "CurrentResources": {
         "Mana": 102,
         "Psy": 100
@@ -3717,7 +3717,7 @@
           "Slot": 1,
           "Item": {
             "$type": "light",
-            "TimeLeft": 11990,
+            "TimeLeft": 11988,
             "ItemId": 3716,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3910,7 +3910,7 @@
           "$type": "base",
           "ItemId": 3714,
           "Level": 0,
-          "DecayPulseLeft": 720,
+          "DecayPulseLeft": 240,
           "ItemFlags": "",
           "Auras": []
         }
@@ -3924,7 +3924,7 @@
       "Attributes": {
         "Strength": 19,
         "Intelligence": 11,
-        "Wisdom": 16,
+        "Wisdom": 17,
         "Dexterity": 11,
         "Constitution": 14,
         "MaxHitPoints": 109,
@@ -3940,14 +3940,14 @@
     },
     {
       "CreationTime": "2025-12-08T12:40:06.9440394+01:00",
-      "RoomId": 3700,
+      "RoomId": 3758,
       "SilverCoins": 0,
       "GoldCoins": 0,
       "Experience": 0,
       "Alignment": 0,
-      "Trains": 3,
+      "Trains": 0,
       "Practices": 5,
-      "AutoFlags": 0,
+      "AutoFlags": 127,
       "CurrentQuests": [],
       "LearnedAbilities": [
         {
@@ -4507,6 +4507,24 @@
           "Level": 14,
           "Learned": 0,
           "Rating": 1
+        },
+        {
+          "Name": "sneak",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "hide",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
         }
       ],
       "LearnedAbilityGroups": [
@@ -4524,9 +4542,10 @@
         }
       ],
       "Conditions": {
-        "Full": 48,
-        "Thirst": 48,
-        "Hunger": 48
+        "Drunk": 0,
+        "Full": 46,
+        "Thirst": 47,
+        "Hunger": 47
       },
       "Aliases": {},
       "Cooldowns": {},
@@ -4538,7 +4557,7 @@
       "Sex": 1,
       "Size": 2,
       "HitPoints": 100,
-      "MovePoints": 100,
+      "MovePoints": 14,
       "CurrentResources": {
         "Mana": 100,
         "Psy": 100
@@ -4558,9 +4577,265 @@
       "Attributes": {
         "Strength": 12,
         "Intelligence": 17,
-        "Wisdom": 13,
+        "Wisdom": 16,
         "Dexterity": 15,
         "Constitution": 11,
+        "MaxHitPoints": 100,
+        "SavingThrow": 0,
+        "HitRoll": 0,
+        "DamRoll": 0,
+        "MaxMovePoints": 100,
+        "ArmorBash": 0,
+        "ArmorPierce": 0,
+        "ArmorSlash": 0,
+        "ArmorExotic": 0
+      }
+    },
+    {
+      "CreationTime": "2025-12-08T23:43:00.5723989+01:00",
+      "RoomId": 3700,
+      "SilverCoins": 0,
+      "GoldCoins": 0,
+      "Experience": 0,
+      "Alignment": 0,
+      "Trains": 3,
+      "Practices": 5,
+      "AutoFlags": 0,
+      "CurrentQuests": [],
+      "LearnedAbilities": [
+        {
+          "Name": "mace",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 40,
+          "Rating": 3
+        },
+        {
+          "Name": "scrolls",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 8
+        },
+        {
+          "Name": "staves",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 8
+        },
+        {
+          "Name": "wands",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 8
+        },
+        {
+          "Name": "recall",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 50,
+          "Rating": 2
+        },
+        {
+          "Name": "sword",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 2
+        },
+        {
+          "Name": "second attack",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 5,
+          "Learned": 0,
+          "Rating": 3
+        },
+        {
+          "Name": "shield block",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 2
+        },
+        {
+          "Name": "bash",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 4
+        },
+        {
+          "Name": "disarm",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 11,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "enhanced damage",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 3
+        },
+        {
+          "Name": "parry",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 4
+        },
+        {
+          "Name": "rescue",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 4
+        },
+        {
+          "Name": "third attack",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 12,
+          "Learned": 0,
+          "Rating": 4
+        },
+        {
+          "Name": "axe",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 4
+        },
+        {
+          "Name": "dagger",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 2
+        },
+        {
+          "Name": "flail",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 4
+        },
+        {
+          "Name": "polearm",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 4
+        },
+        {
+          "Name": "spear",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 3
+        },
+        {
+          "Name": "whip",
+          "ResourceKind": null,
+          "CostAmount": 0,
+          "CostAmountOperator": 0,
+          "Level": 1,
+          "Learned": 1,
+          "Rating": 4
+        }
+      ],
+      "LearnedAbilityGroups": [
+        {
+          "Name": "rom basics",
+          "Cost": 0
+        },
+        {
+          "Name": "warrior basics",
+          "Cost": 0
+        },
+        {
+          "Name": "warrior default",
+          "Cost": 40
+        }
+      ],
+      "Conditions": {
+        "Full": 48,
+        "Thirst": 48,
+        "Hunger": 48
+      },
+      "Aliases": {},
+      "Cooldowns": {},
+      "Pets": [],
+      "Name": "test",
+      "Race": "dwarf",
+      "Class": "warrior",
+      "Level": 1,
+      "Sex": 1,
+      "Size": 1,
+      "HitPoints": 100,
+      "MovePoints": 100,
+      "CurrentResources": {
+        "Mana": 100,
+        "Psy": 100
+      },
+      "MaxResources": {
+        "Mana": 100,
+        "Psy": 100
+      },
+      "Equipments": [],
+      "Inventory": [],
+      "Auras": [],
+      "CharacterFlags": "Infrared",
+      "Immunities": "",
+      "Resistances": "Poison,Disease",
+      "Vulnerabilities": "Drowning",
+      "ShieldFlags": "",
+      "Attributes": {
+        "Strength": 17,
+        "Intelligence": 12,
+        "Wisdom": 14,
+        "Dexterity": 10,
+        "Constitution": 15,
         "MaxHitPoints": 100,
         "SavingThrow": 0,
         "HitRoll": 0,

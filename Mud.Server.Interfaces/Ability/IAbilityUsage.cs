@@ -18,5 +18,5 @@ public interface IAbilityUsage
 
     int MinLearned { get; }
 
-    IAbilityInfo AbilityInfo { get; }
+    IAbilityDefinition AbilityDefinition { get; }
 }

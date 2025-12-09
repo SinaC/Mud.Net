@@ -22,6 +22,7 @@ to protect it from the harmful effects of acid and flame.  Items protected
 by this spell are not harmed by acid, fire, or the heat metal spell.
 Although inexpensive to use, the spell's short duration makes it impractical
 for protecting large numbers of objects.")]
+[OneLineHelp("shields items from the harmful effects of fire and acid")]
 public class Fireproof : ItemInventorySpellBase
 {
     private const string SpellName = "Fireproof";

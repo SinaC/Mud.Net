@@ -7,5 +7,5 @@ public interface ISkillActionInput
 {
     ICharacter User { get; }
     ICommandParameter[] Parameters { get; }
-    IAbilityInfo AbilityInfo { get; }
+    IAbilityDefinition AbilityDefinition { get; }
 }

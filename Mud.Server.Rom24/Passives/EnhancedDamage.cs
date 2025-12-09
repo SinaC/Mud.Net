@@ -14,6 +14,7 @@ namespace Mud.Server.Rom24.Passives;
 able to inflict more damage than other classes.  Enhanced damage is checked
 for with each hit, although with a low skill, the chance of receiving a bonus
 is very low indeed.")]
+[OneLineHelp("this skill multiplies your damage in battle")]
 public class EnhancedDamage : HitEnhancementPassiveBase
 {
     private const string PassiveName = "Enhanced Damage";

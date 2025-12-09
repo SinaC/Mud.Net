@@ -52,19 +52,25 @@ public class TableGenerator<T>
 
     public StringBuilder Generate(IEnumerable<string> titles, IEnumerable<T> items)
     {
-        StringBuilder sb = BuildTable(titles, 1, items);
+        StringBuilder sb = BuildTable(titles, 1, false, items);
         return sb;
     }
 
     public StringBuilder Generate(string title, IEnumerable<T> items)
     {
-        StringBuilder sb = BuildTable([title], 1, items);
+        StringBuilder sb = BuildTable([title], 1, false, items);
         return sb;
     }
 
     public StringBuilder Generate(string title, int columnRepetionCount, IEnumerable<T> items)
     {
-        StringBuilder sb = BuildTable([title], columnRepetionCount, items);
+        StringBuilder sb = BuildTable([title], columnRepetionCount, false, items);
+        return sb;
+    }
+
+    public StringBuilder Generate(string title, bool hideHeaders, IEnumerable<T> items)
+    {
+        StringBuilder sb = BuildTable([title], 1, hideHeaders, items);
         return sb;
     }
 
@@ -118,7 +124,7 @@ public class TableGenerator<T>
         sb.Append('|');
     }
 
-    private StringBuilder BuildTable(IEnumerable<string> titles, int columnRepetionCount, IEnumerable<T> items)
+    private StringBuilder BuildTable(IEnumerable<string> titles, int columnRepetionCount, bool hideHeaders, IEnumerable<T> items)
     {
         StringBuilder sb = new ();
 
@@ -134,23 +140,26 @@ public class TableGenerator<T>
         AddSeparatorWithColumnsLine(sb, columnRepetionCount);
 
         // column headers
-        for (int i = 0; i < columnRepetionCount; i++)
+        if (!hideHeaders)
         {
-            foreach (Column column in _columns)
+            for (int i = 0; i < columnRepetionCount; i++)
             {
-                sb.Append("| ");
-                sb.Append(column.Header);
-                int columnHeaderLengthNoColor = column.Header.LengthNoColor();
-                int repetionCount = column.Width - (1 + columnHeaderLengthNoColor);
-                if (repetionCount > 0)
-                    sb.Append(' ', repetionCount);
+                foreach (Column column in _columns)
+                {
+                    sb.Append("| ");
+                    sb.Append(column.Header);
+                    int columnHeaderLengthNoColor = column.Header.LengthNoColor();
+                    int repetionCount = column.Width - (1 + columnHeaderLengthNoColor);
+                    if (repetionCount > 0)
+                        sb.Append(' ', repetionCount);
+                }
+                sb.Append('|');
             }
-            sb.Append('|');
+            sb.AppendLine();
+            // line after column header
+            AddSeparatorWithColumnsLine(sb, columnRepetionCount);
         }
-        sb.AppendLine();
 
-        // line after column header
-        AddSeparatorWithColumnsLine(sb, columnRepetionCount);
         //<-- can be precomputed
 
         // Values

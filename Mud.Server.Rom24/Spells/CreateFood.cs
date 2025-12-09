@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell]")]
 [Help(
 @"This spell creates a Magic Mushroom, which you or anyone else can eat.")]
+[OneLineHelp("produces a nourishing mushroom")]
 public class CreateFood : ItemCreationSpellBase
 {
     private const string SpellName = "Create Food";

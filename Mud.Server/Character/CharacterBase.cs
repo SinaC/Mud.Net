@@ -475,7 +475,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             && !CharacterFlags.IsSet("DetectHidden")
             && victim.Fighting == null)
         {
-            var (percentage, _) = victim.GetAbilityLearnedInfo("Sneak"); // this can be slow
+            var (percentage, _) = victim.GetAbilityLearnedAndPercentage("Sneak"); // this can be slow
             int chance = percentage;
             chance += (3 * victim[BasicAttributes.Dexterity]) / 2;
             chance -= this[BasicAttributes.Intelligence] * 2;
@@ -1412,9 +1412,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     }
 
     // Abilities
-    public abstract (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedInfo(IItemWeapon? weapon);
+    public abstract (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedAndPercentage(IItemWeapon? weapon);
 
-    public abstract (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedInfo(string abilityName);
+    public abstract (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedAndPercentage(string abilityName);
 
     public IDictionary<string, int> AbilitiesInCooldown => _cooldownsPulseLeft;
 
@@ -1892,7 +1892,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return;
         SchoolTypes damageType = wield?.DamageType ?? NoWeaponDamageType;
         // get weapon skill
-        var (percentage, abilityLearned) = GetWeaponLearnedInfo(wield);
+        var (percentage, abilityLearned) = GetWeaponLearnedAndPercentage(wield);
         int learned = percentage;
         // Calculate to-hit-armor-class-0 versus armor.
         (int thac0_00, int thac0_32) = GetThac0();
@@ -1936,14 +1936,14 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // avoidance
-        foreach (var avoidanceAbilityInfo in AbilityManager.SearchAbilitiesByExecutionType<IHitAvoidancePassive>())
+        foreach (var avoidanceAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IHitAvoidancePassive>())
         {
             // check victim learned percentage
-            var (avoidancePercentage, _) = victim.GetAbilityLearnedInfo(avoidanceAbilityInfo.Name);
+            var (avoidancePercentage, _) = victim.GetAbilityLearnedAndPercentage(avoidanceAbilityDefinition.Name);
             if (avoidancePercentage > 0)
             {
                 // check if avoidance is triggered
-                var avoidanceAbility = AbilityManager.CreateInstance<IHitAvoidancePassive>(avoidanceAbilityInfo);
+                var avoidanceAbility = AbilityManager.CreateInstance<IHitAvoidancePassive>(avoidanceAbilityDefinition);
                 if (avoidanceAbility != null)
                 {
                     bool success = avoidanceAbility.Avoid(victim, this, damageType);
@@ -1978,8 +1978,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
             : GetWeaponBaseDamage(wield, victim, learned);
         if (abilityLearned != null)
         {
-            var weaponAbility = AbilityManager.CreateInstance<IPassive>(abilityLearned.Name);
-            weaponAbility?.IsTriggered(this, victim, true, out _, out _); // TODO: maybe we should test return value (imagine a big bad boss which add CD to every skill)
+            //var weaponAbility = AbilityManager.CreateInstance<IPassive>(abilityLearned.Name);
+            //weaponAbility?.IsTriggered(this, victim, true, out _, out _); // TODO: maybe we should test return value (imagine a big bad boss which add CD to every skill)
+            // we don't need to call IsTriggered because GetWeaponBaseDamage already used learned %age to mitigate the damage
+            // the only thing we need in IsTriggered is to call CheckAbilityImprove
+            var pc = this as IPlayableCharacter;
+            pc?.CheckAbilityImprove(abilityLearned.Name, true, abilityLearned.AbilityDefinition.LearnDifficultyMultiplier);
         }
 
         // bonus damage such as EnhancedDamage
@@ -2217,7 +2221,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
-    protected void AddLearnedAbility(AbilityLearned abilityLearned)
+    protected void AddLearnedAbility(IAbilityLearned abilityLearned)
     {
         if (!_learnedAbilities.ContainsKey(abilityLearned.Name))
             _learnedAbilities.Add(abilityLearned.Name, abilityLearned);
@@ -2256,7 +2260,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected void MergeAbility(IAbilityUsage abilityUsage, bool naturalBorn)
     {
-        var (_, abilityLearned) = GetAbilityLearnedInfo(abilityUsage.Name);
+        var (_, abilityLearned) = GetAbilityLearnedAndPercentage(abilityUsage.Name);
         if (abilityLearned != null)
         {
             //Logger.LogDebug("Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
@@ -2287,11 +2291,18 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 return DamageResults.Safe;
             }
             // TODO: check_killer
-            if (Fighting == null)
-                StartFighting(source);
-            // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
-            if (source.Fighting == null)
-                source.StartFighting(this);
+            if (Position >= Positions.Sleeping) // TODO: > Stunned
+            {
+                if (Fighting == null)
+                    StartFighting(source);
+                Position = Positions.Standing; // TODO: should be Positions.Fighting
+            }
+            if (Position >= Positions.Sleeping) // TODO: > Stunned
+            {
+                // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
+                if (source.Fighting == null)
+                    source.StartFighting(this);
+            }
             // more charm stuff
             if (this is INonPlayableCharacter npcVictim && npcVictim.Master == source) // TODO: no more cast like this
                 npcVictim.ChangeMaster(null);

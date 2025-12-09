@@ -13,6 +13,7 @@ namespace Mud.Server.Rom24.Spells;
 [Syntax("cast [spell] <character>")]
 [Help(
 @"This spell heals the plague.")]
+[OneLineHelp("heals the plague")]
 public class CureDisease : CureSpellBase
 {
     private const string SpellName = "Cure Disease";

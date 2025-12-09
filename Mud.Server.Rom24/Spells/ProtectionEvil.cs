@@ -22,6 +22,7 @@ namespace Mud.Server.Rom24.Spells;
 ethos, and improve saving throws against all forms of magic. They may not
 be cast on others, and one person cannot carry both defenses at the same
 time.")]
+[OneLineHelp("provides defense from the attacks of evil creatures")]
 public class ProtectionEvil : CharacterBuffSpellBase
 {
     private const string SpellName = "Protection Evil";

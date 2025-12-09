@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"The SANCTUARY spell reduces the damage taken by the character from any attack
 by one half.")]
+[OneLineHelp("reduces all damage taken by the recipient by half")]
 public class Sanctuary : ShieldFlagsSpellBase
 {
     private const string SpellName = "Sanctuary";

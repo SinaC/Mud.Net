@@ -21,6 +21,7 @@ all.  God rooms, private rooms, and no recall rooms cannot be gated to, and
 no recall rooms cannot be gated out of.  Finally, any god or hero is also 
 immune to gate, as well as in player who has no summon set.  Clan members 
 may not be gated to except by their fellow Clan members.")]
+[OneLineHelp("transports the caster to the target")]
 public class Gate : TransportationSpellBase
 {
     private const string SpellName = "Gate";

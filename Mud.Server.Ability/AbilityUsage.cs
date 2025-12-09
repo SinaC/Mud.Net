@@ -19,9 +19,9 @@ public class AbilityUsage : IAbilityUsage
 
     public int MinLearned { get; }
 
-    public IAbilityInfo AbilityInfo { get; }
+    public IAbilityDefinition AbilityDefinition { get; }
 
-    public AbilityUsage(string name, int level, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int minLearned, IAbilityInfo abilityInfo)
+    public AbilityUsage(string name, int level, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int minLearned, IAbilityDefinition abilityDefinition)
     {
         Name = name;
         Level = level;
@@ -30,6 +30,6 @@ public class AbilityUsage : IAbilityUsage
         CostAmountOperator = costAmountOperator;
         Rating = rating;
         MinLearned = minLearned;
-        AbilityInfo = abilityInfo;
+        AbilityDefinition = abilityDefinition;
     }
 }

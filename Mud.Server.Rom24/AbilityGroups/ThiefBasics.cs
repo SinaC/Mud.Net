@@ -2,21 +2,20 @@
 using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Interfaces.AbilityGroup;
 
-namespace Mud.Server.Rom24.AbilityGroups
+namespace Mud.Server.Rom24.AbilityGroups;
+
+[Export(typeof(IAbilityGroup)), Shared]
+public class ThiefBasics : AbilityGroupBase
 {
-    [Export(typeof(IAbilityGroup)), Shared]
-    public class ThiefBasics : AbilityGroupBase
+    public ThiefBasics()
     {
-        public ThiefBasics()
-        {
-            AddAbility("dagger");
-            AddAbility("steal");
-        }
-
-        #region IAbilityGroup
-
-        public override string Name => "thief basics";
-
-        #endregion
+        AddAbility("dagger");
+        AddAbility("steal");
     }
+
+    #region IAbilityGroup
+
+    public override string Name => "thief basics";
+
+    #endregion
 }

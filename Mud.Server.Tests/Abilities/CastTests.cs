@@ -79,7 +79,7 @@ public class CastTests : AbilityTestBase
         Mock<ICharacter> characterMock = new();
         characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
-        characterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
+        characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         var cast = new Cast(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(characterMock.Object, "cast pouet");
@@ -96,7 +96,7 @@ public class CastTests : AbilityTestBase
         Mock<ICharacter> characterMock = new();
         characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
-        characterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
+        characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         var cast = new Cast(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(characterMock.Object, "cast Acid");
@@ -112,7 +112,7 @@ public class CastTests : AbilityTestBase
         Mock<ICharacter> characterMock = new();
         characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
-        characterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
+        characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         var cast = new Cast(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(characterMock.Object, "cast 'Acid Blast'");
@@ -128,7 +128,7 @@ public class CastTests : AbilityTestBase
         Mock<ICharacter> characterMock = new();
         characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
-        characterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
+        characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         var cast = new Cast(new Mock<ILogger<Cast>>().Object, abilityManager);
         var actionInput = BuildActionInput<Cast>(characterMock.Object, "cast 'acId bLaSt'");
@@ -144,7 +144,7 @@ public class CastTests : AbilityTestBase
         Mock<ICharacter> characterMock = new();
         characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
-        characterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
+        characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         Mock<IAbilityManager> abilityManagerMock = new();
         var cast = new Cast(new Mock<ILogger<Cast>>().Object, abilityManagerMock.Object);
         var actionInput = BuildActionInput<Cast>(characterMock.Object, "cast Acid");
@@ -160,9 +160,9 @@ public class CastTests : AbilityTestBase
         Mock<ICharacter> characterMock = new();
         characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
-        characterMock.Setup(x => x.GetAbilityLearnedInfo(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
+        characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         Mock<IAbilityManager> abilityManagerMock = new();
-        abilityManagerMock.Setup(x => x.Search(It.IsAny<string>(), It.IsAny<AbilityTypes>())).Returns<string, AbilityTypes>((_1, _2) => new AbilityInfo(typeof(Rom24AcidBlast)));
+        abilityManagerMock.Setup(x => x.Search(It.IsAny<string>(), It.IsAny<AbilityTypes>())).Returns<string, AbilityTypes>((_1, _2) => new AbilityDefinition(typeof(Rom24AcidBlast)));
         var cast = new Cast(new Mock<ILogger<Cast>>().Object, abilityManagerMock.Object);
         var actionInput = BuildActionInput<Cast>(characterMock.Object, "cast Acid");
 

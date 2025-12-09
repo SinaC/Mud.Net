@@ -20,6 +20,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"The MASS INVIS spell makes all characters in the caster's group invisible,
 including the caster.")]
+[OneLineHelp("turns the caster's group invisible")]
 public class MassInvis : NoTargetSpellBase
 {
     private const string SpellName = "Mass Invis";

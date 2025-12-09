@@ -14,6 +14,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells inflict damage on the victim.  The higher-level spells do
 more damage.")]
+[OneLineHelp("causes major damage to the target")]
 public class CauseCritical : DamageSpellBase
 {
     private const string SpellName = "Cause Critical";

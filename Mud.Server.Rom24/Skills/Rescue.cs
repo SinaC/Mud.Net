@@ -19,6 +19,7 @@ in combat, protecting weaker characters from bodily harm. Hopefully the
 favor will be returned.  Success in rescuing depends on the skill rating, as
 well as a comparision of level, dexterity, and speed between the character and
 the target. (note: you rescue a friend, not the monster)")]
+[OneLineHelp("allows you to take the blows aimed for a companion")]
 public class Rescue : OffensiveSkillBase
 {
     private const string SkillName = "Rescue";
@@ -61,7 +62,7 @@ public class Rescue : OffensiveSkillBase
             return false;
         }
 
-        User.Act(ActOptions.ToAll, "{0:N} rescue{0:v} {1:N}.", User, Victim);
+        User.Act(ActOptions.ToAll, "%W%{0:N} rescue{0:v} {1:N}.%x%", User, Victim);
         Victim.Fighting!.StopFighting(false);
         Victim.StopFighting(false);
         User.StopFighting(false);

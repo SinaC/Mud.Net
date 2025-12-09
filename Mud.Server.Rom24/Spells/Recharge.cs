@@ -17,6 +17,7 @@ namespace Mud.Server.Rom24.Spells;
 Fully exhausted items cannot be recharged, and the difficulty of the spell
 is proportional to the number of charges used.  Magic items can only be
 recharged one time successfully.")]
+[OneLineHelp("restores power to a depleted wand or staff")]
 public class Recharge : ItemInventorySpellBase<IItemCastSpellsCharge>
 {
     private const string SpellName = "Recharge";

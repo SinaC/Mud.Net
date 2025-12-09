@@ -14,6 +14,7 @@ namespace Mud.Server.Rom24.Spells;
 [Help(
 @"These spells inflict damage on the victim.  The higher-level spells do
 more damage.")]
+[OneLineHelp("sends forth a stream of acid to eradicate your foes")]
 public class AcidBlast : DamageSpellBase
 {
     private const string SpellName = "Acid Blast";

@@ -9,32 +9,32 @@ public class SpellActionInput : ISpellActionInput
 {
     public ICharacter Caster { get; }
     public ICommandParameter[] Parameters { get; }
-    public IAbilityInfo AbilityInfo { get; }
+    public IAbilityDefinition AbilityDefinition { get; }
     public int Level { get; }
     public CastFromItemOptions CastFromItemOptions { get; } = default!;
     public bool IsCastFromItem => CastFromItemOptions != null;
 
-    public SpellActionInput(IActionInput actionInput, IAbilityInfo abilityInfo, ICharacter caster, int level)
+    public SpellActionInput(IActionInput actionInput, IAbilityDefinition abilityDefinition, ICharacter caster, int level)
     {
         Caster = caster;
         Parameters = actionInput.Parameters.Skip(1).ToArray();
-        AbilityInfo = abilityInfo;
+        AbilityDefinition = abilityDefinition;
         Level = level;
     }
 
-    public SpellActionInput(IAbilityInfo abilityInfo, ICharacter caster, int level, params ICommandParameter[] parameters)
+    public SpellActionInput(IAbilityDefinition abilityDefinition, ICharacter caster, int level, params ICommandParameter[] parameters)
     {
         Caster = caster;
         Parameters = parameters;
-        AbilityInfo = abilityInfo;
+        AbilityDefinition = abilityDefinition;
         Level = level;
     }
 
-    public SpellActionInput(IAbilityInfo abilityInfo, ICharacter caster, int level, CastFromItemOptions castFromItemOptions, params ICommandParameter[] parameters)
+    public SpellActionInput(IAbilityDefinition abilityDefinition, ICharacter caster, int level, CastFromItemOptions castFromItemOptions, params ICommandParameter[] parameters)
     {
         Caster = caster;
         Parameters = parameters;
-        AbilityInfo = abilityInfo;
+        AbilityDefinition = abilityDefinition;
         Level = level;
         CastFromItemOptions = castFromItemOptions;
     }

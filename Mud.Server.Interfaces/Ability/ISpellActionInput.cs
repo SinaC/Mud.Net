@@ -9,7 +9,7 @@ public interface ISpellActionInput
 {
     ICharacter Caster { get; }
     ICommandParameter[] Parameters { get; }
-    IAbilityInfo AbilityInfo { get; }
+    IAbilityDefinition AbilityDefinition { get; }
     int Level { get; }
     CastFromItemOptions CastFromItemOptions { get; }
     bool IsCastFromItem { get; }
