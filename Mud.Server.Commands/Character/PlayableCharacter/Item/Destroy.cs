@@ -36,6 +36,7 @@ public class Destroy : PlayableCharacterGameAction
         if (item == null)
             return StringHelpers.ItemInventoryNotFound;
 
+        What = item;
         return null;
     }
 

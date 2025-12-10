@@ -24,6 +24,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Random;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -362,6 +363,8 @@ public partial class ServerWindow : Window, INetworkServer
             {
                 Foreground = color
             });
+            if (_serverWindowInstance.OutputRichTextBox.Document.Blocks.Count > 500)
+                _serverWindowInstance.OutputRichTextBox.Document.Blocks.Remove(_serverWindowInstance.OutputRichTextBox.Document.Blocks.FirstBlock);
             _serverWindowInstance.OutputRichTextBox.Document.Blocks.Add(paragraph);
             _serverWindowInstance.OutputScrollViewer.ScrollToBottom();
         }, System.Windows.Threading.DispatcherPriority.Render);
@@ -652,5 +655,22 @@ public partial class ServerWindow : Window, INetworkServer
         };
         CharacterManager.AddCharacterBlueprint(mob10Blueprint);
         ICharacter mob10 = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);
+
+        // add blueprint item with imm to magic/weapon for test purpose
+        ItemLightBlueprint lightBlueprint = new()
+        {
+            Id = 99,
+            Name = "oxtal light",
+            ShortDescription = "Oxtal's famous light",
+            Description = "Oxtal's Light is here",
+            WearLocation = WearLocations.Light,
+            Level = 1,
+            DurationHours = -1,
+            Weight = 1,
+            Cost = 0,
+            NoTake = false,
+            ItemFlags = FlagFactory.CreateInstance<IItemFlags, IItemFlagValues>("glowing", "magic"),
+        };
+        ItemManager.AddItemBlueprint(lightBlueprint);
     }
 }

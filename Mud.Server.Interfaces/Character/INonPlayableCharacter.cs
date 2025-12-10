@@ -2,6 +2,7 @@
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Special;
 
@@ -33,6 +34,9 @@ public interface INonPlayableCharacter : ICharacter
     IPlayableCharacter? Master { get; } // character allowed to order us
     void ChangeMaster(IPlayableCharacter? master);
     bool Order(string commandLine);
+
+    //
+    bool CastSpell(string spellName, IEntity target);
 
     // Mapping
     PetData MapPetData();

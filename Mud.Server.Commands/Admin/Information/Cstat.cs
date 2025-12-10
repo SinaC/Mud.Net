@@ -130,6 +130,8 @@ public class Cstat : AdminGameAction
             sb.AppendFormatLine("Act: {0}", nonPlayableWhom.ActFlags);
             sb.AppendFormatLine("Offensive: {0}", nonPlayableWhom.OffensiveFlags);
             sb.AppendFormatLine("Assist: {0}", nonPlayableWhom.AssistFlags);
+            if (nonPlayableWhom.SpecialBehavior != null)
+                sb.AppendFormatLine("Special: {0}", nonPlayableWhom.SpecialBehavior.GetType().FullName ?? "???"); // TODO: name ?
         }
         if (playableWhom != null)
         {

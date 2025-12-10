@@ -15,7 +15,7 @@ public class BreathAreaAction
         // Room people
         var clone = new ReadOnlyCollection<ICharacter>(caster.Room.People.Where(x =>
             !(x.IsSafeSpell(caster, true) 
-              || (x is INonPlayableCharacter && caster is INonPlayableCharacter && (caster.Fighting != x || x.Fighting != caster)))).ToList());
+              || (x is INonPlayableCharacter && caster is INonPlayableCharacter && (caster.Fighting != victim || x.Fighting != caster)))).ToList());
         foreach (ICharacter coVictim in clone)
         {
             if (victim == coVictim) // full damage

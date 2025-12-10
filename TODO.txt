@@ -1,59 +1,24 @@
 INGOING
 DONE
+    spec_cast_adept
+    spec_judge
+    spec_cast_mage
 
 ==========
 == TODO ==
 ==========
 
+what's the utility of act_cleric, act_mage, ...
+
 add remaining position: STUNNED, INCAP, ...
 
-add help at each step of avatar creation
-
-when columnRepetionCount > 1 is used, dont double the column separator
-add GenerateOptions
-        ColumnRepetitionCount
-        HideHeaders
-        HideBorders
-multi table generator for ability group
-    +-------------------------------------+
-    | [group name]                        |
-    +-------------------------------------+
-    | [help line1]                        |
-    | [help line2]                        |
-    | [help line3]                        |
-    | ...                                 |
-    +-------------------------------------+
-    | Abilities                           |
-    +-------------------------------------+
-    | [ability1] : mini help              |
-    | [ability2] : mini help              |
-    | ...                                 |
-    +-------------------------------------+
-    | Groups                              |
-    +-------------------------------------+
-    | [group1] : mini help                |
-    | [group2] : mini help                |
-    | [group3] : mini help                |
-    | ...                                 |
-    +-------------------------------------+
-
-IsAll in command parser has a side effect
-    -> parameter.value is empty and if the command uses StartsWith it will match the first item in the list
-
 add colors everywhere :)
-
-alignment during avatar creation
 
 finish score
 
 SkillBase,PassiveBase: we should find another way to retrieve ability info than using new(GetType()) (using AbilityManager ?)
 
 check antievil/antigood/... zap (see handler.c:1586)
-
-remaining specials:
-dependent on PK: spec_executioner, spec_guard
-additional context when casting a spell (no mana, no ability check): spec_breath_any, spec_breath_acid, spec_breath_fire, spec_breath_frost, spec_breath_gas, spec_breath_lightning, spec_cast_adept, spec_cast_cleric, spec_cast_judge, spec_cast_mage, spec_cast_undead
-spec_mayor
 
 item owner -> to be used in CanLoot
 
