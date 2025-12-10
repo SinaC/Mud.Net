@@ -148,8 +148,8 @@ public abstract class SpellBase : ISpell
         var pcCaster = Caster as IPlayableCharacter;
 
         // 1) check if failed
-        var abilityLearned = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
-        if (!RandomManager.Chance(abilityLearned.percentage))
+        var (percentage, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
+        if (abilityLearned != null && !RandomManager.Chance(percentage))
         {
             Caster.Send("You lost your concentration.");
             pcCaster?.CheckAbilityImprove(AbilityDefinition.Name, false, 1);

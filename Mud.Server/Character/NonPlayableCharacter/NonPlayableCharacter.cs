@@ -6,15 +6,18 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Ability.Spell;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Effect;
+using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
@@ -489,6 +492,33 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         CommandParser.ExtractCommandAndParameters(commandLine, out string command, out ICommandParameter[] parameters);
         bool executed = ExecuteCommand(commandLine, command, parameters);
         return executed;
+    }
+
+    //
+    public bool CastSpell(string spellName, IEntity target)
+    {
+        var spellDefinition = AbilityManager[spellName];
+        if (spellDefinition == null)
+        {
+            Logger.LogError("NPC:CastSpell: spell {spellName} not found", spellName);
+            return false;
+        }
+        var spellInstance = AbilityManager.CreateInstance<ISpell>(spellDefinition.Name);
+        if (spellInstance == null)
+        {
+            Logger.LogError("NPC:CastSpell: cannot create instance of spell {spellName}", spellDefinition.Name);
+            return false;
+        }
+        var spellActionInput = new SpellActionInput(spellDefinition, this, Level, new CommandParameter(target.Name, target.Name, 1));
+        var spellInstanceGuards = spellInstance.Setup(spellActionInput);
+        if (spellInstanceGuards != null)
+        {
+            Logger.LogError("NPC:CastSpell: cannot setup spell {spellName} on target {targetName}: {spellInstanceGuards}", spellDefinition.Name, target.Name, spellInstanceGuards);
+            Send(spellInstanceGuards);
+            return false;
+        }
+        spellInstance.Execute();
+        return true;
     }
 
     // Mapping
