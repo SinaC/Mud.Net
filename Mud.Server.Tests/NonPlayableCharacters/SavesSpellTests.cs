@@ -107,10 +107,12 @@ namespace Mud.Server.Tests.NonPlayableCharacters
             classManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IClass>().Object);
             raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IRace>().Object);
             flagFactoryMock.Setup(x => x.CreateInstance<ICharacterFlags, ICharacterFlagValues>(It.IsAny<string[]>())).Returns(CreateCharacterFlags);
-            flagFactoryMock.Setup(x => x.CreateInstance<IBodyForms, IBodyFormValues>(It.IsAny<string[]>())).Returns(new Mock<IBodyForms>().Object);
-            flagFactoryMock.Setup(x => x.CreateInstance<IBodyParts, IBodyPartValues>(It.IsAny<string[]>())).Returns(new Mock<IBodyParts>().Object);
-            flagFactoryMock.Setup(x => x.CreateInstance<IShieldFlags, IShieldFlagValues>(It.IsAny<string[]>())).Returns(new Mock<IShieldFlags>().Object);
+            flagFactoryMock.Setup(x => x.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>(It.IsAny<string[]>())).Returns(CreateOffensiveFlags);
+            flagFactoryMock.Setup(x => x.CreateInstance<IBodyForms, IBodyFormValues>(It.IsAny<string[]>())).Returns(CreateBodyForms);
+            flagFactoryMock.Setup(x => x.CreateInstance<IBodyParts, IBodyPartValues>(It.IsAny<string[]>())).Returns(CreateBodyParts);
+            flagFactoryMock.Setup(x => x.CreateInstance<IShieldFlags, IShieldFlagValues>(It.IsAny<string[]>())).Returns(CreateShieldFlags);
             flagFactoryMock.Setup(x => x.CreateInstance<IIRVFlags, IIRVFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateIRV);
+            flagFactoryMock.Setup(x => x.CreateInstance<IActFlags, IActFlagValues>(It.IsAny<string[]>())).Returns(CreateActFlags);
 
             var blueprint = new CharacterNormalBlueprint
             {
@@ -125,7 +127,9 @@ namespace Mud.Server.Tests.NonPlayableCharacters
                 Immunities = CreateIRV(imm),
                 Resistances = CreateIRV(res),
                 Vulnerabilities = CreateIRV(vuln),
-                ShieldFlags = new Mock<IShieldFlags>().Object,
+                ActFlags = CreateActFlags(),
+                OffensiveFlags = CreateOffensiveFlags(),
+                ShieldFlags = CreateShieldFlags(),
             };
 
             var npc = new NonPlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, randomManager, null, null, null, null, null, null, null, raceManagerMock.Object, classManagerMock.Object, damageModifierManager, null, flagFactoryMock.Object, null);

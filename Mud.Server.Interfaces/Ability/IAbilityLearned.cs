@@ -30,5 +30,7 @@ public interface IAbilityLearned
 
     bool CanBePracticed(IPlayableCharacter playableCharacter);
 
+    bool HasCost();
+
     LearnedAbilityData MapLearnedAbilityData();
 }

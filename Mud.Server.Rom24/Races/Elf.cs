@@ -27,8 +27,8 @@ public class Elf : PlayableRaceBase
     public Elf(ILogger<Elf> logger, IFlagFactory flagFactory, IAbilityManager abilityManager)
         : base(logger, flagFactory, abilityManager)
     {
-        AddAbility("sneak");
-        AddAbility("hide");
+        AddNaturalAbility("sneak");
+        AddNaturalAbility("hide");
     }
 
     #region IRace/IPlayableRace

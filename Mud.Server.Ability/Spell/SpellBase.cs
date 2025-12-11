@@ -59,11 +59,12 @@ public abstract class SpellBase : ISpell
     private string? SetupFromCast(ISpellActionInput spellActionInput)
     {
         // 1) check context
-        AbilityDefinition = spellActionInput.AbilityDefinition;
-        if (AbilityDefinition == null)
+        var abilityDefinition = spellActionInput.AbilityDefinition;
+        if (abilityDefinition == null)
             return "Internal error: AbilityDefinition is null.";
-        if (AbilityDefinition.AbilityExecutionType != GetType())
-            return $"Internal error: AbilityDefinition is not of the right type: {AbilityDefinition.GetType().Name} instead of {GetType().Name}.";
+        if (abilityDefinition.AbilityExecutionType != GetType())
+            return $"Internal error: AbilityDefinition is not of the right type: {abilityDefinition.GetType().Name} instead of {GetType().Name}.";
+        AbilityDefinition = abilityDefinition;
 
         // 2) check caster
         Caster = spellActionInput.Caster;
@@ -73,21 +74,29 @@ public abstract class SpellBase : ISpell
             return "You are nowhere...";
         Level = spellActionInput.Level;
 
-        // 3) check targets
+        // 3) check shape
+        if (abilityDefinition.AllowedShapes != null && !abilityDefinition.AllowedShapes.Contains(Caster.Shape))
+        {
+            if (abilityDefinition.AllowedShapes.Length > 1)
+                return $"You are not in {string.Join(" or ", abilityDefinition.AllowedShapes.Select(x => x.ToString()))} shape";
+            return $"You are not in {abilityDefinition.AllowedShapes.Single().ToString()} shape";
+        }
+
+        // 4) check targets
         var setTargetResult = SetTargets(spellActionInput);
         if (setTargetResult != null)
             return setTargetResult;
 
-        // 4) check cooldown
-        int cooldownPulseLeft = Caster.CooldownPulseLeft(AbilityDefinition.Name);
+        // 5) check cooldown
+        int cooldownPulseLeft = Caster.CooldownPulseLeft(abilityDefinition.Name);
         if (cooldownPulseLeft > 0)
-            return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
+            return $"{abilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
 
-        // 5) check resource cost
-        var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
-        if (abilityLearned != null && abilityLearned.ResourceKind.HasValue && abilityLearned.CostAmount > 0 && abilityLearned.CostAmountOperator != CostAmountOperators.None)
+        // 6) check resource cost
+        var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(abilityDefinition.Name);
+        if (abilityLearned != null && abilityLearned.HasCost())
         {
-            var resourceKind = abilityLearned.ResourceKind.Value;
+            var resourceKind = abilityLearned.ResourceKind!.Value;
             if (!Caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
                 return $"You can't use {resourceKind} as resource for the moment.";
             int resourceLeft = Caster[resourceKind];
@@ -100,8 +109,11 @@ public abstract class SpellBase : ISpell
                 case CostAmountOperators.Percentage:
                     cost = Caster.MaxResource(resourceKind) * abilityLearned.CostAmount / 100;
                     break;
+                case CostAmountOperators.All:
+                    cost = Math.Min(abilityLearned.CostAmount, Caster[resourceKind]);
+                    break;
                 default:
-                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityDefinition.Name);
+                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, abilityDefinition.Name);
                     cost = 100;
                     break;
             }

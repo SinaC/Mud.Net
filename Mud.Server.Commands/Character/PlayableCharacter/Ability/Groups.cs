@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
 
-[PlayableCharacterCommand("groups", "Ability", MinPosition = Positions.Standing, NotInCombat = true)]
+[PlayableCharacterCommand("groups", "Ability", Priority = 999, MinPosition = Positions.Standing, NotInCombat = true)]
 [Alias("info")]
 [Syntax(
     "[cmd]",

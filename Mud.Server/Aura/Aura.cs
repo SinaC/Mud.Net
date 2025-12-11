@@ -25,6 +25,18 @@ public class Aura : IAura
         _affects = (affects ?? Enumerable.Empty<IAffect?>()).Where(x => x != null!).Select(x => x!).ToList();
     }
 
+    public Aura(string abilityName, IEntity source, AuraFlags flags, int level, params IAffect?[]? affects)
+    {
+        IsValid = true;
+
+        AbilityName = abilityName;
+        Source = source;
+        AuraFlags = flags | AuraFlags.Permanent;
+        Level = level;
+        PulseLeft = -1;
+        _affects = (affects ?? Enumerable.Empty<IAffect?>()).Where(x => x != null!).Select(x => x!).ToList();
+    }
+
     public Aura(IAffectManager affectManager, AuraData auraData)
     {
         IsValid = true;
@@ -62,10 +74,10 @@ public class Aura : IAura
 
     public IEnumerable<IAffect> Affects => _affects;
 
-    public void Update(int level, TimeSpan duration)
+    public void Update(int newLevel, TimeSpan newDuration)
     {
-        Level = level;
-        PulseLeft = Pulse.FromTimeSpan(duration);
+        Level = newLevel;
+        PulseLeft = Pulse.FromTimeSpan(newDuration);
     }
 
     public T? AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T?> createFunc, Action<T>? updateFunc)
@@ -124,7 +136,7 @@ public class Aura : IAura
                 AbilityName.MaxLength(15) ?? "Inherent",
                 Level,
                 AuraFlags.HasFlag(AuraFlags.Permanent)
-                    ? "%R%Permanent%x%"
+                    ? ""
                     : $"%G%{(PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}%x% left",
                 AuraFlags == AuraFlags.None
                     ? ""

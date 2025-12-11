@@ -374,11 +374,11 @@
         {
           "Name": "Test",
           "ResourceKind": null,
-          "CostAmount": 5,
+          "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
           "Learned": 100,
-          "Rating": 1
+          "Rating": 0
         },
         {
           "Name": "Construct",
@@ -948,15 +948,6 @@
           "Rating": 1
         },
         {
-          "Name": "Known Alignment",
-          "ResourceKind": 0,
-          "CostAmount": 5,
-          "CostAmountOperator": 2,
-          "Level": 1,
-          "Learned": 100,
-          "Rating": 1
-        },
-        {
           "Name": "Lightning Bolt",
           "ResourceKind": 0,
           "CostAmount": 5,
@@ -1268,7 +1259,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 100,
           "Rating": 0
         },
         {
@@ -1277,7 +1268,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 100,
           "Rating": 0
         },
         {
@@ -1286,7 +1277,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 0,
+          "Learned": 100,
           "Rating": 0
         },
         {
@@ -1342,6 +1333,51 @@
           "Level": 1,
           "Learned": 100,
           "Rating": 1
+        },
+        {
+          "Name": "Fire Shield",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Ice Shield",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Shadow Word: Pain",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Shock Shield",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Know Alignment",
+          "ResourceKind": 0,
+          "CostAmount": 5,
+          "CostAmountOperator": 2,
+          "Level": 1,
+          "Learned": 100,
+          "Rating": 1
         }
       ],
       "LearnedAbilityGroups": [],
@@ -1383,8 +1419,8 @@
             "Auras": [
               {
                 "AbilityName": "Test",
-                "Level": 18,
-                "PulseLeft": 1900,
+                "Level": 17,
+                "PulseLeft": 1888,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -1510,7 +1546,7 @@
               {
                 "AbilityName": "Test",
                 "Level": 1,
-                "PulseLeft": 3376,
+                "PulseLeft": 3364,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -1540,39 +1576,6 @@
       ],
       "Inventory": [
         {
-          "$type": "food",
-          "FullHours": 8,
-          "HungerHours": 6,
-          "IsPoisoned": false,
-          "ItemId": 3014,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "",
-          "Auras": []
-        },
-        {
-          "$type": "food",
-          "FullHours": 8,
-          "HungerHours": 6,
-          "IsPoisoned": false,
-          "ItemId": 3014,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "",
-          "Auras": []
-        },
-        {
-          "$type": "food",
-          "FullHours": 8,
-          "HungerHours": 6,
-          "IsPoisoned": false,
-          "ItemId": 3014,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "",
-          "Auras": []
-        },
-        {
           "$type": "weapon",
           "WeaponFlags": "",
           "ItemId": 3350,
@@ -1580,13 +1583,46 @@
           "DecayPulseLeft": 0,
           "ItemFlags": "Magic",
           "Auras": []
+        },
+        {
+          "$type": "food",
+          "FullHours": 8,
+          "HungerHours": 6,
+          "IsPoisoned": false,
+          "ItemId": 3014,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "$type": "food",
+          "FullHours": 8,
+          "HungerHours": 6,
+          "IsPoisoned": false,
+          "ItemId": 3014,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "$type": "food",
+          "FullHours": 8,
+          "HungerHours": 6,
+          "IsPoisoned": false,
+          "ItemId": 3014,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
         }
       ],
       "Auras": [
         {
           "AbilityName": "Sanctuary",
           "Level": 13,
-          "PulseLeft": 960,
+          "PulseLeft": 948,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1598,8 +1634,8 @@
         },
         {
           "AbilityName": "Shield",
-          "Level": 20,
-          "PulseLeft": 12252,
+          "Level": 19,
+          "PulseLeft": 12240,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1612,8 +1648,8 @@
         },
         {
           "AbilityName": "Berserk",
-          "Level": 7,
-          "PulseLeft": 272,
+          "Level": 6,
+          "PulseLeft": 260,
           "AuraFlags": 2,
           "Affects": [
             {
@@ -1643,8 +1679,8 @@
         },
         {
           "AbilityName": "Stone Skin",
-          "Level": 8,
-          "PulseLeft": 10372,
+          "Level": 5,
+          "PulseLeft": 10360,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1657,8 +1693,8 @@
         },
         {
           "AbilityName": "Protection Evil",
-          "Level": 9,
-          "PulseLeft": 5108,
+          "Level": 8,
+          "PulseLeft": 5096,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1677,7 +1713,7 @@
         {
           "AbilityName": "Testroom",
           "Level": 23,
-          "PulseLeft": 868,
+          "PulseLeft": 856,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1700,7 +1736,7 @@
         {
           "AbilityName": "Plague",
           "Level": 17,
-          "PulseLeft": 10752,
+          "PulseLeft": 10740,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1722,7 +1758,7 @@
         {
           "AbilityName": "Poison",
           "Level": 31,
-          "PulseLeft": 10848,
+          "PulseLeft": 10836,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1766,13 +1802,13 @@
     },
     {
       "CreationTime": "2025-11-11T16:31:33.7841739+01:00",
-      "RoomId": 2135,
+      "RoomId": 3001,
       "SilverCoins": 109,
       "GoldCoins": 0,
       "Experience": 120002,
       "Alignment": 0,
       "Trains": 22,
-      "Practices": 91,
+      "Practices": 89,
       "AutoFlags": 127,
       "CurrentQuests": [],
       "LearnedAbilities": [
@@ -1790,9 +1826,9 @@
           "ResourceKind": null,
           "CostAmount": 0,
           "CostAmountOperator": 0,
-          "Level": 20,
-          "Learned": 1,
-          "Rating": 1
+          "Level": 15,
+          "Learned": 100,
+          "Rating": 0
         },
         {
           "Name": "Backstab",
@@ -3125,14 +3161,46 @@
           "Level": 1,
           "Learned": 100,
           "Rating": 1
+        },
+        {
+          "Name": "bear form",
+          "ResourceKind": 0,
+          "CostAmount": 10,
+          "CostAmountOperator": 1,
+          "Level": 5,
+          "Learned": 100,
+          "Rating": 0
+        },
+        {
+          "Name": "Claw",
+          "ResourceKind": 2,
+          "CostAmount": 45,
+          "CostAmountOperator": 1,
+          "Level": 15,
+          "Learned": 76,
+          "Rating": 1
+        },
+        {
+          "Name": "Rake",
+          "ResourceKind": 2,
+          "CostAmount": 40,
+          "CostAmountOperator": 1,
+          "Level": 20,
+          "Learned": 76,
+          "Rating": 1
         }
       ],
-      "LearnedAbilityGroups": [],
+      "LearnedAbilityGroups": [
+        {
+          "Name": "druid basics",
+          "Cost": 0
+        }
+      ],
       "Conditions": {
         "Drunk": 0,
-        "Full": 6,
-        "Thirst": 27,
-        "Hunger": 27
+        "Full": 2,
+        "Thirst": 25,
+        "Hunger": 25
       },
       "Aliases": {},
       "Cooldowns": {},
@@ -3144,14 +3212,18 @@
       "Sex": 0,
       "Size": 2,
       "HitPoints": 218,
-      "MovePoints": 218,
+      "MovePoints": 211,
       "CurrentResources": {
-        "Mana": 156,
-        "Psy": 100
+        "Mana": 168,
+        "Psy": 100,
+        "Energy": 100,
+        "Rage": 0
       },
       "MaxResources": {
         "Mana": 316,
-        "Psy": 100
+        "Psy": 100,
+        "Energy": 100,
+        "Rage": 0
       },
       "Equipments": [
         {
@@ -3177,8 +3249,8 @@
             "Auras": [
               {
                 "AbilityName": "Test",
-                "Level": 48,
-                "PulseLeft": 2344,
+                "Level": 26,
+                "PulseLeft": 1780,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3216,7 +3288,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 1468,
+                "PulseLeft": 904,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3232,65 +3304,10 @@
       ],
       "Inventory": [
         {
-          "$type": "corpse",
-          "Contains": [
-            {
-              "$type": "base",
-              "ItemId": 5,
-              "Level": 0,
-              "DecayPulseLeft": 0,
-              "ItemFlags": "",
-              "Auras": []
-            },
-            {
-              "$type": "light",
-              "TimeLeft": 29999,
-              "ItemId": 3365,
-              "Level": 8,
-              "DecayPulseLeft": 0,
-              "ItemFlags": "Glowing,Magic",
-              "Auras": []
-            },
-            {
-              "$type": "base",
-              "ItemId": 3355,
-              "Level": 5,
-              "DecayPulseLeft": 0,
-              "ItemFlags": "",
-              "Auras": []
-            },
-            {
-              "$type": "base",
-              "ItemId": 3353,
-              "Level": 5,
-              "DecayPulseLeft": 0,
-              "ItemFlags": "",
-              "Auras": []
-            },
-            {
-              "$type": "base",
-              "ItemId": 3364,
-              "Level": 16,
-              "DecayPulseLeft": 0,
-              "ItemFlags": "Magic",
-              "Auras": []
-            },
-            {
-              "$type": "weapon",
-              "WeaponFlags": "",
-              "ItemId": 3350,
-              "Level": 16,
-              "DecayPulseLeft": 0,
-              "ItemFlags": "Magic",
-              "Auras": []
-            }
-          ],
-          "IsPlayableCharacterCorpse": false,
-          "CorpseName": "the cityguard",
-          "HasBeenGeneratedByKillingCharacter": true,
-          "ItemId": 10,
-          "Level": 0,
-          "DecayPulseLeft": 480,
+          "$type": "base",
+          "ItemId": 2104,
+          "Level": 3,
+          "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
         },
@@ -3301,21 +3318,13 @@
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
-        },
-        {
-          "$type": "base",
-          "ItemId": 2104,
-          "Level": 3,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "",
-          "Auras": []
         }
       ],
       "Auras": [
         {
           "AbilityName": "Giant Strength",
-          "Level": 5,
-          "PulseLeft": 10736,
+          "Level": 1,
+          "PulseLeft": 10172,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3329,7 +3338,7 @@
         {
           "AbilityName": "Detect Evil",
           "Level": 1,
-          "PulseLeft": 10932,
+          "PulseLeft": 10368,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3341,8 +3350,8 @@
         },
         {
           "AbilityName": "Detect Good",
-          "Level": 14,
-          "PulseLeft": 10964,
+          "Level": 1,
+          "PulseLeft": 10400,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3354,8 +3363,8 @@
         },
         {
           "AbilityName": "Detect Invis",
-          "Level": 21,
-          "PulseLeft": 10980,
+          "Level": 1,
+          "PulseLeft": 10416,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3367,8 +3376,8 @@
         },
         {
           "AbilityName": "Detect Hidden",
-          "Level": 26,
-          "PulseLeft": 11036,
+          "Level": 1,
+          "PulseLeft": 10472,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3380,8 +3389,8 @@
         },
         {
           "AbilityName": "Shock Shield",
-          "Level": 16,
-          "PulseLeft": 1244,
+          "Level": 1,
+          "PulseLeft": 680,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3393,8 +3402,8 @@
         },
         {
           "AbilityName": "Fire Shield",
-          "Level": 18,
-          "PulseLeft": 1260,
+          "Level": 1,
+          "PulseLeft": 696,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3406,8 +3415,8 @@
         },
         {
           "AbilityName": "Ice Shield",
-          "Level": 17,
-          "PulseLeft": 1272,
+          "Level": 1,
+          "PulseLeft": 708,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3419,8 +3428,8 @@
         },
         {
           "AbilityName": "Berserk",
-          "Level": 36,
-          "PulseLeft": 1220,
+          "Level": 13,
+          "PulseLeft": 656,
           "AuraFlags": 2,
           "Affects": [
             {
@@ -3473,13 +3482,13 @@
     },
     {
       "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-      "RoomId": 3050,
-      "SilverCoins": 94,
+      "RoomId": 3046,
+      "SilverCoins": 96,
       "GoldCoins": 0,
-      "Experience": 1792,
+      "Experience": 2392,
       "Alignment": 0,
-      "Trains": 50,
-      "Practices": 7,
+      "Trains": 31,
+      "Practices": 6,
       "AutoFlags": 127,
       "CurrentQuests": [],
       "LearnedAbilities": [
@@ -3543,7 +3552,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 1,
+          "Learned": 10,
           "Rating": 2
         },
         {
@@ -3570,7 +3579,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 1,
+          "Learned": 7,
           "Rating": 3
         },
         {
@@ -3579,7 +3588,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 1,
+          "Learned": 6,
           "Rating": 4
         },
         {
@@ -3690,8 +3699,8 @@
       "Conditions": {
         "Drunk": 0,
         "Full": 0,
-        "Thirst": 34,
-        "Hunger": 20
+        "Thirst": 30,
+        "Hunger": 12
       },
       "Aliases": {},
       "Cooldowns": {},
@@ -3699,25 +3708,29 @@
       "Name": "fnar",
       "Race": "giant",
       "Class": "warrior",
-      "Level": 2,
+      "Level": 3,
       "Sex": 1,
       "Size": 3,
-      "HitPoints": 109,
-      "MovePoints": 51,
+      "HitPoints": 122,
+      "MovePoints": 119,
       "CurrentResources": {
-        "Mana": 102,
-        "Psy": 100
+        "Mana": 117,
+        "Psy": 100,
+        "Energy": 0,
+        "Rage": 0
       },
       "MaxResources": {
-        "Mana": 102,
-        "Psy": 100
+        "Mana": 117,
+        "Psy": 100,
+        "Energy": 0,
+        "Rage": 0
       },
       "Equipments": [
         {
           "Slot": 1,
           "Item": {
             "$type": "light",
-            "TimeLeft": 11986,
+            "TimeLeft": 11982,
             "ItemId": 3716,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3884,10 +3897,18 @@
       "Inventory": [
         {
           "$type": "base",
-          "ItemId": 3715,
+          "ItemId": 3162,
           "Level": 0,
           "DecayPulseLeft": 0,
-          "ItemFlags": "Magic,MeltOnDrop",
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "$type": "base",
+          "ItemId": 3707,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "MeltOnDrop",
           "Auras": []
         },
         {
@@ -3900,10 +3921,10 @@
         },
         {
           "$type": "base",
-          "ItemId": 3707,
+          "ItemId": 3715,
           "Level": 0,
           "DecayPulseLeft": 0,
-          "ItemFlags": "MeltOnDrop",
+          "ItemFlags": "Magic,MeltOnDrop",
           "Auras": []
         }
       ],
@@ -3914,16 +3935,16 @@
       "Vulnerabilities": "Mental,Lightning",
       "ShieldFlags": "",
       "Attributes": {
-        "Strength": 19,
-        "Intelligence": 11,
-        "Wisdom": 17,
-        "Dexterity": 11,
-        "Constitution": 14,
-        "MaxHitPoints": 109,
+        "Strength": 24,
+        "Intelligence": 15,
+        "Wisdom": 18,
+        "Dexterity": 15,
+        "Constitution": 20,
+        "MaxHitPoints": 122,
         "SavingThrow": 0,
         "HitRoll": 0,
         "DamRoll": 0,
-        "MaxMovePoints": 109,
+        "MaxMovePoints": 122,
         "ArmorBash": 0,
         "ArmorPierce": 0,
         "ArmorSlash": 0,

@@ -97,6 +97,7 @@ public class Cstat : AdminGameAction
             sb.AppendFormatLine("Impersonated by {0}", playableWhom.ImpersonatedBy.DisplayName);
         if (Whom.Fighting != null)
             sb.AppendFormatLine("Fighting: {0}", Whom.Fighting.DisplayName);
+        sb.AppendFormatLine("Shape: {0}", Whom.Shape);
         sb.AppendFormatLine("Position: {0} Stunned: {1}", Whom.Position, Whom.Stunned);
         sb.AppendFormatLine("Furniture: {0}", Whom.Furniture?.DisplayName ?? "(none)");
         sb.AppendFormatLine("Room: {0} [vnum: {1}]", Whom.Room?.DisplayName ?? "(none)", Whom.Room?.Blueprint.Id ?? -1);

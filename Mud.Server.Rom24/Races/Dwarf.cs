@@ -27,7 +27,7 @@ public class Dwarf : PlayableRaceBase
     public Dwarf(ILogger<Dwarf> logger, IFlagFactory flagFactory, IAbilityManager abilityManager)
         : base(logger, flagFactory, abilityManager)
     {
-        AddAbility(1, "berserk", ResourceKinds.Mana, 50, CostAmountOperators.Fixed, 5);
+        AddNaturalAbility(1, "berserk", ResourceKinds.Mana, 50, CostAmountOperators.Fixed, 5);
     }
 
     #region IRace/IPlayableRace

@@ -72,12 +72,12 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
         Help = helpAttribute?.Help;
     }
 
-    protected void AddAbility(string abilityName)
+    protected void AddNaturalAbility(string abilityName)
     {
-        AddAbility(1, abilityName, null, 0, CostAmountOperators.None, 1);
+        AddNaturalAbility(1, abilityName, null, 0, CostAmountOperators.None, 1);
     }
 
-    protected void AddAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
+    protected void AddNaturalAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating)
     {
         var abilityDefinition = AbilityManager[abilityName];
         if (abilityDefinition == null)

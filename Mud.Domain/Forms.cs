@@ -1,6 +1,6 @@
 ﻿namespace Mud.Domain;
 
-public enum Forms
+public enum Shapes
 {
     Normal      = 0,
     Bear        = 1, // druid

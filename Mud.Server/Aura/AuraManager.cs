@@ -38,6 +38,13 @@ public class AuraManager : IAuraManager
         return aura;
     }
 
+    public IAura AddAura(IEntity target, string abilityName, IEntity source, int level, AuraFlags auraFlags, bool recompute, params IAffect?[]? affects)
+    {
+        var aura = new Aura(abilityName, source, auraFlags, level, affects);
+        target.AddAura(aura, recompute);
+        return aura;
+    }
+
     public IAura AddAura(IEntity target, AuraData auraData, bool recompute)
     {
         var aura = new Aura(AffectManager, auraData);

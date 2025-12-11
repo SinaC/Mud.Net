@@ -9,28 +9,28 @@ using System.Text;
 
 namespace Mud.Server.POC.Affects
 {
-    [Affect("ShadowWordPain", typeof(ShadowWordPainAffectData))]
-    public class ShadowWordPainAffect : ICharacterPeriodicAffect, ICustomAffect
+    [Affect("Rake", typeof(RakeAffectData))]
+    public class RakeAffect : ICharacterPeriodicAffect, ICustomAffect
     {
         public void Initialize(AffectDataBase data)
         {
-            //TODO: ShadowWordPainAffectData
+            //TODO: RakeAffectData
         }
 
         public void Append(StringBuilder sb)
         {
-            sb.Append("applies %B%shadow%x% damage periodically");
+            sb.Append("applies piercing damage periodically");
         }
 
         public AffectDataBase MapAffectData()
         {
-            return new ShadowWordPainAffectData();
+            return new RakeAffectData();
         }
 
         public void Apply(IAura aura, ICharacter character)
         {
-            character.Act(ActOptions.ToAll, "{0:N} suffer{0:v} shadow damage.", character);
-            character.AbilityDamage(character, aura.Level / 10 + 1, SchoolTypes.Negative, "word of darkness", false);
+            character.Act(ActOptions.ToAll, "{0:N} suffer{0:v} piercing damage.", character);
+            character.AbilityDamage(character, 10, SchoolTypes.Pierce, "rake", false);
         }
     }
 }

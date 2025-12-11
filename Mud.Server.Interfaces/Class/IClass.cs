@@ -13,8 +13,8 @@ public interface IClass
 
     // Kind of resource available for class
     IEnumerable<ResourceKinds> ResourceKinds { get; } // TOOD: use
-    // Current available kind of resource depending on form (subset of ResourceKinds property, i.e.: druids in bear form only have rage but mana will still regenerated even if not in current)
-    IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form);
+    // Current available kind of resource depending on shape (subset of ResourceKinds property, i.e.: druids in bear form only have rage but mana will still regenerated even if not in current)
+    IEnumerable<ResourceKinds> CurrentResourceKinds(Shapes shape);
 
     // Will give a +2 to this attribute
     BasicAttributes PrimeAttribute { get; }

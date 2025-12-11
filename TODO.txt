@@ -1,16 +1,62 @@
 INGOING
+
 DONE
-    spec_cast_adept
-    spec_judge
-    spec_cast_mage
+    in Rom24, a skill can always be used even if Learned = 0, the skill must implement its behavior based on Learned
+    -> add an additional parameter in attribute to disable this behavior, use only if known
+    add energy/rage resource
+    implement resource dynamically changed depending on some status (bear/cat/... form for druid)
+    in MergeAbility if merging with an ability found in class.BasicAbilityGroups, set to min %1
+    combo points
+    rename shapeshift into shape
+    combo finishers will use every combo points -> new CostAmountOperators.All
+    ferocious bite
+    abilities can be shape depend: cat abilities, bear abilities, cat/bear abilities, ... -> additional info in ability definition
+    new shapeshift attribute, multiple allowed, any if no specified
 
 ==========
 == TODO ==
 ==========
 
-what's the utility of act_cleric, act_mage, ...
+rage
+https://vanilla-wow-archive.fandom.com/wiki/Rage#Rage_decay
+    rage generated = 15d/4 + fs/2 <= 15d/c (damage done)
+    rage generated = 5d/2c (damage received)
+    d (damage output)
+    s (weapon speed)
+    f (hit factor)
+    Main Hand	Normal Hit	3.5
+    Main Hand	Critical Hit	7.0
+    Off Hand	Normal Hit	1.75
+    Off Hand	Critical Hit	3.5
+    
+    c (Rage conversion value)
+    level   value
+    10      37.4
+    20      72.4
+    30      109.3
+    40      147.9
+    50      188.3
+    60      230.6
+    65      252.4
+    70      274.7
+    80      453.3
 
-add remaining position: STUNNED, INCAP, ...
+ability with different kind of resource, can be paid with mana or rage for example
+would be used for https://www.wowhead.com/mop-classic/spell=33876/mangle which is available for bear (rage) and cat (energy)
+
+handle shapeshift using new type of affect
+cat form/bear form with new affects
+
+affect giving % damage increase/decrease (to be handled in DamageModifierManager)
+
+maul: next hit does more damage
+
+generic dot affect
+
+haste should add a new Affect AdditionalHitAffect
+in general way, try to change very check on CharacterFlags, ... should be handled with Affect
+Aura list on entity should store a lookup<AffectType, IAffect> for rapid access
+restore should only remove 'negative' auras
 
 add colors everywhere :)
 
@@ -39,17 +85,11 @@ CharacterFactory, ItemFactory, RoomFactory to handle characters, items and rooms
 
 move GetAbilityLearnedInfo, Regen, RegenBaseValues, OneHit NPC (the end checking skills), ... to Rom24
 
+add remaining position: STUNNED, INCAP, ...
+
 RomImporter should be related to Mud.Server.Rom24
 RotImporter should be related to Mud.Server.Rot
 MysteryImporter should be related to Mud.Server.Mystery
-
-add energy/rage resource
-cat form
-    in Rom24, a skill can always be used even if Learned = 0, the skill must implement its behavior based on Learned
-    -> add an additional parameter in attribute to disable this behavior, use only if known
-    -> find a way to set a skill to 100%
-!! current Form should affect the whole player: resource, spells, parts, ...
-implement resource dynamically changed depending on some status (bear/cat/... form for druid)
 
 should see glowing item if in a dark room
 glowing item on the floor of dark room should increase light
@@ -121,13 +161,10 @@ leaving impersonation should not stop fighting -> PlayableCharacter can still di
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
-alignment at creation ?
 Idea: move HP and moves in ResourceKinds
 Use SafeList where List is used
 Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 store an Aura list in World this will avoid looping on all room/character/item to check aura
-Save blueprint in Hashtable
-Enum string representation instead of int in Repository
 redo DoScore, DoAffects
 check if IStat, MStat and RStat display new informations
 When an item quest objective is complete, quest item should be NoTake or should be invisible

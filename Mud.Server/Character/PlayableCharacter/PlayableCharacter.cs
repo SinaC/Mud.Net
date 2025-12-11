@@ -39,9 +39,9 @@ namespace Mud.Server.Character.PlayableCharacter;
 [Export(typeof(IPlayableCharacter))]
 public class PlayableCharacter : CharacterBase, IPlayableCharacter
 {
-    public static readonly int NoCondition = -1;
-    public static readonly int MinCondition = 0;
-    public static readonly int MaxCondition = 48;
+    private const int NoCondition = -1;
+    private const int MinCondition = 0;
+    private const int MaxCondition = 48;
 
     private IOptions<WorldOptions> WorldOptions { get; }
     private IClassManager ClassManager { get; }
@@ -78,6 +78,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     public void Initialize(Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
     {
         Initialize(guid, data.Name, string.Empty);
+
+        Incarnatable = false;
 
         ImpersonatedBy = player;
 
@@ -248,6 +250,15 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     var abilityGroupLearned = new AbilityGroupLearned(learnedAbilityGroupData, abilityGroupDefinition);
                     AddLearnedAbilityGroup(abilityGroupLearned);
                 }
+            }
+        }
+        // add class basics group
+        foreach (var basicAbilityGroupUsage in Class.BasicAbilityGroups)
+        {
+            if (!_learnedAbilityGroups.ContainsKey(basicAbilityGroupUsage.Name))
+            {
+                var abilityGroupLearned = new AbilityGroupLearned(basicAbilityGroupUsage);
+                AddLearnedAbilityGroup(abilityGroupLearned);
             }
         }
         // Aliases
@@ -1268,7 +1279,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override void RecomputeKnownAbilities()
     {
         if (Race is IPlayableRace playableRace)
-            MergeAbilities(playableRace.Abilities, true);
+            MergeAbilities(playableRace.Abilities, true, false);
         // loop among learned ability groups
         foreach (var learnedAbilityGroup in _learnedAbilityGroups)
         {
@@ -1280,7 +1291,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     var abilityUsage = Class.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
                     if (abilityUsage != null)
                     {
-                        MergeAbility(abilityUsage, false);
+                        MergeAbility(abilityUsage, false, abilityGroupUsage.IsBasics);
                     }
                 }
             }

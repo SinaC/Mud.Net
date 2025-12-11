@@ -1,4 +1,6 @@
-﻿namespace Mud.Server.Interfaces.Ability;
+﻿using Mud.Domain;
+
+namespace Mud.Server.Interfaces.Ability;
 
 public interface IAbilityDefinition
 {
@@ -23,6 +25,8 @@ public interface IAbilityDefinition
 
     bool IsDispellable { get; }
     string? DispelRoomMessage { get; }
+
+    Shapes[]? AllowedShapes { get; }
 }
 
 public enum AbilityTypes
