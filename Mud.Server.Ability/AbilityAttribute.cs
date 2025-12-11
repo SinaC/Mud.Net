@@ -1,4 +1,5 @@
 ﻿using Mud.Common.Attributes;
+using Mud.Domain;
 using Mud.Server.Interfaces.Ability;
 
 namespace Mud.Server.Ability;
@@ -112,5 +113,16 @@ public class AbilityDispellableAttribute : AbilityAdditionalInfoAttribute
     public AbilityDispellableAttribute(string roomMessage)
     {
         RoomMessage = roomMessage;
+    }
+}
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
+public class AbilityShapeAttribute : Attribute
+{
+    public Shapes Shape { get; set; }
+
+    public AbilityShapeAttribute(Shapes shape)
+    {
+        Shape = shape;
     }
 }

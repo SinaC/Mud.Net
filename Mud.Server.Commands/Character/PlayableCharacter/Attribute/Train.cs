@@ -38,6 +38,8 @@ public class Train : PlayableCharacterGameAction
         Hp
     }
 
+    protected static ResourceKinds[] TrainableResources = [ResourceKinds.Mana, ResourceKinds.Psy];
+
     protected Actions Action { get; set; }
     protected BasicAttributes? Attribute { get; set; }
     protected ResourceKinds? ResourceKind { get; set; }
@@ -74,7 +76,9 @@ public class Train : PlayableCharacterGameAction
             Action = Actions.Attribute;
         }
         // resource
-        var resourceFound = Actor.Class?.ResourceKinds.Select(x => new { resource = x, name = x.ToString() }).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.name, actionInput.Parameters[0].Value));
+        var resourceFound = Actor.Class?.ResourceKinds.Where(x => TrainableResources.Contains(x))
+            .Select(x => new { resource = x, name = x.ToString() })
+            .FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.name, actionInput.Parameters[0].Value));
         if (resourceFound != null)
         {
             Cost = 1;

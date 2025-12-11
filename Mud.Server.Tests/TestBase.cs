@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Item;
@@ -37,10 +36,12 @@ namespace Mud.Server.Tests
                 Sex = Sex.Male,
                 Size = Sizes.Medium,
                 CharacterFlags = CreateCharacterFlags(characterFlags),
+                ActFlags = CreateActFlags(),
+                OffensiveFlags = CreateOffensiveFlags(),
                 Immunities = CreateIRV(),
                 Resistances = CreateIRV(),
                 Vulnerabilities = CreateIRV(),
-                ShieldFlags = new Mock<IShieldFlags>().Object,
+                ShieldFlags = CreateShieldFlags(),
             };
 
             return GenerateNPC(blueprint, room);

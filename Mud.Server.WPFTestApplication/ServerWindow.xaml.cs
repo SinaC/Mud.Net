@@ -491,6 +491,7 @@ public partial class ServerWindow : Window, INetworkServer
             Immunities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(),
             Resistances = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Slash", "Fire"),
             Vulnerabilities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Acid"),
+            ShieldFlags = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>(),
         };
         CharacterManager.AddCharacterBlueprint(construct);
 
@@ -647,8 +648,34 @@ public partial class ServerWindow : Window, INetworkServer
             Description = "Tenth mob (neutral questor) is here",
             Sex = Sex.Neutral,
             Level = 60,
+            LongDescription = "Tenth mob (neutral questor) is",
+            Wealth = 0,
+            Alignment = 0,
+            DamageNoun = "buzz",
+            DamageType = SchoolTypes.Bash,
+            DamageDiceCount = 5,
+            DamageDiceValue = 10,
+            DamageDiceBonus = 10,
+            HitPointDiceCount = 20,
+            HitPointDiceValue = 30,
+            HitPointDiceBonus = 300,
+            ManaDiceCount = 0,
+            ManaDiceValue = 0,
+            ManaDiceBonus = 0,
+            HitRollBonus = 10,
+            ArmorBash = 300,
+            ArmorPierce = 200,
+            ArmorSlash = 400,
+            ArmorExotic = 0,
+            ActFlags = FlagFactory.CreateInstance<IActFlags, IActFlagValues>(),
+            OffensiveFlags = FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>("Bash"),
+            CharacterFlags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Haste"),
+            Immunities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Magic", "Weapon"),
+            Resistances = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Slash", "Fire"),
+            Vulnerabilities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(),
+            ShieldFlags = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>(),
             QuestBlueprints =
-            [
+                [
                 questBlueprint1,
                 questBlueprint2
             ]

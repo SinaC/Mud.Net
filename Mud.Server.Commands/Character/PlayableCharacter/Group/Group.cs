@@ -168,7 +168,7 @@ public class Group : PlayableCharacterGameAction
     private static StringBuilder BuildResources(ICharacter character)
     {
         StringBuilder sb = new ();
-        foreach (ResourceKinds resource in character.CurrentResourceKinds)
+        foreach (var resource in character.CurrentResourceKinds)
             sb.AppendFormat("{0,5}/{1,5} {2}", character[resource], character.MaxResource(resource), resource.ToString().ToLowerInvariant());
         return sb;
     }

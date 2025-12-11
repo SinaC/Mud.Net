@@ -19,7 +19,7 @@ public interface IAura
 
     IEnumerable<IAffect> Affects { get; } // affects linked to this aura
 
-    void Update(int level, TimeSpan duration);
+    void Update(int newLevel, TimeSpan newDuration);
 
     T? AddOrUpdateAffect<T>(Func<T, bool> filterFunc, Func<T?> createFunc, Action<T>? updateFunc)
         where T : IAffect;

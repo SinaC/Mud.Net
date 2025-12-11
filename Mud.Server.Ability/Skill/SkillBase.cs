@@ -35,11 +35,12 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         IsSetupExecuted = true;
 
         // 1) check context
-        AbilityDefinition = skillActionInput.AbilityDefinition;
-        if (AbilityDefinition == null)
+        var abilityDefinition = skillActionInput.AbilityDefinition;
+        if (abilityDefinition == null)
             return "Internal error: AbilityDefinition is null.";
-        if (AbilityDefinition.AbilityExecutionType != GetType())
-            return $"Internal error: AbilityDefinition is not of the right type: {AbilityDefinition.GetType().Name} instead of {GetType().Name}.";
+        if (abilityDefinition.AbilityExecutionType != GetType())
+            return $"Internal error: AbilityDefinition is not of the right type: {abilityDefinition.GetType().Name} instead of {GetType().Name}.";
+        AbilityDefinition = abilityDefinition;
 
         // 2) check actor
         User = skillActionInput.User;
@@ -48,14 +49,26 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (User.Room == null)
             return "You are nowhere...";
 
-        // 3) get ability percentage
-        var (percentage, abilityLearned) = User.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
+        // 3) check shape
+        if (abilityDefinition.AllowedShapes != null && !abilityDefinition.AllowedShapes.Contains(User.Shape))
+        {
+            if (abilityDefinition.AllowedShapes.Length > 1)
+                return $"You are not in {string.Join(" or ", abilityDefinition.AllowedShapes.Select(x => x.ToString()))} shape";
+            return $"You are not in {abilityDefinition.AllowedShapes.Single().ToString()} shape";
+        }
+
+        // 4) get ability percentage
+        var (percentage, abilityLearned) = User.GetAbilityLearnedAndPercentage(abilityDefinition.Name);
         Learned = percentage;
 
-        // 4) check resource cost
-        if (abilityLearned != null && abilityLearned.ResourceKind.HasValue && abilityLearned.CostAmount > 0 && abilityLearned.CostAmountOperator != CostAmountOperators.None)
+        // 5) if skill must be learned, check if learned
+        if (MustBeLearned && abilityLearned == null)
+            return "You don't know any skills of that name.";
+
+        // 5) check resource cost
+        if (abilityLearned != null && abilityLearned.HasCost())
         {
-            var resourceKind = abilityLearned.ResourceKind.Value;
+            var resourceKind = abilityLearned.ResourceKind!.Value;
             if (!User.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
                 return $"You can't use {resourceKind} as resource for the moment.";
             int resourceLeft = User[resourceKind];
@@ -68,8 +81,11 @@ public abstract class SkillBase : CharacterGameAction, ISkill
                 case CostAmountOperators.Percentage:
                     cost = User.MaxResource(resourceKind) * abilityLearned.CostAmount / 100;
                     break;
+                case CostAmountOperators.All:
+                    cost = Math.Max(abilityLearned.CostAmount, User[resourceKind]);
+                    break;
                 default:
-                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityDefinition.Name);
+                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, abilityDefinition.Name);
                     cost = 100;
                     break;
             }
@@ -85,15 +101,15 @@ public abstract class SkillBase : CharacterGameAction, ISkill
             ResourceKind = null;
         }
 
-        // 5) check targets
+        // 6) check targets
         var setTargetResult = SetTargets(skillActionInput);
         if (setTargetResult != null)
             return setTargetResult;
 
-        // 5) check cooldown
-        int cooldownPulseLeft = User.CooldownPulseLeft(AbilityDefinition.Name);
+        // 7) check cooldown
+        int cooldownPulseLeft = User.CooldownPulseLeft(abilityDefinition.Name);
         if (cooldownPulseLeft > 0)
-            return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
+            return $"{abilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
 
         return null;
     }
@@ -151,6 +167,8 @@ public abstract class SkillBase : CharacterGameAction, ISkill
     }
 
     #endregion
+
+    protected virtual bool MustBeLearned => false; // by default, everyone can use every skills and skill is responsible to check what to do if not learned
 
     protected abstract string? SetTargets(ISkillActionInput skillActionInput);
     protected abstract bool Invoke(); // return true if skill has been used with success, false if failed

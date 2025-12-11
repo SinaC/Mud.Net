@@ -7,6 +7,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Flags.Interfaces;
@@ -95,13 +96,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         // TODO: see db.C:Create_Mobile
         // TODO: following values must be extracted from blueprint
-        int baseValue = Math.Min(25, 11 + Level / 4);
-        SetBaseAttributes(CharacterAttributes.Strength, baseValue, false); // TODO
-        SetBaseAttributes(CharacterAttributes.Intelligence, baseValue, false); // TODO
-        SetBaseAttributes(CharacterAttributes.Wisdom, baseValue, false); // TODO
-        SetBaseAttributes(CharacterAttributes.Dexterity, baseValue, false); // TODO
-        SetBaseAttributes(CharacterAttributes.Constitution, baseValue, false); // TODO
-        // TODO: use Act/Off/size to change values
+        SetBaseCharacterAttributes(blueprint);
         int maxHitPoints = RandomManager.Dice(blueprint.HitPointDiceCount, blueprint.HitPointDiceValue) + blueprint.HitPointDiceBonus;
         SetBaseAttributes(CharacterAttributes.MaxHitPoints, maxHitPoints, false); // OK
         SetBaseAttributes(CharacterAttributes.SavingThrow, 0, false); // TODO
@@ -112,14 +107,16 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         SetBaseAttributes(CharacterAttributes.ArmorPierce, blueprint.ArmorPierce, false); // OK
         SetBaseAttributes(CharacterAttributes.ArmorSlash, blueprint.ArmorSlash, false); // OK
         SetBaseAttributes(CharacterAttributes.ArmorExotic, blueprint.ArmorExotic, false); // OK
+        // TODO: add shields affects
+        // TODO: add haste affect
+        AddAurasFromFlags(blueprint);
 
         // resources (should be extracted from blueprint)
-        int maxMana = RandomManager.Dice(blueprint.ManaDiceCount, blueprint.ManaDiceValue) + blueprint.ManaDiceBonus;
-        foreach (var resource in Enum.GetValues<ResourceKinds>())
-        {
-            SetMaxResource(resource, maxMana, false);
-            this[resource] = maxMana;
-        }
+        // mana
+        int maxManaResource = RandomManager.Dice(blueprint.ManaDiceCount, blueprint.ManaDiceValue) + blueprint.ManaDiceBonus;
+        SetMaxResource(ResourceKinds.Mana, maxManaResource, false);
+        this[ResourceKinds.Mana] = maxManaResource;
+        // TODO: psy
         HitPoints = BaseAttribute(CharacterAttributes.MaxHitPoints); // can't use this[MaxHitPoints] because current has been been computed, it will be computed in ResetCurrentAttributes
         MovePoints = BaseAttribute(CharacterAttributes.MaxMovePoints);
 
@@ -762,8 +759,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override void RecomputeKnownAbilities()
     {
-        if (Class != null)
-            MergeAbilities(Class.AvailableAbilities, false);
+        if (Class != null) // NPC gain access to all abilities from their class
+            MergeAbilities(Class.AvailableAbilities, false, false);
     }
 
     #endregion
@@ -800,6 +797,88 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         skillInstance.Execute();
         return true;
+    }
+
+    // TODO: should be moved to rom24
+    private void AddAurasFromFlags(CharacterBlueprintBase blueprint)
+    {
+        // shields
+        if (blueprint.ShieldFlags.IsSet("Sanctuary"))
+        {
+            // TODO: code copied from sanctuary spell
+            var sanctuaryAbilityDefinition = AbilityManager["Sanctuary"];
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, AuraFlags.Permanent, true,
+                new CharacterShieldFlagsAffect { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("Sanctuary"), Operator = AffectOperators.Or });
+        }
+        if (blueprint.ShieldFlags.IsSet("ProtectGood"))
+        {
+            // TODO: code copied from protection good spell
+            var sanctuaryAbilityDefinition = AbilityManager["Protection Good"];
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, AuraFlags.Permanent, true,
+                new CharacterShieldFlagsAffect { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectGood"), Operator = AffectOperators.Or });
+        }
+        if (blueprint.ShieldFlags.IsSet("ProtectEvil"))
+        {
+            // TODO: code copied from protection evil spell
+            var sanctuaryAbilityDefinition = AbilityManager["Protection Evil"];
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, AuraFlags.Permanent, true,
+                new CharacterShieldFlagsAffect { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectEvil"), Operator = AffectOperators.Or });
+        }
+        // TODO: other shields like FireShield, IceShield, LightningShield
+        if (blueprint.CharacterFlags.IsSet("Haste"))
+        {
+            // TODO: code copied from haste spell
+            var hasteAbilityDefinition = AbilityManager["Haste"];
+            int modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
+            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, true,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Haste"), Operator = AffectOperators.Or });
+        }
+    }
+
+    // TODO: should be moved to rom24
+    private void SetBaseCharacterAttributes(CharacterBlueprintBase blueprint)
+    {
+        var strength = Math.Min(25, 11 + Level / 4);
+        var intelligence = Math.Min(25, 11 + Level / 4);
+        var wisdom = Math.Min(25, 11 + Level / 4);
+        var dexterity = Math.Min(25, 11 + Level / 4);
+        var constitution = Math.Min(25, 11 + Level / 4);
+
+        if (blueprint.ActFlags.IsSet("Warrior"))
+        {
+            strength += 3;
+            constitution += 2;
+            intelligence -= 1;
+        }
+        if (blueprint.ActFlags.IsSet("Thief"))
+        {
+            dexterity += 3;
+            intelligence += 1;
+            wisdom -= 1;
+        }
+        if (blueprint.ActFlags.IsSet("Cleric"))
+        {
+            wisdom += 3;
+            strength += 1;
+            dexterity -= 1;
+        }
+        if (blueprint.ActFlags.IsSet("Mage"))
+        {
+            intelligence += 3;
+            dexterity += 1;
+            strength -= 1;
+        }
+        if (blueprint.OffensiveFlags.IsSet("Fast"))
+            dexterity += 2;
+        strength += blueprint.Size - Sizes.Medium;
+        constitution += (blueprint.Size - Sizes.Medium) / 2;
+
+        SetBaseAttributes(CharacterAttributes.Strength, strength, false);
+        SetBaseAttributes(CharacterAttributes.Intelligence, intelligence, false);
+        SetBaseAttributes(CharacterAttributes.Wisdom, wisdom, false);
+        SetBaseAttributes(CharacterAttributes.Dexterity, dexterity, false);
+        SetBaseAttributes(CharacterAttributes.Constitution, constitution, false);
     }
 
     //

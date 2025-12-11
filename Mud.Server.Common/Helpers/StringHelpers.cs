@@ -41,8 +41,11 @@ public static class StringHelpers
         => resource switch
         {
             ResourceKinds.Mana => "%B%Mana%x%",
-            ResourceKinds.Psy => "%y%Psy%x%",
-            _ => string.Empty,
+            ResourceKinds.Psy => "%M%Psy%x%",
+            ResourceKinds.Energy => "%Y%Energy%x%",
+            ResourceKinds.Rage => "%R%Rage%x%",
+            ResourceKinds.Combo => "%G%Combo%x%",
+            _ => resource.ToString(),
         };
 
     public static string SchoolTypeColor(SchoolTypes schoolType)

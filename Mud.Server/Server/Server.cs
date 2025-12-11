@@ -1409,6 +1409,23 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
     }
 
+    private void HandleResources(int pulseCount)
+    {
+        foreach (var ch in CharacterManager.Characters)
+        {
+            // energy regen (+10/s)
+            if (ch.CurrentResourceKinds.Contains(ResourceKinds.Energy) && ch[ResourceKinds.Energy] < 100)
+            {
+                ch.UpdateResource(ResourceKinds.Energy, 10);
+            }
+            // rage depletion (-1/s)
+            if (ch.CurrentResourceKinds.Contains(ResourceKinds.Rage) && ch[ResourceKinds.Rage] > 0)
+            {
+                ch.UpdateResource(ResourceKinds.Rage, -1);
+            }
+        }
+    }
+
     private void HandlePlayers(int pulseCount)
     {
         foreach (PlayingClient playingClient in _players.Values)
@@ -1711,6 +1728,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         PulseManager.Add("CDs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleCooldowns);
         PulseManager.Add("Quests", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleQuests);
         PulseManager.Add("Violence", Pulse.PulsePerSeconds, Pulse.PulseViolence, HandleViolence);
+        PulseManager.Add("Resources", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds, HandleResources);
         PulseManager.Add("NPCs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 4, HandleNonPlayableCharacters);
         PulseManager.Add("NPCs+PCs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandleCharacters);
         PulseManager.Add("PCs", Pulse.PulsePerSeconds, Pulse.PulsePerSeconds * 60, HandlePlayers);

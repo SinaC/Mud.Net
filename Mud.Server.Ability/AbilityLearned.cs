@@ -89,4 +89,16 @@ public class AbilityLearned : IAbilityLearned
 
     public bool CanBePracticed(IPlayableCharacter playableCharacter)
         => Level <= playableCharacter.Level && Learned > 0;
+
+    public bool HasCost()
+    {
+        if (!ResourceKind.HasValue)
+            return false;
+        return CostAmountOperator switch
+        {
+            CostAmountOperators.None => false,
+            CostAmountOperators.All => true,
+            _ => CostAmount > 0
+        };
+    }
 }

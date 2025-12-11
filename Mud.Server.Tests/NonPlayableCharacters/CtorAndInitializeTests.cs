@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Tests.NonPlayableCharacters
@@ -90,6 +91,10 @@ namespace Mud.Server.Tests.NonPlayableCharacters
                 ActFlags = CreateActFlags("NoAlign", "Gain"),
                 OffensiveFlags = CreateOffensiveFlags("AreaAttack", "Bash"),
                 CharacterFlags = CreateCharacterFlags("Sanctuary", "Regeneration"),
+                Immunities = CreateIRV(),
+                Resistances = CreateIRV(),
+                Vulnerabilities = CreateIRV(),
+                ShieldFlags = CreateShieldFlags(),
                 Level = 50,
                 Sex = Sex.Neutral
             };

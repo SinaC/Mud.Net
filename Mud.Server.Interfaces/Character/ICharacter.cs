@@ -110,12 +110,13 @@ public interface ICharacter : IEntity, IContainer
     IBodyParts BaseBodyParts { get; }
     IBodyParts BodyParts { get; }
 
+    // Shape
+    Shapes BaseShape { get; }
+    Shapes Shape { get; }
+
     // Abilities
     IEnumerable<IAbilityLearned> LearnedAbilities { get; }
     void AddLearnedAbility(IAbilityUsage abilityUsage);
-
-    // Form
-    Forms Form { get; }
 
     // Followers
     ICharacter? Leader { get; } // character we are following, different from group leader
@@ -155,7 +156,9 @@ public interface ICharacter : IEntity, IContainer
     int BaseAttribute(CharacterAttributes attribute);
     void UpdateBaseAttribute(CharacterAttributes attribute, int amount);
     int MaxResource(ResourceKinds resourceKind);
+    void SetMaxResource(ResourceKinds resourceKind, int value);
     void UpdateMaxResource(ResourceKinds resourceKind, int amount);
+    void SetResource(ResourceKinds resourceKind, int value);
     void UpdateResource(ResourceKinds resourceKind, int amount);
     void UpdateHitPoints(int amount);
     void UpdateMovePoints(int amount);
@@ -164,8 +167,8 @@ public interface ICharacter : IEntity, IContainer
     void AddBaseCharacterFlags(bool recompute, params string[] characterFlags);
     void RemoveBaseCharacterFlags(bool recompute, params string[] characterFlags);
 
-    // Form
-    bool ChangeForm(Forms form);
+    // Shape
+    bool ChangeShape(Shapes shape);
 
     // Move
     bool Move(ExitDirections direction, bool following, bool forceFollowers);

@@ -8,7 +8,7 @@ using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 
-[PlayableCharacterCommand("destroy", "Item", Priority = 50, NoShortcut = true, MinPosition = Positions.Standing, NotInCombat = true)]
+[PlayableCharacterCommand("destroy", "Item", Priority = 999, NoShortcut = true, MinPosition = Positions.Standing, NotInCombat = true)]
 [Syntax("[cmd] <item>")]
 public class Destroy : PlayableCharacterGameAction
 {

@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Domain;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -31,6 +32,8 @@ public class AbilityDefinition : IAbilityDefinition
     public bool IsDispellable { get; }
     public string? DispelRoomMessage { get; }
 
+    public Shapes[]? AllowedShapes { get; }
+
     #endregion
 
     public AbilityDefinition(Type abilityExecutionType)
@@ -58,5 +61,8 @@ public class AbilityDefinition : IAbilityDefinition
         ItemWearOffMessage = additionalInfoAttributes.OfType<AbilityItemWearOffMessageAttribute>().SingleOrDefault()?.HolderMessage;
         IsDispellable = additionalInfoAttributes.OfType<AbilityDispellableAttribute>().Any();
         DispelRoomMessage = additionalInfoAttributes.OfType<AbilityDispellableAttribute>().SingleOrDefault()?.RoomMessage;
+
+        var shapeAttributes = abilityExecutionType.GetCustomAttributes<AbilityShapeAttribute>().ToArray();
+        AllowedShapes = shapeAttributes?.Select(x => x.Shape).Distinct().ToArray();
     }
 }

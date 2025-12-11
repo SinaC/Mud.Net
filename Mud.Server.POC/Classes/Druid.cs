@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Class;
@@ -12,20 +11,23 @@ namespace Mud.Server.POC.Classes;
 [Export(typeof(IClass)), Shared]
 public class Druid : ClassBase
 {
-    //private readonly List<ResourceKinds> _rageOnly = new List<ResourceKinds>
-    //{
-    //    Domain.ResourceKinds.Rage
-    //};
+    private readonly List<ResourceKinds> _bear =
+    [
+        Domain.ResourceKinds.Mana,
+        Domain.ResourceKinds.Rage
+    ];
 
-    //private readonly List<ResourceKinds> _energyOnly = new List<ResourceKinds>
-    //{
-    //    Domain.ResourceKinds.Energy
-    //};
+    private readonly List<ResourceKinds> _cat =
+    [
+        Domain.ResourceKinds.Mana,
+        Domain.ResourceKinds.Energy,
+        Domain.ResourceKinds.Combo,
+    ];
 
-    //private readonly List<ResourceKinds> _manaOnly = new List<ResourceKinds>
-    //{
-    //    Domain.ResourceKinds.Mana
-    //};
+    private readonly List<ResourceKinds> _caster =
+    [
+        Domain.ResourceKinds.Mana
+    ];
 
     #region IClass
 
@@ -33,30 +35,21 @@ public class Druid : ClassBase
 
     public override string ShortName => "Dru";
 
-    //public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
-    //{
-    //    Domain.ResourceKinds.Mana, // others
-    //    Domain.ResourceKinds.Energy, // cat form
-    //    Domain.ResourceKinds.Rage // bear form
-    //};
-    public override IEnumerable<ResourceKinds> ResourceKinds { get; } = new List<ResourceKinds>
-    {
-        Domain.ResourceKinds.Mana
-    };
+    public override IEnumerable<ResourceKinds> ResourceKinds { get; } =
+    [
+        Domain.ResourceKinds.Mana, // normal/cat/bear shape
+        Domain.ResourceKinds.Energy, // cat shape
+        Domain.ResourceKinds.Combo, // cat shape
+        Domain.ResourceKinds.Rage // bear shape
+    ];
 
-    public override IEnumerable<ResourceKinds> CurrentResourceKinds(Forms form)
-    {
-        //switch (form)
-        //{
-        //    case Forms.Bear:
-        //        return _rageOnly;
-        //    case Forms.Cat:
-        //        return _energyOnly;
-        //    default:
-        //        return _manaOnly;
-        //}
-        return ResourceKinds;
-    }
+    public override IEnumerable<ResourceKinds> CurrentResourceKinds(Shapes shape)
+        => shape switch
+        {
+            Shapes.Bear => _bear,
+            Shapes.Cat => _cat,
+            _ => _caster,
+        };
 
     public override BasicAttributes PrimeAttribute => BasicAttributes.Constitution;
 
@@ -73,13 +66,26 @@ public class Druid : ClassBase
     public Druid(ILogger<Druid> logger, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager)
         : base(logger, abilityManager, abilityGroupManager)
     {
-        // Test class with all skills + Passive
-        foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
-            if (StringCompareHelpers.StringEquals(abilityDefinition.Name, "Berserk"))
-                AddAbility(20, abilityDefinition.Name, Domain.ResourceKinds.Mana, 35, CostAmountOperators.Fixed, 1);
-            else
-                AddSkill(20, abilityDefinition.Name, 1);
-        foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive || x.Type == AbilityTypes.Weapon))
-            AddAbility(10, abilityDefinition.Name, null, 0, CostAmountOperators.None, 1);
+        AddAvailableAbility(15, "Cat Form", Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 0, 100);
+        AddAvailableAbility(15, "Claw", Domain.ResourceKinds.Energy, 45, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(20, "Rake", Domain.ResourceKinds.Energy, 40, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(20, "Ferocious Bite", Domain.ResourceKinds.Combo, 1, CostAmountOperators.All, 1, 100);
+        AddAvailableAbility(5, "Bear Form", Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 0, 100);
+        AddAvailableAbility(10, "Demoralizing Roar", Domain.ResourceKinds.Rage, 10, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(20, "Maul", Domain.ResourceKinds.Rage, 15, CostAmountOperators.Fixed, 1, 100);
+
+        AddBasicAbilityGroup("druid basics");
+
+        // add weapons
+        foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Weapon))
+            AddAvailableAbility(10, abilityDefinition.Name, null, 0, CostAmountOperators.None, 1, 100);
+        //// Test class with all skills + Passive
+        //foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
+        //    if (StringCompareHelpers.StringEquals(abilityDefinition.Name, "Berserk"))
+        //        AddAvailableAbility(20, abilityDefinition.Name, Domain.ResourceKinds.Mana, 35, CostAmountOperators.Fixed, 1);
+        //    else
+        //        AddAvailableSkill(20, abilityDefinition.Name, 1);
+        //foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Passive || x.Type == AbilityTypes.Weapon))
+        //    AddAvailableAbility(10, abilityDefinition.Name, null, 0, CostAmountOperators.None, 1);
     }
 }

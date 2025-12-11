@@ -11,7 +11,6 @@ using Mud.Server.Entity;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
@@ -33,6 +32,8 @@ namespace Mud.Server.Character;
 
 public abstract class CharacterBase : EntityBase, ICharacter
 {
+    private static ResourceKinds[] DefaultAvailableResources { get; } = [ResourceKinds.Mana];
+
     private const int MinAlignment = -1000;
     private const int MaxAlignment = 1000;
 
@@ -80,7 +81,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         _learnedAbilities = new Dictionary<string, IAbilityLearned>(StringComparer.InvariantCultureIgnoreCase); // handled by RecomputeKnownAbilities
 
         Position = Positions.Standing;
-        Form = Forms.Normal;
+        Shape = Shapes.Normal;
 
         CharacterFlags = flagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
         BodyParts = flagFactory.CreateInstance<IBodyParts, IBodyPartValues>();
@@ -324,14 +325,16 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public IBodyParts BaseBodyParts { get; protected set; }
     public IBodyParts BodyParts { get; protected set; }
 
+    // Shape
+    public Shapes BaseShape { get; protected set; }
+    public Shapes Shape { get; protected set; }
+
+
     // Abilities
     public IEnumerable<IAbilityLearned> LearnedAbilities => _learnedAbilities.Values;
 
     public void AddLearnedAbility(IAbilityUsage abilityUsage)
-        => AddLearnedAbility(abilityUsage, false);
-
-    // Form
-    public Forms Form { get; private set; }
+        => AddLearnedAbility(abilityUsage, false, false);
 
     // Followers
     public ICharacter? Leader { get; protected set; }
@@ -625,6 +628,23 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return _maxResources[index];
     }
 
+    public void SetMaxResource(ResourceKinds resourceKind, int value)
+    {
+        int index = (int)resourceKind;
+        if (index >= _maxResources.Length)
+        {
+            Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
+            return;
+        }
+        _maxResources[index] = value;
+        if (index >= _currentResources.Length)
+        {
+            Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
+            return;
+        }
+        _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
+    }
+
     public void UpdateMaxResource(ResourceKinds resourceKind, int amount)
     {
         int index = (int)resourceKind;
@@ -640,6 +660,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return;
         }
         _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
+    }
+
+    public void SetResource(ResourceKinds resourceKind, int value)
+    {
+        this[resourceKind] = value.Range(0, _maxResources[(int)resourceKind]);
     }
 
     public void UpdateResource(ResourceKinds resourceKind, int amount)
@@ -746,24 +771,20 @@ public abstract class CharacterBase : EntityBase, ICharacter
             Recompute();
     }
 
-    // Form
-    public bool ChangeForm(Forms form)
+    // Shape
+    public bool ChangeShape(Shapes shape)
     {
-        if (form == Form)
+        if (shape == Shape)
             return false;
 
-        if (form == Forms.Normal)
+        if (shape == Shapes.Normal)
             Send("You regain your normal form");
 
-        Form = form;
+        Shape = shape;
 
         RecomputeKnownAbilities();
         Recompute();
         RecomputeCurrentResourceKinds();
-
-        // Start values  TODO: depends on class ?
-        this[ResourceKinds.Mana] = 100;
-        this[ResourceKinds.Psy] = 0;
 
         return true;
     }
@@ -775,6 +796,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             _currentAttributes[i] = _baseAttributes[i];
         Sex = BaseSex;
         Size = BaseSize;
+        //Shape = BaseShape; TODO: uncomment when shape will be handled using aura
         CharacterFlags.Copy(BaseCharacterFlags);
         Immunities.Copy(BaseImmunities);
         Resistances.Copy(BaseResistances);
@@ -1211,7 +1233,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 save -= 2;
                 break;
         }
-        if (victim.Class?.CurrentResourceKinds(victim.Form).Contains(ResourceKinds.Mana) == true)
+        if (victim.Class?.CurrentResourceKinds(victim.Shape).Contains(ResourceKinds.Mana) == true)
             save = (save * 9) / 10;
         save = save.Range(5, 95);
         return RandomManager.Chance(save);
@@ -2165,10 +2187,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected abstract void RecomputeKnownAbilities();
 
-    protected void RecomputeCurrentResourceKinds()
+    protected virtual void RecomputeCurrentResourceKinds()
     {
-        // Get current resource kind from class if any, every resource otherwise
-        CurrentResourceKinds = (Class?.CurrentResourceKinds(Form) ?? Enum.GetValues<ResourceKinds>()).ToList();
+        // Get current resource kind from class if any, default resources otherwisse
+        CurrentResourceKinds = (Class?.CurrentResourceKinds(Shape) ?? DefaultAvailableResources).ToList();
     }
 
     protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)
@@ -2211,7 +2233,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
-    protected void AddLearnedAbility(IAbilityUsage abilityUsage, bool naturalBorn)
+    protected void AddLearnedAbility(IAbilityUsage abilityUsage, bool naturalBorn, bool isBasics)
     {
         if (!_learnedAbilities.ContainsKey(abilityUsage.Name))
         {
@@ -2220,7 +2242,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
             if (naturalBorn)
                 abilityLearned.Update(1, 1, 100);
             else
-                abilityLearned.SetLearned(abilityUsage.MinLearned); // set to MinLearned
+            {
+                var minLearned = abilityUsage.MinLearned;
+                if (isBasics)
+                    minLearned = Math.Max(1, minLearned); // at least 1%
+                abilityLearned.SetLearned(minLearned);
+            }
         }
     }
 
@@ -2252,28 +2279,28 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return sb;
     }
 
-    protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn)
+    protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn, bool isBasics)
     {
         // If multiple identical abilities, keep only one with lowest level
         foreach (IAbilityUsage abilityUsage in abilities)
         {
-            MergeAbility(abilityUsage, naturalBorn);
+            MergeAbility(abilityUsage, naturalBorn, false);
         }
     }
 
-    protected void MergeAbility(IAbilityUsage abilityUsage, bool naturalBorn)
+    protected void MergeAbility(IAbilityUsage abilityUsage, bool naturalBorn, bool isBasics)
     {
         var (_, abilityLearned) = GetAbilityLearnedAndPercentage(abilityUsage.Name);
         if (abilityLearned != null)
         {
             //Logger.LogDebug("Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
-            abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Min(abilityUsage.CostAmount, abilityLearned.CostAmount), Math.Max(abilityUsage.MinLearned, abilityLearned.Learned));
+            abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Min(abilityUsage.CostAmount, abilityLearned.CostAmount), Math.Max(isBasics ? 0 : 0, Math.Max(abilityUsage.MinLearned, abilityLearned.Learned)));
             // TODO: what should be we if multiple resource kind or operator ?
         }
         else
         {
             Logger.LogDebug("Adding AbilityLearned from AbilityUsage for {name} Ability {abilityUsageName}", DebugName, abilityUsage.Name);
-            AddLearnedAbility(abilityUsage, naturalBorn);
+            AddLearnedAbility(abilityUsage, naturalBorn, isBasics);
         }
     }
 

@@ -1,6 +1,5 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects.Character;
-using Mud.Server.Interfaces.Aura;
 
 namespace Mud.Server.Tests.Affects
 {

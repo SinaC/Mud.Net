@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("resets", "Information", Priority = 50)]
+[AdminCommand("resets", "Information", Priority = 700)]
 [Syntax(
 "[cmd] <id>",
 "[cmd] (if impersonated)")]
