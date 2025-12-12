@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
@@ -15,7 +14,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemArmor))]
+[Item(typeof(ItemArmorBlueprint), typeof(ItemData))]
 public class ItemArmor : ItemBase, IItemArmor
 {
     public ItemArmor(ILogger<ItemArmor> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)

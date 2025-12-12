@@ -14,7 +14,7 @@ public class ItemWeaponFlagsAffect : FlagsAffectBase<IWeaponFlags, IWeaponFlagVa
     {
     }
 
-    public ItemWeaponFlagsAffect(ItemWeaponFlagsAffectData data)
+    public void Initialize(ItemWeaponFlagsAffectData data)
     {
         Operator = data.Operator;
         Modifier = data.Modifier;

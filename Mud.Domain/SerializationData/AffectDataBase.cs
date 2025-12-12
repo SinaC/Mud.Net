@@ -2,6 +2,7 @@
 
 namespace Mud.Domain.SerializationData;
 
+[JsonDerivedType(typeof(CharacterAdditionalHitAffectData), "characterAdditionalHitAffectData")]
 [JsonDerivedType(typeof(CharacterAttributeAffectData), "characterAttribute")]
 [JsonDerivedType(typeof(CharacterFlagsAffectData), "characterFlags")]
 [JsonDerivedType(typeof(CharacterShieldFlagsAffectData), "shieldFlags")]

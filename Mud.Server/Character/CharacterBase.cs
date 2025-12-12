@@ -780,6 +780,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (shape == Shapes.Normal)
             Send("You regain your normal form");
 
+        // remove any existing Shape aura
+        if (Shape != Shapes.Normal)
+            RemoveAuras(x => x.AuraFlags.HasFlag(AuraFlags.Shapeshift), false);
+
         Shape = shape;
 
         RecomputeKnownAbilities();

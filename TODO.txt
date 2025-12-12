@@ -1,17 +1,16 @@
 INGOING
-
 DONE
-    in Rom24, a skill can always be used even if Learned = 0, the skill must implement its behavior based on Learned
-    -> add an additional parameter in attribute to disable this behavior, use only if known
-    add energy/rage resource
-    implement resource dynamically changed depending on some status (bear/cat/... form for druid)
-    in MergeAbility if merging with an ability found in class.BasicAbilityGroups, set to min %1
-    combo points
-    rename shapeshift into shape
-    combo finishers will use every combo points -> new CostAmountOperators.All
-    ferocious bite
-    abilities can be shape depend: cat abilities, bear abilities, cat/bear abilities, ... -> additional info in ability definition
-    new shapeshift attribute, multiple allowed, any if no specified
+    Instantiate Affect from AffectData using AffectAttribute
+    Instantiate Item from ItemBlueprint/ItemData using new ItemAttribute
+    offensive skill base will automatically start the combat if needed
+        -> druid skill modified
+    shapeshift aura flags, only one shapeshift aura allowed
+        fix following: for the moment, cat form and bear form add affect which are maintain if switch off form
+    pixie pc race added
+    shortaffects priority raised to 'appear' before sacrifice command when typing 'sa'
+    addition affect on bear/cat form
+    SkillBase,PassiveBase: we should find another way to retrieve ability info than using new(GetType()) (using AbilityManager ?) -> no (no need to inject ability manager and add a new property such has Name in IAbility to be able to use AbilityManager)
+    don't save Shapeshift auras
 
 ==========
 == TODO ==
@@ -47,22 +46,26 @@ would be used for https://www.wowhead.com/mop-classic/spell=33876/mangle which i
 handle shapeshift using new type of affect
 cat form/bear form with new affects
 
-affect giving % damage increase/decrease (to be handled in DamageModifierManager)
-
-maul: next hit does more damage
+maul: next hit does more damage -> only on white damage (HitDamage) and not yellow damage (AbilityDamage)
 
 generic dot affect
 
 haste should add a new Affect AdditionalHitAffect
-in general way, try to change very check on CharacterFlags, ... should be handled with Affect
+    -> how to handle base flags haste on PC, we don't want to add a permanent aura like we do on NPC
+try to change very check on CharacterFlags, ... should be handled with Affect
 Aura list on entity should store a lookup<AffectType, IAffect> for rapid access
 restore should only remove 'negative' auras
+
+try to avoid JsonDerivedType in ItemData for example
+    -> define converter or avoid inheritance?
+    -> every entity will define it's serialization using converter ?
+
 
 add colors everywhere :)
 
 finish score
 
-SkillBase,PassiveBase: we should find another way to retrieve ability info than using new(GetType()) (using AbilityManager ?)
+critical hit
 
 check antievil/antigood/... zap (see handler.c:1586)
 
@@ -93,6 +96,13 @@ MysteryImporter should be related to Mud.Server.Mystery
 
 should see glowing item if in a dark room
 glowing item on the floor of dark room should increase light
+
+affect giving % damage increase/decrease (to be handled in DamageModifierManager)
+-> % can lead to unpredictable result
+-> imagine 2 affects on same attribute, one with operator + fixed amount and another with operator % amount
+    10 + 5 + 20% <> 10 + 20% + 5
+    ==> 15 + 15*20/100 = 15 + 3 = 18
+    ==> 10 + 10*20/100 + 5 = 10 + 2 + 5 = 17
 
 reimplement hot/dot
 
@@ -151,7 +161,6 @@ item: protect, room_key
 Monitor Recompute calls: recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 UnitTests on Rom24Effects
-specials
 assist_guard
 aggro table
 isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)

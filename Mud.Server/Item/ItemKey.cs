@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
+using Mud.Domain.SerializationData;
+using Mud.Server.Blueprints.Item;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -12,7 +13,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemKey))]
+[Item(typeof(ItemKeyBlueprint), typeof(ItemData))]
 public class ItemKey : ItemBase, IItemKey
 {
     public ItemKey(ILogger<ItemKey> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)

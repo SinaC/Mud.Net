@@ -2,7 +2,7 @@
 
 namespace Mud.Server.Affects;
 
-[AttributeUsage(AttributeTargets.Class)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 public class AffectAttribute : ExportAttribute // every affect will be exported without ContractType
 {
     public string Name { get; }

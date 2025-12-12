@@ -18,7 +18,7 @@ public class RoomHealRateAffect : IRoomHealRateAffect
     {
     }
 
-    public RoomHealRateAffect(RoomHealRateAffectData data)
+    public void Initialize(RoomHealRateAffectData data)
     {
         Modifier = data.Modifier;
         Operator = data.Operator;

@@ -10,6 +10,7 @@ using Mud.Server.Rom24;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -42,28 +43,32 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-        // Configure Serilog logger immediately on application start
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug() // Set the minimum level
-            .WriteTo.Debug() // Add a sink to write to the debug output
-            .WriteTo.Console() // Add a sink to write to the console
-            .WriteTo.RichTextBoxSink() // add a sink to write to the RichTextBox
-            .CreateLogger();
-
         // Build configuration
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json")
             .Build();
 
+        // Configure Serilog logger immediately on application start
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug() // Set the minimum level
+            .ReadFrom.Configuration(configuration)
+            //.WriteTo.Debug() // Add a sink to write to the debug output
+            //.WriteTo.Console() // Add a sink to write to the console
+            .WriteTo.RichTextBoxSink() // add a sink to write to the RichTextBox
+            .CreateLogger();
+
+        Log.Information("Configuring services");
+
         var assemblyHelper = new AssemblyHelper(configuration);
 
-        // Configure Logging to use once application start
-        var logger = new LoggerConfiguration()
-            .ReadFrom.Configuration(configuration)
-            .WriteTo.RichTextBoxSink()
-            .CreateLogger();
-        services.AddLogging(builder => builder.AddSerilog(logger));
+        //  Configure Logging to use once application has started
+        //var logger = new LoggerConfiguration()
+        //    .ReadFrom.Configuration(configuration)
+        //    .WriteTo.RichTextBoxSink()
+        //    .CreateLogger();
+        // services.AddLogging(builder => builder.AddSerilog(logger));
+        services.AddLogging(builder => builder.AddSerilog(Log.Logger));
 
         // Configure options
         ConfigureOptions(services, configuration);

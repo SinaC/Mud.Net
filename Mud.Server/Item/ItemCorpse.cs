@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
@@ -21,7 +20,7 @@ using System.Collections.ObjectModel;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemCorpse))]
+[Item(typeof(ItemCorpseBlueprint), typeof(ItemCorpseData))]
 public class ItemCorpse : ItemBase, IItemCorpse
 {
     private readonly List<IItem> _content;

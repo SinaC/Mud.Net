@@ -64,10 +64,10 @@ public class Haste : DefensiveSpellBase
             Victim.Act(ActOptions.ToRoom, "{0:N} is moving less slowly.", Victim);
             return;
         }
-        int duration = Victim == Caster
+        var duration = Victim == Caster
             ? Level / 2
             : Level / 4;
-        int modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
+        var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Haste"), Operator = AffectOperators.Or });

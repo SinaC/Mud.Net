@@ -255,7 +255,8 @@ public abstract class EntityBase : ActorBase, IEntity
 
     protected AuraData[] MapAuraData()
     {
-        return Auras.Where(x => x.IsValid).Select(x => x.MapAuraData()).ToArray();
+        // don't save Shapeshift
+        return Auras.Where(x => x.IsValid && !x.AuraFlags.HasFlag(Domain.AuraFlags.Shapeshift)).Select(x => x.MapAuraData()).ToArray();
     }
 
     #region Act

@@ -14,7 +14,7 @@ public class ItemFlagsAffect : FlagsAffectBase<IItemFlags, IItemFlagValues>, IIt
     {
     }
 
-    public ItemFlagsAffect(ItemFlagsAffectData data)
+    public void Initialize(ItemFlagsAffectData data)
     {
         Operator = data.Operator;
         Modifier = data.Modifier;

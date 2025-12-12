@@ -14,7 +14,7 @@ public class CharacterShieldFlagsAffect : FlagsAffectBase<IShieldFlags, IShieldF
     {
     }
 
-    public CharacterShieldFlagsAffect(CharacterShieldFlagsAffectData data)
+    public void Initialize(CharacterShieldFlagsAffectData data)
     {
         Operator = data.Operator;
         Modifier = data.Modifier;

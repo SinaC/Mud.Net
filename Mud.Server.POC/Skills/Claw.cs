@@ -26,15 +26,10 @@ public class Claw : OffensiveSkillBase
 
     protected override bool Invoke()
     {
-        if (RandomManager.Chance(Learned))
-        {
-            var damage = RandomManager.Range(1, User.Level); // same damage as kick
-            Victim.AbilityDamage(User, damage, SchoolTypes.Pierce, "claw", true);
-            //check_killer(ch,victim);
-            User.UpdateResource(ResourceKinds.Combo, 1);
-            return true;
-        }
-        Victim.AbilityDamage(User, 0, SchoolTypes.Pierce, "claw", true); // start a fight if needed
-        return false;
+        var damage = RandomManager.Range(1, User.Level); // same damage as kick
+        Victim.AbilityDamage(User, damage, SchoolTypes.Pierce, "claw", true);
+        //check_killer(ch,victim);
+        User.UpdateResource(ResourceKinds.Combo, 1);
+        return true;
     }
 }

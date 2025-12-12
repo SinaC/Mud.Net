@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
@@ -15,7 +14,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemLight))]
+[Item(typeof(ItemLightBlueprint), typeof(ItemLightData))]
 public class ItemLight : ItemBase, IItemLight
 {
     private const int Infinite = -1;

@@ -25,7 +25,7 @@ public class DispelManager : IDispelManager
     {
         bool found = false;
         IReadOnlyCollection<IAura> clone = new ReadOnlyCollection<IAura>(victim.Auras.Where(x => x.IsValid).ToList());
-        foreach (IAura aura in clone)
+        foreach (var aura in clone)
         {
             if (!SavesDispel(dispelLevel, aura))
             {
@@ -57,7 +57,7 @@ public class DispelManager : IDispelManager
     public TryDispelReturnValues TryDispel(int dispelLevel, ICharacter victim, string abilityName) // was called check_dispel in Rom24
     {
         bool found = false;
-        foreach (IAura aura in victim.Auras.Where(x => StringCompareHelpers.StringEquals(x.AbilityName, abilityName))) // no need to clone because at most one entry will be removed
+        foreach (var aura in victim.Auras.Where(x => StringCompareHelpers.StringEquals(x.AbilityName, abilityName))) // no need to clone because at most one entry will be removed
         {
             if (!SavesDispel(dispelLevel, aura))
             {

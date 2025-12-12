@@ -4,6 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -21,11 +22,13 @@ public class CatForm : NoTargetSkillBase
     private const string SkillName = "Cat Form";
 
     private IAuraManager AuraManager { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagsFactory { get; }
 
-    public CatForm(ILogger<CatForm> logger, IRandomManager randomManager, IAuraManager auraManager)
+    public CatForm(ILogger<CatForm> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagsFactory)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
+        CharacterFlagsFactory = characterFlagsFactory;
     }
 
     protected override bool MustBeLearned => true;
@@ -34,23 +37,25 @@ public class CatForm : NoTargetSkillBase
     {
         if (User.Shape == Shapes.Cat)
         {
-            User.Send("You are already in cat form.");
+            User.ChangeShape(Shapes.Normal);
             return false;
         }
 
+        // TODO: better wording
         User.Send("You shapeshift into a cat.");
         User.Act(ActOptions.ToRoom, "{0:N} shapeshifts into a cat.", this);
         User.ChangeShape(Shapes.Cat);
-        // set energy
+        // set energy: current=0, max=100
         User.SetMaxResource(ResourceKinds.Energy, 100);
-        User.SetResource(ResourceKinds.Energy, 100);
-        // set combo
+        User.SetResource(ResourceKinds.Energy, 0);
+        // set combo: current=0, max=5
         User.SetMaxResource(ResourceKinds.Combo, 5);
         User.SetResource(ResourceKinds.Energy, 0);
 
-        // TODO: Affect changing Form
-        AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.NoDispel | AuraFlags.Permanent, true,
-            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = User.Level * 4, Operator = AffectOperators.Add });
+        // TODO: Affect changing Form + disable other form
+        AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.NoDispel | AuraFlags.Permanent | AuraFlags.Shapeshift, true,
+            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = User.Level * 4, Operator = AffectOperators.Add },
+            new CharacterFlagsAffect { Modifier = CharacterFlagsFactory.CreateInstance("Haste", "Infrared"), Operator = AffectOperators.Add });
 
         return true;
     }

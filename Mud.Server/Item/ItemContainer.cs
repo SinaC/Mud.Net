@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
@@ -16,7 +15,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemContainer))]
+[Item(typeof(ItemContainerBlueprint), typeof(ItemContainerData))]
 public class ItemContainer : ItemBase, IItemContainer
 {
     private readonly List<IItem> _content;

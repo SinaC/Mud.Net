@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
@@ -17,7 +16,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemPortal))]
+[Item(typeof(ItemPortalBlueprint), typeof(ItemPortalData))]
 public class ItemPortal : ItemBase, IItemPortal
 {
     private const int InfiniteChargeCount = -1;

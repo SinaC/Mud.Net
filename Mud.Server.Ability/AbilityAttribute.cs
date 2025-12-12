@@ -4,7 +4,7 @@ using Mud.Server.Interfaces.Ability;
 
 namespace Mud.Server.Ability;
 
-[AttributeUsage(AttributeTargets.Class)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 public abstract class AbilityBaseAttribute : ExportAttribute // every ability will be exported without ContractType
 {
     public abstract AbilityTypes Type { get; }

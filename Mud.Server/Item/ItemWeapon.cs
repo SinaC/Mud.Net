@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
@@ -20,7 +19,7 @@ using System.Text;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemWeapon))]
+[Item(typeof(ItemWeaponBlueprint), typeof(ItemWeaponData))]
 public class ItemWeapon : ItemBase, IItemWeapon
 {
     private ITableValues TableValues { get; }

@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Mud.Common;
+using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Affect.Character;
@@ -20,7 +21,7 @@ public class CharacterAttributeAffect : ICharacterAttributeAffect
     {
     }
 
-    public CharacterAttributeAffect(CharacterAttributeAffectData data)
+    public void Initialize(CharacterAttributeAffectData data)
     {
         Location = data.Location;
         Operator = data.Operator;
@@ -29,7 +30,7 @@ public class CharacterAttributeAffect : ICharacterAttributeAffect
 
     public void Append(StringBuilder sb)
     {
-        sb.AppendFormat("%c%modifies %y%{0} %c%{1} %y%{2}%x%", Target, Operator.PrettyPrint(), Modifier);
+        sb.AppendFormat("%c%modifies %y%{0} %c%{1} %y%{2}%x%", Target.ToPascalCase(), Operator.PrettyPrint(), Modifier);
     }
 
     public void Apply(ICharacter character)

@@ -17,7 +17,7 @@ public class CharacterIRVAffect : FlagsAffectBase<IIRVFlags, IIRVFlagValues>, IC
     {
     }
 
-    public CharacterIRVAffect(CharacterIRVAffectData data)
+    public void Initialize(CharacterIRVAffectData data)
     {
         Location = data.Location;
         Operator = data.Operator;

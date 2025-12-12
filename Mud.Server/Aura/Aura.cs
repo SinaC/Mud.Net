@@ -133,7 +133,7 @@ public class Aura : IAura
 
         // TODO: better formatting with spacing like in score
         sb.AppendFormatLine("%B%{0,-15}%x% (lvl {1}) {2} {3}",
-                AbilityName.MaxLength(15) ?? "Inherent",
+                AbilityName.MaxLength(15).ToPascalCase() ?? "Inherent",
                 Level,
                 AuraFlags.HasFlag(AuraFlags.Permanent)
                     ? ""

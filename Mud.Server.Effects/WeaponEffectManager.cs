@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Effect;
@@ -44,13 +45,7 @@ public class WeaponEffectManager : IWeaponEffectManager
             return null;
         }
 
-        var weaponEffect = ServiceProvider.GetService(weaponEffectType);
-        if (weaponEffect == null)
-        {
-            Logger.LogError("WeaponEffectManager: weapon effect {weaponEffectType} not found in DependencyContainer.", weaponEffectType.FullName ?? "???");
-            return null;
-        }
-
+        var weaponEffect = ServiceProvider.GetRequiredService(weaponEffectType);
         if (weaponEffect is not TWeaponEffect instance)
         {
             Logger.LogError("WeaponEffectManager: weapon effect {weaponEffectType} cannot be created or is not of type {expectedWeaponEffectType}", weaponEffectType.FullName ?? "???", tWeaponEffectType.FullName ?? "???");
