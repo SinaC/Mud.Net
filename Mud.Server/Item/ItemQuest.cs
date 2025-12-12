@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
@@ -18,7 +17,7 @@ using Mud.Server.Quest;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemQuest))]
+[Item(typeof(ItemQuestBlueprint), typeof(ItemData))]
 public class ItemQuest : ItemBase, IItemQuest
 {
     public ItemQuest(ILogger<ItemQuest> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)

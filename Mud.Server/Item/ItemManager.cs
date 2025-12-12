@@ -1,9 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
+using Mud.Server.Affects;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -11,6 +15,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace Mud.Server.Item;
 
@@ -23,16 +28,39 @@ public class ItemManager : IItemManager
     private int CorpseBlueprintId { get; }
     private int CoinsBlueprintId { get; }
 
+    private readonly Dictionary<Type, ItemDefinition> _itemDefinitionByBlueprintType;
     private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
     private readonly List<IItem> _items;
 
-    public ItemManager(ILogger<ItemManager> logger, IServiceProvider serviceProvider, IOptions<WorldOptions> worldOptions, IRoomManager roomManager)
+    public ItemManager(ILogger<ItemManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, IOptions<WorldOptions> worldOptions, IRoomManager roomManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
         RoomManager = roomManager;
         CorpseBlueprintId = worldOptions.Value.BlueprintIds.Corpse;
         CoinsBlueprintId = worldOptions.Value.BlueprintIds.Coins;
+
+        var iItemType = typeof(IItem);
+        var itemDataType = typeof(ItemData);
+        var itemDefinitions = new List<ItemDefinition>();
+        foreach (var itemType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsAssignableTo(iItemType))))
+        {
+            var itemAttribute = itemType.GetCustomAttribute<ItemAttribute>() ?? throw new Exception($"ItemManager: no ItemAttribute found for Item {itemType.FullName}");
+            var isItemDataTypeValid = itemAttribute.ItemDataType.IsAssignableTo(itemDataType);
+            if (!isItemDataTypeValid)
+                throw new Exception($"ItemManager: ItemData type {itemAttribute.ItemDataType} doesn't inherit from {itemDataType.FullName} on Item {itemType.FullName}");
+            var initializeWithoutItemDataMethod =
+                itemType.SearchMethod("Initialize", [typeof(Guid), itemAttribute.BlueprintType, typeof(IContainer)])
+                ?? itemType.SearchMethod("Initialize", [typeof(ItemBlueprintBase)], [typeof(Guid), itemAttribute.BlueprintType, typeof(IContainer)])
+                ?? throw new Exception($"ItemManager: no valid Initialize with blueprint method found on Item {itemType.FullName}");
+            var initializeWithItemDataMethod =
+                itemType.SearchMethod("Initialize", [typeof(Guid), itemAttribute.BlueprintType, itemAttribute.ItemDataType, typeof(IContainer)])
+                ?? itemType.SearchMethod("Initialize", [typeof(ItemBlueprintBase), typeof(ItemData)], [typeof(Guid), itemAttribute.BlueprintType, itemAttribute.ItemDataType, typeof(IContainer)])
+                ?? throw new Exception($"ItemManager: no valid Initialize with blueprint and itemdata method found on Item {itemType.FullName}");
+            var itemDefinition = new ItemDefinition(itemType, itemAttribute.BlueprintType, itemAttribute.ItemDataType, initializeWithoutItemDataMethod, initializeWithItemDataMethod);
+            itemDefinitions.Add(itemDefinition);
+        }
+        _itemDefinitionByBlueprintType = itemDefinitions.ToDictionary(x => x.BlueprintType);
 
         _itemBlueprints = [];
         _items = [];
@@ -115,220 +143,26 @@ public class ItemManager : IItemManager
 
     public IItem? AddItem(Guid guid, ItemBlueprintBase blueprint, IContainer container)
     {
-        IItem? item = null;
-        switch (blueprint)
+        // create and initialize item
+        var blueprintType = blueprint.GetType();
+        if (!_itemDefinitionByBlueprintType.TryGetValue(blueprintType, out var itemDefinition))
         {
-            case ItemArmorBlueprint armorBlueprint:
-                {
-                    var armor = ServiceProvider.GetRequiredService<IItemArmor>();
-                    armor.Initialize(guid, armorBlueprint, container);
-                    item = armor;
-                    break;
-                }
-            case ItemBoatBlueprint boatBlueprint:
-                {
-                    var boat = ServiceProvider.GetRequiredService<IItemBoat>();
-                    boat.Initialize(guid, boatBlueprint, container);
-                    item = boat;
-                    break;
-                }
-            case ItemClothingBlueprint clothingBlueprint:
-                {
-                    var clothing = ServiceProvider.GetRequiredService<IItemClothing>();
-                    clothing.Initialize(guid, clothingBlueprint, container);
-                    item = clothing;
-                    break;
-                }
-            case ItemContainerBlueprint containerBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemContainer>();
-                    containerItem.Initialize(guid, containerBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemCorpseBlueprint corpseBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemCorpse>();
-                    containerItem.Initialize(guid, corpseBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemDrinkContainerBlueprint drinkContainerBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemContainer>();
-                    containerItem.Initialize(guid, drinkContainerBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemFoodBlueprint foodBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemFood>();
-                    containerItem.Initialize(guid, foodBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemFurnitureBlueprint furnitureBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemFurniture>();
-                    containerItem.Initialize(guid, furnitureBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemFountainBlueprint fountainBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemFountain>();
-                    containerItem.Initialize(guid, fountainBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemGemBlueprint gemBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemGem>();
-                    containerItem.Initialize(guid, gemBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemJewelryBlueprint jewelryBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemJewelry>();
-                    containerItem.Initialize(guid, jewelryBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemJukeboxBlueprint jukeboxBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemJukebox>();
-                    containerItem.Initialize(guid, jukeboxBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemKeyBlueprint keyBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemKey>();
-                    containerItem.Initialize(guid, keyBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemLightBlueprint lightBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemLight>();
-                    containerItem.Initialize(guid, lightBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemMapBlueprint mapBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemMap>();
-                    containerItem.Initialize(guid, mapBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemMoneyBlueprint moneyBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemMoney>();
-                    containerItem.Initialize(guid, moneyBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemPillBlueprint pillBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemPill>();
-                    containerItem.Initialize(guid, pillBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemPotionBlueprint potionBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemPotion>();
-                    containerItem.Initialize(guid, potionBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemPortalBlueprint portalBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemPortal>();
-                    containerItem.Initialize(guid, portalBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemQuestBlueprint questBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemQuest>();
-                    containerItem.Initialize(guid, questBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemScrollBlueprint scrollBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemScroll>();
-                    containerItem.Initialize(guid, scrollBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemShieldBlueprint shieldBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemShield>();
-                    containerItem.Initialize(guid, shieldBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemStaffBlueprint staffBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemStaff>();
-                    containerItem.Initialize(guid, staffBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemTrashBlueprint trashBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemTrash>();
-                    containerItem.Initialize(guid, trashBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemTreasureBlueprint treasureBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemTreasure>();
-                    containerItem.Initialize(guid, treasureBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemWandBlueprint wandBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemWand>();
-                    containerItem.Initialize(guid, wandBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemWarpStoneBlueprint warpstoneBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemWarpstone>();
-                    containerItem.Initialize(guid, warpstoneBlueprint, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemWeaponBlueprint weaponBlueprint:
-                {
-                    var weapon = ServiceProvider.GetRequiredService<IItemWeapon>();
-                    weapon.Initialize(guid, weaponBlueprint, container);
-                    item = weapon;
-                    break;
-                }
-            default:
-                Logger.LogError("World.AddItem: unknown Item blueprint type {blueprintType}.", blueprint.GetType());
-                break;
+            Logger.LogError("ItemManager: unexpected Blueprint type {blueprintType}.", blueprintType.FullName);
+            return null;
         }
+        var item = CreateInstance(itemDefinition);
         if (item == null)
         {
-            Logger.LogError("World.AddItem: unknown Item blueprint type {blueprintType}.", blueprint.GetType());
+            Logger.LogError("ItemManager: cannot create instance of Item {itemType}", itemDefinition.ItemType.FullName);
             return null;
         }
+        itemDefinition.InitializeWithoutItemDataMethod.Invoke(item, [guid, blueprint, container]);
+        // add item to collection
         if (item.Name == null || item.Id == Guid.Empty)
         {
-            Logger.LogError("World.AddItem: item initialization failed for blueprint Id {blueprintId}.", blueprint.Id);
+            Logger.LogError("ItemManager: item initialization failed for blueprint Id {blueprintId}.", blueprint.Id);
             return null;
         }
-
         item.Recompute();
         _items.Add(item);
         return item;
@@ -336,228 +170,33 @@ public class ItemManager : IItemManager
 
     public IItem? AddItem(Guid guid, ItemData itemData, IContainer container)
     {
+        // get blueprint
         var blueprint = GetItemBlueprint(itemData.ItemId);
         if (blueprint == null)
         {
             Logger.LogError("World.AddItem: Item blueprint Id {blueprintId} doesn't exist anymore.", itemData.ItemId);
             return null;
         }
-
-        IItem? item = null;
-        switch (blueprint)
+        // create and initialize item
+        var blueprintType = blueprint.GetType();
+        if (!_itemDefinitionByBlueprintType.TryGetValue(blueprintType, out var itemDefinition))
         {
-            case ItemArmorBlueprint armorBlueprint:
-                {
-                    var armor = ServiceProvider.GetRequiredService<IItemArmor>();
-                    armor.Initialize(guid, armorBlueprint, itemData, container);
-                    item = armor;
-                    break;
-                }
-            case ItemBoatBlueprint boatBlueprint:
-                {
-                    var boat = ServiceProvider.GetRequiredService<IItemBoat>();
-                    boat.Initialize(guid, boatBlueprint, itemData, container);
-                    item = boat;
-                    break;
-                }
-            case ItemClothingBlueprint clothingBlueprint:
-                {
-                    var clothing = ServiceProvider.GetRequiredService<IItemClothing>();
-                    clothing.Initialize(guid, clothingBlueprint, itemData, container);
-                    item = clothing;
-                    break;
-                }
-            case ItemContainerBlueprint containerBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemContainer>();
-                    containerItem.Initialize(guid, containerBlueprint, itemData as ItemContainerData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemCorpseBlueprint corpseBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemCorpse>();
-                    containerItem.Initialize(guid, corpseBlueprint, itemData as ItemCorpseData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemDrinkContainerBlueprint drinkContainerBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemContainer>();
-                    containerItem.Initialize(guid, drinkContainerBlueprint, itemData as ItemDrinkContainerData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemFoodBlueprint foodBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemFood>();
-                    containerItem.Initialize(guid, foodBlueprint, itemData as ItemFoodData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemFurnitureBlueprint furnitureBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemFurniture>();
-                    containerItem.Initialize(guid, furnitureBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemFountainBlueprint fountainBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemFountain>();
-                    containerItem.Initialize(guid, fountainBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemGemBlueprint gemBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemGem>();
-                    containerItem.Initialize(guid, gemBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemJewelryBlueprint jewelryBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemJewelry>();
-                    containerItem.Initialize(guid, jewelryBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemJukeboxBlueprint jukeboxBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemJukebox>();
-                    containerItem.Initialize(guid, jukeboxBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemKeyBlueprint keyBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemKey>();
-                    containerItem.Initialize(guid, keyBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemLightBlueprint lightBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemLight>();
-                    containerItem.Initialize(guid, lightBlueprint, itemData as ItemLightData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemMapBlueprint mapBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemMap>();
-                    containerItem.Initialize(guid, mapBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemMoneyBlueprint moneyBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemMoney>();
-                    containerItem.Initialize(guid, moneyBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemPillBlueprint pillBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemPill>();
-                    containerItem.Initialize(guid, pillBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemPotionBlueprint potionBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemPotion>();
-                    containerItem.Initialize(guid, potionBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemPortalBlueprint portalBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemPortal>();
-                    containerItem.Initialize(guid, portalBlueprint, itemData as ItemPortalData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemQuestBlueprint questBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemQuest>();
-                    containerItem.Initialize(guid, questBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemScrollBlueprint scrollBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemScroll>();
-                    containerItem.Initialize(guid, scrollBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemShieldBlueprint shieldBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemShield>();
-                    containerItem.Initialize(guid, shieldBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemStaffBlueprint staffBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemStaff>();
-                    containerItem.Initialize(guid, staffBlueprint, itemData as ItemStaffData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemTrashBlueprint trashBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemTrash>();
-                    containerItem.Initialize(guid, trashBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemTreasureBlueprint treasureBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemTreasure>();
-                    containerItem.Initialize(guid, treasureBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemWandBlueprint wandBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemWand>();
-                    containerItem.Initialize(guid, wandBlueprint, itemData as ItemWandData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemWarpStoneBlueprint warpstoneBlueprint:
-                {
-                    var containerItem = ServiceProvider.GetRequiredService<IItemWarpstone>();
-                    containerItem.Initialize(guid, warpstoneBlueprint, itemData, container);
-                    item = containerItem;
-                    break;
-                }
-            case ItemWeaponBlueprint weaponBlueprint:
-                {
-                    var weapon = ServiceProvider.GetRequiredService<IItemWeapon>();
-                    weapon.Initialize(guid, weaponBlueprint, itemData as ItemWeaponData, container);
-                    item = weapon;
-                    break;
-                }
-            default:
-                Logger.LogError("World.AddItem: unknown Item blueprint type {blueprintType}.", blueprint.GetType());
-                break;
+            Logger.LogError("ItemManager: unexpected Blueprint type {blueprintType}.", blueprintType.FullName);
+            return null;
         }
-
+        var item = CreateInstance(itemDefinition);
         if (item == null)
         {
-            Logger.LogError("World.AddItem: Invalid blueprint type  {blueprintType}", blueprint.GetType());
+            Logger.LogError("ItemManager: cannot create instance of Item {itemType}", itemDefinition.ItemType.FullName);
             return null;
         }
+        itemDefinition.InitializeWithItemDataMethod.Invoke(item, [guid, blueprint, itemData, container]);
+        // add item to collection
         if (item.Name == null || item.Id == Guid.Empty)
         {
-            Logger.LogError("World.AddItem: item initialization failed for blueprint Id {blueprintId}.", blueprint.Id);
+            Logger.LogError("ItemManager: item initialization failed for blueprint Id {blueprintId}.", blueprint.Id);
             return null;
         }
-
         item.Recompute();
         _items.Add(item);
         return item;
@@ -631,5 +270,17 @@ public class ItemManager : IItemManager
         foreach (var item in itemsToRemove)
             item.OnCleaned(); // definitive remove
         _items.RemoveAll(x => !x.IsValid);
+    }
+
+    private IItem? CreateInstance(ItemDefinition itemDefinition)
+    {
+        var item = ServiceProvider.GetRequiredService(itemDefinition.ItemType);
+        //var item = Activator.CreateInstance(itemDefinition.ItemType); cannot be used because ItemXXX dont have parameterless ctor
+        if (item is not IItem instance)
+        {
+            Logger.LogError("ItemManager: item {itemType} cannot be created or is not of type {expectedItemType}", itemDefinition.ItemType.FullName ?? "???", typeof(IItem).FullName ?? "???");
+            return null;
+        }
+        return instance;
     }
 }

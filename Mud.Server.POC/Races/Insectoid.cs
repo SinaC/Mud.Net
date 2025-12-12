@@ -64,7 +64,7 @@ public class Insectoid : PlayableRaceBase // 4-arms
     public override string ShortName => "Ins";
 
     public override Sizes Size => Sizes.Medium;
-    public override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Haste");
+    public override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
 
     public override IEnumerable<EquipmentSlots> EquipmentSlots => _slots;
 

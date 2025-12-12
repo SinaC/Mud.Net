@@ -4,6 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -21,11 +22,13 @@ public class BearForm : NoTargetSkillBase
     private const string SkillName = "Bear Form";
 
     private IAuraManager AuraManager { get; }
+    private IFlagFactory<IIRVFlags, IIRVFlagValues> IRVFlagFactory { get; }
 
-    public BearForm(ILogger<BearForm> logger, IRandomManager randomManager, IAuraManager auraManager)
+    public BearForm(ILogger<BearForm> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IIRVFlags, IIRVFlagValues> iRVFlagFactory)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
+        IRVFlagFactory = iRVFlagFactory;
     }
 
     protected override bool MustBeLearned => true;
@@ -34,20 +37,25 @@ public class BearForm : NoTargetSkillBase
     {
         if (User.Shape == Shapes.Bear)
         {
-            User.Send("You are already in bear form.");
+            User.ChangeShape(Shapes.Normal);
             return false;
         }
 
+        // TODO: better wording
         User.Send("You shapeshift into a bear.");
         User.Act(ActOptions.ToRoom, "{0:N} shapeshifts into a bear.", this);
         User.ChangeShape(Shapes.Bear);
+        // set rage: current 100= max=100
         User.SetMaxResource(ResourceKinds.Rage, 100);
         User.UpdateResource(ResourceKinds.Rage, 100); // TODO: should be 0
 
-        // TODO: Affect changing Form
-        AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.NoDispel | AuraFlags.Permanent, true,
-            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -User.Level * 20, Operator = AffectOperators.Add },
-            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Constitution, Modifier = Math.Min(1, User.Level / 10), Operator = AffectOperators.Add });
+        // TODO: Affect changing Form + disable other form
+        AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.NoDispel | AuraFlags.Permanent | AuraFlags.Shapeshift, true,
+            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -User.Level * 5, Operator = AffectOperators.Add },
+            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Constitution, Modifier = User.Level / 10, Operator = AffectOperators.Add },
+            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.MaxHitPoints, Modifier = User.Level * 5, Operator = AffectOperators.Add },
+            new CharacterIRVAffect { Location = IRVAffectLocations.Resistances, Modifier = IRVFlagFactory.CreateInstance("Cold", "Bash"), Operator = AffectOperators.Add },
+            new CharacterSizeAffect { Value = Sizes.Large });
 
         return true;
     }

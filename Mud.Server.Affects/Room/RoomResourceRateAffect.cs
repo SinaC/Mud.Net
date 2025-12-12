@@ -18,7 +18,7 @@ public class RoomResourceRateAffect : IRoomResourceRateAffect
     {
     }
 
-    public RoomResourceRateAffect(RoomResourceRateAffectData data)
+    public void Initialize(RoomResourceRateAffectData data)
     {
         Modifier = data.Modifier;
         Operator = data.Operator;

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Special;
@@ -36,13 +37,7 @@ namespace Mud.Server.Specials
                 return null;
             }
 
-            var special = ServiceProvider.GetService(specialBehaviorType);
-            if (special == null)
-            {
-                Logger.LogError("SpecialBehaviorManager: special behavior {specialBehaviorType} not found in DependencyContainer.", specialBehaviorType.FullName ?? "???");
-                return null;
-            }
-
+            var special = ServiceProvider.GetRequiredService(specialBehaviorType);
             if (special is not ISpecialBehavior instance)
             {
                 Logger.LogError("SpecialBehaviorManager: special behavior {specialBehaviorType} cannot be created or is not of type {expectedSpecialBehaviorType}", specialBehaviorType.FullName ?? "???", typeof(ISpecialBehavior).FullName ?? "???");

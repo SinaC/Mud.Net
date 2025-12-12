@@ -18,20 +18,6 @@ namespace Mud.Server.Tests.Abilities
         public const string SpellName = "SpellBaseTests_Spell";
 
         [TestMethod]
-        public void Setup_NoAbilityDefinition()
-        {
-            Mock<IRandomManager> randomManagerMock = new();
-            Mock<ICharacter> characterMock = new();
-            SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
-            var parameters = BuildParameters("");
-            SpellActionInput abilityActionInput = new(null, characterMock.Object, 10, null, parameters);
-
-            var result = spell.Setup(abilityActionInput);
-
-            Assert.AreEqual("Internal error: AbilityDefinition is null.", result);
-        }
-
-        [TestMethod]
         public void Setup_NoCaster()
         {
             Mock<IRandomManager> randomManagerMock = new();

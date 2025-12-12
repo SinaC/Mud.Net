@@ -66,7 +66,7 @@ public class Score : CharacterGameAction
                 {
                     sb.AppendLine("%c%You are affected by the following auras:%x%");
                     // Auras
-                    foreach (var aura in Actor.Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
+                    foreach (var aura in Actor.Auras.Where(x => (Actor is IPlayableCharacter pc && pc.IsImmortal) || !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.AuraFlags.HasFlag(AuraFlags.Permanent) ? int.MaxValue : x.PulseLeft))
                         aura.Append(sb, true); // short version
                 }
             }

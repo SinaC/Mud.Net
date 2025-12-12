@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
-using Mud.Server.Affects.Character;
-using Mud.Server.Affects.Item;
-using Mud.Server.Affects.Room;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using System.Reflection;
@@ -16,8 +15,8 @@ public class AffectManager : IAffectManager
     private ILogger<AffectManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
 
-    private Dictionary<string, AffectInfo> AffectsByName { get; }
-    private Dictionary<Type, AffectInfo> AffectsByDataType { get; }
+    private Dictionary<string, AffectDefinition> AffectDefinitionByName { get; }
+    private Dictionary<Type, AffectDefinition> AffectDefinitionByDataType { get; }
 
     public AffectManager(ILogger<AffectManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
     {
@@ -25,83 +24,58 @@ public class AffectManager : IAffectManager
         ServiceProvider = serviceProvider;
 
         var iAffectType = typeof(IAffect);
-        var affectInfos = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iAffectType.IsAssignableFrom(t)))
-            .Select(t => new { executionType = t, attribute = t.GetCustomAttribute<AffectAttribute>()! })
-            .Where(x => x.attribute != null)
-            .Select(x => new AffectInfo(x.executionType, x.attribute.Name, x.attribute.AffectDataType, x.attribute))
-            .ToArray();
-        AffectsByName = affectInfos.ToDictionary(x => x.Name, x => x);
-        AffectsByDataType = affectInfos.ToDictionary(x => x.AffectDataType, x => x);
+        var affectDataBaseType = typeof(AffectDataBase);
+        var affectDefinitions = new List<AffectDefinition>();
+        foreach (var affectType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsAssignableTo(iAffectType))))
+        {
+            var affectAttribute = affectType.GetCustomAttribute<AffectAttribute>() ?? throw new Exception($"AffectManager: no AffectAttribute found for Affect {affectType.FullName}");
+            var isAffectDataTypeValid = affectAttribute.AffectDataType.IsAssignableTo(affectDataBaseType);
+            if (!isAffectDataTypeValid)
+                throw new Exception($"AffectManager: AffectData type {affectAttribute.AffectDataType} doesn't inherit from {affectDataBaseType.FullName} on Affect {affectType.FullName}");
+            var initializeMethod = affectType.SearchMethod("Initialize", affectAttribute.AffectDataType) ?? throw new Exception($"AffectManager: no valid Initialize(affect data) method found on Affect {affectType.FullName}");
+            var affectDefinition = new AffectDefinition(affectType, affectAttribute.Name, affectAttribute.AffectDataType, initializeMethod);
+            affectDefinitions.Add(affectDefinition);
+        }
+        AffectDefinitionByName = affectDefinitions.ToDictionary(x => x.Name, x => x);
+        AffectDefinitionByDataType = affectDefinitions.ToDictionary(x => x.AffectDataType, x => x);
     }
 
     public IAffect? CreateInstance(string name)
     {
-        if (!AffectsByName.TryGetValue(name, out var affectInfo))
+        if (!AffectDefinitionByName.TryGetValue(name, out var affectDefinition))
         {
-            Logger.LogError("AffectManager: effect {name} not found.", name);
+            Logger.LogError("AffectManager: affect {name} not found.", name);
             return null;
         }
 
-        return CreateInstance(affectInfo);
+        return CreateInstance(affectDefinition);
     }
 
-    public IAffect? CreateInstance(AffectDataBase data)
+    public IAffect? CreateInstance(AffectDataBase affectData)
     {
-        switch (data)
+        var affectDataType = affectData.GetType();
+        if (!AffectDefinitionByDataType.TryGetValue(affectDataType, out var affectDefinition))
         {
-            case CharacterAttributeAffectData characterAttributeAffectData:
-                return new CharacterAttributeAffect(characterAttributeAffectData);
-            case CharacterFlagsAffectData characterFlagsAffectData:
-                return new CharacterFlagsAffect(characterFlagsAffectData);
-            case CharacterShieldFlagsAffectData characterShieldFlagsAffectData:
-                return new CharacterShieldFlagsAffect(characterShieldFlagsAffectData);
-            case CharacterIRVAffectData characterIRVAffectData:
-                return new CharacterIRVAffect(characterIRVAffectData);
-            case CharacterSexAffectData characterSexAffectData:
-                return new CharacterSexAffect(characterSexAffectData);
-            case ItemFlagsAffectData itemFlagsAffectData:
-                return new ItemFlagsAffect(itemFlagsAffectData);
-            case ItemWeaponFlagsAffectData itemWeaponFlagsAffectData:
-                return new ItemWeaponFlagsAffect(itemWeaponFlagsAffectData);
-            case RoomFlagsAffectData roomFlagsAffectData:
-                return new RoomFlagsAffect(roomFlagsAffectData);
-            case RoomHealRateAffectData roomHealRateAffectData:
-                return new RoomHealRateAffect(roomHealRateAffectData);
-            case RoomResourceRateAffectData roomResourceRateAffectData:
-                return new RoomResourceRateAffect(roomResourceRateAffectData);
-            default:
-                var dataType = data.GetType();
-                if (!AffectsByDataType.TryGetValue(dataType, out var affectInfo))
-                {
-                    Logger.LogError("Unexpected AffectType type {dataType}.", data.GetType());
-                }
-                else
-                {
-                    var affect = CreateInstance(affectInfo);
-                    if (affect is ICustomAffect customAffect)
-                        customAffect.Initialize(data);
-                    else
-                        Logger.LogError("AffectType type {dataType} should implement {customAffectType}.", data.GetType(), typeof(ICustomAffect).FullName ?? "???");
-                    return affect;
-                }
-                break;
+            Logger.LogError("AffectManager: unexpected AffectData type {affectDataType}.", affectDataType.FullName);
+            return null;
         }
-
-        return null;
-    }
-
-    private IAffect? CreateInstance(AffectInfo affectInfo)
-    {
-        var affect = ServiceProvider.GetService(affectInfo.AffectType);
+        // create instance
+        var affect = CreateInstance(affectDefinition);
         if (affect == null)
         {
-            Logger.LogError("AffectManager: affect {affectType} not found in DependencyContainer.", affectInfo.AffectType.FullName ?? "???");
+            Logger.LogError("AffectManager: cannot create instance of Affect {affectType}", affectDefinition.AffectType.FullName);
             return null;
         }
+        affectDefinition.InitializeMethod.Invoke(affect, [affectData]);
+        return affect;
+    }
 
+    private IAffect? CreateInstance(AffectDefinition affectDefinition)
+    {
+        var affect = ServiceProvider.GetRequiredService(affectDefinition.AffectType);
         if (affect is not IAffect instance)
         {
-            Logger.LogError("AffectManager: affect {affectType} cannot be created or is not of type {expectedAffectType}", affectInfo.AffectType.FullName ?? "???", typeof(IAffect).FullName ?? "???");
+            Logger.LogError("AffectManager: affect {affectType} cannot be created or is not of type {expectedAffectType}", affectDefinition.AffectType.FullName ?? "???", typeof(IAffect).FullName ?? "???");
             return null;
         }
         return instance;

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Effect;
@@ -35,13 +36,7 @@ public class EffectManager : IEffectManager
             return null;
         }
 
-        var effect = ServiceProvider.GetService(effectType);
-        if (effect == null)
-        {
-            Logger.LogError("EffectManager: effect {effectType} not found in DependencyContainer.", effectType.FullName ?? "???");
-            return null;
-        }
-
+        var effect = ServiceProvider.GetRequiredService(effectType);
         if (effect is not IEffect<TEntity> instance)
         {
             Logger.LogError("EffectManager: effect {effectType} cannot be created or is not of type {expectedEffectType}", effectType.FullName ?? "???", typeof(IEffect<TEntity>).FullName ?? "???");

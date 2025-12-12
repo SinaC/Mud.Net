@@ -14,7 +14,7 @@ public class RoomFlagsAffect : FlagsAffectBase<IRoomFlags, IRoomFlagValues>, IRo
     {
     }
 
-    public RoomFlagsAffect(RoomFlagsAffectData data)
+    public void Initialize(RoomFlagsAffectData data)
     {
         Operator = data.Operator;
         Modifier = data.Modifier;

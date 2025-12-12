@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
@@ -44,12 +45,7 @@ public class GameActionManager : IGameActionManager
     public string? Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, params ICommandParameter[] parameters)
         where TActor: IActor
     {
-        var gameActionInstance = ServiceProvider.GetService(gameActionInfo.CommandExecutionType);
-        if (gameActionInstance == null)
-        {
-            Logger.LogError("GameAction {name} not found in DependencyContainer.", gameActionInfo.Name);
-            return "Something goes wrong.";
-        }
+        var gameActionInstance = ServiceProvider.GetRequiredService(gameActionInfo.CommandExecutionType);
         if (gameActionInstance is not IGameAction gameAction)
         {
             Logger.LogError("GameAction {name} cannot be created or is not {type}.", gameActionInfo.Name, typeof(IGameAction).FullName ?? "???");

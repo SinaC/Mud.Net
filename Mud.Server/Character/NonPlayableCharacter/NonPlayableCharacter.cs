@@ -14,6 +14,7 @@ using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -108,7 +109,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         SetBaseAttributes(CharacterAttributes.ArmorSlash, blueprint.ArmorSlash, false); // OK
         SetBaseAttributes(CharacterAttributes.ArmorExotic, blueprint.ArmorExotic, false); // OK
         // TODO: add shields affects
-        // TODO: add haste affect
         AddAurasFromFlags(blueprint);
 
         // resources (should be extracted from blueprint)
@@ -359,7 +359,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             return;
         if (multiHitModifier?.MaxAttackCount <= attackCount)
             return;
-        // additional hits (dual wield, second, third attack, ...)
+        // additional hits from abilities (dual wield, second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
         foreach (var additionalHitAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
         {
@@ -369,7 +369,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         foreach(var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex))
         {
-            if (additionalHitAbility.IsTriggered(this, victim, false, out _, out _))
+            if (additionalHitAbility.IsTriggered(this, victim, true, out _, out _))
                 OneHit(victim, mainHand, multiHitModifier);
             attackCount++;
             if (Fighting != victim)
@@ -805,32 +805,32 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         // shields
         if (blueprint.ShieldFlags.IsSet("Sanctuary"))
         {
-            // TODO: code copied from sanctuary spell
+            // TODO: code copied from sanctuary spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Sanctuary"];
-            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, AuraFlags.Permanent, true,
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, AuraFlags.Permanent, false,
                 new CharacterShieldFlagsAffect { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("Sanctuary"), Operator = AffectOperators.Or });
         }
         if (blueprint.ShieldFlags.IsSet("ProtectGood"))
         {
-            // TODO: code copied from protection good spell
+            // TODO: code copied from protection good spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Good"];
-            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, AuraFlags.Permanent, true,
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, AuraFlags.Permanent, false,
                 new CharacterShieldFlagsAffect { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectGood"), Operator = AffectOperators.Or });
         }
         if (blueprint.ShieldFlags.IsSet("ProtectEvil"))
         {
-            // TODO: code copied from protection evil spell
+            // TODO: code copied from protection evil spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Evil"];
-            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, AuraFlags.Permanent, true,
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, AuraFlags.Permanent, false,
                 new CharacterShieldFlagsAffect { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectEvil"), Operator = AffectOperators.Or });
         }
         // TODO: other shields like FireShield, IceShield, LightningShield
-        if (blueprint.CharacterFlags.IsSet("Haste"))
+        if (blueprint.CharacterFlags.IsSet("Haste") || blueprint.OffensiveFlags.IsSet("Fast"))
         {
-            // TODO: code copied from haste spell
+            // TODO: code copied from haste spell (except duration and aura flags) use effect ??
             var hasteAbilityDefinition = AbilityManager["Haste"];
-            int modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
-            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, true,
+            var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
+            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, false,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterFlagsAffect { Modifier = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Haste"), Operator = AffectOperators.Or });
         }

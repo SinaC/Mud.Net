@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
@@ -15,7 +14,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemDrinkContainer))]
+[Item(typeof(ItemDrinkContainerBlueprint), typeof(ItemDrinkContainerData))]
 public class ItemDrinkContainer : ItemBase, IItemDrinkContainer
 {
     public ItemDrinkContainer(ILogger<ItemDrinkContainer> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)

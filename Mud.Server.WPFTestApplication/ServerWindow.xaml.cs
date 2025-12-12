@@ -196,6 +196,8 @@ public partial class ServerWindow : Window, INetworkServer
 
         try
         {
+            Logger.LogInformation("Creating world");
+
             CreateWorld();
         }
         catch (Exception ex)
@@ -205,6 +207,8 @@ public partial class ServerWindow : Window, INetworkServer
             Application.Current.Shutdown(0);
             return;
         }
+
+        Logger.LogInformation("Starting world");
 
         //
         var telnetServer = ServiceProvider.GetRequiredService<ITelnetNetworkServer>();
@@ -333,7 +337,11 @@ public partial class ServerWindow : Window, INetworkServer
     public static void LogInRichTextBox(string level, string message)
     {
         if (_serverWindowInstance == null)
+        {
+            if (PendingLogs.Count > 500)
+                PendingLogs.RemoveAt(0);
             PendingLogs.Add((level, message)); // delay logging until window is ready
+        }
         else
         {
             _serverWindowInstance.LogMessage(level, message);

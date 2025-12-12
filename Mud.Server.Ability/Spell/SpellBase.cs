@@ -13,9 +13,9 @@ public abstract class SpellBase : ISpell
 {
     protected ILogger<SpellBase> Logger { get; }
     protected IRandomManager RandomManager { get; }
+    protected IAbilityDefinition AbilityDefinition { get; }
 
     protected bool IsSetupExecuted { get; private set; }
-    protected IAbilityDefinition AbilityDefinition { get; private set; } = default!;
     protected ICharacter Caster { get; private set; } = default!;
     protected int Level { get; private set; }
     protected int? Cost { get; private set; }
@@ -26,6 +26,7 @@ public abstract class SpellBase : ISpell
     {
         Logger = logger;
         RandomManager = randomManager;
+        AbilityDefinition = new AbilityDefinition(GetType());
     }
 
     #region ISpell
@@ -34,8 +35,7 @@ public abstract class SpellBase : ISpell
     {
         IsSetupExecuted = true;
 
-        IsCastFromItem = spellActionInput.IsCastFromItem;
-        if (IsCastFromItem)
+        if (spellActionInput.IsCastFromItem)
             return SetupFromItem(spellActionInput);
         else
             return SetupFromCast(spellActionInput);
@@ -58,15 +58,9 @@ public abstract class SpellBase : ISpell
 
     private string? SetupFromCast(ISpellActionInput spellActionInput)
     {
-        // 1) check context
-        var abilityDefinition = spellActionInput.AbilityDefinition;
-        if (abilityDefinition == null)
-            return "Internal error: AbilityDefinition is null.";
-        if (abilityDefinition.AbilityExecutionType != GetType())
-            return $"Internal error: AbilityDefinition is not of the right type: {abilityDefinition.GetType().Name} instead of {GetType().Name}.";
-        AbilityDefinition = abilityDefinition;
+        IsCastFromItem = false;
 
-        // 2) check caster
+        // 1) check caster
         Caster = spellActionInput.Caster;
         if (Caster == null)
             return "Spell must be cast by a character.";
@@ -74,26 +68,26 @@ public abstract class SpellBase : ISpell
             return "You are nowhere...";
         Level = spellActionInput.Level;
 
-        // 3) check shape
-        if (abilityDefinition.AllowedShapes != null && !abilityDefinition.AllowedShapes.Contains(Caster.Shape))
+        // 2) check shape
+        if (AbilityDefinition.AllowedShapes?.Length > 0 && !AbilityDefinition.AllowedShapes.Contains(Caster.Shape))
         {
-            if (abilityDefinition.AllowedShapes.Length > 1)
-                return $"You are not in {string.Join(" or ", abilityDefinition.AllowedShapes.Select(x => x.ToString()))} shape";
-            return $"You are not in {abilityDefinition.AllowedShapes.Single().ToString()} shape";
+            if (AbilityDefinition.AllowedShapes.Length > 1)
+                return $"You are not in {string.Join(" or ", AbilityDefinition.AllowedShapes.Select(x => x.ToString()))} shape";
+            return $"You are not in {AbilityDefinition.AllowedShapes.Single()} shape";
         }
 
-        // 4) check targets
+        // 3) check targets
         var setTargetResult = SetTargets(spellActionInput);
         if (setTargetResult != null)
             return setTargetResult;
 
-        // 5) check cooldown
-        int cooldownPulseLeft = Caster.CooldownPulseLeft(abilityDefinition.Name);
+        // 4) check cooldown
+        int cooldownPulseLeft = Caster.CooldownPulseLeft(AbilityDefinition.Name);
         if (cooldownPulseLeft > 0)
-            return $"{abilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
+            return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
 
-        // 6) check resource cost
-        var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(abilityDefinition.Name);
+        // 5) check resource cost
+        var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
         if (abilityLearned != null && abilityLearned.HasCost())
         {
             var resourceKind = abilityLearned.ResourceKind!.Value;
@@ -113,11 +107,11 @@ public abstract class SpellBase : ISpell
                     cost = Math.Min(abilityLearned.CostAmount, Caster[resourceKind]);
                     break;
                 default:
-                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, abilityDefinition.Name);
+                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityDefinition.Name);
                     cost = 100;
                     break;
             }
-            bool enoughResource = cost <= resourceLeft;
+            var enoughResource = cost <= resourceLeft;
             if (!enoughResource)
                 return $"You don't have enough {resourceKind}.";
             Cost = cost;
@@ -133,14 +127,9 @@ public abstract class SpellBase : ISpell
 
     private string? SetupFromItem(ISpellActionInput spellActionInput)
     {
-        // 1) check context
-        AbilityDefinition = spellActionInput.AbilityDefinition;
-        if (AbilityDefinition == null)
-            return "Internal error: AbilityDefinition is null.";
-        if (AbilityDefinition.AbilityExecutionType != GetType())
-            return $"Internal error: AbilityDefinition is not of the right type: {AbilityDefinition.GetType().Name} instead of {GetType().Name}.";
+        IsCastFromItem = true;
 
-        // 2) check caster
+        // 1) check caster
         Caster = spellActionInput.Caster;
         if (Caster == null)
             return "Spell must be cast by a character.";
@@ -148,7 +137,10 @@ public abstract class SpellBase : ISpell
             return "You are nowhere...";
         Level = spellActionInput.Level;
 
-        // 3) check targets
+        Cost = null;
+        ResourceKind = null;
+
+        // 2) check targets
         var setTargetResult = SetTargets(spellActionInput);
         if (setTargetResult != null)
             return setTargetResult;
@@ -182,11 +174,11 @@ public abstract class SpellBase : ISpell
         Invoke();
 
         // 5) GCD
-        if (AbilityDefinition.PulseWaitTime.HasValue)
+        if (AbilityDefinition.PulseWaitTime != null)
             pcCaster?.ImpersonatedBy?.SetGlobalCooldown(AbilityDefinition.PulseWaitTime.Value);
 
         // 6) set cooldown if any
-        if (AbilityDefinition.CooldownInSeconds.HasValue && AbilityDefinition.CooldownInSeconds.Value > 0)
+        if (AbilityDefinition.CooldownInSeconds != null && AbilityDefinition.CooldownInSeconds.Value > 0)
             Caster.SetCooldown(AbilityDefinition.Name, TimeSpan.FromSeconds(AbilityDefinition.CooldownInSeconds.Value));
 
         // 7) check improve true
@@ -239,8 +231,8 @@ public abstract class SpellBase : ISpell
 
         // Build mystical words for spell
         StringBuilder mysticalWords = new();
-        string abilityName = AbilityDefinition.Name.ToLowerInvariant();
-        string remaining = abilityName;
+        var abilityName = AbilityDefinition.Name.ToLowerInvariant();
+        var remaining = abilityName;
         while (remaining.Length > 0)
         {
             bool found = false;
@@ -262,7 +254,7 @@ public abstract class SpellBase : ISpell
             }
         }
 
-        // Say to people in room except source
+        // Say to people in room except source (if target is fluent with that spell, hear the spell clearly)
         foreach (ICharacter target in Caster.Room.People.Where(x => x != Caster))
         {
             var (_, abilityLearned) = target.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);

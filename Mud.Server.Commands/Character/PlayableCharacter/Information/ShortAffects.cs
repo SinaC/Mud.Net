@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Information;
 
-[PlayableCharacterCommand("shortaffects", "Information")]
+[PlayableCharacterCommand("shortaffects", "Information", Priority = 100)]
 [Alias("saffects")]
 [Alias("sauras")]
 [Help(
@@ -27,7 +27,7 @@ public class ShortAffects : PlayableCharacterGameAction
         {
             sb.AppendLine("%c%You are affected by following auras:%x%");
             // Auras
-            foreach (var aura in Actor.Auras.Where(x => !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.PulseLeft))
+            foreach (var aura in Actor.Auras.Where(x => Actor.IsImmortal || !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.AuraFlags.HasFlag(AuraFlags.Permanent) ? int.MaxValue : x.PulseLeft))
                 aura.Append(sb, true);
         }
         else

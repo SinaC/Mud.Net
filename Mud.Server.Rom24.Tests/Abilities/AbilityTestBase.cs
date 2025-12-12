@@ -114,6 +114,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             mock.SetupGet(x => x.ResourceKind).Returns(Domain.ResourceKinds.Mana);
             mock.SetupGet(x => x.CostAmount).Returns(50);
             mock.SetupGet(x => x.CostAmountOperator).Returns(Domain.CostAmountOperators.Fixed);
+            mock.Setup(x => x.HasCost()).Returns(true);
             return mock.Object;
         }
 

@@ -20,25 +20,34 @@ public abstract class AbilityTestBase : TestBase
     protected static IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
         where TGameAction : IGameAction
     {
-        Type type = typeof(TGameAction);
-        CommandAttribute commandAttribute = type.GetCustomAttribute<CommandAttribute>();
+        Type type = typeof(TGameAction)!;
+        CommandAttribute commandAttribute = type.GetCustomAttribute<CommandAttribute>()!;
         SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
         IEnumerable<AliasAttribute> aliasAttributes = type.GetCustomAttributes<AliasAttribute>();
 
         IGameActionInfo gameActionInfo;
         switch (commandAttribute)
         {
+            case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
+                gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
+            case CharacterCommandAttribute characterCommandAttribute:
+                gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
             case AdminCommandAttribute adminCommandAttribute:
                 gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             case PlayerCommandAttribute playerCommandAttribute:
                 gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
-            case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
-                gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null);
+            case ItemCommandAttribute itemCommandAttribute:
+                gameActionInfo = new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
-            case CharacterCommandAttribute characterCommandAttribute:
-                gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null);
+            case RoomCommandAttribute roomCommandAttribute:
+                gameActionInfo = new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
+            case ActorCommandAttribute actorCommandAttribute:
+                gameActionInfo = new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             default:
                 gameActionInfo = new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, null);
@@ -56,6 +65,7 @@ public abstract class AbilityTestBase : TestBase
         mock.SetupGet(x => x.ResourceKind).Returns(Domain.ResourceKinds.Mana);
         mock.SetupGet(x => x.CostAmount).Returns(50);
         mock.SetupGet(x => x.CostAmountOperator).Returns(Domain.CostAmountOperators.Fixed);
+        mock.Setup(x => x.HasCost()).Returns(true);
         return mock.Object;
     }
 }

@@ -14,9 +14,9 @@ public abstract class SkillBase : CharacterGameAction, ISkill
 {
     protected ILogger<SkillBase> Logger { get; }
     protected IRandomManager RandomManager { get; }
+    protected IAbilityDefinition AbilityDefinition { get; }
 
     protected bool IsSetupExecuted { get; private set; }
-    protected IAbilityDefinition AbilityDefinition { get; private set; } = default!;
     protected ICharacter User { get; private set; } = default!;
     protected int Learned { get; private set; }
     protected int? Cost { get; private set; }
@@ -26,6 +26,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
     {
         Logger = logger;
         RandomManager = randomManager;
+        AbilityDefinition = new AbilityDefinition(GetType());
     }
 
     #region ISkill
@@ -34,31 +35,23 @@ public abstract class SkillBase : CharacterGameAction, ISkill
     {
         IsSetupExecuted = true;
 
-        // 1) check context
-        var abilityDefinition = skillActionInput.AbilityDefinition;
-        if (abilityDefinition == null)
-            return "Internal error: AbilityDefinition is null.";
-        if (abilityDefinition.AbilityExecutionType != GetType())
-            return $"Internal error: AbilityDefinition is not of the right type: {abilityDefinition.GetType().Name} instead of {GetType().Name}.";
-        AbilityDefinition = abilityDefinition;
-
-        // 2) check actor
+        // 1) check actor
         User = skillActionInput.User;
         if (User == null)
             return "Skill must be used by a character.";
         if (User.Room == null)
             return "You are nowhere...";
 
-        // 3) check shape
-        if (abilityDefinition.AllowedShapes != null && !abilityDefinition.AllowedShapes.Contains(User.Shape))
+        // 2) check shape
+        if (AbilityDefinition.AllowedShapes?.Length > 0 && !AbilityDefinition.AllowedShapes.Contains(User.Shape))
         {
-            if (abilityDefinition.AllowedShapes.Length > 1)
-                return $"You are not in {string.Join(" or ", abilityDefinition.AllowedShapes.Select(x => x.ToString()))} shape";
-            return $"You are not in {abilityDefinition.AllowedShapes.Single().ToString()} shape";
+            if (AbilityDefinition.AllowedShapes.Length > 1)
+                return $"You are not in {string.Join(" or ", AbilityDefinition.AllowedShapes.Select(x => x.ToString()))} shape";
+            return $"You are not in {AbilityDefinition.AllowedShapes.Single()} shape";
         }
 
         // 4) get ability percentage
-        var (percentage, abilityLearned) = User.GetAbilityLearnedAndPercentage(abilityDefinition.Name);
+        var (percentage, abilityLearned) = User.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
         Learned = percentage;
 
         // 5) if skill must be learned, check if learned
@@ -85,7 +78,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
                     cost = Math.Max(abilityLearned.CostAmount, User[resourceKind]);
                     break;
                 default:
-                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, abilityDefinition.Name);
+                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityDefinition.Name);
                     cost = 100;
                     break;
             }
@@ -107,9 +100,9 @@ public abstract class SkillBase : CharacterGameAction, ISkill
             return setTargetResult;
 
         // 7) check cooldown
-        int cooldownPulseLeft = User.CooldownPulseLeft(abilityDefinition.Name);
+        int cooldownPulseLeft = User.CooldownPulseLeft(AbilityDefinition.Name);
         if (cooldownPulseLeft > 0)
-            return $"{abilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
+            return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
 
         return null;
     }
@@ -149,14 +142,13 @@ public abstract class SkillBase : CharacterGameAction, ISkill
 
     #region IGameAction
 
-    public override string? Guards(IActionInput actionInput)
+    public sealed override string? Guards(IActionInput actionInput)
     {
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
-        var abilityDefinition = new AbilityDefinition(GetType());
-        var skillActionInput = new SkillActionInput(actionInput, abilityDefinition, Actor);
+        var skillActionInput = new SkillActionInput(actionInput, AbilityDefinition, Actor);
         var setupResult = Setup(skillActionInput);
         return setupResult;
     }

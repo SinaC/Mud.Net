@@ -1,4 +1,5 @@
-﻿using Mud.DataStructures.Flags;
+﻿using Mud.Common;
+using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Domain.SerializationData;
@@ -18,7 +19,7 @@ public abstract class FlagsAffectBase<TFlag, TFlagValues> : IFlagsAffect<TFlag, 
 
     public void Append(StringBuilder sb)
     {
-        sb.AppendFormat("%c%modifies %y%{0} %c%{1} %y%{2}%x%", Target, Operator.PrettyPrint(), Modifier.ToString());
+        sb.AppendFormat("%c%modifies %y%{0} %c%{1} %y%{2}%x%", Target.ToPascalCase(), Operator.PrettyPrint(), Modifier.ToString());
     }
 
     public abstract AffectDataBase MapAffectData();

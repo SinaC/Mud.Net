@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
@@ -18,7 +17,7 @@ using System.Text;
 
 namespace Mud.Server.Item;
 
-[Export(typeof(IItemFurniture))]
+[Item(typeof(ItemFurnitureBlueprint), typeof(ItemData))]
 public class ItemFurniture : ItemBase, IItemFurniture
 {
     public ItemFurniture(ILogger<ItemFurniture> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)

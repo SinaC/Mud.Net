@@ -3177,7 +3177,7 @@
           "CostAmount": 45,
           "CostAmountOperator": 1,
           "Level": 15,
-          "Learned": 76,
+          "Learned": 100,
           "Rating": 1
         },
         {
@@ -3186,7 +3186,34 @@
           "CostAmount": 40,
           "CostAmountOperator": 1,
           "Level": 20,
-          "Learned": 76,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Maul",
+          "ResourceKind": 3,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 20,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Demoralizing Roar",
+          "ResourceKind": 3,
+          "CostAmount": 10,
+          "CostAmountOperator": 1,
+          "Level": 10,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Ferocious Bite",
+          "ResourceKind": 4,
+          "CostAmount": 1,
+          "CostAmountOperator": 3,
+          "Level": 20,
+          "Learned": 100,
           "Rating": 1
         }
       ],
@@ -3214,16 +3241,18 @@
       "HitPoints": 218,
       "MovePoints": 211,
       "CurrentResources": {
-        "Mana": 168,
+        "Mana": 158,
         "Psy": 100,
         "Energy": 100,
-        "Rage": 0
+        "Rage": 96,
+        "Combo": 0
       },
       "MaxResources": {
         "Mana": 316,
         "Psy": 100,
         "Energy": 100,
-        "Rage": 0
+        "Rage": 100,
+        "Combo": 0
       },
       "Equipments": [
         {
@@ -3250,7 +3279,7 @@
               {
                 "AbilityName": "Test",
                 "Level": 26,
-                "PulseLeft": 1780,
+                "PulseLeft": 1760,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3288,7 +3317,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 904,
+                "PulseLeft": 884,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3305,16 +3334,16 @@
       "Inventory": [
         {
           "$type": "base",
-          "ItemId": 2104,
-          "Level": 3,
+          "ItemId": 2111,
+          "Level": 10,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
         },
         {
           "$type": "base",
-          "ItemId": 2111,
-          "Level": 10,
+          "ItemId": 2104,
+          "Level": 3,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
@@ -3324,7 +3353,7 @@
         {
           "AbilityName": "Giant Strength",
           "Level": 1,
-          "PulseLeft": 10172,
+          "PulseLeft": 10152,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3338,7 +3367,7 @@
         {
           "AbilityName": "Detect Evil",
           "Level": 1,
-          "PulseLeft": 10368,
+          "PulseLeft": 10348,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3351,7 +3380,7 @@
         {
           "AbilityName": "Detect Good",
           "Level": 1,
-          "PulseLeft": 10400,
+          "PulseLeft": 10380,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3364,7 +3393,7 @@
         {
           "AbilityName": "Detect Invis",
           "Level": 1,
-          "PulseLeft": 10416,
+          "PulseLeft": 10396,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3377,7 +3406,7 @@
         {
           "AbilityName": "Detect Hidden",
           "Level": 1,
-          "PulseLeft": 10472,
+          "PulseLeft": 10452,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3390,7 +3419,7 @@
         {
           "AbilityName": "Shock Shield",
           "Level": 1,
-          "PulseLeft": 680,
+          "PulseLeft": 660,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3403,7 +3432,7 @@
         {
           "AbilityName": "Fire Shield",
           "Level": 1,
-          "PulseLeft": 696,
+          "PulseLeft": 676,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3416,7 +3445,7 @@
         {
           "AbilityName": "Ice Shield",
           "Level": 1,
-          "PulseLeft": 708,
+          "PulseLeft": 688,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3429,7 +3458,7 @@
         {
           "AbilityName": "Berserk",
           "Level": 13,
-          "PulseLeft": 656,
+          "PulseLeft": 636,
           "AuraFlags": 2,
           "Affects": [
             {

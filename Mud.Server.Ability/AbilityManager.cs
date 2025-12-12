@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
@@ -137,12 +138,7 @@ public class AbilityManager : IAbilityManager
     private TAbility? CreateInstance<TAbility>(IAbilityDefinition abilityDefinition, string abilityName)
          where TAbility : class, IAbility
     {
-        var ability = ServiceProvider.GetService(abilityDefinition.AbilityExecutionType);
-        if (ability == null)
-        {
-            Logger.LogError("Ability {abilityName} not found in DependencyContainer.", abilityName);
-            return default;
-        }
+        var ability = ServiceProvider.GetRequiredService(abilityDefinition.AbilityExecutionType);
         if (ability is not TAbility instance)
         {
             Logger.LogError("Ability {abilityName} cannot be created or is not {expectedAbilityType}.", abilityName, typeof(TAbility).Name);

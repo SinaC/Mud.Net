@@ -5,7 +5,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Ability.Spell;
 
@@ -26,17 +25,13 @@ public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
         if (Victim != Caster
             && npcVictim?.Master != Caster) // avoid attacking caster when successfully charmed
         {
-            // TODO: not sure why we loop on people in caster room
-            // TODO: we could just check if victim is still in the room and not fighting
-            var clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.ToList());
-            foreach (ICharacter victim in clone)
+            // check if victim is still in the room and not yet fighting user
+            // if victim found, we allow it to multi hit user
+            var victimStartFightaingAgainstUser = Caster.Room.People.FirstOrDefault(x => x == Victim && x.Fighting == null);
+            if (victimStartFightaingAgainstUser != null)
             {
-                if (victim == Victim && victim.Fighting == null)
-                {
-                    // TODO: check_killer
-                    victim.MultiHit(Caster);
-                    break;
-                }
+                // TODO: check_killer
+                victimStartFightaingAgainstUser.MultiHit(Caster);
             }
         }
     }

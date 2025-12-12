@@ -427,7 +427,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         attackCount++;
         if (Fighting != victim)
             return;
-        if (multiHitModifier?.MaxAttackCount <= 2)
+        if (multiHitModifier?.MaxAttackCount <= attackCount)
             return;
         // additional hits (dual wield, second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
@@ -1118,7 +1118,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         // Compute move and check if enough move left
         int moveCost = TableValues.MovementLoss(fromRoom.SectorType) + TableValues.MovementLoss(toRoom.SectorType);
-        if (CharacterFlags.IsSet("Flying"))
+        if (CharacterFlags.IsSet("Flying") || CharacterFlags.IsSet("Haste"))
             moveCost /= 2; // flying is less exhausting
         if (CharacterFlags.IsSet("Slow"))
             moveCost *= 2; // being slowed is more exhausting

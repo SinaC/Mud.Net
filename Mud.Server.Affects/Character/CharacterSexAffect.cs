@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Mud.Common;
+using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
@@ -13,14 +14,14 @@ public class CharacterSexAffect : ICharacterSexAffect
 
     public void Append(StringBuilder sb)
     {
-        sb.AppendFormat("%c%modifies %y%sex %c%by setting to %y%{0}%x%", Value);
+        sb.AppendFormat("%c%modifies %y%Sex %c%by setting to %y%{0}%x%", Value.ToString().ToPascalCase());
     }
 
     public CharacterSexAffect()
     {
     }
 
-    public CharacterSexAffect(CharacterSexAffectData data)
+    public void Initialize(CharacterSexAffectData data)
     {
         Value = data.Value;
     }

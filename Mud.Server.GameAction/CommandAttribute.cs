@@ -3,7 +3,7 @@ using Mud.Domain;
 
 namespace Mud.Server.GameAction;
 
-[AttributeUsage(AttributeTargets.Class)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 public abstract class CommandAttribute : ExportAttribute // every command will be exported without ContractType
 {
     public const int DefaultPriority = 500;
