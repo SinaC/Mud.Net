@@ -1,7 +1,9 @@
-﻿using Mud.Domain.Serialization;
+﻿using Mud.Domain;
+using Mud.Domain.Serialization;
+using Mud.Domain.SerializationData;
 using Mud.Server.Flags.Interfaces;
 
-namespace Mud.Domain.SerializationData;
+namespace Mud.Server.Affects.Item;
 
 [JsonPolymorphism(typeof(AffectDataBase), "weaponFlags")]
 public class ItemWeaponFlagsAffectData : AffectDataBase

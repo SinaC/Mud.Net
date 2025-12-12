@@ -1,4 +1,6 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿using Mud.Domain;
+
+namespace Mud.Domain.SerializationData;
 
 public class LearnedAbilityData
 {

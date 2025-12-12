@@ -1,7 +1,9 @@
-﻿using Mud.Domain.Serialization;
+﻿using Mud.Domain;
+using Mud.Domain.Serialization;
+using Mud.Domain.SerializationData;
 using Mud.Server.Flags.Interfaces;
 
-namespace Mud.Domain.SerializationData;
+namespace Mud.Server.Affects.Room;
 
 [JsonPolymorphism(typeof(AffectDataBase), "roomFlags")]
 public class RoomFlagsAffectData : AffectDataBase

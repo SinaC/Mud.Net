@@ -6,8 +6,10 @@ using Mud.DataStructures.Flags;
 using Mud.Domain.SerializationData;
 using Mud.Repository.Filesystem.Json.Converters;
 using Mud.Repository.Filesystem.Json.Resolvers;
+using Mud.Server.Affects.Character;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
+using Mud.Server.Rom24.Affects;
 using System.Text.Json;
 
 namespace Mud.Repository.Tests
@@ -70,7 +72,7 @@ namespace Mud.Repository.Tests
             _flagFactory = new FlagsFactory(_serviceProvider);
 
             var assemblyHelperMock = new Mock<IAssemblyHelper>();
-            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(AffectDataBase).Assembly.Yield());
+            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns([typeof(AffectDataBase).Assembly, typeof(CharacterAttributeAffectData).Assembly, typeof(PoisonDamageAffectData).Assembly]);
 
             _options = new JsonSerializerOptions
             {
