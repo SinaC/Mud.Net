@@ -1,5 +1,8 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿using Mud.Domain.Serialization;
 
+namespace Mud.Domain.SerializationData;
+
+[JsonPolymorphism(typeof(ItemData), "corpse")]
 public class ItemCorpseData : ItemData
 {
     public required ItemData[] Contains { get; set; }

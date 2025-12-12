@@ -1,5 +1,8 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿using Mud.Domain.Serialization;
 
+namespace Mud.Domain.SerializationData;
+
+[JsonPolymorphism(typeof(ItemData), "food")]
 public class ItemFoodData : ItemData
 {
     public required int FullHours { get; set; }

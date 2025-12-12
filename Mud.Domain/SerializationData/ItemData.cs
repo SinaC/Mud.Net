@@ -1,18 +1,9 @@
-﻿using Mud.Server.Flags.Interfaces;
-using System.Text.Json.Serialization;
+﻿using Mud.Domain.Serialization;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Domain.SerializationData;
 
-[JsonDerivedType(typeof(ItemData), "base")]
-[JsonDerivedType(typeof(ItemCorpseData), "corpse")]
-[JsonDerivedType(typeof(ItemContainerData), "container")]
-[JsonDerivedType(typeof(ItemWeaponData), "weapon")]
-[JsonDerivedType(typeof(ItemDrinkContainerData), "drinkContainer")]
-[JsonDerivedType(typeof(ItemFoodData), "food")]
-[JsonDerivedType(typeof(ItemPortalData), "portal")]
-[JsonDerivedType(typeof(ItemWandData), "wand")]
-[JsonDerivedType(typeof(ItemStaffData), "staff")]
-[JsonDerivedType(typeof(ItemLightData), "light")]
+//[JsonPolymorphism(typeof(ItemData), "base")]
 public class ItemData
 {
     public required int ItemId { get; set; }

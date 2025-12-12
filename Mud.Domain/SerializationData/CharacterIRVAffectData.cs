@@ -1,7 +1,9 @@
-﻿using Mud.Server.Flags.Interfaces;
+﻿using Mud.Domain.Serialization;
+using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Domain.SerializationData;
 
+[JsonPolymorphism(typeof(AffectDataBase), "irv")]
 public class CharacterIRVAffectData : AffectDataBase
 {
     public required IRVAffectLocations Location { get; set; }

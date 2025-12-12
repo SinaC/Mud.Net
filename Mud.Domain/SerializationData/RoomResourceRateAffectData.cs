@@ -1,5 +1,8 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿using Mud.Domain.Serialization;
 
+namespace Mud.Domain.SerializationData;
+
+[JsonPolymorphism(typeof(AffectDataBase), "roomSourceRate")]
 public class RoomResourceRateAffectData : AffectDataBase
 {
     public required AffectOperators Operator { get; set; }

@@ -2,7 +2,6 @@
 using Moq;
 using Mud.Common;
 using Mud.Server.Ability;
-using Mud.Server.Interfaces;
 using Mud.Server.Tests.Mocking;
 
 namespace Mud.Server.Tests.Abilities;

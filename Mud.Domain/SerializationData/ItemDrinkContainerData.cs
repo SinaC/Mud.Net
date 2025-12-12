@@ -1,5 +1,8 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿using Mud.Domain.Serialization;
 
+namespace Mud.Domain.SerializationData;
+
+[JsonPolymorphism(typeof(ItemData), "drinkContainer")]
 public class ItemDrinkContainerData : ItemData
 {
     public required int MaxLiquidAmount { get; set; }

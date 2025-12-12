@@ -25,7 +25,7 @@
           "PulseLeft": 0,
           "CompletionTime": null,
           "GiverId": 10,
-          "GiverRoomId": 3025,
+          "GiverRoomId": 3014,
           "Objectives": [
             {
               "ObjectiveId": 1,
@@ -1378,9 +1378,77 @@
           "Level": 1,
           "Learned": 100,
           "Rating": 1
+        },
+        {
+          "Name": "Bear Form",
+          "ResourceKind": 0,
+          "CostAmount": 10,
+          "CostAmountOperator": 1,
+          "Level": 5,
+          "Learned": 100,
+          "Rating": 0
+        },
+        {
+          "Name": "Cat Form",
+          "ResourceKind": 0,
+          "CostAmount": 10,
+          "CostAmountOperator": 1,
+          "Level": 15,
+          "Learned": 100,
+          "Rating": 0
+        },
+        {
+          "Name": "Claw",
+          "ResourceKind": 2,
+          "CostAmount": 45,
+          "CostAmountOperator": 1,
+          "Level": 15,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Rake",
+          "ResourceKind": 2,
+          "CostAmount": 40,
+          "CostAmountOperator": 1,
+          "Level": 20,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Maul",
+          "ResourceKind": 3,
+          "CostAmount": 15,
+          "CostAmountOperator": 1,
+          "Level": 20,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Demoralizing Roar",
+          "ResourceKind": 3,
+          "CostAmount": 10,
+          "CostAmountOperator": 1,
+          "Level": 10,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Ferocious Bite",
+          "ResourceKind": 4,
+          "CostAmount": 1,
+          "CostAmountOperator": 3,
+          "Level": 20,
+          "Learned": 100,
+          "Rating": 1
         }
       ],
-      "LearnedAbilityGroups": [],
+      "LearnedAbilityGroups": [
+        {
+          "Name": "druid basics",
+          "Cost": 0
+        }
+      ],
       "Conditions": {
         "Drunk": 0,
         "Full": 24,
@@ -1400,11 +1468,17 @@
       "MovePoints": 13786,
       "CurrentResources": {
         "Mana": 3151,
-        "Psy": 100
+        "Psy": 100,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
       },
       "MaxResources": {
         "Mana": 10000,
-        "Psy": 100
+        "Psy": 100,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
       },
       "Equipments": [
         {
@@ -1419,8 +1493,8 @@
             "Auras": [
               {
                 "AbilityName": "Test",
-                "Level": 17,
-                "PulseLeft": 1888,
+                "Level": 15,
+                "PulseLeft": 1848,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -1448,7 +1522,6 @@
         {
           "Slot": 4,
           "Item": {
-            "$type": "base",
             "ItemId": 3353,
             "Level": 5,
             "DecayPulseLeft": 0,
@@ -1459,7 +1532,6 @@
         {
           "Slot": 5,
           "Item": {
-            "$type": "base",
             "ItemId": 3361,
             "Level": 3,
             "DecayPulseLeft": 0,
@@ -1470,7 +1542,6 @@
         {
           "Slot": 6,
           "Item": {
-            "$type": "base",
             "ItemId": 3362,
             "Level": 5,
             "DecayPulseLeft": 0,
@@ -1481,7 +1552,6 @@
         {
           "Slot": 9,
           "Item": {
-            "$type": "base",
             "ItemId": 3359,
             "Level": 5,
             "DecayPulseLeft": 0,
@@ -1492,7 +1562,6 @@
         {
           "Slot": 10,
           "Item": {
-            "$type": "base",
             "ItemId": 3364,
             "Level": 16,
             "DecayPulseLeft": 0,
@@ -1503,7 +1572,6 @@
         {
           "Slot": 10,
           "Item": {
-            "$type": "base",
             "ItemId": 3364,
             "Level": 16,
             "DecayPulseLeft": 0,
@@ -1514,7 +1582,6 @@
         {
           "Slot": 10,
           "Item": {
-            "$type": "base",
             "ItemId": 3364,
             "Level": 16,
             "DecayPulseLeft": 0,
@@ -1525,7 +1592,6 @@
         {
           "Slot": 10,
           "Item": {
-            "$type": "base",
             "ItemId": 3364,
             "Level": 16,
             "DecayPulseLeft": 0,
@@ -1546,7 +1612,7 @@
               {
                 "AbilityName": "Test",
                 "Level": 1,
-                "PulseLeft": 3364,
+                "PulseLeft": 3324,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -1576,6 +1642,39 @@
       ],
       "Inventory": [
         {
+          "$type": "food",
+          "FullHours": 8,
+          "HungerHours": 6,
+          "IsPoisoned": false,
+          "ItemId": 3014,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "$type": "food",
+          "FullHours": 8,
+          "HungerHours": 6,
+          "IsPoisoned": false,
+          "ItemId": 3014,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "$type": "food",
+          "FullHours": 8,
+          "HungerHours": 6,
+          "IsPoisoned": false,
+          "ItemId": 3014,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
           "$type": "weapon",
           "WeaponFlags": "",
           "ItemId": 3350,
@@ -1583,46 +1682,13 @@
           "DecayPulseLeft": 0,
           "ItemFlags": "Magic",
           "Auras": []
-        },
-        {
-          "$type": "food",
-          "FullHours": 8,
-          "HungerHours": 6,
-          "IsPoisoned": false,
-          "ItemId": 3014,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "",
-          "Auras": []
-        },
-        {
-          "$type": "food",
-          "FullHours": 8,
-          "HungerHours": 6,
-          "IsPoisoned": false,
-          "ItemId": 3014,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "",
-          "Auras": []
-        },
-        {
-          "$type": "food",
-          "FullHours": 8,
-          "HungerHours": 6,
-          "IsPoisoned": false,
-          "ItemId": 3014,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "",
-          "Auras": []
         }
       ],
       "Auras": [
         {
           "AbilityName": "Sanctuary",
           "Level": 13,
-          "PulseLeft": 948,
+          "PulseLeft": 908,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1634,8 +1700,8 @@
         },
         {
           "AbilityName": "Shield",
-          "Level": 19,
-          "PulseLeft": 12240,
+          "Level": 17,
+          "PulseLeft": 12200,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1648,8 +1714,8 @@
         },
         {
           "AbilityName": "Berserk",
-          "Level": 6,
-          "PulseLeft": 260,
+          "Level": 2,
+          "PulseLeft": 220,
           "AuraFlags": 2,
           "Affects": [
             {
@@ -1679,8 +1745,8 @@
         },
         {
           "AbilityName": "Stone Skin",
-          "Level": 5,
-          "PulseLeft": 10360,
+          "Level": 4,
+          "PulseLeft": 10320,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1693,8 +1759,8 @@
         },
         {
           "AbilityName": "Protection Evil",
-          "Level": 8,
-          "PulseLeft": 5096,
+          "Level": 5,
+          "PulseLeft": 5056,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1712,8 +1778,8 @@
         },
         {
           "AbilityName": "Testroom",
-          "Level": 23,
-          "PulseLeft": 856,
+          "Level": 22,
+          "PulseLeft": 816,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1735,8 +1801,8 @@
         },
         {
           "AbilityName": "Plague",
-          "Level": 17,
-          "PulseLeft": 10740,
+          "Level": 15,
+          "PulseLeft": 10700,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -1757,8 +1823,8 @@
         },
         {
           "AbilityName": "Poison",
-          "Level": 31,
-          "PulseLeft": 10836,
+          "Level": 28,
+          "PulseLeft": 10796,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3270,7 +3336,6 @@
         {
           "Slot": 4,
           "Item": {
-            "$type": "base",
             "ItemId": 2114,
             "Level": 10,
             "DecayPulseLeft": 0,
@@ -3333,7 +3398,6 @@
       ],
       "Inventory": [
         {
-          "$type": "base",
           "ItemId": 2111,
           "Level": 10,
           "DecayPulseLeft": 0,
@@ -3341,7 +3405,6 @@
           "Auras": []
         },
         {
-          "$type": "base",
           "ItemId": 2104,
           "Level": 3,
           "DecayPulseLeft": 0,
@@ -3770,7 +3833,6 @@
         {
           "Slot": 2,
           "Item": {
-            "$type": "base",
             "ItemId": 3706,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3781,7 +3843,6 @@
         {
           "Slot": 3,
           "Item": {
-            "$type": "base",
             "ItemId": 3705,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3792,7 +3853,6 @@
         {
           "Slot": 3,
           "Item": {
-            "$type": "base",
             "ItemId": 3705,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3803,7 +3863,6 @@
         {
           "Slot": 4,
           "Item": {
-            "$type": "base",
             "ItemId": 3703,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3814,7 +3873,6 @@
         {
           "Slot": 5,
           "Item": {
-            "$type": "base",
             "ItemId": 3711,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3825,7 +3883,6 @@
         {
           "Slot": 6,
           "Item": {
-            "$type": "base",
             "ItemId": 3712,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3836,7 +3893,6 @@
         {
           "Slot": 7,
           "Item": {
-            "$type": "base",
             "ItemId": 3713,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3847,7 +3903,6 @@
         {
           "Slot": 7,
           "Item": {
-            "$type": "base",
             "ItemId": 3713,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3858,7 +3913,6 @@
         {
           "Slot": 8,
           "Item": {
-            "$type": "base",
             "ItemId": 3710,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3869,7 +3923,6 @@
         {
           "Slot": 9,
           "Item": {
-            "$type": "base",
             "ItemId": 3709,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3880,7 +3933,6 @@
         {
           "Slot": 11,
           "Item": {
-            "$type": "base",
             "ItemId": 3707,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3891,7 +3943,6 @@
         {
           "Slot": 12,
           "Item": {
-            "$type": "base",
             "ItemId": 3708,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3914,7 +3965,6 @@
         {
           "Slot": 14,
           "Item": {
-            "$type": "base",
             "ItemId": 3704,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -3925,7 +3975,6 @@
       ],
       "Inventory": [
         {
-          "$type": "base",
           "ItemId": 3162,
           "Level": 0,
           "DecayPulseLeft": 0,
@@ -3933,7 +3982,6 @@
           "Auras": []
         },
         {
-          "$type": "base",
           "ItemId": 3707,
           "Level": 0,
           "DecayPulseLeft": 0,
@@ -3941,7 +3989,6 @@
           "Auras": []
         },
         {
-          "$type": "base",
           "ItemId": 3712,
           "Level": 0,
           "DecayPulseLeft": 0,
@@ -3949,7 +3996,6 @@
           "Auras": []
         },
         {
-          "$type": "base",
           "ItemId": 3715,
           "Level": 0,
           "DecayPulseLeft": 0,

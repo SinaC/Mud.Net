@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
 using Mud.Repository.Filesystem.Json.Converters;
+using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Repository.Interfaces;
 using Mud.Server.Flags.Interfaces;
 using System.Text.Json;
@@ -18,12 +20,16 @@ public class PlayerRepository : IPlayerRepository
 
     private string BuildFilename(string playerName) => Path.Combine(PlayerRepositoryPath, playerName + ".json");
 
-    public PlayerRepository(ILogger<PlayerRepository> logger, IOptions<FileRepositoryOptions> options, IFlagFactory flagFactory)
+    public PlayerRepository(ILogger<PlayerRepository> logger, IOptions<FileRepositoryOptions> options, IAssemblyHelper assemblyHelper, IFlagFactory flagFactory)
     {
         Logger = logger;
         PlayerRepositoryPath = options.Value.PlayerPath;
 
-        SerializerOptions = new JsonSerializerOptions { WriteIndented = true };
+        SerializerOptions = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            TypeInfoResolver = new PolymorphicTypeResolver(assemblyHelper)
+        };
         SerializerOptions.Converters.Add(new CharacterFlagsJsonConverter(flagFactory));
         SerializerOptions.Converters.Add(new IRVFlagsJsonConverter(flagFactory));
         SerializerOptions.Converters.Add(new ShieldFlagsJsonConverter(flagFactory));

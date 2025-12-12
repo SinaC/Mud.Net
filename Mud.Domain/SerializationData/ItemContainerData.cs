@@ -1,5 +1,8 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿using Mud.Domain.Serialization;
 
+namespace Mud.Domain.SerializationData;
+
+[JsonPolymorphism(typeof(ItemData), "container")]
 public class ItemContainerData : ItemData
 {
     public required int MaxWeight { get; set; }

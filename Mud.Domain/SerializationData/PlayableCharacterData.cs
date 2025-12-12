@@ -1,5 +1,8 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿using Mud.Domain.Serialization;
 
+namespace Mud.Domain.SerializationData;
+
+[JsonPolymorphism(typeof(CharacterData))]
 public class PlayableCharacterData : CharacterData
 {
     public required DateTime CreationTime { get; set; }

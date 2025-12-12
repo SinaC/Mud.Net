@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
 using Mud.Repository.Filesystem.Json.Converters;
+using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Repository.Interfaces;
 using Mud.Server.Flags.Interfaces;
 using System.Text.Json;
@@ -18,12 +20,16 @@ public class AdminRepository : IAdminRepository
 
     private string BuildFilename(string adminName) => Path.Combine(AdminRepositoryPath, adminName + ".json");
 
-    public AdminRepository(ILogger<AdminRepository> logger, IOptions<FileRepositoryOptions> options, IFlagFactory flagFactory)
+    public AdminRepository(ILogger<AdminRepository> logger, IOptions<FileRepositoryOptions> options, IAssemblyHelper assemblyHelper, IFlagFactory flagFactory)
     {
         Logger = logger;
         AdminRepositoryPath = options.Value.AdminPath;
 
-        SerializerOptions = new JsonSerializerOptions { WriteIndented = true };
+        SerializerOptions = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            TypeInfoResolver = new PolymorphicTypeResolver(assemblyHelper)
+        };
         SerializerOptions.Converters.Add(new CharacterFlagsJsonConverter(flagFactory));
         SerializerOptions.Converters.Add(new IRVFlagsJsonConverter(flagFactory));
         SerializerOptions.Converters.Add(new ShieldFlagsJsonConverter(flagFactory));

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Mud.Server.Interfaces;
+namespace Mud.Common;
 
 public interface IAssemblyHelper
 {

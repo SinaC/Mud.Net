@@ -1,5 +1,8 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿using Mud.Domain.Serialization;
 
+namespace Mud.Domain.SerializationData;
+
+[JsonPolymorphism(typeof(ItemData), "portal")]
 public class ItemPortalData : ItemData
 {
     public required int DestinationRoomId { get; set; }

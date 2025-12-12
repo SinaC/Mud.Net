@@ -1,8 +1,11 @@
 ﻿using AutoBogus;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Mud.Common;
 using Mud.DataStructures.Flags;
+using Mud.Domain.SerializationData;
 using Mud.Repository.Filesystem.Json.Converters;
+using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using System.Text.Json;
@@ -64,10 +67,16 @@ namespace Mud.Repository.Tests
             serviceProviderMock.Setup(x => x.GetService(typeof(IFlagFactory<IShieldFlags, IShieldFlagValues>)))
                 .Returns(() => new ShieldFlagsFactory(_serviceProvider));
 
-
             _flagFactory = new FlagsFactory(_serviceProvider);
 
-            _options = new JsonSerializerOptions { WriteIndented = true };
+            var assemblyHelperMock = new Mock<IAssemblyHelper>();
+            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(AffectDataBase).Assembly.Yield());
+
+            _options = new JsonSerializerOptions
+            {
+                WriteIndented = true,
+                TypeInfoResolver = new PolymorphicTypeResolver(assemblyHelperMock.Object)
+            };
             _options.Converters.Add(new CharacterFlagsJsonConverter(_flagFactory));
             _options.Converters.Add(new IRVFlagsJsonConverter(_flagFactory));
             _options.Converters.Add(new ShieldFlagsJsonConverter(_flagFactory));
