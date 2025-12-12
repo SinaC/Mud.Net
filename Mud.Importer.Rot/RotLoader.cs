@@ -538,7 +538,9 @@ public class RotLoader : TextBasedLoader
                     else
                     {
                         if (arg3 == 0)
+#pragma warning disable CS0642 // Possible mistaken empty statement
                             ; // NOP
+#pragma warning restore CS0642 // Possible mistaken empty statement
                         else if (arg3 == 1)
                         {
                             roomData.Exits[arg2].ExitInfo |= ExitData.ExClosed;
@@ -737,7 +739,9 @@ public class RotLoader : TextBasedLoader
             if (letter == 'S') // done
                 break;
             else if (letter == '*')
+#pragma warning disable CS0642 // Possible mistaken empty statement
                 ; // nop
+#pragma warning restore CS0642 // Possible mistaken empty statement
             else if (letter == 'M')
             {
                 int vnum = (int)ReadNumber();
@@ -770,8 +774,8 @@ public class RotLoader : TextBasedLoader
             //if (_mobProgs.Any(x => x.VNum == vnum)) // don't store mob programs than call FixMobProgrs, do it immediately
             //    RaiseParseException("ParseMobProgs: vnum {0} duplicated", vnum);
 
-            bool found = false;
-            string code = ReadString();
+            //bool found = false;
+            var code = ReadString();
             // TODO
             //foreach (MobileData mobileData in _mobiles)
             //{

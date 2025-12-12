@@ -69,6 +69,11 @@ public class Drink : CharacterGameAction
             return "You fail to reach your mouth.  *Hic*";
 
         // get liquid info
+        if (Drinkable.LiquidName == null)
+        {
+            Wiznet.Log($"Invalid liquid name {Drinkable.LiquidName} item {Drinkable.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+            return "You can't drink from that.";
+        }
         LiquidInfo = TableValues.LiquidInfo(Drinkable.LiquidName);
         if (LiquidInfo == default)
         {

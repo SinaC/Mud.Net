@@ -63,10 +63,10 @@ public class Iinfo : AdminGameAction
         switch (Blueprint)
         {
             case ItemCastSpellsNoChargeBlueprintBase noChargeBlueprint: // pill, potion, scroll
-                sb.AppendFormatLine("Level: {0} Spell1: {1} Spell2: {2} Spell3: {3} Spell4: {4}", noChargeBlueprint.SpellLevel, noChargeBlueprint.Spell1, noChargeBlueprint.Spell2, noChargeBlueprint.Spell3, noChargeBlueprint.Spell4);
+                sb.AppendFormatLine("Level: {0} Spell1: {1} Spell2: {2} Spell3: {3} Spell4: {4}", noChargeBlueprint.SpellLevel, noChargeBlueprint.Spell1!, noChargeBlueprint.Spell2!, noChargeBlueprint.Spell3!, noChargeBlueprint.Spell4!);
                 break;
             case ItemCastSpellsChargeBlueprintBase chargeBlueprint: // wand, staff
-                sb.AppendFormatLine("Level: {0} #MaxCharge: {1} #CurrentCharge: {2} Spell: {3} AlreadyRecharged: {4}", chargeBlueprint.SpellLevel, chargeBlueprint.MaxChargeCount, chargeBlueprint.CurrentChargeCount, chargeBlueprint.Spell, chargeBlueprint.AlreadyRecharged);
+                sb.AppendFormatLine("Level: {0} #MaxCharge: {1} #CurrentCharge: {2} Spell: {3} AlreadyRecharged: {4}", chargeBlueprint.SpellLevel, chargeBlueprint.MaxChargeCount, chargeBlueprint.CurrentChargeCount, chargeBlueprint.Spell!, chargeBlueprint.AlreadyRecharged);
                 break;
 
             case ItemArmorBlueprint armor:
@@ -80,13 +80,13 @@ public class Iinfo : AdminGameAction
             case ItemCorpseBlueprint _:
                 break;
             case ItemDrinkContainerBlueprint drinkContainer:
-                sb.AppendFormatLine("MaxLiquid: {0} CurrentLight: {1} LiquidType: {2} IsPoisoned: {3}", drinkContainer.MaxLiquidAmount, drinkContainer.CurrentLiquidAmount, drinkContainer.LiquidType, drinkContainer.IsPoisoned);
+                sb.AppendFormatLine("MaxLiquid: {0} CurrentLight: {1} LiquidType: {2} IsPoisoned: {3}", drinkContainer.MaxLiquidAmount, drinkContainer.CurrentLiquidAmount, drinkContainer.LiquidType!, drinkContainer.IsPoisoned);
                 break;
             case ItemFoodBlueprint foodBlueprint:
                 sb.AppendFormatLine("FullHours: {0} HungerHours: {1} IsPoisoned: {2}", foodBlueprint.FullHours, foodBlueprint.HungerHours, foodBlueprint.IsPoisoned);
                 break;
             case ItemFountainBlueprint fountainBlueprint:
-                sb.AppendFormatLine("LiquidType: {0}", fountainBlueprint.LiquidType);
+                sb.AppendFormatLine("LiquidType: {0}", fountainBlueprint.LiquidType!);
                 break;
             case ItemFurnitureBlueprint furnitureBlueprint:
                 sb.AppendFormatLine("MaxPeople: {0} MaxWeight: {1} Action: {2} Place: {3} HealBonus: {4} ResourceBonus: {5}", furnitureBlueprint.MaxPeople, furnitureBlueprint.MaxWeight, furnitureBlueprint.FurnitureActions, furnitureBlueprint.FurniturePlacePreposition, furnitureBlueprint.HealBonus, furnitureBlueprint.ResourceBonus);

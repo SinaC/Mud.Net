@@ -1,9 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Item;
@@ -20,14 +22,16 @@ namespace Mud.Server.Rom24.Spells;
 [OneLineHelp("gives information about the nature of an object")]
 public class Identify : ItemInventorySpellBase
 {
-    private ITableValues TableValues { get; }
-
     private const string SpellName = "Identify";
 
-    public Identify(ILogger<Identify> logger, IRandomManager randomManager, ITableValues tableValues)
+    private ITableValues TableValues { get; }
+    private IWiznet Wiznet { get; }
+
+    public Identify(ILogger<Identify> logger, IRandomManager randomManager, ITableValues tableValues, IWiznet wiznet)
         : base(logger, randomManager)
     {
         TableValues = tableValues;
+        Wiznet = wiznet;
     }
 
     protected override void Invoke()
@@ -40,20 +44,28 @@ public class Identify : ItemInventorySpellBase
         {
             case IItemCastSpellsNoCharge itemCastSpellsNoCharge:
                 sb.AppendFormat("Level {0} spells of:", itemCastSpellsNoCharge.Level);
-                AppendSpell(sb, itemCastSpellsNoCharge.FirstSpellName);
-                AppendSpell(sb, itemCastSpellsNoCharge.SecondSpellName);
-                AppendSpell(sb, itemCastSpellsNoCharge.ThirdSpellName);
-                AppendSpell(sb, itemCastSpellsNoCharge.FourthSpellName);
+                AppendSpell(sb, itemCastSpellsNoCharge.FirstSpellName!);
+                AppendSpell(sb, itemCastSpellsNoCharge.SecondSpellName!);
+                AppendSpell(sb, itemCastSpellsNoCharge.ThirdSpellName!);
+                AppendSpell(sb, itemCastSpellsNoCharge.FourthSpellName!);
                 sb.AppendFormatLine(".");
                 break;
             case IItemCastSpellsCharge itemCastSpellsCharge:
                 sb.AppendFormat("Has {0} charges of level {1}", itemCastSpellsCharge.CurrentChargeCount, itemCastSpellsCharge.SpellLevel);
-                AppendSpell(sb, itemCastSpellsCharge.SpellName);
+                AppendSpell(sb, itemCastSpellsCharge.SpellName!);
                 sb.AppendFormatLine(".");
                 break;
             case IItemDrinkable itemDrinkable:
-                var liquidInfo = TableValues.LiquidInfo(itemDrinkable.LiquidName);
-                sb.AppendFormatLine("It holds {0}-colored {1}.", liquidInfo.color, liquidInfo.name);
+                if (itemDrinkable.LiquidName == null)
+                {
+                    Wiznet.Log($"Invalid liquid name {itemDrinkable.LiquidName} item {itemDrinkable.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    sb.AppendLine("It holds a mysterious liquid");
+                }
+                else
+                {
+                    var (name, color, _, _, _, _, _) = TableValues.LiquidInfo(itemDrinkable.LiquidName);
+                    sb.AppendFormatLine("It holds {0}-colored {1}.", color, name);
+                }
                 break;
             case IItemContainer itemContainer:
                 sb.AppendFormatLine("Maximum weight {0}# Maximum weight per item: {1}# flags: {2} Weight multiplier: {3}%", itemContainer.MaxWeight, itemContainer.MaxWeightPerItem, itemContainer.ContainerFlags.ToString(), itemContainer.WeightMultiplier);

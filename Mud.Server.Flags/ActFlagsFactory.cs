@@ -14,10 +14,11 @@ public class ActFlagsFactory : IFlagFactory<IActFlags, IActFlagValues>
         ServiceProvider = serviceProvider;
     }
 
-    public IActFlags CreateInstance(string flags)
+    public IActFlags CreateInstance(string? flags)
     {
         var actFlags = ServiceProvider.GetRequiredService<IActFlags>();
-        actFlags.Set(flags);
+        if (flags != null)
+            actFlags.Set(flags);
         return actFlags;
     }
 

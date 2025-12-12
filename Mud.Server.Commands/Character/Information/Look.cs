@@ -37,11 +37,13 @@ public class Look : CharacterGameAction
 {
     private ILogger<Look> Logger { get; }
     private ITableValues TableValues { get; }
+    private IWiznet Wiznet { get; }
 
-    public Look(ILogger<Look> logger, ITableValues tableValues)
+    public Look(ILogger<Look> logger, ITableValues tableValues, IWiznet wiznet)
     {
         Logger = logger;
         TableValues = tableValues;
+        Wiznet = wiznet;
     }
 
     protected bool IsRoomDark { get; set; }
@@ -187,8 +189,16 @@ public class Look : CharacterGameAction
                     : DrinkContainer.LiquidLeft < 3 * DrinkContainer.MaxLiquid / 4
                         ? "about half-"
                         : "more than half-";
-                var (_, color, _, _, _, _, _) = TableValues.LiquidInfo(DrinkContainer.LiquidName);
-                Actor.Send("It's {0}filled with a {1} liquid.", left, color);
+                if (DrinkContainer.LiquidName != null)
+                {
+                    var (_, color, _, _, _, _, _) = TableValues.LiquidInfo(DrinkContainer.LiquidName);
+                    Actor.Send("It's {0}filled with a {1} liquid.", left, color);
+                }
+                else
+                {
+                    Wiznet.Log($"Invalid liquid name {DrinkContainer.LiquidName} item {DrinkContainer.DebugName}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Actor.Send("It's {0}filled with a transparent liquid.", left);
+                }
             }
         }
         else if (ItemContainer != null)

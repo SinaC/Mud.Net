@@ -29,5 +29,6 @@
     <ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Rom24\Mud.Server.Rom24.csproj" />
+    <ProjectReference Include="..\Mud.Server\Mud.Server.csproj" />
   </ItemGroup>
 </Project>

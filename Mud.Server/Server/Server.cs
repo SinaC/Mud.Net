@@ -54,7 +54,7 @@ namespace Mud.Server.Server;
 public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
 {
     // This allows fast lookup with client or player BUT both structures must be modified at the same time
-    private readonly object _playingClientLockObject = new object();
+    private readonly object _playingClientLockObject = new();
     private readonly ConcurrentDictionary<IClient, PlayingClient> _clients;
     private readonly ConcurrentDictionary<IPlayer, PlayingClient> _players;
 
@@ -130,6 +130,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         _players = new ConcurrentDictionary<IPlayer, PlayingClient>();
         _loginInClients = new ConcurrentDictionary<IClient, LoginStateMachine>();
         _treasureTables = [];
+        _networkServers = [];
+        _cancellationTokenSource = null!;
+        _gameLoopTask = null!;
     }
 
     #region IServer
@@ -619,7 +622,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
         // Save admin
         var adminData = admin.MapPlayerData() as AdminData;
-        AdminRepository.Save(adminData);
+        if (adminData != null)
+            AdminRepository.Save(adminData);
 
         // Save login
         LoginRepository.ChangeAdminStatus(admin.Name, true);
@@ -642,14 +646,15 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             if (playingClient.Player is IAdmin admin)
             {
                 var data = admin.MapPlayerData() as AdminData;
-                AdminRepository.Save(data);
-                Logger.LogInformation($"Admin {playingClient.Player.DisplayName} saved");
+                if (data != null)
+                    AdminRepository.Save(data);
+                Logger.LogInformation("Admin {adminName} saved", playingClient.Player.DisplayName);
             }
             else
             {
                 var data = playingClient.Player.MapPlayerData();
                 PlayerRepository.Save(data);
-                Logger.LogInformation($"Player {playingClient.Player.DisplayName} saved");
+                Logger.LogInformation("Player {playerName} saved", playingClient.Player.DisplayName);
             }
         }
     }
@@ -897,7 +902,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
             var admin = playingClient.Player as IAdmin;
             // Remove LastTeller and SnoopBy
-            foreach (IPlayer player in Players)
+            foreach (var player in Players)
             {
                 if (player.LastTeller == playingClient.Player)
                     player.SetLastTeller(null);
@@ -1180,7 +1185,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             || RandomManager.Chance(50);
     }
 
-    private bool IsValidVictim(IPlayableCharacter victim, INonPlayableCharacter aggressor)
+    private static bool IsValidVictim(IPlayableCharacter victim, INonPlayableCharacter aggressor)
     {
         return
             // TODO: immortal
@@ -1670,7 +1675,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                                 Logger.LogError("Item was in the void");
                             else
                             {
-                                var cloneContent = new ReadOnlyCollection<IItem>(container.Content.Where(x => !(x is IItemQuest)).ToList()); // except quest item
+                                var cloneContent = new ReadOnlyCollection<IItem>(container.Content.Where(x => x is not IItemQuest).ToList()); // except quest item
                                 foreach (var itemInContainer in cloneContent)
                                     itemInContainer.ChangeContainer(newContainer);
                             }

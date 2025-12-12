@@ -48,10 +48,13 @@ public class Wands : ItemCastSpellSkillBase<IItemWand>
             ItemManager.RemoveItem(Item);
             return string.Empty; // stop but don't display anything
         }
-        var setupResult = SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, out var target, skillActionInput.Parameters);
-        if (setupResult != null)
-            return setupResult;
-        Target = target;
+        if (Item.SpellName != null)
+        {
+            var setupResult = SetupSpellAndPredefinedTarget(Item.SpellName, Item.SpellLevel, out var target, skillActionInput.Parameters);
+            if (setupResult != null)
+                return setupResult;
+            Target = target;
+        }
         return null;
     }
 

@@ -2,9 +2,9 @@
 
 public class LoginData
 {
-    public string Username { get; set; }
+    public required string Username { get; set; }
 
-    public string Password { get; set; } // TODO: crypt
+    public required string Password { get; set; } // TODO: crypt
 
-    public bool IsAdmin { get; set; }
+    public required bool IsAdmin { get; set; }
 }

@@ -1,7 +1,8 @@
 ﻿using Mud.Domain.Serialization;
+using Mud.Domain.SerializationData;
 using Mud.Server.Flags.Interfaces;
 
-namespace Mud.Domain.SerializationData;
+namespace Mud.Server.Item;
 
 [JsonPolymorphism(typeof(ItemData), "weapon")]
 public class ItemWeaponData : ItemData

@@ -46,13 +46,13 @@ public abstract class ItemCastSpellsNoChargeBase : ItemBase, IItemCastSpellsNoCh
 
     public int SpellLevel { get; private set; }
 
-    public string FirstSpellName { get; private set; } = null!;
+    public string? FirstSpellName { get; private set; }
 
-    public string SecondSpellName { get; private set; } = null!;
+    public string? SecondSpellName { get; private set; }
 
-    public string ThirdSpellName { get; private set; } = null!;
+    public string? ThirdSpellName { get; private set; }
 
-    public string FourthSpellName { get; private set; } = null!;
+    public string? FourthSpellName { get; private set; }
 
     #endregion
 }

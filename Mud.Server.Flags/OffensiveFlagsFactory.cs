@@ -14,11 +14,12 @@ public class OffensiveFlagsFactory : IFlagFactory<IOffensiveFlags, IOffensiveFla
         ServiceProvider = serviceProvider;
     }
 
-    public IOffensiveFlags CreateInstance(string flags)
+    public IOffensiveFlags CreateInstance(string? flags)
     {
-        var OffensiveFlags = ServiceProvider.GetRequiredService<IOffensiveFlags>();
-        OffensiveFlags.Set(flags);
-        return OffensiveFlags;
+        var offensiveFlags = ServiceProvider.GetRequiredService<IOffensiveFlags>();
+        if (flags != null)
+            offensiveFlags.Set(flags);
+        return offensiveFlags;
     }
 
     public IOffensiveFlags CreateInstance(params string[] flags)

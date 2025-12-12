@@ -305,8 +305,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     public override void OnCleaned() // called when removing definitively an entity from the game
     {
-        Blueprint = null;
-        Room = null;
+        Blueprint = null!;
+        Room = null!;
     }
 
     #endregion

@@ -1,7 +1,8 @@
 ﻿using Mud.Domain;
 using Mud.Domain.Serialization;
+using Mud.Domain.SerializationData;
 
-namespace Mud.Domain.SerializationData;
+namespace Mud.Server.Item;
 
 [JsonPolymorphism(typeof(ItemData), "container")]
 public class ItemContainerData : ItemData

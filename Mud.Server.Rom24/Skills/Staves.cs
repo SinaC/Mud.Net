@@ -45,7 +45,9 @@ public class Staves : ItemCastSpellSkillBase<IItemStaff>
             ItemManager.RemoveItem(Item);
             return string.Empty; // stop but don't display anything
         }
-        return SetupSpellForEachAvailableTargets(Item.SpellName, Item.SpellLevel, skillActionInput.Parameters);
+        if (Item.SpellName != null)
+            return SetupSpellForEachAvailableTargets(Item.SpellName, Item.SpellLevel, skillActionInput.Parameters);
+        return null;
     }
 
     protected override bool Invoke()

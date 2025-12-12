@@ -14,11 +14,12 @@ public class RoomFlagsFactory : IFlagFactory<IRoomFlags, IRoomFlagValues>
         ServiceProvider = serviceProvider;
     }
 
-    public IRoomFlags CreateInstance(string flags)
+    public IRoomFlags CreateInstance(string? flags)
     {
-        var RoomFlags = ServiceProvider.GetRequiredService<IRoomFlags>();
-        RoomFlags.Set(flags);
-        return RoomFlags;
+        var roomFlags = ServiceProvider.GetRequiredService<IRoomFlags>();
+        if (flags != null)
+            roomFlags.Set(flags);
+        return roomFlags;
     }
 
     public IRoomFlags CreateInstance(params string[] flags)

@@ -12,7 +12,7 @@ public class ItemDrinkContainerBlueprint : ItemBlueprintBase
     public int CurrentLiquidAmount { get; set; } // v1
 
     [DataMember]
-    public string LiquidType { get; set; } = default!; // v2
+    public string? LiquidType { get; set; } // v2
 
     [DataMember]
     public bool IsPoisoned { get; set; } // v3 0: normal A: poisoned

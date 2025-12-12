@@ -2,5 +2,4 @@
 
 public interface IItemKey : IItem
 {
-    // No additional fields
 }

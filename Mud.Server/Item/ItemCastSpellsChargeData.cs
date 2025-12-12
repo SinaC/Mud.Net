@@ -1,4 +1,6 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿using Mud.Domain.SerializationData;
+
+namespace Mud.Server.Item;
 
 public class ItemCastSpellsChargeData : ItemData
 {

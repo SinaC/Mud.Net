@@ -1,17 +1,11 @@
 ﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
-using Mud.Server.Blueprints.Item;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
 using System.Text;
 
 namespace Mud.Server.Interfaces.Item;
 
 public interface IItemFurniture : IItem // TODO: count people actually on furniture
 {
-    void Initialize(Guid guid, ItemFurnitureBlueprint blueprint, IContainer containedInto);
-    void Initialize(Guid guid, ItemFurnitureBlueprint blueprint, ItemData itemData, IContainer containedInto);
-
     IEnumerable<ICharacter>? People { get; }
 
     int MaxPeople { get; }

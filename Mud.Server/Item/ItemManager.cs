@@ -4,9 +4,7 @@ using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
-using Mud.Server.Affects;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -96,7 +94,7 @@ public class ItemManager : IItemManager
             Logger.LogError("ItemCorpseBlueprint (id:{corpseBlueprintId}) doesn't exist !!!", CorpseBlueprintId);
             return null;
         }
-        var item = ServiceProvider.GetRequiredService<IItemCorpse>();
+        var item = ServiceProvider.GetRequiredService<ItemCorpse>();
         item.Initialize(guid, blueprint, room, victim);
         _items.Add(item);
         item.Recompute();
@@ -111,7 +109,7 @@ public class ItemManager : IItemManager
             Logger.LogError("ItemCorpseBlueprint (id:{corpseBlueprintId}) doesn't exist !!!", CorpseBlueprintId);
             return null;
         }
-        var item = ServiceProvider.GetRequiredService<IItemCorpse>();
+        var item = ServiceProvider.GetRequiredService<ItemCorpse>();
         item.Initialize(guid, blueprint, room, victim, killer);
         _items.Add(item);
         item.Recompute();
@@ -134,7 +132,7 @@ public class ItemManager : IItemManager
             return null;
         }
 
-        var money = ServiceProvider.GetRequiredService<IItemMoney>();
+        var money = ServiceProvider.GetRequiredService<ItemMoney>();
         money.Initialize(guid, blueprint, silverCoins, goldCoins, container);
         _items.Add(money);
         return money;

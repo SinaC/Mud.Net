@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
+using Mud.Server.Commands.Character.Combat;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -52,10 +53,14 @@ public class Quaff : CastSpellCharacterGameActionBase
     {
         Actor.Act(ActOptions.ToRoom, "{0:N} quaff{0:v} {1}.", Actor, Potion);
 
-        CastSpell(Potion, Potion.FirstSpellName, Potion.SpellLevel);
-        CastSpell(Potion, Potion.SecondSpellName, Potion.SpellLevel);
-        CastSpell(Potion, Potion.ThirdSpellName, Potion.SpellLevel);
-        CastSpell(Potion, Potion.FourthSpellName, Potion.SpellLevel);
+        if (Potion.FirstSpellName != null)
+            CastSpell(Potion, Potion.FirstSpellName, Potion.SpellLevel);
+        if (Potion.SecondSpellName != null)
+            CastSpell(Potion, Potion.SecondSpellName, Potion.SpellLevel);
+        if (Potion.ThirdSpellName != null)
+            CastSpell(Potion, Potion.ThirdSpellName, Potion.SpellLevel);
+        if (Potion.FourthSpellName != null)
+            CastSpell(Potion, Potion.FourthSpellName, Potion.SpellLevel);
         ItemManager.RemoveItem(Potion);
     }
 }

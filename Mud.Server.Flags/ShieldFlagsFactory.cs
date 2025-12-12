@@ -14,11 +14,12 @@ public class ShieldFlagsFactory : IFlagFactory<IShieldFlags, IShieldFlagValues>
         ServiceProvider = serviceProvider;
     }
 
-    public IShieldFlags CreateInstance(string flags)
+    public IShieldFlags CreateInstance(string? flags)
     {
-        var ShieldFlags = ServiceProvider.GetRequiredService<IShieldFlags>();
-        ShieldFlags.Set(flags);
-        return ShieldFlags;
+        var shieldFlags = ServiceProvider.GetRequiredService<IShieldFlags>();
+        if (flags != null)
+            shieldFlags.Set(flags);
+        return shieldFlags;
     }
 
     public IShieldFlags CreateInstance(params string[] flags)

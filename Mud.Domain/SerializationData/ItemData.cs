@@ -1,9 +1,7 @@
-﻿using Mud.Domain.Serialization;
-using Mud.Server.Flags.Interfaces;
+﻿using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Domain.SerializationData;
 
-//[JsonPolymorphism(typeof(ItemData), "base")]
 public class ItemData
 {
     public required int ItemId { get; set; }
