@@ -565,25 +565,4 @@ public class FlagsTests
     }
 
     #endregion
-
-    #region Map
-
-    [TestMethod]
-    public void Map_NoValue()
-    {
-        Flags.Flags flags = new();
-
-        Assert.AreEqual(string.Empty, flags.Map());
-    }
-
-
-    [TestMethod]
-    public void Map_MultipleValues()
-    {
-        Flags.Flags flags = new("flag1", "flag2", "flag3");
-
-        Assert.AreEqual("flag1,flag2,flag3", flags.Map());
-    }
-
-    #endregion
 }

@@ -1,6 +1,4 @@
 INGOING
-    remove IXXXFlags from YYYData -> use string instead
-    try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
 DONE
     try to avoid JsonDerivedType in ItemData for example
         -> define converter or avoid inheritance?
@@ -11,6 +9,9 @@ DONE
 ==========
 == TODO ==
 ==========
+
+remove IXXXFlags from YYYData -> use string instead (easier if we use mapperly)
+try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
 
 rage
 https://vanilla-wow-archive.fandom.com/wiki/Rage#Rage_decay

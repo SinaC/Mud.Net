@@ -1,5 +1,4 @@
 ﻿using Mud.Common;
-using System.Text;
 
 namespace Mud.DataStructures.Flags;
 
@@ -45,8 +44,6 @@ public class Flags : IFlags<string>
     public int Count => _hashSet.Count;
 
     public IEnumerable<string> Items => _hashSet;
-
-    public string Map() => string.Join(",", _hashSet.OrderBy(x => x));
 
     #endregion
 
