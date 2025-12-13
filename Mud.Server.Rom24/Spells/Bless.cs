@@ -75,7 +75,7 @@ public class Bless : ItemOrDefensiveSpellBase
         }
         AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(6 + Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
-            new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Bless"), Operator = AffectOperators.Or });
+            new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Bless"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a holy aura.", item);
     }
 }

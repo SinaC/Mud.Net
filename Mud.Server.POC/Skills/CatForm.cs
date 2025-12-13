@@ -22,13 +22,13 @@ public class CatForm : NoTargetSkillBase
     private const string SkillName = "Cat Form";
 
     private IAuraManager AuraManager { get; }
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagsFactory { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public CatForm(ILogger<CatForm> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagsFactory)
+    public CatForm(ILogger<CatForm> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
-        CharacterFlagsFactory = characterFlagsFactory;
+        CharacterFlagFactory = characterFlagFactory;
     }
 
     protected override bool MustBeLearned => true;
@@ -55,7 +55,7 @@ public class CatForm : NoTargetSkillBase
         // TODO: Affect changing Form + disable other form
         AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.NoDispel | AuraFlags.Permanent | AuraFlags.Shapeshift, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = User.Level * 4, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = CharacterFlagsFactory.CreateInstance("Haste", "Infrared"), Operator = AffectOperators.Add });
+            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Haste", "Infrared"), Operator = AffectOperators.Add });
 
         return true;
     }

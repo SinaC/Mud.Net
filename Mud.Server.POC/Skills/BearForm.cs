@@ -54,7 +54,7 @@ public class BearForm : NoTargetSkillBase
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -User.Level * 5, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Constitution, Modifier = User.Level / 10, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.MaxHitPoints, Modifier = User.Level * 5, Operator = AffectOperators.Add },
-            new CharacterIRVAffect { Location = IRVAffectLocations.Resistances, Modifier = IRVFlagFactory.CreateInstance("Cold", "Bash"), Operator = AffectOperators.Add },
+            new CharacterIRVAffect(IRVFlagFactory) { Location = IRVAffectLocations.Resistances, Modifier = IRVFlagFactory.CreateInstance("Cold", "Bash"), Operator = AffectOperators.Add },
             new CharacterSizeAffect { Value = Sizes.Large });
 
         return true;

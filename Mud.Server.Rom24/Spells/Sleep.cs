@@ -44,7 +44,7 @@ public class Sleep : OffensiveSpellBase
 
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(4 + Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -10, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Sleep"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Sleep"), Operator = AffectOperators.Or });
 
         if (Victim.Position > Positions.Sleeping)
         {

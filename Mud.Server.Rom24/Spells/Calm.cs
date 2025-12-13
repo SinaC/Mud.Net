@@ -91,7 +91,7 @@ public class Calm : NoTargetSpellBase
             AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add, },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add, },
-                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Calm"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Calm"), Operator = AffectOperators.Or });
         }
     }
 }

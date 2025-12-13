@@ -44,7 +44,7 @@ public class ProtectionGood : CharacterBuffSpellBase
         new IAffect[] 
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
-            new CharacterShieldFlagsAffect { Modifier = ShieldFlagFactory.CreateInstance("ProtectGood"), Operator = AffectOperators.Or }
+            new CharacterShieldFlagsAffect(ShieldFlagFactory) { Modifier = ShieldFlagFactory.CreateInstance("ProtectGood"), Operator = AffectOperators.Or }
         });
     
 }

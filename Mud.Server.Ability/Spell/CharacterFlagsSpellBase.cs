@@ -11,11 +11,13 @@ namespace Mud.Server.Ability.Spell;
 public abstract class CharacterFlagsSpellBase : DefensiveSpellBase
 {
     protected IAuraManager AuraManager { get; }
+    protected IFlagFactory<ICharacterFlags, ICharacterFlagValues> FlagFactory { get; }
 
-    protected CharacterFlagsSpellBase(ILogger<CharacterFlagsSpellBase> logger, IRandomManager randomManager, IAuraManager auraManager)
+    protected CharacterFlagsSpellBase(ILogger<CharacterFlagsSpellBase> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> flagFactory)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
+        FlagFactory = flagFactory;
     }
 
     protected override void Invoke()
@@ -30,7 +32,7 @@ public abstract class CharacterFlagsSpellBase : DefensiveSpellBase
         }
         var duration = Duration;
         AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, duration, AuraFlags.None, true,
-            new CharacterFlagsAffect { Modifier = CharacterFlags, Operator = AffectOperators.Or });
+            new CharacterFlagsAffect(FlagFactory) { Modifier = CharacterFlags, Operator = AffectOperators.Or });
         Victim.Send(SelfSuccess);
         if (Victim != Caster)
             Victim.Act(ActOptions.ToRoom, NotSelfSuccess, Victim);

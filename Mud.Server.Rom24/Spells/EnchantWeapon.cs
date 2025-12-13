@@ -123,12 +123,12 @@ public class EnchantWeapon : ItemInventorySpellBase<IItemWeapon>
                     x => x.Modifier += amount);
             existingAura.AddOrUpdateAffect(
                     x => x.Modifier.IsSet("Magic"),
-                    () => new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or },
+                    () => new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or },
                     _ => { });
             if (addGlowing)
                 existingAura.AddOrUpdateAffect(
                    x => x.Modifier.IsSet("Glowing"),
-                   () => new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or },
+                   () => new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or },
                    _ => { });
         }
         else
@@ -137,10 +137,10 @@ public class EnchantWeapon : ItemInventorySpellBase<IItemWeapon>
             [
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = amount, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = amount, Operator = AffectOperators.Add },
-                new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or }
+                new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or }
             ];
             if (addGlowing)
-                affects.Add(new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or });
+                affects.Add(new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or });
             AuraManager.AddAura(weapon, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false, affects.ToArray());
         }
         weapon.Recompute();

@@ -21,15 +21,12 @@ public class DetectMagic : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Magic";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
-
-    public DetectMagic(ILogger<DetectMagic> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, randomManager, auraManager)
+    public DetectMagic(ILogger<DetectMagic> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
+        : base(logger, randomManager, auraManager, characterFlagFactory)
     {
-        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("DetectMagic");
+    protected override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance("DetectMagic");
     protected override string SelfAlreadyAffected => "You can already sense magical auras.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already detect magic.";
     protected override string SelfSuccess => "Your eyes tingle.";

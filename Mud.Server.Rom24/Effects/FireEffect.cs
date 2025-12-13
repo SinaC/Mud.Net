@@ -53,7 +53,7 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             int duration = RandomManager.Range(1, level / 10);
             AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false, // TODO:
                 new CharacterAttributeAffect { Operator = AffectOperators.Add, Modifier = -4, Location = CharacterAttributeAffectLocations.HitRoll },
-                new CharacterFlagsAffect { Operator = AffectOperators.Or, Modifier = CharacterFlagFactory.CreateInstance("Blind") });
+                new CharacterFlagsAffect(CharacterFlagFactory) { Operator = AffectOperators.Or, Modifier = CharacterFlagFactory.CreateInstance("Blind") });
         }
         // getting thirsty
         (victim as IPlayableCharacter)?.GainCondition(Conditions.Thirst, modifier / 20);

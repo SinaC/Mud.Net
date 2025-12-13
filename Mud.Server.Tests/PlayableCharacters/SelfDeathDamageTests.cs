@@ -60,11 +60,11 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Equipments = [],
                 Inventory = [],
                 Auras = [], // TODO: add poison and trigger poison effect
-                CharacterFlags = new Mock<ICharacterFlags>().Object,
-                Immunities = new Mock<IIRVFlags>().Object,
-                Resistances = new Mock<IIRVFlags>().Object,
-                Vulnerabilities = new Mock<IIRVFlags>().Object,
-                ShieldFlags = new Mock<IShieldFlags>().Object,
+                CharacterFlags = string.Empty,
+                Immunities = string.Empty,
+                Resistances = string.Empty,
+                Vulnerabilities = string.Empty,
+                ShieldFlags = string.Empty,
                 Attributes = [],
                 // PlayableCharacterData
                 CreationTime = DateTime.Now,

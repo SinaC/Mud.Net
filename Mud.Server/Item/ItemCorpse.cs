@@ -201,7 +201,7 @@ public class ItemCorpse : ItemBase, IItemCorpse
             CorpseName = CorpseName,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
-            ItemFlags = BaseItemFlags,
+            ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
             Contains = MapContent(),
             IsPlayableCharacterCorpse = IsPlayableCharacterCorpse,

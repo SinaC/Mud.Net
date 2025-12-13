@@ -62,7 +62,7 @@ public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect, ICustomAffe
                     int duration = RandomManager.Range(1, 2 * aura.Level);
                     AuraManager.AddAura(victim, aura.AbilityName, character, aura.Level - 1, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                         new CharacterAttributeAffect {Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add},
-                        new CharacterFlagsAffect {Modifier = CharacterFlagFactory.CreateInstance("Plague"), Operator = AffectOperators.Or},
+                        new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Plague"), Operator = AffectOperators.Or},
                         new PlagueSpreadAndDamageAffect(CharacterFlagFactory, RandomManager, AuraManager));
                 }
             }

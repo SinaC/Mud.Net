@@ -21,15 +21,12 @@ public class DetectInvis : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Invis";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
-
-    public DetectInvis(ILogger<DetectInvis> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, randomManager, auraManager)
+    public DetectInvis(ILogger<DetectInvis> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
+        : base(logger, randomManager, auraManager, characterFlagFactory)
     {
-        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("DetectInvis");
+    protected override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance("DetectInvis");
     protected override string SelfAlreadyAffected => "You can already see invisible.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already see invisible things.";
     protected override string SelfSuccess => "Your eyes tingle.";

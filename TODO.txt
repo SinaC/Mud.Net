@@ -1,16 +1,14 @@
 INGOING
 DONE
-    try to avoid JsonDerivedType in ItemData for example
-        -> define converter or avoid inheritance?
-        -> every entity will define it's serialization using converter ?
-    ==> use custom resolver PolymorphicTypeResolver with new attribute JsonPolymorphismAttribute
-    are Initialize methods in IXXXItem needed ? if we can remove at least Initialize(Guid, blueprint, data, container) ItemXXXData could be moved to Mud.Server/Items
-    lots of .net8 warnings fixed
+    remove IXXXFlags from YYYData
 ==========
 == TODO ==
 ==========
 
-remove IXXXFlags from YYYData -> use string instead (easier if we use mapperly)
+change setters to private in affect and add ctor -> would DI accept multiple ctor one resolvable and another not resolvable
+    ctor(IXXXFactory) <-- used by DI
+    ctor(IXXXFactory, string flags) <-- used in spells
+
 try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
 
 rage

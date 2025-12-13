@@ -76,7 +76,7 @@ public class Curse : ItemOrOffensiveSpellBase
         }
         AuraManager.AddAura(item, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = 1, Operator = AffectOperators.Add },
-            new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Evil"), Operator = AffectOperators.Or });
+            new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Evil"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a malevolent aura.", item);
     }
 }

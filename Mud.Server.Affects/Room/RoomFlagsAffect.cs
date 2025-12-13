@@ -8,16 +8,20 @@ namespace Mud.Server.Affects.Room;
 [Affect("RoomFlagsAffect", typeof(RoomFlagsAffectData))]
 public class RoomFlagsAffect : FlagsAffectBase<IRoomFlags, IRoomFlagValues>, IRoomFlagsAffect
 {
+    private IFlagFactory<IRoomFlags, IRoomFlagValues> FlagFactory { get; }
+
+    public RoomFlagsAffect(IFlagFactory<IRoomFlags, IRoomFlagValues> flagFactory)
+    {
+        FlagFactory = flagFactory;
+    }
+
     protected override string Target => "Room flags";
 
-    public RoomFlagsAffect()
-    {
-    }
 
     public void Initialize(RoomFlagsAffectData data)
     {
         Operator = data.Operator;
-        Modifier = data.Modifier;
+        Modifier = FlagFactory.CreateInstance(data.Modifier);
     }
 
     public void Apply(IRoom room)
@@ -30,7 +34,7 @@ public class RoomFlagsAffect : FlagsAffectBase<IRoomFlags, IRoomFlagValues>, IRo
         return new RoomFlagsAffectData
         {
             Operator = Operator,
-            Modifier = Modifier,
+            Modifier = Modifier.Serialize()
         };
     }
 }

@@ -8,16 +8,19 @@ namespace Mud.Server.Affects.Item;
 [Affect("ItemWeaponFlagsAffect", typeof(ItemWeaponFlagsAffectData))]
 public class ItemWeaponFlagsAffect : FlagsAffectBase<IWeaponFlags, IWeaponFlagValues>, IItemWeaponFlagsAffect
 {
-    protected override string Target => "Weapon flags";
+    private IFlagFactory<IWeaponFlags, IWeaponFlagValues> FlagFactory { get; }
 
-    public ItemWeaponFlagsAffect()
+    public ItemWeaponFlagsAffect(IFlagFactory<IWeaponFlags, IWeaponFlagValues> flagFactory)
     {
+        FlagFactory = flagFactory;
     }
+
+    protected override string Target => "Weapon flags";
 
     public void Initialize(ItemWeaponFlagsAffectData data)
     {
         Operator = data.Operator;
-        Modifier = data.Modifier;
+        Modifier = FlagFactory.CreateInstance(data.Modifier);
     }
 
     public void Apply(IItemWeapon item)
@@ -30,7 +33,7 @@ public class ItemWeaponFlagsAffect : FlagsAffectBase<IWeaponFlags, IWeaponFlagVa
         return new ItemWeaponFlagsAffectData
         {
             Operator = Operator,
-            Modifier = Modifier
+            Modifier = Modifier.Serialize()
         };
     }
 }

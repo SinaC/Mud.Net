@@ -71,7 +71,7 @@ public abstract class ItemCastSpellsChargeBase : ItemBase, IItemCastSpellsCharge
             ItemId = Blueprint.Id,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
-            ItemFlags = BaseItemFlags,
+            ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
             MaxChargeCount = MaxChargeCount,
             CurrentChargeCount = CurrentChargeCount,

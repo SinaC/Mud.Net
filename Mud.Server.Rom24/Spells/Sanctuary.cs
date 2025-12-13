@@ -22,15 +22,12 @@ public class Sanctuary : ShieldFlagsSpellBase
 {
     private const string SpellName = "Sanctuary";
 
-    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
-
     public Sanctuary(ILogger<Sanctuary> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory)
-        : base(logger, randomManager, auraManager)
+        : base(logger, randomManager, auraManager, shieldFlagFactory)
     {
-        ShieldFlagFactory = shieldFlagFactory;
     }
 
-    protected override IShieldFlags ShieldFlags => ShieldFlagFactory.CreateInstance("Sanctuary");
+    protected override IShieldFlags ShieldFlags => FlagFactory.CreateInstance("Sanctuary");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
     protected override string SelfAlreadyAffected => "You are already in sanctuary.";
     protected override string NotSelfAlreadyAffected => "{0:N} is already in sanctuary.";

@@ -42,14 +42,18 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
     private IFlagFactory FlagFactory { get; }
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
+    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
     private ISpecialBehaviorManager SpecialBehaviorManager { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory, ISpecialBehaviorManager specialBehaviorManager)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, ISpecialBehaviorManager specialBehaviorManager)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagFactory, wiznet)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
         FlagFactory = flagFactory;
+        CharacterFlagFactory = characterFlagFactory;
+        ShieldFlagFactory = shieldFlagFactory;
         SpecialBehaviorManager = specialBehaviorManager;
     }
 
@@ -540,11 +544,11 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
             Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
             Auras = MapAuraData(),
-            CharacterFlags = BaseCharacterFlags,
-            Immunities = BaseImmunities,
-            Resistances = BaseResistances,
-            Vulnerabilities = BaseVulnerabilities,
-            ShieldFlags = BaseShieldFlags,
+            CharacterFlags = BaseCharacterFlags.Serialize(),
+            Immunities = BaseImmunities.Serialize(),
+            Resistances = BaseResistances.Serialize(),
+            Vulnerabilities = BaseVulnerabilities.Serialize(),
+            ShieldFlags = BaseShieldFlags.Serialize(),
             Attributes = Enum.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
             //KnownAbilities = KnownAbilities.Select(x => x.MapKnownAbilityData()).ToArray(),
             //Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key.Id, x => x.Value),
@@ -808,21 +812,21 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             // TODO: code copied from sanctuary spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Sanctuary"];
             AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("Sanctuary"), Operator = AffectOperators.Or });
+                new CharacterShieldFlagsAffect(ShieldFlagFactory) { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("Sanctuary"), Operator = AffectOperators.Or });
         }
         if (blueprint.ShieldFlags.IsSet("ProtectGood"))
         {
             // TODO: code copied from protection good spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Good"];
             AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectGood"), Operator = AffectOperators.Or });
+                new CharacterShieldFlagsAffect(ShieldFlagFactory) { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectGood"), Operator = AffectOperators.Or });
         }
         if (blueprint.ShieldFlags.IsSet("ProtectEvil"))
         {
             // TODO: code copied from protection evil spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Evil"];
             AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectEvil"), Operator = AffectOperators.Or });
+                new CharacterShieldFlagsAffect(ShieldFlagFactory) { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectEvil"), Operator = AffectOperators.Or });
         }
         // TODO: other shields like FireShield, IceShield, LightningShield
         if (blueprint.CharacterFlags.IsSet("Haste") || blueprint.OffensiveFlags.IsSet("Fast"))
@@ -832,7 +836,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
             AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, false,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Haste"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Haste"), Operator = AffectOperators.Or });
         }
     }
 

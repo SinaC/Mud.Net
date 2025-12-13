@@ -167,7 +167,7 @@ public class ItemPortal : ItemBase, IItemPortal
             ItemId = Blueprint.Id,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
-            ItemFlags = BaseItemFlags, // Current will be recompute with auras
+            ItemFlags = BaseItemFlags.Serialize(), // Current will be recompute with auras
             Auras = MapAuraData(),
             DestinationRoomId = Destination?.Blueprint?.Id ?? -1,
             PortalFlags = PortalFlags,

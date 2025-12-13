@@ -56,7 +56,7 @@ public class ContinualLight : OptionalItemInventorySpellBase
             }
 
             AuraManager.AddAura(Item, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or });
+                new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0} glows with a white light.", Item);
             return;
         }

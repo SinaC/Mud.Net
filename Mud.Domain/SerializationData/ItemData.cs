@@ -1,6 +1,4 @@
-﻿using Mud.Server.Flags.Interfaces;
-
-namespace Mud.Domain.SerializationData;
+﻿namespace Mud.Domain.SerializationData;
 
 public class ItemData
 {
@@ -10,7 +8,7 @@ public class ItemData
 
     public required int DecayPulseLeft { get; set; }
 
-    public required IItemFlags ItemFlags { get; set; }
+    public required string ItemFlags { get; set; }
 
     public required AuraData[] Auras { get; set; }
 }

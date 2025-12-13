@@ -82,7 +82,7 @@ public class CharmPerson : OffensiveSpellBase
 
         int duration = RandomManager.Fuzzy(Level / 4);
         AuraManager.AddAura(npcVictim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Charm"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Charm"), Operator = AffectOperators.Or });
 
         npcVictim.Act(ActOptions.ToCharacter, "Isn't {0} just so nice?", Caster);
         if (Caster != npcVictim)

@@ -22,15 +22,12 @@ public class Infravision : CharacterFlagsSpellBase
 {
     private const string SpellName = "Infravision";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
-
-    public Infravision(ILogger<Infravision> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, randomManager, auraManager)
+    public Infravision(ILogger<Infravision> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
+        : base(logger, randomManager, auraManager, characterFlagFactory)
     {
-        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("Infrared");
+    protected override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance("Infrared");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(2*Level);
     protected override string SelfAlreadyAffected => "You can already see in the dark.";
     protected override string NotSelfAlreadyAffected => "{0} already has infravision.";

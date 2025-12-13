@@ -72,7 +72,7 @@ public class ItemLight : ItemBase, IItemLight
             ItemId = Blueprint.Id,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
-            ItemFlags = BaseItemFlags,
+            ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
             TimeLeft = TimeLeft,
         };

@@ -45,7 +45,7 @@ public class Fly : DefensiveSpellBase
             return;
         }
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 3), AuraFlags.None, true,
-            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Flying"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Flying"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0:P} feet rise off the ground.", Victim);
     }
 }

@@ -3,7 +3,6 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
@@ -55,14 +54,13 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
     private IUniquenessManager UniquenessManager { get; }
     private ITimeManager TimeManager { get; }
     private IRoomManager RoomManager { get; }
-    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
     private IGameActionManager GameActionManager { get; }
     private ICommandParser CommandParser { get; }
     private IAbilityGroupManager AbilityGroupManager { get; }
 
     public override bool IsFinalStateReached => State == AvatarCreationStates.CreationComplete || State == AvatarCreationStates.Quit;
 
-    public AvatarCreationStateMachine(ILogger logger, IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityGroupManager abilityGroupManager)
+    public AvatarCreationStateMachine(ILogger logger, IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityGroupManager abilityGroupManager)
     {
         Logger = logger;
         ServerPlayerCommand = serverPlayerCommand;
@@ -71,7 +69,6 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         UniquenessManager = uniquenessManager;
         TimeManager = timeManager;
         RoomManager = roomManager;
-        ShieldFlagFactory = shieldFlagFactory;
         GameActionManager = gameActionManager;
         CommandParser = commandParser;
         AbilityGroupManager = abilityGroupManager;
@@ -520,11 +517,11 @@ done	     exit the character generation process");
                 Inventory = [],
                 CurrentQuests = [],
                 Auras = [],
-                CharacterFlags = _race!.CharacterFlags,
-                Immunities = _race!.Immunities,
-                Resistances = _race!.Resistances,
-                Vulnerabilities = _race!.Vulnerabilities,
-                ShieldFlags = ShieldFlagFactory.CreateInstance(),
+                CharacterFlags = _race!.CharacterFlags.Serialize(),
+                Immunities = _race!.Immunities.Serialize(),
+                Resistances = _race!.Resistances.Serialize(),
+                Vulnerabilities = _race!.Vulnerabilities.Serialize(),
+                ShieldFlags = "",
                 Attributes = GetStartAttributeValues(_race!, _class!),
                 LearnedAbilities = learnedAbilityDatas.ToArray(),
                 LearnedAbilityGroups = learnAbilityGroupDatas.ToArray(),
@@ -592,7 +589,7 @@ done	     exit the character generation process");
     {
         if (displayHeader)
             player.Send("Please choose a sex (type quit to stop creation).");
-        string sexes = string.Join(" | ", Enum.GetNames(typeof(Sex)));
+        var sexes = string.Join(" | ", Enum.GetNames(typeof(Sex)));
         player.Send(sexes);
     }
 
@@ -600,7 +597,7 @@ done	     exit the character generation process");
     {
         if (displayHeader)
             player.Send("Please choose a race (type quit to stop creation).");
-        string races = string.Join(" | ", RaceManager.PlayableRaces.Select(x => x.DisplayName));
+        var races = string.Join(" | ", RaceManager.PlayableRaces.Select(x => x.DisplayName));
         player.Send(races);
     }
 
@@ -608,7 +605,7 @@ done	     exit the character generation process");
     {
         if (displayHeader)
             player.Send("Please choose a class (type quit to stop creation).");
-        string classes = string.Join(" | ", ClassManager.Classes.Select(x => x.DisplayName));
+        var classes = string.Join(" | ", ClassManager.Classes.Select(x => x.DisplayName));
         player.Send(classes);
     }
 

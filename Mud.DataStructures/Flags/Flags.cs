@@ -188,6 +188,9 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
 
     public IEnumerable<string> Values => _hashSet;
 
+    public string Serialize()
+        => string.Join(',', _hashSet);
+
     #endregion
 
     public override string ToString() => string.Join(", ", _hashSet.OrderBy(x => x));

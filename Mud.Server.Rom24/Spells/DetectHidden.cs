@@ -21,15 +21,12 @@ public class DetectHidden : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Hidden";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
-
-    public DetectHidden(ILogger<DetectHidden> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, randomManager, auraManager)
+    public DetectHidden(ILogger<DetectHidden> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
+        : base(logger, randomManager, auraManager, characterFlagFactory)
     {
-        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("DetectHidden");
+    protected override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance("DetectHidden");
     protected override string SelfAlreadyAffected => "You are already as alert as you can be.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already sense hidden lifeforms.";
     protected override string SelfSuccess => "Your awareness improves.";
