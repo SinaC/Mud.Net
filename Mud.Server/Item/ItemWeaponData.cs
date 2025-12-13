@@ -7,5 +7,5 @@ namespace Mud.Server.Item;
 [JsonPolymorphism(typeof(ItemData), "weapon")]
 public class ItemWeaponData : ItemData
 {
-    public required IWeaponFlags WeaponFlags { get; set; }
+    public required string WeaponFlags { get; set; }
 }

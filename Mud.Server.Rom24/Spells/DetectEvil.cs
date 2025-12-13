@@ -22,15 +22,12 @@ public class DetectEvil : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Evil";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
-
-    public DetectEvil(ILogger<DetectEvil> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, randomManager, auraManager)
+    public DetectEvil(ILogger<DetectEvil> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
+        : base(logger, randomManager, auraManager, characterFlagFactory)
     {
-        CharacterFlagFactory = characterFlagFactory;
     }
 
-    protected override ICharacterFlags CharacterFlags => CharacterFlagFactory.CreateInstance("DetectEvil");
+    protected override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance("DetectEvil");
     protected override string SelfAlreadyAffected => "You can already sense evil.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already detect evil.";
     protected override string SelfSuccess => "Your eyes tingle.";

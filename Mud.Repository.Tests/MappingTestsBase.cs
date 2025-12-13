@@ -4,7 +4,6 @@ using Moq;
 using Mud.Common;
 using Mud.DataStructures.Flags;
 using Mud.Domain.SerializationData;
-using Mud.Repository.Filesystem.Json.Converters;
 using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Server.Affects.Character;
 using Mud.Server.Flags;
@@ -80,12 +79,6 @@ namespace Mud.Repository.Tests
                 WriteIndented = true,
                 TypeInfoResolver = new PolymorphicTypeResolver(assemblyHelperMock.Object)
             };
-            _options.Converters.Add(new CharacterFlagsJsonConverter(_flagFactory));
-            _options.Converters.Add(new IRVFlagsJsonConverter(_flagFactory));
-            _options.Converters.Add(new ShieldFlagsJsonConverter(_flagFactory));
-            _options.Converters.Add(new ItemFlagsJsonConverter(_flagFactory));
-            _options.Converters.Add(new WeaponFlagsJsonConverter(_flagFactory));
-            _options.Converters.Add(new RoomFlagsJsonConverter(_flagFactory));
 
             AutoFaker.Configure(builder =>
             {

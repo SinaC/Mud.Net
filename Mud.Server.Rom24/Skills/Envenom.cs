@@ -109,7 +109,7 @@ public class Envenom : ItemInventorySkillBase
             int level = (User.Level * percent) / 100;
             int duration = (User.Level * percent) / (2 * 100);
             AuraManager.AddAura(weapon, SkillName, User, level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                new ItemWeaponFlagsAffect { Modifier = WeaponFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or });
+                new ItemWeaponFlagsAffect(WeaponFlagFactory) { Modifier = WeaponFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or });
             User.Act(ActOptions.ToAll, "{0:N} coat{0:v} {1} with deadly venom.", User, weapon);
             return true;
         }

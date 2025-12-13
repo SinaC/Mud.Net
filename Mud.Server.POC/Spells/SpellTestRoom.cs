@@ -34,7 +34,7 @@ public class SpellTestRoom : CharacterBuffSpellBase
         {
             new RoomHealRateAffect {Modifier = 10, Operator = AffectOperators.Add},
             new RoomResourceRateAffect {Modifier = 150, Operator = AffectOperators.Assign},
-            new RoomFlagsAffect {Modifier = RoomFlagFactory.CreateInstance("NoScan", "NoWhere"), Operator = AffectOperators.Or}
+            new RoomFlagsAffect(RoomFlagFactory) {Modifier = RoomFlagFactory.CreateInstance("NoScan", "NoWhere"), Operator = AffectOperators.Or}
         });
 
     protected override void Invoke()

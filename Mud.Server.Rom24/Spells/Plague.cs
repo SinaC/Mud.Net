@@ -58,7 +58,7 @@ public class Plague : OffensiveSpellBase
         {
             AuraManager.AddAura(Victim, SpellName, Caster, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -5, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Plague"), Operator = AffectOperators.Or },
+                new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Plague"), Operator = AffectOperators.Or },
                 new PlagueSpreadAndDamageAffect(CharacterFlagFactory, RandomManager, AuraManager));
             Victim.Act(ActOptions.ToAll, "{0:N} scream{0:V} in agony as plague sores erupt from {0:s} skin.", Victim);
         }

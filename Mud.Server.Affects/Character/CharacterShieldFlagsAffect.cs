@@ -8,16 +8,19 @@ namespace Mud.Server.Affects.Character;
 [Affect("CharacterShieldFlagsAffect", typeof(CharacterShieldFlagsAffectData))]
 public class CharacterShieldFlagsAffect : FlagsAffectBase<IShieldFlags, IShieldFlagValues>, ICharacterShieldFlagsAffect
 {
-    protected override string Target => "Shields";
+    private IFlagFactory<IShieldFlags, IShieldFlagValues> FlagFactory { get; }
 
-    public CharacterShieldFlagsAffect()
+    public CharacterShieldFlagsAffect(IFlagFactory<IShieldFlags, IShieldFlagValues> flagFactory)
     {
+        FlagFactory = flagFactory;
     }
+
+    protected override string Target => "Shields";
 
     public void Initialize(CharacterShieldFlagsAffectData data)
     {
         Operator = data.Operator;
-        Modifier = data.Modifier;
+        Modifier = FlagFactory.CreateInstance(data.Modifier);
     }
 
     public void Apply(ICharacter character)
@@ -30,7 +33,7 @@ public class CharacterShieldFlagsAffect : FlagsAffectBase<IShieldFlags, IShieldF
         return new CharacterShieldFlagsAffectData
         {
             Operator = Operator,
-            Modifier = Modifier
+            Modifier = Modifier.Serialize()
         };
     }
 }

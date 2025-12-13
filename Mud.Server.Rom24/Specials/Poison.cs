@@ -59,7 +59,7 @@ namespace Mud.Server.Rom24.Specials
             else
                 AuraManager.AddAura(victim, "Poison", npc, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
                     new PoisonDamageAffect());
             victim.Send("You feel very sick.");
             victim.Act(ActOptions.ToRoom, "{0:N} looks very ill.", victim);

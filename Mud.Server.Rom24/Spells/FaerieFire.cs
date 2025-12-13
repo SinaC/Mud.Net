@@ -41,7 +41,7 @@ public class FaerieFire : OffensiveSpellBase
             return;
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = 2 * Level, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("FaerieFire"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("FaerieFire"), Operator = AffectOperators.Or });
         Victim.Act(ActOptions.ToAll, "{0:N} are surrounded by a pink outline.", Victim);
     }
 }

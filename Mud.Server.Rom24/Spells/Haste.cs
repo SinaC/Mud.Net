@@ -70,7 +70,7 @@ public class Haste : DefensiveSpellBase
         var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Haste"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Haste"), Operator = AffectOperators.Or });
         Victim.Send("You feel yourself moving more quickly.");
         Victim.Act(ActOptions.ToRoom, "{0:N} is moving more quickly.", Victim);
         if (Caster != Victim)

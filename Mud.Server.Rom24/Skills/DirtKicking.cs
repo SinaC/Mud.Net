@@ -118,7 +118,7 @@ public class DirtKicking : OffensiveSkillBase
             if (damageResults == DamageResults.Done)
                 AuraManager.AddAura(Victim, SkillName, User, User.Level, TimeSpan.FromSeconds(1)/*originally 0*/, AuraFlags.NoDispel, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Blind"), Operator = AffectOperators.Or });
+                    new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Blind"), Operator = AffectOperators.Or });
             return true;
         }
         else

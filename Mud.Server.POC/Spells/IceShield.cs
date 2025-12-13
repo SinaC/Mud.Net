@@ -16,15 +16,12 @@ public class IceShield : ShieldFlagsSpellBase
 {
     private const string SpellName = "Ice Shield";
 
-    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
-
     public IceShield(ILogger<IceShield> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory)
-        : base(logger, randomManager, auraManager)
+        : base(logger, randomManager, auraManager, shieldFlagFactory)
     {
-        ShieldFlagFactory = shieldFlagFactory;
     }
 
-    protected override IShieldFlags ShieldFlags => ShieldFlagFactory.CreateInstance("IceShield");
+    protected override IShieldFlags ShieldFlags => FlagFactory.CreateInstance("IceShield");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
     protected override string SelfAlreadyAffected => "You are already surrounded by a %C%icy%x% shield.";
     protected override string NotSelfAlreadyAffected => "{0:N} {0:b} already surrounded by a %C%icy%x% shield.";

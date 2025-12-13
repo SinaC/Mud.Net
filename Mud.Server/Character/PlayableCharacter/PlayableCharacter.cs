@@ -135,11 +135,11 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 this[conditionData.Key] = conditionData.Value;
         }
         //
-        BaseCharacterFlags = data.CharacterFlags ?? FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
-        BaseImmunities = data.Immunities;
-        BaseResistances = data.Resistances;
-        BaseVulnerabilities = data.Vulnerabilities;
-        BaseShieldFlags = data.ShieldFlags;
+        BaseCharacterFlags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(data.CharacterFlags);
+        BaseImmunities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(data.Immunities);
+        BaseResistances = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(data.Resistances);
+        BaseVulnerabilities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(data.Vulnerabilities);
+        BaseShieldFlags = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>(data.ShieldFlags);
         BaseSex = data.Sex;
         BaseSize = data.Size;
         if (data.Attributes != null)
@@ -988,11 +988,11 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
             CurrentQuests = Quests.Select(x => x.MapQuestData()).ToArray(),
             Auras = MapAuraData(),
-            CharacterFlags = BaseCharacterFlags,
-            Immunities = BaseImmunities,
-            Resistances = BaseResistances,
-            Vulnerabilities = BaseVulnerabilities,
-            ShieldFlags = BaseShieldFlags,
+            CharacterFlags = BaseCharacterFlags.Serialize(),
+            Immunities = BaseImmunities.Serialize(),
+            Resistances = BaseResistances.Serialize(),
+            Vulnerabilities = BaseVulnerabilities.Serialize(),
+            ShieldFlags = BaseShieldFlags.Serialize(),
             Attributes = Enum.GetValues<CharacterAttributes>().ToDictionary(x => x, BaseAttribute),
             LearnedAbilities = LearnedAbilities.Select(x => x.MapLearnedAbilityData()).ToArray(),
             LearnedAbilityGroups = LearnedAbilityGroups.Select(x => x.MapLearnedAbilityGroupData()).ToArray(),

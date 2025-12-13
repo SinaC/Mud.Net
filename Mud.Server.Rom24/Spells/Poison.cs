@@ -60,7 +60,7 @@ public class Poison : ItemOrOffensiveSpellBase
         else
             AuraManager.AddAura(victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
+                new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
                 new PoisonDamageAffect());
         victim.Send("You feel very sick.");
         victim.Act(ActOptions.ToRoom, "{0:N} looks very ill.", victim);
@@ -95,7 +95,7 @@ public class Poison : ItemOrOffensiveSpellBase
             }
             int duration = Level / 8;
             AuraManager.AddAura(weapon, SpellName, Caster, Level / 2, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                new ItemWeaponFlagsAffect { Modifier = WeaponFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or });
+                new ItemWeaponFlagsAffect(WeaponFlagFactory) { Modifier = WeaponFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToCharacter, "{0} is coated with deadly venom.", weapon);
             return;
         }

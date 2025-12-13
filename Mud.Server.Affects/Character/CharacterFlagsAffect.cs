@@ -10,14 +10,17 @@ public class CharacterFlagsAffect : FlagsAffectBase<ICharacterFlags, ICharacterF
 {
     protected override string Target => "Flags";
 
-    public CharacterFlagsAffect()
+    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> Factory { get; }
+
+    public CharacterFlagsAffect(IFlagFactory<ICharacterFlags, ICharacterFlagValues> factory)
     {
+        Factory = factory;
     }
 
     public void Initialize(CharacterFlagsAffectData data)
     {
         Operator = data.Operator;
-        Modifier = data.Modifier;
+        Modifier = Factory.CreateInstance(data.Modifier);
     }
 
     public void Apply(ICharacter character)
@@ -30,7 +33,7 @@ public class CharacterFlagsAffect : FlagsAffectBase<ICharacterFlags, ICharacterF
         return new CharacterFlagsAffectData
         {
             Operator = Operator,
-            Modifier = Modifier
+            Modifier = Modifier.Serialize()
         };
     }
 }

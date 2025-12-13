@@ -132,7 +132,7 @@ namespace Mud.Server.Tests.NonPlayableCharacters
                 ShieldFlags = CreateShieldFlags(),
             };
 
-            var npc = new NonPlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, randomManager, null, null, null, null, null, null, null, raceManagerMock.Object, classManagerMock.Object, damageModifierManager, null, flagFactoryMock.Object, null);
+            var npc = new NonPlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, randomManager, null, null, null, null, null, null, null, raceManagerMock.Object, classManagerMock.Object, damageModifierManager, null, flagFactoryMock.Object, null, null, null);
             npc.Initialize(Guid.NewGuid(), blueprint, roomMock.Object);
 
             return npc;

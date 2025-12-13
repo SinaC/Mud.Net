@@ -119,12 +119,12 @@ public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
                     x => x.Modifier += amount);
             existingAura.AddOrUpdateAffect(
                     x => x.Modifier.IsSet( "Magic"),
-                    () => new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or },
+                    () => new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or },
                     _ => { });
             if (addGlowing)
                 existingAura.AddOrUpdateAffect(
                    x => x.Modifier.IsSet("Glowing"),
-                   () => new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or },
+                   () => new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or },
                    _ => { });
         }
         else
@@ -132,10 +132,10 @@ public class EnchantArmor : ItemInventorySpellBase<IItemArmor>
             List<IAffect> affects =
             [
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = amount, Operator = AffectOperators.Add },
-                new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or }
+                new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Magic"), Operator = AffectOperators.Or }
             ];
             if (addGlowing)
-                affects.Add(new ItemFlagsAffect { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or });
+                affects.Add(new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or });
             AuraManager.AddAura(armor, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent, false, affects.ToArray());
         }
         armor.Recompute();

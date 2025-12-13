@@ -27,7 +27,7 @@ public class BlindnessEffect : IEffect<ICharacter>
             return;
         AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(1 + level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = -4, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Blind"), Operator = AffectOperators.Add });
+            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Blind"), Operator = AffectOperators.Add });
         victim.Send("You are blinded!");
         victim.Act(ActOptions.ToRoom, "{0:N} appears to be blinded.", victim);
     }

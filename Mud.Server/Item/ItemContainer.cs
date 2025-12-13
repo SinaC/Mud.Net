@@ -162,7 +162,7 @@ public class ItemContainer : ItemBase, IItemContainer
             ItemId = Blueprint.Id,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
-            ItemFlags = BaseItemFlags,
+            ItemFlags = BaseItemFlags.Serialize(),
             Auras = MapAuraData(),
             MaxWeight = MaxWeight,
             ContainerFlags = ContainerFlags,

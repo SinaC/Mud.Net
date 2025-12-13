@@ -56,7 +56,7 @@ public class ItemWeapon : ItemBase, IItemWeapon
         DiceCount = blueprint.DiceCount;
         DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
-        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => WeaponFlagFactory.CreateInstance(), itemData.WeaponFlags, null);
+        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => WeaponFlagFactory.CreateInstance(), WeaponFlagFactory.CreateInstance(itemData.WeaponFlags), null);
         DamageNoun = blueprint.DamageNoun;
 
         ResetAttributes();
@@ -146,8 +146,8 @@ public class ItemWeapon : ItemBase, IItemWeapon
             ItemId = Blueprint.Id,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
-            ItemFlags = BaseItemFlags,
-            WeaponFlags = BaseWeaponFlags,
+            ItemFlags = BaseItemFlags.Serialize(),
+            WeaponFlags = BaseWeaponFlags.Serialize(),
             Auras = MapAuraData(),
         };
     }

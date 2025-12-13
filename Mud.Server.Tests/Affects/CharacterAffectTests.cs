@@ -12,7 +12,7 @@ namespace Mud.Server.Tests.Affects
         {
             var room = GenerateRoom("");
             var npc = GenerateNPC("Charm", room);
-            var characterAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new CharacterFlagsAffect { Operator = AffectOperators.Add, Modifier = CreateCharacterFlags("Haste") });
+            var characterAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new CharacterFlagsAffect(null) { Operator = AffectOperators.Add, Modifier = CreateCharacterFlags("Haste") });
             npc.AddAura(characterAura, false);
             npc.Recompute();
 

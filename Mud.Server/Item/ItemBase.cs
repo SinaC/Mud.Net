@@ -72,7 +72,7 @@ public abstract class ItemBase: EntityBase, IItem
 
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), data.ItemFlags, null);
+        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), ItemFlagFactory.CreateInstance(data.ItemFlags), null);
         // Auras
         if (data.Auras != null)
         {
@@ -317,7 +317,7 @@ public abstract class ItemBase: EntityBase, IItem
             ItemId = Blueprint.Id,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
-            ItemFlags = BaseItemFlags, // Current will be recompute with auras
+            ItemFlags = BaseItemFlags.Serialize(), // Current will be recompute with auras
             Auras = MapAuraData()
         };
     }

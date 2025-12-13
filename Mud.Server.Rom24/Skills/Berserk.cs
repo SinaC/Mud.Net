@@ -81,7 +81,7 @@ public class Berserk : NoTargetSkillBase
             int modifier = Math.Max(1, User.Level / 5);
             int acModifier = Math.Max(10, 10 * (User.Level / 5));
             AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Berserk"), Operator = AffectOperators.Or },
+                new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Berserk"), Operator = AffectOperators.Or },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = acModifier, Operator = AffectOperators.Add });

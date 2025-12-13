@@ -9,19 +9,22 @@ namespace Mud.Server.Affects.Character;
 [Affect("CharacterIRVAffect", typeof(CharacterIRVAffectData))]
 public class CharacterIRVAffect : FlagsAffectBase<IIRVFlags, IIRVFlagValues>, ICharacterIRVAffect
 {
-    public IRVAffectLocations Location { get; set; }
+    private IFlagFactory<IIRVFlags, IIRVFlagValues> FlagFactory { get; }
+
+    public CharacterIRVAffect(IFlagFactory<IIRVFlags, IIRVFlagValues> flagFactory)
+    {
+        FlagFactory = flagFactory;
+    }
 
     protected override string Target => Location.ToString();
 
-    public CharacterIRVAffect()
-    {
-    }
+    public IRVAffectLocations Location { get; set; }
 
     public void Initialize(CharacterIRVAffectData data)
     {
         Location = data.Location;
         Operator = data.Operator;
-        Modifier = data.Modifier;
+        Modifier = FlagFactory.CreateInstance(data.Modifier);
     }
 
     public void Apply(ICharacter character)
@@ -35,7 +38,7 @@ public class CharacterIRVAffect : FlagsAffectBase<IIRVFlags, IIRVFlagValues>, IC
         {
             Location = Location,
             Operator = Operator,
-            Modifier = Modifier
+            Modifier = Modifier.Serialize()
         };
     }
 }

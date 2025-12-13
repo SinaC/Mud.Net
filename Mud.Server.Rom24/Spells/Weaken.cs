@@ -40,7 +40,7 @@ public class Weaken : CharacterDebuffSpellBase
         new IAffect[]
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -Level/5, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Weaken"), Operator = AffectOperators.Or }
+            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Weaken"), Operator = AffectOperators.Or }
         });
 
     protected override bool CanAffect => base.CanAffect && !Victim.CharacterFlags.IsSet("Weaken");

@@ -23,7 +23,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomAddAffect_NoBaseValue()
         {
             var room = GenerateRoom("");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark")});
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark")});
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -35,7 +35,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomAddAffect_IdenticalBaseValue()
         {
             var room = GenerateRoom("Dark");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -47,7 +47,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomAddAffect_DifferentBaseValue()
         {
             var room = GenerateRoom("ImpOnly");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -59,7 +59,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomOrAffect_NoBaseValue()
         {
             var room = GenerateRoom("");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Or, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -71,7 +71,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomOrAffect_IdenticalBaseValue()
         {
             var room = GenerateRoom("Dark");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Or, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -83,7 +83,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomOrAffect_DifferentBaseValue()
         {
             var room = GenerateRoom("ImpOnly");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Or, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Or, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -95,7 +95,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomAssignAffect_NoBaseValue()
         {
             var room = GenerateRoom("");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Assign, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -107,7 +107,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomAssignAffect_IdenticalBaseValue()
         {
             var room = GenerateRoom("Dark");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Assign, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -119,7 +119,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomAssignAffect_DifferentBaseValue()
         {
             var room = GenerateRoom("ImpOnly");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Assign, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Assign, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -131,7 +131,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomNorAffect_NoBaseValue()
         {
             var room = GenerateRoom("");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Nor, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -143,7 +143,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomNorAffect_IdenticalBaseValue()
         {
             var room = GenerateRoom("Dark");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Nor, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -155,7 +155,7 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomNorAffect_DifferentBaseValue()
         {
             var room = GenerateRoom("ImpOnly");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Nor, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Nor, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             room.Recompute();
 
@@ -177,10 +177,10 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomAddAffect_OneItemAddAffect_Identical()
         {
             var room = GenerateRoom("");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
             room.AddAura(roomAura, false);
             var item = GenerateArmor("", room);
-            IAura itemAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
+            IAura itemAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
             item.AddAura(itemAura, false);
 
             room.Recompute();
@@ -193,10 +193,10 @@ namespace Mud.Server.Tests.Affects
         public void OneRoomAddAffect_OneItemAddAffect_Different()
         {
             var room = GenerateRoom("");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("ImpOnly") });
+            var roomAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("ImpOnly") });
             room.AddAura(roomAura, false);
             var item = GenerateArmor("", room);
-            IAura itemAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
+            IAura itemAura = new Aura.Aura(null, null, AuraFlags.Permanent, 10, TimeSpan.FromMinutes(10), new RoomFlagsAffect(null) { Operator = AffectOperators.Add, Modifier = CreateRoomFlags("Dark") });
             item.AddAura(itemAura, false);
 
             room.Recompute();

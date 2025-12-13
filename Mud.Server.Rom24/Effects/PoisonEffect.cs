@@ -61,7 +61,7 @@ public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             else
                 AuraManager.AddAura(victim, auraName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -1, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
                     new PoisonDamageAffect());
         }
         // equipment

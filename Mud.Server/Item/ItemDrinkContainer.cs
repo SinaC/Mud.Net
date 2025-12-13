@@ -114,7 +114,7 @@ public class ItemDrinkContainer : ItemBase, IItemDrinkContainer
             ItemId = Blueprint.Id,
             Level = Level,
             DecayPulseLeft = DecayPulseLeft,
-            ItemFlags = BaseItemFlags,
+            ItemFlags = BaseItemFlags.Serialize(),
             MaxLiquidAmount = MaxLiquid,
             CurrentLiquidAmount = LiquidLeft,
             LiquidName = LiquidName,

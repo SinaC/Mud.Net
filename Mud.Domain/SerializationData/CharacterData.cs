@@ -1,6 +1,4 @@
-﻿using Mud.Server.Flags.Interfaces;
-
-namespace Mud.Domain.SerializationData;
+﻿namespace Mud.Domain.SerializationData;
 
 public abstract class CharacterData
 {
@@ -30,14 +28,14 @@ public abstract class CharacterData
 
     public required AuraData[] Auras { get; set; }
 
-    public required ICharacterFlags CharacterFlags { get; set; }
+    public required string CharacterFlags { get; set; }
 
-    public required IIRVFlags Immunities { get; set; }
+    public required string Immunities { get; set; }
 
-    public required IIRVFlags Resistances { get; set; }
+    public required string Resistances { get; set; }
 
-    public required IIRVFlags Vulnerabilities { get; set; }
-    public required IShieldFlags ShieldFlags { get; set; }
+    public required string Vulnerabilities { get; set; }
+    public required string ShieldFlags { get; set; }
 
     public required Dictionary<CharacterAttributes, int> Attributes { get; set; }
 }

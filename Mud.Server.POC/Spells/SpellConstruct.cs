@@ -37,7 +37,7 @@ public class SpellConstruct : NoTargetSpellBase
             INonPlayableCharacter construct = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
             pcCaster.AddPet(construct);
             AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                new CharacterFlagsAffect { Modifier = CharacterFlagFactory.CreateInstance("Charm"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Charm"), Operator = AffectOperators.Or });
         }
     }
 }
