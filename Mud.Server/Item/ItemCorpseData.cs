@@ -1,0 +1,16 @@
+﻿using Mud.Domain.Serialization;
+using Mud.Domain.SerializationData;
+
+namespace Mud.Server.Item;
+
+[JsonPolymorphism(typeof(ItemData), "corpse")]
+public class ItemCorpseData : ItemData
+{
+    public required ItemData[] Contains { get; set; }
+
+    public required bool IsPlayableCharacterCorpse { get; set; }
+
+    public required string CorpseName { get; set; }
+
+    public required bool HasBeenGeneratedByKillingCharacter { get; set; }
+}

@@ -14,10 +14,11 @@ public class AssistFlagsFactory : IFlagFactory<IAssistFlags, IAssistFlagValues>
         ServiceProvider = serviceProvider;
     }
 
-    public IAssistFlags CreateInstance(string flags)
+    public IAssistFlags CreateInstance(string? flags)
     {
         var assistFlags = ServiceProvider.GetRequiredService<IAssistFlags>();
-        assistFlags.Set(flags);
+        if (flags != null)
+            assistFlags.Set(flags);
         return assistFlags;
     }
 

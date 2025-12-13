@@ -47,7 +47,7 @@ public class ListAvatar : PlayerGameAction
     {
         get
         {
-            TableGenerator<PlayableCharacterData> generator = new TableGenerator<PlayableCharacterData>();
+            var generator = new TableGenerator<PlayableCharacterData>();
             generator.AddColumn("Name", 14, data => data.Name.UpperFirstLetter());
             generator.AddColumn("Level", 7, data => data.Level.ToString());
             generator.AddColumn("Class", 12, data => ClassManager[data.Class]?.DisplayName ?? "none");

@@ -64,8 +64,7 @@ public class LoginRepository : ILoginRepository
         // TODO: check password + encryption
         if (CheckLoginPassword)
         {
-            LoginData loginData;
-            _table.TryGetValue(username, out loginData);
+            _table.TryGetValue(username, out var loginData);
             return loginData != null && password == loginData.Password;
         }
         else

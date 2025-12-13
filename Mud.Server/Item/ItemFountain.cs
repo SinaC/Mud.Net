@@ -46,7 +46,7 @@ public class ItemFountain : ItemBase, IItemFountain
 
     #region IItemDrinkable
 
-    public string LiquidName { get; protected set; } = null!;
+    public string? LiquidName { get; protected set; } = null!;
 
     public int LiquidLeft => int.MaxValue;
 

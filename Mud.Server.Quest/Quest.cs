@@ -77,7 +77,8 @@ public class Quest : IQuest
             {
                 Logger.LogError("Quest giver blueprint id {blueprintId} room blueprint Id {giverRoomId} not found!!!", questData.GiverId, questData.GiverRoomId);
             }
-            Giver = giver;
+            else
+                Giver = giver;
         }
         // TODO: if Giver is null, player will not be able to complete quest
 

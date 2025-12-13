@@ -15,11 +15,11 @@ public class Pour : ItemGameActionBase<IItemFountain, IItemGameActionInfo>
 
         if (container is IRoom room)
         {
-            Actor.Act(room.People, "{0} pours {1} everywhere.", Actor, Actor.LiquidName);
+            Actor.Act(room.People, "{0} pours {1} everywhere.", Actor, Actor.LiquidName ?? "???");
         }
         else if (container is ICharacter character)
         {
-            Actor.Act(character.Room.People, "{0} pours {1} on {2}.", Actor, Actor.LiquidName, character);
+            Actor.Act(character.Room.People, "{0} pours {1} on {2}.", Actor, Actor.LiquidName ?? "???", character);
         }
     }
 }

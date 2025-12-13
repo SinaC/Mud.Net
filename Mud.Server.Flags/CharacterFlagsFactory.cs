@@ -14,10 +14,11 @@ public class CharacterFlagsFactory : IFlagFactory<ICharacterFlags, ICharacterFla
         ServiceProvider = serviceProvider;
     }
 
-    public ICharacterFlags CreateInstance(string flags)
+    public ICharacterFlags CreateInstance(string? flags)
     {
         var characterFlags = ServiceProvider.GetRequiredService<ICharacterFlags>();
-        characterFlags.Set(flags);
+        if (flags != null)
+            characterFlags.Set(flags);
         return characterFlags;
     }
 

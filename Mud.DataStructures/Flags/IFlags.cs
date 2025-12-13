@@ -18,8 +18,6 @@ public interface IFlags<T>
     int Count { get; }
 
     IEnumerable<T> Items { get; }
-
-    string Map();
 }
 
 public interface IFlags<T, TFlagValues>

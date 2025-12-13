@@ -162,8 +162,8 @@ public abstract class ItemBase: EntityBase, IItem
 
     public override void OnCleaned() // called when removing definitively an entity from the game
     {
-        Blueprint = null;
-        ContainedInto = null;
+        Blueprint = null!;
+        ContainedInto = null!;
     }
 
     #endregion

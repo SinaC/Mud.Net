@@ -106,10 +106,14 @@ public class Eat : CastSpellCharacterGameActionBase
         }
         else if (Pill != null)
         {
-            CastSpell(Pill, Pill.FirstSpellName, Pill.SpellLevel);
-            CastSpell(Pill, Pill.SecondSpellName, Pill.SpellLevel);
-            CastSpell(Pill, Pill.ThirdSpellName, Pill.SpellLevel);
-            CastSpell(Pill, Pill.FourthSpellName, Pill.SpellLevel);
+            if (Pill.FirstSpellName != null)
+                CastSpell(Pill, Pill.FirstSpellName, Pill.SpellLevel);
+            if (Pill.SecondSpellName != null)
+                CastSpell(Pill, Pill.SecondSpellName, Pill.SpellLevel);
+            if (Pill.ThirdSpellName != null)
+                CastSpell(Pill, Pill.ThirdSpellName, Pill.SpellLevel);
+            if (Pill.FourthSpellName != null)
+                CastSpell(Pill, Pill.FourthSpellName, Pill.SpellLevel);
             ItemManager.RemoveItem(Pill);
         }
     }

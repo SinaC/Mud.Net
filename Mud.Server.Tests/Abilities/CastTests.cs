@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
+using Mud.Common;
 using Mud.Server.Ability;
 using Mud.Server.Commands.Character.Ability;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.Character;

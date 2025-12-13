@@ -6,14 +6,14 @@ namespace Mud.Server.Flags.Interfaces
         where TFlag : IFlags<string, TFlagValues>
         where TFlagValues : IFlagValues<string>
     {
-        TFlag CreateInstance(string flags);
+        TFlag CreateInstance(string? flags);
         TFlag CreateInstance(params string[] flags);
     }
 
 
     public interface IFlagFactory
     {
-        TFlag CreateInstance<TFlag, TFlagValues>(string flags)
+        TFlag CreateInstance<TFlag, TFlagValues>(string? flags)
             where TFlag : IFlags<string, TFlagValues>
             where TFlagValues : IFlagValues<string>;
 

@@ -2,5 +2,5 @@
 
 public class LoginRepositoryData
 {
-    public LoginData[] Logins { get; set; }
+    public required LoginData[] Logins { get; set; }
 }

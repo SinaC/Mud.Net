@@ -14,11 +14,12 @@ public class ItemFlagsFactory : IFlagFactory<IItemFlags, IItemFlagValues>
         ServiceProvider = serviceProvider;
     }
 
-    public IItemFlags CreateInstance(string flags)
+    public IItemFlags CreateInstance(string? flags)
     {
-        var ItemFlags = ServiceProvider.GetRequiredService<IItemFlags>();
-        ItemFlags.Set(flags);
-        return ItemFlags;
+        var itemFlags = ServiceProvider.GetRequiredService<IItemFlags>();
+        if (flags != null)
+            itemFlags.Set(flags);
+        return itemFlags;
     }
 
     public IItemFlags CreateInstance(params string[] flags)

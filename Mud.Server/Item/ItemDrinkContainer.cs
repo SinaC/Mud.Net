@@ -62,7 +62,7 @@ public class ItemDrinkContainer : ItemBase, IItemDrinkContainer
 
     #endregion
 
-    public string LiquidName { get; protected set; } = null!;
+    public string? LiquidName { get; protected set; } = null!;
 
     public int LiquidLeft { get; protected set; }
 
@@ -80,7 +80,7 @@ public class ItemDrinkContainer : ItemBase, IItemDrinkContainer
 
     public int MaxLiquid { get; protected set; }
 
-    public void Fill(string liquidName, int amount)
+    public void Fill(string? liquidName, int amount)
     {
         LiquidName = liquidName;
         LiquidLeft = Math.Min(MaxLiquid, LiquidLeft + amount);

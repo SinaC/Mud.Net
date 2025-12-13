@@ -1,20 +1,17 @@
 INGOING
 DONE
-    Instantiate Affect from AffectData using AffectAttribute
-    Instantiate Item from ItemBlueprint/ItemData using new ItemAttribute
-    offensive skill base will automatically start the combat if needed
-        -> druid skill modified
-    shapeshift aura flags, only one shapeshift aura allowed
-        fix following: for the moment, cat form and bear form add affect which are maintain if switch off form
-    pixie pc race added
-    shortaffects priority raised to 'appear' before sacrifice command when typing 'sa'
-    addition affect on bear/cat form
-    SkillBase,PassiveBase: we should find another way to retrieve ability info than using new(GetType()) (using AbilityManager ?) -> no (no need to inject ability manager and add a new property such has Name in IAbility to be able to use AbilityManager)
-    don't save Shapeshift auras
-
+    try to avoid JsonDerivedType in ItemData for example
+        -> define converter or avoid inheritance?
+        -> every entity will define it's serialization using converter ?
+    ==> use custom resolver PolymorphicTypeResolver with new attribute JsonPolymorphismAttribute
+    are Initialize methods in IXXXItem needed ? if we can remove at least Initialize(Guid, blueprint, data, container) ItemXXXData could be moved to Mud.Server/Items
+    lots of .net8 warnings fixed
 ==========
 == TODO ==
 ==========
+
+remove IXXXFlags from YYYData -> use string instead (easier if we use mapperly)
+try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
 
 rage
 https://vanilla-wow-archive.fandom.com/wiki/Rage#Rage_decay
@@ -55,11 +52,6 @@ haste should add a new Affect AdditionalHitAffect
 try to change very check on CharacterFlags, ... should be handled with Affect
 Aura list on entity should store a lookup<AffectType, IAffect> for rapid access
 restore should only remove 'negative' auras
-
-try to avoid JsonDerivedType in ItemData for example
-    -> define converter or avoid inheritance?
-    -> every entity will define it's serialization using converter ?
-
 
 add colors everywhere :)
 

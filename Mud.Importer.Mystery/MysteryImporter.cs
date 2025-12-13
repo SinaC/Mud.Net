@@ -968,7 +968,7 @@ public class MysteryImporter
                 break;
         }
 
-        return null;
+        return null!;
     }
 
     private bool IsNoTake(ObjectData objectData) => (objectData.WearFlags & ITEM_TAKE) != ITEM_TAKE;

@@ -561,7 +561,9 @@ public class RomLoader : TextBasedLoader
                     else
                     {
                         if (arg3 == 0)
+#pragma warning disable CS0642 // Possible mistaken empty statement
                             ; // NOP
+#pragma warning restore CS0642 // Possible mistaken empty statement
                         else if (arg3 == 1)
                             roomData.Exits[arg2].ExitInfo |= 0x2; // closed
                         else if (arg3 == 2)
@@ -743,7 +745,9 @@ public class RomLoader : TextBasedLoader
             if (letter == 'S') // done
                 break;
             else if (letter == '*')
+#pragma warning disable CS0642 // Possible mistaken empty statement
                 ; // nop
+#pragma warning restore CS0642 // Possible mistaken empty statement
             else if (letter == 'M')
             {
                 int vnum = (int)ReadNumber();

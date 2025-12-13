@@ -1,9 +1,8 @@
-﻿using System.Text.Json.Serialization;
+﻿using Mud.Domain.Serialization;
 
 namespace Mud.Domain.SerializationData;
 
-[JsonDerivedType(typeof(PlayerData), "player")]
-[JsonDerivedType(typeof(AdminData), "admin")]
+[JsonPolymorphism(typeof(PlayerData), "player")]
 public class PlayerData
 {
     public required string Name { get; set; }

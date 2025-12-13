@@ -23,7 +23,7 @@ public class Groups : PlayableCharacterGameAction
     }
 
     private bool Display { get; set; }
-    private IAbilityGroupDefinition AbilityGroupDefinition { get; set; }
+    private IAbilityGroupDefinition AbilityGroupDefinition { get; set; } = null!;
 
     public override string? Guards(IActionInput actionInput)
     {

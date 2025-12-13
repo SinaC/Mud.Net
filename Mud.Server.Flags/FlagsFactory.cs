@@ -15,12 +15,13 @@ public class FlagsFactory : IFlagFactory
         ServiceProvider = serviceProvider;
     }
 
-    public TFlag CreateInstance<TFlag, TFlagValues>(string flags)
+    public TFlag CreateInstance<TFlag, TFlagValues>(string? flags)
         where TFlag : IFlags<string, TFlagValues>
         where TFlagValues : IFlagValues<string>
     {
         var instance = ServiceProvider.GetRequiredService<TFlag>();
-        instance.Set(flags);
+        if (flags != null)
+            instance.Set(flags);
         return instance;
     }
 

@@ -14,10 +14,11 @@ public class IRVFlagsFactory : IFlagFactory<IIRVFlags, IIRVFlagValues>
         ServiceProvider = serviceProvider;
     }
 
-    public IIRVFlags CreateInstance(string flags)
+    public IIRVFlags CreateInstance(string? flags)
     {
         var irvFlags = ServiceProvider.GetRequiredService<IIRVFlags>();
-        irvFlags.Set(flags);
+        if (flags != null)
+            irvFlags.Set(flags);
         return irvFlags;
     }
 

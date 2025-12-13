@@ -201,8 +201,12 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
             _listenEvent.Set();
 
             // Get the socket that handles the client request.
-            Socket listener = (Socket)ar.AsyncState;
-            Socket clientSocket = listener.EndAccept(ar);
+            if (ar.AsyncState is not Socket listener)
+            {
+                Logger.LogError("AcceptCallback: AsyncResult AsyncState is not if type Socket but {asyncStateType}", ar.AsyncState?.GetType());
+                return;
+            }
+            var clientSocket = listener.EndAccept(ar);
 
             Logger.LogDebug("Client connected from {address}", (clientSocket.RemoteEndPoint as IPEndPoint)?.Address?.ToString() ?? "???");
 
@@ -237,10 +241,15 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
     {
         // Retrieve the state object and the handler socket
         // from the asynchronous state object.
-        ClientTelnetStateObject client = (ClientTelnetStateObject)ar.AsyncState;
+        if (ar.AsyncState is not ClientTelnetStateObject client)
+        {
+            Logger.LogError("ReadCallback: AsyncResult AsyncState is not if type ClientTelnetStateObject but {asyncStateType}", ar.AsyncState?.GetType());
+            return;
+        }
+
         try
         {
-            Socket clientSocket = client.ClientSocket;
+            var clientSocket = client.ClientSocket;
 
             // Read data from the client socket. 
             int bytesRead = clientSocket.EndReceive(ar);
@@ -374,8 +383,13 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
         try
         {
             // Retrieve the socket from the state object.
-            ClientTelnetStateObject client = (ClientTelnetStateObject)ar.AsyncState;
-            Socket clientSocket = client.ClientSocket;
+            if (ar.AsyncState is not ClientTelnetStateObject client)
+            {
+                Logger.LogError("SendCallback: AsyncResult AsyncState is not if type ClientTelnetStateObject but {asyncStateType}", ar.AsyncState?.GetType());
+                return;
+            }
+
+            var clientSocket = client.ClientSocket;
 
             // Complete sending the data to the remote device.
             int bytesSent = clientSocket.EndSend(ar);
@@ -434,27 +448,27 @@ public class TelnetServer : ITelnetNetworkServer, IDisposable
             if (_listenTask != null)
             {
                 _listenTask.Dispose();
-                _listenTask = null;
+                _listenTask = null!;
             }
 
             if (_listenEvent != null)
             {
                 _listenEvent.Dispose();
                 _listenEvent.Close();
-                _listenEvent = null;
+                _listenEvent = null!;
             }
 
             if (_serverSocket != null)
             {
                 _serverSocket.Shutdown(SocketShutdown.Both);
                 _serverSocket.Close();
-                _serverSocket = null;
+                _serverSocket = null!;
             }
 
             if (_cancellationTokenSource != null)
             {
                 _cancellationTokenSource.Dispose();
-                _cancellationTokenSource = null;
+                _cancellationTokenSource = null!;
             }
         }
     }

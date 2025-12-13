@@ -6,5 +6,5 @@ namespace Mud.Server.Blueprints.Item;
 public class ItemFountainBlueprint : ItemBlueprintBase
 {
     [DataMember]
-    public string LiquidType { get; set; } = default!; // v2
+    public string? LiquidType { get; set; } // v2
 }

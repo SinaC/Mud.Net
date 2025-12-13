@@ -14,10 +14,11 @@ public class BodyPartsFactory : IFlagFactory<IBodyParts, IBodyPartValues>
         ServiceProvider = serviceProvider;
     }
 
-    public IBodyParts CreateInstance(string flags)
+    public IBodyParts CreateInstance(string? flags)
     {
         var bodyPartFlags = ServiceProvider.GetRequiredService<IBodyParts>();
-        bodyPartFlags.Set(flags);
+        if (flags != null) 
+            bodyPartFlags.Set(flags);
         return bodyPartFlags;
     }
 

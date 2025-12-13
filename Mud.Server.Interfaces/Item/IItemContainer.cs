@@ -1,15 +1,9 @@
 ﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Interfaces.Entity;
 
 namespace Mud.Server.Interfaces.Item;
 
 public interface IItemContainer : IItemCloseable, IItemCanContain
 {
-    void Initialize(Guid guid, ItemContainerBlueprint blueprint, IContainer containedInto);
-    void Initialize(Guid guid, ItemContainerBlueprint blueprint, ItemContainerData itemContainerData, IContainer containedInto);
-
     int MaxItems { get; }
     int MaxWeight { get; }
     ContainerFlags ContainerFlags { get; }

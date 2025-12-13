@@ -11,7 +11,7 @@ public class Exit : IExit
     public Exit(ExitBlueprint blueprint, IRoom destination)
     {
         Name = blueprint.Keyword;
-        Keywords = Name?.Split([' '], StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>();
+        Keywords = Name.Split([' '], StringSplitOptions.RemoveEmptyEntries) ?? Enumerable.Empty<string>();
         Description = blueprint.Description;
         Destination = destination;
         Blueprint = blueprint;
@@ -66,8 +66,8 @@ public class Exit : IExit
 
     public void OnRemoved()
     {
-        Destination = null;
-        Blueprint = null;
+        Destination = null!;
+        Blueprint = null!;
     }
 
     #endregion

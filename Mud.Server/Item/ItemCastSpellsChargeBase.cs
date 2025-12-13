@@ -47,7 +47,7 @@ public abstract class ItemCastSpellsChargeBase : ItemBase, IItemCastSpellsCharge
     public int SpellLevel { get; private set; }
     public int CurrentChargeCount { get; protected set; }
     public int MaxChargeCount { get; protected set; }
-    public string SpellName { get; private set; } = null!;
+    public string? SpellName { get; private set; }
     public bool AlreadyRecharged { get; protected set; }
 
     public void Use()

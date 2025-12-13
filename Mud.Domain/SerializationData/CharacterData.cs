@@ -1,10 +1,7 @@
 ﻿using Mud.Server.Flags.Interfaces;
-using System.Text.Json.Serialization;
 
 namespace Mud.Domain.SerializationData;
 
-[JsonDerivedType(typeof(PlayableCharacterData), "pc")]
-[JsonDerivedType(typeof(PetData), "pet")]
 public abstract class CharacterData
 {
     public required string Name { get; set; }

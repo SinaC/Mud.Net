@@ -14,10 +14,11 @@ public class BodyFormsFactory : IFlagFactory<IBodyForms, IBodyFormValues>
         ServiceProvider = serviceProvider;
     }
 
-    public IBodyForms CreateInstance(string flags)
+    public IBodyForms CreateInstance(string? flags)
     {
         var bodyFormFlags = ServiceProvider.GetRequiredService<IBodyForms>();
-        bodyFormFlags.Set(flags);
+        if (flags != null) 
+            bodyFormFlags.Set(flags);
         return bodyFormFlags;
     }
 

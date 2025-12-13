@@ -2,7 +2,7 @@
 
 public interface IItemDrinkable : IItem
 {
-    string LiquidName { get; }
+    string? LiquidName { get; }
     int LiquidLeft { get; }
     bool IsEmpty { get; }
     int LiquidAmountMultiplier { get; }

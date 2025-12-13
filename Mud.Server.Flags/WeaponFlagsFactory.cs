@@ -14,11 +14,12 @@ public class WeaponFlagsFactory : IFlagFactory<IWeaponFlags, IWeaponFlagValues>
         ServiceProvider = serviceProvider;
     }
 
-    public IWeaponFlags CreateInstance(string flags)
+    public IWeaponFlags CreateInstance(string? flags)
     {
-        var WeaponFlags = ServiceProvider.GetRequiredService<IWeaponFlags>();
-        WeaponFlags.Set(flags);
-        return WeaponFlags;
+        var weaponFlags = ServiceProvider.GetRequiredService<IWeaponFlags>();
+        if (flags != null)
+            weaponFlags.Set(flags);
+        return weaponFlags;
     }
 
     public IWeaponFlags CreateInstance(params string[] flags)
