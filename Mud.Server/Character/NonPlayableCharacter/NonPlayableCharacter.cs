@@ -10,11 +10,11 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common.Helpers;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
-using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -41,19 +41,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 {
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
-    private IFlagFactory FlagFactory { get; }
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
-    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
     private ISpecialBehaviorManager SpecialBehaviorManager { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory, ISpecialBehaviorManager specialBehaviorManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagFactory, wiznet)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagsManager, wiznet)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
-        FlagFactory = flagFactory;
-        CharacterFlagFactory = characterFlagFactory;
-        ShieldFlagFactory = shieldFlagFactory;
         SpecialBehaviorManager = specialBehaviorManager;
     }
 
@@ -76,15 +70,17 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         DamageDiceCount = blueprint.DamageDiceCount;
         DamageDiceValue = blueprint.DamageDiceValue;
         DamageDiceBonus = blueprint.DamageDiceBonus;
-        ActFlags = NewAndCopyAndSet<IActFlags, IActFlagValues>(() => FlagFactory.CreateInstance<IActFlags, IActFlagValues>(), blueprint.ActFlags, Race?.ActFlags);
-        OffensiveFlags = NewAndCopyAndSet<IOffensiveFlags, IOffensiveFlagValues>(() => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>(), blueprint.OffensiveFlags, Race?.OffensiveFlags);
-        AssistFlags = NewAndCopyAndSet<IAssistFlags, IAssistFlagValues>(() => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>(), blueprint.AssistFlags, Race?.AssistFlags);
-        BaseBodyForms = NewAndCopyAndSet<IBodyForms, IBodyFormValues>(() => FlagFactory.CreateInstance<IBodyForms, IBodyFormValues>(), Blueprint.BodyForms, Race?.BodyForms);
-        BaseBodyParts = NewAndCopyAndSet<IBodyParts, IBodyPartValues>(() => FlagFactory.CreateInstance<IBodyParts, IBodyPartValues>(), Blueprint.BodyParts, Race?.BodyParts);
-        BaseCharacterFlags = NewAndCopyAndSet<ICharacterFlags, ICharacterFlagValues>(() => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(), blueprint.CharacterFlags, Race?.CharacterFlags);
-        BaseImmunities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(), blueprint.Immunities, Race?.Immunities);
-        BaseResistances = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(), blueprint.Resistances, Race?.Resistances);
-        BaseVulnerabilities = NewAndCopyAndSet<IIRVFlags, IIRVFlagValues>(() => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(), blueprint.Vulnerabilities, Race?.Vulnerabilities);
+
+        ActFlags = NewAndCopyAndSet(() => new ActFlags(), blueprint.ActFlags, Race?.ActFlags);
+        OffensiveFlags = NewAndCopyAndSet(() => new OffensiveFlags(), blueprint.OffensiveFlags, Race?.OffensiveFlags);
+        AssistFlags = NewAndCopyAndSet(() => new AssistFlags(), blueprint.AssistFlags, Race?.AssistFlags);
+        BaseBodyForms = NewAndCopyAndSet(() => new BodyForms(), Blueprint.BodyForms, Race?.BodyForms);
+        BaseBodyParts = NewAndCopyAndSet(() => new BodyParts(), Blueprint.BodyParts, Race?.BodyParts);
+        BaseCharacterFlags = NewAndCopyAndSet(() => new CharacterFlags(), blueprint.CharacterFlags, Race?.CharacterFlags);
+        BaseImmunities = NewAndCopyAndSet(() => new IRVFlags(), blueprint.Immunities, Race?.Immunities);
+        BaseResistances = NewAndCopyAndSet(() => new IRVFlags(), blueprint.Resistances, Race?.Resistances);
+        BaseVulnerabilities = NewAndCopyAndSet(() => new IRVFlags(), blueprint.Vulnerabilities, Race?.Vulnerabilities);
+
         BaseSex = blueprint.Sex;
         BaseSize = blueprint.Size;
         Alignment = blueprint.Alignment.Range(-1000, 1000);
@@ -226,13 +222,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         // Inventory
         if (petData.Inventory != null)
         {
-            foreach (ItemData itemData in petData.Inventory)
+            foreach (var itemData in petData.Inventory)
                 ItemManager.AddItem(Guid.NewGuid(), itemData, this);
         }
         // Auras
         if (petData.Auras != null)
         {
-            foreach (AuraData auraData in petData.Auras)
+            foreach (var auraData in petData.Auras)
                 AuraManager.AddAura(this, auraData, false);
         }
 
@@ -812,21 +808,21 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             // TODO: code copied from sanctuary spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Sanctuary"];
             AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect(ShieldFlagFactory) { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("Sanctuary"), Operator = AffectOperators.Or });
+                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("Sanctuary"), Operator = AffectOperators.Or });
         }
         if (blueprint.ShieldFlags.IsSet("ProtectGood"))
         {
             // TODO: code copied from protection good spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Good"];
             AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect(ShieldFlagFactory) { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectGood"), Operator = AffectOperators.Or });
+                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectGood"), Operator = AffectOperators.Or });
         }
         if (blueprint.ShieldFlags.IsSet("ProtectEvil"))
         {
             // TODO: code copied from protection evil spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Evil"];
             AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect(ShieldFlagFactory) { Modifier = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>("ProtectEvil"), Operator = AffectOperators.Or });
+                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectEvil"), Operator = AffectOperators.Or });
         }
         // TODO: other shields like FireShield, IceShield, LightningShield
         if (blueprint.CharacterFlags.IsSet("Haste") || blueprint.OffensiveFlags.IsSet("Fast"))
@@ -836,7 +832,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
             AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, false,
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Haste"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or });
         }
     }
 

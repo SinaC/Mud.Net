@@ -241,9 +241,8 @@ public abstract class EntityBase : ActorBase, IEntity
 
     #endregion
 
-    protected static TFlags NewAndCopyAndSet<TFlags, TFlagValues>(Func<TFlags> newFunc, TFlags? toCopy, TFlags? toSet)
-        where TFlags : IFlags<string, TFlagValues>
-        where TFlagValues: IFlagValues<string>
+    protected static TFlags NewAndCopyAndSet<TFlags>(Func<TFlags> newFunc, TFlags? toCopy, TFlags? toSet)
+        where TFlags : IFlags<string>
     {
         var newValue = newFunc();
         if (toCopy != null)

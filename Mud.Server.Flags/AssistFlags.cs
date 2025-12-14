@@ -1,14 +1,11 @@
-﻿using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
-using Mud.Server.Flags.Interfaces;
+﻿using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Flags;
 
-[Export(typeof(IAssistFlags))]
-public class AssistFlags : Flags<IAssistFlagValues>, IAssistFlags
+public class AssistFlags : DataStructures.Flags.Flags, IAssistFlags
 {
-    public AssistFlags(IAssistFlagValues flagValues)
-        : base(flagValues)
+    public AssistFlags(params string[] flags)
+        : base(flags)
     {
     }
 }

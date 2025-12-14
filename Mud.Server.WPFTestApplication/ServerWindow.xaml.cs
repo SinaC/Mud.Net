@@ -54,11 +54,10 @@ public partial class ServerWindow : Window, INetworkServer
     private IItemManager ItemManager { get; }
     private IQuestManager QuestManager { get; }
     private IRandomManager RandomManager { get; }
-    private IFlagFactory FlagFactory { get; }
     private ImportOptions ImportOptions { get; }
     private WorldOptions WorldOptions { get; }
 
-    public ServerWindow(ILogger<ServerWindow> logger, IServiceProvider serviceProvider, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager, IFlagFactory flagFactory,
+    public ServerWindow(ILogger<ServerWindow> logger, IServiceProvider serviceProvider, IServer server, IServerAdminCommand serverAdminCommand, IPlayerManager playerManager, IAdminManager adminManager, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IRandomManager randomManager,
         IOptions<ImportOptions> importOptions, IOptions<WorldOptions> worldOptions)
     {
         Logger = logger;
@@ -73,7 +72,6 @@ public partial class ServerWindow : Window, INetworkServer
         ItemManager = itemManager;
         QuestManager = questManager;
         RandomManager = randomManager;
-        FlagFactory = flagFactory;
         ImportOptions = importOptions.Value;
         WorldOptions = worldOptions.Value;
 
@@ -81,26 +79,6 @@ public partial class ServerWindow : Window, INetworkServer
 
         InitializeComponent();
         Loaded += OnLoaded;
-    }
-
-    private void TestFlagFactory()
-    {
-        try
-        {
-            var actFlagsFactory = ServiceProvider.GetRequiredService<IFlagFactory<IActFlags, IActFlagValues>>();
-            var actFlags = actFlagsFactory.CreateInstance("Aggressive", "IsHealer", "Warrior");
-
-            var irvFlagsFactory = ServiceProvider.GetRequiredService<IFlagFactory<IIRVFlags, IIRVFlagValues>>();
-            var irvFlags = irvFlagsFactory.CreateInstance("Fire", "Cold", "Invalid");
-
-            var flagFactory = ServiceProvider.GetRequiredService<IFlagFactory>();
-            var actFlags_ = flagFactory.CreateInstance<IActFlags, IActFlagValues>("Sneak", "Hide");
-            var irvFlags_ = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Earth", "Water", "Invalid");
-        }
-        catch(Exception ex)
-        {
-            Logger.LogError("Error testing FlagFactory: {ex}", ex.ToString());
-        }
     }
 
     private void TestLootTable()
@@ -392,7 +370,7 @@ public partial class ServerWindow : Window, INetworkServer
 
         Logger.LogInformation("Importing from {path}", path);
 
-        RomImporter importer = new (ServiceProvider.GetRequiredService<ILogger<RomImporter>>(), ServiceProvider, ServiceProvider.GetRequiredService<IFlagFactory>());
+        RomImporter importer = new (ServiceProvider.GetRequiredService<ILogger<RomImporter>>(), ServiceProvider);
         //MysteryImporter importer = new MysteryImporter();
         //RotImporter importer = new RotImporter();
         //importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
@@ -410,14 +388,14 @@ public partial class ServerWindow : Window, INetworkServer
         }
 
         // Area
-        foreach (AreaBlueprint blueprint in importer.Areas)
+        foreach (var blueprint in importer.Areas)
         {
             AreaManager.AddAreaBlueprint(blueprint);
             AreaManager.AddArea(Guid.NewGuid(), blueprint);
         }
 
         // Rooms
-        foreach (RoomBlueprint blueprint in importer.Rooms)
+        foreach (var blueprint in importer.Rooms)
         {
             RoomManager.AddRoomBlueprint(blueprint);
             IArea area = AreaManager.Areas.FirstOrDefault(x => x.Blueprint.Id == blueprint.AreaId);
@@ -429,7 +407,7 @@ public partial class ServerWindow : Window, INetworkServer
                 RoomManager.AddRoom(Guid.NewGuid(), blueprint, area);
         }
 
-        foreach (IRoom room in RoomManager.Rooms)
+        foreach (var room in RoomManager.Rooms)
         {
             foreach(ExitBlueprint exitBlueprint in room.Blueprint.Exits.Where(x => x != null))
             {
@@ -442,11 +420,11 @@ public partial class ServerWindow : Window, INetworkServer
         }
 
         // Characters
-        foreach (CharacterBlueprintBase blueprint in importer.Characters)
+        foreach (var blueprint in importer.Characters)
             CharacterManager.AddCharacterBlueprint(blueprint);
 
         // Items
-        foreach(ItemBlueprintBase blueprint in importer.Items)
+        foreach(var blueprint in importer.Items)
             ItemManager.AddItemBlueprint(blueprint);
 
         // Custom blueprint to test
@@ -493,13 +471,13 @@ public partial class ServerWindow : Window, INetworkServer
             ArmorPierce = 200,
             ArmorSlash = 400,
             ArmorExotic = 0,
-            ActFlags = FlagFactory.CreateInstance<IActFlags, IActFlagValues>("Pet"),
-            OffensiveFlags = FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>("Bash"),
-            CharacterFlags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Haste"),
-            Immunities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(),
-            Resistances = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Slash", "Fire"),
-            Vulnerabilities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Acid"),
-            ShieldFlags = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>(),
+            ActFlags = new ActFlags("Pet"),
+            OffensiveFlags = new OffensiveFlags("Bash"),
+            CharacterFlags = new CharacterFlags("Haste"),
+            Immunities = new IRVFlags(),
+            Resistances = new IRVFlags("Slash", "Fire"),
+            Vulnerabilities = new IRVFlags("Acid"),
+            ShieldFlags = new ShieldFlags(),
         };
         CharacterManager.AddCharacterBlueprint(construct);
 
@@ -534,7 +512,7 @@ public partial class ServerWindow : Window, INetworkServer
             {
                 Id = WorldOptions.BlueprintIds.NullRoom,
                 Name = "The void",
-                RoomFlags = FlagFactory.CreateInstance<IRoomFlags, IRoomFlagValues>("NoRecall", "NoScan", "NoWhere")
+                RoomFlags = new RoomFlags("NoRecall", "NoScan", "NoWhere")
             };
             RoomManager.AddRoomBlueprint(voidBlueprint);
             RoomManager.AddRoom(Guid.NewGuid(), voidBlueprint, area);
@@ -675,13 +653,13 @@ public partial class ServerWindow : Window, INetworkServer
             ArmorPierce = 200,
             ArmorSlash = 400,
             ArmorExotic = 0,
-            ActFlags = FlagFactory.CreateInstance<IActFlags, IActFlagValues>(),
-            OffensiveFlags = FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>("Bash"),
-            CharacterFlags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Haste"),
-            Immunities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Magic", "Weapon"),
-            Resistances = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Slash", "Fire"),
-            Vulnerabilities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(),
-            ShieldFlags = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>(),
+            ActFlags = new ActFlags(),
+            OffensiveFlags = new OffensiveFlags("Bash"),
+            CharacterFlags = new CharacterFlags("Haste"),
+            Immunities = new IRVFlags("Magic", "Weapon"),
+            Resistances = new IRVFlags("Slash", "Fire"),
+            Vulnerabilities = new IRVFlags(),
+            ShieldFlags = new ShieldFlags(),
             QuestBlueprints =
                 [
                 questBlueprint1,
@@ -704,7 +682,7 @@ public partial class ServerWindow : Window, INetworkServer
             Weight = 1,
             Cost = 0,
             NoTake = false,
-            ItemFlags = FlagFactory.CreateInstance<IItemFlags, IItemFlagValues>("glowing", "magic"),
+            ItemFlags = new ItemFlags("glowing", "magic"),
         };
         ItemManager.AddItemBlueprint(lightBlueprint);
     }

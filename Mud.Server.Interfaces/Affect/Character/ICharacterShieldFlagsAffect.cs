@@ -2,6 +2,6 @@
 
 namespace Mud.Server.Interfaces.Affect.Character;
 
-public interface ICharacterShieldFlagsAffect : IFlagsAffect<IShieldFlags, IShieldFlagValues>, ICharacterAffect
+public interface ICharacterShieldFlagsAffect : IFlagsAffect<IShieldFlags>, ICharacterAffect
 {
 }

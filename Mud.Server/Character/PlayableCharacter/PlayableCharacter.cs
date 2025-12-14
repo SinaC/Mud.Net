@@ -10,6 +10,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -48,7 +49,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private IRaceManager RaceManager { get; }
     private IQuestManager QuestManager { get; }
     private IAbilityGroupManager AbilityGroupManager { get; }
-    private IFlagFactory FlagFactory { get; }
     private int MaxLevel { get; }
 
     private readonly List<IQuest> _quests;
@@ -57,15 +57,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly List<INonPlayableCharacter> _pets;
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IAbilityGroupManager abilityGroupManager, IFlagFactory flagFactory)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagFactory, wiznet)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IAbilityGroupManager abilityGroupManager, IFlagsManager flagsManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagsManager, wiznet)
     {
         WorldOptions = worldOptions;
         ClassManager = classManager;
         RaceManager = raceManager;
         QuestManager = questManager;
         AbilityGroupManager = abilityGroupManager;
-        FlagFactory = flagFactory;
         MaxLevel = WorldOptions.Value.MaxLevel;
 
         _quests = [];
@@ -135,11 +134,11 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 this[conditionData.Key] = conditionData.Value;
         }
         //
-        BaseCharacterFlags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>(data.CharacterFlags);
-        BaseImmunities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(data.Immunities);
-        BaseResistances = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(data.Resistances);
-        BaseVulnerabilities = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>(data.Vulnerabilities);
-        BaseShieldFlags = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>(data.ShieldFlags);
+        BaseCharacterFlags = new CharacterFlags(data.CharacterFlags);
+        BaseImmunities = new IRVFlags(data.Immunities);
+        BaseResistances = new IRVFlags(data.Resistances);
+        BaseVulnerabilities = new IRVFlags(data.Vulnerabilities);
+        BaseShieldFlags = new ShieldFlags(data.ShieldFlags);
         BaseSex = data.Sex;
         BaseSize = data.Size;
         if (data.Attributes != null)

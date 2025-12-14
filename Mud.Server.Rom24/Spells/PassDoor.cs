@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -21,12 +22,12 @@ public class PassDoor : CharacterFlagsSpellBase
 {
     private const string SpellName = "Pass Door";
 
-    public PassDoor(ILogger<PassDoor> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
-        : base(logger, randomManager, auraManager, characterFlagFactory)
+    public PassDoor(ILogger<PassDoor> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager, auraManager)
     {
     }
 
-    protected override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance("PassDoor");
+    protected override ICharacterFlags CharacterFlags => new CharacterFlags("PassDoor");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(RandomManager.Fuzzy(Level / 4));
     protected override string SelfAlreadyAffected => "You are already out of phase.";
     protected override string NotSelfAlreadyAffected => "{0:N} is already shifted out of phase.";

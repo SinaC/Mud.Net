@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
-using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
+﻿using Mud.Common.Attributes;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
 
-[Export(typeof(IIRVFlagValues)), Shared]
-public class IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
+[FlagValues(typeof(IFlagValues), typeof(IIRVFlags)), Shared]
+public class IRVFlagValues : IFlagValues
 {
-    private static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
-    {
+    private static readonly string[] Flags = 
+    [
         "Summon",
         "Charm",
         "Magic",
@@ -33,19 +32,10 @@ public class IRVFlagValues : FlagValuesBase<string>, IIRVFlagValues
         "Wood",
         "Silver",
         "Iron",
-    };
+    ];
 
-    private ILogger<IRVFlagValues> Logger { get; }
+    public IEnumerable<string> AvailableFlags => Flags;
 
-    public IRVFlagValues(ILogger<IRVFlagValues> logger)
-    {
-        Logger = logger;
-    }
-
-    protected override HashSet<string> HashSet => Flags;
-
-    public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
-    {
-        Logger.LogError("IRV flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
-    }
+    public string PrettyPrint(string flag, bool shortDisplay)
+        => string.Empty; // we don't want to display the flags
 }

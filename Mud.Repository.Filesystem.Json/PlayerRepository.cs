@@ -5,7 +5,6 @@ using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
 using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Repository.Interfaces;
-using Mud.Server.Flags.Interfaces;
 using System.Text.Json;
 
 namespace Mud.Repository.Filesystem.Json;
@@ -19,7 +18,7 @@ public class PlayerRepository : IPlayerRepository
 
     private string BuildFilename(string playerName) => Path.Combine(PlayerRepositoryPath, playerName + ".json");
 
-    public PlayerRepository(ILogger<PlayerRepository> logger, IOptions<FileRepositoryOptions> options, IAssemblyHelper assemblyHelper, IFlagFactory flagFactory)
+    public PlayerRepository(ILogger<PlayerRepository> logger, IOptions<FileRepositoryOptions> options, IAssemblyHelper assemblyHelper)
     {
         Logger = logger;
         PlayerRepositoryPath = options.Value.PlayerPath;

@@ -2,6 +2,7 @@
 using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
@@ -24,8 +25,8 @@ are very vulnerable to drowning.  They recieve the berserk skill for free
 [Export(typeof(IRace)), Shared]
 public class Dwarf : PlayableRaceBase
 {
-    public Dwarf(ILogger<Dwarf> logger, IFlagFactory flagFactory, IAbilityManager abilityManager)
-        : base(logger, flagFactory, abilityManager)
+    public Dwarf(ILogger<Dwarf> logger, IAbilityManager abilityManager)
+        : base(logger, abilityManager)
     {
         AddNaturalAbility(1, "berserk", ResourceKinds.Mana, 50, CostAmountOperators.Fixed, 5);
     }
@@ -37,18 +38,18 @@ public class Dwarf : PlayableRaceBase
 
     public override Sizes Size => Sizes.Small;
 
-    public override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>("Infrared");
+    public override ICharacterFlags CharacterFlags => new CharacterFlags("Infrared");
 
-    public override IIRVFlags Immunities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
-    public override IIRVFlags Resistances => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Poison", "Disease");
-    public override IIRVFlags Vulnerabilities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>("Drowning");
+    public override IIRVFlags Immunities => new IRVFlags();
+    public override IIRVFlags Resistances => new IRVFlags("Poison", "Disease");
+    public override IIRVFlags Vulnerabilities => new IRVFlags("Drowning");
 
-    public override IBodyForms BodyForms => FlagFactory.CreateInstance<IBodyForms, IBodyFormValues>( "Edible", "Sentient", "Biped", "Mammal");
-    public override IBodyParts BodyParts => FlagFactory.CreateInstance<IBodyParts, IBodyPartValues>( "Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
+    public override IBodyForms BodyForms => new BodyForms("Edible", "Sentient", "Biped", "Mammal");
+    public override IBodyParts BodyParts => new BodyParts( "Head", "Arms", "Legs", "Head", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye", "Body");
 
-    public override IActFlags ActFlags => FlagFactory.CreateInstance<IActFlags, IActFlagValues>();
-    public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
-    public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
+    public override IActFlags ActFlags => new ActFlags();
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
+    public override IAssistFlags AssistFlags => new AssistFlags();
 
     public override int CreationPointsStartValue => 8;
 

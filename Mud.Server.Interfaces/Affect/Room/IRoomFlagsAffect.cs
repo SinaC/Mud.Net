@@ -2,6 +2,6 @@
 
 namespace Mud.Server.Interfaces.Affect.Room;
 
-public interface IRoomFlagsAffect : IFlagsAffect<IRoomFlags, IRoomFlagValues>, IRoomAffect
+public interface IRoomFlagsAffect : IFlagsAffect<IRoomFlags>, IRoomAffect
 {
 }

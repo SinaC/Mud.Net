@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -22,13 +22,11 @@ public class CatForm : NoTargetSkillBase
     private const string SkillName = "Cat Form";
 
     private IAuraManager AuraManager { get; }
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public CatForm(ILogger<CatForm> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
+    public CatForm(ILogger<CatForm> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
-        CharacterFlagFactory = characterFlagFactory;
     }
 
     protected override bool MustBeLearned => true;
@@ -55,7 +53,7 @@ public class CatForm : NoTargetSkillBase
         // TODO: Affect changing Form + disable other form
         AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.NoDispel | AuraFlags.Permanent | AuraFlags.Shapeshift, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = User.Level * 4, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Haste", "Infrared"), Operator = AffectOperators.Add });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste", "Infrared"), Operator = AffectOperators.Add });
 
         return true;
     }

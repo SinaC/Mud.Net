@@ -1,17 +1,4 @@
-﻿using System;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
-using Mud.Domain;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Flags;
-using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
-using Mud.Server.Interfaces.Item;
-using Mud.Server.Interfaces.Room;
-using Mud.Server.Item;
-
-namespace Mud.Server.Tests
+﻿namespace Mud.Server.Tests
 {
     /*
     [TestClass]

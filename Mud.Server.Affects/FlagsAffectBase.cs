@@ -8,9 +8,8 @@ using System.Text;
 
 namespace Mud.Server.Affects;
 
-public abstract class FlagsAffectBase<TFlag, TFlagValues> : IFlagsAffect<TFlag, TFlagValues>
-    where TFlag : IFlags<string, TFlagValues>
-    where TFlagValues : IFlagValues<string>
+public abstract class FlagsAffectBase<TFlag> : IFlagsAffect<TFlag>
+    where TFlag : IFlags<string>
 {
     public AffectOperators Operator { get; set; } // Add and Or are identical
     public TFlag Modifier { get; set; } = default!;

@@ -5,7 +5,6 @@ using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
 using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Repository.Interfaces;
-using Mud.Server.Flags.Interfaces;
 using System.Text.Json;
 
 namespace Mud.Repository.Filesystem.Json;
@@ -19,7 +18,7 @@ public class AdminRepository : IAdminRepository
 
     private string BuildFilename(string adminName) => Path.Combine(AdminRepositoryPath, adminName + ".json");
 
-    public AdminRepository(ILogger<AdminRepository> logger, IOptions<FileRepositoryOptions> options, IAssemblyHelper assemblyHelper, IFlagFactory flagFactory)
+    public AdminRepository(ILogger<AdminRepository> logger, IOptions<FileRepositoryOptions> options, IAssemblyHelper assemblyHelper)
     {
         Logger = logger;
         AdminRepositoryPath = options.Value.AdminPath;

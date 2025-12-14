@@ -1,7 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects.Character;
 using Mud.Server.Effects;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -12,12 +12,10 @@ namespace Mud.Server.Rom24.Effects;
 [Effect("Curse")]
 public class CurseEffect : IEffect<ICharacter>
 {
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public CurseEffect(IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IAuraManager auraManager)
+    public CurseEffect(IAuraManager auraManager)
     {
-        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -34,6 +32,6 @@ public class CurseEffect : IEffect<ICharacter>
         AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -modifier, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Curse"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags("Curse"), Operator = AffectOperators.Or });
     }
 }

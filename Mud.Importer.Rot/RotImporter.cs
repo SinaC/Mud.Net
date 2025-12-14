@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
@@ -17,7 +16,6 @@ public class RotImporter
 {
     private ILogger<RotImporter> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
-    private IFlagFactory FlagFactory { get; }
 
     private readonly List<AreaBlueprint> _areaBlueprints = [];
     private readonly List<RoomBlueprint> _roomBlueprints = [];
@@ -29,11 +27,10 @@ public class RotImporter
     public IReadOnlyCollection<ItemBlueprintBase> Items => _itemBlueprints.AsReadOnly();
     public IReadOnlyCollection<CharacterBlueprintBase> Characters => _characterBlueprints.AsReadOnly();
 
-    public RotImporter(ILogger<RotImporter> logger, IServiceProvider serviceProvider, IFlagFactory flagFactory)
+    public RotImporter(ILogger<RotImporter> logger, IServiceProvider serviceProvider)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
-        FlagFactory = flagFactory;
     }
 
     public void ImportByList(string path, string areaLst)
@@ -201,7 +198,7 @@ public class RotImporter
 
     private IRoomFlags ConvertRoomFlags(long input)
     {
-        var flags = FlagFactory.CreateInstance<IRoomFlags, IRoomFlagValues>();
+        var flags = new RoomFlags();
         if (IsSet(input, ROOM_DARK)) flags.Set("Dark");
         if (IsSet(input, ROOM_NO_MOB)) flags.Set("NoMob");
         if (IsSet(input, ROOM_INDOORS)) flags.Set("Indoors");
@@ -967,7 +964,7 @@ public class RotImporter
 
     private IItemFlags ConvertExtraFlags(ObjectData objectData)
     {
-        var itemFlags = FlagFactory.CreateInstance<IItemFlags, IItemFlagValues>();
+        var itemFlags = new ItemFlags();
         if (IsSet(objectData.ExtraFlags, ITEM_GLOW)) itemFlags.Set("Glowing");
         if (IsSet(objectData.ExtraFlags, ITEM_HUM)) itemFlags.Set("Humming");
         if (IsSet(objectData.ExtraFlags, ITEM_DARK)) itemFlags.Set("Dark");
@@ -1036,7 +1033,7 @@ public class RotImporter
         }
 
         long weaponType2 = objectData.Values[4] == null ? 0L : System.Convert.ToInt64(objectData.Values[4]);
-        var weaponFlags = FlagFactory.CreateInstance<IWeaponFlags, IWeaponFlagValues>();
+        var weaponFlags = new WeaponFlags();
         if (IsSet(weaponType2, WEAPON_FLAMING)) weaponFlags.Set("Flaming");
         if (IsSet(weaponType2, WEAPON_FROST)) weaponFlags.Set("Frost");
         if (IsSet(weaponType2, WEAPON_VAMPIRIC)) weaponFlags.Set("Vampiric");
@@ -1349,7 +1346,7 @@ public class RotImporter
 
     private IIRVFlags ConvertIRV(long value)
     {
-        var flags = FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
+        var flags = new IRVFlags();
         if (IsSet(value, IMM_SUMMON)) flags.Set("Summon");
         if (IsSet(value, IMM_CHARM)) flags.Set("Charm");
         if (IsSet(value, IMM_MAGIC)) flags.Set("Magic");
@@ -1379,8 +1376,8 @@ public class RotImporter
 
     private (ICharacterFlags characterFlags, IShieldFlags shieldFlags) ConvertCharacterFlagsAndShieldFlags(long affectedBy, long shieldedBy)
     {
-        var characterFlags = FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
-        var shieldFlags = FlagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>();
+        var characterFlags = new CharacterFlags();
+        var shieldFlags = new ShieldFlags();
         if (IsSet(affectedBy, AFF_BLIND)) characterFlags.Set("Blind");
         if (IsSet(affectedBy, AFF_DETECT_EVIL)) characterFlags.Set("DetectEvil");
         if (IsSet(affectedBy, AFF_DETECT_INVIS)) characterFlags.Set("DetectInvis");
@@ -1423,7 +1420,7 @@ public class RotImporter
 
     private IActFlags ConvertActFlags(long act, long act2)
     {
-        var flags = FlagFactory.CreateInstance<IActFlags, IActFlagValues>();
+        var flags = new ActFlags();
         //ACT_IS_NPC not used
         if (IsSet(act, ACT_SENTINEL)) flags.Set("Sentinel");
         if (IsSet(act, ACT_SCAVENGER)) flags.Set("Scavenger");
@@ -1461,7 +1458,7 @@ public class RotImporter
 
     private (IOffensiveFlags, IAssistFlags) ConvertOffensiveFlags(long input)
     {
-        var off = FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
+        var off = new OffensiveFlags();
         if (IsSet(input, OFF_AREA_ATTACK)) off.Set("AreaAttack");
         if (IsSet(input, OFF_BACKSTAB)) off.Set("Backstab");
         if (IsSet(input, OFF_BASH)) off.Set("Bash");
@@ -1480,7 +1477,7 @@ public class RotImporter
         // OFF_FEED
         // OFF_CLAN_GUARD
 
-        var assist = FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>();
+        var assist = new AssistFlags();
         if (IsSet(input, ASSIST_ALL)) assist.Set("All");
         if (IsSet(input, ASSIST_ALIGN)) assist.Set("Align");
         if (IsSet(input, ASSIST_RACE)) assist.Set("Race");
@@ -1494,7 +1491,7 @@ public class RotImporter
 
     private IBodyForms ConvertBodyForms(long input)
     {
-        var forms = FlagFactory.CreateInstance<IBodyForms, IBodyFormValues>();
+        var forms = new BodyForms();
         if (IsSet(input, FORM_EDIBLE)) forms.Set("Edible");
         if (IsSet(input, FORM_POISON)) forms.Set("Poison");
         if (IsSet(input, FORM_MAGICAL)) forms.Set("Magical");
@@ -1527,7 +1524,7 @@ public class RotImporter
 
     private IBodyParts ConvertBodyParts(long input)
     {
-        var parts = FlagFactory.CreateInstance<IBodyParts, IBodyPartValues>();
+        var parts = new BodyParts();
         if (IsSet(input, PART_HEAD)) parts.Set("Head");
         if (IsSet(input, PART_ARMS)) parts.Set("Arms");
         if (IsSet(input, PART_LEGS)) parts.Set("Legs");

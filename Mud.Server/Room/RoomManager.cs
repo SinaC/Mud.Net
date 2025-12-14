@@ -4,8 +4,11 @@ using Microsoft.Extensions.Options;
 using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Blueprints.Room;
+using Mud.Server.Flags;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Random;
@@ -18,6 +21,7 @@ public class RoomManager : IRoomManager
     private ILogger<RoomManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private IRandomManager RandomManager { get; }
+    private IFlagsManager FlagsManager { get; }
 
     private int NullRoomId { get; }
     private int DefaultRecallRoomId { get; }
@@ -30,7 +34,7 @@ public class RoomManager : IRoomManager
     private readonly Dictionary<int, RoomBlueprint> _roomBlueprints;
     private readonly List<IRoom> _rooms;
 
-    public RoomManager(ILogger<RoomManager> logger, IServiceProvider serviceProvider, IOptions<WorldOptions> worldOptions, IRandomManager randomManager)
+    public RoomManager(ILogger<RoomManager> logger, IServiceProvider serviceProvider, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, IFlagsManager flagsManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
@@ -43,6 +47,7 @@ public class RoomManager : IRoomManager
 
         _roomBlueprints = [];
         _rooms = [];
+        FlagsManager = flagsManager;
     }
 
     public IRoom NullRoom => _nullRoom = _nullRoom ?? Rooms.Single(x => x.Blueprint.Id == NullRoomId);
@@ -61,7 +66,11 @@ public class RoomManager : IRoomManager
         if (_roomBlueprints.ContainsKey(blueprint.Id))
             Logger.LogError("Room blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
+        {
+            if (!FlagsManager.CheckFlags(blueprint.RoomFlags))
+                Logger.LogError("Room blueprint {blueprintId} has invalid flags", blueprint.Id);
             _roomBlueprints.Add(blueprint.Id, blueprint);
+        }
     }
 
     public IEnumerable<IRoom> Rooms => _rooms.Where(x => x.IsValid);

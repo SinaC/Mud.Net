@@ -1,14 +1,11 @@
-﻿using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
-using Mud.Server.Flags.Interfaces;
+﻿using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Flags;
 
-[Export(typeof(IOffensiveFlags))]
-public class OffensiveFlags : Flags<IOffensiveFlagValues>, IOffensiveFlags
+public class OffensiveFlags : DataStructures.Flags.Flags, IOffensiveFlags
 {
-    public OffensiveFlags(IOffensiveFlagValues flagValues)
-        : base(flagValues)
+    public OffensiveFlags(params string[] flags)
+        : base(flags)
     {
     }
 }

@@ -1,14 +1,11 @@
-﻿using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
-using Mud.Server.Flags.Interfaces;
+﻿using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Flags;
 
-[Export(typeof(IRoomFlags))]
-public class RoomFlags : Flags<IRoomFlagValues>, IRoomFlags
+public class RoomFlags : DataStructures.Flags.Flags, IRoomFlags
 {
-    public RoomFlags(IRoomFlagValues flagValues)
-        : base(flagValues)
+    public RoomFlags(params string[] flags)
+        : base(flags)
     {
     }
 }

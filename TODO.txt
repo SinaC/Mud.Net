@@ -1,6 +1,12 @@
 INGOING
 DONE
-    remove IXXXFlags from YYYData
+    FlagFactory and DefineFlagValues POC
+        find a way to 'validate' available flag values,this would replace FlagValues -> flag value for a same flag category could be added in different assembly (like affect or spell/...) and have a kind of manager to handle that
+    Remove FlagFactory and FlagValues
+    RoomManager/ItemManager/CharacterManager must call CheckFlags on blueprints and serialization data
+    AuraManager must call CheckFlags when adding aura
+    FlagsManager could store a list of FlagAffect to ease CheckFlags on FlagAffect ?
+
 ==========
 == TODO ==
 ==========

@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -19,14 +19,12 @@ public class SpellConstruct : NoTargetSpellBase
 
     private ICharacterManager CharacterManager { get; }
     private IAuraManager AuraManager { get; }
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public SpellConstruct(ILogger<SpellConstruct> logger, IRandomManager randomManager, ICharacterManager characterManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
+    public SpellConstruct(ILogger<SpellConstruct> logger, IRandomManager randomManager, ICharacterManager characterManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
         CharacterManager = characterManager;
         AuraManager = auraManager;
-        CharacterFlagFactory = characterFlagFactory;
     }
 
     protected override void Invoke()
@@ -34,10 +32,10 @@ public class SpellConstruct : NoTargetSpellBase
         if (Caster is IPlayableCharacter pcCaster)
         {
             var blueprint = CharacterManager.GetCharacterBlueprint(80000)!;
-            INonPlayableCharacter construct = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
+            var construct = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), blueprint, Caster.Room);
             pcCaster.AddPet(construct);
             AuraManager.AddAura(construct, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Charm"), Operator = AffectOperators.Or });
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Charm"), Operator = AffectOperators.Or });
         }
     }
 }

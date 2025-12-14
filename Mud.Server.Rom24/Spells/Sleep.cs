@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -24,13 +24,11 @@ public class Sleep : OffensiveSpellBase
 {
     private const string SpellName = "Sleep";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Sleep(ILogger<Sleep> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
+    public Sleep(ILogger<Sleep> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -44,7 +42,7 @@ public class Sleep : OffensiveSpellBase
 
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(4 + Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -10, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Sleep"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags("Sleep"), Operator = AffectOperators.Or });
 
         if (Victim.Position > Positions.Sleeping)
         {

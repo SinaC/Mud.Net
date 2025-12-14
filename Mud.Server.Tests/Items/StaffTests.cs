@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Item;
@@ -21,7 +21,7 @@ namespace Mud.Server.Tests.Items
                 Name = "Staff",
                 ShortDescription = "StaffShort",
                 Description = "StaffDesc",
-                ItemFlags = CreateItemFlags("AntiEvil"),
+                ItemFlags = new ItemFlags("AntiEvil"),
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
                 AlreadyRecharged = false
@@ -42,7 +42,7 @@ namespace Mud.Server.Tests.Items
                 Name = "Staff",
                 ShortDescription = "StaffShort",
                 Description = "StaffDesc",
-                ItemFlags = CreateItemFlags("AntiEvil"),
+                ItemFlags = new ItemFlags("AntiEvil"),
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
                 AlreadyRecharged = false
@@ -65,7 +65,7 @@ namespace Mud.Server.Tests.Items
                 Name = "Staff",
                 ShortDescription = "StaffShort",
                 Description = "StaffDesc",
-                ItemFlags = CreateItemFlags("AntiEvil"),
+                ItemFlags = new ItemFlags("AntiEvil"),
                 MaxChargeCount = 10,
                 CurrentChargeCount = 7,
                 AlreadyRecharged = false
@@ -83,12 +83,9 @@ namespace Mud.Server.Tests.Items
         {
             var loggerMock = new Mock<ILogger<ItemStaff>>();
             var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-            var itemFlagsFactory = new Mock<IFlagFactory<IItemFlags, IItemFlagValues>>();
             var roomMock = new Mock<IRoom>();
 
-            itemFlagsFactory.Setup(x => x.CreateInstance(It.IsAny<string[]>())).Returns<string[]>(flags => CreateItemFlags(flags));
-
-            var staff = new ItemStaff(loggerMock.Object, null, null, null, messageForwardOptions, null, null, itemFlagsFactory.Object);
+            var staff = new ItemStaff(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!);
             staff.Initialize(Guid.NewGuid(), staffBlueprint, roomMock.Object);
 
             return staff;

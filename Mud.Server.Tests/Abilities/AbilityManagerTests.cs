@@ -14,7 +14,7 @@ public class AbilityManagerTests : AbilityTestBase
     {
         Mock<IAssemblyHelper> assemblyHelperMock = new();
         assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(Rom24AcidBlast).Assembly.Yield());
-        AbilityManager abilityManager = new (new Mock<ILogger<AbilityManager>>().Object, null, assemblyHelperMock.Object);
+        AbilityManager abilityManager = new (new Mock<ILogger<AbilityManager>>().Object, null!, assemblyHelperMock.Object);
 
         Assert.IsTrue(abilityManager.Abilities.Any());
     }
@@ -24,7 +24,7 @@ public class AbilityManagerTests : AbilityTestBase
     {
         Mock<IAssemblyHelper> assemblyHelperMock = new();
         assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(Rom24AcidBlast).Assembly.Yield());
-        AbilityManager abilityManager = new (new Mock<ILogger<AbilityManager>>().Object, null, assemblyHelperMock.Object);
+        AbilityManager abilityManager = new (new Mock<ILogger<AbilityManager>>().Object, null!, assemblyHelperMock.Object);
 
         var abilityDefinition = abilityManager["Acid Blast"];
 
@@ -36,7 +36,7 @@ public class AbilityManagerTests : AbilityTestBase
     {
         Mock<IAssemblyHelper> assemblyHelperMock = new();
         assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns(typeof(Rom24AcidBlast).Assembly.Yield());
-        AbilityManager abilityManager = new (new Mock<ILogger<AbilityManager>>().Object, null, assemblyHelperMock.Object);
+        AbilityManager abilityManager = new (new Mock<ILogger<AbilityManager>>().Object, null!, assemblyHelperMock.Object);
 
         var abilityDefinition = abilityManager["Pouet"];
 

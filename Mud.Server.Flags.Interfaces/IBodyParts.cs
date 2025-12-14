@@ -2,10 +2,6 @@
 
 namespace Mud.Server.Flags.Interfaces;
 
-public interface IBodyParts : IFlags<string, IBodyPartValues>
-{
-}
-
-public interface IBodyPartValues : IFlagValues<string> 
+public interface IBodyParts : IFlags<string>
 {
 }

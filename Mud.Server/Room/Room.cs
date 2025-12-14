@@ -7,9 +7,9 @@ using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Room;
-using Mud.Server.Commands.Character.Information;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -32,16 +32,14 @@ namespace Mud.Server.Room;
 public class Room : EntityBase, IRoom
 {
     private ITimeManager TimeManager { get; }
-    private IFlagFactory<IRoomFlags, IRoomFlagValues> RoomFlagFactory { get; }
 
     private readonly List<ICharacter> _people;
     private readonly List<IItem> _content;
 
-    public Room(ILogger<Room> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager, IFlagFactory<IRoomFlags, IRoomFlagValues> roomFlagFactory)
+    public Room(ILogger<Room> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, ITimeManager timeManager)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         TimeManager = timeManager;
-        RoomFlagFactory = roomFlagFactory;
 
         _people = [];
         _content = [];
@@ -53,8 +51,8 @@ public class Room : EntityBase, IRoom
         Initialize(guid, blueprint.Name, blueprint.Description);
 
         Blueprint = blueprint;
-        BaseRoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => RoomFlagFactory.CreateInstance(), blueprint.RoomFlags, null);
-        RoomFlags = NewAndCopyAndSet<IRoomFlags, IRoomFlagValues>(() => RoomFlagFactory.CreateInstance(), BaseRoomFlags, null);
+        BaseRoomFlags = NewAndCopyAndSet(() => new RoomFlags(), blueprint.RoomFlags, null);
+        RoomFlags = NewAndCopyAndSet(() => new RoomFlags(), BaseRoomFlags, null);
         SectorType = blueprint.SectorType;
         BaseHealRate = blueprint.HealRate;
         HealRate = BaseHealRate;

@@ -1,14 +1,7 @@
 ﻿using Mud.DataStructures.Flags;
-using System.Text;
 
 namespace Mud.Server.Flags.Interfaces;
 
-public interface ICharacterFlags : IFlags<string, ICharacterFlagValues>
+public interface ICharacterFlags : IFlags<string>
 {
-    StringBuilder Append(StringBuilder sb, bool shortDisplay);
-}
-
-public interface ICharacterFlagValues : IFlagValues<string>
-{
-    string PrettyPrint(string flag, bool shortDisplay);
 }

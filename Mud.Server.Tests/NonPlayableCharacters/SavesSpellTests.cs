@@ -3,7 +3,7 @@ using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Character.NonPlayableCharacter;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -99,20 +99,12 @@ namespace Mud.Server.Tests.NonPlayableCharacters
         {
             var loggerMock = new Mock<ILogger<NonPlayableCharacter>>();
             var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-            var flagFactoryMock = new Mock<IFlagFactory>();
             var classManagerMock = new Mock<IClassManager>();
             var raceManagerMock = new Mock<IRaceManager>();
             var roomMock = new Mock<IRoom>();
 
             classManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IClass>().Object);
             raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IRace>().Object);
-            flagFactoryMock.Setup(x => x.CreateInstance<ICharacterFlags, ICharacterFlagValues>(It.IsAny<string[]>())).Returns(CreateCharacterFlags);
-            flagFactoryMock.Setup(x => x.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>(It.IsAny<string[]>())).Returns(CreateOffensiveFlags);
-            flagFactoryMock.Setup(x => x.CreateInstance<IBodyForms, IBodyFormValues>(It.IsAny<string[]>())).Returns(CreateBodyForms);
-            flagFactoryMock.Setup(x => x.CreateInstance<IBodyParts, IBodyPartValues>(It.IsAny<string[]>())).Returns(CreateBodyParts);
-            flagFactoryMock.Setup(x => x.CreateInstance<IShieldFlags, IShieldFlagValues>(It.IsAny<string[]>())).Returns(CreateShieldFlags);
-            flagFactoryMock.Setup(x => x.CreateInstance<IIRVFlags, IIRVFlagValues>(It.IsAny<string[]>())).Returns<string[]>(CreateIRV);
-            flagFactoryMock.Setup(x => x.CreateInstance<IActFlags, IActFlagValues>(It.IsAny<string[]>())).Returns(CreateActFlags);
 
             var blueprint = new CharacterNormalBlueprint
             {
@@ -123,16 +115,16 @@ namespace Mud.Server.Tests.NonPlayableCharacters
                 Level = 6,
                 Sex = Sex.Male,
                 Size = Sizes.Medium,
-                CharacterFlags = CreateCharacterFlags(characterFlags),
-                Immunities = CreateIRV(imm),
-                Resistances = CreateIRV(res),
-                Vulnerabilities = CreateIRV(vuln),
-                ActFlags = CreateActFlags(),
-                OffensiveFlags = CreateOffensiveFlags(),
-                ShieldFlags = CreateShieldFlags(),
+                CharacterFlags = new CharacterFlags(characterFlags),
+                Immunities = new IRVFlags(imm),
+                Resistances = new IRVFlags(res),
+                Vulnerabilities = new IRVFlags(vuln),
+                ActFlags = new ActFlags(),
+                OffensiveFlags = new OffensiveFlags(),
+                ShieldFlags = new ShieldFlags(),
             };
 
-            var npc = new NonPlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, randomManager, null, null, null, null, null, null, null, raceManagerMock.Object, classManagerMock.Object, damageModifierManager, null, flagFactoryMock.Object, null, null, null);
+            var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, randomManager, null!, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, damageModifierManager, null!, null!, null!);
             npc.Initialize(Guid.NewGuid(), blueprint, roomMock.Object);
 
             return npc;

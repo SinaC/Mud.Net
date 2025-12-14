@@ -5,7 +5,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -32,15 +32,13 @@ public class Curse : ItemOrOffensiveSpellBase
 {
     private const string SpellName = "Curse";
 
-    private IFlagFactory<IItemFlags, IItemFlagValues> ItemFlagFactory { get; }
     private IAuraManager AuraManager { get; }
     private IEffectManager EffectManager { get; }
     private IDispelManager DispelManager { get; }
 
-    public Curse(ILogger<Curse> logger, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory, IRandomManager randomManager, IAuraManager auraManager, IEffectManager effectManager, IDispelManager dispelManager)
+    public Curse(ILogger<Curse> logger, IRandomManager randomManager, IAuraManager auraManager, IEffectManager effectManager, IDispelManager dispelManager)
         : base(logger, randomManager)
     {
-        ItemFlagFactory = itemFlagFactory;
         AuraManager = auraManager;
         EffectManager = effectManager;
         DispelManager = dispelManager;
@@ -76,7 +74,7 @@ public class Curse : ItemOrOffensiveSpellBase
         }
         AuraManager.AddAura(item, AbilityDefinition.Name, Caster, Level, TimeSpan.FromMinutes(2 * Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = 1, Operator = AffectOperators.Add },
-            new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Evil"), Operator = AffectOperators.Or });
+            new ItemFlagsAffect { Modifier = new ItemFlags("Evil"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a malevolent aura.", item);
     }
 }

@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -27,13 +27,11 @@ public class Fireproof : ItemInventorySpellBase
 {
     private const string SpellName = "Fireproof";
 
-    private IFlagFactory<IItemFlags, IItemFlagValues> ItemFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Fireproof(ILogger<Fireproof> logger, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
+    public Fireproof(ILogger<Fireproof> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        ItemFlagFactory = itemFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -47,7 +45,7 @@ public class Fireproof : ItemInventorySpellBase
 
         int duration = RandomManager.Fuzzy(Level / 4);
         AuraManager.AddAura(Item, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
-            new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("BurnProof"), Operator = AffectOperators.Or });
+            new ItemFlagsAffect { Modifier = new ItemFlags("BurnProof"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToCharacter, "You protect {0:N} from fire.", Item);
         Caster.Act(ActOptions.ToRoom, "{0:N} is surrounded by a protective aura.", Item);
     }

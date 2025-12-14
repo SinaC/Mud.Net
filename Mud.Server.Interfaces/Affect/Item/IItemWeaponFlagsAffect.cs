@@ -3,6 +3,6 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Interfaces.Affect.Item;
 
-public interface IItemWeaponFlagsAffect : IFlagsAffect<IWeaponFlags, IWeaponFlagValues>, IItemAffect<IItemWeapon>
+public interface IItemWeaponFlagsAffect : IFlagsAffect<IWeaponFlags>, IItemAffect<IItemWeapon>
 {
 }

@@ -6,11 +6,6 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Item;
 using Mud.Server.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Tests.Items
 {
@@ -61,12 +56,9 @@ namespace Mud.Server.Tests.Items
         {
             var loggerMock = new Mock<ILogger<ItemFountain>>();
             var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-            var itemFlagsFactory = new Mock<IFlagFactory<IItemFlags, IItemFlagValues>>();
             var roomMock = new Mock<IRoom>();
 
-            itemFlagsFactory.Setup(x => x.CreateInstance(It.IsAny<string[]>())).Returns<string[]>(flags => CreateItemFlags(flags));
-
-            var fountain = new ItemFountain(loggerMock.Object, null, null, null, messageForwardOptions, null, null, itemFlagsFactory.Object);
+            var fountain = new ItemFountain(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!);
             fountain.Initialize(Guid.NewGuid(), fountainBlueprint, roomMock.Object);
 
             return fountain;

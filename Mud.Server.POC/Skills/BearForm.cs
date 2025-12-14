@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -22,13 +22,11 @@ public class BearForm : NoTargetSkillBase
     private const string SkillName = "Bear Form";
 
     private IAuraManager AuraManager { get; }
-    private IFlagFactory<IIRVFlags, IIRVFlagValues> IRVFlagFactory { get; }
 
-    public BearForm(ILogger<BearForm> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IIRVFlags, IIRVFlagValues> iRVFlagFactory)
+    public BearForm(ILogger<BearForm> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
-        IRVFlagFactory = iRVFlagFactory;
     }
 
     protected override bool MustBeLearned => true;
@@ -54,7 +52,7 @@ public class BearForm : NoTargetSkillBase
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -User.Level * 5, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Constitution, Modifier = User.Level / 10, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.MaxHitPoints, Modifier = User.Level * 5, Operator = AffectOperators.Add },
-            new CharacterIRVAffect(IRVFlagFactory) { Location = IRVAffectLocations.Resistances, Modifier = IRVFlagFactory.CreateInstance("Cold", "Bash"), Operator = AffectOperators.Add },
+            new CharacterIRVAffect { Location = IRVAffectLocations.Resistances, Modifier = new IRVFlags("Cold", "Bash"), Operator = AffectOperators.Add },
             new CharacterSizeAffect { Value = Sizes.Large });
 
         return true;

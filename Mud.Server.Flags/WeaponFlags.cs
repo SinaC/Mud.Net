@@ -1,26 +1,11 @@
-﻿using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
-using Mud.Server.Flags.Interfaces;
-using System.Text;
+﻿using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Flags;
 
-[Export(typeof(IWeaponFlags))]
-public class WeaponFlags : Flags<IWeaponFlagValues>, IWeaponFlags
+public class WeaponFlags : DataStructures.Flags.Flags, IWeaponFlags
 {
-    public WeaponFlags(IWeaponFlagValues flagValues)
-        : base(flagValues)
+    public WeaponFlags(params string[] flags)
+        : base(flags)
     {
-    }
-
-    public StringBuilder Append(StringBuilder sb, bool shortDisplay)
-    {
-        foreach (var flag in Values)
-        {
-            var flagPrettyPrint = FlagValues.PrettyPrint(flag, shortDisplay);
-            if (!string.IsNullOrWhiteSpace(flagPrettyPrint))
-                sb.Append(flagPrettyPrint);
-        }
-        return sb;
     }
 }

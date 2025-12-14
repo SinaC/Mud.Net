@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -16,12 +17,12 @@ public class ShockShield : ShieldFlagsSpellBase
 {
     private const string SpellName = "Shock Shield";
 
-    public ShockShield(ILogger<FireShield> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory)
-        : base(logger, randomManager, auraManager, shieldFlagFactory)
+    public ShockShield(ILogger<FireShield> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager, auraManager)
     {
     }
 
-    protected override IShieldFlags ShieldFlags => FlagFactory.CreateInstance("ShockShield");
+    protected override IShieldFlags ShieldFlags => new ShieldFlags("ShockShield");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
     protected override string SelfAlreadyAffected => "You are already surrounded in a %B%crackling%x% shield.";
     protected override string NotSelfAlreadyAffected => "{0:N} {0:b} already surrounded by a %B%crackling%x% shield.";
