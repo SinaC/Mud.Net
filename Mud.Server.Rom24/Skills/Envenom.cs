@@ -4,6 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -36,13 +37,11 @@ public class Envenom : ItemInventorySkillBase
 {
     private const string SkillName = "Envenom";
 
-    private IFlagFactory<IWeaponFlags, IWeaponFlagValues> WeaponFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Envenom(ILogger<Envenom> logger, IFlagFactory<IWeaponFlags, IWeaponFlagValues> weaponFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
+    public Envenom(ILogger<Envenom> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        WeaponFlagFactory = weaponFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -109,7 +108,7 @@ public class Envenom : ItemInventorySkillBase
             int level = (User.Level * percent) / 100;
             int duration = (User.Level * percent) / (2 * 100);
             AuraManager.AddAura(weapon, SkillName, User, level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                new ItemWeaponFlagsAffect(WeaponFlagFactory) { Modifier = WeaponFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or });
+                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Poison"), Operator = AffectOperators.Or });
             User.Act(ActOptions.ToAll, "{0:N} coat{0:v} {1} with deadly venom.", User, weapon);
             return true;
         }

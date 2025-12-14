@@ -11,18 +11,16 @@ namespace Mud.Server.Ability.Spell;
 public abstract class CharacterFlagsSpellBase : DefensiveSpellBase
 {
     protected IAuraManager AuraManager { get; }
-    protected IFlagFactory<ICharacterFlags, ICharacterFlagValues> FlagFactory { get; }
 
-    protected CharacterFlagsSpellBase(ILogger<CharacterFlagsSpellBase> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> flagFactory)
+    protected CharacterFlagsSpellBase(ILogger<CharacterFlagsSpellBase> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
-        FlagFactory = flagFactory;
     }
 
     protected override void Invoke()
     {
-        if (Victim.CharacterFlags.HasAny(CharacterFlags))
+        if (Victim.CharacterFlags.HasAny(CharacterFlags.Values))
         {
             if (Victim == Caster)
                 Caster.Send(SelfAlreadyAffected);
@@ -32,7 +30,7 @@ public abstract class CharacterFlagsSpellBase : DefensiveSpellBase
         }
         var duration = Duration;
         AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, duration, AuraFlags.None, true,
-            new CharacterFlagsAffect(FlagFactory) { Modifier = CharacterFlags, Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = CharacterFlags, Operator = AffectOperators.Or });
         Victim.Send(SelfSuccess);
         if (Victim != Caster)
             Victim.Act(ActOptions.ToRoom, NotSelfSuccess, Victim);

@@ -442,7 +442,7 @@ public class FlagsTests
     {
         Flags.Flags flags = new();
 
-        IEnumerable<string> items = flags.Items;
+        IEnumerable<string> items = flags.Values;
 
         Assert.AreEqual(flags.Count, items.Count());
     }
@@ -452,7 +452,7 @@ public class FlagsTests
     {
         Flags.Flags flags = new("flag1");
 
-        IEnumerable<string> items = flags.Items;
+        IEnumerable<string> items = flags.Values;
 
         Assert.AreEqual(flags.Count, items.Count());
         Assert.AreEqual("flag1", items.First());
@@ -463,7 +463,7 @@ public class FlagsTests
     {
         Flags.Flags flags = new("flag1", "flag2", "flag3", "flag4");
 
-        IEnumerable<string> items = flags.Items;
+        IEnumerable<string> items = flags.Values;
 
         Assert.AreEqual(flags.Count, items.Count());
         Assert.AreEqual(1, items.Count(x => x == "flag1"));

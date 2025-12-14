@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Item;
@@ -21,7 +21,7 @@ namespace Mud.Server.Tests.Items
                 Name = "Light",
                 ShortDescription = "LightShort",
                 Description = "LightDesc",
-                ItemFlags = CreateItemFlags("AntiEvil"),
+                ItemFlags = new ItemFlags("AntiEvil"),
                 DurationHours = 60,
             };
             var light = GenerateLight(blueprint);
@@ -40,7 +40,7 @@ namespace Mud.Server.Tests.Items
                 Name = "Light",
                 ShortDescription = "LightShort",
                 Description = "LightDesc",
-                ItemFlags = CreateItemFlags("AntiEvil"),
+                ItemFlags = new ItemFlags("AntiEvil"),
                 DurationHours = -1,
             };
             var light = GenerateLight(blueprint);
@@ -59,7 +59,7 @@ namespace Mud.Server.Tests.Items
                 Name = "Light",
                 ShortDescription = "LightShort",
                 Description = "LightDesc",
-                ItemFlags = CreateItemFlags("AntiEvil"),
+                ItemFlags = new ItemFlags("AntiEvil"),
                 DurationHours = 30,
             };
             var light = GenerateLight(blueprint);
@@ -80,7 +80,7 @@ namespace Mud.Server.Tests.Items
                 Name = "Light",
                 ShortDescription = "LightShort",
                 Description = "LightDesc",
-                ItemFlags = CreateItemFlags("AntiEvil"),
+                ItemFlags = new ItemFlags("AntiEvil"),
                 DurationHours = 1,
             };
             var light = GenerateLight(blueprint);
@@ -97,12 +97,9 @@ namespace Mud.Server.Tests.Items
         {
             var loggerMock = new Mock<ILogger<ItemLight>>();
             var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-            var itemFlagsFactory = new Mock<IFlagFactory<IItemFlags, IItemFlagValues>>();
             var roomMock = new Mock<IRoom>();
 
-            itemFlagsFactory.Setup(x => x.CreateInstance(It.IsAny<string[]>())).Returns<string[]>(flags => CreateItemFlags(flags));
-
-            var light = new ItemLight(loggerMock.Object, null, null, null, messageForwardOptions, null, null, itemFlagsFactory.Object);
+            var light = new ItemLight(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!);
             light.Initialize(Guid.NewGuid(), lightBlueprint, roomMock.Object);
 
             return light;

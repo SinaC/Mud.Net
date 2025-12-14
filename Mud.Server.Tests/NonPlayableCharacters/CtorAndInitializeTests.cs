@@ -88,13 +88,13 @@ namespace Mud.Server.Tests.NonPlayableCharacters
             {
                 Id = 1,
                 Name = "mob1",
-                ActFlags = CreateActFlags("NoAlign", "Gain"),
-                OffensiveFlags = CreateOffensiveFlags("AreaAttack", "Bash"),
-                CharacterFlags = CreateCharacterFlags("Sanctuary", "Regeneration"),
-                Immunities = CreateIRV(),
-                Resistances = CreateIRV(),
-                Vulnerabilities = CreateIRV(),
-                ShieldFlags = CreateShieldFlags(),
+                ActFlags = new ActFlags("NoAlign", "Gain"),
+                OffensiveFlags = new OffensiveFlags("AreaAttack", "Bash"),
+                CharacterFlags = new CharacterFlags("Sanctuary", "Regeneration"),
+                Immunities = new IRVFlags(),
+                Resistances = new IRVFlags(),
+                Vulnerabilities = new IRVFlags(),
+                ShieldFlags = new ShieldFlags(),
                 Level = 50,
                 Sex = Sex.Neutral
             };

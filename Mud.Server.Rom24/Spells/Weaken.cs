@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -24,12 +24,9 @@ public class Weaken : CharacterDebuffSpellBase
 {
     private const string SpellName = "Weaken";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
-
-    public Weaken(ILogger<Weaken> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
+    public Weaken(ILogger<Weaken> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
-        CharacterFlagFactory = characterFlagFactory;
     }
 
     protected override SchoolTypes DebuffType => SchoolTypes.Other;
@@ -40,7 +37,7 @@ public class Weaken : CharacterDebuffSpellBase
         new IAffect[]
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -Level/5, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Weaken"), Operator = AffectOperators.Or }
+            new CharacterFlagsAffect { Modifier = new CharacterFlags("Weaken"), Operator = AffectOperators.Or }
         });
 
     protected override bool CanAffect => base.CanAffect && !Victim.CharacterFlags.IsSet("Weaken");

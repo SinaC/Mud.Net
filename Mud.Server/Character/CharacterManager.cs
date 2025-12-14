@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -19,11 +20,12 @@ public class CharacterManager : ICharacterManager
     private IServiceProvider ServiceProvider { get; }
     private IRoomManager RoomManager { get; }
     private IItemManager ItemManager { get; }
+    private IFlagsManager FlagsManager { get; }
 
     private readonly Dictionary<int, CharacterBlueprintBase> _characterBlueprints;
     private readonly List<ICharacter> _characters;
 
-    public CharacterManager(ILogger<CharacterManager> logger, IServiceProvider serviceProvider, IRoomManager roomManager, IItemManager itemManager)
+    public CharacterManager(ILogger<CharacterManager> logger, IServiceProvider serviceProvider, IRoomManager roomManager, IItemManager itemManager, IFlagsManager flagsManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
@@ -32,6 +34,7 @@ public class CharacterManager : ICharacterManager
 
         _characterBlueprints = [];
         _characters = [];
+        FlagsManager = flagsManager;
     }
 
     public IReadOnlyCollection<CharacterBlueprintBase> CharacterBlueprints
@@ -39,10 +42,8 @@ public class CharacterManager : ICharacterManager
 
     public CharacterBlueprintBase? GetCharacterBlueprint(int id)
     {
-        {
-            _characterBlueprints.TryGetValue(id, out var blueprint);
-            return blueprint;
-        }
+        _characterBlueprints.TryGetValue(id, out var blueprint);
+        return blueprint;
     }
 
     public TBlueprint? GetCharacterBlueprint<TBlueprint>(int id)
@@ -54,7 +55,22 @@ public class CharacterManager : ICharacterManager
         if (_characterBlueprints.ContainsKey(blueprint.Id))
             Logger.LogError("Character blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
+        {
+            var checkSuccess = true;
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.ActFlags);
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.OffensiveFlags);
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.AssistFlags);
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.CharacterFlags);
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.Immunities);
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.Resistances);
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.Vulnerabilities);
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.ShieldFlags);
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.BodyForms);
+            checkSuccess &= FlagsManager.CheckFlags(blueprint.BodyParts);
+            if (!checkSuccess)
+                Logger.LogError("NPC blueprint {blueprintId} has invalid flags", blueprint.Id);
             _characterBlueprints.Add(blueprint.Id, blueprint);
+        }
     }
 
     public IEnumerable<ICharacter> Characters => _characters.Where(x => x.IsValid);
@@ -70,6 +86,16 @@ public class CharacterManager : ICharacterManager
         _characters.Add(pc);
         pc.Recompute();
         room.Recompute();
+        var checkSuccess = true;
+        checkSuccess &= FlagsManager.CheckFlags(pc.CharacterFlags);
+        checkSuccess &= FlagsManager.CheckFlags(pc.Immunities);
+        checkSuccess &= FlagsManager.CheckFlags(pc.Resistances);
+        checkSuccess &= FlagsManager.CheckFlags(pc.Vulnerabilities);
+        checkSuccess &= FlagsManager.CheckFlags(pc.ShieldFlags);
+        checkSuccess &= FlagsManager.CheckFlags(pc.BodyForms);
+        checkSuccess &= FlagsManager.CheckFlags(pc.BodyParts);
+        if (!checkSuccess)
+            Logger.LogError("PC {name} has invalid flags", playableCharacterData.Name);
         return pc;
     }
 
@@ -81,6 +107,19 @@ public class CharacterManager : ICharacterManager
         _characters.Add(npc);
         npc.Recompute();
         room.Recompute();
+        var checkSuccess = true;
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.ActFlags);
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.OffensiveFlags);
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.AssistFlags);
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.CharacterFlags);
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.Immunities);
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.Resistances);
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.Vulnerabilities);
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.ShieldFlags);
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.BodyForms);
+        checkSuccess &= FlagsManager.CheckFlags(blueprint.BodyParts);
+        if (!checkSuccess)
+            Logger.LogError("NPC blueprint {blueprintId} has invalid flags", blueprint.Id);
         return npc;
     }
 
@@ -92,6 +131,19 @@ public class CharacterManager : ICharacterManager
         _characters.Add(npc);
         npc.Recompute();
         room.Recompute();
+        var checkSuccess = true;
+        checkSuccess &= FlagsManager.CheckFlags(npc.ActFlags);
+        checkSuccess &= FlagsManager.CheckFlags(npc.OffensiveFlags);
+        checkSuccess &= FlagsManager.CheckFlags(npc.AssistFlags);
+        checkSuccess &= FlagsManager.CheckFlags(npc.CharacterFlags);
+        checkSuccess &= FlagsManager.CheckFlags(npc.Immunities);
+        checkSuccess &= FlagsManager.CheckFlags(npc.Resistances);
+        checkSuccess &= FlagsManager.CheckFlags(npc.Vulnerabilities);
+        checkSuccess &= FlagsManager.CheckFlags(npc.ShieldFlags);
+        checkSuccess &= FlagsManager.CheckFlags(npc.BodyForms);
+        checkSuccess &= FlagsManager.CheckFlags(npc.BodyParts);
+        if (!checkSuccess)
+            Logger.LogError("Pet blueprint {blueprintId} pet {name} has invalid flags", blueprint.Id, petData.Name);
         return npc;
     }
 

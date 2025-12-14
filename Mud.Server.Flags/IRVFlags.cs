@@ -1,14 +1,11 @@
-﻿using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
-using Mud.Server.Flags.Interfaces;
+﻿using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Flags;
 
-[Export(typeof(IIRVFlags))]
-public class IRVFlags : Flags<IIRVFlagValues>, IIRVFlags
+public class IRVFlags : DataStructures.Flags.Flags, IIRVFlags
 {
-    public IRVFlags(IIRVFlagValues flagValues)
-        : base(flagValues)
+    public IRVFlags(params string[] flags)
+        : base(flags)
     {
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using Mud.DataStructures.Trie;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.GameAction;
@@ -15,8 +14,8 @@ namespace Mud.Server.Item;
 [Item(typeof(ItemStaffBlueprint), typeof(ItemCastSpellsChargeData))]
 public class ItemStaff : ItemCastSpellsChargeBase, IItemStaff
 {
-    public ItemStaff(ILogger<ItemStaff> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, itemFlagFactory)
+    public ItemStaff(ILogger<ItemStaff> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
     }
 

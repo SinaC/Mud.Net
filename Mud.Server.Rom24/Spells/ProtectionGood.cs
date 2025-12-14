@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -27,12 +27,9 @@ public class ProtectionGood : CharacterBuffSpellBase
 {
     private const string SpellName = "Protection Good";
 
-    private IFlagFactory<IShieldFlags, IShieldFlagValues> ShieldFlagFactory { get; }
-
-    public ProtectionGood(ILogger<ProtectionGood> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory)
+    public ProtectionGood(ILogger<ProtectionGood> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
-        ShieldFlagFactory = shieldFlagFactory;
     }
 
     protected override string SelfAlreadyAffectedMessage => "You are already protected.";
@@ -44,7 +41,7 @@ public class ProtectionGood : CharacterBuffSpellBase
         new IAffect[] 
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
-            new CharacterShieldFlagsAffect(ShieldFlagFactory) { Modifier = ShieldFlagFactory.CreateInstance("ProtectGood"), Operator = AffectOperators.Or }
+            new CharacterShieldFlagsAffect{ Modifier = new ShieldFlags("ProtectGood"), Operator = AffectOperators.Or }
         });
     
 }

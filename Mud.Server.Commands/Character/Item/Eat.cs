@@ -3,7 +3,7 @@ using Mud.Domain;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
@@ -24,16 +24,14 @@ public class Eat : CastSpellCharacterGameActionBase
     private IAuraManager AuraManager { get; }
     private IAffectManager AffectManager { get; }
     private IItemManager ItemManager { get; }
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
 
-    public Eat(ILogger<Eat> logger, ICommandParser commandParser, IAbilityManager abilityManager, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IItemManager itemManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
+    public Eat(ILogger<Eat> logger, ICommandParser commandParser, IAbilityManager abilityManager, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IItemManager itemManager)
         : base(logger, commandParser, abilityManager)
     {
         RandomManager = randomManager;
         AuraManager = auraManager;
         AffectManager = affectManager;
         ItemManager = itemManager;
-        CharacterFlagFactory = characterFlagFactory;
     }
 
     protected IItemFood Food { get; set; } = default!;
@@ -97,7 +95,7 @@ public class Eat : CastSpellCharacterGameActionBase
                 {
                     var poisonAffect = AffectManager.CreateInstance("Poison");
                     AuraManager.AddAura(Actor, "Poison", Food, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                        new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
+                        new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                         poisonAffect);
                 }
                 Actor.Recompute();

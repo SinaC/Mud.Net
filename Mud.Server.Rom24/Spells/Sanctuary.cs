@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -22,12 +23,12 @@ public class Sanctuary : ShieldFlagsSpellBase
 {
     private const string SpellName = "Sanctuary";
 
-    public Sanctuary(ILogger<Sanctuary> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory)
-        : base(logger, randomManager, auraManager, shieldFlagFactory)
+    public Sanctuary(ILogger<Sanctuary> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager, auraManager)
     {
     }
 
-    protected override IShieldFlags ShieldFlags => FlagFactory.CreateInstance("Sanctuary");
+    protected override IShieldFlags ShieldFlags => new ShieldFlags("Sanctuary");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
     protected override string SelfAlreadyAffected => "You are already in sanctuary.";
     protected override string NotSelfAlreadyAffected => "{0:N} is already in sanctuary.";

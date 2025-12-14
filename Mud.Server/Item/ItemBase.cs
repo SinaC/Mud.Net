@@ -7,6 +7,7 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Item;
@@ -27,16 +28,14 @@ public abstract class ItemBase: EntityBase, IItem
 {
     protected IRoomManager RoomManager { get; }
     protected IAuraManager AuraManager { get; }
-    protected IFlagFactory<IItemFlags, IItemFlagValues> ItemFlagFactory { get; }
 
-    protected ItemBase(ILogger<ItemBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)
+    protected ItemBase(ILogger<ItemBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         RoomManager = roomManager;
         AuraManager = auraManager;
-        ItemFlagFactory = itemFlagFactory;
 
-        ItemFlags = itemFlagFactory.CreateInstance();
+        ItemFlags = new ItemFlags();
     }
 
     protected void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, string name, string shortDescription, string description, IContainer containedInto)
@@ -54,7 +53,7 @@ public abstract class ItemBase: EntityBase, IItem
         Cost = blueprint.Cost;
         NoTake = blueprint.NoTake;
 
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), blueprint.ItemFlags, null);
+        BaseItemFlags = NewAndCopyAndSet(() => new ItemFlags(), blueprint.ItemFlags, null);
     }
 
     public void Initialize<TBlueprint>(Guid guid, TBlueprint blueprint, IContainer containedInto)
@@ -72,7 +71,7 @@ public abstract class ItemBase: EntityBase, IItem
 
         Level = data.Level;
         DecayPulseLeft = data.DecayPulseLeft;
-        BaseItemFlags = NewAndCopyAndSet<IItemFlags, IItemFlagValues>(() => ItemFlagFactory.CreateInstance(), ItemFlagFactory.CreateInstance(data.ItemFlags), null);
+        BaseItemFlags = NewAndCopyAndSet(() => new ItemFlags(), new ItemFlags(data.ItemFlags), null);
         // Auras
         if (data.Auras != null)
         {
@@ -265,7 +264,7 @@ public abstract class ItemBase: EntityBase, IItem
     public void Disenchant()
     {
         RemoveAuras(_ => true, false);
-        BaseItemFlags = ItemFlagFactory.CreateInstance();
+        BaseItemFlags = new ItemFlags();
         Recompute();
     }
 

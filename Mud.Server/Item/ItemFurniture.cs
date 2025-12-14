@@ -4,7 +4,6 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -20,8 +19,8 @@ namespace Mud.Server.Item;
 [Item(typeof(ItemFurnitureBlueprint), typeof(ItemData))]
 public class ItemFurniture : ItemBase, IItemFurniture
 {
-    public ItemFurniture(ILogger<ItemFurniture> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, itemFlagFactory)
+    public ItemFurniture(ILogger<ItemFurniture> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
     }
 

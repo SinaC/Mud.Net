@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
-using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
+﻿using Mud.Common.Attributes;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
 
-[Export(typeof(ICharacterFlagValues)), Shared]
-public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
+[FlagValues(typeof(IFlagValues), typeof(ICharacterFlags)), Shared]
+public class CharacterFlagValues : IFlagValues
 {
-    private static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
-    {
+    private static readonly string[] Flags = 
+    [
         "Blind",
         "Invisible",
         "DetectEvil",
@@ -36,16 +35,8 @@ public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
         "Swim",
         "Regeneration",
         "Slow",
-    };
-
-    private ILogger<CharacterFlagValues> Logger { get; }
-
-    public CharacterFlagValues(ILogger<CharacterFlagValues> logger)
-    {
-        Logger = logger;
-    }
-
-    protected override HashSet<string> HashSet => Flags;
+    ];
+    public IEnumerable<string> AvailableFlags => Flags;
 
     public string PrettyPrint(string flag, bool shortDisplay)
     {
@@ -77,10 +68,5 @@ public class CharacterFlagValues : FlagValuesBase<string>, ICharacterFlagValues
                 "DetectGood" => "%Y%(Golden Aura)%x%",
                 _ => string.Empty, // we don't want to display the other flags
             };
-    }
-
-    public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
-    {
-        Logger.LogError("Character flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
     }
 }

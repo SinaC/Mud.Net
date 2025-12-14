@@ -1,10 +1,9 @@
-﻿namespace Mud.DataStructures.Flags;
+﻿namespace Mud.DataStructures.FlagValues;
 
 public interface IFlagValues<T>
 {
     IEnumerable<T> AvailableValues { get; }
     bool this[T flag] { get; } // return true if flag is in AvailableValues, false otherwise
-
 
     void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<T> values);
 }

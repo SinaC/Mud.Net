@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects.Item;
+using Mud.Server.Flags;
 
 namespace Mud.Server.Tests.Affects
 {
@@ -11,7 +12,7 @@ namespace Mud.Server.Tests.Affects
         {
             var room = GenerateRoom("");
             var weapon = GenerateWeapon("", "", room);
-            var weaponAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20),  new ItemWeaponFlagsAffect(null) { Modifier = CreateWeaponFlags("Sharp"), Operator = AffectOperators.Add});
+            var weaponAura = new Aura.Aura(null!, null!, AuraFlags.None, 10, TimeSpan.FromMinutes(20),  new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Sharp"), Operator = AffectOperators.Add});
             weapon.AddAura(weaponAura, false);
 
             weapon.Recompute();
@@ -25,7 +26,7 @@ namespace Mud.Server.Tests.Affects
         {
             var room = GenerateRoom("");
             var weapon = GenerateWeapon("", "", room);
-            var weaponAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20), new ItemFlagsAffect(null) { Modifier = CreateItemFlags("AntiEvil"), Operator = AffectOperators.Add });
+            var weaponAura = new Aura.Aura(null!, null!, AuraFlags.None, 10, TimeSpan.FromMinutes(20), new ItemFlagsAffect { Modifier = new ItemFlags("AntiEvil"), Operator = AffectOperators.Add });
             weapon.AddAura(weaponAura, false);
 
             weapon.Recompute();
@@ -41,12 +42,12 @@ namespace Mud.Server.Tests.Affects
         {
             var room = GenerateRoom("");
             var weapon = GenerateWeapon("AntiNeutral,Bless", "Flaming,Sharp", room);
-            var weaponAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20), 
-                new ItemWeaponFlagsAffect(null) { Modifier = CreateWeaponFlags("Sharp"), Operator = AffectOperators.Nor }, // remove weapon holy
-                new ItemWeaponFlagsAffect(null) { Modifier = CreateWeaponFlags("Frost"), Operator = AffectOperators.Assign }, // assign weapon frost
-                new ItemFlagsAffect(null) { Modifier = CreateItemFlags("Dark"), Operator = AffectOperators.Add }, // add item dark
-                new ItemFlagsAffect(null) { Modifier = CreateItemFlags("Bless"), Operator = AffectOperators.Or }, // or item bless (already present in base flags)
-                new ItemFlagsAffect(null) { Modifier = CreateItemFlags("AntiGood"), Operator = AffectOperators.Nor } // remove antigood (was present in base flags)
+            var weaponAura = new Aura.Aura(null!, null!, AuraFlags.None, 10, TimeSpan.FromMinutes(20), 
+                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Sharp"), Operator = AffectOperators.Nor }, // remove weapon holy
+                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Frost"), Operator = AffectOperators.Assign }, // assign weapon frost
+                new ItemFlagsAffect { Modifier = new ItemFlags("Dark"), Operator = AffectOperators.Add }, // add item dark
+                new ItemFlagsAffect { Modifier = new ItemFlags("Bless"), Operator = AffectOperators.Or }, // or item bless (already present in base flags)
+                new ItemFlagsAffect { Modifier = new ItemFlags("AntiGood"), Operator = AffectOperators.Nor } // remove antigood (was present in base flags)
                 );
             weapon.AddAura(weaponAura, false);
 
@@ -62,9 +63,9 @@ namespace Mud.Server.Tests.Affects
         public void MultipleEffectsOnContainingRoom()
         {
             var room = GenerateRoom("");
-            var roomAura = new Aura.Aura(null, null, AuraFlags.None, 10, TimeSpan.FromMinutes(20),
-                new ItemFlagsAffect(null) { Modifier = CreateItemFlags("AntiGood"), Operator = AffectOperators.Or },
-                new ItemWeaponFlagsAffect(null) { Modifier = CreateWeaponFlags("Sharp"), Operator = AffectOperators.Add });
+            var roomAura = new Aura.Aura(null!, null!, AuraFlags.None, 10, TimeSpan.FromMinutes(20),
+                new ItemFlagsAffect { Modifier = new ItemFlags("AntiGood"), Operator = AffectOperators.Or },
+                new ItemWeaponFlagsAffect { Modifier = new WeaponFlags("Sharp"), Operator = AffectOperators.Add });
             room.AddAura(roomAura, false);
             var weapon = GenerateWeapon("", "", room);
 

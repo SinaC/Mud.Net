@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -25,13 +25,11 @@ public class Berserk : NoTargetSkillBase
 {
     private const string SkillName = "Berserk";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Berserk(ILogger<Berserk> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager) 
+    public Berserk(ILogger<Berserk> logger, IRandomManager randomManager, IAuraManager auraManager) 
         : base(logger, randomManager)
     {
-        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -81,7 +79,7 @@ public class Berserk : NoTargetSkillBase
             int modifier = Math.Max(1, User.Level / 5);
             int acModifier = Math.Max(10, 10 * (User.Level / 5));
             AuraManager.AddAura(User, SkillName, User, User.Level, TimeSpan.FromMinutes(duration), AuraFlags.NoDispel, true,
-                new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Berserk"), Operator = AffectOperators.Or },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Berserk"), Operator = AffectOperators.Or },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.DamRoll, Modifier = modifier, Operator = AffectOperators.Add },
                 new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = acModifier, Operator = AffectOperators.Add });

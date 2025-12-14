@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -26,14 +26,12 @@ public class Slow : OffensiveSpellBase
 {
     private const string SpellName = "Slow";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
     private IDispelManager DispelManager { get; }
 
-    public Slow(ILogger<Slow> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
+    public Slow(ILogger<Slow> logger, IRandomManager randomManager, IAuraManager auraManager, IDispelManager dispelManager)
         : base(logger, randomManager)
     {
-        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
         DispelManager = dispelManager;
     }
@@ -76,7 +74,7 @@ public class Slow : OffensiveSpellBase
         var modifier = -1 - (Level >= 18 ? 1 : 0) - (Level >= 25 ? 1 : 0) - (Level >= 32 ? 1 : 0);
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Slow"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags("Slow"), Operator = AffectOperators.Or });
         Victim.Recompute();
         Victim.Send("You feel yourself slowing d o w n...");
         Caster.Act(ActOptions.ToRoom, "{0} starts to move in slow motion.", Victim);

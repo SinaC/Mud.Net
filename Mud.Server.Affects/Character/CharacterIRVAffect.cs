@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
@@ -7,15 +8,8 @@ using Mud.Server.Interfaces.Character;
 namespace Mud.Server.Affects.Character;
 
 [Affect("CharacterIRVAffect", typeof(CharacterIRVAffectData))]
-public class CharacterIRVAffect : FlagsAffectBase<IIRVFlags, IIRVFlagValues>, ICharacterIRVAffect
+public class CharacterIRVAffect : FlagsAffectBase<IIRVFlags>, ICharacterIRVAffect
 {
-    private IFlagFactory<IIRVFlags, IIRVFlagValues> FlagFactory { get; }
-
-    public CharacterIRVAffect(IFlagFactory<IIRVFlags, IIRVFlagValues> flagFactory)
-    {
-        FlagFactory = flagFactory;
-    }
-
     protected override string Target => Location.ToString();
 
     public IRVAffectLocations Location { get; set; }
@@ -24,7 +18,7 @@ public class CharacterIRVAffect : FlagsAffectBase<IIRVFlags, IIRVFlagValues>, IC
     {
         Location = data.Location;
         Operator = data.Operator;
-        Modifier = FlagFactory.CreateInstance(data.Modifier);
+        Modifier = new IRVFlags(data.Modifier);
     }
 
     public void Apply(ICharacter character)

@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace Mud.DataStructures.Flags;
+﻿namespace Mud.DataStructures.FlagValues;
 
 public abstract class FlagValuesBase<T> : IFlagValues<T>
 {

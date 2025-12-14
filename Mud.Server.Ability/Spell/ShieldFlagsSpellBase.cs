@@ -11,18 +11,16 @@ namespace Mud.Server.Ability.Spell;
 public abstract class ShieldFlagsSpellBase : DefensiveSpellBase
 {
     protected IAuraManager AuraManager { get; }
-    protected IFlagFactory<IShieldFlags, IShieldFlagValues> FlagFactory { get; }
 
-    protected ShieldFlagsSpellBase(ILogger<ShieldFlagsSpellBase> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IShieldFlags, IShieldFlagValues> flagFactory)
+    protected ShieldFlagsSpellBase(ILogger<ShieldFlagsSpellBase> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
-        FlagFactory = flagFactory;
     }
 
     protected override void Invoke()
     {
-        if (Victim.ShieldFlags.HasAny(ShieldFlags))
+        if (Victim.ShieldFlags.HasAny(ShieldFlags.Values))
         {
             if (Victim == Caster)
                 Caster.Send(SelfAlreadyAffected);
@@ -32,7 +30,7 @@ public abstract class ShieldFlagsSpellBase : DefensiveSpellBase
         }
         var duration = Duration;
         AuraManager.AddAura(Victim, AbilityDefinition.Name, Caster, Level, duration, AuraFlags.None, true,
-            new CharacterShieldFlagsAffect(FlagFactory) { Modifier = ShieldFlags, Operator = AffectOperators.Or });
+            new CharacterShieldFlagsAffect { Modifier = ShieldFlags, Operator = AffectOperators.Or });
         Victim.Send(SelfSuccess);
         if (Victim != Caster)
             Victim.Act(ActOptions.ToRoom, NotSelfSuccess, Victim);

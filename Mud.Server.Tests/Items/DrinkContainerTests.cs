@@ -174,12 +174,9 @@ namespace Mud.Server.Tests.Items
         {
             var loggerMock = new Mock<ILogger<ItemDrinkContainer>>();
             var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-            var itemFlagsFactory = new Mock<IFlagFactory<IItemFlags, IItemFlagValues>>();
             var roomMock = new Mock<IRoom>();
 
-            itemFlagsFactory.Setup(x => x.CreateInstance(It.IsAny<string[]>())).Returns<string[]>(flags => CreateItemFlags(flags));
-
-            var drinkContainer = new ItemDrinkContainer(loggerMock.Object, null, null, null, messageForwardOptions, null, null, itemFlagsFactory.Object);
+            var drinkContainer = new ItemDrinkContainer(loggerMock.Object, null!, null!, null!, messageForwardOptions, null!, null!);
             drinkContainer.Initialize(Guid.NewGuid(), drinkContainerBlueprint, roomMock.Object);
 
             return drinkContainer;

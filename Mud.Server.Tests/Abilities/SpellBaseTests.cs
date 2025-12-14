@@ -4,6 +4,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Commands.Character.Movement;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Player;
@@ -23,10 +24,11 @@ namespace Mud.Server.Tests.Abilities
             Mock<IRandomManager> randomManagerMock = new();
             SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
             var parameters = BuildParameters("");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), null, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), null!, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
+            Assert.IsNotNull(result);
             Assert.AreEqual("Spell must be cast by a character.", result);
         }
 
@@ -37,10 +39,11 @@ namespace Mud.Server.Tests.Abilities
             Mock<ICharacter> characterMock = new();
             SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
             var parameters = BuildParameters("");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), characterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), characterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
+            Assert.IsNotNull(result);
             Assert.AreEqual("You are nowhere...", result);
         }
 
@@ -56,10 +59,11 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
             var parameters = BuildParameters("player");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
+            Assert.IsNotNull(result);
             Assert.Contains("is in cooldown", result);
         }
 
@@ -76,10 +80,11 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
             var parameters = BuildParameters("player");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
+            Assert.IsNotNull(result);
             Assert.Contains("as resource for the moment.", result);
         }
 
@@ -97,10 +102,11 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
             var parameters = BuildParameters("player");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
+            Assert.IsNotNull(result);
             Assert.Contains("You don't have enough", result);
         }
 
@@ -118,7 +124,7 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
             var parameters = BuildParameters("player");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -141,9 +147,9 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
             var parameters = BuildParameters("player");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
             spell.Setup(abilityActionInput);
-            string lastSendReceived = null;
+            string lastSendReceived = null!;
             casterMock.Setup(x => x.Send(It.IsAny<string>(), It.IsAny<object[]>())).Callback<string, object[]>((msg, args) => lastSendReceived = string.Format(msg, args));
 
             spell.Execute();
@@ -168,7 +174,7 @@ namespace Mud.Server.Tests.Abilities
             roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
             SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
             var parameters = BuildParameters("player");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
             spell.Setup(abilityActionInput);
 
             spell.Execute();
@@ -188,7 +194,7 @@ namespace Mud.Server.Tests.Abilities
             {
             }
 
-            protected override string SetTargets(ISpellActionInput spellActionInput) => null;
+            protected override string SetTargets(ISpellActionInput spellActionInput) => null!;
 
             protected override void Invoke()
             {

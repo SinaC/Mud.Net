@@ -1,6 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects.Character;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Special;
@@ -13,13 +13,11 @@ namespace Mud.Server.Rom24.Specials
     [SpecialBehavior("spec_poison")]
     public class Poison : ISpecialBehavior
     {
-        private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
         private IAuraManager AuraManager { get; }
         private IRandomManager RandomManager { get; }
 
-        public Poison(IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IAuraManager auraManager, IRandomManager randomManager)
+        public Poison(IAuraManager auraManager, IRandomManager randomManager)
         {
-            CharacterFlagFactory = characterFlagFactory;
             AuraManager = auraManager;
             RandomManager = randomManager;
         }
@@ -59,7 +57,7 @@ namespace Mud.Server.Rom24.Specials
             else
                 AuraManager.AddAura(victim, "Poison", npc, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
                     new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = -2, Operator = AffectOperators.Add },
-                    new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                     new PoisonDamageAffect());
             victim.Send("You feel very sick.");
             victim.Act(ActOptions.ToRoom, "{0:N} looks very ill.", victim);

@@ -264,15 +264,13 @@ namespace Mud.Server.Tests.Items
         {
             var loggerMock = new Mock<ILogger<ItemPortal>>();
             var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
-            var itemFlagsFactoryMock = new Mock<IFlagFactory<IItemFlags, IItemFlagValues>>();
             var roomManagerMock = new Mock<IRoomManager>();
             var roomMock = new Mock<IRoom>();
 
-            itemFlagsFactoryMock.Setup(x => x.CreateInstance(It.IsAny<string[]>())).Returns<string[]>(flags => CreateItemFlags(flags));
             roomMock.SetupGet(x => x.Blueprint).Returns(new RoomBlueprint { Id = 123 });
             roomManagerMock.SetupGet(x => x.Rooms).Returns([roomMock.Object]);
 
-            var portal = new ItemPortal(loggerMock.Object, null, null, null, messageForwardOptions, roomManagerMock.Object, null, itemFlagsFactoryMock.Object);
+            var portal = new ItemPortal(loggerMock.Object, null!, null!, null!, messageForwardOptions, roomManagerMock.Object, null!);
             portal.Initialize(Guid.NewGuid(), portalBlueprint, roomMock.Object);
 
             return portal;

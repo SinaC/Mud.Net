@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -16,12 +17,12 @@ public class IceShield : ShieldFlagsSpellBase
 {
     private const string SpellName = "Ice Shield";
 
-    public IceShield(ILogger<IceShield> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IShieldFlags, IShieldFlagValues> shieldFlagFactory)
-        : base(logger, randomManager, auraManager, shieldFlagFactory)
+    public IceShield(ILogger<IceShield> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager, auraManager)
     {
     }
 
-    protected override IShieldFlags ShieldFlags => FlagFactory.CreateInstance("IceShield");
+    protected override IShieldFlags ShieldFlags => new ShieldFlags("IceShield");
     protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
     protected override string SelfAlreadyAffected => "You are already surrounded by a %C%icy%x% shield.";
     protected override string NotSelfAlreadyAffected => "{0:N} {0:b} already surrounded by a %C%icy%x% shield.";

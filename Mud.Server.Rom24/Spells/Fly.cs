@@ -4,7 +4,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -24,13 +24,11 @@ public class Fly : DefensiveSpellBase
 {
     private const string SpellName = "Fly";
 
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IAuraManager AuraManager { get; }
 
-    public Fly(ILogger<Fly> logger, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IRandomManager randomManager, IAuraManager auraManager)
+    public Fly(ILogger<Fly> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
-        CharacterFlagFactory = characterFlagFactory;
         AuraManager = auraManager;
     }
 
@@ -45,7 +43,7 @@ public class Fly : DefensiveSpellBase
             return;
         }
         AuraManager.AddAura(Victim, SpellName, Caster, Level, TimeSpan.FromMinutes(Level + 3), AuraFlags.None, true,
-            new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Flying"), Operator = AffectOperators.Or });
+            new CharacterFlagsAffect { Modifier = new CharacterFlags("Flying"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0:P} feet rise off the ground.", Victim);
     }
 }

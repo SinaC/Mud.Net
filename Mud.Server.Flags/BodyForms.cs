@@ -1,14 +1,11 @@
-﻿using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
-using Mud.Server.Flags.Interfaces;
+﻿using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Flags;
 
-[Export(typeof(IBodyForms))]
-public class BodyForms : Flags<IBodyFormValues>, IBodyForms
+public class BodyForms : DataStructures.Flags.Flags, IBodyForms
 {
-    public BodyForms(IBodyFormValues flagValues)
-        : base(flagValues)
+    public BodyForms(params string[] flags)
+        : base(flags)
     {
     }
 }

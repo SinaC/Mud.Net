@@ -11,7 +11,7 @@ public abstract class CharacterData
 
     public Dictionary<ResourceKinds, int> CurrentResources { get; set; }
 
-    public ICharacterFlags CharacterFlags { get; set; }
+    public string CharacterFlags { get; set; }
 
     public AffectDataBase[] AffectDatas { get; set; }
 }

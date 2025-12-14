@@ -1,13 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Server.Flags;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Rom24.Flags;
-using Mud.Server.Rom24.Spells;
 
 namespace Mud.Server.Rom24.Tests
 {
@@ -136,30 +131,13 @@ namespace Mud.Server.Rom24.Tests
         {
             var damagerModifierManager = new DamageModifierManager(new Mock<ILogger<DamageModifierManager>>().Object);
             var victim = new Mock<ICharacter>();
-            victim.SetupGet(x => x.Immunities).Returns(CreateIRV(imm));
-            victim.SetupGet(x => x.Resistances).Returns(CreateIRV(res));
-            victim.SetupGet(x => x.Vulnerabilities).Returns(CreateIRV(vuln));
+            victim.SetupGet(x => x.Immunities).Returns(new IRVFlags(imm));
+            victim.SetupGet(x => x.Resistances).Returns(new IRVFlags(res));
+            victim.SetupGet(x => x.Vulnerabilities).Returns(new IRVFlags(vuln));
 
             var result = damagerModifierManager.CheckResistance(victim.Object, damageType);
 
             Assert.AreEqual(expected, result);
-        }
-
-        //
-        private static IIRVFlags CreateIRV(params string[] flags)
-        {
-            var irv = new IRVFlags(new IRVFlagValues(new Mock<ILogger<IRVFlagValues>>().Object));
-            if (flags.Length > 0)
-            {
-                foreach (var flag in flags)
-                {
-                    if (!string.IsNullOrWhiteSpace(flag))
-                    {
-                        irv.Set(flag);
-                    }
-                }
-            }
-            return irv;
         }
     }
 }

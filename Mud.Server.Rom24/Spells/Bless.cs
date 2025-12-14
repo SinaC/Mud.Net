@@ -5,7 +5,7 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
@@ -32,15 +32,13 @@ public class Bless : ItemOrDefensiveSpellBase
 {
     private const string SpellName = "Bless";
 
-    private IFlagFactory<IItemFlags, IItemFlagValues> ItemFlagFactory { get; }
     private IAuraManager AuraManager { get; }
     private IEffectManager EffectManager { get; }
     private IDispelManager DispelManager { get; }
 
-    public Bless(ILogger<Bless> logger, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory, IRandomManager randomManager, IAuraManager auraManager, IEffectManager effectManager, IDispelManager dispelManager)
+    public Bless(ILogger<Bless> logger, IRandomManager randomManager, IAuraManager auraManager, IEffectManager effectManager, IDispelManager dispelManager)
         : base(logger, randomManager)
     {
-        ItemFlagFactory = itemFlagFactory;
         AuraManager = auraManager;
         EffectManager = effectManager;
         DispelManager = dispelManager;
@@ -75,7 +73,7 @@ public class Bless : ItemOrDefensiveSpellBase
         }
         AuraManager.AddAura(item, SpellName, Caster, Level, TimeSpan.FromMinutes(6 + Level), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
-            new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Bless"), Operator = AffectOperators.Or });
+            new ItemFlagsAffect { Modifier = new ItemFlags("Bless"), Operator = AffectOperators.Or });
         Caster.Act(ActOptions.ToAll, "{0} glows with a holy aura.", item);
     }
 }

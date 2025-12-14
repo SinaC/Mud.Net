@@ -3,6 +3,7 @@ using Moq;
 using Mud.Common;
 using Mud.Server.Ability;
 using Mud.Server.Commands.Character.Ability;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.Character;
@@ -61,7 +62,7 @@ public class CastTests : AbilityTestBase
     public void Guards_NoSpellSpecified()
     {
         Mock<ICharacter> characterMock = new();
-        characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
+        characterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
         var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
         var cast = new Cast(new Mock<ILogger<Cast>>().Object, abilityManager);
@@ -77,7 +78,7 @@ public class CastTests : AbilityTestBase
     public void Guards_Inexisting()
     {
         Mock<ICharacter> characterMock = new();
-        characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
+        characterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
         characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
@@ -94,7 +95,7 @@ public class CastTests : AbilityTestBase
     public void Guards_PartialSpellName()
     {
         Mock<ICharacter> characterMock = new();
-        characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
+        characterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
         characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
@@ -110,7 +111,7 @@ public class CastTests : AbilityTestBase
     public void Guards_QuotedSpellName()
     {
         Mock<ICharacter> characterMock = new();
-        characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
+        characterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
         characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
@@ -126,7 +127,7 @@ public class CastTests : AbilityTestBase
     public void Guards_MixedCaseSpellName()
     {
         Mock<ICharacter> characterMock = new();
-        characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
+        characterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
         characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         var abilityManager = new AbilityManager(new Mock<ILogger<AbilityManager>>().Object, _serviceProvider, new AssemblyHelper());
@@ -142,7 +143,7 @@ public class CastTests : AbilityTestBase
     public void Guards_AbilityNotInAbilityManager() // should never happen
     {
         Mock<ICharacter> characterMock = new();
-        characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
+        characterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
         characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         Mock<IAbilityManager> abilityManagerMock = new();
@@ -158,7 +159,7 @@ public class CastTests : AbilityTestBase
     public void Guards_AbilityNotInDependencyContainer() // should never happen
     {
         Mock<ICharacter> characterMock = new();
-        characterMock.SetupGet(x => x.CharacterFlags).Returns(CreateCharacterFlags());
+        characterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
         characterMock.SetupGet(x => x.Position).Returns(Domain.Positions.Standing);
         characterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(name => (100, BuildAbilityLearned(name)));
         Mock<IAbilityManager> abilityManagerMock = new();

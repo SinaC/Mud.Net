@@ -1,4 +1,5 @@
 ﻿using Mud.Domain.SerializationData;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Room;
@@ -6,22 +7,14 @@ using Mud.Server.Interfaces.Room;
 namespace Mud.Server.Affects.Room;
 
 [Affect("RoomFlagsAffect", typeof(RoomFlagsAffectData))]
-public class RoomFlagsAffect : FlagsAffectBase<IRoomFlags, IRoomFlagValues>, IRoomFlagsAffect
+public class RoomFlagsAffect : FlagsAffectBase<IRoomFlags>, IRoomFlagsAffect
 {
-    private IFlagFactory<IRoomFlags, IRoomFlagValues> FlagFactory { get; }
-
-    public RoomFlagsAffect(IFlagFactory<IRoomFlags, IRoomFlagValues> flagFactory)
-    {
-        FlagFactory = flagFactory;
-    }
-
     protected override string Target => "Room flags";
-
 
     public void Initialize(RoomFlagsAffectData data)
     {
         Operator = data.Operator;
-        Modifier = FlagFactory.CreateInstance(data.Modifier);
+        Modifier = new RoomFlags(data.Modifier);
     }
 
     public void Apply(IRoom room)

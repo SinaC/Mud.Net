@@ -2,7 +2,7 @@
 using Mud.Server.Affects.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
@@ -26,16 +26,14 @@ public class Drink : CharacterGameAction
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
     private IAffectManager AffectManager { get; }
-    private IFlagFactory<ICharacterFlags, ICharacterFlagValues> CharacterFlagFactory { get; }
     private IWiznet Wiznet { get; }
 
-    public Drink(ITableValues tableValues, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory, IWiznet wiznet)
+    public Drink(ITableValues tableValues, IRandomManager randomManager, IAuraManager auraManager, IAffectManager affectManager, IWiznet wiznet)
     {
         TableValues = tableValues;
         RandomManager = randomManager;
         AuraManager = auraManager;
         AffectManager = affectManager;
-        CharacterFlagFactory = characterFlagFactory;
         Wiznet = wiznet;
     }
 
@@ -126,7 +124,7 @@ public class Drink : CharacterGameAction
             {
                 var poisonAffect = AffectManager.CreateInstance("Poison");
                 AuraManager.AddAura(Actor, "Poison", Drinkable, level, TimeSpan.FromMinutes(duration), AuraFlags.None, false,
-                    new CharacterFlagsAffect(CharacterFlagFactory) { Modifier = CharacterFlagFactory.CreateInstance("Poison"), Operator = AffectOperators.Or },
+                    new CharacterFlagsAffect { Modifier = new CharacterFlags("Poison"), Operator = AffectOperators.Or },
                     poisonAffect);
             }
             Actor.Recompute();

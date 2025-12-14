@@ -2,7 +2,6 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Race;
@@ -61,8 +60,7 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
 
     #endregion
 
-    protected PlayableRaceBase(ILogger<PlayableRaceBase> logger, IFlagFactory flagFactory, IAbilityManager abilityManager)
-        : base(flagFactory)
+    protected PlayableRaceBase(ILogger<PlayableRaceBase> logger, IAbilityManager abilityManager)
     {
         Logger = logger;
         AbilityManager = abilityManager;

@@ -8,6 +8,7 @@ using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -55,9 +56,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IWeaponEffectManager WeaponEffectManager { get; }
     protected IDamageModifierManager DamageModifierManager { get; }
     protected IHitAfterDamageManager HitAfterDamageManager { get; }
+    protected IFlagsManager FlagsManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagFactory flagFactory, IWiznet wiznet)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagsManager flagsManager, IWiznet wiznet)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         RandomManager = randomManager;
@@ -69,6 +71,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         WeaponEffectManager = weaponEffectManager;
         DamageModifierManager = damageModifierManager;
         HitAfterDamageManager = hitAfterDamageManager;
+        FlagsManager = flagsManager;
         Wiznet = wiznet;
 
         _inventory = [];
@@ -83,13 +86,25 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Position = Positions.Standing;
         Shape = Shapes.Normal;
 
-        CharacterFlags = flagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
-        BodyParts = flagFactory.CreateInstance<IBodyParts, IBodyPartValues>();
-        BodyForms = flagFactory.CreateInstance<IBodyForms, IBodyFormValues>();
-        Immunities = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
-        Resistances = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
-        Vulnerabilities = flagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
-        ShieldFlags = flagFactory.CreateInstance<IShieldFlags, IShieldFlagValues>();
+        Class = null!;
+        Race = null!;
+        Room = null!;
+        CurrentResourceKinds = null!;
+
+        BaseCharacterFlags = new CharacterFlags();
+        CharacterFlags = new CharacterFlags();
+        BaseBodyParts = new BodyParts();
+        BodyParts = new BodyParts();
+        BaseBodyForms = new BodyForms();
+        BodyForms = new BodyForms();
+        BaseImmunities = new IRVFlags();
+        Immunities = new IRVFlags();
+        BaseResistances = new IRVFlags();
+        Resistances = new IRVFlags();
+        BaseVulnerabilities = new IRVFlags();
+        Vulnerabilities = new IRVFlags();
+        BaseShieldFlags = new ShieldFlags();
+        ShieldFlags = new ShieldFlags();
     }
 
     #region ICharacter
@@ -1601,8 +1616,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public StringBuilder AppendInRoom(StringBuilder sb, ICharacter viewer)
     {
         // display flags
-        CharacterFlags.Append(sb, false);
-        ShieldFlags.Append(sb, false);
+        FlagsManager.Append(sb, CharacterFlags, false);
+        FlagsManager.Append(sb, ShieldFlags, false);
 
         // TODO: killer/thief
         // TODO: display long description and stop if position = start position for NPC

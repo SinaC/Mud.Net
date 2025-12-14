@@ -2,6 +2,7 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -22,12 +23,12 @@ public class DetectEvil : CharacterFlagsSpellBase
 {
     private const string SpellName = "Detect Evil";
 
-    public DetectEvil(ILogger<DetectEvil> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<ICharacterFlags, ICharacterFlagValues> characterFlagFactory)
-        : base(logger, randomManager, auraManager, characterFlagFactory)
+    public DetectEvil(ILogger<DetectEvil> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager, auraManager)
     {
     }
 
-    protected override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance("DetectEvil");
+    protected override ICharacterFlags CharacterFlags => new CharacterFlags("DetectEvil");
     protected override string SelfAlreadyAffected => "You can already sense evil.";
     protected override string NotSelfAlreadyAffected => "{0:N} can already detect evil.";
     protected override string SelfSuccess => "Your eyes tingle.";

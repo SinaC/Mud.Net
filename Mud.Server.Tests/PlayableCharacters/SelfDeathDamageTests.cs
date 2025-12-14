@@ -3,7 +3,6 @@ using Moq;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Character.PlayableCharacter;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -24,7 +23,6 @@ namespace Mud.Server.Tests.PlayableCharacters
             var loggerMock = new Mock<ILogger<PlayableCharacter>>();
             var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
             var worldOptions = Microsoft.Extensions.Options.Options.Create(new WorldOptions { MaxLevel = 10, BlueprintIds = new BlueprintIds { Coins = 0, Corpse = 0, DefaultDeathRoom = 0, DefaultRecallRoom = 0, DefaultRoom = 0, MudSchoolRoom = 0, NullRoom = 0 } });
-            var flagFactoryMock = new Mock<IFlagFactory>();
             var roomManagerMock = new Mock<IRoomManager>();
             var itemManagerMock = new Mock<IItemManager>();
             var characterManagerMock = new Mock<ICharacterManager>();
@@ -38,11 +36,6 @@ namespace Mud.Server.Tests.PlayableCharacters
 
             classManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IClass>().Object);
             raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IRace>().Object);
-            flagFactoryMock.Setup(x => x.CreateInstance<ICharacterFlags, ICharacterFlagValues>(It.IsAny<string[]>())).Returns(new Mock<ICharacterFlags>().Object);
-            flagFactoryMock.Setup(x => x.CreateInstance<IIRVFlags, IIRVFlagValues>(It.IsAny<string[]>())).Returns(new Mock<IIRVFlags>().Object);
-            flagFactoryMock.Setup(x => x.CreateInstance<IBodyForms, IBodyFormValues>(It.IsAny<string[]>())).Returns(new Mock<IBodyForms>().Object);
-            flagFactoryMock.Setup(x => x.CreateInstance<IBodyParts, IBodyPartValues>(It.IsAny<string[]>())).Returns(new Mock<IBodyParts>().Object);
-            flagFactoryMock.Setup(x => x.CreateInstance<IShieldFlags, IShieldFlagValues>(It.IsAny<string[]>())).Returns(new Mock<IShieldFlags>().Object);
 
             var pcData = new PlayableCharacterData
             {
@@ -85,7 +78,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Pets = []
             };
 
-            var pc = new PlayableCharacter(loggerMock.Object, null, null, null, messageForwardOptions, worldOptions, null, null, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null, null, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null, damageModifierManagerMock.Object, null, null, flagFactoryMock.Object);
+            var pc = new PlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, damageModifierManagerMock.Object, null!, null!, null!);
             pc.Initialize(Guid.NewGuid(), pcData, playerMock.Object, roomMock.Object);
             pc.AbilityDamage(pc, 100000, SchoolTypes.Poison, "poison", false);
 

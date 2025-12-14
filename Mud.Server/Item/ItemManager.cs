@@ -5,6 +5,7 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -22,6 +23,7 @@ public class ItemManager : IItemManager
     private ILogger<ItemManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private IRoomManager RoomManager { get; }
+    private IFlagsManager FlagsManager { get; }
     private int CorpseBlueprintId { get; }
     private int CoinsBlueprintId { get; }
 
@@ -29,11 +31,12 @@ public class ItemManager : IItemManager
     private readonly Dictionary<int, ItemBlueprintBase> _itemBlueprints;
     private readonly List<IItem> _items;
 
-    public ItemManager(ILogger<ItemManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, IOptions<WorldOptions> worldOptions, IRoomManager roomManager)
+    public ItemManager(ILogger<ItemManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, IOptions<WorldOptions> worldOptions, IRoomManager roomManager, IFlagsManager flagsManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
         RoomManager = roomManager;
+        FlagsManager = flagsManager;
         CorpseBlueprintId = worldOptions.Value.BlueprintIds.Corpse;
         CoinsBlueprintId = worldOptions.Value.BlueprintIds.Coins;
 
@@ -81,7 +84,11 @@ public class ItemManager : IItemManager
         if (_itemBlueprints.ContainsKey(blueprint.Id))
             Logger.LogError("Item blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
+        {
+            if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
+                Logger.LogError("Item blueprint {blueprintId} has invalid flags", blueprint.Id);
             _itemBlueprints.Add(blueprint.Id, blueprint);
+        }
     }
 
     public IEnumerable<IItem> Items => _items.Where(x => x.IsValid);
@@ -94,11 +101,13 @@ public class ItemManager : IItemManager
             Logger.LogError("ItemCorpseBlueprint (id:{corpseBlueprintId}) doesn't exist !!!", CorpseBlueprintId);
             return null;
         }
-        var item = ServiceProvider.GetRequiredService<ItemCorpse>();
-        item.Initialize(guid, blueprint, room, victim);
-        _items.Add(item);
-        item.Recompute();
-        return item;
+        var corpse = ServiceProvider.GetRequiredService<ItemCorpse>();
+        corpse.Initialize(guid, blueprint, room, victim);
+        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
+            Logger.LogError("Corpse blueprint {blueprintId} has invalid flags", blueprint.Id);
+        _items.Add(corpse);
+        corpse.Recompute();
+        return corpse;
     }
 
     public IItemCorpse? AddItemCorpse(Guid guid, IRoom room, ICharacter victim, ICharacter killer)
@@ -109,11 +118,13 @@ public class ItemManager : IItemManager
             Logger.LogError("ItemCorpseBlueprint (id:{corpseBlueprintId}) doesn't exist !!!", CorpseBlueprintId);
             return null;
         }
-        var item = ServiceProvider.GetRequiredService<ItemCorpse>();
-        item.Initialize(guid, blueprint, room, victim, killer);
-        _items.Add(item);
-        item.Recompute();
-        return item;
+        var corpse = ServiceProvider.GetRequiredService<ItemCorpse>();
+        corpse.Initialize(guid, blueprint, room, victim, killer);
+        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
+            Logger.LogError("Corpse blueprint {blueprintId} has invalid flags", blueprint.Id);
+        _items.Add(corpse);
+        corpse.Recompute();
+        return corpse;
     }
 
     public IItemMoney? AddItemMoney(Guid guid, long silverCoins, long goldCoins, IContainer container)
@@ -122,7 +133,7 @@ public class ItemManager : IItemManager
         goldCoins = Math.Max(0, goldCoins);
         if (silverCoins == 0 && goldCoins == 0)
         {
-            Logger.LogError("World.AddItemMoney: 0 silver and 0 gold.");
+            Logger.LogError("AddItemMoney: 0 silver and 0 gold.");
             return null;
         }
         var blueprint = GetItemBlueprint<ItemMoneyBlueprint>(CoinsBlueprintId);
@@ -134,6 +145,9 @@ public class ItemManager : IItemManager
 
         var money = ServiceProvider.GetRequiredService<ItemMoney>();
         money.Initialize(guid, blueprint, silverCoins, goldCoins, container);
+        money.Recompute();
+        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
+            Logger.LogError("Money blueprint {blueprintId} has invalid flags", blueprint.Id);
         _items.Add(money);
         return money;
     }
@@ -161,6 +175,8 @@ public class ItemManager : IItemManager
             return null;
         }
         item.Recompute();
+        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
+            Logger.LogError("Item blueprint {blueprintId} has invalid flags", blueprint.Id);
         _items.Add(item);
         return item;
     }
@@ -195,6 +211,8 @@ public class ItemManager : IItemManager
             return null;
         }
         item.Recompute();
+        if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
+            Logger.LogError("Item blueprint {blueprintId} has invalid flags", blueprint.Id);
         _items.Add(item);
         return item;
     }
@@ -279,5 +297,23 @@ public class ItemManager : IItemManager
             return null;
         }
         return instance;
+    }
+
+    private class ItemDefinition
+    {
+        public Type ItemType { get; }
+        public Type BlueprintType { get; }
+        public Type ItemDataType { get; }
+        public MethodInfo InitializeWithoutItemDataMethod { get; }
+        public MethodInfo InitializeWithItemDataMethod { get; }
+
+        public ItemDefinition(Type itemType, Type blueprintType, Type itemDataType, MethodInfo initializeWithoutItemDataMethod, MethodInfo initializeWithItemDataMethod)
+        {
+            ItemType = itemType;
+            BlueprintType = blueprintType;
+            ItemDataType = itemDataType;
+            InitializeWithoutItemDataMethod = initializeWithoutItemDataMethod;
+            InitializeWithItemDataMethod = initializeWithItemDataMethod;
+        }
     }
 }

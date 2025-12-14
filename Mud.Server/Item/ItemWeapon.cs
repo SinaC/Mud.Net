@@ -4,6 +4,7 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Item;
@@ -23,15 +24,15 @@ namespace Mud.Server.Item;
 public class ItemWeapon : ItemBase, IItemWeapon
 {
     private ITableValues TableValues { get; }
-    private IFlagFactory<IWeaponFlags, IWeaponFlagValues> WeaponFlagFactory { get; }
+    private IFlagsManager FlagsManager { get; }
 
-    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory, IFlagFactory<IWeaponFlags, IWeaponFlagValues> weaponFlagFactory)
-       : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager, itemFlagFactory)
+    public ItemWeapon(ILogger<ItemWeapon> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRoomManager roomManager, IAuraManager auraManager, ITableValues tableValues, IFlagsManager flagsManager)
+       : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, roomManager, auraManager)
     {
         TableValues = tableValues;
-        WeaponFlagFactory = weaponFlagFactory;
 
-        WeaponFlags = weaponFlagFactory.CreateInstance();
+        WeaponFlags = new WeaponFlags();
+        FlagsManager = flagsManager;
     }
 
     public void Initialize(Guid guid, ItemWeaponBlueprint blueprint, IContainer containedInto) 
@@ -42,7 +43,7 @@ public class ItemWeapon : ItemBase, IItemWeapon
         DiceCount = blueprint.DiceCount;
         DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
-        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => WeaponFlagFactory.CreateInstance(), blueprint.Flags, null);
+        BaseWeaponFlags = NewAndCopyAndSet(() => new WeaponFlags(), blueprint.Flags, null);
         DamageNoun = blueprint.DamageNoun;
 
         ResetAttributes();
@@ -56,7 +57,7 @@ public class ItemWeapon : ItemBase, IItemWeapon
         DiceCount = blueprint.DiceCount;
         DiceValue = blueprint.DiceValue;
         DamageType = blueprint.DamageType;
-        BaseWeaponFlags = NewAndCopyAndSet<IWeaponFlags, IWeaponFlagValues>(() => WeaponFlagFactory.CreateInstance(), WeaponFlagFactory.CreateInstance(itemData.WeaponFlags), null);
+        BaseWeaponFlags = NewAndCopyAndSet(() => new WeaponFlags(), new WeaponFlags(itemData.WeaponFlags), null);
         DamageNoun = blueprint.DamageNoun;
 
         ResetAttributes();
@@ -135,7 +136,7 @@ public class ItemWeapon : ItemBase, IItemWeapon
 
     public override StringBuilder Append(StringBuilder sb, ICharacter viewer, bool shortDisplay)
     {
-        WeaponFlags.Append(sb, shortDisplay);
+        FlagsManager.Append(sb, WeaponFlags, shortDisplay);
         return base.Append(sb, viewer, shortDisplay);
     }
 

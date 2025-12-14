@@ -1,12 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Moq;
-using Mud.DataStructures.Flags;
+using Mud.DataStructures.FlagValues;
 
 namespace Mud.DataStructures.Tests;
 
 [TestClass]
-public class FlagsWithValuesTests
+public class FlagsValuesTests
 {
     [TestMethod]
     public void Ctor()

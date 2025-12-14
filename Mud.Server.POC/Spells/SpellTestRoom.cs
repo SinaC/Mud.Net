@@ -3,7 +3,7 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Room;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -16,12 +16,9 @@ public class SpellTestRoom : CharacterBuffSpellBase
 {
     private const string SpellName = "Testroom";
 
-    private IFlagFactory<IRoomFlags, IRoomFlagValues> RoomFlagFactory { get; }
-
-    public SpellTestRoom(ILogger<SpellTestRoom> logger, IRandomManager randomManager, IAuraManager auraManager, IFlagFactory<IRoomFlags, IRoomFlagValues> roomFlagFactory)
+    public SpellTestRoom(ILogger<SpellTestRoom> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager, auraManager)
     {
-        RoomFlagFactory = roomFlagFactory;
     }
 
     protected override string SelfAlreadyAffectedMessage => "You are already affected.";
@@ -34,7 +31,7 @@ public class SpellTestRoom : CharacterBuffSpellBase
         {
             new RoomHealRateAffect {Modifier = 10, Operator = AffectOperators.Add},
             new RoomResourceRateAffect {Modifier = 150, Operator = AffectOperators.Assign},
-            new RoomFlagsAffect(RoomFlagFactory) {Modifier = RoomFlagFactory.CreateInstance("NoScan", "NoWhere"), Operator = AffectOperators.Or}
+            new RoomFlagsAffect {Modifier = new RoomFlags("NoScan", "NoWhere"), Operator = AffectOperators.Or}
         });
 
     protected override void Invoke()

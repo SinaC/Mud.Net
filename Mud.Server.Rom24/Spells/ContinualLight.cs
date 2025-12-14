@@ -5,7 +5,7 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
-using Mud.Server.Flags.Interfaces;
+using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -29,16 +29,14 @@ public class ContinualLight : OptionalItemInventorySpellBase
 {
     private const string SpellName = "Continual Light";
 
-    private IFlagFactory<IItemFlags, IItemFlagValues> ItemFlagFactory { get; }
     private IWiznet Wiznet { get; }
     private IAuraManager AuraManager { get; }
     private IItemManager ItemManager { get; }
     private int LightBallBlueprintId { get; }
 
-    public ContinualLight(ILogger<ContinualLight> logger, IFlagFactory<IItemFlags, IItemFlagValues> itemFlagFactory, IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager, IOptions<Rom24Options> options)
+    public ContinualLight(ILogger<ContinualLight> logger, IRandomManager randomManager, IWiznet wiznet, IAuraManager auraManager, IItemManager itemManager, IOptions<Rom24Options> options)
         : base(logger, randomManager)
     {
-        ItemFlagFactory = itemFlagFactory;
         Wiznet = wiznet;
         AuraManager = auraManager;
         ItemManager = itemManager;
@@ -56,7 +54,7 @@ public class ContinualLight : OptionalItemInventorySpellBase
             }
 
             AuraManager.AddAura(Item, SpellName, Caster, Level, Pulse.Infinite, AuraFlags.Permanent | AuraFlags.NoDispel, true,
-                new ItemFlagsAffect(ItemFlagFactory) { Modifier = ItemFlagFactory.CreateInstance("Glowing"), Operator = AffectOperators.Or });
+                new ItemFlagsAffect { Modifier = new ItemFlags("Glowing"), Operator = AffectOperators.Or });
             Caster.Act(ActOptions.ToAll, "{0} glows with a white light.", Item);
             return;
         }

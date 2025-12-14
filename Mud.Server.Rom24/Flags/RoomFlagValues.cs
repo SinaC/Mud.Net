@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
-using Mud.Common.Attributes;
-using Mud.DataStructures.Flags;
+﻿using Mud.Common.Attributes;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Rom24.Flags;
 
-[Export(typeof(IRoomFlagValues)), Shared]
-public class RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
+[FlagValues(typeof(IFlagValues), typeof(IRoomFlags)), Shared]
+public class RoomFlagValues : IFlagValues
 {
-    private static readonly HashSet<string> Flags = new(StringComparer.InvariantCultureIgnoreCase)
-    {
+    private static readonly string[] Flags = 
+    [
         "Dark",
         "NoMob",
         "Indoors",
@@ -23,20 +22,9 @@ public class RoomFlagValues : FlagValuesBase<string>, IRoomFlagValues
         "NewbiesOnly",
         "Law",
         "NoWhere",
-    };
+    ];
+    public IEnumerable<string> AvailableFlags => Flags;
 
-    private ILogger<RoomFlagValues> Logger { get; }
-
-    public RoomFlagValues(ILogger<RoomFlagValues> logger)
-    {
-        Logger = logger;
-    }
-
-    protected override HashSet<string> HashSet => Flags;
-
-
-    public override void OnUnknownValues(UnknownFlagValueContext context, IEnumerable<string> values)
-    {
-        Logger.LogError("Room flags '{values}' not found in {type}", string.Join(",", values), GetType().FullName);
-    }
+    public string PrettyPrint(string flag, bool shortDisplay)
+        => string.Empty; // we don't want to display the flags
 }

@@ -1,5 +1,6 @@
 ﻿using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
@@ -9,17 +10,12 @@ namespace Mud.Server.POC.Races.NonPlayableRaces;
 [Export(typeof(IRace)), Shared]
 public class Cyclops : RaceBase
 {
-    public Cyclops(IFlagFactory flagFactory)
-        : base(flagFactory)
-    {
-    }
-
     public override string Name => "cyclops";
     public override Sizes Size => Sizes.Large;
-    public override ICharacterFlags CharacterFlags => FlagFactory.CreateInstance<ICharacterFlags, ICharacterFlagValues>();
-    public override IIRVFlags Immunities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
-    public override IIRVFlags Resistances => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
-    public override IIRVFlags Vulnerabilities => FlagFactory.CreateInstance<IIRVFlags, IIRVFlagValues>();
+    public override ICharacterFlags CharacterFlags => new CharacterFlags();
+    public override IIRVFlags Immunities => new IRVFlags();
+    public override IIRVFlags Resistances => new IRVFlags();
+    public override IIRVFlags Vulnerabilities => new IRVFlags();
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
         Domain.EquipmentSlots.Light,
@@ -41,9 +37,9 @@ public class Cyclops : RaceBase
         Domain.EquipmentSlots.OffHand,
         Domain.EquipmentSlots.Float,
     ];
-    public override IBodyForms BodyForms => FlagFactory.CreateInstance<IBodyForms, IBodyFormValues>( "Edible", "Sentient", "Biped", "Mammal");
-    public override IBodyParts BodyParts => FlagFactory.CreateInstance<IBodyParts, IBodyPartValues>( "Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye");
-    public override IActFlags ActFlags => FlagFactory.CreateInstance<IActFlags, IActFlagValues>();
-    public override IOffensiveFlags OffensiveFlags => FlagFactory.CreateInstance<IOffensiveFlags, IOffensiveFlagValues>();
-    public override IAssistFlags AssistFlags => FlagFactory.CreateInstance<IAssistFlags, IAssistFlagValues>("Race");
+    public override IBodyForms BodyForms => new BodyForms( "Edible", "Sentient", "Biped", "Mammal");
+    public override IBodyParts BodyParts => new BodyParts( "Head", "Body", "Arms", "Legs", "Heart", "Brains", "Guts", "Hands", "Feet", "Fingers", "Ear", "Eye");
+    public override IActFlags ActFlags => new ActFlags();
+    public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
+    public override IAssistFlags AssistFlags => new AssistFlags("Race");
 }
