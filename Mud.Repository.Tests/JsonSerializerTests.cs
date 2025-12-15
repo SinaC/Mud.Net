@@ -1796,7 +1796,8 @@ namespace Mud.Repository.Tests
               ""Modifier"": ""Plague""
             },
             {
-              ""$type"": ""plague""
+              ""$type"": ""noData"",
+              ""AffectName"": ""plague""
             }
           ]
         },
@@ -1818,7 +1819,8 @@ namespace Mud.Repository.Tests
               ""Modifier"": ""Poison""
             },
             {
-              ""$type"": ""poison""
+              ""$type"": ""noData"",
+              ""AffectName"": ""poison""
             }
           ]
         }

@@ -5,7 +5,6 @@ using Mud.Domain.SerializationData;
 using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Server.Affects.Character;
 using Mud.Server.Item;
-using Mud.Server.Rom24.Affects;
 using System.Text.Json;
 
 namespace Mud.Repository.Tests
@@ -23,7 +22,7 @@ namespace Mud.Repository.Tests
             _serviceProvider = serviceProviderMock.Object;
 
             var assemblyHelperMock = new Mock<IAssemblyHelper>();
-            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns([typeof(AffectDataBase).Assembly, typeof(ItemCorpseData).Assembly, typeof(CharacterAttributeAffectData).Assembly, typeof(PoisonDamageAffectData).Assembly]);
+            assemblyHelperMock.SetupGet(x => x.AllReferencedAssemblies).Returns([typeof(AffectDataBase).Assembly, typeof(ItemCorpseData).Assembly, typeof(CharacterAttributeAffectData).Assembly]);
 
             _options = new JsonSerializerOptions
             {

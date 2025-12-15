@@ -1817,8 +1817,7 @@
               "Modifier": "Plague"
             },
             {
-              "$type": "noData",
-              "AffectName": "Plague"
+              "$type": "plague"
             }
           ]
         },
@@ -1840,8 +1839,7 @@
               "Modifier": "Poison"
             },
             {
-              "$type": "noData",
-              "AffectName": "Poison"
+              "$type": "poison"
             }
           ]
         }
@@ -3309,7 +3307,7 @@
       "HitPoints": 218,
       "MovePoints": 211,
       "CurrentResources": {
-        "Mana": 68,
+        "Mana": 128,
         "Psy": 100,
         "Energy": 100,
         "Rage": 96,
@@ -3345,8 +3343,8 @@
             "Auras": [
               {
                 "AbilityName": "Test",
-                "Level": 10,
-                "PulseLeft": 1576,
+                "Level": 22,
+                "PulseLeft": 1708,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3384,7 +3382,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 700,
+                "PulseLeft": 832,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3418,7 +3416,7 @@
         {
           "AbilityName": "Giant Strength",
           "Level": 1,
-          "PulseLeft": 9968,
+          "PulseLeft": 10100,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3432,7 +3430,7 @@
         {
           "AbilityName": "Detect Evil",
           "Level": 1,
-          "PulseLeft": 10164,
+          "PulseLeft": 10296,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3445,7 +3443,7 @@
         {
           "AbilityName": "Detect Good",
           "Level": 1,
-          "PulseLeft": 10196,
+          "PulseLeft": 10328,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3458,7 +3456,7 @@
         {
           "AbilityName": "Detect Invis",
           "Level": 1,
-          "PulseLeft": 10212,
+          "PulseLeft": 10344,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3471,7 +3469,7 @@
         {
           "AbilityName": "Detect Hidden",
           "Level": 1,
-          "PulseLeft": 10268,
+          "PulseLeft": 10400,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3484,7 +3482,7 @@
         {
           "AbilityName": "Shock Shield",
           "Level": 1,
-          "PulseLeft": 476,
+          "PulseLeft": 608,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3497,7 +3495,7 @@
         {
           "AbilityName": "Fire Shield",
           "Level": 1,
-          "PulseLeft": 492,
+          "PulseLeft": 624,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3510,7 +3508,7 @@
         {
           "AbilityName": "Ice Shield",
           "Level": 1,
-          "PulseLeft": 504,
+          "PulseLeft": 636,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3522,8 +3520,8 @@
         },
         {
           "AbilityName": "Berserk",
-          "Level": 2,
-          "PulseLeft": 452,
+          "Level": 11,
+          "PulseLeft": 584,
           "AuraFlags": 2,
           "Affects": [
             {
@@ -3552,32 +3550,9 @@
           ]
         },
         {
-          "AbilityName": "Protection Evil",
-          "Level": 48,
-          "PulseLeft": 5704,
-          "AuraFlags": 0,
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": 0,
-              "Location": 8,
-              "Modifier": -1
-            },
-            {
-              "$type": "shieldFlags",
-              "Operator": 1,
-              "Modifier": "ProtectEvil"
-            },
-            {
-              "$type": "noData",
-              "AffectName": "ProtectEvil"
-            }
-          ]
-        },
-        {
           "AbilityName": "Protection Good",
-          "Level": 48,
-          "PulseLeft": 5748,
+          "Level": 49,
+          "PulseLeft": 5752,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3592,8 +3567,7 @@
               "Modifier": "ProtectGood"
             },
             {
-              "$type": "noData",
-              "AffectName": "ProtectGood"
+              "$type": "protectgood"
             }
           ]
         }

@@ -1,7 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
-using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -9,13 +8,10 @@ using System.Text;
 
 namespace Mud.Server.POC.Affects
 {
-    [Affect("ShadowWordPain", typeof(ShadowWordPainAffectData))]
-    public class ShadowWordPainAffect : ICharacterPeriodicAffect, ICustomAffect
+    [Affect(AffectName, typeof(NoAffectData))]
+    public class ShadowWordPainAffect : ICharacterPeriodicAffect
     {
-        public void Initialize(AffectDataBase data)
-        {
-            //TODO: ShadowWordPainAffectData
-        }
+        private const string AffectName = "ShadowWordPain";
 
         public void Append(StringBuilder sb)
         {
@@ -24,7 +20,7 @@ namespace Mud.Server.POC.Affects
 
         public AffectDataBase MapAffectData()
         {
-            return new ShadowWordPainAffectData();
+            return new NoAffectData { AffectName = AffectName };
         }
 
         public void Apply(IAura aura, ICharacter character)

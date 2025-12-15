@@ -1,20 +1,16 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
-using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using System.Text;
 
 namespace Mud.Server.Rom24.Affects
 {
-    [Affect("Sanctuary", typeof(SanctuaryDamageModifierAffectData))]
-    public class SanctuaryDamageModifierAffect : ICharacterDamageModifierAffect, ICustomAffect
+    [Affect(AffectName, typeof(NoAffectData))]
+    public class SanctuaryDamageModifierAffect : ICharacterDamageModifierAffect
     {
-        public void Initialize(AffectDataBase data)
-        {
-            // NOP
-        }
+        private const string AffectName = "Sanctuary";
 
         public void Append(StringBuilder sb)
         {
@@ -23,7 +19,7 @@ namespace Mud.Server.Rom24.Affects
 
         public AffectDataBase MapAffectData()
         {
-            return new SanctuaryDamageModifierAffectData();
+            return new NoAffectData { AffectName = AffectName };
         }
 
         public int ModifyDamage(ICharacter source, ICharacter victim, SchoolTypes damageType, int damage)

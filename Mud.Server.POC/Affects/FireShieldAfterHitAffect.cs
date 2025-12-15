@@ -1,6 +1,5 @@
 ﻿using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
-using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -8,9 +7,11 @@ using System.Text;
 
 namespace Mud.Server.POC.Affects
 {
-    [Affect("FireShield", typeof(FireShieldAfterHitAffectData))]
-    public class FireShieldAfterHitAffect : ICharacterAfterHitAffect, ICustomAffect
+    [Affect(AffectName, typeof(NoAffectData))]
+    public class FireShieldAfterHitAffect : ICharacterAfterHitAffect
     {
+        private const string AffectName = "FireShield";
+
         private IRandomManager RandomManager { get; }
 
         public FireShieldAfterHitAffect(IRandomManager randomManager)
@@ -18,19 +19,15 @@ namespace Mud.Server.POC.Affects
             RandomManager = randomManager;
         }
 
-        public void Initialize(AffectDataBase data)
-        {
-        }
-
         public void Append(StringBuilder sb)
         {
-            sb.Append("%c%performs %R%Fire%c% damage when being hit%x%");
+            sb.Append("%c%does %R%Fire%c% damage when being hit%x%");
         }
 
 
         public AffectDataBase MapAffectData()
         {
-            return new FireShieldAfterHitAffectData();
+            return new NoAffectData { AffectName = AffectName };
         }
 
         public void AfterHit(ICharacter hitter, ICharacter victim)

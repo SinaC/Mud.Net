@@ -1,10 +1,11 @@
 INGOING
-    avoid creating a new AffectDataBase for each new affect if no additional data
-        should be able to use a NoAffectData -> issue because XXXAffectData is used to choose which affect to instantiate -> add name in NoAffectData and special case if NoAffectData use AffectDefinitionByName instead of AffectDefinitionByDataType in CreateInstance(AffectDataBase affectData)
 DONE
     Handle shield on hit differenty
     Handle shields reduction damage with affects
     Affect flags are not displayed correctly
+    NoAffectData added, can be used as AffectDataType -> class using that attribute must return new NoAffectData { AffectName } on MapAffectData
+    avoid creating a new AffectDataBase for each new affect if no additional data
+        should be able to use a NoAffectData -> issue because XXXAffectData is used to choose which affect to instantiate -> add name in NoAffectData and special case if NoAffectData use AffectDefinitionByName instead of AffectDefinitionByDataType in CreateInstance(AffectDataBase affectData)
 
 ==========
 == TODO ==

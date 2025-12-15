@@ -1,6 +1,5 @@
 ﻿using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
-using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -8,9 +7,11 @@ using System.Text;
 
 namespace Mud.Server.POC.Affects
 {
-    [Affect("IceShield", typeof(IceShieldAfterHitAffectData))]
-    public class IceShieldAfterHitAffect : ICharacterAfterHitAffect, ICustomAffect
+    [Affect(AffectName, typeof(NoAffectData))]
+    public class IceShieldAfterHitAffect : ICharacterAfterHitAffect
     {
+        private const string AffectName = "IceShield";
+
         private IRandomManager RandomManager { get; }
 
         public IceShieldAfterHitAffect(IRandomManager randomManager)
@@ -18,19 +19,15 @@ namespace Mud.Server.POC.Affects
             RandomManager = randomManager;
         }
 
-        public void Initialize(AffectDataBase data)
-        {
-        }
-
         public void Append(StringBuilder sb)
         {
-            sb.Append("%c%performs %C%Cold%c% damage when being hit%x%");
+            sb.Append("%c%does %C%Cold%c% damage when being hit%x%");
         }
 
 
         public AffectDataBase MapAffectData()
         {
-            return new IceShieldAfterHitAffectData();
+            return new NoAffectData { AffectName = AffectName };
         }
 
         public void AfterHit(ICharacter hitter, ICharacter victim)

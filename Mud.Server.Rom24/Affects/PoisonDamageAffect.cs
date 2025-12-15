@@ -1,7 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
-using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -9,13 +8,10 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Affects;
 
-[Affect("Poison", typeof(PoisonDamageAffectData))]
-public class PoisonDamageAffect : ICharacterPeriodicAffect, ICustomAffect
+[Affect(AffectName, typeof(NoAffectData))]
+public class PoisonDamageAffect : ICharacterPeriodicAffect
 {
-    public void Initialize(AffectDataBase data)
-    {
-        //TODO: PoisonDamageAffectData
-    }
+    private const string AffectName = "Poison";
 
     public void Append(StringBuilder sb)
     {
@@ -24,7 +20,7 @@ public class PoisonDamageAffect : ICharacterPeriodicAffect, ICustomAffect
 
     public AffectDataBase MapAffectData()
     {
-        return new PoisonDamageAffectData();
+        return new NoAffectData { AffectName = AffectName };
     }
 
     public void Apply(IAura aura, ICharacter character)

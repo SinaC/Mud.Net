@@ -43,7 +43,7 @@ public class ProtectionEvil : CharacterBuffSpellBase
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
             new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectEvil"), Operator = AffectOperators.Or },
-            new ProtectionGoodDamageModifierAffect()
+            new ProtectionEvilDamageModifierAffect()
         });
     
 }
