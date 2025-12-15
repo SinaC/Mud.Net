@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Quest;
@@ -86,9 +87,11 @@ public class QuestGet : PlayableCharacterGameAction
             GetQuest(questBlueprint, questGiver);
     }
 
-    private IQuest GetQuest(QuestBlueprint questBlueprint, INonPlayableCharacter questGiver)
+    private IQuest? GetQuest(QuestBlueprint questBlueprint, INonPlayableCharacter questGiver)
     {
         var quest = QuestManager.AddQuest(questBlueprint, Actor, questGiver);
+        if (quest == null)
+            return null;
         //
         Actor.Act(ActOptions.ToRoom, "{0} get{0:v} quest '{1}'.", Actor, questBlueprint.Title);
         if (questBlueprint.TimeLimit > 0)

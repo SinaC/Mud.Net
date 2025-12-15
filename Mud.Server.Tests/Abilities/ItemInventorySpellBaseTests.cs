@@ -34,7 +34,7 @@ namespace Mud.Server.Tests.Abilities
             ItemInventorySpellBaseTestsSpell spell = new(new Mock<ILogger<ItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("item");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -57,7 +57,7 @@ namespace Mud.Server.Tests.Abilities
             ItemInventorySpellBaseTestsSpell spell = new(new Mock<ILogger<ItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -85,7 +85,7 @@ namespace Mud.Server.Tests.Abilities
             ItemInventorySpellBaseTestsSpell spell = new(new Mock<ILogger<ItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("item");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -113,7 +113,7 @@ namespace Mud.Server.Tests.Abilities
             ItemInventorySpellBaseTestsSpell spell = new(new Mock<ILogger<ItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("item");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -141,7 +141,7 @@ namespace Mud.Server.Tests.Abilities
             ItemInventorySpellBaseTestsSpell spell = new(new Mock<ILogger<ItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("item");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 
@@ -169,7 +169,7 @@ namespace Mud.Server.Tests.Abilities
             ItemInventorySpellBaseTestsSpell spell = new(new Mock<ILogger<ItemInventorySpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
             var parameters = BuildParameters("item");
-            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null, parameters);
+            SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
 
             var result = spell.Setup(abilityActionInput);
 

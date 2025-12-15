@@ -1,19 +1,14 @@
 INGOING
 DONE
-    FlagFactory and DefineFlagValues POC
-        find a way to 'validate' available flag values,this would replace FlagValues -> flag value for a same flag category could be added in different assembly (like affect or spell/...) and have a kind of manager to handle that
-    Remove FlagFactory and FlagValues
-    RoomManager/ItemManager/CharacterManager must call CheckFlags on blueprints and serialization data
-    AuraManager must call CheckFlags when adding aura
-    FlagsManager could store a list of FlagAffect to ease CheckFlags on FlagAffect ?
+MIGRATION .NET 8
+check all warnings and fix them
+check all obsolete and fix them
+check nullable reference types
+check all properties for nullability (such as Room, ContainedInto, Race, Class, ...)
 
 ==========
 == TODO ==
 ==========
-
-change setters to private in affect and add ctor -> would DI accept multiple ctor one resolvable and another not resolvable
-    ctor(IXXXFactory) <-- used by DI
-    ctor(IXXXFactory, string flags) <-- used in spells
 
 try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
 
@@ -72,15 +67,11 @@ Poison/Plague/... should not specify character for damage source
 
 passives/weapons could be shared instead of transient
 
-rename IAffectManager into IAffectFactory and check if other managers should be renamed into factories such as WeaponEffectManager and EffectManager
-add AffectName in AffectDataBase and use it in AffectFactory.CreateInstance(AffectDataBase data) -> call Activator.CreateInstance with data as parameter
-
 dangerous call sequence (luckily we set Room to NullRoom in the first lines of ctor):
     PlayableCharacter.ctor
         CharacterManager.AddNonPlayableCharacter (when creating pet)
             Room.Recompute
                 Room.ApplyAuras which could kill PlayableCharacter we are trying to create
-CharacterFactory, ItemFactory, RoomFactory to handle characters, items and rooms creation (to avoid new everywhere in the code and replace with DI more easily later if needed)
 
 move GetAbilityLearnedInfo, Regen, RegenBaseValues, OneHit NPC (the end checking skills), ... to Rom24
 
@@ -110,13 +101,6 @@ check usage of OnCleaned/OnRemoved
 stop cloning list and stop removing while iterating -> flag the entity as soft deleted and remove them in Cleanup phase
 
 missing help: use dumpcommands
-
-MIGRATION .NET 8
-check all warnings and fix them
-check all obsolete and fix them
-check nullable reference types
-check all properties for nullability (such as Room, ContainedInto, Race, Class, ...)
-remove yield extension where not needed
 
 UNIT TESTS
 use xunit + moq

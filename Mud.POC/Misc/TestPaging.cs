@@ -11,7 +11,7 @@ namespace Mud.POC.Misc
 
         public TestPaging()
         {
-            _lines = null;
+            _lines = null!;
             _currentLine = 0;
         }
 

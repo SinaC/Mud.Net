@@ -5,8 +5,6 @@ using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
-using System;
-using System.Linq;
 
 namespace Mud.POC.TestNLua
 {
@@ -35,8 +33,8 @@ namespace Mud.POC.TestNLua
                 Name = "battle room",
                 Description = "A battle room",
                 Id = 1,
-                ExtraDescriptions = null,
-                Exits = null,
+                ExtraDescriptions = null!,
+                Exits = null!,
             });
             CharacterManager.AddCharacterBlueprint(new CharacterNormalBlueprint
             {
@@ -47,7 +45,7 @@ namespace Mud.POC.TestNLua
                 //Sex = Sex.Male,
                 ShortDescription = "Big bad mob",
                 LongDescription = "Blah blah blah blah",
-                LootTable = null,
+                LootTable = null!,
                 ScriptTableName = "mob1"
             });
             CharacterManager.AddCharacterBlueprint(new CharacterNormalBlueprint
@@ -59,13 +57,13 @@ namespace Mud.POC.TestNLua
                 //Sex = Sex.Male,
                 ShortDescription = "weak mob",
                 LongDescription = "Tsekwa",
-                LootTable = null,
+                LootTable = null!,
                 ScriptTableName = "mob2"
             });
 
-            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), RoomManager.GetRoomBlueprint(1), AreaManager.Areas.First());
-            ICharacter bigBadMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(1), room);
-            ICharacter weakMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(2), room);
+            IRoom room = RoomManager.AddRoom(Guid.NewGuid(), RoomManager.GetRoomBlueprint(1)!, AreaManager.Areas.First());
+            ICharacter bigBadMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(1)!, room);
+            ICharacter weakMob = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), CharacterManager.GetCharacterBlueprint(2)!, room);
         }
     }
 }

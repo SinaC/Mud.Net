@@ -13,7 +13,7 @@ namespace Mud.POC.TestNLua
     {
         private string FunctionName;
         private string FunctionDoc;
-        private string[] FunctionParameters = null;
+        private string[] FunctionParameters = null!;
 
         public AttrLuaFunc(string strFuncName, string strFuncDoc, params string[] strParamDocs)
         {
@@ -244,7 +244,7 @@ print(tostring(self));
                         // Build a parameter <-> parameter doc hashtable
                         for (int i = 0; i < pPrmInfo.Length; i++)
                         {
-                            pParams.Add(pPrmInfo[i].Name, pPrmDocs[i]);
+                            pParams.Add(pPrmInfo[i].Name!, pPrmDocs[i]);
                         }
 
                         // TODO: fix

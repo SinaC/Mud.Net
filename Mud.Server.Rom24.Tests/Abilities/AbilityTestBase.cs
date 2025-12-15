@@ -38,7 +38,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
             where TGameAction:IGameAction
         {
             Type type = typeof(TGameAction);
-            CommandAttribute commandAttribute = type.GetCustomAttribute<CommandAttribute>();
+            CommandAttribute commandAttribute = type.GetCustomAttribute<CommandAttribute>()!;
             SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
             IEnumerable<AliasAttribute> aliasAttributes = type.GetCustomAttributes<AliasAttribute>();
 
@@ -79,7 +79,7 @@ namespace Mud.Server.Rom24.Tests.Abilities
 
         public class AssemblyHelper : IAssemblyHelper
         {
-            public IEnumerable<Assembly> AllReferencedAssemblies => new[] { typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly };
+            public IEnumerable<Assembly> AllReferencedAssemblies => [typeof(Server.Server).Assembly, typeof(AcidBlast).Assembly];
         }
     }
 }

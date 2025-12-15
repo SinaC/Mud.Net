@@ -68,14 +68,14 @@ end");
 
             //
             ICharacter supahmob = CharacterManager.Characters.First();
-            CharacterScript supahmobScript = scripts.FirstOrDefault(x => x.Character == supahmob);
+            var supahmobScript = scripts.FirstOrDefault(x => x.Character == supahmob);
             ICharacter weakmob = CharacterManager.Characters.Skip(1).First();
-            CharacterScript weakmobScript = scripts.FirstOrDefault(x => x.Character == weakmob);
+            var weakmobScript = scripts.FirstOrDefault(x => x.Character == weakmob);
 
             // Call script from appropriate functions in Server (OnTick)
             foreach (ICharacter character in CharacterManager.Characters)
             {
-                CharacterScript script = scripts.FirstOrDefault(x => x.Character == character);
+                var script = scripts.FirstOrDefault(x => x.Character == character);
                 script?.OnTick();
             }
 

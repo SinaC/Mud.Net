@@ -6,5 +6,5 @@ public class PlayableCharacterData : CharacterData
 {
     public DateTime CreationTime { get; set; }
 
-    public PetData[] Pets { get; set; }
+    public PetData[] Pets { get; set; } = null!;
 }

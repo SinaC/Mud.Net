@@ -41,7 +41,7 @@ public class QuestManager : IQuestManager
             _questBlueprints.Add(blueprint.Id, blueprint);
     }
 
-    public IQuest AddQuest(QuestBlueprint questBlueprint, IPlayableCharacter pc, INonPlayableCharacter questGiver)
+    public IQuest? AddQuest(QuestBlueprint questBlueprint, IPlayableCharacter pc, INonPlayableCharacter questGiver)
     {
         var quest = ServiceProvider.GetRequiredService<IQuest>();
         quest.Initialize(questBlueprint, pc, questGiver);
@@ -50,12 +50,20 @@ public class QuestManager : IQuestManager
         return quest;
     }
 
-    public IQuest AddQuest(CurrentQuestData questData, IPlayableCharacter pc)
+    public IQuest? AddQuest(CurrentQuestData questData, IPlayableCharacter pc)
     {
-        var quest = ServiceProvider.GetRequiredService<IQuest>();
-        quest.Initialize(questData, pc);
-        pc.AddQuest(quest);
+        var questBlueprint = GetQuestBlueprint(questData.QuestId);
+        if (questBlueprint == null)
+        {
+            Logger.LogError("Quest blueprint id {blueprintId} not found!!!", questData.QuestId);
+            return null;
+        }
 
+        var quest = ServiceProvider.GetRequiredService<IQuest>();
+        var initialized = quest.Initialize(questBlueprint, questData, pc);
+        if (!initialized)
+            return null;
+        pc.AddQuest(quest);
         return quest;
     }
 }

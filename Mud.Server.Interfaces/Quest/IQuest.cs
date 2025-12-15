@@ -10,7 +10,7 @@ namespace Mud.Server.Interfaces.Quest;
 public interface IQuest
 {
     void Initialize(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver); // TODO: giver should be ICharacterQuestor
-    void Initialize(CurrentQuestData questData, IPlayableCharacter character);
+    bool Initialize(QuestBlueprint blueprint, CurrentQuestData questData, IPlayableCharacter character);
 
     QuestBlueprint Blueprint { get; }
 

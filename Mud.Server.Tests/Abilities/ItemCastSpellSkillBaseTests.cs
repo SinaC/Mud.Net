@@ -74,7 +74,7 @@ namespace Mud.Server.Tests.Abilities
                 return true;
             }
 
-            protected override string SetTargets(ISkillActionInput skillActionInput)
+            protected override string? SetTargets(ISkillActionInput skillActionInput)
             {
                 return SetupSpell(SpellName, SpellLevel, skillActionInput.Parameters);
             }
