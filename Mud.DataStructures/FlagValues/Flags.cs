@@ -118,7 +118,8 @@ public abstract class Flags<TFlagValues> : IFlags<string, TFlagValues>
 
     #endregion
 
-    public override string ToString() => string.Join(", ", _hashSet.OrderBy(x => x));
+    public override string ToString()
+        => string.Join(", ", _hashSet.OrderBy(x => x));
 
     private bool CheckValues(params string[] flags) => flags.All(x => FlagValues.AvailableValues.Contains(x));
     private bool CheckValues(IFlags<string, TFlagValues> flags) => flags.Values.All(x => FlagValues.AvailableValues.Contains(x));

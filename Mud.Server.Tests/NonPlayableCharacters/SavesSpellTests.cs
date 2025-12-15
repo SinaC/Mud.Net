@@ -4,9 +4,9 @@ using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Flags;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
@@ -24,8 +24,8 @@ namespace Mud.Server.Tests.NonPlayableCharacters
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true);
-            var damageModifierManagerMock = new Mock<IDamageModifierManager>();
-            var victim = GenerateNPC(randomManagerMock.Object, damageModifierManagerMock.Object, "", "", "", "");
+            var resistanceCalculatorMock = new Mock<IResistanceCalculator>();
+            var victim = GenerateNPC(randomManagerMock.Object, resistanceCalculatorMock.Object, "", "", "", "");
 
             bool savesSpell = victim.SavesSpell(10, SchoolTypes.Acid);
 
@@ -40,8 +40,8 @@ namespace Mud.Server.Tests.NonPlayableCharacters
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(false);
-            var damageModifierManagerMock = new Mock<IDamageModifierManager>();
-            var victim = GenerateNPC(randomManagerMock.Object, damageModifierManagerMock.Object, "", "", "", "");
+            var resistanceCalculatorMock = new Mock<IResistanceCalculator>();
+            var victim = GenerateNPC(randomManagerMock.Object, resistanceCalculatorMock.Object, "", "", "", "");
 
             bool savesSpell = victim.SavesSpell(10, SchoolTypes.Acid);
 
@@ -71,9 +71,9 @@ namespace Mud.Server.Tests.NonPlayableCharacters
             randomManagerMock
                 .Setup(x => x.Chance(It.IsAny<int>()))
                 .Returns(true);
-            var damageModifierManagerMock = new Mock<IDamageModifierManager>();
-            damageModifierManagerMock.Setup(x => x.CheckResistance(It.IsAny<ICharacter>(), It.IsAny<SchoolTypes>())).Returns<ICharacter, SchoolTypes>(CheckResistances);
-            var victim = GenerateNPC(randomManagerMock.Object, damageModifierManagerMock.Object, imm, res, vuln, flags);
+            var resistanceCalculatorMock = new Mock<IResistanceCalculator>();
+            resistanceCalculatorMock.Setup(x => x.CheckResistance(It.IsAny<ICharacter>(), It.IsAny<SchoolTypes>())).Returns<ICharacter, SchoolTypes>(CheckResistances);
+            var victim = GenerateNPC(randomManagerMock.Object, resistanceCalculatorMock.Object, imm, res, vuln, flags);
 
             bool savesSpell = victim.SavesSpell(10, damType);
 
@@ -95,7 +95,7 @@ namespace Mud.Server.Tests.NonPlayableCharacters
             return ResistanceLevels.Normal;
         }
 
-        private static INonPlayableCharacter GenerateNPC(IRandomManager randomManager, IDamageModifierManager damageModifierManager, string imm, string res, string vuln, string characterFlags)
+        private static INonPlayableCharacter GenerateNPC(IRandomManager randomManager, IResistanceCalculator resistanceCalculator, string imm, string res, string vuln, string characterFlags)
         {
             var loggerMock = new Mock<ILogger<NonPlayableCharacter>>();
             var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
@@ -124,7 +124,7 @@ namespace Mud.Server.Tests.NonPlayableCharacters
                 ShieldFlags = new ShieldFlags(),
             };
 
-            var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, randomManager, null!, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, damageModifierManager, null!, null!, null!);
+            var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, randomManager, null!, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, resistanceCalculator, null!, null!, null!);
             npc.Initialize(Guid.NewGuid(), blueprint, roomMock.Object);
 
             return npc;

@@ -1,13 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.Domain;
+using Mud.Server.Combat;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Character;
 
-namespace Mud.Server.Rom24.Tests
+namespace Mud.Server.Tests
 {
     [TestClass]
-    public class DamageModifierTests
+    public class ResistanceTests
     {
         [TestMethod]
         [DataRow("Weapon,Magic", "", "", SchoolTypes.None, ResistanceLevels.None)]
@@ -129,13 +130,13 @@ namespace Mud.Server.Rom24.Tests
         [DataRow("", "Magic", "Fire", SchoolTypes.Fire, ResistanceLevels.Normal)]
         public void CheckResistance(string imm, string res, string vuln, SchoolTypes damageType, ResistanceLevels expected)
         {
-            var damagerModifierManager = new DamageModifierManager(new Mock<ILogger<DamageModifierManager>>().Object);
             var victim = new Mock<ICharacter>();
             victim.SetupGet(x => x.Immunities).Returns(new IRVFlags(imm));
             victim.SetupGet(x => x.Resistances).Returns(new IRVFlags(res));
             victim.SetupGet(x => x.Vulnerabilities).Returns(new IRVFlags(vuln));
 
-            var result = damagerModifierManager.CheckResistance(victim.Object, damageType);
+            var calculator = new ResistanceCalculator(new Mock<ILogger<ResistanceCalculator>>().Object);
+            var result = calculator.CheckResistance(victim.Object, damageType);
 
             Assert.AreEqual(expected, result);
         }

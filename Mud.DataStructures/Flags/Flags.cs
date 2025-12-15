@@ -23,24 +23,23 @@ public class Flags : IFlags<string>
     public bool IsSet(string flag)
         => _hashSet.Contains(flag);
 
+    public bool HasAny(IFlags<string> flags)
+        => flags.Values.Any(_hashSet.Contains);
+
     public bool HasAny(params string[] flags)
         => flags.Any(_hashSet.Contains);
 
     public bool HasAny(IEnumerable<string> flags)
         => flags.Any(_hashSet.Contains);
 
+    public bool HasAll(IFlags<string> flags)
+        => flags.Values.All(_hashSet.Contains);
+
     public bool HasAll(params string[] flags)
         => flags.All(_hashSet.Contains);
 
     public bool HasAll(IEnumerable<string> flags)
         => flags.All(_hashSet.Contains);
-
-    public void Set(string flags)
-    {
-        if (string.IsNullOrWhiteSpace(flags))
-            return;
-        Set(flags.Split(','));
-    }
 
     public void Set(IFlags<string> flags)
     {
@@ -49,6 +48,13 @@ public class Flags : IFlags<string>
             foreach (var flag in flags.Values)
                 _hashSet.Add(flag);
         }
+    }
+
+    public void Set(string flags)
+    {
+        if (string.IsNullOrWhiteSpace(flags))
+            return;
+        Set(flags.Split(','));
     }
 
     public void Set(params string[] flags)
@@ -60,13 +66,6 @@ public class Flags : IFlags<string>
         }
     }
 
-    public void Unset(string flags)
-    {
-        if (string.IsNullOrWhiteSpace(flags))
-            return;
-        Unset(flags.Split(','));
-    }
-
     public void Unset(IFlags<string> flags)
     {
         if (flags != null)
@@ -74,6 +73,13 @@ public class Flags : IFlags<string>
             foreach (string flag in flags.Values)
                 _hashSet.Remove(flag);
         }
+    }
+
+    public void Unset(string flags)
+    {
+        if (string.IsNullOrWhiteSpace(flags))
+            return;
+        Unset(flags.Split(','));
     }
 
     public void Unset(params string[] flags)
@@ -98,15 +104,6 @@ public class Flags : IFlags<string>
 
     #endregion
 
-    public bool HasAny(Flags flags) => flags.Values.Any(x => _hashSet.Contains(x));
-
-    public bool HasAll(Flags flags) => flags.Values.All(x => _hashSet.Contains(x));
-
-    public void Set(Flags flags)
-    {
-        _hashSet.UnionWith(flags.Values);
-    }
-
     public static bool TryParse(string s, out Flags flags) // TryParse never fails :p
     {
         flags = new Flags();
@@ -126,4 +123,7 @@ public class Flags : IFlags<string>
         flags.Set(s.Split(','));
         return flags;
     }
+
+    public override string ToString()
+        => string.Join(", ", _hashSet.OrderBy(x => x));
 }

@@ -18,6 +18,7 @@ using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
@@ -57,8 +58,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly List<INonPlayableCharacter> _pets;
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IAbilityGroupManager abilityGroupManager, IFlagsManager flagsManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagsManager, wiznet)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IAbilityGroupManager abilityGroupManager, IFlagsManager flagsManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, weaponEffectManager, flagsManager, wiznet)
     {
         WorldOptions = worldOptions;
         ClassManager = classManager;
