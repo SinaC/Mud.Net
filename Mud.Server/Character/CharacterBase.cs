@@ -1421,6 +1421,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
 
         var from = Room;
+        var pc = this as IPlayableCharacter;
 
         // Try 6 times to find an exit
         for (int attempt = 0; attempt < 6; attempt++)
@@ -1429,7 +1430,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
             var exit = Room.Exits[(int) randomExit];
             var destination = exit?.Destination;
             if (destination != null && exit?.IsClosed == false
-                                    && !(this is INonPlayableCharacter && destination.RoomFlags.IsSet("NoMob")))
+                                    && !(pc != null && (pc.ImpersonatedBy == null || RandomManager.Range(0, pc.ImpersonatedBy.Daze) != 0))
+                                    && !(pc == null
+                                    && destination.RoomFlags.IsSet("NoMob")))
             {
                 // Try to move without checking if in combat or not
                 Move(randomExit, false, false); // followers will not follow
@@ -1441,7 +1444,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                     Send("You flee from combat!");
                     Act(from.People, "{0} has fled!", this);
 
-                    if (this is IPlayableCharacter pc)
+                    if (pc != null)
                     {
                         Send("You lost 10 exp.");
                         pc.GainExperience(-10);

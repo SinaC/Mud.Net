@@ -1008,6 +1008,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 string? command = null;
                 try
                 {
+                    if (playingClient.Player.Daze > 0) // if player is dizzy, decrease it
+                        playingClient.Player.DecreaseDaze();
                     if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
                         playingClient.Player.DecreaseGlobalCooldown();
                     else

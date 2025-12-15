@@ -40,7 +40,8 @@ public class ShockEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
         if (!victim.SavesSpell(level / 4 + modifier / 20, SchoolTypes.Lightning))
         {
             victim.Send("Your muscles stop responding.");
-            // TODO: set Daze to Math.Max(12, level/4 + modifier/20)
+            var daze = Math.Max(level + 4 + modifier / 20, 12);
+            (victim as IPlayableCharacter)?.ImpersonatedBy?.SetDaze(daze);
         }
         // toast some gear
         var clone = new ReadOnlyCollection<IItem>(victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToList());
