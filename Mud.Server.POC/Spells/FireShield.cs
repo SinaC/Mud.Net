@@ -1,11 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Affects.Character;
 using Mud.Server.Flags;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
+using Mud.Server.POC.Affects;
 using Mud.Server.Random;
 
 namespace Mud.Server.POC.Spells;
@@ -13,7 +16,7 @@ namespace Mud.Server.POC.Spells;
 [Spell(SpellName, AbilityEffects.Buff)]
 [AbilityCharacterWearOffMessage("Your firey shield gutters out.")]
 [Syntax("cast [spell] <character>")]
-public class FireShield : ShieldFlagsSpellBase
+public class FireShield : CharacterBuffSpellBase
 {
     private const string SpellName = "Fire Shield";
 
@@ -22,10 +25,16 @@ public class FireShield : ShieldFlagsSpellBase
     {
     }
 
-    protected override IShieldFlags ShieldFlags => new ShieldFlags("FireShield");
-    protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
-    protected override string SelfAlreadyAffected => "You are already surrounded by a %R%firey%x% shield.";
-    protected override string NotSelfAlreadyAffected => "{0:N} {0:b} already surrounded by a %R%firey%x% shield.";
-    protected override string SelfSuccess => "You are surrounded by a %R%fiery%x% shield.";
-    protected override string NotSelfSuccess => "{0:N} is surrounded by a %R%fiery%x% shield.";
+    protected override string SelfAlreadyAffectedMessage => "You are already surrounded by a %R%firey%x% shield.";
+    protected override string NotSelfAlreadyAffectedMessage => "{0:N} {0:b} already surrounded by a %R%firey%x% shield.";
+    protected override string VictimAffectMessage => "You are surrounded by a %R%fiery%x% shield.";
+    protected override string CasterAffectMessage => "{0:N} is surrounded by a %R%fiery%x% shield.";
+
+    protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo
+        => (Level, TimeSpan.FromMinutes(Level / 6),
+        new IAffect[]
+        {
+            new CharacterShieldFlagsAffect{ Modifier = new ShieldFlags("FireShield"), Operator = AffectOperators.Or },
+            new FireShieldAfterHitAffect(RandomManager)
+        });
 }

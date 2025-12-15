@@ -7,6 +7,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Affects;
 using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common.Helpers;
@@ -15,9 +16,11 @@ using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
@@ -41,13 +44,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 {
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
+    private IAffectManager AffectManager { get; }
     private ISpecialBehaviorManager SpecialBehaviorManager { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, weaponEffectManager, damageModifierManager, hitAfterDamageManager, flagsManager, wiznet)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IFlagsManager flagsManager, IAffectManager affectManager, ISpecialBehaviorManager specialBehaviorManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, weaponEffectManager, flagsManager, wiznet)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
+        AffectManager = affectManager;
         SpecialBehaviorManager = specialBehaviorManager;
     }
 
@@ -324,6 +329,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
         if (victim == null)
             return;
+
         // no attacks for stunnies
         if (Stunned > 0)
         {
@@ -808,21 +814,24 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             // TODO: code copied from sanctuary spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Sanctuary"];
             AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("Sanctuary"), Operator = AffectOperators.Or });
+                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("Sanctuary"), Operator = AffectOperators.Or },
+                AffectManager.CreateInstance("Sanctuary"));
         }
         if (blueprint.ShieldFlags.IsSet("ProtectGood"))
         {
             // TODO: code copied from protection good spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Good"];
             AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectGood"), Operator = AffectOperators.Or });
+                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectGood"), Operator = AffectOperators.Or },
+                AffectManager.CreateInstance("ProtectGood"));
         }
         if (blueprint.ShieldFlags.IsSet("ProtectEvil"))
         {
             // TODO: code copied from protection evil spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Evil"];
             AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectEvil"), Operator = AffectOperators.Or });
+                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectEvil"), Operator = AffectOperators.Or },
+                AffectManager.CreateInstance("ProtectEvil"));
         }
         // TODO: other shields like FireShield, IceShield, LightningShield
         if (blueprint.CharacterFlags.IsSet("Haste") || blueprint.OffensiveFlags.IsSet("Fast"))

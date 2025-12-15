@@ -1,13 +1,16 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Affects.Character;
 using Mud.Server.Common;
 using Mud.Server.Flags;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
+using Mud.Server.Rom24.Affects;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -19,7 +22,7 @@ namespace Mud.Server.Rom24.Spells;
 @"The SANCTUARY spell reduces the damage taken by the character from any attack
 by one half.")]
 [OneLineHelp("reduces all damage taken by the recipient by half")]
-public class Sanctuary : ShieldFlagsSpellBase
+public class Sanctuary : CharacterBuffSpellBase
 {
     private const string SpellName = "Sanctuary";
 
@@ -28,10 +31,16 @@ public class Sanctuary : ShieldFlagsSpellBase
     {
     }
 
-    protected override IShieldFlags ShieldFlags => new ShieldFlags("Sanctuary");
-    protected override TimeSpan Duration => TimeSpan.FromMinutes(Level / 6);
-    protected override string SelfAlreadyAffected => "You are already in sanctuary.";
-    protected override string NotSelfAlreadyAffected => "{0:N} is already in sanctuary.";
-    protected override string SelfSuccess => "You are surrounded by a white aura.";
-    protected override string NotSelfSuccess => "{0:N} is surrounded by a white aura.";
+    protected override string SelfAlreadyAffectedMessage => "You are already in sanctuary.";
+    protected override string NotSelfAlreadyAffectedMessage => "{0:N} is already in sanctuary.";
+    protected override string VictimAffectMessage => "You are surrounded by a %W%white%x% aura.";
+    protected override string CasterAffectMessage => "{0:N} is surrounded by a %W%white%x% aura.";
+
+    protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo
+        => (Level, TimeSpan.FromMinutes(Level / 6),
+        new IAffect[]
+        {
+            new CharacterShieldFlagsAffect{ Modifier = new ShieldFlags("Sanctuary"), Operator = AffectOperators.Or },
+            new SanctuaryDamageModifierAffect()
+        });
 }

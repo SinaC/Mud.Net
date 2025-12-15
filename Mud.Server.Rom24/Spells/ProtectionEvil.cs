@@ -10,6 +10,7 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
+using Mud.Server.Rom24.Affects;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -41,7 +42,8 @@ public class ProtectionEvil : CharacterBuffSpellBase
         new IAffect[] 
         {
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.SavingThrow, Modifier = -1, Operator = AffectOperators.Add },
-            new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectEvil"), Operator = AffectOperators.Or }
+            new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectEvil"), Operator = AffectOperators.Or },
+            new ProtectionEvilDamageModifierAffect()
         });
     
 }

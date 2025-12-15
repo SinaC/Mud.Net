@@ -17,6 +17,7 @@ using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
@@ -53,13 +54,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IItemManager ItemManager { get; }
     protected ICharacterManager CharacterManager { get; }
     protected IAuraManager AuraManager { get; }
+    protected IResistanceCalculator ResistanceCalculator { get; }
     protected IWeaponEffectManager WeaponEffectManager { get; }
-    protected IDamageModifierManager DamageModifierManager { get; }
-    protected IHitAfterDamageManager HitAfterDamageManager { get; }
     protected IFlagsManager FlagsManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IDamageModifierManager damageModifierManager, IHitAfterDamageManager hitAfterDamageManager, IFlagsManager flagsManager, IWiznet wiznet)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         RandomManager = randomManager;
@@ -68,9 +68,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         ItemManager = itemManager;
         CharacterManager = characterManager;
         AuraManager = auraManager;
+        ResistanceCalculator = resistanceCalculator;
         WeaponEffectManager = weaponEffectManager;
-        DamageModifierManager = damageModifierManager;
-        HitAfterDamageManager = hitAfterDamageManager;
         FlagsManager = flagsManager;
         Wiznet = wiznet;
 
@@ -1191,7 +1190,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return Damage(source, damage, damageType, damageNoun ?? "hit", display);
     }
 
-
     public IItemCorpse? RawKilled(ICharacter? killer, bool payoff)
     {
         if (!IsValid)
@@ -1240,7 +1238,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         var save = 50 + (victim.Level - level) * 5 - victim[CharacterAttributes.SavingThrow] * 2;
         if (victim.CharacterFlags.IsSet("Berserk"))
             save += victim.Level / 2;
-        var resistanceResult = DamageModifierManager.CheckResistance(victim, damageType);
+        var resistanceResult = ResistanceCalculator.CheckResistance(victim, damageType);
         switch (resistanceResult)
         {
             case ResistanceLevels.Immune:
@@ -2075,10 +2073,17 @@ public abstract class CharacterBase : EntityBase, ICharacter
             }
         }
 
-        // shield ?
+        // after hit affects ?
         if (damageResult == DamageResults.Done)
         {
-            HitAfterDamageManager.OnHit(this, victim);
+            // any damage modifier on affects on victim ?
+            var characterAfterHitAffects = victim.Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterAfterHitAffect>()).ToArray();
+            foreach (var characterAfterHitAffect in characterAfterHitAffects)
+            {
+                characterAfterHitAffect.AfterHit(this, victim);
+                if (Fighting != victim) // stop if not anymore fighting
+                    return;
+            }
         }
     }
 
@@ -2372,7 +2377,37 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // damage modifiers
-        var resistanceLevel = DamageModifierManager.ModifyDamage(source, this, damageType, ref damage);
+
+        // damage reduction
+        if (damage > 35)
+            damage = (damage - 35) / 2 + 35;
+        if (damage > 80)
+            damage = (damage - 80) / 2 + 80;
+
+        if (damage > 1 && this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
+            damage -= damage / 10;
+
+        // any damage modifier on affects ?
+        var characterDamageModifierAffects = Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterDamageModifierAffect>()).ToArray();
+        foreach (var characterDamageModifierAffect in characterDamageModifierAffects) // every modifier is multiplicate, so order doesn't matter
+        {
+            damage = characterDamageModifierAffect.ModifyDamage(source, this, damageType, damage);
+        }
+
+        // apply resistances
+        var resistanceLevel = ResistanceCalculator.CheckResistance(this, damageType);
+        switch (resistanceLevel)
+        {
+            case ResistanceLevels.Immune:
+                damage = 0;
+                break;
+            case ResistanceLevels.Resistant:
+                damage -= damage / 3;
+                break;
+            case ResistanceLevels.Vulnerable:
+                damage += damage / 2;
+                break;
+        }
 
         // display
         if (display)

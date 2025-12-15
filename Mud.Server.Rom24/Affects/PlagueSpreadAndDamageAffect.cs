@@ -3,7 +3,6 @@ using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
 using Mud.Server.Affects.Character;
 using Mud.Server.Flags;
-using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -12,9 +11,11 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Affects;
 
-[Affect("Plague", typeof(PlagueSpreadAndDamageAffectData))]
-public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect, ICustomAffect
+[Affect(AffectName, typeof(NoAffectData))]
+public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect
 {
+    private const string AffectName = "Plague";
+
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
 
@@ -24,11 +25,6 @@ public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect, ICustomAffe
         AuraManager = auraManager;
     }
 
-    public void Initialize(AffectDataBase data)
-    {
-        //TODO: PlagueSpreadAndDamageAffectData
-    }
-
     public void Append(StringBuilder sb)
     {
         sb.Append("%c%applies %r%disease%x% damage periodically");
@@ -36,7 +32,7 @@ public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect, ICustomAffe
 
     public AffectDataBase MapAffectData()
     {
-        return new PlagueSpreadAndDamageAffectData();
+        return new NoAffectData { AffectName = AffectName };
     }
 
     public void Apply(IAura aura, ICharacter character)

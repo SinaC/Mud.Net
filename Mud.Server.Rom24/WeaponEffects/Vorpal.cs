@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
 using Mud.Server.Effects;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
@@ -14,13 +14,13 @@ public class Vorpal : IInstantDeathWeaponEffect
 {
     private ILogger<Vorpal> Logger { get; }
     private IRandomManager RandomManager { get; }
-    private IDamageModifierManager DamageModifierManager { get; }
+    private IResistanceCalculator ResistanceCalculator { get; }
 
-    public Vorpal(ILogger<Vorpal> logger, IRandomManager randomManager, IDamageModifierManager damageModifierManager)
+    public Vorpal(ILogger<Vorpal> logger, IRandomManager randomManager, IResistanceCalculator resistanceCalculator)
     {
         Logger = logger;
         RandomManager = randomManager;
-        DamageModifierManager = damageModifierManager;
+        ResistanceCalculator = resistanceCalculator;
     }
 
     public bool Trigger(ICharacter holder, ICharacter victim, IItemWeapon weapon, SchoolTypes damageType)
@@ -34,7 +34,7 @@ public class Vorpal : IInstantDeathWeaponEffect
         if (victim.BodyParts.IsSet("Head")
             && !(victim is IPlayableCharacter pcVictim && pcVictim.IsImmortal))
         {
-            ResistanceLevels resistanceLevel = DamageModifierManager.CheckResistance(victim, damageType);
+            var resistanceLevel = ResistanceCalculator.CheckResistance(victim, damageType);
             var chance = resistanceLevel switch
             {
                 ResistanceLevels.Immune => 0,

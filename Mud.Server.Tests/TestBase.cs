@@ -6,10 +6,10 @@ using Mud.Server.Blueprints.Item;
 using Mud.Server.Blueprints.Room;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Flags;
-using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
@@ -51,7 +51,7 @@ namespace Mud.Server.Tests
             var messageForwardOptions = Microsoft.Extensions.Options.Options.Create(new MessageForwardOptions { ForwardSlaveMessages = false, PrefixForwardedMessages = false });
             var classManagerMock = new Mock<IClassManager>();
             var raceManagerMock = new Mock<IRaceManager>();
-            var damageModifierManagerMock = new Mock<IDamageModifierManager>();
+            var resistanceCalculatorMock = new Mock<IResistanceCalculator>();
             var randomManagerMock = new Mock<IRandomManager>();
             var tableValuesMock = new Mock<ITableValues>();
 
@@ -61,7 +61,7 @@ namespace Mud.Server.Tests
             tableValuesMock.Setup(x => x.HitBonus(It.IsAny<ICharacter>())).Returns(blueprint.Level-5);
             tableValuesMock.Setup(x => x.DamBonus(It.IsAny<ICharacter>())).Returns(blueprint.Level-20);
 
-            var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, randomManagerMock.Object, tableValuesMock.Object, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, damageModifierManagerMock.Object, null!, null!, null!);
+            var npc = new NonPlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, randomManagerMock.Object, tableValuesMock.Object, null!, null!, null!, null!, null!, null!, raceManagerMock.Object, classManagerMock.Object, resistanceCalculatorMock.Object, null!, null!, null!);
             npc.Initialize(Guid.NewGuid(), blueprint, room);
 
             return npc;

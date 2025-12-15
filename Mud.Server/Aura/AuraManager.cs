@@ -4,7 +4,6 @@ using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
-using Mud.Server.Commands.Character.Item;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;

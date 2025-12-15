@@ -6,6 +6,7 @@ using Mud.Server.Character.PlayableCharacter;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Race;
@@ -28,7 +29,7 @@ namespace Mud.Server.Tests.PlayableCharacters
             var characterManagerMock = new Mock<ICharacterManager>();
             var classManagerMock = new Mock<IClassManager>();
             var raceManagerMock = new Mock<IRaceManager>();
-            var damageModifierManagerMock = new Mock<IDamageModifierManager>();
+            var resistanceCalculatorMock = new Mock<IResistanceCalculator>();
             var wiznetMock = new Mock<IWiznet>();
 
             var playerMock = new Mock<IPlayer>();
@@ -78,7 +79,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Pets = []
             };
 
-            var pc = new PlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, damageModifierManagerMock.Object, null!, null!, null!);
+            var pc = new PlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!);
             pc.Initialize(Guid.NewGuid(), pcData, playerMock.Object, roomMock.Object);
             pc.AbilityDamage(pc, 100000, SchoolTypes.Poison, "poison", false);
 
