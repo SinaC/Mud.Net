@@ -188,6 +188,8 @@ public class Player : ActorBase, IPlayer
 
     public string DisplayName => Name.UpperFirstLetter();
 
+    public int Daze { get; protected set; } // delay (in Pulse) while in dizzy state (less ability %, less chance to flee)
+
     public int GlobalCooldown { get; protected set; } // delay (in Pulse) before next action
 
     public int PagingLineCount { get; protected set; }
@@ -261,6 +263,16 @@ public class Player : ActorBase, IPlayer
         else
             Send("You are now in %G%AFK%x% mode.");
         IsAfk = !IsAfk;
+    }
+
+    public void DecreaseDaze() // decrease one by one
+    {
+        Daze = Math.Max(Daze - 1, 0);
+    }
+    
+    public void SetDaze(int pulseCount) // set daze delay (in pulse)
+    {
+        Daze = pulseCount;
     }
 
     public void DecreaseGlobalCooldown() // decrease one by one
@@ -409,6 +421,7 @@ public class Player : ActorBase, IPlayer
         sb.AppendLine($"IsAfk: {IsAfk}");
         sb.AppendLine($"PlayerState: {PlayerState}");
         sb.AppendLine($"GCD: {GlobalCooldown}");
+        sb.AppendLine($"DAZE: {Daze}");
         sb.AppendLine($"Aliases: {Aliases?.Count ?? 0}");
         sb.AppendLine($"Avatars: {_avatarList?.Count ?? 0}");
         sb.AppendLine($"SnoopBy: {SnoopBy?.DisplayName ?? "none"}");

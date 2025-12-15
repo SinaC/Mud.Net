@@ -92,7 +92,7 @@ public class Bash : OffensiveSkillBase
         {
             User.Act(ActOptions.ToCharacter, "%W%You slam into {0}, and send {0:m} flying!%x%", Victim);
             User.Act(ActOptions.ToRoom, "%W%{0:N} sends {1} sprawling with a powerful bash%x%.", User, Victim);
-            // TODO: Victim daze
+            (Victim as IPlayableCharacter)?.ImpersonatedBy?.SetDaze(3 * Pulse.PulseViolence);
             Victim.ChangePosition(Positions.Resting);
             int damage = RandomManager.Range(2, 2 + 2 * (int)User.Size + chance / 20);
             Victim.AbilityDamage(User, damage, SchoolTypes.Bash, "bash", false);

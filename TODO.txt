@@ -1,10 +1,6 @@
 INGOING
 DONE
-MIGRATION .NET 8
-check all warnings and fix them
-check all obsolete and fix them
-check nullable reference types
-check all properties for nullability (such as Room, ContainedInto, Race, Class, ...)
+    Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 
 ==========
 == TODO ==
@@ -116,6 +112,7 @@ make a map of calls done when a NPC is Removed/StopFollowing/...
 commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
+-> hard to do because game actions are generated once
 
 module/plugin to enable load on demand of skills/spells/commands/...
 
@@ -152,7 +149,6 @@ make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
 Idea: move HP and moves in ResourceKinds
 Use SafeList where List is used
-Add daze to IPlayableCharacter: will be decreased like GCD and affects skill effectiveness
 store an Aura list in World this will avoid looping on all room/character/item to check aura
 redo DoScore, DoAffects
 check if IStat, MStat and RStat display new informations
