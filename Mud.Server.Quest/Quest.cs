@@ -26,17 +26,15 @@ public class Quest : IQuest
     private IItemManager ItemManager { get; }
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
-    private IQuestManager QuestManager { get; }
     private int MaxLevel { get; }
 
-    public Quest(ILogger<Quest> logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IQuestManager questManager)
+    public Quest(ILogger<Quest> logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager)
     {
         Logger = logger;
         TimeManager = timeManager;
         ItemManager = itemManager;
         RoomManager = roomManager;
         CharacterManager = characterManager;
-        QuestManager = questManager;
         MaxLevel = worldOptions.Value.MaxLevel;
 
         _objectives = [];
@@ -53,14 +51,12 @@ public class Quest : IQuest
         BuildObjectives(blueprint, character);
     }
 
-    public void Initialize(CurrentQuestData questData, IPlayableCharacter character)
+    public bool Initialize(QuestBlueprint blueprint, CurrentQuestData questData, IPlayableCharacter character)
     {
         Character = character;
 
         // Extract informations from QuestData
-        var questBlueprint = QuestManager.GetQuestBlueprint(questData.QuestId);
-        // TODO: quid if blueprint is null?
-        Blueprint = questBlueprint;
+        Blueprint = blueprint;
         StartTime = questData.StartTime;
         PulseLeft = questData.PulseLeft;
         CompletionTime = questData.CompletionTime;
@@ -69,6 +65,7 @@ public class Quest : IQuest
         if (characterQuestorBlueprint == null)
         {
             Logger.LogError("Quest giver blueprint id {giverId} not found!!!", questData.GiverId);
+            return false;
         }
         else
         {
@@ -76,13 +73,13 @@ public class Quest : IQuest
             if (giver == null)
             {
                 Logger.LogError("Quest giver blueprint id {blueprintId} room blueprint Id {giverRoomId} not found!!!", questData.GiverId, questData.GiverRoomId);
+                return false;
             }
             else
                 Giver = giver;
         }
-        // TODO: if Giver is null, player will not be able to complete quest
 
-        BuildObjectives(questBlueprint, character);
+        BuildObjectives(blueprint, character);
         foreach (CurrentQuestObjectiveData objectiveData in questData.Objectives)
         {
             // Search objective
@@ -101,6 +98,7 @@ public class Quest : IQuest
                     break;
             }
         }
+        return true;
     }
 
     #region IQuest

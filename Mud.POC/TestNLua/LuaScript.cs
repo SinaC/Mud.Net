@@ -17,10 +17,10 @@ namespace Mud.POC.TestNLua
             _table = lua.GetTable(tableName);
         }
 
-        protected LuaFunction GetLuaFunction([CallerMemberName] string fctName = null)
+        protected LuaFunction? GetLuaFunction([CallerMemberName] string fctName = null!)
         {
             Debug.WriteLine($"DEBUG: LuaScript::GetLuaFunction: Entity [{Entity}] fctName [{fctName}]");
-            LuaFunction function = _table?[fctName] as LuaFunction;
+            var function = _table?[fctName] as LuaFunction;
             return function;
         }
     }

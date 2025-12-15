@@ -61,7 +61,7 @@ namespace Mud.POC.TestNLua
                 throw new InvalidOperationException("RecursiveTriger");
             _triggerCallCount++;
             Debug.WriteLine("DEBUG: ComplexEntityScript:Trigger");
-            LuaFunction luaFunction = GetLuaFunction("Trigger");
+            var luaFunction = GetLuaFunction("Trigger");
             luaFunction?.Call(Entity, param1, param2);
         }
     }
@@ -90,7 +90,7 @@ namespace Mud.POC.TestNLua
             _triggerCallCount++;
 
             Debug.WriteLine("DEBUG: CorrectComplexEntityScript:Trigger");
-            LuaFunction luaFunction = GetLuaFunction("Trigger");
+            var luaFunction = GetLuaFunction("Trigger");
             luaFunction?.Call(this, param1, param2); // Don't use 'Entity' as 'self' to avoid giving access to non-public methods
         }
     }
@@ -131,7 +131,7 @@ namespace Mud.POC.TestNLua
             _triggerCallCount++;
 
             Debug.WriteLine("DEBUG: CorrectComplexEntityScript:Trigger");
-            LuaFunction luaFunction = GetLuaFunction("Trigger");
+            var luaFunction = GetLuaFunction("Trigger");
             luaFunction?.Call(_luaComplexEntity, param1, param2); // Don't use 'Entity' neither 'this' as 'self' to avoid giving access to non-public methods and avoid recursive call
         }
     }
