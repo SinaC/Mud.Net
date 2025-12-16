@@ -97,7 +97,7 @@ public class Info : AdminGameAction
 
         if (DisplayNpcRaces)
         {
-            var sb = TableGenerators.RaceTableGenerator.Value.Generate("NPC Races", 2, RaceManager.Races);
+            var sb = TableGenerators.RaceTableGenerator.Value.Generate("NPC Races", new TableGeneratorOptions { ColumnRepetionCount = 2 }, RaceManager.Races);
             Actor.Page(sb);
             return;
         }

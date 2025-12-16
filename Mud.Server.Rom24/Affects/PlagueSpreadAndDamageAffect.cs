@@ -1,5 +1,4 @@
 ﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
 using Mud.Server.Affects.Character;
 using Mud.Server.Flags;
@@ -11,11 +10,9 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Affects;
 
-[Affect(AffectName, typeof(NoAffectData))]
-public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect
+[AffectNoData("Plague")]
+public class PlagueSpreadAndDamageAffect : NoAffectDataAffectBase, ICharacterPeriodicAffect
 {
-    private const string AffectName = "Plague";
-
     private IRandomManager RandomManager { get; }
     private IAuraManager AuraManager { get; }
 
@@ -25,14 +22,9 @@ public class PlagueSpreadAndDamageAffect : ICharacterPeriodicAffect
         AuraManager = auraManager;
     }
 
-    public void Append(StringBuilder sb)
+    public override void Append(StringBuilder sb)
     {
         sb.Append("%c%applies %r%disease%x% damage periodically");
-    }
-
-    public AffectDataBase MapAffectData()
-    {
-        return new NoAffectData { AffectName = AffectName };
     }
 
     public void Apply(IAura aura, ICharacter character)

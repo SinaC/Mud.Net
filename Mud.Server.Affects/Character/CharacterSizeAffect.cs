@@ -12,10 +12,6 @@ public class CharacterSizeAffect : ICharacterSizeAffect
 {
     public Sizes Value { get; set; }
 
-    public CharacterSizeAffect()
-    {
-    }
-
     public void Initialize(CharacterSizeAffectData data)
     {
         Value = data.Value;

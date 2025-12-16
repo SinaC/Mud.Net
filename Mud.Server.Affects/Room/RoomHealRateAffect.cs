@@ -14,10 +14,6 @@ public class RoomHealRateAffect : IRoomHealRateAffect
 
     public AffectOperators Operator { get; set; }
 
-    public RoomHealRateAffect()
-    {
-    }
-
     public void Initialize(RoomHealRateAffectData data)
     {
         Modifier = data.Modifier;

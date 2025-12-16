@@ -20,7 +20,7 @@ public class Uniqueness : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        var sb = TableGenerators.UnavailableNamesTableGenerator.Value.Generate("Unavailable names", 3, UniquenessManager.UnavailableNames);
+        var sb = TableGenerators.UnavailableNamesTableGenerator.Value.Generate("Unavailable names", new TableGeneratorOptions { ColumnRepetionCount = 3 }, UniquenessManager.UnavailableNames);
         Actor.Page(sb);
     }
 }

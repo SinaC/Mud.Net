@@ -231,11 +231,11 @@ public class Help : ActorGameAction
             {
                 sb.AppendLine(@class.Help);
             }
-            var basicAbilityGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Basics", 3, @class.BasicAbilityGroups);
+            var basicAbilityGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Basics", new TableGeneratorOptions { ColumnRepetionCount = 3 }, @class.BasicAbilityGroups);
             sb.Append(basicAbilityGroups);
-            var defaultAbilityGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Default", 3, @class.DefaultAbilityGroups);
+            var defaultAbilityGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Default", new TableGeneratorOptions { ColumnRepetionCount = 3 }, @class.DefaultAbilityGroups);
             sb.Append(defaultAbilityGroups);
-            var availableAbilityGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Available", 3, @class.AvailableAbilityGroups.OrderByDescending(x => x.Cost).ThenBy(x => x.Name));
+            var availableAbilityGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Available", new TableGeneratorOptions { ColumnRepetionCount = 3 }, @class.AvailableAbilityGroups.OrderByDescending(x => x.Cost).ThenBy(x => x.Name));
             sb.Append(availableAbilityGroups);
             sb.AppendLine();
         }
@@ -252,12 +252,12 @@ public class Help : ActorGameAction
             }
             if (abilityGroup.AbilityDefinitions.Any())
             {
-                var abilities = TableGenerators.AbilityDefinitionTableGenerator.Value.Generate("Abilities", true, abilityGroup.AbilityDefinitions);
+                var abilities = TableGenerators.AbilityDefinitionTableGenerator.Value.Generate("Abilities", new TableGeneratorOptions { HideHeaders = true }, abilityGroup.AbilityDefinitions);
                 sb.Append(abilities);
             }
             if (abilityGroup.AbilityGroupDefinitions.Any())
             {
-                var subAbilityGroups = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", true, abilityGroup.AbilityGroupDefinitions);
+                var subAbilityGroups = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", new TableGeneratorOptions { HideHeaders= true }, abilityGroup.AbilityGroupDefinitions);
                 sb.Append(subAbilityGroups);
             }
         }

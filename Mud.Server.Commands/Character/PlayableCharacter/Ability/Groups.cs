@@ -51,7 +51,7 @@ public class Groups : PlayableCharacterGameAction
     {
         if (Display)
         {
-            var sb = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", true, AbilityGroupManager.AbilityGroups.OrderBy(x => x.Name));
+            var sb = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", new TableGeneratorOptions { HideHeaders = true }, AbilityGroupManager.AbilityGroups.OrderBy(x => x.Name));
             Actor.Page(sb);
         }
         else
@@ -64,12 +64,12 @@ public class Groups : PlayableCharacterGameAction
             }
             if (AbilityGroupDefinition.AbilityDefinitions.Any())
             {
-                var abilities = TableGenerators.AbilityDefinitionTableGenerator.Value.Generate("Abilities", true, AbilityGroupDefinition.AbilityDefinitions);
+                var abilities = TableGenerators.AbilityDefinitionTableGenerator.Value.Generate("Abilities", new TableGeneratorOptions { HideHeaders = true }, AbilityGroupDefinition.AbilityDefinitions);
                 sb.Append(abilities);
             }
             if (AbilityGroupDefinition.AbilityGroupDefinitions.Any())
             {
-                var subAbilityGroups = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", true, AbilityGroupDefinition.AbilityGroupDefinitions);
+                var subAbilityGroups = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", new TableGeneratorOptions { HideHeaders = true }, AbilityGroupDefinition.AbilityGroupDefinitions);
                 sb.Append(subAbilityGroups);
             }
             Actor.Page(sb);

@@ -1,19 +1,29 @@
 INGOING
 DONE
-    Handle shield on hit differenty
-    Handle shields reduction damage with affects
-    Affect flags are not displayed correctly
-    NoAffectData added, can be used as AffectDataType -> class using that attribute must return new NoAffectData { AffectName } on MapAffectData
-    avoid creating a new AffectDataBase for each new affect if no additional data
-        should be able to use a NoAffectData -> issue because XXXAffectData is used to choose which affect to instantiate -> add name in NoAffectData and special case if NoAffectData use AffectDefinitionByName instead of AffectDefinitionByDataType in CreateInstance(AffectDataBase affectData)
+    add NoAffectData affect base class implementing MapAffectData
+    table generator when repeating columns, should not repeat separator
 
 ==========
 == TODO ==
 ==========
 
+    haste should add a new Affect AdditionalHitAffect
+        -> how to handle base flags haste on PC, we don't want to add a permanent aura like we do on NPC
+
+multitable generator, paging a table should repeat the header at the beginning of each page
+
 try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
 
-rage
+When an item quest objective is complete, quest item should be NoTake or should be invisible
+quest: add quest item on the fly when player takes the quest or reconnect
+automated quests
+quest history
+quest save completed quests
+      quest tree (prereq)
+      repeteable or not quests
+      autogenerate
+
+rage -> use handler ? OnDamageReceived and OnDamagePerformed ?
 https://vanilla-wow-archive.fandom.com/wiki/Rage#Rage_decay
     rage generated = 15d/4 + fs/2 <= 15d/c (damage done)
     rage generated = 5d/2c (damage received)
@@ -47,8 +57,6 @@ maul: next hit does more damage -> only on white damage (HitDamage) and not yell
 
 generic dot affect
 
-haste should add a new Affect AdditionalHitAffect
-    -> how to handle base flags haste on PC, we don't want to add a permanent aura like we do on NPC
 try to change very check on CharacterFlags, ... should be handled with Affect
 Aura list on entity should store a lookup<AffectType, IAffect> for rapid access
 restore should only remove 'negative' auras
@@ -138,7 +146,6 @@ Move CanSee in IEntity
 each time operator IS or AS is used, this should be replaced with an overridable method
 pull/push
 Multiple wear location
-quest: add quest item on the fly when player takes the quest or reconnect
 item: protect, room_key
 Monitor Recompute calls: recompute may leads to recursive call -> redo logic Unequip/Equip/ChangeContainer
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
@@ -146,8 +153,6 @@ UnitTests on Rom24Effects
 assist_guard
 aggro table
 isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
-automated quests
-quest history
 leaving impersonation should not stop fighting -> PlayableCharacter can still died while not impersonated
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
@@ -157,21 +162,15 @@ Use SafeList where List is used
 store an Aura list in World this will avoid looping on all room/character/item to check aura
 redo DoScore, DoAffects
 check if IStat, MStat and RStat display new informations
-When an item quest objective is complete, quest item should be NoTake or should be invisible
 cannot quit while affected by an harmful aura/periodic aura
 while leaving(or reconnecting) aura should be removed ? maybe an additional flag saying if timer should decrease while disconnected ?
 remove Send(..., bool addTrailingNewLine)
 auto paging if data to send to too big?
 check if RelativeDisplayName should be used instead of DisplayName in Command (check if CanSee should be used)
-quest save completed quests
-      quest tree (prereq)
-      repeteable or not quests
-      autogenerate
 better command parser: should be able to specify something like     will be possible with SyntaxAttribute
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world
     [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipment
-multitable generator, paging a table should repeat the header at the beginning of each page
 prompt modifiable by user
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 move blueprints to Mud.Domain + refactor Mud.Domain

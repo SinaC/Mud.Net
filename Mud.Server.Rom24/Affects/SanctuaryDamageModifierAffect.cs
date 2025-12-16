@@ -1,30 +1,21 @@
 ﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using System.Text;
 
-namespace Mud.Server.Rom24.Affects
+namespace Mud.Server.Rom24.Affects;
+
+[AffectNoData("Sanctuary")]
+public class SanctuaryDamageModifierAffect : NoAffectDataAffectBase, ICharacterDamageModifierAffect
 {
-    [Affect(AffectName, typeof(NoAffectData))]
-    public class SanctuaryDamageModifierAffect : ICharacterDamageModifierAffect
+    public override void Append(StringBuilder sb)
     {
-        private const string AffectName = "Sanctuary";
-
-        public void Append(StringBuilder sb)
-        {
-            sb.Append("%c%reduces %y%incoming damage%c% by %y%50%%x%");
-        }
-
-        public AffectDataBase MapAffectData()
-        {
-            return new NoAffectData { AffectName = AffectName };
-        }
-
-        public int ModifyDamage(ICharacter source, ICharacter victim, SchoolTypes damageType, int damage)
-        {
-            return damage > 1 ? damage / 2 : damage;
-        }
+        sb.Append("%c%reduces %y%incoming damage%c% by %y%50%%x%");
     }
+
+    public int ModifyDamage(ICharacter source, ICharacter victim, SchoolTypes damageType, int damage)
+        => damage > 1
+            ? damage / 2
+            : damage;
 }

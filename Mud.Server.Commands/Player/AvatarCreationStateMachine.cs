@@ -379,12 +379,12 @@ done	     exit the character generation process");
                     }
                     if (abilityGroupDefinition.AbilityDefinitions.Any())
                     {
-                        var abilities = TableGenerators.AbilityDefinitionTableGenerator.Value.Generate("Abilities", true, abilityGroupDefinition.AbilityDefinitions);
+                        var abilities = TableGenerators.AbilityDefinitionTableGenerator.Value.Generate("Abilities", new TableGeneratorOptions { HideHeaders = true }, abilityGroupDefinition.AbilityDefinitions);
                         sb.Append(abilities);
                     }
                     if (abilityGroupDefinition.AbilityGroupDefinitions.Any())
                     {
-                        var subAbilityGroups = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", true, abilityGroupDefinition.AbilityGroupDefinitions);
+                        var subAbilityGroups = TableGenerators.AbilityGroupDefinitionTableGenerator.Value.Generate("Groups", new TableGeneratorOptions { HideHeaders = true }, abilityGroupDefinition.AbilityGroupDefinitions);
                         sb.Append(subAbilityGroups);
                     }
                     player.Page(sb);
@@ -621,11 +621,11 @@ done	     exit the character generation process");
     {
         // display available groups with cost
         var availableAbilityGroupsNotYetLearned = GetAvailableAbilityGroupsNotYetLearnedNotChosen();
-        var sbGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Available groups", 3, availableAbilityGroupsNotYetLearned.OrderBy(x => x.Name));
+        var sbGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Available groups", new TableGeneratorOptions { ColumnRepetionCount = 3 }, availableAbilityGroupsNotYetLearned.OrderBy(x => x.Name));
         player.Send(sbGroups);
         // display available skills
         var availableSkillsNotYetLearned = GetAvailableSkillsNotYetLearnedNorChosen();
-        var sbSkills = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Available skills", 3, availableSkillsNotYetLearned.OrderBy(x => x.Name));
+        var sbSkills = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Available skills", new TableGeneratorOptions { ColumnRepetionCount = 3 }, availableSkillsNotYetLearned.OrderBy(x => x.Name));
         player.Send(sbSkills);
         // display creation points
         player.Send("Creation points: {0}", _creationPoints);
@@ -634,9 +634,9 @@ done	     exit the character generation process");
 
     private void DisplayCustomizeChosen(IPlayer player)
     {
-        var sbGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Chosen groups", 3, _chosenAbilityGroups.OrderBy(x => x.Name));
+        var sbGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Chosen groups", new TableGeneratorOptions { ColumnRepetionCount = 3 }, _chosenAbilityGroups.OrderBy(x => x.Name));
         player.Send(sbGroups);
-        var sbSkills = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Chosen skills", 3, _chosenAbilities.OrderBy(x => x.Name));
+        var sbSkills = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Chosen skills", new TableGeneratorOptions { ColumnRepetionCount = 3 }, _chosenAbilities.OrderBy(x => x.Name));
         player.Send(sbSkills);
     }
 

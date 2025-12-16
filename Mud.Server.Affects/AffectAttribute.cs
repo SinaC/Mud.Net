@@ -14,3 +14,12 @@ public class AffectAttribute : ExportAttribute // every affect will be exported 
         AffectDataType = affectDataType;
     }
 }
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+public class AffectNoDataAttribute : AffectAttribute
+{
+    public AffectNoDataAttribute(string name)
+        : base(name, typeof(NoAffectData))
+    {
+    }
+}
