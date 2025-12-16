@@ -1,32 +1,21 @@
 ﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using System.Text;
 
-namespace Mud.Server.Rom24.Affects
+namespace Mud.Server.Rom24.Affects;
+
+[AffectNoData("ProtectGood")]
+public class ProtectionGoodDamageModifierAffect : NoAffectDataAffectBase, ICharacterDamageModifierAffect
 {
-    [Affect(AffectName, typeof(NoAffectData))]
-    public class ProtectionGoodDamageModifierAffect : ICharacterDamageModifierAffect
+    public override void Append(StringBuilder sb)
     {
-        private const string AffectName = "ProtectGood";
-
-        public void Append(StringBuilder sb)
-        {
-            sb.Append("%c%reduces %y%incoming damage%c% from %y%good source%c% by %y%25%%x%");
-        }
-
-        public AffectDataBase MapAffectData()
-        {
-            return new NoAffectData { AffectName = AffectName };
-        }
-
-        public int ModifyDamage(ICharacter source, ICharacter victim, SchoolTypes damageType, int damage)
-        {
-            if (damage > 1 && source.IsGood)
-                damage -= damage / 4;
-            return damage;
-        }
+        sb.Append("%c%reduces %y%incoming damage%c% from %y%good source%c% by %y%25%%x%");
     }
+
+    public int ModifyDamage(ICharacter source, ICharacter victim, SchoolTypes damageType, int damage)
+        => damage > 1 && source.IsGood
+            ? damage -= damage / 4
+            : damage;
 }

@@ -148,9 +148,9 @@ public class Gain : PlayableCharacterGameAction
             case Actions.DisplayAll:
                 {
                     var availableAbilitiesNotYetLearned = GetAvailableAbilitiesNotYetLearned(null);
-                    var sbAbilities = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Abilities", 3, availableAbilitiesNotYetLearned.OrderBy(x => x.Level).ThenBy(x => x.Name));
+                    var sbAbilities = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Abilities", new TableGeneratorOptions { ColumnRepetionCount = 3 }, availableAbilitiesNotYetLearned.OrderBy(x => x.Level).ThenBy(x => x.Name));
                     var availableAbilityGroupsNotYetLearned = GetAvailableAbilityGroupsNotYetLearned();
-                    var sbGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Groups", 3, availableAbilityGroupsNotYetLearned.OrderBy(x => x.Name));
+                    var sbGroups = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Groups", new TableGeneratorOptions { ColumnRepetionCount = 3 }, availableAbilityGroupsNotYetLearned.OrderBy(x => x.Name));
                     var sb = new StringBuilder();
                     sb.Append(sbAbilities);
                     sb.Append(sbGroups);
@@ -160,21 +160,21 @@ public class Gain : PlayableCharacterGameAction
             case Actions.DisplayGroups:
                 {
                     var availableAbilityGroupsNotYetLearned = GetAvailableAbilityGroupsNotYetLearned();
-                    StringBuilder sb = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Groups", 3, availableAbilityGroupsNotYetLearned.OrderBy(x => x.Name));
+                    StringBuilder sb = TableGenerators.AbilityGroupUsageTableGenerator.Value.Generate("Groups", new TableGeneratorOptions { ColumnRepetionCount = 3 }, availableAbilityGroupsNotYetLearned.OrderBy(x => x.Name));
                     Actor.Send(sb);
                     return;
                 }
             case Actions.DisplaySpells:
                 {
                     var availableAbilitiesNotYetLearned = GetAvailableAbilitiesNotYetLearned(x => x.AbilityDefinition.Type == AbilityTypes.Spell);
-                    var sb = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Spells", 3, availableAbilitiesNotYetLearned.OrderBy(x => x.Level).ThenBy(x => x.Name));
+                    var sb = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Spells", new TableGeneratorOptions { ColumnRepetionCount = 3 }, availableAbilitiesNotYetLearned.OrderBy(x => x.Level).ThenBy(x => x.Name));
                     Actor.Send(sb);
                     return;
                 }
             case Actions.DisplaySkillsAndPassivesAndWeapons:
                 {
                     var availableAbilitiesNotYetLearned = GetAvailableAbilitiesNotYetLearned(x => x.AbilityDefinition.Type == AbilityTypes.Skill || x.AbilityDefinition.Type == AbilityTypes.Passive || x.AbilityDefinition.Type == AbilityTypes.Weapon);
-                    var sb = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Skills/Passives/Weapons", 3, availableAbilitiesNotYetLearned.OrderBy(x => x.Level).ThenBy(x => x.Name));
+                    var sb = TableGenerators.AbilityUsageTableGenerator.Value.Generate("Skills/Passives/Weapons", new TableGeneratorOptions { ColumnRepetionCount = 3 }, availableAbilitiesNotYetLearned.OrderBy(x => x.Level).ThenBy(x => x.Name));
                     Actor.Send(sb);
                     return;
                 }

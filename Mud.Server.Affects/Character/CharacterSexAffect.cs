@@ -17,10 +17,6 @@ public class CharacterSexAffect : ICharacterSexAffect
         sb.AppendFormat("%c%modifies %y%Sex %c%by setting to %y%{0}%x%", Value.ToString().ToPascalCase());
     }
 
-    public CharacterSexAffect()
-    {
-    }
-
     public void Initialize(CharacterSexAffectData data)
     {
         Value = data.Value;

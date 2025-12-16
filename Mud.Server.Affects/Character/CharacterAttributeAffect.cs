@@ -17,10 +17,6 @@ public class CharacterAttributeAffect : ICharacterAttributeAffect
 
     protected string Target => Location.ToString();
 
-    public CharacterAttributeAffect()
-    {
-    }
-
     public void Initialize(CharacterAttributeAffectData data)
     {
         Location = data.Location;

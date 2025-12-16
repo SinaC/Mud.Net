@@ -4,8 +4,6 @@ using Mud.Server.Interfaces.Ability;
 namespace Mud.Server.Commands.Character.Ability;
 
 [CharacterCommand("skills", "Ability", Priority = 60)]
-[Alias("passives")]
-[Alias("weapons")]
 [Syntax(
     "[cmd]",
     "[cmd] all")]

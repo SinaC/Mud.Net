@@ -8,6 +8,15 @@ namespace Mud.Server.TableGenerator;
 //   AddBooleanColumn: automatically convert to Yes/No
 //   AddIntColumn: automatically convert to string
 //   AddDelayColumn: automatically call StringHelpers.FormatDelay
+
+public class TableGeneratorOptions
+{
+    public static TableGeneratorOptions Default = new();
+
+    public int ColumnRepetionCount { get; set; } = 1;
+    public bool HideHeaders { get; set; } = false;
+}
+
 public class TableGenerator<T>
 {
     public static readonly Func<T, string>? AlignLeftFunc = T => default!;
@@ -51,32 +60,20 @@ public class TableGenerator<T>
     public int Width => 1 + _columns.Sum(x => x.Width) + _columns.Count;
 
     public StringBuilder Generate(IEnumerable<string> titles, IEnumerable<T> items)
-    {
-        StringBuilder sb = BuildTable(titles, 1, false, items);
-        return sb;
-    }
+        => BuildTable(titles, TableGeneratorOptions.Default, items);
 
     public StringBuilder Generate(string title, IEnumerable<T> items)
-    {
-        StringBuilder sb = BuildTable([title], 1, false, items);
-        return sb;
-    }
+        => BuildTable([title], TableGeneratorOptions.Default, items);
 
-    public StringBuilder Generate(string title, int columnRepetionCount, IEnumerable<T> items)
-    {
-        StringBuilder sb = BuildTable([title], columnRepetionCount, false, items);
-        return sb;
-    }
+    public StringBuilder Generate(string title, TableGeneratorOptions options, IEnumerable<T> items)
+        => BuildTable([title], options, items);
 
-    public StringBuilder Generate(string title, bool hideHeaders, IEnumerable<T> items)
-    {
-        StringBuilder sb = BuildTable([title], 1, hideHeaders, items);
-        return sb;
-    }
+    public StringBuilder Generate(IEnumerable<string> titles, TableGeneratorOptions options, IEnumerable<T> items)
+        => BuildTable(titles, options, items);
 
     private void AddPreHeaderLine(StringBuilder sb, int columnRepetionCount, string content)
     {
-        int width = Width * columnRepetionCount;
+        int width = Width * columnRepetionCount - (columnRepetionCount - 1); // remove one for each repeating table
 
         sb.Append("| ");
         sb.Append(content);
@@ -89,7 +86,7 @@ public class TableGenerator<T>
 
     private void AddSeparatorLine(StringBuilder sb, int columnRepetionCount)
     {
-        int width = Width * columnRepetionCount;
+        int width = Width * columnRepetionCount - (columnRepetionCount - 1); // remove one for each repeating table
 
         sb.Append('+');
         int repetionCount = width - 2;
@@ -102,9 +99,11 @@ public class TableGenerator<T>
     {
         for (int i = 0; i < columnRepetionCount; i++)
         {
-            foreach (Column column in _columns)
+            for (int index = 0; index < _columns.Count; index++)
             {
-                sb.Append('+');
+                var column = _columns[index];
+                if (index > 0 || (index == 0 && i == 0)) // display for each column except first column when repeating table
+                    sb.Append('+');
                 sb.Append('-', column.Width);
             }
 
@@ -113,40 +112,46 @@ public class TableGenerator<T>
         sb.AppendLine();
     }
 
-    private void AddEmptyLineNoCrLf(StringBuilder sb)
+    private void AddEmptyLineNoCrLf(StringBuilder sb, int repetitionCount)
     {
-        foreach (var column in _columns)
+        for (int index = 0; index < _columns.Count; index++)
         {
-            sb.Append('|');
+            var column = _columns[index];
+            if (index > 0 || (index == 0 && repetitionCount == 0)) // display for each column except first column when repeating table
+                sb.Append('|');
             sb.Append(' ', column.Width);
         }
 
         sb.Append('|');
     }
 
-    private StringBuilder BuildTable(IEnumerable<string> titles, int columnRepetionCount, bool hideHeaders, IEnumerable<T> items)
+    private StringBuilder BuildTable(IEnumerable<string> titles, TableGeneratorOptions generateOptions, IEnumerable<T> items)
     {
         StringBuilder sb = new ();
 
         //-->
         // line before titles
-        AddSeparatorLine(sb, columnRepetionCount);
+        AddSeparatorLine(sb, generateOptions.ColumnRepetionCount);
 
         // titles
         foreach (string title in titles ?? [])
-            AddPreHeaderLine(sb, columnRepetionCount, title);
+            AddPreHeaderLine(sb, generateOptions.ColumnRepetionCount, title);
 
         // line after titles
-        AddSeparatorWithColumnsLine(sb, columnRepetionCount);
+        AddSeparatorWithColumnsLine(sb, generateOptions.ColumnRepetionCount);
 
         // column headers
-        if (!hideHeaders)
+        if (!generateOptions.HideHeaders)
         {
-            for (int i = 0; i < columnRepetionCount; i++)
+            for (int i = 0; i < generateOptions.ColumnRepetionCount; i++)
             {
-                foreach (Column column in _columns)
+                for (int index = 0; index < _columns.Count; index++)
                 {
-                    sb.Append("| ");
+                    var column = _columns[index];
+                    if (index > 0 || (index == 0 && i == 0)) // display for each column except first column when repeating table
+                        sb.Append("| ");
+                    else
+                        sb.Append(' ');
                     sb.Append(column.Header);
                     int columnHeaderLengthNoColor = column.Header.LengthNoColor();
                     int repetionCount = column.Width - (1 + columnHeaderLengthNoColor);
@@ -157,14 +162,14 @@ public class TableGenerator<T>
             }
             sb.AppendLine();
             // line after column header
-            AddSeparatorWithColumnsLine(sb, columnRepetionCount);
+            AddSeparatorWithColumnsLine(sb, generateOptions.ColumnRepetionCount);
         }
 
         //<-- can be precomputed
 
         // Values
         string[] previousValues = new string[_columns.Count];
-        foreach (IEnumerable<T> itemByChunk in items.Chunk(columnRepetionCount))
+        foreach (IEnumerable<T> itemByChunk in items.Chunk(generateOptions.ColumnRepetionCount))
         {
             int repetitionCount = 0;
             foreach (T item in itemByChunk)
@@ -176,7 +181,7 @@ public class TableGenerator<T>
                     var column = _columns[index];
 
                     string value = column.GetValueFunc(item) ?? "";
-                    bool hasToMergeIdenticalValue = column.Options.MergeIdenticalValue && columnRepetionCount == 1 && value == previousValues[index];
+                    bool hasToMergeIdenticalValue = column.Options.MergeIdenticalValue && generateOptions.ColumnRepetionCount == 1 && value == previousValues[index];
                     var trailingSpace = column.Options.AlignLeft
                         ? AlignLeftFunc?.Invoke(item)
                         : column.Options.GetTrailingSpaceFunc(item);
@@ -192,7 +197,8 @@ public class TableGenerator<T>
                         index += mergeLength;
                     }
 
-                    sb.Append('|');
+                    if (index > 0 || (index == 0 && repetitionCount == 0)) // display for each column except first column when repeating table
+                        sb.Append('|');
                     if (trailingSpace == null) // if not trailing space, align on left
                     {
                         if (hasToMergeIdenticalValue)
@@ -230,17 +236,17 @@ public class TableGenerator<T>
                 repetitionCount++;
             }
 
-            if (repetitionCount != columnRepetionCount)
+            if (repetitionCount != generateOptions.ColumnRepetionCount)
             {
-                for(int i = repetitionCount; i < columnRepetionCount; i++)
-                    AddEmptyLineNoCrLf(sb);
+                for(int i = repetitionCount; i < generateOptions.ColumnRepetionCount; i++)
+                    AddEmptyLineNoCrLf(sb, repetitionCount);
             }
 
             sb.AppendLine();
         }
 
         // line after values
-        AddSeparatorWithColumnsLine(sb, columnRepetionCount);
+        AddSeparatorWithColumnsLine(sb, generateOptions.ColumnRepetionCount);
 
         // ONLY FOR TEST PURPOSE
         //Console.Write(sb.ToString());

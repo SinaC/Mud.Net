@@ -3309,7 +3309,7 @@
       "HitPoints": 218,
       "MovePoints": 211,
       "CurrentResources": {
-        "Mana": 68,
+        "Mana": 53,
         "Psy": 100,
         "Energy": 100,
         "Rage": 96,
@@ -3345,8 +3345,8 @@
             "Auras": [
               {
                 "AbilityName": "Test",
-                "Level": 10,
-                "PulseLeft": 1576,
+                "Level": 8,
+                "PulseLeft": 1536,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3384,7 +3384,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 700,
+                "PulseLeft": 660,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3400,15 +3400,15 @@
       ],
       "Inventory": [
         {
-          "ItemId": 2111,
-          "Level": 10,
+          "ItemId": 2104,
+          "Level": 3,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
         },
         {
-          "ItemId": 2104,
-          "Level": 3,
+          "ItemId": 2111,
+          "Level": 10,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
@@ -3418,7 +3418,7 @@
         {
           "AbilityName": "Giant Strength",
           "Level": 1,
-          "PulseLeft": 9968,
+          "PulseLeft": 9928,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3432,7 +3432,7 @@
         {
           "AbilityName": "Detect Evil",
           "Level": 1,
-          "PulseLeft": 10164,
+          "PulseLeft": 10124,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3445,7 +3445,7 @@
         {
           "AbilityName": "Detect Good",
           "Level": 1,
-          "PulseLeft": 10196,
+          "PulseLeft": 10156,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3458,7 +3458,7 @@
         {
           "AbilityName": "Detect Invis",
           "Level": 1,
-          "PulseLeft": 10212,
+          "PulseLeft": 10172,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3471,7 +3471,7 @@
         {
           "AbilityName": "Detect Hidden",
           "Level": 1,
-          "PulseLeft": 10268,
+          "PulseLeft": 10228,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3484,7 +3484,7 @@
         {
           "AbilityName": "Shock Shield",
           "Level": 1,
-          "PulseLeft": 476,
+          "PulseLeft": 436,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3497,7 +3497,7 @@
         {
           "AbilityName": "Fire Shield",
           "Level": 1,
-          "PulseLeft": 492,
+          "PulseLeft": 452,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3510,7 +3510,7 @@
         {
           "AbilityName": "Ice Shield",
           "Level": 1,
-          "PulseLeft": 504,
+          "PulseLeft": 464,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3522,8 +3522,8 @@
         },
         {
           "AbilityName": "Berserk",
-          "Level": 2,
-          "PulseLeft": 452,
+          "Level": 1,
+          "PulseLeft": 412,
           "AuraFlags": 2,
           "Affects": [
             {
@@ -3553,8 +3553,8 @@
         },
         {
           "AbilityName": "Protection Evil",
-          "Level": 48,
-          "PulseLeft": 5704,
+          "Level": 46,
+          "PulseLeft": 5664,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3576,8 +3576,8 @@
         },
         {
           "AbilityName": "Protection Good",
-          "Level": 48,
-          "PulseLeft": 5748,
+          "Level": 44,
+          "PulseLeft": 5708,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3594,6 +3594,23 @@
             {
               "$type": "noData",
               "AffectName": "ProtectGood"
+            }
+          ]
+        },
+        {
+          "AbilityName": "Sanctuary",
+          "Level": 49,
+          "PulseLeft": 1912,
+          "AuraFlags": 0,
+          "Affects": [
+            {
+              "$type": "shieldFlags",
+              "Operator": 1,
+              "Modifier": "Sanctuary"
+            },
+            {
+              "$type": "noData",
+              "AffectName": "Sanctuary"
             }
           ]
         }

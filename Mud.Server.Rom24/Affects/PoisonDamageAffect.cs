@@ -1,5 +1,4 @@
 ﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
 using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
@@ -8,19 +7,12 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Affects;
 
-[Affect(AffectName, typeof(NoAffectData))]
-public class PoisonDamageAffect : ICharacterPeriodicAffect
+[AffectNoData("Poison")]
+public class PoisonDamageAffect : NoAffectDataAffectBase, ICharacterPeriodicAffect
 {
-    private const string AffectName = "Poison";
-
-    public void Append(StringBuilder sb)
+    public override void Append(StringBuilder sb)
     {
         sb.Append("%c%applies %G%poison%x% damage periodically");
-    }
-
-    public AffectDataBase MapAffectData()
-    {
-        return new NoAffectData { AffectName = AffectName };
     }
 
     public void Apply(IAura aura, ICharacter character)

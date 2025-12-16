@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
-using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Entity;

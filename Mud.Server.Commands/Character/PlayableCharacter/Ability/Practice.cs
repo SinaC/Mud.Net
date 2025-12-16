@@ -75,7 +75,7 @@ public class Practice : PlayableCharacterGameAction
     {
         if (Display)
         {
-            var sb = PracticeAbilityTableGenerator.Value.Generate("Abilities", 3, Actor.LearnedAbilities.Where(x => x.CanBePracticed(Actor)).OrderBy(x => x.Level).ThenBy(x => x.Name));
+            var sb = PracticeAbilityTableGenerator.Value.Generate("Abilities", new TableGeneratorOptions { ColumnRepetionCount = 3 }, Actor.LearnedAbilities.Where(x => x.CanBePracticed(Actor)).OrderBy(x => x.Level).ThenBy(x => x.Name));
             sb.AppendFormatLine("You have {0} practice sessions left.", Actor.Practices);
             Actor.Send(sb);
             return;

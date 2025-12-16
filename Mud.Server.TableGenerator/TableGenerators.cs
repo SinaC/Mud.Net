@@ -98,7 +98,7 @@ public static class TableGenerators
         TableGenerator<IClass> generator = new();
         generator.AddColumn("Name", 20, x => x.DisplayName, new TableGenerator<IClass>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("ShortName", 10, x => x.ShortName);
-        generator.AddColumn("Resource(s)", 20, x => string.Join(",", (x.ResourceKinds ?? Enumerable.Empty<ResourceKinds>()).Select(StringHelpers.ResourceColor)));
+        generator.AddColumn("Resource(s)", 24, x => string.Join(",", (x.ResourceKinds ?? Enumerable.Empty<ResourceKinds>()).Select(StringHelpers.ResourceColor)));
         generator.AddColumn("Prime attr", 12, x => x.PrimeAttribute.ShortName());
         generator.AddColumn("#Abilities", 12, x =>
         {
