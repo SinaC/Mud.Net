@@ -3,7 +3,7 @@ using Mud.Domain.SerializationData;
 
 namespace Mud.Server.Item;
 
-[JsonPolymorphism(typeof(ItemData), "corpse")]
+[JsonBaseType(typeof(ItemData), "corpse")]
 public class ItemCorpseData : ItemData
 {
     public required ItemData[] Contains { get; set; }

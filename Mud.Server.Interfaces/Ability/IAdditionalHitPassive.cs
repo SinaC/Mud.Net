@@ -3,4 +3,5 @@
 public interface IAdditionalHitPassive : IPassive
 {
     int AdditionalHitIndex { get; }
+    bool StopMultiHitIfFailed { get; }
 }

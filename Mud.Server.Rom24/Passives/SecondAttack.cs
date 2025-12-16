@@ -25,6 +25,7 @@ public class SecondAttack : PassiveBase, IAdditionalHitPassive
     }
 
     public int AdditionalHitIndex => 2;
+    public bool StopMultiHitIfFailed => true; // stop multi hit if second attack failed
 
     protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
     {

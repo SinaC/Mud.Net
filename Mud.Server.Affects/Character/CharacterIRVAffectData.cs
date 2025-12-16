@@ -4,7 +4,7 @@ using Mud.Domain.SerializationData;
 
 namespace Mud.Server.Affects.Character;
 
-[JsonPolymorphism(typeof(AffectDataBase), "irv")]
+[JsonBaseType(typeof(AffectDataBase), "irv")]
 public class CharacterIRVAffectData : AffectDataBase
 {
     public required IRVAffectLocations Location { get; set; }

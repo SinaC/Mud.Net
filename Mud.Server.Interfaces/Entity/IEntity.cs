@@ -23,7 +23,6 @@ public interface IEntity : IActor
 
     // Recompute
     void Reset(); // Remove periodic auras
-    void ResetAttributes();
     void Recompute();
 
     // Auras

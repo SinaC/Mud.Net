@@ -181,7 +181,7 @@ public interface ICharacter : IEntity, IContainer
     void MultiHit(ICharacter? victim); // 'this' starts a combat with 'victim'
     void MultiHit(ICharacter? victim, IMultiHitModifier? multiHitModifier); // 'this' starts a combat with 'victim' and has been initiated by an ability
     DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display); // 'this' is dealt damage by 'source' using an ability
-    DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, bool display); // 'this' is dealt damage by 'source' using a weapon
+    DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, string damageNoun, bool display); // 'this' is dealt damage by 'source' using a weapon
     IItemCorpse? RawKilled(ICharacter? killer, bool payoff);
     void KillingPayoff(ICharacter victim, IItemCorpse? corpse);
     bool SavesSpell(int level, SchoolTypes damageType);

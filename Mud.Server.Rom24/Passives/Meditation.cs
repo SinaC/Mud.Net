@@ -31,12 +31,12 @@ public class Meditation : RegenerationPassiveBase
     {
         if (resourceKind == ResourceKinds.Mana)
         {
-            bool isTriggered = IsTriggered(user, user, false, out _, out int learnPercentage);
+            bool isTriggered = IsTriggered(user, user, false, out int diceRoll, out _);
             if (isTriggered)
             {
                 if (user[ResourceKinds.Mana] < user.MaxResource(ResourceKinds.Mana))
                     (user as IPlayableCharacter)?.CheckAbilityImprove(PassiveName, true, 8);
-                return (learnPercentage * baseResourceGain) / 100;
+                return (diceRoll * baseResourceGain) / 100;
             }
         }
         return 0;

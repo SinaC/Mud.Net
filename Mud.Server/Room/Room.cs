@@ -80,13 +80,6 @@ public class Room : EntityBase, IRoom
 
     // Recompute
 
-    public override void ResetAttributes()
-    {
-        RoomFlags.Copy(BaseRoomFlags);
-        HealRate = BaseHealRate;
-        ResourceRate = BaseResourceRate;
-    }
-
     public override void Recompute()
     {
         Logger.LogDebug("Room.Recompute: {name}", DebugName);
@@ -432,6 +425,13 @@ public class Room : EntityBase, IRoom
                 affect.Apply(this);
             }
         }
+    }
+
+    protected override void ResetAttributes()
+    {
+        RoomFlags.Copy(BaseRoomFlags);
+        HealRate = BaseHealRate;
+        ResourceRate = BaseResourceRate;
     }
 
     protected StringBuilder AppendCharacters(StringBuilder sb, ICharacter viewer)

@@ -4,7 +4,10 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Ability;
+using Mud.Server.Affects;
+using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Commands.Admin.Punish;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
@@ -13,6 +16,7 @@ using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Admin;
+using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -56,10 +60,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected IAuraManager AuraManager { get; }
     protected IResistanceCalculator ResistanceCalculator { get; }
     protected IWeaponEffectManager WeaponEffectManager { get; }
+    protected IAffectManager AffectManager { get; }
     protected IFlagsManager FlagsManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         RandomManager = randomManager;
@@ -70,6 +75,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         AuraManager = auraManager;
         ResistanceCalculator = resistanceCalculator;
         WeaponEffectManager = weaponEffectManager;
+        AffectManager = affectManager;
         FlagsManager = flagsManager;
         Wiznet = wiznet;
 
@@ -808,22 +814,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
     }
 
     // Recompute
-    public override void ResetAttributes()
-    {
-        for (int i = 0; i < _baseAttributes.Length; i++)
-            _currentAttributes[i] = _baseAttributes[i];
-        Sex = BaseSex;
-        Size = BaseSize;
-        //Shape = BaseShape; TODO: uncomment when shape will be handled using aura
-        CharacterFlags.Copy(BaseCharacterFlags);
-        Immunities.Copy(BaseImmunities);
-        Resistances.Copy(BaseResistances);
-        Vulnerabilities.Copy(BaseVulnerabilities);
-        ShieldFlags.Copy(BaseShieldFlags);
-        BodyForms.Copy(BaseBodyForms);
-        BodyParts.Copy(BaseBodyParts);
-    }
-
     public override void Recompute()
     {
         Logger.LogDebug("CharacterBase.Recompute: {name}", DebugName);
@@ -1184,10 +1174,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return Damage(source, damage, damageType, damageNoun, display);
     }
 
-    public DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, bool display) // 'this' is dealt damage by 'source' using a weapon
+    public DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source' using a weapon
     {
-        string damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
-        return Damage(source, damage, damageType, damageNoun ?? "hit", display);
+        return Damage(source, damage, damageType, damageNoun, display);
     }
 
     public IItemCorpse? RawKilled(ICharacter? killer, bool payoff)
@@ -1935,10 +1924,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // guard against weird room-leavings.
         if (victim.Room != Room)
             return;
-        SchoolTypes damageType = wield?.DamageType ?? NoWeaponDamageType;
+        var damageType = wield?.DamageType ?? NoWeaponDamageType;
         // get weapon skill
         var (percentage, abilityLearned) = GetWeaponLearnedAndPercentage(wield);
-        int learned = percentage;
+        var learned = 20 + percentage;
         // Calculate to-hit-armor-class-0 versus armor.
         (int thac0_00, int thac0_32) = GetThac0();
         int thac0 = IntExtensions.Lerp(thac0_00, thac0_32, Level, 32);
@@ -1974,7 +1963,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 victim.AbilityDamage(this, 0, damageType, hitModifier.DamageNoun ?? "hit", true); // miss
             else
             {
-                victim.HitDamage(this, wield, 0, damageType, true);
+                var damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
+                victim.HitDamage(this, wield, 0, damageType, damageNoun ?? "hit", true);
             }
 
             return;
@@ -2054,7 +2044,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (hitModifier?.AbilityName != null)
             damageResult = victim.AbilityDamage(this, damage, damageType, hitModifier.DamageNoun ?? "hit", true);
         else
-            damageResult = victim.HitDamage(this, wield, damage, damageType, true);
+        {
+            var damageNoun = wield == null ? NoWeaponDamageNoun : wield.DamageNoun;
+            damageResult = victim.HitDamage(this, wield, damage, damageType, damageNoun ?? "hit", true);
+        }
 
         if (Fighting != victim)
             return;
@@ -2294,6 +2287,62 @@ public abstract class CharacterBase : EntityBase, ICharacter
             {
                 affect.Apply(this);
             }
+        }
+    }
+
+    protected override void ResetAttributes()
+    {
+        for (int i = 0; i < _baseAttributes.Length; i++)
+            _currentAttributes[i] = _baseAttributes[i];
+        Sex = BaseSex;
+        Size = BaseSize;
+        //Shape = BaseShape; TODO: uncomment when shape will be handled using aura
+        CharacterFlags.Copy(BaseCharacterFlags);
+        Immunities.Copy(BaseImmunities);
+        Resistances.Copy(BaseResistances);
+        Vulnerabilities.Copy(BaseVulnerabilities);
+        ShieldFlags.Copy(BaseShieldFlags);
+        BodyForms.Copy(BaseBodyForms);
+        BodyParts.Copy(BaseBodyParts);
+    }
+
+    protected virtual void AddAurasFromBaseFlags()
+    {
+        // shields
+        if (BaseShieldFlags.IsSet("Sanctuary"))
+        {
+            // TODO: code copied from sanctuary spell (except duration and aura flags) use effect ??
+            var sanctuaryAbilityDefinition = AbilityManager["Sanctuary"];
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, AuraFlags.Permanent, false,
+                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("Sanctuary"), Operator = AffectOperators.Or },
+                AffectManager.CreateInstance("Sanctuary"));
+        }
+        if (BaseShieldFlags.IsSet("ProtectGood"))
+        {
+            // TODO: code copied from protection good spell (except duration and aura flags) use effect ??
+            var sanctuaryAbilityDefinition = AbilityManager["Protection Good"];
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, AuraFlags.Permanent, false,
+                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectGood"), Operator = AffectOperators.Or },
+                AffectManager.CreateInstance("ProtectGood"));
+        }
+        if (BaseShieldFlags.IsSet("ProtectEvil"))
+        {
+            // TODO: code copied from protection evil spell (except duration and aura flags) use effect ??
+            var sanctuaryAbilityDefinition = AbilityManager["Protection Evil"];
+            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, AuraFlags.Permanent, false,
+                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectEvil"), Operator = AffectOperators.Or },
+                AffectManager.CreateInstance("ProtectEvil"));
+        }
+        // TODO: other shields like FireShield, IceShield, LightningShield
+        if (BaseCharacterFlags.IsSet("Haste"))
+        {
+            // TODO: code copied from haste spell (except duration and aura flags) use effect ??
+            var hasteAbilityDefinition = AbilityManager["Haste"];
+            var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
+            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, false,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or },
+                new CharacterAdditionalHitAffect { AdditionalHitCount = 1 });
         }
     }
 
