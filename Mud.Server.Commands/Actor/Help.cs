@@ -23,6 +23,7 @@ public class Help : ActorGameAction
 {
     private const int ColumnCount = 4;
     private const string PassivesCategory = "Passives";
+    private const string WeaponPassivesCategory = "Weapons";
     private const string SkillsCategory = "Skills";
     private const string SpellsCategory = "Spells";
     private const string RacesCategory = "Races";
@@ -87,6 +88,8 @@ public class Help : ActorGameAction
             AppendAbilities<ISpell>(sb, Filter);
             // passives
             AppendAbilities<IPassive>(sb, Filter);
+            // weapons
+            AppendAbilities<IWeaponPassive>(sb, Filter);
             // races
             AppendRaces(sb, Filter);
             // classes
@@ -277,6 +280,10 @@ public class Help : ActorGameAction
         var iPassiveType = typeof(IPassive);
         var passiveTopics = AbilityManager.Abilities.Where(x => iPassiveType.IsAssignableFrom(x.AbilityExecutionType))
             .Select(x => new Topic(PassivesCategory, 1, x.Name, 0));
+        // weapons
+        var iWeaponPassiveType = typeof(IWeaponPassive);
+        var weaponPassiveTopics = AbilityManager.Abilities.Where(x => iWeaponPassiveType.IsAssignableFrom(x.AbilityExecutionType))
+            .Select(x => new Topic(WeaponPassivesCategory, 1, x.Name, 0));
         // skills
         var skillTopics = AbilityManager.Abilities.Where(x => iSkillType.IsAssignableFrom(x.AbilityExecutionType))
             .Select(x => new Topic(SkillsCategory, 2, x.Name, 0));
@@ -294,7 +301,7 @@ public class Help : ActorGameAction
         var abilityGroupTopics = AbilityGroupManager.AbilityGroups
             .Select(x => new Topic(AbilityGroupsCategory, 6, x.Name, 0));
         // TODO: help not related to commands nor abilities nor races/classes
-        return gameActionTopics.Concat(passiveTopics).Concat(skillTopics).Concat(spellTopics).Concat(raceTopics).Concat(classTopics).Concat(abilityGroupTopics);
+        return gameActionTopics.Concat(passiveTopics).Concat(weaponPassiveTopics).Concat(skillTopics).Concat(spellTopics).Concat(raceTopics).Concat(classTopics).Concat(abilityGroupTopics);
     }
 
     private record Topic(string Category, int CategoryPriority, string Name, int NamePriority);

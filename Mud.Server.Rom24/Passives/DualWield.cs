@@ -20,6 +20,7 @@ public class DualWield : PassiveBase, IAdditionalHitPassive
     }
 
     public int AdditionalHitIndex => 2;
+    public bool StopMultiHitIfFailed => false; // continue multi hit even if dual wield failed
 
     protected override bool CheckSuccess(ICharacter user, ICharacter victim, int learnPercentage, int diceRoll)
     {

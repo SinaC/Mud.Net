@@ -4,7 +4,7 @@ using Mud.Domain.SerializationData;
 
 namespace Mud.Server.Affects.Room;
 
-[JsonPolymorphism(typeof(AffectDataBase), "roomHealRate")]
+[JsonBaseType(typeof(AffectDataBase), "roomHealRate")]
 public class RoomHealRateAffectData : AffectDataBase
 {
     public required AffectOperators Operator { get; set; }

@@ -2,7 +2,7 @@
 
 namespace Mud.Domain.SerializationData;
 
-[JsonPolymorphism(typeof(PlayerData), "player")]
+[JsonBaseType(typeof(PlayerData), "player")]
 public class PlayerData
 {
     public required string Name { get; set; }

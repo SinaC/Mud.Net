@@ -2,7 +2,7 @@
 
 namespace Mud.Domain.SerializationData;
 
-[JsonPolymorphism(typeof(CharacterData))]
+[JsonBaseType(typeof(CharacterData))]
 public class PetData : CharacterData
 {
     public required int BlueprintId { get; set; }

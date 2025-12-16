@@ -25,12 +25,12 @@ public class FastHealing : RegenerationPassiveBase
 
     public override int HitGainModifier(ICharacter user, int baseHitGain)
     {
-        bool isTriggered = IsTriggered(user, user, false, out _, out int learnPercentage);
+        bool isTriggered = IsTriggered(user, user, false, out int diceRoll, out _);
         if (isTriggered)
         {
             if (user.HitPoints < user.MaxHitPoints)
                 (user as IPlayableCharacter)?.CheckAbilityImprove(PassiveName, true, 8);
-            return (learnPercentage * baseHitGain) / 100;
+            return (diceRoll * baseHitGain) / 100;
         }
         return 0;
     }

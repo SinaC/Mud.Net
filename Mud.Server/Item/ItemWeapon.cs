@@ -153,12 +153,12 @@ public class ItemWeapon : ItemBase, IItemWeapon
         };
     }
 
-    public override void ResetAttributes()
+    #endregion
+
+    protected override void ResetAttributes()
     {
         base.ResetAttributes();
 
         WeaponFlags.Copy(BaseWeaponFlags);
     }
-
-    #endregion
 }

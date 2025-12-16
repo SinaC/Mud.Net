@@ -3,7 +3,7 @@ using Mud.Domain.SerializationData;
 
 namespace Mud.Server.Item;
 
-[JsonPolymorphism(typeof(ItemData), "wand")]
+[JsonBaseType(typeof(ItemData), "wand")]
 public class ItemWandData : ItemCastSpellsChargeData
 {
 }

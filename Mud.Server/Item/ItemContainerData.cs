@@ -4,7 +4,7 @@ using Mud.Domain.SerializationData;
 
 namespace Mud.Server.Item;
 
-[JsonPolymorphism(typeof(ItemData), "container")]
+[JsonBaseType(typeof(ItemData), "container")]
 public class ItemContainerData : ItemData
 {
     public required int MaxWeight { get; set; }

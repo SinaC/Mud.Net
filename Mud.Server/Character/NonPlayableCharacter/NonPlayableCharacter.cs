@@ -7,7 +7,6 @@ using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Affects;
 using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common.Helpers;
@@ -17,6 +16,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -44,15 +44,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 {
     private IRaceManager RaceManager { get; }
     private IClassManager ClassManager { get; }
-    private IAffectManager AffectManager { get; }
     private ISpecialBehaviorManager SpecialBehaviorManager { get; }
 
-    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IFlagsManager flagsManager, IAffectManager affectManager, ISpecialBehaviorManager specialBehaviorManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, weaponEffectManager, flagsManager, wiznet)
+    public NonPlayableCharacter(ILogger<NonPlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IResistanceCalculator resistanceCalculator, IAffectManager affectManager, IFlagsManager flagsManager, ISpecialBehaviorManager specialBehaviorManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, weaponEffectManager, affectManager, flagsManager, wiznet)
     {
         RaceManager = raceManager;
         ClassManager = classManager;
-        AffectManager = affectManager;
         SpecialBehaviorManager = specialBehaviorManager;
     }
 
@@ -113,8 +111,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         SetBaseAttributes(CharacterAttributes.ArmorPierce, blueprint.ArmorPierce, false); // OK
         SetBaseAttributes(CharacterAttributes.ArmorSlash, blueprint.ArmorSlash, false); // OK
         SetBaseAttributes(CharacterAttributes.ArmorExotic, blueprint.ArmorExotic, false); // OK
-        // TODO: add shields affects
-        AddAurasFromFlags(blueprint);
 
         // resources (should be extracted from blueprint)
         // mana
@@ -141,6 +137,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         RecomputeKnownAbilities();
         ResetAttributes();
         RecomputeCurrentResourceKinds();
+        AddAurasFromBaseFlags();
     }
 
     public void Initialize(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // Pet
@@ -240,6 +237,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         RecomputeKnownAbilities();
         ResetAttributes();
         RecomputeCurrentResourceKinds();
+        AddAurasFromBaseFlags();
     }
 
     #region INonPlayableCharacter
@@ -356,15 +354,21 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                 OneHit(character, mainHand, multiHitModifier);
             attackCount++;
         }
-        // main hand haste attack
-        if ((CharacterFlags.IsSet("Haste") || OffensiveFlags.IsSet("Fast"))
-            && !CharacterFlags.IsSet("Slow"))
-            OneHit(victim, mainHand, multiHitModifier);
-        attackCount++;
-        if (Fighting != victim)
-            return;
-        if (multiHitModifier?.MaxAttackCount <= attackCount)
-            return;
+        // additional hits from affects
+        var characterAdditionalHitAffects = victim.Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterAdditionalHitAffect>()).ToArray();
+        foreach (var characterAdditionalHitAffect in characterAdditionalHitAffects)
+        {
+            for (int additionalHitFromAffect = 0; additionalHitFromAffect < characterAdditionalHitAffect.AdditionalHitCount; additionalHitFromAffect++)
+            {
+                if (characterAdditionalHitAffect.IsAdditionalHitAvailable(this, additionalHitFromAffect))
+                    OneHit(victim, mainHand, multiHitModifier);
+                attackCount++;
+                if (Fighting != victim) // stop if not anymore fighting
+                    return;
+                if (multiHitModifier?.MaxAttackCount <= attackCount)
+                    return;
+            }
+        }
         // additional hits from abilities (dual wield, second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
         foreach (var additionalHitAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
@@ -373,15 +377,19 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             if (additionalHitAbility != null)
                 additionalHitAbilities.Add(additionalHitAbility);
         }
-        foreach(var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex))
+        foreach (var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex).ThenBy(x => !x.StopMultiHitIfFailed)) // for each hit index, use additional hits which dont stop multi hit first
         {
             if (additionalHitAbility.IsTriggered(this, victim, true, out _, out _))
+            {
                 OneHit(victim, mainHand, multiHitModifier);
-            attackCount++;
-            if (Fighting != victim)
-                return;
-            if (multiHitModifier?.MaxAttackCount <= attackCount)
-                return;
+                attackCount++;
+                if (Fighting != victim) // stop if not anymore fighting
+                    return;
+                if (multiHitModifier?.MaxAttackCount <= attackCount)
+                    return;
+            }
+            else if (additionalHitAbility.StopMultiHitIfFailed)
+                return; // stop once an additional fails
         }
         // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
         // TODO: only if wielding 3 or 4 weapons
@@ -769,6 +777,22 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             MergeAbilities(Class.AvailableAbilities, false, false);
     }
 
+    protected override void AddAurasFromBaseFlags()
+    {
+        base.AddAurasFromBaseFlags();
+
+        if (OffensiveFlags.IsSet("Fast") && !BaseCharacterFlags.IsSet("Haste")) // if BaseCharacterFlags has Haste, base.AddAurasFromBaseFlags already added Haste affect
+        {
+            // TODO: code copied from haste spell (except duration and aura flags) use effect ??
+            var hasteAbilityDefinition = AbilityManager["Haste"];
+            var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
+            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, false,
+                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
+                new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or },
+                new CharacterAdditionalHitAffect { AdditionalHitCount = 1 });
+        }
+    }
+
     #endregion
 
     protected bool UseSkill(string skillName, params ICommandParameter[] parameters)
@@ -803,46 +827,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
         skillInstance.Execute();
         return true;
-    }
-
-    // TODO: should be moved to rom24
-    private void AddAurasFromFlags(CharacterBlueprintBase blueprint)
-    {
-        // shields
-        if (blueprint.ShieldFlags.IsSet("Sanctuary"))
-        {
-            // TODO: code copied from sanctuary spell (except duration and aura flags) use effect ??
-            var sanctuaryAbilityDefinition = AbilityManager["Sanctuary"];
-            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "sanctuary", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("Sanctuary"), Operator = AffectOperators.Or },
-                AffectManager.CreateInstance("Sanctuary"));
-        }
-        if (blueprint.ShieldFlags.IsSet("ProtectGood"))
-        {
-            // TODO: code copied from protection good spell (except duration and aura flags) use effect ??
-            var sanctuaryAbilityDefinition = AbilityManager["Protection Good"];
-            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "protection good", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectGood"), Operator = AffectOperators.Or },
-                AffectManager.CreateInstance("ProtectGood"));
-        }
-        if (blueprint.ShieldFlags.IsSet("ProtectEvil"))
-        {
-            // TODO: code copied from protection evil spell (except duration and aura flags) use effect ??
-            var sanctuaryAbilityDefinition = AbilityManager["Protection Evil"];
-            AuraManager.AddAura(this, sanctuaryAbilityDefinition?.Name ?? "Protection Evil", this, Level, AuraFlags.Permanent, false,
-                new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectEvil"), Operator = AffectOperators.Or },
-                AffectManager.CreateInstance("ProtectEvil"));
-        }
-        // TODO: other shields like FireShield, IceShield, LightningShield
-        if (blueprint.CharacterFlags.IsSet("Haste") || blueprint.OffensiveFlags.IsSet("Fast"))
-        {
-            // TODO: code copied from haste spell (except duration and aura flags) use effect ??
-            var hasteAbilityDefinition = AbilityManager["Haste"];
-            var modifier = 1 + (Level >= 18 ? 1 : 0) + (Level >= 25 ? 1 : 0) + (Level >= 32 ? 1 : 0);
-            AuraManager.AddAura(this, hasteAbilityDefinition?.Name ?? "Haste", this, Level, AuraFlags.Permanent, false,
-                new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Dexterity, Modifier = modifier, Operator = AffectOperators.Add },
-                new CharacterFlagsAffect { Modifier = new CharacterFlags("Haste"), Operator = AffectOperators.Or });
-        }
     }
 
     // TODO: should be moved to rom24

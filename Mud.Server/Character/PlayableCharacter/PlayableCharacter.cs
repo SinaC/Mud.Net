@@ -15,6 +15,8 @@ using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
+using Mud.Server.Interfaces.Affect;
+using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
@@ -58,8 +60,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly List<INonPlayableCharacter> _pets;
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
 
-    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IAbilityGroupManager abilityGroupManager, IFlagsManager flagsManager)
-        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, weaponEffectManager, flagsManager, wiznet)
+    public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager)
+        : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, weaponEffectManager, affectManager, flagsManager, wiznet)
     {
         WorldOptions = worldOptions;
         ClassManager = classManager;
@@ -304,6 +306,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         RecomputeKnownAbilities();
         ResetAttributes();
         RecomputeCurrentResourceKinds();
+        AddAurasFromBaseFlags();
     }
 
     #region IPlayableCharacter
@@ -421,14 +424,21 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         attackCount++;
         if (Fighting != victim)
             return;
-        // main hand haste attack
-        if (CharacterFlags.IsSet("Haste"))
-            OneHit(victim, mainHand, multiHitModifier);
-        attackCount++;
-        if (Fighting != victim)
-            return;
-        if (multiHitModifier?.MaxAttackCount <= attackCount)
-            return;
+        // additional hits from affects
+        var characterAdditionalHitAffects = victim.Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterAdditionalHitAffect>()).ToArray();
+        foreach (var characterAdditionalHitAffect in characterAdditionalHitAffects)
+        {
+            for (int additionalHitFromAffect = 0; additionalHitFromAffect < characterAdditionalHitAffect.AdditionalHitCount; additionalHitFromAffect++)
+            {
+                if (characterAdditionalHitAffect.IsAdditionalHitAvailable(this, additionalHitFromAffect))
+                    OneHit(victim, mainHand, multiHitModifier);
+                attackCount++;
+                if (Fighting != victim) // stop if not anymore fighting
+                    return;
+                if (multiHitModifier?.MaxAttackCount <= attackCount)
+                    return;
+            }
+        }
         // additional hits (dual wield, second, third attack, ...)
         var additionalHitAbilities = new List<IAdditionalHitPassive>();
         foreach (var additionalHitAbilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<IAdditionalHitPassive>())
@@ -437,15 +447,19 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             if (additionalHitAbility != null)
                 additionalHitAbilities.Add(additionalHitAbility);
         }
-        foreach (var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex))
+        foreach (var additionalHitAbility in additionalHitAbilities.OrderBy(x => x.AdditionalHitIndex).ThenBy(x => !x.StopMultiHitIfFailed)) // for each hit index, use additional hits which dont stop multi hit first
         {
             if (additionalHitAbility.IsTriggered(this, victim, true, out _, out _))
+            {
                 OneHit(victim, mainHand, multiHitModifier);
-            attackCount++;
-            if (Fighting != victim)
-                return;
-            if (multiHitModifier?.MaxAttackCount <= attackCount)
-                return;
+                attackCount++;
+                if (Fighting != victim) // stop if not anymore fighting
+                    return;
+                if (multiHitModifier?.MaxAttackCount <= attackCount)
+                    return;
+            }
+            else if (additionalHitAbility.StopMultiHitIfFailed)
+                return; // stop once an additional fails
         }
         // TODO: 2nd main hand, 2nd off hand, 4th, 5th, ... attack
         // TODO: only if wielding 3 or 4 weapons
@@ -1227,6 +1241,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             var room = RoomManager.DefaultDeathRoom ?? RoomManager.DefaultRecallRoom;
             ChangeRoom(room, true);
             ChangePosition(Positions.Sleeping);
+            AddAurasFromBaseFlags();
             Recompute(); // don't reset hp
         }
         else // If not impersonated, remove from game // TODO: this can be a really bad idea

@@ -2,7 +2,7 @@
 
 namespace Mud.Domain.SerializationData;
 
-[JsonPolymorphism(typeof(PlayerData), "admin")]
+[JsonBaseType(typeof(PlayerData), "admin")]
 public class AdminData : PlayerData
 {
     public required AdminLevels AdminLevel { get; set; }

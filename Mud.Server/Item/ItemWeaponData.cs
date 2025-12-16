@@ -3,7 +3,7 @@ using Mud.Domain.SerializationData;
 
 namespace Mud.Server.Item;
 
-[JsonPolymorphism(typeof(ItemData), "weapon")]
+[JsonBaseType(typeof(ItemData), "weapon")]
 public class ItemWeaponData : ItemData
 {
     public required string WeaponFlags { get; set; }

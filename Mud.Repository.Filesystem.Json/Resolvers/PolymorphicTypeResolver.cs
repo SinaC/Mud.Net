@@ -20,7 +20,7 @@ public class PolymorphicTypeResolver : DefaultJsonTypeInfoResolver
         {
             foreach (var type in assembly.GetTypes())
             {
-                var attribute = type.GetCustomAttribute<JsonPolymorphismAttribute>();
+                var attribute = type.GetCustomAttribute<JsonBaseTypeAttribute>();
                 if (attribute != null)
                     derivedTypeDefinitions.Add(new DerivedTypeDefinition { BaseType = attribute.BaseType, DerivedType = type, Discriminator = attribute.Discriminator ?? type.Name });
             }

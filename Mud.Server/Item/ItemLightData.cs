@@ -3,7 +3,7 @@ using Mud.Domain.SerializationData;
 
 namespace Mud.Server.Item;
 
-[JsonPolymorphism(typeof(ItemData), "light")]
+[JsonBaseType(typeof(ItemData), "light")]
 public class ItemLightData : ItemData
 {
     public required int TimeLeft { get; set; }

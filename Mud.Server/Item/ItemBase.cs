@@ -97,10 +97,6 @@ public abstract class ItemBase: EntityBase, IItem
     public override string DebugName => Blueprint == null ? DisplayName : $"{DisplayName}[{Blueprint.Id}]";
 
     // Recompute
-    public override void ResetAttributes()
-    {
-        ItemFlags.Copy(BaseItemFlags);
-    }
 
     public override void Recompute()
     {
@@ -322,6 +318,11 @@ public abstract class ItemBase: EntityBase, IItem
     }
 
     #endregion
+
+    protected override void ResetAttributes()
+    {
+        ItemFlags.Copy(BaseItemFlags);
+    }
 
     protected void ApplyAuras<T>(IEntity source, T target)
         where T : IItem

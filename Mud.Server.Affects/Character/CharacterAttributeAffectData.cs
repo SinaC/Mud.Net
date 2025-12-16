@@ -4,7 +4,7 @@ using Mud.Domain.SerializationData;
 
 namespace Mud.Server.Affects.Character;
 
-[JsonPolymorphism(typeof(AffectDataBase), "characterAttribute")]
+[JsonBaseType(typeof(AffectDataBase), "characterAttribute")]
 public class CharacterAttributeAffectData : AffectDataBase
 {
     public AffectOperators Operator { get; set; } // Or and Nor cannot be used

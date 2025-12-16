@@ -1,14 +1,13 @@
 INGOING
 DONE
-    add NoAffectData affect base class implementing MapAffectData
-    table generator when repeating columns, should not repeat separator
-
+    haste should add a new Affect AdditionalHitAffect
+        -> how to handle base flags haste on PC, we don't want to add a permanent aura like we do on NPC
+    rename JsonPolymorphismAttribute to JsonBaseTypeAttribute
+    weapon doesn't inherit anymore from PassiveBase
 ==========
 == TODO ==
 ==========
 
-    haste should add a new Affect AdditionalHitAffect
-        -> how to handle base flags haste on PC, we don't want to add a permanent aura like we do on NPC
 
 multitable generator, paging a table should repeat the header at the beginning of each page
 
