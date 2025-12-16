@@ -72,9 +72,6 @@ public class Gain : PlayableCharacterGameAction
         if (actionInput.Parameters.Length == 0)
             return Actor.ActPhrase("{0:N} tells you 'Pardon me?'", Trainer);
 
-        if (actionInput.Parameters[0].IsAll)
-            return "You can't gain that.";
-
         // list
         if (StringCompareHelpers.StringStartsWith("list", actionInput.Parameters[0].Value))
         {

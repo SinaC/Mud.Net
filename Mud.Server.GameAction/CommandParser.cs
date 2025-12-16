@@ -137,7 +137,7 @@ public class CommandParser : ICommandParser
         {
             bool isAll = string.Equals(parameter, "all", StringComparison.InvariantCultureIgnoreCase);
             return isAll
-                    ? new CommandParameter(parameter, string.Empty, true)
+                    ? new CommandParameter(parameter, parameter, true)
                     : new CommandParameter(parameter, parameter, 1);
         }
         if (dotIndex == 0)

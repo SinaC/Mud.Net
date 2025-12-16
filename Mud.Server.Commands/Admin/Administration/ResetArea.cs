@@ -44,8 +44,6 @@ public class ResetArea : AdminGameAction
             else
                 return "You are not impersonating, please specity an area name.";
         }
-        else if (actionInput.Parameters[0].IsAll)
-            return "You cannot do that.";
         else
             Area = AreaManager.Areas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.DisplayName, actionInput.Parameters[0].Value))!;
 
