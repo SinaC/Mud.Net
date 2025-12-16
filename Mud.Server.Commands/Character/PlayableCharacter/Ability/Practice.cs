@@ -50,8 +50,6 @@ public class Practice : PlayableCharacterGameAction
             Display = true;
             return null;
         }
-        if (actionInput.Parameters[0].IsAll)
-            return "You can't practice that.";
 
         // practice
         var practicer = Actor.Room?.NonPlayableCharacters.FirstOrDefault(x => Actor.CanSee(x) && x.ActFlags.IsSet("Practice"));
@@ -60,7 +58,6 @@ public class Practice : PlayableCharacterGameAction
         if (Actor.Practices < 0)
             return "You have no practice sessions left.";
         // search ability
-        // TODO: search among already max percentage and display another message
         AbilityLearned = Actor.LearnedAbilities.FirstOrDefault(x => x.CanBePracticed(Actor) && StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;
         if (AbilityLearned == null)
             return "You can't practice that.";

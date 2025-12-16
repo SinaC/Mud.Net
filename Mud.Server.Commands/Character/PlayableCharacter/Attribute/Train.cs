@@ -61,8 +61,6 @@ public class Train : PlayableCharacterGameAction
             Action = Actions.Display;
             return null;
         }
-        if (actionInput.Parameters[0].IsAll)
-            return "You can't train that.";
         // basic attribute
         var attributeFound = Enum.GetValues<BasicAttributes>().Select(x => new { attribute = x, name = x.ToString() }).FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.name, actionInput.Parameters[0].Value));
         if (attributeFound != null)

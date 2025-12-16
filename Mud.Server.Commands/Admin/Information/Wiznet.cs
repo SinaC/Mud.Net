@@ -64,7 +64,7 @@ public class Wiznet : AdminGameAction
             Actor.Send(sb);
             return;
         }
-        if (!FlagToToggle.HasValue)
+        if (!FlagToToggle.HasValue) // all
         {
             foreach (WiznetFlags wiznetFlag in Enum.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.None))
                 Actor.AddWiznet(wiznetFlag);

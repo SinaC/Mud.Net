@@ -1,18 +1,16 @@
 INGOING
+    fix IsAll issue
 DONE
-    haste should add a new Affect AdditionalHitAffect
-        -> how to handle base flags haste on PC, we don't want to add a permanent aura like we do on NPC
-    rename JsonPolymorphismAttribute to JsonBaseTypeAttribute
-    weapon doesn't inherit anymore from PassiveBase
+
 ==========
 == TODO ==
 ==========
-
 
 multitable generator, paging a table should repeat the header at the beginning of each page
 
 try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
 
+quests:
 When an item quest objective is complete, quest item should be NoTake or should be invisible
 quest: add quest item on the fly when player takes the quest or reconnect
 automated quests
@@ -56,7 +54,7 @@ maul: next hit does more damage -> only on white damage (HitDamage) and not yell
 
 generic dot affect
 
-try to change very check on CharacterFlags, ... should be handled with Affect
+try to change every checks on CharacterFlags, ... should be handled with Affect
 Aura list on entity should store a lookup<AffectType, IAffect> for rapid access
 restore should only remove 'negative' auras
 
