@@ -45,7 +45,7 @@ public class Get : CharacterGameAction
                 // TODO: same code as below (***) except source collection (Room.Content)
                 // list must be cloned because it'll be modified when getting an item
                 bool allDot = false;
-                if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item
+                if (!whatParameter.IsAllOnly) // get all.item
                 {
                     What = FindHelpers.FindAllByName(Actor.Room.Content.Where(Actor.CanSee), whatParameter).ToArray();
                     allDot = true;
@@ -88,7 +88,7 @@ public class Get : CharacterGameAction
         {
             // list must be cloned because it'll be modified when getting an item
             bool allDot = false;
-            if (!string.IsNullOrWhiteSpace(whatParameter.Value)) // get all.item [from] container
+            if (!whatParameter.IsAllOnly) // get all.item [from] container
             {
                 What = FindHelpers.FindAllByName(Where.Content.Where(Actor.CanSee), whatParameter).ToArray();
                 allDot = true;

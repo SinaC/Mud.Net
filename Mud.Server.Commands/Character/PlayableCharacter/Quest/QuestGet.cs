@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Mud.Common;
+﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Blueprints.Quest;
@@ -42,11 +41,12 @@ public class QuestGet : PlayableCharacterGameAction
         What = [];
 
         // get all
-        if (actionInput.Parameters[0].IsAll)
+        var whatParameter = actionInput.Parameters[0];
+        if (whatParameter.IsAll)
         {
             Func<QuestBlueprint, bool> filterFunc;
-            if (!string.IsNullOrWhiteSpace(actionInput.Parameters[0].Value))
-                filterFunc = x => StringCompareHelpers.StringStartsWith(x.Title, actionInput.Parameters[0].Value); 
+            if (!whatParameter.IsAllOnly)
+                filterFunc = x => StringCompareHelpers.StringStartsWith(x.Title, whatParameter.Value); 
             else
                 filterFunc = _ => true;
 
@@ -71,7 +71,7 @@ public class QuestGet : PlayableCharacterGameAction
             {
                 foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(blueprint))
                 {
-                    if (StringCompareHelpers.StringStartsWith(questBlueprint.Title, actionInput.Parameters[0].Value))
+                    if (StringCompareHelpers.StringStartsWith(questBlueprint.Title, whatParameter.Value))
                         What.Add((questBlueprint, character));
                 }
             }
