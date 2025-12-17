@@ -12,10 +12,10 @@ namespace Mud.Server.Commands.Character.Item;
 [CharacterCommand("put", "Item", "Equipment", MinPosition = Positions.Resting)]
 [Syntax("[cmd] <item> [in] <container>")]
 [Help(
-@"PUT puts an object into a container.
-PUT understand the object names 'ALL' for all objects and
+@"[cmd] puts an object into a container.
+[cmd] understand the object names 'ALL' for all objects and
 'ALL.object' for all objects with the same name.
-PUT X.sword is also allowed to put the Xth sword of the list.")]
+[cmd] X.sword is also allowed to put the Xth sword of the list.")]
 public class Put : CharacterGameAction
 {
     protected IItem[] What { get; set; } = default!;
@@ -51,7 +51,7 @@ public class Put : CharacterGameAction
         if (whatParameter.IsAll)
         {
             // list must be cloned because it'll be modified when putting an item
-            What = !string.IsNullOrWhiteSpace(whatParameter.Value)
+            What = !whatParameter.IsAllOnly
                 // put all.item [in] container
                 ? FindHelpers.FindAllByName(Actor.Inventory.Where(x => Actor.CanSee(x)), whatParameter).ToArray()
                 // put all [in] container

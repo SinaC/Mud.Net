@@ -4,6 +4,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
+using Mud.Server.Commands.Character.Communication;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -134,7 +135,8 @@ public class Steal : SkillBase
                             break;
                     }
 
-                GameActionManager.Execute(Victim, "Yell", new CommandParameter(msg, msg, false));
+                //GameActionManager.Execute(Victim, "Yell", new CommandParameter(msg, msg, false, false));
+                GameActionManager.Execute<Yell, ICharacter>(Victim, msg);
             }
 
             if (Victim is IPlayableCharacter pcVictim)

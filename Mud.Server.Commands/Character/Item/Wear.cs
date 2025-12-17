@@ -16,7 +16,9 @@ namespace Mud.Server.Commands.Character.Item;
 @"[cmd] will take an armor from inventory and start using it
 as equipment.
 [cmd] ALL will attempt to HOLD, WEAR, or WIELD each suitable item in your
-inventory.")]
+inventory.
+[cmd] ALL.object will attempt to HOLD, WEAR or WIELD each suitable item
+in your inventory with the same name")]
 public class Wear : WearCharacterGameActionBase
 {
     public Wear(IWiznet wiznet)
@@ -41,7 +43,7 @@ public class Wear : WearCharacterGameActionBase
         if (actionInput.Parameters[0].IsAll)
         {
             // We have to clone list because it'll be modified when wearing an item
-            What = !string.IsNullOrWhiteSpace(whatParameter.Value)
+            What = !whatParameter.IsAllOnly
                 // get all.item
                 ? FindHelpers.FindAllByName(Actor.Inventory.Where(x => Actor.CanSee(x)), whatParameter).ToArray()
                 // get all

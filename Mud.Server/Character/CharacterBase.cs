@@ -1657,7 +1657,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         if (this is INonPlayableCharacter npc && npc.Blueprint.StartPosition == Position && !string.IsNullOrWhiteSpace(npc.Blueprint.LongDescription))
         {
-            sb.AppendLine(npc.Blueprint.LongDescription);
+            sb.Append(npc.Blueprint.LongDescription); // long description always includes CRLF
             return sb;
         }
 

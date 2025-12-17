@@ -15,8 +15,8 @@ namespace Mud.Server.Commands.Character.Information;
     "[cmd]",
     "[cmd] <direction>")]
 [Help(
-@"This command allows you to see 3 rooms forward in the 8 directions to
-check if there is players/mobs.")]
+@"This command allows you to see 1 rooms forward in the 8 directions to
+check if there is players/mobs or 3 rooms forward in a specific direction")]
 public class Scan : CharacterGameAction
 {
     protected int MaxDistance = 2;

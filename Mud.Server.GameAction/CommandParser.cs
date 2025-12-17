@@ -11,7 +11,7 @@ public class CommandParser : ICommandParser
 {
     private static readonly ICommandParameter[] _noParameters = Enumerable.Empty<ICommandParameter>().ToArray();
 
-    private static readonly CommandParameter EmptyCommandParameter = new(string.Empty, string.Empty, false);
+    private static readonly CommandParameter EmptyCommandParameter = new(string.Empty, string.Empty, false, false);
 
     private ILogger<CommandParser> Logger { get; }
 
@@ -137,7 +137,7 @@ public class CommandParser : ICommandParser
         {
             bool isAll = string.Equals(parameter, "all", StringComparison.InvariantCultureIgnoreCase);
             return isAll
-                    ? new CommandParameter(parameter, parameter, true)
+                    ? new CommandParameter(parameter, parameter, true, true) // all
                     : new CommandParameter(parameter, parameter, 1);
         }
         if (dotIndex == 0)
@@ -146,7 +146,7 @@ public class CommandParser : ICommandParser
         string value = parameter[(dotIndex + 1)..];
         bool isCountAll = string.Equals(countAsString, "all", StringComparison.InvariantCultureIgnoreCase);
         if (isCountAll)
-            return new CommandParameter(parameter, value, true);
+            return new CommandParameter(parameter, value, true, false); // all.xxx
         if (!int.TryParse(countAsString, out int count)) // string.string is not splitted
             return new CommandParameter(parameter, value, 1);
         if (count <= 0 || string.IsNullOrWhiteSpace(value)) // negative count or empty value is invalid

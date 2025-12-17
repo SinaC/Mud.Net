@@ -8,8 +8,9 @@ public class CommandParameter : ICommandParameter
 
     public string RawValue { get; }
     public bool IsAll { get; } // all.xxx or all
+    public bool IsAllOnly { get; } // all
     public int Count { get; }
-    public string Value { get; } = default!;
+    public string Value { get; } = default!; // all.xxx -> will contain xxx   if all -> will contain all
 
     public List<string> Tokens { get; }
 
@@ -51,11 +52,12 @@ public class CommandParameter : ICommandParameter
         Tokens = value.Split(' ').ToList();
     }
 
-    public CommandParameter(string rawValue, string value, bool isAll)
+    public CommandParameter(string rawValue, string value, bool isAll, bool isAllOnly)
         : this(rawValue)
     {
         Value = value;
         IsAll = isAll;
+        IsAllOnly = isAllOnly;
         Tokens = value.Split(' ').ToList();
     }
 

@@ -73,10 +73,10 @@ public class Drop : CharacterGameAction
         var whatParameter = actionInput.Parameters[0];
 
         // drop all, drop all.item
-        if (actionInput.Parameters[0].IsAll)
+        if (whatParameter.IsAll)
         {
             // list must be cloned because it'll be modified when dropping an item
-            What = !string.IsNullOrWhiteSpace(whatParameter.Value)
+            What = !whatParameter.IsAllOnly
                 // drop all.item
                 ? FindHelpers.FindAllByName(Actor.Inventory.Where(x => Actor.CanSee(x) && x is not IItemQuest), whatParameter).ToArray()
                 // drop all

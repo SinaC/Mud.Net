@@ -1,12 +1,9 @@
 INGOING
+
 DONE
-    scan/farsight modified
-        max dist    dir         no dir
-        farsign     5           3
-        scan        3(5 imm)    1(4 imm)
-    regen more often
-    -> hit/move/mana/... are now decimal and regen is performed every second
-    int Range extensions replaced with Math.Clamp
+    fix IsAll command parameter for wear/get/drop/remove
+    character.AppendToRoom fixed (CRLF removed)
+    scan help text fixed
 
 ==========
 == TODO ==
