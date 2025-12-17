@@ -7,7 +7,7 @@ public class CommandParameter : ICommandParameter
     public static readonly CommandParameter InvalidCommandParameter = new(null!);
 
     public string RawValue { get; }
-    public bool IsAll { get; } // all.xxx
+    public bool IsAll { get; } // all.xxx or all
     public int Count { get; }
     public string Value { get; } = default!;
 

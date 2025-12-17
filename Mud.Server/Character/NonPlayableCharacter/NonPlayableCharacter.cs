@@ -86,7 +86,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
         BaseSex = blueprint.Sex;
         BaseSize = blueprint.Size;
-        Alignment = blueprint.Alignment.Range(-1000, 1000);
+        Alignment = Math.Clamp(blueprint.Alignment, -1000, 1000);
         if (blueprint.Wealth == 0)
         {
             SilverCoins = 0;
@@ -101,7 +101,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         // TODO: see db.C:Create_Mobile
         // TODO: following values must be extracted from blueprint
         SetBaseCharacterAttributes(blueprint);
-        int maxHitPoints = RandomManager.Dice(blueprint.HitPointDiceCount, blueprint.HitPointDiceValue) + blueprint.HitPointDiceBonus;
+        var maxHitPoints = RandomManager.Dice(blueprint.HitPointDiceCount, blueprint.HitPointDiceValue) + blueprint.HitPointDiceBonus;
         SetBaseAttributes(CharacterAttributes.MaxHitPoints, maxHitPoints, false); // OK
         SetBaseAttributes(CharacterAttributes.SavingThrow, 0, false); // TODO
         SetBaseAttributes(CharacterAttributes.HitRoll, blueprint.HitRollBonus, false); // OK
@@ -112,14 +112,15 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         SetBaseAttributes(CharacterAttributes.ArmorSlash, blueprint.ArmorSlash, false); // OK
         SetBaseAttributes(CharacterAttributes.ArmorExotic, blueprint.ArmorExotic, false); // OK
 
+        InitializeCurrentHitPoints(BaseAttribute(CharacterAttributes.MaxHitPoints)); // cannot use SetHitPoints because CurrentMax has not been yet calculated (will be calculated in ResetAttributes)
+        InitializeCurrentMovePoints(BaseAttribute(CharacterAttributes.MaxMovePoints)); // cannot use SetMovePoints because CurrentMax has not been yet calculated (will be calculated in ResetAttributes)
+
         // resources (should be extracted from blueprint)
         // mana
-        int maxManaResource = RandomManager.Dice(blueprint.ManaDiceCount, blueprint.ManaDiceValue) + blueprint.ManaDiceBonus;
+        var maxManaResource = RandomManager.Dice(blueprint.ManaDiceCount, blueprint.ManaDiceValue) + blueprint.ManaDiceBonus;
         SetMaxResource(ResourceKinds.Mana, maxManaResource, false);
-        this[ResourceKinds.Mana] = maxManaResource;
+        SetResource(ResourceKinds.Mana, maxManaResource);
         // TODO: psy
-        HitPoints = BaseAttribute(CharacterAttributes.MaxHitPoints); // can't use this[MaxHitPoints] because current has been been computed, it will be computed in ResetCurrentAttributes
-        MovePoints = BaseAttribute(CharacterAttributes.MaxMovePoints);
 
         Position = blueprint.StartPosition;
 
@@ -165,14 +166,14 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         if (petData.CurrentResources != null)
         {
             foreach (var currentResourceData in petData.CurrentResources)
-                this[currentResourceData.Key] = currentResourceData.Value;
+                SetResource(currentResourceData.Key, currentResourceData.Value);
         }
         else
         {
             Wiznet.Log($"NonPlayableCharacter.ctor: currentResources not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
             foreach (ResourceKinds resource in Enum.GetValues<ResourceKinds>())
-                this[resource] = 1;
+                SetResource(resource, 1);
         }
         if (petData.MaxResources != null)
         {
@@ -549,8 +550,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             Size = BaseSize,
             //SilverCoins = SilverCoins,
             //GoldCoins = GoldCoins,
-            HitPoints = HitPoints,
-            MovePoints = MovePoints,
+            HitPoints = CurrentHitPoints,
+            MovePoints = CurrentMovePoints,
             CurrentResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
             MaxResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
             Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
@@ -587,7 +588,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             };
         }
 
-        learned = learned.Range(0, 100);
+        learned = Math.Clamp(learned, 0, 100);
 
         return (learned, null);
     }
@@ -665,17 +666,16 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
         // TODO: if daze /=2 for spell and *2/3 if otherwise
 
-        learned = learned.Range(0, 100);
+        learned = Math.Clamp(learned, 0, 100);
         return (learned, abilityLearned);
     }
 
-
-    protected override (int hitGain, int moveGain, int manaGain, int psyGain) RegenBaseValues()
+    protected override (decimal hit, decimal move, decimal mana, decimal psy) CalculateResourcesDeltaByMinute()
     {
-        int hitGain = 5 + Level;
-        int moveGain = Level;
-        int manaGain = 5 + Level;
-        int psyGain = 5 + Level;
+        decimal hitGain = 5 + Level;
+        decimal moveGain = Level;
+        decimal manaGain = 5 + Level;
+        decimal psyGain = 5 + Level;
         if (CharacterFlags.IsSet("Regeneration"))
             hitGain *= 2;
         switch (Position)
@@ -707,6 +707,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         return (hitGain, moveGain, manaGain, psyGain);
     }
 
+    protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
+        => (10, -1);
+
     protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
     {
         return direction; // no direction change
@@ -736,7 +739,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
         if (damage > 0) // TODO add test on wait < PULSE_VIOLENCE / 2
         {
-            if ((ActFlags.IsSet("Wimpy") && HitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
+            if ((ActFlags.IsSet("Wimpy") && CurrentHitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
                 || (CharacterFlags.IsSet("Charm") && Master != null && Master.Room != Room))
                 Flee();
         }

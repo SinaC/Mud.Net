@@ -87,7 +87,7 @@ public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
         if (poisonable.ItemFlags.IsSet("Bless"))
             chance -= 5;
         chance -= poisonable.Level * 2;
-        chance = chance.Range(5, 95);
+        chance = Math.Clamp(chance, 5, 95);
         if (!RandomManager.Chance(chance))
             return;
         poisonable.Poison();

@@ -74,7 +74,7 @@ public class EnchantWeapon : ItemInventorySpellBase<IItemWeapon>
             fail -= 15;
         if (weapon.ItemFlags.IsSet("Glowing"))
             fail -= 5;
-        fail = fail.Range(5, 95);
+        fail = Math.Clamp(fail, 5, 95);
         // the moment of truth
         int result = RandomManager.Range(1, 100);
         if (result < fail / 5) // item destroyed

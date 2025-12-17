@@ -39,7 +39,7 @@ public class GasBreath : NoTargetSpellBase
         Caster.Act(ActOptions.ToRoom, "{0} breathes out a cloud of poisonous gas!", Caster);
         Caster.Send("You breath out a cloud of poisonous gas.");
 
-        int hp = Math.Max(16, Caster.HitPoints);
+        int hp = Math.Max(16, Caster.CurrentHitPoints);
         int hpDamage = RandomManager.Range(1 + hp / 15, hp / 8);
         int diceDamage = RandomManager.Dice(Level, 12);
         int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);

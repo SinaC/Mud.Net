@@ -36,7 +36,7 @@ namespace Mud.Server.Tests.NonPlayableCharacters
 
             Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc.MaxHitPoints);
             Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc[CharacterAttributes.MaxHitPoints]);
-            Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc.HitPoints);
+            Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc.CurrentHitPoints);
         }
 
         [TestMethod]
@@ -96,7 +96,9 @@ namespace Mud.Server.Tests.NonPlayableCharacters
                 Vulnerabilities = new IRVFlags(),
                 ShieldFlags = new ShieldFlags(),
                 Level = 50,
-                Sex = Sex.Neutral
+                Sex = Sex.Neutral,
+                StartPosition = Positions.Standing,
+                DefaultPosition = Positions.Standing,
             };
     }
 }

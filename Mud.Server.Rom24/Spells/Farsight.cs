@@ -68,7 +68,6 @@ public class Farsight : NoTargetSpellBase
 
     protected override void Invoke()
     {
-        // identical to Scan command
         StringBuilder sb = new(1024);
         if (Direction == null)
         {
@@ -76,16 +75,16 @@ public class Farsight : NoTargetSpellBase
             // Current room
             foreach (ICharacter victim in Caster.Room.People.Where(x => Caster.CanSee(x)))
                 sb.AppendFormatLine(DistanceFormat[0], victim.RelativeDisplayName(Caster));
-            // Scan in each direction with a max distance of 1
+            // Scan in each direction with a max distance of 3
             foreach (var direction in Enum.GetValues<ExitDirections>())
-                ScanOneDirection(sb, direction, 1);
+                ScanOneDirection(sb, direction, 3);
         }
         else
         {
             Caster.Act(ActOptions.ToAll, "{0:N} peer{0:v} intently {1}.", Caster, Direction.Value.DisplayName());
             sb.AppendFormatLine("Looking {0} you see:", Direction.Value.DisplayNameLowerCase());
-            // Scan in specify direction with a max distance of 3
-            ScanOneDirection(sb, Direction.Value, 3);
+            // Scan in specify direction with a max distance of 5
+            ScanOneDirection(sb, Direction.Value, 5);
         }
         Caster.Send(sb);
     }
@@ -93,7 +92,7 @@ public class Farsight : NoTargetSpellBase
     private void ScanOneDirection(StringBuilder sb, ExitDirections direction, int maxDistance)
     {
         var currentRoom = Caster.Room; // starting point
-        for (int distance = 1; distance < maxDistance+1; distance++)
+        for (int distance = 1; distance < maxDistance + 1; distance++)
         {
             var exit = currentRoom[direction];
             var destination = exit?.Destination;
@@ -110,7 +109,7 @@ public class Farsight : NoTargetSpellBase
 
     private void ScanRoom(StringBuilder sb, IRoom room, ExitDirections direction, int distance)
     {
-        foreach (ICharacter victim in room.People.Where(x => Caster.CanSee(x)))
+        foreach (ICharacter victim in room.People.Where(Caster.CanSee))
             sb.AppendFormatLine(DistanceFormat[distance], victim.RelativeDisplayName(Caster), direction);
     }
 }

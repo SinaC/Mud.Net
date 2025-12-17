@@ -462,13 +462,13 @@ public class Player : ActorBase, IPlayer
     protected static string BuildCharacterPrompt(IPlayableCharacter character) // TODO: custom prompt defined by player
     {
         StringBuilder sb = new ("%c%<");
-        sb.Append($"{character.HitPoints}/{character.MaxHitPoints}Hp");
+        sb.Append($"{character.CurrentHitPoints}/{character.MaxHitPoints}Hp");
         foreach (ResourceKinds resourceKinds in character.CurrentResourceKinds)
             sb.Append($" {character[resourceKinds]}/{character.MaxResource(resourceKinds)}{resourceKinds}");
-        sb.Append($" {character.MovePoints}/{character.MaxMovePoints}Mv");
+        sb.Append($" {character.CurrentMovePoints}/{character.MaxMovePoints}Mv");
         sb.Append($" {character.ExperienceToLevel}Nxt");
         if (character.Fighting != null)
-            sb.Append($" {((100*character.Fighting.HitPoints)/character.Fighting.MaxHitPoints)}%");
+            sb.Append($" {((100*character.Fighting.CurrentHitPoints)/character.Fighting.MaxHitPoints)}%");
         sb.Append(">%x%");
         return sb.ToString();
     }

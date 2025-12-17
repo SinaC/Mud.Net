@@ -39,6 +39,7 @@ public class ResistanceCalculator : IResistanceCalculator
             else if (victim.Vulnerabilities.IsSet("Magic"))
                 defaultResistance = ResistanceLevels.Vulnerable;
         }
+        // check specific damage
         switch (damageType)
         {
             case SchoolTypes.None:
@@ -99,27 +100,30 @@ public class ResistanceCalculator : IResistanceCalculator
                 return defaultResistance;
         }
         // if immune to input damage -> immune
-        // if globally immune but resistant to input damage -> resistant
-        // if globally immune but vulnerable to input damage -> resistant
-        // if globally resistant but vulnerable to input damage -> normal
-        var resistance = ResistanceLevels.None;
+        // if resistant to input damage
+        //      if default immune -> immune
+        //      else -> resistant
+        //  if vulnerable to input damage
+        //      if default immune -> resistant
+        //      if default resistant -> normal
+        //      if default vulnerable -> vulnerable
         if (victim.Immunities.IsSet(irvFlags))
-            resistance = ResistanceLevels.Immune;
-        else if (victim.Resistances.IsSet(irvFlags) && defaultResistance != ResistanceLevels.Immune)
-            resistance = ResistanceLevels.Resistant;
-        else if (victim.Vulnerabilities.IsSet(irvFlags))
+            return ResistanceLevels.Immune;
+        if (victim.Resistances.IsSet(irvFlags))
         {
             if (defaultResistance == ResistanceLevels.Immune)
-                resistance = ResistanceLevels.Resistant;
-            else if (defaultResistance == ResistanceLevels.Resistant)
-                resistance = ResistanceLevels.Normal;
-            else
-                resistance = ResistanceLevels.Vulnerable;
+                return ResistanceLevels.Immune;
+            return ResistanceLevels.Resistant;
         }
-        // if no specific resistance found, return generic one
-        if (resistance == ResistanceLevels.None)
-            return defaultResistance;
-        // else, return specific resistance
-        return resistance;
+        if (victim.Vulnerabilities.IsSet(irvFlags))
+        {
+            if (defaultResistance == ResistanceLevels.Immune)
+                return ResistanceLevels.Resistant;
+            else if (defaultResistance == ResistanceLevels.Resistant)
+                return ResistanceLevels.Normal;
+            else
+                return ResistanceLevels.Vulnerable;
+        }
+        return defaultResistance;
     }
 }

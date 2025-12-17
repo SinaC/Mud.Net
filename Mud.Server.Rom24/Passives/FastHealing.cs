@@ -23,14 +23,14 @@ public class FastHealing : RegenerationPassiveBase
     {
     }
 
-    public override int HitGainModifier(ICharacter user, int baseHitGain)
+    public override decimal HitGainModifier(ICharacter user, decimal baseHitGain)
     {
         bool isTriggered = IsTriggered(user, user, false, out int diceRoll, out _);
         if (isTriggered)
         {
-            if (user.HitPoints < user.MaxHitPoints)
+            if (user.CurrentHitPoints < user.MaxHitPoints)
                 (user as IPlayableCharacter)?.CheckAbilityImprove(PassiveName, true, 8);
-            return (diceRoll * baseHitGain) / 100;
+            return (diceRoll * baseHitGain) / 100m;
         }
         return 0;
     }

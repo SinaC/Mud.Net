@@ -4,10 +4,8 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.Extensions;
 using Mud.Server.Ability;
-using Mud.Server.Affects;
 using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
-using Mud.Server.Commands.Admin.Punish;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
@@ -48,7 +46,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     private readonly int[] _baseAttributes;
     private readonly int[] _currentAttributes;
     private readonly int[] _maxResources;
-    private readonly int[] _currentResources;
+    private readonly decimal[] _currentResources;
+    private decimal _currentHitPoints;
+    private decimal _currentMovePoints;
     private readonly Dictionary<string, int> _cooldownsPulseLeft;
     private readonly Dictionary<string, IAbilityLearned> _learnedAbilities;
 
@@ -84,7 +84,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
         _baseAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
         _currentAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
         _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
-        _currentResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
+        _currentResources = new decimal[EnumHelpers.GetCount<ResourceKinds>()];
+        _currentHitPoints = 0;
+        _currentMovePoints = 0;
         _cooldownsPulseLeft = new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
         _learnedAbilities = new Dictionary<string, IAbilityLearned>(StringComparer.InvariantCultureIgnoreCase); // handled by RecomputeKnownAbilities
 
@@ -256,9 +258,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     // Attributes
     public int Level { get; protected set; }
-    public int HitPoints { get; protected set; }
+    public int CurrentHitPoints => decimal.ToInt32(_currentHitPoints);
     public int MaxHitPoints => _currentAttributes[(int)CharacterAttributes.MaxHitPoints];
-    public int MovePoints { get; protected set; }
+    public int CurrentMovePoints => decimal.ToInt32(_currentMovePoints);
     public int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
 
     public ICharacterFlags BaseCharacterFlags { get; protected set; }
@@ -324,17 +326,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 Logger.LogError("Trying to get current resource for resource {resource} (index {index}) but current resource length is smaller", resource, index);
                 return 0;
             }
-            return _currentResources[index];
-        }
-        protected set
-        {
-            int index = (int)resource;
-            if (index >= _currentResources.Length)
-            {
-                Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resource, index);
-                return;
-            }
-            _currentResources[index] = value;
+            return decimal.ToInt32(_currentResources[index]);
         }
     }
 
@@ -645,7 +637,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return 0;
         }
-        return _maxResources[index];
+        return decimal.ToInt32(_maxResources[index]);
     }
 
     public void SetMaxResource(ResourceKinds resourceKind, int value)
@@ -684,27 +676,59 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public void SetResource(ResourceKinds resourceKind, int value)
     {
-        this[resourceKind] = value.Range(0, _maxResources[(int)resourceKind]);
+        int index = (int)resourceKind;
+        if (index >= _currentResources.Length)
+        {
+            Logger.LogError("Trying to set resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
+            return;
+        }
+        if (index >= _maxResources.Length)
+        {
+            Logger.LogError("Trying to set resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
+            return;
+        }
+        _currentResources[index] = Math.Clamp(value, 0, _maxResources[index]);
     }
 
-    public void UpdateResource(ResourceKinds resourceKind, int amount)
+    public void UpdateResource(ResourceKinds resourceKind, decimal amount)
     {
-        this[resourceKind] = (this[resourceKind] + amount).Range(0, _maxResources[(int)resourceKind]);
+        int index = (int)resourceKind;
+        if (index >= _currentResources.Length)
+        {
+            Logger.LogError("Trying to set resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
+            return;
+        }
+        if (index >= _maxResources.Length)
+        {
+            Logger.LogError("Trying to set resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
+            return;
+        }
+        _currentResources[index] = Math.Clamp(_currentResources[index] + amount, 0, _maxResources[(int)resourceKind]);
     }
 
-    public void UpdateHitPoints(int amount)
+    public void SetHitPoints(int value)
     {
-        HitPoints = (HitPoints + amount).Range(0, MaxHitPoints);
+        _currentHitPoints = Math.Clamp(value, 0, MaxHitPoints);
     }
 
-    public void UpdateMovePoints(int amount)
+    public void UpdateHitPoints(decimal amount)
     {
-        MovePoints = (MovePoints + amount).Range(0, MaxMovePoints);
+        _currentHitPoints = Math.Clamp(_currentHitPoints + amount, 0, MaxHitPoints);
+    }
+
+    public void SetMovePoints(int value)
+    {
+        _currentMovePoints = Math.Clamp(value, 0, MaxMovePoints);
+    }
+
+    public void UpdateMovePoints(decimal amount)
+    {
+        _currentMovePoints = Math.Clamp(_currentMovePoints + amount, 0, MaxMovePoints);
     }
 
     public void UpdateAlignment(int amount) 
     {
-        Alignment = (Alignment + amount).Range(MinAlignment, MaxAlignment);
+        Alignment = Math.Clamp(Alignment + amount, MinAlignment, MaxAlignment);
         // impact on equipment
         bool recompute = false;
         foreach (var item in Equipments.Where(x => x.Item != null).Select(x => x.Item))
@@ -727,54 +751,74 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
-    public void Regen()
+    public void Regen(int pulseCount)
     {
-        // Hp/Move
-        var (hitGain, moveGain, manaGain, psyGain) = RegenBaseValues();
-
-        hitGain = hitGain * Room.HealRate / 100;
-        manaGain = manaGain * Room.ResourceRate / 100;
-        psyGain = psyGain * Room.ResourceRate / 100;
-
-        if (Furniture != null && Furniture.HealBonus != 0)
+        // hp/move/mana/psy
+        if (CurrentHitPoints != MaxHitPoints || CurrentMovePoints != MaxMovePoints || this[ResourceKinds.Mana] != MaxResource(ResourceKinds.Mana) || this[ResourceKinds.Psy] != MaxResource(ResourceKinds.Psy))
         {
-            hitGain = (hitGain * Furniture.HealBonus) / 100;
-            moveGain = (moveGain * Furniture.HealBonus) / 100;
+            var (hitGain, moveGain, manaGain, psyGain) = CalculateResourcesDeltaByMinute();
+
+            hitGain = hitGain * Room.HealRate / 100;
+            manaGain = manaGain * Room.ResourceRate / 100;
+            psyGain = psyGain * Room.ResourceRate / 100;
+
+            if (Furniture != null && Furniture.HealBonus != 0)
+            {
+                hitGain = (hitGain * Furniture.HealBonus) / 100;
+                moveGain = (moveGain * Furniture.HealBonus) / 100;
+            }
+
+            if (Furniture != null && Furniture.ResourceBonus != 0)
+            {
+                manaGain = (manaGain * Furniture.ResourceBonus) / 100;
+                psyGain = (psyGain * Furniture.ResourceBonus) / 100;
+            }
+
+            if (CharacterFlags.IsSet("Poison"))
+            {
+                hitGain /= 4;
+                moveGain /= 4;
+                manaGain /= 4;
+                psyGain /= 4;
+            }
+            if (CharacterFlags.IsSet("Plague"))
+            {
+                hitGain /= 8;
+                moveGain /= 8;
+                manaGain /= 8;
+                psyGain /= 8;
+            }
+            if (CharacterFlags.IsSet("Haste") || CharacterFlags.IsSet("Slow"))
+            {
+                hitGain /= 2;
+                moveGain /= 2;
+                manaGain /= 2;
+                psyGain /= 2;
+            }
+            //
+            var byMinuteDivisor = (decimal)Pulse.PulsePerMinutes / pulseCount;
+            hitGain /= byMinuteDivisor;
+            moveGain /= byMinuteDivisor;
+            manaGain /= byMinuteDivisor;
+            psyGain /= byMinuteDivisor;
+
+            UpdateHitPoints(hitGain);
+            UpdateMovePoints(moveGain);
+            UpdateResource(ResourceKinds.Mana, manaGain);
+            UpdateResource(ResourceKinds.Psy, psyGain);
         }
 
-        if (Furniture != null && Furniture.ResourceBonus != 0)
+        // energy/rage
+        if (this[ResourceKinds.Energy] != MaxResource(ResourceKinds.Energy) || this[ResourceKinds.Rage] != MaxResource(ResourceKinds.Rage))
         {
-            manaGain = (manaGain * Furniture.ResourceBonus) / 100;
-            psyGain = (psyGain * Furniture.ResourceBonus) / 100;
-        }
+            var (energyGain, rageGain) = CalculateResourcesDeltaBySecond();
+            var bySecondDivisor = (decimal)pulseCount / Pulse.PulsePerSeconds;
+            energyGain /= bySecondDivisor;
+            rageGain /= bySecondDivisor;
 
-        if (CharacterFlags.IsSet("Poison"))
-        {
-            hitGain /= 4;
-            moveGain /= 4;
-            manaGain /= 4;
-            psyGain /= 4;
+            UpdateResource(ResourceKinds.Energy, energyGain);
+            UpdateResource(ResourceKinds.Rage, rageGain);
         }
-        if (CharacterFlags.IsSet("Plague"))
-        {
-            hitGain /= 8;
-            moveGain /= 8;
-            manaGain /= 8;
-            psyGain /= 8;
-        }
-        if (CharacterFlags.IsSet("Haste") || CharacterFlags.IsSet("Slow"))
-        {
-            hitGain /= 2;
-            moveGain /= 2;
-            manaGain /= 2;
-            psyGain /= 2;
-        }
-        HitPoints = Math.Min(HitPoints + hitGain, MaxHitPoints);
-        MovePoints = Math.Min(MovePoints + moveGain, MaxMovePoints);
-        UpdateResource(ResourceKinds.Mana, manaGain);
-        UpdateResource(ResourceKinds.Psy, psyGain);
-
-        // Other resources
     }
 
     public void AddBaseCharacterFlags(bool recompute, params string[] characterFlags)
@@ -875,8 +919,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // Keep attributes in valid range
-        HitPoints = Math.Min(HitPoints, MaxHitPoints);
-        MovePoints = Math.Min(MovePoints, MaxMovePoints);
+        _currentHitPoints = Math.Min(_currentHitPoints, MaxHitPoints);
+        _currentMovePoints = Math.Min(_currentMovePoints, MaxMovePoints);
         for (int i = 0; i < _currentResources.Length; i++)
             _currentResources[i] = Math.Min(_currentResources[i], _maxResources[i]);
         // keep basic attributes in valid range
@@ -898,7 +942,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 maxAllowed = Math.Min(max, 25);
             }
             var attributeIndex = (int)basicAttribute;
-            _currentAttributes[attributeIndex] = _currentAttributes[attributeIndex].Range(3, maxAllowed);
+            _currentAttributes[attributeIndex] = Math.Clamp(_currentAttributes[attributeIndex], 3, maxAllowed);
         }
     }
 
@@ -1244,7 +1288,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
         if (victim.Class?.CurrentResourceKinds(victim.Shape).Contains(ResourceKinds.Mana) == true)
             save = (save * 9) / 10;
-        save = save.Range(5, 95);
+        save = Math.Clamp(save, 5, 95);
         return RandomManager.Chance(save);
     }
 
@@ -1267,10 +1311,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 return true;
 
             if (npcVictim.Blueprint is CharacterShopBlueprint)
-            {
-                caster.Send("The shopkeeper wouldn't like that.");
                 return true;
-            }
 
             if (npcVictim.ActFlags.HasAny("Train", "Gain", "Practice", "IsHealer")
                 || npcVictim.Blueprint is CharacterQuestorBlueprint)
@@ -1559,10 +1600,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         //
         string condition = "is here.";
-        int maxHitPoints = MaxHitPoints;
+        var maxHitPoints = MaxHitPoints;
         if (maxHitPoints > 0)
         {
-            int percent = (100 * HitPoints) / maxHitPoints;
+            int percent = (100 * CurrentHitPoints) / maxHitPoints;
             if (percent >= 100)
                 condition = "is in excellent condition.";
             else if (percent >= 90)
@@ -1855,7 +1896,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected abstract void AfterMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom);
 
-    protected abstract (int hitGain, int moveGain, int manaGain, int psyGain) RegenBaseValues();
+    protected abstract (decimal hit, decimal move, decimal mana, decimal psy) CalculateResourcesDeltaByMinute();
+    protected abstract (decimal energy, decimal rage) CalculateResourcesDeltaBySecond();
 
     protected virtual bool AutomaticallyDisplayRoom
         => IncarnatedBy != null;
@@ -2221,6 +2263,16 @@ public abstract class CharacterBase : EntityBase, ICharacter
         CurrentResourceKinds = (Class?.CurrentResourceKinds(Shape) ?? DefaultAvailableResources).ToList();
     }
 
+    protected void InitializeCurrentHitPoints(int value)
+    { 
+        _currentHitPoints = value;
+    }
+
+    protected void InitializeCurrentMovePoints(int value)
+    {
+        _currentMovePoints = value;
+    }
+
     protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)
     {
         int index = (int)resourceKind;
@@ -2390,7 +2442,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display) // 'this' is dealt damage by 'source'
     {
-        if (HitPoints <= 0)
+        if (CurrentHitPoints <= 0)
             return DamageResults.Dead;
 
         // check safe + start fight
@@ -2540,13 +2592,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return DamageResults.NoDamage;
 
         // hurt the victim
-        HitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
+        _currentHitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
         // immortals don't really die
         if (this is IPlayableCharacter { IsImmortal: true }
-            && HitPoints < 1)
-            HitPoints = 1;
+            && _currentHitPoints < 1)
+            _currentHitPoints = 1;
         // TODO: in original code, position is updating depending on hitpoints and a specific message depending on position is displayed (check update_pos)
-        var isDead = HitPoints <= 0;
+        var isDead = _currentHitPoints <= 0;
         if (isDead)
         {
             Send("You have been KILLED!!");
@@ -2556,7 +2608,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         {
             if (damage > MaxHitPoints / 4)
                 Send("That really did HURT!");
-            if (HitPoints < MaxHitPoints / 4)
+            if (_currentHitPoints < MaxHitPoints / 4)
                 Send("You sure are BLEEDING!");
         }
 
@@ -2587,5 +2639,4 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return null;
         return abilityLearned;
     }
-
 }

@@ -90,7 +90,7 @@ public class ColdEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             chance += 25;
         else if (item is IItemDrinkContainer)
             chance += 5;
-        chance = chance.Range(5, 95);
+        chance = Math.Clamp(chance, 5, 95);
         if (RandomManager.Range(1, 100) > chance)
             return;
         // display msg
