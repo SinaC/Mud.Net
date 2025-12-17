@@ -9,6 +9,7 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
@@ -786,7 +787,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
         base.AddAurasFromBaseFlags();
 
-        if (OffensiveFlags.IsSet("Fast") && !BaseCharacterFlags.IsSet("Haste")) // if BaseCharacterFlags has Haste, base.AddAurasFromBaseFlags already added Haste affect
+        if (OffensiveFlags.IsSet("Fast") && !BaseCharacterFlags.IsSet("Haste") && !Auras.HasAffect<ICharacterFlagsAffect>(x => x.Modifier.IsSet("Haste")))
         {
             // TODO: code copied from haste spell (except duration and aura flags) use effect ??
             var hasteAbilityDefinition = AbilityManager["Haste"];
