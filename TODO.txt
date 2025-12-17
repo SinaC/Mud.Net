@@ -1,6 +1,7 @@
 INGOING
-    fix IsAll issue
 DONE
+    look in room must display npc long description if any and position is same as start position
+    default/start position for NPC
 
 ==========
 == TODO ==
@@ -50,6 +51,8 @@ would be used for https://www.wowhead.com/mop-classic/spell=33876/mangle which i
 handle shapeshift using new type of affect
 cat form/bear form with new affects
 
+try to replace is INonPlayableCharacter with overrides (same goes for is IPlayableCharacter)
+
 maul: next hit does more damage -> only on white damage (HitDamage) and not yellow damage (AbilityDamage)
 
 generic dot affect
@@ -80,8 +83,6 @@ dangerous call sequence (luckily we set Room to NullRoom in the first lines of c
                 Room.ApplyAuras which could kill PlayableCharacter we are trying to create
 
 move GetAbilityLearnedInfo, Regen, RegenBaseValues, OneHit NPC (the end checking skills), ... to Rom24
-
-add remaining position: STUNNED, INCAP, ...
 
 RomImporter should be related to Mud.Server.Rom24
 RotImporter should be related to Mud.Server.Rot

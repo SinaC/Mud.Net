@@ -118,6 +118,7 @@ public class Cstat : AdminGameAction
         sb.AppendFormatLine("Immunites: {0} (base: {1})", Whom.Immunities, Whom.BaseImmunities);
         sb.AppendFormatLine("Resistances: {0} (base: {1})", Whom.Resistances, Whom.BaseResistances);
         sb.AppendFormatLine("Vulnerabilities: {0} (base: {1})", Whom.Vulnerabilities, Whom.BaseVulnerabilities);
+        sb.AppendFormatLine("Shields: {0} (base: {1})", Whom.ShieldFlags, Whom.BaseShieldFlags);
         sb.AppendFormatLine("Forms: {0} (base: {1})", Whom.BodyForms, Whom.BaseBodyForms);
         sb.AppendFormatLine("Parts: {0} (base: {1})", Whom.BodyParts, Whom.BaseBodyParts);
         sb.AppendFormatLine("Alignment: {0}", Whom.Alignment);

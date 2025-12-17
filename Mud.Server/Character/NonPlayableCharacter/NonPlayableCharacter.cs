@@ -121,6 +121,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         HitPoints = BaseAttribute(CharacterAttributes.MaxHitPoints); // can't use this[MaxHitPoints] because current has been been computed, it will be computed in ResetCurrentAttributes
         MovePoints = BaseAttribute(CharacterAttributes.MaxMovePoints);
 
+        Position = blueprint.StartPosition;
+
         if (!string.IsNullOrWhiteSpace(blueprint.SpecialBehavior))
             SpecialBehavior = SpecialBehaviorManager.CreateInstance(blueprint.SpecialBehavior);
 

@@ -64,6 +64,8 @@ public class Cinfo : AdminGameAction
         sb.AppendFormatLine("Immunities: {0}", Blueprint.Immunities);
         sb.AppendFormatLine("Resistances: {0}", Blueprint.Resistances);
         sb.AppendFormatLine("Vulnerabilities: {0}", Blueprint.Vulnerabilities);
+        sb.AppendFormatLine("Shields: {0}", Blueprint.ShieldFlags);
+        sb.AppendFormatLine("StartPos: {0} DefaultPos: {1}", Blueprint.StartPosition, Blueprint.DefaultPosition);
         sb.AppendFormatLine("Specials: {0}", Blueprint.SpecialBehavior);
         // TODO: loot table, script
         // TODO: specific Blueprint
