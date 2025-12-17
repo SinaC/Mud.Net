@@ -38,7 +38,7 @@ public class AcidBreath : OffensiveSpellBase
         Victim.Act(ActOptions.ToCharacter, "{0} spits a stream of corrosive acid at you.", Caster);
         Caster.Act(ActOptions.ToCharacter, "You spit acid at {0}.", Victim);
 
-        int hp = Math.Max(12, Victim.HitPoints);
+        int hp = Math.Max(12, Victim.CurrentHitPoints);
         int hpDamage = RandomManager.Range(1 + hp / 11, hp / 6);
         int diceDamage = RandomManager.Dice(Level, 16);
         int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);

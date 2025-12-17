@@ -52,7 +52,7 @@ public class Backstab : OffensiveSkillBase
         if (!(User.GetEquipment(EquipmentSlots.MainHand) is IItemWeapon))
             return "You need to wield a weapon to backstab.";
 
-        if (Victim.HitPoints < Victim.MaxHitPoints / 3)
+        if (Victim.CurrentHitPoints < Victim.MaxHitPoints / 3)
             return User.ActPhrase("{0} is hurt and suspicious ... you can't sneak up.", Victim);
 
         return null;

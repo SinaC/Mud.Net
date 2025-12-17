@@ -112,8 +112,8 @@ public class Cstat : AdminGameAction
             sb.AppendFormatLine("Level: {0}", Whom.Level);
         if (nonPlayableWhom != null)
             sb.AppendFormatLine("Damage: {0}d{1}+{2} {3} {4}", nonPlayableWhom.DamageDiceCount, nonPlayableWhom.DamageDiceValue, nonPlayableWhom.DamageDiceBonus, nonPlayableWhom.DamageType, nonPlayableWhom.DamageNoun);
-        sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", Whom.HitPoints, Whom.MaxHitPoints);
-        sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", Whom.MovePoints, Whom.MaxMovePoints);
+        sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", Whom.CurrentHitPoints, Whom.MaxHitPoints);
+        sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", Whom.CurrentMovePoints, Whom.MaxMovePoints);
         sb.AppendFormatLine("Flags: {0} (base: {1})", Whom.CharacterFlags, Whom.BaseCharacterFlags);
         sb.AppendFormatLine("Immunites: {0} (base: {1})", Whom.Immunities, Whom.BaseImmunities);
         sb.AppendFormatLine("Resistances: {0} (base: {1})", Whom.Resistances, Whom.BaseResistances);

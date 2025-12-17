@@ -152,7 +152,7 @@ public class ItemPortal : ItemBase, IItemPortal
     public void SetCharge(int current, int max)
     {
         MaxChargeCount = Math.Max(1, max);
-        CurrentChargeCount = current.Range(1, MaxChargeCount);
+        CurrentChargeCount = Math.Clamp(current, 1, MaxChargeCount);
     }
 
     #endregion

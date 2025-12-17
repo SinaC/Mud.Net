@@ -65,9 +65,9 @@ public interface ICharacter : IEntity, IContainer
 
     // Attributes
     int Level { get; }
-    int HitPoints { get; }
+    int CurrentHitPoints { get; }
     int MaxHitPoints { get; }
-    int MovePoints { get; }
+    int CurrentMovePoints { get; }
     int MaxMovePoints { get; }
 
     ICharacterFlags BaseCharacterFlags { get; }
@@ -159,11 +159,13 @@ public interface ICharacter : IEntity, IContainer
     void SetMaxResource(ResourceKinds resourceKind, int value);
     void UpdateMaxResource(ResourceKinds resourceKind, int amount);
     void SetResource(ResourceKinds resourceKind, int value);
-    void UpdateResource(ResourceKinds resourceKind, int amount);
-    void UpdateHitPoints(int amount);
-    void UpdateMovePoints(int amount);
+    void UpdateResource(ResourceKinds resourceKind, decimal amount);
+    void SetHitPoints(int value);
+    void UpdateHitPoints(decimal amount);
+    void SetMovePoints(int value);
+    void UpdateMovePoints(decimal amount);
     void UpdateAlignment(int amount);
-    void Regen();
+    void Regen(int pulseCount);
     void AddBaseCharacterFlags(bool recompute, params string[] characterFlags);
     void RemoveBaseCharacterFlags(bool recompute, params string[] characterFlags);
 

@@ -107,25 +107,25 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         Experience = data.Experience;
         SilverCoins = data.SilverCoins;
         GoldCoins = data.GoldCoins;
-        HitPoints = data.HitPoints;
-        MovePoints = data.MovePoints;
         Alignment = data.Alignment;
+        // set max resource first because set current resource will be capped to max resource
+        if (data.MaxResources != null)
+        {
+            foreach (var maxResourceData in data.MaxResources)
+                SetMaxResource(maxResourceData.Key, maxResourceData.Value, false);
+        }
+        // setting current resources
         if (data.CurrentResources != null)
         {
             foreach (var currentResourceData in data.CurrentResources)
-                this[currentResourceData.Key] = currentResourceData.Value;
+                SetResource(currentResourceData.Key, currentResourceData.Value);
         }
         else
         {
             Wiznet.Log($"PlayableCharacter.ctor: currentResources not found in pfile for {data.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
             foreach (ResourceKinds resource in Enum.GetValues<ResourceKinds>())
-                this[resource] = 1;
-        }
-        if (data.MaxResources != null)
-        {
-            foreach (var maxResourceData in data.MaxResources)
-                SetMaxResource(maxResourceData.Key, maxResourceData.Value, false);
+                SetResource(resource, 1);
         }
         Trains = data.Trains;
         Practices = data.Practices;
@@ -156,6 +156,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             foreach (CharacterAttributes attribute in Enum.GetValues<CharacterAttributes>())
                 this[attribute] = 1;
         }
+        InitializeCurrentHitPoints(data.HitPoints); // cannot use SetHitPoints because CurrentMax has not been yet calculated (will be calculated in ResetAttributes)
+        InitializeCurrentMovePoints(data.MovePoints); // cannot use SetMovePoints because CurrentMax has not been yet calculated (will be calculated in ResetAttributes)
+
         // TODO: set not-found attributes to base value (from class/race)
 
         // Must be built before equiping
@@ -552,7 +555,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // no ability (exotic) -> 3*level
         if (abilityName == null)
         {
-            var learned = (3 * Level).Range(0, 100);
+            var learned = Math.Clamp(3 * Level, 0, 100);
             return (learned, null);
         }
         // ability, check %
@@ -572,7 +575,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (this[Conditions.Drunk] > 10)
             learned = (learned * 9 ) / 10;
 
-        return (learned.Range(0, 100), learnedAbility);
+        return (Math.Clamp(learned, 0, 100), learnedAbility);
     }
 
     #endregion
@@ -658,7 +661,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (this[condition] == NoCondition)
             return;
         int previousValue = this[condition];
-        this[condition] = (previousValue + value).Range(MinCondition, MaxCondition);
+        this[condition] = Math.Clamp(previousValue + value, MinCondition, MaxCondition);
         if (this[condition] == MinCondition)
         {
             switch (condition)
@@ -806,10 +809,10 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 Recompute();
                 // Bonus -> reset cooldown and set resource to max
                 ResetCooldowns();
-                HitPoints = MaxHitPoints;
-                MovePoints = MaxMovePoints;
+                SetHitPoints(MaxHitPoints);
+                SetMovePoints(MaxMovePoints);
                 foreach (ResourceKinds resourceKind in Enum.GetValues<ResourceKinds>())
-                    this[resourceKind] = MaxResource(resourceKind);
+                    SetResource(resourceKind, MaxResource(resourceKind));
                 ImpersonatedBy?.SetSaveNeeded();
             }
         }
@@ -845,7 +848,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // now that the character has a CHANCE to learn, see if they really have
         if (abilityUsedSuccessfully)
         {
-            chance = (100 - abilityLearned.Learned).Range(5, 95);
+            chance = Math.Clamp(100 - abilityLearned.Learned, 5, 95);
             if (RandomManager.Chance(chance))
             {
                 Send("You have become better at {0}!", abilityLearned.Name);
@@ -856,7 +859,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
         else
         {
-            chance = (abilityLearned.Learned / 2).Range(5, 30);
+            chance = Math.Clamp(abilityLearned.Learned / 2, 5, 30);
             if (RandomManager.Chance(chance))
             {
                 Send("You learn from your mistakes, and your {0} skill improves.!", abilityLearned.Name);
@@ -988,8 +991,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Size = BaseSize,
             SilverCoins = SilverCoins,
             GoldCoins = GoldCoins,
-            HitPoints = HitPoints,
-            MovePoints = MovePoints,
+            HitPoints = CurrentHitPoints,
+            MovePoints = CurrentMovePoints,
             CurrentResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
             MaxResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
             Alignment = Alignment,
@@ -1040,12 +1043,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override bool AutomaticallyDisplayRoom => true;
 
-    protected override (int hitGain, int moveGain, int manaGain, int psyGain) RegenBaseValues()
+    protected override (decimal hit, decimal move, decimal mana, decimal psy) CalculateResourcesDeltaByMinute()
     {
-        int hitGain = Math.Max(3, this[CharacterAttributes.Constitution] - 3 + Level / 2);
-        int moveGain = Math.Max(15, Level);
-        int manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
-        int psyGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2; // TODO: correct formula
+        decimal hitGain = Math.Max(3, this[CharacterAttributes.Constitution] - 3 + Level / 2);
+        decimal moveGain = Math.Max(15, Level);
+        decimal manaGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2;
+        decimal psyGain = (this[CharacterAttributes.Wisdom] + this[CharacterAttributes.Intelligence] + Level) / 2; // TODO: correct formula
         // regen
         if (CharacterFlags.IsSet("Regeneration"))
             hitGain *= 2;
@@ -1106,6 +1109,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         return (hitGain, moveGain, manaGain, psyGain);
     }
 
+    protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
+        => (10, -1);
+
     protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
     {
         // Drunk enough to change direction ?
@@ -1136,12 +1142,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             moveCost /= 2; // flying is less exhausting
         if (CharacterFlags.IsSet("Slow"))
             moveCost *= 2; // being slowed is more exhausting
-        if (MovePoints < moveCost)
+        if (CurrentMovePoints < moveCost)
         {
             Send("You are too exhausted.");
             return false;
         }
-        MovePoints -= moveCost;
+        UpdateMovePoints(-moveCost);
 
         // Delay player by one pulse
         ImpersonatedBy?.SetGlobalCooldown(1);
@@ -1221,10 +1227,10 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override void HandleDeath()
     {
         ChangePosition(Positions.Resting);
-        HitPoints = 1;
-        MovePoints = 1;
+        SetHitPoints(1);
+        SetMovePoints(1);
         foreach (var resourceKind in Enum.GetValues<ResourceKinds>())
-            this[resourceKind] = 1;
+            SetResource(resourceKind, 1);
         ResetCooldowns();
         // release pets
         foreach (INonPlayableCharacter pet in _pets)

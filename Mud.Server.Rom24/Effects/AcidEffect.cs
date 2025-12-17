@@ -74,7 +74,7 @@ public class AcidEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             chance -= 10;
         else if (item is IItemScroll)
             chance += 10;
-        chance = chance.Range(5, 95);
+        chance = Math.Clamp(chance, 5, 95);
         if (RandomManager.Range(1, 100) > chance)
             return;
         string msg;

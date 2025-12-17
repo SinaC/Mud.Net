@@ -1,5 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Domain.Extensions;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
@@ -10,11 +11,17 @@ using System.Text;
 namespace Mud.Server.Commands.Character.Information;
 
 [CharacterCommand("scan", "Information", MinPosition = Positions.Standing, NotInCombat = true)]
+[Syntax(
+    "[cmd]",
+    "[cmd] <direction>")]
 [Help(
 @"This command allows you to see 3 rooms forward in the 8 directions to
 check if there is players/mobs.")]
 public class Scan : CharacterGameAction
 {
+    protected int MaxDistance = 2;
+    protected ExitDirections? Direction { get; set; } = default!;
+
     public override string? Guards(IActionInput actionInput)
     {
         var baseGuards = base.Guards(actionInput);
@@ -27,50 +34,70 @@ public class Scan : CharacterGameAction
             return "Maybe it would help if you could see?";
         if (Actor.Room.RoomFlags.IsSet("NoScan"))
             return "Your vision is clouded by a mysterious force.";
+        var isImmortal = Actor is IPlayableCharacter pc && pc.IsImmortal;
+        if (actionInput.Parameters.Length > 0)
+        {
+            if (ExitDirectionsExtensions.TryFindDirection(actionInput.Parameters[0].Value, out ExitDirections direction))
+            {
+                MaxDistance = isImmortal ? 5 : 3;
+                Direction = direction;
+                return null;
+            }
+            else
+                return "Which way do you want to scan?";
+        }
+        MaxDistance = isImmortal ? 4 : 1;
         return null;
     }
 
     public override void Execute(IActionInput actionInput)
     {
         StringBuilder sb = new(1024);
-        // Current room
-        sb.AppendLine("Right here you see:");
-        StringBuilder currentScan = ScanRoom(Actor.Room);
-        if (currentScan.Length == 0)
-            sb.AppendLine("None");// should never happen, 'this' is in the room
-        else
-            sb.Append(currentScan);
-        // Scan in one direction for each distance, then starts with another direction
-        foreach (var direction in Enum.GetValues<ExitDirections>())
+        if (Direction == null)
         {
-            IRoom currentRoom = Actor.Room; // starting point
-            for (int distance = 1; distance < 4; distance++)
-            {
-                var exit = currentRoom[direction];
-                var destination = exit?.Destination;
-                if (destination == null)
-                    break; // stop in that direction if no exit found or no linked room found
-                if (destination.RoomFlags.IsSet("NoScan"))
-                    break; // no need to scan further
-                if (exit?.IsClosed == true)
-                    break; // can't see thru closed door
-                StringBuilder roomScan = ScanRoom(destination);
-                if (roomScan.Length > 0)
-                {
-                    sb.AppendFormatLine("%c%{0} %r%{1}%x% from here you see:", distance, direction);
-                    sb.Append(roomScan);
-                }
-
-                currentRoom = destination;
-            }
+            // Current room
+            sb.AppendLine("Right here you see:");
+            StringBuilder currentScan = ScanRoom(Actor.Room);
+            if (currentScan.Length == 0)
+                sb.AppendLine("None");// should never happen, 'this' is in the room
+            else
+                sb.Append(currentScan);
+            // Scan in one direction for each distance, then starts with another direction
+            foreach (var direction in Enum.GetValues<ExitDirections>())
+                ScanOneDirection(sb, direction, MaxDistance);
         }
+        else
+            ScanOneDirection(sb, Direction.Value, MaxDistance);
         Actor.Send(sb);
+    }
+
+    private void ScanOneDirection(StringBuilder sb, ExitDirections direction, int maxDistance)
+    {
+        var currentRoom = Actor.Room; // starting point
+        for (int distance = 1; distance < maxDistance + 1; distance++)
+        {
+            var exit = currentRoom[direction];
+            var destination = exit?.Destination;
+            if (destination == null)
+                break; // stop in that direction if no exit found or no linked room found
+            if (destination.RoomFlags.IsSet("NoScan"))
+                break; // no need to scan further
+            if (exit?.IsClosed == true)
+                break; // can't see thru closed door
+            var roomScan = ScanRoom(destination);
+            if (roomScan.Length > 0)
+            {
+                sb.AppendFormatLine("%c%{0} %r%{1}%x% from here you see:", distance, direction);
+                sb.Append(roomScan);
+            }
+            currentRoom = destination;
+        }
     }
 
     private StringBuilder ScanRoom(IRoom room)
     {
         StringBuilder peopleInRoom = new();
-        foreach (ICharacter victim in room.People.Where(x => Actor.CanSee(x)))
+        foreach (ICharacter victim in room.People.Where(Actor.CanSee))
             peopleInRoom.AppendFormatLine(" - {0}", victim.RelativeDisplayName(Actor));
         return peopleInRoom;
     }

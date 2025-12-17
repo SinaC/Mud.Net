@@ -55,7 +55,7 @@ public class AbilityLearned : IAbilityLearned
 
     public void SetLearned(int amount)
     {
-        Learned = amount.Range(0, 100);
+        Learned = Math.Clamp(amount, 0, 100);
     }
 
     public LearnedAbilityData MapLearnedAbilityData()

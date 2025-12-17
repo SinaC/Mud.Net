@@ -38,7 +38,7 @@ public class EnergyDrain : OffensiveSpellBase
 
         int damage;
         if (Victim.Level <= 2)
-            damage = Victim.HitPoints + 1;
+            damage = Victim.CurrentHitPoints + 1;
         else
         {
             damage = RandomManager.Dice(1, Level);
@@ -48,7 +48,7 @@ public class EnergyDrain : OffensiveSpellBase
                 pcVictim.GainExperience(-lose);
             }
             Victim.UpdateResource(ResourceKinds.Mana, -Victim[ResourceKinds.Mana] / 2); // half mana
-            Victim.UpdateMovePoints(-Victim.MovePoints / 2); // half move
+            Victim.UpdateMovePoints(-Victim.CurrentMovePoints / 2); // half move
             Caster.UpdateHitPoints(damage);
         }
 

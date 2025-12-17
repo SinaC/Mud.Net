@@ -35,8 +35,8 @@ public class Score : CharacterGameAction
             sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% |                       |", Actor[CharacterAttributes.Constitution], Actor.BaseAttribute(CharacterAttributes.Constitution), Actor.Level);
         sb.AppendLine("+------------------------------+-------------------------+");
         sb.AppendLine("| %W%Resources%x%                    | %W%Defensive%x%              |");
-        sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", Actor.HitPoints, Actor.MaxHitPoints, Actor[Armors.Bash]);
-        sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", Actor.MovePoints, Actor.MaxMovePoints, Actor[Armors.Pierce]);
+        sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", Actor.CurrentHitPoints, Actor.MaxHitPoints, Actor[Armors.Bash]);
+        sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", Actor.CurrentMovePoints, Actor.MaxMovePoints, Actor[Armors.Pierce]);
         List<string> resources = [];
         foreach (ResourceKinds resourceKind in Actor.CurrentResourceKinds)
             resources.Add($"%g%{resourceKind,-7}: %W%[{Actor[resourceKind],8}/{Actor.MaxResource(resourceKind),8}]%x%");

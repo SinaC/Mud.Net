@@ -165,9 +165,9 @@ public class TimeManager : ITimeManager
         else
             diff = Pressure > 1015 ? -2 : 2;
         PressureChange += diff * RandomManager.Dice(1, 4) + RandomManager.Dice(2, 6) - RandomManager.Dice(2, 6);
-        PressureChange = PressureChange.Range(-12, 12);
+        PressureChange = Math.Clamp(PressureChange, -12, 12);
         Pressure += PressureChange;
-        Pressure = Pressure.Range(960, 1040);
+        Pressure = Math.Clamp(Pressure, 960, 1040);
         switch (SkyState)
         {
             case SkyStates.Cloudless:

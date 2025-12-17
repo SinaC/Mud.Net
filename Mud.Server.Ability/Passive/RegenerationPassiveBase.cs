@@ -13,7 +13,7 @@ public abstract class RegenerationPassiveBase : PassiveBase, IRegenerationPassiv
     {
     }
 
-    public virtual int HitGainModifier(ICharacter user, int baseHitGain) => 0;
+    public virtual decimal HitGainModifier(ICharacter user, decimal baseHitGain) => 0;
 
-    public virtual int ResourceGainModifier(ICharacter user, ResourceKinds resourceKind, int baseResourceGain) => 0;
+    public virtual decimal ResourceGainModifier(ICharacter user, ResourceKinds resourceKind, decimal baseResourceGain) => 0;
 }

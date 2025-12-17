@@ -27,7 +27,7 @@ public class Meditation : RegenerationPassiveBase
     {
     }
 
-    public override int ResourceGainModifier(ICharacter user, ResourceKinds resourceKind, int baseResourceGain)
+    public override decimal ResourceGainModifier(ICharacter user, ResourceKinds resourceKind, decimal baseResourceGain)
     {
         if (resourceKind == ResourceKinds.Mana)
         {
@@ -36,7 +36,7 @@ public class Meditation : RegenerationPassiveBase
             {
                 if (user[ResourceKinds.Mana] < user.MaxResource(ResourceKinds.Mana))
                     (user as IPlayableCharacter)?.CheckAbilityImprove(PassiveName, true, 8);
-                return (diceRoll * baseResourceGain) / 100;
+                return (diceRoll * baseResourceGain) / 100m;
             }
         }
         return 0;

@@ -83,7 +83,7 @@ public class DispelManager : IDispelManager
             spellLevel += 5;
 
         int save = 50 + (spellLevel - dispelLevel) * 5;
-        save = save.Range(5, 95);
+        save = Math.Clamp(save, 5, 95);
         return RandomManager.Chance(save);
     }
 
@@ -97,7 +97,7 @@ public class DispelManager : IDispelManager
             auraLevel += 5;
 
         int save = 50 + (auraLevel - dispelLevel) * 5;
-        save = save.Range(5, 95);
+        save = Math.Clamp(save, 5, 95);
         return RandomManager.Chance(save);
     }
 }

@@ -1420,16 +1420,17 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         foreach (var ch in CharacterManager.Characters)
         {
-            // energy regen (+10/s)
-            if (ch.CurrentResourceKinds.Contains(ResourceKinds.Energy) && ch[ResourceKinds.Energy] < 100)
-            {
-                ch.UpdateResource(ResourceKinds.Energy, 10);
-            }
-            // rage depletion (-1/s)
-            if (ch.CurrentResourceKinds.Contains(ResourceKinds.Rage) && ch[ResourceKinds.Rage] > 0)
-            {
-                ch.UpdateResource(ResourceKinds.Rage, -1);
-            }
+            //// energy regen (+10/s)
+            //if (ch.CurrentResourceKinds.Contains(ResourceKinds.Energy) && ch[ResourceKinds.Energy] < 100)
+            //{
+            //    ch.UpdateResource(ResourceKinds.Energy, 10);
+            //}
+            //// rage depletion (-1/s)
+            //if (ch.CurrentResourceKinds.Contains(ResourceKinds.Rage) && ch[ResourceKinds.Rage] > 0)
+            //{
+            //    ch.UpdateResource(ResourceKinds.Rage, -1);
+            //}
+            ch.Regen(pulseCount);
         }
     }
 
@@ -1440,12 +1441,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             try
             {
                 //
-                playingClient.Client.WriteData("--TICK--" + Environment.NewLine); // TODO: only if user want tick info
+                //regen is now by second instead of minute, TICK is not really useful then playingClient.Client.WriteData("--TICK--" + Environment.NewLine); // TODO: only if user want tick info
                 string prompt = playingClient.Player.Prompt;
                 playingClient.Client.WriteData(prompt); // display prompt at each tick
 
                 // If idle for too long, unimpersonate or disconnect
-                TimeSpan ts = TimeManager.CurrentTime - playingClient.LastReceivedDataTimestamp;
+                var ts = TimeManager.CurrentTime - playingClient.LastReceivedDataTimestamp;
                 if (ts.TotalMinutes > ServerOptions.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
                 {
                     playingClient.Client.WriteData("Idle for too long, unimpersonating..." + Environment.NewLine);
@@ -1488,8 +1489,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             	continue;
             }*/
 
-                // Update resources
-                character.Regen();
+                // regen is now handled in HandleResources
+                //// Update resources
+                //character.Regen();
 
                 // Light
                 var light = character.GetEquipment<IItemLight>(EquipmentSlots.Light);

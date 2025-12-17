@@ -11,7 +11,7 @@ public class RefreshEffect : IEffect<ICharacter>
     public void Apply(ICharacter victim, IEntity source, string abilityName, int level, int _)
     {
         victim.UpdateMovePoints(level);
-        if (victim.MovePoints == victim.MaxMovePoints)
+        if (victim.CurrentMovePoints == victim.MaxMovePoints)
             victim.Send("You feel fully refreshed!");
         else
             victim.Send("You feel less tired.");
