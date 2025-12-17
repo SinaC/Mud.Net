@@ -113,6 +113,12 @@ public abstract class CharacterBlueprintBase
     public IShieldFlags ShieldFlags { get; set; } = default!;
 
     [DataMember]
+    public Positions StartPosition { get; set; } = default!;
+
+    [DataMember]
+    public Positions DefaultPosition { get; set; } = default!;
+
+    [DataMember]
     public string Race { get; set; } = default!;
 
     [DataMember]

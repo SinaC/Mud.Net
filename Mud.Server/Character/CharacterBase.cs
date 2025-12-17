@@ -1153,7 +1153,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         Fighting = null;
         Stunned = 0;
-        ChangePosition(Positions.Standing);
+        if (this is INonPlayableCharacter npc)
+            npc.ChangePosition(npc.Blueprint.DefaultPosition);
+        else
+            ChangePosition(Positions.Standing);
         if (both)
         {
             foreach (ICharacter victim in CharacterManager.Characters.Where(x => x.Fighting == this))
@@ -1610,10 +1613,15 @@ public abstract class CharacterBase : EntityBase, ICharacter
         FlagsManager.Append(sb, ShieldFlags, false);
 
         // TODO: killer/thief
-        // TODO: display long description and stop if position = start position for NPC
 
-        // last case of POS_STANDING
+        if (this is INonPlayableCharacter npc && npc.Blueprint.StartPosition == Position && !string.IsNullOrWhiteSpace(npc.Blueprint.LongDescription))
+        {
+            sb.AppendLine(npc.Blueprint.LongDescription);
+            return sb;
+        }
+
         sb.Append(RelativeDisplayName(viewer));
+        // TODO: title ?
         switch (Position)
         {
             case Positions.Sleeping:

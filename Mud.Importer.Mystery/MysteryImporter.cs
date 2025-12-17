@@ -1310,6 +1310,8 @@ public class MysteryImporter
                 Resistances = ConvertMysteryIRV(mobileData.ResFlags),
                 Vulnerabilities = ConvertMysteryIRV(mobileData.VulnFlags),
                 ShieldFlags = shieldFlags,
+                StartPosition = ConvertPosition(mobileData, mobileData.StartPos),
+                DefaultPosition = ConvertPosition(mobileData, mobileData.DefaultPos),
                 Race = mobileData.Race,
                 BodyForms = ConvertBodyForms(mobileData.Form),
                 BodyParts = ConvertBodyParts(mobileData.Parts),
@@ -1354,6 +1356,8 @@ public class MysteryImporter
                 Resistances = ConvertMysteryIRV(mobileData.ResFlags),
                 Vulnerabilities = ConvertMysteryIRV(mobileData.VulnFlags),
                 ShieldFlags = shieldFlags,
+                StartPosition = ConvertPosition(mobileData, mobileData.StartPos),
+                DefaultPosition = ConvertPosition(mobileData, mobileData.DefaultPos),
                 Race = mobileData.Race,
                 BodyForms = ConvertBodyForms(mobileData.Form),
                 BodyParts = ConvertBodyParts(mobileData.Parts),
@@ -1366,6 +1370,20 @@ public class MysteryImporter
                 OpenHour = mobileData.Shop.OpenHour,
                 CloseHour = mobileData.Shop.CloseHour,
             };
+    }
+
+    private Positions ConvertPosition(MobileData mobileData, string position)
+    {
+        switch (position)
+        {
+            case "stand": return Positions.Standing;
+            case "sit": return Positions.Sitting;
+            case "rest": return Positions.Resting;
+            case "sleep": return Positions.Sleeping;
+            default:
+                Logger.LogError("Invalid position {position} for mob {vnum}", mobileData.DefaultPos, mobileData.VNum);
+                return Positions.Standing;
+        }
     }
 
     private Sex ConvertSex(MobileData mobileData)
