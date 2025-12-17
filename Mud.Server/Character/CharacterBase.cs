@@ -7,6 +7,7 @@ using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Entity;
 using Mud.Server.Flags;
@@ -2369,7 +2370,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected virtual void AddAurasFromBaseFlags()
     {
         // shields
-        if (BaseShieldFlags.IsSet("Sanctuary"))
+        if (BaseShieldFlags.IsSet("Sanctuary") && !Auras.HasAffect<ICharacterShieldFlagsAffect>(x => x.Modifier.IsSet("Sanctuary")))
         {
             // TODO: code copied from sanctuary spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Sanctuary"];
@@ -2377,7 +2378,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("Sanctuary"), Operator = AffectOperators.Or },
                 AffectManager.CreateInstance("Sanctuary"));
         }
-        if (BaseShieldFlags.IsSet("ProtectGood"))
+        if (BaseShieldFlags.IsSet("ProtectGood") && !Auras.HasAffect<ICharacterShieldFlagsAffect>(x => x.Modifier.IsSet("Protection Good")))
         {
             // TODO: code copied from protection good spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Good"];
@@ -2385,7 +2386,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 new CharacterShieldFlagsAffect { Modifier = new ShieldFlags("ProtectGood"), Operator = AffectOperators.Or },
                 AffectManager.CreateInstance("ProtectGood"));
         }
-        if (BaseShieldFlags.IsSet("ProtectEvil"))
+        if (BaseShieldFlags.IsSet("ProtectEvil") && !Auras.HasAffect<ICharacterShieldFlagsAffect>(x => x.Modifier.IsSet("Protection Evil")))
         {
             // TODO: code copied from protection evil spell (except duration and aura flags) use effect ??
             var sanctuaryAbilityDefinition = AbilityManager["Protection Evil"];
@@ -2394,7 +2395,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 AffectManager.CreateInstance("ProtectEvil"));
         }
         // TODO: other shields like FireShield, IceShield, LightningShield
-        if (BaseCharacterFlags.IsSet("Haste"))
+        if (BaseCharacterFlags.IsSet("Haste") && !Auras.HasAffect<ICharacterFlagsAffect>(x => x.Modifier.IsSet("Haste")))
         {
             // TODO: code copied from haste spell (except duration and aura flags) use effect ??
             var hasteAbilityDefinition = AbilityManager["Haste"];
