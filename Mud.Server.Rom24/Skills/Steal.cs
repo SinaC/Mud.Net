@@ -186,19 +186,12 @@ public class Steal : SkillBase
             percent += 25;
         else
             percent += 50;
-        var pcActor = Actor as IPlayableCharacter;
-        var pcVictim = Victim as IPlayableCharacter;
-        if (pcActor != null)
+        if (Actor is IPlayableCharacter pcActor)
         {
-            if (
-                (pcVictim != null && (Actor.Level + 7 < Victim.Level || Actor.Level - 7 > Victim.Level))
-                || percent > Learned
-            // || pcActor.Clan == null
-            // TODO
-            )
-            {
+            if (percent > Learned /*|| !Actor.IsInClan*/)
                 return true;
-            }
+            if (Victim is IPlayableCharacter pcVictim && (pcActor.Level + 7 < pcVictim.Level || pcActor.Level - 7 > pcVictim.Level))
+                return true;
         }
 
         return false;
