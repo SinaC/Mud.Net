@@ -350,7 +350,7 @@ public abstract class EntityBase : ActorBase, IEntity
     //      h, H: have/has
     //      v, V: add 's' at the end of a verb if argument is different than target (take care of verb ending with y/o/h
     // IItem
-    //      argument.Name if visible by target, something otherwhise
+    //      argument.Name if visible by target, something otherwise
     // IExit
     //      exit name
     // IAbility
