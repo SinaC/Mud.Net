@@ -2,6 +2,8 @@ INGOING
 
 DONE
     fix IsAll command parameter for wear/get/drop/remove
+    character.AppendToRoom fixed (CRLF removed)
+    scan help text fixed
 
 ==========
 == TODO ==
