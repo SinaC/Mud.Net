@@ -1,7 +1,7 @@
 ﻿using Mud.Common;
-using Mud.Domain;
-using Mud.Domain.Extensions;
 using Mud.Domain.SerializationData;
+using Mud.Server.Common.Extensions;
+using Mud.Server.Domain;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using System.Text;

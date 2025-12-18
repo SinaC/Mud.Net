@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.GameAction;

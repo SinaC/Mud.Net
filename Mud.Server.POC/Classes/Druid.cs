@@ -2,6 +2,7 @@
 using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Class;
+using Mud.Server.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Class;
@@ -13,20 +14,20 @@ public class Druid : ClassBase
 {
     private readonly List<ResourceKinds> _bear =
     [
-        Domain.ResourceKinds.Mana,
-        Domain.ResourceKinds.Rage
+        Mud.Domain.ResourceKinds.Mana,
+        Mud.Domain.ResourceKinds.Rage
     ];
 
     private readonly List<ResourceKinds> _cat =
     [
-        Domain.ResourceKinds.Mana,
-        Domain.ResourceKinds.Energy,
-        Domain.ResourceKinds.Combo,
+        Mud.Domain.ResourceKinds.Mana,
+        Mud.Domain.ResourceKinds.Energy,
+        Mud.Domain.ResourceKinds.Combo,
     ];
 
     private readonly List<ResourceKinds> _caster =
     [
-        Domain.ResourceKinds.Mana
+        Mud.Domain.ResourceKinds.Mana
     ];
 
     #region IClass
@@ -37,10 +38,10 @@ public class Druid : ClassBase
 
     public override IEnumerable<ResourceKinds> ResourceKinds { get; } =
     [
-        Domain.ResourceKinds.Mana, // normal/cat/bear shape
-        Domain.ResourceKinds.Energy, // cat shape
-        Domain.ResourceKinds.Combo, // cat shape
-        Domain.ResourceKinds.Rage // bear shape
+        Mud.Domain.ResourceKinds.Mana, // normal/cat/bear shape
+        Mud.Domain.ResourceKinds.Energy, // cat shape
+        Mud.Domain.ResourceKinds.Combo, // cat shape
+        Mud.Domain.ResourceKinds.Rage // bear shape
     ];
 
     public override IEnumerable<ResourceKinds> CurrentResourceKinds(Shapes shape)
@@ -66,13 +67,13 @@ public class Druid : ClassBase
     public Druid(ILogger<Druid> logger, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager)
         : base(logger, abilityManager, abilityGroupManager)
     {
-        AddAvailableAbility(15, "Cat Form", Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 0, 100);
-        AddAvailableAbility(15, "Claw", Domain.ResourceKinds.Energy, 45, CostAmountOperators.Fixed, 1, 100);
-        AddAvailableAbility(20, "Rake", Domain.ResourceKinds.Energy, 40, CostAmountOperators.Fixed, 1, 100);
-        AddAvailableAbility(20, "Ferocious Bite", Domain.ResourceKinds.Combo, 1, CostAmountOperators.All, 1, 100);
-        AddAvailableAbility(5, "Bear Form", Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 0, 100);
-        AddAvailableAbility(10, "Demoralizing Roar", Domain.ResourceKinds.Rage, 10, CostAmountOperators.Fixed, 1, 100);
-        AddAvailableAbility(20, "Maul", Domain.ResourceKinds.Rage, 15, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(15, "Cat Form", Mud.Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 0, 100);
+        AddAvailableAbility(15, "Claw", Mud.Domain.ResourceKinds.Energy, 45, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(20, "Rake", Mud.Domain.ResourceKinds.Energy, 40, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(20, "Ferocious Bite", Mud.Domain.ResourceKinds.Combo, 1, CostAmountOperators.All, 1, 100);
+        AddAvailableAbility(5, "Bear Form", Mud.Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 0, 100);
+        AddAvailableAbility(10, "Demoralizing Roar", Mud.Domain.ResourceKinds.Rage, 10, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(20, "Maul", Mud.Domain.ResourceKinds.Rage, 15, CostAmountOperators.Fixed, 1, 100);
 
         AddBasicAbilityGroup("druid basics");
 

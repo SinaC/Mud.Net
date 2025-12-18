@@ -1,7 +1,8 @@
 ﻿using Mud.Common;
 using Mud.Domain;
-using Mud.Domain.Extensions;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
+using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;

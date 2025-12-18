@@ -1,6 +1,6 @@
 ﻿using Mud.Common.Attributes;
 using Mud.Server.Ability.AbilityGroup;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.AbilityGroup;
 
 namespace Mud.Server.Rom24.AbilityGroups;

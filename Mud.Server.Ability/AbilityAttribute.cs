@@ -1,5 +1,5 @@
 ﻿using Mud.Common.Attributes;
-using Mud.Domain;
+using Mud.Server.Domain;
 using Mud.Server.Interfaces.Ability;
 
 namespace Mud.Server.Ability;

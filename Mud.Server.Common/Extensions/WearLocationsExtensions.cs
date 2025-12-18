@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
+using Mud.Domain;
 
-namespace Mud.Domain.Extensions;
+namespace Mud.Server.Common.Extensions;
 
 public static class WearLocationsExtensions
 {

@@ -72,7 +72,6 @@ public class ItemFurniture : ItemBase, IItemFurniture
     public bool CanRest => FurnitureActions.HasFlag(FurnitureActions.Rest);
     public bool CanSleep => FurnitureActions.HasFlag(FurnitureActions.Sleep);
 
-
     public StringBuilder AppendPosition(StringBuilder sb, string verb)
     {
         if (FurniturePlacePreposition == FurniturePlacePrepositions.At)

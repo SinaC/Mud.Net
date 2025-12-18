@@ -1,4 +1,4 @@
-﻿namespace Mud.Domain.Serialization;
+﻿namespace Mud.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
 public class JsonBaseTypeAttribute : Attribute

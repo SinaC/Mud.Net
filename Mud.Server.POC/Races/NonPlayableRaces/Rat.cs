@@ -18,9 +18,9 @@ public class Rat : RaceBase
     public override IIRVFlags Vulnerabilities => new IRVFlags();
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
-        Domain.EquipmentSlots.Head,
-        Domain.EquipmentSlots.Chest,
-        Domain.EquipmentSlots.Float,
+        Mud.Domain.EquipmentSlots.Head,
+        Mud.Domain.EquipmentSlots.Chest,
+        Mud.Domain.EquipmentSlots.Float,
     ];
     public override IBodyForms BodyForms => new BodyForms( "Edible", "Animal", "Mammal");
     public override IBodyParts BodyParts => new BodyParts( "Head", "Body", "Legs", "Heart", "Brains", "Guts", "Feet", "Ear", "Eye", "Tail", "Claws");

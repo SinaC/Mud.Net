@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
-using Mud.Server.Commands.Character.Combat;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;

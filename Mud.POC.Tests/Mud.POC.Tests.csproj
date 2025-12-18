@@ -39,6 +39,5 @@
 		<ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
 		<ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
 		<ProjectReference Include="..\Mud.POC\Mud.POC.csproj" />
-		<ProjectReference Include="..\Mud.Server.Flags\Mud.Server.Flags.csproj" />
 	</ItemGroup>
 </Project>

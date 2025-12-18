@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Server.Affects.Character;
+﻿using Mud.Server.Affects.Character;
+using Mud.Server.Domain;
 using Riok.Mapperly.Abstractions;
 
 namespace Mud.POC.Tests.Mapping

@@ -1,6 +1,7 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects;
 using Mud.Server.Affects.Character;
+using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;

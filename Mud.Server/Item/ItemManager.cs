@@ -267,7 +267,6 @@ public class ItemManager : IItemManager
         var auras = new ReadOnlyCollection<IAura>(item.Auras.ToList()); // clone
         foreach (var aura in auras)
         {
-            aura.OnRemoved();
             item.RemoveAura(aura, false);
         }
         // no need to recompute

@@ -1,6 +1,7 @@
 ﻿using Moq;
 using Mud.Domain;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Room;
 

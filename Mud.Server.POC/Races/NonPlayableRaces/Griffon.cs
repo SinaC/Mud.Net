@@ -18,9 +18,9 @@ public class Griffon : RaceBase
     public override IIRVFlags Vulnerabilities => new IRVFlags("Pierce", "Cold");
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
-        Domain.EquipmentSlots.Head,
-        Domain.EquipmentSlots.Chest,
-        Domain.EquipmentSlots.Float,
+        Mud.Domain.EquipmentSlots.Head,
+        Mud.Domain.EquipmentSlots.Chest,
+        Mud.Domain.EquipmentSlots.Float,
     ];
     public override IBodyForms BodyForms => new BodyForms( "Edible", "Animal", "Mammal", "Bird");
     public override IBodyParts BodyParts => new BodyParts( "Head", "Body", "Legs", "Heart", "Brains", "Guts", "Eye", "Wings", "Fangs");

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain;
+using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
@@ -30,34 +31,34 @@ public class Insectoid : PlayableRaceBase // 4-arms
 
     private readonly List<EquipmentSlots> _slots =
     [
-        Domain.EquipmentSlots.Light,
-        Domain.EquipmentSlots.Head,
-        Domain.EquipmentSlots.Amulet,
-        Domain.EquipmentSlots.Amulet,
-        Domain.EquipmentSlots.Chest,
-        Domain.EquipmentSlots.Cloak,
-        Domain.EquipmentSlots.Waist,
+        Mud.Domain.EquipmentSlots.Light,
+        Mud.Domain.EquipmentSlots.Head,
+        Mud.Domain.EquipmentSlots.Amulet,
+        Mud.Domain.EquipmentSlots.Amulet,
+        Mud.Domain.EquipmentSlots.Chest,
+        Mud.Domain.EquipmentSlots.Cloak,
+        Mud.Domain.EquipmentSlots.Waist,
         // --> 2 pair of hands
-        Domain.EquipmentSlots.Wrists,
-        Domain.EquipmentSlots.Wrists,
-        Domain.EquipmentSlots.Wrists,
-        Domain.EquipmentSlots.Wrists,
-        Domain.EquipmentSlots.Arms,
-        Domain.EquipmentSlots.Arms,
-        Domain.EquipmentSlots.Hands,
-        Domain.EquipmentSlots.Hands,
-        Domain.EquipmentSlots.Ring,
-        Domain.EquipmentSlots.Ring,
-        Domain.EquipmentSlots.Ring,
-        Domain.EquipmentSlots.Ring,
+        Mud.Domain.EquipmentSlots.Wrists,
+        Mud.Domain.EquipmentSlots.Wrists,
+        Mud.Domain.EquipmentSlots.Wrists,
+        Mud.Domain.EquipmentSlots.Wrists,
+        Mud.Domain.EquipmentSlots.Arms,
+        Mud.Domain.EquipmentSlots.Arms,
+        Mud.Domain.EquipmentSlots.Hands,
+        Mud.Domain.EquipmentSlots.Hands,
+        Mud.Domain.EquipmentSlots.Ring,
+        Mud.Domain.EquipmentSlots.Ring,
+        Mud.Domain.EquipmentSlots.Ring,
+        Mud.Domain.EquipmentSlots.Ring,
         // <--
-        Domain.EquipmentSlots.Legs,
-        Domain.EquipmentSlots.Feet,
+        Mud.Domain.EquipmentSlots.Legs,
+        Mud.Domain.EquipmentSlots.Feet,
         // 4 hands
-        Domain.EquipmentSlots.MainHand,
-        Domain.EquipmentSlots.OffHand,
-        Domain.EquipmentSlots.MainHand,
-        Domain.EquipmentSlots.OffHand,
+        Mud.Domain.EquipmentSlots.MainHand,
+        Mud.Domain.EquipmentSlots.OffHand,
+        Mud.Domain.EquipmentSlots.MainHand,
+        Mud.Domain.EquipmentSlots.OffHand,
         // no float as malus
     ];
 

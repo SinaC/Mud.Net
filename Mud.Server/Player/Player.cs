@@ -373,9 +373,10 @@ public class Player : ActorBase, IPlayer
 
     public virtual void OnDisconnected()
     {
-        LastTeller = null;
         LastTeller?.Send($"{DisplayName} has left the game.");
+        LastTeller = null;
         SnoopBy?.Send($"Your victim {DisplayName} has left the game.");
+        SnoopBy = null;
         // Stop impersonation if any + stop fights
         if (Impersonating != null)
         {

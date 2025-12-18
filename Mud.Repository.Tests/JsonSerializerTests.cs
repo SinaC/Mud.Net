@@ -128,6 +128,7 @@ namespace Mud.Repository.Tests
           ]
         }
       ],
+      ""LearnedAbilityGroups"":[],
       ""LearnedAbilities"": [
         {
           ""Name"": ""Envenom"",
@@ -1858,6 +1859,7 @@ namespace Mud.Repository.Tests
       ""Practices"": 5,
       ""AutoFlags"": 0,
       ""CurrentQuests"": [],
+      ""LearnedAbilityGroups"":[],
       ""LearnedAbilities"": [
         {
           ""Name"": ""Berserk"",
@@ -1930,6 +1932,7 @@ namespace Mud.Repository.Tests
       ""Practices"": 6,
       ""AutoFlags"": 15,
       ""CurrentQuests"": [],
+      ""LearnedAbilityGroups"":[],
       ""LearnedAbilities"": [
         {
           ""Name"": ""Detect Magic"",
@@ -2308,6 +2311,7 @@ namespace Mud.Repository.Tests
       ""Practices"": 5,
       ""AutoFlags"": 0,
       ""CurrentQuests"": [],
+      ""LearnedAbilityGroups"":[],
       ""LearnedAbilities"": [
         {
           ""Name"": ""Bash"",
@@ -2389,6 +2393,7 @@ namespace Mud.Repository.Tests
       ""Practices"": 5,
       ""AutoFlags"": 0,
       ""CurrentQuests"": [],
+      ""LearnedAbilityGroups"":[],
       ""LearnedAbilities"": [
         {
           ""Name"": ""Detect Magic"",
@@ -2785,6 +2790,7 @@ namespace Mud.Repository.Tests
       ""Practices"": 6,
       ""AutoFlags"": 0,
       ""CurrentQuests"": [],
+      ""LearnedAbilityGroups"":[],
       ""LearnedAbilities"": [
         {
           ""Name"": ""Detect Magic"",
@@ -3181,6 +3187,7 @@ namespace Mud.Repository.Tests
       ""Practices"": 4,
       ""AutoFlags"": 0,
       ""CurrentQuests"": [],
+      ""LearnedAbilityGroups"":[],
       ""LearnedAbilities"": [
         {
           ""Name"": ""Detect Magic"",
@@ -3577,6 +3584,7 @@ namespace Mud.Repository.Tests
       ""Practices"": 91,
       ""AutoFlags"": 127,
       ""CurrentQuests"": [],
+      ""LearnedAbilityGroups"":[],
       ""LearnedAbilities"": [
         {
           ""Name"": ""Backstab"",
@@ -5126,6 +5134,7 @@ namespace Mud.Repository.Tests
       ""Practices"": 5,
       ""AutoFlags"": 0,
       ""CurrentQuests"": [],
+      ""LearnedAbilityGroups"":[],
       ""LearnedAbilities"": [],
       ""Conditions"": {
         ""Full"": 48,

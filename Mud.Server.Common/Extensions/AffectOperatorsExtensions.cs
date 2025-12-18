@@ -1,4 +1,6 @@
-﻿namespace Mud.Domain.Extensions;
+﻿using Mud.Server.Domain;
+
+namespace Mud.Server.Common.Extensions;
 
 public static class AffectOperatorsExtensions
 {

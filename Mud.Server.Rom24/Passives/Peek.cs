@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Passives;

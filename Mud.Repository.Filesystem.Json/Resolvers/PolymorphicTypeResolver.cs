@@ -1,5 +1,5 @@
 ﻿using Mud.Common;
-using Mud.Domain.Serialization;
+using Mud.Common.Attributes;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -47,6 +47,18 @@ public class PolymorphicTypeResolver : DefaultJsonTypeInfoResolver
                 polymorphismOptions.DerivedTypes.Add(new JsonDerivedType(derivedTypeDefinition.DerivedType, derivedTypeDefinition.Discriminator));
             jsonTypeInfo.PolymorphismOptions = polymorphismOptions;
         }
+
+        // TODO: when adding new property in a serialization data after mud go live
+        // TODO: we can set it as required in serialization data and add it following code to deactivate required while deserializing
+        // TODO: maybe add a condition on pfile version and a version attribute on property
+        //if (jsonTypeInfo.Kind == JsonTypeInfoKind.Object)
+        //{
+        //    foreach (JsonPropertyInfo propertyInfo in jsonTypeInfo.Properties)
+        //    {
+        //        // Strip IsRequired constraint from every property.
+        //        propertyInfo.IsRequired = false;
+        //    }
+        //}
 
         return jsonTypeInfo;
     }

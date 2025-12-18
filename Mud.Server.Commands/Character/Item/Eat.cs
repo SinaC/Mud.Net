@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Domain;
 using Mud.Server.Affects.Character;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
+using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;

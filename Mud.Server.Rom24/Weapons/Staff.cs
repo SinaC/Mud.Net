@@ -1,5 +1,5 @@
 ﻿using Mud.Server.Ability;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.Ability;
 
 namespace Mud.Server.Rom24.Weapons;

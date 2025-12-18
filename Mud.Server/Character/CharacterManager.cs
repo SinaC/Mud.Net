@@ -155,7 +155,6 @@ public class CharacterManager : ICharacterManager
         var auras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // clone
         foreach (var aura in auras)
         {
-            aura.OnRemoved();
             character.RemoveAura(aura, false);
         }
         // no need to recompute

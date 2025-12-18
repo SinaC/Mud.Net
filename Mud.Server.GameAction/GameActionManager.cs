@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using System.Diagnostics;

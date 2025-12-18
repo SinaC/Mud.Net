@@ -18,9 +18,9 @@ public class Snake : RaceBase
     public override IIRVFlags Vulnerabilities => new IRVFlags("Cold");
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
-        Domain.EquipmentSlots.Head,
-        Domain.EquipmentSlots.Chest,
-        Domain.EquipmentSlots.Float,
+        Mud.Domain.EquipmentSlots.Head,
+        Mud.Domain.EquipmentSlots.Chest,
+        Mud.Domain.EquipmentSlots.Float,
     ];
     public override IBodyForms BodyForms => new BodyForms( "Edible", "Animal", "Reptile", "Snake", "ColdBlood");
     public override IBodyParts BodyParts => new BodyParts( "Head", "Body", "Heart", "Brains", "Guts", "Eye", "Tail", "Claws", "Scales", "LongTongue");

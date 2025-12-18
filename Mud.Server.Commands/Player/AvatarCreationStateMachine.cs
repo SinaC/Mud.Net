@@ -3,6 +3,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Common;
+using Mud.Server.Domain;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;

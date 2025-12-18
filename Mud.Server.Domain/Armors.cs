@@ -1,4 +1,6 @@
-﻿namespace Mud.Domain;
+﻿using Mud.Domain;
+
+namespace Mud.Server.Domain;
 
 public enum Armors // must have the same values as CharacterAttributes
 {

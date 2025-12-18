@@ -1,4 +1,5 @@
-﻿using Mud.Server.Affects;
+﻿using Mud.Domain;
+using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -27,7 +28,7 @@ public class ShockShieldAfterHitAffect : NoAffectDataAffectBase, ICharacterAfter
         if (!hitter.ShieldFlags.IsSet("ShockShield"))
         {
             var damage = RandomManager.Range(15, 25);
-            hitter.AbilityDamage(victim, damage, Domain.SchoolTypes.Lightning, "%Y%lightning bolt%x%", true);
+            hitter.AbilityDamage(victim, damage, SchoolTypes.Lightning, "%Y%lightning bolt%x%", true);
         }
     }
 }

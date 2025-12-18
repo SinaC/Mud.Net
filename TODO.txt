@@ -1,9 +1,5 @@
 INGOING
 DONE
-    GCD is IG -> must be moved to ICharacter
-    Lag added on Player to replace GCD for punishment
-        HandleInputs should handle Lag the same way GCD is handled for the moment
-    Daze + stand back when dazed in combat
 
 ==========
 == TODO ==
