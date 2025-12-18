@@ -15,6 +15,7 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
     {
         TimeManager = timeManager;
     }
+
     protected (INonPlayableCharacter shopKeeper, CharacterShopBlueprint shopBlueprint) Keeper { get; set; } = default;
 
     public override string? Guards(IActionInput actionInput)

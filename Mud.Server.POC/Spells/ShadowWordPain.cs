@@ -2,7 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Interfaces.Ability;
+using Mud.Server.Domain;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.POC.Affects;
 using Mud.Server.Random;

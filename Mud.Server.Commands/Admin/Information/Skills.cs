@@ -1,4 +1,5 @@
-﻿using Mud.Server.GameAction;
+﻿using Mud.Server.Domain;
+using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Race;

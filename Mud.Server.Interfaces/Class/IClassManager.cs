@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Mud.Server.Interfaces.Class;
+﻿namespace Mud.Server.Interfaces.Class;
 
 public interface IClassManager
 {

@@ -5,7 +5,6 @@ using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
-using System.Text;
 
 namespace Mud.Server.Ability.Spell;
 
@@ -190,78 +189,6 @@ public abstract class SpellBase : ISpell
         Invoke();
     }
 
-    private static readonly (string syllable, string transformed)[] SyllableTable = 
-    [
-        ( " ",      " "         ),
-        ( "ar",     "abra"      ),
-        ( "au",     "kada"      ),
-        ( "bless",  "fido"      ),
-        ( "blind",  "nose"      ),
-        ( "bur",    "mosa"      ),
-        ( "cu",     "judi"      ),
-        ( "de",     "oculo"     ),
-        ( "en",     "unso"      ),
-        ( "light",  "dies"      ),
-        ( "lo",     "hi"        ),
-        ( "mor",    "zak"       ),
-        ( "move",   "sido"      ),
-        ( "ness",   "lacri"     ),
-        ( "ning",   "illa"      ),
-        ( "per",    "duda"      ),
-        ( "ra",     "gru"       ),
-        ( "fresh",  "ima"       ),
-        ( "re",     "candus"    ),
-        ( "son",    "sabru"     ),
-        ( "tect",   "infra"     ),
-        ( "tri",    "cula"      ),
-        ( "ven",    "nofo"      ),
-        ( "a", "a" ), ( "b", "b" ), ( "c", "q" ), ( "d", "e" ),
-        ( "e", "z" ), ( "f", "y" ), ( "g", "o" ), ( "h", "p" ),
-        ( "i", "u" ), ( "j", "y" ), ( "k", "t" ), ( "l", "r" ),
-        ( "m", "w" ), ( "n", "i" ), ( "o", "a" ), ( "p", "s" ),
-        ( "q", "d" ), ( "r", "f" ), ( "s", "g" ), ( "t", "h" ),
-        ( "u", "j" ), ( "v", "z" ), ( "w", "x" ), ( "x", "n" ),
-        ( "y", "l" ), ( "z", "k" )
-    ];
-
-    // TODO: maybe a table should be constructed for each spell to avoid computing at each cast
     protected virtual void SaySpell()
-    {
-        //source.Send("You cast '{0}'.", ability.Name);
-
-        // Build mystical words for spell
-        StringBuilder mysticalWords = new();
-        var abilityName = AbilityDefinition.Name.ToLowerInvariant();
-        var remaining = abilityName;
-        while (remaining.Length > 0)
-        {
-            bool found = false;
-            foreach (var syllable in SyllableTable)
-            {
-                if (remaining.StartsWith(syllable.syllable))
-                {
-                    mysticalWords.Append(syllable.transformed);
-                    remaining = remaining[syllable.syllable.Length..];
-                    found = true;
-                    break;
-                }
-            }
-            if (!found)
-            {
-                mysticalWords.Append('?');
-                remaining = remaining[1..];
-                Logger.LogWarning("Spell {abilityName} contains a character which is not found in syllable table", AbilityDefinition.Name);
-            }
-        }
-
-        // Say to people in room except source (if target is fluent with that spell, hear the spell clearly)
-        foreach (ICharacter target in Caster.Room.People.Where(x => x != Caster))
-        {
-            var (_, abilityLearned) = target.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
-            if (abilityLearned != null && abilityLearned.Level < target.Level)
-                target.Act(ActOptions.ToCharacter, "{0} casts the spell '{1}'.", Caster, AbilityDefinition.Name); // known the spell
-            else
-                target.Act(ActOptions.ToCharacter, "{0} utters the words, '{1}'.", Caster, mysticalWords); // doesn't known the spell
-        }
-    }
+        => SpellHelper.SaySpell(Caster, AbilityDefinition);
 }

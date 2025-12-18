@@ -10,6 +10,7 @@ using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
+using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;

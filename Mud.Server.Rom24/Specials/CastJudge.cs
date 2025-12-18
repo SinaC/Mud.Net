@@ -38,7 +38,7 @@ namespace Mud.Server.Rom24.Specials
         {
             var successfull = caster.CastSpell(spellName, victim);
             if (!successfull)
-                Logger.LogError("CastJudge: error while casting spell {spellName} on {victimName}", spellName, victim);
+                Logger.LogError("CastJudge: error on {caster} while casting spell {spellName} on {victimName}", caster.DebugName, spellName, victim.DebugName);
             return successfull;
         }
     }

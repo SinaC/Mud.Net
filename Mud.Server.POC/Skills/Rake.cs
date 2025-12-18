@@ -5,7 +5,6 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.POC.Affects;
 using Mud.Server.Random;
