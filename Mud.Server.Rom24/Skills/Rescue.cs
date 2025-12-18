@@ -40,14 +40,14 @@ public class Rescue : OffensiveSkillBase
             return "What about fleeing instead?";
 
         if (Victim is INonPlayableCharacter && User is IPlayableCharacter)
-            return "Doesn't need your help!";
+            return User.ActPhrase("{0:E} doesn't need your help!", Victim);
 
         if (User.Fighting == Victim)
             return "Too late.";
 
         var fighting = Victim.Fighting;
         if (fighting == null)
-            return "That person is not fighting right now.";
+            return User.ActPhrase("{0:N} is not fighting right now.", Victim);
 
         if (fighting is INonPlayableCharacter && User.IsSameGroupOrPet(Victim))
             return "Kill stealing is not permitted.";

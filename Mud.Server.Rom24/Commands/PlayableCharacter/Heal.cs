@@ -74,9 +74,10 @@ public class Heal : PlayableCharacterGameAction
             return Actor.ActPhrase("{0:N} says 'Type 'heal' for a list of spells.");
 
         // check cost
-        TotalCost = Actor.SilverCoins + Actor.GoldCoins * 100;
-        if (SelectedHealSpellInfo.Cost > TotalCost)
-            return Actor.ActPhrase("{0:N} says 'You do not have enough gold for my services.");
+        TotalCost = SelectedHealSpellInfo.Cost * 100;
+        var wealth = Actor.SilverCoins + Actor.GoldCoins * 100;
+        if (TotalCost > wealth)
+            return Actor.ActPhrase("{0:N} says 'You do not have enough gold for my services.", Healer);
 
         //
         return null;
@@ -88,7 +89,7 @@ public class Heal : PlayableCharacterGameAction
         Actor.SetGlobalCooldown(Pulse.PulseViolence);
 
         // pay
-        Actor.DeductCost(SelectedHealSpellInfo.Cost);
+        Actor.DeductCost(TotalCost);
         Healer.UpdateMoney(TotalCost % 100, TotalCost / 100);
 
         // cast spell

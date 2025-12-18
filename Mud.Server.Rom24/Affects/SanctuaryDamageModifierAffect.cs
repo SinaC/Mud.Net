@@ -14,7 +14,7 @@ public class SanctuaryDamageModifierAffect : NoAffectDataAffectBase, ICharacterD
         sb.Append("%c%reduces %y%incoming damage%c% by %y%50%%x%");
     }
 
-    public int ModifyDamage(ICharacter source, ICharacter victim, SchoolTypes damageType, int damage)
+    public int ModifyDamage(ICharacter? source, ICharacter victim, SchoolTypes damageType, int damage)
         => damage > 1
             ? damage / 2
             : damage;

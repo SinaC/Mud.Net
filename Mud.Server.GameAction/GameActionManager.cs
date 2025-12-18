@@ -29,10 +29,9 @@ public class GameActionManager : IGameActionManager
 
         _gameActionInfosTrieByActorType = []; // will be filled when a call to GetGameActions will be called
 
-        Type iGameActionType = typeof(IGameAction);
-
         // Gather all game action
-        _gameActionInfosByExecutionType = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && iGameActionType.IsAssignableFrom(t)))
+        var iGameActionType = typeof(IGameAction);
+        _gameActionInfosByExecutionType = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsAssignableTo(iGameActionType)))
             .Select(t => new { executionType = t, attributes = GetGameActionAttributes(t) })
             .ToDictionary(typeAndAttributes => typeAndAttributes.executionType, typeAndAttributes => CreateGameActionInfo(typeAndAttributes.executionType, typeAndAttributes.attributes.commandAttribute, typeAndAttributes.attributes.syntaxAttribute, typeAndAttributes.attributes.aliasAttributes, typeAndAttributes.attributes.helpAttribute));
     }
@@ -95,7 +94,7 @@ public class GameActionManager : IGameActionManager
         if (_gameActionInfosTrieByActorType.TryGetValue(actorType, out var readonlyTrie))
             return readonlyTrie;
         var gameActions = GetGameActionsByActorType<TActor>();
-        Trie<IGameActionInfo> trie = new(gameActions);
+        var trie = new Trie<IGameActionInfo>(gameActions);
         _gameActionInfosTrieByActorType.Add(actorType, trie);
         return trie;
     }

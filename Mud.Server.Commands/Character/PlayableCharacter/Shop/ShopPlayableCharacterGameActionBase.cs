@@ -1,19 +1,25 @@
 ﻿using Mud.Server.Blueprints.Character;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
 public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGameAction
 {
-    private ITimeManager TimeManager { get; }
+    protected ITimeManager TimeManager { get; }
+    protected IAbilityManager AbilityManager { get; }
+    protected IRandomManager RandomManager { get; }
 
-    protected ShopPlayableCharacterGameActionBase(ITimeManager timeManager)
+    protected ShopPlayableCharacterGameActionBase(ITimeManager timeManager, IAbilityManager abilityManager, IRandomManager randomManager)
     {
         TimeManager = timeManager;
+        AbilityManager = abilityManager;
+        RandomManager = randomManager;
     }
 
     protected (INonPlayableCharacter shopKeeper, CharacterShopBlueprint shopBlueprint) Keeper { get; set; } = default;
@@ -61,18 +67,32 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
         return (shopKeeper, shopBlueprint);
     }
 
-    protected static int GetBuyCost(CharacterShopBlueprint shopBlueprint, IItem item)
+    protected long GetBuyCost(INonPlayableCharacter shopKeeper, CharacterShopBlueprint shopBlueprint, IItem item, bool tryToHaggle)
     {
         if (item == null || !item.IsValid)
             return 0;
-        return item.Cost * shopBlueprint.ProfitBuy / 100;
+        var cost = (long)item.Cost * shopBlueprint.ProfitBuy / 100;
+        if (cost <= 0)
+            return cost;
+        if (tryToHaggle)
+        {
+            // pick one change cost passive
+            var changeCostPassiveDefinition = RandomManager.Random(AbilityManager.SearchAbilitiesByExecutionType<IChangeCostPassive>());
+            if (changeCostPassiveDefinition != null)
+            {
+                var changeCostPassive = AbilityManager.CreateInstance<IChangeCostPassive>(changeCostPassiveDefinition);
+                if (changeCostPassive != null)
+                    cost = changeCostPassive.HaggleBuyPrice(Actor, shopKeeper, cost);
+            }
+        }
+        return cost;
     }
 
-    protected static int GetSellCost(INonPlayableCharacter shopKeeper, CharacterShopBlueprint shopBlueprint, IItem item)
+    protected long GetSellCost(INonPlayableCharacter shopKeeper, CharacterShopBlueprint shopBlueprint, IItem item, bool tryToHaggle)
     {
         if (item == null || !item.IsValid)
             return 0;
-        int cost = 0;
+        long cost = 0;
         // check if interested in this kind of item
         if (shopBlueprint.BuyBlueprintTypes.Contains(item.Blueprint.GetType()))
             cost = item.Cost * shopBlueprint.ProfitSell / 100;
@@ -94,6 +114,21 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
                 cost /= 4;
             else
                 cost = cost * itemCharge.CurrentChargeCount / itemCharge.MaxChargeCount;
+        }
+        // haggle ?
+        if (tryToHaggle)
+        {
+            // pick one change cost passive
+            var changeCostPassiveDefinition = RandomManager.Random(AbilityManager.SearchAbilitiesByExecutionType<IChangeCostPassive>());
+            if (changeCostPassiveDefinition != null)
+            {
+                var changeCostPassive = AbilityManager.CreateInstance<IChangeCostPassive>(changeCostPassiveDefinition);
+                if (changeCostPassive != null)
+                {
+                    var buyPrice = GetBuyCost(shopKeeper, shopBlueprint, item, false);
+                    cost = changeCostPassive.HaggleSellPrice(Actor, shopKeeper, cost, buyPrice);
+                }
+            }
         }
         return cost;
     }

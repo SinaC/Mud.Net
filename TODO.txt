@@ -1,9 +1,9 @@
 INGOING
 DONE
-    healer functionality added
-    AssemblyInfos removed everywhere
-    SaySpell moved to helper
-    AbilityTypes and AbilityEffects moved to Server.Domain
+    worth command to display silver/gold
+    bash/kick/... can only be used when standing
+    haggle
+
 ==========
 == TODO ==
 ==========
@@ -125,20 +125,18 @@ make IGameAction generic on TActor: IActor, same goes for IActionInput
 
 make a map of calls done when a NPC is Removed/StopFollowing/...
 
+module/plugin to enable load on demand of skills/spells/commands/...
 commands dynamically added to Character depending on room they are, for example
 	we could add list/buy/sell/value to commands if a shopkeeper is in the room
 	brandish only when holding a staff
 -> hard to do because game actions are generated once
 
-module/plugin to enable load on demand of skills/spells/commands/...
-
 jukebox
-healer
 pet shop
 offensive flags: rescue, ...
 clan/guild, auction house, socials, wimpy, note
-commands: auction, channels, clantalk, compare, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, outfit, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
-	heal, autoaffect, wake, myclan, petition, clanlist
+commands: auction, channels, clantalk, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
+	myclan, petition, clanlist
 admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
 	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
 PK+THIEF

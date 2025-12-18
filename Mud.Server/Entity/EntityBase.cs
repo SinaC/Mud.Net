@@ -305,7 +305,13 @@ public abstract class EntityBase : ActorBase, IEntity
                     }
                     else if (c >= '0' && c <= '9') // {x -> argument found
                     {
-                        currentArgument = arguments[c - '0'];
+                        var argumentIndex = c - '0';
+                        if (argumentIndex >= arguments.Length)
+                        {
+                            Logger.LogError("FormatActOneLine for format {format} and target {target} tries to access argument {argumentIndex} but {argumentCount} were provided.", format, target.DebugName, argumentIndex, arguments.Length);
+                            return "%R%!!Error!!%x%";
+                        }
+                        currentArgument = arguments[argumentIndex];
                         state = ActParsingStates.ArgumentFound;
                     }
                     break;

@@ -2,9 +2,11 @@
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
@@ -13,8 +15,8 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 [Help(@"[cmd] asks the shop keeper how much he, she, or it will buy the item for.")]
 public class Value : ShopPlayableCharacterGameActionBase
 {
-    public Value(ITimeManager timeManager)
-        : base(timeManager)
+    public Value(ITimeManager timeManager, IAbilityManager abilityManager, IRandomManager randomManager, IItemManager itemManager)
+        : base(timeManager, abilityManager, randomManager)
     {
     }
 
@@ -41,7 +43,7 @@ public class Value : ShopPlayableCharacterGameActionBase
         if (What.ItemFlags.IsSet("NoDrop"))
             return "You can't let go of it.";
 
-        Cost = GetSellCost(Keeper.shopKeeper, Keeper.shopBlueprint, What);
+        Cost = GetSellCost(Keeper.shopKeeper, Keeper.shopBlueprint, What, false);
         if (Cost <= 0 || What.DecayPulseLeft > 0)
             return Actor.ActPhrase("{0:N} looks uninterested in {1}.", Keeper.shopKeeper, What);
 

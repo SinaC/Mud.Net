@@ -52,6 +52,9 @@ public class Bash : OffensiveSkillBase
         if (Victim.Position < Positions.Standing)
             return User.ActPhrase("You'll have to let {0:m} get back up first.", Victim);
 
+        if (User.Position < Positions.Standing)
+            return "It's hard to bash when you're not standing up!";
+
         // TODO: check kill stealing
 
         if (User.CharacterFlags.IsSet("Charm") && npcUser?.Master == Victim)
