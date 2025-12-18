@@ -24,6 +24,6 @@ public class Save : AccountGameActionBase
     {
         ServerPlayerCommand.Save(Actor);
         Actor.Send("Saving. Remember that ROM has automatic saving now.");
-        Actor.SetGlobalCooldown(20);
+        Actor.SetLag(20);
     }
 }

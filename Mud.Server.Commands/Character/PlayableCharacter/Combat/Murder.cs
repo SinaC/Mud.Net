@@ -68,10 +68,10 @@ public class Murder : PlayableCharacterGameAction
     public override void Execute(IActionInput actionInput)
     {
         // GCD
-        Actor.ImpersonatedBy?.SetGlobalCooldown(1);
+        Actor.SetGlobalCooldown(1);
         //TODO: check_killer( ch, victim );
 
-        string msg = $"Help! I am being attacked by {Actor.DisplayName}!";
+        var msg = $"Help! I am being attacked by {Actor.DisplayName}!";
 
         var executionResults = GameActionManager.Execute<Yell, ICharacter>(Whom, msg);
         if (executionResults != null)

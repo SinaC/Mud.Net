@@ -188,10 +188,6 @@ public class Player : ActorBase, IPlayer
 
     public string DisplayName => Name.UpperFirstLetter();
 
-    public int Daze { get; protected set; } // delay (in Pulse) while in dizzy state (less ability %, less chance to flee)
-
-    public int GlobalCooldown { get; protected set; } // delay (in Pulse) before next action
-
     public int PagingLineCount { get; protected set; }
 
     public void SetPagingLineCount(int count)
@@ -248,6 +244,19 @@ public class Player : ActorBase, IPlayer
         ? BuildCharacterPrompt(Impersonating)
         : ">";
 
+    // lag
+    public int Lag { get; private set; }
+    public void DecreaseLag() // decrease one by one
+    {
+        Lag = Math.Max(Lag - 1, 0);
+    }
+    public void SetLag(int pulseCount) // set lag delay (in pulse), can only increase
+    {
+        if (pulseCount > Lag)
+            Lag = pulseCount;
+    }
+
+    // afk/tell
     public bool IsAfk { get; protected set; }
 
     public IEnumerable<string> DelayedTells => _delayedTells; // Tell stored while AFK
@@ -263,26 +272,6 @@ public class Player : ActorBase, IPlayer
         else
             Send("You are now in %G%AFK%x% mode.");
         IsAfk = !IsAfk;
-    }
-
-    public void DecreaseDaze() // decrease one by one
-    {
-        Daze = Math.Max(Daze - 1, 0);
-    }
-    
-    public void SetDaze(int pulseCount) // set daze delay (in pulse)
-    {
-        Daze = pulseCount;
-    }
-
-    public void DecreaseGlobalCooldown() // decrease one by one
-    {
-        GlobalCooldown = Math.Max(GlobalCooldown - 1, 0);
-    }
-
-    public void SetGlobalCooldown(int pulseCount) // set global cooldown delay (in pulse)
-    {
-        GlobalCooldown = pulseCount;
     }
 
     public void SetLastTeller(IPlayer? teller)
@@ -420,8 +409,9 @@ public class Player : ActorBase, IPlayer
         sb.AppendLine($"_lastInput: {_lastInput} Timestamp: {_lastCommandTimestamp}");
         sb.AppendLine($"IsAfk: {IsAfk}");
         sb.AppendLine($"PlayerState: {PlayerState}");
-        sb.AppendLine($"GCD: {GlobalCooldown}");
-        sb.AppendLine($"DAZE: {Daze}");
+        sb.AppendLine($"Lag: {Lag}");
+        sb.AppendLine($"GCD: {Impersonating?.GlobalCooldown}");
+        sb.AppendLine($"DAZE: {Impersonating?.Daze}");
         sb.AppendLine($"Aliases: {Aliases?.Count ?? 0}");
         sb.AppendLine($"Avatars: {_avatarList?.Count ?? 0}");
         sb.AppendLine($"SnoopBy: {SnoopBy?.DisplayName ?? "none"}");

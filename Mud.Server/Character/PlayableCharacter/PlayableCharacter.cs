@@ -36,6 +36,7 @@ using Mud.Server.Random;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mud.Server.Character.PlayableCharacter;
 
@@ -420,6 +421,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return;
         }
 
+        StandUpInCombatIfPossible();
+
         var mainHand = GetEquipment<IItemWeapon>(EquipmentSlots.MainHand);
         // main hand attack
         int attackCount = 0;
@@ -565,17 +568,23 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public override (int percentage, IAbilityLearned? abilityLearned) GetAbilityLearnedAndPercentage(string abilityName)
     {
-        var learnedAbility = GetAbilityLearned(abilityName);
+        var abilityLearned = GetAbilityLearned(abilityName);
         int learned = 0;
-        if (learnedAbility != null && learnedAbility.Level <= Level)
-            learned = learnedAbility.Learned;
+        if (abilityLearned != null && abilityLearned.Level <= Level)
+            learned = abilityLearned.Learned;
 
-        // TODO: if daze /=2 for spell and *2/3 if otherwise
+        if (Daze > 0)
+        {
+            if (abilityLearned?.AbilityDefinition.Type == AbilityTypes.Spell)
+                learned /= 2;
+            else
+                learned = (learned * 2) / 3;
+        }
 
         if (this[Conditions.Drunk] > 10)
             learned = (learned * 9 ) / 10;
 
-        return (Math.Clamp(learned, 0, 100), learnedAbility);
+        return (Math.Clamp(learned, 0, 100), abilityLearned);
     }
 
     #endregion
@@ -1150,7 +1159,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         UpdateMovePoints(-moveCost);
 
         // Delay player by one pulse
-        ImpersonatedBy?.SetGlobalCooldown(1);
+        SetGlobalCooldown(1);
 
         // Drunk ?
         if (this[Conditions.Drunk] > 10)
@@ -1259,7 +1268,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override void HandleWimpy(int damage)
     {
         // TODO
-        //if (HitPoints > 0 && HitPoints <= Wimpy) // TODO: test on wait < PULSE_VIOLENCE / 2
+        //if (HitPoints > 0 && HitPoints <= Wimpy && GlobalCooldown < Pulse.PulseViolence/2) // TODO: test on wait < PULSE_VIOLENCE / 2
         //  DoFlee(null, null);
     }
 

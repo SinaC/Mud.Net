@@ -36,12 +36,21 @@ public interface ICharacter : IEntity, IContainer
     IRoom Room { get; }
     ICharacter? Fighting { get; }
 
+
     IEnumerable<IEquippedItem> Equipments { get; }
     IEnumerable<IItem> Inventory { get; } // same as IContainer.Content
     int MaxCarryWeight { get; }
     int MaxCarryNumber { get; }
     int CarryWeight { get; }
     int CarryNumber { get; }
+
+    int GlobalCooldown { get; } // delay (in Pulse) before next manual action
+    void DecreaseGlobalCooldown(); // decrease one by one
+    void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse), can only increase
+
+    int Daze { get; } // delay (in Pulse) before automatic and manual action
+    void DecreaseDaze(); // decrease one by one
+    void SetDaze(int pulseCount); // set daze delay (in pulse), can only increase
 
     // Money
     long SilverCoins { get; }
@@ -143,8 +152,12 @@ public interface ICharacter : IEntity, IContainer
     bool ChangeFurniture(IItemFurniture? furniture);
 
     // Position
+    bool StandUpInCombatIfPossible();
     bool ChangePosition(Positions position);
-    void ChangeStunned(int fightRound);
+    void DisplayChangePositionMessage(Positions oldPosition, Positions newPosition, IItemFurniture? furniture);
+
+    // Stunned
+    void ChangeStunned(int stunned);
 
     // Visibility
     bool CanSee(ICharacter? victim);

@@ -61,7 +61,7 @@ public class Kill : CharacterGameAction
     public override void Execute(IActionInput actionInput)
     {
         // GCD
-        (Actor as IPlayableCharacter)?.ImpersonatedBy?.SetGlobalCooldown(1);
+        Actor.SetGlobalCooldown(1);
         //TODO: check_killer( ch, victim );
 
         // Starts fight

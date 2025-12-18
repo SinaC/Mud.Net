@@ -69,7 +69,7 @@ public class Order : PlayableCharacterGameAction
             target.Order(CommandLine);
         }
 
-        Actor.ImpersonatedBy?.SetGlobalCooldown(Pulse.PulseViolence);
+        Actor.SetGlobalCooldown(Pulse.PulseViolence);
         Actor.Send("Ok.");
     }
 }

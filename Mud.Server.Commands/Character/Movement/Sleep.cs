@@ -58,15 +58,8 @@ public class Sleep : CharacterGameAction
     public override void Execute(IActionInput actionInput)
     {
         // Change position
-        Actor.ChangeFurniture(What);
-        if (What == null)
-            Actor.Act(ActOptions.ToAll, "{0:N} go{0:v} to sleep.", Actor);
-        else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-            Actor.Act(ActOptions.ToAll, "{0:N} go{0:v} sleep at {1}.", Actor, What);
-        else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-            Actor.Act(ActOptions.ToAll, "{0:N} go{0:v} sleep on {1}.", Actor, What);
-        else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-            Actor.Act(ActOptions.ToAll, "{0:N} go{0:v} sleep in {1}.", Actor, What);
+        Actor.DisplayChangePositionMessage(Actor.Position, Positions.Sleeping, What);
         Actor.ChangePosition(Positions.Sleeping);
+        Actor.ChangeFurniture(What);
     }
 }

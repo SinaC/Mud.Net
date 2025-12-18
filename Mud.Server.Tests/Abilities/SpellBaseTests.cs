@@ -182,7 +182,7 @@ namespace Mud.Server.Tests.Abilities
             casterMock.Verify(x => x.UpdateResource(ResourceKinds.Mana, -50), Times.Once);
             casterMock.Verify(x => x.SetCooldown(SpellName, TimeSpan.FromSeconds(10)), Times.Once);
             casterMock.Verify(x => x.CheckAbilityImprove(It.IsAny<string>(), true, 3), Times.Once);
-            playerMock.Verify(x => x.SetGlobalCooldown(20), Times.Once);
+            casterMock.Verify(x => x.SetGlobalCooldown(20), Times.Once);
         }
 
         // Spell without specific Setup nor invoke

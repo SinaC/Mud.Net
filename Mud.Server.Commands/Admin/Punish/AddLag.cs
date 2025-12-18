@@ -53,6 +53,6 @@ public class AddLag : AdminGameAction
         Wiznet.Log($"{Actor.DisplayName} adds lag {Whom.DisplayName}.", Domain.WiznetFlags.Punish);
 
         Actor.Send("Adding lag now.");
-        Whom.SetGlobalCooldown(Modifier);
+        Whom.SetLag(Modifier);
     }
 }

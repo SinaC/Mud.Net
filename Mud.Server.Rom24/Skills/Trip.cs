@@ -86,8 +86,8 @@ public class Trip : OffensiveSkillBase
             Victim.Act(ActOptions.ToCharacter, "%W%{0:N} trips you and you go down!%x%", User);
             User.Act(ActOptions.ToCharacter, "%W%You trip {0} and {0} goes down!%x%", Victim);
             User.ActToNotVictim(Victim, "%W%{0} trips {1}, sending {1:m} to the ground.%x%", User, Victim);
-            (Victim as IPlayableCharacter)?.ImpersonatedBy?.SetDaze(2 * Pulse.PulseViolence);
-            Victim.ChangePosition(Positions.Resting);
+            Victim.SetDaze(2 * Pulse.PulseViolence);
+            Victim.ChangePosition(Positions.Sitting);
             // TODO: check_killer(ch, Victim)
             int damage = RandomManager.Range(2, 2 + 2 * (int)User.Size);
             Victim.AbilityDamage(User, damage, SchoolTypes.Bash, "trip", true);
@@ -95,7 +95,7 @@ public class Trip : OffensiveSkillBase
         }
         else
         {
-            Victim.AbilityDamage(User, 0, SchoolTypes.Bash, "trip", true);
+            //Victim.AbilityDamage(User, 0, SchoolTypes.Bash, "trip", true);
             // TODO check_killer(ch,Victim);
             return false;
         }

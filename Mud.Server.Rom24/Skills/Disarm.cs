@@ -99,8 +99,8 @@ public class Disarm : FightingSkillBase
             {
                 VictimWield.ChangeContainer(Victim.Room);
                 // TODO: NPC tries to get its weapon back
-                //if (Victim is INonPlayableCharacter && Victim.CanSee(VictimWield)) // && .Wait == 0 ???
-                //    Victim.GetItem(VictimWield);
+                if (Victim is INonPlayableCharacter && Victim.CanSee(VictimWield) && Victim.GlobalCooldown == 0)
+                    Victim.GetItem(VictimWield, Victim.Room);
             }
 
             // TODO  check_killer(ch, Victim);

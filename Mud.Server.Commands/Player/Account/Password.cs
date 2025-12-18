@@ -36,7 +36,7 @@ public class Password : AccountGameActionBase
             return "New password must be at least five characters long.";
         if (!LoginRepository.CheckPassword(Actor.Name, actionInput.Parameters[0].Value))
         {
-            Actor.SetGlobalCooldown(10 * Pulse.PulsePerSeconds);
+            Actor.SetLag(10 * Pulse.PulsePerSeconds);
             return "Wrong password. Wait 10 seconds.";
         }
         return null;

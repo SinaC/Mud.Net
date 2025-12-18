@@ -1,12 +1,17 @@
 INGOING
-
 DONE
+    GCD is IG -> must be moved to ICharacter
+    Lag added on Player to replace GCD for punishment
+        HandleInputs should handle Lag the same way GCD is handled for the moment
+    Daze + stand back when dazed in combat
 
 ==========
 == TODO ==
 ==========
 
-move daze to ICharacter and use it to disable automatic stand up while in combat
+why 1st impersonation takes 800ms ?
+
+limbo/autoquit timer
 
 multitable generator, paging a table should repeat the header at the beginning of each page
 

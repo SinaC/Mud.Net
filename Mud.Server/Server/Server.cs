@@ -237,6 +237,39 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         Logger.LogInformation("#Items: {count}", ItemManager.Items.Count());
     }
 
+    //private void DumpCommandByType(Type t)
+    //{
+    //    for (char c = 'a'; c <= 'z'; c++)
+    //    {
+    //        IGameActionInfo[] query = GameActionManager.GetCommands(t).GetByPrefix(c.ToString()).Select(x => x.Value).OrderBy(x => x.Priority).ToArray();
+
+    //        if (query.Length == 0)
+    //            Logger.LogDebug($"No commands for {t.Name} prefix '{c}'"); // Dump in log
+    //        else
+    //        {
+    //            StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
+    //            Logger.LogDebug(sb.ToString()); // Dump in log
+    //        }
+    //    }
+    //}
+
+    private void DumpClasses()
+    {
+        var sb = TableGenerators.ClassTableGenerator.Value.Generate("Classes", ClassManager.Classes.OrderBy(x => x.Name));
+        Logger.LogDebug(sb.ToString()); // Dump in log
+    }
+
+    private void DumpRaces()
+    {
+        var sb = TableGenerators.PlayableRaceTableGenerator.Value.Generate("Races", RaceManager.PlayableRaces.OrderBy(x => x.Name));
+        Logger.LogDebug(sb.ToString()); // Dump in log
+    }
+
+    private void DumpAbilities()
+    {
+        var sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities.OrderBy(x => x.Name));
+        Logger.LogDebug(sb.ToString()); // Dump in log
+    }
     private void PerformSanityChecks()
     {
         var fatalErrorFound = false;
@@ -250,22 +283,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void DumpCommands()
     {
-        //DumpCommandByType(typeof(Admin.Admin));
-        //DumpCommandByType(typeof(Player.Player));
-        //DumpCommandByType(typeof(NonPlayableCharacter));
-        //DumpCommandByType(typeof(PlayableCharacter));
-        //DumpCommandByType(typeof(Item.ItemBase<>));
-        //DumpCommandByType(typeof(Room.Room));
-        //Type actorBaseType = typeof(Actor.ActorBase);
-        //var actorTypes = Assembly.GetExecutingAssembly().GetTypes()
-        //    .Where(x => x.IsClass && !x.IsAbstract && actorBaseType.IsAssignableFrom(x))
-        //    .ToList();
-        //foreach (Type actorType in actorTypes)
-        //    DumpCommandByType(actorType);
-        StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate("Commands", GameActionManager.GameActions.OrderBy(x => x.Name));
+        var sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate("Commands", GameActionManager.GameActions.OrderBy(x => x.Name));
         Logger.LogDebug(sb.ToString()); // Dump in log
     }
-
 
     #endregion
 
@@ -1008,11 +1028,9 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 string? command = null;
                 try
                 {
-                    if (playingClient.Player.Daze > 0) // if player is dizzy, decrease it
-                        playingClient.Player.DecreaseDaze();
-                    if (playingClient.Player.GlobalCooldown > 0) // if player is on GCD, decrease it
-                        playingClient.Player.DecreaseGlobalCooldown();
-                    else
+                    if (playingClient.Player.Lag > 0) // if player is on artificial lag, decrease it and skip input processing
+                        playingClient.Player.DecreaseLag();
+                    else if (playingClient.Player.Impersonating == null || playingClient.Player.Impersonating.GlobalCooldown <= 0) // if player is on GCD, don't process input
                     {
                         command = playingClient.DequeueReceivedData(); // process one command at a time
                         if (command != null)
@@ -1068,40 +1086,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             else
                 Logger.LogError("ProcessOutput: playing client without Player");
         }
-    }
-
-    //private void DumpCommandByType(Type t)
-    //{
-    //    for (char c = 'a'; c <= 'z'; c++)
-    //    {
-    //        IGameActionInfo[] query = GameActionManager.GetCommands(t).GetByPrefix(c.ToString()).Select(x => x.Value).OrderBy(x => x.Priority).ToArray();
-
-    //        if (query.Length == 0)
-    //            Logger.LogDebug($"No commands for {t.Name} prefix '{c}'"); // Dump in log
-    //        else
-    //        {
-    //            StringBuilder sb = TableGenerators.GameActionInfoTableGenerator.Value.Generate($"Commands for {t.Name} prefix '{c}'", query);
-    //            Logger.LogDebug(sb.ToString()); // Dump in log
-    //        }
-    //    }
-    //}
-
-    private void DumpClasses()
-    {
-        StringBuilder sb = TableGenerators.ClassTableGenerator.Value.Generate("Classes", ClassManager.Classes.OrderBy(x => x.Name));
-        Logger.LogDebug(sb.ToString()); // Dump in log
-    }
-
-    private void DumpRaces()
-    {
-        StringBuilder sb = TableGenerators.PlayableRaceTableGenerator.Value.Generate("Races", RaceManager.PlayableRaces.OrderBy(x => x.Name));
-        Logger.LogDebug(sb.ToString()); // Dump in log
-    }
-
-    private void DumpAbilities()
-    {
-        StringBuilder sb = TableGenerators.FullInfoAbilityTableGenerator.Value.Generate("Abilities", AbilityManager.Abilities.OrderBy(x => x.Name));
-        Logger.LogDebug(sb.ToString()); // Dump in log
     }
 
     private void HandleShutdown()
@@ -1173,6 +1157,32 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
     }
 
+    private void HandleDazeAndWait()
+    {
+        foreach (var ch in CharacterManager.Characters)
+        {
+            // decrease daze
+            var wasDazed = ch.Daze > 0;
+            if (wasDazed)
+            {
+                Logger.LogTrace("DECREASE DAZE for {name} {daze} left", ch.DebugName, ch.Daze);
+                ch.DecreaseDaze();
+            }
+
+            // decrease GCD
+            var wasWaiting = ch.GlobalCooldown > 0;
+            if (wasWaiting)
+            {
+                Logger.LogTrace("DECREASE GCD for {name} {gcd} left", ch.DebugName, ch.GlobalCooldown);
+                ch.DecreaseGlobalCooldown();
+            }
+
+            // Attempt to stand back up and fight!
+            if (wasDazed && ch.Daze == 0 && ch.GlobalCooldown == 0)
+                ch.StandUpInCombatIfPossible();
+        }
+    }
+
     private bool IsInvalidAggressor(INonPlayableCharacter aggressor, IPlayableCharacter victim)
     {
         return 
@@ -1198,12 +1208,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleAuras(int pulseCount) 
     {
-        foreach (var character in CharacterManager.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+        foreach (var ch in CharacterManager.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
         {
             try
             {
                 bool needsRecompute = false;
-                var cloneAuras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // must be cloned because collection may be modified during foreach
+                var cloneAuras = new ReadOnlyCollection<IAura>(ch.Auras.ToList()); // must be cloned because collection may be modified during foreach
                 foreach (var aura in cloneAuras.Where(x => x.PulseLeft >= 0))
                 {
                     bool timedOut = aura.DecreasePulseLeft(pulseCount);
@@ -1211,19 +1221,19 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     {
                         //TODO: aura.OnVanished();
                         // TODO: Set Validity to false
-                        character.RemoveAura(aura, false); // recompute once each aura has been processed
+                        ch.RemoveAura(aura, false); // recompute once each aura has been processed
                         needsRecompute = true;
                     }
                     else if (aura.Level > 0 && RandomManager.Chance(20)) // spell strength fades with time
                         aura.DecreaseLevel();
                 }
                 if (needsRecompute)
-                    character.Recompute();
+                    ch.Recompute();
                 // TODO: remove invalid auras
             }
             catch (Exception ex)
             {
-                Logger.LogError("Exception while handling auras of character {name}. Exception: {ex}", character.DebugName, ex);
+                Logger.LogError("Exception while handling auras of character {name}. Exception: {ex}", ch.DebugName, ex);
             }
         }
         foreach (var item in ItemManager.Items.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
@@ -1284,21 +1294,21 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleCooldowns(int pulseCount) 
     {
-        foreach (var character in CharacterManager.Characters.Where(x => x.HasAbilitiesInCooldown))
+        foreach (var ch in CharacterManager.Characters.Where(x => x.HasAbilitiesInCooldown))
         {
             try
             {
-                var abilitiesInCooldown = new ReadOnlyCollection<string>(character.AbilitiesInCooldown.Keys.ToList()); // clone
+                var abilitiesInCooldown = new ReadOnlyCollection<string>(ch.AbilitiesInCooldown.Keys.ToList()); // clone
                 foreach (string abilityName in abilitiesInCooldown)
                 {
-                    bool available = character.DecreaseCooldown(abilityName, pulseCount);
+                    bool available = ch.DecreaseCooldown(abilityName, pulseCount);
                     if (available)
-                        character.ResetCooldown(abilityName, true);
+                        ch.ResetCooldown(abilityName, true);
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogError("Exception while handling cooldowns of {name}. Exception: {ex}", character.DebugName, ex);
+                Logger.LogError("Exception while handling cooldowns of {name}. Exception: {ex}", ch.DebugName, ex);
             }
         }
     }
@@ -1331,39 +1341,39 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         //Logger.LogDebug("HandleViolence: {0}", DateTime.Now);
         var clone = new ReadOnlyCollection<ICharacter>(CharacterManager.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
-        foreach (var character in clone)
+        foreach (var ch in clone)
         {
-            var npcCharacter = character as INonPlayableCharacter;
-            var pcCharacter = character as IPlayableCharacter;
+            var npc = ch as INonPlayableCharacter;
+            var pc = ch as IPlayableCharacter;
 
-            var victim = character.Fighting;
+            var victim = ch.Fighting;
             if (victim != null)
             {
                 try
                 {
-                    if (character.Position > Positions.Sleeping && victim.Room == character.Room) // fight continue only if in the same room and awake
+                    if (ch.Position > Positions.Sleeping && victim.Room == ch.Room) // fight continue only if in the same room and awake
                     {
-                        Logger.LogDebug("Continue fight between {character} and {victim}", character.DebugName, victim.DebugName);
-                        character.MultiHit(victim);
+                        Logger.LogDebug("Continue fight between {character} and {victim}", ch.DebugName, victim.DebugName);
+                        ch.MultiHit(victim);
                     }
                     else
                     {
-                        Logger.LogDebug("Stop fighting between {character} and {victim}, because not in same room", character.DebugName, victim.DebugName);
-                        character.StopFighting(false);
-                        if (npcCharacter != null)
+                        Logger.LogDebug("Stop fighting between {character} and {victim}, because not in same room", ch.DebugName, victim.DebugName);
+                        ch.StopFighting(false);
+                        if (npc != null)
                         {
                             Logger.LogDebug("Non-playable character stop fighting, resetting it");
-                            npcCharacter.Reset();
+                            npc.Reset();
                         }
                     }
                     // check auto-assist
-                    var cloneInRoom = new ReadOnlyCollection<ICharacter>(character.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping).ToList());
+                    var cloneInRoom = new ReadOnlyCollection<ICharacter>(ch.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping).ToList());
                     foreach (var inRoom in cloneInRoom)
                     {
                         var npcInRoom = inRoom as INonPlayableCharacter;
                         var pcInRoom = inRoom as IPlayableCharacter;
                         // quick check for ASSIST_PLAYER
-                        if (pcCharacter != null && npcInRoom != null && npcInRoom.AssistFlags.IsSet("Players")
+                        if (pc != null && npcInRoom != null && npcInRoom.AssistFlags.IsSet("Players")
                             && npcInRoom.Level + 6 > victim.Level)
                         {
                             npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
@@ -1371,11 +1381,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             continue;
                         }
                         // PCs next
-                        if (pcCharacter != null 
-                            || character.CharacterFlags.IsSet("Charm"))
+                        if (pc != null 
+                            || ch.CharacterFlags.IsSet("Charm"))
                         {
-                            bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcInRoom != null && pcInRoom.IsSameGroupOrPet(character);
-                            bool isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.IsSet("Charm") && npcInRoom.Master == pcCharacter;
+                            bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcInRoom != null && pcInRoom.IsSameGroupOrPet(ch);
+                            bool isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.IsSet("Charm") && npcInRoom.Master == pc;
                             if ((isPlayerAutoassisting || isNpcAutoassisting)
                                 && victim.IsSafe(inRoom) == null)
                             {
@@ -1384,19 +1394,19 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             }
                         }
                         // now check the NPC cases
-                        if (npcCharacter != null && !npcCharacter.CharacterFlags.IsSet("Charm")
+                        if (npc != null && !npc.CharacterFlags.IsSet("Charm")
                             && npcInRoom != null)
                         {
                             bool isAssistAll = npcInRoom.AssistFlags.IsSet("All");
                             bool isAssistGroup = false; // TODO
-                            bool isAssistRace = npcInRoom.AssistFlags.IsSet("Race") && npcInRoom.Race == npcCharacter.Race;
-                            bool isAssistAlign = npcInRoom.AssistFlags.IsSet("Align") && ((npcInRoom.IsGood && npcCharacter.IsGood) || (npcInRoom.IsNeutral && npcCharacter.IsNeutral) || (npcInRoom.IsEvil && npcCharacter.IsEvil));
-                            bool isAssistVnum = npcInRoom.AssistFlags.IsSet("Vnum") && npcInRoom.Blueprint.Id == npcCharacter.Blueprint.Id;
+                            bool isAssistRace = npcInRoom.AssistFlags.IsSet("Race") && npcInRoom.Race == npc.Race;
+                            bool isAssistAlign = npcInRoom.AssistFlags.IsSet("Align") && ((npcInRoom.IsGood && npc.IsGood) || (npcInRoom.IsNeutral && npc.IsNeutral) || (npcInRoom.IsEvil && npc.IsEvil));
+                            bool isAssistVnum = npcInRoom.AssistFlags.IsSet("Vnum") && npcInRoom.Blueprint.Id == npc.Blueprint.Id;
                             if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
                             {
                                 if (RandomManager.Chance(50))
                                 {
-                                    var target = character.Room.People.Where(x => npcInRoom.CanSee(x) && x.IsSameGroupOrPet(victim)).Random(RandomManager);
+                                    var target = ch.Room.People.Where(x => npcInRoom.CanSee(x) && x.IsSameGroupOrPet(victim)).Random(RandomManager);
                                     if (target != null)
                                     {
                                         npcInRoom.Act(ActOptions.ToAll, "{0:N} scream{0:v} and attack{0:v}!", npcInRoom);
@@ -1410,7 +1420,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError("Exception while handling violence {character}. Exception: {ex}", character.DebugName, ex);
+                    Logger.LogError("Exception while handling violence {character}. Exception: {ex}", ch.DebugName, ex);
                 }
             }
         }
@@ -1420,16 +1430,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         foreach (var ch in CharacterManager.Characters)
         {
-            //// energy regen (+10/s)
-            //if (ch.CurrentResourceKinds.Contains(ResourceKinds.Energy) && ch[ResourceKinds.Energy] < 100)
-            //{
-            //    ch.UpdateResource(ResourceKinds.Energy, 10);
-            //}
-            //// rage depletion (-1/s)
-            //if (ch.CurrentResourceKinds.Contains(ResourceKinds.Rage) && ch[ResourceKinds.Rage] > 0)
-            //{
-            //    ch.UpdateResource(ResourceKinds.Rage, -1);
-            //}
             ch.Regen(pulseCount);
         }
     }
@@ -1470,13 +1470,13 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleCharacters(int pulseCount)
     {
-        foreach (var character in CharacterManager.Characters)
+        foreach (var ch in CharacterManager.Characters)
         {
             try
             {
-                var pc = character as IPlayableCharacter;
+                var pc = ch as IPlayableCharacter;
                 if (pc != null && pc.ImpersonatedBy == null) // TODO: remove after x minutes
-                    Logger.LogWarning("Impersonable {name} is not impersonated", character.DebugName);
+                    Logger.LogWarning("Impersonable {name} is not impersonated", ch.DebugName);
 
                 // TODO: check to see if need to go home
                 /*
@@ -1494,38 +1494,38 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                 //character.Regen();
 
                 // Light
-                var light = character.GetEquipment<IItemLight>(EquipmentSlots.Light);
+                var light = ch.GetEquipment<IItemLight>(EquipmentSlots.Light);
                 if (light != null
                     && light.IsLighten)
                 {
                     bool turnedOff = light.DecreaseTimeLeft();
-                    if (turnedOff && character.Room != null)
+                    if (turnedOff && ch.Room != null)
                     {
-                        character.Room.DecreaseLight();
-                        character.Act(ActOptions.ToRoom, "{0} goes out.", light);
-                        character.Act(ActOptions.ToCharacter, "{0} flickers and goes out.", light);
+                        ch.Room.DecreaseLight();
+                        ch.Act(ActOptions.ToRoom, "{0} goes out.", light);
+                        ch.Act(ActOptions.ToCharacter, "{0} flickers and goes out.", light);
                         ItemManager.RemoveItem(light);
                     }
                     else if (!light.IsInfinite && light.TimeLeft < 5)
-                        character.Act(ActOptions.ToCharacter, "{0} flickers.", light);
+                        ch.Act(ActOptions.ToCharacter, "{0} flickers.", light);
                 }
 
                 // Update conditions
                 pc?.GainCondition(Conditions.Drunk, -1); // decrease drunk state
                 // TODO: not if undead from here
-                pc?.GainCondition(Conditions.Full, character.Size > Sizes.Medium ? -4 : -2);
+                pc?.GainCondition(Conditions.Full, ch.Size > Sizes.Medium ? -4 : -2);
                 pc?.GainCondition(Conditions.Thirst, -1);
-                pc?.GainCondition(Conditions.Hunger, character.Size > Sizes.Medium ? -2 : -1);
+                pc?.GainCondition(Conditions.Hunger, ch.Size > Sizes.Medium ? -2 : -1);
 
                 // apply a random periodic affect if any
-                var periodicAuras = character.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
+                var periodicAuras = ch.Auras.Where(x => x.Affects.Any(a => a is ICharacterPeriodicAffect)).ToArray();
                 if (periodicAuras.Length > 0)
                 {
                     var periodicAura = periodicAuras.Random(RandomManager);
                     if (periodicAura != null)
                     {
                         var affect = periodicAura.Affects.OfType<ICharacterPeriodicAffect>().FirstOrDefault();
-                        affect?.Apply(periodicAura, character);
+                        affect?.Apply(periodicAura, ch);
                     }
                 }
 
@@ -1534,7 +1534,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             }
             catch (Exception ex)
             { 
-                Logger.LogError("Exception while handling character {name}. Exception: {ex}", character.DebugName, ex);
+                Logger.LogError("Exception while handling character {name}. Exception: {ex}", ch.DebugName, ex);
             }
         }
     }
@@ -1761,22 +1761,40 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
                 TimeManager.FixCurrentTime();
 
+                // process inputs
                 var inputElapsed = MonitorAction(sw, ProcessInput);
 
+                // shutdown ongoing ?
                 HandleShutdown();
 
+                // trigger pulses
                 var pulseElapsed = MonitorAction(sw, PulseManager.Pulse);
 
+                // aggressive NPC
+                // TODO: move HandleAggressiveNonPlayableCharacters to PulseManager with InitialValue and ResetValue 1 (4 times a second)
                 var aggressiveNpcElapsed = MonitorAction(sw, HandleAggressiveNonPlayableCharacters);
+                // daze&wait
+                // TODO: move HandleDazeAndWait to PulseManager with InitialValue and ResetValue 1 (4 times a second)
+                var dazeAndWaitElapsed = MonitorAction(sw, HandleDazeAndWait);
 
+                // process outputs
                 var outputElapsed = MonitorAction(sw, ProcessOutput);
 
+                // cleanup
                 var cleanupElapsed = MonitorAction(sw, Cleanup);
 
                 tickStopwatch.Stop();
+
+                // calculate wait time to reach 250ms for the loop, then wait
                 long elapsedMs = tickStopwatch.ElapsedMilliseconds; // in milliseconds
                 if (elapsedMs < Pulse.PulseDelay)
                 {
+                    Logger.LogTrace("Input ms: {inputElapsed}", inputElapsed);
+                    Logger.LogTrace("pulse ms: {pulseElapsed}", pulseElapsed);
+                    Logger.LogTrace("aggressive npc ms: {aggressiveNpcElapsed}", aggressiveNpcElapsed);
+                    Logger.LogTrace("output ms: {outputElapsed}", outputElapsed);
+                    Logger.LogTrace("cleanup ms: {cleanupElapsed}", cleanupElapsed);
+
                     int sleepTime = (int)(Pulse.PulseDelay - elapsedMs); // game loop should iterate every 250ms
                     //long elapsedTick = sw.ElapsedTicks; // 1 tick = 1 second/Stopwatch.Frequency
                     //long elapsedNs = sw.Elapsed.Ticks; // 1 tick = 1 nanosecond
