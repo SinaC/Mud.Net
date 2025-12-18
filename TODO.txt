@@ -1,6 +1,9 @@
 INGOING
 DONE
-
+    healer functionality added
+    AssemblyInfos removed everywhere
+    SaySpell moved to helper
+    AbilityTypes and AbilityEffects moved to Server.Domain
 ==========
 == TODO ==
 ==========

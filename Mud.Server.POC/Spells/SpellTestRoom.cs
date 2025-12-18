@@ -4,7 +4,6 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Room;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;

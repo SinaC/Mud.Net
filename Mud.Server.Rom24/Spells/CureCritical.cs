@@ -2,8 +2,8 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;

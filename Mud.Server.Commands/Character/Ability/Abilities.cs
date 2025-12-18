@@ -1,5 +1,5 @@
-﻿using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
+﻿using Mud.Server.Domain;
+using Mud.Server.GameAction;
 
 namespace Mud.Server.Commands.Character.Ability;
 

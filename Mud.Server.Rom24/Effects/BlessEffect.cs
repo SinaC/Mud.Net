@@ -21,18 +21,19 @@ public class BlessEffect : IEffect<ICharacter>
 
     public void Apply(ICharacter victim, IEntity source, string abilityName, int level, int _)
     {
+        var sourceCharacter = source as ICharacter;
         var blessAura = victim.GetAura(abilityName);
         if (blessAura != null) // test on fighting removed
         {
             if (source == victim)
                 source.Send("You are already blessed.");
             else
-                victim.Act(ActOptions.ToCharacter, "{0:N} already has divine favor.", victim);
+                sourceCharacter?.Act(ActOptions.ToCharacter, "{0:N} already has divine favor.", victim);
             return;
         }
         victim.Send("You feel righteous.");
-        if (victim != source && source is ICharacter sourceCharacter)
-            sourceCharacter.Act(ActOptions.ToCharacter, "You grant {0} the favor of your god.", victim);
+        if (victim != source)
+            sourceCharacter?.Act(ActOptions.ToCharacter, "You grant {0} the favor of your god.", victim);
         int duration = 6 + level;
         AuraManager.AddAura(victim, abilityName, source, level, TimeSpan.FromMinutes(duration), AuraFlags.None, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.HitRoll, Modifier = level / 8, Operator = AffectOperators.Add },

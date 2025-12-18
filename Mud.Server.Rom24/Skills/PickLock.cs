@@ -5,6 +5,7 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
+using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;

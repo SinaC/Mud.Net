@@ -7,6 +7,7 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Commands.Character.Communication;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
+using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Character;
