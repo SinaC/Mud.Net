@@ -18,19 +18,19 @@ public class Dragon : RaceBase
     public override IIRVFlags Vulnerabilities => new IRVFlags("Pierce", "Cold");
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
-        Domain.EquipmentSlots.Light,
-        Domain.EquipmentSlots.Head,
-        Domain.EquipmentSlots.Amulet, // 2 amulets
-        Domain.EquipmentSlots.Amulet,
-        Domain.EquipmentSlots.Chest,
-        Domain.EquipmentSlots.Cloak,
-        Domain.EquipmentSlots.Ring, // 2 rings
-        Domain.EquipmentSlots.Ring,
-        Domain.EquipmentSlots.Legs,
-        Domain.EquipmentSlots.Feet,
-        Domain.EquipmentSlots.MainHand, // 2 hands
-        Domain.EquipmentSlots.OffHand,
-        Domain.EquipmentSlots.Float,
+        Mud.Domain.EquipmentSlots.Light,
+        Mud.Domain.EquipmentSlots.Head,
+        Mud.Domain.EquipmentSlots.Amulet, // 2 amulets
+        Mud.Domain.EquipmentSlots.Amulet,
+        Mud.Domain.EquipmentSlots.Chest,
+        Mud.Domain.EquipmentSlots.Cloak,
+        Mud.Domain.EquipmentSlots.Ring, // 2 rings
+        Mud.Domain.EquipmentSlots.Ring,
+        Mud.Domain.EquipmentSlots.Legs,
+        Mud.Domain.EquipmentSlots.Feet,
+        Mud.Domain.EquipmentSlots.MainHand, // 2 hands
+        Mud.Domain.EquipmentSlots.OffHand,
+        Mud.Domain.EquipmentSlots.Float,
     ];
     public override IBodyForms BodyForms => new BodyForms( "Edible", "Sentient", "Dragon");
     public override IBodyParts BodyParts => new BodyParts( "Head", "Body", "Legs", "Hands", "Feet", "Fingers", "Ear", "Eye", "Wings", "Tail", "Fangs", "Scales", "Claws");

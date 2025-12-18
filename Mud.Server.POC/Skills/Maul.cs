@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
-using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
+using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;

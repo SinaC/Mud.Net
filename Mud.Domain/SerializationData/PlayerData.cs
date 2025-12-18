@@ -1,4 +1,4 @@
-﻿using Mud.Domain.Serialization;
+﻿using Mud.Common.Attributes;
 
 namespace Mud.Domain.SerializationData;
 

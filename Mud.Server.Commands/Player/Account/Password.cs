@@ -1,5 +1,6 @@
 ﻿using Mud.Repository.Interfaces;
 using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 

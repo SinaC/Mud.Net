@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common;
+﻿using Mud.Domain;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -50,7 +51,7 @@ public class AddLag : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Wiznet.Log($"{Actor.DisplayName} adds lag {Whom.DisplayName}.", Domain.WiznetFlags.Punish);
+        Wiznet.Log($"{Actor.DisplayName} adds lag {Whom.DisplayName}.", WiznetFlags.Punish);
 
         Actor.Send("Adding lag now.");
         Whom.SetLag(Modifier);

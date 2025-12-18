@@ -1,7 +1,7 @@
 ﻿using Mud.Common;
 using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Domain;
-using Mud.Domain.Extensions;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;

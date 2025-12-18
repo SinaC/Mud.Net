@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Server.Domain;
 using Mud.Server.Flags.Interfaces;
 
 namespace Mud.Server.Interfaces.Affect.Character;

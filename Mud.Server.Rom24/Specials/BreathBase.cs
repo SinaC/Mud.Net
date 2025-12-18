@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Special;
 using Mud.Server.Random;
@@ -19,7 +20,7 @@ namespace Mud.Server.Rom24.Specials
         public bool Execute(INonPlayableCharacter npc)
         {
             if (!npc.IsValid || npc.Room == null
-                || npc.Position <= Domain.Positions.Sleeping || npc.Fighting == null)
+                || npc.Position <= Positions.Sleeping || npc.Fighting == null)
                 return false;
 
             // search a random 'victim'

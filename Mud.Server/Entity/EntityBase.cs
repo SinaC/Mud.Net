@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.DataStructures.Flags;
+using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Actor;
 using Mud.Server.Common.Helpers;
@@ -191,6 +192,7 @@ public abstract class EntityBase : ActorBase, IEntity
             if (StringCompareHelpers.StringEquals(aura.AbilityName!, "Charm Person") && this is INonPlayableCharacter npc)
                 npc.ChangeMaster(null);
         }
+        aura.OnRemoved();
         if (recompute && removed)
             Recompute();
     }
@@ -255,7 +257,7 @@ public abstract class EntityBase : ActorBase, IEntity
     protected AuraData[] MapAuraData()
     {
         // don't save Shapeshift
-        return Auras.Where(x => x.IsValid && !x.AuraFlags.HasFlag(Domain.AuraFlags.Shapeshift)).Select(x => x.MapAuraData()).ToArray();
+        return Auras.Where(x => x.IsValid && !x.AuraFlags.HasFlag(AuraFlags.Shapeshift)).Select(x => x.MapAuraData()).ToArray();
     }
 
     #region Act

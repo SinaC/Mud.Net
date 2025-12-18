@@ -14,8 +14,8 @@ internal enum ClientStates
 // State object for reading client data asynchronously
 internal class ClientTelnetStateObject : IClient
 {
-    private static readonly byte[] EchoOffData = [0xFF, 0xFB, 0x01];
-    private static readonly byte[] EchoOnData = [0xFF, 0xFC, 0x01];
+    private static readonly byte[] EchoOffData = [Telnet.IAC, Telnet.WILL, Telnet.TELOPT_ECHO];
+    private static readonly byte[] EchoOnData = [Telnet.IAC, Telnet.WONT, Telnet.TELOPT_ECHO];
 
     // Size of receive buffer.
     public const int BufferSize = 256;

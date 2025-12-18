@@ -1,5 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Server.Affects.Room;
+using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Aura;
 

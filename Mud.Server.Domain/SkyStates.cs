@@ -1,4 +1,4 @@
-﻿namespace Mud.Domain;
+﻿namespace Mud.Server.Domain;
 
 public enum SkyStates // Order is important
 {

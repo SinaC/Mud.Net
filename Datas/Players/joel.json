@@ -15,6 +15,7 @@
       "Practices": 41,
       "AutoFlags": 126,
       "CurrentQuests": [],
+	  "LearnedAbilityGroups": [],
       "LearnedAbilities": [
         {
           "Name": "Detect Magic",
@@ -483,6 +484,7 @@
       "Practices": 5,
       "AutoFlags": 0,
       "CurrentQuests": [],
+	  "LearnedAbilityGroups": [],
       "LearnedAbilities": [],
       "Conditions": {
         "Full": 48,

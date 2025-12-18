@@ -1,6 +1,6 @@
-﻿using Mud.Domain;
-using Mud.Domain.Serialization;
+﻿using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
+using Mud.Server.Domain;
 
 namespace Mud.Server.Affects.Character;
 

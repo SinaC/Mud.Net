@@ -1,7 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
+using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;

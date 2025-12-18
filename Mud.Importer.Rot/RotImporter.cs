@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Blueprints.Area;
 using Mud.Server.Blueprints.Character;
@@ -12,6 +13,7 @@ using System.Diagnostics;
 
 namespace Mud.Importer.Rot;
 
+[Export, Shared]
 public class RotImporter
 {
     private ILogger<RotImporter> Logger { get; }

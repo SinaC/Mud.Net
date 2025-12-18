@@ -1,4 +1,5 @@
-﻿using Mud.Server.Interfaces.Character;
+﻿using Mud.Domain;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Special;
 using Mud.Server.Specials;
@@ -20,7 +21,7 @@ namespace Mud.Server.Rom24.Specials
         {
             // must be awake
             if (!npc.IsValid || npc.Room == null
-                || npc.Position <= Domain.Positions.Sleeping)
+                || npc.Position <= Positions.Sleeping)
                 return false;
 
             // devours npc corpse

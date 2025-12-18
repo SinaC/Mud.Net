@@ -1,4 +1,5 @@
-﻿using Mud.Server.Commands.Character.Combat;
+﻿using Mud.Domain;
+using Mud.Server.Commands.Character.Combat;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Special;
@@ -23,7 +24,7 @@ namespace Mud.Server.Rom24.Specials
         {
             // must be awake
             if (!npc.IsValid || npc.Room == null
-                || npc.Position <= Domain.Positions.Sleeping)
+                || npc.Position <= Positions.Sleeping)
                 return false;
 
             // if not fighting, backstab

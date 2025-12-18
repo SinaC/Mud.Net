@@ -1,4 +1,4 @@
-﻿using Mud.Domain;
+﻿using Mud.Server.Domain;
 
 namespace Mud.Server.Interfaces;
 

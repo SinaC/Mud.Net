@@ -6,6 +6,8 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
+using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;

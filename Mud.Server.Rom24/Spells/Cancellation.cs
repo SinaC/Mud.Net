@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Server.Common;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;

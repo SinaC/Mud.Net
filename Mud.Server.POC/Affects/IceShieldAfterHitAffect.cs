@@ -1,4 +1,5 @@
-﻿using Mud.Server.Affects;
+﻿using Mud.Domain;
+using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -27,7 +28,7 @@ public class IceShieldAfterHitAffect : NoAffectDataAffectBase, ICharacterAfterHi
         if (!hitter.ShieldFlags.IsSet("IceShield"))
         {
             var damage = RandomManager.Range(10, 20);
-            hitter.AbilityDamage(victim, damage, Domain.SchoolTypes.Cold, "%C%chilling touch%x%", true);
+            hitter.AbilityDamage(victim, damage, SchoolTypes.Cold, "%C%chilling touch%x%", true);
         }
     }
 }

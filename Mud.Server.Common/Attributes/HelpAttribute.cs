@@ -1,4 +1,4 @@
-﻿namespace Mud.Server.Common;
+﻿namespace Mud.Server.Common.Attributes;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public class HelpAttribute : Attribute

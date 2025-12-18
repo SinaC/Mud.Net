@@ -1,4 +1,5 @@
-﻿using Mud.Server.Affects;
+﻿using Mud.Domain;
+using Mud.Server.Affects;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -28,7 +29,7 @@ public class FireShieldAfterHitAffect : NoAffectDataAffectBase, ICharacterAfterH
         if (!hitter.ShieldFlags.IsSet("FireShield"))
         {
             var damage = RandomManager.Range(5, 15);
-            hitter.AbilityDamage(victim, damage, Domain.SchoolTypes.Fire, "%R%fireball%x%", true);
+            hitter.AbilityDamage(victim, damage, SchoolTypes.Fire, "%R%fireball%x%", true);
         }
     }
 }

@@ -4,12 +4,12 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Domain.Extensions;
 using Mud.Domain.SerializationData;
 using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
@@ -374,6 +374,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 Group.Disband();
             else
                 Group.RemoveMember(this);
+            Group = null;
         }
 
         // Release pets

@@ -1,5 +1,5 @@
-﻿using Mud.Domain;
-using Mud.Domain.Serialization;
+﻿using Mud.Common.Attributes;
+using Mud.Domain;
 using Mud.Domain.SerializationData;
 
 namespace Mud.Server.Item;

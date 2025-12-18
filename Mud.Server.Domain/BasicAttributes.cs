@@ -1,4 +1,6 @@
-﻿namespace Mud.Domain;
+﻿using Mud.Domain;
+
+namespace Mud.Server.Domain;
 
 public enum BasicAttributes // must have the same values as CharacterAttributes
 { 

@@ -1,6 +1,7 @@
 ﻿// TODO: exit flags are incorrect (door is missing)
 
 using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using System.Diagnostics;
 
 namespace Mud.Importer.Rom;

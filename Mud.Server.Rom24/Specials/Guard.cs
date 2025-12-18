@@ -1,11 +1,7 @@
-﻿using Mud.Server.Interfaces.Character;
+﻿using Mud.Domain;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Special;
 using Mud.Server.Specials;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Rom24.Specials
 {
@@ -17,7 +13,7 @@ namespace Mud.Server.Rom24.Specials
         public bool Execute(INonPlayableCharacter npc)
         {
             if (!npc.IsValid || npc.Room == null
-                || npc.Position <= Domain.Positions.Sleeping || npc.Fighting != null)
+                || npc.Position <= Positions.Sleeping || npc.Fighting != null)
                 return false;
 
             //var killerOrThief = npc.Room.People.OfType<IPlayableCharacter>().FirstOrDefault(x => x.IsKiller || x.IsThief);

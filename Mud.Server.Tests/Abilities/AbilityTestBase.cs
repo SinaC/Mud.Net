@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
+using Mud.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
@@ -62,9 +63,9 @@ public abstract class AbilityTestBase : TestBase
     {
         var mock = new Mock<IAbilityLearned>();
         mock.SetupGet(x => x.Name).Returns(name);
-        mock.SetupGet(x => x.ResourceKind).Returns(Domain.ResourceKinds.Mana);
+        mock.SetupGet(x => x.ResourceKind).Returns(ResourceKinds.Mana);
         mock.SetupGet(x => x.CostAmount).Returns(50);
-        mock.SetupGet(x => x.CostAmountOperator).Returns(Domain.CostAmountOperators.Fixed);
+        mock.SetupGet(x => x.CostAmountOperator).Returns(CostAmountOperators.Fixed);
         mock.Setup(x => x.HasCost()).Returns(true);
         return mock.Object;
     }

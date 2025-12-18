@@ -18,9 +18,9 @@ public class Centipede : RaceBase
     public override IIRVFlags Vulnerabilities => new IRVFlags("Bash");
     public override IEnumerable<EquipmentSlots> EquipmentSlots =>
     [
-        Domain.EquipmentSlots.Head,
-        Domain.EquipmentSlots.Chest,
-        Domain.EquipmentSlots.Float,
+        Mud.Domain.EquipmentSlots.Head,
+        Mud.Domain.EquipmentSlots.Chest,
+        Mud.Domain.EquipmentSlots.Float,
     ];
     public override IBodyForms BodyForms => new BodyForms( "Poison", "Animal", "Insect");
     public override IBodyParts BodyParts => new BodyParts( "Head", "Legs", "Eye");

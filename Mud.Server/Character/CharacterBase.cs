@@ -2,13 +2,13 @@
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
-using Mud.Domain.Extensions;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
+using Mud.Server.Domain;
 using Mud.Server.Entity;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
@@ -2125,10 +2125,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (fromRoom != toRoom)
         {
-            IReadOnlyCollection<ICharacter> followers = new ReadOnlyCollection<ICharacter>(fromRoom.People.Where(x => x.Leader == this && x.Position == Positions.Standing && x.CanSee(toRoom)).ToList()); // clone because Move will modify fromRoom.People
+            IReadOnlyCollection<ICharacter> followers = new ReadOnlyCollection<ICharacter>(fromRoom.People.Where(x => x.IsValid && x.Leader == this && x.Position == Positions.Standing && x.CanSee(toRoom)).ToList()); // clone because Move will modify fromRoom.People
             foreach (ICharacter follower in followers)
             {
-                follower.Send("You follow {0}.", DebugName);
+                follower.Send("You follow {0}.", DisplayName);
                 follower.Move(direction, true, true);
             }
         }
@@ -2324,7 +2324,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // funky weapon ?
         if (damageResult == DamageResults.Done && wield != null)
         {
-            var clone = new ReadOnlyCollection<string>(WeaponEffectManager.WeaponEffectsByType<IPostHitDamageWeaponEffect>(wield).ToList()); // some weapon effect can worn off when used -> collection could be modified while applying effects
+            var clone = new ReadOnlyCollection<string>(WeaponEffectManager.WeaponEffectsByType<IPostHitDamageWeaponEffect>(wield).ToList()); // some weapon effect can worn off when used -> wield.WeaponEffect collection could be modified while applying effects
             foreach (var postHitDamageWeaponEffect in clone)
             {
                 var effect = WeaponEffectManager.CreateInstance<IPostHitDamageWeaponEffect>(postHitDamageWeaponEffect);

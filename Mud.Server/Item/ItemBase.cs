@@ -6,6 +6,7 @@ using Mud.Domain.SerializationData;
 using Mud.Server.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
+using Mud.Server.Domain;
 using Mud.Server.Entity;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
