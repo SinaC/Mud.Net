@@ -92,18 +92,18 @@ public class Bash : OffensiveSkillBase
         {
             User.Act(ActOptions.ToCharacter, "%W%You slam into {0}, and send {0:m} flying!%x%", Victim);
             User.Act(ActOptions.ToRoom, "%W%{0:N} sends {1} sprawling with a powerful bash%x%.", User, Victim);
-            (Victim as IPlayableCharacter)?.ImpersonatedBy?.SetDaze(3 * Pulse.PulseViolence);
-            Victim.ChangePosition(Positions.Resting);
+            Victim.SetDaze(3 * Pulse.PulseViolence);
+            Victim.ChangePosition(Positions.Sitting);
             int damage = RandomManager.Range(2, 2 + 2 * (int)User.Size + chance / 20);
             Victim.AbilityDamage(User, damage, SchoolTypes.Bash, "bash", false);
             // TODO: check_killer(ch,Victim);
             return true;
         }
-        Victim.AbilityDamage(User, 0, SchoolTypes.Bash, "bash", false); // starts a fight
+        //Victim.AbilityDamage(User, 0, SchoolTypes.Bash, "bash", false); // starts a fight
         User.Send("%W%You fall flat on your face!%x%");
         User.Act(ActOptions.ToRoom, "%W%{0:N} fall{0:v} flat on {0:s} face!%x%", User);
         Victim.Act(ActOptions.ToCharacter, "%W%You evade {0:p} bash, causing {0:m} to fall flat on {0:s} face.%x%", User);
-        User.ChangePosition(Positions.Resting);
+        User.ChangePosition(Positions.Sitting);
         // TODO: check_killer(ch,Victim);
         return false;
     }

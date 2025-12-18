@@ -42,7 +42,6 @@ public class Shout : CharacterGameAction
     public override void Execute(IActionInput actionInput)
     {
         Actor.Act(PlayerManager.Players.Where(x => x.Impersonating != null).Select(x => x.Impersonating!), "{0:N} shout{0:v} '{1}'", Actor, What);
-        if (Actor is IPlayableCharacter pc)
-            pc?.ImpersonatedBy?.SetGlobalCooldown(12);
+        Actor.SetGlobalCooldown(12);
     }
 }

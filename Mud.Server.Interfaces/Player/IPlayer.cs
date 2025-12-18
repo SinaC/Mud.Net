@@ -30,9 +30,6 @@ public interface IPlayer : IActor
     string Name { get; }
     string DisplayName { get; } // First letter is in upper-case
 
-    int Daze { get; } // check DAZE_STATE
-    int GlobalCooldown { get; } // delay (in Pulse) before next action    check WAIT_STATE
-
     int PagingLineCount { get; }
     void SetPagingLineCount(int count);
 
@@ -54,15 +51,15 @@ public interface IPlayer : IActor
 
     string Prompt { get; }
 
+    // lag
+    int Lag { get; }
+    void DecreaseLag(); // decrease one by one
+    void SetLag(int pulseCount); // set lag delay (in pulse), can only increase
+
+    // afk + tell
     bool IsAfk { get; }
     IEnumerable<string> DelayedTells { get; } // Tell stored while AFK
     void ToggleAfk();
-
-    void DecreaseDaze(); // decrease one by one
-    void SetDaze(int pulseCount); // set daze delay (in pulse)
-
-    void DecreaseGlobalCooldown(); // decrease one by one
-    void SetGlobalCooldown(int pulseCount); // set global cooldown delay (in pulse)
 
     void SetLastTeller(IPlayer? teller);
     void AddDelayedTell(string sentence);

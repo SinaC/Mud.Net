@@ -112,7 +112,6 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (!IsSetupExecuted)
             throw new Exception("Cannot execute skill without calling setup first.");
 
-        var pcUser = User as IPlayableCharacter;
 
         // 1) invoke skill
         var result = Invoke();
@@ -128,13 +127,14 @@ public abstract class SkillBase : CharacterGameAction, ISkill
 
         // 3) GCD
         if (AbilityDefinition.PulseWaitTime.HasValue)
-            pcUser?.ImpersonatedBy?.SetGlobalCooldown(AbilityDefinition.PulseWaitTime.Value);
+            User.SetGlobalCooldown(AbilityDefinition.PulseWaitTime.Value);
 
         // 4) set cooldown
         if (AbilityDefinition.CooldownInSeconds.HasValue && AbilityDefinition.CooldownInSeconds.Value > 0)
             User.SetCooldown(AbilityDefinition.Name, TimeSpan.FromSeconds(AbilityDefinition.CooldownInSeconds.Value));
 
         // 5) check improve true
+        var pcUser = User as IPlayableCharacter;
         pcUser?.CheckAbilityImprove(AbilityDefinition.Name, result, AbilityDefinition.LearnDifficultyMultiplier);
     }
 

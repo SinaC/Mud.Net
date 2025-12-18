@@ -180,6 +180,40 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public int CarryWeight => Inventory.Sum(x => x.Weight) + Equipments.Where(x => x.Item != null).Sum(x => x.Item!.Weight);
     public int CarryNumber => Inventory.Sum(x => x.CarryCount) + Equipments.Where(x => x.Item != null).Sum(x => x.Item!.CarryCount);
 
+    // GCD (aka WAIT_STATE in rom24)
+    public int GlobalCooldown { get; private set; } // delay (in Pulse) before next action    check WAIT_STATE
+
+    public void DecreaseGlobalCooldown() // decrease one by one
+    {
+        GlobalCooldown = Math.Max(GlobalCooldown - 1, 0);
+    }
+
+    public void SetGlobalCooldown(int pulseCount) // set global cooldown delay (in pulse), can only increase
+    {
+        if (pulseCount > GlobalCooldown)
+        {
+            Logger.LogTrace("SETTING GCD to {pulseCount} for {name}", pulseCount, DebugName);
+            GlobalCooldown = pulseCount;
+        }
+    }
+
+    // Daze
+    public int Daze { get; private set; }
+
+    public void DecreaseDaze() // decrease one by one
+    {
+        Daze = Math.Max(Daze - 1, 0);
+    }
+
+    public void SetDaze(int pulseCount) // set daze delay (in pulse), can only increase
+    {
+        if (pulseCount > Daze)
+        {
+            Logger.LogTrace("SETTING DAZE to {pulseCount} for {name}", pulseCount, DebugName);
+            Daze = pulseCount;
+        }
+    }
+
     // Money
     public long SilverCoins { get; protected set; }
     public long GoldCoins { get; protected set; }
@@ -459,15 +493,146 @@ public abstract class CharacterBase : EntityBase, ICharacter
     }
 
     // Position
+    public bool StandUpInCombatIfPossible()
+    {
+        //if (ch->timer > 4)
+        //    return FALSE;
+        if (Daze > 0 || GlobalCooldown > 0)
+            return false;
+        if (Fighting == null)
+            return false;
+        if (Position != Positions.Standing)
+        {
+            Logger.LogInformation("*** changing position to standing for {name} from {position}", DebugName, Position);
+
+            DisplayChangePositionMessage(Position, Positions.Standing, Furniture);
+            ChangePosition(Positions.Standing);
+        }
+        return true;
+    }
+
     public bool ChangePosition(Positions position)
     {
         Position = position;
         return true;
     }
 
-    public void ChangeStunned(int fightRound)
+    public void DisplayChangePositionMessage(Positions oldPosition, Positions newPosition, IItemFurniture? furniture)
     {
-        Stunned = fightRound;
+        switch (newPosition)
+        {
+            case Positions.Sleeping:
+                if (furniture == null)
+                    Act(ActOptions.ToAll, "{0:N} go{0:v} to sleep.", this);
+                else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                    Act(ActOptions.ToAll, "{0:N} go{0:v} sleep at {1}.", this, furniture);
+                else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                    Act(ActOptions.ToAll, "{0:N} go{0:v} sleep on {1}.", this, furniture);
+                else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                    Act(ActOptions.ToAll, "{0:N} go{0:v} sleep in {1}.", this, furniture);
+                return;
+            case Positions.Resting:
+                switch (oldPosition)
+                {
+                    case Positions.Sleeping:
+                        if (furniture == null)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and start{0:v} resting.", this);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and rest{0:v} at {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and rest{0:v} on {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and rest{0:v} in {1}.", this, furniture);
+                        return;
+                    case Positions.Sitting:
+                        if (furniture == null)
+                            Act(ActOptions.ToRoom, "{0;N} rest{0:v}.", this);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                            Act(ActOptions.ToAll, "{0:N} rest{0:v} at {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                            Act(ActOptions.ToAll, "{0:N} rest{0:v} on {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                            Act(ActOptions.ToAll, "{0:N} rest{0:v} in {1}.", this, furniture);
+                        return;
+                    case Positions.Standing:
+                        if (furniture == null)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down and rest{0:v}.", this);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down at {1} and rest{0:v}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} on {1} and rest{0:v}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                            Act(ActOptions.ToAll, "{0:N} rest{0:v} in {1}.", this, furniture);
+                        return;
+                }
+                return;
+            case Positions.Sitting:
+                switch (oldPosition)
+                {
+                    case Positions.Sleeping:
+                        if (furniture == null)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} up.", this);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} at {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} on {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} in {1}.", this, furniture);
+                        return;
+                    case Positions.Resting:
+                        if (furniture == null)
+                            Send("You stop resting.");
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} at {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} on {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} in {1}.", this, furniture);
+                        return;
+                    case Positions.Standing:
+                        if (furniture == null)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down.", this);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down at {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} on {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                            Act(ActOptions.ToAll, "{0:N} sit{0:v} down in {1}.", this, furniture);
+                        return;
+                }
+                return;
+            case Positions.Standing:
+                switch (oldPosition)
+                {
+                    case Positions.Sleeping:
+                        if (furniture == null)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} up.", this);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} at {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} on {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                            Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} in {1}.", this, furniture);
+                        return;
+                    case Positions.Resting:
+                    case Positions.Sitting:
+                        if (furniture == null)
+                            Act(ActOptions.ToAll, "{0:N} stand{0:v} up.", this);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.At)
+                            Act(ActOptions.ToAll, "{0:N} stand{0:v} at {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.On)
+                            Act(ActOptions.ToAll, "{0:N} stand{0:v} on {1}.", this, furniture);
+                        else if (furniture.FurniturePlacePreposition == FurniturePlacePrepositions.In)
+                            Act(ActOptions.ToAll, "{0:N} stand{0:v} in {1}.", this, furniture);
+                        return;
+                }
+                return;
+        }
+    }
+
+    public void ChangeStunned(int stunned)
+    {
+        Stunned = stunned;
     }
 
     // Visibility
@@ -961,6 +1126,17 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
         }
 
+        if (Daze > 0)
+        {
+            Send("You're too dazed to move...");
+            return false;
+        }
+        if (GlobalCooldown > 0)
+        {
+            Send("You haven't quite recovered yet..."); // this is only be for NPC because PC input processing is blocked until GlobalCooldown is 0
+            return false;
+        }
+
         // Under certain circumstances, direction can be modified (Drunk anyone?)
         direction = ChangeDirectionBeforeMove(direction, fromRoom);
 
@@ -1186,9 +1362,39 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
         }
 
+        // TODO: remove sleep affect if any
+        if (victim.Fighting == null && victim.Daze == 0 && victim.Position < Positions.Standing)
+        {
+            int? dazeMultiplier = null;
+            switch (victim.Position)
+            {
+                case Positions.Sleeping:
+                    victim.Send("You were caught sleeping!");
+                    ActToNotVictim(victim, "{0:N} was caught sleeping!", victim);
+                    dazeMultiplier = 3;
+                    break;
+                case Positions.Resting:
+                    victim.Send("You were caught resting!");
+                    ActToNotVictim(victim, "{0:N} was caught resting!", victim);
+                    dazeMultiplier = 2;
+                    break;
+                case Positions.Sitting:
+                    victim.Send("You were caught sitting down!");
+                    ActToNotVictim(victim, "{0:N} was caught sitting down!", victim);
+                    dazeMultiplier = 1;
+                    break;
+            }
+            if (dazeMultiplier != null)
+            {
+                //do_function (victim, &do_sit, ""); TODO ?
+                victim.SetDaze(dazeMultiplier.Value * Pulse.PulseViolence + Pulse.PulseViolence / 2);
+            }
+        }
+
         Logger.LogDebug("{name} starts fighting {victimName}", DebugName, victim.DebugName);
 
         Fighting = victim;
+        StandUpInCombatIfPossible();
         return true;
     }
 
@@ -1450,7 +1656,16 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public bool Flee()
     {
         if (Fighting == null)
+        {
+            Send("You aren't fightning anyone.");
             return false;
+        }
+
+        if (Daze > 5) // totally dazed, can't flee
+        {
+            Send("You're too dazed to get your bearings!");
+            return false;
+        }
 
         var from = Room;
         var pc = this as IPlayableCharacter;
@@ -1462,9 +1677,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
             var exit = Room.Exits[(int) randomExit];
             var destination = exit?.Destination;
             if (destination != null && exit?.IsClosed == false
-                                    && !(pc != null && (pc.ImpersonatedBy == null || RandomManager.Range(0, pc.ImpersonatedBy.Daze) != 0))
-                                    && !(pc == null
-                                    && destination.RoomFlags.IsSet("NoMob")))
+                && !(RandomManager.Range(0, Daze) != 0) // partially dazed, has some chance to flee
+                && !(pc == null && destination.RoomFlags.IsSet("NoMob")))
             {
                 // Try to move without checking if in combat or not
                 Move(randomExit, false, false); // followers will not follow
@@ -1477,6 +1691,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
                     Act(from.People, "{0} has fled!", this);
 
                     if (pc != null)
+                        // TODO
+                        //if ((ch->class == CLASS_THIEF) && (number_percent() < 3 * (ch->level / 2)))
+                        //send_to_char("You snuck away safely.\n\r", ch);
+                        // else
                     {
                         Send("You lost 10 exp.");
                         pc.GainExperience(-10);
@@ -2462,13 +2680,14 @@ public abstract class CharacterBase : EntityBase, ICharacter
             {
                 if (Fighting == null)
                     StartFighting(source);
-                Position = Positions.Standing; // TODO: should be Positions.Fighting
+                StandUpInCombatIfPossible();
             }
             if (Position >= Positions.Sleeping) // TODO: > Stunned
             {
                 // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
                 if (source.Fighting == null)
                     source.StartFighting(this);
+                StandUpInCombatIfPossible();
             }
             // more charm stuff
             if (this is INonPlayableCharacter npcVictim && npcVictim.Master == source) // TODO: no more cast like this

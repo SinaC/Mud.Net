@@ -49,42 +49,9 @@ public class Sit : CharacterGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Actor.ChangeFurniture(What);
-
         // Change position
-        if (Actor.Position == Positions.Sleeping)
-        {
-            if (What == null)
-                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} up.", Actor);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} at {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} on {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} and sit{0:v} in {1}.", Actor, What);
-        }
-        else if (Actor.Position == Positions.Resting)
-        {
-            if (What == null)
-                Actor.Send("You stop resting.");
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                Actor.Act(ActOptions.ToAll, "{0:N} sit{0:v} at {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                Actor.Act(ActOptions.ToAll, "{0:N} sit{0:v} on {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                Actor.Act(ActOptions.ToAll, "{0:N} sit{0:v} in {1}.", Actor, What);
-        }
-        else if (Actor.Position == Positions.Standing)
-        {
-            if (What == null)
-                Actor.Act(ActOptions.ToAll, "{0:N} sit{0:v} down.", Actor);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                Actor.Act(ActOptions.ToAll, "{0:N} sit{0:v} down at {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                Actor.Act(ActOptions.ToAll, "{0:N} sit{0:v} on {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                Actor.Act(ActOptions.ToAll, "{0:N} sit{0:v} down in {1}.", Actor, What);
-        }
+        Actor.DisplayChangePositionMessage(Actor.Position, Positions.Sitting, What);
         Actor.ChangePosition(Positions.Sitting);
+        Actor.ChangeFurniture(What);
     }
 }

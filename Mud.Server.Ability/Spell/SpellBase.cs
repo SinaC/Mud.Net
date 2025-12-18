@@ -175,7 +175,7 @@ public abstract class SpellBase : ISpell
 
         // 5) GCD
         if (AbilityDefinition.PulseWaitTime != null)
-            pcCaster?.ImpersonatedBy?.SetGlobalCooldown(AbilityDefinition.PulseWaitTime.Value);
+            Caster.SetGlobalCooldown(AbilityDefinition.PulseWaitTime.Value);
 
         // 6) set cooldown if any
         if (AbilityDefinition.CooldownInSeconds != null && AbilityDefinition.CooldownInSeconds.Value > 0)

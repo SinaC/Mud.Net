@@ -41,7 +41,7 @@ public class ShockEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
         {
             victim.Send("Your muscles stop responding.");
             var daze = Math.Max(level + 4 + modifier / 20, 12);
-            (victim as IPlayableCharacter)?.ImpersonatedBy?.SetDaze(daze);
+            victim.SetDaze(daze);
         }
         // toast some gear
         var clone = new ReadOnlyCollection<IItem>(victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToList());

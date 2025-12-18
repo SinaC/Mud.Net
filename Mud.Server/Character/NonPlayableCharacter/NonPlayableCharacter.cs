@@ -9,6 +9,7 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Blueprints.Character;
+using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Flags;
@@ -420,7 +421,10 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         //if (multiHitModifier?.MaxAttackCount <= 6)
         //    return;
         // fun stuff
-        // TODO: if wait > 0 return
+
+        if (GlobalCooldown > 0 || Position < Positions.Standing) // wait until GCD is elapsed and standing up
+            return;
+
         int number = RandomManager.Range(0, 9);
         switch (number)
         {
@@ -665,7 +669,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         else
             learned = 0;
 
-        // TODO: if daze /=2 for spell and *2/3 if otherwise
+        if (Daze > 0)
+        {
+            if (abilityLearned?.AbilityDefinition.Type == AbilityTypes.Spell)
+                learned /= 2;
+            else
+                learned = (learned * 2) / 3;
+        }
 
         learned = Math.Clamp(learned, 0, 100);
         return (learned, abilityLearned);
@@ -738,7 +748,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override void HandleWimpy(int damage)
     {
-        if (damage > 0) // TODO add test on wait < PULSE_VIOLENCE / 2
+        if (damage > 0 && GlobalCooldown < Pulse.PulseViolence/2)
         {
             if ((ActFlags.IsSet("Wimpy") && CurrentHitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
                 || (CharacterFlags.IsSet("Charm") && Master != null && Master.Room != Room))

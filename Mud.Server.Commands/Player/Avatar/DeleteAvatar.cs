@@ -42,7 +42,7 @@ public class DeleteAvatar : PlayerGameAction
         if (Actor.AvatarNameDeletionConfirmationNeeded != null && !StringCompareHelpers.StringEquals(Actor.AvatarNameDeletionConfirmationNeeded, avatarName))
         {
             Actor.ResetAvatarNameDeletionConfirmationNeeded();
-            Actor.SetGlobalCooldown(5 * Pulse.PulsePerSeconds);
+            Actor.SetLag(5 * Pulse.PulsePerSeconds);
             return "Wrong avatar name confirmed. Wait 5 seconds.";
         }
 

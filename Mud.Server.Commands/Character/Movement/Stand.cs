@@ -22,6 +22,9 @@ public class Stand : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
+        if (Actor.Daze > 0)
+            return "You're too dazed to re-orient yourself right now!";
+
         // Stand is the only movement command that can be used while fighting
         //if (Actor.Fighting != null)
         //    return "Maybe you should finish fighting first?";
@@ -51,36 +54,13 @@ public class Stand : CharacterGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Actor.ChangeFurniture(What);
-
         // Change position
-        if (Actor.Position == Positions.Sleeping)
-        {
-            if (What == null)
-                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} up.", Actor);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} at {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} on {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                Actor.Act(ActOptions.ToAll, "{0:N} wake{0:v} up and stand{0:v} in {1}.", Actor, What);
-            // Autolook if impersonated/incarnated
-            StringBuilder sb = new ();
-            Actor.Room.Append(sb, Actor);
-            Actor.Send(sb);
-        }
-        else if (Actor.Position == Positions.Resting
-                 || Actor.Position == Positions.Sitting)
-        {
-            if (What == null)
-                Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} up.", Actor);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.At)
-                Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} at {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.On)
-                Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} on {1}.", Actor, What);
-            else if (What.FurniturePlacePreposition == FurniturePlacePrepositions.In)
-                Actor.Act(ActOptions.ToAll, "{0:N} stand{0:v} in {1}.", Actor, What);
-        }
+        Actor.DisplayChangePositionMessage(Actor.Position, Positions.Standing, What);
         Actor.ChangePosition(Positions.Standing);
+        Actor.ChangeFurniture(What);
+        // Autolook if impersonated/incarnated
+        StringBuilder sb = new();
+        Actor.Room.Append(sb, Actor);
+        Actor.Send(sb);
     }
 }
