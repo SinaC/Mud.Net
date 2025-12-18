@@ -37,7 +37,6 @@ using Mud.Server.Random;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mud.Server.Character.PlayableCharacter;
 
@@ -1267,7 +1266,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         }
     }
 
-    protected override void HandleWimpy(int damage)
+    protected override void HandleWimpy()
     {
         // TODO
         //if (HitPoints > 0 && HitPoints <= Wimpy && GlobalCooldown < Pulse.PulseViolence/2) // TODO: test on wait < PULSE_VIOLENCE / 2

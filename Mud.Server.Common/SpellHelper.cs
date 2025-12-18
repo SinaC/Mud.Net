@@ -1,11 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
-using Mud.Server.Interfaces.Ability;
+﻿using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Mud.Server.Common
 {
@@ -52,32 +47,7 @@ namespace Mud.Server.Common
 
         public static void SaySpell(ICharacter caster, string spellName)
         {
-            //source.Send("You cast '{0}'.", ability.Name);
-
-            // Build mystical words for spell
-            StringBuilder mysticalWords = new();
-            var toBeTranslated = spellName.ToLowerInvariant();
-            var remaining = toBeTranslated;
-            while (remaining.Length > 0)
-            {
-                bool found = false;
-                foreach (var syllable in SyllableTable)
-                {
-                    if (remaining.StartsWith(syllable.syllable))
-                    {
-                        mysticalWords.Append(syllable.transformed);
-                        remaining = remaining[syllable.syllable.Length..];
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found)
-                {
-                    mysticalWords.Append('?');
-                    remaining = remaining[1..];
-                    //Logger.LogWarning("Spell {abilityName} contains a character which is not found in syllable table", spellName);
-                }
-            }
+            var mysticalWords = Translate(spellName);
 
             // Say to people in room except source (if target is fluent with that spell, hear the spell clearly)
             foreach (var target in caster.Room.People.Where(x => x != caster))
@@ -88,6 +58,35 @@ namespace Mud.Server.Common
                 else
                     target.Act(ActOptions.ToCharacter, "{0} utters the words, '{1}'.", caster, mysticalWords); // doesn't known the spell
             }
+        }
+
+        private static string Translate(string spellName)
+        {
+            // Build mystical words for spell
+            var translation = new StringBuilder();
+            var toBeTranslated = spellName.ToLowerInvariant();
+            var remaining = toBeTranslated;
+            while (remaining.Length > 0)
+            {
+                bool found = false;
+                foreach (var syllable in SyllableTable)
+                {
+                    if (remaining.StartsWith(syllable.syllable))
+                    {
+                        translation.Append(syllable.transformed);
+                        remaining = remaining[syllable.syllable.Length..];
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    translation.Append('?');
+                    remaining = remaining[1..];
+                    //Logger.LogWarning("Spell {abilityName} contains a character which is not found in syllable table", spellName);
+                }
+            }
+            return translation.ToString();
         }
     }
 }

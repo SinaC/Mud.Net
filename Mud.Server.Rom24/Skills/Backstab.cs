@@ -72,7 +72,7 @@ public class Backstab : OffensiveSkillBase
         }
         else
         {
-            Victim.AbilityDamage(User, 0, SchoolTypes.None, "backstab", true); // Starts fight without doing any damage
+            //Victim.AbilityDamage(User, 0, SchoolTypes.None, "backstab", true); // Starts fight without doing any damage
             return false;
         }
     }

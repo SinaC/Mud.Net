@@ -52,6 +52,9 @@ public class DirtKicking : OffensiveSkillBase
         if (Victim.CharacterFlags.IsSet("Blind"))
             return User.ActPhrase("{0:e}'s already been blinded.", Victim);
 
+        if (User.Position < Positions.Standing)
+            return "That would be tricky while you're off your feet.";
+
         var safeResult = Victim.IsSafe(User);
         if (safeResult != null)
             return safeResult;

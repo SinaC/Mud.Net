@@ -1425,12 +1425,18 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display) // 'this' is dealt damage by 'source' using an ability
     {
-        return Damage(source, damage, damageType, damageNoun, display);
+        var damageResults = Damage(source, damage, damageType, damageNoun, display);
+        if (damageResults == DamageResults.Done && source != this)
+            HandleWimpy();
+        return damageResults;
     }
 
     public DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source' using a weapon
     {
-        return Damage(source, damage, damageType, damageNoun, display);
+        var damageResults = Damage(source, damage, damageType, damageNoun, display);
+        if (damageResults == DamageResults.Done && source != this)
+            HandleWimpy();
+        return damageResults;
     }
 
     public IItemCorpse? RawKilled(ICharacter? killer, bool payoff)
@@ -2160,7 +2166,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected abstract void HandleDeath();
 
-    protected abstract void HandleWimpy(int damage);
+    protected abstract void HandleWimpy();
 
     protected abstract (int thac0_00, int thac0_32) GetThac0();
 
@@ -2676,12 +2682,15 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 return DamageResults.Safe;
             }
             // TODO: check_killer
+
+            // Make sure we're fighting the victim.
             if (Position >= Positions.Sleeping) // TODO: > Stunned
             {
                 if (Fighting == null)
                     StartFighting(source);
                 StandUpInCombatIfPossible();
             }
+            // Tell the victim to fight back!
             if (Position >= Positions.Sleeping) // TODO: > Stunned
             {
                 // TODO: if victim.Timer <= 4 -> victim.Position = Positions.Fighting
@@ -2832,22 +2841,21 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 Send("You sure are BLEEDING!");
         }
 
-        // dead or sleep spells
-        if (isDead || Position == Positions.Sleeping)
-            StopFighting(true); // StopFighting will set position to standing
-
         // handle dead people
         if (isDead)
         {
+            StopFighting(true); // StopFighting will set position to standing
             RawKilled(source, true); // group group_gain + dying penalty + raw_kill
             return DamageResults.Killed;
         }
+
+        if (Position == Positions.Sleeping)
+            StopFighting(false); // StopFighting will set position to standing
 
         if (this == source)
             return DamageResults.Done;
 
         // TODO: take care of link-dead people
-        HandleWimpy(damage);
 
         return DamageResults.Done;
     }

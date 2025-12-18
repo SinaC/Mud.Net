@@ -31,29 +31,31 @@ public abstract class ActorBase : IActor
         if (GameActions != null)
         {
             command = command.ToLowerInvariant(); // lower command
-            List<TrieEntry<IGameActionInfo>> gameActionInfos = GameActions.GetByPrefix(command).ToList();
-            TrieEntry<IGameActionInfo> entry = gameActionInfos.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting gameactions
-            if (entry.Value?.NoShortcut == true && command != entry.Key) // if gameaction doesn't accept shortcut, inform player
+            List<TrieEntry<IGameActionInfo>> entries = GameActions.GetByPrefix(command).ToList();
+            TrieEntry<IGameActionInfo> entry = entries.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting gameactions
+            var gameActionInfo = entry.Value;
+            if (gameActionInfo != null)
             {
-                Send("If you want to {0}, spell it out.", entry.Key.ToUpper());
-                return true;
-            }
-            if (entry.Value is IGameActionInfo gai && gai.CommandExecutionType != null)
-            {
-                var executionResults = GameActionManager.Execute(gai, this, commandLine, entry.Key, parameters);
-                if (executionResults != null)
+                if (gameActionInfo.NoShortcut == true && command != entry.Key) // if gameaction doesn't accept shortcut, inform player
                 {
-                    Send(executionResults);
-                    return false;
+                    Send("If you want to {0}, spell it out.", entry.Key.ToUpper());
+                    return true;
                 }
-                return true;
+                if (gameActionInfo.CommandExecutionType != null)
+                {
+                    var executionResults = GameActionManager.Execute(gameActionInfo, this, commandLine, entry.Key, parameters);
+                    if (executionResults != null)
+                    {
+                        Send(executionResults);
+                        return false;
+                    }
+                    return true;
+                }
             }
-            else
-            {
-                Logger.LogWarning("Command {command} not found", command);
-                Send("Command not found.");
-                return false;
-            }
+            //
+            Logger.LogWarning("Command {command} not found", command);
+            Send("Command not found.");
+            return false;
         }
         else
         {

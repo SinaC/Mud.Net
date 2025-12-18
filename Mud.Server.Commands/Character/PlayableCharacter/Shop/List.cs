@@ -2,7 +2,9 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Random;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
@@ -16,8 +18,8 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 List <name> shows you only objects of that name.")]
 public class List : ShopPlayableCharacterGameActionBase
 {
-    public List(ITimeManager timeManager)
-        : base(timeManager)
+    public List(ITimeManager timeManager, IAbilityManager abilityManager, IRandomManager randomManager)
+        : base(timeManager, abilityManager, randomManager)
     {
     }
 
@@ -42,7 +44,7 @@ public class List : ShopPlayableCharacterGameActionBase
             .Select(g => new
             {
                 item = g.First(),
-                cost = GetBuyCost(Keeper.shopBlueprint, g.First()),
+                cost = GetBuyCost(Keeper.shopKeeper, Keeper.shopBlueprint, g.First(), false),
                 count = g.Count()
             }))
         {

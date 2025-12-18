@@ -62,6 +62,9 @@ public class Trip : OffensiveSkillBase
         if (Victim.Position < Positions.Standing)
             return User.ActPhrase("{0:N} is already down..", Victim);
 
+        if (User.Position < Positions.Standing)
+            return "You'll need to stand up for that.";
+
         return null;
     }
 

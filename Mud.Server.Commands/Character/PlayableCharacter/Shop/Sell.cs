@@ -2,6 +2,7 @@
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -15,13 +16,11 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 public class Sell : ShopPlayableCharacterGameActionBase
 {
     private IItemManager ItemManager { get; }
-    private IRandomManager RandomManager { get; }
 
-    public Sell(ITimeManager timeManager, IItemManager itemManager, IRandomManager randomManager)
-        : base(timeManager)
+    public Sell(ITimeManager timeManager, IAbilityManager abilityManager, IRandomManager randomManager, IItemManager itemManager)
+        : base(timeManager, abilityManager, randomManager)
     {
         ItemManager = itemManager;
-        RandomManager = randomManager;
     }
 
     protected IItem What { get; set; } = default!;
@@ -46,7 +45,7 @@ public class Sell : ShopPlayableCharacterGameActionBase
         if (What.ItemFlags.IsSet("NoDrop"))
             return "You can't let go of it.";
 
-        Cost = GetSellCost(Keeper.shopKeeper, Keeper.shopBlueprint, What);
+        Cost = GetSellCost(Keeper.shopKeeper, Keeper.shopBlueprint, What, true);
         if (Cost <= 0 || What.DecayPulseLeft > 0)
             return Actor.ActPhrase("{0:N} looks uninterested in {1}.", Keeper.shopKeeper, What);
 

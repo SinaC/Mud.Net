@@ -35,6 +35,9 @@ public class Kick : FightingSkillBase
         if (Learned == 0 || (User is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.IsSet("Kick")))
             return "You better leave the martial arts to fighters.";
 
+        if (User.Position < Positions.Standing)
+            return "It's hard to kick when you're on the ground.";
+
         return null;
     }
 

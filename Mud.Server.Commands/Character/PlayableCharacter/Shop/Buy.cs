@@ -2,9 +2,11 @@
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
@@ -21,8 +23,8 @@ public class Buy : ShopPlayableCharacterGameActionBase
 {
     private IItemManager ItemManager { get; }
 
-    public Buy(ITimeManager timeManager, IItemManager itemManager)
-        : base(timeManager)
+    public Buy(ITimeManager timeManager, IAbilityManager abilityManager, IRandomManager randomManager, IItemManager itemManager)
+        : base(timeManager, abilityManager, randomManager)
     {
         ItemManager = itemManager;
     }
@@ -49,13 +51,14 @@ public class Buy : ShopPlayableCharacterGameActionBase
             : actionInput.Parameters[0];
 
         What = FindHelpers.FindByName(Keeper.shopKeeper.Inventory.Where(x => Actor.CanSee(x)), itemParameter)!;
-        int cost = GetBuyCost(Keeper.shopBlueprint, What);
+        long cost = GetBuyCost(Keeper.shopKeeper, Keeper.shopBlueprint, What, true);
         if (What == null || cost <= 0)
             return Actor.ActPhrase("{0:N} tells you 'I don't sell that -- try 'list''.", Keeper.shopKeeper);
         if (Count <= 0 || Count > 10)
             return "Number must be between 1 and 10";
         // can afford ?
         TotalCost = cost * Count;
+
         long wealth = Actor.SilverCoins + Actor.GoldCoins * 100;
         if (TotalCost > wealth)
         {

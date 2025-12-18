@@ -14,8 +14,8 @@ public class ProtectionGoodDamageModifierAffect : NoAffectDataAffectBase, IChara
         sb.Append("%c%reduces %y%incoming damage%c% from %y%good source%c% by %y%25%%x%");
     }
 
-    public int ModifyDamage(ICharacter source, ICharacter victim, SchoolTypes damageType, int damage)
-        => damage > 1 && source.IsGood
+    public int ModifyDamage(ICharacter? source, ICharacter victim, SchoolTypes damageType, int damage)
+        => damage > 1 && source?.IsGood == true
             ? damage -= damage / 4
             : damage;
 }

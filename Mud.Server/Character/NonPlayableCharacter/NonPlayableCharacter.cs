@@ -746,9 +746,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         CharacterManager.RemoveCharacter(this);
     }
 
-    protected override void HandleWimpy(int damage)
+    protected override void HandleWimpy()
     {
-        if (damage > 0 && GlobalCooldown < Pulse.PulseViolence/2)
+        if (GlobalCooldown < Pulse.PulseViolence/2)
         {
             if ((ActFlags.IsSet("Wimpy") && CurrentHitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
                 || (CharacterFlags.IsSet("Charm") && Master != null && Master.Room != Room))
