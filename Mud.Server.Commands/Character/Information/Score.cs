@@ -54,6 +54,20 @@ public class Score : CharacterGameAction
         sb.AppendLine("+------------------------------+-------------------------+");
         if (pc != null)
         {
+            sb.AppendFormatLine("Wimpy set to {0} hit points.", pc.Wimpy);
+            if (pc[Conditions.Drunk] > 10)
+                sb.AppendLine("You are drunk.");
+            if (pc[Conditions.Thirst] == 0)
+                sb.AppendLine("You are thirsty.");
+            if (pc[Conditions.Hunger] == 0)
+                sb.AppendLine("You are hungry.");
+            switch (pc.Position)
+            {
+                case Positions.Sleeping: sb.AppendLine("You are sleeping."); break;
+                case Positions.Resting: sb.AppendLine("You are resting."); break;
+                case Positions.Sitting: sb.AppendLine("You are sitting."); break;
+                case Positions.Standing: sb.AppendLine("You are standing."); break;
+            }
             if (pc.ImpersonatedBy is IAdmin)
             {
                 if (pc.IsImmortal)

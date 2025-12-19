@@ -1,6 +1,6 @@
 INGOING
 DONE
-    rage generation
+    wimpy
 ==========
 == TODO ==
 ==========
@@ -105,8 +105,8 @@ commands dynamically added to Character depending on room they are, for example
 jukebox
 pet shop
 offensive flags: rescue, ...
-clan/guild, auction house, wimpy, note
-commands: auction, channels, clantalk, report, read, whois, bet, brief, combine, compact, description, noloot, nosummon, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
+clan/guild, auction house, note
+commands: auction, channels, clantalk, report, read, whois, bet, brief, combine, compact, description, noloot, nosummon, prompt, title, config, deaf, pmote, note, board, quote, nwrite,
 	myclan, petition, clanlist
 admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
 	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 

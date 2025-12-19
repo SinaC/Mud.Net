@@ -745,14 +745,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
         //&& get_trust(ch) < MAX_LEVEL)
         //            return FALSE;
 
-        if (room.RoomFlags.IsSet("GodsOnly")
+        if (room.RoomFlags.IsSet("GodsOnly") // no difference with HeroesOnly
             && (this as IPlayableCharacter)?.IsImmortal != true)
             return false;
 
-        // TODO
-        //        if (IS_SET(pRoomIndex->room_flags, ROOM_HEROES_ONLY)
-        //        && !IS_IMMORTAL(ch))
-        //            return FALSE;
+        if (room.RoomFlags.IsSet("HeroesOnly") // no difference with GodsOnly
+            && (this as IPlayableCharacter)?.IsImmortal != true)
+            return false;
 
         if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && (this as IPlayableCharacter)?.IsImmortal != true)
             return false;

@@ -1464,8 +1464,9 @@
       "Level": 46,
       "Sex": 1,
       "Size": 2,
-      "HitPoints": 13800,
+      "HitPoints": 3800,
       "MovePoints": 13786,
+	  "Wimpy": 0,
       "CurrentResources": {
         "Mana": 3151,
         "Psy": 100,
@@ -1878,6 +1879,7 @@
       "Trains": 22,
       "Practices": 89,
       "AutoFlags": 127,
+	  "Wimpy": 5000,
       "CurrentQuests": [],
       "LearnedAbilities": [
         {
@@ -3691,6 +3693,7 @@
       "Trains": 31,
       "Practices": 60,
       "AutoFlags": 127,
+	  "Wimpy": 0,
       "CurrentQuests": [],
       "LearnedAbilities": [
         {

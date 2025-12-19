@@ -11,6 +11,7 @@
       "GoldCoins": 0,
       "Experience": 40000,
       "Alignment": 0,
+	  "Wimpy": 0,
       "Trains": 18,
       "Practices": 41,
       "AutoFlags": 126,
@@ -476,6 +477,7 @@
     {
       "CreationTime": "2025-11-27T13:01:30.2726181+01:00",
       "RoomId": 3001,
+	  "Wimpy": 0,
       "SilverCoins": 0,
       "GoldCoins": 0,
       "Experience": 0,
