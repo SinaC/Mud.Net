@@ -49,7 +49,7 @@ public class Ventriloquate : SpellBase
 
         Victim = FindHelpers.FindByName(Caster.Room.People, spellActionInput.Parameters[0])!;
         if (Victim == null)
-            return "They aren't here.";
+            return StringHelpers.CharacterNotFound;
         if (Victim == Caster)
             return "Just say it.";
         Phrase = CommandParser.JoinParameters(spellActionInput.Parameters.Skip(1));

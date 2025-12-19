@@ -34,7 +34,7 @@ public abstract class TransportationSpellBase : SpellBase
         {
             Victim = FindHelpers.FindChararacterInWorld(CharacterManager, Caster, spellActionInput.Parameters[0])!;
             if (Victim == null)
-                return "They aren't here.";
+                return StringHelpers.CharacterNotFound;
         }
         if (!IsVictimValid())
             return "You failed.";

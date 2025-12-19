@@ -10,23 +10,28 @@ public abstract class CommandAttribute : ExportAttribute // every command will b
     public const string DefaultCategory = "";
 
     public string Name { get; }
+    public string[] Categories { get; set; }
     public int Priority { get; set; } // Lower value means higher priority
     public bool Hidden { get; set; } // Not displayed in command list
     public bool NoShortcut { get; set; } // Command must be fully typed
     public bool AddCommandInParameters { get; set; } // Command must be added in parameter list
-    public string[] Categories { get; set; }
 
     public CommandAttribute(string name, params string[] categories)
     {
         Name = name.ToLowerInvariant();
-        Priority = DefaultPriority;
-        Hidden = false;
         Categories = categories == null || categories.Length == 0
             ? [DefaultCategory]
             : categories;
+        Priority = DefaultPriority;
+        Hidden = false;
         NoShortcut = false;
         AddCommandInParameters = false;
     }
+}
+
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
+public class DynamicCommandAttribute : ExportAttribute
+{
 }
 
 [AttributeUsage(AttributeTargets.Class)]

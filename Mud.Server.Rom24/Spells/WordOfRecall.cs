@@ -39,7 +39,7 @@ public class WordOfRecall : SpellBase
         {
             victim = FindHelpers.FindByName(Caster.Room.People, spellActionInput.Parameters[0])!;
             if (victim == null)
-                return "They aren't here.";
+                return StringHelpers.CharacterNotFound;
         }
         if (victim is not IPlayableCharacter pcVictim)
             return "Spell failed.";

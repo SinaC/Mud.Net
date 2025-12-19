@@ -25,7 +25,7 @@ public abstract class OffensiveSkillBase : SkillBase
         else
             Victim = FindHelpers.FindByName(User.Room.People, skillActionInput.Parameters[0])!;
         if (Victim == null)
-            return "They aren't here.";
+            return StringHelpers.CharacterNotFound;
         if (User is IPlayableCharacter)
         {
             if (User != Victim)

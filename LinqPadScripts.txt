@@ -1,0 +1,72 @@
+// parse social.are
+
+void Main()
+{
+	const string path = @"D:\Projects\Muds\BasedMud\area\social.are";
+	var lines = File.ReadAllLines(path);
+	
+	var socials = new List<string[]>();
+	
+	int index = 2;
+	while(true)
+	{
+		if (lines[index].StartsWith("#0")) // end of file
+			break;
+		var social = new string[9];
+		social[0] = TransformName(lines[index]);
+		index++;
+		
+		var socialPhraseIndex = 1;
+		while(true)
+		{
+			//lines[index].Dump(socialPhraseIndex.ToString());
+			if (lines[index].StartsWith('#'))
+			{
+				index++;
+				break;
+			}
+			if (socialPhraseIndex == 9)
+				break;
+			social[socialPhraseIndex] = lines[index] == "$" ? null : TransformPhrase(lines[index]);
+			index++;
+			socialPhraseIndex++;
+		}
+		//social.Dump();
+		while(true)
+		{
+			if (!string.IsNullOrWhiteSpace(lines[index]))
+				break;
+			index++;
+		}
+		socials.Add(social);
+	}
+
+	//socials.Dump();
+	socials.Select(x => $"new SocialDefinition("+ string.Join(',', x.Select(y => y == null ? "null" : "\""+y+"\"")) +"),").Dump();
+}
+
+private static string TransformName(string name)
+{
+	var spaceIndex = name.IndexOf(" ");
+	if (spaceIndex < 0)
+		return name;
+	return name[..spaceIndex];
+}
+
+private static string TransformPhrase(string phrase)
+{
+	return phrase
+		.Replace("\"", "\\\"")
+		.Replace("$n", "{0}")
+		.Replace("$N", "{1}")
+		.Replace("$mself", "{0:f}")
+		.Replace("$Mself", "{1:f}")
+		.Replace("$m", "{0:m}")
+		.Replace("$M", "{1:m}")
+		.Replace("$s", "{0:s}")
+		.Replace("$S", "{1:s}")
+		.Replace("$e", "{0:e}")
+		.Replace("$E", "{1:e}");
+}
+
+// You can define other methods, fields, classes and namespaces here

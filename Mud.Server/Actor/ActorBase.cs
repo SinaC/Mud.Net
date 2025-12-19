@@ -31,8 +31,8 @@ public abstract class ActorBase : IActor
         if (GameActions != null)
         {
             command = command.ToLowerInvariant(); // lower command
-            List<TrieEntry<IGameActionInfo>> entries = GameActions.GetByPrefix(command).ToList();
-            TrieEntry<IGameActionInfo> entry = entries.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting gameactions
+            var entries = GameActions.GetByPrefix(command).ToList();
+            var entry = entries.OrderBy(x => x.Value.Priority).FirstOrDefault(); // use priority to choose between conflicting gameactions
             var gameActionInfo = entry.Value;
             if (gameActionInfo != null)
             {

@@ -5,6 +5,7 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Commands.Character.Communication;
+using Mud.Server.Commands.Character.Movement;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
@@ -55,7 +56,7 @@ public class Steal : SkillBase
 
         Victim = FindHelpers.FindByName(User.Room.People, skillActionInput.Parameters[1])!;
         if (Victim == null)
-            return "They aren't here.";
+            return StringHelpers.CharacterNotFound;
 
         if (Victim == Actor)
             return "That's pointless.";
@@ -114,7 +115,7 @@ public class Steal : SkillBase
 
             // Stand if not awake
             if (Victim.Position <= Positions.Sleeping)
-                GameActionManager.Execute(Victim, "Stand");
+                GameActionManager.Execute<Stand, ICharacter>(Victim, null);
             // If awake, yell
             if (Victim.Position > Positions.Sleeping)
             {

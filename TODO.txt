@@ -1,14 +1,13 @@
 INGOING
 DONE
-    worth command to display silver/gold
-    bash/kick/... can only be used when standing
-    haggle
-
+    socials: dynamic command manager
+    why 1st impersonation takes 800ms ? GameActionManager.PolymorphismSimulator was using Debug.Write which can be really slow
+    socials command to display available socials
 ==========
 == TODO ==
 ==========
 
-why 1st impersonation takes 800ms ?
+
 
 limbo/autoquit timer
 
@@ -134,8 +133,8 @@ commands dynamically added to Character depending on room they are, for example
 jukebox
 pet shop
 offensive flags: rescue, ...
-clan/guild, auction house, socials, wimpy, note
-commands: auction, channels, clantalk, report, read, socials, whois, bet, brief, combine, compact, description, noloot, nosummon, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
+clan/guild, auction house, wimpy, note
+commands: auction, channels, clantalk, report, read, whois, bet, brief, combine, compact, description, noloot, nosummon, prompt, title, wimpy, config, deaf, pmote, note, board, quote, nwrite,
 	myclan, petition, clanlist
 admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, allow, ban, deny, disconnect, flag, freeze, permban, protect, set, xset, wizlock, newlock, nochannels, noemote, noshout, notell, pecho, 
 	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
@@ -190,7 +189,6 @@ lua for mob IA
 gods
 title
 pose
-socials
 
 admin
     at(quite difficult to implement)

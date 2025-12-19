@@ -36,7 +36,7 @@ public class Follow : CharacterGameAction
         // search target
         Whom = FindHelpers.FindByName(Actor.Room.People, actionInput.Parameters[0])!;
         if (Whom == null)
-            return "They aren't here.";
+            return StringHelpers.CharacterNotFound;
 
         // follow ourself -> cancel follow
         if (Whom == Actor)
