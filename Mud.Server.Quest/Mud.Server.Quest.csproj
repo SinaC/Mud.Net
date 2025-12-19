@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Blueprints\Mud.Blueprints.csproj" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.0" />
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
-    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
     <ProjectReference Include="..\Mud.Server.Common\Mud.Server.Common.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Options\Mud.Server.Options.csproj" />

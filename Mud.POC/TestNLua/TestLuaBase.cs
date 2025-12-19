@@ -1,6 +1,6 @@
-﻿using Mud.Server.Blueprints.Area;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Room;
+﻿using Mud.Blueprints.Area;
+using Mud.Blueprints.Character;
+using Mud.Blueprints.Room;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
-using Mud.Server.Blueprints.Quest;
+using Mud.Blueprints.Quest;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Quest;
 

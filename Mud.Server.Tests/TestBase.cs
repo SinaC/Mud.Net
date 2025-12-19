@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.Domain;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Blueprints.Room;
+using Mud.Blueprints.Character;
+using Mud.Blueprints.Item;
+using Mud.Blueprints.Room;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Area;

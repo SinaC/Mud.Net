@@ -1,4 +1,4 @@
-﻿using Mud.Server.Blueprints.Area;
+﻿using Mud.Blueprints.Area;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;

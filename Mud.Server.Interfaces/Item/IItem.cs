@@ -1,6 +1,6 @@
 ﻿using Mud.Domain;
 using Mud.Domain.SerializationData;
-using Mud.Server.Blueprints.Item;
+using Mud.Blueprints.Item;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Character;

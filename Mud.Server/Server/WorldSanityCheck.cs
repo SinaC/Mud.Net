@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common.Attributes;
-using Mud.Server.Blueprints.Item;
+using Mud.Blueprints.Item;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;

@@ -2,10 +2,10 @@
 
 using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
-using System.Diagnostics;
 
 namespace Mud.Importer.Rom;
 
+[Export]
 public class RomLoader : TextBasedLoader
 {
     public const long A = 1 << 0;   //0x00000001;

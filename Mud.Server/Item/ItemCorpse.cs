@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
-using Mud.Server.Blueprints.Item;
+using Mud.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;

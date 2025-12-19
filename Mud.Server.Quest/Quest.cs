@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Options;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Blueprints.Quest;
+using Mud.Blueprints.Character;
+using Mud.Blueprints.Item;
+using Mud.Blueprints.Quest;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;

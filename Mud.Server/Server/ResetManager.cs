@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Blueprints.Reset;
+using Mud.Blueprints.Character;
+using Mud.Blueprints.Item;
+using Mud.Blueprints.Reset;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using Mud.Server.Blueprints.Item;
+using Mud.Blueprints.Item;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;

@@ -11,6 +11,7 @@
     <None Remove="Quest\**" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Blueprints\Mud.Blueprints.csproj" />
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
     <ProjectReference Include="..\Mud.DataStructures\Mud.DataStructures.csproj" />
     <ProjectReference Include="..\Mud.Domain\Mud.Domain.csproj" />
@@ -18,7 +19,6 @@
     <ProjectReference Include="..\Mud.Repository.Interfaces\Mud.Repository.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Ability\Mud.Server.Ability.csproj" />
     <ProjectReference Include="..\Mud.Server.Affects\Mud.Server.Affects.csproj" />
-    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
     <ProjectReference Include="..\Mud.Server.Commands\Mud.Server.Commands.csproj" />
     <ProjectReference Include="..\Mud.Server.Flags.Interfaces\Mud.Server.Flags.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.GameAction\Mud.Server.GameAction.csproj" />

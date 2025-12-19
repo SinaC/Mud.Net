@@ -1,4 +1,4 @@
-﻿using Mud.Server.Blueprints.Area;
+﻿using Mud.Blueprints.Area;
 
 namespace Mud.Server.Interfaces.Area;
 

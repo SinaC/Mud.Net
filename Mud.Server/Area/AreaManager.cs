@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
-using Mud.Server.Blueprints.Area;
+using Mud.Blueprints.Area;
 using Mud.Server.Interfaces.Area;
 
 namespace Mud.Server.Area;

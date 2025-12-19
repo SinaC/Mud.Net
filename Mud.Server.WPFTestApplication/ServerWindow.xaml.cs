@@ -3,13 +3,14 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Importer;
 using Mud.Importer.Rom;
 using Mud.Network.Interfaces;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Blueprints.LootTable;
-using Mud.Server.Blueprints.Quest;
-using Mud.Server.Blueprints.Room;
+using Mud.Blueprints.Character;
+using Mud.Blueprints.Item;
+using Mud.Blueprints.LootTable;
+using Mud.Blueprints.Quest;
+using Mud.Blueprints.Room;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
@@ -367,11 +368,7 @@ public partial class ServerWindow : Window, INetworkServer
 
         Logger.LogInformation("Importing from {path}", path);
 
-        RomImporter importer = new (ServiceProvider.GetRequiredService<ILogger<RomImporter>>(), ServiceProvider);
-        //MysteryImporter importer = new MysteryImporter();
-        //RotImporter importer = new RotImporter();
-        //importer.Import(path, "limbo.are", "midgaard.are", "smurf.are", "hitower.are");
-        //importer.ImportByList(path, "area.lst");
+        var importer = ServiceProvider.GetRequiredKeyedService<IImporter>(ImportOptions.Importer);
         if (ImportOptions.Lists != null && ImportOptions.Lists.Length > 0)
         {
             foreach (string list in ImportOptions.Lists)

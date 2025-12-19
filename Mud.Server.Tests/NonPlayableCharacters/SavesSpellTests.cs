@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
 using Mud.Domain;
-using Mud.Server.Blueprints.Character;
+using Mud.Blueprints.Character;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Domain;
 using Mud.Server.Flags;

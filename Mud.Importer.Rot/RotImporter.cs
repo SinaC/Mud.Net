@@ -2,19 +2,19 @@
 using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Blueprints.Area;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Blueprints.Reset;
-using Mud.Server.Blueprints.Room;
+using Mud.Blueprints.Area;
+using Mud.Blueprints.Character;
+using Mud.Blueprints.Item;
+using Mud.Blueprints.Reset;
+using Mud.Blueprints.Room;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using System.Diagnostics;
 
 namespace Mud.Importer.Rot;
 
-[Export, Shared]
-public class RotImporter
+[Export("RotImporter", typeof(IImporter)), Shared]
+public class RotImporter : IImporter
 {
     private ILogger<RotImporter> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
@@ -37,7 +37,7 @@ public class RotImporter
 
     public void ImportByList(string path, string areaLst)
     {
-        RotLoader loader = new(ServiceProvider.GetRequiredService<ILogger<RotLoader>>()); // TODO: register RotLoader
+        var loader = ServiceProvider.GetRequiredService<RotLoader>();
         string[] areaFilenames = File.ReadAllLines(Path.Combine(path, areaLst));
         foreach (string areaFilename in areaFilenames)
         {
@@ -58,7 +58,7 @@ public class RotImporter
 
     public void Import(string path, params string[] filenames)
     {
-        RotLoader loader = new(ServiceProvider.GetRequiredService<ILogger<RotLoader>>()); // TODO: register RotLoader
+        var loader = ServiceProvider.GetRequiredService<RotLoader>();
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);
@@ -71,7 +71,7 @@ public class RotImporter
 
     public void Import(string path, IEnumerable<string> filenames)
     {
-        RotLoader loader = new(ServiceProvider.GetRequiredService<ILogger<RotLoader>>()); // TODO: register RotLoader
+        var loader = ServiceProvider.GetRequiredService<RotLoader>();
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);

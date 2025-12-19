@@ -7,7 +7,7 @@ using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
-using Mud.Server.Blueprints.Character;
+using Mud.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;

@@ -2,7 +2,7 @@
 using Moq;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
-using Mud.Server.Blueprints.Character;
+using Mud.Blueprints.Character;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Character.PlayableCharacter;
 using Mud.Server.Flags;

@@ -1,5 +1,5 @@
 ﻿using Mud.Domain;
-using Mud.Server.Blueprints.Room;
+using Mud.Blueprints.Room;
 
 namespace Mud.Server.Interfaces.Room;
 

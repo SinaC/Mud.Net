@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Blueprints.Room;
+using Mud.Blueprints.Room;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Area;
