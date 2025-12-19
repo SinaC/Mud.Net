@@ -513,6 +513,7 @@ done	     exit the character generation process");
                 Practices = 5,
                 GoldCoins = 0,
                 SilverCoins = 0,
+                Wimpy = 0,
                 Conditions = Enum.GetValues<Conditions>().Where(x => x != Conditions.Drunk).ToDictionary(x => x, x => 48),
                 Equipments = [],
                 Inventory = [],

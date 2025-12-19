@@ -604,12 +604,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public DateTime CreationTime { get; protected set; }
 
+    public bool IsImmortal { get; protected set; }
+
     public long ExperienceToLevel =>
         Level >= MaxLevel
             ? 0
             : (ExperienceByLevel * Level) - Experience;
-
-    public bool IsImmortal { get; protected set; }
 
     public long Experience { get; protected set; }
 
@@ -621,6 +621,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         Trains = Math.Max(0, Trains + trainsAmount);
         Practices = Math.Max(0, Practices + practicesAmount);
+    }
+
+    public int Wimpy { get; protected set; }
+
+    public void SetWimpy(int wimpy)
+    {
+        Wimpy = Math.Clamp(wimpy, 0, MaxHitPoints/2);
     }
 
     public AutoFlags AutoFlags { get; protected set; }
@@ -1006,6 +1013,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             CurrentResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
             MaxResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
             Alignment = Alignment,
+            Wimpy = Wimpy,
             Experience = Experience,
             Trains = Trains,
             Practices = Practices,
@@ -1268,9 +1276,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override void HandleWimpy()
     {
-        // TODO
-        //if (HitPoints > 0 && HitPoints <= Wimpy && GlobalCooldown < Pulse.PulseViolence/2) // TODO: test on wait < PULSE_VIOLENCE / 2
-        //  DoFlee(null, null);
+        if (CurrentHitPoints > 0 && CurrentHitPoints <= Wimpy && GlobalCooldown < Pulse.PulseViolence / 2)
+            Flee();
     }
 
     protected override (int thac0_00, int thac0_32) GetThac0()

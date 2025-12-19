@@ -41,6 +41,7 @@ namespace Mud.Repository.Tests
                 RoomId = 0,
                 SilverCoins = 0,
                 GoldCoins = 0,
+                Wimpy = 0,
                 Experience = 0,
                 Alignment = 0,
                 Trains = 0,
@@ -93,6 +94,7 @@ namespace Mud.Repository.Tests
     {
       ""CreationTime"": ""2020-06-14T19:17:42.1765039+02:00"",
       ""RoomId"": 3014,
+      ""Wimpy"": 0,
       ""SilverCoins"": 1049,
       ""GoldCoins"": 10,
       ""Experience"": 113000,
@@ -1851,6 +1853,7 @@ namespace Mud.Repository.Tests
     {
       ""CreationTime"": ""2020-06-23T15:52:16.2575062+02:00"",
       ""RoomId"": 3001,
+      ""Wimpy"": 0,
       ""SilverCoins"": 0,
       ""GoldCoins"": 0,
       ""Experience"": 0,
@@ -1924,6 +1927,7 @@ namespace Mud.Repository.Tests
     {
       ""CreationTime"": ""2020-07-03T08:51:55.1055791+02:00"",
       ""RoomId"": 7018,
+      ""Wimpy"": 0,
       ""SilverCoins"": 2,
       ""GoldCoins"": 0,
       ""Experience"": 1488,
@@ -2303,6 +2307,7 @@ namespace Mud.Repository.Tests
     {
       ""CreationTime"": ""2025-11-08T11:24:32.7520387+01:00"",
       ""RoomId"": 3001,
+      ""Wimpy"": 0,
       ""SilverCoins"": 0,
       ""GoldCoins"": 0,
       ""Experience"": 0,
@@ -2385,6 +2390,7 @@ namespace Mud.Repository.Tests
     {
       ""CreationTime"": ""2025-11-08T11:29:28.5244257+01:00"",
       ""RoomId"": 3001,
+      ""Wimpy"": 0,
       ""SilverCoins"": 0,
       ""GoldCoins"": 0,
       ""Experience"": 0,
@@ -2782,6 +2788,7 @@ namespace Mud.Repository.Tests
     {
       ""CreationTime"": ""2025-11-08T11:32:19.9330366+01:00"",
       ""RoomId"": 3019,
+      ""Wimpy"": 0,
       ""SilverCoins"": 0,
       ""GoldCoins"": 0,
       ""Experience"": 1000,
@@ -3179,6 +3186,7 @@ namespace Mud.Repository.Tests
     {
       ""CreationTime"": ""2025-11-08T11:38:19.6902431+01:00"",
       ""RoomId"": 3019,
+      ""Wimpy"": 0,
       ""SilverCoins"": 0,
       ""GoldCoins"": 0,
       ""Experience"": 1000,
@@ -3576,6 +3584,7 @@ namespace Mud.Repository.Tests
     {
       ""CreationTime"": ""2025-11-11T16:31:33.7841739+01:00"",
       ""RoomId"": 1309,
+      ""Wimpy"": 0,
       ""SilverCoins"": 0,
       ""GoldCoins"": 0,
       ""Experience"": 120002,
@@ -5126,6 +5135,7 @@ namespace Mud.Repository.Tests
     {
       ""CreationTime"": ""2025-11-15T10:58:54.1116913+01:00"",
       ""RoomId"": 3001,
+      ""Wimpy"": 0,
       ""SilverCoins"": 0,
       ""GoldCoins"": 0,
       ""Experience"": 0,

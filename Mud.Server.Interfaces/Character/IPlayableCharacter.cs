@@ -18,15 +18,20 @@ public interface IPlayableCharacter : ICharacter
     void SetAlias(string alias, string command);
     void RemoveAlias(string alias);
 
-    long ExperienceToLevel { get; }
     bool IsImmortal { get; }
 
     // Attributes
+    long ExperienceToLevel { get; }
     long Experience { get; }
     int Trains { get; }
     int Practices { get; }
     void UpdateTrainsAndPractices(int trainsAmount, int practicesAmount);
 
+    // Wimpy
+    int Wimpy { get; }
+    void SetWimpy(int wimpy);
+
+    //
     AutoFlags AutoFlags { get; }
     void AddAutoFlags(AutoFlags autoFlags);
     void RemoveAutoFlags(AutoFlags autoFlags);

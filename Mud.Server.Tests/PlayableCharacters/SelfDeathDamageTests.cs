@@ -73,6 +73,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 RoomId = 0,
                 SilverCoins = 0,
                 GoldCoins = 0,
+                Wimpy = 0,
                 Experience = 0,
                 Alignment = 0,
                 Trains = 0,

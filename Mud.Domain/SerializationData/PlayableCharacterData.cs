@@ -12,6 +12,7 @@ public class PlayableCharacterData : CharacterData
     public required long SilverCoins { get; set; }
 
     public required long GoldCoins { get; set; }
+    public required int Wimpy { get; set; }
 
     public required long Experience { get; set; }
 

@@ -207,11 +207,11 @@ public class RotImporter
         if (IsSet(input, ROOM_PRIVATE)) flags.Set("Private");
         if (IsSet(input, ROOM_SAFE)) flags.Set("Safe");
         if (IsSet(input, ROOM_SOLITARY)) flags.Set("Solitary");
-        //TODO: ROOM_PET_SHOP
+        if (IsSet(input, ROOM_PET_SHOP)) flags.Set("PetShop");
         if (IsSet(input, ROOM_NO_RECALL)) flags.Set("NoRecall");
         if (IsSet(input, ROOM_IMP_ONLY)) flags.Set("ImpOnly");
         if (IsSet(input, ROOM_GODS_ONLY)) flags.Set("GodsOnly");
-        //TODO: ROOM_HEROES_ONLY
+        if (IsSet(input, ROOM_HEROES_ONLY)) flags.Set("HeroesOnly");
         if (IsSet(input, ROOM_NEWBIES_ONLY)) flags.Set("NewbiesOnly");
         if (IsSet(input, ROOM_LAW)) flags.Set("Law");
         if (IsSet(input, ROOM_NOWHERE)) flags.Set("NoWhere");
