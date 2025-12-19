@@ -3309,10 +3309,10 @@
       "HitPoints": 21800,
       "MovePoints": 2110,
       "CurrentResources": {
-        "Mana": 5300,
+        "Mana": 5304,
         "Psy": 100,
         "Energy": 100,
-        "Rage": 96,
+        "Rage": 55,
         "Combo": 0
       },
       "MaxResources": {
@@ -3345,8 +3345,8 @@
             "Auras": [
               {
                 "AbilityName": "Test",
-                "Level": 8,
-                "PulseLeft": 1536,
+                "Level": 1,
+                "PulseLeft": 1372,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3384,7 +3384,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 660,
+                "PulseLeft": 496,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3400,15 +3400,15 @@
       ],
       "Inventory": [
         {
-          "ItemId": 2104,
-          "Level": 3,
+          "ItemId": 2111,
+          "Level": 10,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
         },
         {
-          "ItemId": 2111,
-          "Level": 10,
+          "ItemId": 2104,
+          "Level": 3,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
@@ -3418,7 +3418,7 @@
         {
           "AbilityName": "Giant Strength",
           "Level": 1,
-          "PulseLeft": 9928,
+          "PulseLeft": 9764,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3432,7 +3432,7 @@
         {
           "AbilityName": "Detect Evil",
           "Level": 1,
-          "PulseLeft": 10124,
+          "PulseLeft": 9960,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3445,7 +3445,7 @@
         {
           "AbilityName": "Detect Good",
           "Level": 1,
-          "PulseLeft": 10156,
+          "PulseLeft": 9992,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3458,7 +3458,7 @@
         {
           "AbilityName": "Detect Invis",
           "Level": 1,
-          "PulseLeft": 10172,
+          "PulseLeft": 10008,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3471,7 +3471,7 @@
         {
           "AbilityName": "Detect Hidden",
           "Level": 1,
-          "PulseLeft": 10228,
+          "PulseLeft": 10064,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3484,7 +3484,7 @@
         {
           "AbilityName": "Shock Shield",
           "Level": 1,
-          "PulseLeft": 436,
+          "PulseLeft": 272,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3497,7 +3497,7 @@
         {
           "AbilityName": "Fire Shield",
           "Level": 1,
-          "PulseLeft": 452,
+          "PulseLeft": 288,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3510,7 +3510,7 @@
         {
           "AbilityName": "Ice Shield",
           "Level": 1,
-          "PulseLeft": 464,
+          "PulseLeft": 300,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3523,7 +3523,7 @@
         {
           "AbilityName": "Berserk",
           "Level": 1,
-          "PulseLeft": 412,
+          "PulseLeft": 248,
           "AuraFlags": 2,
           "Affects": [
             {
@@ -3553,8 +3553,8 @@
         },
         {
           "AbilityName": "Protection Evil",
-          "Level": 46,
-          "PulseLeft": 5664,
+          "Level": 33,
+          "PulseLeft": 5500,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3576,8 +3576,8 @@
         },
         {
           "AbilityName": "Protection Good",
-          "Level": 44,
-          "PulseLeft": 5708,
+          "Level": 40,
+          "PulseLeft": 5544,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3599,8 +3599,8 @@
         },
         {
           "AbilityName": "Sanctuary",
-          "Level": 49,
-          "PulseLeft": 1912,
+          "Level": 43,
+          "PulseLeft": 1748,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3611,6 +3611,29 @@
             {
               "$type": "noData",
               "AffectName": "Sanctuary"
+            }
+          ]
+        },
+        {
+          "AbilityName": "Haste",
+          "Level": 49,
+          "PulseLeft": -1,
+          "AuraFlags": 4,
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": 0,
+              "Location": 4,
+              "Modifier": 4
+            },
+            {
+              "$type": "characterFlags",
+              "Operator": 1,
+              "Modifier": "Haste"
+            },
+            {
+              "$type": "CharacterAdditionalHitAffectData",
+              "AdditionalHitCount": 1
             }
           ]
         }

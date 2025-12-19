@@ -57,7 +57,7 @@ public abstract class OffensiveSpellBase : SpellBase, ITargetedAction
         else
             Victim = FindHelpers.FindByName(Caster.Room.People.Where(Caster.CanSee).OfType<ICharacter>(), spellActionInput.Parameters[0])!; // original code was not testing CanSee
         if (Victim == null)
-            return "They aren't here.";
+            return StringHelpers.CharacterNotFound;
         if (Caster is IPlayableCharacter)
         {
             if (Caster != Victim)

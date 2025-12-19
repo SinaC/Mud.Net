@@ -65,7 +65,7 @@ public class Group : PlayableCharacterGameAction
         // add/remove member to group
         Whom = FindHelpers.FindByName(Actor.Room.PlayableCharacters, actionInput.Parameters[0])!;
         if (Whom == null)
-            return "They aren't here.";
+            return StringHelpers.CharacterNotFound;
 
         // can't group ourself
         if (Whom == Actor)

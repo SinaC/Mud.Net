@@ -32,7 +32,7 @@ public abstract class DefensiveSpellBase : SpellBase, ITargetedAction
         {
             Victim = FindHelpers.FindByName(ValidTargets(Caster).OfType<ICharacter>(), spellActionInput.Parameters[0])!;
             if (Victim == null)
-                return "They aren't here.";
+                return StringHelpers.CharacterNotFound;
         }
         // victim found
         return null;

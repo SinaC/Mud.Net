@@ -6,6 +6,7 @@ using Mud.DataStructures.Trie;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Social;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -18,10 +19,12 @@ public class GameActionManager : IGameActionManager
     private IServiceProvider ServiceProvider { get; }
     private ICommandParser CommandParser { get; }
 
-    private readonly Dictionary<Type, IGameActionInfo> _gameActionInfosByExecutionType;
+    private List<IGameActionInfo> _dynamicGameActionInfos;
+    private List<IGameActionInfo> _staticGameActionInfos;
+    private readonly Dictionary<Type, IGameActionInfo> _staticGameActionInfosByExecutionType;
     private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
-    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser)
+    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser, ISocialManager socialManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
@@ -29,16 +32,34 @@ public class GameActionManager : IGameActionManager
 
         _gameActionInfosTrieByActorType = []; // will be filled when a call to GetGameActions will be called
 
-        // Gather all game action
+        // static game actions
+        _staticGameActionInfos = [];
         var iGameActionType = typeof(IGameAction);
-        _gameActionInfosByExecutionType = assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsAssignableTo(iGameActionType)))
-            .Select(t => new { executionType = t, attributes = GetGameActionAttributes(t) })
-            .ToDictionary(typeAndAttributes => typeAndAttributes.executionType, typeAndAttributes => CreateGameActionInfo(typeAndAttributes.executionType, typeAndAttributes.attributes.commandAttribute, typeAndAttributes.attributes.syntaxAttribute, typeAndAttributes.attributes.aliasAttributes, typeAndAttributes.attributes.helpAttribute));
+        foreach (var gameActionType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.IsAssignableTo(iGameActionType))))
+        {
+            var dynamicCommandAttribute = gameActionType.GetCustomAttribute<DynamicCommandAttribute>();
+            if (dynamicCommandAttribute == null)
+            {
+                var (commandAttribute, syntaxAttribute, aliasAttributes, helpAttribute) = GetGameActionAttributes(gameActionType);
+                var gai = CreateGameActionInfo(gameActionType, commandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+                _staticGameActionInfos.Add(gai);
+            }
+        }
+        Logger.LogDebug("GameActionManager: {count} static commands found", _staticGameActionInfos.Count);
+        _staticGameActionInfosByExecutionType = _staticGameActionInfos.ToDictionary(x => x.CommandExecutionType);
+        // dynamic game actions
+        _dynamicGameActionInfos = [];
+        if (socialManager != null)
+        {
+            var socialGameActionInfos = socialManager.GetGameActions();
+            _dynamicGameActionInfos.AddRange(socialGameActionInfos);
+        }
+        Logger.LogDebug("GameActionManager: {count} dynamic commands generated", _dynamicGameActionInfos.Count);
     }
 
     #region IGameActionManager
 
-    public IEnumerable<IGameActionInfo> GameActions => _gameActionInfosByExecutionType.Values;
+    public IEnumerable<IGameActionInfo> GameActions => _staticGameActionInfos;
 
     public string? Execute<TActor>(IGameActionInfo gameActionInfo, TActor actor, string commandLine, string command, params ICommandParameter[] parameters)
         where TActor: IActor
@@ -61,29 +82,16 @@ public class GameActionManager : IGameActionManager
         where TActor : IActor
     {
         var gameActionType = typeof(TGameAction);
-        if (!_gameActionInfosByExecutionType.TryGetValue(gameActionType, out var gameActionInfo))
+        if (!_staticGameActionInfosByExecutionType.TryGetValue(gameActionType, out var gameActionInfo))
         {
             Logger.LogError("GameAction type {type} not found in GameActionManager.", gameActionType.FullName ?? "???");
             return "Something goes wrong.";
         }
-        string command = gameActionInfo.Name;
+        var command = gameActionInfo.Name;
         var parameters = commandLine == null
             ? Enumerable.Empty<ICommandParameter>().ToArray()
             : CommandParser.SplitParameters(commandLine).Select(CommandParser.ParseParameter).ToArray();
         return Execute(gameActionInfo, actor, commandLine!, command, parameters);
-    }
-
-    public string? Execute<TActor>(TActor actor, string command, params ICommandParameter[] parameters)
-        where TActor : IActor
-    {
-        var gameActionInfo = _gameActionInfosByExecutionType.Values.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, command));
-        if (gameActionInfo == null)
-        {
-            Logger.LogError("GameAction matching name {command} not found in GameActionManager.", command);
-            return "Something goes wrong.";
-        }
-        string commandLine = command + CommandParser.JoinParameters(parameters);
-        return Execute(gameActionInfo, actor, commandLine, command, parameters);
     }
 
     public IReadOnlyTrie<IGameActionInfo> GetGameActions<TActor>()
@@ -108,14 +116,33 @@ public class GameActionManager : IGameActionManager
         var actorType = typeof(TActor);
         var actorTypeSortedImplementedInterfaces = GetSortedImplementedInterfaces(actorType);
 
-        var gameActionInfos = _gameActionInfosByExecutionType
-            .Values
+        // static game action infos
+        var staticGameActionInfos = _staticGameActionInfos
             .GroupBy(t => t.Name)
             .OrderBy(g => g.Key)
-            .Select(g => PolymorphismSimulator(actorType, iActorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x.CommandExecutionType))
-            .Where(x => x != null);
-        // return one entry using CommandAttribute.Name and one entry by AliasAttribute.Alias
-        return gameActionInfos.SelectMany(x => x!.Names, (gameActionInfo, name) => new TrieEntry<IGameActionInfo>(name, gameActionInfo!));
+            .Select(g => PolymorphismSimulator(actorType, iActorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x.CommandExecutionType)).ToArray();
+        // one entry using CommandAttribute.Name and one entry by AliasAttribute.Alias
+        var staticEntries = staticGameActionInfos.Where(x => x != null).SelectMany(x => x!.Names, (gameActionInfo, name) => new TrieEntry<IGameActionInfo>(name, gameActionInfo!));
+
+        // dynamic game action infos
+        var dynamicGameActionInfos = _dynamicGameActionInfos
+            .GroupBy(t => t.Name)
+            .OrderBy(g => g.Key)
+            .Select(g => PolymorphismSimulator(actorType, iActorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x.CommandExecutionType)).ToArray();
+        // remove dynamic game actions with same name as an existing static game action
+        var dynamicEntries = new List<TrieEntry<IGameActionInfo>>();
+        foreach (var dynamicGameInfoAction in dynamicGameActionInfos.Where(x => x != null))
+        {
+            // search if a static game action info with the same exists
+            var existingStaticGameActionInfoWithSameNameOrAlias = staticGameActionInfos.FirstOrDefault(x => x is not null && StringCompareHelpers.AnyStringEquals(x.Names, dynamicGameInfoAction!.Name));
+            if (existingStaticGameActionInfoWithSameNameOrAlias == null)
+                dynamicEntries.Add(new TrieEntry<IGameActionInfo>(dynamicGameInfoAction!.Name, dynamicGameInfoAction!));
+            else
+                Logger.LogError("GameActionManager: dynamic command {dynamicName} conflicts with static command {staticName} -> keeps static one", dynamicGameInfoAction!.Name, existingStaticGameActionInfoWithSameNameOrAlias.Name);
+        }
+
+        //
+        return staticEntries.Concat(dynamicEntries);
     }
 
     private IGameActionInfo CreateGameActionInfo(Type type, CommandAttribute commandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute)
@@ -201,7 +228,7 @@ public class GameActionManager : IGameActionManager
                 type = type.BaseType;
             }
         }
-        Debug.Print(actorType.Name + ": " + name + " => " + (best == default ? "???" : selectorFunc(best).FullName));
+        Logger.LogTrace("{actorName}: {name} => {best}", actorType.Name, name, (best == default ? "???" : selectorFunc(best).FullName));
         return best;
     }
 
