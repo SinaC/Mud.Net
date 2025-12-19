@@ -1,6 +1,7 @@
 INGOING
 DONE
-    wimpy
+    blueprints moved to shared
+    IImporter implemented by Rom/Rot/MysteryImporter and importer is selected in app.settings
 ==========
 == TODO ==
 ==========
@@ -145,7 +146,6 @@ better command parser: should be able to specify something like     will be poss
     [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipment
 prompt modifiable by user
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
-move blueprints to Mud.Domain + refactor Mud.Domain
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 

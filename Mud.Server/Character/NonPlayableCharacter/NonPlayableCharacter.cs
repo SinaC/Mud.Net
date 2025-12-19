@@ -7,7 +7,7 @@ using Mud.Domain.SerializationData;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
-using Mud.Server.Blueprints.Character;
+using Mud.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;

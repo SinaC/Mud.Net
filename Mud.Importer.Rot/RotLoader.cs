@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+using Mud.Common.Attributes;
 
 namespace Mud.Importer.Rot;
 
+[Export]
 public class RotLoader : TextBasedLoader
 {
     public const long A = 1 << 0;   //0x00000001;

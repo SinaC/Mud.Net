@@ -5,6 +5,7 @@ using Mud.Common.Attributes;
 
 namespace Mud.Importer.Mystery;
 
+[Export]
 public class MysteryLoader : TextBasedLoader
 {
     public const int A = 1 << 0;   //0x00000001;

@@ -2,19 +2,19 @@
 using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Server.Blueprints.Area;
-using Mud.Server.Blueprints.Character;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Blueprints.Reset;
-using Mud.Server.Blueprints.Room;
+using Mud.Blueprints.Area;
+using Mud.Blueprints.Character;
+using Mud.Blueprints.Item;
+using Mud.Blueprints.Reset;
+using Mud.Blueprints.Room;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using System.Diagnostics;
 
 namespace Mud.Importer.Mystery;
 
-[Export, Shared]
-public class MysteryImporter
+[Export("MysteryImporter", typeof(IImporter)), Shared]
+public class MysteryImporter : IImporter
 {
     private ILogger<MysteryImporter> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
@@ -37,7 +37,7 @@ public class MysteryImporter
 
     public void ImportByList(string path, string areaLst)
     {
-        MysteryLoader loader = new (ServiceProvider.GetRequiredService<ILogger<MysteryLoader>>()); // TODO: register MysteryLoader
+        var loader = ServiceProvider.GetRequiredService<MysteryLoader>();
         string[] areaFilenames = File.ReadAllLines(Path.Combine(path, areaLst));
         foreach (string areaFilename in areaFilenames)
         {
@@ -58,7 +58,7 @@ public class MysteryImporter
 
     public void Import(string path, params string[] filenames)
     {
-        MysteryLoader loader = new(ServiceProvider.GetRequiredService<ILogger<MysteryLoader>>()); // TODO: register MysteryLoader
+        var loader = ServiceProvider.GetRequiredService<MysteryLoader>();
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);
@@ -71,7 +71,7 @@ public class MysteryImporter
 
     public void Import(string path, IEnumerable<string> filenames)
     {
-        MysteryLoader loader = new(ServiceProvider.GetRequiredService<ILogger<MysteryLoader>>()); // TODO: register MysteryLoader
+        var loader =ServiceProvider.GetRequiredService<MysteryLoader>();
         foreach (string filename in filenames)
         {
             string fullName = Path.Combine(path, filename);

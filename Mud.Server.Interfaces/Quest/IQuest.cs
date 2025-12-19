@@ -1,5 +1,5 @@
 ﻿using Mud.Domain.SerializationData;
-using Mud.Server.Blueprints.Quest;
+using Mud.Blueprints.Quest;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;

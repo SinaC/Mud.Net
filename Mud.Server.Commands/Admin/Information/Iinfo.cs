@@ -1,5 +1,5 @@
 ﻿using Mud.Common;
-using Mud.Server.Blueprints.Item;
+using Mud.Blueprints.Item;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;

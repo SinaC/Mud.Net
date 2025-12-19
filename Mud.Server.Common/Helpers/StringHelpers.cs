@@ -1,5 +1,5 @@
 ﻿using Mud.Domain;
-using Mud.Server.Blueprints.Item;
+using Mud.Blueprints.Item;
 
 namespace Mud.Server.Common.Helpers;
 

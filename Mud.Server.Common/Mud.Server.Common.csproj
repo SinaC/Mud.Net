@@ -6,8 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Mud.Blueprints\Mud.Blueprints.csproj" />
     <ProjectReference Include="..\Mud.Common\Mud.Common.csproj" />
-    <ProjectReference Include="..\Mud.Server.Blueprints\Mud.Server.Blueprints.csproj" />
     <ProjectReference Include="..\Mud.Server.Interfaces\Mud.Server.Interfaces.csproj" />
     <ProjectReference Include="..\Mud.Server.Random\Mud.Server.Random.csproj" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />

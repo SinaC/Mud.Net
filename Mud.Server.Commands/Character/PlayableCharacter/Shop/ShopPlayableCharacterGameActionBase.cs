@@ -1,4 +1,4 @@
-﻿using Mud.Server.Blueprints.Character;
+﻿using Mud.Blueprints.Character;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;

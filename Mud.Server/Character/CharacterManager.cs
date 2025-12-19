@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
-using Mud.Server.Blueprints.Character;
+using Mud.Blueprints.Character;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;

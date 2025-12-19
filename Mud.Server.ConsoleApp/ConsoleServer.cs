@@ -2,10 +2,11 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Common.Attributes;
+using Mud.Importer;
 using Mud.Importer.Rom;
 using Mud.Network.Interfaces;
-using Mud.Server.Blueprints.Item;
-using Mud.Server.Blueprints.Room;
+using Mud.Blueprints.Item;
+using Mud.Blueprints.Room;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
@@ -30,11 +31,10 @@ public class ConsoleServer
     private IItemManager ItemManager { get; }
     private IAdminManager AdminManager { get; }
     private IPlayerManager PlayerManager { get; }
-    private RomImporter RomImporter { get; }
     private ImportOptions ImportOptions { get; }
     private WorldOptions WorldOptions { get; }
 
-    public ConsoleServer(ILogger<ConsoleServer> logger, IServiceProvider serviceProvider, IServer server, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IAdminManager adminManager, IPlayerManager playerManager, RomImporter romImporter, IOptions<ImportOptions> importOptions, IOptions<WorldOptions> worldOptions)
+    public ConsoleServer(ILogger<ConsoleServer> logger, IServiceProvider serviceProvider, IServer server, IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IAdminManager adminManager, IPlayerManager playerManager, IOptions<ImportOptions> importOptions, IOptions<WorldOptions> worldOptions)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
@@ -45,7 +45,6 @@ public class ConsoleServer
         ItemManager = itemManager;
         AdminManager = adminManager;
         PlayerManager = playerManager;
-        RomImporter = romImporter;
         ImportOptions = importOptions.Value;
         WorldOptions = worldOptions.Value;
     }
@@ -122,7 +121,7 @@ public class ConsoleServer
 
         Logger.LogInformation("Importing from {path}", path);
 
-        var importer = RomImporter;
+        var importer = ServiceProvider.GetRequiredKeyedService<IImporter>(ImportOptions.Importer);
         if (ImportOptions.Lists != null && ImportOptions.Lists.Length > 0)
         {
             foreach (string list in ImportOptions.Lists)

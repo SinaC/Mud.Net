@@ -1,4 +1,4 @@
-﻿using Mud.Server.Blueprints.LootTable;
+﻿using Mud.Blueprints.LootTable;
 
 namespace Mud.Server.Interfaces.World;
 

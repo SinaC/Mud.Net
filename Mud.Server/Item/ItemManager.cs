@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
-using Mud.Server.Blueprints.Item;
+using Mud.Blueprints.Item;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
