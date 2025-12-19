@@ -67,13 +67,14 @@ public class Druid : ClassBase
     public Druid(ILogger<Druid> logger, IAbilityManager abilityManager, IAbilityGroupManager abilityGroupManager)
         : base(logger, abilityManager, abilityGroupManager)
     {
-        AddAvailableAbility(15, "Cat Form", Mud.Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 0, 100);
-        AddAvailableAbility(15, "Claw", Mud.Domain.ResourceKinds.Energy, 45, CostAmountOperators.Fixed, 1, 100);
-        AddAvailableAbility(20, "Rake", Mud.Domain.ResourceKinds.Energy, 40, CostAmountOperators.Fixed, 1, 100);
-        AddAvailableAbility(20, "Ferocious Bite", Mud.Domain.ResourceKinds.Combo, 1, CostAmountOperators.All, 1, 100);
         AddAvailableAbility(5, "Bear Form", Mud.Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 0, 100);
         AddAvailableAbility(10, "Demoralizing Roar", Mud.Domain.ResourceKinds.Rage, 10, CostAmountOperators.Fixed, 1, 100);
-        AddAvailableAbility(20, "Maul", Mud.Domain.ResourceKinds.Rage, 15, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(15, "Cat Form", Mud.Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 0, 100);
+        AddAvailableAbility(15, "Claw", Mud.Domain.ResourceKinds.Energy, 45, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(20, "Maul", Mud.Domain.ResourceKinds.Rage, 10, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(24, "Rake", Mud.Domain.ResourceKinds.Energy, 40, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(25, "Swipe", Mud.Domain.ResourceKinds.Rage, 16, CostAmountOperators.Fixed, 1, 100);
+        AddAvailableAbility(32, "Ferocious Bite", Mud.Domain.ResourceKinds.Combo, 1, CostAmountOperators.All, 1, 100);
 
         AddBasicAbilityGroup("druid basics");
 

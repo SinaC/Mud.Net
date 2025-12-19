@@ -24,7 +24,7 @@ public class DemoralizingRoar : OffensiveSkillBase
 
     private IAuraManager AuraManager { get; }
 
-    public DemoralizingRoar(ILogger<OffensiveSkillBase> logger, IRandomManager randomManager, IAuraManager auraManager)
+    public DemoralizingRoar(ILogger<DemoralizingRoar> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;

@@ -975,7 +975,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // energy/rage
-        if (this[ResourceKinds.Energy] != MaxResource(ResourceKinds.Energy) || this[ResourceKinds.Rage] != MaxResource(ResourceKinds.Rage))
+        if (this[ResourceKinds.Energy] != MaxResource(ResourceKinds.Energy) // energy increase
+            || this[ResourceKinds.Rage] != 0) // rage decrease
         {
             var (energyGain, rageGain) = CalculateResourcesDeltaBySecond();
             var bySecondDivisor = (decimal)pulseCount / Pulse.PulsePerSeconds;
@@ -1425,7 +1426,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public DamageResults AbilityDamage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display) // 'this' is dealt damage by 'source' using an ability
     {
-        var damageResults = Damage(source, damage, damageType, damageNoun, display);
+        var damageResults = Damage(source, damage, damageType, DamageSources.Ability, damageNoun, display);
         if (damageResults == DamageResults.Done && source != this)
             HandleWimpy();
         return damageResults;
@@ -1433,7 +1434,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public DamageResults HitDamage(ICharacter source, IItemWeapon? wield, int damage, SchoolTypes damageType, string damageNoun, bool display) // 'this' is dealt damage by 'source' using a weapon
     {
-        var damageResults = Damage(source, damage, damageType, damageNoun, display);
+        var damageResults = Damage(source, damage, damageType, DamageSources.Hit, damageNoun, display);
         if (damageResults == DamageResults.Done && source != this)
             HandleWimpy();
         return damageResults;
@@ -2665,7 +2666,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
-    protected DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, string? damageNoun, bool display) // 'this' is dealt damage by 'source'
+    protected DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, DamageSources damageSource, string? damageNoun, bool display) // 'this' is dealt damage by 'source'
     {
         if (CurrentHitPoints <= 0)
             return DamageResults.Dead;
@@ -2852,6 +2853,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (Position == Positions.Sleeping)
             StopFighting(false); // StopFighting will set position to standing
 
+        // rage generation
+        OnDamageReceived(damage, damageSource);
+        source.OnDamagePerformed(damage, damageSource);
+
         if (this == source)
             return DamageResults.Done;
 
@@ -2860,11 +2865,89 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return DamageResults.Done;
     }
 
+    private void OnDamageReceived(int damage, DamageSources damageSource)
+    {
+        GenerateRageFromIncomingDamage(damage, damageSource);
+    }
+
+    public void OnDamagePerformed(int damage, DamageSources damageSource)
+    {
+        GenerateRageFromOutgoingDamage(damage, damageSource);
+    }
+
     //
     protected IAbilityLearned? GetAbilityLearned(string abilityName)
     {
         if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
             return null;
         return abilityLearned;
+    }
+
+    //https://vanilla-wow-archive.fandom.com/wiki/Rage#Rage_decay
+    // rage generation
+    //rage generated = 15d/4c + fs/2 <= 15d/c (damage done)
+    //rage generated = 5d/2c (damage received)
+    //d (damage output)
+    //s (weapon speed)
+    //f (hit factor)
+    //Main Hand	Normal Hit	3.5
+    //Main Hand	Critical Hit	7.0
+    //Off Hand	Normal Hit	1.75
+    //Off Hand	Critical Hit	3.5
+
+    //c (Rage conversion value)
+    //level   value
+    //10      37.4
+    //20      72.4
+    //30      109.3
+    //40      147.9
+    //50      188.3
+    //60      230.6
+    //65      252.4
+    //70      274.7
+    //80      453.3
+    private void GenerateRageFromIncomingDamage(int damage, DamageSources damageSource)
+    {
+        if (!CurrentResourceKinds.Contains(ResourceKinds.Rage))
+            return;
+        var rageGenerated = 5 * damage / (2*RageConversionValue);
+        UpdateResource(ResourceKinds.Rage, rageGenerated);
+    }
+
+    private void GenerateRageFromOutgoingDamage(int damage, DamageSources damageSource)
+    {
+        if (!CurrentResourceKinds.Contains(ResourceKinds.Rage) || damageSource != DamageSources.Hit)
+            return;
+        var c = RageConversionValue;
+        var f = 2.2m; // TODO
+        var s = 2; // TODO
+        var rageGenerated = Math.Min(15 * damage / (4*c) + f*s/2 , 15 * damage / c);
+        UpdateResource(ResourceKinds.Rage, rageGenerated);
+    }
+
+    private static readonly (int level, decimal value)[] RageConversionValueTable =
+    [
+        (0,      1m),
+        (10,     3.4m ),
+        (20,     7.4m ),
+        (30,     10.3m),
+        (40,     14.9m),
+        (50,     18.3m),
+        (60,     23.6m),
+    ];
+
+    private decimal RageConversionValue
+    {
+        get // lerp
+        {
+            var below = RageConversionValueTable.LastOrDefault(x => Level >= x.level);
+            var above = RageConversionValueTable.FirstOrDefault(x => Level <= x.level);
+            if (below == default || above.level == Level)
+                return above.value;
+            if (above == default || below.level == Level)
+                return below.value;
+            var result = Level * (above.value - below.value) / (above.level - below.level);
+            return result;
+        }
     }
 }
