@@ -19,7 +19,7 @@ public class Claw : OffensiveSkillBase
 {
     private const string SkillName = "Claw";
 
-    public Claw(ILogger<OffensiveSkillBase> logger, IRandomManager randomManager)
+    public Claw(ILogger<Claw> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {
     }

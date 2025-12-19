@@ -18,14 +18,13 @@ public class Maul : OffensiveSkillBase
 {
     private const string SkillName = "Maul";
 
-    public Maul(ILogger<OffensiveSkillBase> logger, IRandomManager randomManager)
+    public Maul(ILogger<Maul> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {
     }
 
     protected override bool Invoke()
     {
-        //TODO
         return false;
     }
 }

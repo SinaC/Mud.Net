@@ -40,10 +40,12 @@ public class Earthquake : NoTargetSpellBase
         var clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.Where(x => x != Caster && !x.IsSafeSpell(Caster, true)).ToList()); // clone to prevent modification issues
         foreach (var victim in clone)
         {
-            int damage = victim.CharacterFlags.IsSet("Flying")
+            var damage = victim.CharacterFlags.IsSet("Flying")
                 ? 0 // no damage but starts fight
                 : Level + RandomManager.Dice(2, 8);
             victim.AbilityDamage(Caster, damage, SchoolTypes.Bash, "earthquake", true);
+            if (Caster.Fighting == null)
+                break;
         }
     }
 }

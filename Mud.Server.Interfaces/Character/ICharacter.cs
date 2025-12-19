@@ -204,6 +204,7 @@ public interface ICharacter : IEntity, IContainer
     bool IsSafeSpell(ICharacter caster, bool area);
     string? IsSafe(ICharacter aggressor);
     bool Flee();
+    void OnDamagePerformed(int damage, DamageSources damageSource);
 
     // Abilities
     (int percentage, IAbilityLearned? abilityLearned) GetWeaponLearnedAndPercentage(IItemWeapon? weapon);

@@ -2255,7 +2255,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 10,
-          "Learned": 1,
+          "Learned": 85,
           "Rating": 1
         },
         {
@@ -3260,7 +3260,7 @@
         {
           "Name": "Maul",
           "ResourceKind": 3,
-          "CostAmount": 15,
+          "CostAmount": 10,
           "CostAmountOperator": 1,
           "Level": 20,
           "Learned": 100,
@@ -3281,6 +3281,15 @@
           "CostAmount": 1,
           "CostAmountOperator": 3,
           "Level": 20,
+          "Learned": 100,
+          "Rating": 1
+        },
+        {
+          "Name": "Swipe",
+          "ResourceKind": 3,
+          "CostAmount": 16,
+          "CostAmountOperator": 1,
+          "Level": 25,
           "Learned": 100,
           "Rating": 1
         }
@@ -3309,10 +3318,10 @@
       "HitPoints": 21800,
       "MovePoints": 2110,
       "CurrentResources": {
-        "Mana": 5304,
+        "Mana": 5297,
         "Psy": 100,
         "Energy": 100,
-        "Rage": 55,
+        "Rage": 91,
         "Combo": 0
       },
       "MaxResources": {
@@ -3346,7 +3355,7 @@
               {
                 "AbilityName": "Test",
                 "Level": 1,
-                "PulseLeft": 1372,
+                "PulseLeft": 1248,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3384,7 +3393,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 496,
+                "PulseLeft": 372,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -3395,6 +3404,18 @@
                 ]
               }
             ]
+          }
+        },
+        {
+          "Slot": 13,
+          "Item": {
+            "$type": "weapon",
+            "WeaponFlags": "Vorpal,TwoHands",
+            "ItemId": 3005,
+            "Level": 42,
+            "DecayPulseLeft": 0,
+            "ItemFlags": "Humming,Bless",
+            "Auras": []
           }
         }
       ],
@@ -3418,7 +3439,7 @@
         {
           "AbilityName": "Giant Strength",
           "Level": 1,
-          "PulseLeft": 9764,
+          "PulseLeft": 9640,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3432,7 +3453,7 @@
         {
           "AbilityName": "Detect Evil",
           "Level": 1,
-          "PulseLeft": 9960,
+          "PulseLeft": 9836,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3445,7 +3466,7 @@
         {
           "AbilityName": "Detect Good",
           "Level": 1,
-          "PulseLeft": 9992,
+          "PulseLeft": 9868,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3458,7 +3479,7 @@
         {
           "AbilityName": "Detect Invis",
           "Level": 1,
-          "PulseLeft": 10008,
+          "PulseLeft": 9884,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3471,7 +3492,7 @@
         {
           "AbilityName": "Detect Hidden",
           "Level": 1,
-          "PulseLeft": 10064,
+          "PulseLeft": 9940,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3484,7 +3505,7 @@
         {
           "AbilityName": "Shock Shield",
           "Level": 1,
-          "PulseLeft": 272,
+          "PulseLeft": 9640,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3497,7 +3518,7 @@
         {
           "AbilityName": "Fire Shield",
           "Level": 1,
-          "PulseLeft": 288,
+          "PulseLeft": 9440,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3510,7 +3531,7 @@
         {
           "AbilityName": "Ice Shield",
           "Level": 1,
-          "PulseLeft": 300,
+          "PulseLeft": 9240,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3523,7 +3544,7 @@
         {
           "AbilityName": "Berserk",
           "Level": 1,
-          "PulseLeft": 248,
+          "PulseLeft": 4640,
           "AuraFlags": 2,
           "Affects": [
             {
@@ -3553,8 +3574,8 @@
         },
         {
           "AbilityName": "Protection Evil",
-          "Level": 33,
-          "PulseLeft": 5500,
+          "Level": 23,
+          "PulseLeft": 5376,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3576,8 +3597,8 @@
         },
         {
           "AbilityName": "Protection Good",
-          "Level": 40,
-          "PulseLeft": 5544,
+          "Level": 35,
+          "PulseLeft": 5420,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -3599,8 +3620,8 @@
         },
         {
           "AbilityName": "Sanctuary",
-          "Level": 43,
-          "PulseLeft": 1748,
+          "Level": 38,
+          "PulseLeft": 1624,
           "AuraFlags": 0,
           "Affects": [
             {

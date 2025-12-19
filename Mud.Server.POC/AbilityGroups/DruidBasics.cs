@@ -16,6 +16,7 @@ namespace Mud.Server.POC.AbilityGroups
             AddAbility("maul");
             AddAbility("demoralizing roar");
             AddAbility("ferocious bite");
+            AddAbility("swipe");
         }
 
         #region IAbilityGroup

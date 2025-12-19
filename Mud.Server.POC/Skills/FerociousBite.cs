@@ -24,7 +24,7 @@ public class FerociousBite : OffensiveSkillBase
 {
     private const string SkillName = "Ferocious Bite";
 
-    public FerociousBite(ILogger<OffensiveSkillBase> logger, IRandomManager randomManager)
+    public FerociousBite(ILogger<FerociousBite> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {
     }

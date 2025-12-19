@@ -23,7 +23,7 @@ public class Rake : OffensiveSkillBase
 
     private IAuraManager AuraManager { get; }
 
-    public Rake(ILogger<OffensiveSkillBase> logger, IRandomManager randomManager, IAuraManager auraManager)
+    public Rake(ILogger<Rake> logger, IRandomManager randomManager, IAuraManager auraManager)
         : base(logger, randomManager)
     {
         AuraManager = auraManager;
