@@ -1,4 +1,4 @@
-// parse social.are
+<Query Kind="Program" />
 
 void Main()
 {

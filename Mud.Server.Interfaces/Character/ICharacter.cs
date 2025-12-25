@@ -4,6 +4,7 @@ using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Class;
+using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Race;
@@ -236,27 +237,4 @@ public interface ICharacter : IEntity, IContainer
     void ApplyAffect(ICharacterAttributeAffect affect);
     void ApplyAffect(ICharacterSexAffect affect);
     void ApplyAffect(ICharacterSizeAffect affect);
-}
-
-public interface IMultiHitModifier : IHitModifier
-{
-    int MaxAttackCount { get; }
-}
-
-public interface IHitModifier
-{
-    string AbilityName { get; }
-    string DamageNoun { get; }
-    int Learned { get; }
-    int Thac0Modifier(int baseThac0);
-    int DamageModifier(IItemWeapon? weapon, int level, int baseDamage);
-}
-
-public enum DamageResults
-{
-    Dead, // target was already dead
-    Safe, // target is safe
-    NoDamage, // damage has been reduced to 0
-    Killed, // target has been killed by damage
-    Done, // normal damage
 }
