@@ -1398,9 +1398,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             && npcInRoom != null)
                         {
                             bool isAssistAll = npcInRoom.AssistFlags.IsSet("All");
-                            bool isAssistGroup = false; // TODO
+                            bool isAssistGroup = npcInRoom.Blueprint.Group != 0 && npcInRoom.Blueprint.Group == npc.Blueprint.Group; // group assist
                             bool isAssistRace = npcInRoom.AssistFlags.IsSet("Race") && npcInRoom.Race == npc.Race;
                             bool isAssistAlign = npcInRoom.AssistFlags.IsSet("Align") && ((npcInRoom.IsGood && npc.IsGood) || (npcInRoom.IsNeutral && npc.IsNeutral) || (npcInRoom.IsEvil && npc.IsEvil));
+                            // TODO: assist guard
                             bool isAssistVnum = npcInRoom.AssistFlags.IsSet("Vnum") && npcInRoom.Blueprint.Id == npc.Blueprint.Id;
                             if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
                             {

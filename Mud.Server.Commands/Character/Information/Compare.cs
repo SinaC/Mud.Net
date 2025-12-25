@@ -52,10 +52,10 @@ public class Compare : CharacterGameAction
                 return StringHelpers.ItemInventoryNotFound;
             Item2 = item2;
         }
-        // second parameter is empty, search in equipement for a similar item
+        // second parameter is empty, search in equipment for a similar item
         else
         {
-            // same item type and same equipement slot
+            // same item type and same equipment slot
             var item2 = Actor.Equipments.FirstOrDefault(x => x.Item is not null && Actor.CanSee(x.Item) && x.Item.GetType() == item1.GetType() && IsWearLocationMatching(item1.WearLocation, x.Item.WearLocation) && !item1.NoTake);
             if (item2?.Item == null)
                 return "You aren't wearing anything comparable.";

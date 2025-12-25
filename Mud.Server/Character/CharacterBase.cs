@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
-using Mud.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -60,12 +60,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected ICharacterManager CharacterManager { get; }
     protected IAuraManager AuraManager { get; }
     protected IResistanceCalculator ResistanceCalculator { get; }
+    protected IRageGenerator RageGenerator { get; }
     protected IWeaponEffectManager WeaponEffectManager { get; }
     protected IAffectManager AffectManager { get; }
     protected IFlagsManager FlagsManager { get; }
     protected IWiznet Wiznet { get; }
 
-    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet)
+    protected CharacterBase(ILogger<CharacterBase> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IWeaponEffectManager weaponEffectManager, IAffectManager affectManager, IFlagsManager flagsManager, IWiznet wiznet)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions)
     {
         RandomManager = randomManager;
@@ -75,6 +76,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         CharacterManager = characterManager;
         AuraManager = auraManager;
         ResistanceCalculator = resistanceCalculator;
+        RageGenerator = rageGenerator;
         WeaponEffectManager = weaponEffectManager;
         AffectManager = affectManager;
         FlagsManager = flagsManager;
@@ -1126,7 +1128,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
         }
 
-        if (Daze > 0)
+        if (Daze > 5)
         {
             Send("You're too dazed to move...");
             return false;
@@ -2645,7 +2647,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // If multiple identical abilities, keep only one with lowest level
         foreach (IAbilityUsage abilityUsage in abilities)
         {
-            MergeAbility(abilityUsage, naturalBorn, false);
+            MergeAbility(abilityUsage, naturalBorn, isBasics);
         }
     }
 
@@ -2668,7 +2670,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, DamageSources damageSource, string? damageNoun, bool display) // 'this' is dealt damage by 'source'
     {
         if (CurrentHitPoints <= 0)
-            return DamageResults.Dead;
+            return DamageResults.AlreadyDead;
 
         // check safe + start fight
         if (this != source)
@@ -2866,12 +2868,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     private void OnDamageReceived(int damage, DamageSources damageSource)
     {
-        GenerateRageFromIncomingDamage(damage, damageSource);
+        RageGenerator.GenerateRageFromIncomingDamage(this, damage, damageSource);
     }
 
     public void OnDamagePerformed(int damage, DamageSources damageSource)
     {
-        GenerateRageFromOutgoingDamage(damage, damageSource);
+        RageGenerator.GenerateRageFromOutgoingDamage(this, damage, damageSource);
     }
 
     //
@@ -2880,73 +2882,5 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
             return null;
         return abilityLearned;
-    }
-
-    //https://vanilla-wow-archive.fandom.com/wiki/Rage#Rage_decay
-    // rage generation
-    //rage generated = 15d/4c + fs/2 <= 15d/c (damage done)
-    //rage generated = 5d/2c (damage received)
-    //d (damage output)
-    //s (weapon speed)
-    //f (hit factor)
-    //Main Hand	Normal Hit	3.5
-    //Main Hand	Critical Hit	7.0
-    //Off Hand	Normal Hit	1.75
-    //Off Hand	Critical Hit	3.5
-
-    //c (Rage conversion value)
-    //level   value
-    //10      37.4
-    //20      72.4
-    //30      109.3
-    //40      147.9
-    //50      188.3
-    //60      230.6
-    //65      252.4
-    //70      274.7
-    //80      453.3
-    private void GenerateRageFromIncomingDamage(int damage, DamageSources damageSource)
-    {
-        if (!CurrentResourceKinds.Contains(ResourceKinds.Rage))
-            return;
-        var rageGenerated = 5 * damage / (2*RageConversionValue);
-        UpdateResource(ResourceKinds.Rage, rageGenerated);
-    }
-
-    private void GenerateRageFromOutgoingDamage(int damage, DamageSources damageSource)
-    {
-        if (!CurrentResourceKinds.Contains(ResourceKinds.Rage) || damageSource != DamageSources.Hit)
-            return;
-        var c = RageConversionValue;
-        var f = 2.2m; // TODO
-        var s = 2; // TODO
-        var rageGenerated = Math.Min(15 * damage / (4*c) + f*s/2 , 15 * damage / c);
-        UpdateResource(ResourceKinds.Rage, rageGenerated);
-    }
-
-    private static readonly (int level, decimal value)[] RageConversionValueTable =
-    [
-        (0,      1m),
-        (10,     3.4m ),
-        (20,     7.4m ),
-        (30,     10.3m),
-        (40,     14.9m),
-        (50,     18.3m),
-        (60,     23.6m),
-    ];
-
-    private decimal RageConversionValue
-    {
-        get // lerp
-        {
-            var below = RageConversionValueTable.LastOrDefault(x => Level >= x.level);
-            var above = RageConversionValueTable.FirstOrDefault(x => Level <= x.level);
-            if (below == default || above.level == Level)
-                return above.value;
-            if (above == default || below.level == Level)
-                return below.value;
-            var result = Level * (above.value - below.value) / (above.level - below.level);
-            return result;
-        }
     }
 }

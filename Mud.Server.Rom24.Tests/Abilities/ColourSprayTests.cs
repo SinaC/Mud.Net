@@ -4,6 +4,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
