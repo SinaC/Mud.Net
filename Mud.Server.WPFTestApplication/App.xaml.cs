@@ -75,14 +75,6 @@ public partial class App : Application
 
         // Register Services
         services.AddSingleton<IAssemblyHelper>(assemblyHelper);
-        // how can be configured to use multiple implementations?
-        services.AddSingleton<Server.Server>();
-        services.AddSingleton<IServer>(x => x.GetRequiredService<Server.Server>());
-        services.AddSingleton<IWorld>(x => x.GetRequiredService<Server.Server>()); // Server also implements IWorld
-        services.AddSingleton<IPlayerManager>(x => x.GetRequiredService<Server.Server>()); // Server also implements IPlayerManager
-        services.AddSingleton<IServerAdminCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerAdminCommand
-        services.AddSingleton<IServerPlayerCommand>(x => x.GetRequiredService<Server.Server>()); // Server also implements IServerPlayerCommand
-
         RegisterUsingExportAttribute(services, assemblyHelper.AllReferencedAssemblies);
 
         //// Register ViewModels

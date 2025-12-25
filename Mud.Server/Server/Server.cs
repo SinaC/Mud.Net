@@ -38,6 +38,7 @@ using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
+using Mud.Common.Attributes;
 
 namespace Mud.Server.Server;
 
@@ -51,6 +52,12 @@ namespace Mud.Server.Server;
 
 // Once playing,
 //  in synchronous mode, input and output are 'queued' and handled by ProcessorInput/ProcessOutput
+[Shared]
+[Export(typeof(IServer))]
+[Export(typeof(IWorld))]
+[Export(typeof(IPlayerManager))]
+[Export(typeof(IServerAdminCommand))]
+[Export(typeof(IServerPlayerCommand))]
 public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, IServerPlayerCommand, IDisposable
 {
     // This allows fast lookup with client or player BUT both structures must be modified at the same time
