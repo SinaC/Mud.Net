@@ -12,7 +12,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24)]
+[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24, NotInCombat = true)]
 [Syntax("cast [spell] <target>")]
 [Help(
 @"The portal spell is similar to gate, but creates a lasting one-way portal

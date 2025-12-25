@@ -12,7 +12,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("Your skin feels soft again.")]
 [AbilityDispellable("{0:N}'s skin regains its normal texture.")]
 [Syntax("cast [spell]")]

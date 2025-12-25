@@ -13,7 +13,7 @@ using Mud.Server.Rom24.Affects;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff)]
+[Spell(SpellName, AbilityEffects.Buff, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("The white aura around your body fades.")]
 [AbilityDispellable("The white aura around {0:n}'s body vanishes.")]
 [Syntax("cast [spell] <character>")]

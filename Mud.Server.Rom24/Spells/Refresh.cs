@@ -10,7 +10,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Healing, PulseWaitTime = 18)]
+[Spell(SpellName, AbilityEffects.Healing, PulseWaitTime = 18, NotInCombat = true)]
 [Syntax("cast [spell] <character>")]
 [Help(
 @"This spell refreshes the movement points of a character who is out of movement

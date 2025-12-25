@@ -1,19 +1,16 @@
 INGOING
-    new combat system
-        how to handle mob assist ?(ASSIST_PLAYER, ASSIST_RACE, ASSIST_ALIGN, ASSIST_VNUM, ASSIST_GROUP)
-        for the moment auto assist is forced for PC
-        kill reward
-            first group to hit the mob will receive the reward
-            if everyone in the group has been killed, reward priority goes to next group which has hit the mob
 DONE
-    npc group assist
-    new combat system
-        aggro list and automatic switch to enemy with most aggro on each round
-        when enemy is not in the same room, aggro decrease quickly
 
 ==========
 == TODO ==
 ==========
+
+new combat system
+    how to handle mob assist ?(ASSIST_PLAYER, ASSIST_RACE, ASSIST_ALIGN, ASSIST_VNUM, ASSIST_GROUP)
+    for the moment auto assist is forced for PC
+    kill reward
+        first group to hit the mob will receive the reward
+        if everyone in the group has been killed, reward priority goes to next group which has hit the mob
 
 rom24 spells: min position (similar to skills)
     BAIL_IF (ch->position < skill_table[sn].minimum_position,

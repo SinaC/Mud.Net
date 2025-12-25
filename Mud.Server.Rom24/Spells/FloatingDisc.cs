@@ -13,7 +13,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Creation, PulseWaitTime = 24)]
+[Spell(SpellName, AbilityEffects.Creation, PulseWaitTime = 24, NotInCombat = true)]
 [Syntax("cast [spell]")]
 [Help(
 @"This useful spell creates a floating field of force which follows the caser

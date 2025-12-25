@@ -18,7 +18,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24)]
+[Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24, NotInCombat = true)]
 [Syntax("cast [spell] <weapon>")]
 [Help(
 @"This spell magically enchants a weapon, increasing its to-hit and to-dam

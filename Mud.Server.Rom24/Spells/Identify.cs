@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Detection)]
+[Spell(SpellName, AbilityEffects.Detection, NotInCombat = true)]
 [Syntax("cast [spell] <object>")]
 [Help(
 @"This spell reveals information about the object.")]

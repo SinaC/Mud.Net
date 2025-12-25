@@ -10,7 +10,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 24)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 24, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("Your rage ebbs.")]
 [AbilityDispellable("{0:N} no longer looks so wild.")]
 [Syntax("cast [spell] <target>")]

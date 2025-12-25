@@ -13,7 +13,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 24)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 24, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("You are no longer invisible.")]
 [AbilityDispellable("{0:N} fades into existence.")]
 [Syntax("cast [spell]")]

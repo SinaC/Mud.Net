@@ -1,4 +1,5 @@
 ﻿using Mud.Common.Attributes;
+using Mud.Domain;
 using Mud.Server.Domain;
 
 namespace Mud.Server.Ability;
@@ -35,10 +36,14 @@ public abstract class ActiveAbilityBaseAttribute : AbilityBaseAttribute
 public class SpellAttribute : ActiveAbilityBaseAttribute
 {
     public override AbilityTypes Type => AbilityTypes.Spell;
+    public Positions MinPosition { get; set; }
+    public bool NotInCombat { get; set; }
 
     public SpellAttribute(string name, AbilityEffects effects)
         : base(name, effects)
     {
+        MinPosition = Positions.Standing;
+        NotInCombat = false;
     }
 }
 

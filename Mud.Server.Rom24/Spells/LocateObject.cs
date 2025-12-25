@@ -16,7 +16,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Detection, PulseWaitTime = 18)]
+[Spell(SpellName, AbilityEffects.Detection, PulseWaitTime = 18, NotInCombat = true)]
 [Syntax("cast [spell] <name>")]
 [Help(
 @"This spell reveals the location of all objects with the given name.")]

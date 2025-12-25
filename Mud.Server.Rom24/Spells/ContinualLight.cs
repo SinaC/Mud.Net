@@ -17,7 +17,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Creation | AbilityEffects.Buff)]
+[Spell(SpellName, AbilityEffects.Creation | AbilityEffects.Buff, NotInCombat = true)]
 [Syntax(
     "cast [spell]",
     "cast [spell] <object>")]

@@ -16,7 +16,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Dispel)]
+[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Dispel, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("You feel less righteous.")]
 [AbilityItemWearOffMessage("{0}'s holy aura fades.")]
 [Syntax(

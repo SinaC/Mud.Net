@@ -75,17 +75,21 @@ public abstract class SpellBase : ISpell
             return $"You are not in {AbilityDefinition.AllowedShapes.Single()} shape";
         }
 
-        // 3) check targets
+        // 3) check position && not in combat
+        if (AbilityDefinition.MinPosition is not null && (Caster.Position < AbilityDefinition.MinPosition || (AbilityDefinition.NotInCombat == true && Caster.Fighting != null)))
+            return "You can't concentrate enough.";
+
+        // 4) check targets
         var setTargetResult = SetTargets(spellActionInput);
         if (setTargetResult != null)
             return setTargetResult;
 
-        // 4) check cooldown
+        // 5) check cooldown
         int cooldownPulseLeft = Caster.CooldownPulseLeft(AbilityDefinition.Name);
         if (cooldownPulseLeft > 0)
             return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
 
-        // 5) check resource cost
+        // 6) check resource cost
         var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
         if (abilityLearned != null && abilityLearned.HasCost())
         {

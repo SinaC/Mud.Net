@@ -12,7 +12,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 36)]
+[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 36, NotInCombat = true)]
 [Syntax("cast [spell] <target>")]
 [Help(
 @"This spell is virtually identical to portal (see 'help portal'), with the
