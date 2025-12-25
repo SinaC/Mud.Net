@@ -11,7 +11,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff)]
+[Spell(SpellName, AbilityEffects.Buff, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("You feel solid again.")]
 [AbilityDispellable]
 [Syntax("cast [spell]")]

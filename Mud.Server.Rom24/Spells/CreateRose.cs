@@ -13,7 +13,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Creation)]
+[Spell(SpellName, AbilityEffects.Creation, NotInCombat = true)]
 [Syntax("cast [spell]")]
 [Help(
 @"A romantic spell that creates a fragrant red rose, with utterly no game

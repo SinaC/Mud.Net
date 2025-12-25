@@ -10,7 +10,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.HealingArea, PulseWaitTime = 36)]
+[Spell(SpellName, AbilityEffects.HealingArea, PulseWaitTime = 36, NotInCombat = true)]
 [Syntax("cast [spell]")]
 [Help(
 @"The mass healing spell, as its name might suggest, performs a healing spell

@@ -13,7 +13,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Debuff)]
+[Spell(SpellName, AbilityEffects.Debuff, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("You feel less tired.")]
 [AbilityDispellable]
 [Syntax("cast [spell] <victim>")]

@@ -13,7 +13,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.None)]
+[Spell(SpellName, AbilityEffects.None, NotInCombat = true)]
 [Syntax("cast [spell] <speaker> <message>")]
 [Help(
 @"This spell throws your voice, making it appear that some other object or

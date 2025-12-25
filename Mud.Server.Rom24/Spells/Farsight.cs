@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.None, PulseWaitTime = 36)]
+[Spell(SpellName, AbilityEffects.None, PulseWaitTime = 36, NotInCombat = true)]
 [Syntax(
     "cast [spell]",
     "cast [spell] <direction>")]

@@ -13,7 +13,7 @@ using Mud.Server.Rom24.Affects;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff)]
+[Spell(SpellName, AbilityEffects.Buff, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("You feel less protected.")]
 [AbilityDispellable]
 [Syntax("cast [spell] <target>")]

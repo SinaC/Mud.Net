@@ -11,7 +11,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection)]
+[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("The gold in your vision disappears.")]
 [AbilityDispellable]
 [Syntax("cast [spell]")]

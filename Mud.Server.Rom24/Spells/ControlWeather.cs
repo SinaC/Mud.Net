@@ -12,7 +12,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.None)]
+[Spell(SpellName, AbilityEffects.None, NotInCombat = true)]
 [Syntax(
     "cast [spell] better",
     "cast [spell] worse")]

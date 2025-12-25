@@ -10,7 +10,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Enchantment | AbilityEffects.Creation, PulseWaitTime = 24)]
+[Spell(SpellName, AbilityEffects.Enchantment | AbilityEffects.Creation, PulseWaitTime = 24, NotInCombat = true)]
 [Syntax("cast [spell] <item>")]
 [Help(
 @"The recharge spell is used to restore energy to depleted wands and staves.

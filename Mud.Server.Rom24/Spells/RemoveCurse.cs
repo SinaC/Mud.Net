@@ -11,7 +11,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Cure)]
+[Spell(SpellName, AbilityEffects.Cure, NotInCombat = true)]
 [Syntax(
     "cast [spell] <character>",
     "cast [spell] <object>")]

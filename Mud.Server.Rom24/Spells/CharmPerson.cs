@@ -14,7 +14,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Animation)]
+[Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Animation, NotInCombat = true)]
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell, if successful, causes the victim to follow you and to take orders

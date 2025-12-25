@@ -1,4 +1,5 @@
-﻿using Mud.Server.Domain;
+﻿using Mud.Domain;
+using Mud.Server.Domain;
 
 namespace Mud.Server.Interfaces.Ability;
 
@@ -10,6 +11,8 @@ public interface IAbilityDefinition
     int? PulseWaitTime { get; }
     int? CooldownInSeconds { get; }
     int LearnDifficultyMultiplier { get; }
+    Positions? MinPosition { get; }
+    bool? NotInCombat { get; }
 
     Type AbilityExecutionType { get; }
 

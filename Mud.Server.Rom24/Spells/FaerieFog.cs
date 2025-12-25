@@ -11,7 +11,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Dispel)]
+[Spell(SpellName, AbilityEffects.Dispel, NotInCombat = true)]
 [Syntax("cast [spell]")]
 [Help(
 @"This spell reveals all manner of invisible, hidden, and sneaking creatures in

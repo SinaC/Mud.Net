@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
@@ -17,6 +18,9 @@ public class AbilityDefinition : IAbilityDefinition
     public int? PulseWaitTime { get; }
     public int? CooldownInSeconds { get; }
     public int LearnDifficultyMultiplier { get; }
+    public Positions? MinPosition { get; }
+    public bool? NotInCombat { get; }
+
     public Type AbilityExecutionType { get; }
 
     public string? Help { get; }
@@ -45,6 +49,8 @@ public class AbilityDefinition : IAbilityDefinition
         Name = abilityBaseAttribute.Name.ToPascalCase();
         Effects = abilityBaseAttribute.Effects;
         PulseWaitTime = (abilityBaseAttribute as ActiveAbilityBaseAttribute)?.PulseWaitTime;
+        MinPosition = (abilityBaseAttribute as SpellAttribute)?.MinPosition;
+        NotInCombat = (abilityBaseAttribute as SpellAttribute)?.NotInCombat;
         CooldownInSeconds = abilityBaseAttribute.CooldownInSeconds <= 0
             ? (int?)null
             : abilityBaseAttribute.CooldownInSeconds;

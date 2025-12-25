@@ -10,7 +10,7 @@ using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("Your force shield shimmers then fades away.")]
 [AbilityDispellable("The shield protecting {0:n} vanishes.")]
 [Syntax("cast [spell]")]

@@ -13,7 +13,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Enchantment)]
+[Spell(SpellName, AbilityEffects.Enchantment, NotInCombat = true)]
 [AbilityItemWearOffMessage("{0:N}'s protective aura fades.")]
 [Syntax("cast [spell] <object>")]
 [Help(

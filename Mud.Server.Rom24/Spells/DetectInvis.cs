@@ -11,7 +11,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection)]
+[Spell(SpellName, AbilityEffects.Buff | AbilityEffects.Detection, NotInCombat = true)]
 [AbilityCharacterWearOffMessage("You no longer see invisible objects.")]
 [AbilityDispellable]
 [Syntax("cast [spell]")]

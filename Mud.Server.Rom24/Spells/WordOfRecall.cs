@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
@@ -12,7 +13,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation)]
+[Spell(SpellName, AbilityEffects.Transportation, MinPosition = Positions.Sitting)]
 [Syntax("cast [spell]")]
 [Help(
 @"This spell duplicates the built-in RECALL ability.  It is provided solely for
