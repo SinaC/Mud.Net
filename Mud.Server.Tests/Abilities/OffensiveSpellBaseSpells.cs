@@ -25,6 +25,7 @@ public class OffensiveSpellBaseSpells : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -48,6 +49,7 @@ public class OffensiveSpellBaseSpells : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -76,6 +78,7 @@ public class OffensiveSpellBaseSpells : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -99,6 +102,7 @@ public class OffensiveSpellBaseSpells : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -126,6 +130,7 @@ public class OffensiveSpellBaseSpells : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -159,6 +164,7 @@ public class OffensiveSpellBaseSpells : AbilityTestBase
         victimMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         Mock<INonPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x.CharacterFlags).Returns(() => new CharacterFlags("Charm"));
@@ -185,6 +191,7 @@ public class OffensiveSpellBaseSpells : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);

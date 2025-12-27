@@ -11,7 +11,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.Effects;
 
@@ -35,8 +34,8 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
     {
         if (!room.IsValid)
             return;
-        var clone = new ReadOnlyCollection<IItem>(room.Content.ToList());
-        foreach (var itemInRoom in clone)
+        var roomContent = room.Content.ToArray();
+        foreach (var itemInRoom in roomContent)
             Apply(itemInRoom, source, auraName, level, modifier);
         room.Recompute();
     }
@@ -56,8 +55,8 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
         // getting thirsty
         (victim as IPlayableCharacter)?.GainCondition(Conditions.Thirst, modifier / 20);
         // let's toast some gear
-        var clone = new ReadOnlyCollection<IItem>(victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToList());
-        foreach (var itemOnVictim in clone)
+        var inventoryAndEquipments = victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToArray();
+        foreach (var itemOnVictim in inventoryAndEquipments)
             Apply(itemOnVictim, source, auraName, level, modifier);
         victim.Recompute();
     }
@@ -134,8 +133,8 @@ public class FireEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
                 item.ChangeEquippedBy(null, true);
                 dropItemTargetRoom = item.EquippedBy.Room;
             }
-            var clone = new ReadOnlyCollection<IItem>(itemContainer.Content.ToList());
-            foreach (var itemInContainer in clone)
+            var containerContent = itemContainer.Content.ToArray();
+            foreach (var itemInContainer in containerContent)
             {
                 if (dropItemTargetRoom != null) // drop and apply acid effect
                 {

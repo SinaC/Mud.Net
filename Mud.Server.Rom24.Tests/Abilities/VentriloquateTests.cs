@@ -24,6 +24,7 @@ public class VentriloquateTests : AbilityTestBase
         Mock<ICharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
         casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -49,6 +50,7 @@ public class VentriloquateTests : AbilityTestBase
         Mock<ICharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
         casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -74,6 +76,7 @@ public class VentriloquateTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("player");
         casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
@@ -98,6 +101,7 @@ public class VentriloquateTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("player");
         casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
@@ -122,6 +126,7 @@ public class VentriloquateTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("player");
         casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
@@ -149,6 +154,7 @@ public class VentriloquateTests : AbilityTestBase
         casterMock.SetupGet(x => x.Name).Returns("player");
         casterMock.SetupGet(x => x.Keywords).Returns("player".Yield());
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());

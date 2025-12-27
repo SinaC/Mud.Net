@@ -3,7 +3,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Special;
 using Mud.Server.Specials;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.Specials
 {
@@ -31,8 +30,8 @@ namespace Mud.Server.Rom24.Specials
 
             npc.Act(ActOptions.ToRoom, "{0} savagely devours a corpse.", npc);
             // move corpse content to the ground and destroy corpse
-            var clone = new ReadOnlyCollection<IItem>(npcCorpse.Content.ToList());
-            foreach (var item in clone)
+            var corpseContent = npcCorpse.Content.ToArray();
+            foreach (var item in corpseContent)
                 item.ChangeContainer(npc.Room);
             ItemManager.RemoveItem(npcCorpse);
 

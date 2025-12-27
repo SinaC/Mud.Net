@@ -9,7 +9,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.Effects;
 
@@ -31,8 +30,8 @@ public class ColdEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
     {
         if (!room.IsValid)
             return;
-        IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(room.Content.ToList());
-        foreach (IItem itemInRoom in clone)
+        var roomContent = room.Content.ToArray();
+        foreach (IItem itemInRoom in roomContent)
             Apply(itemInRoom, source, auraName, level, modifier);
         room.Recompute();
     }
@@ -62,8 +61,8 @@ public class ColdEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
         // hunger! (warmth sucked out)
         (victim as IPlayableCharacter)?.GainCondition(Conditions.Hunger, modifier / 20);
         // let's toast some gear
-        var clone = new ReadOnlyCollection<IItem>(victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToList());
-        foreach (IItem itemOnVictim in clone)
+        var inventoryAndEquipments = victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToArray();
+        foreach (var itemOnVictim in inventoryAndEquipments)
             Apply(itemOnVictim, source, auraName, level, modifier);
         victim.Recompute();
     }

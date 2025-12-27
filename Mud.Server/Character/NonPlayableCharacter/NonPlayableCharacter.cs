@@ -354,10 +354,13 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         // area attack
         if (OffensiveFlags.IsSet("AreaAttack"))
         {
-            var clone = new ReadOnlyCollection<ICharacter>((Room?.People?.Where(x => x != this && x.Fighting == this) ?? Enumerable.Empty<ICharacter>()).ToList());
-            foreach (var character in clone)
-                OneHit(character, mainHand, multiHitModifier);
-            attackCount++;
+            if (Room != null)
+            {
+                var people = Room.People.Where(x => x != this && x.Fighting == this).ToArray();
+                foreach (var character in people)
+                    OneHit(character, mainHand, multiHitModifier);
+                attackCount++;
+            }
         }
         // additional hits from affects
         var characterAdditionalHitAffects = victim.Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterAdditionalHitAffect>()).ToArray();

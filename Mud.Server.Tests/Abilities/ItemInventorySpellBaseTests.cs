@@ -26,6 +26,7 @@ public class ItemInventorySpellBaseTests : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -49,6 +50,7 @@ public class ItemInventorySpellBaseTests : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -73,6 +75,7 @@ public class ItemInventorySpellBaseTests : AbilityTestBase
         Mock<IItem> itemMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
         casterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
@@ -101,6 +104,7 @@ public class ItemInventorySpellBaseTests : AbilityTestBase
         Mock<IItemWeapon> itemMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.Equipments).Returns(() => new EquippedItem(new Mock<ILogger>().Object, EquipmentSlots.Chest) { Item = itemMock.Object }.Yield());
         casterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
@@ -129,6 +133,7 @@ public class ItemInventorySpellBaseTests : AbilityTestBase
         Mock<IItemWeapon> itemMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
@@ -157,6 +162,7 @@ public class ItemInventorySpellBaseTests : AbilityTestBase
         Mock<IItemWeapon> itemMock = new();
         Mock<IPlayableCharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.Inventory).Returns(itemMock.Object.Yield());
         casterMock.Setup(x => x.CanSee(It.IsAny<IItem>())).Returns<IItem>(_ => true);

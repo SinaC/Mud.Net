@@ -1,5 +1,7 @@
 INGOING
+    IsDead instead of removing characters
 DONE
+    ReadOnlyCollection removed
 
 ==========
 == TODO ==

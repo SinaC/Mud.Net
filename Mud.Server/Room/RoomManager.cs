@@ -110,7 +110,7 @@ public class RoomManager : IRoomManager
     public void RemoveRoom(IRoom room)
     {
         //// Remove auras
-        //IReadOnlyCollection<IAura> auras = new ReadOnlyCollection<IAura>(room.Auras.ToList()); // clone
+        //var auras = room.Auras.ToArray(); // clone
         //foreach (IAura aura in auras)
         //{
         //    aura.OnRemoved();

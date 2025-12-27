@@ -101,8 +101,8 @@ public class ItemCorpse : ItemBase, IItemCorpse
         }
 
         // Fill corpse with inventory
-        IReadOnlyCollection<IItem> inventory = new ReadOnlyCollection<IItem>(victim.Inventory.ToList());
-        foreach (IItem item in inventory)
+        var inventory = victim.Inventory.ToArray();
+        foreach (var item in inventory)
         {
             var result = PerformActionOnItem(victim, item);
             if (result == PerformActionOnItemResults.MoveToCorpse)
@@ -113,7 +113,7 @@ public class ItemCorpse : ItemBase, IItemCorpse
                 ItemManager.RemoveItem(item);
         }
         // Fill corpse with equipment
-        var equipment = new ReadOnlyCollection<IItem>(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!).ToList());
+        var equipment = victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!).ToArray();
         foreach (var item in equipment)
         {
             var result = PerformActionOnItem(victim, item);
@@ -242,7 +242,7 @@ public class ItemCorpse : ItemBase, IItemCorpse
             item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(1000, 2500)));
         if (item.ItemFlags.IsSet("VisibleDeath"))
             item.RemoveBaseItemFlags(false, "VisibleDeath");
-        bool isFloating = item.WearLocation == WearLocations.Float;
+        var isFloating = item.WearLocation == WearLocations.Float;
         if (isFloating)
         {
             if (item.ItemFlags.IsSet("RotDeath"))
@@ -250,8 +250,8 @@ public class ItemCorpse : ItemBase, IItemCorpse
                 if (item is IItemContainer container && container.Content.Any())
                 {
                     victim.Act(ActOptions.ToRoom, "{0} evaporates, scattering its contents.", item);
-                    var cloneContent = new ReadOnlyCollection<IItem>(container.Content.ToList());
-                    foreach (IItem contentItem in cloneContent)
+                    var content = container.Content.ToArray();
+                    foreach (var contentItem in content)
                         contentItem.ChangeContainer(victim.Room);
                 }
                 else

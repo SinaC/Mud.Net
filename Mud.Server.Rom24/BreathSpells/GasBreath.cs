@@ -9,7 +9,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.BreathSpells;
 
@@ -45,11 +44,13 @@ public class GasBreath : NoTargetSpellBase
         int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);
 
         var roomPoisonEffect = EffectManager.CreateInstance<IRoom>("Poison");
+        // Room
         roomPoisonEffect?.Apply(Caster.Room, Caster, SpellName, Level, damage);
-        var clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.Where(x =>
+        // Room people
+        var victims = Caster.Room.People.Where(x =>
             !(x.IsSafeSpell(Caster, true) 
-              || (x is INonPlayableCharacter && Caster is INonPlayableCharacter && (Caster.Fighting == x || x.Fighting == Caster)))).ToList());
-        foreach (ICharacter victim in clone)
+              || (x is INonPlayableCharacter && Caster is INonPlayableCharacter && (Caster.Fighting != x || x.Fighting != Caster)))).ToArray();
+        foreach (ICharacter victim in victims)
         {
             if (victim.SavesSpell(Level, SchoolTypes.Poison))
             {

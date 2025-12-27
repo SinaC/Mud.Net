@@ -7,7 +7,6 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.Spells;
 
@@ -37,14 +36,14 @@ public class Earthquake : NoTargetSpellBase
             character.Send("The earth trembles and shivers.");
 
         // Damage people in room
-        var clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.Where(x => x != Caster && !x.IsSafeSpell(Caster, true)).ToList()); // clone to prevent modification issues
-        foreach (var victim in clone)
+        var victims = Caster.Room.People.Where(x => x != Caster && !x.IsSafeSpell(Caster, true)).ToArray(); // clone to prevent modification issues
+        foreach (var victim in victims)
         {
             var damage = victim.CharacterFlags.IsSet("Flying")
                 ? 0 // no damage but starts fight
                 : Level + RandomManager.Dice(2, 8);
             victim.AbilityDamage(Caster, damage, SchoolTypes.Bash, "earthquake", true);
-            if (Caster.Fighting == null)
+            if (Caster.Fighting == null) // caster has been killed with some backlash damage
                 break;
         }
     }

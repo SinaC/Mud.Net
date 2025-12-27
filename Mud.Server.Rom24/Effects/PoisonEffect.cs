@@ -11,7 +11,6 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
 using Mud.Server.Rom24.Affects;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.Effects;
 
@@ -31,8 +30,8 @@ public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
     {
         if (!room.IsValid)
             return;
-        IReadOnlyCollection<IItem> clone = new ReadOnlyCollection<IItem>(room.Content.ToList());
-        foreach (IItem itemInRoom in clone)
+        var roomContent = room.Content.ToArray();
+        foreach (var itemInRoom in roomContent)
             Apply(itemInRoom, source, auraName, level, modifier);
         room.Recompute();
     }
@@ -63,8 +62,8 @@ public class PoisonEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
                     new PoisonDamageAffect());
         }
         // equipment
-        var clone = new ReadOnlyCollection<IItem>(victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToList());
-        foreach (var itemOnVictim in clone)
+        var inventoryAndEquipments = victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToArray();
+        foreach (var itemOnVictim in inventoryAndEquipments)
             Apply(itemOnVictim, source, auraName, level, modifier);
         victim.Recompute();
     }

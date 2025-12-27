@@ -104,12 +104,12 @@ public class Purge : AdminGameAction
         Wiznet.Log($"{Actor.DisplayName} purges room {room.Blueprint.Id}.", WiznetFlags.Punish);
 
         // Purge non playable characters (without NoPurge flag) (TODO: what if npc was wearing NoPurge items?)
-        var nonPlayableCharacters = new ReadOnlyCollection<INonPlayableCharacter>(room.NonPlayableCharacters.Where(x => !x.ActFlags.IsSet("NoPurge")).ToList()); // clone
-        foreach (INonPlayableCharacter nonPlayableCharacter in nonPlayableCharacters)
+        var nonPlayableCharacters = room.NonPlayableCharacters.Where(x => !x.ActFlags.IsSet("NoPurge")).ToArray(); // clone
+        foreach (var nonPlayableCharacter in nonPlayableCharacters)
             CharacterManager.RemoveCharacter(nonPlayableCharacter);
         // Purge items (without NoPurge flag)
-        var items = new ReadOnlyCollection<IItem>(room.Content.Where(x => !x.ItemFlags.IsSet("NoPurge")).ToList()); // clone
-        foreach (IItem itemToPurge in items)
+        var items = room.Content.Where(x => !x.ItemFlags.IsSet("NoPurge")).ToArray(); // clone
+        foreach (var itemToPurge in items)
             ItemManager.RemoveItem(itemToPurge);
         Impersonating.Act(ActOptions.ToRoom, "{0} purge{0:v} the room!", Actor.Impersonating!);
         Actor.Send("Ok.");

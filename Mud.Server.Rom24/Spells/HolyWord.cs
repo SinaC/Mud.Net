@@ -41,8 +41,8 @@ public class HolyWord : NoTargetSpellBase
         Caster.Act(ActOptions.ToRoom, "{0:N} utters a word of divine power!", Caster);
         Caster.Send("You utter a word of divine power.");
 
-        var clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.ToList()); // to avoid modification during iteration
-        foreach (var victim in clone)
+        var victims = Caster.Room.People.ToArray(); // to avoid modification during iteration
+        foreach (var victim in victims)
         {
             if ((Caster.IsGood && victim.IsGood)
                 || (Caster.IsNeutral && victim.IsNeutral)
@@ -68,7 +68,6 @@ public class HolyWord : NoTargetSpellBase
                         curseEffect?.Apply(victim, Caster, "Curse", Level, 0);
                     }
                 }
-
                 else if (Caster.IsNeutral)
                 {
                     if (!victim.IsSafeSpell(Caster, true))
@@ -84,6 +83,9 @@ public class HolyWord : NoTargetSpellBase
                     }
                 }
             }
+
+            if (Caster.Fighting == null) // caster has been killed with some backlash damage
+                break;
         }
 
         Caster.Send("You feel drained.");
