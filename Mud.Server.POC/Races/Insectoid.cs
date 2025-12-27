@@ -81,6 +81,7 @@ public class Insectoid : PlayableRaceBase // 4-arms
     public override IOffensiveFlags OffensiveFlags => new OffensiveFlags("Fast");
     public override IAssistFlags AssistFlags => new AssistFlags();
 
+    public override bool SelectableDuringCreation => false;
     public override int CreationPointsStartValue =>  20;
 
     public override int GetStartAttribute(BasicAttributes attribute)

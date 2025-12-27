@@ -25,7 +25,8 @@ public enum AvatarCreationStates
     NameConfirmation, // -> NameChoice | SexChoice | Quit
     SexChoice, // -> SexChoice | RaceChoice | Quit
     RaceChoice, // -> RaceChoice | ClassChoice | Quit
-    ClassChoice, // -> ClassChoice | CustomizationChoice | Quit
+    ClassChoice, // -> ClassChoice | AlignmentChoice | Quit
+    AlignmentChoice, // -> AlignmentChoice |  CustomizationChoice | Quit
     CustomizationChoice, // -> WeaponChoice | Customize | Quit
     Customize, // -> Customize | WeaponChoice | Quit
     WeaponChoice, // -> CreationComplete | ImmediateImpersonate | Quit
@@ -42,6 +43,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
     private Sex? _sex;
     private IPlayableRace? _race;
     private IClass? _class;
+    private int? _alignment;
     private int _creationPoints;
     private List<IAbilityUsage> _learnedAbilities = [];
     private List<IAbilityGroupUsage> _learnedAbilityGroups = [];
@@ -77,17 +79,18 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
         KeepInputAsIs = false;
         StateMachine = new Dictionary<AvatarCreationStates, Func<IPlayer, string, AvatarCreationStates>>
         {
-            {AvatarCreationStates.NameChoice, ProcessNameChoice},
-            {AvatarCreationStates.NameConfirmation, ProcessNameConfirmation},
-            {AvatarCreationStates.SexChoice, ProcessSexChoice},
-            {AvatarCreationStates.RaceChoice, ProcessRaceChoice},
-            {AvatarCreationStates.ClassChoice, ProcessClassChoice},
-            {AvatarCreationStates.CustomizationChoice, ProcessCustomizationChoice},
-            {AvatarCreationStates.Customize, ProcessCustomize},
-            {AvatarCreationStates.WeaponChoice, ProcessWeaponChoice},
-            {AvatarCreationStates.ImmediateImpersonate, ProcessImmediateImpersonate},
-            {AvatarCreationStates.CreationComplete, ProcessCreationComplete},
-            {AvatarCreationStates.Quit, ProcessQuit}
+            { AvatarCreationStates.NameChoice, ProcessNameChoice },
+            { AvatarCreationStates.NameConfirmation, ProcessNameConfirmation },
+            { AvatarCreationStates.SexChoice, ProcessSexChoice },
+            { AvatarCreationStates.RaceChoice, ProcessRaceChoice },
+            { AvatarCreationStates.ClassChoice, ProcessClassChoice },
+            { AvatarCreationStates.AlignmentChoice, ProcessAlignmentChoice },
+            { AvatarCreationStates.CustomizationChoice, ProcessCustomizationChoice },
+            { AvatarCreationStates.Customize, ProcessCustomize },
+            { AvatarCreationStates.WeaponChoice, ProcessWeaponChoice },
+            { AvatarCreationStates.ImmediateImpersonate, ProcessImmediateImpersonate },
+            { AvatarCreationStates.CreationComplete, ProcessCreationComplete },
+            { AvatarCreationStates.Quit, ProcessQuit }
         };
         State = AvatarCreationStates.NameChoice;
     }
@@ -131,17 +134,18 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
 
     private AvatarCreationStates ProcessNameConfirmation(IPlayer player, string input)
     {
-        if (input == "y" || input == "yes")
-        {
-            player.Send("Nice! Please choose a sex (type quit to stop creation).");
-            DisplaySexList(player);
-            return AvatarCreationStates.SexChoice;
-        }
-        else if (input == "quit")
+        if (input == "quit")
         {
             player.Send("Creation cancelled.");
             return AvatarCreationStates.Quit;
         }
+        
+        if (input == "y" || input == "yes")
+        {
+            DisplaySexList(player, true);
+            return AvatarCreationStates.SexChoice;
+        }
+
         player.Send("Ok, what name would you give to your avatar (type quit to stop creation)?");
         return AvatarCreationStates.NameChoice;
     }
@@ -153,15 +157,16 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             player.Send("Creation cancelled.");
             return AvatarCreationStates.Quit;
         }
+
         var found = EnumHelpers.TryFindByPrefix(input, out Sex sex);
         if (found)
         {
             _sex = sex;
-            player.Send("Great! Please choose a race (type quit to stop creation).");
-            DisplayRaceList(player, false);
+            DisplayRaceList(player, true);
             return AvatarCreationStates.RaceChoice;
         }
-        DisplaySexList(player);
+
+        DisplaySexList(player, false);
         return AvatarCreationStates.SexChoice;
     }
 
@@ -172,16 +177,17 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             player.Send("Creation cancelled.");
             return AvatarCreationStates.Quit;
         }
+
         var races = RaceManager.PlayableRaces.Where(x => StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
         if (races.Count == 1)
         {
             _race = races[0];
             _creationPoints = _race.CreationPointsStartValue;
-            player.Send("Good choice! Now, please choose a class (type quit to stop creation).");
-            DisplayClassList(player, false);
+            DisplayClassList(player, true);
             return AvatarCreationStates.ClassChoice;
         }
-        DisplayRaceList(player);
+
+        DisplayRaceList(player, false);
         return AvatarCreationStates.RaceChoice;
     }
 
@@ -192,6 +198,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             player.Send("Creation cancelled.");
             return AvatarCreationStates.Quit;
         }
+
         var classes = ClassManager.Classes.Where(x => StringCompareHelpers.StringStartsWith(x.Name, input)).ToList();
         if (classes.Count == 1)
         {
@@ -201,15 +208,39 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             {
                 _learnedAbilityGroups.Add(basicAbilityGroup);
             }
+            DisplayAlignmentList(player, true);
+            return AvatarCreationStates.AlignmentChoice;
+        }
+
+        DisplayClassList(player, false);
+        return AvatarCreationStates.ClassChoice;
+    }
+
+    private AvatarCreationStates ProcessAlignmentChoice(IPlayer player, string input)
+    {
+        if (input == "quit")
+        {
+            player.Send("Creation cancelled.");
+            return AvatarCreationStates.Quit;
+        }
+
+        if (input == "G" || input == "g" || input == "good")
+            _alignment = 750;
+        else if (input == "N" || input == "n" || input == "neutral")
+            _alignment = 0;
+        else if (input == "E" || input == "e" || input == "evil")
+            _alignment = -750;
+        if (_alignment.HasValue)
+        {
             // customization ?
             player.Send("Do you wish to customize this character?");
             player.Send("Customization takes time, but allows a wider range of skills and abilities.");
             player.Send("Customize (Y/N)?");
             return AvatarCreationStates.CustomizationChoice;
-
         }
-        DisplayClassList(player);
-        return AvatarCreationStates.ClassChoice;
+
+        DisplayAlignmentList(player, false);
+        return AvatarCreationStates.AlignmentChoice;
     }
 
     private AvatarCreationStates ProcessCustomizationChoice(IPlayer player, string input)
@@ -227,7 +258,8 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             player.Send("Choice (add,drop,list,learned,premise,help,info,done)");
             return AvatarCreationStates.Customize;
         }
-        else if (input == "n" || input == "no")
+
+        if (input == "n" || input == "no")
         {
             // add default ability groups
             foreach (var defaultAbilityGroup in _class!.DefaultAbilityGroups)
@@ -244,6 +276,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             DisplayWeaponList(player, false);
             return AvatarCreationStates.WeaponChoice;
         }
+
         player.Send("Please answer (Y/N)?");
         return AvatarCreationStates.CustomizationChoice;
     }
@@ -281,6 +314,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             DisplayWeaponList(player, false);
             return AvatarCreationStates.WeaponChoice;
         }
+
         var tokens = CommandParser.SplitParameters(input).ToArray();
         var command = tokens[0];
         var parameter = tokens.Length > 1
@@ -508,7 +542,7 @@ done	     exit the character generation process");
                     // TODO: other resource
                 },
                 Experience = 0,
-                Alignment = 0, // TODO
+                Alignment = _alignment!.Value,
                 Trains = 3,
                 Practices = 5,
                 GoldCoins = 0,
@@ -568,6 +602,7 @@ done	     exit the character generation process");
             else
                 return AvatarCreationStates.CreationComplete;
         }
+
         player.Send("Avatar {0} created but not impersonated. Use /impersonate {0} to enter game or use /list to see your avatar list.", _name!.UpperFirstLetter());
         // else, NOP
         return AvatarCreationStates.CreationComplete;
@@ -587,34 +622,64 @@ done	     exit the character generation process");
         return AvatarCreationStates.Quit;
     }
 
-    private void DisplaySexList(IPlayer player, bool displayHeader = true)
+    private void DisplaySexList(IPlayer player, bool firstTime)
     {
-        if (displayHeader)
-            player.Send("Please choose a sex (type quit to stop creation).");
+        if (firstTime)
+            player.Send("Nice! Please choose a sex (type quit to stop creation).");
+        else
+        {
+            player.Send("That's not a sex.");
+            player.Send("The following sex are available:");
+        }
         var sexes = string.Join(" | ", Enum.GetNames(typeof(Sex)));
         player.Send(sexes);
     }
 
-    private void DisplayRaceList(IPlayer player, bool displayHeader = true)
+    private void DisplayRaceList(IPlayer player, bool firstTime)
     {
-        if (displayHeader)
-            player.Send("Please choose a race (type quit to stop creation).");
+        if (firstTime)
+            player.Send("Great! Please choose a race (type quit to stop creation).");
+        else
+        {
+            player.Send("That is not a valid race.");
+            player.Send("The following races are available:");
+        }
         var races = string.Join(" | ", RaceManager.PlayableRaces.Select(x => x.DisplayName));
         player.Send(races);
     }
 
-    private void DisplayClassList(IPlayer player, bool displayHeader = true)
+    private void DisplayClassList(IPlayer player, bool firstTime)
     {
-        if (displayHeader)
-            player.Send("Please choose a class (type quit to stop creation).");
+        if (firstTime)
+            player.Send("Good choice! Now, please choose a class (type quit to stop creation).");
+        else
+        {
+            player.Send("That is not a valid class.");
+            player.Send("The following classes are available:");
+        }
         var classes = string.Join(" | ", ClassManager.Classes.Select(x => x.DisplayName));
         player.Send(classes);
     }
 
-    private void DisplayWeaponList(IPlayer player, bool displayHeader = true)
+
+    private void DisplayAlignmentList(IPlayer player, bool firstTime)
     {
-        if (displayHeader)
+        if (firstTime)
+            player.Send("You may be good, neutral, or evil.");
+        else
+            player.Send("That is not a valid alignment.");
+        player.Send("Which alignment (G/N/E)?");
+    }
+
+    private void DisplayWeaponList(IPlayer player, bool firstTime)
+    {
+        if (firstTime)
             player.Send("Please choose a weapon (type quit to stop creation).");
+        else
+        {
+            player.Send("That is not a valid weapon choice.");
+            player.Send("The following weapons are available:");
+        }
         var weapons = string.Join(" | ", _learnedAbilities.Where(x => x.AbilityDefinition.Type == AbilityTypes.Weapon).Select(x => x.Name));
         player.Send(weapons);
     }

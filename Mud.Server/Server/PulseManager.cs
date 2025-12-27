@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.Server.Commands.Character.Movement;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces;
 using System.Diagnostics;
 
@@ -30,6 +28,8 @@ public class PulseManager : IPulseManager
 
         _entries = [];
     }
+
+    public IEnumerable<string> PulseNames => _entries.Select(x => x.Name);
 
     public void Add(string name, int initialValue, int resetValue, Action<int> action)
     {
@@ -76,10 +76,5 @@ public class PulseManager : IPulseManager
     {
         Logger.LogInformation("Clear all pulses");
         _entries.Clear();
-    }
-
-    private void Pulse(PulseEntry entry)
-    {
-       
     }
 }

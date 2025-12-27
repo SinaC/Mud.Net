@@ -9,6 +9,7 @@ public interface IPlayableRace : IRace
     string ShortName { get; }
     string? Help { get; }
 
+    bool SelectableDuringCreation { get; }
     int CreationPointsStartValue { get; }
 
     bool EnhancedPrimeAttribute { get; }

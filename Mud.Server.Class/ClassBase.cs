@@ -33,6 +33,8 @@ public abstract class ClassBase : IClass
 
     public string? Help { get; }
 
+    public abstract bool SelectableDuringCreation { get; }
+
     public abstract IEnumerable<ResourceKinds> ResourceKinds { get; }
 
     public abstract IEnumerable<ResourceKinds> CurrentResourceKinds(Shapes shape);

@@ -45,6 +45,7 @@ public class Human : PlayableRaceBase
     public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
     public override IAssistFlags AssistFlags => new AssistFlags();
 
+    public override bool SelectableDuringCreation => true;
     public override int CreationPointsStartValue => 0;
 
     public override bool EnhancedPrimeAttribute => true;

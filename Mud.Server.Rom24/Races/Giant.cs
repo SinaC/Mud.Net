@@ -53,6 +53,7 @@ public class Giant : PlayableRaceBase
     public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
     public override IAssistFlags AssistFlags => new AssistFlags();
 
+    public override bool SelectableDuringCreation => true;
     public override int CreationPointsStartValue => 6;
 
     public override int GetStartAttribute(BasicAttributes attribute)
