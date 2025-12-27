@@ -157,6 +157,8 @@ public class Warrior : ClassBase
 
     public override string ShortName => "War";
 
+    public override bool SelectableDuringCreation => true;
+
     public override IEnumerable<ResourceKinds> ResourceKinds { get; } =
     [
         Mud.Domain.ResourceKinds.Mana

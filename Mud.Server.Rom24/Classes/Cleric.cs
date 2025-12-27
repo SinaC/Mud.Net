@@ -151,6 +151,8 @@ public class Cleric : ClassBase
 
     public override string ShortName => "Cle";
 
+    public override bool SelectableDuringCreation => true;
+
     public override IEnumerable<ResourceKinds> ResourceKinds { get; } =
     [
         Mud.Domain.ResourceKinds.Mana

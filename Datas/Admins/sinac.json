@@ -13,6 +13,7 @@
       "RoomId": 3014,
       "SilverCoins": 1049,
       "GoldCoins": 10,
+      "Wimpy": 0,
       "Experience": 113000,
       "Alignment": -7,
       "Trains": 33,
@@ -1466,7 +1467,6 @@
       "Size": 2,
       "HitPoints": 3800,
       "MovePoints": 13786,
-	  "Wimpy": 0,
       "CurrentResources": {
         "Mana": 3151,
         "Psy": 100,
@@ -1874,12 +1874,12 @@
       "RoomId": 3001,
       "SilverCoins": 109,
       "GoldCoins": 5000,
+      "Wimpy": 5000,
       "Experience": 120002,
       "Alignment": 0,
       "Trains": 22,
       "Practices": 89,
       "AutoFlags": 127,
-	  "Wimpy": 5000,
       "CurrentQuests": [],
       "LearnedAbilities": [
         {
@@ -3685,15 +3685,15 @@
     },
     {
       "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-      "RoomId": 3046,
-      "SilverCoins": 96,
+      "RoomId": 3054,
+      "SilverCoins": 130,
       "GoldCoins": 5000,
-      "Experience": 2392,
+      "Wimpy": 0,
+      "Experience": 3367,
       "Alignment": 0,
-      "Trains": 31,
-      "Practices": 60,
+      "Trains": 32,
+      "Practices": 54,
       "AutoFlags": 127,
-	  "Wimpy": 0,
       "CurrentQuests": [],
       "LearnedAbilities": [
         {
@@ -3702,7 +3702,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 40,
+          "Learned": 95,
           "Rating": 2
         },
         {
@@ -3756,7 +3756,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 10,
+          "Learned": 35,
           "Rating": 2
         },
         {
@@ -3783,7 +3783,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 7,
+          "Learned": 58,
           "Rating": 3
         },
         {
@@ -3792,7 +3792,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 6,
+          "Learned": 45,
           "Rating": 4
         },
         {
@@ -3819,7 +3819,7 @@
           "CostAmount": 0,
           "CostAmountOperator": 0,
           "Level": 1,
-          "Learned": 1,
+          "Learned": 57,
           "Rating": 4
         },
         {
@@ -3903,8 +3903,8 @@
       "Conditions": {
         "Drunk": 0,
         "Full": 0,
-        "Thirst": 30,
-        "Hunger": 12
+        "Thirst": 23,
+        "Hunger": 0
       },
       "Aliases": {},
       "Cooldowns": {},
@@ -3912,29 +3912,31 @@
       "Name": "fnar",
       "Race": "giant",
       "Class": "warrior",
-      "Level": 3,
+      "Level": 4,
       "Sex": 1,
       "Size": 3,
-      "HitPoints": 122,
-      "MovePoints": 119,
+      "HitPoints": 138,
+      "MovePoints": 3,
       "CurrentResources": {
-        "Mana": 117,
+        "Mana": 126,
         "Psy": 100,
         "Energy": 0,
-        "Rage": 0
+        "Rage": 0,
+        "Combo": 0
       },
       "MaxResources": {
-        "Mana": 117,
+        "Mana": 126,
         "Psy": 100,
         "Energy": 0,
-        "Rage": 0
+        "Rage": 0,
+        "Combo": 0
       },
       "Equipments": [
         {
           "Slot": 1,
           "Item": {
             "$type": "light",
-            "TimeLeft": 11982,
+            "TimeLeft": 11975,
             "ItemId": 3716,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -4067,10 +4069,10 @@
           "Item": {
             "$type": "weapon",
             "WeaponFlags": "",
-            "ItemId": 3702,
-            "Level": 1,
+            "ItemId": 103,
+            "Level": 3,
             "DecayPulseLeft": 0,
-            "ItemFlags": "MeltOnDrop",
+            "ItemFlags": "",
             "Auras": []
           }
         },
@@ -4087,22 +4089,10 @@
       ],
       "Inventory": [
         {
-          "ItemId": 3162,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "",
-          "Auras": []
-        },
-        {
-          "ItemId": 3707,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "MeltOnDrop",
-          "Auras": []
-        },
-        {
-          "ItemId": 3712,
-          "Level": 0,
+          "$type": "weapon",
+          "WeaponFlags": "",
+          "ItemId": 3702,
+          "Level": 1,
           "DecayPulseLeft": 0,
           "ItemFlags": "MeltOnDrop",
           "Auras": []
@@ -4113,9 +4103,65 @@
           "DecayPulseLeft": 0,
           "ItemFlags": "Magic,MeltOnDrop",
           "Auras": []
+        },
+        {
+          "ItemId": 3712,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "MeltOnDrop",
+          "Auras": []
+        },
+        {
+          "ItemId": 3707,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "MeltOnDrop",
+          "Auras": []
+        },
+        {
+          "ItemId": 3162,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
         }
       ],
-      "Auras": [],
+      "Auras": [
+        {
+          "AbilityName": "Armor",
+          "Level": 1,
+          "PulseLeft": 4480,
+          "AuraFlags": 0,
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": 0,
+              "Location": 16,
+              "Modifier": -20
+            }
+          ]
+        },
+        {
+          "AbilityName": "Bless",
+          "Level": 1,
+          "PulseLeft": 9772,
+          "AuraFlags": 0,
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": 0,
+              "Location": 9,
+              "Modifier": 5
+            },
+            {
+              "$type": "characterAttribute",
+              "Operator": 0,
+              "Location": 8,
+              "Modifier": -5
+            }
+          ]
+        }
+      ],
       "CharacterFlags": "",
       "Immunities": "",
       "Resistances": "Fire,Cold",
@@ -4127,11 +4173,11 @@
         "Wisdom": 18,
         "Dexterity": 15,
         "Constitution": 20,
-        "MaxHitPoints": 122,
+        "MaxHitPoints": 138,
         "SavingThrow": 0,
         "HitRoll": 0,
         "DamRoll": 0,
-        "MaxMovePoints": 122,
+        "MaxMovePoints": 138,
         "ArmorBash": 0,
         "ArmorPierce": 0,
         "ArmorSlash": 0,

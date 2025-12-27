@@ -46,7 +46,7 @@ namespace Mud.Server.Rom24.Specials
                 case 4: // cure poison
                     return CastSpell(npc, "cure poison", pcVictim);
                 case 5: // refresh
-                    return CastSpell(npc, "cast refresh", pcVictim);
+                    return CastSpell(npc, "refresh", pcVictim);
                 case 6: // cure disease
                     return CastSpell(npc, "cure disease", pcVictim);
                 default:

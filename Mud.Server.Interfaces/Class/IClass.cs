@@ -12,6 +12,8 @@ public interface IClass
     string ShortName { get; }
     string? Help { get; }
 
+    bool SelectableDuringCreation { get; }
+
     // Kind of resource available for class
     IEnumerable<ResourceKinds> ResourceKinds { get; }
     // Current available kind of resource depending on shape (subset of ResourceKinds property, i.e.: druids in bear form only have rage but mana will still regenerated even if not in current)

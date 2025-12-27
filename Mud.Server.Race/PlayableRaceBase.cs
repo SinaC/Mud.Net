@@ -49,6 +49,8 @@ public abstract class PlayableRaceBase : RaceBase, IPlayableRace
 
     public override IEnumerable<EquipmentSlots> EquipmentSlots => _basicSlots;
 
+    public abstract bool SelectableDuringCreation { get; }
+
     public abstract int CreationPointsStartValue { get; }
 
     public virtual bool EnhancedPrimeAttribute => false;

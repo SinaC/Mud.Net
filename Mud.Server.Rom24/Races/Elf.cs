@@ -53,6 +53,7 @@ public class Elf : PlayableRaceBase
     public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
     public override IAssistFlags AssistFlags => new AssistFlags();
 
+    public override bool SelectableDuringCreation => true;
     public override int CreationPointsStartValue => 5;
 
     public override int GetStartAttribute(BasicAttributes attribute)

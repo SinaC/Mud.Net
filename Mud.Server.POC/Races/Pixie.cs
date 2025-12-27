@@ -57,6 +57,7 @@ public class Pixie : PlayableRaceBase
     public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
     public override IAssistFlags AssistFlags => new AssistFlags();
 
+    public override bool SelectableDuringCreation => false;
     public override int CreationPointsStartValue => 6;
 
     public override int GetStartAttribute(BasicAttributes attribute)

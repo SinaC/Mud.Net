@@ -36,6 +36,8 @@ public class Druid : ClassBase
 
     public override string ShortName => "Dru";
 
+    public override bool SelectableDuringCreation => false;
+
     public override IEnumerable<ResourceKinds> ResourceKinds { get; } =
     [
         Mud.Domain.ResourceKinds.Mana, // normal/cat/bear shape

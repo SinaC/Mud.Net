@@ -10,7 +10,6 @@ using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.Race;
 using Mud.Server.Race;
 
-
 namespace Mud.Server.Rom24.Races;
 
 [Help(
@@ -53,6 +52,7 @@ public class Dwarf : PlayableRaceBase
     public override IOffensiveFlags OffensiveFlags => new OffensiveFlags();
     public override IAssistFlags AssistFlags => new AssistFlags();
 
+    public override bool SelectableDuringCreation => true;
     public override int CreationPointsStartValue => 8;
 
     public override int GetStartAttribute(BasicAttributes attribute)

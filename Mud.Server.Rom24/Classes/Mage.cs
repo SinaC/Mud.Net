@@ -145,6 +145,8 @@ public class Mage : ClassBase
 
     public override string ShortName => "Mag";
 
+    public override bool SelectableDuringCreation => true;
+
     public override IEnumerable<ResourceKinds> ResourceKinds { get; } =
     [
         Mud.Domain.ResourceKinds.Mana
