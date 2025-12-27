@@ -1137,11 +1137,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         // for each pc
         //   for each aggresive npc in pc room
         //     pick a random valid victim in room
-        var pcClone = new ReadOnlyCollection<IPlayableCharacter>(CharacterManager.PlayableCharacters.Where(x => x.Room != null).ToList()); // TODO: !immortal
-        foreach (var pc in pcClone)
+        var pcs = CharacterManager.PlayableCharacters.Where(x => x.Room != null).ToArray(); // TODO: !immortal
+        foreach (var pc in pcs)
         {
-            var aggressorClone = new ReadOnlyCollection<INonPlayableCharacter>(pc.Room.NonPlayableCharacters.Where(x => !IsInvalidAggressor(x, pc)).ToList());
-            foreach (var aggressor in aggressorClone)
+            var aggressors = pc.Room.NonPlayableCharacters.Where(x => !IsInvalidAggressor(x, pc)).ToArray();
+            foreach (var aggressor in aggressors)
             {
                 var victims = aggressor.Room.PlayableCharacters.Where(x => IsValidVictim(x, aggressor)).ToArray();
                 if (victims.Length > 0)
@@ -1215,86 +1215,41 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleAuras(int pulseCount) 
     {
-        foreach (var ch in CharacterManager.Characters.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
+        HandleAuras(CharacterManager.Characters, pulseCount);
+        HandleAuras(ItemManager.Items, pulseCount);
+        HandleAuras(RoomManager.Rooms, pulseCount);
+    }
+
+    private void HandleAuras<TEntity>(IEnumerable<TEntity> entities, int pulseCount)
+        where TEntity : IEntity
+    {
+        var auraFilterFunc = new Func<IAura, bool>(a => !a.AuraFlags.HasFlag(AuraFlags.Permanent) && a.PulseLeft > 0);
+        foreach (var entity in entities.Where(x => x.Auras.Any(a => !a.AuraFlags.HasFlag(AuraFlags.Permanent) && a.PulseLeft > 0)))
         {
             try
             {
                 bool needsRecompute = false;
-                var cloneAuras = new ReadOnlyCollection<IAura>(ch.Auras.ToList()); // must be cloned because collection may be modified during foreach
-                foreach (var aura in cloneAuras.Where(x => x.PulseLeft >= 0))
+                var auras = entity.Auras.Where(auraFilterFunc).ToArray(); // must be cloned because collection may be modified during foreach
+                foreach (var aura in auras)
                 {
                     bool timedOut = aura.DecreasePulseLeft(pulseCount);
                     if (timedOut)
                     {
                         //TODO: aura.OnVanished();
                         // TODO: Set Validity to false
-                        ch.RemoveAura(aura, false); // recompute once each aura has been processed
+                        entity.RemoveAura(aura, false); // recompute once each aura has been processed
                         needsRecompute = true;
                     }
                     else if (aura.Level > 0 && RandomManager.Chance(20)) // spell strength fades with time
                         aura.DecreaseLevel();
                 }
                 if (needsRecompute)
-                    ch.Recompute();
+                    entity.Recompute();
                 // TODO: remove invalid auras
             }
             catch (Exception ex)
             {
-                Logger.LogError("Exception while handling auras of character {name}. Exception: {ex}", ch.DebugName, ex);
-            }
-        }
-        foreach (var item in ItemManager.Items.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
-        {
-            try
-            {
-                bool needsRecompute = false;
-                var cloneAuras = new ReadOnlyCollection<IAura>(item.Auras.ToList()); // must be cloned because collection may be modified during foreach
-                foreach (var aura in cloneAuras.Where(x => x.PulseLeft > 0))
-                {
-                    bool timedOut = aura.DecreasePulseLeft(pulseCount);
-                    if (timedOut)
-                    {
-                        //TODO: aura.OnVanished();
-                        // TODO: Set Validity to false
-                        item.RemoveAura(aura, false); // recompute once each aura has been processed
-                        needsRecompute = true;
-                    }
-                    else if (aura.Level > 0 && RandomManager.Chance(20)) // spell strength fades with time
-                        aura.DecreaseLevel();
-                }
-                if (needsRecompute)
-                    item.Recompute();
-                // TODO: remove invalid auras
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError("Exception while handling auras of item {name}. Exception: {ex}", item.DebugName, ex);
-            }
-        }
-        foreach (var room in RoomManager.Rooms.Where(x => x.Auras.Any(b => b.PulseLeft > 0)))
-        {
-            try
-            {
-                bool needsRecompute = false;
-                var cloneAuras = new ReadOnlyCollection<IAura>(room.Auras.ToList()); // must be cloned because collection may be modified during foreach
-                foreach (var aura in cloneAuras.Where(x => x.PulseLeft > 0))
-                {
-                    bool timedOut = aura.DecreasePulseLeft(pulseCount);
-                    if (timedOut)
-                    {
-                        //TODO: aura.OnVanished();
-                        // TODO: Set Validity to false
-                        room.RemoveAura(aura, false); // recompute once each aura has been processed
-                        needsRecompute = true;
-                    }
-                }
-                if (needsRecompute)
-                    room.Recompute();
-                // TODO: remove invalid auras
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError("Exception while handling auras of room {name}. Exception: {ex}", room.DebugName, ex);
+                Logger.LogError("Exception while handling auras of {entityType} {name}. Exception: {ex}", typeof(TEntity), entity.DebugName, ex);
             }
         }
     }
@@ -1305,10 +1260,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         {
             try
             {
-                var abilitiesInCooldown = new ReadOnlyCollection<string>(ch.AbilitiesInCooldown.Keys.ToList()); // clone
+                var abilitiesInCooldown = ch.AbilitiesInCooldown.Keys.ToArray(); // clone
                 foreach (string abilityName in abilitiesInCooldown)
                 {
-                    bool available = ch.DecreaseCooldown(abilityName, pulseCount);
+                    var available = ch.DecreaseCooldown(abilityName, pulseCount);
                     if (available)
                         ch.ResetCooldown(abilityName, true);
                 }
@@ -1322,14 +1277,14 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleQuests(int pulseCount)
     {
-        foreach (var player in Players.Where(x => x.Impersonating?.Quests?.Any(y => y.Blueprint.TimeLimit > 0) == true))
+        foreach (var player in Players.Where(x => x.Impersonating != null && x.Impersonating.Quests?.Any(y => y.Blueprint.TimeLimit > 0) == true))
         {
             try
             {
-                var clone = new ReadOnlyCollection<IQuest>(player.Impersonating!.Quests.Where(x => x.Blueprint.TimeLimit > 0).ToList()); // clone because quest list may be modified
-                foreach (IQuest quest in clone)
+                var quests = player.Impersonating!.Quests.Where(x => x.Blueprint.TimeLimit > 0).ToArray(); // clone because quest list may be modified
+                foreach (var quest in quests)
                 {
-                    bool timedOut = quest.DecreasePulseLeft(pulseCount);
+                    var timedOut = quest.DecreasePulseLeft(pulseCount);
                     if (timedOut)
                     {
                         quest.Timeout();
@@ -1347,8 +1302,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private void HandleViolence(int pulseCount)
     {
         //Logger.LogDebug("HandleViolence: {0}", DateTime.Now);
-        var clone = new ReadOnlyCollection<ICharacter>(CharacterManager.Characters.Where(x => x.Fighting != null && x.Room != null).ToList()); // clone because multi hit could kill character and then modify list
-        foreach (var ch in clone)
+        var fightingCharacters = CharacterManager.Characters.Where(x => x.Fighting != null && x.Room != null).ToArray(); // clone because multi hit could kill character and then modify list
+        foreach (var ch in fightingCharacters)
         {
             var npc = ch as INonPlayableCharacter;
             var pc = ch as IPlayableCharacter;
@@ -1374,7 +1329,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         }
                     }
                     // check auto-assist
-                    var cloneInRoom = new ReadOnlyCollection<ICharacter>(ch.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping).ToList());
+                    var cloneInRoom = ch.Room.People.Where(x => x.Fighting == null && x.Position > Positions.Sleeping).ToArray();
                     foreach (var inRoom in cloneInRoom)
                     {
                         var npcInRoom = inRoom as INonPlayableCharacter;
@@ -1391,8 +1346,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         if (pc != null 
                             || ch.CharacterFlags.IsSet("Charm"))
                         {
-                            bool isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcInRoom != null && pcInRoom.IsSameGroupOrPet(ch);
-                            bool isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.IsSet("Charm") && npcInRoom.Master == pc;
+                            var isPlayerAutoassisting = pcInRoom != null && pcInRoom.AutoFlags.HasFlag(AutoFlags.Assist) && pcInRoom != null && pcInRoom.IsSameGroupOrPet(ch);
+                            var isNpcAutoassisting = npcInRoom != null && npcInRoom.CharacterFlags.IsSet("Charm") && npcInRoom.Master == pc;
                             if ((isPlayerAutoassisting || isNpcAutoassisting)
                                 && victim.IsSafe(inRoom) == null)
                             {
@@ -1404,12 +1359,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                         if (npc != null && !npc.CharacterFlags.IsSet("Charm")
                             && npcInRoom != null)
                         {
-                            bool isAssistAll = npcInRoom.AssistFlags.IsSet("All");
-                            bool isAssistGroup = npcInRoom.Blueprint.Group != 0 && npcInRoom.Blueprint.Group == npc.Blueprint.Group; // group assist
-                            bool isAssistRace = npcInRoom.AssistFlags.IsSet("Race") && npcInRoom.Race == npc.Race;
-                            bool isAssistAlign = npcInRoom.AssistFlags.IsSet("Align") && ((npcInRoom.IsGood && npc.IsGood) || (npcInRoom.IsNeutral && npc.IsNeutral) || (npcInRoom.IsEvil && npc.IsEvil));
+                            var isAssistAll = npcInRoom.AssistFlags.IsSet("All");
+                            var isAssistGroup = npcInRoom.Blueprint.Group != 0 && npcInRoom.Blueprint.Group == npc.Blueprint.Group; // group assist
+                            var isAssistRace = npcInRoom.AssistFlags.IsSet("Race") && npcInRoom.Race == npc.Race;
+                            var isAssistAlign = npcInRoom.AssistFlags.IsSet("Align") && ((npcInRoom.IsGood && npc.IsGood) || (npcInRoom.IsNeutral && npc.IsNeutral) || (npcInRoom.IsEvil && npc.IsEvil));
                             // TODO: assist guard
-                            bool isAssistVnum = npcInRoom.AssistFlags.IsSet("Vnum") && npcInRoom.Blueprint.Id == npc.Blueprint.Id;
+                            var isAssistVnum = npcInRoom.AssistFlags.IsSet("Vnum") && npcInRoom.Blueprint.Id == npc.Blueprint.Id;
                             if (isAssistAll || isAssistGroup || isAssistRace || isAssistAlign || isAssistVnum)
                             {
                                 if (RandomManager.Chance(50))
@@ -1550,12 +1505,12 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private void HandleNonPlayableCharacters(int pulseCount)
     {
         // non-charmies, valid, in a room and is mob update always or area not empty
-        var clone = new ReadOnlyCollection<INonPlayableCharacter>(CharacterManager.NonPlayableCharacters.Where(x =>
+        var npcs = CharacterManager.NonPlayableCharacters.Where(x =>
                 x.IsValid
                 && x.Room != null
                 && !x.CharacterFlags.IsSet("Charm")
-                && (x.ActFlags.IsSet("UpdateAlways") || x.Room.Area.PlayableCharacters.Any())).ToList()); // clone because special behavior could kill character and then modify list
-        foreach (var npc in clone)
+                && (x.ActFlags.IsSet("UpdateAlways") || x.Room.Area.PlayableCharacters.Any())).ToArray(); // clone because special behavior could kill character and then modify list
+        foreach (var npc in npcs)
         {
             try
             {
@@ -1629,18 +1584,18 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private void HandleItems(int pulseCount)
     {
         //Logger.LogDebug("HandleItems {0} {1}", CurrentTime, DateTime.Now);
-        var clone = new ReadOnlyCollection<IItem>(ItemManager.Items.Where(x => x.DecayPulseLeft > 0).ToList()); // clone bause decaying item will be removed from list
-        foreach (var item in clone)
+        var decayingItems = ItemManager.Items.Where(x => x.DecayPulseLeft > 0).ToArray(); // clone bause decaying item will be removed from list
+        foreach (var decayingItem in decayingItems)
         {
             try
             {
                 //Logger.LogDebug($"HandleItems {item.DebugName} with {item.DecayPulseLeft} pulse left");
-                item.DecreaseDecayPulseLeft(pulseCount);
-                if (item.DecayPulseLeft == 0)
+                decayingItem.DecreaseDecayPulseLeft(pulseCount);
+                if (decayingItem.DecayPulseLeft == 0)
                 {
-                    Logger.LogDebug("Item {name} decays", item.DebugName);
+                    Logger.LogDebug("Item {name} decays", decayingItem.DebugName);
                     string msg = "{0:N} crumbles into dust.";
-                    switch (item)
+                    switch (decayingItem)
                     {
                         case IItemCorpse _:
                             msg = "{0:N} decays into dust.";
@@ -1656,7 +1611,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                             msg = "{0:N} fades out of existence.";
                             break;
                         case IItemContainer caseContainer:
-                            if (item.WearLocation == WearLocations.Float)
+                            if (decayingItem.WearLocation == WearLocations.Float)
                             {
                                 if (caseContainer.Content.Any())
                                     msg = "{0:N} flickers and vanishes, spilling its contents on the floor.";
@@ -1667,38 +1622,38 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     }
                     // TODO: give some money to shopkeeer
                     // Display message to character or room
-                    if (item.ContainedInto is ICharacter wasOnCharacter)
-                        wasOnCharacter.Act(ActOptions.ToCharacter, msg, item);
-                    else if (item.ContainedInto is IRoom wasInRoom)
+                    if (decayingItem.ContainedInto is ICharacter wasOnCharacter)
+                        wasOnCharacter.Act(ActOptions.ToCharacter, msg, decayingItem);
+                    else if (decayingItem.ContainedInto is IRoom wasInRoom)
                     {
                         foreach (ICharacter character in wasInRoom.People)
-                            character.Act(ActOptions.ToCharacter, msg, item);
+                            character.Act(ActOptions.ToCharacter, msg, decayingItem);
                     }
 
                     // If container or playable character corpse, move items to contained into (except quest item)
-                    if (item is IContainer container) // container
+                    if (decayingItem is IContainer container) // container
                     {
-                        bool moveItems = !(item is IItemCorpse itemCorpse && !itemCorpse.IsPlayableCharacterCorpse); // don't perform if NPC corpse
+                        bool moveItems = !(decayingItem is IItemCorpse itemCorpse && !itemCorpse.IsPlayableCharacterCorpse); // don't perform if NPC corpse
                         if (moveItems)
                         {
                             Logger.LogDebug("Move item content to room");
-                            var newContainer = item.ContainedInto;
+                            var newContainer = decayingItem.ContainedInto;
                             if (newContainer == null)
                                 Logger.LogError("Item was in the void");
                             else
                             {
-                                var cloneContent = new ReadOnlyCollection<IItem>(container.Content.Where(x => x is not IItemQuest).ToList()); // except quest item
-                                foreach (var itemInContainer in cloneContent)
+                                var decayingContainerContent = container.Content.Where(x => x is not IItemQuest).ToArray(); // except quest item
+                                foreach (var itemInContainer in decayingContainerContent)
                                     itemInContainer.ChangeContainer(newContainer);
                             }
                         }
                     }
-                    ItemManager.RemoveItem(item);
+                    ItemManager.RemoveItem(decayingItem);
                 }
             }
             catch (Exception ex)
             {
-                Logger.LogError("Exception while handling item {name}. Exception: {ex}", item.DebugName, ex);
+                Logger.LogError("Exception while handling item {name}. Exception: {ex}", decayingItem.DebugName, ex);
             }
         }
     }

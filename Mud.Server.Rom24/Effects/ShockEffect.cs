@@ -1,5 +1,4 @@
-﻿using Mud.Common;
-using Mud.Domain;
+﻿using Mud.Domain;
 using Mud.Server.Effects;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
@@ -7,7 +6,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.Effects;
 
@@ -27,8 +25,8 @@ public class ShockEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
     {
         if (!room.IsValid)
             return;
-        var clone = new ReadOnlyCollection<IItem>(room.Content.ToList());
-        foreach (var itemInRoom in clone)
+        var roomContent = room.Content.ToArray();
+        foreach (var itemInRoom in roomContent)
             Apply(itemInRoom, source, auraName, level, modifier);
         room.Recompute();
     }
@@ -44,8 +42,8 @@ public class ShockEffect : IEffect<IRoom>, IEffect<ICharacter>, IEffect<IItem>
             victim.SetDaze(daze);
         }
         // toast some gear
-        var clone = new ReadOnlyCollection<IItem>(victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToList());
-        foreach (var itemOnVictim in clone)
+        var inventoryAndEquipments = victim.Inventory.Union(victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!)).ToArray();
+        foreach (var itemOnVictim in inventoryAndEquipments)
             Apply(itemOnVictim, source, auraName, level, modifier);
         victim.Recompute();
     }

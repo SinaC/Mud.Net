@@ -2,7 +2,6 @@
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Interfaces.Room;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Rom24.BreathSpells;
 
@@ -13,10 +12,10 @@ public class BreathAreaAction
         // Room
         roomEffectFunc()?.Apply(caster.Room,  caster, auraName, level, damage / 2);
         // Room people
-        var clone = new ReadOnlyCollection<ICharacter>(caster.Room.People.Where(x =>
+        var coVictims = caster.Room.People.Where(x =>
             !(x.IsSafeSpell(caster, true) 
-              || (x is INonPlayableCharacter && caster is INonPlayableCharacter && (caster.Fighting != victim || x.Fighting != caster)))).ToList());
-        foreach (ICharacter coVictim in clone)
+              || (x is INonPlayableCharacter && caster is INonPlayableCharacter && (caster.Fighting != victim || x.Fighting != caster)))).ToArray();
+        foreach (var coVictim in coVictims)
         {
             if (victim == coVictim) // full damage
             {

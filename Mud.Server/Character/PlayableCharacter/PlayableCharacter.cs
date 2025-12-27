@@ -519,20 +519,20 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             // TODO: reputation
             if (corpse != null && !corpse.IsPlayableCharacterCorpse)
             {
-                // autoloot
-                if (AutoFlags.HasFlag(AutoFlags.Loot) && corpse.Content.Any())
-                {
-                    var corpseContent = new ReadOnlyCollection<IItem>(corpse.Content.Where(CanSee).ToList());
-                    foreach (var item in corpseContent)
-                        GetItem(item, corpse);
-                }
-
                 // autogold
                 if (AutoFlags.HasFlag(AutoFlags.Gold) && corpse.Content.Any())
                 {
-                    var corpseContent = new ReadOnlyCollection<IItemMoney>(corpse.Content.OfType<IItemMoney>().Where(CanSee).ToList());
+                    var corpseContent = corpse.Content.OfType<IItemMoney>().Where(CanSee).ToArray();
                     foreach (var money in corpseContent)
                         GetItem(money, corpse);
+                }
+
+                // autoloot
+                if (AutoFlags.HasFlag(AutoFlags.Loot) && corpse.Content.Any())
+                {
+                    var corpseContent = corpse.Content.Where(CanSee).ToArray();
+                    foreach (var item in corpseContent)
+                        GetItem(item, corpse);
                 }
 
                 // autosac
@@ -1192,7 +1192,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         if (fromRoom != toRoom)
         {
-            var followers = new ReadOnlyCollection<ICharacter>(fromRoom.People.Where(x => x.Leader == this).ToList()); // clone because Move will modify fromRoom.People
+            var followers = fromRoom.People.Where(x => x.Leader == this).ToArray(); // clone because Move will modify fromRoom.People
             foreach (var follower in followers)
             {
                 if (follower is INonPlayableCharacter npcFollower)

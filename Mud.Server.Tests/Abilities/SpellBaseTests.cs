@@ -54,6 +54,7 @@ public class SpellBaseTests : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<ICharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.Setup(x => x.CooldownPulseLeft(It.IsAny<string>())).Returns<string>(_ => 10);
         roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
@@ -74,8 +75,9 @@ public class SpellBaseTests : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<ICharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
-        casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(Enumerable.Empty<ResourceKinds>());
+        casterMock.SetupGet(x => x.CurrentResourceKinds).Returns([]);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         roomMock.SetupGet(x => x.People).Returns(casterMock.Object.Yield());
         SpellBaseTestsSpell spell = new(new Mock<ILogger<SpellBaseTestsSpell>>().Object, randomManagerMock.Object);
@@ -95,6 +97,7 @@ public class SpellBaseTests : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<ICharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(10);
@@ -117,6 +120,7 @@ public class SpellBaseTests : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<ICharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -140,6 +144,7 @@ public class SpellBaseTests : AbilityTestBase
         Mock<IRoom> roomMock = new();
         Mock<ICharacter> casterMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
@@ -166,6 +171,7 @@ public class SpellBaseTests : AbilityTestBase
         Mock<IPlayableCharacter> casterMock = new();
         Mock<IPlayer> playerMock = new();
         casterMock.SetupGet(x => x.Name).Returns("player");
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
         casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);

@@ -1882,7 +1882,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         // TODO: killer/thief
 
-        if (this is INonPlayableCharacter npc && npc.Blueprint.StartPosition == Position && !string.IsNullOrWhiteSpace(npc.Blueprint.LongDescription))
+        if (this is INonPlayableCharacter npc && npc.Blueprint.StartPosition == Position && !string.IsNullOrWhiteSpace(npc.Blueprint.LongDescription) && npc.Fighting == null)
         {
             sb.Append(npc.Blueprint.LongDescription); // long description always includes CRLF
             return sb;
@@ -1890,40 +1890,41 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         sb.Append(RelativeDisplayName(viewer));
         // TODO: title ?
-        switch (Position)
+        if (Stunned > 0)
+            sb.Append(" is lying here stunned.");
+        else if (Fighting != null)
         {
-            case Positions.Sleeping:
-                AppendPositionFurniture(sb, "sleeping", Furniture);
-                break;
-            case Positions.Resting:
-                AppendPositionFurniture(sb, "resting", Furniture);
-                break;
-            case Positions.Sitting:
-                AppendPositionFurniture(sb, "sitting", Furniture);
-                break;
-            case Positions.Standing:
-                if (Furniture != null)
-                    AppendPositionFurniture(sb, "standing", Furniture);
-                else
-                    sb.Append(" is here");
-                break;
-            default:
-                if (Stunned > 0)
-                    sb.Append(" is lying here stunned.");
-                else if (Fighting != null)
-                {
-                    sb.Append(" is here, fighting ");
-                    if (Fighting == viewer)
-                        sb.Append("YOU!");
-                    else if (Room == Fighting.Room)
-                        sb.AppendFormat("{0}.", Fighting.RelativeDisplayName(viewer));
+            sb.Append(" is here, fighting ");
+            if (Fighting == viewer)
+                sb.Append("YOU!");
+            else if (Room == Fighting.Room)
+                sb.AppendFormat("{0}.", Fighting.RelativeDisplayName(viewer));
+            else
+            {
+                Logger.LogWarning("{name} is fighting {fightingName} in a different room.", DebugName, Fighting.DebugName);
+                sb.Append("someone who left??");
+            }
+        }
+        else
+        {
+            switch (Position)
+            {
+                case Positions.Sleeping:
+                    AppendPositionFurniture(sb, "sleeping", Furniture);
+                    break;
+                case Positions.Resting:
+                    AppendPositionFurniture(sb, "resting", Furniture);
+                    break;
+                case Positions.Sitting:
+                    AppendPositionFurniture(sb, "sitting", Furniture);
+                    break;
+                case Positions.Standing:
+                    if (Furniture != null)
+                        AppendPositionFurniture(sb, "standing", Furniture);
                     else
-                    {
-                        Logger.LogWarning("{name} is fighting {fightingName} in a different room.", DebugName, Fighting.DebugName);
-                        sb.Append("someone who left??");
-                    }
-                }
-                break;
+                        sb.Append(" is here");
+                    break;
+            }
         }
         sb.AppendLine();
         return sb;
@@ -2133,8 +2134,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         if (fromRoom != toRoom)
         {
-            IReadOnlyCollection<ICharacter> followers = new ReadOnlyCollection<ICharacter>(fromRoom.People.Where(x => x.IsValid && x.Leader == this && x.Position == Positions.Standing && x.CanSee(toRoom)).ToList()); // clone because Move will modify fromRoom.People
-            foreach (ICharacter follower in followers)
+            var followers = fromRoom.People.Where(x => x.IsValid && x.Leader == this && x.Position == Positions.Standing && x.CanSee(toRoom)).ToArray(); // clone because Move will modify fromRoom.People
+            foreach (var follower in followers)
             {
                 follower.Send("You follow {0}.", DisplayName);
                 follower.Move(direction, true, true);
@@ -2332,8 +2333,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // funky weapon ?
         if (damageResult == DamageResults.Done && wield != null)
         {
-            var clone = new ReadOnlyCollection<string>(WeaponEffectManager.WeaponEffectsByType<IPostHitDamageWeaponEffect>(wield).ToList()); // some weapon effect can worn off when used -> wield.WeaponEffect collection could be modified while applying effects
-            foreach (var postHitDamageWeaponEffect in clone)
+            var weaponEffects = WeaponEffectManager.WeaponEffectsByType<IPostHitDamageWeaponEffect>(wield).ToArray(); // some weapon effect can worn off when used -> wield.WeaponEffect collection could be modified while applying effects
+            foreach (var postHitDamageWeaponEffect in weaponEffects)
             {
                 var effect = WeaponEffectManager.CreateInstance<IPostHitDamageWeaponEffect>(postHitDamageWeaponEffect);
                 effect?.Apply(this, victim, wield);

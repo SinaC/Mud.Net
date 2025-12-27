@@ -5,7 +5,6 @@ using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Aura;
 
@@ -24,8 +23,8 @@ public class DispelManager : IDispelManager
     public bool TryDispels(int dispelLevel, ICharacter victim) // dispels every spells
     {
         bool found = false;
-        IReadOnlyCollection<IAura> clone = new ReadOnlyCollection<IAura>(victim.Auras.Where(x => x.IsValid).ToList());
-        foreach (var aura in clone)
+        var validAuras = victim.Auras.Where(x => x.IsValid).ToArray(); // needed to clone because we may remove entries
+        foreach (var aura in validAuras)
         {
             if (!SavesDispel(dispelLevel, aura))
             {
@@ -56,8 +55,9 @@ public class DispelManager : IDispelManager
 
     public TryDispelReturnValues TryDispel(int dispelLevel, ICharacter victim, string abilityName) // was called check_dispel in Rom24
     {
-        bool found = false;
-        foreach (var aura in victim.Auras.Where(x => StringCompareHelpers.StringEquals(x.AbilityName, abilityName))) // no need to clone because at most one entry will be removed
+        var found = false;
+        var validMatchingAuras = victim.Auras.Where(x => x.IsValid && StringCompareHelpers.StringEquals(x.AbilityName, abilityName)).ToArray(); // needed to clone because we may remove entries
+        foreach (var aura in validMatchingAuras)
         {
             if (!SavesDispel(dispelLevel, aura))
             {

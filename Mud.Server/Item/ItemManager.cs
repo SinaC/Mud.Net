@@ -259,12 +259,12 @@ public class ItemManager : IItemManager
         // If container, remove content
         if (item is IContainer container)
         {
-            var content = new ReadOnlyCollection<IItem>(container.Content.ToList()); // clone to be sure
+            var content = container.Content.ToArray(); // clone to be sure
             foreach (var itemInContainer in content)
                 RemoveItem(itemInContainer);
         }
         // Remove auras
-        var auras = new ReadOnlyCollection<IAura>(item.Auras.ToList()); // clone
+        var auras = item.Auras.ToArray(); // clone
         foreach (var aura in auras)
         {
             item.RemoveAura(aura, false);

@@ -6,7 +6,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Ability.Spell;
 
@@ -28,18 +27,9 @@ public abstract class ItemOrOffensiveSpellBase : SpellBase, ITargetedAction
         if (Target != Caster
             && npcVictim?.Master != Caster)
         {
-            // TODO: not sure why we loop on people in caster room
-            // TODO: we could just check if victim is still in the room and not fighting
-            IReadOnlyCollection<ICharacter> clone = new ReadOnlyCollection<ICharacter>(Caster.Room.People.ToList());
-            foreach (ICharacter victim in clone)
-            {
-                if (victim == Target && victim.Fighting == null)
-                {
-                    // TODO: check_killer
-                    victim.MultiHit(Caster);
-                    break;
-                }
-            }
+            var victimStillInRoomAndFighting = Caster.Room.People.FirstOrDefault(x => x == Target && x.Fighting == null);
+            // TODO: check_killer
+            victimStillInRoomAndFighting?.MultiHit(Caster);
         }
     }
 

@@ -32,6 +32,7 @@ public class EnchantArmorTests : AbilityTestBase
         Mock<IItemArmor> armorMock = new();
         casterMock.SetupGet(x => x.Level).Returns(1);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
         casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
@@ -70,6 +71,7 @@ public class EnchantArmorTests : AbilityTestBase
         Mock<IItemArmor> armorMock = new();
         casterMock.SetupGet(x => x.Level).Returns(1);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
         casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
@@ -108,6 +110,7 @@ public class EnchantArmorTests : AbilityTestBase
         Mock<IItemArmor> armorMock = new();
         casterMock.SetupGet(x => x.Level).Returns(1);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
         casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
@@ -147,6 +150,7 @@ public class EnchantArmorTests : AbilityTestBase
         Mock<IItemArmor> armorMock = new();
         casterMock.SetupGet(x => x.Level).Returns(1);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
         casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);
         casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
@@ -185,6 +189,7 @@ public class EnchantArmorTests : AbilityTestBase
         Mock<ICharacter> casterMock = new();
         Mock<IItemArmor> armorMock = new();
         casterMock.SetupGet(x => x.Level).Returns(1);
+        casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
         casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         casterMock.SetupGet(x => x.Inventory).Returns(armorMock.Object.Yield());
         casterMock.Setup(x => x.CanSee(armorMock.Object)).Returns<IItem>(_ => true);

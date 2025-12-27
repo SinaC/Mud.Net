@@ -200,8 +200,8 @@ public abstract class EntityBase : ActorBase, IEntity
     public void RemoveAuras(Func<IAura, bool> filterFunc, bool recompute)
     {
         Logger.LogInformation("IEntity.RemoveAuras: {name} | recompute: {recompute}", DebugName, recompute);
-        IReadOnlyCollection<IAura> clone = new ReadOnlyCollection<IAura>(Auras.Where(filterFunc).ToList());
-        foreach(IAura aura in clone)
+        var auras = Auras.Where(filterFunc).ToArray();
+        foreach(IAura aura in auras)
             RemoveAura(aura, false);
         if (recompute)
             Recompute();

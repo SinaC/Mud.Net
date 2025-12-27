@@ -152,23 +152,18 @@ public class CharacterManager : ICharacterManager
         character.StopFighting(true);
 
         // Remove auras
-        var auras = new ReadOnlyCollection<IAura>(character.Auras.ToList()); // clone
-        foreach (var aura in auras)
-        {
-            character.RemoveAura(aura, false);
-        }
-        // no need to recompute
+        character.RemoveAuras(_ => true, false);
 
         // Remove content
         if (character.Inventory.Any())
         {
-            var clonedInventory = new ReadOnlyCollection<IItem>(character.Inventory.ToList()); // clone because GetFromContainer change Content collection
-            foreach (var item in clonedInventory)
+            var inventory = character.Inventory.ToArray(); // clone because GetFromContainer change Content collection
+            foreach (var item in inventory)
                 ItemManager.RemoveItem(item);
             // Remove equipments
             if (character.Equipments.Any(x => x.Item != null))
             {
-                var equipment = new ReadOnlyCollection<IItem>(character.Equipments.Where(x => x.Item != null).Select(x => x.Item!).ToList()); // clone
+                var equipment = character.Equipments.Where(x => x.Item != null).Select(x => x.Item!).ToArray(); // clone
                 foreach (var item in equipment)
                     ItemManager.RemoveItem(item);
             }

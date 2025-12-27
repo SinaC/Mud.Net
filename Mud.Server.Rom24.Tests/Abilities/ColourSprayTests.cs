@@ -36,13 +36,14 @@ namespace Mud.Server.Rom24.Tests.Abilities
             casterMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
             casterMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             casterMock.Setup(x => x.CanSee(targetMock.Object)).Returns<IEntity>(_ => true);
+            casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
+            casterMock.SetupGet(x => x.Position).Returns(Positions.Standing);
+            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
+            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             targetMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
             targetMock.SetupGet(x => x.Room).Returns(roomMock.Object);
             targetMock.SetupGet(x => x.Name).Returns("target");
             targetMock.SetupGet(x => x.Keywords).Returns("target".Yield());
-            casterMock.SetupGet(x => x.CharacterFlags).Returns(new CharacterFlags());
-            casterMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(100);
-            casterMock.SetupGet(x => x.CurrentResourceKinds).Returns(ResourceKinds.Mana.Yield());
             targetMock.Setup(x => x.AbilityDamage(It.IsAny<ICharacter>(), It.IsAny<int>(), It.IsAny<SchoolTypes>(), It.IsAny<string>(), It.IsAny<bool>())).Returns(DamageResults.Done);
             roomMock.SetupGet(x => x.People).Returns([casterMock.Object, targetMock.Object]);
             effectManagerMock.Setup(x => x.CreateInstance<ICharacter>(It.IsAny<string>()))

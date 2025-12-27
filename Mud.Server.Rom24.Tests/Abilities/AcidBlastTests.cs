@@ -110,7 +110,7 @@ public class AcidBlastTests : AbilityTestBase
         var actionInput = BuildActionInput<Cast>(casterMock.Object, "Cast 'Acid Blast'");
         var result = cast.Guards(actionInput);
 
-        Assert.AreEqual("Better stand up first.", result);
+        Assert.AreEqual("You can't concentrate enough.", result);
     }
 
     [TestMethod]
