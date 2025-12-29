@@ -20,6 +20,8 @@ public class Parry : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Parry";
 
+    protected override string Name => PassiveName;
+
     public Parry(ILogger<Parry> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

@@ -11,6 +11,8 @@ public class FourthWield : PassiveBase
 {
     private const string PassiveName = "Fourth Wield";
 
+    protected override string Name => PassiveName;
+
     public FourthWield(ILogger<FourthWield> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

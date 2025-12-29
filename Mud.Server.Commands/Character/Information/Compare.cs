@@ -2,12 +2,13 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Information;
 
-[CharacterCommand("compare", "Information", MinPosition = Positions.Resting)]
+[CharacterCommand("compare", "Information"), MinPosition(Positions.Resting)]
 [Alias("cmp")]
 [Syntax(
     "[cmd] <object-1> <object-2>",

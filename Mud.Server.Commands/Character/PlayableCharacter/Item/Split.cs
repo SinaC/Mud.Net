@@ -2,11 +2,12 @@
 using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 
-[PlayableCharacterCommand("split", "Item", MinPosition = Positions.Standing, Priority = 600, NotInCombat = true)]
+[PlayableCharacterCommand("split", "Item", Priority = 600), MinPosition(Positions.Standing), NotInCombat]
 [Syntax("[cmd] <silver amount> <gold amount>")]
 [Help(
 @"[cmd] splits some coins  between you and all the members of your

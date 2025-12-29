@@ -11,6 +11,8 @@ public class ThirdWield : PassiveBase
 {
     private const string PassiveName = "Third Wield";
 
+    protected override string Name => PassiveName;
+
     public ThirdWield(ILogger<ThirdWield> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

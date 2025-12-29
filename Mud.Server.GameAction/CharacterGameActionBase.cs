@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Interfaces.Character;
+﻿using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.GameAction;
@@ -21,21 +20,14 @@ public abstract class CharacterGameActionBase<TCharacter, TCharacterGameActionIn
             Actor.Recompute();
         }
 
-        // Check fighting
-        if (GameActionInfo.NotInCombat && Actor.Fighting != null)
-            return "No way!  You are still fighting!";
-
-        // Check minimum position
-        if (Actor.Position < GameActionInfo.MinPosition)
+        // check guards from GameActionInfo
+        if (GameActionInfo.CharacterGuards.Length > 0)
         {
-            switch (Actor.Position)
+            foreach (var guard in GameActionInfo.CharacterGuards)
             {
-                case Positions.Sleeping:
-                    return "In your dreams, or what?";
-                case Positions.Resting:
-                    return "Nah... You feel too relaxed...";
-                case Positions.Sitting:
-                    return "Better stand up first.";
+                var guardResult = guard.Guards(Actor);
+                if (guardResult != null)
+                    return guardResult;
             }
         }
 

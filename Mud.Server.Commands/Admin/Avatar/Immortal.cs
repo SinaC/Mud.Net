@@ -1,9 +1,10 @@
 ﻿using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
-[AdminCommand("immortal", "Avatar", MustBeImpersonated = true)]
+[AdminCommand("immortal", "Avatar"), MustBeImpersonated]
 [Syntax("[cmd]")]
 public class Immortal : AdminGameAction
 {

@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
@@ -11,9 +12,10 @@ using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
 
-[CharacterCommand("examine", "Information", Priority = 20/*must be greater than 'Exits' priority */, MinPosition = Positions.Resting)]
+[CharacterCommand("examine", "Information", Priority = 20/*must be greater than 'Exits' priority */), MinPosition(Positions.Resting)]
 [Syntax(
-    "[cmd] item",
+    "[cmd] <character>",
+    "[cmd] <item>",
     "[cmd] <container>",
     "[cmd] <corpse>")]
 [Help(@"[cmd] is short for 'LOOK container' followed by 'LOOK IN container'.")]

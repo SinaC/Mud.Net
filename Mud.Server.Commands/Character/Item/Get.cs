@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
@@ -10,7 +11,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("get", "Item", "Inventory", MinPosition = Positions.Resting)]
+[CharacterCommand("get", "Item", "Inventory"), MinPosition(Positions.Resting)]
 [Alias("take")]
 [Syntax(
     "[cmd] <item>",

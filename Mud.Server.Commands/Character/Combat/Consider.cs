@@ -2,12 +2,13 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Combat;
 
-[CharacterCommand("consider", "Information", "Combat", MinPosition = Positions.Resting)]
+[CharacterCommand("consider", "Information", "Combat"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <character>")]
 [Help(
 @"[cmd] tells you what your chances are of killing a character.

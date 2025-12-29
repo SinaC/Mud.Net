@@ -1,13 +1,13 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Character;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("rest", "Movement", MinPosition = Positions.Sleeping)]
+[CharacterCommand("rest", "Movement"), MinPosition(Positions.Sleeping)]
 [Syntax(
         "[cmd]",
         "[cmd] <furniture>")]

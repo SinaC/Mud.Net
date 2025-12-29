@@ -20,6 +20,8 @@ public class Dodge : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Dodge";
 
+    protected override string Name => PassiveName;
+
     public Dodge(ILogger<Dodge> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

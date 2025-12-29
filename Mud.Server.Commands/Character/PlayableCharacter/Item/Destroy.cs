@@ -2,13 +2,14 @@
 using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Item;
 
-[PlayableCharacterCommand("destroy", "Item", Priority = 999, NoShortcut = true, MinPosition = Positions.Standing, NotInCombat = true)]
+[PlayableCharacterCommand("destroy", "Item", Priority = 999, NoShortcut = true), MinPosition(Positions.Standing), NotInCombat]
 [Syntax("[cmd] <item>")]
 public class Destroy : PlayableCharacterGameAction
 {

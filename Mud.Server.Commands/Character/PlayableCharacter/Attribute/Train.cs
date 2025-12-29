@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
@@ -10,7 +11,7 @@ using Mud.Server.Interfaces.Race;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Attribute;
 
-[PlayableCharacterCommand("train", "Attribute", MinPosition = Positions.Resting)]
+[PlayableCharacterCommand("train", "Attribute"), MinPosition(Positions.Resting)]
 [Syntax(
         "[cmd]",
         "[cmd] <attribute>",

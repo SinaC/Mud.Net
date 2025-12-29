@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Character;
@@ -12,7 +13,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
 
-[PlayableCharacterCommand("gain", "Ability", MinPosition = Positions.Standing, NotInCombat = true)]
+[PlayableCharacterCommand("gain", "Ability"), MinPosition(Positions.Standing), NotInCombat]
 [Syntax(
         "[cmd] list",
         "[cmd] skills|spells|groups",

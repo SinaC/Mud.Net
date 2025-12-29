@@ -19,6 +19,8 @@ public class SecondAttack : PassiveBase, IAdditionalHitPassive
 {
     private const string PassiveName = "Second Attack";
 
+    protected override string Name => PassiveName;
+
     public SecondAttack(ILogger<SecondAttack> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

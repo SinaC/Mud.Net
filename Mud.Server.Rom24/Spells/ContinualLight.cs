@@ -6,9 +6,11 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -17,7 +19,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Creation | AbilityEffects.Buff, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Creation | AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [Syntax(
     "cast [spell]",
     "cast [spell] <object>")]

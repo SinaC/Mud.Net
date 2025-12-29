@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -10,7 +11,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("quaff", "Drink", MinPosition = Positions.Resting)]
+[CharacterCommand("quaff", "Drink"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <potion>")]
 [Help(@"[cmd] quaffs a magical potion (as opposed to DRINK, which drinks mundane liquids)")]
 public class Quaff : CastSpellCharacterGameActionBase

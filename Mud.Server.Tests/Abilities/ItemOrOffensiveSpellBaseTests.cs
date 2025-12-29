@@ -36,7 +36,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -65,7 +65,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -89,7 +89,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -116,7 +116,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -146,7 +146,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -177,7 +177,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -206,7 +206,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -237,7 +237,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("item");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -268,7 +268,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("item");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -299,7 +299,7 @@ public class ItemOrOffensiveSpellBaseTests : AbilityTestBase
         ItemOrOffensiveSpellBaseTestsSpell spell = new(new Mock<ILogger<ItemOrOffensiveSpellBaseTestsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("item");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition( spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 

@@ -1,9 +1,8 @@
-﻿using Mud.Domain;
+﻿using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.Interfaces.GameAction;
 
 public interface ICharacterGameActionInfo : IActorGameActionInfo
 {
-    Positions MinPosition { get; }
-    bool NotInCombat { get; }
+    ICharacterGuard[] CharacterGuards { get; }
 }

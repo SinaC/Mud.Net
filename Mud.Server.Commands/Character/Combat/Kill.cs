@@ -2,12 +2,13 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Combat;
 
-[CharacterCommand("kill", "Combat", Priority = 1, MinPosition = Positions.Standing)]
+[CharacterCommand("kill", "Combat", Priority = 1), MinPosition(Positions.Standing)]
 [Syntax("[cmd] <character>")]
 [Help(
 @"[cmd] is used to kill mobiles (monsters) you see all over the world.

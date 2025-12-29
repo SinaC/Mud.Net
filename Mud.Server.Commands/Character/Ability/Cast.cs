@@ -4,12 +4,13 @@ using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Ability;
 
-[CharacterCommand("cast", "Ability", Priority = 2, MinPosition = Positions.Sitting)]
+[CharacterCommand("cast", "Ability", Priority = 2), MinPosition(Positions.Sitting)]
 [Syntax("[cmd] <ability> <target>")]
 [Help(
 @"Before you can cast a spell, you have to practice it.  The more you practice,

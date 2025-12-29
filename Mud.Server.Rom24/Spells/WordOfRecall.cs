@@ -6,6 +6,7 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -13,7 +14,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation, MinPosition = Positions.Sitting)]
+[Spell(SpellName, AbilityEffects.Transportation), MinPosition(Positions.Sitting)]
 [Syntax("cast [spell]")]
 [Help(
 @"This spell duplicates the built-in RECALL ability.  It is provided solely for

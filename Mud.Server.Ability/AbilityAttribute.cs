@@ -1,83 +1,43 @@
 ﻿using Mud.Common.Attributes;
-using Mud.Domain;
 using Mud.Server.Domain;
 
 namespace Mud.Server.Ability;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-public abstract class AbilityBaseAttribute : ExportAttribute // every ability will be exported without ContractType
+public abstract class AbilityBaseAttribute(string name, AbilityEffects effects) : ExportAttribute // every ability will be exported without ContractType
 {
     public abstract AbilityTypes Type { get; }
-    public string Name { get; set; }
-    public AbilityEffects Effects { get; set; }
-    public int CooldownInSeconds { get; set; }
-    public int LearnDifficultyMultiplier { get; set; }
-
-    protected AbilityBaseAttribute(string name, AbilityEffects effects)
-    {
-        Name = name;
-        Effects = effects;
-        CooldownInSeconds = -1;
-        LearnDifficultyMultiplier = 1;
-    }
+    public string Name { get; set; } = name;
+    public AbilityEffects Effects { get; set; } = effects;
+    public int CooldownInSeconds { get; set; } = -1;
+    public int LearnDifficultyMultiplier { get; set; } = 1;
 }
 
-public abstract class ActiveAbilityBaseAttribute : AbilityBaseAttribute
+public abstract class ActiveAbilityBaseAttribute(string name, AbilityEffects effects) : AbilityBaseAttribute(name, effects)
 {
-    public int PulseWaitTime { get; set; }
-
-    protected ActiveAbilityBaseAttribute(string name, AbilityEffects effects)
-        : base(name, effects)
-    {
-        PulseWaitTime = 12;
-    }
+    public int PulseWaitTime { get; set; } = 12;
 }
 
-public class SpellAttribute : ActiveAbilityBaseAttribute
+public class SpellAttribute(string name, AbilityEffects effects) : ActiveAbilityBaseAttribute(name, effects)
 {
     public override AbilityTypes Type => AbilityTypes.Spell;
-    public Positions MinPosition { get; set; }
-    public bool NotInCombat { get; set; }
-
-    public SpellAttribute(string name, AbilityEffects effects)
-        : base(name, effects)
-    {
-        MinPosition = Positions.Standing;
-        NotInCombat = false;
-    }
 }
 
-public class SkillAttribute : ActiveAbilityBaseAttribute
+public class SkillAttribute(string name, AbilityEffects effects) : ActiveAbilityBaseAttribute(name, effects)
 {
     public override AbilityTypes Type => AbilityTypes.Skill;
-
-    public SkillAttribute(string name, AbilityEffects effects)
-        : base(name, effects)
-    {
-    }
 }
 
-public class PassiveAttribute : AbilityBaseAttribute
+public class PassiveAttribute(string name) : AbilityBaseAttribute(name, AbilityEffects.None)
 {
     public override AbilityTypes Type => AbilityTypes.Passive;
-
-    public PassiveAttribute(string name)
-        : base(name, AbilityEffects.None)
-    {
-    }
 }
 
-public class WeaponAttribute : AbilityBaseAttribute
+public class WeaponAttribute(string name, string[] weaponTypes) : AbilityBaseAttribute(name, AbilityEffects.None)
 {
     public override AbilityTypes Type => AbilityTypes.Weapon;
 
-    public string[] WeaponTypes { get; set; }
-
-    public WeaponAttribute(string name, string[] weaponTypes)
-        : base(name, AbilityEffects.None)
-    {
-        WeaponTypes = weaponTypes;
-    }
+    public string[] WeaponTypes { get; set; } = weaponTypes;
 }
 
 [AttributeUsage(AttributeTargets.Class)]
@@ -85,25 +45,14 @@ public abstract class AbilityAdditionalInfoAttribute : Attribute
 {
 }
 
-public class AbilityCharacterWearOffMessageAttribute : AbilityAdditionalInfoAttribute
+public class AbilityCharacterWearOffMessageAttribute(string message) : AbilityAdditionalInfoAttribute
 {
-    public string Message { get; set; } = default!; // displayed to character
-
-    public AbilityCharacterWearOffMessageAttribute(string message)
-    {
-        Message = message;
-    }
+    public string Message { get; set; } = message;
 }
 
-public class AbilityItemWearOffMessageAttribute : AbilityAdditionalInfoAttribute
+public class AbilityItemWearOffMessageAttribute(string holderMessage) : AbilityAdditionalInfoAttribute
 {
-    public string HolderMessage { get; set; } = default!; // displayed to holder
-
-    public AbilityItemWearOffMessageAttribute(string holderMessage)
-    {
-        HolderMessage = holderMessage;
-
-    }
+    public string HolderMessage { get; set; } = holderMessage;
 }
 
 public class AbilityDispellableAttribute : AbilityAdditionalInfoAttribute
@@ -117,16 +66,5 @@ public class AbilityDispellableAttribute : AbilityAdditionalInfoAttribute
     public AbilityDispellableAttribute(string roomMessage)
     {
         RoomMessage = roomMessage;
-    }
-}
-
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public class AbilityShapeAttribute : Attribute
-{
-    public Shapes Shape { get; set; }
-
-    public AbilityShapeAttribute(Shapes shape)
-    {
-        Shape = shape;
     }
 }

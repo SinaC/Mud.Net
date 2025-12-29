@@ -20,6 +20,8 @@ public class ThirdAttack : PassiveBase, IAdditionalHitPassive
 {
     private const string PassiveName = "Third Attack";
 
+    protected override string Name => PassiveName;
+
     public ThirdAttack(ILogger<ThirdAttack> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

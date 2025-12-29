@@ -1,11 +1,12 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Communication;
 
-[CharacterCommand("yell", "Communication", MinPosition = Positions.Resting)]
+[CharacterCommand("yell", "Communication"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <message>")]
 [Help(@"[cmd] sends a message to all awake players within your area.")]
 public class Yell : CharacterGameAction

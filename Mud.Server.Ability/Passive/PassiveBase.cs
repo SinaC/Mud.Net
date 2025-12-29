@@ -16,14 +16,38 @@ public abstract class PassiveBase : IPassive
         RandomManager = randomManager;
     }
 
+    protected abstract string Name { get; }
+
     public virtual bool IsTriggered(ICharacter user, ICharacter victim, bool checkImprove, out int diceRoll, out int learnPercentage)
     {
         // 1) get ability learned
-        var abilityDefinition = new AbilityDefinition(GetType()); // TODO: should use AbilityManager or directly use a property from passive skill
-        var abilityLearned = user.GetAbilityLearnedAndPercentage(abilityDefinition.Name);
-        learnPercentage = abilityLearned.percentage;
+        var (percentage, abilityLearned) = user.GetAbilityLearnedAndPercentage(Name);
 
-        // 2) check cooldown
+        // 2) cannot trigger if not learned
+        if (abilityLearned == null)
+        {
+            diceRoll = 0;
+            learnPercentage = 0;
+            return false;
+        }
+        learnPercentage = percentage;
+        var abilityDefinition = abilityLearned.AbilityUsage.AbilityDefinition;
+
+        // 3) check guards
+        if (abilityDefinition.Guards.Length > 0)
+        {
+            foreach (var guard in abilityDefinition.Guards)
+            {
+                var guardResult = guard.Guards(user);
+                if (guardResult != null)
+                {
+                    diceRoll = 0;
+                    return false;
+                }
+            }
+        }
+
+        // 3) check cooldown
         int cooldownPulseLeft = user.CooldownPulseLeft(abilityDefinition.Name);
         if (cooldownPulseLeft > 0)
         {
@@ -31,17 +55,17 @@ public abstract class PassiveBase : IPassive
             return false;
         }
 
-        // 3) check if failed
+        // 4) check if failed
         diceRoll = RandomManager.Range(1, 100);
         var checkSuccess = CheckSuccess(user, victim, learnPercentage, diceRoll);
         if (!checkSuccess)
             return false;
 
-        // 4) set cooldown
+        // 5) set cooldown
         if (abilityDefinition.CooldownInSeconds.HasValue && abilityDefinition.CooldownInSeconds.Value > 0)
             user.SetCooldown(abilityDefinition.Name, TimeSpan.FromSeconds(abilityDefinition.CooldownInSeconds.Value));
 
-        // 5) check improve true
+        // 6) check improve true
         if (checkImprove)
         {
             var pcUser = user as IPlayableCharacter;

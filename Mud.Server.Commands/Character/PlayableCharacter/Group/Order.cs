@@ -1,13 +1,15 @@
-﻿using Mud.Server.Common;
+﻿using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Group;
 
-[PlayableCharacterCommand("order", "Pet")]
+[PlayableCharacterCommand("order", "Pet"), MinPosition(Positions.Resting)]
 [Syntax(
         "[cmd] <pet|charmie> command",
         "[cmd] all command")]

@@ -19,6 +19,8 @@ public class EnhancedDamage : HitEnhancementPassiveBase
 {
     private const string PassiveName = "Enhanced Damage";
 
+    protected override string Name => PassiveName;
+
     public EnhancedDamage(ILogger<EnhancedDamage> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

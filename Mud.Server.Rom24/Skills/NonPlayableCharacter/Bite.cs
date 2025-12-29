@@ -16,8 +16,8 @@ public class Bite : FightingSkillBase
 {
     private const string SkillName = "Bite";
 
-    public Bite(ILogger<Bite> logger, IRandomManager randomManager)
-        : base(logger, randomManager)
+    public Bite(ILogger<Bite> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+        : base(logger, randomManager, abilityManager)
     {
     }
 

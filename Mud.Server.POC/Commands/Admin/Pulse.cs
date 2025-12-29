@@ -1,12 +1,13 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.POC.Commands.Admin
 {
-    [AdminCommand("Pulse", "Admin", MinLevel = AdminLevels.Implementor)]
+    [AdminCommand("Pulse", "Admin"), MinAdminLevel(AdminLevels.Implementor)]
     [Syntax(
         "[cmd]",
         "[cmd] <pulse>")]

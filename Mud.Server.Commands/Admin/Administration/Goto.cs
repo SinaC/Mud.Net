@@ -1,6 +1,7 @@
 ﻿using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -9,7 +10,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("goto", "Admin", MustBeImpersonated = true)]
+[AdminCommand("goto", "Admin"), MustBeImpersonated]
 [Syntax("[cmd] <location>")]
 [Help(
 @"[cmd] takes you to a location.  The location may be specified as the name

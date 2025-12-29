@@ -6,10 +6,11 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("give", "Item", "Equipment", MinPosition = Positions.Resting)]
+[CharacterCommand("give", "Item", "Equipment"), MinPosition(Positions.Resting)]
 [Syntax(
         "[cmd] <item> <character>",
         "[cmd] <amount> coin|coins|silver|gold <character>")]

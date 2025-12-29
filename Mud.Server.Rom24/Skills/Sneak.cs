@@ -30,8 +30,8 @@ public class Sneak : NoTargetSkillBase
 
     private IAuraManager AuraManager { get; }
 
-    public Sneak(ILogger<Sneak> logger, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, randomManager)
+    public Sneak(ILogger<Sneak> logger, IRandomManager randomManager, IAbilityManager abilityManager, IAuraManager auraManager)
+        : base(logger, randomManager, abilityManager)
     {
         AuraManager = auraManager;
     }

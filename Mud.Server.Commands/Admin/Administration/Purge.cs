@@ -2,6 +2,7 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -12,7 +13,7 @@ using System.Collections.ObjectModel;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("purge", "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
+[AdminCommand("purge", "Admin", Priority = 999, NoShortcut = true), MustBeImpersonated]
 [Syntax(
     "[cmd] all",
     "[cmd] <character>",

@@ -5,13 +5,14 @@ using Mud.Domain;
 using Mud.Server.Commands.Character.Social;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.CharacterGuards;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Social;
 
 namespace Mud.Server.Social;
 
 [Export(typeof(ISocialManager)), Shared]
-public partial class SocialManager : ISocialManager
+public class SocialManager : ISocialManager
 {
     private readonly IReadOnlyDictionary<string, SocialDefinition> _socialDefinitionByName;
     private readonly IGameActionInfo[] _socialGameActions;
@@ -48,11 +49,9 @@ public partial class SocialManager : ISocialManager
             Hidden = true, // should not appear in command list
             NoShortcut = false,
             AddCommandInParameters = false,
-            MinPosition = Positions.Standing,
-            NotInCombat = false,
         };
 
-        var gai = new CharacterGameActionInfo(typeof(DynamicSocialCommand), characterCommandAttribute, GameActionInfo.DefaultSyntaxCommandAttribute, [], null);
+        var gai = new CharacterGameActionInfo(typeof(DynamicSocialCommand), characterCommandAttribute, GameActionInfo.DefaultSyntaxCommandAttribute, [], null, [new MinPositionGuard(Positions.Standing)]);
         return gai;
     }
 }

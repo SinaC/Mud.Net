@@ -6,6 +6,7 @@ using Mud.Domain;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using System.Reflection;
 
 namespace Mud.Server.Ability;
@@ -16,15 +17,17 @@ public class AbilityManager : IAbilityManager
     private ILogger<AbilityManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private Dictionary<string, IAbilityDefinition> AbilityByName { get; } // TODO: trie to optimize Search ?
+    private Dictionary<Type, IAbilityDefinition> AbilityByType { get; }
     private Dictionary<Type, IAbilityDefinition[]> AbilitiesByExecutionType { get; }
     private Dictionary<WeaponTypes, IAbilityDefinition> WeaponAbilityByWeaponType { get; }
 
-    public AbilityManager(ILogger<AbilityManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper)
+    public AbilityManager(ILogger<AbilityManager> logger, IServiceProvider serviceProvider, IGuardGenerator guardGenerator, IAssemblyHelper assemblyHelper)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
 
         AbilityByName = new Dictionary<string, IAbilityDefinition>(StringComparer.InvariantCultureIgnoreCase);
+        AbilityByType = new Dictionary<Type, IAbilityDefinition>();
         WeaponAbilityByWeaponType = [];
         // Get abilities
         var iWeaponPassiveType = typeof(IWeaponPassive);
@@ -32,11 +35,14 @@ public class AbilityManager : IAbilityManager
         foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && iAbilityType.IsAssignableFrom(t))))
         {
-            AbilityDefinition abilityDefinition = new (abilityType);
+            var characterGuards = guardGenerator.GenerateCharacterGuards(abilityType);
+            var abilityDefinition = new AbilityDefinition(abilityType, characterGuards);
             if (AbilityByName.ContainsKey(abilityDefinition.Name))
                 Logger.LogError("Duplicate ability {abilityDefinitionName}", abilityDefinition.Name);
             else
                 AbilityByName.Add(abilityDefinition.Name, abilityDefinition);
+
+            AbilityByType.Add(abilityType, abilityDefinition);
 
             // if weapon passive, add to weapon ability by weapon type cache
             if (iWeaponPassiveType.IsAssignableFrom(abilityType))
@@ -72,6 +78,16 @@ public class AbilityManager : IAbilityManager
         get
         {
             if (!AbilityByName.TryGetValue(abilityName, out var abilityDefinition))
+                return null;
+            return abilityDefinition;
+        }
+    }
+
+    public IAbilityDefinition? this[Type abilityType]
+    {
+        get
+        {
+            if (!AbilityByType.TryGetValue(abilityType, out var abilityDefinition))
                 return null;
             return abilityDefinition;
         }

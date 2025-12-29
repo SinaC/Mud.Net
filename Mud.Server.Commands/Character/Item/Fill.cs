@@ -2,13 +2,14 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("fill", "Drink", MinPosition = Positions.Resting)]
+[CharacterCommand("fill", "Drink"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <container>")]
 [Help(@"[cmd] fills a drink container with water.")]
 public class Fill : CharacterGameAction

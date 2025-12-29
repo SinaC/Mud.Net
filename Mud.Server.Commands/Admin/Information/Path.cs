@@ -1,9 +1,9 @@
-﻿using Mud.Common;
-using Mud.DataStructures.HeapPriorityQueue;
+﻿using Mud.DataStructures.HeapPriorityQueue;
 using Mud.Domain;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
 
-[AdminCommand("path", "Information", MustBeImpersonated = true)]
+[AdminCommand("path", "Information"), MustBeImpersonated]
 [Syntax("[cmd] <location>")]
 public class Path : AdminGameAction
 {

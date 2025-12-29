@@ -5,13 +5,14 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.POC.Skills;
 
 [CharacterCommand("ferociousbite", "Ability", "Skill", "Combat")]
-[Skill(SkillName, AbilityEffects.Damage)]
-[AbilityShape(Shapes.Cat)]
+[Skill(SkillName, AbilityEffects.Damage), Shapes([Shapes.Cat])]
 [Help(
 @"Finishing move that causes damage per combo point and converts each extra point of energy into 2.7 additional damage.  Damage is increased by your Attack Power.
   1 point  : 199-259 damage
@@ -24,8 +25,8 @@ public class FerociousBite : OffensiveSkillBase
 {
     private const string SkillName = "Ferocious Bite";
 
-    public FerociousBite(ILogger<FerociousBite> logger, IRandomManager randomManager)
-        : base(logger, randomManager)
+    public FerociousBite(ILogger<FerociousBite> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+        : base(logger, randomManager, abilityManager)
     {
     }
 

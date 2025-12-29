@@ -6,10 +6,11 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
+using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questget", "Quest", Priority = 4, MinPosition = Positions.Standing, NotInCombat = true)]
+[PlayableCharacterCommand("questget", "Quest", Priority = 4), MinPosition(Positions.Standing), NotInCombat]
 [Alias("qget")]
 [Syntax(
         "[cmd] <quest name>",

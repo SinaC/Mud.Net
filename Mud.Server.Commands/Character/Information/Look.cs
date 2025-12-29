@@ -5,6 +5,7 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
@@ -22,7 +23,7 @@ namespace Mud.Server.Commands.Character.Information;
 // 4/ else if an item can be found in inventory+room (matching 1st parameter), display item description or extra description
 // 5/ else, if an extra description can be found in room (matching 1st parameter), display it
 // 6/ else, if 1st parameter is a direction, display if there is an exit/door
-[CharacterCommand("look", "Information", Priority = 0, MinPosition = Positions.Resting)]
+[CharacterCommand("look", "Information", Priority = 0), MinPosition(Positions.Resting)]
 [Alias("read")]
 [Syntax(
     "[cmd]",

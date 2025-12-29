@@ -5,6 +5,7 @@ using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -16,7 +17,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("drink", "Drink", MinPosition = Positions.Resting)]
+[CharacterCommand("drink", "Drink"), MinPosition(Positions.Resting)]
 [Syntax(
     "[cmd]",
     "[cmd] <container>")]

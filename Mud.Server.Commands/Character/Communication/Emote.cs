@@ -1,12 +1,13 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Communication;
 
-[CharacterCommand("emote", "Communication", MinPosition = Positions.Resting)]
+[CharacterCommand("emote", "Communication"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <message>")]
 [Help(
 @"[cmd] is used to express emotions or actions.  Besides [cmd], there are

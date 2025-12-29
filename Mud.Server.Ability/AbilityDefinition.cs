@@ -4,6 +4,7 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Guards;
 using System.Reflection;
 
 namespace Mud.Server.Ability;
@@ -36,11 +37,11 @@ public class AbilityDefinition : IAbilityDefinition
     public bool IsDispellable { get; }
     public string? DispelRoomMessage { get; }
 
-    public Shapes[]? AllowedShapes { get; }
+    public ICharacterGuard[] Guards { get; }
 
     #endregion
 
-    public AbilityDefinition(Type abilityExecutionType)
+    public AbilityDefinition(Type abilityExecutionType, IEnumerable<ICharacterGuard> guards)
     {
         AbilityExecutionType = abilityExecutionType;
 
@@ -49,8 +50,6 @@ public class AbilityDefinition : IAbilityDefinition
         Name = abilityBaseAttribute.Name.ToPascalCase();
         Effects = abilityBaseAttribute.Effects;
         PulseWaitTime = (abilityBaseAttribute as ActiveAbilityBaseAttribute)?.PulseWaitTime;
-        MinPosition = (abilityBaseAttribute as SpellAttribute)?.MinPosition;
-        NotInCombat = (abilityBaseAttribute as SpellAttribute)?.NotInCombat;
         CooldownInSeconds = abilityBaseAttribute.CooldownInSeconds <= 0
             ? (int?)null
             : abilityBaseAttribute.CooldownInSeconds;
@@ -68,7 +67,6 @@ public class AbilityDefinition : IAbilityDefinition
         IsDispellable = additionalInfoAttributes.OfType<AbilityDispellableAttribute>().Any();
         DispelRoomMessage = additionalInfoAttributes.OfType<AbilityDispellableAttribute>().SingleOrDefault()?.RoomMessage;
 
-        var shapeAttributes = abilityExecutionType.GetCustomAttributes<AbilityShapeAttribute>().ToArray();
-        AllowedShapes = shapeAttributes?.Select(x => x.Shape).Distinct().ToArray();
+        Guards = guards.ToArray();
     }
 }

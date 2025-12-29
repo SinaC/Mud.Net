@@ -1,18 +1,16 @@
-﻿using Mud.Domain;
-using Mud.Server.Common.Attributes;
+﻿using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 
 namespace Mud.Server.GameAction;
 
 public class CharacterGameActionInfo : ActorGameActionInfo, ICharacterGameActionInfo
 {
-    public Positions MinPosition { get; }
-    public bool NotInCombat { get; }
+    public ICharacterGuard[] CharacterGuards { get; }
 
-    public CharacterGameActionInfo(Type commandExecutionType, CharacterCommandAttribute characterCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute)
+    public CharacterGameActionInfo(Type commandExecutionType, CharacterCommandAttribute characterCommandAttribute, SyntaxAttribute syntaxAttribute, IEnumerable<AliasAttribute> aliasAttributes, HelpAttribute? helpAttribute, IEnumerable<ICharacterGuard> guards)
         : base(commandExecutionType, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute)
     {
-        MinPosition = characterCommandAttribute.MinPosition;
-        NotInCombat = characterCommandAttribute.NotInCombat;
+        CharacterGuards = guards.ToArray();
     }
 }

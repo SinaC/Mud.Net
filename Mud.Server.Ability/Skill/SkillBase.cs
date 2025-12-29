@@ -14,18 +14,19 @@ public abstract class SkillBase : CharacterGameAction, ISkill
 {
     protected ILogger<SkillBase> Logger { get; }
     protected IRandomManager RandomManager { get; }
-    protected IAbilityDefinition AbilityDefinition { get; }
+    protected IAbilityManager AbilityManager { get; }
 
     protected bool IsSetupExecuted { get; private set; }
+    protected IAbilityDefinition AbilityDefinition { get; private set; } = default!;
     protected ICharacter User { get; private set; } = default!;
     protected int Learned { get; private set; }
     protected ResourceCostToPay[] ResourceCostsToPay { get; private set; } = default!;
 
-    protected SkillBase(ILogger<SkillBase> logger, IRandomManager randomManager)
+    protected SkillBase(ILogger<SkillBase> logger, IRandomManager randomManager, IAbilityManager abilityManager)
     {
         Logger = logger;
         RandomManager = randomManager;
-        AbilityDefinition = new AbilityDefinition(GetType());
+        AbilityManager = abilityManager;
     }
 
     #region ISkill
@@ -33,6 +34,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
     public virtual string? Setup(ISkillActionInput skillActionInput)
     {
         IsSetupExecuted = true;
+        AbilityDefinition = skillActionInput.AbilityDefinition;
 
         // 1) check actor
         User = skillActionInput.User;
@@ -41,19 +43,11 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (User.Room == null)
             return "You are nowhere...";
 
-        // 2) check shape
-        if (AbilityDefinition.AllowedShapes?.Length > 0 && !AbilityDefinition.AllowedShapes.Contains(User.Shape))
-        {
-            if (AbilityDefinition.AllowedShapes.Length > 1)
-                return $"You are not in {string.Join(" or ", AbilityDefinition.AllowedShapes.Select(x => x.ToString()))} shape";
-            return $"You are not in {AbilityDefinition.AllowedShapes.Single()} shape";
-        }
-
-        // 4) get ability percentage
+        // 3) get ability percentage
         var (percentage, abilityLearned) = User.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
         Learned = percentage;
 
-        // 5) if skill must be learned, check if learned
+        // 4) if skill must be learned, check if learned
         if (MustBeLearned && abilityLearned == null)
             return "You don't know any skills of that name.";
 
@@ -122,7 +116,6 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (!IsSetupExecuted)
             throw new Exception("Cannot execute skill without calling setup first.");
 
-
         // 1) invoke skill
         var result = Invoke();
 
@@ -154,11 +147,26 @@ public abstract class SkillBase : CharacterGameAction, ISkill
 
     public sealed override string? Guards(IActionInput actionInput)
     {
+        // check base guards
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
-        var skillActionInput = new SkillActionInput(actionInput, AbilityDefinition, Actor);
+        // check ability guards
+        var abilityDefinition = AbilityManager[GetType()];
+        if (abilityDefinition == null)
+            return "Ability definition not found for this skill.";
+        if (abilityDefinition.Guards.Length > 0)
+        {
+            foreach (var guard in abilityDefinition.Guards)
+            {
+                var guardResult = guard.Guards(User);
+                if (guardResult != null)
+                    return guardResult;
+            }
+        }
+
+        var skillActionInput = new SkillActionInput(actionInput, abilityDefinition, Actor);
         var setupResult = Setup(skillActionInput);
         return setupResult;
     }

@@ -2,12 +2,13 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("enter", "Movement", MinPosition = Positions.Standing, NotInCombat = true)]
+[CharacterCommand("enter", "Movement"), MinPosition(Positions.Standing), NotInCombat]
 [Syntax("[cmd] <portal>")]
 [Help(
 @"This command will allow you to step into (walk through) a portal.")]
@@ -21,8 +22,6 @@ public class Enter : CharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (Actor.Fighting != null)
-            return ""; // no specific message
         if (actionInput.Parameters.Length == 0)
             return "Nope, can't do it.";
         var item = FindHelpers.FindItemHere(Actor, actionInput.Parameters[0]);

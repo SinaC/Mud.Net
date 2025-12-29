@@ -20,6 +20,8 @@ public class Haggle : PassiveBase, IChangeCostPassive
 {
     private const string PassiveName = "Haggle";
 
+    protected override string Name => PassiveName;
+
     public Haggle(ILogger<Haggle> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

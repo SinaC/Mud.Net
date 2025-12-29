@@ -21,6 +21,8 @@ public class ShieldBlock : HitAvoidancePassiveBase
 {
     private const string PassiveName = "Shield Block";
 
+    protected override string Name => PassiveName;
+
     public ShieldBlock(ILogger<ShieldBlock> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

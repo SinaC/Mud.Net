@@ -12,19 +12,18 @@ public abstract class SpellBase : ISpell
 {
     protected ILogger<SpellBase> Logger { get; }
     protected IRandomManager RandomManager { get; }
-    protected IAbilityDefinition AbilityDefinition { get; }
 
     protected bool IsSetupExecuted { get; private set; }
+    protected bool IsCastFromItem { get; private set; }
+    protected IAbilityDefinition AbilityDefinition { get; private set; } = default!;
     protected ICharacter Caster { get; private set; } = default!;
     protected int Level { get; private set; }
     protected ResourceCostToPay[] ResourceCostsToPay { get; private set; } = default!;
-    protected bool IsCastFromItem { get; private set; }
 
     protected SpellBase(ILogger<SpellBase> logger, IRandomManager randomManager)
     {
         Logger = logger;
         RandomManager = randomManager;
-        AbilityDefinition = new AbilityDefinition(GetType());
     }
 
     #region ISpell
@@ -57,6 +56,7 @@ public abstract class SpellBase : ISpell
     private string? SetupFromCast(ISpellActionInput spellActionInput)
     {
         IsCastFromItem = false;
+        AbilityDefinition = spellActionInput.AbilityDefinition;
 
         // 1) check caster
         Caster = spellActionInput.Caster;
@@ -66,29 +66,28 @@ public abstract class SpellBase : ISpell
             return "You are nowhere...";
         Level = spellActionInput.Level;
 
-        // 2) check shape
-        if (AbilityDefinition.AllowedShapes?.Length > 0 && !AbilityDefinition.AllowedShapes.Contains(Caster.Shape))
+        // 2) check guards
+        if (AbilityDefinition.Guards.Length > 0)
         {
-            if (AbilityDefinition.AllowedShapes.Length > 1)
-                return $"You are not in {string.Join(" or ", AbilityDefinition.AllowedShapes.Select(x => x.ToString()))} shape";
-            return $"You are not in {AbilityDefinition.AllowedShapes.Single()} shape";
+            foreach (var guard in AbilityDefinition.Guards)
+            {
+                var guardResult = guard.Guards(Caster);
+                if (guardResult != null)
+                    return guardResult;
+            }
         }
 
-        // 3) check position && not in combat
-        if (AbilityDefinition.MinPosition is not null && (Caster.Position < AbilityDefinition.MinPosition || (AbilityDefinition.NotInCombat == true && Caster.Fighting != null)))
-            return "You can't concentrate enough.";
-
-        // 4) check targets
+        // 3) check targets
         var setTargetResult = SetTargets(spellActionInput);
         if (setTargetResult != null)
             return setTargetResult;
 
-        // 5) check cooldown
+        // 4) check cooldown
         int cooldownPulseLeft = Caster.CooldownPulseLeft(AbilityDefinition.Name);
         if (cooldownPulseLeft > 0)
             return $"{AbilityDefinition.Name} is in cooldown for {(cooldownPulseLeft / Pulse.PulsePerSeconds).FormatDelay()}.";
 
-        // 6) check resource cost
+        // 5) check resource cost
         var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
         if (abilityLearned != null && abilityLearned.HasCost)
         {
@@ -142,6 +141,7 @@ public abstract class SpellBase : ISpell
     private string? SetupFromItem(ISpellActionInput spellActionInput)
     {
         IsCastFromItem = true;
+        AbilityDefinition = spellActionInput.AbilityDefinition;
 
         // 1) check caster
         Caster = spellActionInput.Caster;

@@ -2,12 +2,13 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.Information;
 
-[CharacterCommand("weather", "Information", MinPosition = Positions.Resting)]
+[CharacterCommand("weather", "Information"), MinPosition(Positions.Resting)]
 [Syntax("[cmd]")]
 [Help(@"[cmd] shows the current game weather.")]
 public class Weather : CharacterGameAction

@@ -6,6 +6,7 @@ using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
@@ -16,7 +17,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("eat", "Food", MinPosition = Positions.Resting)]
+[CharacterCommand("eat", "Food"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <food|pill>")]
 [Help(@"When you are hungry, [cmd] something.")]
 public class Eat : CastSpellCharacterGameActionBase

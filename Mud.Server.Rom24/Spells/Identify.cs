@@ -4,8 +4,10 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Item;
@@ -15,7 +17,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Detection, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Detection), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [Syntax("cast [spell] <object>")]
 [Help(
 @"This spell reveals information about the object.")]
