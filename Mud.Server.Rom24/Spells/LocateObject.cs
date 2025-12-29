@@ -6,6 +6,7 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -16,7 +17,7 @@ using System.Text;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Detection, PulseWaitTime = 18, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Detection, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [Syntax("cast [spell] <name>")]
 [Help(
 @"This spell reveals the location of all objects with the given name.")]

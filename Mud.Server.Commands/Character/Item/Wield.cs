@@ -2,13 +2,14 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("wield", "Item", "Equipment", MinPosition = Positions.Resting)]
+[CharacterCommand("wield", "Item", "Equipment"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <weapon>")]
 [Help(
 @"[cmd] will take an weapon from inventory and start using it

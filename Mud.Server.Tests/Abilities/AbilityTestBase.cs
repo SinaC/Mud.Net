@@ -19,10 +19,10 @@ public abstract class AbilityTestBase : TestBase
         return parser.SplitParameters(parameters).Select(parser.ParseParameter).ToArray();
     }
 
-    protected static IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
+    protected IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
         where TGameAction : IGameAction
     {
-        Type type = typeof(TGameAction)!;
+        Type type = typeof(TGameAction);
         CommandAttribute commandAttribute = type.GetCustomAttribute<CommandAttribute>()!;
         SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
         IEnumerable<AliasAttribute> aliasAttributes = type.GetCustomAttributes<AliasAttribute>();
@@ -31,16 +31,16 @@ public abstract class AbilityTestBase : TestBase
         switch (commandAttribute)
         {
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
-                gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null, []);
                 break;
             case CharacterCommandAttribute characterCommandAttribute:
-                gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, []);
                 break;
             case AdminCommandAttribute adminCommandAttribute:
-                gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null, [], []);
                 break;
             case PlayerCommandAttribute playerCommandAttribute:
-                gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null, []);
                 break;
             case ItemCommandAttribute itemCommandAttribute:
                 gameActionInfo = new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, null);

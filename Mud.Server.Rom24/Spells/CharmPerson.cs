@@ -4,9 +4,11 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -14,7 +16,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Animation, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Debuff | AbilityEffects.Animation), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell, if successful, causes the victim to follow you and to take orders

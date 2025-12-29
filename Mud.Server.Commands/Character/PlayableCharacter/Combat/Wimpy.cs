@@ -1,11 +1,12 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Combat;
 
-[PlayableCharacterCommand("wimpy", "Combat", MinPosition = Positions.Standing)]
+[PlayableCharacterCommand("wimpy", "Combat"), MinPosition(Positions.Standing)]
 [Syntax(
     "[cmd]",
     "[cmd] <number>")]

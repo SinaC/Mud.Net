@@ -7,9 +7,11 @@ using Mud.Server.Affects.Character;
 using Mud.Server.Affects.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
@@ -18,7 +20,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Enchantment, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [Syntax("cast [spell] <armor>")]
 [Help(
 @"The enchant armor spell imbues armor with powerful protective magics. It is

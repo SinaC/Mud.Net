@@ -1,17 +1,19 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Blueprints.Character;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
-using Mud.Blueprints.Character;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Transportation), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [Syntax("cast [spell] <victim>")]
 [Help(
 @"This spell summons a character from anywhere else in the world into your room.

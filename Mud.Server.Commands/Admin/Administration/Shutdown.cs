@@ -1,12 +1,13 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true, MinLevel = AdminLevels.Implementor, CannotBeImpersonated = true)]
+[AdminCommand("shutdown", "Admin", Priority = 999 /*low priority*/, NoShortcut = true), MinAdminLevel(AdminLevels.Implementor), CannotBeImpersonated]
 [Syntax("[cmd] <delay>")]
 [Help(
 @"[cmd] shuts down the server and prevents the normal 'startup' script

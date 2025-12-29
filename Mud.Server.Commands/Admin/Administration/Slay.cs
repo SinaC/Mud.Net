@@ -2,13 +2,14 @@
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("slay", "Admin", Priority = 999, NoShortcut = true, MustBeImpersonated = true)]
+[AdminCommand("slay", "Admin", Priority = 999, NoShortcut = true), MustBeImpersonated]
 [Syntax("[cmd] <character>")]
 [Help(
 @"[cmd] kills a character in cold blood, no saving throw.  Best not to use this

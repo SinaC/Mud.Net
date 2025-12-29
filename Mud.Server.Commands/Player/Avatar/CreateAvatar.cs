@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Class;
@@ -11,7 +12,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("createavatar", "Avatar", CannotBeImpersonated = true)]
+[PlayerCommand("createavatar", "Avatar"), CannotBeImpersonated]
 public class CreateAvatar : PlayerGameAction
 {
     private ILogger<CreateAvatar> Logger { get; }

@@ -2,14 +2,16 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Detection, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Detection), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [Syntax("cast [spell] <object>")]
 [Help(
 @"This spell detects the presence of poison in food or drink.")]

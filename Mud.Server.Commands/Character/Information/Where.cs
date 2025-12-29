@@ -2,13 +2,14 @@
 using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
 
-[CharacterCommand("where", "Information", MinPosition = Positions.Resting)]
+[CharacterCommand("where", "Information"), MinPosition(Positions.Resting)]
 [Syntax(
     "[cmd]",
     "[cmd] <player name>")]

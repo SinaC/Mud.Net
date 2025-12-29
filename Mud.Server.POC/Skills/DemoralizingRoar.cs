@@ -6,6 +6,8 @@ using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -13,8 +15,7 @@ using Mud.Server.Random;
 namespace Mud.Server.POC.Skills;
 
 [CharacterCommand("DemoralizingRoar", "Ability", "Skill", "Combat")]
-[Skill(SkillName, AbilityEffects.Damage)]
-[AbilityShape(Shapes.Bear)]
+[Skill(SkillName, AbilityEffects.Damage), Shapes([Shapes.Bear])]
 [Help(
 @"The druid roars, decreasing nearby enemies' melee attack power by 138.  Lasts 30 sec.")]
 //https://www.wowhead.com/classic/spell=9898/demoralizing-roar
@@ -24,8 +25,8 @@ public class DemoralizingRoar : OffensiveSkillBase
 
     private IAuraManager AuraManager { get; }
 
-    public DemoralizingRoar(ILogger<DemoralizingRoar> logger, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, randomManager)
+    public DemoralizingRoar(ILogger<DemoralizingRoar> logger, IRandomManager randomManager, IAbilityManager abilityManager, IAuraManager auraManager)
+        : base(logger, randomManager, abilityManager)
     {
         AuraManager = auraManager;
     }

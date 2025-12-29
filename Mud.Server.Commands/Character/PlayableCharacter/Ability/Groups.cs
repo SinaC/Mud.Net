@@ -1,6 +1,7 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.TableGenerator;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
 
-[PlayableCharacterCommand("groups", "Ability", Priority = 999, MinPosition = Positions.Standing, NotInCombat = true)]
+[PlayableCharacterCommand("groups", "Ability", Priority = 999), MinPosition(Positions.Standing), NotInCombat]
 [Alias("info")]
 [Syntax(
     "[cmd]",

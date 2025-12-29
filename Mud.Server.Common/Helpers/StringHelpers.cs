@@ -5,15 +5,16 @@ namespace Mud.Server.Common.Helpers;
 
 public static class StringHelpers
 {
-    public static readonly string NotYetImplemented = "NOT YET IMPLEMENTED!!";
-    public static readonly string NotFound = "Not found.";
-    public static readonly string CharacterNotFound = "They aren't here.";
-    public static readonly string ItemNotFound = "You do not see that here.";
-    public static readonly string ItemInventoryNotFound = "You do not have that item.";
-    public static readonly string QuestPrefix = "%R%(QUEST)%x%";
-    public static readonly string PagingInstructions = "[Paging : (Enter), (N)ext, (P)revious, (Q)uit, (A)ll]";
-    public static readonly string CantFindIt = "You can't find it.";
-    public static readonly string SomethingGoesWrong = "Something goes wrong.";
+    public const string NotYetImplemented = "NOT YET IMPLEMENTED!!";
+    public const string NotFound = "Not found.";
+    public const string CharacterNotFound = "They aren't here.";
+    public const string ItemNotFound = "You do not see that here.";
+    public const string ItemInventoryNotFound = "You do not have that item.";
+    public const string QuestPrefix = "%R%(QUEST)%x%";
+    public const string PagingInstructions = "[Paging : (Enter), (N)ext, (P)revious, (Q)uit, (A)ll]";
+    public const string CantFindIt = "You can't find it.";
+    public const string SomethingGoesWrong = "Something goes wrong.";
+    public const string YouLostYourConcentration = "You lost your concentration!";
 
     //https://genderneutralpronoun.wordpress.com/tag/ze-and-zir/
     public static readonly IDictionary<Sex, string> Subjects = new Dictionary<Sex, string>

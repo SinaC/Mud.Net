@@ -7,10 +7,11 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("iload", "Admin", MustBeImpersonated = true)]
+[AdminCommand("iload", "Admin"), MustBeImpersonated]
 [Alias("oload")]
 [Syntax("[cmd] <id>")]
 [Help(

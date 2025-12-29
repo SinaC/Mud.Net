@@ -25,8 +25,8 @@ public class Trip : OffensiveSkillBase
 {
     private const string SkillName = "Trip";
 
-    public Trip(ILogger<Trip> logger, IRandomManager randomManager)
-        : base(logger, randomManager)
+    public Trip(ILogger<Trip> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+        : base(logger, randomManager, abilityManager)
     {
     }
 
@@ -39,7 +39,7 @@ public class Trip : OffensiveSkillBase
         var npcUser = User as INonPlayableCharacter;
         if (Learned == 0
             || (npcUser != null && !npcUser.OffensiveFlags.IsSet("Trip")))
-            return "Tripping?  What's that?";
+            return "Tripping? What's that?";
 
         if (Victim == User)
         {

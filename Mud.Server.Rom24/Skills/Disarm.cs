@@ -23,8 +23,8 @@ public class Disarm : FightingSkillBase
 {
     private const string SkillName = "Disarm";
 
-    public Disarm(ILogger<Disarm> logger, IRandomManager randomManager)
-        : base(logger, randomManager)
+    public Disarm(ILogger<Disarm> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+        : base(logger, randomManager, abilityManager)
     {
     }
 

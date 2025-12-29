@@ -5,6 +5,7 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Combat;
 using Mud.Server.Interfaces.Item;
@@ -12,7 +13,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills;
 
-[CharacterCommand("backstab", "Ability", "Skill", "Combat")]
+[CharacterCommand("backstab", "Ability", "Skill", "Combat"), NotInCombat(Message = "You are facing the wrong end.")]
 [Syntax("[cmd] <victim>")]
 [Skill(SkillName, AbilityEffects.Damage, PulseWaitTime = 24)]
 [Help(
@@ -27,8 +28,8 @@ public class Backstab : OffensiveSkillBase
 {
     private const string SkillName = "Backstab";
 
-    public Backstab(ILogger<Backstab> logger, IRandomManager randomManager)
-        : base(logger, randomManager)
+    public Backstab(ILogger<Backstab> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+        : base(logger, randomManager, abilityManager)
     {
     }
 
@@ -37,9 +38,6 @@ public class Backstab : OffensiveSkillBase
         var baseSetup = base.Setup(skillActionInput);
         if (baseSetup != null)
             return baseSetup;
-
-        if (User.Fighting != null)
-            return "You are facing the wrong end.";
 
         if (Victim == User)
             return "How can you sneak up on yourself?";

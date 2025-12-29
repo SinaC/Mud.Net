@@ -1,12 +1,13 @@
 ﻿using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Character.Communication;
 
-[CharacterCommand("shout", "Communication", MinPosition = Positions.Resting)]
+[CharacterCommand("shout", "Communication"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <message>")]
 [Help(
 @"[cmd] sends a message to all awake players in the world.  To curb excessive

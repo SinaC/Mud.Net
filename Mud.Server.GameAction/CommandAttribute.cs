@@ -1,32 +1,21 @@
 ﻿using Mud.Common.Attributes;
-using Mud.Domain;
 
 namespace Mud.Server.GameAction;
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
-public abstract class CommandAttribute : ExportAttribute // every command will be exported without ContractType
+public abstract class CommandAttribute(string name, params string[] categories) : ExportAttribute // every command will be exported without ContractType
 {
     public const int DefaultPriority = 500;
     public const string DefaultCategory = "";
 
-    public string Name { get; }
-    public string[] Categories { get; set; }
-    public int Priority { get; set; } // Lower value means higher priority
-    public bool Hidden { get; set; } // Not displayed in command list
-    public bool NoShortcut { get; set; } // Command must be fully typed
-    public bool AddCommandInParameters { get; set; } // Command must be added in parameter list
-
-    public CommandAttribute(string name, params string[] categories)
-    {
-        Name = name.ToLowerInvariant();
-        Categories = categories == null || categories.Length == 0
+    public string Name { get; } = name.ToLowerInvariant();
+    public string[] Categories { get; set; } = categories == null || categories.Length == 0
             ? [DefaultCategory]
             : categories;
-        Priority = DefaultPriority;
-        Hidden = false;
-        NoShortcut = false;
-        AddCommandInParameters = false;
-    }
+    public int Priority { get; set; } = DefaultPriority;
+    public bool Hidden { get; set; } = false;
+    public bool NoShortcut { get; set; } = false;
+    public bool AddCommandInParameters { get; set; } = false;
 }
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
@@ -35,96 +24,48 @@ public class DynamicCommandAttribute : ExportAttribute
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class ItemCommandAttribute : ActorCommandAttribute
+public class ItemCommandAttribute(string name, params string[] categories) : ActorCommandAttribute(name, categories)
 {
-    public ItemCommandAttribute(string name, params string[] categories)
-        : base(name, categories)
-    {
-    }
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class RoomCommandAttribute : ActorCommandAttribute
+public class RoomCommandAttribute(string name, params string[] categories) : ActorCommandAttribute(name, categories)
 {
-    public RoomCommandAttribute(string name, params string[] categories)
-        : base(name, categories)
-    {
-    }
-}
-
-
-[AttributeUsage(AttributeTargets.Class)]
-public class CharacterCommandAttribute : ActorCommandAttribute
-{
-    public Positions MinPosition { get; set; }
-    public bool NotInCombat { get; set; }
-
-    public CharacterCommandAttribute(string name, params string[] categories)
-        : base(name, categories)
-    {
-        MinPosition = Positions.Sleeping;
-    }
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class PlayableCharacterCommandAttribute : CharacterCommandAttribute // Must be impersonated
+public class CharacterCommandAttribute(string name, params string[] categories) : ActorCommandAttribute(name, categories)
 {
-    public PlayableCharacterCommandAttribute(string name, params string[] categories)
-        : base(name, categories)
-    {
-    }
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class PlayerCommandAttribute : ActorCommandAttribute
+public class PlayableCharacterCommandAttribute(string name, params string[] categories) : CharacterCommandAttribute(name, categories) // Must be impersonated
 {
-    public bool MustBeImpersonated { get; set; }
-    public bool CannotBeImpersonated { get; set; }
-
-    public PlayerCommandAttribute(string name, params string[] categories)
-        : base(name, categories)
-    {
-    }
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class AdminCommandAttribute : PlayerCommandAttribute
+public class PlayerCommandAttribute(string name, params string[] categories) : ActorCommandAttribute(name, categories)
 {
-    public AdminLevels MinLevel { get; set; }
-
-    public AdminCommandAttribute(string name, params string[] categories)
-        : base(name, categories)
-    {
-    }
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class ActorCommandAttribute : CommandAttribute
+public class AdminCommandAttribute(string name, params string[] categories) : PlayerCommandAttribute(name, categories)
 {
-    public ActorCommandAttribute(string name, params string[] categories)
-        : base(name, categories)
-    {
-    }
 }
 
 [AttributeUsage(AttributeTargets.Class)]
-public class SyntaxAttribute : Attribute
+public class ActorCommandAttribute(string name, params string[] categories) : CommandAttribute(name, categories)
 {
-    public string[] Syntax { get; }
+}
 
-    public SyntaxAttribute(params string[] syntax)
-    {
-        Syntax = syntax;
-    }
+[AttributeUsage(AttributeTargets.Class)]
+public class SyntaxAttribute(params string[] syntax) : Attribute
+{
+    public string[] Syntax { get; } = syntax;
 }
 
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-public class AliasAttribute : Attribute
+public class AliasAttribute(string alias) : Attribute
 {
-    public string Alias { get; }
-
-    public AliasAttribute(string alias)
-    {
-        Alias = alias;
-    }
+    public string Alias { get; } = alias;
 }

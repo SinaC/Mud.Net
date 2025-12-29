@@ -15,13 +15,11 @@ namespace Mud.Server.Ability.Skill;
 public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
     where TItem: IItem
 {
-    protected IAbilityManager AbilityManager { get; }
     protected IItemManager ItemManager { get; }
 
     protected ItemCastSpellSkillBase(ILogger<ItemCastSpellSkillBase<TItem>> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
-        : base(logger, randomManager)
+        : base(logger, randomManager, abilityManager)
     {
-        AbilityManager = abilityManager;
         ItemManager = itemManager;
         SpellInstances = [];
     }

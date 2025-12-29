@@ -39,8 +39,8 @@ public class Envenom : ItemInventorySkillBase
 
     private IAuraManager AuraManager { get; }
 
-    public Envenom(ILogger<Envenom> logger, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, randomManager)
+    public Envenom(ILogger<Envenom> logger, IRandomManager randomManager, IAbilityManager abilityManager, IAuraManager auraManager)
+        : base(logger, randomManager, abilityManager)
     {
         AuraManager = auraManager;
     }

@@ -8,6 +8,7 @@ namespace Mud.Server.Interfaces.Ability
     {
         IEnumerable<IAbilityDefinition> Abilities { get; }
         IAbilityDefinition? this[string abilityName] { get; }
+        IAbilityDefinition? this[Type abilityType] { get; }
         IAbilityDefinition? this[WeaponTypes weaponType] { get; }
 
         IEnumerable<IAbilityDefinition> SearchAbilities<TAbility>()

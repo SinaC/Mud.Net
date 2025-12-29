@@ -6,8 +6,8 @@ namespace Mud.Server.Ability.Skill;
 
 public abstract class NoTargetSkillBase : SkillBase
 {
-    protected NoTargetSkillBase(ILogger<NoTargetSkillBase> logger, IRandomManager randomManager) 
-        : base(logger, randomManager)
+    protected NoTargetSkillBase(ILogger<NoTargetSkillBase> logger, IRandomManager randomManager, IAbilityManager abilityManager) 
+        : base(logger, randomManager, abilityManager)
     {
     }
 

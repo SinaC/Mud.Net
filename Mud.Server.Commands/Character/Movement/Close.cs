@@ -4,6 +4,7 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -12,7 +13,7 @@ using Mud.Server.Interfaces.Room;
 
 namespace Mud.Server.Commands.Character.Movement;
 
-[CharacterCommand("close", "Movement", MinPosition = Positions.Resting)]
+[CharacterCommand("close", "Movement"), MinPosition(Positions.Resting)]
 [Syntax(
         "[cmd] <container|portal>",
         "[cmd] <direction|door>")]

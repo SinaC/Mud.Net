@@ -17,6 +17,8 @@ public class Peek : PassiveBase
 {
     private const string PassiveName = "Peek";
 
+    protected override string Name => PassiveName;
+
     public Peek(ILogger<Peek> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

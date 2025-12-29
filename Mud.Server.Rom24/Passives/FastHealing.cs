@@ -18,6 +18,8 @@ public class FastHealing : RegenerationPassiveBase
 {
     private const string PassiveName = "Fast Healing";
 
+    protected override string Name => PassiveName;
+
     public FastHealing(ILogger<FastHealing> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

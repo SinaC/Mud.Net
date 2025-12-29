@@ -19,11 +19,15 @@ public abstract class PlayerGameActionBase<TPlayer, TPlayerGameActionInfo> : Gam
 
         Impersonating = Actor.Impersonating!;
 
-        if (GameActionInfo.MustBeImpersonated && Actor.Impersonating == null)
-            return $"You must be impersonated to use '{GameActionInfo.Name}'.";
-
-        if (GameActionInfo.CannotBeImpersonated && Actor.Impersonating != null)
-            return $"You cannot be impersonated to use '{GameActionInfo.Name}'.";
+        if (GameActionInfo.PlayerGuards.Length > 0)
+        {
+            foreach (var guard in GameActionInfo.PlayerGuards)
+            {
+                var guardResult = guard.Guards(Actor);
+                if (guardResult != null)
+                    return guardResult;
+            }
+        }
 
         if (Actor.IsAfk && GameActionInfo.Name.ToLowerInvariant() != "afk")
             Actor.ToggleAfk();

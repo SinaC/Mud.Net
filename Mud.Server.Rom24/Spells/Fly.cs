@@ -4,16 +4,18 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [AbilityCharacterWearOffMessage("You slowly float to the ground.")]
 [AbilityDispellable("{0:N} falls to the ground!")]
 [Syntax("cast [spell] <character>")]

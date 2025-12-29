@@ -14,6 +14,8 @@ public class DualWield : PassiveBase, IAdditionalHitPassive
 {
     private const string PassiveName = "Dual Wield";
 
+    protected override string Name => PassiveName;
+
     public DualWield(ILogger<DualWield> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

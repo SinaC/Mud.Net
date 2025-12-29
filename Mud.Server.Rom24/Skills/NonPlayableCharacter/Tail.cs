@@ -16,8 +16,8 @@ public class Tail : FightingSkillBase
 {
     private const string SkillName = "Tail";
 
-    public Tail(ILogger<Tail> logger, IRandomManager randomManager)
-        : base(logger, randomManager)
+    public Tail(ILogger<Tail> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+        : base(logger, randomManager, abilityManager)
     {
     }
 

@@ -3,6 +3,7 @@ using Mud.Domain;
 using Mud.Server.Commands.Character.Item;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.GameAction;
@@ -10,7 +11,7 @@ using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Rom24.Commands.PlayableCharacter;
 
-[PlayableCharacterCommand("outfit", "Equipment", "Newbie", MinPosition = Positions.Standing, NotInCombat = true)]
+[PlayableCharacterCommand("outfit", "Equipment", "Newbie"), MinPosition(Positions.Resting), NotInCombat]
 [Help(
 @"The [cmd] command, usable by levels 5 and below, equips your character with
 a new set of sub issue gear (banner, weapon, helmet, shield, and vest), 

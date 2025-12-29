@@ -7,6 +7,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Rom24.Spells;
 using System.Reflection;
 
@@ -16,12 +17,14 @@ namespace Mud.Server.Rom24.Tests.Abilities;
 public abstract class AbilityTestBase
 {
     protected IServiceProvider _serviceProvider = default!;
+    protected Mock<IGuardGenerator> _guardGeneratorMock = default!;
 
     [TestInitialize]
     public void TestInitialize()
     {
         var serviceProviderMock = new Mock<IServiceProvider>();
         _serviceProvider = serviceProviderMock.Object;
+        _guardGeneratorMock = new Mock<IGuardGenerator>();
 
         RegisterAdditionalDependencies(serviceProviderMock);
     }
@@ -36,7 +39,7 @@ public abstract class AbilityTestBase
         return parser.SplitParameters(parameters).Select(parser.ParseParameter).ToArray();
     }
 
-    protected static IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
+    protected IActionInput BuildActionInput<TGameAction>(IActor actor, string commandLine)
         where TGameAction:IGameAction
     {
         Type type = typeof(TGameAction);
@@ -44,20 +47,43 @@ public abstract class AbilityTestBase
         SyntaxAttribute syntaxAttribute = type.GetCustomAttribute<SyntaxAttribute>() ?? GameActionInfo.DefaultSyntaxCommandAttribute;
         IEnumerable<AliasAttribute> aliasAttributes = type.GetCustomAttributes<AliasAttribute>();
 
+        var guardGenerator = _guardGeneratorMock.Object;
         IGameActionInfo gameActionInfo;
         switch (commandAttribute)
         {
-            case AdminCommandAttribute adminCommandAttribute:
-                gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null);
-                break;
-            case PlayerCommandAttribute playerCommandAttribute:
-                gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null);
-                break;
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
-                gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null);
-                break;
+                {
+                    var characterGuards = guardGenerator.GenerateCharacterGuards(type);
+                    gameActionInfo = new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, null, characterGuards);
+                    break;
+                }
             case CharacterCommandAttribute characterCommandAttribute:
-                gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                {
+                    var characterGuards = guardGenerator.GenerateCharacterGuards(type);
+                    gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, characterGuards);
+                    break;
+                }
+            case AdminCommandAttribute adminCommandAttribute:
+                {
+                    var playerGuards = guardGenerator.GeneratePlayerGuards(type);
+                    var adminGuards = guardGenerator.GenerateAdminGuards(type);
+                    gameActionInfo = new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, null, playerGuards, adminGuards);
+                    break;
+                }
+            case PlayerCommandAttribute playerCommandAttribute:
+                {
+                    var playerGuards = guardGenerator.GeneratePlayerGuards(type);
+                    gameActionInfo = new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, null, playerGuards);
+                    break;
+                }
+            case ItemCommandAttribute itemCommandAttribute:
+                gameActionInfo = new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
+            case RoomCommandAttribute roomCommandAttribute:
+                gameActionInfo = new RoomGameActionInfo(type, roomCommandAttribute, syntaxAttribute, aliasAttributes, null);
+                break;
+            case ActorCommandAttribute actorCommandAttribute:
+                gameActionInfo = new ActorGameActionInfo(type, actorCommandAttribute, syntaxAttribute, aliasAttributes, null);
                 break;
             default:
                 gameActionInfo = new GameActionInfo(type, commandAttribute, syntaxAttribute, aliasAttributes, null);

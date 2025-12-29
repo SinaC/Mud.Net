@@ -22,6 +22,8 @@ public class Meditation : RegenerationPassiveBase
 {
     private const string PassiveName = "Meditation";
 
+    protected override string Name => PassiveName;
+
     public Meditation(ILogger<Meditation> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

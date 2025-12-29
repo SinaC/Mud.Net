@@ -3,13 +3,14 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Commands.Character.Item;
 
-[CharacterCommand("put", "Item", "Equipment", MinPosition = Positions.Resting)]
+[CharacterCommand("put", "Item", "Equipment"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] <item> [in] <container>")]
 [Help(
 @"[cmd] puts an object into a container.

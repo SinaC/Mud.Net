@@ -8,10 +8,11 @@ namespace Mud.Server.Ability.Skill;
 
 public abstract class ItemInventorySkillBase : SkillBase
 {
-    protected ItemInventorySkillBase(ILogger<ItemInventorySkillBase> logger, IRandomManager randomManager)
-        : base(logger, randomManager)
+    protected ItemInventorySkillBase(ILogger<ItemInventorySkillBase> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+        : base(logger, randomManager, abilityManager)
     {
     }
+
     protected IItem Item { get; set; } = default!;
 
     protected override string? SetTargets(ISkillActionInput skillActionInput)

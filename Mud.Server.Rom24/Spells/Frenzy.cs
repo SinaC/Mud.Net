@@ -2,15 +2,17 @@
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Effect;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 24, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [AbilityCharacterWearOffMessage("Your rage ebbs.")]
 [AbilityDispellable("{0:N} no longer looks so wild.")]
 [Syntax("cast [spell] <target>")]

@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -10,7 +11,7 @@ using Mud.Server.TableGenerator;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Ability;
 
-[PlayableCharacterCommand("practice", "Ability", MinPosition = Positions.Sleeping)]
+[PlayableCharacterCommand("practice", "Ability"), MinPosition(Positions.Sleeping)]
 [Syntax(
         "[cmd]",
         "[cmd] <ability>")]

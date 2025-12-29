@@ -39,7 +39,7 @@ public class MultiResourceCostTests : AbilityTestBase
         OffensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -68,7 +68,7 @@ public class MultiResourceCostTests : AbilityTestBase
         OffensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -98,7 +98,7 @@ public class MultiResourceCostTests : AbilityTestBase
         OffensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -128,7 +128,7 @@ public class MultiResourceCostTests : AbilityTestBase
         OffensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -158,7 +158,7 @@ public class MultiResourceCostTests : AbilityTestBase
         OffensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
 
@@ -188,7 +188,7 @@ public class MultiResourceCostTests : AbilityTestBase
         OffensiveSpellBaseSpellsSpell spell = new(new Mock<ILogger<OffensiveSpellBaseSpellsSpell>>().Object, randomManagerMock.Object);
 
         var parameters = BuildParameters("target");
-        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType()), casterMock.Object, 10, null!, parameters);
+        SpellActionInput abilityActionInput = new(new AbilityDefinition(spell.GetType(), []), casterMock.Object, 10, null!, parameters);
 
         var result = spell.Setup(abilityActionInput);
         spell.Execute();

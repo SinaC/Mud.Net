@@ -3,15 +3,17 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Dispel, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Dispel), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [Syntax("cast [spell]")]
 [Help(
 @"This spell reveals all manner of invisible, hidden, and sneaking creatures in

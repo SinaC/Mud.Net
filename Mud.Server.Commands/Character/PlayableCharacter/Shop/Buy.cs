@@ -1,6 +1,8 @@
-﻿using Mud.Server.Common.Attributes;
+﻿using Mud.Domain;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -10,7 +12,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Shop;
 
-[PlayableCharacterCommand("buy", "Shop")]
+[PlayableCharacterCommand("buy", "Shop"), MinPosition(Positions.Resting)]
 [Syntax("[cmd] [number] <item>")]
 [Help(
 @"[cmd] buys an object from a shop keeper.

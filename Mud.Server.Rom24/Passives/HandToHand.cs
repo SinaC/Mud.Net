@@ -17,6 +17,8 @@ public class HandToHand : PassiveBase
 {
     private const string PassiveName = "Hand to Hand";
 
+    protected override string Name => PassiveName;
+
     public HandToHand(ILogger<HandToHand> logger, IRandomManager randomManager)
         : base(logger, randomManager)
     {

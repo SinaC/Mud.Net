@@ -1,12 +1,13 @@
 ﻿using Mud.Common;
 using Mud.Server.Common;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("deleteavatar", "Avatar", CannotBeImpersonated = true, NoShortcut = true)]
+[PlayerCommand("deleteavatar", "Avatar", NoShortcut = true), CannotBeImpersonated]
 [Syntax("[cmd] <avatar name>")]
 public class DeleteAvatar : PlayerGameAction
 {

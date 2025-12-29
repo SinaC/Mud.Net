@@ -10,6 +10,7 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Character;
@@ -20,7 +21,7 @@ using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills;
 
-[CharacterCommand(SkillName, "Item")]
+[CharacterCommand(SkillName, "Item"), NotInCombat]
 [Syntax("[cmd] <item|coin> <victim>")]
 [Skill(SkillName, AbilityEffects.None, PulseWaitTime = 24, LearnDifficultyMultiplier = 2)]
 [Help(
@@ -36,8 +37,8 @@ public class Steal : SkillBase
     private IGameActionManager GameActionManager { get; }
     private int MaxLevel { get; }
 
-    public Steal(ILogger<Steal> logger, IRandomManager randomManager, IGameActionManager gameActionManager, IOptions<WorldOptions> worldOptions)
-        : base(logger, randomManager)
+    public Steal(ILogger<Steal> logger, IRandomManager randomManager, IAbilityManager abilityManager, IGameActionManager gameActionManager, IOptions<WorldOptions> worldOptions)
+        : base(logger, randomManager, abilityManager)
     {
         GameActionManager = gameActionManager;
         MaxLevel = worldOptions.Value.MaxLevel;

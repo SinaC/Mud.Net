@@ -4,10 +4,11 @@ using Mud.Blueprints.Quest;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
+using Mud.Server.Guards.Attributes;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questlist", "Quest", Priority = 5, MinPosition = Positions.Standing, NotInCombat = true)]
+[PlayableCharacterCommand("questlist", "Quest", Priority = 5), MinPosition(Positions.Standing), NotInCombat]
 [Alias("qlist")]
 public class QuestList : PlayableCharacterGameAction
 {

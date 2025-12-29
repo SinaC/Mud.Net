@@ -1,11 +1,12 @@
 ﻿using Mud.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
-[PlayableCharacterCommand("questabandon", "Quest", Priority = 3, MinPosition = Positions.Standing, NotInCombat = true)]
+[PlayableCharacterCommand("questabandon", "Quest", Priority = 3), MinPosition(Positions.Standing), NotInCombat]
 [Alias("qabandon")]
 [Syntax("[cmd] <id>")]
 public class QuestAbandon : PlayableCharacterGameAction

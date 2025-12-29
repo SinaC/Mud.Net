@@ -3,9 +3,11 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
@@ -13,7 +15,7 @@ using Mud.Server.Rom24.Affects;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [AbilityCharacterWearOffMessage("The white aura around your body fades.")]
 [AbilityDispellable("The white aura around {0:n}'s body vanishes.")]
 [Syntax("cast [spell] <character>")]

@@ -4,15 +4,17 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Transportation, PulseWaitTime = 24), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [Syntax("cast [spell] <target>")]
 [Help(
 @"The portal spell is similar to gate, but creates a lasting one-way portal

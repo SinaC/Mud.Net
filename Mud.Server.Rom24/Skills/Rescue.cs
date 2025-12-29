@@ -25,8 +25,8 @@ public class Rescue : OffensiveSkillBase
 {
     private const string SkillName = "Rescue";
 
-    public Rescue(ILogger<Rescue> logger, IRandomManager randomManager)
-        : base(logger, randomManager)
+    public Rescue(ILogger<Rescue> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+        : base(logger, randomManager, abilityManager)
     {
     }
 

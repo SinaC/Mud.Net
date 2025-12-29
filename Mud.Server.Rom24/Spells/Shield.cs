@@ -3,14 +3,16 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Random;
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Buff, PulseWaitTime = 18), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [AbilityCharacterWearOffMessage("Your force shield shimmers then fades away.")]
 [AbilityDispellable("The shield protecting {0:n} vanishes.")]
 [Syntax("cast [spell]")]

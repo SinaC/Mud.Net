@@ -5,6 +5,8 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.POC.Affects;
 using Mud.Server.Random;
@@ -12,8 +14,7 @@ using Mud.Server.Random;
 namespace Mud.Server.POC.Skills;
 
 [CharacterCommand("rake", "Ability", "Skill", "Combat")]
-[Skill(SkillName, AbilityEffects.Damage)]
-[AbilityShape(Shapes.Cat)]
+[Skill(SkillName, AbilityEffects.Damage), Shapes([Shapes.Cat])]
 [Help(
 @"Rake the target for 58 damage and an additional 96 damage over 9 sec.  Awards 1 combo point.")]
 //https://www.wowhead.com/classic/spell=9904/rake
@@ -23,8 +24,8 @@ public class Rake : OffensiveSkillBase
 
     private IAuraManager AuraManager { get; }
 
-    public Rake(ILogger<Rake> logger, IRandomManager randomManager, IAuraManager auraManager)
-        : base(logger, randomManager)
+    public Rake(ILogger<Rake> logger, IRandomManager randomManager, IAbilityManager abilityManager, IAuraManager auraManager)
+        : base(logger, randomManager, abilityManager)
     {
         AuraManager = auraManager;
     }

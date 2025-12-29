@@ -1,13 +1,27 @@
 INGOING
 DONE
-    multiple resource cost
+    guards predefined that can be added with attribute
+    override default guard message ("You lost your concentration." for example when casting in non-combat spell during combat)
+    transform NotInCombat, AllowedShapes, MinPosition in predefined Guards that can be added with attribute
 
 ==========
 == TODO ==
 ==========
-resource kind: move/hp
 
-transform NotInCombat, AllowedShapes, MinPosition in predefined Guards that can be added with attribute
+search commands/skills/spells for additional guards
+    what at least one parameter (item) is required
+    whom at least one parameter (character) is required
+
+due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
+    we should be able to add ability to a character even if not related to current class/race (for immortal for example)
+
+resource kind: move/hp
+    ASIS
+        Max Move/Hit are stored in Attributes base attributes and current attributes and can be modified by affects
+        Current Move/Hit are stored in their own property
+    TOBE
+        Max Move/Hit are stored in ResourceKind
+        Max ResourceKind can be modified by affects similar to attributes
 
 new combat system
     how to handle mob assist ?(ASSIST_PLAYER, ASSIST_RACE, ASSIST_ALIGN, ASSIST_VNUM, ASSIST_GROUP)
@@ -198,7 +212,7 @@ http://www.wowhead.com/spell=17/power-word-shield
 http://www.wowhead.com/spell=5176/wrath
 http://www.wowhead.com/spell=33917/mangle
 http://www.wowhead.com/spell=3127/parry
-http://www.wowhead.com/spell=78/heroic-strike
+https://www.wowhead.com/classic/spell=78/heroic-strike
 
 cost: % or fixed amount of resource (mana/rage/energy)
 range: not used

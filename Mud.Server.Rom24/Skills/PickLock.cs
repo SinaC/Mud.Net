@@ -31,8 +31,8 @@ public class PickLock : SkillBase
 {
     private const string SkillName = "Pick Lock";
 
-    public PickLock(ILogger<PickLock> logger, IRandomManager randomManager)
-        : base(logger, randomManager)
+    public PickLock(ILogger<PickLock> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+        : base(logger, randomManager, abilityManager)
     {
     }
 

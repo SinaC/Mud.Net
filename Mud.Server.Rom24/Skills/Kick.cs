@@ -17,12 +17,12 @@ namespace Mud.Server.Rom24.Skills;
 [Help(
 @"Kicking allows the adventurer to receive an extra attack in combat, a powerful
 kick. However, a failed kick may throw an unwary fighter off balance.")]
-public class Kick : FightingSkillBase
+public class Kick : OffensiveSkillBase
 {
     private const string SkillName = "Kick";
 
-    public Kick(ILogger<Kick> logger, IRandomManager randomManager) 
-        : base(logger, randomManager)
+    public Kick(ILogger<Kick> logger, IRandomManager randomManager, IAbilityManager abilityManager) 
+        : base(logger, randomManager, abilityManager)
     {
     }
 

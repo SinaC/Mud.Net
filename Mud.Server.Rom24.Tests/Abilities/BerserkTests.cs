@@ -5,6 +5,7 @@ using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Flags;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Room;
@@ -20,6 +21,7 @@ public class BerserkTests : AbilityTestBase
     public void PcNotKnown()
     {
         Mock<IRandomManager> randomManagerMock = new();
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<IPlayableCharacter> userMock = new();
@@ -27,9 +29,9 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -40,6 +42,7 @@ public class BerserkTests : AbilityTestBase
     public void NpcNotKnownNoOffensiveFlags()
     {
         Mock<IRandomManager> randomManagerMock = new();
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<INonPlayableCharacter> userMock = new();
@@ -47,9 +50,9 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x.Room).Returns(roomMock.Object);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -60,6 +63,7 @@ public class BerserkTests : AbilityTestBase
     public void NpcNotKnownBerserkOffensiveFlags()
     {
         Mock<IRandomManager> randomManagerMock = new();
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<INonPlayableCharacter> userMock = new();
@@ -71,9 +75,9 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -84,6 +88,7 @@ public class BerserkTests : AbilityTestBase
     public void HasBerserkFlags()
     {
         Mock<IRandomManager> randomManagerMock = new();
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<IPlayableCharacter> userMock = new();
@@ -96,9 +101,9 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -109,6 +114,7 @@ public class BerserkTests : AbilityTestBase
     public void AffectedByBerserk()
     {
         Mock<IRandomManager> randomManagerMock = new();
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<IPlayableCharacter> userMock = new();
@@ -121,9 +127,9 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -134,6 +140,7 @@ public class BerserkTests : AbilityTestBase
     public void HasCalmFlag()
     {
         Mock<IRandomManager> randomManagerMock = new();
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<IPlayableCharacter> userMock = new();
@@ -146,9 +153,9 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -159,6 +166,7 @@ public class BerserkTests : AbilityTestBase
     public void NoMana()
     {
         Mock<IRandomManager> randomManagerMock = new();
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<IPlayableCharacter> userMock = new();
@@ -168,9 +176,9 @@ public class BerserkTests : AbilityTestBase
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -182,6 +190,7 @@ public class BerserkTests : AbilityTestBase
     {
         Mock<IRandomManager> randomManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => false);
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<IPlayableCharacter> userMock = new();
@@ -194,9 +203,9 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
         skill.Execute();
@@ -210,6 +219,7 @@ public class BerserkTests : AbilityTestBase
     {
         Mock<IRandomManager> randomManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<IPlayableCharacter> userMock = new();
@@ -222,9 +232,9 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
 
@@ -236,6 +246,7 @@ public class BerserkTests : AbilityTestBase
     {
         Mock<IRandomManager> randomManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
+        Mock<IAbilityManager> abilityManagerMock = new();
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<IPlayableCharacter> userMock = new();
@@ -248,9 +259,9 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition( skill.GetType()), userMock.Object);
+        var skillActionInput = new SkillActionInput(actionInput, new AbilityDefinition(skill.GetType(), []), userMock.Object);
 
         var result = skill.Setup(skillActionInput);
         skill.Execute();
@@ -264,6 +275,8 @@ public class BerserkTests : AbilityTestBase
     {
         Mock<IRandomManager> randomManagerMock = new();
         randomManagerMock.Setup(x => x.Chance(It.IsAny<int>())).Returns<int>(_ => true);
+        Mock<IAbilityManager> abilityManagerMock = new();
+        abilityManagerMock.SetupGet(x => x[It.IsAny<Type>()]).Returns(new AbilityDefinition(typeof(Berserk), []));
         Mock<IAuraManager> auraManagerMock = new();
 
         Mock<IPlayableCharacter> userMock = new();
@@ -276,8 +289,11 @@ public class BerserkTests : AbilityTestBase
         userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
+        //_guardGeneratorMock.Setup(x => x.GenerateCharacterGuards(It.IsAny<Type>()))
+        //    .Returns([]);
+
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");
-        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
+        var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, abilityManagerMock.Object, auraManagerMock.Object);
         var result = skill.Guards(actionInput);
         skill.Execute(actionInput);
 

@@ -4,15 +4,17 @@ using Mud.Server.Ability;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Spells;
 
-[Spell(SpellName, AbilityEffects.Buff, NotInCombat = true)]
+[Spell(SpellName, AbilityEffects.Buff), NotInCombat(Message = StringHelpers.YouLostYourConcentration)]
 [AbilityCharacterWearOffMessage("You feel weaker.")]
 [AbilityDispellable("{0:N} no longer looks so mighty.")]
 [Syntax("cast [spell] <character>")]

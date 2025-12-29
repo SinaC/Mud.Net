@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
@@ -9,7 +10,7 @@ using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("promote", "Admin", Priority = 999, NoShortcut = true, MinLevel = AdminLevels.Supremacy, CannotBeImpersonated = true)]
+[AdminCommand("promote", "Admin", Priority = 999, NoShortcut = true), MinAdminLevel(AdminLevels.Supremacy), CannotBeImpersonated]
 [Syntax("[cmd] <player name> <level>")]
 public class Promote : AdminGameAction
 {

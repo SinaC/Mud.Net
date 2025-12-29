@@ -6,8 +6,8 @@ using Mud.DataStructures.Trie;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Guards;
 using Mud.Server.Interfaces.Social;
-using System.Diagnostics;
 using System.Reflection;
 
 namespace Mud.Server.GameAction;
@@ -18,17 +18,19 @@ public class GameActionManager : IGameActionManager
     private ILogger<GameActionManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
     private ICommandParser CommandParser { get; }
+    private IGuardGenerator GuardGenerator { get; }
 
     private List<IGameActionInfo> _dynamicGameActionInfos;
     private List<IGameActionInfo> _staticGameActionInfos;
     private readonly Dictionary<Type, IGameActionInfo> _staticGameActionInfosByExecutionType;
     private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
-    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser, ISocialManager socialManager)
+    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser, IGuardGenerator guardGenerator, ISocialManager socialManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
         CommandParser = commandParser;
+        GuardGenerator = guardGenerator;
 
         _gameActionInfosTrieByActorType = []; // will be filled when a call to GetGameActions will be called
 
@@ -150,13 +152,26 @@ public class GameActionManager : IGameActionManager
         switch (commandAttribute)
         {
             case PlayableCharacterCommandAttribute playableCharacterCommandAttribute:
-                return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            {
+                var characterGuards = GuardGenerator.GenerateCharacterGuards(type);
+                return new PlayableCharacterGameActionInfo(type, playableCharacterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, characterGuards);
+            }
             case CharacterCommandAttribute characterCommandAttribute:
-                return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            {
+                var characterGuards = GuardGenerator.GenerateCharacterGuards(type);
+                return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, characterGuards);
+            }
             case AdminCommandAttribute adminCommandAttribute:
-                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            {
+                var playerGuards = GuardGenerator.GeneratePlayerGuards(type);
+                var adminGuards = GuardGenerator.GenerateAdminGuards(type);
+                return new AdminGameActionInfo(type, adminCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, playerGuards, adminGuards);
+            }
             case PlayerCommandAttribute playerCommandAttribute:
-                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
+            {
+                var playerGuards = GuardGenerator.GeneratePlayerGuards(type);
+                return new PlayerGameActionInfo(type, playerCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, playerGuards);
+            }
             case ItemCommandAttribute itemCommandAttribute:
                 return new ItemGameActionInfo(type, itemCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute);
             case RoomCommandAttribute roomCommandAttribute:
