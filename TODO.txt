@@ -1,6 +1,6 @@
 INGOING
-    multiple resource cost
 DONE
+    multiple resource cost
 
 ==========
 == TODO ==
