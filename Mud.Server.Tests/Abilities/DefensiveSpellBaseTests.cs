@@ -12,7 +12,7 @@ using Mud.Server.Random;
 namespace Mud.Server.Tests.Abilities;
 
 [TestClass]
-public class DefensiveSpellBaseSpells : AbilityTestBase
+public class DefensiveSpellBaseTests : AbilityTestBase
 {
     public const string SpellName = "DefensiveSpellBaseSpells_Spell";
 

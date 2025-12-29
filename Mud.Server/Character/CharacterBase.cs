@@ -2296,7 +2296,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             // we don't need to call IsTriggered because GetWeaponBaseDamage already used learned %age to mitigate the damage
             // the only thing we need in IsTriggered is to call CheckAbilityImprove
             var pc = this as IPlayableCharacter;
-            pc?.CheckAbilityImprove(abilityLearned.Name, true, abilityLearned.AbilityDefinition.LearnDifficultyMultiplier);
+            pc?.CheckAbilityImprove(abilityLearned.Name, true, abilityLearned.AbilityUsage.AbilityDefinition.LearnDifficultyMultiplier);
         }
 
         // bonus damage such as EnhancedDamage
@@ -2646,7 +2646,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected void MergeAbilities(IEnumerable<IAbilityUsage> abilities, bool naturalBorn, bool isBasics)
     {
         // If multiple identical abilities, keep only one with lowest level
-        foreach (IAbilityUsage abilityUsage in abilities)
+        foreach (var abilityUsage in abilities)
         {
             MergeAbility(abilityUsage, naturalBorn, isBasics);
         }
@@ -2658,7 +2658,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (abilityLearned != null)
         {
             //Logger.LogDebug("Merging KnownAbility with AbilityUsage for {0} Ability {1}", DebugName, abilityUsage.Ability.Name);
-            abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Min(abilityUsage.CostAmount, abilityLearned.CostAmount), Math.Max(isBasics ? 0 : 0, Math.Max(abilityUsage.MinLearned, abilityLearned.Learned)));
+            abilityLearned.Update(Math.Min(abilityUsage.Level, abilityLearned.Level), Math.Min(abilityUsage.Rating, abilityLearned.Rating), Math.Max(isBasics ? 0 : 0, Math.Max(abilityUsage.MinLearned, abilityLearned.Learned)));
             // TODO: what should be we if multiple resource kind or operator ?
         }
         else

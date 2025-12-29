@@ -1,11 +1,13 @@
 INGOING
-    IsDead instead of removing characters
 DONE
-    ReadOnlyCollection removed
+    multiple resource cost
 
 ==========
 == TODO ==
 ==========
+resource kind: move/hp
+
+transform NotInCombat, AllowedShapes, MinPosition in predefined Guards that can be added with attribute
 
 new combat system
     how to handle mob assist ?(ASSIST_PLAYER, ASSIST_RACE, ASSIST_ALIGN, ASSIST_VNUM, ASSIST_GROUP)

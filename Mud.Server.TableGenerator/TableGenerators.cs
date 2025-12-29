@@ -28,39 +28,50 @@ public static class TableGenerators
         TableGenerator<IAbilityLearned> generator = new();
         generator.AddColumn("Lvl", 5, x => x.Level.ToString());
         generator.AddColumn("Name", 23, x => x.Name.ToPascalCase(), new TableGenerator<IAbilityLearned>.ColumnOptions { AlignLeft = true });
-        generator.AddColumn("Cost", 12, x =>
+        generator.AddColumn("Cost", 20, x =>
         {
             if (x.Learned == 0)
                 return "n/a";
-            if (x.AbilityDefinition.Type == AbilityTypes.Passive)
+            if (x.AbilityUsage.AbilityDefinition.Type == AbilityTypes.Passive)
                 return "%m%passive%x%";
-            else if (x.AbilityDefinition.Type == AbilityTypes.Weapon)
+            else if (x.AbilityUsage.AbilityDefinition.Type == AbilityTypes.Weapon)
                 return "%y%weapon%x%";
-            if (x.CostAmountOperator == CostAmountOperators.Percentage)
+            if (x.HasCost)
             {
-                if (x.ResourceKind.HasValue)
-                    return $"{x.CostAmount}% {x.ResourceKind.Value.ResourceColor()}";
-                return "???";
-            }
-            else if (x.CostAmountOperator == CostAmountOperators.Fixed)
-            {
-                if (x.ResourceKind.HasValue)
-                    return $"{x.CostAmount} {x.ResourceKind.Value.ResourceColor()}";
-                return "???";
-            }
-            else if (x.CostAmountOperator == CostAmountOperators.All)
-            {
-                if (x.ResourceKind.HasValue)
+                var sb = new StringBuilder();
+                var shortDisplay = x.AbilityUsage.ResourceCosts.Length > 1;
+                for (var i = 0; i < x.AbilityUsage.ResourceCosts.Length; i++)
                 {
-                    if (x.CostAmount > 0)
-                        return $"min {x.CostAmount} {x.ResourceKind.Value.ResourceColor()}";
-                    return $"all {x.ResourceKind.Value.ResourceColor()}";
+                    var cost = x.AbilityUsage.ResourceCosts[i];
+                    switch (cost.CostAmountOperator)
+                    {
+                        case CostAmountOperators.None:
+                            sb.Append("%W%free%x%");
+                            break;
+                        case CostAmountOperators.Fixed:
+                            sb.Append($"{cost.CostAmount} {cost.ResourceKind.ResourceColor(shortDisplay)}");
+                            break;
+                        case CostAmountOperators.Percentage:
+                            sb.Append($"{cost.CostAmount}% {cost.ResourceKind.ResourceColor(shortDisplay)}");
+                            break;
+                        case CostAmountOperators.All:
+                            sb.Append($"all {cost.ResourceKind.ResourceColor(shortDisplay)}");
+                            break;
+                        case CostAmountOperators.AllWithMin:
+                            sb.Append($"min {cost.CostAmount} {cost.ResourceKind.ResourceColor(shortDisplay)}");
+                            break;
+                        default:
+                            sb.Append("???");
+                            break;
+                    }
+                    if (i < x.AbilityUsage.ResourceCosts.Length - 1)
+                        sb.Append(", ");
+
                 }
-                return "???";
+                return sb.ToString();
             }
-            else if (x.CostAmountOperator == CostAmountOperators.None)
+            else
                 return "%W%free%x%";
-            return "???";
         });
         generator.AddColumn("Pra%", 6, 
             x =>
@@ -69,8 +80,8 @@ public static class TableGenerators
                     return "n/a";
                 return $"{x.Learned}%";
             });
-        generator.AddColumn("Type", 10, x => x.AbilityDefinition.Type.ToString());
-        generator.AddColumn("Cooldown", 10, x => x.AbilityDefinition.CooldownInSeconds.HasValue ? x.AbilityDefinition.CooldownInSeconds.Value.FormatDelayShort() : "---");
+        generator.AddColumn("Type", 10, x => x.AbilityUsage.AbilityDefinition.Type.ToString());
+        generator.AddColumn("Cooldown", 10, x => x.AbilityUsage.AbilityDefinition.CooldownInSeconds.HasValue ? x.AbilityUsage.AbilityDefinition.CooldownInSeconds.Value.FormatDelayShort() : "---");
         return generator;
     });
 
@@ -99,7 +110,7 @@ public static class TableGenerators
         TableGenerator<IClass> generator = new();
         generator.AddColumn("Name", 20, x => x.DisplayName, new TableGenerator<IClass>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("ShortName", 10, x => x.ShortName);
-        generator.AddColumn("Resource(s)", 24, x => string.Join(",", (x.ResourceKinds ?? Enumerable.Empty<ResourceKinds>()).Select(StringHelpers.ResourceColor)));
+        generator.AddColumn("Resource(s)", 24, x => string.Join(",", (x.ResourceKinds ?? Enumerable.Empty<ResourceKinds>()).Select(x => x.ResourceColor(false))));
         generator.AddColumn("Prime attr", 12, x => x.PrimeAttribute.ShortName());
         generator.AddColumn("#Abilities", 12, x =>
         {
@@ -203,17 +214,35 @@ public static class TableGenerators
                     return "%m%passive%x%";
                 else if (x.AbilityDefinition.Type == AbilityTypes.Weapon)
                     return "%y%weapon%x%";
-                if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed || x.CostAmountOperator == CostAmountOperators.All)
+                if (x.HasCost)
                 {
-                    if (x.ResourceKind.HasValue)
-                        return x.ResourceKind.Value.ResourceColor();
-                    else
-                        return "???";
+                    var sb = new StringBuilder();
+                    var shortDisplay = x.ResourceCosts.Length > 1;
+                    for (var i = 0; i < x.ResourceCosts.Length; i++)
+                    {
+                        var cost = x.ResourceCosts[i];
+                        switch (cost.CostAmountOperator)
+                        {
+                            case CostAmountOperators.None:
+                                sb.Append("%W%free%x%");
+                                break;
+                            case CostAmountOperators.Fixed:
+                            case CostAmountOperators.Percentage:
+                            case CostAmountOperators.All:
+                            case CostAmountOperators.AllWithMin:
+                                sb.Append(cost.ResourceKind.ResourceColor(shortDisplay));
+                                break;
+                            default:
+                                sb.Append("???");
+                                break;
+                        }
+                        if (i < x.ResourceCosts.Length - 1)
+                            sb.Append(", ");
+                    }
+                    return sb.ToString();
                 }
-                else if (x.CostAmountOperator == CostAmountOperators.None)
-                    return "%W%free cost ability%x%";
                 else
-                    return "???";
+                    return "%W%free cost ability%x%";
             },
             new TableGenerator<IAbilityUsage>.ColumnOptions
             {
@@ -221,25 +250,48 @@ public static class TableGenerators
                 {
                     if (x.AbilityDefinition.Type == AbilityTypes.Passive || x.AbilityDefinition.Type == AbilityTypes.Weapon)
                         return 1;
-                    if (x.CostAmountOperator == CostAmountOperators.Percentage || x.CostAmountOperator == CostAmountOperators.Fixed || x.CostAmountOperator == CostAmountOperators.All)
+                    if (x.HasCost)
                         return 0;
                     return 1;
                 }
             });
-        generator.AddColumn("Cost", 8,
+        generator.AddColumn("Cost", 12,
             x =>
             {
-                if (x.CostAmountOperator == CostAmountOperators.All)
+                if (x.HasCost)
                 {
-                    if (x.CostAmount > 0)
-                        return $"min {x.CostAmount}";
-                    return "all";
+                    var sb = new StringBuilder();
+                    var shortDisplay = x.ResourceCosts.Length > 1;
+                    for(var i = 0; i < x.ResourceCosts.Length; i++)
+                    {
+                        var cost = x.ResourceCosts[i];
+                        switch (cost.CostAmountOperator)
+                        {
+                            case CostAmountOperators.None:
+                                sb.Append("free");
+                                break;
+                            case CostAmountOperators.Fixed:
+                                sb.Append($"{cost.CostAmount}");
+                                break;
+                            case CostAmountOperators.Percentage:
+                                sb.Append($"{cost.CostAmount}%");
+                                break;
+                            case CostAmountOperators.All:
+                                sb.Append($"all");
+                                break;
+                            case CostAmountOperators.AllWithMin:
+                                sb.Append($"min {cost.CostAmount}");
+                                break;
+                            default:
+                                sb.Append("???");
+                                break;
+                        }
+                        if (i < x.ResourceCosts.Length - 1)
+                            sb.Append(", ");
+                    }
+                    return sb.ToString();
                 }
-                return x.CostAmount.ToString();
-            },
-            new TableGenerator<IAbilityUsage>.ColumnOptions
-            {
-                GetTrailingSpaceFunc = x => x.CostAmountOperator == CostAmountOperators.Percentage ? "%" : " "
+                return string.Empty;
             });
         generator.AddColumn("Type", 10, x => x.AbilityDefinition.Type.ToString());
         generator.AddColumn("Rating", 8, x => x.Rating.ToString());

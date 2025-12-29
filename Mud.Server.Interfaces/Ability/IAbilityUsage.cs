@@ -1,6 +1,4 @@
-﻿using Mud.Domain;
-
-namespace Mud.Server.Interfaces.Ability;
+﻿namespace Mud.Server.Interfaces.Ability;
 
 public interface IAbilityUsage
 {
@@ -8,15 +6,13 @@ public interface IAbilityUsage
 
     int Level { get; }
 
-    ResourceKinds? ResourceKind { get; }
-
-    int CostAmount { get; }
-
-    CostAmountOperators CostAmountOperator { get; }
+    IAbilityResourceCost[] ResourceCosts { get; }
 
     int Rating { get; }
 
     int MinLearned { get; }
 
     IAbilityDefinition AbilityDefinition { get; }
+
+    bool HasCost { get; }
 }

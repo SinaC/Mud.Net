@@ -17,8 +17,7 @@ public abstract class SpellBase : ISpell
     protected bool IsSetupExecuted { get; private set; }
     protected ICharacter Caster { get; private set; } = default!;
     protected int Level { get; private set; }
-    protected int? Cost { get; private set; }
-    protected ResourceKinds? ResourceKind { get; private set; }
+    protected ResourceCostToPay[] ResourceCostsToPay { get; private set; } = default!;
     protected bool IsCastFromItem { get; private set; }
 
     protected SpellBase(ILogger<SpellBase> logger, IRandomManager randomManager)
@@ -91,39 +90,51 @@ public abstract class SpellBase : ISpell
 
         // 6) check resource cost
         var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
-        if (abilityLearned != null && abilityLearned.HasCost())
+        if (abilityLearned != null && abilityLearned.HasCost)
         {
-            var resourceKind = abilityLearned.ResourceKind!.Value;
-            if (!Caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
-                return $"You can't use {resourceKind} as resource for the moment.";
-            int resourceLeft = Caster[resourceKind];
-            int cost;
-            switch (abilityLearned.CostAmountOperator)
+            var resourceCostToPays = new List<ResourceCostToPay>();
+            foreach (var abilityResourceCost in abilityLearned.AbilityUsage.ResourceCosts)
             {
-                case CostAmountOperators.Fixed:
-                    cost = abilityLearned.CostAmount;
-                    break;
-                case CostAmountOperators.Percentage:
-                    cost = Caster.MaxResource(resourceKind) * abilityLearned.CostAmount / 100;
-                    break;
-                case CostAmountOperators.All:
-                    cost = Math.Min(abilityLearned.CostAmount, Caster[resourceKind]);
-                    break;
-                default:
-                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityDefinition.Name);
-                    cost = 100;
-                    break;
+                // TODO: check each costs
+                var resourceKind = abilityResourceCost.ResourceKind;
+                if (!Caster.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
+                    return $"You can't use {resourceKind} as resource for the moment.";
+                int resourceLeft = Caster[resourceKind];
+                int cost;
+                bool isAll = false;
+                switch (abilityResourceCost.CostAmountOperator)
+                {
+                    case CostAmountOperators.Fixed:
+                        cost = abilityResourceCost.CostAmount;
+                        break;
+                    case CostAmountOperators.Percentage:
+                        cost = Caster.MaxResource(resourceKind) * abilityResourceCost.CostAmount / 100;
+                        break;
+                    case CostAmountOperators.All:
+                        cost = Caster[resourceKind];
+                        isAll = true;
+                        break;
+                    case CostAmountOperators.AllWithMin:
+                        cost = Math.Max(abilityResourceCost.CostAmount, Caster[resourceKind]);
+                        isAll = true;
+                        break;
+
+                    default:
+                        Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityResourceCost.CostAmountOperator, AbilityDefinition.Name);
+                        cost = 100;
+                        break;
+                }
+                bool enoughResource = cost <= resourceLeft;
+                if (!enoughResource)
+                    return $"You don't have enough {resourceKind}.";
+                var resourceCostToPay = new ResourceCostToPay(resourceKind, cost, isAll);
+                resourceCostToPays.Add(resourceCostToPay);
             }
-            var enoughResource = cost <= resourceLeft;
-            if (!enoughResource)
-                return $"You don't have enough {resourceKind}.";
-            Cost = cost;
-            ResourceKind = resourceKind;
+            ResourceCostsToPay = resourceCostToPays.ToArray();
         }
         else
         {
-            Cost = null;
-            ResourceKind = null;
+            ResourceCostsToPay = [];
         }
         return null;
     }
@@ -140,8 +151,7 @@ public abstract class SpellBase : ISpell
             return "You are nowhere...";
         Level = spellActionInput.Level;
 
-        Cost = null;
-        ResourceKind = null;
+        ResourceCostsToPay = []; // no resource to pay when cast from item
 
         // 2) check targets
         var setTargetResult = SetTargets(spellActionInput);
@@ -160,15 +170,22 @@ public abstract class SpellBase : ISpell
         {
             Caster.Send("You lost your concentration.");
             pcCaster?.CheckAbilityImprove(AbilityDefinition.Name, false, 1);
-            // pay half resource
-            if (Cost.HasValue && Cost.Value > 1 && ResourceKind.HasValue)
-                Caster.UpdateResource(ResourceKind.Value, -Cost.Value / 2);
+            // pay half cost except if 'all'
+            foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
+            {
+                if (resourceCostToPay.IsAll)
+                    Caster.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount);
+                else
+                    Caster.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount/2);
+            }
             return;
         }
 
-        // 2) pay resource
-        if (Cost.HasValue && Cost.Value >= 1 && ResourceKind.HasValue)
-            Caster.UpdateResource(ResourceKind.Value, -Cost.Value);
+        // 2) pay costs
+        foreach (var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
+        {
+            Caster.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount);
+        }
 
         // 3) say spell if not ventriloquate
         SaySpell();
@@ -195,4 +212,6 @@ public abstract class SpellBase : ISpell
 
     protected virtual void SaySpell()
         => SpellHelper.SaySpell(Caster, AbilityDefinition);
+
+    protected record ResourceCostToPay(ResourceKinds ResourceKind, int CostAmount, bool IsAll);
 }

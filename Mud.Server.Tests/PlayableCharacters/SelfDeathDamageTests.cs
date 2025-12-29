@@ -41,7 +41,7 @@ namespace Mud.Server.Tests.PlayableCharacters
             var roomMock = new Mock<IRoom>();
 
             classManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IClass>().Object);
-            raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IRace>().Object);
+            raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IPlayableRace>().Object);
 
             var pcData = new PlayableCharacterData
             {

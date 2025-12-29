@@ -108,7 +108,7 @@ public class Info : AdminGameAction
                 [
                     Class.DisplayName,
                     $"ShortName: {Class.ShortName}",
-                    $"Resource(s): {string.Join(",", Class.ResourceKinds?.Select(x => $"{x.ResourceColor()}") ?? [])}",
+                    $"Resource(s): {string.Join(",", Class.ResourceKinds?.Select(x => $"{x.ResourceColor(false)}") ?? [])}",
                     $"Prime attribute: %W%{Class.PrimeAttribute}%x%",
                     $"Max practice percentage: %W%{Class.MaxPracticePercentage}%x%",
                     $"Hp/level: min: %W%{Class.MinHitPointGainPerLevel}%x% max: %W%{Class.MaxHitPointGainPerLevel}%x%"

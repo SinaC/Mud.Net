@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Server.Interfaces.Ability;
+﻿using Mud.Server.Interfaces.Ability;
 
 namespace Mud.Server.Ability;
 
@@ -9,11 +8,7 @@ public class AbilityUsage : IAbilityUsage
 
     public int Level { get; }
 
-    public ResourceKinds? ResourceKind { get; }
-
-    public int CostAmount { get; }
-
-    public CostAmountOperators CostAmountOperator { get; }
+    public IAbilityResourceCost[] ResourceCosts { get; }
 
     public int Rating { get; }
 
@@ -21,13 +16,13 @@ public class AbilityUsage : IAbilityUsage
 
     public IAbilityDefinition AbilityDefinition { get; }
 
-    public AbilityUsage(string name, int level, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int minLearned, IAbilityDefinition abilityDefinition)
+    public bool HasCost => ResourceCosts.Length > 0;
+
+    public AbilityUsage(string name, int level, IEnumerable<IAbilityResourceCost> resourceCosts, int rating, int minLearned, IAbilityDefinition abilityDefinition)
     {
         Name = name;
         Level = level;
-        ResourceKind = resourceKind;
-        CostAmount = costAmount;
-        CostAmountOperator = costAmountOperator;
+        ResourceCosts = resourceCosts.ToArray();
         Rating = rating;
         MinLearned = minLearned;
         AbilityDefinition = abilityDefinition;
