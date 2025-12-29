@@ -19,8 +19,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
     protected bool IsSetupExecuted { get; private set; }
     protected ICharacter User { get; private set; } = default!;
     protected int Learned { get; private set; }
-    protected int? Cost { get; private set; }
-    protected ResourceKinds? ResourceKind { get; private set; }
+    protected ResourceCostToPay[] ResourceCostsToPay { get; private set; } = default!;
 
     protected SkillBase(ILogger<SkillBase> logger, IRandomManager randomManager)
     {
@@ -58,40 +57,51 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (MustBeLearned && abilityLearned == null)
             return "You don't know any skills of that name.";
 
-        // 5) check resource cost
-        if (abilityLearned != null && abilityLearned.HasCost())
+        // 5) check costs
+        if (abilityLearned != null && abilityLearned.HasCost)
         {
-            var resourceKind = abilityLearned.ResourceKind!.Value;
-            if (!User.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
-                return $"You can't use {resourceKind} as resource for the moment.";
-            int resourceLeft = User[resourceKind];
-            int cost;
-            switch (abilityLearned.CostAmountOperator)
+            var resourceCostToPays = new List<ResourceCostToPay>();
+            foreach (var abilityResourceCost in abilityLearned.AbilityUsage.ResourceCosts)
             {
-                case CostAmountOperators.Fixed:
-                    cost = abilityLearned.CostAmount;
-                    break;
-                case CostAmountOperators.Percentage:
-                    cost = User.MaxResource(resourceKind) * abilityLearned.CostAmount / 100;
-                    break;
-                case CostAmountOperators.All:
-                    cost = Math.Max(abilityLearned.CostAmount, User[resourceKind]);
-                    break;
-                default:
-                    Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityLearned.CostAmountOperator, AbilityDefinition.Name);
-                    cost = 100;
-                    break;
+                // TODO: check each costs
+                var resourceKind = abilityResourceCost.ResourceKind;
+                if (!User.CurrentResourceKinds.Contains(resourceKind)) // TODO: not sure about this test
+                    return $"You can't use {resourceKind} as resource for the moment.";
+                int resourceLeft = User[resourceKind];
+                int cost;
+                bool isAll = false;
+                switch (abilityResourceCost.CostAmountOperator)
+                {
+                    case CostAmountOperators.Fixed:
+                        cost = abilityResourceCost.CostAmount;
+                        break;
+                    case CostAmountOperators.Percentage:
+                        cost = User.MaxResource(resourceKind) * abilityResourceCost.CostAmount / 100;
+                        break;
+                    case CostAmountOperators.All:
+                        cost = User[resourceKind];
+                        isAll = true;
+                        break;
+                    case CostAmountOperators.AllWithMin:
+                        cost = Math.Max(abilityResourceCost.CostAmount, User[resourceKind]);
+                        isAll = true;
+                        break;
+                    default:
+                        Logger.LogError("Unexpected CostAmountOperator {costAmountOperator} for ability {abilityName}.", abilityResourceCost.CostAmountOperator, AbilityDefinition.Name);
+                        cost = 100;
+                        break;
+                }
+                bool enoughResource = cost <= resourceLeft;
+                if (!enoughResource)
+                    return $"You don't have enough {resourceKind}.";
+                var resourceCostToPay = new ResourceCostToPay(resourceKind, cost, isAll);
+                resourceCostToPays.Add(resourceCostToPay);
             }
-            bool enoughResource = cost <= resourceLeft;
-            if (!enoughResource)
-                return $"You don't have enough {resourceKind}.";
-            Cost = cost;
-            ResourceKind = resourceKind;
+            ResourceCostsToPay = resourceCostToPays.ToArray();
         }
         else
         {
-            Cost = null;
-            ResourceKind = null;
+            ResourceCostsToPay = [];
         }
 
         // 6) check targets
@@ -116,13 +126,13 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         // 1) invoke skill
         var result = Invoke();
 
-        // 2) pay resource
-        if (Cost.HasValue && Cost.Value >= 1 && ResourceKind.HasValue)
+        // 2) pay costs
+        foreach(var resourceCostToPay in ResourceCostsToPay.Where(x => x.CostAmount > 0))
         {
-            if (result)
-                User.UpdateResource(ResourceKind.Value, -Cost.Value);
+            if (result || resourceCostToPay.IsAll)
+                User.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount);
             else
-                User.UpdateResource(ResourceKind.Value, -Cost.Value / 2); // half cost if failed
+                User.UpdateResource(resourceCostToPay.ResourceKind, -resourceCostToPay.CostAmount/2); // half cost if failed and not 'all'
         }
 
         // 3) GCD
@@ -164,4 +174,6 @@ public abstract class SkillBase : CharacterGameAction, ISkill
 
     protected abstract string? SetTargets(ISkillActionInput skillActionInput);
     protected abstract bool Invoke(); // return true if skill has been used with success, false if failed
+
+    protected record ResourceCostToPay(ResourceKinds ResourceKind, int CostAmount, bool IsAll);
 }

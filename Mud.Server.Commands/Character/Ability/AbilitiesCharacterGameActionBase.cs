@@ -40,7 +40,7 @@ public abstract class AbilitiesCharacterGameActionBase : CharacterGameAction
     {
         IEnumerable<IAbilityLearned> abilities = Actor.LearnedAbilities
             //.Where(x => (displayAll || x.Level <= Level) && (displayAll || x.Learned > 0) && filterOnAbilityKind(x.Ability.Kind))
-            .Where(x => (DisplayAll || (x.Level <= Actor.Level && x.Learned > 0)) && AbilityTypeFilterFunc(x.AbilityDefinition.Type))
+            .Where(x => (DisplayAll || (x.Level <= Actor.Level && x.Learned > 0)) && AbilityTypeFilterFunc(x.AbilityUsage.AbilityDefinition.Type))
             .OrderBy(x => x.Level)
             .ThenBy(x => x.Name);
 

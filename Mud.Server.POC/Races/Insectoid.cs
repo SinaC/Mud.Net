@@ -17,10 +17,10 @@ public class Insectoid : PlayableRaceBase // 4-arms
     public Insectoid(ILogger<Insectoid> logger, IAbilityManager abilityManager)
         : base(logger, abilityManager)
     {
-        AddNaturalAbility(1, "Test", null, 0, CostAmountOperators.None, 0);
-        AddNaturalAbility(1, "Dual Wield", null, 0, CostAmountOperators.None, 0);
-        AddNaturalAbility(1, "Third Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
-        AddNaturalAbility(1, "Fourth Wield", null, 0, CostAmountOperators.None, 0); // only if warrior
+        AddNaturalAbility("Test", 0);
+        AddNaturalAbility("Dual Wield", 0);
+        AddNaturalAbility("Third Wield", 0); // only if warrior
+        AddNaturalAbility("Fourth Wield", 0); // only if warrior
 
         // Test race with all spells
         foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))

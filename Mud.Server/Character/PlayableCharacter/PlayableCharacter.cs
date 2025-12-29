@@ -97,7 +97,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Wiznet.Log($"Invalid class '{data.Class}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
         Race = RaceManager[data.Race]!;
-        if (Race == null)
+        if (Race == null || Race is not IPlayableRace)
         {
             Race = RaceManager.PlayableRaces.First();
             Wiznet.Log($"Invalid race '{data.Race}' for character {data.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
@@ -154,7 +154,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         {
             Wiznet.Log($"PlayableCharacter.ctor: attributes not found in pfile for {data.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
-            foreach (CharacterAttributes attribute in Enum.GetValues<CharacterAttributes>())
+            foreach (var attribute in Enum.GetValues<CharacterAttributes>())
                 this[attribute] = 1;
         }
         InitializeCurrentHitPoints(data.HitPoints); // cannot use SetHitPoints because CurrentMax has not been yet calculated (will be calculated in ResetAttributes)
@@ -169,7 +169,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (data.Equipments != null)
         {
             // Create item in inventory and try to equip it
-            foreach (EquippedItemData equippedItemData in data.Equipments)
+            foreach (var equippedItemData in data.Equipments)
             {
                 if (equippedItemData.Item == null)
                 {
@@ -231,15 +231,22 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // Learn abilities
         if (data.LearnedAbilities != null)
         {
-            foreach (LearnedAbilityData learnedAbilityData in data.LearnedAbilities)
+            foreach (var learnedAbilityData in data.LearnedAbilities)
             {
                 var abilityDefinition = AbilityManager[learnedAbilityData.Name];
                 if (abilityDefinition == null)
-                    Wiznet.Log($"LearnedAbility:  Ability {learnedAbilityData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 else
                 {
-                    var abilityLearned = new AbilityLearned(learnedAbilityData, abilityDefinition);
-                    AddLearnedAbility(abilityLearned);
+                    // search ability usage in race then in class
+                    var abilityUsage = ((IPlayableRace)Race).Abilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)) ?? Class.AvailableAbilities.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name));
+                    if (abilityUsage == null)
+                        Wiznet.Log($"LearnedAbility: Ability {learnedAbilityData.Name} is not anymore available for {Race.Name} or {Class.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    else
+                    {
+                        var abilityLearned = new AbilityLearned(learnedAbilityData, abilityUsage);
+                        AddLearnedAbility(abilityLearned);
+                    }
                 }
             }
         }
@@ -576,7 +583,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
         if (Daze > 0)
         {
-            if (abilityLearned?.AbilityDefinition.Type == AbilityTypes.Spell)
+            if (abilityLearned?.AbilityUsage?.AbilityDefinition.Type == AbilityTypes.Spell)
                 learned /= 2;
             else
                 learned = (learned * 2) / 3;

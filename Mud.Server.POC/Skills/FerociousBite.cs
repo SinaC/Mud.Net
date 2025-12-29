@@ -31,7 +31,8 @@ public class FerociousBite : OffensiveSkillBase
 
     protected override bool Invoke()
     {
-        var comboDamage = Cost switch
+        var comboCost = ResourceCostsToPay?.SingleOrDefault(x => x.ResourceKind == ResourceKinds.Combo)?.CostAmount ?? 0;
+        var comboDamage = comboCost switch
         {
             1 => RandomManager.Range(199,259),
             2 => RandomManager.Range(346, 406),
@@ -40,12 +41,11 @@ public class FerociousBite : OffensiveSkillBase
             5 => RandomManager.Range(787, 847),
             _ => 0
         };
-        var energyDamage = (int)(User[ResourceKinds.Energy] * 2.7);
-        var damage = comboDamage + energyDamage;
+        var energyCost = ResourceCostsToPay?.SingleOrDefault(x => x.ResourceKind == ResourceKinds.Energy)?.CostAmount ?? 0;
+        var energyDamage = energyCost * 2.7m;
+        var damage = (int)(comboDamage + energyDamage);
         Victim.AbilityDamage(User, damage, SchoolTypes.Pierce, "ferocious bite", true);
         //check_killer(ch,victim);
-        // use remaining energy
-        User.SetResource(ResourceKinds.Energy, 0);
         return true;
     }
 }

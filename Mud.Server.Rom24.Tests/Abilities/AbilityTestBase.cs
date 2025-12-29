@@ -2,6 +2,7 @@
 using Moq;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Ability;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
@@ -70,11 +71,9 @@ public abstract class AbilityTestBase
     protected static IAbilityLearned BuildAbilityLearned(string name)
     {
         var mock = new Mock<IAbilityLearned>();
+        mock.SetupGet(x => x.AbilityUsage).Returns(new AbilityUsage(name, 1, [new AbilityResourceCost(ResourceKinds.Mana, 50, CostAmountOperators.Fixed)], 1, 100, null!));
         mock.SetupGet(x => x.Name).Returns(name);
-        mock.SetupGet(x => x.ResourceKind).Returns(ResourceKinds.Mana);
-        mock.SetupGet(x => x.CostAmount).Returns(50);
-        mock.SetupGet(x => x.CostAmountOperator).Returns(CostAmountOperators.Fixed);
-        mock.Setup(x => x.HasCost()).Returns(true);
+        mock.Setup(x => x.HasCost).Returns(true);
         return mock.Object;
     }
 

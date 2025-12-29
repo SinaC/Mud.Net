@@ -455,9 +455,6 @@ done	     exit the character generation process");
                 var weaponLearnedAbilityData = new LearnedAbilityData
                 {
                     Name = weaponAbilityUsage.Name,
-                    ResourceKind = weaponAbilityUsage.ResourceKind,
-                    CostAmount = weaponAbilityUsage.CostAmount,
-                    CostAmountOperator = weaponAbilityUsage.CostAmountOperator,
                     Level = weaponAbilityUsage.Level,
                     Learned = Math.Max(weaponAbilityUsage.MinLearned, 40),
                     Rating = weaponAbilityUsage.Rating,
@@ -470,7 +467,6 @@ done	     exit the character generation process");
                 var existingLearnedAbilityData = learnedAbilityDatas.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, learnedAbility.Name));
                 if (existingLearnedAbilityData != null)
                 {
-                    existingLearnedAbilityData.CostAmount = Math.Min(existingLearnedAbilityData.CostAmount, learnedAbility.CostAmount);
                     existingLearnedAbilityData.Level = Math.Min(existingLearnedAbilityData.Level, learnedAbility.Level);
                     existingLearnedAbilityData.Learned = Math.Max(existingLearnedAbilityData.Learned, learnedAbility.MinLearned);
                     existingLearnedAbilityData.Rating = Math.Max(existingLearnedAbilityData.Rating, learnedAbility.Rating);
@@ -480,9 +476,6 @@ done	     exit the character generation process");
                     var learnedAbilityData = new LearnedAbilityData
                     {
                         Name = learnedAbility.Name,
-                        ResourceKind = learnedAbility.ResourceKind,
-                        CostAmount = learnedAbility.CostAmount,
-                        CostAmountOperator = learnedAbility.CostAmountOperator,
                         Level = learnedAbility.Level,
                         Learned = learnedAbility.Level <= 1
                             ? Math.Max(1, learnedAbility.MinLearned)

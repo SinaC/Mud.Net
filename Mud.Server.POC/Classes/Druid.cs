@@ -76,13 +76,13 @@ public class Druid : ClassBase
         AddAvailableAbility(20, "Maul", Mud.Domain.ResourceKinds.Rage, 10, CostAmountOperators.Fixed, 1, 100);
         AddAvailableAbility(24, "Rake", Mud.Domain.ResourceKinds.Energy, 40, CostAmountOperators.Fixed, 1, 100);
         AddAvailableAbility(25, "Swipe", Mud.Domain.ResourceKinds.Rage, 16, CostAmountOperators.Fixed, 1, 100);
-        AddAvailableAbility(32, "Ferocious Bite", Mud.Domain.ResourceKinds.Combo, 1, CostAmountOperators.All, 1, 100);
+        AddAvailableAbility(32, "Ferocious Bite", [ (Mud.Domain.ResourceKinds.Combo, 1, CostAmountOperators.AllWithMin), (Mud.Domain.ResourceKinds.Energy, 0, CostAmountOperators.All)], 1, 100);
 
         AddBasicAbilityGroup("druid basics");
 
         // add weapons
         foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Weapon))
-            AddAvailableAbility(10, abilityDefinition.Name, null, 0, CostAmountOperators.None, 1, 100);
+            AddAvailableAbility(10, abilityDefinition.Name, 1, 100);
         //// Test class with all skills + Passive
         //foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Skill))
         //    if (StringCompareHelpers.StringEquals(abilityDefinition.Name, "Berserk"))

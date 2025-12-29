@@ -71,7 +71,7 @@ public abstract class ClassBase : IClass
         Help = helpAttribute?.Help;
     }
 
-    protected void AddAvailableAbility(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int baseLearned = 0)
+    protected void AddAvailableAbility(int level, string abilityName, IEnumerable<(ResourceKinds resourceKind, int costAmount, CostAmountOperators costAmountOperator)> costs, int rating, int baseLearned = 0)
     {
         var abilityDefinition = AbilityManager[abilityName];
         if (abilityDefinition == null)
@@ -86,17 +86,24 @@ public abstract class ClassBase : IClass
         }
         // TODO: check level >= 1, amount >= 0, rating >= 0, baseLearned >= 1
         //
-        _availableAbilities.Add(new AbilityUsage(abilityName, level, resourceKind, costAmount, costAmountOperator, rating, baseLearned, abilityDefinition));
+        var abilityCosts = costs.Select(x => new AbilityResourceCost(x.resourceKind, x.costAmount, x.costAmountOperator)).ToList();
+        _availableAbilities.Add(new AbilityUsage(abilityName, level, abilityCosts, rating, baseLearned, abilityDefinition));
     }
 
-    protected void AddAvailableSpell(int level, string abilityName, ResourceKinds? resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int baseLearned = 0)
+    protected void AddAvailableAbility(int level, string abilityName, int rating, int baseLearned = 0)
+        => AddAvailableAbility(level, abilityName, [], rating, baseLearned);
+
+    protected void AddAvailableAbility(int level, string abilityName, ResourceKinds resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int baseLearned = 0)
+        => AddAvailableAbility(level, abilityName, [(resourceKind, costAmount, costAmountOperator)], rating, baseLearned);
+
+    protected void AddAvailableSpell(int level, string abilityName, ResourceKinds resourceKind, int costAmount, CostAmountOperators costAmountOperator, int rating, int baseLearned = 0)
         => AddAvailableAbility(level, abilityName, resourceKind, costAmount, costAmountOperator, rating, baseLearned);
 
     protected void AddAvailableSkill(int level, string abilityName, int rating, int baseLearned = 0)
-        => AddAvailableAbility(level, abilityName, null, 0, CostAmountOperators.None, rating, baseLearned);
+        => AddAvailableAbility(level, abilityName, rating, baseLearned);
 
     protected void AddAvailablePassive(int level, string abilityName, int rating, int baseLearned = 0)
-        => AddAvailableAbility(level, abilityName, null, 0, CostAmountOperators.None, rating, baseLearned);
+        => AddAvailableAbility(level, abilityName, rating, baseLearned);
 
     protected void AddAvailableAbilityGroup(string abilityGroupName, int cost)
         => AddGroup(abilityGroupName, cost, false);

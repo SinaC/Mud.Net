@@ -1,5 +1,4 @@
-﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
+﻿using Mud.Domain.SerializationData;
 using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Interfaces.Ability;
@@ -10,27 +9,20 @@ public interface IAbilityLearned
 
     int Level { get; }
 
-    ResourceKinds? ResourceKind { get; }
-
-    int CostAmount { get; }
-
-    CostAmountOperators CostAmountOperator { get; }
-
     int Rating { get; }
 
-    IAbilityDefinition AbilityDefinition { get; }
+    IAbilityUsage AbilityUsage { get; }
 
     int Learned { get; }
 
     void IncrementLearned(int amount);
     void SetLearned(int amount);
 
-    void Update(int level, int rating, int costAmount, int learned);
     void Update(int level, int rating, int learned);
 
     bool CanBePracticed(IPlayableCharacter playableCharacter);
 
-    bool HasCost();
+    bool HasCost { get; }
 
     LearnedAbilityData MapLearnedAbilityData();
 }

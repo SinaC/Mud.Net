@@ -674,7 +674,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
         if (Daze > 0)
         {
-            if (abilityLearned?.AbilityDefinition.Type == AbilityTypes.Spell)
+            if (abilityLearned?.AbilityUsage.AbilityDefinition.Type == AbilityTypes.Spell)
                 learned /= 2;
             else
                 learned = (learned * 2) / 3;
