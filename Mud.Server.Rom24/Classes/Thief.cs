@@ -120,7 +120,7 @@ public class Thief : ClassBase
         AddAvailableSpell(38, "frost breath", Mud.Domain.ResourceKinds.Mana, 125, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(39, "chain lightning", Mud.Domain.ResourceKinds.Mana, 25, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(40, "stone skin", Mud.Domain.ResourceKinds.Mana, 12, CostAmountOperators.Fixed, 2);
-        AddAvailableSpell(40, "word of recall", Mud.Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed, 2);
+        AddAvailableAbility(40, "word of recall", [(Mud.Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed), (Mud.Domain.ResourceKinds.MovePoints, 50, CostAmountOperators.PercentageCurrent)], 1);
         AddAvailableSpell(42, "sanctuary", Mud.Domain.ResourceKinds.Mana, 75, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(43, "lightning breath", Mud.Domain.ResourceKinds.Mana, 150, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(45, "portal", Mud.Domain.ResourceKinds.Mana, 100, CostAmountOperators.Fixed, 4);

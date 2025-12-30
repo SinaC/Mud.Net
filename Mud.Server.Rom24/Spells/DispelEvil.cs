@@ -29,9 +29,9 @@ public class DispelEvil : DamageSpellBase
     protected override SchoolTypes DamageType => SchoolTypes.Holy;
     protected override string DamageNoun => "dispel evil";
     protected override int DamageValue
-        => Victim.CurrentHitPoints >= Caster.Level * 4
+        => Victim[ResourceKinds.HitPoints] >= Caster.Level * 4
             ? RandomManager.Dice(Level, 4)
-            : Math.Max(Victim.CurrentHitPoints, RandomManager.Dice(Level, 4));
+            : Math.Max(Victim[ResourceKinds.HitPoints], RandomManager.Dice(Level, 4));
 
     protected override string? SetTargets(ISpellActionInput spellActionInput)
     {

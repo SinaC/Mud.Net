@@ -5,6 +5,7 @@ using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Actor;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
@@ -453,13 +454,11 @@ public class Player : ActorBase, IPlayer
     protected static string BuildCharacterPrompt(IPlayableCharacter character) // TODO: custom prompt defined by player
     {
         StringBuilder sb = new ("%c%<");
-        sb.Append($"{character.CurrentHitPoints}/{character.MaxHitPoints}Hp");
-        foreach (ResourceKinds resourceKinds in character.CurrentResourceKinds)
-            sb.Append($" {character[resourceKinds]}/{character.MaxResource(resourceKinds)}{resourceKinds}");
-        sb.Append($" {character.CurrentMovePoints}/{character.MaxMovePoints}Mv");
-        sb.Append($" {character.ExperienceToLevel}Nxt");
+        foreach (var resourceKinds in character.CurrentResourceKinds.OrderBy(x => x))
+            sb.Append($"{character[resourceKinds]}/{character.MaxResource(resourceKinds)}{resourceKinds.ResourceName()} ");
+        sb.Append($"{character.ExperienceToLevel}Nxt");
         if (character.Fighting != null)
-            sb.Append($" {((100*character.Fighting.CurrentHitPoints)/character.Fighting.MaxHitPoints)}%");
+            sb.Append($" {(100 * character.Fighting[ResourceKinds.HitPoints])/character.Fighting.MaxResource(ResourceKinds.HitPoints)}%");
         sb.Append(">%x%");
         return sb.ToString();
     }

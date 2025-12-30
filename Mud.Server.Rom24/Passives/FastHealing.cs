@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Passive;
 using Mud.Server.Common.Attributes;
@@ -30,7 +31,7 @@ public class FastHealing : RegenerationPassiveBase
         bool isTriggered = IsTriggered(user, user, false, out int diceRoll, out _);
         if (isTriggered)
         {
-            if (user.CurrentHitPoints < user.MaxHitPoints)
+            if (user[ResourceKinds.HitPoints] < user.MaxResource(ResourceKinds.HitPoints))
                 (user as IPlayableCharacter)?.CheckAbilityImprove(PassiveName, true, 8);
             return (diceRoll * baseHitGain) / 100m;
         }

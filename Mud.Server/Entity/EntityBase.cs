@@ -240,7 +240,7 @@ public abstract class EntityBase : ActorBase, IEntity
 
     #endregion
 
-    protected abstract void ResetAttributes();
+    protected abstract void ResetAttributesAndResourcesAndFlags();
 
     protected static TFlags NewAndCopyAndSet<TFlags>(Func<TFlags> newFunc, TFlags? toCopy, TFlags? toSet)
         where TFlags : IFlags<string>

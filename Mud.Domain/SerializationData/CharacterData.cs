@@ -14,10 +14,6 @@ public abstract class CharacterData
 
     public required Sizes Size { get; set; }
 
-    public required int HitPoints { get; set; }
-
-    public required int MovePoints { get; set; }
-
     public required Dictionary<ResourceKinds, int> CurrentResources { get; set; }
 
     public required Dictionary<ResourceKinds, int> MaxResources { get; set; }

@@ -25,7 +25,7 @@ namespace Mud.POC.Tests.Enumeration
         {
             var list = new LinkedList<int>(Enumerable.Range(0, 5).Select(x => 1 + 2 * x));
 
-            Assert.AreEqual(5, list.SafeEnumeration().Count());
+            Assert.HasCount(5, list.SafeEnumeration());
             Assert.Contains(1, list.SafeEnumeration());
             Assert.Contains(3, list.SafeEnumeration());
             Assert.Contains(5, list.SafeEnumeration());
@@ -44,7 +44,7 @@ namespace Mud.POC.Tests.Enumeration
                     list.AddFirst(99);
             }
 
-            Assert.AreEqual(6, list.Count());
+            Assert.HasCount(6, list);
             Assert.Contains(1, list);
             Assert.Contains(3, list);
             Assert.Contains(5, list);
@@ -103,7 +103,7 @@ namespace Mud.POC.Tests.Enumeration
                     list.AddFirst(99);
             }
 
-            Assert.AreEqual(6, list.Count());
+            Assert.HasCount(6, list);
             Assert.Contains(1, list);
             Assert.Contains(3, list);
             Assert.Contains(5, list);

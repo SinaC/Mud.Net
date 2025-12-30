@@ -86,7 +86,7 @@ public class Room : EntityBase, IRoom
         Logger.LogDebug("Room.Recompute: {name}", DebugName);
 
         // 0) Reset
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
 
         // 1) Apply own auras
         ApplyAuras(this);
@@ -428,7 +428,7 @@ public class Room : EntityBase, IRoom
         }
     }
 
-    protected override void ResetAttributes()
+    protected override void ResetAttributesAndResourcesAndFlags()
     {
         RoomFlags.Copy(BaseRoomFlags);
         HealRate = BaseHealRate;

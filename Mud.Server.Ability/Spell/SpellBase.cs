@@ -2,6 +2,7 @@
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -106,7 +107,10 @@ public abstract class SpellBase : ISpell
                     case CostAmountOperators.Fixed:
                         cost = abilityResourceCost.CostAmount;
                         break;
-                    case CostAmountOperators.Percentage:
+                    case CostAmountOperators.PercentageCurrent:
+                        cost = Caster[resourceKind] * abilityResourceCost.CostAmount / 100;
+                        break;
+                    case CostAmountOperators.PercentageMax:
                         cost = Caster.MaxResource(resourceKind) * abilityResourceCost.CostAmount / 100;
                         break;
                     case CostAmountOperators.All:
@@ -125,7 +129,7 @@ public abstract class SpellBase : ISpell
                 }
                 bool enoughResource = cost <= resourceLeft;
                 if (!enoughResource)
-                    return $"You don't have enough {resourceKind}.";
+                    return $"You don't have enough {resourceKind.ResourceName()}.";
                 var resourceCostToPay = new ResourceCostToPay(resourceKind, cost, isAll);
                 resourceCostToPays.Add(resourceCostToPay);
             }

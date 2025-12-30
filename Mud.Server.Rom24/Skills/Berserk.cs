@@ -64,14 +64,13 @@ public class Berserk : NoTargetSkillBase
             chance += 10;
 
         // Below 50%, hp helps, above hurts
-        int hpPercent = (100 * User.CurrentHitPoints) / User.MaxHitPoints;
+        int hpPercent = (100 * User[ResourceKinds.HitPoints]) / User.MaxResource(ResourceKinds.HitPoints);
         chance += 25 - hpPercent / 2;
 
         //
         if (RandomManager.Chance(chance))
         {
-            User.UpdateMovePoints(User.CurrentMovePoints / 2);
-            User.UpdateHitPoints(User.Level * 2);
+            User.UpdateResource(ResourceKinds.HitPoints, User.Level * 2);
 
             User.Send("Your pulse races as you are consumed by rage!");
             User.Act(ActOptions.ToRoom, "{0:N} gets a wild look in {0:s} eyes.", User);
@@ -88,8 +87,6 @@ public class Berserk : NoTargetSkillBase
         }
         else
         {
-            User.UpdateMovePoints(User.CurrentMovePoints / 2);
-
             User.Send("Your pulse speeds up, but nothing happens.");
 
             return false;

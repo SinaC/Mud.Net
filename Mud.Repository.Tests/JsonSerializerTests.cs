@@ -1,8 +1,6 @@
 ﻿using DeepEqual.Syntax;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
-using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Item;
 using System.Text.Json;
 
@@ -23,10 +21,16 @@ namespace Mud.Repository.Tests
                 Level = 1,
                 Sex = Sex.Male,
                 Size = Sizes.Medium,
-                HitPoints = 1,
-                MovePoints = 1,
-                CurrentResources = [],
-                MaxResources = [],
+                CurrentResources = new Dictionary<ResourceKinds, int>
+                {
+                    { ResourceKinds.HitPoints, 1 },
+                    { ResourceKinds.MovePoints, 1 },
+                },
+                MaxResources = new Dictionary<ResourceKinds, int>
+                {
+                    { ResourceKinds.HitPoints, 1 },
+                    { ResourceKinds.MovePoints, 1 },
+                },
                 Equipments = [],
                 Inventory = [],
                 Auras = [],
@@ -71,13 +75,15 @@ namespace Mud.Repository.Tests
             Assert.AreEqual("sinac", deserialized.Name);
             Assert.HasCount(2, deserialized.Aliases);
             Assert.HasCount(9, deserialized.Characters);
+            Assert.HasCount(4, deserialized.Characters.Single(x => x.Name == "sinac").CurrentResources);
+            Assert.HasCount(4, deserialized.Characters.Single(x => x.Name == "sinac").MaxResources);
             Assert.HasCount(11, deserialized.Characters.Single(x => x.Name == "sinac").Equipments);
             Assert.ContainsSingle(deserialized.Characters.Single(x => x.Name == "sinac").Equipments.Where(x => x.Item is ItemLightData));
             Assert.ContainsSingle(deserialized.Characters.Single(x => x.Name == "sinac").Equipments.Where(x => x.Item is ItemWeaponData));
             Assert.ContainsSingle(deserialized.Characters.Single(x => x.Name == "sinac").Equipments.Where(x => x.Item is ItemWandData));
             Assert.HasCount(4, deserialized.Characters.Single(x => x.Name == "sinac").Inventory);
             Assert.HasCount(8, deserialized.Characters.Single(x => x.Name == "sinac").Auras);
-            Assert.HasCount(14, deserialized.Characters.Single(x => x.Name == "sinac").Attributes);
+            Assert.HasCount(12, deserialized.Characters.Single(x => x.Name == "sinac").Attributes);
         }
 
         private const string Pfile =
@@ -1444,13 +1450,15 @@ namespace Mud.Repository.Tests
       ""Level"": 46,
       ""Sex"": 1,
       ""Size"": 2,
-      ""HitPoints"": 13800,
-      ""MovePoints"": 13786,
       ""CurrentResources"": {
+        ""HitPoints"": 13800,
+        ""MovePoints"": 13786,
         ""Mana"": 3151,
         ""Psy"": 100
       },
       ""MaxResources"": {
+          ""HitPoints"": 13800,
+        ""MovePoints"": 13786,
         ""Mana"": 10000,
         ""Psy"": 100
       },
@@ -1839,11 +1847,9 @@ namespace Mud.Repository.Tests
         ""Wisdom"": 23,
         ""Dexterity"": 22,
         ""Constitution"": 27,
-        ""MaxHitPoints"": 13800,
         ""SavingThrow"": 0,
         ""HitRoll"": 123,
         ""DamRoll"": 123,
-        ""MaxMovePoints"": 13800,
         ""ArmorBash"": -500,
         ""ArmorPierce"": -500,
         ""ArmorSlash"": -500,
@@ -1889,13 +1895,15 @@ namespace Mud.Repository.Tests
       ""Level"": 1,
       ""Sex"": 1,
       ""Size"": 1,
-      ""HitPoints"": 100,
-      ""MovePoints"": 100,
       ""CurrentResources"": {
+        ""HitPoints"": 100,
+        ""MovePoints"": 100,
         ""Mana"": 100,
         ""Psy"": 100
       },
       ""MaxResources"": {
+        ""HitPoints"": 100,
+        ""MovePoints"": 100,
         ""Mana"": 100,
         ""Psy"": 100
       },
@@ -1913,11 +1921,9 @@ namespace Mud.Repository.Tests
         ""Wisdom"": 16,
         ""Dexterity"": 10,
         ""Constitution"": 15,
-        ""MaxHitPoints"": 100,
         ""SavingThrow"": 0,
         ""HitRoll"": 0,
         ""DamRoll"": 0,
-        ""MaxMovePoints"": 100,
         ""ArmorBash"": 100,
         ""ArmorPierce"": 100,
         ""ArmorSlash"": 100,
@@ -2269,13 +2275,15 @@ namespace Mud.Repository.Tests
       ""Level"": 2,
       ""Sex"": 1,
       ""Size"": 2,
-      ""HitPoints"": 84,
-      ""MovePoints"": 106,
       ""CurrentResources"": {
+        ""HitPoints"": 84,
+        ""MovePoints"": 106,
         ""Mana"": 18,
         ""Psy"": 100
       },
       ""MaxResources"": {
+        ""HitPoints"": 84,
+        ""MovePoints"": 106,
         ""Mana"": 18,
         ""Psy"": 100
       },
@@ -2293,11 +2301,9 @@ namespace Mud.Repository.Tests
         ""Wisdom"": 13,
         ""Dexterity"": 13,
         ""Constitution"": 13,
-        ""MaxHitPoints"": 106,
         ""SavingThrow"": 0,
         ""HitRoll"": 0,
         ""DamRoll"": 0,
-        ""MaxMovePoints"": 106,
         ""ArmorBash"": 100,
         ""ArmorPierce"": 100,
         ""ArmorSlash"": 100,
@@ -2352,13 +2358,15 @@ namespace Mud.Repository.Tests
       ""Level"": 1,
       ""Sex"": 1,
       ""Size"": 3,
-      ""HitPoints"": 100,
-      ""MovePoints"": 100,
       ""CurrentResources"": {
+        ""HitPoints"": 100,
+        ""MovePoints"": 100,
         ""Mana"": 100,
         ""Psy"": 100
       },
       ""MaxResources"": {
+        ""HitPoints"": 100,
+        ""MovePoints"": 100,
         ""Mana"": 100,
         ""Psy"": 100
       },
@@ -2376,11 +2384,9 @@ namespace Mud.Repository.Tests
         ""Wisdom"": 13,
         ""Dexterity"": 11,
         ""Constitution"": 14,
-        ""MaxHitPoints"": 100,
         ""SavingThrow"": 0,
         ""HitRoll"": 0,
         ""DamRoll"": 0,
-        ""MaxMovePoints"": 100,
         ""ArmorBash"": 100,
         ""ArmorPierce"": 100,
         ""ArmorSlash"": 100,
@@ -2750,13 +2756,15 @@ namespace Mud.Repository.Tests
       ""Level"": 1,
       ""Sex"": 0,
       ""Size"": 2,
-      ""HitPoints"": 100,
-      ""MovePoints"": 100,
       ""CurrentResources"": {
+        ""HitPoints"": 100,
+        ""MovePoints"": 100,
         ""Mana"": 100,
         ""Psy"": 100
       },
       ""MaxResources"": {
+        ""HitPoints"": 100,
+        ""MovePoints"": 100,
         ""Mana"": 100,
         ""Psy"": 100
       },
@@ -2774,11 +2782,9 @@ namespace Mud.Repository.Tests
         ""Wisdom"": 13,
         ""Dexterity"": 15,
         ""Constitution"": 11,
-        ""MaxHitPoints"": 100,
         ""SavingThrow"": 0,
         ""HitRoll"": 0,
         ""DamRoll"": 0,
-        ""MaxMovePoints"": 100,
         ""ArmorBash"": 100,
         ""ArmorPierce"": 100,
         ""ArmorSlash"": 100,
@@ -3148,13 +3154,15 @@ namespace Mud.Repository.Tests
       ""Level"": 2,
       ""Sex"": 0,
       ""Size"": 2,
-      ""HitPoints"": 105,
-      ""MovePoints"": 83,
       ""CurrentResources"": {
+        ""HitPoints"": 105,
+        ""MovePoints"": 83,
         ""Mana"": 122,
         ""Psy"": 100
       },
       ""MaxResources"": {
+        ""HitPoints"": 105,
+        ""MovePoints"": 83,
         ""Mana"": 122,
         ""Psy"": 100
       },
@@ -3172,11 +3180,9 @@ namespace Mud.Repository.Tests
         ""Wisdom"": 13,
         ""Dexterity"": 15,
         ""Constitution"": 11,
-        ""MaxHitPoints"": 105,
         ""SavingThrow"": 0,
         ""HitRoll"": 0,
         ""DamRoll"": 0,
-        ""MaxMovePoints"": 105,
         ""ArmorBash"": 100,
         ""ArmorPierce"": 100,
         ""ArmorSlash"": 100,
@@ -3546,13 +3552,15 @@ namespace Mud.Repository.Tests
       ""Level"": 2,
       ""Sex"": 0,
       ""Size"": 2,
-      ""HitPoints"": 105,
-      ""MovePoints"": 105,
       ""CurrentResources"": {
+        ""HitPoints"": 105,
+        ""MovePoints"": 105,
         ""Mana"": 105,
         ""Psy"": 100
       },
       ""MaxResources"": {
+        ""HitPoints"": 105,
+        ""MovePoints"": 105,
         ""Mana"": 105,
         ""Psy"": 100
       },
@@ -3570,11 +3578,9 @@ namespace Mud.Repository.Tests
         ""Wisdom"": 13,
         ""Dexterity"": 15,
         ""Constitution"": 11,
-        ""MaxHitPoints"": 105,
         ""SavingThrow"": 0,
         ""HitRoll"": 0,
         ""DamRoll"": 0,
-        ""MaxMovePoints"": 105,
         ""ArmorBash"": 100,
         ""ArmorPierce"": 100,
         ""ArmorSlash"": 100,
@@ -4952,13 +4958,15 @@ namespace Mud.Repository.Tests
       ""Level"": 49,
       ""Sex"": 0,
       ""Size"": 2,
-      ""HitPoints"": 218,
-      ""MovePoints"": 200,
       ""CurrentResources"": {
+        ""HitPoints"": 218,
+        ""MovePoints"": 200,
         ""Mana"": 186,
         ""Psy"": 100
       },
       ""MaxResources"": {
+        ""HitPoints"": 218,
+        ""MovePoints"": 200,
         ""Mana"": 316,
         ""Psy"": 100
       },
@@ -5121,11 +5129,9 @@ namespace Mud.Repository.Tests
         ""Wisdom"": 22,
         ""Dexterity"": 22,
         ""Constitution"": 24,
-        ""MaxHitPoints"": 218,
         ""SavingThrow"": 0,
         ""HitRoll"": 0,
         ""DamRoll"": 0,
-        ""MaxMovePoints"": 218,
         ""ArmorBash"": 100,
         ""ArmorPierce"": 100,
         ""ArmorSlash"": 100,
@@ -5160,13 +5166,15 @@ namespace Mud.Repository.Tests
       ""Level"": 1,
       ""Sex"": 0,
       ""Size"": 2,
-      ""HitPoints"": 100,
-      ""MovePoints"": 100,
       ""CurrentResources"": {
+        ""HitPoints"": 100,
+        ""MovePoints"": 100,
         ""Mana"": 100,
         ""Psy"": 100
       },
       ""MaxResources"": {
+        ""HitPoints"": 100,
+        ""MovePoints"": 100,
         ""Mana"": 100,
         ""Psy"": 100
       },
@@ -5184,11 +5192,9 @@ namespace Mud.Repository.Tests
         ""Wisdom"": 16,
         ""Dexterity"": 16,
         ""Constitution"": 18,
-        ""MaxHitPoints"": 100,
         ""SavingThrow"": 0,
         ""HitRoll"": 0,
         ""DamRoll"": 0,
-        ""MaxMovePoints"": 100,
         ""ArmorBash"": 100,
         ""ArmorPierce"": 100,
         ""ArmorSlash"": 100,

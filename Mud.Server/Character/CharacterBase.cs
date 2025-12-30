@@ -5,8 +5,6 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
-using Mud.Server.Aura;
-using Mud.Server.Commands.Admin.Punish;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -38,7 +36,8 @@ namespace Mud.Server.Character;
 
 public abstract class CharacterBase : EntityBase, ICharacter
 {
-    private static ResourceKinds[] DefaultAvailableResources { get; } = [ResourceKinds.Mana];
+    private static ResourceKinds[] MandatoryAvailableResources { get; } = [ResourceKinds.HitPoints, ResourceKinds.MovePoints];
+    private static ResourceKinds[] DefaultAvailableResources { get; } = [ResourceKinds.HitPoints, ResourceKinds.MovePoints, ResourceKinds.Mana];
 
     private const int MinAlignment = -1000;
     private const int MaxAlignment = 1000;
@@ -47,10 +46,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
     private readonly List<IEquippedItem> _equipments;
     private readonly int[] _baseAttributes;
     private readonly int[] _currentAttributes;
-    private readonly int[] _maxResources;
+    private readonly int[] _baseMaxResources;
+    private readonly int[] _currentMaxResources;
     private readonly decimal[] _currentResources;
-    private decimal _currentHitPoints;
-    private decimal _currentMovePoints;
     private readonly Dictionary<string, int> _cooldownsPulseLeft;
     private readonly Dictionary<string, IAbilityLearned> _learnedAbilities;
 
@@ -87,10 +85,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
         _equipments = [];
         _baseAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
         _currentAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
-        _maxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
+        _baseMaxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
+        _currentMaxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
         _currentResources = new decimal[EnumHelpers.GetCount<ResourceKinds>()];
-        _currentHitPoints = 0;
-        _currentMovePoints = 0;
         _cooldownsPulseLeft = new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
         _learnedAbilities = new Dictionary<string, IAbilityLearned>(StringComparer.InvariantCultureIgnoreCase); // handled by RecomputeKnownAbilities
 
@@ -296,10 +293,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     // Attributes
     public int Level { get; protected set; }
-    public int CurrentHitPoints => decimal.ToInt32(_currentHitPoints);
-    public int MaxHitPoints => _currentAttributes[(int)CharacterAttributes.MaxHitPoints];
-    public int CurrentMovePoints => decimal.ToInt32(_currentMovePoints);
-    public int MaxMovePoints => _currentAttributes[(int)CharacterAttributes.MaxMovePoints];
 
     public ICharacterFlags BaseCharacterFlags { get; protected set; }
     public ICharacterFlags CharacterFlags { get; protected set; }
@@ -797,49 +790,61 @@ public abstract class CharacterBase : EntityBase, ICharacter
         _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
     }
 
+    // Resources
     public int MaxResource(ResourceKinds resourceKind)
     {
         int index = (int)resourceKind;
-        if (index >= _maxResources.Length)
+        if (index >= _currentMaxResources.Length)
         {
             Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return 0;
         }
-        return decimal.ToInt32(_maxResources[index]);
+        return decimal.ToInt32(_currentMaxResources[index]);
     }
 
-    public void SetMaxResource(ResourceKinds resourceKind, int value)
+    public int BaseMaxResource(ResourceKinds resourceKind)
     {
         int index = (int)resourceKind;
-        if (index >= _maxResources.Length)
+        if (index >= _baseMaxResources.Length)
+        {
+            Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
+            return 0;
+        }
+        return decimal.ToInt32(_baseMaxResources[index]);
+    }
+
+    public void SetBaseMaxResource(ResourceKinds resourceKind, int value)
+    {
+        int index = (int)resourceKind;
+        if (index >= _baseMaxResources.Length)
         {
             Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return;
         }
-        _maxResources[index] = value;
+        _baseMaxResources[index] = value;
         if (index >= _currentResources.Length)
         {
             Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
             return;
         }
-        _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
+        _currentResources[index] = Math.Min(_currentResources[index], _baseMaxResources[index]);
     }
 
-    public void UpdateMaxResource(ResourceKinds resourceKind, int amount)
+    public void UpdateBaseMaxResource(ResourceKinds resourceKind, int amount)
     {
         int index = (int)resourceKind;
-        if (index >= _maxResources.Length)
+        if (index >= _baseMaxResources.Length)
         {
             Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return;
         }
-        _maxResources[index] += amount;
+        _baseMaxResources[index] += amount;
         if (index >= _currentResources.Length)
         {
             Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
             return;
         }
-        _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
+        _currentResources[index] = Math.Min(_currentResources[index], _baseMaxResources[index]);
     }
 
     public void SetResource(ResourceKinds resourceKind, int value)
@@ -850,12 +855,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
             Logger.LogError("Trying to set resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
             return;
         }
-        if (index >= _maxResources.Length)
+        if (index >= _currentMaxResources.Length)
         {
             Logger.LogError("Trying to set resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return;
         }
-        _currentResources[index] = Math.Clamp(value, 0, _maxResources[index]);
+        _currentResources[index] = Math.Clamp(value, 0, _currentMaxResources[index]);
     }
 
     public void UpdateResource(ResourceKinds resourceKind, decimal amount)
@@ -866,63 +871,18 @@ public abstract class CharacterBase : EntityBase, ICharacter
             Logger.LogError("Trying to set resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
             return;
         }
-        if (index >= _maxResources.Length)
+        if (index >= _currentMaxResources.Length)
         {
             Logger.LogError("Trying to set resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return;
         }
-        _currentResources[index] = Math.Clamp(_currentResources[index] + amount, 0, _maxResources[(int)resourceKind]);
-    }
-
-    public void SetHitPoints(int value)
-    {
-        _currentHitPoints = Math.Clamp(value, 0, MaxHitPoints);
-    }
-
-    public void UpdateHitPoints(decimal amount)
-    {
-        _currentHitPoints = Math.Clamp(_currentHitPoints + amount, 0, MaxHitPoints);
-    }
-
-    public void SetMovePoints(int value)
-    {
-        _currentMovePoints = Math.Clamp(value, 0, MaxMovePoints);
-    }
-
-    public void UpdateMovePoints(decimal amount)
-    {
-        _currentMovePoints = Math.Clamp(_currentMovePoints + amount, 0, MaxMovePoints);
-    }
-
-    public void UpdateAlignment(int amount) 
-    {
-        Alignment = Math.Clamp(Alignment + amount, MinAlignment, MaxAlignment);
-        // impact on equipment
-        bool recompute = false;
-        foreach (var item in Equipments.Where(x => x.Item != null).Select(x => x.Item))
-        {
-            if ((IsEvil && item!.ItemFlags.IsSet("AntiEvil"))
-                || (IsGood && item!.ItemFlags.IsSet("AntiGood"))
-                || (IsNeutral && item!.ItemFlags.IsSet("AntiNeutral")))
-            {
-                Act(ActOptions.ToAll, "{0:N} {0:b} zapped by {1}.", this, item);
-                item.ChangeEquippedBy(null, false);
-                item.ChangeContainer(Room);
-                recompute = true;
-            }
-        }
-
-        if (recompute)
-        {
-            Recompute();
-            Room.Recompute();
-        }
+        _currentResources[index] = Math.Clamp(_currentResources[index] + amount, 0, _currentMaxResources[(int)resourceKind]);
     }
 
     public void Regen(int pulseCount)
     {
         // hp/move/mana/psy
-        if (CurrentHitPoints != MaxHitPoints || CurrentMovePoints != MaxMovePoints || this[ResourceKinds.Mana] != MaxResource(ResourceKinds.Mana) || this[ResourceKinds.Psy] != MaxResource(ResourceKinds.Psy))
+        if (this[ResourceKinds.HitPoints] != MaxResource(ResourceKinds.HitPoints) || this[ResourceKinds.MovePoints] != MaxResource(ResourceKinds.MovePoints) || this[ResourceKinds.Mana] != MaxResource(ResourceKinds.Mana) || this[ResourceKinds.Psy] != MaxResource(ResourceKinds.Psy))
         {
             var (hitGain, moveGain, manaGain, psyGain) = CalculateResourcesDeltaByMinute();
 
@@ -970,8 +930,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
             manaGain /= byMinuteDivisor;
             psyGain /= byMinuteDivisor;
 
-            UpdateHitPoints(hitGain);
-            UpdateMovePoints(moveGain);
+            UpdateResource(ResourceKinds.HitPoints, hitGain);
+            UpdateResource(ResourceKinds.MovePoints, moveGain);
             UpdateResource(ResourceKinds.Mana, manaGain);
             UpdateResource(ResourceKinds.Psy, psyGain);
         }
@@ -990,6 +950,33 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
+    // Alignment
+    public void UpdateAlignment(int amount)
+    {
+        Alignment = Math.Clamp(Alignment + amount, MinAlignment, MaxAlignment);
+        // impact on equipment
+        bool recompute = false;
+        foreach (var item in Equipments.Where(x => x.Item != null).Select(x => x.Item))
+        {
+            if ((IsEvil && item!.ItemFlags.IsSet("AntiEvil"))
+                || (IsGood && item!.ItemFlags.IsSet("AntiGood"))
+                || (IsNeutral && item!.ItemFlags.IsSet("AntiNeutral")))
+            {
+                Act(ActOptions.ToAll, "{0:N} {0:b} zapped by {1}.", this, item);
+                item.ChangeEquippedBy(null, false);
+                item.ChangeContainer(Room);
+                recompute = true;
+            }
+        }
+
+        if (recompute)
+        {
+            Recompute();
+            Room.Recompute();
+        }
+    }
+
+    // Character flags
     public void AddBaseCharacterFlags(bool recompute, params string[] characterFlags)
     {
         BaseCharacterFlags.Set(characterFlags);
@@ -1020,8 +1007,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Shape = shape;
 
         RecomputeKnownAbilities();
-        Recompute();
         RecomputeCurrentResourceKinds();
+        Recompute();
 
         return true;
     }
@@ -1032,7 +1019,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Logger.LogDebug("CharacterBase.Recompute: {name}", DebugName);
 
         // Reset current attributes
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
 
         // 1) Apply room auras
         if (Room != null)
@@ -1087,11 +1074,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 Recompute();
         }
 
-        // Keep attributes in valid range
-        _currentHitPoints = Math.Min(_currentHitPoints, MaxHitPoints);
-        _currentMovePoints = Math.Min(_currentMovePoints, MaxMovePoints);
+        // Keep resources in valid range
         for (int i = 0; i < _currentResources.Length; i++)
-            _currentResources[i] = Math.Min(_currentResources[i], _maxResources[i]);
+            _currentResources[i] = Math.Min(_currentResources[i], _currentMaxResources[i]);
         // keep basic attributes in valid range
         //  3->25 for NPC
         //  3->MIN(25, max)
@@ -1828,10 +1813,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         //
         string condition = "is here.";
-        var maxHitPoints = MaxHitPoints;
+        var maxHitPoints = MaxResource(ResourceKinds.HitPoints);
         if (maxHitPoints > 0)
         {
-            int percent = (100 * CurrentHitPoints) / maxHitPoints;
+            int percent = (100 * this[ResourceKinds.HitPoints]) / maxHitPoints;
             if (percent >= 100)
                 condition = "is in excellent condition.";
             else if (percent >= 90)
@@ -2079,11 +2064,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
             case CharacterAttributeAffectLocations.Wisdom: attribute = CharacterAttributes.Wisdom; break;
             case CharacterAttributeAffectLocations.Dexterity: attribute = CharacterAttributes.Dexterity; break;
             case CharacterAttributeAffectLocations.Constitution: attribute = CharacterAttributes.Constitution; break;
-            case CharacterAttributeAffectLocations.MaxHitPoints: attribute = CharacterAttributes.MaxHitPoints; break;
             case CharacterAttributeAffectLocations.SavingThrow: attribute = CharacterAttributes.SavingThrow; break;
             case CharacterAttributeAffectLocations.HitRoll: attribute = CharacterAttributes.HitRoll; break;
             case CharacterAttributeAffectLocations.DamRoll: attribute = CharacterAttributes.DamRoll; break;
-            case CharacterAttributeAffectLocations.MaxMovePoints: attribute = CharacterAttributes.MaxMovePoints; break;
             case CharacterAttributeAffectLocations.ArmorBash: attribute = CharacterAttributes.ArmorBash; break;
             case CharacterAttributeAffectLocations.ArmorPierce: attribute = CharacterAttributes.ArmorPierce; break;
             case CharacterAttributeAffectLocations.ArmorSlash: attribute = CharacterAttributes.ArmorSlash; break;
@@ -2115,6 +2098,23 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public void ApplyAffect(ICharacterSizeAffect affect)
     {
         Size = affect.Value;
+    }
+
+    public void ApplyAffect(ICharacterResourceAffect affect)
+    {
+        switch (affect.Operator)
+        {
+            case AffectOperators.Add:
+                _currentMaxResources[(int)affect.Location] += affect.Modifier;
+                break;
+            case AffectOperators.Assign:
+                _currentAttributes[(int)affect.Location] = affect.Modifier;
+                break;
+            case AffectOperators.Or:
+            case AffectOperators.Nor:
+                Logger.LogError("Invalid AffectOperators {operator} for CharacterResourceAffect {location}", affect.Operator, affect.Location);
+                break;
+        }
     }
 
     #endregion
@@ -2505,28 +2505,18 @@ public abstract class CharacterBase : EntityBase, ICharacter
     protected virtual void RecomputeCurrentResourceKinds()
     {
         // Get current resource kind from class if any, default resources otherwisse
-        CurrentResourceKinds = (Class?.CurrentResourceKinds(Shape) ?? DefaultAvailableResources).ToList();
+        CurrentResourceKinds = (Class?.CurrentResourceKinds(Shape) ?? DefaultAvailableResources).Union(MandatoryAvailableResources).ToList();
     }
 
-    protected void InitializeCurrentHitPoints(int value)
-    { 
-        _currentHitPoints = value;
-    }
-
-    protected void InitializeCurrentMovePoints(int value)
-    {
-        _currentMovePoints = value;
-    }
-
-    protected void SetMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)
+    protected void SetBaseMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)
     {
         int index = (int)resourceKind;
-        if (index >= _maxResources.Length)
+        if (index >= _baseMaxResources.Length)
         {
             Logger.LogError("Trying to set max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
             return;
         }
-        _maxResources[index] = value;
+        _baseMaxResources[index] = value;
         if (checkCurrent)
         {
             if (index >= _currentResources.Length)
@@ -2534,9 +2524,21 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
                 return;
             }
-            _currentResources[index] = Math.Min(_currentResources[index], _maxResources[index]);
+            _currentResources[index] = Math.Min(_currentResources[index], _baseMaxResources[index]);
         }
     }
+
+    protected void SetCurrentMaxResource(ResourceKinds resourceKinds, int value)
+    {
+        int index = (int)resourceKinds;
+        if (index >= _currentMaxResources.Length)
+        {
+            Logger.LogError("Trying to set current max resource for resource {resource} (index {index}) but current max resource length is smaller", resourceKinds, index);
+            return;
+        }
+        _currentMaxResources[index] = value;
+    }
+
 
     protected void SetBaseAttributes(CharacterAttributes attribute, int value, bool checkCurrent)
     {
@@ -2551,7 +2553,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         {
             if (index >= _currentAttributes.Length)
             {
-                Logger.LogError("Trying to set base current attribute for attribute {resource} (index {resource}) but current attribute length is smaller", attribute, index);
+                Logger.LogError("Trying to set current attribute for attribute {resource} (index {resource}) but current attribute length is smaller", attribute, index);
                 return;
             }
             _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
@@ -2595,10 +2597,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
     }
 
-    protected override void ResetAttributes()
+    protected override void ResetAttributesAndResourcesAndFlags()
     {
         for (int i = 0; i < _baseAttributes.Length; i++)
             _currentAttributes[i] = _baseAttributes[i];
+        for(int i = 0; i < _baseMaxResources.Length; i++)
+            _currentMaxResources[i] = _baseMaxResources[i];
         Sex = BaseSex;
         Size = BaseSize;
         //Shape = BaseShape; TODO: uncomment when shape will be handled using aura
@@ -2687,7 +2691,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected DamageResults Damage(ICharacter source, int damage, SchoolTypes damageType, DamageSources damageSource, string? damageNoun, bool display) // 'this' is dealt damage by 'source'
     {
-        if (CurrentHitPoints <= 0)
+        if (this[ResourceKinds.HitPoints] <= 0)
             return DamageResults.AlreadyDead;
 
         // check safe + start fight
@@ -2842,13 +2846,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return DamageResults.NoDamage;
 
         // hurt the victim
-        _currentHitPoints -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
+        _currentResources[(int)ResourceKinds.HitPoints] -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
         // immortals don't really die
         if (this is IPlayableCharacter { IsImmortal: true }
-            && _currentHitPoints < 1)
-            _currentHitPoints = 1;
+            && this[ResourceKinds.HitPoints] < 1)
+            _currentResources[(int)ResourceKinds.HitPoints] = 1;
         // TODO: in original code, position is updating depending on hitpoints and a specific message depending on position is displayed (check update_pos)
-        var isDead = _currentHitPoints <= 0;
+        var isDead = this[ResourceKinds.HitPoints] <= 0;
         if (isDead)
         {
             Send("You have been KILLED!!");
@@ -2856,9 +2860,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
         else
         {
-            if (damage > MaxHitPoints / 4)
+            if (damage > MaxResource(ResourceKinds.HitPoints) / 4)
                 Send("That really did HURT!");
-            if (_currentHitPoints < MaxHitPoints / 4)
+            if (this[ResourceKinds.HitPoints] < MaxResource(ResourceKinds.HitPoints) / 4)
                 Send("You sure are BLEEDING!");
         }
 

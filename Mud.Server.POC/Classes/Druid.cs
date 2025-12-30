@@ -80,6 +80,9 @@ public class Druid : ClassBase
 
         AddBasicAbilityGroup("druid basics");
 
+        // to be able to test berserk
+        AddAvailableAbility(18, "berserk", [(Mud.Domain.ResourceKinds.Mana, 50, CostAmountOperators.Fixed), (Mud.Domain.ResourceKinds.MovePoints, 50, CostAmountOperators.PercentageCurrent)], 5, 100);
+
         // add weapons
         foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Weapon))
             AddAvailableAbility(10, abilityDefinition.Name, 1, 100);

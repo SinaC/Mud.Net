@@ -89,7 +89,7 @@ public class HolyWord : NoTargetSpellBase
         }
 
         Caster.Send("You feel drained.");
-        Caster.UpdateMovePoints(-Caster.CurrentMovePoints); // set to 0
-        Caster.UpdateHitPoints(-Caster.CurrentHitPoints / 2);
+        Caster.UpdateResource(ResourceKinds.MovePoints, -Caster[ResourceKinds.MovePoints]); // set to 0
+        Caster.UpdateResource(ResourceKinds.HitPoints, -Caster[ResourceKinds.HitPoints] / 2); // half-life
     }
 }

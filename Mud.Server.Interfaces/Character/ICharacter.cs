@@ -38,7 +38,6 @@ public interface ICharacter : IEntity, IContainer
     IRoom Room { get; }
     ICharacter? Fighting { get; }
 
-
     IEnumerable<IEquippedItem> Equipments { get; }
     IEnumerable<IItem> Inventory { get; } // same as IContainer.Content
     int MaxCarryWeight { get; }
@@ -74,12 +73,8 @@ public interface ICharacter : IEntity, IContainer
     IClass Class { get; }
     IRace Race { get; }
 
-    // Attributes
+    // Attributes/Resources/Flags
     int Level { get; }
-    int CurrentHitPoints { get; }
-    int MaxHitPoints { get; }
-    int CurrentMovePoints { get; }
-    int MaxMovePoints { get; }
 
     ICharacterFlags BaseCharacterFlags { get; }
     ICharacterFlags CharacterFlags { get; }
@@ -170,17 +165,20 @@ public interface ICharacter : IEntity, IContainer
     // Attributes
     int BaseAttribute(CharacterAttributes attribute);
     void UpdateBaseAttribute(CharacterAttributes attribute, int amount);
+
+    // Resources
     int MaxResource(ResourceKinds resourceKind);
-    void SetMaxResource(ResourceKinds resourceKind, int value);
-    void UpdateMaxResource(ResourceKinds resourceKind, int amount);
+    int BaseMaxResource(ResourceKinds resourceKind);
+    void SetBaseMaxResource(ResourceKinds resourceKind, int value);
+    void UpdateBaseMaxResource(ResourceKinds resourceKind, int amount);
     void SetResource(ResourceKinds resourceKind, int value);
     void UpdateResource(ResourceKinds resourceKind, decimal amount);
-    void SetHitPoints(int value);
-    void UpdateHitPoints(decimal amount);
-    void SetMovePoints(int value);
-    void UpdateMovePoints(decimal amount);
-    void UpdateAlignment(int amount);
     void Regen(int pulseCount);
+
+    // Alignment
+    void UpdateAlignment(int amount);
+
+    // Character flags
     void AddBaseCharacterFlags(bool recompute, params string[] characterFlags);
     void RemoveBaseCharacterFlags(bool recompute, params string[] characterFlags);
 
@@ -237,4 +235,5 @@ public interface ICharacter : IEntity, IContainer
     void ApplyAffect(ICharacterAttributeAffect affect);
     void ApplyAffect(ICharacterSexAffect affect);
     void ApplyAffect(ICharacterSizeAffect affect);
+    void ApplyAffect(ICharacterResourceAffect affect);
 }

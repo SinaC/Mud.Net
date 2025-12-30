@@ -57,7 +57,7 @@ public class PlagueSpreadAndDamageAffect : NoAffectDataAffectBase, ICharacterPer
 
         // damage
         int damage = Math.Min(character.Level, aura.Level / 5 + 1);
-        character.UpdateMovePoints(-damage);
+        character.UpdateResource(ResourceKinds.MovePoints, -damage);
         character.UpdateResource(ResourceKinds.Mana, -damage);
         character.UpdateResource(ResourceKinds.Psy, -damage);
         character.AbilityDamage(character, damage, SchoolTypes.Disease, "sickness", false);

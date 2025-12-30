@@ -369,13 +369,15 @@
           "Level": 9,
           "Sex": 0,
           "Size": 2,
-          "HitPoints": 122,
-          "MovePoints": 1000,
           "CurrentResources": {
+			"HitPoints": 122,
+			"MovePoints": 1000,
             "Mana": 132,
             "Psy": 132
           },
           "MaxResources": {
+			"HitPoints": 122,
+			"MovePoints": 1000,
             "Mana": 132,
             "Psy": 132
           },
@@ -407,11 +409,9 @@
             "Wisdom": 13,
             "Dexterity": 13,
             "Constitution": 13,
-            "MaxHitPoints": 122,
             "SavingThrow": 0,
             "HitRoll": 0,
             "DamRoll": 9,
-            "MaxMovePoints": 1000,
             "ArmorBash": 20,
             "ArmorPierce": 20,
             "ArmorSlash": 20,
@@ -425,13 +425,15 @@
       "Level": 41,
       "Sex": 0,
       "Size": 2,
-      "HitPoints": 125,
-      "MovePoints": 125,
       "CurrentResources": {
+		"HitPoints": 125,
+		"MovePoints": 125,
         "Mana": 169,
         "Psy": 100
       },
       "MaxResources": {
+		"HitPoints": 125,
+		"MovePoints": 125,
         "Mana": 175,
         "Psy": 100
       },
@@ -463,11 +465,9 @@
         "Wisdom": 18,
         "Dexterity": 21,
         "Constitution": 15,
-        "MaxHitPoints": 125,
         "SavingThrow": 0,
         "HitRoll": 0,
         "DamRoll": 0,
-        "MaxMovePoints": 125,
         "ArmorBash": 100,
         "ArmorPierce": 100,
         "ArmorSlash": 100,
@@ -502,13 +502,15 @@
       "Level": 1,
       "Sex": 2,
       "Size": 2,
-      "HitPoints": 100,
-      "MovePoints": 100,
       "CurrentResources": {
+		"HitPoints": 100,
+		"MovePoints": 100,
         "Mana": 100,
         "Psy": 100
       },
       "MaxResources": {
+		"HitPoints": 100,
+		"MovePoints": 100,
         "Mana": 100,
         "Psy": 100
       },
@@ -526,11 +528,9 @@
         "Wisdom": 15,
         "Dexterity": 13,
         "Constitution": 13,
-        "MaxHitPoints": 100,
         "SavingThrow": 0,
         "HitRoll": 0,
         "DamRoll": 0,
-        "MaxMovePoints": 100,
         "ArmorBash": 100,
         "ArmorPierce": 100,
         "ArmorSlash": 100,
