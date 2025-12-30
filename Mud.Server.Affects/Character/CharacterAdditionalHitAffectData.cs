@@ -1,11 +1,10 @@
 ﻿using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
 
-namespace Mud.Server.Affects.Character
+namespace Mud.Server.Affects.Character;
+
+[JsonBaseType(typeof(AffectDataBase))]
+public class CharacterAdditionalHitAffectData : AffectDataBase
 {
-    [JsonBaseType(typeof(AffectDataBase))]
-    public class CharacterAdditionalHitAffectData : AffectDataBase
-    {
-        public required int AdditionalHitCount { get; set; } = 1;
-    }
+    public required int AdditionalHitCount { get; set; } = 1;
 }

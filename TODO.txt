@@ -1,8 +1,7 @@
 INGOING
 DONE
-    guards predefined that can be added with attribute
-    override default guard message ("You lost your concentration." for example when casting in non-combat spell during combat)
-    transform NotInCombat, AllowedShapes, MinPosition in predefined Guards that can be added with attribute
+    maul: next hit does more damage -> only on white damage (HitDamage) and not yellow damage (AbilityDamage)
+    https://www.wowhead.com/classic/spell=6807/maul
 
 ==========
 == TODO ==
@@ -55,8 +54,6 @@ handle shapeshift using new type of affect
 cat form/bear form with new affects
 
 try to replace is INonPlayableCharacter with overrides (same goes for is IPlayableCharacter)
-
-maul: next hit does more damage -> only on white damage (HitDamage) and not yellow damage (AbilityDamage)
 
 generic dot affect
 

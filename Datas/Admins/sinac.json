@@ -1406,7 +1406,7 @@
     },
     {
       "CreationTime": "2025-11-11T16:31:33.7841739+01:00",
-      "RoomId": 3005,
+      "RoomId": 3001,
       "SilverCoins": 109,
       "GoldCoins": 5000,
       "Wimpy": 0,
@@ -2195,7 +2195,7 @@
         "Mana": 5298,
         "Psy": 100,
         "Energy": 100,
-        "Rage": 79,
+        "Rage": 75,
         "Combo": 0
       },
       "MaxResources": {
@@ -2229,7 +2229,7 @@
               {
                 "AbilityName": "Test",
                 "Level": 1,
-                "PulseLeft": 1200,
+                "PulseLeft": 1184,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -2267,7 +2267,7 @@
               {
                 "AbilityName": "Envenom",
                 "Level": 1,
-                "PulseLeft": 324,
+                "PulseLeft": 308,
                 "AuraFlags": 2,
                 "Affects": [
                   {
@@ -2295,15 +2295,15 @@
       ],
       "Inventory": [
         {
-          "ItemId": 2104,
-          "Level": 3,
+          "ItemId": 2111,
+          "Level": 10,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
         },
         {
-          "ItemId": 2111,
-          "Level": 10,
+          "ItemId": 2104,
+          "Level": 3,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
@@ -2313,7 +2313,7 @@
         {
           "AbilityName": "Giant Strength",
           "Level": 1,
-          "PulseLeft": 9592,
+          "PulseLeft": 9576,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2327,7 +2327,7 @@
         {
           "AbilityName": "Detect Evil",
           "Level": 1,
-          "PulseLeft": 9788,
+          "PulseLeft": 9772,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2340,7 +2340,7 @@
         {
           "AbilityName": "Detect Good",
           "Level": 1,
-          "PulseLeft": 9820,
+          "PulseLeft": 9804,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2353,7 +2353,7 @@
         {
           "AbilityName": "Detect Invis",
           "Level": 1,
-          "PulseLeft": 9836,
+          "PulseLeft": 9820,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2366,7 +2366,7 @@
         {
           "AbilityName": "Detect Hidden",
           "Level": 1,
-          "PulseLeft": 9892,
+          "PulseLeft": 9876,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2379,7 +2379,7 @@
         {
           "AbilityName": "Shock Shield",
           "Level": 1,
-          "PulseLeft": 9592,
+          "PulseLeft": 9576,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2392,7 +2392,7 @@
         {
           "AbilityName": "Fire Shield",
           "Level": 1,
-          "PulseLeft": 9392,
+          "PulseLeft": 9376,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2405,7 +2405,7 @@
         {
           "AbilityName": "Ice Shield",
           "Level": 1,
-          "PulseLeft": 9192,
+          "PulseLeft": 9176,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2418,7 +2418,7 @@
         {
           "AbilityName": "Berserk",
           "Level": 1,
-          "PulseLeft": 4592,
+          "PulseLeft": 4576,
           "AuraFlags": 2,
           "Affects": [
             {
@@ -2449,7 +2449,7 @@
         {
           "AbilityName": "Protection Evil",
           "Level": 22,
-          "PulseLeft": 5328,
+          "PulseLeft": 5312,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2471,8 +2471,8 @@
         },
         {
           "AbilityName": "Protection Good",
-          "Level": 34,
-          "PulseLeft": 5372,
+          "Level": 33,
+          "PulseLeft": 5356,
           "AuraFlags": 0,
           "Affects": [
             {
@@ -2495,7 +2495,7 @@
         {
           "AbilityName": "Sanctuary",
           "Level": 36,
-          "PulseLeft": 1576,
+          "PulseLeft": 1560,
           "AuraFlags": 0,
           "Affects": [
             {

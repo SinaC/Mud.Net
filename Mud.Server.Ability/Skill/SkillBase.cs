@@ -160,7 +160,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         {
             foreach (var guard in abilityDefinition.Guards)
             {
-                var guardResult = guard.Guards(User);
+                var guardResult = guard.Guards(Actor);
                 if (guardResult != null)
                     return guardResult;
             }

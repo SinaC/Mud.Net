@@ -53,12 +53,12 @@ public class RageGenerator : IRageGenerator
     private static readonly (int level, decimal value)[] RageConversionValueTable =
     [
         (0,      1m),
-        (10,     3.4m ),
-        (20,     7.4m ),
-        (30,     10.3m),
-        (40,     14.9m),
-        (50,     18.3m),
-        (60,     23.6m),
+        (10,     15.4m ),
+        (20,     35.4m ),
+        (30,     50.3m),
+        (40,     70.9m),
+        (50,     90.3m),
+        (60,     115.6m),
     ];  
 
     private decimal RageConversionValue(ICharacter character)
