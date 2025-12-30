@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
@@ -6,6 +7,8 @@ using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Ability;
+using Mud.Server.Interfaces.Aura;
+using Mud.Server.POC.Affects;
 using Mud.Server.Random;
 
 namespace Mud.Server.POC.Skills;
@@ -19,13 +22,23 @@ public class Maul : OffensiveSkillBase
 {
     private const string SkillName = "Maul";
 
-    public Maul(ILogger<Maul> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+    private IAuraManager AuraManager { get; }
+
+    public Maul(ILogger<Maul> logger, IRandomManager randomManager, IAbilityManager abilityManager, IAuraManager auraManager)
         : base(logger, randomManager, abilityManager)
     {
+        AuraManager = auraManager;
     }
 
     protected override bool Invoke()
     {
+        var maulAura = User.GetAura(SkillName);
+        if (maulAura == null)
+        {
+            AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.Permanent, true,
+                new NextHitDamageModifierAffect { Modifier = 128 });
+            return true;
+        }
         return false;
     }
 }

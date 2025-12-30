@@ -5,6 +5,8 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
+using Mud.Server.Aura;
+using Mud.Server.Commands.Admin.Punish;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -2306,6 +2308,22 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 damage += ability.DamageModifier(this, victim, damageType, damage);
         }
 
+        // bonus damage from affects
+        var recompute = false;
+        var aurasWithCharacterDamageIncreaseModifier = Auras.Where(x => x.IsValid).Where(x => x.Affects.OfType<ICharacterHitDamageModifierAffect>().Any()).ToArray();
+        foreach (var aura in aurasWithCharacterDamageIncreaseModifier)
+        {
+            foreach (var characterDamageIncreaseModifierAffect in aura.Affects.OfType<ICharacterHitDamageModifierAffect>())
+            {
+                (damage, var wearOff) = characterDamageIncreaseModifierAffect.ModifyDamage(this, damageType, damage);
+                if (wearOff)
+                    recompute = true;
+            }
+        }
+        if (recompute)
+            Recompute();
+
+        // other modifiers
         if (victim.Position <= Positions.Sleeping)
             damage *= 2;
         if (victim.Position <= Positions.Resting)
@@ -2724,14 +2742,15 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (damage > 80)
             damage = (damage - 80) / 2 + 80;
 
+        // drunk reduction
         if (damage > 1 && this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
             damage -= damage / 10;
 
-        // any damage modifier on affects ?
-        var characterDamageModifierAffects = Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterDamageModifierAffect>()).ToArray();
-        foreach (var characterDamageModifierAffect in characterDamageModifierAffects) // every modifier is multiplicate, so order doesn't matter
+        // any damage modifier on victim (this) affects ?
+        var characterDamageDecreaseModifierAffects = Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterDamageModifierAffect>()).ToArray();
+        foreach (var characterDamageDecreaseModifierAffect in characterDamageDecreaseModifierAffects)
         {
-            damage = characterDamageModifierAffect.ModifyDamage(source, this, damageType, damage);
+            damage = characterDamageDecreaseModifierAffect.ModifyDamage(source, this, damageType, damageSource, damage);
         }
 
         // apply resistances
