@@ -28,8 +28,8 @@ public class Berserk : NoTargetSkillBase
 
     private IAuraManager AuraManager { get; }
 
-    public Berserk(ILogger<Berserk> logger, IRandomManager randomManager, IAbilityManager abilityManager, IAuraManager auraManager) 
-        : base(logger, randomManager, abilityManager)
+    public Berserk(ILogger<Berserk> logger, IRandomManager randomManager, IAuraManager auraManager) 
+        : base(logger, randomManager)
     {
         AuraManager = auraManager;
     }

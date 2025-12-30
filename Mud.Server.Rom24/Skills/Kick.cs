@@ -21,8 +21,8 @@ public class Kick : OffensiveSkillBase
 {
     private const string SkillName = "Kick";
 
-    public Kick(ILogger<Kick> logger, IRandomManager randomManager, IAbilityManager abilityManager) 
-        : base(logger, randomManager, abilityManager)
+    public Kick(ILogger<Kick> logger, IRandomManager randomManager) 
+        : base(logger, randomManager)
     {
     }
 
@@ -32,7 +32,8 @@ public class Kick : OffensiveSkillBase
         if (baseSetup != null)
             return baseSetup;
 
-        if (Learned == 0 || (User is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.IsSet("Kick")))
+        if (Learned == 0
+            || (User is INonPlayableCharacter npcSource && !npcSource.OffensiveFlags.IsSet("Kick")))
             return "You better leave the martial arts to fighters.";
 
         if (User.Position < Positions.Standing)

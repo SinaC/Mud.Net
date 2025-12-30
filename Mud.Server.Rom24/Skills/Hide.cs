@@ -4,7 +4,6 @@ using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.Rom24.Skills;
@@ -23,8 +22,8 @@ public class Hide : NoTargetSkillBase
 {
     private const string SkillName = "Hide";
 
-    public Hide(ILogger<Hide> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    public Hide(ILogger<Hide> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

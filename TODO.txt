@@ -1,7 +1,9 @@
 INGOING
 DONE
-    maul: next hit does more damage -> only on white damage (HitDamage) and not yellow damage (AbilityDamage)
-    https://www.wowhead.com/classic/spell=6807/maul
+    Add new game action for skill and assign guards there
+    Don't use ability manager in skillbase anymore
+    Don't create anymore SkillActionInput in SkillBase but in GameActionManager to simulate a similar behavior as Spells using Cast to create SpellActionInput
+    Guards for skills don't have to be check in SkillBase because SkillBase are always linked to a command
 
 ==========
 == TODO ==
@@ -28,8 +30,8 @@ new combat system
     kill reward
         first group to hit the mob will receive the reward
         if everyone in the group has been killed, reward priority goes to next group which has hit the mob
-threat/aggro (see Generating Threat)
-https://www.wowhead.com/classic/guide/threat-overview-classic-wow
+    threat/aggro (see Generating Threat)
+    https://www.wowhead.com/classic/guide/threat-overview-classic-wow
 
 limbo/autoquit timer
 

@@ -8,8 +8,8 @@ namespace Mud.Server.Ability.Skill;
 
 public abstract class ItemInventorySkillBase : SkillBase
 {
-    protected ItemInventorySkillBase(ILogger<ItemInventorySkillBase> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    protected ItemInventorySkillBase(ILogger<ItemInventorySkillBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

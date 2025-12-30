@@ -16,11 +16,14 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
     where TItem: IItem
 {
     protected IItemManager ItemManager { get; }
+    protected IAbilityManager AbilityManager { get; }
 
     protected ItemCastSpellSkillBase(ILogger<ItemCastSpellSkillBase<TItem>> logger, IRandomManager randomManager, IAbilityManager abilityManager, IItemManager itemManager)
-        : base(logger, randomManager, abilityManager)
+        : base(logger, randomManager)
     {
         ItemManager = itemManager;
+        AbilityManager = abilityManager;
+
         SpellInstances = [];
     }
 

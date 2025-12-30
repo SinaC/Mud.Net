@@ -8,8 +8,8 @@ namespace Mud.Server.Ability.Skill;
 
 public abstract class OffensiveSkillBase : SkillBase
 {
-    protected OffensiveSkillBase(ILogger<OffensiveSkillBase> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    protected OffensiveSkillBase(ILogger<OffensiveSkillBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
     protected ICharacter Victim { get; set; } = default!;

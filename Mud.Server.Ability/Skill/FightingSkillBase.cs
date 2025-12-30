@@ -7,8 +7,8 @@ namespace Mud.Server.Ability.Skill;
 
 public abstract class FightingSkillBase : SkillBase
 {
-    protected FightingSkillBase(ILogger<FightingSkillBase> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    protected FightingSkillBase(ILogger<FightingSkillBase> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

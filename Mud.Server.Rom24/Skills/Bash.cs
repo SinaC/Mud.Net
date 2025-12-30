@@ -26,8 +26,8 @@ public class Bash : OffensiveSkillBase
 {
     private const string SkillName = "Bash";
 
-    public Bash(ILogger<Bash> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    public Bash(ILogger<Bash> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

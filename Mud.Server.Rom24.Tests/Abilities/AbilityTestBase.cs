@@ -3,6 +3,7 @@ using Moq;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Ability;
+using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
@@ -60,7 +61,13 @@ public abstract class AbilityTestBase
             case CharacterCommandAttribute characterCommandAttribute:
                 {
                     var characterGuards = guardGenerator.GenerateCharacterGuards(type);
-                    gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, characterGuards);
+                    if (type.IsAssignableTo(typeof(ISkill)))
+                    {
+                        var skillDefinition = new AbilityDefinition(type, characterGuards);
+                        gameActionInfo = new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, skillDefinition, characterGuards);
+                    }
+                    else
+                        gameActionInfo = new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, null, characterGuards);
                     break;
                 }
             case AdminCommandAttribute adminCommandAttribute:

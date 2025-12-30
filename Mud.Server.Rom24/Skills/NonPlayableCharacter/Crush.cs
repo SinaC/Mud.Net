@@ -19,8 +19,8 @@ public class Crush : FightingSkillBase
 
     private ITableValues TableValues { get; }
 
-    public Crush(ILogger<Crush> logger, IRandomManager randomManager, IAbilityManager abilityManager, ITableValues tableValues)
-        : base(logger, randomManager, abilityManager)
+    public Crush(ILogger<Crush> logger, IRandomManager randomManager, ITableValues tableValues)
+        : base(logger, randomManager)
     {
         TableValues = tableValues;
     }

@@ -4,6 +4,8 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Domain;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Actor;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Guards;
@@ -19,18 +21,20 @@ public class GameActionManager : IGameActionManager
     private IServiceProvider ServiceProvider { get; }
     private ICommandParser CommandParser { get; }
     private IGuardGenerator GuardGenerator { get; }
+    private IAbilityManager AbilityManager { get; }
 
     private List<IGameActionInfo> _dynamicGameActionInfos;
     private List<IGameActionInfo> _staticGameActionInfos;
     private readonly Dictionary<Type, IGameActionInfo> _staticGameActionInfosByExecutionType;
     private readonly Dictionary<Type, IReadOnlyTrie<IGameActionInfo>> _gameActionInfosTrieByActorType;
 
-    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser, IGuardGenerator guardGenerator, ISocialManager socialManager)
+    public GameActionManager(ILogger<GameActionManager> logger, IServiceProvider serviceProvider, IAssemblyHelper assemblyHelper, ICommandParser commandParser, IGuardGenerator guardGenerator, IAbilityManager abilityManager, ISocialManager socialManager)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
         CommandParser = commandParser;
         GuardGenerator = guardGenerator;
+        AbilityManager = abilityManager;
 
         _gameActionInfosTrieByActorType = []; // will be filled when a call to GetGameActions will be called
 
@@ -159,6 +163,15 @@ public class GameActionManager : IGameActionManager
             case CharacterCommandAttribute characterCommandAttribute:
             {
                 var characterGuards = GuardGenerator.GenerateCharacterGuards(type);
+
+                var abilityDefinition = AbilityManager[type];
+                if (abilityDefinition != null)
+                {
+                    if (abilityDefinition.Type == AbilityTypes.Skill)
+                        return new SkillGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, abilityDefinition, characterGuards);
+                    else
+                        Logger.LogError("GameActionManager.CreateGameActionInfo: ability definition {ability} for type {type} is not a skill.", abilityDefinition.Name, type.FullName ?? "???");
+                }
                 return new CharacterGameActionInfo(type, characterCommandAttribute, syntaxAttribute, aliasAttributes, helpAttribute, characterGuards);
             }
             case AdminCommandAttribute adminCommandAttribute:
