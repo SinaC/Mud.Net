@@ -15,7 +15,7 @@ public class ProtectionGoodDamageModifierAffectTests
         chMock.SetupGet(x => x.IsGood).Returns(false);
 
         var affect = new ProtectionGoodDamageModifierAffect();
-        var modifiedDamage = affect.ModifyDamage(chMock.Object, null!, SchoolTypes.Pierce, 100);
+        var modifiedDamage = affect.ModifyDamage(chMock.Object, null!, SchoolTypes.Pierce, DamageSources.Ability, 100);
 
         Assert.AreEqual(100, modifiedDamage);
     }
@@ -27,7 +27,7 @@ public class ProtectionGoodDamageModifierAffectTests
         chMock.SetupGet(x => x.IsGood).Returns(true);
 
         var affect = new ProtectionGoodDamageModifierAffect();
-        var modifiedDamage = affect.ModifyDamage(chMock.Object, null!, SchoolTypes.Pierce, 100);
+        var modifiedDamage = affect.ModifyDamage(chMock.Object, null!, SchoolTypes.Pierce, DamageSources.Ability, 100);
 
         Assert.AreEqual(75, modifiedDamage);
     }

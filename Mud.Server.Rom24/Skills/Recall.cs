@@ -32,8 +32,8 @@ public class Recall : NoTargetSkillBase
 {
     private const string SkillName = "Recall";
 
-    public Recall(ILogger<Recall> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    public Recall(ILogger<Recall> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

@@ -7,7 +7,6 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
@@ -24,8 +23,8 @@ public class BearForm : NoTargetSkillBase
 
     private IAuraManager AuraManager { get; }
 
-    public BearForm(ILogger<BearForm> logger, IRandomManager randomManager, IAbilityManager abilityManager, IAuraManager auraManager)
-        : base(logger, randomManager, abilityManager)
+    public BearForm(ILogger<BearForm> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         AuraManager = auraManager;
     }

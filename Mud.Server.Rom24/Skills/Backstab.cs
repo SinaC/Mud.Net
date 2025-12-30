@@ -28,8 +28,8 @@ public class Backstab : OffensiveSkillBase
 {
     private const string SkillName = "Backstab";
 
-    public Backstab(ILogger<Backstab> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    public Backstab(ILogger<Backstab> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 
@@ -48,7 +48,7 @@ public class Backstab : OffensiveSkillBase
 
         // TODO: check kill stealing
 
-        if (!(User.GetEquipment(EquipmentSlots.MainHand) is IItemWeapon))
+        if (User.GetEquipment(EquipmentSlots.MainHand) is not IItemWeapon)
             return "You need to wield a weapon to backstab.";
 
         if (Victim.CurrentHitPoints < Victim.MaxHitPoints / 3)

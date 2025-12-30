@@ -8,7 +8,6 @@ using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Random;
 
@@ -23,8 +22,8 @@ public class Swipe : FightingSkillBase
 {
     private const string SkillName = "Swipe";
 
-    public Swipe(ILogger<Swipe> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    public Swipe(ILogger<Swipe> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

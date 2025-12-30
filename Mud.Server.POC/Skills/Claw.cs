@@ -6,7 +6,6 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.POC.Skills;
@@ -20,8 +19,8 @@ public class Claw : OffensiveSkillBase
 {
     private const string SkillName = "Claw";
 
-    public Claw(ILogger<Claw> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    public Claw(ILogger<Claw> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

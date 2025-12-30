@@ -25,8 +25,8 @@ public class Trip : OffensiveSkillBase
 {
     private const string SkillName = "Trip";
 
-    public Trip(ILogger<Trip> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    public Trip(ILogger<Trip> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

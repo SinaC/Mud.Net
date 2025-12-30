@@ -14,7 +14,6 @@ public abstract class SkillBase : CharacterGameAction, ISkill
 {
     protected ILogger<SkillBase> Logger { get; }
     protected IRandomManager RandomManager { get; }
-    protected IAbilityManager AbilityManager { get; }
 
     protected bool IsSetupExecuted { get; private set; }
     protected IAbilityDefinition AbilityDefinition { get; private set; } = default!;
@@ -22,11 +21,10 @@ public abstract class SkillBase : CharacterGameAction, ISkill
     protected int Learned { get; private set; }
     protected ResourceCostToPay[] ResourceCostsToPay { get; private set; } = default!;
 
-    protected SkillBase(ILogger<SkillBase> logger, IRandomManager randomManager, IAbilityManager abilityManager)
+    protected SkillBase(ILogger<SkillBase> logger, IRandomManager randomManager)
     {
         Logger = logger;
         RandomManager = randomManager;
-        AbilityManager = abilityManager;
     }
 
     #region ISkill
@@ -147,26 +145,18 @@ public abstract class SkillBase : CharacterGameAction, ISkill
 
     public sealed override string? Guards(IActionInput actionInput)
     {
-        // check base guards
+        // check base guards (skill guards will be checked here because a skill is always linked to a command)
         var baseGuards = base.Guards(actionInput);
         if (baseGuards != null)
             return baseGuards;
 
-        // check ability guards
-        var abilityDefinition = AbilityManager[GetType()];
-        if (abilityDefinition == null)
-            return "Ability definition not found for this skill.";
-        if (abilityDefinition.Guards.Length > 0)
+        if (actionInput.GameActionInfo is not ISkillGameActionInfo skillGameActionInfo)
         {
-            foreach (var guard in abilityDefinition.Guards)
-            {
-                var guardResult = guard.Guards(Actor);
-                if (guardResult != null)
-                    return guardResult;
-            }
+            Logger.LogError("GameActionInfo is not ISkillGameActionInfo for skill action {actionName}.", GetType().Name);
+            return "Something goes wrong.";
         }
 
-        var skillActionInput = new SkillActionInput(actionInput, abilityDefinition, Actor);
+        var skillActionInput = new SkillActionInput(actionInput, skillGameActionInfo.AbilityDefinition, Actor);
         var setupResult = Setup(skillActionInput);
         return setupResult;
     }

@@ -6,7 +6,6 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Random;
 
 namespace Mud.Server.POC.Skills;
@@ -25,8 +24,8 @@ public class FerociousBite : OffensiveSkillBase
 {
     private const string SkillName = "Ferocious Bite";
 
-    public FerociousBite(ILogger<FerociousBite> logger, IRandomManager randomManager, IAbilityManager abilityManager)
-        : base(logger, randomManager, abilityManager)
+    public FerociousBite(ILogger<FerociousBite> logger, IRandomManager randomManager)
+        : base(logger, randomManager)
     {
     }
 

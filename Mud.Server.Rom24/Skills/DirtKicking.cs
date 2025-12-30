@@ -29,8 +29,8 @@ public class DirtKicking : OffensiveSkillBase
 
     private IAuraManager AuraManager { get; }
 
-    public DirtKicking(ILogger<DirtKicking> logger, IRandomManager randomManager, IAbilityManager abilityManager, IAuraManager auraManager)
-        : base(logger, randomManager, abilityManager)
+    public DirtKicking(ILogger<DirtKicking> logger, IRandomManager randomManager, IAuraManager auraManager)
+        : base(logger, randomManager)
     {
         AuraManager = auraManager;
     }

@@ -37,8 +37,8 @@ public class Steal : SkillBase
     private IGameActionManager GameActionManager { get; }
     private int MaxLevel { get; }
 
-    public Steal(ILogger<Steal> logger, IRandomManager randomManager, IAbilityManager abilityManager, IGameActionManager gameActionManager, IOptions<WorldOptions> worldOptions)
-        : base(logger, randomManager, abilityManager)
+    public Steal(ILogger<Steal> logger, IRandomManager randomManager, IGameActionManager gameActionManager, IOptions<WorldOptions> worldOptions)
+        : base(logger, randomManager)
     {
         GameActionManager = gameActionManager;
         MaxLevel = worldOptions.Value.MaxLevel;

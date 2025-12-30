@@ -7,7 +7,6 @@ using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
@@ -34,8 +33,8 @@ public class Lore : ItemInventorySkillBase
     private ITableValues TableValues { get; }
     private IWiznet Wiznet { get; }
 
-    public Lore(ILogger<ItemInventorySkillBase> logger, IRandomManager randomManager, IAbilityManager abilityManager, ITableValues tableValues, IWiznet wiznet)
-        : base(logger, randomManager, abilityManager)
+    public Lore(ILogger<ItemInventorySkillBase> logger, IRandomManager randomManager, ITableValues tableValues, IWiznet wiznet)
+        : base(logger, randomManager)
     {
         TableValues = tableValues;
         Wiznet = wiznet;
