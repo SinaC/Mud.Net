@@ -61,7 +61,7 @@ public abstract class ItemBase: EntityBase, IItem
         where TBlueprint : ItemBlueprintBase
     {
         Initialize(guid, blueprint, blueprint.Name, blueprint.ShortDescription, blueprint.Description, containedInto);
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
     }
 
     public void Initialize<TBlueprint, TData>(Guid guid, TBlueprint blueprint, TData data, string name, string shortDescription, string description, IContainer containedInto)
@@ -79,7 +79,7 @@ public abstract class ItemBase: EntityBase, IItem
             foreach (AuraData auraData in data.Auras)
                 AuraManager.AddAura(this, auraData, false);
         }
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
     }
 
     public void Initialize<TBlueprint, TData>(Guid guid, TBlueprint blueprint, TData data, IContainer containedInto)
@@ -104,7 +104,7 @@ public abstract class ItemBase: EntityBase, IItem
         Logger.LogDebug("ItemBase.Recompute: {name}", DebugName);
 
         // 0) Reset
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
 
         // 1) Apply auras from room containing item if in a room
         if (ContainedInto is IRoom room && room.IsValid)
@@ -320,7 +320,7 @@ public abstract class ItemBase: EntityBase, IItem
 
     #endregion
 
-    protected override void ResetAttributes()
+    protected override void ResetAttributesAndResourcesAndFlags()
     {
         ItemFlags.Copy(BaseItemFlags);
     }

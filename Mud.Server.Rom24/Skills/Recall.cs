@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Common.Attributes;
@@ -89,7 +90,7 @@ public class Recall : NoTargetSkillBase
             pcUser.StopFighting(true);
         }
 
-        pcUser.UpdateMovePoints(-pcUser.CurrentMovePoints / 2); // half move
+        pcUser.UpdateResource(ResourceKinds.MovePoints, -pcUser[ResourceKinds.MovePoints] / 2); // half move
         pcUser.Act(ActOptions.ToRoom, "{0:N} disappears.", pcUser);
         pcUser.ChangeRoom(RecallRoom, false);
         pcUser.Act(ActOptions.ToRoom, "{0:N} appears in the room.", pcUser);

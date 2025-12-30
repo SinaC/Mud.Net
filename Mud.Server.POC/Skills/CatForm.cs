@@ -44,11 +44,11 @@ public class CatForm : NoTargetSkillBase
         User.Act(ActOptions.ToRoom, "{0:N} shapeshifts into a cat.", this);
         User.ChangeShape(Shapes.Cat);
         // set energy: current=0, max=100
-        User.SetMaxResource(ResourceKinds.Energy, 100);
+        User.SetBaseMaxResource(ResourceKinds.Energy, 100);
         User.SetResource(ResourceKinds.Energy, 0);
         // set combo: current=0, max=5
-        User.SetMaxResource(ResourceKinds.Combo, 5);
-        User.SetResource(ResourceKinds.Energy, 0);
+        User.SetBaseMaxResource(ResourceKinds.Combo, 5);
+        User.SetResource(ResourceKinds.Combo, 0);
 
         // TODO: Affect changing Form + disable other form
         AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.NoDispel | AuraFlags.Permanent | AuraFlags.Shapeshift, true,

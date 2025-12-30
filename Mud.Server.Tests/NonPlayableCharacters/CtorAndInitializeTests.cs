@@ -35,9 +35,9 @@ public class CtorAndInitializeTests : TestBase
         var npc = GenerateNPC(blueprint, room.Object);
         npc.Recompute();
 
-        Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc.MaxHitPoints);
-        Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc[CharacterAttributes.MaxHitPoints]);
-        Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc.CurrentHitPoints);
+        Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc.BaseMaxResource(ResourceKinds.HitPoints));
+        Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc.MaxResource(ResourceKinds.HitPoints));
+        Assert.AreEqual(blueprint.HitPointDiceCount * blueprint.HitPointDiceValue + blueprint.HitPointDiceBonus, npc.MaxResource(ResourceKinds.HitPoints));
     }
 
     [TestMethod]
@@ -49,6 +49,7 @@ public class CtorAndInitializeTests : TestBase
         var npc = GenerateNPC(blueprint, room.Object);
         npc.Recompute();
 
+        Assert.AreEqual(blueprint.ManaDiceCount * blueprint.ManaDiceValue + blueprint.ManaDiceBonus, npc.BaseMaxResource(ResourceKinds.Mana));
         Assert.AreEqual(blueprint.ManaDiceCount * blueprint.ManaDiceValue + blueprint.ManaDiceBonus, npc.MaxResource(ResourceKinds.Mana));
         Assert.AreEqual(blueprint.ManaDiceCount * blueprint.ManaDiceValue + blueprint.ManaDiceBonus, npc[ResourceKinds.Mana]);
     }

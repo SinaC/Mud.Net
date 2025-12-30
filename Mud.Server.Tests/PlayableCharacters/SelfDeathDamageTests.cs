@@ -52,10 +52,14 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Level = 1,
                 Sex = Sex.Male,
                 Size = Sizes.Medium,
-                HitPoints = 1,
-                MovePoints = 1,
-                CurrentResources = [],
-                MaxResources = [],
+                CurrentResources = new Dictionary<ResourceKinds, int>
+                {
+                    { ResourceKinds.HitPoints, 1000 },
+                },
+                MaxResources = new Dictionary<ResourceKinds, int>
+                {
+                    { ResourceKinds.HitPoints, 1000 },
+                },
                 Equipments = [],
                 Inventory = [],
                 Auras = [], // TODO: add poison and trigger poison effect
@@ -64,10 +68,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Resistances = string.Empty,
                 Vulnerabilities = string.Empty,
                 ShieldFlags = string.Empty,
-                Attributes = new Dictionary<CharacterAttributes, int>
-                {
-                    { CharacterAttributes.MaxHitPoints, 1000 } // if not specified, hit points will always be 0
-                },
+                Attributes = [],
                 // PlayableCharacterData
                 CreationTime = DateTime.Now,
                 RoomId = 0,

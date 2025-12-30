@@ -67,7 +67,10 @@ public abstract class SkillBase : CharacterGameAction, ISkill
                     case CostAmountOperators.Fixed:
                         cost = abilityResourceCost.CostAmount;
                         break;
-                    case CostAmountOperators.Percentage:
+                    case CostAmountOperators.PercentageCurrent:
+                        cost = User[resourceKind] * abilityResourceCost.CostAmount / 100;
+                        break;
+                    case CostAmountOperators.PercentageMax:
                         cost = User.MaxResource(resourceKind) * abilityResourceCost.CostAmount / 100;
                         break;
                     case CostAmountOperators.All:

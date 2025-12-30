@@ -16,6 +16,12 @@ namespace Mud.Server.Commands.Admin.Information;
 [Syntax("[cmd] <character>")]
 public class Cstat : AdminGameAction
 {
+    private static ResourceKinds[] SpecialResourceKinds { get; } =
+    [
+        ResourceKinds.HitPoints,
+        ResourceKinds.MovePoints,
+    ];
+
     private ICharacterManager CharacterManager { get; }
 
     public Cstat(ICharacterManager characterManager)
@@ -112,8 +118,8 @@ public class Cstat : AdminGameAction
             sb.AppendFormatLine("Level: {0}", Whom.Level);
         if (nonPlayableWhom != null)
             sb.AppendFormatLine("Damage: {0}d{1}+{2} {3} {4}", nonPlayableWhom.DamageDiceCount, nonPlayableWhom.DamageDiceValue, nonPlayableWhom.DamageDiceBonus, nonPlayableWhom.DamageType, nonPlayableWhom.DamageNoun);
-        sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", Whom.CurrentHitPoints, Whom.MaxHitPoints);
-        sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", Whom.CurrentMovePoints, Whom.MaxMovePoints);
+        sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", Whom[ResourceKinds.HitPoints], Whom.MaxResource(ResourceKinds.HitPoints));
+        sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", Whom[ResourceKinds.MovePoints], Whom.MaxResource(ResourceKinds.MovePoints));
         sb.AppendFormatLine("Flags: {0} (base: {1})", Whom.CharacterFlags, Whom.BaseCharacterFlags);
         sb.AppendFormatLine("Immunites: {0} (base: {1})", Whom.Immunities, Whom.BaseImmunities);
         sb.AppendFormatLine("Resistances: {0} (base: {1})", Whom.Resistances, Whom.BaseResistances);
@@ -123,10 +129,10 @@ public class Cstat : AdminGameAction
         sb.AppendFormatLine("Parts: {0} (base: {1})", Whom.BodyParts, Whom.BaseBodyParts);
         sb.AppendFormatLine("Alignment: {0}", Whom.Alignment);
         sb.AppendLine("Attributes:");
-        foreach (CharacterAttributes attribute in Enum.GetValues<CharacterAttributes>())
+        foreach (var attribute in Enum.GetValues<CharacterAttributes>())
             sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, Whom[attribute], Whom.BaseAttribute(attribute));
-        foreach (ResourceKinds resourceKind in Enum.GetValues<ResourceKinds>())
-            sb.AppendFormatLine("{0}: {1} Max: {2}", resourceKind, Whom[resourceKind], Whom.MaxResource(resourceKind));
+        foreach (var resourceKind in Enum.GetValues<ResourceKinds>().Except(SpecialResourceKinds))
+            sb.AppendFormatLine("{0}: {1} Max: {2} Available?: {3}", resourceKind, Whom[resourceKind], Whom.MaxResource(resourceKind), Whom.CurrentResourceKinds.Contains(resourceKind) ? "Y" : "N");
         if (nonPlayableWhom != null)
         {
             sb.AppendFormatLine("Act: {0}", nonPlayableWhom.ActFlags);

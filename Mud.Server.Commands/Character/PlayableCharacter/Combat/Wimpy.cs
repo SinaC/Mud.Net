@@ -31,14 +31,14 @@ public class Wimpy : PlayableCharacterGameAction
             return baseGuards;
 
         if (actionInput.Parameters.Length == 0)
-            Number = Actor.MaxHitPoints / 5;
+            Number = Actor.MaxResource(ResourceKinds.HitPoints) / 5;
         else if (!actionInput.Parameters[0].IsNumber)
             return BuildCommandSyntax();
         else
             Number = actionInput.Parameters[0].AsNumber;
         if (Number < 0)
             return "Your courage exceeds your wisdom.";
-        else if (Number > Actor.MaxHitPoints / 2)
+        else if (Number > Actor.MaxResource(ResourceKinds.HitPoints) / 2)
             return "Such cowardice ill becomes you.";
 
         return null;

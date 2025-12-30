@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Mud.Common;
+using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
@@ -153,7 +154,7 @@ public class Group : PlayableCharacterGameAction
 
     private void AppendPlayerGroupMemberInfo(StringBuilder sb, IPlayableCharacter member)
     {
-        sb.AppendFormat("[{0,3} {1,3}] {2,20} {3,5}/{4,5} hp {5} {6,5}/{7,5} mv", member.Level, member.Class.ShortName, member.DisplayName.MaxLength(20), member.CurrentHitPoints, member.MaxHitPoints, BuildResources(member), member.CurrentMovePoints, member.MaxMovePoints);
+        sb.AppendFormat("[{0,3} {1,3}] {2,20} {3,5}/{4,5} hp {5} {6,5}/{7,5} mv", member.Level, member.Class.ShortName, member.DisplayName.MaxLength(20), member[ResourceKinds.HitPoints], member.MaxResource(ResourceKinds.HitPoints), BuildResources(member), member[ResourceKinds.MovePoints], member.MaxResource(ResourceKinds.MovePoints));
         if (member.Level >= MaxLevel)
             sb.AppendFormat(" {0} nxt", member.ExperienceToLevel);
         sb.AppendLine();
@@ -161,7 +162,7 @@ public class Group : PlayableCharacterGameAction
 
     private void AppendPetGroupMemberInfo(StringBuilder sb, INonPlayableCharacter member)
     {
-        sb.AppendFormatLine("[{0,3} Pet] {1,20} {2,5}/{3,5} hp {4} {5,5}/{6,5} mv", member.Level, member.DisplayName.MaxLength(20), member.CurrentHitPoints, member.MaxHitPoints, BuildResources(member), member.CurrentMovePoints, member.MaxMovePoints);
+        sb.AppendFormatLine("[{0,3} Pet] {1,20} {2,5}/{3,5} hp {4} {5,5}/{6,5} mv", member.Level, member.DisplayName.MaxLength(20), member[ResourceKinds.HitPoints], member.MaxResource(ResourceKinds.HitPoints), BuildResources(member), member[ResourceKinds.MovePoints], member.MaxResource(ResourceKinds.MovePoints));
     }
 
     private static StringBuilder BuildResources(ICharacter character)

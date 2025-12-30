@@ -191,7 +191,7 @@ public class BerserkTests : AbilityTestBase
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
-        userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
+        userMock.Setup(x => x.MaxResource(It.Is<ResourceKinds>(rk => rk == ResourceKinds.HitPoints))).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
@@ -219,7 +219,7 @@ public class BerserkTests : AbilityTestBase
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(10); // NOT enough mana
-        userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
+        userMock.Setup(x => x.MaxResource(It.Is<ResourceKinds>(rk => rk == ResourceKinds.HitPoints))).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
@@ -245,7 +245,7 @@ public class BerserkTests : AbilityTestBase
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
-        userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
+        userMock.Setup(x => x.MaxResource(It.Is<ResourceKinds>(rk => rk == ResourceKinds.HitPoints))).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
         var skill = new Berserk(new Mock<ILogger<Berserk>>().Object, randomManagerMock.Object, auraManagerMock.Object);
@@ -273,7 +273,7 @@ public class BerserkTests : AbilityTestBase
         userMock.Setup(x => x.GetAbilityLearnedAndPercentage(It.IsAny<string>())).Returns<string>(abilityName => (100, BuildAbilityLearned(abilityName)));
         userMock.SetupGet(x => x.CurrentResourceKinds).Returns([ResourceKinds.Mana]); // has mana
         userMock.SetupGet(x => x[It.IsAny<ResourceKinds>()]).Returns(1000); // enough mana
-        userMock.SetupGet(x => x.MaxHitPoints).Returns(1000);
+        userMock.Setup(x => x.MaxResource(It.Is<ResourceKinds>(rk => rk == ResourceKinds.HitPoints))).Returns(1000);
         roomMock.SetupGet(x => x.People).Returns(userMock.Object.Yield());
 
         var actionInput = BuildActionInput<Berserk>(userMock.Object, "berserk");

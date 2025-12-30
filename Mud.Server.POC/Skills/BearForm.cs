@@ -44,14 +44,14 @@ public class BearForm : NoTargetSkillBase
         User.Act(ActOptions.ToRoom, "{0:N} shapeshifts into a bear.", this);
         User.ChangeShape(Shapes.Bear);
         // set rage: current 100= max=100
-        User.SetMaxResource(ResourceKinds.Rage, 100);
+        User.SetBaseMaxResource(ResourceKinds.Rage, 100);
         User.UpdateResource(ResourceKinds.Rage, 100); // TODO: should be 0
 
         // TODO: Affect changing Form + disable other form
         AuraManager.AddAura(User, SkillName, User, User.Level, AuraFlags.NoDispel | AuraFlags.Permanent | AuraFlags.Shapeshift, true,
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.AllArmor, Modifier = -User.Level * 5, Operator = AffectOperators.Add },
             new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Constitution, Modifier = User.Level / 10, Operator = AffectOperators.Add },
-            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.MaxHitPoints, Modifier = User.Level * 5, Operator = AffectOperators.Add },
+            new CharacterResourceAffect { Location = ResourceKinds.HitPoints, Modifier = User.Level * 5, Operator = AffectOperators.Add },
             new CharacterIRVAffect { Location = IRVAffectLocations.Resistances, Modifier = new IRVFlags("Cold", "Bash"), Operator = AffectOperators.Add },
             new CharacterSizeAffect { Value = Sizes.Large });
 

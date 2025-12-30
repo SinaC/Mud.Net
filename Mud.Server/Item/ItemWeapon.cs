@@ -47,7 +47,7 @@ public class ItemWeapon : ItemBase, IItemWeapon
         BaseWeaponFlags = NewAndCopyAndSet(() => new WeaponFlags(), blueprint.Flags, null);
         DamageNoun = blueprint.DamageNoun;
 
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
     }
 
     public void Initialize(Guid guid, ItemWeaponBlueprint blueprint, ItemWeaponData itemData, IContainer containedInto)
@@ -61,7 +61,7 @@ public class ItemWeapon : ItemBase, IItemWeapon
         BaseWeaponFlags = NewAndCopyAndSet(() => new WeaponFlags(), new WeaponFlags(itemData.WeaponFlags), null);
         DamageNoun = blueprint.DamageNoun;
 
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
     }
 
     #region IItemWeapon
@@ -156,9 +156,9 @@ public class ItemWeapon : ItemBase, IItemWeapon
 
     #endregion
 
-    protected override void ResetAttributes()
+    protected override void ResetAttributesAndResourcesAndFlags()
     {
-        base.ResetAttributes();
+        base.ResetAttributesAndResourcesAndFlags();
 
         WeaponFlags.Copy(BaseWeaponFlags);
     }

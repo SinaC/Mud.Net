@@ -68,7 +68,6 @@ public class WordOfRecall : SpellBase
         if (Victim.Fighting != null)
             Victim.StopFighting(true);
 
-        Victim.UpdateMovePoints(-Victim.CurrentMovePoints / 2); // half move
         Victim.Act(ActOptions.ToRoom, "{0:N} disappears", Victim);
         Victim.ChangeRoom(recallRoom, false);
         Victim.Act(ActOptions.ToRoom, "{0:N} appears in the room.", Victim);

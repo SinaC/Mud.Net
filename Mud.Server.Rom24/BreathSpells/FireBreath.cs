@@ -40,7 +40,7 @@ public class FireBreath : OffensiveSpellBase
         Victim.Act(ActOptions.ToCharacter, "{0} breathes a cone of hot fire over you!", Caster);
         Caster.Send("You breath forth a cone of fire.");
 
-        int hp = Math.Max(10, Victim.CurrentHitPoints);
+        int hp = Math.Max(10, Victim[ResourceKinds.HitPoints]);
         int hpDamage = RandomManager.Range(1 + hp / 9, hp / 5);
         int diceDamage = RandomManager.Dice(Level, 20);
         int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);

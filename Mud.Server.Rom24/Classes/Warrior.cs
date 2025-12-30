@@ -80,7 +80,7 @@ public class Warrior : ClassBase
         AddAvailableSpell(16, "infravision", Mud.Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(16, "lightning bolt", Mud.Domain.ResourceKinds.Mana, 15, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(17, "weaken", Mud.Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 2);
-        AddAvailableAbility(18, "berserk", Mud.Domain.ResourceKinds.Mana, 50, CostAmountOperators.Fixed, 5);
+        AddAvailableAbility(18, "berserk", [(Mud.Domain.ResourceKinds.Mana, 50, CostAmountOperators.Fixed), (Mud.Domain.ResourceKinds.MovePoints, 50, CostAmountOperators.PercentageCurrent)], 5);
         AddAvailableSpell(18, "fireproof", Mud.Domain.ResourceKinds.Mana, 10, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(19, "cause critical", Mud.Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(19, "cure critical", Mud.Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 2);
@@ -113,7 +113,7 @@ public class Warrior : ClassBase
         AddAvailableSpell(30, "dispel magic", Mud.Domain.ResourceKinds.Mana, 15, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(30, "heal", Mud.Domain.ResourceKinds.Mana, 50, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(30, "sanctuary", Mud.Domain.ResourceKinds.Mana, 75, CostAmountOperators.Fixed, 2);
-        AddAvailableSpell(30, "word of recall", Mud.Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed, 2);
+        AddAvailableAbility(30, "word of recall", [(Mud.Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed), (Mud.Domain.ResourceKinds.MovePoints, 50, CostAmountOperators.PercentageCurrent)], 1);
         AddAvailableSpell(32, "acid blast", Mud.Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(32, "slow", Mud.Domain.ResourceKinds.Mana, 30, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(34, "acid breath", Mud.Domain.ResourceKinds.Mana, 100, CostAmountOperators.Fixed, 2);

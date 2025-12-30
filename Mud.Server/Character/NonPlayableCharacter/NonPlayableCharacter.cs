@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints.Character;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -7,7 +8,6 @@ using Mud.Domain.SerializationData;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
-using Mud.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -34,7 +34,6 @@ using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using Mud.Server.Quest;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 
@@ -103,27 +102,32 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         // TODO: see db.C:Create_Mobile
         // TODO: following values must be extracted from blueprint
         SetBaseCharacterAttributes(blueprint);
-        var maxHitPoints = RandomManager.Dice(blueprint.HitPointDiceCount, blueprint.HitPointDiceValue) + blueprint.HitPointDiceBonus;
-        SetBaseAttributes(CharacterAttributes.MaxHitPoints, maxHitPoints, false); // OK
         SetBaseAttributes(CharacterAttributes.SavingThrow, 0, false); // TODO
         SetBaseAttributes(CharacterAttributes.HitRoll, blueprint.HitRollBonus, false); // OK
         SetBaseAttributes(CharacterAttributes.DamRoll, Level, false); // TODO
-        SetBaseAttributes(CharacterAttributes.MaxMovePoints, 1000, false); // TODO
         SetBaseAttributes(CharacterAttributes.ArmorBash, blueprint.ArmorBash, false); // OK
         SetBaseAttributes(CharacterAttributes.ArmorPierce, blueprint.ArmorPierce, false); // OK
         SetBaseAttributes(CharacterAttributes.ArmorSlash, blueprint.ArmorSlash, false); // OK
         SetBaseAttributes(CharacterAttributes.ArmorExotic, blueprint.ArmorExotic, false); // OK
 
-        InitializeCurrentHitPoints(BaseAttribute(CharacterAttributes.MaxHitPoints)); // cannot use SetHitPoints because CurrentMax has not been yet calculated (will be calculated in ResetAttributes)
-        InitializeCurrentMovePoints(BaseAttribute(CharacterAttributes.MaxMovePoints)); // cannot use SetMovePoints because CurrentMax has not been yet calculated (will be calculated in ResetAttributes)
-
         // resources (should be extracted from blueprint)
+        // hit points
+        var maxHitPoints = RandomManager.Dice(blueprint.HitPointDiceCount, blueprint.HitPointDiceValue) + blueprint.HitPointDiceBonus;
+        SetBaseMaxResource(ResourceKinds.HitPoints, maxHitPoints); // OK
+        SetCurrentMaxResource(ResourceKinds.HitPoints, maxHitPoints);
+        SetResource(ResourceKinds.HitPoints, maxHitPoints);
+        // move points
+        SetBaseMaxResource(ResourceKinds.MovePoints, 1000); // TODO
+        SetCurrentMaxResource(ResourceKinds.MovePoints, 1000);
+        SetResource(ResourceKinds.MovePoints, 1000);
         // mana
         var maxManaResource = RandomManager.Dice(blueprint.ManaDiceCount, blueprint.ManaDiceValue) + blueprint.ManaDiceBonus;
-        SetMaxResource(ResourceKinds.Mana, maxManaResource, false);
+        SetBaseMaxResource(ResourceKinds.Mana, maxManaResource, false);
+        SetCurrentMaxResource(ResourceKinds.Mana, maxManaResource);
         SetResource(ResourceKinds.Mana, maxManaResource);
         // TODO: psy
 
+        //
         Position = blueprint.StartPosition;
 
         if (!string.IsNullOrWhiteSpace(blueprint.SpecialBehavior))
@@ -140,7 +144,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         Initialize(guid, blueprint.Name, blueprint.Description, blueprint, room);
 
         RecomputeKnownAbilities();
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
         RecomputeCurrentResourceKinds();
         AddAurasFromBaseFlags();
     }
@@ -165,6 +169,11 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
                 this[attribute] = 1;
         }
         // resources
+        if (petData.MaxResources != null)
+        {
+            foreach (var maxResourceData in petData.MaxResources)
+                SetBaseMaxResource(maxResourceData.Key, maxResourceData.Value, false);
+        }
         if (petData.CurrentResources != null)
         {
             foreach (var currentResourceData in petData.CurrentResources)
@@ -174,13 +183,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         {
             Wiznet.Log($"NonPlayableCharacter.ctor: currentResources not found in pfile for {petData.Name}", WiznetFlags.Bugs, AdminLevels.Implementor);
             // set to 1 if not found
-            foreach (ResourceKinds resource in Enum.GetValues<ResourceKinds>())
+            foreach (var resource in Enum.GetValues<ResourceKinds>())
                 SetResource(resource, 1);
-        }
-        if (petData.MaxResources != null)
-        {
-            foreach (var maxResourceData in petData.MaxResources)
-                SetMaxResource(maxResourceData.Key, maxResourceData.Value, false);
         }
 
         // Equipped items
@@ -240,7 +244,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         }
 
         RecomputeKnownAbilities();
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
         RecomputeCurrentResourceKinds();
         AddAurasFromBaseFlags();
     }
@@ -558,8 +562,6 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             Size = BaseSize,
             //SilverCoins = SilverCoins,
             //GoldCoins = GoldCoins,
-            HitPoints = CurrentHitPoints,
-            MovePoints = CurrentMovePoints,
             CurrentResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
             MaxResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
             Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
@@ -753,7 +755,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
         if (GlobalCooldown < Pulse.PulseViolence/2)
         {
-            if ((ActFlags.IsSet("Wimpy") && CurrentHitPoints < MaxHitPoints / 5 && RandomManager.Chance(25))
+            if ((ActFlags.IsSet("Wimpy") && this[ResourceKinds.HitPoints] < MaxResource(ResourceKinds.HitPoints) / 5 && RandomManager.Chance(25))
                 || (CharacterFlags.IsSet("Charm") && Master != null && Master.Room != Room))
                 Flee();
         }

@@ -109,7 +109,7 @@ public class Mage : ClassBase
         AddAvailableSpell(28, "acid blast", Mud.Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 1);
         AddAvailablePassive(30, "second attack", 10);
         AddAvailableSpell(31, "acid breath", Mud.Domain.ResourceKinds.Mana, 100, CostAmountOperators.Fixed, 1);
-        AddAvailableSpell(32, "word of recall", Mud.Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed, 1);
+        AddAvailableAbility(32, "word of recall", [(Mud.Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed), (Mud.Domain.ResourceKinds.MovePoints, 50, CostAmountOperators.PercentageCurrent)], 1);
         AddAvailableSpell(33, "chain lightning", Mud.Domain.ResourceKinds.Mana, 25, CostAmountOperators.Fixed, 1);
         AddAvailableSpell(34, "frost breath", Mud.Domain.ResourceKinds.Mana, 125, CostAmountOperators.Fixed, 1);
         AddAvailableSpell(35, "portal", Mud.Domain.ResourceKinds.Mana, 100, CostAmountOperators.Fixed, 2);

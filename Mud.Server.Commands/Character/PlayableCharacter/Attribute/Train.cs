@@ -32,7 +32,7 @@ In the long run, your character will be most powerful if you train
 WIS and CON both to 18 before practising or training anything else.")]
 public class Train : PlayableCharacterGameAction
 {
-    protected enum Actions
+    private enum Actions
     {
         Display,
         Attribute,
@@ -40,12 +40,12 @@ public class Train : PlayableCharacterGameAction
         Hp
     }
 
-    protected static ResourceKinds[] TrainableResources = [ResourceKinds.Mana, ResourceKinds.Psy];
+    private static ResourceKinds[] TrainableResources { get; } = [ResourceKinds.Mana, ResourceKinds.Psy];
 
-    protected Actions Action { get; set; }
-    protected BasicAttributes? Attribute { get; set; }
-    protected ResourceKinds? ResourceKind { get; set; }
-    protected int Cost { get; set; }
+    private Actions Action { get; set; }
+    private BasicAttributes? Attribute { get; set; }
+    private ResourceKinds? ResourceKind { get; set; }
+    private int Cost { get; set; }
 
     public override string? Guards(IActionInput actionInput)
     {
@@ -126,7 +126,7 @@ public class Train : PlayableCharacterGameAction
                 {
                     if (ResourceKind.HasValue)
                     {
-                        Actor.UpdateMaxResource(ResourceKind.Value, 10);
+                        Actor.UpdateBaseMaxResource(ResourceKind.Value, 10);
                         Actor.UpdateTrainsAndPractices(-1, 0);
                         Actor.Act(ActOptions.ToAll, "{0:p} power increases!", Actor);
                         Actor.Recompute();
@@ -135,8 +135,7 @@ public class Train : PlayableCharacterGameAction
                 return;
             case Actions.Hp:
                 {
-                    Actor.UpdateBaseAttribute(CharacterAttributes.MaxHitPoints, 10);
-                    Actor.UpdateHitPoints(10);
+                    Actor.UpdateBaseMaxResource(ResourceKinds.HitPoints, 10);
                     Actor.UpdateTrainsAndPractices(-1, 0);
                     Actor.Act(ActOptions.ToAll, "{0:p} durability increases!", Actor);
                     Actor.Recompute();

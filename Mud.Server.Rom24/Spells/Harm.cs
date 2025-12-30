@@ -26,7 +26,7 @@ public class Harm : OffensiveSpellBase
 
     protected override void Invoke()
     {
-        int damage = Math.Max(20, Victim.CurrentHitPoints - RandomManager.Dice(1, 4));
+        int damage = Math.Max(20, Victim[ResourceKinds.HitPoints] - RandomManager.Dice(1, 4));
         if (Victim.SavesSpell(Level, SchoolTypes.Harm))
             damage = Math.Min(50, damage / 2);
         damage = Math.Min(100, damage);

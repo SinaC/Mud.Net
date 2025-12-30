@@ -38,7 +38,7 @@ public class EnergyDrain : OffensiveSpellBase
 
         int damage;
         if (Victim.Level <= 2)
-            damage = Victim.CurrentHitPoints + 1;
+            damage = Victim[ResourceKinds.HitPoints] + 1;
         else
         {
             damage = RandomManager.Dice(1, Level);
@@ -48,8 +48,8 @@ public class EnergyDrain : OffensiveSpellBase
                 pcVictim.GainExperience(-lose);
             }
             Victim.UpdateResource(ResourceKinds.Mana, -Victim[ResourceKinds.Mana] / 2); // half mana
-            Victim.UpdateMovePoints(-Victim.CurrentMovePoints / 2); // half move
-            Caster.UpdateHitPoints(damage);
+            Victim.UpdateResource(ResourceKinds.MovePoints, -Victim[ResourceKinds.MovePoints] / 2); // half move
+            Caster.UpdateResource(ResourceKinds.HitPoints, damage); // drain HP to caster
         }
 
         Victim.Send("You feel your life slipping away!");

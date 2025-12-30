@@ -18,6 +18,12 @@ Str: 23/15 means you have a 15 strength from training, but a 23 strength
 from other factors (skills, spells or items).")]
 public class Score : CharacterGameAction
 {
+    private static ResourceKinds[] SpecialResourceKinds { get; } =
+    [
+        ResourceKinds.HitPoints,
+        ResourceKinds.MovePoints,
+    ];
+
     public override void Execute(IActionInput actionInput)
     {
         var pc = Actor as IPlayableCharacter;
@@ -36,10 +42,10 @@ public class Score : CharacterGameAction
             sb.AppendFormatLine("| %c%Constitution : %W%[{0,5}/{1,5}]%x% |                       |", Actor[CharacterAttributes.Constitution], Actor.BaseAttribute(CharacterAttributes.Constitution), Actor.Level);
         sb.AppendLine("+------------------------------+-------------------------+");
         sb.AppendLine("| %W%Resources%x%                    | %W%Defensive%x%              |");
-        sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", Actor.CurrentHitPoints, Actor.MaxHitPoints, Actor[Armors.Bash]);
-        sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", Actor.CurrentMovePoints, Actor.MaxMovePoints, Actor[Armors.Pierce]);
+        sb.AppendFormatLine("| %g%Hp     : %W%[{0,8}/{1,8}]%x% | %g%Bash         : %W%[{2,6}]%x% |", Actor[ResourceKinds.HitPoints], Actor.MaxResource(ResourceKinds.HitPoints), Actor[Armors.Bash]);
+        sb.AppendFormatLine("| %g%Move   : %W%[{0,8}/{1,8}]%x% | %g%Pierce       : %W%[{2,6}]%x% |", Actor[ResourceKinds.MovePoints], Actor.MaxResource(ResourceKinds.MovePoints), Actor[Armors.Pierce]);
         List<string> resources = [];
-        foreach (ResourceKinds resourceKind in Actor.CurrentResourceKinds)
+        foreach (ResourceKinds resourceKind in Actor.CurrentResourceKinds.Except(SpecialResourceKinds))
             resources.Add($"%g%{resourceKind,-7}: %W%[{Actor[resourceKind],8}/{Actor.MaxResource(resourceKind),8}]%x%");
         if (resources.Count < 3)
             resources.AddRange(Enumerable.Repeat("                            ", 3 - resources.Count));

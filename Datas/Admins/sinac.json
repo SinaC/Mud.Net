@@ -1000,9 +1000,9 @@
       "Level": 46,
       "Sex": 1,
       "Size": 2,
-      "HitPoints": 3800,
-      "MovePoints": 13786,
       "CurrentResources": {
+		"HitPoints": 3800,
+		"MovePoints": 12000,
         "Mana": 3151,
         "Psy": 100,
         "Energy": 0,
@@ -1010,6 +1010,8 @@
         "Combo": 0
       },
       "MaxResources": {
+		"HitPoints": 38000,
+		"MovePoints": 13800,
         "Mana": 10000,
         "Psy": 100,
         "Energy": 0,
@@ -1041,7 +1043,7 @@
                   {
                     "$type": "characterAttribute",
                     "Operator": 0,
-                    "Location": 16,
+                    "Location": 14,
                     "Modifier": -46
                   },
                   {
@@ -1243,7 +1245,7 @@
             {
               "$type": "characterAttribute",
               "Operator": 0,
-              "Location": 16,
+              "Location": 14,
               "Modifier": -20
             }
           ]
@@ -1274,7 +1276,7 @@
             {
               "$type": "characterAttribute",
               "Operator": 0,
-              "Location": 16,
+              "Location": 14,
               "Modifier": 90
             }
           ]
@@ -1288,7 +1290,7 @@
             {
               "$type": "characterAttribute",
               "Operator": 0,
-              "Location": 16,
+              "Location": 14,
               "Modifier": -40
             }
           ]
@@ -1393,11 +1395,9 @@
         "Wisdom": 23,
         "Dexterity": 22,
         "Constitution": 27,
-        "MaxHitPoints": 13800,
         "SavingThrow": 0,
         "HitRoll": 123,
         "DamRoll": 123,
-        "MaxMovePoints": 13800,
         "ArmorBash": -500,
         "ArmorPierce": -500,
         "ArmorSlash": -500,
@@ -2189,9 +2189,9 @@
       "Level": 49,
       "Sex": 0,
       "Size": 2,
-      "HitPoints": 21800,
-      "MovePoints": 2110,
       "CurrentResources": {
+		"HitPoints": 15800,
+		"MovePoints": 1110,
         "Mana": 5298,
         "Psy": 100,
         "Energy": 100,
@@ -2199,6 +2199,8 @@
         "Combo": 0
       },
       "MaxResources": {
+		"HitPoints": 21800,
+		"MovePoints": 2110,
         "Mana": 31600,
         "Psy": 100,
         "Energy": 100,
@@ -2240,7 +2242,7 @@
                   {
                     "$type": "characterAttribute",
                     "Operator": 0,
-                    "Location": 16,
+                    "Location": 14,
                     "Modifier": -490
                   },
                   {
@@ -2441,7 +2443,7 @@
             {
               "$type": "characterAttribute",
               "Operator": 0,
-              "Location": 16,
+              "Location": 14,
               "Modifier": 90
             }
           ]
@@ -2544,11 +2546,9 @@
         "Wisdom": 22,
         "Dexterity": 22,
         "Constitution": 24,
-        "MaxHitPoints": 21800,
         "SavingThrow": 0,
         "HitRoll": 0,
         "DamRoll": 0,
-        "MaxMovePoints": 2110,
         "ArmorBash": 100,
         "ArmorPierce": 100,
         "ArmorSlash": 100,
@@ -2724,9 +2724,9 @@
       "Level": 4,
       "Sex": 1,
       "Size": 3,
-      "HitPoints": 138,
-      "MovePoints": 3,
       "CurrentResources": {
+		"HitPoints": 78,
+		"MovePoints": 3,
         "Mana": 126,
         "Psy": 100,
         "Energy": 0,
@@ -2734,6 +2734,8 @@
         "Combo": 0
       },
       "MaxResources": {
+	    "HitPoints": 138,
+		"MovePoints": 138,
         "Mana": 126,
         "Psy": 100,
         "Energy": 0,
@@ -2945,7 +2947,7 @@
             {
               "$type": "characterAttribute",
               "Operator": 0,
-              "Location": 16,
+              "Location": 14,
               "Modifier": -20
             }
           ]
@@ -2982,11 +2984,9 @@
         "Wisdom": 18,
         "Dexterity": 15,
         "Constitution": 20,
-        "MaxHitPoints": 138,
         "SavingThrow": 0,
         "HitRoll": 0,
         "DamRoll": 0,
-        "MaxMovePoints": 138,
         "ArmorBash": 0,
         "ArmorPierce": 0,
         "ArmorSlash": 0,

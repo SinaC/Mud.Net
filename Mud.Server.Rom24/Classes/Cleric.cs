@@ -110,7 +110,7 @@ public class Cleric : ClassBase
         AddAvailableSkill(25, "pick lock", 8);
         AddAvailableSpell(25, "mass invis", Mud.Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 1);
         AddAvailableSpell(26, "cancellation", Mud.Domain.ResourceKinds.Mana, 20, CostAmountOperators.Fixed, 1);
-        AddAvailableSpell(28, "word of recall", Mud.Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed, 1);
+        AddAvailableAbility(28, "word of recall", [(Mud.Domain.ResourceKinds.Mana, 5, CostAmountOperators.Fixed), (Mud.Domain.ResourceKinds.MovePoints, 50, CostAmountOperators.PercentageCurrent)], 1);
         AddAvailablePassive(30, "enhanced damage", 9);
         AddAvailableSpell(30, "portal", Mud.Domain.ResourceKinds.Mana, 100, CostAmountOperators.Fixed, 2);
         AddAvailableSpell(30, "slow", Mud.Domain.ResourceKinds.Mana, 30, CostAmountOperators.Fixed, 1);

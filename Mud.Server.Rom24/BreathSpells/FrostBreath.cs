@@ -39,7 +39,7 @@ public class FrostBreath : OffensiveSpellBase
         Victim.Act(ActOptions.ToCharacter, "{0} breathes a freezing cone of frost over you!", Caster);
         Caster.Send("You breath out a cone of frost.");
 
-        int hp = Math.Max(12, Victim.CurrentHitPoints);
+        int hp = Math.Max(12, Victim[ResourceKinds.HitPoints]);
         int hpDamage = RandomManager.Range(1 + hp / 11, hp / 6);
         int diceDamage = RandomManager.Dice(Level, 18);
         int damage = Math.Max(hpDamage + diceDamage / 10, diceDamage + hpDamage / 10);

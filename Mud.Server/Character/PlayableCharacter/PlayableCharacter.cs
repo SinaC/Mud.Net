@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
@@ -7,7 +8,6 @@ using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
-using Mud.Blueprints.Character;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
@@ -34,7 +34,6 @@ using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using Mud.Server.Quest;
 using Mud.Server.Random;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 
@@ -113,7 +112,10 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (data.MaxResources != null)
         {
             foreach (var maxResourceData in data.MaxResources)
-                SetMaxResource(maxResourceData.Key, maxResourceData.Value, false);
+            {
+                SetBaseMaxResource(maxResourceData.Key, maxResourceData.Value, false);
+                SetCurrentMaxResource(maxResourceData.Key, maxResourceData.Value);
+            }
         }
         // setting current resources
         if (data.CurrentResources != null)
@@ -157,8 +159,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             foreach (var attribute in Enum.GetValues<CharacterAttributes>())
                 this[attribute] = 1;
         }
-        InitializeCurrentHitPoints(data.HitPoints); // cannot use SetHitPoints because CurrentMax has not been yet calculated (will be calculated in ResetAttributes)
-        InitializeCurrentMovePoints(data.MovePoints); // cannot use SetMovePoints because CurrentMax has not been yet calculated (will be calculated in ResetAttributes)
 
         // TODO: set not-found attributes to base value (from class/race)
 
@@ -315,7 +315,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         room.Enter(this);
 
         RecomputeKnownAbilities();
-        ResetAttributes();
+        ResetAttributesAndResourcesAndFlags();
         RecomputeCurrentResourceKinds();
         AddAurasFromBaseFlags();
     }
@@ -634,7 +634,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public void SetWimpy(int wimpy)
     {
-        Wimpy = Math.Clamp(wimpy, 0, MaxHitPoints/2);
+        Wimpy = Math.Clamp(wimpy, 0, MaxResource(ResourceKinds.HitPoints)/2); // not higher than half max hit points
     }
 
     public AutoFlags AutoFlags { get; protected set; }
@@ -833,8 +833,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 Recompute();
                 // Bonus -> reset cooldown and set resource to max
                 ResetCooldowns();
-                SetHitPoints(MaxHitPoints);
-                SetMovePoints(MaxMovePoints);
                 foreach (ResourceKinds resourceKind in Enum.GetValues<ResourceKinds>())
                     SetResource(resourceKind, MaxResource(resourceKind));
                 ImpersonatedBy?.SetSaveNeeded();
@@ -1015,8 +1013,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Size = BaseSize,
             SilverCoins = SilverCoins,
             GoldCoins = GoldCoins,
-            HitPoints = CurrentHitPoints,
-            MovePoints = CurrentMovePoints,
             CurrentResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
             MaxResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
             Alignment = Alignment,
@@ -1167,12 +1163,12 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             moveCost /= 2; // flying is less exhausting
         if (CharacterFlags.IsSet("Slow"))
             moveCost *= 2; // being slowed is more exhausting
-        if (CurrentMovePoints < moveCost)
+        if (this[ResourceKinds.MovePoints] < moveCost)
         {
             Send("You are too exhausted.");
             return false;
         }
-        UpdateMovePoints(-moveCost);
+        UpdateResource(ResourceKinds.MovePoints, -moveCost);
 
         // Delay player by one pulse
         SetGlobalCooldown(1);
@@ -1252,8 +1248,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     protected override void HandleDeath()
     {
         ChangePosition(Positions.Resting);
-        SetHitPoints(1);
-        SetMovePoints(1);
         foreach (var resourceKind in Enum.GetValues<ResourceKinds>())
             SetResource(resourceKind, 1);
         ResetCooldowns();
@@ -1283,7 +1277,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override void HandleWimpy()
     {
-        if (CurrentHitPoints > 0 && CurrentHitPoints <= Wimpy && GlobalCooldown < Pulse.PulseViolence / 2)
+        if (this[ResourceKinds.HitPoints] > 0 && this[ResourceKinds.HitPoints] <= Wimpy && GlobalCooldown < Pulse.PulseViolence / 2)
             Flee();
     }
 
@@ -1487,9 +1481,10 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
         int addPractice = practice;
 
-        SetBaseAttributes(CharacterAttributes.MaxHitPoints, MaxHitPoints + addHitpoints, false);
-        SetMaxResource(ResourceKinds.Mana, this[ResourceKinds.Mana] + addMana, false);
-        SetBaseAttributes(CharacterAttributes.MaxMovePoints, MaxMovePoints + addHitpoints, false);
+        SetBaseMaxResource(ResourceKinds.HitPoints, BaseMaxResource(ResourceKinds.HitPoints) + addHitpoints, false);
+        SetBaseMaxResource(ResourceKinds.MovePoints, BaseMaxResource(ResourceKinds.MovePoints) + addHitpoints, false);
+        SetBaseMaxResource(ResourceKinds.Mana, BaseMaxResource(ResourceKinds.Mana) + addMana, false);
+        // TODO: psy
         Practices += addPractice;
         Trains++;
 

@@ -17,6 +17,18 @@ namespace Mud.Server.POC.AbilityGroups
             AddAbility("demoralizing roar");
             AddAbility("ferocious bite");
             AddAbility("swipe");
+
+            AddAbility("axe");
+            AddAbility("dagger");
+            AddAbility("flail");
+            AddAbility("mace");
+            AddAbility("polearm");
+            AddAbility("spear");
+            AddAbility("staff(weapon)");
+            AddAbility("sword");
+            AddAbility("whip");
+
+            AddAbility("berserk");
         }
 
         #region IAbilityGroup

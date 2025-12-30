@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Server.Domain;
@@ -24,7 +25,12 @@ public class Insectoid : PlayableRaceBase // 4-arms
 
         // Test race with all spells
         foreach (var abilityDefinition in AbilityManager.Abilities.Where(x => x.Type == AbilityTypes.Spell))
-            AddNaturalAbility(1, abilityDefinition.Name, ResourceKinds.Mana, 5, CostAmountOperators.Percentage, 1);
+        {
+            if (StringCompareHelpers.StringEquals(abilityDefinition.Name, "word of recall"))
+                AddNaturalAbility(1, abilityDefinition.Name, [(ResourceKinds.Mana, 5, CostAmountOperators.PercentageMax), (ResourceKinds.MovePoints, 50, CostAmountOperators.PercentageCurrent)], 1);
+            else
+                AddNaturalAbility(1, abilityDefinition.Name, ResourceKinds.Mana, 5, CostAmountOperators.PercentageMax, 1);
+        }
     }
 
     #region IRace

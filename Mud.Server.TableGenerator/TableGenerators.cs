@@ -1,7 +1,6 @@
 ﻿using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common.Extensions;
-using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -28,7 +27,7 @@ public static class TableGenerators
         TableGenerator<IAbilityLearned> generator = new();
         generator.AddColumn("Lvl", 5, x => x.Level.ToString());
         generator.AddColumn("Name", 23, x => x.Name.ToPascalCase(), new TableGenerator<IAbilityLearned>.ColumnOptions { AlignLeft = true });
-        generator.AddColumn("Cost", 20, x =>
+        generator.AddColumn("Cost", 23, x =>
         {
             if (x.Learned == 0)
                 return "n/a";
@@ -45,14 +44,14 @@ public static class TableGenerators
                     var cost = x.AbilityUsage.ResourceCosts[i];
                     switch (cost.CostAmountOperator)
                     {
-                        case CostAmountOperators.None:
-                            sb.Append("%W%free%x%");
-                            break;
                         case CostAmountOperators.Fixed:
                             sb.Append($"{cost.CostAmount} {cost.ResourceKind.ResourceColor(shortDisplay)}");
                             break;
-                        case CostAmountOperators.Percentage:
-                            sb.Append($"{cost.CostAmount}% {cost.ResourceKind.ResourceColor(shortDisplay)}");
+                        case CostAmountOperators.PercentageCurrent:
+                            sb.Append($"{cost.CostAmount}% cur {cost.ResourceKind.ResourceColor(shortDisplay)}");
+                            break;
+                        case CostAmountOperators.PercentageMax:
+                            sb.Append($"{cost.CostAmount}% max {cost.ResourceKind.ResourceColor(shortDisplay)}");
                             break;
                         case CostAmountOperators.All:
                             sb.Append($"all {cost.ResourceKind.ResourceColor(shortDisplay)}");
@@ -223,11 +222,9 @@ public static class TableGenerators
                         var cost = x.ResourceCosts[i];
                         switch (cost.CostAmountOperator)
                         {
-                            case CostAmountOperators.None:
-                                sb.Append("%W%free%x%");
-                                break;
                             case CostAmountOperators.Fixed:
-                            case CostAmountOperators.Percentage:
+                            case CostAmountOperators.PercentageCurrent:
+                            case CostAmountOperators.PercentageMax:
                             case CostAmountOperators.All:
                             case CostAmountOperators.AllWithMin:
                                 sb.Append(cost.ResourceKind.ResourceColor(shortDisplay));
@@ -255,7 +252,7 @@ public static class TableGenerators
                     return 1;
                 }
             });
-        generator.AddColumn("Cost", 12,
+        generator.AddColumn("Cost", 15,
             x =>
             {
                 if (x.HasCost)
@@ -267,14 +264,14 @@ public static class TableGenerators
                         var cost = x.ResourceCosts[i];
                         switch (cost.CostAmountOperator)
                         {
-                            case CostAmountOperators.None:
-                                sb.Append("free");
-                                break;
                             case CostAmountOperators.Fixed:
                                 sb.Append($"{cost.CostAmount}");
                                 break;
-                            case CostAmountOperators.Percentage:
-                                sb.Append($"{cost.CostAmount}%");
+                            case CostAmountOperators.PercentageCurrent:
+                                sb.Append($"{cost.CostAmount}% cur");
+                                break;
+                            case CostAmountOperators.PercentageMax:
+                                sb.Append($"{cost.CostAmount}% max");
                                 break;
                             case CostAmountOperators.All:
                                 sb.Append($"all");
@@ -291,7 +288,7 @@ public static class TableGenerators
                     }
                     return sb.ToString();
                 }
-                return string.Empty;
+                return "free";
             });
         generator.AddColumn("Type", 10, x => x.AbilityDefinition.Type.ToString());
         generator.AddColumn("Rating", 8, x => x.Rating.ToString());

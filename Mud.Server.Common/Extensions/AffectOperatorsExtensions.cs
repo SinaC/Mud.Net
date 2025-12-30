@@ -5,16 +5,12 @@ namespace Mud.Server.Common.Extensions;
 public static class AffectOperatorsExtensions
 {
     public static string PrettyPrint(this AffectOperators op)
-    {
-        switch (op)
+        => op switch
         {
-            case AffectOperators.Add: return "by";
-            case AffectOperators.Or: return "by adding";
-            case AffectOperators.Assign: return "by setting to";
-            case AffectOperators.Nor: return "by removing";
-            default:
-                //Logger.LogError("AffectOperators.PrettyPrint: Invalid operator {0}", op);
-                return op.ToString();
-        }
-    }
+            AffectOperators.Add => "by",
+            AffectOperators.Or => "by adding",
+            AffectOperators.Assign => "by setting to",
+            AffectOperators.Nor => "by removing",
+            _ => op.ToString(),//Logger.LogError("AffectOperators.PrettyPrint: Invalid operator {0}", op);
+        };
 }

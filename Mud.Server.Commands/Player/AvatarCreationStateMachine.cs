@@ -520,16 +520,18 @@ done	     exit the character generation process");
                 Level = 1,
                 Sex = _sex!.Value,
                 Size = _race!.Size,
-                HitPoints = 20,
-                MovePoints = 100,
                 CurrentResources = new Dictionary<ResourceKinds, int>
                 {
+                    { ResourceKinds.HitPoints, 20 },
+                    { ResourceKinds.MovePoints, 100 },
                     { ResourceKinds.Mana, 100 },
                     { ResourceKinds.Psy, 100 },
                     // TODO: other resource
                 },
                 MaxResources = new Dictionary<ResourceKinds, int>
                 {
+                    { ResourceKinds.HitPoints, 20 },
+                    { ResourceKinds.MovePoints, 100 },
                     { ResourceKinds.Mana, 100 },
                     { ResourceKinds.Psy, 100 },
                     // TODO: other resource
@@ -765,11 +767,9 @@ done	     exit the character generation process");
                         value += 3;
                     return value;
                 }
-            case CharacterAttributes.MaxHitPoints: return 100;
             case CharacterAttributes.SavingThrow: return 0;
             case CharacterAttributes.HitRoll: return 0;
             case CharacterAttributes.DamRoll: return 0;
-            case CharacterAttributes.MaxMovePoints: return 100;
             case CharacterAttributes.ArmorBash: return 0;
             case CharacterAttributes.ArmorPierce: return 0;
             case CharacterAttributes.ArmorSlash: return 0;
