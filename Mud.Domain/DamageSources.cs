@@ -1,8 +1,7 @@
-﻿namespace Mud.Domain
+﻿namespace Mud.Domain;
+
+public enum DamageSources
 {
-    public enum DamageSources
-    {
-        Hit = 1,
-        Ability = 2,
-    }
+    Hit     = 1,
+    Ability = 2,
 }

@@ -46,7 +46,7 @@ public class Player : ActorBase, IPlayer
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
     }
 
-    public void Initialize(Guid id, string name)
+    protected void Initialize(Guid id, string name)
     {
         Id = id;
         Name = name;
