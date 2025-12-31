@@ -113,11 +113,11 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         // resources (should be extracted from blueprint)
         // hit points
         var maxHitPoints = RandomManager.Dice(blueprint.HitPointDiceCount, blueprint.HitPointDiceValue) + blueprint.HitPointDiceBonus;
-        SetBaseMaxResource(ResourceKinds.HitPoints, maxHitPoints); // OK
+        SetBaseMaxResource(ResourceKinds.HitPoints, maxHitPoints, false); // OK
         SetCurrentMaxResource(ResourceKinds.HitPoints, maxHitPoints);
         SetResource(ResourceKinds.HitPoints, maxHitPoints);
         // move points
-        SetBaseMaxResource(ResourceKinds.MovePoints, 1000); // TODO
+        SetBaseMaxResource(ResourceKinds.MovePoints, 1000, false); // TODO
         SetCurrentMaxResource(ResourceKinds.MovePoints, 1000);
         SetResource(ResourceKinds.MovePoints, 1000);
         // mana

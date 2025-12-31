@@ -2,10 +2,9 @@
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Character;
 
-namespace Mud.Server.Interfaces.Combat
+namespace Mud.Server.Interfaces.Combat;
+
+public interface IResistanceCalculator
 {
-    public interface IResistanceCalculator
-    {
-        ResistanceLevels CheckResistance(ICharacter victim, SchoolTypes damageType);
-    }
+    ResistanceLevels CheckResistance(ICharacter victim, SchoolTypes damageType);
 }

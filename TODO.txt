@@ -1,27 +1,18 @@
 INGOING
 DONE
-    resource kind: move/hp
-    ASIS
-        Max Move/Hit are stored in Attributes base attributes and current attributes and can be modified by affects
-        Current Move/Hit are stored in their own property
-    TOBE
-        Max Move/Hit are stored in ResourceKind
-        Max ResourceKind can be modified by affects similar to attributes
-    word of recall: cost of 50% move
-    berserk: cost of 50% move in additional to mana
+    SafeLinkedList implementation
 
 ==========
 == TODO ==
 ==========
 
-use resource cost for 'holy word': cost of 100% move and half hp
+Use SafeList where List is used (everywhere except in XXXManager)
 
-search commands/skills/spells for additional guards
-    what at least one parameter (item) is required
-    whom at least one parameter (character) is required
+use resource cost for 'holy word': cost of 100% move and half hp
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)
+    -> must artificially create an AbilityUsage for that purpose
 
 new combat system
     how to handle mob assist ?(ASSIST_PLAYER, ASSIST_RACE, ASSIST_ALIGN, ASSIST_VNUM, ASSIST_GROUP)
@@ -68,20 +59,12 @@ finish score
 
 critical hit
 
-check antievil/antigood/... zap (see handler.c:1586)
-
 item owner -> to be used in CanLoot
 
 Poison/Plague/... should not specify character for damage source
     new Damage function without a source with additional message when dying (see update_affect.C:103)
 
 passives/weapons could be shared instead of transient
-
-dangerous call sequence (luckily we set Room to NullRoom in the first lines of ctor):
-    PlayableCharacter.ctor
-        CharacterManager.AddNonPlayableCharacter (when creating pet)
-            Room.Recompute
-                Room.ApplyAuras which could kill PlayableCharacter we are trying to create
 
 move GetAbilityLearnedInfo, Regen, RegenBaseValues, OneHit NPC (the end checking skills), ... to Rom24
 
@@ -154,8 +137,7 @@ leaving impersonation should not stop fighting -> PlayableCharacter can still di
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
-Idea: move HP and moves in ResourceKinds
-Use SafeList where List is used
+
 store an Aura list in World this will avoid looping on all room/character/item to check aura
 redo DoScore, DoAffects
 check if IStat, MStat and RStat display new informations
@@ -164,10 +146,13 @@ while leaving(or reconnecting) aura should be removed ? maybe an additional flag
 remove Send(..., bool addTrailingNewLine)
 auto paging if data to send to too big?
 check if RelativeDisplayName should be used instead of DisplayName in Command (check if CanSee should be used)
-better command parser: should be able to specify something like     will be possible with SyntaxAttribute
+better command parser: should be able to specify something like (should be possible with SyntaxAttribute)
     [command] [room.character] -> first parameter will be parsed as a character found in room
     [command] [world.character] -> first parameter will be parsed as a character found in world
     [command] [room.item|room.character|inventory.item|equipment.item] -> first will be parsed as an item in room, a character in room, an item in inventory, an item in equipment
+search commands/skills/spells for additional guards
+    what at least one parameter (item) is required
+    whom at least one parameter (character) is required
 prompt modifiable by user
 merge IAdminRepository and IPlayerRepository -> IAccountRepository
 

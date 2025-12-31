@@ -28,6 +28,8 @@ public class SpellGiantSize : CharacterBuffSpellBase
     protected override (int level, TimeSpan duration, IAffect[] affects) AuraInfo => (Caster.Level, TimeSpan.FromMinutes(5),
         new IAffect[]
         {
-            new CharacterSizeAffect{Value = Sizes.Giant},
+            new CharacterSizeAffect { Value = Sizes.Giant },
+            new CharacterAttributeAffect { Location = CharacterAttributeAffectLocations.Strength, Modifier = 10, Operator = AffectOperators.Add },
+            new CharacterResourceAffect { Location = ResourceKinds.HitPoints, Modifier = Caster.Level * 8, Operator = AffectOperators.Add },
         });
 }

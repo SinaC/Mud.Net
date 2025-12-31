@@ -15,7 +15,7 @@
 public enum Positions
 {
     Sleeping = 0,
-    Resting = 1,
-    Sitting = 2,
+    Resting  = 1,
+    Sitting  = 2,
     Standing = 3
 }

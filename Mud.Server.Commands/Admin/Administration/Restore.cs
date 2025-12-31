@@ -70,7 +70,7 @@ public class Restore : AdminGameAction
     {
         if (IsRoom)
         {
-            foreach (ICharacter loopVictim in Impersonating.Room.People)
+            foreach (var loopVictim in Impersonating.Room.People)
                 RestoreOneCharacter(loopVictim);
             Wiznet.Log($"{Actor.DisplayName} has restored room {Impersonating.Room.Blueprint.Id}.", WiznetFlags.Restore);
             Actor.Send("Room restored.");
@@ -79,7 +79,7 @@ public class Restore : AdminGameAction
 
         if (IsAll)
         {
-            foreach (IPlayableCharacter loopVictim in CharacterManager.PlayableCharacters)
+            foreach (var loopVictim in CharacterManager.PlayableCharacters)
                 RestoreOneCharacter(loopVictim);
             Wiznet.Log($"{Actor.DisplayName} has restored all active players.", WiznetFlags.Restore);
             Actor.Send("All active players restored.");
@@ -94,7 +94,7 @@ public class Restore : AdminGameAction
     private void RestoreOneCharacter(ICharacter victim)
     {
         victim.RemoveAuras(x => !x.AuraFlags.HasFlag(AuraFlags.NoDispel) && !x.AuraFlags.HasFlag(AuraFlags.Permanent) && !x.Affects.OfType<ICharacterFlagsAffect>().Any(a => a.Modifier.IsSet("Charm")), true); // TODO: harmful auras only ?
-        foreach (ResourceKinds resource in victim.CurrentResourceKinds)
+        foreach (var resource in victim.CurrentResourceKinds)
             victim.UpdateResource(resource, victim.MaxResource(resource));
         victim.Send("{0} has restored you.", Actor.Impersonating?.DisplayName ?? Actor.DisplayName);
     }
