@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Character;
+using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
@@ -539,7 +540,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         var spellInstanceGuards = spellInstance.Setup(spellActionInput);
         if (spellInstanceGuards != null)
         {
-            Logger.LogError("NPC:CastSpell: cannot setup spell {spellName} on target {targetName}: {spellInstanceGuards}", spellDefinition.Name, target.Name, spellInstanceGuards);
+            Logger.LogWarning("NPC:CastSpell: cannot setup spell {spellName} on target {targetName}: {spellInstanceGuards}", spellDefinition.Name, target.Name, spellInstanceGuards);
             Send(spellInstanceGuards);
             return false;
         }
@@ -612,64 +613,64 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
         // TODO: spells
         int learned;
-        if (string.Equals(abilityName, "Sneak", StringComparison.InvariantCultureIgnoreCase) || string.Equals(abilityName, "Hide", StringComparison.InvariantCultureIgnoreCase))
+        if (StringCompareHelpers.StringEquals(abilityName, "Sneak") || StringCompareHelpers.StringEquals(abilityName, "Hide"))
             learned = 20 + 2 * Level;
-        else if (string.Equals(abilityName, "Dodge", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Dodge")
             && OffensiveFlags.IsSet("Dodge"))
             learned = 2 * Level;
-        else if (string.Equals(abilityName, "Parry", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Parry")
             && OffensiveFlags.IsSet("Parry"))
             learned = 2 * Level;
-        else if (string.Equals(abilityName, "Shield Block", StringComparison.InvariantCultureIgnoreCase))
+        else if (StringCompareHelpers.StringEquals(abilityName, "Shield Block"))
             learned = 10 + 2 * Level;
-        else if (string.Equals(abilityName, "Second attack", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Second attack")
             && ActFlags.HasAny("Warrior", "Thief"))
             learned = 10 + 3 * Level;
-        else if (string.Equals(abilityName, "Third attack", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Third attack")
             && ActFlags.IsSet("Warrior"))
             learned = 4 * Level - 40;
-        else if (string.Equals(abilityName, "Hand to hand", StringComparison.InvariantCultureIgnoreCase))
+        else if (StringCompareHelpers.StringEquals(abilityName, "Hand to hand"))
             learned = 40 + 2 * Level;
-        else if (string.Equals(abilityName, "Trip", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Trip")
             && OffensiveFlags.IsSet("Trip"))
             learned = 10 + 3 * Level;
-        else if (string.Equals(abilityName, "Bash", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Bash")
             && OffensiveFlags.IsSet("Bash"))
             learned = 10 + 3 * Level;
-        else if (string.Equals(abilityName, "Disarm", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Disarm")
             && (OffensiveFlags.IsSet("Disarm") || ActFlags.HasAny("Warrior", "Thief")))
             learned = 20 + 3 * Level;
-        else if (string.Equals(abilityName, "Berserk", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Berserk")
             && OffensiveFlags.IsSet("Berserk"))
             learned = 3 * Level;
-        else if (string.Equals(abilityName, "Kick", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Kick")
             && OffensiveFlags.IsSet("Kick"))
             learned = 10 + 3 * Level;
-        else if (string.Equals(abilityName, "Backstab", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Backstab")
             && ActFlags.IsSet("Thief"))
             learned = 20 + 2 * Level;
-        else if (string.Equals(abilityName, "Rescue", StringComparison.InvariantCultureIgnoreCase))
+        else if (StringCompareHelpers.StringEquals(abilityName, "Rescue"))
             learned = 40 + Level;
-        else if (string.Equals(abilityName, "Tail", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Tail")
             && OffensiveFlags.IsSet("Tail"))
             learned = 10 + 3 * Level;
-        else if (string.Equals(abilityName, "Bite", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Bite")
             && OffensiveFlags.IsSet("Bite"))
              learned = 10 + 3 * Level;
-        else if (string.Equals(abilityName, "Crush", StringComparison.InvariantCultureIgnoreCase)
+        else if (StringCompareHelpers.StringEquals(abilityName, "Crush")
             && OffensiveFlags.IsSet("Crush"))
             learned = 10 + 3 * Level;
-        else if (string.Equals(abilityName, "Recall", StringComparison.InvariantCultureIgnoreCase))
+        else if (StringCompareHelpers.StringEquals(abilityName, "Recall"))
             learned = 40 + Level;
-        else if (string.Equals(abilityName, "Axe", StringComparison.InvariantCultureIgnoreCase)
-            || string.Equals(abilityName, "Dagger", StringComparison.InvariantCultureIgnoreCase)
-            || string.Equals(abilityName, "Flail", StringComparison.InvariantCultureIgnoreCase)
-            || string.Equals(abilityName, "Mace", StringComparison.InvariantCultureIgnoreCase)
-            || string.Equals(abilityName, "Polearm", StringComparison.InvariantCultureIgnoreCase)
-            || string.Equals(abilityName, "Spear", StringComparison.InvariantCultureIgnoreCase)
-            || string.Equals(abilityName, "Staff(weapon)", StringComparison.InvariantCultureIgnoreCase)
-            || string.Equals(abilityName, "Sword", StringComparison.InvariantCultureIgnoreCase)
-            || string.Equals(abilityName, "Whip", StringComparison.InvariantCultureIgnoreCase))
+        else if (StringCompareHelpers.StringEquals(abilityName, "Axe")
+            || StringCompareHelpers.StringEquals(abilityName, "Dagger")
+            || StringCompareHelpers.StringEquals(abilityName, "Flail")
+            || StringCompareHelpers.StringEquals(abilityName, "Mace")
+            || StringCompareHelpers.StringEquals(abilityName, "Polearm")
+            || StringCompareHelpers.StringEquals(abilityName, "Spear")
+            || StringCompareHelpers.StringEquals(abilityName, "Staff(weapon)")
+            || StringCompareHelpers.StringEquals(abilityName, "Sword")
+            || StringCompareHelpers.StringEquals(abilityName, "Whip"))
                 learned = 40 + 5 * Level / 2;
         else
             learned = 0;

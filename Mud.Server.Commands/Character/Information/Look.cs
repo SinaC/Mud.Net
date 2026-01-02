@@ -12,6 +12,7 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
@@ -108,15 +109,16 @@ public class Look : CharacterGameAction
         }
 
         // 3: character in room
-        Victim = FindHelpers.FindByName(Actor.Room.People.Where(x => Actor.CanSee(x)), actionInput.Parameters[0])!;
+        Victim = FindHelpers.FindByName(Actor.Room.People.Where(Actor.CanSee), actionInput.Parameters[0])!;
         if (Victim != null)
         {
             Logger.LogDebug("DoLook(3): character in room");
             return null;
         }
 
+        int count = 0; // this will count how many matching keywords we found in item and room extra descriptions
         // 4: search among inventory/equipment/room.content if an item has extra description or name equals to parameters
-        bool itemFound = FindItemByExtraDescriptionOrName(actionInput.Parameters[0], out string itemDescription);
+        bool itemFound = FindItemByExtraDescriptionOrName(actionInput.Parameters[0], ref count, out string itemDescription);
         if (itemFound)
         {
             Logger.LogDebug("DoLook(4): item in inventory+equipment+room -> {item}", itemDescription);
@@ -125,19 +127,15 @@ public class Look : CharacterGameAction
         }
 
         // 5: extra description in room
-        if (Actor.Room.ExtraDescriptions != null && Actor.Room.ExtraDescriptions.Count != 0)
+        if (Actor.Room.ExtraDescriptions != null && Actor.Room.ExtraDescriptions.Any())
         {
             // TODO: try to use ElementAtOrDefault
-            int count = 0;
             foreach (var extraDescription in Actor.Room.ExtraDescriptions)
             {
-                if (actionInput.Parameters[0].Tokens.All(x => StringCompareHelpers.StringStartsWith(extraDescription.Key, x))
+                if (actionInput.Parameters[0].Tokens.All(x => StringCompareHelpers.AnyStringStartsWith(extraDescription.Keywords, x))
                         && ++count == actionInput.Parameters[0].Count)
                 {
-                    StringBuilder sb = new();
-                    foreach (string desc in extraDescription)
-                        sb.Append(desc);
-                    RoomExtraDescription = sb.ToString();
+                    RoomExtraDescription = extraDescription.Description;
                     Logger.LogDebug("DoLook(5): extra description in room -> {room}", RoomExtraDescription);
                     return null;
                 }
@@ -253,10 +251,9 @@ public class Look : CharacterGameAction
         }
     }
 
-    protected bool FindItemByExtraDescriptionOrName(ICommandParameter parameter, out string description) // Find by extra description then name (search in inventory, then equipment, then in room)
+    protected bool FindItemByExtraDescriptionOrName(ICommandParameter parameter, ref int count, out string description) // Find by extra description then name (search in inventory, then equipment, then in room)
     {
         description = null!;
-        int count = 0;
         foreach (var item in Actor.Inventory.Where(x => Actor.CanSee(x))
             .Concat(Actor.Equipments.Where(x => x.Item != null && Actor.CanSee(x.Item)).Select(x => x.Item!))
             .Concat(Actor.Room.Content.Where(x => Actor.CanSee(x))))
@@ -265,10 +262,10 @@ public class Look : CharacterGameAction
             if (item.ExtraDescriptions != null)
             {
                 foreach (var extraDescription in item.ExtraDescriptions)
-                    if (parameter.Tokens.All(x => StringCompareHelpers.StringStartsWith(extraDescription.Key, x))
+                    if (parameter.Tokens.All(x => StringCompareHelpers.AnyStringStartsWith(extraDescription.Keywords, x))
                         && ++count == parameter.Count)
                     {
-                        description = extraDescription.FirstOrDefault()!; // TODO: really what we want ?
+                        description = extraDescription.Description;
                         return true;
                     }
             }
@@ -277,7 +274,7 @@ public class Look : CharacterGameAction
                 && ++count == parameter.Count)
             {
                 StringBuilder sb = new();
-                description = item.Append(sb, Actor, false).ToString();
+                description = item.Append(sb, Actor, false).AppendLine().ToString();
                 return true;
             }
         }

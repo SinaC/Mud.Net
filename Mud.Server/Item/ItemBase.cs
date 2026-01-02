@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints;
+using Mud.Blueprints.Item;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
-using Mud.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
@@ -170,7 +171,7 @@ public abstract class ItemBase: EntityBase, IItem
 
     public string ShortDescription { get; private set; } = null!;
 
-    public ILookup<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
+    public IEnumerable<ExtraDescription> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
     public WearLocations WearLocation { get; private set; }
 

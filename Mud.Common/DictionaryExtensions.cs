@@ -9,4 +9,13 @@ public static class DictionaryExtensions
         else
             dictionary.Add(key, 1);
     }
+
+    public static TValue? GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key)
+        where TKey: notnull
+        where TValue: class
+    {
+        if (dictionary.TryGetValue(key, out var value))
+            return value;
+        return null;
+    }
 }

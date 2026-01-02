@@ -84,6 +84,11 @@ public class Cstat : AdminGameAction
             sb.AppendLine("No blueprint");
         sb.AppendFormatLine("Name: {0} Keywords: {1}", Whom.Name, string.Join(",", Whom.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", Whom.DisplayName);
+        if (nonPlayableWhom?.Blueprint != null)
+        {
+            sb.AppendFormatLine("ShortDescription: {0}", nonPlayableWhom.Blueprint.ShortDescription);
+            sb.AppendFormatLine("LongDescription: {0}", nonPlayableWhom.Blueprint.LongDescription);
+        }
         sb.AppendFormatLine("Description: {0}", Whom.Description);
         if (Whom.Leader != null)
             sb.AppendFormatLine("Leader: {0}", Whom.Leader.DisplayName);

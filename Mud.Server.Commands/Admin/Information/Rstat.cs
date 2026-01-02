@@ -61,9 +61,8 @@ public class Rstat : AdminGameAction
         sb.AppendFormatLine("Heal rate: {0}% (base {1}%) Resource rate: {2}% (base {3}%)", Room.HealRate, Room.BaseHealRate, Room.ResourceRate, Room.BaseResourceRate);
         if (Room.ExtraDescriptions != null)
         {
-            foreach (var lookup in Room.ExtraDescriptions)
-                foreach (string extraDescr in lookup)
-                    sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", lookup.Key, extraDescr);
+            foreach (var extraDescription in Room.ExtraDescriptions)
+                sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", string.Join(",", extraDescription.Keywords), extraDescription.Description);
         }
         foreach (ExitDirections direction in Enum.GetValues<ExitDirections>())
         {

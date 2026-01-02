@@ -64,8 +64,6 @@ TableGenerator with duplicate column and merge on same value doesn't work
 when mud restarts and a player with quests reconnects, quest items are not recreated
   same goes if player destroy item, it cannot be found in world anymore
 
-extra description not handled correctly (see item 3040)
-
 mystery resets are totally messed up
 
 MYSTERY AREA ISSUES:

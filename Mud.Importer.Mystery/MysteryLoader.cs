@@ -401,12 +401,12 @@ public class MysteryLoader : TextBasedLoader
                 }
                 else if (letter == 'E')
                 {
-                    string keyword = ReadString();
+                    string keywords = ReadString();
                     string description = ReadString();
-                    if (objectData.ExtraDescr.ContainsKey(keyword))
-                        Logger.LogError("ParseObjects: item [vnum:{vnum}] Extra desc already exists", vnum);
+                    if (objectData.ExtraDescr.ContainsKey(keywords))
+                        Logger.LogError("ParseObjects: item [vnum:{vnum}] Extra desc '{keywords}' already exists", vnum, keywords);
                     else
-                        objectData.ExtraDescr.Add(keyword, description);
+                        objectData.ExtraDescr.Add(keywords, description);
                 }
                 else if (letter == 'Y')
                 {
@@ -643,12 +643,12 @@ public class MysteryLoader : TextBasedLoader
                 }
                 else if (letter == 'E')
                 {
-                    string keyword = ReadString();
+                    string keywords = ReadString();
                     string description = ReadString();
-                    if (roomData.ExtraDescr.ContainsKey(keyword))
-                        Warn("ParseRooms: duplicate description in vnum {0}", vnum);
+                    if (roomData.ExtraDescr.ContainsKey(keywords))
+                        Logger.LogError("ParseRooms: room [vnum:{vnum}] Extra desc '{keywords}' already exists", vnum, keywords);
                     else
-                        roomData.ExtraDescr.Add(keyword, description);
+                        roomData.ExtraDescr.Add(keywords, description);
                 }
                 else if (letter == 'O')
                 {

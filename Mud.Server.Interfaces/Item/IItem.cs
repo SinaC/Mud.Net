@@ -1,6 +1,7 @@
-﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
+﻿using Mud.Blueprints;
 using Mud.Blueprints.Item;
+using Mud.Domain;
+using Mud.Domain.SerializationData;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect.Item;
 using Mud.Server.Interfaces.Character;
@@ -24,7 +25,7 @@ public interface IItem : IEntity
 
     ItemBlueprintBase Blueprint { get; }
 
-    ILookup<string, string> ExtraDescriptions { get; } // keyword -> descriptions
+    IEnumerable<ExtraDescription> ExtraDescriptions { get; }
 
     WearLocations WearLocation { get; }
     ICharacter? EquippedBy { get; }

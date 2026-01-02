@@ -23,11 +23,13 @@ public class Equipment : CharacterGameAction
                 sb.Append(where);
                 if (equippedItem.Item == null)
                     sb.AppendLine("nothing");
-                else
+                else if (Actor.CanSee(equippedItem.Item))
                 {
                     equippedItem.Item.Append(sb, Actor, true);
                     sb.AppendLine();
                 }
+                else
+                    sb.AppendLine("something");
             }
         }
 

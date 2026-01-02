@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.Common.Attributes;
+using Mud.DataStructures;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
@@ -32,7 +33,6 @@ using Mud.Server.Interfaces.Race;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
-using Mud.Server.Quest;
 using Mud.Server.Random;
 using System.Diagnostics;
 using System.Text;
@@ -55,7 +55,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private int MaxLevel { get; }
 
     private readonly List<IQuest> _quests;
-    private readonly int[] _conditions;
+    private readonly ArrayByEnum<int, Conditions> _conditions;
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
@@ -71,7 +71,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         MaxLevel = WorldOptions.Value.MaxLevel;
 
         _quests = [];
-        _conditions = new int[EnumHelpers.GetCount<Conditions>()];
+        _conditions = new();
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
         _pets = [];
         _learnedAbilityGroups = [];
@@ -257,7 +257,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             {
                 var abilityGroupDefinition = AbilityGroupManager[learnedAbilityGroupData.Name];
                 if (abilityGroupDefinition == null)
-                    Wiznet.Log($"LearnedAbilityGroup:  Ability group {learnedAbilityGroupData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
+                    Wiznet.Log($"LearnedAbilityGroup: Ability group {learnedAbilityGroupData.Name} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 else
                 {
                     var abilityGroupLearned = new AbilityGroupLearned(learnedAbilityGroupData, abilityGroupDefinition);
@@ -651,26 +651,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public int this[Conditions condition]
     {
-        get
-        {
-            int index = (int)condition;
-            if (index >= _conditions.Length)
-            {
-                Wiznet.Log($"Trying to get current condition for condition {condition} (index {index}) but current condition length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return NoCondition;
-            }
-            return _conditions[index];
-        }
-        protected set
-        {
-            int index = (int)condition;
-            if (index >= _conditions.Length)
-            {
-                Wiznet.Log($"Trying to get current condition for condition {condition} (index {index}) but current condition length is smaller", WiznetFlags.Bugs, AdminLevels.Implementor);
-                return;
-            }
-            _conditions[index] = value;
-        }
+        get => _conditions[condition];
+        protected set => _conditions[condition] = value;
     }
 
     public void GainCondition(Conditions condition, int value)
@@ -709,7 +691,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (target is IItemQuest questItem)
         {
             // See only if on this quest
-            if (Quests.Any(x => x.Objectives.OfType<ItemQuestObjective>().Any(o => o.Blueprint.Id == questItem.Blueprint.Id)))
+            if (questItem.IsQuestObjective(this))
                 return true;
             return false;
         }
@@ -1497,7 +1479,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             sb.AppendLine("You can now gain following abilities: %c%");
             foreach (var abilityLearned in newAbilities)
             {
-                sb.AppendLine(abilityLearned.Name);
+                sb.AppendLine(abilityLearned.Name.ToPascalCase());
                 abilityLearned.IncrementLearned(1); // set to 1%
             }
             sb.Append("%x%");

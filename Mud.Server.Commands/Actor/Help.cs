@@ -160,7 +160,7 @@ public class Help : ActorGameAction
     {
         // displayed as skill and replace [cmd] with command names
         var iSkillType = typeof(ISkill);
-        foreach (var abilityDefinition in AbilityManager.SearchAbilities<ISkill>().Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
+        foreach (var abilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<ISkill>().Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
         {
             // search game action infos matching skill
             var gameActionInfos = Actor.GameActions.Where(x => x.Value.CommandExecutionType == abilityDefinition.AbilityExecutionType);
@@ -187,7 +187,7 @@ public class Help : ActorGameAction
     private void AppendAbilities<TAbility>(StringBuilder sb, Func<string, bool> nameFilterFunc)
         where TAbility: class, IAbility
     {
-        foreach (var abilityDefinition in AbilityManager.SearchAbilities<TAbility>().Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
+        foreach (var abilityDefinition in AbilityManager.SearchAbilitiesByExecutionType<TAbility>().Where(x => nameFilterFunc(x.Name)).OrderBy(x => x.Name))
         {
             sb.AppendLine($"%W%{abilityDefinition.Name}%x% [{abilityDefinition.Type}]");
             if (abilityDefinition.Syntax != null)

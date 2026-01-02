@@ -29,14 +29,7 @@ namespace Mud.Server.Ability.AbilityGroup
         public IEnumerable<IAbilityGroupDefinition> AbilityGroups => _abilityGroupByName.Values;
 
         public IAbilityGroupDefinition? this[string abilityGroupName]
-        {
-            get
-            {
-                if (!_abilityGroupByName.TryGetValue(abilityGroupName, out var abilityGroupDefinition))
-                    return null;
-                return abilityGroupDefinition;
-            }
-        }
+            => _abilityGroupByName.GetValueOrDefault(abilityGroupName);
 
         public IAbilityGroupDefinition? Search(ICommandParameter parameter)
             => AbilityGroups.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));

@@ -26,9 +26,7 @@ public class ClassManager : IClassManager
         {
             if (string.IsNullOrWhiteSpace(name))
                 return null;
-            if (_classByNames.TryGetValue(name, out var c))
-                return c;
-            return null;
+            return _classByNames.GetValueOrDefault(name);
         }
     }
 

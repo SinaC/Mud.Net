@@ -1,15 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Mud.Blueprints.Character;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
-using Mud.Blueprints.Character;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
-using System.Collections.ObjectModel;
 
 namespace Mud.Server.Character;
 
@@ -41,10 +39,7 @@ public class CharacterManager : ICharacterManager
         => _characterBlueprints.Values.ToList().AsReadOnly();
 
     public CharacterBlueprintBase? GetCharacterBlueprint(int id)
-    {
-        _characterBlueprints.TryGetValue(id, out var blueprint);
-        return blueprint;
-    }
+        => _characterBlueprints.GetValueOrDefault(id);
 
     public TBlueprint? GetCharacterBlueprint<TBlueprint>(int id)
         where TBlueprint : CharacterBlueprintBase
@@ -52,7 +47,7 @@ public class CharacterManager : ICharacterManager
 
     public void AddCharacterBlueprint(CharacterBlueprintBase blueprint)
     {
-        if (_characterBlueprints.ContainsKey(blueprint.Id))
+        if (!_characterBlueprints.TryAdd(blueprint.Id, blueprint))
             Logger.LogError("Character blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
         {
@@ -69,7 +64,6 @@ public class CharacterManager : ICharacterManager
             checkSuccess &= FlagsManager.CheckFlags(blueprint.BodyParts);
             if (!checkSuccess)
                 Logger.LogError("NPC blueprint {blueprintId} has invalid flags", blueprint.Id);
-            _characterBlueprints.Add(blueprint.Id, blueprint);
         }
     }
 

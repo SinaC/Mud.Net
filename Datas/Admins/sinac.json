@@ -1001,8 +1001,8 @@
       "Sex": 1,
       "Size": 2,
       "CurrentResources": {
-		"HitPoints": 3800,
-		"MovePoints": 12000,
+        "HitPoints": 3800,
+        "MovePoints": 12000,
         "Mana": 3151,
         "Psy": 100,
         "Energy": 0,
@@ -1010,8 +1010,8 @@
         "Combo": 0
       },
       "MaxResources": {
-		"HitPoints": 38000,
-		"MovePoints": 13800,
+        "HitPoints": 38000,
+        "MovePoints": 13800,
         "Mana": 10000,
         "Psy": 100,
         "Energy": 0,
@@ -2190,8 +2190,8 @@
       "Sex": 0,
       "Size": 2,
       "CurrentResources": {
-		"HitPoints": 15800,
-		"MovePoints": 1110,
+        "HitPoints": 15800,
+        "MovePoints": 1110,
         "Mana": 5298,
         "Psy": 100,
         "Energy": 100,
@@ -2199,8 +2199,8 @@
         "Combo": 0
       },
       "MaxResources": {
-		"HitPoints": 21800,
-		"MovePoints": 2110,
+        "HitPoints": 21800,
+        "MovePoints": 2110,
         "Mana": 31600,
         "Psy": 100,
         "Energy": 100,
@@ -2557,14 +2557,14 @@
     },
     {
       "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-      "RoomId": 3054,
-      "SilverCoins": 130,
-      "GoldCoins": 5000,
+      "RoomId": 9418,
+      "SilverCoins": 234,
+      "GoldCoins": 5002,
       "Wimpy": 0,
-      "Experience": 3367,
-      "Alignment": 0,
-      "Trains": 32,
-      "Practices": 54,
+      "Experience": 6077,
+      "Alignment": 47,
+      "Trains": 34,
+      "Practices": 58,
       "AutoFlags": 127,
       "CurrentQuests": [],
       "LearnedAbilities": [
@@ -2601,7 +2601,7 @@
         {
           "Name": "second attack",
           "Level": 5,
-          "Learned": 0,
+          "Learned": 35,
           "Rating": 3
         },
         {
@@ -2711,9 +2711,9 @@
       ],
       "Conditions": {
         "Drunk": 0,
-        "Full": 0,
-        "Thirst": 23,
-        "Hunger": 0
+        "Full": 36,
+        "Thirst": 40,
+        "Hunger": 39
       },
       "Aliases": {},
       "Cooldowns": {},
@@ -2721,22 +2721,22 @@
       "Name": "fnar",
       "Race": "giant",
       "Class": "warrior",
-      "Level": 4,
+      "Level": 6,
       "Sex": 1,
       "Size": 3,
       "CurrentResources": {
-		"HitPoints": 78,
-		"MovePoints": 3,
-        "Mana": 126,
+        "HitPoints": 86,
+        "MovePoints": 55,
+        "Mana": 182,
         "Psy": 100,
         "Energy": 0,
         "Rage": 0,
         "Combo": 0
       },
       "MaxResources": {
-	    "HitPoints": 138,
-		"MovePoints": 138,
-        "Mana": 126,
+        "HitPoints": 171,
+        "MovePoints": 171,
+        "Mana": 182,
         "Psy": 100,
         "Energy": 0,
         "Rage": 0,
@@ -2747,7 +2747,7 @@
           "Slot": 1,
           "Item": {
             "$type": "light",
-            "TimeLeft": 11975,
+            "TimeLeft": 11944,
             "ItemId": 3716,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -2758,30 +2758,30 @@
         {
           "Slot": 2,
           "Item": {
-            "ItemId": 3706,
-            "Level": 0,
+            "ItemId": 102,
+            "Level": 3,
             "DecayPulseLeft": 0,
-            "ItemFlags": "MeltOnDrop",
+            "ItemFlags": "",
             "Auras": []
           }
         },
         {
           "Slot": 3,
           "Item": {
-            "ItemId": 3705,
-            "Level": 0,
+            "ItemId": 104,
+            "Level": 5,
             "DecayPulseLeft": 0,
-            "ItemFlags": "MeltOnDrop",
+            "ItemFlags": "Glowing",
             "Auras": []
           }
         },
         {
           "Slot": 3,
           "Item": {
-            "ItemId": 3705,
-            "Level": 0,
+            "ItemId": 104,
+            "Level": 5,
             "DecayPulseLeft": 0,
-            "ItemFlags": "MeltOnDrop",
+            "ItemFlags": "Glowing",
             "Auras": []
           }
         },
@@ -2900,12 +2900,10 @@
       ],
       "Inventory": [
         {
-          "$type": "weapon",
-          "WeaponFlags": "",
-          "ItemId": 3702,
-          "Level": 1,
+          "ItemId": 107,
+          "Level": 0,
           "DecayPulseLeft": 0,
-          "ItemFlags": "MeltOnDrop",
+          "ItemFlags": "",
           "Auras": []
         },
         {
@@ -2916,63 +2914,64 @@
           "Auras": []
         },
         {
-          "ItemId": 3712,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "MeltOnDrop",
-          "Auras": []
-        },
-        {
-          "ItemId": 3707,
-          "Level": 0,
-          "DecayPulseLeft": 0,
-          "ItemFlags": "MeltOnDrop",
-          "Auras": []
-        },
-        {
           "ItemId": 3162,
           "Level": 0,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
           "Auras": []
-        }
-      ],
-      "Auras": [
-        {
-          "AbilityName": "Armor",
-          "Level": 1,
-          "PulseLeft": 4480,
-          "AuraFlags": 0,
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": 0,
-              "Location": 14,
-              "Modifier": -20
-            }
-          ]
         },
         {
-          "AbilityName": "Bless",
-          "Level": 1,
-          "PulseLeft": 9772,
-          "AuraFlags": 0,
-          "Affects": [
-            {
-              "$type": "characterAttribute",
-              "Operator": 0,
-              "Location": 9,
-              "Modifier": 5
-            },
-            {
-              "$type": "characterAttribute",
-              "Operator": 0,
-              "Location": 8,
-              "Modifier": -5
-            }
-          ]
+          "$type": "weapon",
+          "WeaponFlags": "",
+          "ItemId": 103,
+          "Level": 3,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "ItemId": 107,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "ItemId": 109,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "$type": "weapon",
+          "WeaponFlags": "",
+          "ItemId": 103,
+          "Level": 3,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "ItemId": 109,
+          "Level": 0,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "$type": "wand",
+          "MaxChargeCount": 1,
+          "CurrentChargeCount": 1,
+          "AlreadyRecharged": false,
+          "ItemId": 106,
+          "Level": 3,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
         }
       ],
+      "Auras": [],
       "CharacterFlags": "",
       "Immunities": "",
       "Resistances": "Fire,Cold",

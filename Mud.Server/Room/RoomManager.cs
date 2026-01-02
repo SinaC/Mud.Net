@@ -1,14 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints.Room;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Blueprints.Room;
-using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Random;
@@ -56,20 +54,16 @@ public class RoomManager : IRoomManager
         => _roomBlueprints.Values.ToList().AsReadOnly();
 
     public RoomBlueprint? GetRoomBlueprint(int id)
-    {
-        _roomBlueprints.TryGetValue(id, out var blueprint);
-        return blueprint;
-    }
+        => _roomBlueprints.GetValueOrDefault(id);
 
     public void AddRoomBlueprint(RoomBlueprint blueprint)
     {
-        if (_roomBlueprints.ContainsKey(blueprint.Id))
+        if (!_roomBlueprints.TryAdd(blueprint.Id, blueprint))
             Logger.LogError("Room blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
         {
             if (!FlagsManager.CheckFlags(blueprint.RoomFlags))
                 Logger.LogError("Room blueprint {blueprintId} has invalid flags", blueprint.Id);
-            _roomBlueprints.Add(blueprint.Id, blueprint);
         }
     }
 

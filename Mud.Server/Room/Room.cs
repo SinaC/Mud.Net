@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints;
+using Mud.Blueprints.Character;
+using Mud.Blueprints.Room;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Blueprints.Character;
-using Mud.Blueprints.Room;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
@@ -138,7 +139,7 @@ public class Room : EntityBase, IRoom
 
     public RoomBlueprint Blueprint { get; private set; } = null!;
 
-    public ILookup<string, string> ExtraDescriptions => Blueprint.ExtraDescriptions;
+    public IEnumerable<ExtraDescription> ExtraDescriptions => Blueprint.ExtraDescriptions;
 
     public IRoomFlags BaseRoomFlags { get; protected set; } = null!;
     public IRoomFlags RoomFlags { get; protected set; } = null!;

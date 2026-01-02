@@ -23,11 +23,9 @@ public class AreaManager : IAreaManager
 
     public IReadOnlyCollection<AreaBlueprint> AreaBlueprints
         => _areaBlueprints.Values.ToList().AsReadOnly();
+
     public AreaBlueprint? GetAreaBlueprint(int id)
-    {
-        _areaBlueprints.TryGetValue(id, out var blueprint);
-        return blueprint;
-    }
+        => _areaBlueprints.GetValueOrDefault(id);
 
     public void AddAreaBlueprint(AreaBlueprint blueprint)
     {
