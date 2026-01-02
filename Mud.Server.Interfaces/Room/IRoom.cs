@@ -1,6 +1,7 @@
-﻿using Mud.Domain;
+﻿using Mud.Blueprints;
 using Mud.Blueprints.Character;
 using Mud.Blueprints.Room;
+using Mud.Domain;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect.Room;
 using Mud.Server.Interfaces.Area;
@@ -17,7 +18,7 @@ public interface IRoom : IEntity, IContainer
 
     RoomBlueprint Blueprint { get; }
 
-    ILookup<string, string> ExtraDescriptions { get; } // keyword -> descriptions
+    IEnumerable<ExtraDescription> ExtraDescriptions { get; }
 
     IRoomFlags BaseRoomFlags { get; }
     IRoomFlags RoomFlags { get; }

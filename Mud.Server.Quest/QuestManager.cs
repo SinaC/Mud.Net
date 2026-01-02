@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Mud.Blueprints.Quest;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
-using Mud.Blueprints.Quest;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Quest;
 
@@ -28,17 +28,12 @@ public class QuestManager : IQuestManager
         => _questBlueprints.Values.ToList().AsReadOnly();
 
     public QuestBlueprint? GetQuestBlueprint(int id)
-    {
-        _questBlueprints.TryGetValue(id, out var blueprint);
-        return blueprint;
-    }
+        => _questBlueprints.GetValueOrDefault(id);
 
     public void AddQuestBlueprint(QuestBlueprint blueprint)
     {
-        if (_questBlueprints.ContainsKey(blueprint.Id))
+        if (!_questBlueprints.TryAdd(blueprint.Id, blueprint))
             Logger.LogError("Quest blueprint duplicate {blueprintId}!!!", blueprint.Id);
-        else
-            _questBlueprints.Add(blueprint.Id, blueprint);
     }
 
     public IQuest? AddQuest(QuestBlueprint questBlueprint, IPlayableCharacter pc, INonPlayableCharacter questGiver)

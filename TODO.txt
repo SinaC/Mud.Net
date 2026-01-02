@@ -1,18 +1,27 @@
 INGOING
 DONE
-    SafeLinkedList implementation
+    WeaponFlags were not cleared correctly when worn off
+    Look item were missing CRLF when no extra description
+    ExtraDescription fixed (they were duplicated for each keyword)
+    Red Aura and Yellow Aura fixed (it's not displayed on target if evil/detect evil and good/detect good)
+    new data structure ArrayByEnum to avoid casting enum to int to access an array based on enum
+    fix inventory and equipment when blind (cannot see anything except potions)
+    call Look command when impersonating instead of calling directly room.display
+    optimize AbilityManager Search methods using Dictionary of Trie
+    new Dictionary extension method: GetOrDefaultValue
 
 ==========
 == TODO ==
 ==========
 
-Use SafeList where List is used (everywhere except in XXXManager)
+use SafeList where List is used (everywhere except in XXXManager)
 
 use resource cost for 'holy word': cost of 100% move and half hp
 
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
     we should be able to add ability to a character even if not related to current class/race (for immortal for example)
     -> must artificially create an AbilityUsage for that purpose
+    in fact, it's recompute known abilities which mess up learned abilities in pfile because it only considers racial abilities and abilities in learned groups
 
 new combat system
     how to handle mob assist ?(ASSIST_PLAYER, ASSIST_RACE, ASSIST_ALIGN, ASSIST_VNUM, ASSIST_GROUP)
@@ -20,6 +29,7 @@ new combat system
     kill reward
         first group to hit the mob will receive the reward
         if everyone in the group has been killed, reward priority goes to next group which has hit the mob
+        prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
     threat/aggro (see Generating Threat)
     https://www.wowhead.com/classic/guide/threat-overview-classic-wow
 
@@ -120,7 +130,6 @@ admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, al
 	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
 PK+THIEF
 furniture max weight (doesn't exist in Rom)
-prevent kill stealing: a player fights a mob, brings it to 1% and another player performs killing blow (using mob.Fighting)
 linkdead
 Move CanSee in IEntity
 each time operator IS or AS is used, this should be replaced with an overridable method
@@ -131,7 +140,6 @@ Monitor Recompute calls: recompute may leads to recursive call -> redo logic Une
 Create item from blueprint with specific level and attributes (used for SpellFloatingDisc and other skill/spell creating item)
 UnitTests on Rom24Effects
 assist_guard
-aggro table
 isValid on aura/periodic aura -> don't remove immediately aura/periodic aura + filter on isValid + remove them during Cleanup phease (--> no more clone of auras needed while modifying/clearing auras, same goes with periodic aura)
 leaving impersonation should not stop fighting -> PlayableCharacter can still died while not impersonated
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate

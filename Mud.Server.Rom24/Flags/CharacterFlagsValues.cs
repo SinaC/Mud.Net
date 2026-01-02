@@ -50,8 +50,6 @@ public class CharacterFlagValues : IFlagValues
         //        "Sneak" => "%R%(S)%x%",
         //        "PassDoor" => "%c%(T)%x%",
         //        "FaerieFire" => "%m%(P)%x%",
-        //        "DetectEvil" => "%r%(R)%x%",
-        //        "DetectGood" => "%Y%(G)%x%",
         //        _ => string.Empty, // we don't want to display the other flags
         //    };
         //else
@@ -64,8 +62,6 @@ public class CharacterFlagValues : IFlagValues
                 "Sneak" => "%R%(Sneaking)%x%",
                 "PassDoor" => "%c%(Translucent)%x%",
                 "FaerieFire" => "%m%(Pink Aura)%x%",
-                "DetectEvil" => "%r%(Red Aura)%x%",
-                "DetectGood" => "%Y%(Golden Aura)%x%",
                 _ => string.Empty, // we don't want to display the other flags
             };
     }

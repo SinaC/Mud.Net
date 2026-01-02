@@ -53,12 +53,8 @@ public class Iinfo : AdminGameAction
         sb.AppendFormatLine("Flags: {0} WearLocation: {1}", Blueprint.ItemFlags, Blueprint.WearLocation);
         if (Blueprint.ExtraDescriptions != null)
         {
-            foreach (var lookup in Blueprint.ExtraDescriptions)
-                foreach (string extraDescr in lookup)
-                {
-                    sb.AppendFormatLine("ExtraDescription: {0}", lookup.Key);
-                    sb.AppendLine(extraDescr);
-                }
+            foreach (var extraDescription in Blueprint.ExtraDescriptions)
+                sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", string.Join(",", extraDescription.Keywords), extraDescription.Description);
         }
         switch (Blueprint)
         {

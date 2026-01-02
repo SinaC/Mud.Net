@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mud.Blueprints.Character;
 using Mud.Common;
+using Mud.DataStructures;
 using Mud.Domain;
 using Mud.Server.Ability;
 using Mud.Server.Affects.Character;
@@ -44,11 +45,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     private readonly List<IItem> _inventory;
     private readonly List<IEquippedItem> _equipments;
-    private readonly int[] _baseAttributes;
-    private readonly int[] _currentAttributes;
-    private readonly int[] _baseMaxResources;
-    private readonly int[] _currentMaxResources;
-    private readonly decimal[] _currentResources;
+    private readonly ArrayByEnum<int, CharacterAttributes> _baseAttributes;
+    private readonly ArrayByEnum<int, CharacterAttributes> _currentAttributes;
+    private readonly ArrayByEnum<int, ResourceKinds> _baseMaxResources;
+    private readonly ArrayByEnum<int, ResourceKinds> _currentMaxResources;
+    private readonly ArrayByEnum<decimal, ResourceKinds> _currentResources;
     private readonly Dictionary<string, int> _cooldownsPulseLeft;
     private readonly Dictionary<string, IAbilityLearned> _learnedAbilities;
 
@@ -83,11 +84,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         _inventory = [];
         _equipments = [];
-        _baseAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
-        _currentAttributes = new int[EnumHelpers.GetCount<CharacterAttributes>()];
-        _baseMaxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
-        _currentMaxResources = new int[EnumHelpers.GetCount<ResourceKinds>()];
-        _currentResources = new decimal[EnumHelpers.GetCount<ResourceKinds>()];
+        _baseAttributes = new ();
+        _currentAttributes = new ();
+        _baseMaxResources = new ();
+        _currentMaxResources = new ();
+        _currentResources = new ();
         _cooldownsPulseLeft = new Dictionary<string, int>(StringComparer.InvariantCultureIgnoreCase);
         _learnedAbilities = new Dictionary<string, IAbilityLearned>(StringComparer.InvariantCultureIgnoreCase); // handled by RecomputeKnownAbilities
 
@@ -320,26 +321,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public int this[CharacterAttributes attribute]
     {
-        get
-        {
-            int index = (int)attribute;
-            if (index >= _currentAttributes.Length)
-            {
-                Logger.LogError("Trying to get current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", attribute, index);
-                return 0;
-            }
-            return _currentAttributes[index];
-        }
-        protected set 
-        {
-            int index = (int)attribute;
-            if (index >= _currentAttributes.Length)
-            {
-                Logger.LogError("Trying to set current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", attribute, index);
-                return;
-            }
-            _currentAttributes[index] = value;
-        }
+        get => _currentAttributes[attribute];
+        protected set => _currentAttributes[attribute] = value;
     }
 
     public int this[BasicAttributes attribute] => this[(CharacterAttributes)attribute];
@@ -349,16 +332,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public int this[ResourceKinds resource]
     {
-        get 
-        {
-            int index = (int)resource;
-            if (index >= _currentResources.Length)
-            {
-                Logger.LogError("Trying to get current resource for resource {resource} (index {index}) but current resource length is smaller", resource, index);
-                return 0;
-            }
-            return decimal.ToInt32(_currentResources[index]);
-        }
+        get => decimal.ToInt32(_currentResources[resource]);
     }
 
     public IEnumerable<ResourceKinds> CurrentResourceKinds { get; private set; }
@@ -686,7 +660,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
 
         // blind except if potion
-        if (CharacterFlags.IsSet("Blind") && item is IItemPotion)
+        if (CharacterFlags.IsSet("Blind") && item is not IItemPotion)
             return false;
 
         // Light
@@ -696,11 +670,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // invis
         if (item.ItemFlags.IsSet("Invis")
             && !CharacterFlags.IsSet("DetectInvis"))
-            return false;
-
-        // quest item
-        var pc = this as IPlayableCharacter;
-        if (item is IItemQuest questItem && (pc == null || !questItem.IsQuestObjective(pc)))
             return false;
 
         // glow
@@ -763,120 +732,39 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     // Attributes
     public int BaseAttribute(CharacterAttributes attribute)
-    {
-        int index = (int)attribute;
-        if (index >= _baseAttributes.Length)
-        {
-            Logger.LogError("Trying to get base attribute for attribute {attribute} (index {index}) but base attribute length is smaller", attribute, index);
-            return 0;
-        }
-        return _baseAttributes[index];
-    }
+        => _baseAttributes[attribute];
 
     public void UpdateBaseAttribute(CharacterAttributes attribute, int amount)
     {
-        int index = (int)attribute;
-        if (index >= _baseAttributes.Length)
-        {
-            Logger.LogError("Trying to set base attribute for attribute {attribute} (index {index}) but base attribute length is smaller", attribute, index);
-            return;
-        }
-        _baseAttributes[index] += amount;
-        if (index >= _currentAttributes.Length)
-        {
-            Logger.LogError("Trying to set base current attribute for attribute {attribute} (index {index}) but current attribute length is smaller", attribute, index);
-            return;
-        }
-        _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
+        _baseAttributes[attribute] += amount;
+        _currentAttributes[attribute] = Math.Min(_currentAttributes[attribute], _baseAttributes[attribute]);
     }
 
     // Resources
     public int MaxResource(ResourceKinds resourceKind)
-    {
-        int index = (int)resourceKind;
-        if (index >= _currentMaxResources.Length)
-        {
-            Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
-            return 0;
-        }
-        return decimal.ToInt32(_currentMaxResources[index]);
-    }
+        => decimal.ToInt32(_currentMaxResources[resourceKind]);
 
     public int BaseMaxResource(ResourceKinds resourceKind)
-    {
-        int index = (int)resourceKind;
-        if (index >= _baseMaxResources.Length)
-        {
-            Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
-            return 0;
-        }
-        return decimal.ToInt32(_baseMaxResources[index]);
-    }
+        => decimal.ToInt32(_baseMaxResources[resourceKind]);
 
     public void SetBaseMaxResource(ResourceKinds resourceKind, int value)
     {
-        int index = (int)resourceKind;
-        if (index >= _baseMaxResources.Length)
-        {
-            Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
-            return;
-        }
-        _baseMaxResources[index] = value;
-        if (index >= _currentResources.Length)
-        {
-            Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
-            return;
-        }
-        _currentResources[index] = Math.Min(_currentResources[index], _baseMaxResources[index]);
+        _baseMaxResources[resourceKind] = value;
     }
 
     public void UpdateBaseMaxResource(ResourceKinds resourceKind, int amount)
     {
-        int index = (int)resourceKind;
-        if (index >= _baseMaxResources.Length)
-        {
-            Logger.LogError("Trying to get max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
-            return;
-        }
-        _baseMaxResources[index] += amount;
-        if (index >= _currentResources.Length)
-        {
-            Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
-            return;
-        }
-        _currentResources[index] = Math.Min(_currentResources[index], _baseMaxResources[index]);
+        _baseMaxResources[resourceKind] += amount;
     }
 
     public void SetResource(ResourceKinds resourceKind, int value)
     {
-        int index = (int)resourceKind;
-        if (index >= _currentResources.Length)
-        {
-            Logger.LogError("Trying to set resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
-            return;
-        }
-        if (index >= _currentMaxResources.Length)
-        {
-            Logger.LogError("Trying to set resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
-            return;
-        }
-        _currentResources[index] = Math.Clamp(value, 0, _currentMaxResources[index]);
+        _currentResources[resourceKind] = Math.Clamp(value, 0, _currentMaxResources[resourceKind]);
     }
 
     public void UpdateResource(ResourceKinds resourceKind, decimal amount)
     {
-        int index = (int)resourceKind;
-        if (index >= _currentResources.Length)
-        {
-            Logger.LogError("Trying to set resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
-            return;
-        }
-        if (index >= _currentMaxResources.Length)
-        {
-            Logger.LogError("Trying to set resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
-            return;
-        }
-        _currentResources[index] = Math.Clamp(_currentResources[index] + amount, 0, _currentMaxResources[(int)resourceKind]);
+        _currentResources[resourceKind] = Math.Clamp(_currentResources[resourceKind] + amount, 0, _currentMaxResources[resourceKind]);
     }
 
     public void Regen(int pulseCount)
@@ -1075,8 +963,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
 
         // Keep resources in valid range
-        for (int i = 0; i < _currentResources.Length; i++)
-            _currentResources[i] = Math.Min(_currentResources[i], _currentMaxResources[i]);
+        foreach(var resourceKind in Enum.GetValues<ResourceKinds>())
+            _currentResources[resourceKind] = Math.Min(_currentResources[resourceKind], _currentMaxResources[resourceKind]);
         // keep basic attributes in valid range
         //  3->25 for NPC
         //  3->MIN(25, max)
@@ -1095,8 +983,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 }
                 maxAllowed = Math.Min(max, 25);
             }
-            var attributeIndex = (int)basicAttribute;
-            _currentAttributes[attributeIndex] = Math.Clamp(_currentAttributes[attributeIndex], 3, maxAllowed);
+            var characterAttributeIndex = (CharacterAttributes)basicAttribute;
+            _currentAttributes[characterAttributeIndex] = Math.Clamp(_currentAttributes[characterAttributeIndex], 3, maxAllowed);
         }
     }
 
@@ -1864,6 +1752,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         // display flags
         FlagsManager.Append(sb, CharacterFlags, false);
+        if (viewer.CharacterFlags.IsSet("DetectEvil") && IsEvil)
+            sb.Append("%r%(Red Aura)%x%");
+        if (viewer.CharacterFlags.IsSet("DetectGood") && IsGood)
+            sb.Append("%Y%(Golden Aura)%x%");
         FlagsManager.Append(sb, ShieldFlags, false);
 
         // TODO: killer/thief
@@ -2013,18 +1905,18 @@ public abstract class CharacterBase : EntityBase, ICharacter
             switch (affect.Operator)
             {
                 case AffectOperators.Add:
-                    _currentAttributes[(int)CharacterAttributes.Strength] += affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.Intelligence] += affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.Wisdom] += affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.Dexterity] += affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.Constitution] += affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Strength] += affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Intelligence] += affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Wisdom] += affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Dexterity] += affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Constitution] += affect.Modifier;
                     break;
                 case AffectOperators.Assign:
-                    _currentAttributes[(int)CharacterAttributes.Strength] = affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.Intelligence] = affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.Wisdom] = affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.Dexterity] = affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.Constitution] = affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Strength] = affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Intelligence] = affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Wisdom] = affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Dexterity] = affect.Modifier;
+                    _currentAttributes[CharacterAttributes.Constitution] = affect.Modifier;
                     break;
                 case AffectOperators.Or:
                 case AffectOperators.Nor:
@@ -2038,16 +1930,16 @@ public abstract class CharacterBase : EntityBase, ICharacter
             switch (affect.Operator)
             {
                 case AffectOperators.Add:
-                    _currentAttributes[(int)CharacterAttributes.ArmorBash] += affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.ArmorPierce] += affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.ArmorSlash] += affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.ArmorExotic] += affect.Modifier;
+                    _currentAttributes[CharacterAttributes.ArmorBash] += affect.Modifier;
+                    _currentAttributes[CharacterAttributes.ArmorPierce] += affect.Modifier;
+                    _currentAttributes[CharacterAttributes.ArmorSlash] += affect.Modifier;
+                    _currentAttributes[CharacterAttributes.ArmorExotic] += affect.Modifier;
                     break;
                 case AffectOperators.Assign:
-                    _currentAttributes[(int)CharacterAttributes.ArmorBash] = affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.ArmorPierce] = affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.ArmorSlash] = affect.Modifier;
-                    _currentAttributes[(int)CharacterAttributes.ArmorExotic] = affect.Modifier;
+                    _currentAttributes[CharacterAttributes.ArmorBash] = affect.Modifier;
+                    _currentAttributes[CharacterAttributes.ArmorPierce] = affect.Modifier;
+                    _currentAttributes[CharacterAttributes.ArmorSlash] = affect.Modifier;
+                    _currentAttributes[CharacterAttributes.ArmorExotic] = affect.Modifier;
                     break;
                 case AffectOperators.Or:
                 case AffectOperators.Nor:
@@ -2078,10 +1970,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         switch (affect.Operator)
         {
             case AffectOperators.Add:
-                _currentAttributes[(int)attribute] += affect.Modifier;
+                _currentAttributes[attribute] += affect.Modifier;
                 break;
             case AffectOperators.Assign:
-                _currentAttributes[(int)attribute] = affect.Modifier;
+                _currentAttributes[attribute] = affect.Modifier;
                 break;
             case AffectOperators.Or:
             case AffectOperators.Nor:
@@ -2105,10 +1997,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
         switch (affect.Operator)
         {
             case AffectOperators.Add:
-                _currentMaxResources[(int)affect.Location] += affect.Modifier;
+                _currentMaxResources[affect.Location] += affect.Modifier;
                 break;
             case AffectOperators.Assign:
-                _currentAttributes[(int)affect.Location] = affect.Modifier;
+                _currentMaxResources[affect.Location] = affect.Modifier;
                 break;
             case AffectOperators.Or:
             case AffectOperators.Nor:
@@ -2230,11 +2122,15 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (!CanSee(victim))
             victimAc -= 4;
         if (victim.Position < Positions.Standing)
+            victimAc += 1;
+        else if (victim.Position < Positions.Sitting)
+            victimAc += 2;
+        else if (victim.Position < Positions.Resting)
+            victimAc += 3;
+        else
             victimAc += 4;
-        if (victim.Position < Positions.Resting)
-            victimAc += 6;
         // miss ?  1d20 -> 1:miss  20: success
-        int diceroll = RandomManager.Dice(1, 20);
+        var diceroll = RandomManager.Dice(1, 20); //  while ((diceroll = number_bits (5)) >= 20) /*NOP*/;   in original code which is equivalent to a roll on a D20
         if (diceroll == 1
             || (diceroll != 20 && diceroll < thac0 - victimAc))
         {
@@ -2510,54 +2406,22 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected void SetBaseMaxResource(ResourceKinds resourceKind, int value, bool checkCurrent)
     {
-        int index = (int)resourceKind;
-        if (index >= _baseMaxResources.Length)
-        {
-            Logger.LogError("Trying to set max resource for resource {resource} (index {index}) but max resource length is smaller", resourceKind, index);
-            return;
-        }
-        _baseMaxResources[index] = value;
+        _baseMaxResources[resourceKind] = value;
         if (checkCurrent)
-        {
-            if (index >= _currentResources.Length)
-            {
-                Logger.LogError("Trying to set current resource for resource {resource} (index {index}) but current resource length is smaller", resourceKind, index);
-                return;
-            }
-            _currentResources[index] = Math.Min(_currentResources[index], _baseMaxResources[index]);
-        }
+            _currentResources[resourceKind] = Math.Min(_currentResources[resourceKind], _baseMaxResources[resourceKind]);
     }
 
     protected void SetCurrentMaxResource(ResourceKinds resourceKinds, int value)
     {
-        int index = (int)resourceKinds;
-        if (index >= _currentMaxResources.Length)
-        {
-            Logger.LogError("Trying to set current max resource for resource {resource} (index {index}) but current max resource length is smaller", resourceKinds, index);
-            return;
-        }
-        _currentMaxResources[index] = value;
+        _currentMaxResources[resourceKinds] = value;
     }
 
 
     protected void SetBaseAttributes(CharacterAttributes attribute, int value, bool checkCurrent)
     {
-        int index = (int)attribute;
-        if (index >= _baseAttributes.Length)
-        {
-            Logger.LogError("Trying to set base attribute for attribute {resource} (index {index}) but max attribute length is smaller", attribute, index);
-            return;
-        }
-        _baseAttributes[index] = value;
+        _baseAttributes[attribute] = value;
         if (checkCurrent)
-        {
-            if (index >= _currentAttributes.Length)
-            {
-                Logger.LogError("Trying to set current attribute for attribute {resource} (index {resource}) but current attribute length is smaller", attribute, index);
-                return;
-            }
-            _currentAttributes[index] = Math.Min(_currentAttributes[index], _baseAttributes[index]);
-        }
+            _currentAttributes[attribute] = Math.Min(_currentAttributes[attribute], _baseAttributes[attribute]);
     }
 
     protected void AddLearnedAbility(IAbilityUsage abilityUsage, bool naturalBorn, bool isBasics)
@@ -2599,10 +2463,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected override void ResetAttributesAndResourcesAndFlags()
     {
-        for (int i = 0; i < _baseAttributes.Length; i++)
-            _currentAttributes[i] = _baseAttributes[i];
-        for(int i = 0; i < _baseMaxResources.Length; i++)
-            _currentMaxResources[i] = _baseMaxResources[i];
+        foreach(var characterAtttribute in Enum.GetValues<CharacterAttributes>())
+            _currentAttributes[characterAtttribute] = _baseAttributes[characterAtttribute];
+        foreach(var resourceKind in Enum.GetValues<ResourceKinds>())
+            _currentMaxResources[resourceKind] = _baseMaxResources[resourceKind];
         Sex = BaseSex;
         Size = BaseSize;
         //Shape = BaseShape; TODO: uncomment when shape will be handled using aura
@@ -2853,10 +2717,17 @@ public abstract class CharacterBase : EntityBase, ICharacter
             _currentResources[(int)ResourceKinds.HitPoints] = 1;
         // TODO: in original code, position is updating depending on hitpoints and a specific message depending on position is displayed (check update_pos)
         var isDead = this[ResourceKinds.HitPoints] <= 0;
+
+        // handle dead people
         if (isDead)
         {
             Send("You have been KILLED!!");
             Act(ActOptions.ToRoom, "{0:N} is dead.", this);
+
+            StopFighting(true); // StopFighting will set position to standing
+            RawKilled(source, true); // group group_gain + dying penalty + raw_kill
+
+            return DamageResults.Killed;
         }
         else
         {
@@ -2864,14 +2735,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 Send("That really did HURT!");
             if (this[ResourceKinds.HitPoints] < MaxResource(ResourceKinds.HitPoints) / 4)
                 Send("You sure are BLEEDING!");
-        }
-
-        // handle dead people
-        if (isDead)
-        {
-            StopFighting(true); // StopFighting will set position to standing
-            RawKilled(source, true); // group group_gain + dying penalty + raw_kill
-            return DamageResults.Killed;
         }
 
         if (Position == Positions.Sleeping)
@@ -2901,9 +2764,5 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     //
     protected IAbilityLearned? GetAbilityLearned(string abilityName)
-    {
-        if (!_learnedAbilities.TryGetValue(abilityName, out var abilityLearned))
-            return null;
-        return abilityLearned;
-    }
+        => _learnedAbilities.GetValueOrDefault(abilityName);
 }

@@ -9,7 +9,7 @@ public static class ItemsHelpers
 {
     public static StringBuilder AppendItems(StringBuilder sb, IEnumerable<IItem> items, ICharacter actor, bool shortDisplay, bool displayNothing) // equivalent to act_info.C:show_list_to_char
     {
-        var enumerable = items as IItem[] ?? items.ToArray();
+        var enumerable = items.Where(actor.CanSee).ToArray();
         if (displayNothing && enumerable.Length == 0)
             sb.AppendLine("Nothing.");
         else

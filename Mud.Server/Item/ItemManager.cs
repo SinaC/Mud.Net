@@ -1,18 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints.Item;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain.SerializationData;
-using Mud.Blueprints.Item;
 using Mud.Server.Flags.Interfaces;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using System.Collections.ObjectModel;
 using System.Reflection;
 
 namespace Mud.Server.Item;
@@ -70,10 +68,7 @@ public class ItemManager : IItemManager
         => _itemBlueprints.Values.ToList().AsReadOnly();
 
     public ItemBlueprintBase? GetItemBlueprint(int id)
-    {
-        _itemBlueprints.TryGetValue(id, out var blueprint);
-        return blueprint;
-    }
+        => _itemBlueprints.GetValueOrDefault(id);
 
     public TBlueprint? GetItemBlueprint<TBlueprint>(int id)
         where TBlueprint : ItemBlueprintBase
@@ -81,13 +76,12 @@ public class ItemManager : IItemManager
 
     public void AddItemBlueprint(ItemBlueprintBase blueprint)
     {
-        if (_itemBlueprints.ContainsKey(blueprint.Id))
+        if (!_itemBlueprints.TryAdd(blueprint.Id, blueprint))
             Logger.LogError("Item blueprint duplicate {blueprintId}!!!", blueprint.Id);
         else
         {
             if (!FlagsManager.CheckFlags(blueprint.ItemFlags))
                 Logger.LogError("Item blueprint {blueprintId} has invalid flags", blueprint.Id);
-            _itemBlueprints.Add(blueprint.Id, blueprint);
         }
     }
 

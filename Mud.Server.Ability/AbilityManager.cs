@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Ability;
@@ -16,57 +17,65 @@ public class AbilityManager : IAbilityManager
 {
     private ILogger<AbilityManager> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
-    private Dictionary<string, IAbilityDefinition> AbilityByName { get; } // TODO: trie to optimize Search ?
+    private Dictionary<string, IAbilityDefinition> AbilityByName { get; }
     private Dictionary<Type, IAbilityDefinition> AbilityByType { get; }
-    private Dictionary<Type, IAbilityDefinition[]> AbilitiesByExecutionType { get; }
     private Dictionary<WeaponTypes, IAbilityDefinition> WeaponAbilityByWeaponType { get; }
+    private Dictionary<AbilityTypes, IReadOnlyTrie<IAbilityDefinition>> AbilityDefinitionTrieByAbilityTypes { get; }
+    private Dictionary<Type, IAbilityDefinition[]> AbilitiesByExecutionType { get; } // created on-the-fly when needed
 
     public AbilityManager(ILogger<AbilityManager> logger, IServiceProvider serviceProvider, IGuardGenerator guardGenerator, IAssemblyHelper assemblyHelper)
     {
         Logger = logger;
         ServiceProvider = serviceProvider;
 
-        AbilityByName = new Dictionary<string, IAbilityDefinition>(StringComparer.InvariantCultureIgnoreCase);
-        AbilityByType = new Dictionary<Type, IAbilityDefinition>();
-        WeaponAbilityByWeaponType = [];
-        // Get abilities
-        var iWeaponPassiveType = typeof(IWeaponPassive);
+        // create ability definitions collection
+        var abilityDefinitions = new List<IAbilityDefinition>();
         var iAbilityType = typeof(IAbility);
         foreach (var abilityType in assemblyHelper.AllReferencedAssemblies.SelectMany(a => a.GetTypes()
             .Where(t => t.IsClass && !t.IsAbstract && iAbilityType.IsAssignableFrom(t))))
         {
             var characterGuards = guardGenerator.GenerateCharacterGuards(abilityType);
             var abilityDefinition = new AbilityDefinition(abilityType, characterGuards);
-            if (AbilityByName.ContainsKey(abilityDefinition.Name))
+            if (abilityDefinitions.Any(x => StringCompareHelpers.StringEquals(x.Name, abilityDefinition.Name)))
                 Logger.LogError("Duplicate ability {abilityDefinitionName}", abilityDefinition.Name);
             else
-                AbilityByName.Add(abilityDefinition.Name, abilityDefinition);
-
-            AbilityByType.Add(abilityType, abilityDefinition);
-
-            // if weapon passive, add to weapon ability by weapon type cache
-            if (iWeaponPassiveType.IsAssignableFrom(abilityType))
+                abilityDefinitions.Add(abilityDefinition);
+        }
+        // create optimized structures
+        // by name
+        AbilityByName = abilityDefinitions.ToDictionary(x => x.Name, x => x, StringComparer.InvariantCultureIgnoreCase);
+        // by type
+        AbilityByType = abilityDefinitions.ToDictionary(x => x.AbilityExecutionType);
+        // by weapon type
+        WeaponAbilityByWeaponType = [];
+        var iWeaponPassiveType = typeof(IWeaponPassive);
+        foreach (var weaponAbilityDefinition in abilityDefinitions.Where(x => iWeaponPassiveType.IsAssignableFrom(x.AbilityExecutionType)))
+        {
+            var weaponAttribute = weaponAbilityDefinition.AbilityExecutionType.GetCustomAttribute<WeaponAttribute>();
+            if (weaponAttribute != null)
             {
-                var weaponAttribute = abilityType.GetCustomAttribute<WeaponAttribute>();
-                if (weaponAttribute != null)
+                foreach (var weaponTypeName in weaponAttribute.WeaponTypes)
                 {
-                    foreach (var weaponTypeName in weaponAttribute.WeaponTypes)
+                    if (!Enum.TryParse<WeaponTypes>(weaponTypeName, out var weaponType))
+                        Logger.LogError("Weapon passive ability {abilityDefinitionName} refers to an unknown weapon type {weaponType}", weaponAbilityDefinition.Name, weaponTypeName);
+                    else
                     {
-                        if (!Enum.TryParse<WeaponTypes>(weaponTypeName, out var weaponType))
-                            Logger.LogError("Weapon passive ability {abilityDefinitionName} refers to an unknown weapon type {weaponType}", abilityDefinition.Name, weaponTypeName);
-                        else
-                        {
-                            if (WeaponAbilityByWeaponType.ContainsKey(weaponType))
-                                Logger.LogError("Duplicate weapon passive ability {weaponType}", weaponType);
-                            else
-                                WeaponAbilityByWeaponType.Add(weaponType, abilityDefinition);
-                        }
+                        if (!WeaponAbilityByWeaponType.TryAdd(weaponType, weaponAbilityDefinition))
+                            Logger.LogError("Duplicate weapon passive ability {weaponType}", weaponType);
                     }
                 }
             }
         }
-        //
-        AbilitiesByExecutionType = []; // will be filled at each call to AbilitiesByExecutionType
+        // by ability type then trie
+        AbilityDefinitionTrieByAbilityTypes = [];
+        foreach (var groupedByAbilityType in abilityDefinitions.GroupBy(x => x.Type))
+        {
+            var trieEntries = groupedByAbilityType.Select(x => new TrieEntry<IAbilityDefinition>(x.Name.ToLowerInvariant(), x));
+            var trie = new Trie<IAbilityDefinition>(trieEntries);
+            AbilityDefinitionTrieByAbilityTypes.Add(groupedByAbilityType.Key, trie);
+        }
+        // by execution type, will be created on-the-fly when needed
+        AbilitiesByExecutionType = [];
     }
 
     #region IAbilityManager
@@ -74,42 +83,13 @@ public class AbilityManager : IAbilityManager
     public IEnumerable<IAbilityDefinition> Abilities => AbilityByName.Values;
 
     public IAbilityDefinition? this[string abilityName]
-    {
-        get
-        {
-            if (!AbilityByName.TryGetValue(abilityName, out var abilityDefinition))
-                return null;
-            return abilityDefinition;
-        }
-    }
+        => AbilityByName.GetValueOrDefault(abilityName);
 
     public IAbilityDefinition? this[Type abilityType]
-    {
-        get
-        {
-            if (!AbilityByType.TryGetValue(abilityType, out var abilityDefinition))
-                return null;
-            return abilityDefinition;
-        }
-    }
+        => AbilityByType.GetValueOrDefault(abilityType);
 
     public IAbilityDefinition? this[WeaponTypes weaponType]
-    {
-        get
-        {
-            if (!WeaponAbilityByWeaponType.TryGetValue(weaponType, out var abilityDefinition))
-                return null;
-            return abilityDefinition;
-        }
-    }
-
-    public IEnumerable<IAbilityDefinition> SearchAbilities<TAbility>()
-            where TAbility : class, IAbility
-    {
-        Type tAbilityType = typeof(TAbility);
-        var abilities = Abilities.Where(x => tAbilityType.IsAssignableFrom(x.AbilityExecutionType)).ToArray();
-        return abilities;
-    }
+        => WeaponAbilityByWeaponType.GetValueOrDefault(weaponType);
 
     public IEnumerable<IAbilityDefinition> SearchAbilitiesByExecutionType<TAbility>()
         where TAbility : class, IAbility
@@ -126,8 +106,12 @@ public class AbilityManager : IAbilityManager
 
     public IAbilityDefinition? Search(string pattern, AbilityTypes type)
     {
-        // TODO: use Trie ? or save in cache
-        return Abilities.FirstOrDefault(x => x.Type == type && StringCompareHelpers.StringStartsWith(x.Name, pattern));
+        if (!AbilityDefinitionTrieByAbilityTypes.TryGetValue(type, out var trie))
+        {
+            Logger.LogError("AbilityType {type} doesn't exist", type);
+            return null;
+        }
+        return trie.GetByPrefix(pattern.ToLowerInvariant()).FirstOrDefault().Value;
     }
 
     public IAbilityDefinition? Search(ICommandParameter parameter)

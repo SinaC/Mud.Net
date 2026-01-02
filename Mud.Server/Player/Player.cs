@@ -12,6 +12,7 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using System.Diagnostics;
+using System.Numerics;
 using System.Text;
 
 namespace Mud.Server.Player;
@@ -325,9 +326,9 @@ public class Player : ActorBase, IPlayer
     {
         Impersonating = avatar;
         PlayerState = PlayerStates.Impersonating;
-        StringBuilder sb = new();
-        avatar.Room.Append(sb, avatar);
-        avatar.Send(sb);
+        var result = GameActionManager.Execute<Commands.Character.Information.Look, ICharacter>(Impersonating, null);
+        if (result != null)
+            avatar.Send(result);
     }
 
     public void StopImpersonating()

@@ -43,7 +43,7 @@ public abstract class ItemBlueprintBase
     public bool NoTake { get; set; }
 
     [DataMember]
-    public Lookup<string, string> ExtraDescriptions { get; set; } = default!; // keyword -> descriptions
+    public ExtraDescription[] ExtraDescriptions { get; set; } = []; // keywords (separated with blank space) -> description
 
     // TODO: flags, level, ...
 
@@ -53,9 +53,13 @@ public abstract class ItemBlueprintBase
     [DataMember]
     public IItemFlags ItemFlags { get; set; } = default!;
 
-    public static Lookup<string,string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
+    public static ExtraDescription[] BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
     {
-        return (Lookup<string, string>)extraDescriptions.SelectMany(x => x.Key.Split(' '), (kv, key) => new { key, desc = kv.Value }).ToLookup(x => x.key, x => x.desc);
+        return extraDescriptions.Select(x => new ExtraDescription
+        {
+            Keywords = x.Key.Split(' ', StringSplitOptions.RemoveEmptyEntries),
+            Description = x.Value
+        }).ToArray();
     }
 
     public bool Equals(ItemBlueprintBase? other)

@@ -52,12 +52,12 @@ public class Istat : AdminGameAction
         sb.AppendFormatLine("Type: {0}", What.GetType().ToString().AfterLast('.'));
         sb.AppendFormatLine("Name: {0} Keywords: {1}", What.Name, string.Join(",", What.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", What.DisplayName);
+        sb.AppendFormatLine("ShortDescription: {0}", What.Blueprint.ShortDescription);
         sb.AppendFormatLine("Description: {0}", What.Description);
         if (What.ExtraDescriptions != null)
         {
-            foreach (var lookup in What.ExtraDescriptions)
-                foreach (string extraDescr in lookup)
-                    sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", lookup.Key, extraDescr);
+            foreach (var extraDescription in What.ExtraDescriptions)
+                sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", string.Join(",", extraDescription.Keywords), extraDescription.Description);
         }
         sb.AppendFormatLine("Type: {0}", What.GetType().Name);
         if (What.IncarnatedBy != null)

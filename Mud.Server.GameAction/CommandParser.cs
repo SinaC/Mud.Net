@@ -135,7 +135,7 @@ public class CommandParser : ICommandParser
         int dotIndex = parameter.IndexOf('.');
         if (dotIndex < 0)
         {
-            bool isAll = string.Equals(parameter, "all", StringComparison.InvariantCultureIgnoreCase);
+            bool isAll = StringCompareHelpers.StringEquals(parameter, "all");
             return isAll
                     ? new CommandParameter(parameter, parameter, true, true) // all
                     : new CommandParameter(parameter, parameter, 1);
@@ -144,7 +144,7 @@ public class CommandParser : ICommandParser
             return CommandParameter.InvalidCommandParameter; // only . is invalid
         string countAsString = parameter[..dotIndex];
         string value = parameter[(dotIndex + 1)..];
-        bool isCountAll = string.Equals(countAsString, "all", StringComparison.InvariantCultureIgnoreCase);
+        bool isCountAll = StringCompareHelpers.StringEquals(countAsString, "all");
         if (isCountAll)
             return new CommandParameter(parameter, value, true, false); // all.xxx
         if (!int.TryParse(countAsString, out int count)) // string.string is not splitted

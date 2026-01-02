@@ -128,7 +128,7 @@ public class GameActionManager : IGameActionManager
             .OrderBy(g => g.Key)
             .Select(g => PolymorphismSimulator(actorType, iActorType, actorTypeSortedImplementedInterfaces, g.Key, g, x => x.CommandExecutionType)).ToArray();
         // one entry using CommandAttribute.Name and one entry by AliasAttribute.Alias
-        var staticEntries = staticGameActionInfos.Where(x => x != null).SelectMany(x => x!.Names, (gameActionInfo, name) => new TrieEntry<IGameActionInfo>(name, gameActionInfo!));
+        var staticEntries = staticGameActionInfos.Where(x => x != null).SelectMany(x => x!.Names, (gameActionInfo, name) => new TrieEntry<IGameActionInfo>(name.ToLowerInvariant(), gameActionInfo!));
 
         // dynamic game action infos
         var dynamicGameActionInfos = _dynamicGameActionInfos
@@ -142,7 +142,7 @@ public class GameActionManager : IGameActionManager
             // search if a static game action info with the same exists
             var existingStaticGameActionInfoWithSameNameOrAlias = staticGameActionInfos.FirstOrDefault(x => x is not null && StringCompareHelpers.AnyStringEquals(x.Names, dynamicGameInfoAction!.Name));
             if (existingStaticGameActionInfoWithSameNameOrAlias == null)
-                dynamicEntries.Add(new TrieEntry<IGameActionInfo>(dynamicGameInfoAction!.Name, dynamicGameInfoAction!));
+                dynamicEntries.Add(new TrieEntry<IGameActionInfo>(dynamicGameInfoAction!.Name.ToLowerInvariant(), dynamicGameInfoAction!));
             else
                 Logger.LogError("GameActionManager: dynamic command {dynamicName} conflicts with static command {staticName} -> keeps static one", dynamicGameInfoAction!.Name, existingStaticGameActionInfoWithSameNameOrAlias.Name);
         }

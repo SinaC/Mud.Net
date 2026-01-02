@@ -92,7 +92,7 @@ namespace Mud.Server.Rom24.Specials
         {
             var successfull = caster.CastSpell(spellName, victim);
             if (!successfull)
-                Logger.LogError("CastMage: error on {caster} while casting spell {spellName} on {victimName}", caster.DebugName, spellName, victim.DebugName);
+                Logger.LogWarning("CastMage: {caster} unsuccessfully cast spell {spellName} on {victimName}", caster.DebugName, spellName, victim.DebugName);
             return successfull;
         }
     }

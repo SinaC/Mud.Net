@@ -80,6 +80,8 @@ public class ItemWeapon : ItemBase, IItemWeapon
 
         // don't call base.Recompute because it would apply IItem aura and IItemAura would be applied again in ApplyAura<IItemWeapon>
         //base.Recompute();
+        // 0) Reset
+        ResetAttributesAndResourcesAndFlags();
 
         // 1/ Apply auras from room containing item if in a room
         if (ContainedInto is IRoom room && room.IsValid)

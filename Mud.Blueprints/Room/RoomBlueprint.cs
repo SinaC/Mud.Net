@@ -21,7 +21,7 @@ public class RoomBlueprint
     public string Description { get; set; } = default!;
 
     [DataMember]
-    public Lookup<string, string> ExtraDescriptions { get; set; } = default!; // keyword -> descriptions
+    public ExtraDescription[] ExtraDescriptions { get; set; } = []; // keyword -> descriptions
 
     [DataMember]
     public IRoomFlags RoomFlags { get; set; } = default!;
@@ -44,8 +44,12 @@ public class RoomBlueprint
     [DataMember]
     public List<ResetBase> Resets { get; set; } = [];
 
-    public static Lookup<string, string> BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
+    public static ExtraDescription[] BuildExtraDescriptions(IEnumerable<KeyValuePair<string, string>> extraDescriptions)
     {
-        return (Lookup<string, string>)extraDescriptions.SelectMany(x => x.Key.Split(' '), (kv, key) => new { key, desc = kv.Value }).ToLookup(x => x.key, x => x.desc);
+        return extraDescriptions.Select(x => new ExtraDescription
+        {
+            Keywords = x.Key.Split(' ', StringSplitOptions.RemoveEmptyEntries),
+            Description = x.Value
+        }).ToArray();
     }
 }

@@ -29,9 +29,7 @@ public class RaceManager : IRaceManager
         {
             if (string.IsNullOrWhiteSpace(name))
                 return null;
-            if (_raceByNames.TryGetValue(name, out var r))
-                return r;
-            return null;
+            return _raceByNames.GetValueOrDefault(name);
         }
     }
 
