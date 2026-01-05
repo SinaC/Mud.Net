@@ -19,6 +19,8 @@
       "Trains": 33,
       "Practices": 74,
       "AutoFlags": 127,
+      "Currencies": {},
+      "PulseLeftBeforeNextAutomaticQuest": 0,
       "CurrentQuests": [
         {
           "QuestId": 1,
@@ -1415,6 +1417,8 @@
       "Trains": 22,
       "Practices": 89,
       "AutoFlags": 127,
+      "Currencies": {},
+      "PulseLeftBeforeNextAutomaticQuest": 0,
       "CurrentQuests": [],
       "LearnedAbilities": [
         {
@@ -2557,15 +2561,19 @@
     },
     {
       "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-      "RoomId": 9418,
-      "SilverCoins": 234,
-      "GoldCoins": 5002,
+      "RoomId": 3025,
+      "SilverCoins": 330,
+      "GoldCoins": 5133,
       "Wimpy": 0,
-      "Experience": 6077,
-      "Alignment": 47,
-      "Trains": 34,
-      "Practices": 58,
+      "Experience": 6479,
+      "Alignment": -46,
+      "Trains": 35,
+      "Practices": 61,
       "AutoFlags": 127,
+      "Currencies": {
+        "QuestPoints": 17
+      },
+      "PulseLeftBeforeNextAutomaticQuest": 0,
       "CurrentQuests": [],
       "LearnedAbilities": [
         {
@@ -2711,9 +2719,9 @@
       ],
       "Conditions": {
         "Drunk": 0,
-        "Full": 36,
-        "Thirst": 40,
-        "Hunger": 39
+        "Full": 16,
+        "Thirst": 35,
+        "Hunger": 29
       },
       "Aliases": {},
       "Cooldowns": {},
@@ -2721,22 +2729,22 @@
       "Name": "fnar",
       "Race": "giant",
       "Class": "warrior",
-      "Level": 6,
+      "Level": 7,
       "Sex": 1,
       "Size": 3,
       "CurrentResources": {
-        "HitPoints": 86,
-        "MovePoints": 55,
-        "Mana": 182,
+        "HitPoints": 188,
+        "MovePoints": 183,
+        "Mana": 203,
         "Psy": 100,
         "Energy": 0,
         "Rage": 0,
         "Combo": 0
       },
       "MaxResources": {
-        "HitPoints": 171,
-        "MovePoints": 171,
-        "Mana": 182,
+        "HitPoints": 188,
+        "MovePoints": 188,
+        "Mana": 203,
         "Psy": 100,
         "Energy": 0,
         "Rage": 0,
@@ -2747,7 +2755,7 @@
           "Slot": 1,
           "Item": {
             "$type": "light",
-            "TimeLeft": 11944,
+            "TimeLeft": 11939,
             "ItemId": 3716,
             "Level": 0,
             "DecayPulseLeft": 0,
@@ -2968,6 +2976,35 @@
           "Level": 3,
           "DecayPulseLeft": 0,
           "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "ItemId": 2107,
+          "Level": 5,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "",
+          "Auras": []
+        },
+        {
+          "$type": "wand",
+          "MaxChargeCount": 10,
+          "CurrentChargeCount": 10,
+          "AlreadyRecharged": false,
+          "ItemId": 2108,
+          "Level": 8,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "Glowing,Magic",
+          "Auras": []
+        },
+        {
+          "$type": "wand",
+          "MaxChargeCount": 10,
+          "CurrentChargeCount": 10,
+          "AlreadyRecharged": false,
+          "ItemId": 2108,
+          "Level": 8,
+          "DecayPulseLeft": 0,
+          "ItemFlags": "Glowing,Magic",
           "Auras": []
         }
       ],

@@ -1,5 +1,6 @@
-﻿using Mud.Domain;
-using Mud.Blueprints.Item;
+﻿using Mud.Blueprints.Item;
+using Mud.Blueprints.Quest;
+using Mud.Domain;
 
 namespace Mud.Server.Common.Helpers;
 
@@ -118,4 +119,43 @@ public static class StringHelpers
 
     public static string ItemType(this ItemBlueprintBase blueprint)
         => blueprint.GetType().Name.Replace("Item", string.Empty).Replace("Blueprint", string.Empty);
+
+    public static string DifficultyColor(int characterLevel, int targetLevel)
+    {
+        var levelDiff = targetLevel - characterLevel;
+        if (levelDiff > 5)
+            return LightRed;
+        else if (levelDiff > 2 && levelDiff <= 5)
+            return Red;
+        else if (levelDiff >= -2 && levelDiff <= 2)
+            return Yellow;
+        else if (levelDiff >= -5 && levelDiff < -2)
+            return Green;
+        else if (levelDiff < -5)
+            return Gray;
+        return White;
+    }
+
+
+    #region Color tags
+
+    // TODO: better tags such as <r> or #r for red
+
+    public static readonly string Reset = "%x%";
+    public static readonly string Red = "%r%";
+    public static readonly string Green = "%g%";
+    public static readonly string Yellow = "%y%";
+    public static readonly string Blue = "%b%";
+    public static readonly string Magenta = "%m%";
+    public static readonly string Cyan = "%c%";
+    public static readonly string Gray = "%w%";
+    public static readonly string LightRed = "%R%";
+    public static readonly string LightGreen = "%G%";
+    public static readonly string LightYellow = "%Y%";
+    public static readonly string LightBlue = "%B%";
+    public static readonly string LightMagenta = "%M%";
+    public static readonly string LightCyan = "%C%";
+    public static readonly string White = "%W%";
+
+    #endregion
 }

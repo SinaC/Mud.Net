@@ -1,15 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common;
-using Mud.Domain;
-using Mud.Domain.SerializationData;
-using Mud.Network.Interfaces;
-using Mud.Repository.Interfaces;
 using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.LootTable;
 using Mud.Blueprints.Reset;
+using Mud.Common;
+using Mud.Common.Attributes;
+using Mud.Domain;
+using Mud.Domain.SerializationData;
+using Mud.Network.Interfaces;
+using Mud.Repository.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -35,10 +36,8 @@ using Mud.Server.Options;
 using Mud.Server.Random;
 using Mud.Server.TableGenerator;
 using System.Collections.Concurrent;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
-using Mud.Common.Attributes;
 
 namespace Mud.Server.Server;
 
@@ -1277,19 +1276,26 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private void HandleQuests(int pulseCount)
     {
-        foreach (var player in Players.Where(x => x.Impersonating != null && x.Impersonating.Quests?.Any(y => y.Blueprint.TimeLimit > 0) == true))
+        foreach (var player in Players.Where(x => x.Impersonating != null))
         {
             try
             {
-                var quests = player.Impersonating!.Quests.Where(x => x.Blueprint.TimeLimit > 0).ToArray(); // clone because quest list may be modified
-                foreach (var quest in quests)
+                if (player.Impersonating!.Quests?.Any(y => y.TimeLimit > 0) == true)
                 {
-                    var timedOut = quest.DecreasePulseLeft(pulseCount);
-                    if (timedOut)
+                    var quests = player.Impersonating!.Quests.Where(x => x.TimeLimit > 0).ToArray(); // clone because quest list may be modified
+                    foreach (var quest in quests)
                     {
-                        quest.Timeout();
-                        player.Impersonating.RemoveQuest(quest);
+                        var timedOut = quest.DecreasePulseLeft(pulseCount);
+                        if (timedOut)
+                        {
+                            quest.Timeout();
+                            player.Impersonating.RemoveQuest(quest);
+                        }
                     }
+                }
+                if (player.Impersonating!.PulseLeftBeforeNextAutomaticQuest > 0)
+                {
+                    player.Impersonating.DecreasePulseLeftBeforeNextAutomaticQuest(pulseCount);
                 }
             }
             catch (Exception ex)

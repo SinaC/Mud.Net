@@ -1,12 +1,14 @@
-﻿using Mud.Common;
-using Mud.Domain;
-using Mud.Blueprints.Character;
+﻿using Mud.Blueprints.Character;
 using Mud.Blueprints.Quest;
+using Mud.Common;
+using Mud.Domain;
+using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Quest;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
@@ -50,14 +52,14 @@ public class Cstat : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        var nonPlayableWhom = Whom as INonPlayableCharacter;
-        var playableWhom = Whom as IPlayableCharacter;
+        var npcWhom = Whom as INonPlayableCharacter;
+        var pcWhom = Whom as IPlayableCharacter;
         StringBuilder sb = new();
-        if (nonPlayableWhom?.Blueprint != null)
+        if (npcWhom?.Blueprint != null)
         {
-            sb.AppendFormatLine("Blueprint: {0}", nonPlayableWhom.Blueprint.Id);
+            sb.AppendFormatLine("Blueprint: {0}", npcWhom.Blueprint.Id);
             // TODO: display blueprint
-            if (nonPlayableWhom.Blueprint is CharacterQuestorBlueprint characterQuestorBlueprint)
+            if (npcWhom.Blueprint is CharacterQuestorBlueprint characterQuestorBlueprint)
             {
                 sb.AppendLine($"Quest giver: {characterQuestorBlueprint.QuestBlueprints?.Length ?? 0}");
                 foreach (var questBlueprint in characterQuestorBlueprint.QuestBlueprints ?? Enumerable.Empty<QuestBlueprint>())
@@ -72,7 +74,7 @@ public class Cstat : AdminGameAction
                     // TODO: display KillLootTable, ItemObjectives, KillObjectives, LocationObjectives
                 }
             }
-            if (nonPlayableWhom.Blueprint is CharacterShopBlueprint characterShopBlueprint)
+            if (npcWhom.Blueprint is CharacterShopBlueprint characterShopBlueprint)
             {
                 sb.AppendLine("Shopkeeper:");
                 sb.AppendFormatLine("BuyTypes: {0}", string.Join(",", characterShopBlueprint.BuyBlueprintTypes.Select(x => x.ToString().AfterLast('.').Replace("Blueprint", string.Empty))));
@@ -84,28 +86,28 @@ public class Cstat : AdminGameAction
             sb.AppendLine("No blueprint");
         sb.AppendFormatLine("Name: {0} Keywords: {1}", Whom.Name, string.Join(",", Whom.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", Whom.DisplayName);
-        if (nonPlayableWhom?.Blueprint != null)
+        if (npcWhom?.Blueprint != null)
         {
-            sb.AppendFormatLine("ShortDescription: {0}", nonPlayableWhom.Blueprint.ShortDescription);
-            sb.AppendFormatLine("LongDescription: {0}", nonPlayableWhom.Blueprint.LongDescription);
+            sb.AppendFormatLine("ShortDescription: {0}", npcWhom.Blueprint.ShortDescription);
+            sb.AppendFormatLine("LongDescription: {0}", npcWhom.Blueprint.LongDescription);
         }
         sb.AppendFormatLine("Description: {0}", Whom.Description);
         if (Whom.Leader != null)
             sb.AppendFormatLine("Leader: {0}", Whom.Leader.DisplayName);
-        if (nonPlayableWhom?.Master != null)
-            sb.AppendFormatLine("Master: {0}", nonPlayableWhom.Master.DisplayName);
-        if (playableWhom?.Group != null)
-            foreach (IPlayableCharacter member in playableWhom.Group.Members)
+        if (npcWhom?.Master != null)
+            sb.AppendFormatLine("Master: {0}", npcWhom.Master.DisplayName);
+        if (pcWhom?.Group != null)
+            foreach (IPlayableCharacter member in pcWhom.Group.Members)
                 sb.AppendFormatLine("Group member: {0}", member.DisplayName);
-        if (playableWhom?.Pets.Any() == true)
-            foreach (INonPlayableCharacter pet in playableWhom.Pets)
+        if (pcWhom?.Pets.Any() == true)
+            foreach (INonPlayableCharacter pet in pcWhom.Pets)
                 sb.AppendFormatLine("Pet: {0}", pet.DisplayName);
         if (Whom.IncarnatedBy != null)
             sb.AppendFormatLine("Incarnated by {0}", Whom.IncarnatedBy.DisplayName);
         else
             sb.AppendFormatLine("Incarnatable: {0}", Whom.Incarnatable);
-        if (playableWhom?.ImpersonatedBy != null)
-            sb.AppendFormatLine("Impersonated by {0}", playableWhom.ImpersonatedBy.DisplayName);
+        if (pcWhom?.ImpersonatedBy != null)
+            sb.AppendFormatLine("Impersonated by {0}", pcWhom.ImpersonatedBy.DisplayName);
         if (Whom.Fighting != null)
             sb.AppendFormatLine("Fighting: {0}", Whom.Fighting.DisplayName);
         sb.AppendFormatLine("Shape: {0}", Whom.Shape);
@@ -117,12 +119,12 @@ public class Cstat : AdminGameAction
         sb.AppendFormatLine("Size: {0} (base: {1})", Whom.Size, Whom.BaseSize);
         sb.AppendFormatLine("Silver: {0} Gold: {1}", Whom.SilverCoins, Whom.GoldCoins);
         sb.AppendFormatLine("Carry: {0}/{1} Weight: {2}/{3}", Whom.CarryNumber, Whom.MaxCarryNumber, Whom.CarryWeight, Whom.MaxCarryWeight);
-        if (playableWhom != null)
-            sb.AppendFormatLine("Level: {0} Experience: {1} NextLevel: {2}", playableWhom.Level, playableWhom.Experience, playableWhom.ExperienceToLevel);
+        if (pcWhom != null)
+            sb.AppendFormatLine("Level: {0} Experience: {1} NextLevel: {2}", pcWhom.Level, pcWhom.Experience, pcWhom.ExperienceToLevel);
         else
             sb.AppendFormatLine("Level: {0}", Whom.Level);
-        if (nonPlayableWhom != null)
-            sb.AppendFormatLine("Damage: {0}d{1}+{2} {3} {4}", nonPlayableWhom.DamageDiceCount, nonPlayableWhom.DamageDiceValue, nonPlayableWhom.DamageDiceBonus, nonPlayableWhom.DamageType, nonPlayableWhom.DamageNoun);
+        if (npcWhom != null)
+            sb.AppendFormatLine("Damage: {0}d{1}+{2} {3} {4}", npcWhom.DamageDiceCount, npcWhom.DamageDiceValue, npcWhom.DamageDiceBonus, npcWhom.DamageType, npcWhom.DamageNoun);
         sb.AppendFormatLine("Hitpoints: Current: {0} Max: {1}", Whom[ResourceKinds.HitPoints], Whom.MaxResource(ResourceKinds.HitPoints));
         sb.AppendFormatLine("Movepoints: Current: {0} Max: {1}", Whom[ResourceKinds.MovePoints], Whom.MaxResource(ResourceKinds.MovePoints));
         sb.AppendFormatLine("Flags: {0} (base: {1})", Whom.CharacterFlags, Whom.BaseCharacterFlags);
@@ -138,18 +140,18 @@ public class Cstat : AdminGameAction
             sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, Whom[attribute], Whom.BaseAttribute(attribute));
         foreach (var resourceKind in Enum.GetValues<ResourceKinds>().Except(SpecialResourceKinds))
             sb.AppendFormatLine("{0}: {1} Max: {2} Available?: {3}", resourceKind, Whom[resourceKind], Whom.MaxResource(resourceKind), Whom.CurrentResourceKinds.Contains(resourceKind) ? "Y" : "N");
-        if (nonPlayableWhom != null)
+        if (npcWhom != null)
         {
-            sb.AppendFormatLine("Act: {0}", nonPlayableWhom.ActFlags);
-            sb.AppendFormatLine("Offensive: {0}", nonPlayableWhom.OffensiveFlags);
-            sb.AppendFormatLine("Assist: {0}", nonPlayableWhom.AssistFlags);
-            if (nonPlayableWhom.SpecialBehavior != null)
-                sb.AppendFormatLine("Special: {0}", nonPlayableWhom.SpecialBehavior.GetType().FullName ?? "???"); // TODO: name ?
+            sb.AppendFormatLine("Act: {0}", npcWhom.ActFlags);
+            sb.AppendFormatLine("Offensive: {0}", npcWhom.OffensiveFlags);
+            sb.AppendFormatLine("Assist: {0}", npcWhom.AssistFlags);
+            if (npcWhom.SpecialBehavior != null)
+                sb.AppendFormatLine("Special: {0}", npcWhom.SpecialBehavior.GetType().FullName ?? "???"); // TODO: name ?
         }
-        if (playableWhom != null)
+        if (pcWhom != null)
         {
             sb.Append("Conditions: ");
-            sb.AppendLine(string.Join(" ", Enum.GetValues<Conditions>().Select(x => $"{x}: {playableWhom[x]}")));
+            sb.AppendLine(string.Join(" ", Enum.GetValues<Conditions>().Select(x => $"{x}: {pcWhom[x]}")));
         }
         foreach (IAura aura in Whom.Auras)
             aura.Append(sb);
@@ -162,14 +164,60 @@ public class Cstat : AdminGameAction
                 sb.AppendLine($"{equippedItem.Item!.DisplayName} [id: {equippedItem.Item!.Blueprint.Id.ToString() ?? " ??? "}]");
             }
         }
-
         if (Whom.Inventory.Any())
         {
             sb.AppendLine("Inventory:");
             foreach (var item in Whom.Inventory)
                 sb.AppendLine($"{item.DisplayName} [id: {item.Blueprint.Id.ToString() ?? " ??? "}]");
         }
+        if (pcWhom != null)
+        {
+            AppendQuests(sb, pcWhom);
+        }
         //
         Actor.Send(sb);
+    }
+
+    private static void AppendQuests(StringBuilder sb, IPlayableCharacter pc)
+    {
+        if (pc.Quests.Any())
+        {
+            sb.AppendLine("Quests:");
+            int id = 0;
+            foreach (var quest in pc.Quests)
+            {
+                BuildQuestSummary(sb, pc, quest, id);
+                id++;
+            }
+        }
+        else
+            sb.AppendLine("No quest");
+    }
+
+    private static void BuildQuestSummary(StringBuilder sb, IPlayableCharacter pc, IQuest quest, int? id)
+    {
+        var questType = quest is IGeneratedQuest ? "[AUTO] " : string.Empty;
+        var difficultyColor = StringHelpers.DifficultyColor(pc.Level, quest.Level);
+        // TODO: Table ?
+        sb.Append($"{id + 1,2}) {questType}{difficultyColor}{quest.Title}%x%: {(quest.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
+        if (quest.TimeLimit > 0)
+            sb.Append($" Time left: {(quest.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
+        if (quest is IGeneratedQuest generatedQuest)
+            sb.Append($" Room: {generatedQuest.Room.DisplayName} [{generatedQuest.Room.Blueprint.Id}]");
+        sb.AppendLine();
+        if (!quest.AreObjectivesFulfilled)
+            BuildQuestObjectives(sb, quest);
+    }
+
+    private static void BuildQuestObjectives(StringBuilder sb, IQuest quest)
+    {
+        foreach (var objective in quest.Objectives)
+        {
+            // TODO: 2 columns ?
+            if (objective.IsCompleted)
+                sb.AppendLine($"     %g%{objective.CompletionState}%x%");
+            else
+                sb.AppendLine($"     {objective.CompletionState}");
+        }
     }
 }

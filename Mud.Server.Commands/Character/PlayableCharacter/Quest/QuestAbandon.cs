@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Mud.Blueprints.Character;
+using Mud.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
@@ -27,14 +28,21 @@ public class QuestAbandon : PlayableCharacterGameAction
             : null!;
         if (What == null)
             return "No such quest.";
+
+        if (What is IGeneratedQuest) // generated quest must be abandoned at quest master
+        {
+            var (questGiver, _) = Actor.Room.GetNonPlayableCharacters<CharacterQuestorBlueprint>().FirstOrDefault(x => x.blueprint.Id == What.Giver.Blueprint.Id);
+            if (questGiver == null)
+                return "You cannot abandon that quest here.";
+        }
+
         return null;
     }
 
     public override void Execute(IActionInput actionInput)
     {
+        Actor.Send("You abandon '{0}'!", What.Title);
         What.Abandon();
         Actor.RemoveQuest(What);
-
-        Actor.Send("You abandon '{0}'!", What.Blueprint.Title);
     }
 }

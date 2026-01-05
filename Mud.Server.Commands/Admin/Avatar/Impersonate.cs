@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -8,7 +9,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Admin.Avatar;
 
-[AdminCommand("impersonate", "Avatar", Priority = 0)]
+[AdminCommand("impersonate", "Avatar", Priority = 0), CannotBeImpersonated]
 [Syntax(
     "[cmd]",
     "[cmd] <avatar name>")]
@@ -35,6 +36,10 @@ public class Impersonate : AdminGameAction
         if (baseGuards != null)
             return baseGuards;
 
+        var guards = PlayerImpersonate.Guards(actionInput);
+        if (guards != null)
+            Actor.Send(guards);
+
         if (Actor.Incarnating != null)
             return $"Stop incarnating {Actor.Incarnating.DisplayName} before trying to impersonate.";
 
@@ -43,10 +48,6 @@ public class Impersonate : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        var guards = PlayerImpersonate.Guards(actionInput);
-        if (guards != null)
-            Actor.Send(guards);
-        else
-            PlayerImpersonate.Execute(actionInput);
+        PlayerImpersonate.Execute(actionInput);
     }
 }

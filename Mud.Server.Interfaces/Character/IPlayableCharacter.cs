@@ -20,6 +20,10 @@ public interface IPlayableCharacter : ICharacter
 
     bool IsImmortal { get; }
 
+    // Currencies
+    int this[Currencies currency] { get; }
+    void UpdateCurrency(Currencies currency, int delta);
+
     // Attributes
     long ExperienceToLevel { get; }
     long Experience { get; }
@@ -54,6 +58,9 @@ public interface IPlayableCharacter : ICharacter
     void RemovePet(INonPlayableCharacter pet);
 
     // Quest
+    int PulseLeftBeforeNextAutomaticQuest { get; }
+    void SetTimeLeftBeforeNextAutomaticQuest(TimeSpan timeSpan);
+    int DecreasePulseLeftBeforeNextAutomaticQuest(int pulseCount);
     IEnumerable<IQuest> Quests { get; }
     void AddQuest(IQuest quest);
     void RemoveQuest(IQuest quest);

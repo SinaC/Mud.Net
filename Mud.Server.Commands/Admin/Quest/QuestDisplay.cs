@@ -46,7 +46,7 @@ public class QuestDisplay : AdminGameAction
         StringBuilder sb = new ();
         sb.AppendLine($"Quests for {Whom.DisplayName}:");
         int id = 0;
-        foreach (IQuest quest in Whom.Quests)
+        foreach (var quest in Whom.Quests)
         {
             BuildQuestInfo(sb, quest, id);
             id++;
@@ -57,8 +57,8 @@ public class QuestDisplay : AdminGameAction
     //
     private static void BuildQuestInfo(StringBuilder sb, IQuest quest, int id)
     {
-        sb.AppendFormat($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
-        if (quest.Blueprint.TimeLimit > 0)
+        sb.AppendFormat($"{id + 1,2}) {quest.Title}: {(quest.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
+        if (quest.TimeLimit > 0)
             sb.Append($" Time left : {(quest.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
         sb.AppendLine();
         foreach (IQuestObjective objective in quest.Objectives)

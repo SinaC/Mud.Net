@@ -42,7 +42,7 @@ public interface IItem : IEntity
     IItemFlags BaseItemFlags { get; }
     IItemFlags ItemFlags { get; }
 
-    bool IsQuestObjective(IPlayableCharacter questingCharacter);
+    bool IsQuestObjective(IPlayableCharacter questingCharacter, bool checkCompleted);
 
     bool ChangeContainer(IContainer? container);
 

@@ -10,7 +10,7 @@ public static class AnsiHelpers
     private static readonly string ResetColorTag = Encoding.ASCII.GetString([27]) + "[0m";
     private static readonly string NormalColorTagFormat = Encoding.ASCII.GetString([27]) + "[0;{0}m";
     private static readonly string LightColorTagFormat = Encoding.ASCII.GetString([27]) + "[1;{0}m";
-    // Will replace %x% using ColorMap searching for x and replacing with Ansi color -> strongly related to Color tags found in Server.Common
+    // Will replace %x% using ColorMap searching for x and replacing with Ansi color -> strongly related to Color tags found in Mud.Server.Common
     private static readonly Regex Regex = new(@"\%(\w)\%", RegexOptions.Compiled);
 
     private static readonly Dictionary<string, string> ColorMap = new(StringComparer.Ordinal)
@@ -34,22 +34,7 @@ public static class AnsiHelpers
         {"W", string.Format(LightColorTagFormat, 37)},
 
         {"D", string.Format(LightColorTagFormat, 30)},
-
-        //{"bold", String.Format(NormalColorTag, 1)},
-        //{"italics", String.Format(NormalColorTag, 3)},
-        //{"underline", String.Format(NormalColorTag, 4)},
-        //{"nobold", String.Format(NormalColorTag, 22)},
-        //{"black", String.Format(NormalColorTag, 30)},
-        //{"default", String.Format(NormalColorTag, 39)},
-        //{"blackback", String.Format(NormalColorTag, 40)},
-        //{"redback", String.Format(NormalColorTag, 41)},
-        //{"greenback", String.Format(NormalColorTag, 42)},
-        //{"yellowback", String.Format(NormalColorTag, 43)},
-        //{"blueback", String.Format(NormalColorTag, 44)},
-        //{"magentaback", String.Format(NormalColorTag, 45)},
-        //{"cyanback", String.Format(NormalColorTag, 46)},
-        //{"whiteback", String.Format(NormalColorTag, 47)},
-        //{"defaultback", String.Format(NormalColorTag, 49)},
+// https://gist.github.com/JBlond/2fea43a3049b38287e5e9cefc87b2124
     };
 
     public static string Colorize(string input)

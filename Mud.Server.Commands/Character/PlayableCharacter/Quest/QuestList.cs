@@ -1,10 +1,12 @@
-﻿using Mud.Domain;
-using Mud.Blueprints.Character;
+﻿using Mud.Blueprints.Character;
 using Mud.Blueprints.Quest;
+using Mud.Domain;
+using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.GameAction;
-using System.Text;
 using Mud.Server.Guards.Attributes;
+using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Quest;
+using System.Text;
 
 namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 
@@ -20,14 +22,14 @@ public class QuestList : PlayableCharacterGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        What = new List<QuestBlueprint>();
-        bool questGiverFound = false;
-        bool questAvailable = false;
+        What = [];
+        var questGiverFound = false;
+        var questAvailable = false;
         foreach (var (character, blueprint) in Actor.Room.GetNonPlayableCharacters<CharacterQuestorBlueprint>())
         {
             if (blueprint?.QuestBlueprints?.Length > 0)
             {
-                foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(blueprint))
+                foreach (var questBlueprint in GetAvailableQuestBlueprints(blueprint))
                 {
                     What.Add(questBlueprint);
                     questAvailable = true;
@@ -49,10 +51,13 @@ public class QuestList : PlayableCharacterGameAction
     {
         StringBuilder sb = new ();
         sb.AppendLine("Available quests:");
-        foreach (QuestBlueprint questBlueprint in What)
-            sb.AppendLine($"Quest '{questBlueprint.Title}' [lvl:{questBlueprint.Level}]");
+        foreach (var questBlueprint in What)
+        {
+            
+            sb.AppendLine($"Quest '{StringHelpers.DifficultyColor(Actor.Level, questBlueprint.Level)}{questBlueprint.Title}%x%' [lvl:{questBlueprint.Level}]");
+        }
         Actor.Page(sb);
     }
 
-    private IEnumerable<QuestBlueprint> GetAvailableQuestBlueprints(CharacterQuestorBlueprint questGiverBlueprint) => questGiverBlueprint.QuestBlueprints.Where(x => Actor.Quests.All(y => y.Blueprint.Id != x.Id));
+    private IEnumerable<QuestBlueprint> GetAvailableQuestBlueprints(CharacterQuestorBlueprint questGiverBlueprint) => questGiverBlueprint.QuestBlueprints.Where(x => Actor.Quests.OfType<IPredefinedQuest>().All(y => y.Blueprint.Id != x.Id));
 }

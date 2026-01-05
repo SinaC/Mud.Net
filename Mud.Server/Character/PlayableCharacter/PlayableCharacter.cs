@@ -54,6 +54,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private IAbilityGroupManager AbilityGroupManager { get; }
     private int MaxLevel { get; }
 
+    private readonly ArrayByEnum<int, Currencies> _currencies;
     private readonly List<IQuest> _quests;
     private readonly ArrayByEnum<int, Conditions> _conditions;
     private readonly Dictionary<string, string> _aliases;
@@ -70,6 +71,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         AbilityGroupManager = abilityGroupManager;
         MaxLevel = WorldOptions.Value.MaxLevel;
 
+        _currencies = [];
         _quests = [];
         _conditions = new();
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
@@ -165,6 +167,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // Must be built before equiping
         BuildEquipmentSlots();
 
+        // Currencies
+        if (data.Currencies != null)
+        {
+            foreach(var currency in data.Currencies)
+                this[currency.Key] = currency.Value;
+        }
+
         // Equipped items
         if (data.Equipments != null)
         {
@@ -211,13 +220,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // Inventory
         if (data.Inventory != null)
         {
-            foreach (ItemData itemData in data.Inventory)
+            foreach (var itemData in data.Inventory)
                 ItemManager.AddItem(Guid.NewGuid(), itemData, this);
         }
         // Quests
         if (data.CurrentQuests != null)
         {
-            foreach (CurrentQuestData questData in data.CurrentQuests)
+            foreach (var questData in data.CurrentQuests)
             {
                 QuestManager.AddQuest(questData, this);
             }
@@ -225,7 +234,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // Auras
         if (data.Auras != null)
         {
-            foreach (AuraData auraData in data.Auras)
+            foreach (var auraData in data.Auras)
                 AuraManager.AddAura(this, auraData, false);
         }
         // Learn abilities
@@ -613,6 +622,19 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public bool IsImmortal { get; protected set; }
 
+
+    // Currencies
+    public int this[Currencies currency]
+    {
+        get => _currencies[currency];
+        protected set => _currencies[currency] = value;
+    }
+
+    public void UpdateCurrency(Currencies currency, int delta)
+    {
+        _currencies[currency] = Math.Max(0, _currencies[currency] + delta);
+    }
+
     public long ExperienceToLevel =>
         Level >= MaxLevel
             ? 0
@@ -691,7 +713,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         if (target is IItemQuest questItem)
         {
             // See only if on this quest
-            if (questItem.IsQuestObjective(this))
+            if (questItem.IsQuestObjective(this, false))
                 return true;
             return false;
         }
@@ -754,6 +776,20 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     // Quest
+
+    public int PulseLeftBeforeNextAutomaticQuest { get; protected set; }
+
+    public void SetTimeLeftBeforeNextAutomaticQuest(TimeSpan timeSpan)
+    {
+        PulseLeftBeforeNextAutomaticQuest = Pulse.FromTimeSpan(timeSpan);
+    }
+
+    public int DecreasePulseLeftBeforeNextAutomaticQuest(int pulseCount)
+    {
+        PulseLeftBeforeNextAutomaticQuest = Math.Max(0, PulseLeftBeforeNextAutomaticQuest - pulseCount);
+        return PulseLeftBeforeNextAutomaticQuest;
+    }
+
     public IEnumerable<IQuest> Quests => _quests;
 
     public void AddQuest(IQuest quest)
@@ -783,6 +819,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
         Logger.LogDebug("ICharacter.StopImpersonation: {name} old: {impersonatedName};", DebugName, ImpersonatedBy?.DisplayName ?? "<<none>>");
         ImpersonatedBy = null;
+        RemoveGeneratedQuests(); // TODO: don't do this when client disconnects
         RecomputeKnownAbilities();
         Recompute();
         return true;
@@ -997,6 +1034,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             GoldCoins = GoldCoins,
             CurrentResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
             MaxResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
+            Currencies = Enum.GetValues<Currencies>().ToDictionary(x => x, x => this[x]),
             Alignment = Alignment,
             Wimpy = Wimpy,
             Experience = Experience,
@@ -1006,7 +1044,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Conditions = Enum.GetValues<Conditions>().ToDictionary(x => x, x => this[x]),
             Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
             Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
-            CurrentQuests = Quests.Select(x => x.MapQuestData()).ToArray(),
+            PulseLeftBeforeNextAutomaticQuest = PulseLeftBeforeNextAutomaticQuest,
+            CurrentQuests = Quests.OfType<IPredefinedQuest>().Select(x => x.MapQuestData()).ToArray(), // don't save generated quest
             Auras = MapAuraData(),
             CharacterFlags = BaseCharacterFlags.Serialize(),
             Immunities = BaseImmunities.Serialize(),
@@ -1289,6 +1328,16 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // 5/6 way back to previous level.
         var loss = -5 * ExperienceToLevel / 6;
         GainExperience(loss);
+    }
+
+    protected void RemoveGeneratedQuests()
+    {
+        var generatedQuests = Quests.OfType<IGeneratedQuest>().ToArray();
+        foreach (var generatedQuest in generatedQuests)
+        {
+            generatedQuest.Delete();
+            RemoveQuest(generatedQuest);
+        }
     }
 
     protected void AddLearnedAbilityGroup(IAbilityGroupLearned abilityGroupLearned)

@@ -80,6 +80,7 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Trains = 0,
                 Practices = 0,
                 AutoFlags = AutoFlags.None,
+                Currencies = [],
                 CurrentQuests = [],
                 LearnedAbilities = [],
                 LearnedAbilityGroups = [],

@@ -3,6 +3,7 @@ using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Server.GameAction;
+using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
@@ -11,7 +12,7 @@ using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("impersonate", "Avatar", Priority = 100)]
+[PlayerCommand("impersonate", "Avatar", Priority = 100), CannotBeImpersonated]
 [Syntax(
     "[cmd]",
     "[cmd] <avatar name>")]
@@ -40,15 +41,8 @@ public class Impersonate : PlayerGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (Impersonating?.Fighting != null)
-            return "Not while fighting!";
-
         if (actionInput.Parameters.Length == 0)
-        {
-            if (Impersonating == null)
-                return "Impersonate whom?";
-            return null;
-        }
+            return "Impersonate whom?";
 
         Whom = Actor.Avatars.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;
         if (Whom == null)
@@ -62,22 +56,6 @@ public class Impersonate : PlayerGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        if (Whom == null)
-        {
-            Actor.Send("You stop impersonating {0}.", Impersonating.DisplayName);
-            Actor.UpdateCharacterDataFromImpersonated();
-            Actor.StopImpersonating();
-            ServerPlayerCommand.Save(Actor);
-            return;
-        }
-
-        if (Impersonating != null)
-        {
-            Actor.UpdateCharacterDataFromImpersonated();
-            Actor.StopImpersonating();
-            ServerPlayerCommand.Save(Actor);
-        }
-
         var location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == Whom.RoomId);
         if (location == null)
         {

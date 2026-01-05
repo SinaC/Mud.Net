@@ -128,7 +128,7 @@ public abstract class ItemBase: EntityBase, IItem
     {
         StringBuilder displayName = new();
         var playableBeholder = beholder as IPlayableCharacter;
-        if (playableBeholder != null && IsQuestObjective(playableBeholder))
+        if (playableBeholder != null && IsQuestObjective(playableBeholder, false))
             displayName.Append(StringHelpers.QuestPrefix);
         if (beholder.CanSee(this))
             displayName.Append(DisplayName);
@@ -144,7 +144,7 @@ public abstract class ItemBase: EntityBase, IItem
     public override string RelativeDescription(ICharacter beholder) // Add (Quest) to description if beholder is on a quest with 'this' as objective
     {
         StringBuilder description = new();
-        if (beholder is IPlayableCharacter playableBeholder && IsQuestObjective(playableBeholder))
+        if (beholder is IPlayableCharacter playableBeholder && IsQuestObjective(playableBeholder, false))
             description.Append(StringHelpers.QuestPrefix);
         description.Append(Description);
         return description.ToString();
@@ -195,7 +195,7 @@ public abstract class ItemBase: EntityBase, IItem
 
     public IItemFlags ItemFlags { get; protected set; } = null!;
 
-    public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter)
+    public virtual bool IsQuestObjective(IPlayableCharacter questingCharacter, bool checkCompleted)
     {
         return false; // by default, an item is not a quest objective
     }

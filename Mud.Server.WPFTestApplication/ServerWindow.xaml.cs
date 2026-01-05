@@ -524,17 +524,16 @@ public partial class ServerWindow : Window, INetworkServer
         ItemManager.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
 
         // Quest
-        QuestKillLootTable<int> quest1KillLoot = new(ServiceProvider.GetRequiredService<ILogger<QuestKillLootTable<int>>>(), RandomManager)
-        {
-            Name = "Quest 1 kill 1 table",
-            Entries =
+        //QuestKillLootTable<int> quest1KillLoot = new(ServiceProvider.GetRequiredService<ILogger<QuestKillLootTable<int>>>(), RandomManager)
+        QuestKillLootTable<int> quest1KillLoot = ServiceProvider.GetRequiredService<QuestKillLootTable<int>>();
+        quest1KillLoot.Name = "Quest 1 kill 1 table";
+        quest1KillLoot.Entries =
             [
                 new() {
                     Value = questItem1Blueprint.Id,
                     Percentage = 80,
                 }
-            ]
-        };
+            ];
         QuestBlueprint questBlueprint1 = new()
         {
             Id = 1,
@@ -628,7 +627,7 @@ public partial class ServerWindow : Window, INetworkServer
             Description = "Tenth mob (neutral questor) is here",
             Sex = Sex.Neutral,
             Level = 60,
-            LongDescription = "Tenth mob (neutral questor) is",
+            LongDescription = "Tenth mob (neutral questor) is here"+Environment.NewLine,
             Wealth = 0,
             Alignment = 0,
             DamageNoun = "buzz",
@@ -662,6 +661,22 @@ public partial class ServerWindow : Window, INetworkServer
         };
         CharacterManager.AddCharacterBlueprint(mob10Blueprint);
         ICharacter mob10 = CharacterManager.AddNonPlayableCharacter(Guid.NewGuid(), mob10Blueprint, commonSquare);
+
+        // add blueprint quest item for generated quest
+        var questToken = new ItemQuestBlueprint
+        {
+            Id = 57,
+            Name = "sinac armor",
+            ShortDescription = "Sinac's %m%Armor%x%",
+            Description = "Sinac's %m%Armor%x% lies here.",
+            WearLocation = WearLocations.None,
+            Level = 1,
+            Weight = 1,
+            Cost = 0,
+            NoTake = false,
+            ItemFlags = new ItemFlags("magic")
+        };
+        ItemManager.AddItemBlueprint(questToken);
 
         // add blueprint item with imm to magic/weapon for test purpose
         ItemLightBlueprint lightBlueprint = new()
