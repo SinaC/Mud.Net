@@ -1750,6 +1750,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     public StringBuilder AppendInRoom(StringBuilder sb, ICharacter viewer)
     {
+        var npc = this as INonPlayableCharacter;
+        // quest ?
+        if (viewer is IPlayableCharacter pcViewer && npc != null && npc.IsQuestObjective(pcViewer, true))
+            sb.Append(StringHelpers.QuestPrefix);
         // display flags
         FlagsManager.Append(sb, CharacterFlags, false);
         if (viewer.CharacterFlags.IsSet("DetectEvil") && IsEvil)
@@ -1760,7 +1764,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         // TODO: killer/thief
 
-        if (this is INonPlayableCharacter npc && npc.Blueprint.StartPosition == Position && !string.IsNullOrWhiteSpace(npc.Blueprint.LongDescription) && npc.Fighting == null)
+        if (npc != null && npc.Blueprint.StartPosition == Position && !string.IsNullOrWhiteSpace(npc.Blueprint.LongDescription) && npc.Fighting == null)
         {
             sb.Append(npc.Blueprint.LongDescription); // long description always includes CRLF
             return sb;

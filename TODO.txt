@@ -1,18 +1,32 @@
 INGOING
+    quests:
+    2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground
+        for the second one, we have to create item when getting quest or player is impersonated (and quest is ongoing) and item must be destroyed from ground when de-impersonated
+    quest history
+    quest save completed quests
+          quest tree (prereq)
+          repeteable or not quests
+          description + new command quest info to get additional info on quest
+    (QUEST) flag on quest target should be optional
 DONE
-    WeaponFlags were not cleared correctly when worn off
-    Look item were missing CRLF when no extra description
-    ExtraDescription fixed (they were duplicated for each keyword)
-    Red Aura and Yellow Aura fixed (it's not displayed on target if evil/detect evil and good/detect good)
-    new data structure ArrayByEnum to avoid casting enum to int to access an array based on enum
-    fix inventory and equipment when blind (cannot see anything except potions)
-    call Look command when impersonating instead of calling directly room.display
-    optimize AbilityManager Search methods using Dictionary of Trie
-    new Dictionary extension method: GetOrDefaultValue
+    automated quests
+        make quest giver says instead of using Send
+        timer between 2 quests
+        additional guards in quest auto
+        rewards: quest points
+        quit/stop impersonate confirmation when on automated quest
+        cannot only be complete/abandon/... at questor
+    add auto in quest generic command
+    look now displays (QUEST) on target
+    quest difficulty color
+    base class for predefined and generated quest
+    currencies: quest, trivia, ...
 
 ==========
 == TODO ==
 ==========
+
+when losing connection, keep player in game during a few minutes in autoflee/recall mode
 
 use SafeList where List is used (everywhere except in XXXManager)
 
@@ -39,15 +53,6 @@ multitable generator, paging a table should repeat the header at the beginning o
 
 try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
 
-quests:
-When an item quest objective is complete, quest item should be NoTake or should be invisible
-quest: add quest item on the fly when player takes the quest or reconnect
-automated quests
-quest history
-quest save completed quests
-      quest tree (prereq)
-      repeteable or not quests
-      autogenerate
 
 ability with different kind of resource, can be paid with mana or rage for example
 would be used for https://www.wowhead.com/mop-classic/spell=33876/mangle which is available for bear (rage) and cat (energy)

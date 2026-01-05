@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
+using Mud.Common.Attributes;
 using Mud.Server.Random;
 
 namespace Mud.Blueprints.Quest;
 
 // Quest loot table stores global drop percentage instead of a relative percentage
-public class QuestKillLootTable<T> // this represents additional provided by kill mob while working on this quest
+[Export(typeof(QuestKillLootTable<>))]
+public class QuestKillLootTable<T> // generated loot when killing mob while on a quest
     where T:IEquatable<T>
 {
     private ILogger<QuestKillLootTable<T>> Logger { get; }
@@ -31,14 +33,14 @@ public class QuestKillLootTable<T> // this represents additional provided by kil
         return true;
     }
 
-    public List<T> GenerateLoots()
+    public List<T> GenerateLoots(IEnumerable<T> forbiddenIds)
     {
         List<T> loots = [];
         if (Entries != null)
         {
-            foreach (QuestKillLootTableEntry<T> entry in Entries)
+            foreach (var entry in Entries.Where(x => forbiddenIds == null || forbiddenIds.All(y => !y.Equals(x.Value))))
             {
-                int percentage = RandomManager.Range(1,100);
+                var percentage = RandomManager.Range(1, 100);
                 if (percentage <= entry.Percentage)
                     loots.Add(entry.Value);
             }

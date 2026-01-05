@@ -12,7 +12,7 @@ using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
-using Mud.Server.Quest;
+using Mud.Server.Quest.Objectives;
 
 namespace Mud.Server.Item;
 
@@ -47,9 +47,9 @@ public class ItemQuest : ItemBase, IItemQuest
 
     #region ItemBase
 
-    public override bool IsQuestObjective(IPlayableCharacter questingCharacter)
+    public override bool IsQuestObjective(IPlayableCharacter questingCharacter, bool checkCompleted)
     {
-        return questingCharacter.Quests.Where(q => !q.IsCompleted).SelectMany(q => q.Objectives).OfType<ItemQuestObjective>().Any(o => o.Blueprint.Id == Blueprint.Id);
+        return questingCharacter.Quests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).SelectMany(q => q.Objectives).OfType<ItemQuestObjective>().Any(o => o.Blueprint.Id == Blueprint.Id);
     }
 
     public override bool ChangeContainer(IContainer? container)

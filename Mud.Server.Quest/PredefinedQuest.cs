@@ -1,44 +1,41 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
-using Mud.Domain.SerializationData;
 using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.Quest;
+using Mud.Common.Attributes;
+using Mud.Domain.SerializationData;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
-using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
+using Mud.Server.Quest.Objectives;
 
 namespace Mud.Server.Quest;
 
-[Export(typeof(IQuest))]
-public class Quest : IQuest
+[Export(typeof(IPredefinedQuest))]
+public class PredefinedQuest : QuestBase, IPredefinedQuest
 {
-    private readonly List<IQuestObjective> _objectives;
-
-    private ILogger<Quest> Logger { get; }
-    private ITimeManager TimeManager { get; }
-    private IItemManager ItemManager { get; }
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
     private int MaxLevel { get; }
 
-    public Quest(ILogger<Quest> logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager)
+    public PredefinedQuest(ILogger<PredefinedQuest> logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager)
+        : base(logger, itemManager, timeManager)
     {
-        Logger = logger;
-        TimeManager = timeManager;
-        ItemManager = itemManager;
         RoomManager = roomManager;
         CharacterManager = characterManager;
         MaxLevel = worldOptions.Value.MaxLevel;
-
-        _objectives = [];
     }
+
+    protected override bool ShouldQuestItemBeDestroyed => Blueprint.ShouldQuestItemBeDestroyed;
+
+    #region IPredefineQuest
+
+    public QuestBlueprint Blueprint { get; private set; } = null!;
 
     public void Initialize(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
     {
@@ -80,7 +77,7 @@ public class Quest : IQuest
         }
 
         BuildObjectives(blueprint, character);
-        foreach (CurrentQuestObjectiveData objectiveData in questData.Objectives)
+        foreach (var objectiveData in questData.Objectives)
         {
             // Search objective
             var objective = Objectives.FirstOrDefault(x => x.Id == objectiveData.ObjectiveId);
@@ -101,128 +98,35 @@ public class Quest : IQuest
         return true;
     }
 
+    public CurrentQuestData MapQuestData()
+    {
+        return new()
+        {
+            QuestId = Blueprint.Id,
+            StartTime = StartTime,
+            PulseLeft = PulseLeft,
+            CompletionTime = CompletionTime,
+            GiverId = Giver.Blueprint.Id,
+            GiverRoomId = Giver.Room?.Blueprint.Id ?? 0,
+            Objectives = Objectives.Select(x => new CurrentQuestObjectiveData
+            {
+                ObjectiveId = x.Id,
+                Count = ComputeObjectiveCurrentQuestObjectiveDataCount(x)
+            }).ToArray()
+        };
+    }
+
     #region IQuest
 
-    public QuestBlueprint Blueprint { get; private set; } = null!;
+    public override string Title => Blueprint.Title;
 
-    public IPlayableCharacter Character { get; private set; } = null!;
+    public override int Level => Blueprint.Level;
 
-    public INonPlayableCharacter Giver { get; private set; } = null!;
+    public override int TimeLimit => Blueprint.TimeLimit;
 
-    public bool IsCompleted => Objectives == null || Objectives.All(x => x.IsCompleted);
+    public override IReadOnlyDictionary<int, QuestKillLootTable<int>> KillLootTable => Blueprint.KillLootTable;
 
-    public DateTime StartTime { get; private set; }
-
-    public int PulseLeft { get; private set; }
-
-    public DateTime? CompletionTime { get; private set; }
-
-    public IEnumerable<IQuestObjective> Objectives => _objectives;
-
-    public void GenerateKillLoot(INonPlayableCharacter victim, IContainer container)
-    {
-        if (victim.Blueprint == null)
-            return;
-        if (!Blueprint.KillLootTable.TryGetValue(victim.Blueprint.Id, out var table))
-            return;
-        var killLoots = table.GenerateLoots();
-        if (killLoots != null)
-        {
-            foreach (int loot in killLoots)
-            {
-                if (ItemManager.GetItemBlueprint(loot) is ItemQuestBlueprint questItemBlueprint)
-                {
-                    ItemManager.AddItem(Guid.NewGuid(), questItemBlueprint, container);
-                    Logger.LogDebug($"Loot objective {loot} generated for {Character.DisplayName}");
-                }
-                else
-                {
-                    Logger.LogError("Loot objective {0} doesn't exist (or is not quest item) for quest {1}", loot, Blueprint.Id);
-                }
-            }
-        }
-    }
-
-    public void Update(INonPlayableCharacter victim)
-    {
-        if (victim.Blueprint == null)
-            return;
-        if (IsCompleted)
-            return;
-        foreach (var objective in _objectives.OfType<KillQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == victim.Blueprint.Id))
-        {
-            objective.Count++;
-            Character.Send($"%y%Quest '{Blueprint.Title}': {objective.CompletionState}%x%");
-            if (IsCompleted)
-                Character.Send($"%R%Quest '{Blueprint.Title}': complete%x%");
-        }
-    }
-
-    public void Update(IItemQuest item, bool force)
-    {
-        if (item.Blueprint == null)
-            return;
-        // if forced, reset completion state and recount item in inventory
-        if (force)
-        {
-            foreach (var objective in _objectives.OfType<ItemQuestObjective>().Where(x => x.Blueprint.Id == item.Blueprint.Id))
-                objective.Count = Character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == item.Blueprint.Id);
-            return;
-        }
-        //
-        if (IsCompleted)
-            return;
-        foreach (var objective in _objectives.OfType<ItemQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == item.Blueprint.Id))
-        {
-            objective.Count++;
-            Character.Send($"%y%Quest '{Blueprint.Title}': {objective.CompletionState}%x%");
-            if (IsCompleted)
-                Character.Send($"%R%Quest '{Blueprint.Title}': complete%x%");
-        }
-    }
-
-    public void Update(IRoom room)
-    {
-        if (room.Blueprint == null)
-            return;
-        if (IsCompleted)
-            return;
-        foreach (LocationQuestObjective objective in _objectives.OfType<LocationQuestObjective>().Where(x => !x.IsCompleted && x.Blueprint.Id == room.Blueprint.Id))
-        {
-            objective.Explored = true;
-            Character.Send($"%y%Quest '{Blueprint.Title}': {objective.CompletionState}%x%");
-            if (IsCompleted)
-                Character.Send($"%R%Quest '{Blueprint.Title}': complete%x%");
-        }
-    }
-
-    public void Reset()
-    {
-        foreach (IQuestObjective objective in _objectives)
-        {
-            objective.Reset();
-            if (objective is ItemQuestObjective itemQuestObjective)
-                itemQuestObjective.Count = Character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemQuestObjective.Blueprint.Id);
-        }
-    }
-
-    public void Timeout()
-    {
-        Character.Send($"%R%You have run out of time for quest '{Blueprint.Title}'.%x%");
-        if (Blueprint.ShouldQuestItemBeDestroyed && Blueprint.ItemObjectives != null)
-            DestroyQuestItems();
-    }
-
-    public bool DecreasePulseLeft(int pulseCount)
-    {
-        if (PulseLeft < 0)
-            return false;
-        PulseLeft = Math.Max(PulseLeft - pulseCount, 0);
-        return PulseLeft == 0;
-    }
-
-
-    public void Complete()
+    public override void Complete()
     {
         // TODO: give xp/gold/loot
         if (Blueprint.ShouldQuestItemBeDestroyed && Blueprint.ItemObjectives != null)
@@ -251,7 +155,7 @@ public class Quest : IQuest
             goldGain = Blueprint.Experience*6;
 
         // Display
-        Character.Send("%y%You receive {0} exp and {1} gold.%x%", xpGain, goldGain);
+        Character.Send("%y%You receive {0} experience and {1} gold.%x%", xpGain, goldGain);
 
         // Give rewards
         if (xpGain > 0)
@@ -262,30 +166,7 @@ public class Quest : IQuest
         CompletionTime = TimeManager.CurrentTime;
     }
 
-    public void Abandon()
-    {
-        // TODO: xp loss ?
-        if (Blueprint.ShouldQuestItemBeDestroyed && Blueprint.ItemObjectives != null)
-            DestroyQuestItems();
-    }
-
-    public CurrentQuestData MapQuestData()
-    {
-        return new()
-        {
-            QuestId = Blueprint.Id,
-            StartTime = StartTime,
-            PulseLeft = PulseLeft,
-            CompletionTime = CompletionTime,
-            GiverId = Giver.Blueprint.Id,
-            GiverRoomId = Giver.Room?.Blueprint.Id ?? 0,
-            Objectives = Objectives.Select(x => new CurrentQuestObjectiveData
-            {
-                ObjectiveId = x.Id,
-                Count = ComputeObjectiveCurrentQuestObjectiveDataCount(x)
-            }).ToArray()
-        };
-    }
+    #endregion
 
     #endregion
 
@@ -356,17 +237,6 @@ public class Quest : IQuest
                 else
                     Logger.LogWarning("Location objective {objectiveBlueprintId} doesn't exist for quest {blueprintId}", locationObjective.RoomBlueprintId, blueprint.Id);
             }
-        }
-    }
-
-    private void DestroyQuestItems()
-    {
-        // Gather quest items
-        var questItems = Character.Inventory.Where(x => x.Blueprint != null && Blueprint.ItemObjectives.Any(i => i.ItemBlueprintId == x.Blueprint.Id)).ToList();
-        foreach (var questItem in questItems)
-        {
-            Logger.LogDebug("Destroying quest item {itemName} in {characterName}", questItem.DebugName, Character.DebugName);
-            ItemManager.RemoveItem(questItem);
         }
     }
 }

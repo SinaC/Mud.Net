@@ -55,7 +55,7 @@ public class QuestGet : PlayableCharacterGameAction
             {
                 if (blueprint?.QuestBlueprints?.Length > 0)
                 {
-                    foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(blueprint).Where(filterFunc))
+                    foreach (var questBlueprint in GetAvailableQuestBlueprints(blueprint).Where(filterFunc))
                         What.Add((questBlueprint, character));
                 }
             }
@@ -70,7 +70,7 @@ public class QuestGet : PlayableCharacterGameAction
         {
             if (blueprint?.QuestBlueprints?.Length > 0)
             {
-                foreach (QuestBlueprint questBlueprint in GetAvailableQuestBlueprints(blueprint))
+                foreach (var questBlueprint in GetAvailableQuestBlueprints(blueprint))
                 {
                     if (StringCompareHelpers.StringStartsWith(questBlueprint.Title, whatParameter.Value))
                         What.Add((questBlueprint, character));
@@ -102,5 +102,5 @@ public class QuestGet : PlayableCharacterGameAction
         return quest;
     }
 
-    private IEnumerable<QuestBlueprint> GetAvailableQuestBlueprints(CharacterQuestorBlueprint questGiverBlueprint) => questGiverBlueprint.QuestBlueprints.Where(x => Actor.Quests.All(y => y.Blueprint.Id != x.Id));
+    private IEnumerable<QuestBlueprint> GetAvailableQuestBlueprints(CharacterQuestorBlueprint questGiverBlueprint) => questGiverBlueprint.QuestBlueprints.Where(x => Actor.Quests.OfType<IPredefinedQuest>().All(y => y.Blueprint.Id != x.Id));
 }

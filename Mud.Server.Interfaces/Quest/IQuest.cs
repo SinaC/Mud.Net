@@ -1,5 +1,4 @@
-﻿using Mud.Domain.SerializationData;
-using Mud.Blueprints.Quest;
+﻿using Mud.Blueprints.Quest;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Item;
@@ -9,19 +8,19 @@ namespace Mud.Server.Interfaces.Quest;
 
 public interface IQuest
 {
-    void Initialize(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver); // TODO: giver should be ICharacterQuestor
-    bool Initialize(QuestBlueprint blueprint, CurrentQuestData questData, IPlayableCharacter character);
-
-    QuestBlueprint Blueprint { get; }
-
     IPlayableCharacter Character { get; }
     INonPlayableCharacter Giver { get; } // TODO: quest may be ended with a different NPC
 
-    bool IsCompleted { get; }
+    string Title { get; }
+    int Level { get; }
+
+    bool AreObjectivesFulfilled { get; }
+    int TimeLimit { get; }
     DateTime StartTime { get; }
     int PulseLeft { get; }
     DateTime? CompletionTime { get; }
 
+    IReadOnlyDictionary<int, QuestKillLootTable<int>> KillLootTable { get; }
     IEnumerable<IQuestObjective> Objectives { get; }
 
     void GenerateKillLoot(INonPlayableCharacter victim, IContainer container);
@@ -33,8 +32,6 @@ public interface IQuest
     bool DecreasePulseLeft(int pulseCount); // true if timed out
     void Complete();
     void Abandon();
-
-    CurrentQuestData MapQuestData();
 }
 
 public interface IQuestObjective

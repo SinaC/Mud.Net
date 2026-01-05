@@ -33,7 +33,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Special;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
-using Mud.Server.Quest;
+using Mud.Server.Quest.Objectives;
 using Mud.Server.Random;
 using System.Diagnostics;
 using System.Text;
@@ -288,7 +288,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     {
         StringBuilder displayName = new();
         var playableBeholder = beholder as IPlayableCharacter;
-        if (playableBeholder != null && IsQuestObjective(playableBeholder))
+        if (playableBeholder != null && IsQuestObjective(playableBeholder, true))
             displayName.Append(StringHelpers.QuestPrefix);
         if (beholder.CanSee(this))
             displayName.Append(DisplayName);
@@ -494,11 +494,11 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     // special behavior
     public ISpecialBehavior? SpecialBehavior { get; protected set; } = null!;
 
-    public bool IsQuestObjective(IPlayableCharacter questingCharacter)
+    public bool IsQuestObjective(IPlayableCharacter questingCharacter, bool checkCompleted)
     {
-        // If 'this' is NPC and in object list or in kill loot table
-        return questingCharacter.Quests.Where(q => !q.IsCompleted).SelectMany(q => q.Objectives).OfType<KillQuestObjective>().Any(o => o.Blueprint.Id == Blueprint.Id)
-                                 || questingCharacter.Quests.Where(q => !q.IsCompleted).Any(q => q.Blueprint.KillLootTable.ContainsKey(Blueprint.Id));
+        // If 'this' is NPC and in objective list or in kill loot table
+        return questingCharacter.Quests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).SelectMany(q => q.Objectives).OfType<KillQuestObjective>().Any(o => !o.IsCompleted && o.Blueprint.Id == Blueprint.Id)
+                || questingCharacter.Quests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).Any(q => q.KillLootTable.ContainsKey(Blueprint.Id));
     }
 
 
@@ -551,7 +551,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     // Mapping
     public PetData MapPetData()
     {
-        PetData data = new ()
+        PetData data = new()
         {
             BlueprintId = Blueprint.Id,
             Name = Name,

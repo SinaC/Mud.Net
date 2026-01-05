@@ -1,6 +1,8 @@
-﻿using Mud.Common;
+﻿using Mud.Blueprints.Quest;
+using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.Character;
@@ -14,6 +16,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
 [Syntax(
         "[cmd]",
         "[cmd] <id>",
+        "[cmd] auto",
         "[cmd] abandon <id>",
         "[cmd] complete <id>",
         "[cmd] complete all",
@@ -35,6 +38,7 @@ public class Quest : PlayableCharacterGameAction
     {
         DisplayAll,
         Display,
+        Auto,
         Abandon,
         Complete,
         Get,
@@ -71,6 +75,13 @@ public class Quest : PlayableCharacterGameAction
             return null;
         }
 
+        // quest auto
+        if ("auto".StartsWith(actionInput.Parameters[0].Value))
+        {
+            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
+            Action = Actions.Auto;
+            return null;
+        }
         // quest abandon id
         if ("abandon".StartsWith(actionInput.Parameters[0].Value))
         {
@@ -125,6 +136,16 @@ public class Quest : PlayableCharacterGameAction
                             id++;
                         }
                     }
+                    if (!Actor.Quests.OfType<IGeneratedQuest>().Any())
+                    {
+                        if (Actor.PulseLeftBeforeNextAutomaticQuest > 0)
+                        {
+                            var secondsLeft = Actor.PulseLeftBeforeNextAutomaticQuest / Pulse.PulsePerSeconds;
+                            sb.AppendFormatLine("Delay before next automated quest: {0}.", secondsLeft.FormatDelay());
+                        }
+                        else
+                            sb.AppendFormatLine("Ready for an automated quest.");
+                    }
                     Actor.Page(sb);
                     return;
                 }
@@ -133,6 +154,13 @@ public class Quest : PlayableCharacterGameAction
                     StringBuilder sb = new ();
                     BuildQuestSummary(sb, What, null);
                     Actor.Page(sb);
+                    return;
+                }
+            case Actions.Auto:
+                {
+                    var executionResults = GameActionManager.Execute<QuestAuto, IPlayableCharacter>(Actor, CommandLine);
+                    if (executionResults != null)
+                        Actor.Send(executionResults);
                     return;
                 }
             case Actions.Abandon:
@@ -166,23 +194,25 @@ public class Quest : PlayableCharacterGameAction
         }
     }
 
-    private static void BuildQuestSummary(StringBuilder sb, IQuest quest, int? id)
+    private void BuildQuestSummary(StringBuilder sb, IQuest quest, int? id)
     {
+        var questType = quest is IGeneratedQuest ? "[AUTO] " : string.Empty;
+        var difficultyColor = StringHelpers.DifficultyColor(Actor.Level, quest.Level);
         // TODO: Table ?
-        if (id >= 0)
-            sb.Append($"{id + 1,2}) {quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
+        if (id.HasValue)
+            sb.Append($"{id + 1,2}) {questType}{difficultyColor}{quest.Title}%x%: {(quest.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
         else
-            sb.Append($"{quest.Blueprint.Title}: {(quest.IsCompleted ? "%g%complete%x%" : "in progress")}");
-        if (quest.Blueprint.TimeLimit > 0)
+            sb.Append($"{questType}{difficultyColor}{quest.Title}%x%: {(quest.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
+        if (quest.TimeLimit > 0)
             sb.Append($" Time left: {(quest.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
         sb.AppendLine();
-        if (!quest.IsCompleted)
+        if (!quest.AreObjectivesFulfilled)
             BuildQuestObjectives(sb, quest);
     }
 
     private static void BuildQuestObjectives(StringBuilder sb, IQuest quest)
     {
-        foreach (IQuestObjective objective in quest.Objectives)
+        foreach (var objective in quest.Objectives)
         {
             // TODO: 2 columns ?
             if (objective.IsCompleted)

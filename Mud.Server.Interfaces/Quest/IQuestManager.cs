@@ -12,6 +12,7 @@ public interface IQuestManager
 
     void AddQuestBlueprint(QuestBlueprint blueprint);
 
-    IQuest? AddQuest(QuestBlueprint questBlueprint, IPlayableCharacter pc, INonPlayableCharacter questGiver);
-    IQuest? AddQuest(CurrentQuestData questData, IPlayableCharacter pc);
+    IPredefinedQuest? AddQuest(QuestBlueprint questBlueprint, IPlayableCharacter pc, INonPlayableCharacter questGiver);
+    IPredefinedQuest? AddQuest(CurrentQuestData questData, IPlayableCharacter pc);
+    IGeneratedQuest? GenerateQuest(IPlayableCharacter pc, INonPlayableCharacter questGiver);
 }

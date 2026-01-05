@@ -9,14 +9,15 @@
       "RoomId": 1308,
       "SilverCoins": 0,
       "GoldCoins": 0,
+      "Currencies": {},
       "Experience": 40000,
       "Alignment": 0,
-	  "Wimpy": 0,
+      "Wimpy": 0,
       "Trains": 18,
       "Practices": 41,
       "AutoFlags": 126,
       "CurrentQuests": [],
-	  "LearnedAbilityGroups": [],
+      "LearnedAbilityGroups": [],
       "LearnedAbilities": [
         {
           "Name": "Detect Magic",
@@ -370,14 +371,14 @@
           "Sex": 0,
           "Size": 2,
           "CurrentResources": {
-			"HitPoints": 122,
-			"MovePoints": 1000,
+            "HitPoints": 122,
+            "MovePoints": 1000,
             "Mana": 132,
             "Psy": 132
           },
           "MaxResources": {
-			"HitPoints": 122,
-			"MovePoints": 1000,
+            "HitPoints": 122,
+            "MovePoints": 1000,
             "Mana": 132,
             "Psy": 132
           },
@@ -426,14 +427,14 @@
       "Sex": 0,
       "Size": 2,
       "CurrentResources": {
-		"HitPoints": 125,
-		"MovePoints": 125,
+        "HitPoints": 125,
+        "MovePoints": 125,
         "Mana": 169,
         "Psy": 100
       },
       "MaxResources": {
-		"HitPoints": 125,
-		"MovePoints": 125,
+        "HitPoints": 125,
+        "MovePoints": 125,
         "Mana": 175,
         "Psy": 100
       },

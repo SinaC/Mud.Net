@@ -4,6 +4,7 @@ using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Player.Account;
 
@@ -27,8 +28,31 @@ public class Quit : AccountGameActionBase
         Wiznet = wiznet;
     }
 
+    public override string? Guards(IActionInput actionInput)
+    {
+        if (Impersonating != null && Impersonating.Quests.OfType<IGeneratedQuest>().Any())
+        {
+            if (actionInput.Parameters.Length == 0 || actionInput.Parameters[0].Value != "quit")
+                return "But you are still on an automated quest! use 'quit quit' to confirm";
+        }
+
+        return null;
+    }
+
     public override void Execute(IActionInput actionInput)
     {
+        if (Impersonating != null)
+        {
+            var generatedQuests = Impersonating.Quests.OfType<IGeneratedQuest>().ToArray();
+            foreach (var generatedQuest in generatedQuests)
+            {
+                generatedQuest.Delete();
+                Impersonating.RemoveQuest(generatedQuest);
+            }
+            if (generatedQuests.Length > 0)
+                Impersonating.SetTimeLeftBeforeNextAutomaticQuest(TimeSpan.FromMinutes(15));
+        }
+
         Actor.Send("Alas, all good things must come to an end.");
         Impersonating?.Act(ActOptions.ToRoom, "{0:N} has left the game.", Impersonating);
         Wiznet.Log($"{Actor.DisplayName} rejoins the real world.", WiznetFlags.Logins);

@@ -28,7 +28,7 @@ public interface INonPlayableCharacter : ICharacter
     // Special behavior
     ISpecialBehavior? SpecialBehavior { get; }
 
-    bool IsQuestObjective(IPlayableCharacter questingCharacter);
+    bool IsQuestObjective(IPlayableCharacter questingCharacter, bool checkCompleted);
 
     // Pet/charmies
     IPlayableCharacter? Master { get; } // character allowed to order us

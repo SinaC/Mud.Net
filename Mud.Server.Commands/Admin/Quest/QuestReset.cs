@@ -2,7 +2,6 @@
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Admin.Quest;
 
@@ -40,12 +39,11 @@ public class QuestReset : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        foreach (IQuest quest in Whom.Quests)
+        foreach (var quest in Whom.Quests)
         {
-            Actor.Send($"Resetting quest '{quest.Blueprint.Title}' for '{Whom.DisplayName}'");
-            Whom.Send($"%y%The quest ''{quest.Blueprint.Title}' has been reset.%x%");
+            Actor.Send($"Resetting quest '{quest.Title}' for '{Whom.DisplayName}'");
+            Whom.Send($"%y%The quest ''{quest.Title}' has been reset.%x%");
             quest.Reset();
         }
-
     }
 }

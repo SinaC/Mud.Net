@@ -536,6 +536,7 @@ done	     exit the character generation process");
                     { ResourceKinds.Psy, 100 },
                     // TODO: other resource
                 },
+                Currencies = [],
                 Experience = 0,
                 Alignment = _alignment!.Value,
                 Trains = 3,

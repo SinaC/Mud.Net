@@ -66,6 +66,7 @@ internal class Program
         services.Configure<ServerOptions>(options => configuration.GetSection(ServerOptions.SectionName).Bind(options));
         services.Configure<Network.Telnet.TelnetOptions>(options => configuration.GetSection(Network.Telnet.TelnetOptions.SectionName).Bind(options));
         services.Configure<WorldOptions>(options => configuration.GetSection(WorldOptions.SectionName).Bind(options));
+        services.Configure<QuestOptions>(options => configuration.GetSection(QuestOptions.SectionName).Bind(options));
     }
 
     private static void RegisterUsingExportAttribute(IServiceCollection services, IEnumerable<Assembly> assemblies)

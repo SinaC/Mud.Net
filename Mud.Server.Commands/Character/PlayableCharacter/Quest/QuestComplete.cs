@@ -1,4 +1,5 @@
-﻿using Mud.Domain;
+﻿using Mud.Blueprints.Character;
+using Mud.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces.GameAction;
@@ -23,37 +24,62 @@ public class QuestComplete : PlayableCharacterGameAction
 
         if (actionInput.Parameters.Length == 0)
             return "Complete which quest?";
+
         // all
         if (actionInput.Parameters[0].IsAll)
         {
-            What = Actor.Quests.Where(x => x.IsCompleted).ToArray();
-            return null;
+            What = Actor.Quests.Where(x => x.AreObjectivesFulfilled).ToArray();
         }
         // id
-        int id = actionInput.Parameters[0].AsNumber;
-        IQuest quest = id > 0 
-            ? Actor.Quests.ElementAtOrDefault(id - 1)!
-            : null!;
-        if (quest == null)
-            return "No such quest.";
-        if (Actor.Room.NonPlayableCharacters.All(x => x != quest.Giver))
-            return $"You must be near {quest.Giver.DisplayName} to complete this quest.";
-        if (!quest.IsCompleted)
-            return $"Quest '{quest.Blueprint.Title}' is not finished!";
-        What = [quest];
+        else
+        {
+            var id = actionInput.Parameters[0].AsNumber;
+            var quest = id > 0
+                ? Actor.Quests.ElementAtOrDefault(id - 1)
+                : null;
+            if (quest == null)
+                return "No such quest.";
+            if (Actor.Room.NonPlayableCharacters.All(x => x != quest.Giver))
+                return $"You must be near {quest.Giver.DisplayName} to complete this quest.";
+            if (!quest.AreObjectivesFulfilled)
+                return $"Quest '{quest.Title}' is not finished!";
+            What = [quest];
+        }
+
+        var generatedQuestsGuards = GuardsForGeneratedQuests();
+        if (generatedQuestsGuards != null)
+            return generatedQuestsGuards;
+
+        return null;
+    }
+
+    private string? GuardsForGeneratedQuests()
+    {
+        if (What.OfType<IGeneratedQuest>().Any()) // generated quest must be abandoned at quest master
+        {
+            var firstGeneratedQuest = What.OfType<IGeneratedQuest>().First();
+            var (questGiver, _) = Actor.Room.GetNonPlayableCharacters<CharacterQuestorBlueprint>().FirstOrDefault(x => x.blueprint.Id == firstGeneratedQuest.Giver.Blueprint.Id);
+            if (questGiver == null)
+            {
+                if (What.Length > 1)
+                    return $"You cannot complete quest '{firstGeneratedQuest.Title}' here.";
+                else
+                    return $"You cannot complete that quest here.";
+            }
+        }
         return null;
     }
 
     public override void Execute(IActionInput actionInput)
     {
-        bool found = false;
+        var found = false;
         foreach (var questToComplete in What)
         {
             if (Actor.Room.NonPlayableCharacters.Any(x => x == questToComplete.Giver))
             {
+                Actor.Send("You complete '{0}' successfully.", questToComplete.Title);
                 questToComplete.Complete();
                 Actor.RemoveQuest(questToComplete);
-                Actor.Send("You complete '{0}' successfully.", questToComplete.Blueprint.Title);
                 found = true;
             }
         }
