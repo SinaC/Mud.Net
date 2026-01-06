@@ -1,7 +1,7 @@
 ﻿using AutoBogus;
 using Moq;
 using Mud.Common;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Server.Affects.Character;
 using Mud.Server.Item;

@@ -7,6 +7,7 @@ using Mud.DataStructures;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
 using Mud.Server.Common;
@@ -1022,6 +1023,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         AvatarData data = new()
         {
+            Version = Versioning.AvatarCurrentVersion,
             AccountName = ImpersonatedBy?.Name ?? "???",
             CreationTime = CreationTime,
             Name = Name,

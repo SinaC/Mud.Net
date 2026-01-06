@@ -1,5 +1,5 @@
 ﻿using Mud.Common;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Account;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Room;

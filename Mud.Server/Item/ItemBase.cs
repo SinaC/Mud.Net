@@ -4,7 +4,7 @@ using Mud.Blueprints;
 using Mud.Blueprints.Item;
 using Mud.Common;
 using Mud.Domain;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;

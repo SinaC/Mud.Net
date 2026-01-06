@@ -1,10 +1,10 @@
 ﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
 using Mud.Blueprints.Character;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Special;
+using Mud.Domain.SerializationData.Avatar;
 
 namespace Mud.Server.Interfaces.Character;
 

@@ -4,6 +4,7 @@ using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Account;
 using Mud.Server.Actor;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Interfaces;
@@ -226,7 +227,7 @@ public class Player : ActorBase, IPlayer
             Logger.LogError("Avatar metadata not found for {avatarName}", Impersonating.Name);
             return;
         }
-        avatarMetaData.Version = 1; // TODO: current version
+        avatarMetaData.Version = Versioning.AvatarCurrentVersion;
         avatarMetaData.Level = Impersonating.Level;
         avatarMetaData.Class = Impersonating.Class.DisplayName;
         avatarMetaData.Race = Impersonating.Race.DisplayName;
@@ -402,6 +403,7 @@ public class Player : ActorBase, IPlayer
             UpdateAvatarMetaDataFromImpersonated();
         AccountData data = new()
         {
+            Version = Versioning.AccountCurrentVersion,
             Username = Name,
             Password = Password,
             PagingLineCount = PagingLineCount,

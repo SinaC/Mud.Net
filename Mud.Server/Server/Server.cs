@@ -8,7 +8,7 @@ using Mud.Blueprints.Reset;
 using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.Domain;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Network.Interfaces;
 using Mud.Repository.Interfaces;
 using Mud.Server.Common;

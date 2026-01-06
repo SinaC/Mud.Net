@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Domain.SerializationData;
 using Mud.Blueprints.Item;
 using Mud.Server.Common;
 using Mud.Server.Interfaces.Ability;
@@ -16,6 +15,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Random;
 using System.Collections.ObjectModel;
+using Mud.Domain.SerializationData.Avatar;
 
 namespace Mud.Server.Item;
 

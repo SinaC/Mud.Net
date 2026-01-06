@@ -3,6 +3,7 @@ using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Account;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
@@ -70,11 +71,16 @@ public class Admin : Player.Player, IAdmin
             UpdateAvatarMetaDataFromImpersonated();
         AccountData data = new()
         {
+            Version = Versioning.AccountCurrentVersion,
             Username = Name,
             Password = Password,
             PagingLineCount = PagingLineCount,
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
-            AdminData = new AdminData { AdminLevel = Level, WiznetFlags = WiznetFlags },
+            AdminData = new AdminData
+            {
+                AdminLevel = Level,
+                WiznetFlags = WiznetFlags
+            },
             AvatarMetaDatas = AvatarMetaDatas.ToArray(),
         };
         return data;

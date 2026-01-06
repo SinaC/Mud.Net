@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Domain;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Account;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
@@ -49,7 +49,7 @@ public class Impersonate : PlayerGameAction
             return "Avatar not found. Use 'listavatar' to display your avatar list.";
 
         if (Impersonating?.Name == Whom.Name)
-            return $"You are already impersonation {Whom.Name}.";
+            return $"You are already impersonating {Whom.Name}.";
 
         return null;
     }

@@ -1,5 +1,5 @@
 ﻿using Mud.Blueprints.Quest;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Interfaces.Character;
 
 namespace Mud.Server.Interfaces.Quest;

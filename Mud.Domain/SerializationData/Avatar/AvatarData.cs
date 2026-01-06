@@ -1,10 +1,12 @@
 ﻿using Mud.Common.Attributes;
 
-namespace Mud.Domain.SerializationData;
+namespace Mud.Domain.SerializationData.Avatar;
 
 [JsonBaseType(typeof(CharacterData))]
 public class AvatarData : CharacterData
 {
+    public required int Version { get; set; }
+
     public required string AccountName { get; set; }
 
     public required DateTime CreationTime { get; set; }

@@ -1,5 +1,5 @@
 ﻿using Mud.Domain;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Interfaces.Item;
 
 namespace Mud.Server.Interfaces.Character;

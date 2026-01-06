@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Options;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Domain.SerializationData;
 using Mud.Blueprints.Item;
 using Mud.Server.Domain;
 using Mud.Server.Flags;
@@ -18,6 +17,7 @@ using Mud.Server.Interfaces.Room;
 using Mud.Server.Interfaces.Table;
 using Mud.Server.Options;
 using System.Text;
+using Mud.Domain.SerializationData.Avatar;
 
 namespace Mud.Server.Item;
 

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Actor;
 using Mud.Server.Common.Helpers;
 using Mud.Server.Interfaces.Ability;

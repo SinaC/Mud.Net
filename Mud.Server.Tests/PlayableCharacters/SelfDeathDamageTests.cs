@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using Mud.Domain;
-using Mud.Domain.SerializationData;
 using Mud.Blueprints.Character;
+using Mud.Domain;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Character.NonPlayableCharacter;
 using Mud.Server.Character.PlayableCharacter;
 using Mud.Server.Flags;
@@ -45,6 +45,7 @@ namespace Mud.Server.Tests.PlayableCharacters
 
             var pcData = new AvatarData
             {
+                Version = 1,
                 AccountName = "Account",
                 CreationTime = DateTime.Now,
                 RoomId = 0,

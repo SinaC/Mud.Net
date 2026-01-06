@@ -1,4 +1,4 @@
-﻿using Mud.Domain.SerializationData;
+﻿using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces.Affect.Room;

@@ -1,7 +1,7 @@
-﻿using Mud.Domain.SerializationData;
-using Mud.Blueprints.Character;
+﻿using Mud.Blueprints.Character;
 using Mud.Server.Interfaces.Player;
 using Mud.Server.Interfaces.Room;
+using Mud.Domain.SerializationData.Avatar;
 
 namespace Mud.Server.Interfaces.Character;
 

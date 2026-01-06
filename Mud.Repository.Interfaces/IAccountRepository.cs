@@ -1,4 +1,4 @@
-﻿using Mud.Domain.SerializationData;
+﻿using Mud.Domain.SerializationData.Account;
 
 namespace Mud.Repository.Interfaces;
 

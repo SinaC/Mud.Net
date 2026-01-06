@@ -1,9 +1,7 @@
 INGOING
 DONE
-    pfile refactoring
-    account: name, password, admin data(level, wiznet), avatar meta datas (name, version, level, class, race, location)
-    avatar: character data
-    accounts and avatars are stored in a dedicated folder
+    add unit tests on StringCompareHelpers
+    avatar and account serialization data moved to dedicated folder
 
 ==========
 == TODO ==

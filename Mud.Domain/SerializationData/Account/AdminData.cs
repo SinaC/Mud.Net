@@ -1,4 +1,4 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿namespace Mud.Domain.SerializationData.Account;
 
 public class AdminData
 {
