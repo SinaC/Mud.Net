@@ -2,6 +2,7 @@
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
@@ -156,7 +157,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
         if (actionInput.GameActionInfo is not ISkillGameActionInfo skillGameActionInfo)
         {
             Logger.LogError("GameActionInfo is not ISkillGameActionInfo for skill action {actionName}.", GetType().Name);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
 
         var skillActionInput = new SkillActionInput(actionInput, skillGameActionInfo.AbilityDefinition, Actor);

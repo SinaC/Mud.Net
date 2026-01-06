@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-using Mud.Blueprints.LootTable;
+﻿using Mud.Blueprints.LootTable;
 using Mud.Domain;
 using Mud.Server.Flags.Interfaces;
+using System.Runtime.Serialization;
 
 namespace Mud.Blueprints.Character;
 
@@ -145,6 +145,9 @@ public abstract class CharacterBlueprintBase
 
     [DataMember]
     public string ScriptTableName { get; set; } = default!;
+
+    //
+    public string[] Keywords => Name.Split([' '], StringSplitOptions.RemoveEmptyEntries);
 
     public bool Equals(CharacterBlueprintBase? other)
     {

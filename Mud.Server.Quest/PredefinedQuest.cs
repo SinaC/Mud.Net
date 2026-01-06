@@ -120,6 +120,8 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
 
     public override string Title => Blueprint.Title;
 
+    public override string Description =>  Blueprint.Description;
+
     public override int Level => Blueprint.Level;
 
     public override int TimeLimit => Blueprint.TimeLimit;

@@ -86,7 +86,7 @@ public class Give : CharacterGameAction
         if (What is IItemQuest)
             return Actor.ActPhrase("You cannot give quest items.");
 
-        if (Whom is INonPlayableCharacter npcVictim && npcVictim.Blueprint is CharacterShopBlueprint)
+        if (Whom is INonPlayableCharacter npcVictim && npcVictim.Blueprint is CharacterShopBlueprintBase)
             return Actor.ActPhrase("{0:N} tells you 'Sorry, you'll have to sell that.'", npcVictim);
         return null;
     }

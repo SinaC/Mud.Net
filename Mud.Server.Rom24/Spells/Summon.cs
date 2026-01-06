@@ -50,7 +50,7 @@ public class Summon : TransportationSpellBase
             || pcVictim?.IsImmortal == true
             || Victim.Fighting != null
             || (npcVictim != null && npcVictim.Immunities.IsSet("Summon"))
-            || (npcVictim != null && (npcVictim.Blueprint is CharacterShopBlueprint))
+            || (npcVictim != null && (npcVictim.Blueprint is CharacterShopBlueprintBase))
             //TODO: plr_nosummon || playableCharacterVictim
             || (npcVictim != null && Victim.SavesSpell(Level, SchoolTypes.Other)))
             return false;

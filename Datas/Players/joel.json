@@ -481,6 +481,7 @@
 	  "Wimpy": 0,
       "SilverCoins": 0,
       "GoldCoins": 0,
+	   "Currencies": {},
       "Experience": 0,
       "Alignment": 0,
       "Trains": 3,

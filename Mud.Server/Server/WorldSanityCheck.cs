@@ -1,8 +1,11 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Common.Attributes;
+using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
+using Mud.Common.Attributes;
+using Mud.Server.Character;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
@@ -14,13 +17,15 @@ namespace Mud.Server.Server
     {
         private ILogger<WorldSanityCheck> Logger { get; }
         private IRoomManager RoomManager { get; }
+        private ICharacterManager CharacterManager { get; }
         private IItemManager ItemManager { get; }
         private WorldOptions WorldOptions { get; }
 
-        public WorldSanityCheck(ILogger<WorldSanityCheck> logger, IRoomManager roomManager, IItemManager itemManager, IOptions<WorldOptions> options)
+        public WorldSanityCheck(ILogger<WorldSanityCheck> logger, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IOptions<WorldOptions> options)
         {
             Logger = logger;
             RoomManager = roomManager;
+            CharacterManager = characterManager;
             ItemManager = itemManager;
             WorldOptions = options.Value;
         }
@@ -64,6 +69,16 @@ namespace Mud.Server.Server
             {
                 Logger.LogError("Item Coins blueprint {blueprintId} not found or not money", WorldOptions.BlueprintIds.Coins);
                 fatalErrorFound = true;
+            }
+            // pet shops
+            foreach (var petShopBlueprint in CharacterManager.CharacterBlueprints.OfType<CharacterPetShopBlueprint>())
+            {
+                foreach (var petBlueprintId in petShopBlueprint.PetBlueprintIds.Distinct())
+                {
+                    var petBlueprint = CharacterManager.GetCharacterBlueprint(petBlueprintId);
+                    if (petBlueprint == null)
+                        Logger.LogError("Pet {petBlueprintId} sold by pet shop keeper {petShopBlueprintId} not found", petBlueprintId, petShopBlueprint.Id);
+                }
             }
             return fatalErrorFound;
         }

@@ -24,6 +24,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
     private IRandomManager RandomManager { get; }
 
     private string _title = null!;
+    private string? _description;
     private int _level;
     private int _timeLimit;
 
@@ -64,6 +65,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         PulseLeft = timeLimit * Pulse.PulsePerMinutes;
         Giver = giver;
         _title = $"Recover the fabled {itemQuestBlueprint.ShortDescription} in {room.Area.DisplayName}";
+        // TODO: description
         _level = level;
         _timeLimit = timeLimit;
 
@@ -92,6 +94,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         PulseLeft = timeLimit * Pulse.PulsePerMinutes;
         Giver = giver;
         _title = $"Recover the fabled {itemQuestBlueprint.ShortDescription} from {target.Blueprint.ShortDescription} in {room.Area.DisplayName}";
+        // TODO: description
         _level = target.Level;
         _timeLimit = timeLimit;
 
@@ -117,6 +120,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         PulseLeft = timeLimit * Pulse.PulsePerMinutes;
         Giver = giver;
         _title = $"Slay the dreaded {target.Blueprint.ShortDescription} in {room.Area.DisplayName}";
+        // TODO: description
         _level = target.Level;
         _timeLimit = timeLimit;
 
@@ -143,6 +147,8 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
     #region IQuest
 
     public override string Title => _title;
+
+    public override string? Description => _description;
 
     public override int Level => _level;
 

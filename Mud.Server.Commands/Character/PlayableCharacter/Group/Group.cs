@@ -22,6 +22,12 @@ SPLIT commands.  If anyone in your group is attacked, you will automatically
 join the fight.")]
 public class Group : PlayableCharacterGameAction
 {
+    private static ResourceKinds[] SpecialResourceKinds { get; } =
+    [
+        ResourceKinds.HitPoints,
+        ResourceKinds.MovePoints,
+    ];
+
     private int MaxLevel { get; }
 
     public Group(IOptions<WorldOptions> worldOptions)
@@ -106,6 +112,9 @@ public class Group : PlayableCharacterGameAction
             case Actions.DisplayPets:
                 {
                     StringBuilder sb = new();
+                    // display Actor
+                    AppendPlayerGroupMemberInfo(sb, Actor);
+                    // display pets
                     foreach (var pet in Actor.Pets)
                         AppendPetGroupMemberInfo(sb, pet);
                     Actor.Send(sb);
@@ -122,7 +131,7 @@ public class Group : PlayableCharacterGameAction
                         if (member.Pets.Any())
                         {
                             // display member's pet info
-                            foreach (INonPlayableCharacter pet in member.Pets)
+                            foreach (var pet in member.Pets)
                                 AppendPetGroupMemberInfo(sb, pet);
                         }
                     }
@@ -154,7 +163,7 @@ public class Group : PlayableCharacterGameAction
 
     private void AppendPlayerGroupMemberInfo(StringBuilder sb, IPlayableCharacter member)
     {
-        sb.AppendFormat("[{0,3} {1,3}] {2,20} {3,5}/{4,5} hp {5} {6,5}/{7,5} mv", member.Level, member.Class.ShortName, member.DisplayName.MaxLength(20), member[ResourceKinds.HitPoints], member.MaxResource(ResourceKinds.HitPoints), BuildResources(member), member[ResourceKinds.MovePoints], member.MaxResource(ResourceKinds.MovePoints));
+        sb.AppendFormat("[{0,3} {1,3}] {2,-20} {3,5}/{4,5} hp {5} {6,5}/{7,5} mv", member.Level, member.Class.ShortName, member.DisplayName.MaxLength(20), member[ResourceKinds.HitPoints], member.MaxResource(ResourceKinds.HitPoints), BuildResources(member), member[ResourceKinds.MovePoints], member.MaxResource(ResourceKinds.MovePoints));
         if (member.Level >= MaxLevel)
             sb.AppendFormat(" {0} nxt", member.ExperienceToLevel);
         sb.AppendLine();
@@ -162,13 +171,13 @@ public class Group : PlayableCharacterGameAction
 
     private void AppendPetGroupMemberInfo(StringBuilder sb, INonPlayableCharacter member)
     {
-        sb.AppendFormatLine("[{0,3} Pet] {1,20} {2,5}/{3,5} hp {4} {5,5}/{6,5} mv", member.Level, member.DisplayName.MaxLength(20), member[ResourceKinds.HitPoints], member.MaxResource(ResourceKinds.HitPoints), BuildResources(member), member[ResourceKinds.MovePoints], member.MaxResource(ResourceKinds.MovePoints));
+        sb.AppendFormatLine("[{0,3} Pet] {1,-20} {2,5}/{3,5} hp {4} {5,5}/{6,5} mv", member.Level, member.DisplayName.MaxLength(20), member[ResourceKinds.HitPoints], member.MaxResource(ResourceKinds.HitPoints), BuildResources(member), member[ResourceKinds.MovePoints], member.MaxResource(ResourceKinds.MovePoints));
     }
 
     private static StringBuilder BuildResources(ICharacter character)
     {
         StringBuilder sb = new ();
-        foreach (var resource in character.CurrentResourceKinds)
+        foreach (var resource in character.CurrentResourceKinds.Except(SpecialResourceKinds))
             sb.AppendFormat("{0,5}/{1,5} {2}", character[resource], character.MaxResource(resource), resource.ToString().ToLowerInvariant());
         return sb;
     }

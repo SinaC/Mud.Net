@@ -22,6 +22,7 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
         "[cmd] complete all",
         "[cmd] get <quest name>",
         "[cmd] get all",
+        "[cmd] info",
         "[cmd] list")]
 public class Quest : PlayableCharacterGameAction
 {
@@ -42,6 +43,7 @@ public class Quest : PlayableCharacterGameAction
         Abandon,
         Complete,
         Get,
+        Info,
         List
     }
 
@@ -103,6 +105,14 @@ public class Quest : PlayableCharacterGameAction
         {
             CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
             Action = Actions.Get;
+            return null;
+        }
+
+        // quest info
+        if ("info".StartsWith(actionInput.Parameters[0].Value))
+        {
+            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
+            Action = Actions.Info;
             return null;
         }
 
@@ -180,6 +190,13 @@ public class Quest : PlayableCharacterGameAction
             case Actions.Get:
                 {
                     var executionResults = GameActionManager.Execute<QuestGet, IPlayableCharacter>(Actor, CommandLine);
+                    if (executionResults != null)
+                        Actor.Send(executionResults);
+                    return;
+                }
+            case Actions.Info:
+                {
+                    var executionResults = GameActionManager.Execute<QuestInfo, IPlayableCharacter>(Actor, CommandLine);
                     if (executionResults != null)
                         Actor.Send(executionResults);
                     return;

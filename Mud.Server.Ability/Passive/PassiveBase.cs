@@ -65,8 +65,8 @@ public abstract class PassiveBase : IPassive
         if (abilityDefinition.CooldownInSeconds.HasValue && abilityDefinition.CooldownInSeconds.Value > 0)
             user.SetCooldown(abilityDefinition.Name, TimeSpan.FromSeconds(abilityDefinition.CooldownInSeconds.Value));
 
-        // 6) check improve true
-        if (checkImprove)
+        // 6) check improve true (only if success)
+        if (checkImprove && checkSuccess)
         {
             var pcUser = user as IPlayableCharacter;
             pcUser?.CheckAbilityImprove(abilityDefinition.Name, true, abilityDefinition.LearnDifficultyMultiplier);

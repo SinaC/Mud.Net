@@ -152,7 +152,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     public void Initialize(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room) // Pet
     {
-        Initialize(guid, petData.Name, blueprint.Description, blueprint, room);
+        Initialize(guid, petData.Name, petData.Description, blueprint, room);
 
         BaseSex = petData.Sex;
         BaseSize = petData.Size;
@@ -280,7 +280,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     #endregion
 
-    public override string DisplayName => Blueprint?.ShortDescription ?? "???";
+    public override string DisplayName => Blueprint?.ShortDescription?.UpperFirstLetter() ?? "???";
 
     public override string DebugName => $"{DisplayName}[{Blueprint?.Id ?? -1}]";
 
@@ -554,6 +554,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         PetData data = new()
         {
             BlueprintId = Blueprint.Id,
+            Description = Description,
             Name = Name,
             //RoomId = Room?.Blueprint?.Id ?? 0,
             Race = Race?.Name ?? string.Empty,

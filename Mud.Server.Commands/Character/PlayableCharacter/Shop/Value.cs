@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common.Attributes;
+﻿using Mud.Blueprints.Character;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -29,9 +30,11 @@ public class Value : ShopPlayableCharacterGameActionBase
         if (baseGuards != null)
             return baseGuards;
 
+        if (Keeper.shopBlueprintBase is not CharacterShopBlueprint shopBlueprint)
+            return "You cannot sell anything here.";
+
         if (actionInput.Parameters.Length == 0)
             return "Value what?";
-
 
         What = FindHelpers.FindByName(Actor.Inventory.Where(x => Actor.CanSee(x)), actionInput.Parameters[0])!;
         if (What == null)
@@ -43,7 +46,7 @@ public class Value : ShopPlayableCharacterGameActionBase
         if (What.ItemFlags.IsSet("NoDrop"))
             return "You can't let go of it.";
 
-        Cost = GetSellCost(Keeper.shopKeeper, Keeper.shopBlueprint, What, false);
+        Cost = GetSellCost(Keeper.shopKeeper, shopBlueprint, What, false);
         if (Cost <= 0 || What.DecayPulseLeft > 0)
             return Actor.ActPhrase("{0:N} looks uninterested in {1}.", Keeper.shopKeeper, What);
 

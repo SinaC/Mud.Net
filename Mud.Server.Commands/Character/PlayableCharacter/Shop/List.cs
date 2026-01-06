@@ -1,4 +1,5 @@
-﻿using Mud.Common;
+﻿using Mud.Blueprints.Character;
+using Mud.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -29,29 +30,49 @@ public class List : ShopPlayableCharacterGameActionBase
         if (baseGuards != null)
             return baseGuards;
 
-        if (!Keeper.shopKeeper.Inventory.Any(x => Actor.CanSee(x)))
-            return "You can't buy anything here.";
+        if (Keeper.shopBlueprintBase is CharacterShopBlueprint shopBlueprint)
+        {
+            if (!Keeper.shopKeeper.Inventory.Any(Actor.CanSee))
+                return "You can't buy anything here.";
+        }
+        else if (Keeper.shopBlueprintBase is CharacterPetShopBlueprint petShopBlueprint)
+        {
+            if (petShopBlueprint.PetBlueprints.Count == 0)
+                return "You can't buy anything here.";
+        }
+
         return null;
     }
 
     public override void Execute(IActionInput actionInput)
     {
         StringBuilder sb = new ();
-        sb.AppendLine("[Lvl Price Qty] Item");
-        foreach (var itemAndCost in Keeper.shopKeeper.Inventory
-            .Where(x => Actor.CanSee(x))
-            .GroupBy(x => x.Blueprint.Id)
-            .Select(g => new
-            {
-                item = g.First(),
-                cost = GetBuyCost(Keeper.shopKeeper, Keeper.shopBlueprint, g.First(), false),
-                count = g.Count()
-            }))
+        if (Keeper.shopBlueprintBase is CharacterShopBlueprint shopBlueprint)
         {
-            if (itemAndCost.item.ItemFlags.IsSet("Inventory"))
-                sb.AppendFormatLine("[{0,3} {1,5} -- ] {2}", itemAndCost.item.Level, itemAndCost.cost, itemAndCost.item.DisplayName);
-            else
-                sb.AppendFormatLine("[{0,3} {1,5} {2,2} ] {3}", itemAndCost.item.Level, itemAndCost.cost, itemAndCost.count, itemAndCost.item.DisplayName);
+            sb.AppendLine("[Lvl Price Qty] Item");
+            foreach (var itemAndCost in Keeper.shopKeeper.Inventory
+                .Where(x => Actor.CanSee(x))
+                .GroupBy(x => x.Blueprint.Id)
+                .Select(g => new
+                {
+                    item = g.First(),
+                    cost = GetBuyCost(Keeper.shopKeeper, shopBlueprint, g.First(), false),
+                    count = g.Count()
+                }))
+            {
+                if (itemAndCost.item.ItemFlags.IsSet("Inventory"))
+                    sb.AppendFormatLine("[{0,3} {1,5} -- ] {2}", itemAndCost.item.Level, itemAndCost.cost, itemAndCost.item.DisplayName);
+                else
+                    sb.AppendFormatLine("[{0,3} {1,5} {2,2} ] {3}", itemAndCost.item.Level, itemAndCost.cost, itemAndCost.count, itemAndCost.item.DisplayName);
+            }
+        }
+        else if (Keeper.shopBlueprintBase is CharacterPetShopBlueprint petShopBlueprint)
+        {
+            sb.AppendLine("[Lvl Price] Pet");
+            foreach (var petBlueprint in petShopBlueprint.PetBlueprints)
+            {
+                sb.AppendFormatLine("[{0,3} {1,5}] {2}", petBlueprint.Level, 10 * petBlueprint.Level * petBlueprint.Level, petBlueprint.ShortDescription);
+            }
         }
         Actor.Send(sb);
     }

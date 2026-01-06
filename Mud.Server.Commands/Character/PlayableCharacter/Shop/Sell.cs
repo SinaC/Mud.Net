@@ -1,4 +1,5 @@
-﻿using Mud.Server.Common.Attributes;
+﻿using Mud.Blueprints.Character;
+using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -32,6 +33,9 @@ public class Sell : ShopPlayableCharacterGameActionBase
         if (baseGuards != null)
             return baseGuards;
 
+        if (Keeper.shopBlueprintBase is not CharacterShopBlueprint shopBlueprint)
+            return "You cannot sell anything here.";
+
         if (actionInput.Parameters.Length == 0)
             return "Sell what?";
 
@@ -45,7 +49,7 @@ public class Sell : ShopPlayableCharacterGameActionBase
         if (What.ItemFlags.IsSet("NoDrop"))
             return "You can't let go of it.";
 
-        Cost = GetSellCost(Keeper.shopKeeper, Keeper.shopBlueprint, What, true);
+        Cost = GetSellCost(Keeper.shopKeeper, shopBlueprint, What, true);
         if (Cost <= 0 || What.DecayPulseLeft > 0)
             return Actor.ActPhrase("{0:N} looks uninterested in {1}.", Keeper.shopKeeper, What);
 
@@ -57,10 +61,8 @@ public class Sell : ShopPlayableCharacterGameActionBase
 
     public override void Execute(IActionInput actionInput)
     {
-        // TODO: haggle ?
-
-        long silver = Cost % 100;
-        long gold = Cost / 100;
+        var silver = Cost % 100;
+        var gold = Cost / 100;
 
         Actor.Act(ActOptions.ToRoom, "{0} sells {1}.", Actor, What);
         Actor.Act(ActOptions.ToCharacter, "You sell {0} for {1} silver and {2} gold piece{3}.", What, silver, gold, Cost == 1 ? string.Empty : "s");

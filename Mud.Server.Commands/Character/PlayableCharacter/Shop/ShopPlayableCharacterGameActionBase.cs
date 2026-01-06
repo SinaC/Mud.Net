@@ -22,7 +22,7 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
         RandomManager = randomManager;
     }
 
-    protected (INonPlayableCharacter shopKeeper, CharacterShopBlueprint shopBlueprint) Keeper { get; set; } = default;
+    protected (INonPlayableCharacter shopKeeper, CharacterShopBlueprintBase shopBlueprintBase) Keeper { get; set; } = default;
 
     public override string? Guards(IActionInput actionInput)
     {
@@ -37,9 +37,9 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
     }
 
     //
-    protected (INonPlayableCharacter shopKeeper, CharacterShopBlueprint shopBlueprint) FindKeeper()
+    protected (INonPlayableCharacter shopKeeper, CharacterShopBlueprintBase shopBlueprintBase) FindKeeper()
     {
-        var shopKeeper = Actor.Room.NonPlayableCharacters.FirstOrDefault(x => x.Blueprint is CharacterShopBlueprint);
+        var (shopKeeper, shopBlueprint) = Actor.Room.GetNonPlayableCharacters<CharacterShopBlueprintBase>().FirstOrDefault();
         if (shopKeeper == null)
         {
             Actor.Send("You can't do that here.");
@@ -47,12 +47,6 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
         }
 
         // TODO: undesirables: killer/thief
-
-        if (shopKeeper.Blueprint is not CharacterShopBlueprint shopBlueprint)
-        {
-            Actor.Send("You can't do that here."); // should never happen
-            return default;
-        }
 
         if (TimeManager.Hour < shopBlueprint.OpenHour)
         {
@@ -72,6 +66,25 @@ public abstract class ShopPlayableCharacterGameActionBase : PlayableCharacterGam
         if (item == null || !item.IsValid)
             return 0;
         var cost = (long)item.Cost * shopBlueprint.ProfitBuy / 100;
+        if (cost <= 0)
+            return cost;
+        if (tryToHaggle)
+        {
+            // pick one change cost passive
+            var changeCostPassiveDefinition = RandomManager.Random(AbilityManager.SearchAbilitiesByExecutionType<IChangeCostPassive>());
+            if (changeCostPassiveDefinition != null)
+            {
+                var changeCostPassive = AbilityManager.CreateInstance<IChangeCostPassive>(changeCostPassiveDefinition);
+                if (changeCostPassive != null)
+                    cost = changeCostPassive.HaggleBuyPrice(Actor, shopKeeper, cost);
+            }
+        }
+        return cost;
+    }
+
+    protected long GetBuyCost(INonPlayableCharacter shopKeeper, CharacterPetShopBlueprint petShopBlueprint, CharacterNormalBlueprint petBlueprint, bool tryToHaggle)
+    {
+        var cost = (long)petBlueprint.Level * petBlueprint.Level * 10 * petShopBlueprint.ProfitBuy / 100;
         if (cost <= 0)
             return cost;
         if (tryToHaggle)
