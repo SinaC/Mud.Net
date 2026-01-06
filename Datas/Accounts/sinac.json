@@ -1,4 +1,5 @@
 {
+  "Version": 1,
   "Username": "sinac",
   "Password": "sinac",
   "PagingLineCount": 0,
@@ -6,36 +7,34 @@
     "pouet": "who",
     "cda": "commanddebug admin"
   },
-  "AdminData":
-  {
+  "AdminData": {
     "AdminLevel": 7,
     "WiznetFlags": 61439
   },
-  "AvatarMetaDatas":
-  [
+  "AvatarMetaDatas": [
     {
       "Name": "sinac",
       "Version": 1,
-	   "Level": 46,
-		"Class": "Druid",
-		"Race": "Insectoid",
-		"RoomId": 3001
+      "Level": 46,
+      "Class": "Druid",
+      "Race": "Insectoid",
+      "RoomId": 3001
     },
     {
       "Name": "glouk",
       "Version": 1,
-	  "Level": 49,
-		"Class": "Druid",
-		"Race": "Insectoid",
-		"RoomId": 3001
+      "Level": 49,
+      "Class": "Druid",
+      "Race": "Insectoid",
+      "RoomId": 3001
     },
     {
       "Name": "fnar",
       "Version": 1,
-	  "Level": 7,
-		"Class": "Warrior",
-		"Race": "Giant",
-		"RoomId": 3001
+      "Level": 7,
+      "Class": "Warrior",
+      "Race": "Giant",
+      "RoomId": 9703
     }
   ]
 }

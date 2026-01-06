@@ -1,6 +1,6 @@
 ﻿using Mud.Common.Attributes;
 
-namespace Mud.Domain.SerializationData;
+namespace Mud.Domain.SerializationData.Avatar;
 
 [JsonBaseType(typeof(CharacterData))]
 public class PetData : CharacterData

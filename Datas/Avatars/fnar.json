@@ -1,11 +1,12 @@
 {
+  "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-  "RoomId": 3031,
-  "SilverCoins": 50,
+  "RoomId": 9703,
+  "SilverCoins": 61,
   "GoldCoins": 5126,
   "Wimpy": 0,
-  "Experience": 6479,
+  "Experience": 6574,
   "Alignment": -46,
   "Trains": 35,
   "Practices": 61,
@@ -13,7 +14,7 @@
   "Currencies": {
     "QuestPoints": 17
   },
-  "PulseLeftBeforeNextAutomaticQuest": 0,
+  "PulseLeftBeforeNextAutomaticQuest": 3600,
   "CurrentQuests": [],
   "LearnedAbilities": [
     {
@@ -159,9 +160,9 @@
   ],
   "Conditions": {
     "Drunk": 0,
-    "Full": 16,
-    "Thirst": 35,
-    "Hunger": 29
+    "Full": 8,
+    "Thirst": 33,
+    "Hunger": 25
   },
   "Aliases": {},
   "Cooldowns": {},
@@ -176,7 +177,7 @@
       "Sex": 0,
       "Size": 2,
       "CurrentResources": {
-        "HitPoints": 120,
+        "HitPoints": 76,
         "MovePoints": 1000,
         "Mana": 150,
         "Psy": 0,
@@ -220,7 +221,7 @@
           ]
         }
       ],
-      "CharacterFlags": "DetectHidden,charm",
+      "CharacterFlags": "DetectHidden",
       "Immunities": "",
       "Resistances": "Magic",
       "Vulnerabilities": "",
@@ -248,8 +249,8 @@
   "Sex": 1,
   "Size": 3,
   "CurrentResources": {
-    "HitPoints": 188,
-    "MovePoints": 177,
+    "HitPoints": 143,
+    "MovePoints": 187,
     "Mana": 203,
     "Psy": 100,
     "Energy": 0,
@@ -270,7 +271,7 @@
       "Slot": 1,
       "Item": {
         "$type": "light",
-        "TimeLeft": 11939,
+        "TimeLeft": 11937,
         "ItemId": 3716,
         "Level": 0,
         "DecayPulseLeft": 0,

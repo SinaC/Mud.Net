@@ -1,6 +1,7 @@
 ﻿using DeepEqual.Syntax;
 using Mud.Domain;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Account;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Item;
 using System.Text.Json;
 
@@ -14,6 +15,7 @@ namespace Mud.Repository.Tests
         {
             var avatar = new AvatarData
             {
+                Version = 1,
                 AccountName = "account",
                 CreationTime = DateTime.Now,
                 RoomId = 0,
@@ -103,6 +105,7 @@ namespace Mud.Repository.Tests
 
         private const string AvatarFileContent =
         @"{
+  ""Version"": 1,
   ""AccountName"": ""sinac"",
   ""CreationTime"": ""2025-11-11T16:31:33.7841739+01:00"",
   ""RoomId"": 3001,
@@ -1334,6 +1337,7 @@ namespace Mud.Repository.Tests
 
         private const string AccountFileContent =
             @"{
+  ""Version"": 1,
   ""Username"": ""sinac"",
   ""Password"": ""password"",
   ""PagingLineCount"": 0,
@@ -1343,6 +1347,7 @@ namespace Mud.Repository.Tests
   },
   ""AdminData"":
   {
+    ""Version"": 1,
     ""AdminLevel"": 7,
     ""WiznetFlags"": 61439
   },

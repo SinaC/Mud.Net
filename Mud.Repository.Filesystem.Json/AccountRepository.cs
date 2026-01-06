@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using Mud.Common;
 using Mud.Common.Attributes;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Account;
 using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Repository.Interfaces;
 using System.Text.Json;

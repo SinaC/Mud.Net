@@ -20,7 +20,5 @@ public class OneHitDiceRollTests
                 ;
             results.Increment(diceRoll);
         }
-
-
     }
 }

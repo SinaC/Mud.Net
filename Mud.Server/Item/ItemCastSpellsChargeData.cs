@@ -1,4 +1,4 @@
-﻿using Mud.Domain.SerializationData;
+﻿using Mud.Domain.SerializationData.Avatar;
 
 namespace Mud.Server.Item;
 

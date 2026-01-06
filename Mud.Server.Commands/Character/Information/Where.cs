@@ -51,7 +51,12 @@ public class Where : CharacterGameAction
         if (Pattern == null)
         {
             sb.AppendLine("Players near you:");
-            playableCharacters = Actor.Room.Area.PlayableCharacters.Where(x => Actor.CanSee(x));
+            playableCharacters = Actor.Room.Area.PlayableCharacters.Where(x => x.Room != null
+                                                                         && !x.Room.RoomFlags.IsSet("NoWhere")
+                                                                         && !x.Room.IsPrivate
+                                                                         && !x.CharacterFlags.IsSet("Sneak")
+                                                                         && !x.CharacterFlags.IsSet("Hide")
+                                                                         && Actor.CanSee(x));
             notFound = "None";
         }
         else

@@ -3,7 +3,7 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Flags;
 using Mud.Domain;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Aura;

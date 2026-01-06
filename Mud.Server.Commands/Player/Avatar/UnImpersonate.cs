@@ -6,14 +6,14 @@ using Mud.Server.Interfaces.Quest;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("stopimpersonate", "Avatar", Priority = 100), MustBeImpersonated]
+[PlayerCommand("unimpersonate", "Avatar", Priority = 100), MustBeImpersonated]
 [Syntax(
     "[cmd]")]
-public class StopImpersonate : PlayerGameAction
+public class UnImpersonate : PlayerGameAction
 {
     private IServerPlayerCommand ServerPlayerCommand { get; }
 
-    public StopImpersonate(IServerPlayerCommand serverPlayerCommand)
+    public UnImpersonate(IServerPlayerCommand serverPlayerCommand)
     {
         ServerPlayerCommand = serverPlayerCommand;
     }
@@ -30,7 +30,7 @@ public class StopImpersonate : PlayerGameAction
         if (Impersonating.Quests.OfType<IGeneratedQuest>().Any())
         {
             if (actionInput.Parameters.Length == 0 || actionInput.Parameters[0].Value != "stop")
-                return "But you are still on an automated quest! use 'stopimpersonate stop' to confirm";
+                return "But you are still on an automated quest! use 'unimpersonate stop' to confirm";
         }
 
         return null;

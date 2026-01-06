@@ -1,6 +1,6 @@
-﻿using Mud.Domain.SerializationData;
-using Mud.Blueprints.Quest;
+﻿using Mud.Blueprints.Quest;
 using Mud.Server.Interfaces.Character;
+using Mud.Domain.SerializationData.Avatar;
 
 namespace Mud.Server.Interfaces.Quest;
 

@@ -2,6 +2,8 @@
 using Mud.Common;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Account;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Common;
 using Mud.Server.Domain;
 using Mud.Server.Interfaces;
@@ -510,6 +512,7 @@ done	     exit the character generation process");
             var startingRoom = RoomManager.MudSchoolRoom;
             AvatarData avatarData = new()
             {
+                Version = Versioning.AvatarCurrentVersion,
                 AccountName = player.Name,
                 CreationTime = TimeManager.CurrentTime,
                 Name = _name!,
@@ -564,7 +567,7 @@ done	     exit the character generation process");
             AvatarMetaData avatarMetaData = new()
             {
                 Name = avatarData.Name,
-                Version = 1, // TODO: current version
+                Version = Versioning.AvatarCurrentVersion,
                 Level = avatarData.Level,
                 Class = ClassManager[avatarData.Class]!.DisplayName,
                 Race = RaceManager[avatarData.Race]!.DisplayName,

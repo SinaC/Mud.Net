@@ -1,7 +1,8 @@
-﻿namespace Mud.Domain.SerializationData;
+﻿namespace Mud.Domain.SerializationData.Account;
 
 public class AccountData
 {
+    public required int Version { get; set; }
     public required string Username { get; set; }
     public required string Password { get; set; }
     public required int PagingLineCount { get; set; }

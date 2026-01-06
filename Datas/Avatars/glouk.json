@@ -1,4 +1,5 @@
 {
+  "Version": 1,
   "AccountName": "sinac",
   "CreationTime": "2025-11-11T16:31:33.7841739+01:00",
   "RoomId": 3001,
@@ -10,7 +11,9 @@
   "Trains": 22,
   "Practices": 89,
   "AutoFlags": 127,
-  "Currencies": {},
+  "Currencies": {
+    "QuestPoints": 0
+  },
   "PulseLeftBeforeNextAutomaticQuest": 0,
   "CurrentQuests": [],
   "LearnedAbilities": [
@@ -35,13 +38,13 @@
     {
       "Name": "Axe",
       "Level": 10,
-      "Learned": 1,
+      "Learned": 100,
       "Rating": 1
     },
     {
       "Name": "Dagger",
       "Level": 10,
-      "Learned": 1,
+      "Learned": 100,
       "Rating": 1
     },
     {
@@ -53,43 +56,43 @@
     {
       "Name": "Flail",
       "Level": 10,
-      "Learned": 1,
+      "Learned": 100,
       "Rating": 1
     },
     {
       "Name": "Mace",
       "Level": 10,
-      "Learned": 1,
+      "Learned": 100,
       "Rating": 1
     },
     {
       "Name": "Polearm",
       "Level": 10,
-      "Learned": 1,
+      "Learned": 100,
       "Rating": 1
     },
     {
       "Name": "Spear",
       "Level": 10,
-      "Learned": 1,
+      "Learned": 100,
       "Rating": 1
     },
     {
       "Name": "Staff(weapon)",
       "Level": 10,
-      "Learned": 1,
+      "Learned": 100,
       "Rating": 1
     },
     {
       "Name": "Sword",
       "Level": 10,
-      "Learned": 85,
+      "Learned": 100,
       "Rating": 1
     },
     {
       "Name": "Whip",
       "Level": 10,
-      "Learned": 1,
+      "Learned": 100,
       "Rating": 1
     },
     {
@@ -763,6 +766,18 @@
       "Level": 25,
       "Learned": 100,
       "Rating": 1
+    },
+    {
+      "Name": "berserk",
+      "Level": 18,
+      "Learned": 100,
+      "Rating": 5
+    },
+    {
+      "Name": "peek",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 5
     }
   ],
   "LearnedAbilityGroups": [
@@ -788,11 +803,11 @@
   "Size": 2,
   "CurrentResources": {
     "HitPoints": 15800,
-    "MovePoints": 1110,
+    "MovePoints": 1113,
     "Mana": 5298,
     "Psy": 100,
     "Energy": 100,
-    "Rage": 75,
+    "Rage": 67,
     "Combo": 0
   },
   "MaxResources": {
@@ -828,7 +843,7 @@
           {
             "AbilityName": "Test",
             "Level": 1,
-            "PulseLeft": 1184,
+            "PulseLeft": 1152,
             "AuraFlags": 2,
             "Affects": [
               {
@@ -866,7 +881,7 @@
           {
             "AbilityName": "Envenom",
             "Level": 1,
-            "PulseLeft": 308,
+            "PulseLeft": 276,
             "AuraFlags": 2,
             "Affects": [
               {
@@ -894,15 +909,15 @@
   ],
   "Inventory": [
     {
-      "ItemId": 2111,
-      "Level": 10,
+      "ItemId": 2104,
+      "Level": 3,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
     },
     {
-      "ItemId": 2104,
-      "Level": 3,
+      "ItemId": 2111,
+      "Level": 10,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
@@ -912,7 +927,7 @@
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 9576,
+      "PulseLeft": 9544,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -926,7 +941,7 @@
     {
       "AbilityName": "Detect Evil",
       "Level": 1,
-      "PulseLeft": 9772,
+      "PulseLeft": 9740,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -939,7 +954,7 @@
     {
       "AbilityName": "Detect Good",
       "Level": 1,
-      "PulseLeft": 9804,
+      "PulseLeft": 9772,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -952,7 +967,7 @@
     {
       "AbilityName": "Detect Invis",
       "Level": 1,
-      "PulseLeft": 9820,
+      "PulseLeft": 9788,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -965,7 +980,7 @@
     {
       "AbilityName": "Detect Hidden",
       "Level": 1,
-      "PulseLeft": 9876,
+      "PulseLeft": 9844,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -978,7 +993,7 @@
     {
       "AbilityName": "Shock Shield",
       "Level": 1,
-      "PulseLeft": 9576,
+      "PulseLeft": 9544,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -991,7 +1006,7 @@
     {
       "AbilityName": "Fire Shield",
       "Level": 1,
-      "PulseLeft": 9376,
+      "PulseLeft": 9344,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -1004,7 +1019,7 @@
     {
       "AbilityName": "Ice Shield",
       "Level": 1,
-      "PulseLeft": 9176,
+      "PulseLeft": 9144,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -1017,7 +1032,7 @@
     {
       "AbilityName": "Berserk",
       "Level": 1,
-      "PulseLeft": 4576,
+      "PulseLeft": 4544,
       "AuraFlags": 2,
       "Affects": [
         {
@@ -1048,7 +1063,7 @@
     {
       "AbilityName": "Protection Evil",
       "Level": 22,
-      "PulseLeft": 5312,
+      "PulseLeft": 5280,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -1071,7 +1086,7 @@
     {
       "AbilityName": "Protection Good",
       "Level": 33,
-      "PulseLeft": 5356,
+      "PulseLeft": 5324,
       "AuraFlags": 0,
       "Affects": [
         {
@@ -1093,8 +1108,8 @@
     },
     {
       "AbilityName": "Sanctuary",
-      "Level": 36,
-      "PulseLeft": 1560,
+      "Level": 33,
+      "PulseLeft": 1528,
       "AuraFlags": 0,
       "Affects": [
         {

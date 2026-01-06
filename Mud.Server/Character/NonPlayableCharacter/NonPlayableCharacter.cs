@@ -5,7 +5,7 @@ using Mud.Common;
 using Mud.Common.Attributes;
 using Mud.DataStructures.Trie;
 using Mud.Domain;
-using Mud.Domain.SerializationData;
+using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Ability.Skill;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Affects.Character;
