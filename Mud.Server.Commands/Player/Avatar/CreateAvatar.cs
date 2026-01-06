@@ -48,7 +48,7 @@ public class CreateAvatar : PlayerGameAction
         if (baseGuards != null)
             return baseGuards;
 
-        if (Actor.Avatars.Count() >= MaxAvatarCount)
+        if (Actor.AvatarMetaDatas.Count() >= MaxAvatarCount)
             return "Max. avatar count reached. Delete one before creating a new one.";
         return null;
     }

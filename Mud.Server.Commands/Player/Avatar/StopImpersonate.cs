@@ -48,8 +48,7 @@ public class StopImpersonate : PlayerGameAction
             Impersonating.SetTimeLeftBeforeNextAutomaticQuest(TimeSpan.FromMinutes(15));
 
         Actor.Send("You stop impersonating {0}.", Impersonating.DisplayName);
-        Actor.UpdateCharacterDataFromImpersonated();
+        ServerPlayerCommand.Save(Actor); // save player
         Actor.StopImpersonating();
-        ServerPlayerCommand.Save(Actor);
     }
 }

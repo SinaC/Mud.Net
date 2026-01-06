@@ -98,7 +98,7 @@ public class Practice : PlayableCharacterGameAction
     private static readonly Lazy<TableGenerator<IAbilityLearned>> PracticeAbilityTableGenerator = new(() =>
     {
         TableGenerator<IAbilityLearned> generator = new();
-        generator.AddColumn("Name", 18, x => x.Name);
+        generator.AddColumn("Name", 18, x => x.Name.ToPascalCase());
         generator.AddColumn("Pra%", 6, x => $"{x.Learned}%");
         return generator;
     });

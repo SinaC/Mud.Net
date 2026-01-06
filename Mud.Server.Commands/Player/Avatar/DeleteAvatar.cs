@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
-[PlayerCommand("deleteavatar", "Avatar", NoShortcut = true), CannotBeImpersonated]
+[PlayerCommand("deleteavatar", "Avatar", Priority = 1000, NoShortcut = true), CannotBeImpersonated]
 [Syntax("[cmd] <avatar name>")]
 public class DeleteAvatar : PlayerGameAction
 {
@@ -33,8 +33,8 @@ public class DeleteAvatar : PlayerGameAction
 
         var avatarName = actionInput.Parameters[0].Value;
 
-        var avatarFound = Actor.Avatars.Any(x => StringCompareHelpers.StringEquals(x.Name, avatarName));
-        if (!avatarFound)
+        var avatarMetaData = Actor.AvatarMetaDatas.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, avatarName));
+        if (avatarMetaData == null)
         {
             Actor.ResetAvatarNameDeletionConfirmationNeeded();
             return "Avatar not found. Use 'listavatar' to display your avatar list.";
@@ -47,29 +47,23 @@ public class DeleteAvatar : PlayerGameAction
             return "Wrong avatar name confirmed. Wait 5 seconds.";
         }
 
-        AvatarName = avatarName;
+        AvatarName = avatarMetaData.Name;
 
         return null;
     }
 
     public override void Execute(IActionInput actionInput)
     {
-        var avatar = Actor.Avatars.FirstOrDefault(x => StringCompareHelpers.StringEquals(x.Name, AvatarName));
-        if (avatar == null)
-        {
-            Actor.Send("Something goes wrong!");
-            return;
-        }
         if (Actor.AvatarNameDeletionConfirmationNeeded == null)
         {
-            Actor.Send("Ask you sure you want to delete avatar {0}? Use 'deleteavatar' {0} again to confirm.", avatar.Name);
+            Actor.Send("Ask you sure you want to delete avatar {0}? Use 'deleteavatar' {0} again to confirm.", AvatarName);
             Actor.SetAvatarNameDeletionConfirmationNeeded(AvatarName);
             return;
         }
 
         Actor.Send("Avatar deletion confirmed! Processing...");
         Actor.DeleteAvatar(AvatarName);
-        UniquenessManager.RemoveAvatarName(AvatarName);
+        ServerPlayerCommand.DeleteAvatar(AvatarName);
         ServerPlayerCommand.Save(Actor);
         Actor.ResetAvatarNameDeletionConfirmationNeeded();
     }

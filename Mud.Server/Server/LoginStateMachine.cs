@@ -33,7 +33,7 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
     private bool _isAdmin;
     private bool _isNewPlayer;
 
-    protected ILoginRepository LoginManager { get; }
+    protected IAccountRepository AccountRepository { get; }
     protected IUniquenessManager UniquenessManager { get; }
 
     public event LoginSuccessfulEventHandler? LoginSuccessful;
@@ -41,9 +41,9 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
 
     public override bool IsFinalStateReached => State == LoginStates.LoggedIn || State == LoginStates.Disconnected;
 
-    public LoginStateMachine(ILoginRepository loginRepository, IUniquenessManager uniquenessManager)
+    public LoginStateMachine(IAccountRepository accountRepository, IUniquenessManager uniquenessManager)
     {
-        LoginManager = loginRepository;
+        AccountRepository = accountRepository;
         UniquenessManager = uniquenessManager;
 
         KeepInputAsIs = false;
@@ -67,15 +67,16 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
         //
         if (!string.IsNullOrWhiteSpace(input))
         {
-            var known = LoginManager.CheckUsername(input, out var isAdmin);
+            var accountData = AccountRepository.Load(input);
 
             // If known, greets and asks for password
             // Else, name confirmation
-            if (known)
+            if (accountData != null)
             {
                 Send(client, "Welcome back, {0}! Please enter your password:", input.UpperFirstLetter());
                 _username = input;
-                _isAdmin = isAdmin;
+                _password = accountData.Password;
+                _isAdmin = accountData.AdminData != null;
                 _isNewPlayer = false;
                 EchoOff(client);
                 KeepInputAsIs = true;
@@ -87,6 +88,7 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
             {
                 Send(client, "Are you sure this is the account name you wish to use? (y/n)");
                 _username = input;
+                _password = null;
                 _isAdmin = false;
                 _isNewPlayer = true;
                 KeepInputAsIs = false;
@@ -109,8 +111,7 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
         // Else, 
         //      If too many try, disconnect
         //      Else, retry password
-        bool passwordCorrect = LoginManager.CheckPassword(_username!, input);
-        if (passwordCorrect)
+        if (_password == input) // TODO: encryption
         {
             Send(client, "Password correct." + Environment.NewLine);
             EchoOn(client);
@@ -167,7 +168,6 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
         if (input == _password)
         {
             Send(client, "Your new account with username {0} has been created" + Environment.NewLine, _username!);
-            LoginManager.InsertLogin(_username!, _password!); // add login in DB
             EchoOn(client);
             LoginSuccessfull(client);
             return LoginStates.LoggedIn;

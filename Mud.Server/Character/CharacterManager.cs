@@ -73,7 +73,7 @@ public class CharacterManager : ICharacterManager
 
     public IEnumerable<IPlayableCharacter> PlayableCharacters => Characters.OfType<IPlayableCharacter>();
 
-    public IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData playableCharacterData, IPlayer player, IRoom room) // PC
+    public IPlayableCharacter AddPlayableCharacter(Guid guid, AvatarData playableCharacterData, IPlayer player, IRoom room) // PC
     {
         var pc = ServiceProvider.GetRequiredService<IPlayableCharacter>();
         pc.Initialize(guid, playableCharacterData, player, room);

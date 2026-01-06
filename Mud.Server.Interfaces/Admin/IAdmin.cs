@@ -7,8 +7,7 @@ namespace Mud.Server.Interfaces.Admin;
 
 public interface IAdmin : IPlayer
 {
-    void Initialize(Guid id, AdminData data);
-    void Initialize(Guid id, string name, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList);
+    void Initialize(Guid id, string name, string password, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<AvatarMetaData> avatarMetaDatas);
 
     AdminLevels Level { get; }
 

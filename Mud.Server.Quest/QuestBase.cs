@@ -35,7 +35,7 @@ public abstract class QuestBase : IQuest
     public INonPlayableCharacter Giver { get; protected set; } = null!;
 
     public abstract string Title { get; }
-    public abstract string Description { get; }
+    public abstract string? Description { get; }
 
     public abstract int Level { get; }
 

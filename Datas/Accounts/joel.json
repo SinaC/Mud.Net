@@ -1,0 +1,26 @@
+{
+  "Username": "joel",
+  "Password": "joel",
+  "PagingLineCount": 0,
+  "Aliases": {},
+  "AdminData": null,
+  "AvatarMetaDatas":
+  [
+    {
+      "Name": "joel",
+      "Version": 1,
+	   "Level": 41,
+		"Class": "Mage",
+		"Race": "Elf",
+		"RoomId": 3001
+    },
+    {
+      "Name": "linh",
+      "Version": 1,
+	   "Level": 1,
+		"Class": "Cleric",
+		"Race": "Cleric",
+		"RoomId": 3001
+    }
+  ]
+}

@@ -1,0 +1,1400 @@
+{
+  "AccountName": "sinac",
+  "AvatarName": "sinac",
+  "CreationTime": "2020-06-14T19:17:42.1765039+02:00",
+  "RoomId": 3014,
+  "SilverCoins": 1049,
+  "GoldCoins": 10,
+  "Wimpy": 0,
+  "Experience": 113000,
+  "Alignment": -7,
+  "Trains": 33,
+  "Practices": 74,
+  "AutoFlags": 127,
+  "Currencies": {},
+  "PulseLeftBeforeNextAutomaticQuest": 0,
+  "CurrentQuests": [
+    {
+      "QuestId": 1,
+      "StartTime": "2020-06-23T21:12:53.326539+02:00",
+      "PulseLeft": 0,
+      "CompletionTime": null,
+      "GiverId": 10,
+      "GiverRoomId": 3014,
+      "Objectives": [
+        {
+          "ObjectiveId": 1,
+          "Count": 0
+        },
+        {
+          "ObjectiveId": 2,
+          "Count": 0
+        },
+        {
+          "ObjectiveId": 0,
+          "Count": 2
+        },
+        {
+          "ObjectiveId": 3,
+          "Count": 1
+        }
+      ]
+    }
+  ],
+  "LearnedAbilities": [
+    {
+      "Name": "Envenom",
+      "Level": 20,
+      "Learned": 94,
+      "Rating": 1
+    },
+    {
+      "Name": "Backstab",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Bash",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Berserk",
+      "Level": 20,
+      "Learned": 94,
+      "Rating": 1
+    },
+    {
+      "Name": "Dirt Kicking",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Disarm",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Hide",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Kick",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Pick Lock",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Recall",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Rescue",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Scrolls",
+      "Level": 20,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Sneak",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Staves",
+      "Level": 20,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Trip",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Wands",
+      "Level": 20,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Axe",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Dagger",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Dodge",
+      "Level": 10,
+      "Learned": 71,
+      "Rating": 1
+    },
+    {
+      "Name": "Enhanced Damage",
+      "Level": 10,
+      "Learned": 71,
+      "Rating": 1
+    },
+    {
+      "Name": "Fast Healing",
+      "Level": 10,
+      "Learned": 71,
+      "Rating": 1
+    },
+    {
+      "Name": "Flail",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Haggle",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Hand To Hand",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Mace",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Meditation",
+      "Level": 10,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Parry",
+      "Level": 10,
+      "Learned": 71,
+      "Rating": 1
+    },
+    {
+      "Name": "Peek",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Polearm",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Second Attack",
+      "Level": 10,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Shield Block",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Spear",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Staff(weapon)",
+      "Level": 10,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Sword",
+      "Level": 10,
+      "Learned": 94,
+      "Rating": 1
+    },
+    {
+      "Name": "Third Attack",
+      "Level": 10,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Whip",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Test",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 0
+    },
+    {
+      "Name": "Construct",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Acid Blast",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Armor",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Bless",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Blindness",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Burning Hands",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Call Lightning",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Calm",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cancellation",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cause Critical",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cause Light",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cause Serious",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Chain Lightning",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Change Sex",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Charm Person",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Chill Touch",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Colour Spray",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Continual Light",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Control Weather",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Create Food",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Create Rose",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Create Spring",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Create Water",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cure Blindness",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cure Critical",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cure Disease",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cure Light",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cure Poison",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Cure Serious",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Curse",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Demonfire",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Evil",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Good",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Hidden",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Invis",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Magic",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Poison",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Dispel Evil",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Dispel Good",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Dispel Magic",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Earthquake",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Enchant Armor",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Enchant Weapon",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Energy Drain",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Faerie Fire",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Faerie Fog",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Farsight",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Fireball",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Fireproof",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Flamestrike",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Floating Disc",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Fly",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Frenzy",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Gate",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Giant Strength",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Harm",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Haste",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Heal",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Heat Metal",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Holy Word",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Identify",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Infravision",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Invisibility",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Lightning Bolt",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Locate Object",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Magic Missile",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Mass Healing",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Mass Invis",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Nexus",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Pass Door",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Plague",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Poison",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Portal",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Protection Evil",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Protection Good",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Ray Of Truth",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Recharge",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Refresh",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Remove Curse",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Sanctuary",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Shield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Shocking Grasp",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Sleep",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Slow",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Stone Skin",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Summon",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Teleport",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Ventriloquate",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Weaken",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Word Of Recall",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "General Purpose",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "High Explosive",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Acid Breath",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Fire Breath",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Frost Breath",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Gas Breath",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Lightning Breath",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Fourth Wield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 0
+    },
+    {
+      "Name": "Dual Wield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 0
+    },
+    {
+      "Name": "Third Wield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 0
+    },
+    {
+      "Name": "Steal",
+      "Level": 20,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Bite",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Crush",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Tail",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "Testroom",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Giant Size",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Fire Shield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Ice Shield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Shadow Word: Pain",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Shock Shield",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Know Alignment",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Bear Form",
+      "Level": 5,
+      "Learned": 100,
+      "Rating": 0
+    },
+    {
+      "Name": "Cat Form",
+      "Level": 15,
+      "Learned": 100,
+      "Rating": 0
+    },
+    {
+      "Name": "Claw",
+      "Level": 15,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Rake",
+      "Level": 20,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Maul",
+      "Level": 20,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Demoralizing Roar",
+      "Level": 10,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Ferocious Bite",
+      "Level": 20,
+      "Learned": 100,
+      "Rating": 1
+    }
+  ],
+  "LearnedAbilityGroups": [
+    {
+      "Name": "druid basics",
+      "Cost": 0
+    }
+  ],
+  "Conditions": {
+    "Drunk": 0,
+    "Full": 24,
+    "Thirst": 32,
+    "Hunger": 38
+  },
+  "Aliases": {},
+  "Cooldowns": {},
+  "Pets": [],
+  "Name": "sinac",
+  "Race": "insectoid",
+  "Class": "druid",
+  "Level": 46,
+  "Sex": 1,
+  "Size": 2,
+  "CurrentResources": {
+    "HitPoints": 3800,
+    "MovePoints": 12000,
+    "Mana": 3151,
+    "Psy": 100,
+    "Energy": 0,
+    "Rage": 0,
+    "Combo": 0
+  },
+  "MaxResources": {
+    "HitPoints": 38000,
+    "MovePoints": 13800,
+    "Mana": 10000,
+    "Psy": 100,
+    "Energy": 0,
+    "Rage": 0,
+    "Combo": 0
+  },
+  "Equipments": [
+    {
+      "Slot": 1,
+      "Item": {
+        "$type": "light",
+        "TimeLeft": 29986,
+        "ItemId": 3365,
+        "Level": 8,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Glowing,Magic",
+        "Auras": [
+          {
+            "AbilityName": "Test",
+            "Level": 15,
+            "PulseLeft": 1848,
+            "AuraFlags": 2,
+            "Affects": [
+              {
+                "$type": "itemFlags",
+                "Operator": 0,
+                "Modifier": "Glowing,Humming,Magic"
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": 0,
+                "Location": 14,
+                "Modifier": -46
+              },
+              {
+                "$type": "characterAttribute",
+                "Operator": 0,
+                "Location": 6,
+                "Modifier": 46
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Slot": 4,
+      "Item": {
+        "ItemId": 3353,
+        "Level": 5,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 5,
+      "Item": {
+        "ItemId": 3361,
+        "Level": 3,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 6,
+      "Item": {
+        "ItemId": 3362,
+        "Level": 5,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 9,
+      "Item": {
+        "ItemId": 3359,
+        "Level": 5,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 10,
+      "Item": {
+        "ItemId": 3364,
+        "Level": 16,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Magic",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 10,
+      "Item": {
+        "ItemId": 3364,
+        "Level": 16,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Magic",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 10,
+      "Item": {
+        "ItemId": 3364,
+        "Level": 16,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Magic",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 10,
+      "Item": {
+        "ItemId": 3364,
+        "Level": 16,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Magic",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 13,
+      "Item": {
+        "$type": "weapon",
+        "WeaponFlags": "TwoHands,Vorpal",
+        "ItemId": 3005,
+        "Level": 42,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Bless,Humming",
+        "Auras": [
+          {
+            "AbilityName": "Test",
+            "Level": 1,
+            "PulseLeft": 3324,
+            "AuraFlags": 2,
+            "Affects": [
+              {
+                "$type": "weaponFlags",
+                "Operator": 0,
+                "Modifier": "Flaming,Frost,Holy,Poison,Sharp,Shocking,Vampiric"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Slot": 14,
+      "Item": {
+        "$type": "wand",
+        "MaxChargeCount": 1,
+        "CurrentChargeCount": 1,
+        "AlreadyRecharged": false,
+        "ItemId": 106,
+        "Level": 3,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
+      }
+    }
+  ],
+  "Inventory": [
+    {
+      "$type": "food",
+      "FullHours": 8,
+      "HungerHours": 6,
+      "IsPoisoned": false,
+      "ItemId": 3014,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 8,
+      "HungerHours": 6,
+      "IsPoisoned": false,
+      "ItemId": 3014,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "food",
+      "FullHours": 8,
+      "HungerHours": 6,
+      "IsPoisoned": false,
+      "ItemId": 3014,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "ItemId": 3350,
+      "Level": 16,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic",
+      "Auras": []
+    }
+  ],
+  "Auras": [
+    {
+      "AbilityName": "Sanctuary",
+      "Level": 13,
+      "PulseLeft": 908,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "shieldFlags",
+          "Operator": 1,
+          "Modifier": "Sanctuary"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Shield",
+      "Level": 17,
+      "PulseLeft": 12200,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": 0,
+          "Location": 14,
+          "Modifier": -20
+        }
+      ]
+    },
+    {
+      "AbilityName": "Berserk",
+      "Level": 2,
+      "PulseLeft": 220,
+      "AuraFlags": 2,
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": 1,
+          "Modifier": "Berserk"
+        },
+        {
+          "$type": "characterAttribute",
+          "Operator": 0,
+          "Location": 9,
+          "Modifier": 9
+        },
+        {
+          "$type": "characterAttribute",
+          "Operator": 0,
+          "Location": 10,
+          "Modifier": 9
+        },
+        {
+          "$type": "characterAttribute",
+          "Operator": 0,
+          "Location": 14,
+          "Modifier": 90
+        }
+      ]
+    },
+    {
+      "AbilityName": "Stone Skin",
+      "Level": 4,
+      "PulseLeft": 10320,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": 0,
+          "Location": 14,
+          "Modifier": -40
+        }
+      ]
+    },
+    {
+      "AbilityName": "Protection Evil",
+      "Level": 5,
+      "PulseLeft": 5056,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": 0,
+          "Location": 8,
+          "Modifier": -1
+        },
+        {
+          "$type": "shieldFlags",
+          "Operator": 1,
+          "Modifier": "ProtectEvil"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Testroom",
+      "Level": 22,
+      "PulseLeft": 816,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "roomHealRate",
+          "Operator": 0,
+          "Modifier": 10
+        },
+        {
+          "$type": "roomSourceRate",
+          "Operator": 2,
+          "Modifier": 150
+        },
+        {
+          "$type": "roomFlags",
+          "Operator": 1,
+          "Modifier": "NoScan,NoWhere"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Plague",
+      "Level": 15,
+      "PulseLeft": 10700,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": 0,
+          "Location": 1,
+          "Modifier": -5
+        },
+        {
+          "$type": "characterFlags",
+          "Operator": 1,
+          "Modifier": "Plague"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "Plague"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Poison",
+      "Level": 28,
+      "PulseLeft": 10796,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "characterAttribute",
+          "Operator": 0,
+          "Location": 1,
+          "Modifier": -2
+        },
+        {
+          "$type": "characterFlags",
+          "Operator": 1,
+          "Modifier": "Poison"
+        },
+        {
+          "$type": "noData",
+          "AffectName": "Poison"
+        }
+      ]
+    }
+  ],
+  "CharacterFlags": "Berserk",
+  "Immunities": "",
+  "Resistances": "Acid,Bash,Disease,Poison,Slash",
+  "Vulnerabilities": "Cold,Fire,Pierce",
+  "ShieldFlags": "ProtectEvil,Sanctuary",
+  "Attributes": {
+    "Strength": 25,
+    "Intelligence": 24,
+    "Wisdom": 23,
+    "Dexterity": 22,
+    "Constitution": 27,
+    "SavingThrow": 0,
+    "HitRoll": 123,
+    "DamRoll": 123,
+    "ArmorBash": -500,
+    "ArmorPierce": -500,
+    "ArmorSlash": -500,
+    "ArmorExotic": -500
+  }
+}

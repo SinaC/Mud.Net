@@ -23,18 +23,18 @@ public class Admin : Player.Player, IAdmin
     {
     }
 
-    public void Initialize(Guid id, AdminData data)
+    public override void Initialize(Guid id, AccountData data)
     {
         base.Initialize(id, data);
 
-        Level = data.AdminLevel;
-        WiznetFlags = data.WiznetFlags;
+        Level = data.AdminData!.AdminLevel;
+        WiznetFlags = data.AdminData!.WiznetFlags;
     }
 
     // used for promotion
-    public void Initialize(Guid id, string name, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
+    public void Initialize(Guid id, string name, string password, AdminLevels level, IReadOnlyDictionary<string, string> aliases, IEnumerable<AvatarMetaData> avatarMetaDatas)
     {
-        Initialize(id, name, aliases, avatarList);
+        Initialize(id, name, password, aliases, avatarMetaDatas);
 
         Level = level;
     }
@@ -64,22 +64,19 @@ public class Admin : Player.Player, IAdmin
         }
     }
 
-    public override PlayerData MapPlayerData()
+    public override AccountData MapAccountData()
     {
         if (Impersonating != null)
-            UpdateCharacterDataFromImpersonated();
-        //
-        AdminData data = new()
+            UpdateAvatarMetaDataFromImpersonated();
+        AccountData data = new()
         {
-            Name = Name,
+            Username = Name,
+            Password = Password,
             PagingLineCount = PagingLineCount,
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
-            Characters = Avatars.ToArray(),
-            //
-            AdminLevel = Level,
-            WiznetFlags = WiznetFlags,
+            AdminData = new AdminData { AdminLevel = Level, WiznetFlags = WiznetFlags },
+            AvatarMetaDatas = AvatarMetaDatas.ToArray(),
         };
-        //
         return data;
     }
 

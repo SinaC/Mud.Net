@@ -43,8 +43,27 @@ namespace Mud.Server.Tests.PlayableCharacters
             classManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IClass>().Object);
             raceManagerMock.SetupGet(x => x[It.IsAny<string>()]).Returns(new Mock<IPlayableRace>().Object);
 
-            var pcData = new PlayableCharacterData
+            var pcData = new AvatarData
             {
+                AccountName = "Account",
+                CreationTime = DateTime.Now,
+                RoomId = 0,
+                SilverCoins = 0,
+                GoldCoins = 0,
+                Wimpy = 0,
+                Experience = 0,
+                Alignment = 0,
+                Trains = 0,
+                Practices = 0,
+                AutoFlags = AutoFlags.None,
+                Currencies = [],
+                CurrentQuests = [],
+                LearnedAbilities = [],
+                LearnedAbilityGroups = [],
+                Conditions = [],
+                Aliases = [],
+                Cooldowns = [],
+                Pets = [],
                 // CharacterBaseData
                 Name = "Player",
                 Race = "Human",
@@ -69,25 +88,6 @@ namespace Mud.Server.Tests.PlayableCharacters
                 Vulnerabilities = string.Empty,
                 ShieldFlags = string.Empty,
                 Attributes = [],
-                // PlayableCharacterData
-                CreationTime = DateTime.Now,
-                RoomId = 0,
-                SilverCoins = 0,
-                GoldCoins = 0,
-                Wimpy = 0,
-                Experience = 0,
-                Alignment = 0,
-                Trains = 0,
-                Practices = 0,
-                AutoFlags = AutoFlags.None,
-                Currencies = [],
-                CurrentQuests = [],
-                LearnedAbilities = [],
-                LearnedAbilityGroups = [],
-                Conditions = [],
-                Aliases = [],
-                Cooldowns = [],
-                Pets = []
             };
 
             var pc = new PlayableCharacter(loggerMock.Object, null!, null!, null!, messageForwardOptions, worldOptions, null!, null!, roomManagerMock.Object, itemManagerMock.Object, characterManagerMock.Object, null!, null!, null!, wiznetMock.Object, raceManagerMock.Object, classManagerMock.Object, null!, resistanceCalculatorMock.Object, null!, null!, null!);

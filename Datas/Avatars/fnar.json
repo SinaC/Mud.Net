@@ -1,0 +1,546 @@
+{
+  "AccountName": "sinac",
+  "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
+  "RoomId": 3031,
+  "SilverCoins": 50,
+  "GoldCoins": 5126,
+  "Wimpy": 0,
+  "Experience": 6479,
+  "Alignment": -46,
+  "Trains": 35,
+  "Practices": 61,
+  "AutoFlags": 127,
+  "Currencies": {
+    "QuestPoints": 17
+  },
+  "PulseLeftBeforeNextAutomaticQuest": 0,
+  "CurrentQuests": [],
+  "LearnedAbilities": [
+    {
+      "Name": "sword",
+      "Level": 1,
+      "Learned": 95,
+      "Rating": 2
+    },
+    {
+      "Name": "scrolls",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 8
+    },
+    {
+      "Name": "staves",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 8
+    },
+    {
+      "Name": "wands",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 8
+    },
+    {
+      "Name": "recall",
+      "Level": 1,
+      "Learned": 50,
+      "Rating": 2
+    },
+    {
+      "Name": "second attack",
+      "Level": 5,
+      "Learned": 35,
+      "Rating": 3
+    },
+    {
+      "Name": "shield block",
+      "Level": 1,
+      "Learned": 35,
+      "Rating": 2
+    },
+    {
+      "Name": "bash",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "disarm",
+      "Level": 11,
+      "Learned": 0,
+      "Rating": 4
+    },
+    {
+      "Name": "enhanced damage",
+      "Level": 1,
+      "Learned": 58,
+      "Rating": 3
+    },
+    {
+      "Name": "parry",
+      "Level": 1,
+      "Learned": 45,
+      "Rating": 4
+    },
+    {
+      "Name": "rescue",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 4
+    },
+    {
+      "Name": "third attack",
+      "Level": 12,
+      "Learned": 0,
+      "Rating": 4
+    },
+    {
+      "Name": "axe",
+      "Level": 1,
+      "Learned": 57,
+      "Rating": 4
+    },
+    {
+      "Name": "dagger",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "flail",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 4
+    },
+    {
+      "Name": "mace",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 3
+    },
+    {
+      "Name": "polearm",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 4
+    },
+    {
+      "Name": "spear",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 3
+    },
+    {
+      "Name": "whip",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 4
+    },
+    {
+      "Name": "Fast healing",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    }
+  ],
+  "LearnedAbilityGroups": [
+    {
+      "Name": "rom basics",
+      "Cost": 0
+    },
+    {
+      "Name": "warrior basics",
+      "Cost": 0
+    },
+    {
+      "Name": "warrior default",
+      "Cost": 40
+    }
+  ],
+  "Conditions": {
+    "Drunk": 0,
+    "Full": 16,
+    "Thirst": 35,
+    "Hunger": 29
+  },
+  "Aliases": {},
+  "Cooldowns": {},
+  "Pets": [
+    {
+      "BlueprintId": 3093,
+      "Description": "The rottweiler looks like a strong, fierce fighter.\r\nA neck tag says \u0027I belong to Fnar\u0027.\r\n",
+      "Name": "toto",
+      "Race": "dog",
+      "Class": "",
+      "Level": 7,
+      "Sex": 0,
+      "Size": 2,
+      "CurrentResources": {
+        "HitPoints": 120,
+        "MovePoints": 1000,
+        "Mana": 150,
+        "Psy": 0,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
+      },
+      "MaxResources": {
+        "HitPoints": 120,
+        "MovePoints": 1000,
+        "Mana": 150,
+        "Psy": 0,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
+      },
+      "Equipments": [],
+      "Inventory": [],
+      "Auras": [
+        {
+          "AbilityName": "Haste",
+          "Level": 7,
+          "PulseLeft": -1,
+          "AuraFlags": 4,
+          "Affects": [
+            {
+              "$type": "characterAttribute",
+              "Operator": 0,
+              "Location": 4,
+              "Modifier": 1
+            },
+            {
+              "$type": "characterFlags",
+              "Operator": 1,
+              "Modifier": "Haste"
+            },
+            {
+              "$type": "CharacterAdditionalHitAffectData",
+              "AdditionalHitCount": 1
+            }
+          ]
+        }
+      ],
+      "CharacterFlags": "DetectHidden,charm",
+      "Immunities": "",
+      "Resistances": "Magic",
+      "Vulnerabilities": "",
+      "ShieldFlags": "",
+      "Attributes": {
+        "Strength": 12,
+        "Intelligence": 12,
+        "Wisdom": 12,
+        "Dexterity": 12,
+        "Constitution": 12,
+        "SavingThrow": 0,
+        "HitRoll": 3,
+        "DamRoll": 7,
+        "ArmorBash": 40,
+        "ArmorPierce": 40,
+        "ArmorSlash": 40,
+        "ArmorExotic": 80
+      }
+    }
+  ],
+  "Name": "fnar",
+  "Race": "giant",
+  "Class": "warrior",
+  "Level": 7,
+  "Sex": 1,
+  "Size": 3,
+  "CurrentResources": {
+    "HitPoints": 188,
+    "MovePoints": 177,
+    "Mana": 203,
+    "Psy": 100,
+    "Energy": 0,
+    "Rage": 0,
+    "Combo": 0
+  },
+  "MaxResources": {
+    "HitPoints": 188,
+    "MovePoints": 188,
+    "Mana": 203,
+    "Psy": 100,
+    "Energy": 0,
+    "Rage": 0,
+    "Combo": 0
+  },
+  "Equipments": [
+    {
+      "Slot": 1,
+      "Item": {
+        "$type": "light",
+        "TimeLeft": 11939,
+        "ItemId": 3716,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Glowing,Magic",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 2,
+      "Item": {
+        "ItemId": 102,
+        "Level": 3,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 3,
+      "Item": {
+        "ItemId": 104,
+        "Level": 5,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Glowing",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 3,
+      "Item": {
+        "ItemId": 104,
+        "Level": 5,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Glowing",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 4,
+      "Item": {
+        "ItemId": 3703,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 5,
+      "Item": {
+        "ItemId": 3711,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 6,
+      "Item": {
+        "ItemId": 3712,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 7,
+      "Item": {
+        "ItemId": 3713,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 7,
+      "Item": {
+        "ItemId": 3713,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 8,
+      "Item": {
+        "ItemId": 3710,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 9,
+      "Item": {
+        "ItemId": 3709,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 11,
+      "Item": {
+        "ItemId": 3707,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 12,
+      "Item": {
+        "ItemId": 3708,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 13,
+      "Item": {
+        "$type": "weapon",
+        "WeaponFlags": "",
+        "ItemId": 103,
+        "Level": 3,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 14,
+      "Item": {
+        "ItemId": 3704,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    }
+  ],
+  "Inventory": [
+    {
+      "ItemId": 107,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 3715,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Magic,MeltOnDrop",
+      "Auras": []
+    },
+    {
+      "ItemId": 3162,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "ItemId": 103,
+      "Level": 3,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 107,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 109,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "weapon",
+      "WeaponFlags": "",
+      "ItemId": 103,
+      "Level": 3,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 109,
+      "Level": 0,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "MaxChargeCount": 1,
+      "CurrentChargeCount": 1,
+      "AlreadyRecharged": false,
+      "ItemId": 106,
+      "Level": 3,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "ItemId": 2107,
+      "Level": 5,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 2108,
+      "Level": 8,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Glowing,Magic",
+      "Auras": []
+    },
+    {
+      "$type": "wand",
+      "MaxChargeCount": 10,
+      "CurrentChargeCount": 10,
+      "AlreadyRecharged": false,
+      "ItemId": 2108,
+      "Level": 8,
+      "DecayPulseLeft": 0,
+      "ItemFlags": "Glowing,Magic",
+      "Auras": []
+    }
+  ],
+  "Auras": [],
+  "CharacterFlags": "",
+  "Immunities": "",
+  "Resistances": "Fire,Cold",
+  "Vulnerabilities": "Mental,Lightning",
+  "ShieldFlags": "",
+  "Attributes": {
+    "Strength": 24,
+    "Intelligence": 15,
+    "Wisdom": 18,
+    "Dexterity": 15,
+    "Constitution": 20,
+    "SavingThrow": 0,
+    "HitRoll": 0,
+    "DamRoll": 0,
+    "ArmorBash": 0,
+    "ArmorPierce": 0,
+    "ArmorSlash": 0,
+    "ArmorExotic": 0
+  }
+}

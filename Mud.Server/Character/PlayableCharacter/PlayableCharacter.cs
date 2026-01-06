@@ -79,7 +79,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         _learnedAbilityGroups = [];
     }
 
-    public void Initialize(Guid guid, PlayableCharacterData data, IPlayer player, IRoom room)
+    public void Initialize(Guid guid, AvatarData data, IPlayer player, IRoom room)
     {
         Initialize(guid, data.Name, string.Empty);
 
@@ -1018,10 +1018,11 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     // Mapping
-    public PlayableCharacterData MapPlayableCharacterData()
+    public AvatarData MapAvatarData()
     {
-        PlayableCharacterData data = new()
+        AvatarData data = new()
         {
+            AccountName = ImpersonatedBy?.Name ?? "???",
             CreationTime = CreationTime,
             Name = Name,
             RoomId = Room?.Blueprint?.Id ?? 0,

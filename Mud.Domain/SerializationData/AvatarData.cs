@@ -3,8 +3,10 @@
 namespace Mud.Domain.SerializationData;
 
 [JsonBaseType(typeof(CharacterData))]
-public class PlayableCharacterData : CharacterData
+public class AvatarData : CharacterData
 {
+    public required string AccountName { get; set; }
+
     public required DateTime CreationTime { get; set; }
 
     public required int RoomId { get; set; }

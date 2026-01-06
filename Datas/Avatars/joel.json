@@ -1,0 +1,442 @@
+{
+  "AccountName": "joel",
+  "CreationTime": "2025-11-18T06:13:40.5024041+01:00",
+  "RoomId": 3001,
+  "SilverCoins": 0,
+  "GoldCoins": 0,
+  "Wimpy": 0,
+  "Experience": 40000,
+  "Alignment": 0,
+  "Trains": 18,
+  "Practices": 37,
+  "AutoFlags": 126,
+  "Currencies": {
+    "QuestPoints": 0
+  },
+  "PulseLeftBeforeNextAutomaticQuest": 0,
+  "CurrentQuests": [],
+  "LearnedAbilities": [
+    {
+      "Name": "Detect Magic",
+      "Level": 2,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Invis",
+      "Level": 3,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Chill Touch",
+      "Level": 4,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Continual Light",
+      "Level": 6,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Faerie Fire",
+      "Level": 6,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Armor",
+      "Level": 7,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Burning Hands",
+      "Level": 7,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Create Water",
+      "Level": 8,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Create Food",
+      "Level": 10,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Fly",
+      "Level": 10,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Floating Disc",
+      "Level": 10,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Evil",
+      "Level": 11,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Good",
+      "Level": 11,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Blindness",
+      "Level": 12,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Fireproof",
+      "Level": 13,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Create Spring",
+      "Level": 14,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Faerie Fog",
+      "Level": 14,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Farsight",
+      "Level": 14,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Control Weather",
+      "Level": 15,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Hidden",
+      "Level": 15,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Detect Poison",
+      "Level": 15,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Colour Spray",
+      "Level": 16,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Create Rose",
+      "Level": 16,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Dispel Magic",
+      "Level": 16,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Enchant Armor",
+      "Level": 16,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "Enchant Weapon",
+      "Level": 17,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "Cancellation",
+      "Level": 18,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Curse",
+      "Level": 18,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Energy Drain",
+      "Level": 19,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "Charm Person",
+      "Level": 20,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Fireball",
+      "Level": 22,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Call Lightning",
+      "Level": 26,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Acid Blast",
+      "Level": 28,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Chain Lightning",
+      "Level": 33,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Calm",
+      "Level": 48,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "Sneak",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "Hide",
+      "Level": 1,
+      "Learned": 100,
+      "Rating": 1
+    },
+    {
+      "Name": "scrolls",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "staves",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "wands",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 2
+    },
+    {
+      "Name": "recall",
+      "Level": 1,
+      "Learned": 50,
+      "Rating": 2
+    },
+    {
+      "Name": "dagger",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 2
+    }
+  ],
+  "LearnedAbilityGroups": [
+    {
+      "Name": "rom basics",
+      "Cost": 0
+    },
+    {
+      "Name": "mage basics",
+      "Cost": 0
+    }
+  ],
+  "Conditions": {
+    "Drunk": 0,
+    "Full": 24,
+    "Thirst": 36,
+    "Hunger": 36
+  },
+  "Aliases": {},
+  "Cooldowns": {},
+  "Pets": [
+    {
+      "BlueprintId": 1300,
+      "Description": "It seems to be made of nothing more than darkness ...\r\n",
+      "Name": "oldstyle shadow guardian",
+      "Race": "human",
+      "Class": "",
+      "Level": 9,
+      "Sex": 0,
+      "Size": 2,
+      "CurrentResources": {
+        "HitPoints": 122,
+        "MovePoints": 1000,
+        "Mana": 129,
+        "Psy": 13,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
+      },
+      "MaxResources": {
+        "HitPoints": 122,
+        "MovePoints": 1000,
+        "Mana": 132,
+        "Psy": 132,
+        "Energy": 0,
+        "Rage": 0,
+        "Combo": 0
+      },
+      "Equipments": [],
+      "Inventory": [],
+      "Auras": [
+        {
+          "AbilityName": "Charm Person",
+          "Level": 1,
+          "PulseLeft": 1580,
+          "AuraFlags": 0,
+          "Affects": [
+            {
+              "$type": "characterFlags",
+              "Operator": 1,
+              "Modifier": "Charm"
+            }
+          ]
+        }
+      ],
+      "CharacterFlags": "Invisible,DetectInvis,Infrared,Sneak",
+      "Immunities": "",
+      "Resistances": "",
+      "Vulnerabilities": "",
+      "ShieldFlags": "",
+      "Attributes": {
+        "Strength": 13,
+        "Intelligence": 13,
+        "Wisdom": 13,
+        "Dexterity": 13,
+        "Constitution": 13,
+        "SavingThrow": 0,
+        "HitRoll": 0,
+        "DamRoll": 9,
+        "ArmorBash": 20,
+        "ArmorPierce": 20,
+        "ArmorSlash": 20,
+        "ArmorExotic": 80
+      }
+    }
+  ],
+  "Name": "joel",
+  "Race": "elf",
+  "Class": "mage",
+  "Level": 41,
+  "Sex": 0,
+  "Size": 2,
+  "CurrentResources": {
+    "HitPoints": 125,
+    "MovePoints": 125,
+    "Mana": 175,
+    "Psy": 100,
+    "Energy": 0,
+    "Rage": 0,
+    "Combo": 0
+  },
+  "MaxResources": {
+    "HitPoints": 125,
+    "MovePoints": 125,
+    "Mana": 175,
+    "Psy": 100,
+    "Energy": 0,
+    "Rage": 0,
+    "Combo": 0
+  },
+  "Equipments": [],
+  "Inventory": [],
+  "Auras": [
+    {
+      "AbilityName": "Fly",
+      "Level": 10,
+      "PulseLeft": 10036,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": 1,
+          "Modifier": "Flying"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Detect Hidden",
+      "Level": 24,
+      "PulseLeft": 9524,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": 1,
+          "Modifier": "DetectHidden"
+        }
+      ]
+    },
+    {
+      "AbilityName": "Detect Invis",
+      "Level": 35,
+      "PulseLeft": 9720,
+      "AuraFlags": 0,
+      "Affects": [
+        {
+          "$type": "characterFlags",
+          "Operator": 1,
+          "Modifier": "DetectInvis"
+        }
+      ]
+    }
+  ],
+  "CharacterFlags": "",
+  "Immunities": "",
+  "Resistances": "Charm",
+  "Vulnerabilities": "Iron",
+  "ShieldFlags": "",
+  "Attributes": {
+    "Strength": 16,
+    "Intelligence": 22,
+    "Wisdom": 18,
+    "Dexterity": 21,
+    "Constitution": 15,
+    "SavingThrow": 0,
+    "HitRoll": 0,
+    "DamRoll": 0,
+    "ArmorBash": 100,
+    "ArmorPierce": 100,
+    "ArmorSlash": 100,
+    "ArmorExotic": 100
+  }
+}

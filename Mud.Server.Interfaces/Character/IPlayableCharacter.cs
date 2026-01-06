@@ -10,7 +10,7 @@ namespace Mud.Server.Interfaces.Character;
 
 public interface IPlayableCharacter : ICharacter
 {
-    void Initialize(Guid guid, PlayableCharacterData data, IPlayer player, IRoom room);
+    void Initialize(Guid guid, AvatarData data, IPlayer player, IRoom room);
 
     DateTime CreationTime { get; }
 
@@ -87,5 +87,5 @@ public interface IPlayableCharacter : ICharacter
     bool SplitMoney(long amountSilver, long amountGold);
 
     // Mapping
-    PlayableCharacterData MapPlayableCharacterData();
+    AvatarData MapAvatarData();
 }
