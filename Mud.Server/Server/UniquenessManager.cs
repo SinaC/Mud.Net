@@ -8,7 +8,7 @@ namespace Mud.Server.Server;
 [Export(typeof(IUniquenessManager)), Shared]
 public class UniquenessManager : IUniquenessManager
 {
-    private readonly HashSet<string> _unavailableNames = new(1024); // Lock ?
+    private readonly HashSet<string> _unavailableNames = new(1024);
 
     private ILogger<UniquenessManager> Logger { get; }
     private IPlayerRepository PlayerRepository { get; }

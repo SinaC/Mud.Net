@@ -12,6 +12,7 @@ public interface IQuest
     INonPlayableCharacter Giver { get; } // TODO: quest may be ended with a different NPC
 
     string Title { get; }
+    string? Description { get; }
     int Level { get; }
 
     bool AreObjectivesFulfilled { get; }

@@ -46,13 +46,13 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
         var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name);
         if (spellInstance == null)
         {
             Logger.LogError("Spell '{spellName}' on item {item} cannot be instantiated.", spellName, Item.DebugName);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
         var spellActionInput = new SpellActionInput(abilityDefinition, User, spellLevel, new CastFromItemOptions { Item = Item }, parameters);
         var spellInstanceGuards = spellInstance.Setup(spellActionInput);
@@ -70,12 +70,12 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
         if (AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name) is not ITargetedAction getTargetedAction)
         {
             Logger.LogError("Spell '{spellName}' on item {item} cannot be instantiated or is not a targeted action.", spellName, Item.DebugName);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
 
         bool atLeastOneCorrect = false;
@@ -98,7 +98,7 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         }
         if (atLeastOneCorrect)
             return null;
-        return "Something goes wrong";
+        return StringHelpers.SomethingGoesWrong;
     }
 
     protected string? SetupSpellAndPredefinedTarget(string spellName, int spellLevel, out IEntity target, params ICommandParameter[] parameters)
@@ -110,14 +110,14 @@ public abstract class ItemCastSpellSkillBase<TItem> : SkillBase
         if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, Item.DebugName);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
 
         var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name);
         if (spellInstance == null)
         {
             Logger.LogError("Cannot create instance of spell '{spellName}' on item {item}.", spellName, Item.DebugName);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
 
         SpellActionInput spellActionInput;

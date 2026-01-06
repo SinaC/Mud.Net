@@ -1399,7 +1399,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             if (victim.Room.RoomFlags.IsSet("Safe"))
                 return true;
 
-            if (npcVictim.Blueprint is CharacterShopBlueprint)
+            if (npcVictim.Blueprint is CharacterShopBlueprintBase)
                 return true;
 
             if (npcVictim.ActFlags.HasAny("Train", "Gain", "Practice", "IsHealer")
@@ -1479,7 +1479,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             if (victim.Room.RoomFlags.IsSet("Safe"))
                 return "Not in this room.";
 
-            if (npcVictim.Blueprint is CharacterShopBlueprint)
+            if (npcVictim.Blueprint is CharacterShopBlueprintBase)
                 return "The shopkeeper wouldn't like that.";
 
             if (npcVictim.ActFlags.HasAny("Train", "Gain", "Practice", "IsHealer")
@@ -1699,8 +1699,14 @@ public abstract class CharacterBase : EntityBase, ICharacter
     // Display
     public StringBuilder Append(StringBuilder sb, ICharacter viewer, bool peekInventory) // equivalent to act_info.C:show_char_to_char_1
     {
-        //
-        string condition = "is here.";
+        // description
+        sb.Append(RelativeDescription(viewer)); // description always ends with CRLF
+
+        // position
+        sb.AppendLine($"{StringHelpers.Subjects[Sex].UpperFirstLetter()} is {Position.ToString().ToLowerInvariant()}");
+
+        // display name + condition
+        var condition = "is here.";
         var maxHitPoints = MaxResource(ResourceKinds.HitPoints);
         if (maxHitPoints > 0)
         {
@@ -1722,12 +1728,12 @@ public abstract class CharacterBase : EntityBase, ICharacter
             else
                 condition = "is bleeding to death.";
         }
-        sb.AppendLine($"{RelativeDisplayName(viewer)} {condition}");
+        sb.AppendLine($"{RelativeDisplayName(viewer, true)} {condition}");
 
-        //
+        // equipments
         if (Equipments.Any(x => x.Item != null))
         {
-            sb.AppendLine($"{RelativeDisplayName(viewer)} is using:");
+            sb.AppendLine($"{RelativeDisplayName(viewer, true)} is using:");
             foreach (IEquippedItem equippedItem in Equipments.Where(x => x.Item != null))
             {
                 sb.Append(equippedItem.EquipmentSlotsToString());
@@ -1736,6 +1742,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             }
         }
 
+        // inventory
         if (peekInventory)
         {
             sb.AppendLine("You peek at the inventory:");

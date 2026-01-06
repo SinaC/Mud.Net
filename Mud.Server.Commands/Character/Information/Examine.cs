@@ -1,13 +1,17 @@
 ﻿using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Ability;
+using Mud.Server.Commands.Character.Movement;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
+using Mud.Server.Random;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
@@ -21,6 +25,13 @@ namespace Mud.Server.Commands.Character.Information;
 [Help(@"[cmd] is short for 'LOOK container' followed by 'LOOK IN container'.")]
 public class Examine : CharacterGameAction
 {
+    private IAbilityManager AbilityManager { get; }
+
+    public Examine(IAbilityManager abilityManager)
+    {
+        AbilityManager = abilityManager;
+    }
+
     protected IEntity Target { get; set; } = default!;
 
     public override string? Guards(IActionInput actionInput)
@@ -57,7 +68,8 @@ public class Examine : CharacterGameAction
     {
         Actor.Act(ActOptions.ToAll, "{0:N} examine{0:v} {1}.", Actor, victim);
         StringBuilder sb = new();
-        victim.Append(sb, Actor, true);
+        var peek = CheckPeek();
+        victim.Append(sb, Actor, peek);
         // TODO: display race and size
         Actor.Send(sb);
     }
@@ -104,5 +116,22 @@ public class Examine : CharacterGameAction
         }
 
         Actor.Send(sb);
+    }
+
+    private bool CheckPeek()
+    {
+        if (Actor is IPlayableCharacter pc)
+        {
+            var (percentage, abilityLearned) = Actor.GetAbilityLearnedAndPercentage("peek");
+            if (abilityLearned is not null && percentage > 0)
+            {
+                var peekAbility = AbilityManager.CreateInstance<IPassive>("peek");
+                if (peekAbility is not null)
+                {
+                    return peekAbility.IsTriggered(pc, null!, true, out _, out _);
+                }
+            }
+        }
+        return false;
     }
 }

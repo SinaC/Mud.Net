@@ -2561,9 +2561,9 @@
     },
     {
       "CreationTime": "2025-12-07T00:41:18.0014667+01:00",
-      "RoomId": 3025,
-      "SilverCoins": 330,
-      "GoldCoins": 5133,
+      "RoomId": 3031,
+      "SilverCoins": 50,
+      "GoldCoins": 5126,
       "Wimpy": 0,
       "Experience": 6479,
       "Alignment": -46,
@@ -2725,7 +2725,82 @@
       },
       "Aliases": {},
       "Cooldowns": {},
-      "Pets": [],
+      "Pets": [
+        {
+          "BlueprintId": 3093,
+          "Description": "The rottweiler looks like a strong, fierce fighter.\r\nA neck tag says \u0027I belong to Fnar\u0027.\r\n",
+          "Name": "toto",
+          "Race": "dog",
+          "Class": "",
+          "Level": 7,
+          "Sex": 0,
+          "Size": 2,
+          "CurrentResources": {
+            "HitPoints": 120,
+            "MovePoints": 1000,
+            "Mana": 150,
+            "Psy": 0,
+            "Energy": 0,
+            "Rage": 0,
+            "Combo": 0
+          },
+          "MaxResources": {
+            "HitPoints": 120,
+            "MovePoints": 1000,
+            "Mana": 150,
+            "Psy": 0,
+            "Energy": 0,
+            "Rage": 0,
+            "Combo": 0
+          },
+          "Equipments": [],
+          "Inventory": [],
+          "Auras": [
+            {
+              "AbilityName": "Haste",
+              "Level": 7,
+              "PulseLeft": -1,
+              "AuraFlags": 4,
+              "Affects": [
+                {
+                  "$type": "characterAttribute",
+                  "Operator": 0,
+                  "Location": 4,
+                  "Modifier": 1
+                },
+                {
+                  "$type": "characterFlags",
+                  "Operator": 1,
+                  "Modifier": "Haste"
+                },
+                {
+                  "$type": "CharacterAdditionalHitAffectData",
+                  "AdditionalHitCount": 1
+                }
+              ]
+            }
+          ],
+          "CharacterFlags": "DetectHidden,charm",
+          "Immunities": "",
+          "Resistances": "Magic",
+          "Vulnerabilities": "",
+          "ShieldFlags": "",
+          "Attributes": {
+            "Strength": 12,
+            "Intelligence": 12,
+            "Wisdom": 12,
+            "Dexterity": 12,
+            "Constitution": 12,
+            "SavingThrow": 0,
+            "HitRoll": 3,
+            "DamRoll": 7,
+            "ArmorBash": 40,
+            "ArmorPierce": 40,
+            "ArmorSlash": 40,
+            "ArmorExotic": 80
+          }
+        }
+      ],
       "Name": "fnar",
       "Race": "giant",
       "Class": "warrior",
@@ -2734,7 +2809,7 @@
       "Size": 3,
       "CurrentResources": {
         "HitPoints": 188,
-        "MovePoints": 183,
+        "MovePoints": 177,
         "Mana": 203,
         "Psy": 100,
         "Energy": 0,

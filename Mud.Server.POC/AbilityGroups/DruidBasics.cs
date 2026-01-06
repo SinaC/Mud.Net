@@ -29,6 +29,7 @@ namespace Mud.Server.POC.AbilityGroups
             AddAbility("whip");
 
             AddAbility("berserk");
+            AddAbility("peek");
         }
 
         #region IAbilityGroup

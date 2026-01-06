@@ -1,12 +1,14 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
+using Mud.Server.Ability;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
 using Mud.Server.Interfaces;
+using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
@@ -38,12 +40,14 @@ namespace Mud.Server.Commands.Character.Information;
 public class Look : CharacterGameAction
 {
     private ILogger<Look> Logger { get; }
+    private IAbilityManager AbilityManager { get; }
     private ITableValues TableValues { get; }
     private IWiznet Wiznet { get; }
 
-    public Look(ILogger<Look> logger, ITableValues tableValues, IWiznet wiznet)
+    public Look(ILogger<Look> logger, IAbilityManager abilityManager, ITableValues tableValues, IWiznet wiznet)
     {
         Logger = logger;
+        AbilityManager = abilityManager;
         TableValues = tableValues;
         Wiznet = wiznet;
     }
@@ -161,7 +165,7 @@ public class Look : CharacterGameAction
             //// display items
             //ItemsHelpers.AppendItems(sb, Actor.Room.Content.Where(Actor.CanSee), Actor, false, false);
             // display characters
-            foreach (ICharacter victim in Actor.Room.People.Where(x => x != Actor))
+            foreach (var victim in Actor.Room.People.Where(x => x != Actor))
             {
                 //  (see act_info.C:714 show_char_to_char)
                 if (Actor.CanSee(victim)) // see act_info.C:375 show_char_to_char_0)
@@ -214,12 +218,10 @@ public class Look : CharacterGameAction
         }
         else if (Victim != null)
         {
-            if (Actor == Victim)
-                Actor.Act(ActOptions.ToRoom, "{0} looks at {0:m}self.", Actor);
-            else
-                Actor.Act(ActOptions.ToRoom, "{0} looks at {1}.", Actor, Victim);
+            Actor.Act(ActOptions.ToRoom, "{0} looks at {1:f}.", Actor, Victim);
             StringBuilder sb = new();
-            Victim.Append(sb, Actor , true); // TODO: always peeking ???
+            var peek = CheckPeek();
+            Victim.Append(sb, Actor, peek);
             Actor.Send(sb);
         }
         else if (ItemDescription != null)
@@ -276,6 +278,23 @@ public class Look : CharacterGameAction
                 StringBuilder sb = new();
                 description = item.Append(sb, Actor, false).AppendLine().ToString();
                 return true;
+            }
+        }
+        return false;
+    }
+
+    private bool CheckPeek()
+    {
+        if (Actor is IPlayableCharacter pc)
+        {
+            var (percentage, abilityLearned) = Actor.GetAbilityLearnedAndPercentage("peek");
+            if (abilityLearned is not null && percentage > 0)
+            {
+                var peekAbility = AbilityManager.CreateInstance<IPassive>("peek");
+                if (peekAbility is not null)
+                {
+                    return peekAbility.IsTriggered(pc, null!, true, out _, out _);
+                }
             }
         }
         return false;

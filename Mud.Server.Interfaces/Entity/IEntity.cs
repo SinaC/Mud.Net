@@ -34,6 +34,10 @@ public interface IEntity : IActor
     // Incarnation
     bool ChangeIncarnation(IAdmin? admin);
 
+    //
+    void SetName(string name);
+    void SetDescription(string description);
+
     // Display
     string RelativeDisplayName(ICharacter beholder, bool capitalizeFirstLetter = false); // Use to get DisplayName relative to Beholder. If Beholder cannot see 'this', it will return Someone or Something. It 'this' is quest objective, (Quest) will be prefixed
     string RelativeDescription(ICharacter beholder); // Add (Quest) to description if beholder is on a quest with 'this' as objective

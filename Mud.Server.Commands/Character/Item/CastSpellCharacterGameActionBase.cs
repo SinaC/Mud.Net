@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Server.Ability.Spell;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Ability;
@@ -29,13 +30,13 @@ public abstract class CastSpellCharacterGameActionBase : CharacterGameAction
         if (abilityDefinition == null)
         {
             Logger.LogError("Unknown spell '{spellName}' on item {item}.", spellName, item.DebugName);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
         var spellInstance = AbilityManager.CreateInstance<ISpell>(abilityDefinition.Name);
         if (spellInstance == null)
         {
             Logger.LogError("Spell '{spellName}' on item {item} cannot be instantiated.", spellName, item.DebugName);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
         var spellActionInput = new SpellActionInput(abilityDefinition, Actor, spellLevel, new CastFromItemOptions { Item = item }, CommandParser.NoParameters);
         var spellInstanceGuards = spellInstance.Setup(spellActionInput);

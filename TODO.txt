@@ -1,32 +1,34 @@
 INGOING
-    quests:
-    2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground
-        for the second one, we have to create item when getting quest or player is impersonated (and quest is ongoing) and item must be destroyed from ground when de-impersonated
-    quest history
-    quest save completed quests
-          quest tree (prereq)
-          repeteable or not quests
-          description + new command quest info to get additional info on quest
-    (QUEST) flag on quest target should be optional
 DONE
-    automated quests
-        make quest giver says instead of using Send
-        timer between 2 quests
-        additional guards in quest auto
-        rewards: quest points
-        quit/stop impersonate confirmation when on automated quest
-        cannot only be complete/abandon/... at questor
-    add auto in quest generic command
-    look now displays (QUEST) on target
-    quest difficulty color
-    base class for predefined and generated quest
-    currencies: quest, trivia, ...
+    quest description + new command quest info to get additional info on quest
+    pet shop blueprint + convert in rom importer
+    check every CharacterShopBlueprint is used and handle CharacterPetShopBlueprint
+    convert in rot/mystery importer
+    buy/list should work with CharacterPetShopBlueprint (sell cannot work)
+    description and position are now displayed when looking a character
+    first letter of DisplayName for NPC is now upper case
+    group displayed resources fixed
+    flag PetRoom removed from midgaard pet shop room containing pets (3032)
+    entity description can be set
+    resets command now has higher priority than resetarea
+    pet name when buying it
+    use peek skill in Look and Examine
 
 ==========
 == TODO ==
 ==========
 
-when losing connection, keep player in game during a few minutes in autoflee/recall mode
+quests:
+    2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground
+        for the second one, we have to create item when getting quest or player is impersonated (and quest is ongoing) and item must be destroyed from ground when de-impersonated
+    quest history
+    quest save completed quests
+    quest tree (prereq)
+    repeteable or not quests
+    (QUEST) flag on quest target should be optional
+
+when losing connection, keep player in game during a few minutes in autoflee/recall mode and automatically impersonated when reconnecting
+limbo/autoquit timer
 
 use SafeList where List is used (everywhere except in XXXManager)
 
@@ -47,12 +49,9 @@ new combat system
     threat/aggro (see Generating Threat)
     https://www.wowhead.com/classic/guide/threat-overview-classic-wow
 
-limbo/autoquit timer
-
 multitable generator, paging a table should repeat the header at the beginning of each page
 
 try to use mapperly to serialize/deserialize to/from XXXData -> MapXXX could be removed from IXXX
-
 
 ability with different kind of resource, can be paid with mana or rage for example
 would be used for https://www.wowhead.com/mop-classic/spell=33876/mangle which is available for bear (rage) and cat (energy)
@@ -126,7 +125,6 @@ commands dynamically added to Character depending on room they are, for example
 -> hard to do because game actions are generated once
 
 jukebox
-pet shop
 offensive flags: rescue, ...
 clan/guild, auction house, note
 commands: auction, channels, clantalk, report, read, whois, bet, brief, combine, compact, description, noloot, nosummon, prompt, title, config, deaf, pmote, note, board, quote, nwrite,

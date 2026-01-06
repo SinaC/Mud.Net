@@ -103,6 +103,18 @@ public abstract class EntityBase : ActorBase, IEntity
     public bool Incarnatable { get; protected set; } // TODO: assign
     public IAdmin? IncarnatedBy { get; protected set; }
 
+    //
+    public void SetName(string name)
+    {
+        Name = name;
+        Keywords = name.Split([' '], StringSplitOptions.RemoveEmptyEntries);
+    }
+
+    public void SetDescription(string description)
+    {
+        Description = description;
+    }
+
     // Auras
     public IEnumerable<IAura> Auras => _auras;
 

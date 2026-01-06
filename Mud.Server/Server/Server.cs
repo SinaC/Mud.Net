@@ -171,7 +171,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
         // Initialize UniquenessManager
         UniquenessManager.Initialize();
-        
+
+        // Initialize pet shops
+        InitializePetShops();
+
         // Fix world
         FixWorld();
 
@@ -241,6 +244,19 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         Logger.LogInformation("#Characters: {count}", CharacterManager.Characters.Count());
         Logger.LogInformation("#ItemBlueprints: {count}", ItemManager.ItemBlueprints.Count);
         Logger.LogInformation("#Items: {count}", ItemManager.Items.Count());
+    }
+
+    private void InitializePetShops()
+    {
+        foreach (var petShopBlueprint in CharacterManager.CharacterBlueprints.OfType<CharacterPetShopBlueprint>())
+        {
+            foreach (var petBlueprintId in petShopBlueprint.PetBlueprintIds.Distinct())
+            {
+                var petBlueprint = CharacterManager.GetCharacterBlueprint<CharacterNormalBlueprint>(petBlueprintId);
+                if (petBlueprint != null)
+                    petShopBlueprint.PetBlueprints.Add(petBlueprint);
+            }
+        }
     }
 
     //private void DumpCommandByType(Type t)
@@ -313,7 +329,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     public void ResetWorld()
     {
-        foreach (IArea area in AreaManager.Areas)
+        foreach (var area in AreaManager.Areas)
         {
             // TODO: handle age + at load time, force age to arbitrary high value to ensure reset are computed
             //if (area.PlayableCharacters.Any())
@@ -1409,11 +1425,6 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         {
             try
             {
-                //
-                //regen is now by second instead of minute, TICK is not really useful then playingClient.Client.WriteData("--TICK--" + Environment.NewLine); // TODO: only if user want tick info
-                string prompt = playingClient.Player.Prompt;
-                playingClient.Client.WriteData(prompt); // display prompt at each tick
-
                 // If idle for too long, unimpersonate or disconnect
                 var ts = TimeManager.CurrentTime - playingClient.LastReceivedDataTimestamp;
                 if (ts.TotalMinutes > ServerOptions.IdleMinutesBeforeUnimpersonate && playingClient.Player.Impersonating != null)
@@ -1428,7 +1439,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     ClientPlayingOnDisconnected(playingClient.Client);
                 }
 
-                // TODO: autosave once in a while, each loop save 10% of players
+                // TODO: autosave once in a while, each loop would save 10% of players
             }
             catch (Exception ex)
             {

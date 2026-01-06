@@ -106,7 +106,7 @@ public class RomImporter : IImporter
 
         foreach (var mobileData in loader.Mobiles)
         {
-            CharacterBlueprintBase characterBlueprint = ConvertMobile(mobileData);
+            CharacterBlueprintBase characterBlueprint = ConvertMobile(mobileData, _roomBlueprints);
             if (characterBlueprint != null)
                 _characterBlueprints.Add(characterBlueprint);
         }
@@ -1204,7 +1204,7 @@ public class RomImporter : IImporter
 
     #region Mobile
 
-    private CharacterBlueprintBase ConvertMobile(MobileData mobileData)
+    private CharacterBlueprintBase ConvertMobile(MobileData mobileData, IEnumerable<RoomBlueprint> roomBlueprints)
     {
         if (_characterBlueprints.Any(x => x.Id == mobileData.VNum))
             RaiseConvertException("Duplicate mobile Id {0}", mobileData.VNum);
@@ -1220,6 +1220,71 @@ public class RomImporter : IImporter
 
         (IOffensiveFlags offensiveFlags, IAssistFlags assistFlags) = ConvertOffensiveFlags(mobileData.OffFlags);
         (ICharacterFlags characterFlags, IShieldFlags shieldFlags) = ConvertCharacterFlags(mobileData.AffectedBy);
+
+        // search a room flagged as pet_shop with mobile vnum in resets
+        // sold pets are found in room vnum+1 (except for room 9621 which is linked to 9706!!)
+        var petShopRoom = roomBlueprints.FirstOrDefault(x => x.RoomFlags.IsSet("petshop") && x.Resets.Count > 0 && x.Resets.OfType<CharacterReset>().Any(cr => cr.CharacterId == mobileData.VNum));
+        if (petShopRoom != null)
+        {
+            var linkedPetShopRoomId = petShopRoom.Id == 9621 // exception for new thalos
+                ? 9706
+                : petShopRoom.Id + 1;
+            var linkedPetShopRoom = roomBlueprints.SingleOrDefault(x => x.Id == linkedPetShopRoomId);
+            if (linkedPetShopRoom != null)
+            {
+                var petBlueprintIds = linkedPetShopRoom.Resets.OfType<CharacterReset>().Select(x => x.CharacterId).ToList();
+
+                return new CharacterPetShopBlueprint
+                {
+                    Id = mobileData.VNum,
+                    Name = mobileData.Name,
+                    Description = mobileData.Description,
+                    Level = mobileData.Level,
+                    LongDescription = mobileData.LongDescr,
+                    ShortDescription = mobileData.ShortDescr,
+                    Sex = ConvertSex(mobileData),
+                    Size = ConvertSize(mobileData),
+                    Wealth = mobileData.Wealth,
+                    Alignment = mobileData.Alignment,
+                    DamageNoun = damageNoun,
+                    DamageType = schoolType,
+                    DamageDiceCount = mobileData.Damage[0],
+                    DamageDiceValue = mobileData.Damage[1],
+                    DamageDiceBonus = mobileData.Damage[2],
+                    HitPointDiceCount = mobileData.Hit[0],
+                    HitPointDiceValue = mobileData.Hit[1],
+                    HitPointDiceBonus = mobileData.Hit[2],
+                    ManaDiceCount = mobileData.Mana[0],
+                    ManaDiceValue = mobileData.Mana[1],
+                    ManaDiceBonus = mobileData.Mana[2],
+                    HitRollBonus = mobileData.HitRoll,
+                    ArmorPierce = mobileData.Armor[0],
+                    ArmorBash = mobileData.Armor[1],
+                    ArmorSlash = mobileData.Armor[2],
+                    ArmorExotic = mobileData.Armor[3],
+                    CharacterFlags = characterFlags,
+                    ActFlags = ConvertActFlags(mobileData.Act),
+                    OffensiveFlags = offensiveFlags,
+                    AssistFlags = assistFlags,
+                    Immunities = ConvertIRV(mobileData.ImmFlags),
+                    Resistances = ConvertIRV(mobileData.ResFlags),
+                    Vulnerabilities = ConvertIRV(mobileData.VulnFlags),
+                    ShieldFlags = shieldFlags,
+                    StartPosition = ConvertPosition(mobileData, mobileData.StartPos),
+                    DefaultPosition = ConvertPosition(mobileData, mobileData.DefaultPos),
+                    Race = mobileData.Race,
+                    BodyForms = ConvertBodyForms(mobileData.Form),
+                    BodyParts = ConvertBodyParts(mobileData.Parts),
+                    Group = mobileData.Group,
+                    //
+                    PetBlueprintIds = petBlueprintIds,
+                    ProfitBuy = mobileData.Shop?.ProfitBuy ?? 100,
+                    ProfitSell = mobileData.Shop?.ProfitSell ?? 100,
+                    OpenHour = mobileData.Shop?.OpenHour ?? 0,
+                    CloseHour = mobileData.Shop?.CloseHour ?? 23,
+                };
+            }
+        }
 
         if (mobileData.Shop == null)
             return new CharacterNormalBlueprint
@@ -1267,6 +1332,7 @@ public class RomImporter : IImporter
                 Group = mobileData.Group,
             };
         else
+        {
             return new CharacterShopBlueprint
             {
                 Id = mobileData.VNum,
@@ -1316,6 +1382,7 @@ public class RomImporter : IImporter
                 OpenHour = mobileData.Shop.OpenHour,
                 CloseHour = mobileData.Shop.CloseHour,
             };
+        }
     }
 
     private Positions ConvertPosition(MobileData mobileData, string position)

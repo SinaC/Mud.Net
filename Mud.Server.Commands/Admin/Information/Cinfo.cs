@@ -91,6 +91,12 @@ public class Cinfo : AdminGameAction
                 sb.AppendFormatLine("Profit buy: {0}% sell: {1}%", characterShopBlueprint.ProfitBuy, characterShopBlueprint.ProfitSell);
                 sb.AppendFormatLine("Open hour: {0} Close hour: {1}", characterShopBlueprint.OpenHour, characterShopBlueprint.CloseHour);
                 break;
+            case CharacterPetShopBlueprint characterPetShopBlueprint:
+                sb.AppendLine("Pet shopkeeper:");
+                sb.AppendFormatLine("Pets: {0}", string.Join(",", characterPetShopBlueprint.PetBlueprints.Select(x => $"{x.Name} (id: {x.Id})")));
+                sb.AppendFormatLine("Profit buy: {0}% sell: {1}%", characterPetShopBlueprint.ProfitBuy, characterPetShopBlueprint.ProfitSell);
+                sb.AppendFormatLine("Open hour: {0} Close hour: {1}", characterPetShopBlueprint.OpenHour, characterPetShopBlueprint.CloseHour);
+                break;
         }
         Actor.Send(sb);
     }

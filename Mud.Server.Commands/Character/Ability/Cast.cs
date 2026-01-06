@@ -2,6 +2,7 @@
 using Mud.Domain;
 using Mud.Server.Ability.Spell;
 using Mud.Server.Common.Attributes;
+using Mud.Server.Common.Helpers;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
@@ -72,7 +73,7 @@ public class Cast : CharacterGameAction
         if (SpellInstance == null)
         {
             Logger.LogError("Spell {abilityName} cannot be created.", abilityDefinition.Name);
-            return "Something goes wrong.";
+            return StringHelpers.SomethingGoesWrong;
         }
 
         var newParameters = actionInput.Parameters.Skip(1).ToArray();

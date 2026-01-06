@@ -7,7 +7,7 @@ using Mud.Server.Interfaces.GameAction;
 
 namespace Mud.Server.Commands.Admin.Administration;
 
-[AdminCommand("resetarea", "Admin")]
+[AdminCommand("resetarea", "Admin", Priority = 800)]
 [Syntax(
         "[cmd] <area>",
         "[cmd] (if impersonated)")]
