@@ -4,8 +4,7 @@
     {
         public const string SectionName = "FileRepository.Settings";
 
-        public required string PlayerPath { get; init; }
-        public required string AdminPath { get; init; }
-        public required string LoginFilename { get; init; }
+        public required string AccountPath { get; init; }
+        public required string AvatarPath { get; init; }
     }
 }

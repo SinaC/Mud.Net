@@ -1,22 +1,16 @@
 INGOING
 DONE
-    quest description + new command quest info to get additional info on quest
-    pet shop blueprint + convert in rom importer
-    check every CharacterShopBlueprint is used and handle CharacterPetShopBlueprint
-    convert in rot/mystery importer
-    buy/list should work with CharacterPetShopBlueprint (sell cannot work)
-    description and position are now displayed when looking a character
-    first letter of DisplayName for NPC is now upper case
-    group displayed resources fixed
-    flag PetRoom removed from midgaard pet shop room containing pets (3032)
-    entity description can be set
-    resets command now has higher priority than resetarea
-    pet name when buying it
-    use peek skill in Look and Examine
+    pfile refactoring
+    account: name, password, admin data(level, wiznet), avatar meta datas (name, version, level, class, race, location)
+    avatar: character data
+    accounts and avatars are stored in a dedicated folder
 
 ==========
 == TODO ==
 ==========
+
+rename PlayableCharacter Avatar
+rename NonPlayableCharacter Mob
 
 quests:
     2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground
@@ -79,8 +73,6 @@ Poison/Plague/... should not specify character for damage source
     new Damage function without a source with additional message when dying (see update_affect.C:103)
 
 passives/weapons could be shared instead of transient
-
-move GetAbilityLearnedInfo, Regen, RegenBaseValues, OneHit NPC (the end checking skills), ... to Rom24
 
 RomImporter should be related to Mud.Server.Rom24
 RotImporter should be related to Mud.Server.Rot

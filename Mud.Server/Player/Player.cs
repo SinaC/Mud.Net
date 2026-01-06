@@ -12,7 +12,6 @@ using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Player;
 using System.Diagnostics;
-using System.Numerics;
 using System.Text;
 
 namespace Mud.Server.Player;
@@ -26,7 +25,7 @@ public class Player : ActorBase, IPlayer
     protected ICharacterManager CharacterManager { get; }
 
     private readonly List<string> _delayedTells;
-    private readonly List<PlayableCharacterData> _avatarList;
+    private readonly List<AvatarMetaData> _avatarMetaDatas;
     private readonly Dictionary<string, string> _aliases;
 
     private string? _lastInput;
@@ -43,14 +42,15 @@ public class Player : ActorBase, IPlayer
         CharacterManager = characterManager;
 
         _delayedTells = [];
-        _avatarList = [];
+        _avatarMetaDatas = [];
         _aliases = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
     }
 
-    protected void Initialize(Guid id, string name)
+    protected void Initialize(Guid id, string name, string password)
     {
         Id = id;
         Name = name;
+        Password = password;
 
         PlayerState = PlayerStates.Loading;
 
@@ -60,33 +60,33 @@ public class Player : ActorBase, IPlayer
     }
 
     // Used for promote
-    public void Initialize(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList)
+    public void Initialize(Guid id, string name, string password, IReadOnlyDictionary<string, string> aliases, IEnumerable<AvatarMetaData> avatarMetaDatas)
     {
-        Initialize(id, name);
+        Initialize(id, name, password);
 
         foreach(var alias in aliases)
             _aliases.Add(alias.Key, alias.Value);
-        foreach(var avatar in avatarList)
-            _avatarList.Add(avatar);
+        foreach(var avatarMetaData in avatarMetaDatas)
+            _avatarMetaDatas.Add(avatarMetaData);
     }
 
-    public void Initialize(Guid id, PlayerData data)
+    public virtual void Initialize(Guid id, AccountData data)
     {
-        Initialize(id, data.Name);
+        Initialize(id, data.Username, data.Password);
 
         PagingLineCount = data.PagingLineCount;
         _aliases.Clear();
-        _avatarList.Clear();
+        _avatarMetaDatas.Clear();
         if (data.Aliases != null)
         {
-            foreach (KeyValuePair<string, string> alias in data.Aliases)
+            foreach (var alias in data.Aliases)
                 _aliases.Add(alias.Key, alias.Value);
         }
 
-        if (data.Characters != null)
+        if (data.AvatarMetaDatas != null)
         {
-            foreach (PlayableCharacterData playableCharacterData in data.Characters)
-                _avatarList.Add(playableCharacterData);
+            foreach (var avatarMetaData in data.AvatarMetaDatas)
+                _avatarMetaDatas.Add(avatarMetaData);
         }
     }
 
@@ -190,6 +190,13 @@ public class Player : ActorBase, IPlayer
 
     public string DisplayName => Name.UpperFirstLetter();
 
+    public string Password { get; protected set; } = null!;
+
+    public void ChangePassword(string password)
+    { 
+        Password = password;
+    }
+
     public int PagingLineCount { get; protected set; }
 
     public void SetPagingLineCount(int count)
@@ -206,25 +213,27 @@ public class Player : ActorBase, IPlayer
 
     public IPlayableCharacter? Impersonating { get; private set; }
 
-    public void UpdateCharacterDataFromImpersonated()
+    public void UpdateAvatarMetaDataFromImpersonated()
     {
         if (Impersonating == null)
         {
-            Logger.LogError("UpdateCharacterDataFromImpersonated while not impersonated.");
+            Logger.LogError("Cannot update impersondate avatar metadata");
             return;
         }
-        int index = _avatarList.FindIndex(x => StringCompareHelpers.StringEquals(x.Name, Impersonating.Name));
-        if (index < 0)
+        var avatarMetaData = _avatarMetaDatas.SingleOrDefault(x => x.Name == Impersonating.Name);
+        if (avatarMetaData == null)
         {
-            Logger.LogError("UpdateCharacterDataFromImpersonated: unknown avatar {impersonating} for player {playerName}", Impersonating.DebugName, DisplayName);
+            Logger.LogError("Avatar metadata not found for {avatarName}", Impersonating.Name);
             return;
         }
-
-        PlayableCharacterData updatedCharacterData = Impersonating.MapPlayableCharacterData();
-        _avatarList[index] = updatedCharacterData; // replace with new character data
+        avatarMetaData.Version = 1; // TODO: current version
+        avatarMetaData.Level = Impersonating.Level;
+        avatarMetaData.Class = Impersonating.Class.DisplayName;
+        avatarMetaData.Race = Impersonating.Race.DisplayName;
+        avatarMetaData.RoomId = Impersonating.Room.Blueprint.Id;
     }
 
-    public IEnumerable<PlayableCharacterData> Avatars => _avatarList;
+    public IEnumerable<AvatarMetaData> AvatarMetaDatas => _avatarMetaDatas;
 
     public IReadOnlyDictionary<string, string> Aliases => _aliases;
 
@@ -308,17 +317,17 @@ public class Player : ActorBase, IPlayer
         AvatarNameDeletionConfirmationNeeded = null;
     }
 
-    public void AddAvatar(PlayableCharacterData playableCharacterData)
+    public void AddAvatar(AvatarMetaData avatarMetaData)
     {
-        _avatarList.Add(playableCharacterData);
+        _avatarMetaDatas.Add(avatarMetaData);
     }
 
     public bool DeleteAvatar(string avatarName)
     {
-        var avatar = _avatarList.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, avatarName));
-        if (avatar == null)
+        var avatarMetaData = _avatarMetaDatas.SingleOrDefault(x => StringCompareHelpers.StringEquals(x.Name, avatarName));
+        if (avatarMetaData == null)
             return false;
-        _avatarList.Remove(avatar);
+        _avatarMetaDatas.Remove(avatarMetaData);
         return true;
     }
 
@@ -387,16 +396,18 @@ public class Player : ActorBase, IPlayer
         }
     }
 
-    public virtual PlayerData MapPlayerData()
+    public virtual AccountData MapAccountData()
     {
         if (Impersonating != null)
-            UpdateCharacterDataFromImpersonated();
-        PlayerData data = new()
+            UpdateAvatarMetaDataFromImpersonated();
+        AccountData data = new()
         {
-            Name = Name,
+            Username = Name,
+            Password = Password,
             PagingLineCount = PagingLineCount,
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
-            Characters = _avatarList.ToArray(),
+            AdminData = null,
+            AvatarMetaDatas = _avatarMetaDatas.ToArray()
         };
         return data;
     }
@@ -416,7 +427,7 @@ public class Player : ActorBase, IPlayer
         sb.AppendLine($"GCD: {Impersonating?.GlobalCooldown}");
         sb.AppendLine($"DAZE: {Impersonating?.Daze}");
         sb.AppendLine($"Aliases: {Aliases?.Count ?? 0}");
-        sb.AppendLine($"Avatars: {_avatarList?.Count ?? 0}");
+        sb.AppendLine($"Avatars: {_avatarMetaDatas?.Count ?? 0}");
         sb.AppendLine($"SnoopBy: {SnoopBy?.DisplayName ?? "none"}");
         sb.AppendLine($"LastTeller: {LastTeller?.DisplayName ?? "none"}");
         sb.AppendLine($"DelayedTells: {DelayedTells?.Count() ?? 0}");

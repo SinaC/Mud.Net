@@ -66,6 +66,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         Giver = giver;
         _title = $"Recover the fabled {itemQuestBlueprint.ShortDescription} in {room.Area.DisplayName}";
         // TODO: description
+        _description = null;
         _level = level;
         _timeLimit = timeLimit;
 
@@ -95,6 +96,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         Giver = giver;
         _title = $"Recover the fabled {itemQuestBlueprint.ShortDescription} from {target.Blueprint.ShortDescription} in {room.Area.DisplayName}";
         // TODO: description
+        _description = null;
         _level = target.Level;
         _timeLimit = timeLimit;
 

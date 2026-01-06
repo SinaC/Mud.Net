@@ -19,7 +19,7 @@ public interface ICharacterManager
     IEnumerable<INonPlayableCharacter> NonPlayableCharacters { get; }
     IEnumerable<IPlayableCharacter> PlayableCharacters { get; }
 
-    IPlayableCharacter AddPlayableCharacter(Guid guid, PlayableCharacterData playableCharacterData, IPlayer player, IRoom room);
+    IPlayableCharacter AddPlayableCharacter(Guid guid, AvatarData playableCharacterData, IPlayer player, IRoom room);
     INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, IRoom room);
     INonPlayableCharacter AddNonPlayableCharacter(Guid guid, CharacterBlueprintBase blueprint, PetData petData, IRoom room);
 

@@ -1,5 +1,4 @@
-﻿using Mud.Repository.Interfaces;
-using Mud.Server.Common;
+﻿using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
@@ -18,12 +17,10 @@ return your character to 'safe' status if you change your mind after the
 first delete.")]
 public class Delete : AccountGameActionBase
 {
-    private ILoginRepository LoginRepository { get; }
     private IServerPlayerCommand ServerPlayerCommand { get; }
 
-    public Delete(ILoginRepository loginRepository, IServerPlayerCommand serverPlayerCommand)
+    public Delete(IServerPlayerCommand serverPlayerCommand)
     {
-        LoginRepository = loginRepository;
         ServerPlayerCommand = serverPlayerCommand;
     }
 
@@ -36,7 +33,7 @@ public class Delete : AccountGameActionBase
         if (actionInput.Parameters.Length == 0)
             return BuildCommandSyntax();
 
-        if (!LoginRepository.CheckPassword(Actor.Name, actionInput.Parameters[0].Value))
+        if (Actor.Password != actionInput.Parameters[0].Value) // TODO: encode password
         {
             Actor.SetLag(10 * Pulse.PulsePerSeconds);
             return "Wrong password. Wait 10 seconds.";
@@ -54,6 +51,7 @@ public class Delete : AccountGameActionBase
             return;
         }
         Actor.Send("Deletion confirmed! Processing...");
+        // delete player
         ServerPlayerCommand.Delete(Actor);
     }
 }

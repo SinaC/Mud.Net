@@ -33,7 +33,7 @@ public class Impersonate : PlayerGameAction
         DefaultRoomId = worldOptions.Value.BlueprintIds.DefaultRoom;
     }
 
-    protected PlayableCharacterData Whom { get; set; } = default!;
+    protected AvatarMetaData Whom { get; set; } = default!;
 
     public override string? Guards(IActionInput actionInput)
     {
@@ -44,7 +44,7 @@ public class Impersonate : PlayerGameAction
         if (actionInput.Parameters.Length == 0)
             return "Impersonate whom?";
 
-        Whom = Actor.Avatars.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;
+        Whom = Actor.AvatarMetaDatas.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, actionInput.Parameters[0].Value))!;
         if (Whom == null)
             return "Avatar not found. Use 'listavatar' to display your avatar list.";
 
@@ -62,7 +62,13 @@ public class Impersonate : PlayerGameAction
             location = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == DefaultRoomId)!;
             Wiznet.Log($"Invalid roomId {Whom.RoomId} for character {Whom.Name}!!", WiznetFlags.Bugs, AdminLevels.Implementor);
         }
-        var avatar = CharacterManager.AddPlayableCharacter(Guid.NewGuid(), Whom, Actor, location);
+        var avatarData = ServerPlayerCommand.LoadAvatar(Whom.Name);
+        if (avatarData == null)
+        {
+            Wiznet.Log($"Avatar {Whom.Name} for player {Actor.Name} cannot be loaded!!", WiznetFlags.Bugs, AdminLevels.Implementor);
+            return;
+        }
+        var avatar = CharacterManager.AddPlayableCharacter(Guid.NewGuid(), avatarData, Actor, location);
         Actor.Send("%M%You start impersonating %C%{0}%x%.", avatar.DisplayName);
         Actor.StartImpersonating(avatar);
     }

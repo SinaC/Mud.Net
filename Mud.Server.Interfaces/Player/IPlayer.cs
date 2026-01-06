@@ -19,8 +19,8 @@ public delegate void PageDataEventHandler(IPlayer player, StringBuilder data);
 
 public interface IPlayer : IActor
 {
-    void Initialize(Guid id, string name, IReadOnlyDictionary<string, string> aliases, IEnumerable<PlayableCharacterData> avatarList); // Used for promote
-    void Initialize(Guid id, PlayerData data);
+    void Initialize(Guid id, string name, string password, IReadOnlyDictionary<string, string> aliases, IEnumerable<AvatarMetaData> avatarMetaDatas); // Used for promote
+    void Initialize(Guid id, AccountData data);
 
     event SendDataEventHandler SendData;
     event PageDataEventHandler PageData;
@@ -29,6 +29,9 @@ public interface IPlayer : IActor
     string Name { get; }
     string DisplayName { get; } // First letter is in upper-case
 
+    string Password { get; }
+    void ChangePassword(string password);
+
     int PagingLineCount { get; }
     void SetPagingLineCount(int count);
 
@@ -36,9 +39,9 @@ public interface IPlayer : IActor
     void ChangePlayerState(PlayerStates playerState);
 
     IPlayableCharacter? Impersonating { get; }
-    void UpdateCharacterDataFromImpersonated();
+    void UpdateAvatarMetaDataFromImpersonated();
 
-    IEnumerable<PlayableCharacterData> Avatars { get; }
+    IEnumerable<AvatarMetaData> AvatarMetaDatas { get; }
 
     IReadOnlyDictionary<string, string> Aliases { get; }
     void SetAlias(string alias, string command);
@@ -69,7 +72,7 @@ public interface IPlayer : IActor
     string? AvatarNameDeletionConfirmationNeeded { get; }
     void SetAvatarNameDeletionConfirmationNeeded(string avatarName);
     void ResetAvatarNameDeletionConfirmationNeeded();
-    void AddAvatar(PlayableCharacterData playableCharacterData);
+    void AddAvatar(AvatarMetaData avatarMetaData);
     bool DeleteAvatar(string avatarName);
     void StartImpersonating(IPlayableCharacter avatar);
     void StopImpersonating();
@@ -88,5 +91,5 @@ public interface IPlayer : IActor
 
     StringBuilder PerformSanityChecks();
 
-    PlayerData MapPlayerData();
+    AccountData MapAccountData();
 }

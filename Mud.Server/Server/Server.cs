@@ -77,9 +77,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     private ILogger<Server> Logger { get; }
     private IServiceProvider ServiceProvider { get; }
-    private ILoginRepository LoginRepository { get; }
-    private IPlayerRepository PlayerRepository { get; }
-    private IAdminRepository AdminRepository { get; }
+    private IAccountRepository AccountRepository { get; }
+    private IAvatarRepository AvatarRepository { get; }
     private IUniquenessManager UniquenessManager { get; }
     private ITimeManager TimeManager { get; }
     private IRandomManager RandomManager { get; }
@@ -101,7 +100,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     private ServerOptions ServerOptions { get; }
 
     public Server(ILogger<Server> logger, IServiceProvider serviceProvider, IOptions<ServerOptions> serverOptions,
-        ILoginRepository loginRepository, IPlayerRepository playerRepository, IAdminRepository adminRepository,
+        IAccountRepository accountRepository, IAvatarRepository avatarRepository,
         IUniquenessManager uniquenessManager, ITimeManager timeManager, IRandomManager randomManager, IGameActionManager gameActionManager,
         IClassManager classManager, IRaceManager raceManager, IAbilityManager abilityManager, IWeaponEffectManager weaponEffectManager,
         IAreaManager areaManager, IRoomManager roomManager, ICharacterManager characterManager, IItemManager itemManager, IQuestManager questManager, IResetManager resetManager,
@@ -110,9 +109,8 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         Logger = logger;
         ServiceProvider = serviceProvider;
         ServerOptions = serverOptions.Value;
-        LoginRepository = loginRepository;
-        PlayerRepository = playerRepository;
-        AdminRepository = adminRepository;
+        AccountRepository = accountRepository;
+        AvatarRepository = avatarRepository;
         UniquenessManager = uniquenessManager;
         TimeManager = timeManager;
         RandomManager = randomManager;
@@ -642,7 +640,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
         // Create admin
         var admin = ServiceProvider.GetRequiredService<IAdmin>();
-        admin.Initialize(player.Id, player.Name, level, player.Aliases, player.Avatars);
+        admin.Initialize(player.Id, player.Name, player.Password, level, player.Aliases, player.AvatarMetaDatas);
 
         // Replace player by admin in playingClient
         playingClient.Player = admin;
@@ -659,16 +657,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             AdminManager.AddAdmin(admin);
         }
 
-        // Delete player
-        PlayerRepository.Delete(player.Name);
-
         // Save admin
-        var adminData = admin.MapPlayerData() as AdminData;
+        var adminData = admin.MapAccountData();
         if (adminData != null)
-            AdminRepository.Save(adminData);
-
-        // Save login
-        LoginRepository.ChangeAdminStatus(admin.Name, true);
+            AccountRepository.Save(adminData);
 
         // Inform admin about promotion
         admin.Send("You have been promoted to {0}", level);
@@ -678,6 +670,22 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
     #region IServerPlayerCommand
 
+    public AvatarData? LoadAvatar(string avatarName)
+    {
+        return AvatarRepository.Load(avatarName);
+    }
+
+    public void SaveAvatar(AvatarData avatar)
+    {
+        AvatarRepository.Save(avatar);
+    }
+
+    public void DeleteAvatar(string avatarName)
+    {
+        AvatarRepository.Delete(avatarName);
+        UniquenessManager.RemoveAvatarName(avatarName);
+    }
+
     public void Save(IPlayer player)
     {
         _players.TryGetValue(player, out var playingClient);
@@ -685,19 +693,16 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             Logger.LogError("Save: client not found");
         else
         {
-            if (playingClient.Player is IAdmin admin)
+            Logger.LogInformation("Saving player {name}", playingClient.Player.DisplayName);
+            if (playingClient.Player.Impersonating != null)
             {
-                var data = admin.MapPlayerData() as AdminData;
-                if (data != null)
-                    AdminRepository.Save(data);
-                Logger.LogInformation("Admin {adminName} saved", playingClient.Player.DisplayName);
+                playingClient.Player.UpdateAvatarMetaDataFromImpersonated();
+                var avatarData = playingClient.Player.Impersonating.MapAvatarData();
+                AvatarRepository.Save(avatarData);
             }
-            else
-            {
-                var data = playingClient.Player.MapPlayerData();
-                PlayerRepository.Save(data);
-                Logger.LogInformation("Player {playerName} saved", playingClient.Player.DisplayName);
-            }
+            var accountData = playingClient.Player.MapAccountData();
+            AccountRepository.Save(accountData);
+            Logger.LogInformation("Player {name} saved", playingClient.Player.DisplayName);
         }
     }
 
@@ -708,7 +713,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         if (playingClient == null)
             Logger.LogError("Quit: client not found");
         else
+        {
+            ProcessOutput(playingClient, false);
             ClientPlayingOnDisconnected(playingClient.Client);
+        }
     }
 
     public void Delete(IPlayer player)
@@ -718,13 +726,19 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
             Logger.LogError("Delete: client not found");
         else
         {
-            string playerName = player.DisplayName;
-            LoginRepository.DeleteLogin(player.Name);
-            PlayerRepository.Delete(player.Name);
-            UniquenessManager.RemoveAvatarNames(player.Avatars?.Select(x => x.Name));
+            // delete avatars
+            foreach (var avatarMetaData in player.AvatarMetaDatas)
+                AvatarRepository.Delete(avatarMetaData.Name);
+            // delete player
+            AccountRepository.Delete(player.Name);
+            // remove avatar names and player name from uniqueness manager
+            UniquenessManager.RemoveAvatarNames(player.AvatarMetaDatas?.Select(x => x.Name));
+            UniquenessManager.RemoveAccountName(player.Name);
+            //
+            ProcessOutput(playingClient, false);
             ClientPlayingOnDisconnected(playingClient.Client);
             //
-            Logger.LogInformation("Player {name} has been deleted", playerName);
+            Logger.LogInformation("Player {name} has been deleted", player.Name);
         }
     }
 
@@ -736,7 +750,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         Logger.LogInformation("NetworkServerOnNewClientConnected");
         // Create/store a login state machine and starts it
-        LoginStateMachine loginStateMachine = new (LoginRepository, UniquenessManager);
+        LoginStateMachine loginStateMachine = new (AccountRepository, UniquenessManager);
         _loginInClients.TryAdd(client, loginStateMachine);
         // Add login handlers
         loginStateMachine.LoginFailed += LoginStateMachineOnLoginFailed;
@@ -838,37 +852,25 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         // Create a new player/admin only if not reconnecting
         if (playerOrAdmin == null)
         {
-            //playerOrAdmin = isAdmin 
-            //    ? new Admin.Admin(Guid.NewGuid(), username) 
-            //    : new Player.Player(Guid.NewGuid(), username);
-            if (isAdmin)
+            // load account data
+            var accountData = AccountRepository.Load(username);
+            if (accountData == null)
             {
-                AdminData data = AdminRepository.Load(username) ?? new AdminData
-                {
-                    AdminLevel = AdminLevels.Angel,
-                    Name = username,
-                    PagingLineCount = 24,
-                    WiznetFlags = WiznetFlags.None,
-                    Aliases = [],
-                    Characters = []
-                };
-                var admin = ServiceProvider.GetRequiredService<IAdmin>();
-                admin.Initialize(Guid.NewGuid(), data);
-                playerOrAdmin = admin;
+                Logger.LogError("LoginStateMachineOnLoginSuccessful: Account {username} not found!!!", username);
+                NetworkServerOnClientDisconnected(client); // forced to disconnect
+                return;
+            }
+            // create player/admin and initialize
+            if (isAdmin && accountData.AdminData != null)
+            {
+                playerOrAdmin = ServiceProvider.GetRequiredService<IAdmin>();
             }
             else
             {
-                PlayerData data = PlayerRepository.Load(username) ?? new PlayerData
-                {
-                    Name = username,
-                    PagingLineCount = 24,
-                    Aliases = [],
-                    Characters = []
-                };
-                var player = ServiceProvider.GetRequiredService<IPlayer>();
-                player.Initialize(Guid.NewGuid(), data);
-                playerOrAdmin = player;
+                playerOrAdmin = ServiceProvider.GetRequiredService<IPlayer>();
             }
+            playerOrAdmin.Initialize(Guid.NewGuid(), accountData);
+
             //
             playerOrAdmin.SendData += PlayerOnSendData;
             playerOrAdmin.PageData += PlayerOnPageData;
@@ -889,7 +891,10 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
 
         // Save if isNewPlayer
         if (isNewPlayer)
+        {
+            UniquenessManager.AddAccountName(username);
             Save(playerOrAdmin);
+        }
 
         // Prompt
         client.WriteData(playerOrAdmin.Prompt);
@@ -1087,27 +1092,35 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         foreach (PlayingClient playingClient in _players.Values)
         {
-            if (playingClient.Player != null)
+            ProcessOutput(playingClient, true);
+        }
+    }
+
+    private void ProcessOutput(PlayingClient playingClient, bool displayPrompt)
+    {
+        if (playingClient.Player != null)
+        {
+            try
             {
-                try
+                var data = playingClient.DequeueDataToSend(); // TODO should return a StringBuilder to quickly append prompt
+                if (!string.IsNullOrWhiteSpace(data))
                 {
-                    string datas = playingClient.DequeueDataToSend(); // TODO should return a StringBuilder to quickly append prompt
-                    if (!string.IsNullOrWhiteSpace(datas))
+                    // Add prompt
+                    if (displayPrompt)
                     {
-                        // Add prompt
-                        datas += playingClient.Player.Prompt;
-                        // Send datas
-                        playingClient.Client.WriteData(datas);
+                        data += playingClient.Player.Prompt;
                     }
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError("Exception while processing output of {name}. Exception: {ex}", playingClient.Player.Name, ex);
+                    // Send datas
+                    playingClient.Client.WriteData(data);
                 }
             }
-            else
-                Logger.LogError("ProcessOutput: playing client without Player");
+            catch (Exception ex)
+            {
+                Logger.LogError("Exception while processing output of {name}. Exception: {ex}", playingClient.Player.Name, ex);
+            }
         }
+        else
+            Logger.LogError("ProcessOutput: playing client without Player");
     }
 
     private void HandleShutdown()

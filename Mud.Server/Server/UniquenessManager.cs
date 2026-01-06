@@ -11,16 +11,14 @@ public class UniquenessManager : IUniquenessManager
     private readonly HashSet<string> _unavailableNames = new(1024);
 
     private ILogger<UniquenessManager> Logger { get; }
-    private IPlayerRepository PlayerRepository { get; }
-    private IAdminRepository AdminRepository { get; }
-    private ILoginRepository LoginRepository { get; }
+    public IAccountRepository AccountRepository { get; }
+    public IAvatarRepository AvatarRepository { get; }
 
-    public UniquenessManager(ILogger<UniquenessManager> logger, IPlayerRepository playerRepository, IAdminRepository adminRepository, ILoginRepository loginRepository)
+    public UniquenessManager(ILogger<UniquenessManager> logger, IAccountRepository accountRepository, IAvatarRepository avatarRepository)
     {
         Logger = logger;
-        PlayerRepository = playerRepository;
-        AdminRepository = adminRepository;
-        LoginRepository = loginRepository;
+        AccountRepository = accountRepository;
+        AvatarRepository = avatarRepository;
     }
 
     #region IUniquenessManager
@@ -71,13 +69,19 @@ public class UniquenessManager : IUniquenessManager
         }
     }
 
-    //public void AddAccountName(string accountName) 
-    //{
-    //}
+    public void AddAccountName(string accountName)
+    {
+        BuildUnavailableNameCacheIfNeeded();
 
-    //public void RemoveAccountName(string accountName) 
-    //{
-    //}
+        _unavailableNames.Add(accountName);
+    }
+
+    public void RemoveAccountName(string accountName)
+    {
+        BuildUnavailableNameCacheIfNeeded();
+
+        _unavailableNames.Remove(accountName);
+    }
 
     #endregion
 
@@ -85,14 +89,11 @@ public class UniquenessManager : IUniquenessManager
     {
         if (_unavailableNames.Count == 0)
         {
-            var logins = LoginRepository.GetLogins();
-            foreach (var login in logins)
-                _unavailableNames.Add(login);
-            var avatarsFromPlayers = PlayerRepository.GetAvatarNames();
-            foreach (var avatarName in avatarsFromPlayers)
-                _unavailableNames.Add(avatarName);
-            var avatarsFromAdmins = AdminRepository.GetAvatarNames();
-            foreach (var avatarName in avatarsFromAdmins)
+            var accountNames = AccountRepository.AccountNames;
+            foreach (var accountName in accountNames)
+                _unavailableNames.Add(accountName);
+            var avatarNames = AvatarRepository.AvatarNames;
+            foreach (var avatarName in avatarNames)
                 _unavailableNames.Add(avatarName);
             Logger.LogInformation("UniquenessManager: Unavailable name cache initialized with {count} entries", _unavailableNames.Count);
         }

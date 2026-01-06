@@ -1,0 +1,572 @@
+{
+  "AccountName": "joel",
+  "CreationTime": "2026-01-06T16:48:55.9985363+01:00",
+  "RoomId": 3758,
+  "SilverCoins": 0,
+  "GoldCoins": 0,
+  "Wimpy": 0,
+  "Experience": 2500,
+  "Alignment": 750,
+  "Trains": 0,
+  "Practices": 9,
+  "AutoFlags": 127,
+  "Currencies": {
+    "QuestPoints": 0
+  },
+  "PulseLeftBeforeNextAutomaticQuest": 0,
+  "CurrentQuests": [],
+  "LearnedAbilities": [
+    {
+      "Name": "mace",
+      "Level": 1,
+      "Learned": 40,
+      "Rating": 2
+    },
+    {
+      "Name": "scrolls",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 3
+    },
+    {
+      "Name": "staves",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 3
+    },
+    {
+      "Name": "wands",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 3
+    },
+    {
+      "Name": "recall",
+      "Level": 1,
+      "Learned": 50,
+      "Rating": 2
+    },
+    {
+      "Name": "flail",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 3
+    },
+    {
+      "Name": "shield block",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 4
+    },
+    {
+      "Name": "demonfire",
+      "Level": 34,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "dispel evil",
+      "Level": 15,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "dispel good",
+      "Level": 15,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "earthquake",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "flamestrike",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "heat metal",
+      "Level": 16,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "ray of truth",
+      "Level": 35,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "continual light",
+      "Level": 4,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "create food",
+      "Level": 5,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "create spring",
+      "Level": 17,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "create water",
+      "Level": 3,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "create rose",
+      "Level": 11,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "floating disc",
+      "Level": 10,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "cure blindness",
+      "Level": 6,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "cure disease",
+      "Level": 13,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "cure poison",
+      "Level": 14,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "bless",
+      "Level": 7,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "calm",
+      "Level": 16,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "frenzy",
+      "Level": 24,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "holy word",
+      "Level": 36,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "remove curse",
+      "Level": 18,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "detect evil",
+      "Level": 4,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "detect good",
+      "Level": 4,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "detect hidden",
+      "Level": 11,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "detect invis",
+      "Level": 8,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "detect magic",
+      "Level": 6,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "detect poison",
+      "Level": 7,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "farsight",
+      "Level": 16,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "identify",
+      "Level": 16,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "know alignment",
+      "Level": 9,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "locate object",
+      "Level": 15,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "cure critical",
+      "Level": 13,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "cure light",
+      "Level": 1,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "cure serious",
+      "Level": 7,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "heal",
+      "Level": 21,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "mass healing",
+      "Level": 38,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "refresh",
+      "Level": 5,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "blindness",
+      "Level": 8,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "curse",
+      "Level": 18,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "energy drain",
+      "Level": 22,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "plague",
+      "Level": 17,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "poison",
+      "Level": 12,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "slow",
+      "Level": 30,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "weaken",
+      "Level": 14,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "armor",
+      "Level": 2,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "cancellation",
+      "Level": 26,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "dispel magic",
+      "Level": 24,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "fireproof",
+      "Level": 12,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "protection evil",
+      "Level": 9,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "protection good",
+      "Level": 9,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "sanctuary",
+      "Level": 20,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "shield",
+      "Level": 35,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "stone skin",
+      "Level": 40,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "fly",
+      "Level": 18,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "gate",
+      "Level": 17,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "nexus",
+      "Level": 35,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "pass door",
+      "Level": 32,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "portal",
+      "Level": 30,
+      "Learned": 0,
+      "Rating": 2
+    },
+    {
+      "Name": "summon",
+      "Level": 12,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "teleport",
+      "Level": 22,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "word of recall",
+      "Level": 28,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "call lightning",
+      "Level": 18,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "control weather",
+      "Level": 19,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "faerie fire",
+      "Level": 3,
+      "Learned": 1,
+      "Rating": 1
+    },
+    {
+      "Name": "faerie fog",
+      "Level": 21,
+      "Learned": 0,
+      "Rating": 1
+    },
+    {
+      "Name": "lightning bolt",
+      "Level": 23,
+      "Learned": 0,
+      "Rating": 1
+    }
+  ],
+  "LearnedAbilityGroups": [
+    {
+      "Name": "rom basics",
+      "Cost": 0
+    },
+    {
+      "Name": "cleric basics",
+      "Cost": 0
+    },
+    {
+      "Name": "cleric default",
+      "Cost": 40
+    }
+  ],
+  "Conditions": {
+    "Drunk": 0,
+    "Full": 40,
+    "Thirst": 44,
+    "Hunger": 44
+  },
+  "Aliases": {},
+  "Cooldowns": {},
+  "Pets": [],
+  "Name": "linh",
+  "Race": "human",
+  "Class": "cleric",
+  "Level": 3,
+  "Sex": 2,
+  "Size": 2,
+  "CurrentResources": {
+    "HitPoints": 34,
+    "MovePoints": 114,
+    "Mana": 157,
+    "Psy": 100,
+    "Energy": 0,
+    "Rage": 0,
+    "Combo": 0
+  },
+  "MaxResources": {
+    "HitPoints": 34,
+    "MovePoints": 114,
+    "Mana": 157,
+    "Psy": 100,
+    "Energy": 0,
+    "Rage": 0,
+    "Combo": 0
+  },
+  "Equipments": [
+    {
+      "Slot": 1,
+      "Item": {
+        "$type": "light",
+        "TimeLeft": 12000,
+        "ItemId": 3716,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "Glowing,Magic",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 4,
+      "Item": {
+        "ItemId": 3703,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 13,
+      "Item": {
+        "$type": "weapon",
+        "WeaponFlags": "",
+        "ItemId": 3700,
+        "Level": 1,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    },
+    {
+      "Slot": 14,
+      "Item": {
+        "ItemId": 3704,
+        "Level": 0,
+        "DecayPulseLeft": 0,
+        "ItemFlags": "MeltOnDrop",
+        "Auras": []
+      }
+    }
+  ],
+  "Inventory": [],
+  "Auras": [],
+  "CharacterFlags": "",
+  "Immunities": "",
+  "Resistances": "",
+  "Vulnerabilities": "",
+  "ShieldFlags": "",
+  "Attributes": {
+    "Strength": 13,
+    "Intelligence": 13,
+    "Wisdom": 21,
+    "Dexterity": 13,
+    "Constitution": 13,
+    "SavingThrow": 0,
+    "HitRoll": 0,
+    "DamRoll": 0,
+    "ArmorBash": 0,
+    "ArmorPierce": 0,
+    "ArmorSlash": 0,
+    "ArmorExotic": 0
+  }
+}

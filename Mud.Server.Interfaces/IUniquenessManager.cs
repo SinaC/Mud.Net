@@ -12,6 +12,7 @@ public interface IUniquenessManager
     void AddAvatarName(string avatarName);
     void RemoveAvatarName(string avatarName);
     void RemoveAvatarNames(IEnumerable<string>? avatarNames);
-    //void AddAccountName(string accountName);
-    //void RemoveAccountName(string accountName);
+    
+    void AddAccountName(string accountName);
+    void RemoveAccountName(string accountName);
 }

@@ -111,7 +111,7 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
                 player.Send("Please enter a VALID name (type quit to stop creation):");
                 return AvatarCreationStates.NameChoice;
             }
-            if (player.Avatars.Any(x => StringCompareHelpers.StringEquals(x.Name, input)))
+            if (player.AvatarMetaDatas.Any(x => StringCompareHelpers.StringEquals(x.Name, input)))
             {
                 player.Send("You already have an avatar with that name.");
                 player.Send("Please enter a name (type quit to stop creation):");
@@ -508,8 +508,9 @@ done	     exit the character generation process");
             // known abilities will be generated in PlayableCharacter ctor when avatar will be impersonated
 
             var startingRoom = RoomManager.MudSchoolRoom;
-            PlayableCharacterData playableCharacterData = new()
+            AvatarData avatarData = new()
             {
+                AccountName = player.Name,
                 CreationTime = TimeManager.CurrentTime,
                 Name = _name!,
                 Aliases = [],
@@ -560,8 +561,19 @@ done	     exit the character generation process");
                 Cooldowns = [],
                 Pets = []
             };
+            AvatarMetaData avatarMetaData = new()
+            {
+                Name = avatarData.Name,
+                Version = 1, // TODO: current version
+                Level = avatarData.Level,
+                Class = ClassManager[avatarData.Class]!.DisplayName,
+                Race = RaceManager[avatarData.Race]!.DisplayName,
+                RoomId = avatarData.RoomId
+            };
 
-            player.AddAvatar(playableCharacterData);
+
+            player.AddAvatar(avatarMetaData);
+            ServerPlayerCommand.SaveAvatar(avatarData);
             ServerPlayerCommand.Save(player);
             UniquenessManager.AddAvatarName(_name!);
             // TODO: better wording

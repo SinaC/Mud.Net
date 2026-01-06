@@ -1,12 +1,7 @@
-﻿using Mud.Common.Attributes;
+﻿namespace Mud.Domain.SerializationData;
 
-namespace Mud.Domain.SerializationData;
-
-[JsonBaseType(typeof(PlayerData), "admin")]
-public class AdminData : PlayerData
+public class AdminData
 {
     public required AdminLevels AdminLevel { get; set; }
     public required WiznetFlags WiznetFlags { get; set; }
-
-    // TODO: extra fields
 }

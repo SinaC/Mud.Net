@@ -30,6 +30,10 @@ public class Quit : AccountGameActionBase
 
     public override string? Guards(IActionInput actionInput)
     {
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
+
         if (Impersonating != null && Impersonating.Quests.OfType<IGeneratedQuest>().Any())
         {
             if (actionInput.Parameters.Length == 0 || actionInput.Parameters[0].Value != "quit")

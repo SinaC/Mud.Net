@@ -1,9 +1,14 @@
-﻿using Mud.Server.Interfaces.Player;
+﻿using Mud.Domain.SerializationData;
+using Mud.Server.Interfaces.Player;
 
 namespace Mud.Server.Interfaces;
 
 public interface IServerPlayerCommand
 {
+    AvatarData? LoadAvatar(string avatarName);
+    void SaveAvatar(AvatarData avatar);
+    void DeleteAvatar(string avatarName);
+
     void Save(IPlayer player);
     void Quit(IPlayer player);
     void Delete(IPlayer player);
