@@ -1,22 +1,12 @@
 INGOING
 DONE
-    for each avatar (will be saved in avatar)
-         mob kill count
-         killed count
-         automated quest request/complete/abandon/timeout count
-         earned silver/gold
-         spent silver/gold
-         earned currency
-         spent currency
-     pet issue: after reconnects, don't follow order anymore -> charm was missing from base character flags after load
-     flag pretty print issue: flag container is case insensitive but in PrettyPrint overrides we were comparing with case sensitive
+    when using nofollow on pet, it remains in group
+        -> specific no follow command for playable character, if follower is a pet, call RemovePet instead of RemoveFollower
 
 ==========
 == TODO ==
 ==========
 
-pet issue:
-when using nofollow on pet, it remains in group
 
 short display for flag pretty print
 
