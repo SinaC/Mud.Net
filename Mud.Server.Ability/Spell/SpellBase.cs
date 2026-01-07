@@ -129,7 +129,7 @@ public abstract class SpellBase : ISpell
                 }
                 bool enoughResource = cost <= resourceLeft;
                 if (!enoughResource)
-                    return $"You don't have enough {resourceKind.ResourceName()}.";
+                    return $"You don't have enough {resourceKind.DisplayName()}.";
                 var resourceCostToPay = new ResourceCostToPay(resourceKind, cost, isAll);
                 resourceCostToPays.Add(resourceCostToPay);
             }

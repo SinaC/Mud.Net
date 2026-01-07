@@ -469,7 +469,7 @@ public class Player : ActorBase, IPlayer
     {
         StringBuilder sb = new ("%c%<");
         foreach (var resourceKinds in character.CurrentResourceKinds.OrderBy(x => x))
-            sb.Append($"{character[resourceKinds]}/{character.MaxResource(resourceKinds)}{resourceKinds.ResourceName()} ");
+            sb.Append($"{character[resourceKinds]}/{character.MaxResource(resourceKinds)}{resourceKinds.DisplayName()} ");
         sb.Append($"{character.ExperienceToLevel}Nxt");
         if (character.Fighting != null)
             sb.Append($" {(100 * character.Fighting[ResourceKinds.HitPoints])/character.Fighting.MaxResource(ResourceKinds.HitPoints)}%");

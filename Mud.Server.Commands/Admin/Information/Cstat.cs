@@ -3,12 +3,14 @@ using Mud.Blueprints.Quest;
 using Mud.Common;
 using Mud.Domain;
 using Mud.Server.Common;
+using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Quest;
+using System;
 using System.Text;
 
 namespace Mud.Server.Commands.Admin.Information;
@@ -93,12 +95,6 @@ public class Cstat : AdminGameAction
             sb.AppendLine("No blueprint");
         sb.AppendFormatLine("Name: {0} Keywords: {1}", Whom.Name, string.Join(",", Whom.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", Whom.DisplayName);
-        if (npcWhom?.Blueprint != null)
-        {
-            sb.AppendFormatLine("ShortDescription: {0}", npcWhom.Blueprint.ShortDescription);
-            sb.AppendFormatLine("LongDescription: {0}", npcWhom.Blueprint.LongDescription);
-        }
-        sb.AppendFormatLine("Description: {0}", Whom.Description);
         if (Whom.Leader != null)
             sb.AppendFormatLine("Leader: {0}", Whom.Leader.DisplayName);
         if (npcWhom?.Master != null)
@@ -142,11 +138,8 @@ public class Cstat : AdminGameAction
         sb.AppendFormatLine("Forms: {0} (base: {1})", Whom.BodyForms, Whom.BaseBodyForms);
         sb.AppendFormatLine("Parts: {0} (base: {1})", Whom.BodyParts, Whom.BaseBodyParts);
         sb.AppendFormatLine("Alignment: {0}", Whom.Alignment);
-        sb.AppendLine("Attributes:");
-        foreach (var attribute in Enum.GetValues<CharacterAttributes>())
-            sb.AppendFormatLine("{0}: {1} (base: {2})", attribute, Whom[attribute], Whom.BaseAttribute(attribute));
-        foreach (var resourceKind in Enum.GetValues<ResourceKinds>().Except(SpecialResourceKinds))
-            sb.AppendFormatLine("{0}: {1} Max: {2} Available?: {3}", resourceKind, Whom[resourceKind], Whom.MaxResource(resourceKind), Whom.CurrentResourceKinds.Contains(resourceKind) ? "Y" : "N");
+        sb.AppendFormatLine("Attributes: {0}", string.Join(",", Enum.GetValues<CharacterAttributes>().Select(x => $"{x.ShortName()}: {Whom[x]} ({Whom.BaseAttribute(x)})")));
+        sb.AppendFormatLine("Resources: {0}", string.Join(",", Enum.GetValues<ResourceKinds>().Except(SpecialResourceKinds).Select(x => $"{x.DisplayName()}: {Whom[x]} Max: {Whom.MaxResource(x)} [{(Whom.CurrentResourceKinds.Contains(x) ? "Y" : "N")}]")));
         if (npcWhom != null)
         {
             sb.AppendFormatLine("Act: {0}", npcWhom.ActFlags);
@@ -155,6 +148,13 @@ public class Cstat : AdminGameAction
             if (npcWhom.SpecialBehavior != null)
                 sb.AppendFormatLine("Special: {0}", npcWhom.SpecialBehavior.GetType().FullName ?? "???"); // TODO: name ?
         }
+        if (npcWhom?.Blueprint != null)
+        {
+            sb.AppendFormatLine("ShortDescription: {0}", npcWhom.Blueprint.ShortDescription);
+            sb.AppendFormat("LongDescription: {0}", npcWhom.Blueprint.LongDescription);
+        }
+        sb.AppendFormat("Description: {0}", Whom.Description);
+
         if (pcWhom != null)
         {
             sb.Append("Conditions: ");

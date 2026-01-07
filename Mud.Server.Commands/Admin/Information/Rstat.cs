@@ -53,18 +53,24 @@ public class Rstat : AdminGameAction
     {
         StringBuilder sb = new ();
         sb.AppendFormatLine("Blueprint: {0}", Room.Blueprint.Id);
+        sb.AppendFormatLine("Area: {0}", Room.Area.DisplayName);
         sb.AppendFormatLine("Name: {0} Keywords: {1}", Room.Blueprint.Name ?? "(none)", string.Join(",", Room.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", Room.DisplayName);
-        sb.AppendFormatLine("Description: {0}", Room.Description);
         sb.AppendFormatLine("Flags: {0} (base: {1})", Room.RoomFlags, Room.BaseRoomFlags);
         sb.AppendFormatLine("Light: {0} Sector: {1} MaxSize: {2}", Room.Light, Room.SectorType, Room.MaxSize?.ToString() ?? "NoSize");
         sb.AppendFormatLine("Heal rate: {0}% (base {1}%) Resource rate: {2}% (base {3}%)", Room.HealRate, Room.BaseHealRate, Room.ResourceRate, Room.BaseResourceRate);
+        sb.AppendFormat("Description: {0}", Room.Description);
         if (Room.ExtraDescriptions != null)
         {
             foreach (var extraDescription in Room.ExtraDescriptions)
-                sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", string.Join(",", extraDescription.Keywords), extraDescription.Description);
+            {
+                sb.AppendFormatLine("ExtraDescription: {0}", string.Join(",", extraDescription.Keywords));
+                sb.Append(extraDescription.Description);
+            }
         }
-        foreach (ExitDirections direction in Enum.GetValues<ExitDirections>())
+        sb.AppendFormatLine("People: {0}", string.Join(",", Room.People.Select(x => x.DisplayName)));
+        sb.AppendFormatLine("Content: {0}", string.Join(",", Room.Content.Select(x => x.DisplayName)));
+        foreach (var direction in Enum.GetValues<ExitDirections>())
         {
             var exit = Room[direction];
             if (exit?.Destination != null)
@@ -81,12 +87,13 @@ public class Rstat : AdminGameAction
                 sb.Append($" [{exit.Destination.Blueprint?.Id.ToString() ?? "???"}]");
                 sb.AppendLine();
             }
-            // TODO: exits
-            // TODO: content
-            // TODO: people
         }
-        foreach (IAura aura in Room.Auras)
-            aura.Append(sb);
+        if (Room.Auras.Any())
+        {
+            sb.AppendLine("Auras:");
+            foreach (var aura in Room.Auras)
+                aura.Append(sb);
+        }
         Actor.Send(sb);
     }
 }
