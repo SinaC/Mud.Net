@@ -1,10 +1,6 @@
 INGOING
 DONE
-    serialize enum to string
-    forbidden names added in uniqueness manager
-    settings for forbidden names and check password
-    export attribute for state machine
-    initialize step in state machine
+    hash password using bcrypt
 
 ==========
 == TODO ==
@@ -27,8 +23,6 @@ cross-area items/mobs (resets from an area pointing to another area)
 
 rename PlayableCharacter Avatar
 rename NonPlayableCharacter Mob
-
-hash password using bcrypt
 
 quests:
     2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground
