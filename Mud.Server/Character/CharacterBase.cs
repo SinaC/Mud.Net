@@ -365,11 +365,11 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Act(ActOptions.ToCharacter, "{0:N} stops following you.", character);
         character.Act(ActOptions.ToCharacter, "You stop following {0:N}.", this);
         character.ChangeLeader(null);
-        if (character is INonPlayableCharacter npcCharacter)
+        if (character is INonPlayableCharacter npc)
         {
-            npcCharacter.RemoveBaseCharacterFlags(true, "Charm");
-            npcCharacter.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Charm Person"), true); // TODO: do this differently
-            npcCharacter.ChangeMaster(null);
+            npc.RemoveBaseCharacterFlags(true, "Charm");
+            npc.RemoveAuras(x => StringCompareHelpers.StringEquals(x.AbilityName, "Charm Person"), true); // TODO: do this differently
+            npc.ChangeMaster(null);
         }
     }
 
