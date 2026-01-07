@@ -37,7 +37,7 @@ public class Delete : AccountGameActionBase
         if (actionInput.Parameters.Length == 0)
             return BuildCommandSyntax();
 
-        if (CheckPassword && Actor.Password != actionInput.Parameters[0].Value) // TODO: encode password
+        if (CheckPassword && !PasswordHelpers.Check(actionInput.Parameters[0].Value, Actor.Password))
         {
             Actor.SetLag(10 * Pulse.PulsePerSeconds);
             return "Wrong password. Wait 10 seconds.";

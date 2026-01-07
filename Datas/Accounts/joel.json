@@ -1,27 +1,26 @@
 {
   "Version": 1,
   "Username": "joel",
-  "Password": "joel",
+  "Password": "$2a$11$7FQ2XMRikRivQ.ySXiOtJ.aDfbCai.2Xrz4Mvijm/76YmqoN/C.uG",
   "PagingLineCount": 0,
   "Aliases": {},
   "AdminData": null,
-  "AvatarMetaDatas":
-  [
+  "AvatarMetaDatas": [
     {
       "Name": "joel",
       "Version": 1,
-	   "Level": 41,
-		"Class": "Mage",
-		"Race": "Elf",
-		"RoomId": 3001
+      "Level": 41,
+      "Class": "Mage",
+      "Race": "Elf",
+      "RoomId": 3001
     },
     {
       "Name": "linh",
       "Version": 1,
-	   "Level": 1,
-		"Class": "Cleric",
-		"Race": "Cleric",
-		"RoomId": 3001
+      "Level": 1,
+      "Class": "Cleric",
+      "Race": "Cleric",
+      "RoomId": 3001
     }
   ]
 }

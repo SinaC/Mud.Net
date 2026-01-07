@@ -121,7 +121,7 @@ public class LoginStateMachine : InputTrapBase<IClient, LoginStates>
         // Else, 
         //      If too many try, disconnect
         //      Else, retry password
-        if (!CheckPassword || _password == input) // TODO: encode password
+        if (!CheckPassword || PasswordHelpers.Check(input, _password!))
         {
             Send(client, "Password correct." + Environment.NewLine);
             EchoOn(client);
@@ -163,7 +163,7 @@ public class LoginStateMachine : InputTrapBase<IClient, LoginStates>
     private LoginStates ProcessNewPassword1(IClient client, string input)
     {
         // Save password to compare
-        _password = input;
+        _password = PasswordHelpers.Crypt(input);
         // Ask confirmation
         Send(client, "Please reenter your password:");
         KeepInputAsIs = true;
@@ -175,7 +175,7 @@ public class LoginStateMachine : InputTrapBase<IClient, LoginStates>
         // If password is the same, go to final
         // Else, restart password selection
         // TODO: encryption
-        if (!CheckPassword || input == _password)
+        if (!CheckPassword || PasswordHelpers.Check(input, _password!))
         {
             Send(client, "Your new account with username {0} has been created" + Environment.NewLine, _username!);
             EchoOn(client);

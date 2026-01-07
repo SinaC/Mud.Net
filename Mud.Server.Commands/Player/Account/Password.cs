@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Options;
-using Mud.Repository.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
@@ -27,7 +26,7 @@ public class Password : AccountGameActionBase
         CheckPassword = options.Value.CheckPassword;
     }
 
-    protected string NewPassword { get; set; } = null!;
+    private string NewPassword { get; set; } = null!;
 
     public override string? Guards(IActionInput actionInput)
     {
@@ -37,14 +36,14 @@ public class Password : AccountGameActionBase
 
         if (actionInput.Parameters.Length != 2)
             return BuildCommandSyntax();
-        NewPassword = actionInput.Parameters[1].Value;
-        if (NewPassword.Length < 5)
+        if (actionInput.Parameters[1].Value.Length < 5)
             return "New password must be at least five characters long.";
-        if (CheckPassword && Actor.Password != actionInput.Parameters[0].Value) // TODO: encode password
+        if (CheckPassword && !PasswordHelpers.Check(actionInput.Parameters[0].Value, Actor.Password))
         {
             Actor.SetLag(10 * Pulse.PulsePerSeconds);
             return "Wrong password. Wait 10 seconds.";
         }
+        NewPassword = PasswordHelpers.Crypt(actionInput.Parameters[1].Value);
         return null;
     }
 
