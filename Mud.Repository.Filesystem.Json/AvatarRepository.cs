@@ -6,6 +6,7 @@ using Mud.Domain.SerializationData.Avatar;
 using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Repository.Interfaces;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Mud.Repository.Filesystem.Json;
 
@@ -28,6 +29,7 @@ public class AvatarRepository : IAvatarRepository
             WriteIndented = true,
             TypeInfoResolver = new PolymorphicTypeResolver(assemblyHelper)
         };
+        SerializerOptions.Converters.Add(new JsonStringEnumConverter());
     }
 
     #region IPlayerRepository

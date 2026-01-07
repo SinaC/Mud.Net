@@ -1,14 +1,15 @@
-﻿using Mud.Common;
+﻿using Microsoft.Extensions.Options;
+using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Network.Interfaces;
 using Mud.Repository.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
-using System.Security.Cryptography;
-using System.Text;
+using Mud.Server.Options;
 
 namespace Mud.Server.Server;
 
-internal enum LoginStates
+public enum LoginStates
 {
     Username, // -> Username | Password | UsernameConfirm
     Password, // -> Password | LoggedIn | Disconnected
@@ -19,11 +20,12 @@ internal enum LoginStates
     Disconnected,
 }
 
-internal delegate void LoginSuccessfulEventHandler(IClient client, string username, bool isAdmin, bool isNewPlayer);
+public delegate void LoginSuccessfulEventHandler(IClient client, string username, bool isAdmin, bool isNewPlayer);
 
-internal delegate void LoginFailedEventHandler(IClient client);
+public delegate void LoginFailedEventHandler(IClient client);
 
-internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
+[Export]
+public class LoginStateMachine : InputTrapBase<IClient, LoginStates>
 {
     private const int MaxPasswordTries = 3;
     private int _invalidPasswordTries;
@@ -33,18 +35,21 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
     private bool _isAdmin;
     private bool _isNewPlayer;
 
-    protected IAccountRepository AccountRepository { get; }
-    protected IUniquenessManager UniquenessManager { get; }
+    private IAccountRepository AccountRepository { get; }
+    private IUniquenessManager UniquenessManager { get; }
+    private bool CheckPassword { get; }
+
 
     public event LoginSuccessfulEventHandler? LoginSuccessful;
     public event LoginFailedEventHandler? LoginFailed;
 
     public override bool IsFinalStateReached => State == LoginStates.LoggedIn || State == LoginStates.Disconnected;
 
-    public LoginStateMachine(IAccountRepository accountRepository, IUniquenessManager uniquenessManager)
+    public LoginStateMachine(IAccountRepository accountRepository, IUniquenessManager uniquenessManager, IOptions<ServerOptions> options)
     {
         AccountRepository = accountRepository;
         UniquenessManager = uniquenessManager;
+        CheckPassword = options.Value.CheckPassword;
 
         KeepInputAsIs = false;
         StateMachine = new Dictionary<LoginStates, Func<IClient, string, LoginStates>>
@@ -58,6 +63,11 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
             {LoginStates.Disconnected, ProcessDisconnect}
         };
         State = LoginStates.Username;
+    }
+
+    public void Initialize(IClient client)
+    {
+        Send(client, "Why don't you login or tell us the name you wish to be known by?");
     }
 
     private LoginStates ProcessUsername(IClient client, string input)
@@ -111,7 +121,7 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
         // Else, 
         //      If too many try, disconnect
         //      Else, retry password
-        if (_password == input) // TODO: encryption
+        if (!CheckPassword || _password == input) // TODO: encode password
         {
             Send(client, "Password correct." + Environment.NewLine);
             EchoOn(client);
@@ -165,7 +175,7 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
         // If password is the same, go to final
         // Else, restart password selection
         // TODO: encryption
-        if (input == _password)
+        if (!CheckPassword || input == _password)
         {
             Send(client, "Your new account with username {0} has been created" + Environment.NewLine, _username!);
             EchoOn(client);
@@ -218,11 +228,5 @@ internal class LoginStateMachine : InputTrapBase<IClient, LoginStates>
     private static void EchoOn(IClient client)
     {
         client.EchoOn();
-    }
-
-    private static string CryptPassword(string password)
-    {
-        using (MD5 md5 = MD5.Create())
-            return BitConverter.ToString(md5.ComputeHash(Encoding.ASCII.GetBytes(password)));
     }
 }

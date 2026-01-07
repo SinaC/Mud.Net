@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Domain;
 using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Account;
@@ -39,7 +40,8 @@ public enum AvatarCreationStates
 
 //list,learned,premise,add,drop,info,help, and done
 
-internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreationStates>
+[Export]
+public class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreationStates>
 {
     private string? _name;
     private Sex? _sex;
@@ -95,6 +97,11 @@ internal class AvatarCreationStateMachine : InputTrapBase<IPlayer, AvatarCreatio
             { AvatarCreationStates.Quit, ProcessQuit }
         };
         State = AvatarCreationStates.NameChoice;
+    }
+
+    public void Initialize(IPlayer player)
+    {
+        player.Send("Please choose an avatar name (type quit to stop and cancel creation).");
     }
 
     private AvatarCreationStates ProcessNameChoice(IPlayer player, string input)

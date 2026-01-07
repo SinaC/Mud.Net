@@ -4,6 +4,6 @@
     {
         public const string SectionName = "Aura.Settings";
 
-        public required bool RemovePeriodicAurasInNotInSameRoom { get; init; }
+        public required bool RemovePeriodicAurasIfNotInSameRoom { get; init; }
     }
 }

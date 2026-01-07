@@ -1,14 +1,34 @@
 INGOING
 DONE
-    add unit tests on StringCompareHelpers
-    avatar and account serialization data moved to dedicated folder
+    serialize enum to string
+    forbidden names added in uniqueness manager
+    settings for forbidden names and check password
+    export attribute for state machine
+    initialize step in state machine
 
 ==========
 == TODO ==
 ==========
 
+for each avatar (will be saved in avatar)
+  mob kill count
+  killed count
+  automated quest request/complete/abandon/timeout count
+  earned silver/gold
+  spent silver/gold
+  earned currency
+  spent currency
+for each mob (will be saved periodically or on demand)
+  killed count (number of times this mob has been killed)
+  kill count (number of times this mob killed someone)
+check items balance
+missing keys for rooms/items
+cross-area items/mobs (resets from an area pointing to another area)
+
 rename PlayableCharacter Avatar
 rename NonPlayableCharacter Mob
+
+hash password using bcrypt
 
 quests:
     2 types of ItemQuestObjective: found in QuestKillLookTable and found on the ground
@@ -20,6 +40,7 @@ quests:
     (QUEST) flag on quest target should be optional
 
 when losing connection, keep player in game during a few minutes in autoflee/recall mode and automatically impersonated when reconnecting
+linkdead
 limbo/autoquit timer
 
 use SafeList where List is used (everywhere except in XXXManager)
@@ -123,7 +144,6 @@ admin commands: sockets, exlist, vlist, rename, omatch, mmatch, spy, violate, al
 	teleport, mwhere, owhere, recho, mset, oset, rset, sset, xstat, string, vnum, zecho, clone, smote, prefix, olevel, mlevel, slookup, clans, guild, confiscate/grab, 
 PK+THIEF
 furniture max weight (doesn't exist in Rom)
-linkdead
 Move CanSee in IEntity
 each time operator IS or AS is used, this should be replaced with an overridable method
 pull/push
@@ -138,7 +158,6 @@ leaving impersonation should not stop fighting -> PlayableCharacter can still di
   when impersonating, first search for impersonation in world -> use Guid !! should work if player disconnect/reconnect and reimpersonate
 make text drunk in say/whisper/... see act_comm.C:2222
 when using FindHelper.FindByName on ICharacter and parameter is self -> return itself
-
 store an Aura list in World this will avoid looping on all room/character/item to check aura
 redo DoScore, DoAffects
 check if IStat, MStat and RStat display new informations
@@ -155,7 +174,6 @@ search commands/skills/spells for additional guards
     what at least one parameter (item) is required
     whom at least one parameter (character) is required
 prompt modifiable by user
-merge IAdminRepository and IPlayerRepository -> IAccountRepository
 
 casting time ? (-> spell interrupt is needed) --> delayed actions  [[http://www.mudmagic.com/codes/download/diku/merc/rom/snippets/skills_spells/tcasting.txt]]
 
@@ -175,7 +193,6 @@ pose
 admin
     at(quite difficult to implement)
     most [MustBeImpersonated] command should work when incarnating
-statistics: mob killed, player killed, ...
 
 Mystery to new format converter (see olc_act.C:2578 for obj values  L4571 for mob values)
 Other format (ROM, Merc, ...)

@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Mud.Common.Attributes;
 using Mud.Repository.Interfaces;
 using Mud.Server.Interfaces;
+using Mud.Server.Options;
 
 namespace Mud.Server.Server;
 
@@ -14,11 +16,14 @@ public class UniquenessManager : IUniquenessManager
     public IAccountRepository AccountRepository { get; }
     public IAvatarRepository AvatarRepository { get; }
 
-    public UniquenessManager(ILogger<UniquenessManager> logger, IAccountRepository accountRepository, IAvatarRepository avatarRepository)
+    public UniquenessManager(ILogger<UniquenessManager> logger, IAccountRepository accountRepository, IAvatarRepository avatarRepository, IOptions<ServerOptions> options)
     {
         Logger = logger;
         AccountRepository = accountRepository;
         AvatarRepository = avatarRepository;
+
+        foreach(var forbiddenName in options.Value.ForbiddenNames)
+            _unavailableNames.Add(forbiddenName);
     }
 
     #region IUniquenessManager

@@ -1,14 +1,9 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
 using Mud.Server.Guards.Attributes;
-using Mud.Server.Interfaces;
-using Mud.Server.Interfaces.AbilityGroup;
-using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
-using Mud.Server.Interfaces.Race;
-using Mud.Server.Interfaces.Room;
-using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Avatar;
 
@@ -16,30 +11,13 @@ namespace Mud.Server.Commands.Player.Avatar;
 public class CreateAvatar : PlayerGameAction
 {
     private ILogger<CreateAvatar> Logger { get; }
-    private IServerPlayerCommand ServerPlayerCommand { get; }
-    private IRaceManager RaceManager { get; }
-    private IClassManager ClassManager { get; }
-    private IUniquenessManager UniquenessManager { get; }
-    private ITimeManager TimeManager { get; }
-    private IRoomManager RoomManager { get; }
-    private IGameActionManager GameActionManager { get; }
-    private ICommandParser CommandParser { get; }
-    private IAbilityGroupManager AbilityGroupManager { get; }
+    private IServiceProvider ServiceProvider { get; }
     private int MaxAvatarCount { get; }
 
-    public CreateAvatar(ILogger<CreateAvatar> logger, IServerPlayerCommand serverPlayerCommand, IRaceManager raceManager, IClassManager classManager, IUniquenessManager uniquenessManager, ITimeManager timeManager, IRoomManager roomManager, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityGroupManager abilityGroupManager, IOptions<AvatarOptions> avatarOptions)
+    public CreateAvatar(ILogger<CreateAvatar> logger, IServiceProvider serviceProvider)
     {
         Logger = logger;
-        ServerPlayerCommand = serverPlayerCommand;
-        RaceManager = raceManager;
-        ClassManager = classManager;
-        UniquenessManager = uniquenessManager;
-        TimeManager = timeManager;
-        RoomManager = roomManager;
-        GameActionManager = gameActionManager;
-        CommandParser = commandParser;
-        AbilityGroupManager = abilityGroupManager;
-        MaxAvatarCount = avatarOptions.Value.MaxCount;
+        ServiceProvider = serviceProvider;
     }
 
     public override string? Guards(IActionInput actionInput)
@@ -55,7 +33,14 @@ public class CreateAvatar : PlayerGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        Actor.Send("Please choose an avatar name (type quit to stop and cancel creation).");
-        Actor.SetStateMachine(new AvatarCreationStateMachine(Logger, ServerPlayerCommand, RaceManager, ClassManager, UniquenessManager, TimeManager, RoomManager, GameActionManager, CommandParser, AbilityGroupManager));
+        var avatarCreationStateMachine = ServiceProvider.GetRequiredService<AvatarCreationStateMachine>();
+        if (avatarCreationStateMachine == null)
+        {
+            Logger.LogError("CreateAvatar: cannot create AvatarCreationStateMachine for {name}", Actor.DisplayName);
+            Actor.Send(StringHelpers.SomethingGoesWrong);
+            return;
+        }
+        avatarCreationStateMachine.Initialize(Actor);
+        Actor.SetStateMachine(avatarCreationStateMachine);
     }
 }

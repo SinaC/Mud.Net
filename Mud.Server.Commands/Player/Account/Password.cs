@@ -1,9 +1,11 @@
-﻿using Mud.Repository.Interfaces;
+﻿using Microsoft.Extensions.Options;
+using Mud.Repository.Interfaces;
 using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Account;
 
@@ -16,13 +18,13 @@ your old password.  The second argument is your new password.
 The [cmd] command is protected against being snooped or logged.")]
 public class Password : AccountGameActionBase
 {
-    private IAccountRepository AccountRepository { get; }
     private IServerPlayerCommand ServerPlayerCommand { get; }
+    private bool CheckPassword { get; }
 
-    public Password(IAccountRepository accountRepository, IServerPlayerCommand serverPlayerCommand)
+    public Password(IServerPlayerCommand serverPlayerCommand, IOptions<ServerOptions> options)
     {
-        AccountRepository = accountRepository;
         ServerPlayerCommand = serverPlayerCommand;
+        CheckPassword = options.Value.CheckPassword;
     }
 
     protected string NewPassword { get; set; } = null!;
@@ -38,7 +40,7 @@ public class Password : AccountGameActionBase
         NewPassword = actionInput.Parameters[1].Value;
         if (NewPassword.Length < 5)
             return "New password must be at least five characters long.";
-        if (Actor.Password != actionInput.Parameters[0].Value)
+        if (CheckPassword && Actor.Password != actionInput.Parameters[0].Value) // TODO: encode password
         {
             Actor.SetLag(10 * Pulse.PulsePerSeconds);
             return "Wrong password. Wait 10 seconds.";

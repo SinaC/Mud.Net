@@ -8,8 +8,8 @@
     "cda": "commanddebug admin"
   },
   "AdminData": {
-    "AdminLevel": 7,
-    "WiznetFlags": 61439
+    "AdminLevel": "Implementor",
+    "WiznetFlags": "Incarnate, Punish, Logins, Deaths, MobDeaths, Levels, Snoops, Bugs, Typos, Help, Load, Promote, Restore, Immortal, Saccing"
   },
   "AvatarMetaDatas": [
     {

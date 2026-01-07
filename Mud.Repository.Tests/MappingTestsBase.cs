@@ -6,6 +6,7 @@ using Mud.Repository.Filesystem.Json.Resolvers;
 using Mud.Server.Affects.Character;
 using Mud.Server.Item;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Mud.Repository.Tests
 {
@@ -29,6 +30,7 @@ namespace Mud.Repository.Tests
                 WriteIndented = true,
                 TypeInfoResolver = new PolymorphicTypeResolver(assemblyHelperMock.Object)
             };
+            _options.Converters.Add(new JsonStringEnumConverter());
 
             AutoFaker.Configure(builder =>
             {

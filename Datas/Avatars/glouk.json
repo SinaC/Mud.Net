@@ -10,7 +10,7 @@
   "Alignment": 0,
   "Trains": 22,
   "Practices": 89,
-  "AutoFlags": 127,
+  "AutoFlags": "Assist, Exit, Sacrifice, Gold, Split, Loot, Affect",
   "Currencies": {
     "QuestPoints": 0
   },
@@ -799,15 +799,15 @@
   "Race": "insectoid",
   "Class": "druid",
   "Level": 49,
-  "Sex": 0,
-  "Size": 2,
+  "Sex": "Neutral",
+  "Size": "Medium",
   "CurrentResources": {
-    "HitPoints": 15800,
-    "MovePoints": 1113,
-    "Mana": 5298,
+    "HitPoints": 15803,
+    "MovePoints": 1125,
+    "Mana": 5301,
     "Psy": 100,
     "Energy": 100,
-    "Rage": 67,
+    "Rage": 37,
     "Combo": 0
   },
   "MaxResources": {
@@ -821,7 +821,7 @@
   },
   "Equipments": [
     {
-      "Slot": 1,
+      "Slot": "Light",
       "Item": {
         "$type": "light",
         "TimeLeft": -1,
@@ -833,7 +833,7 @@
       }
     },
     {
-      "Slot": 4,
+      "Slot": "Chest",
       "Item": {
         "ItemId": 2114,
         "Level": 10,
@@ -843,24 +843,24 @@
           {
             "AbilityName": "Test",
             "Level": 1,
-            "PulseLeft": 1152,
-            "AuraFlags": 2,
+            "PulseLeft": 1032,
+            "AuraFlags": "NoDispel",
             "Affects": [
               {
                 "$type": "itemFlags",
-                "Operator": 0,
+                "Operator": "Add",
                 "Modifier": "Glowing,Humming,Magic"
               },
               {
                 "$type": "characterAttribute",
-                "Operator": 0,
-                "Location": 14,
+                "Operator": "Add",
+                "Location": "AllArmor",
                 "Modifier": -490
               },
               {
                 "$type": "characterAttribute",
-                "Operator": 0,
-                "Location": 6,
+                "Operator": "Add",
+                "Location": "Characteristics",
                 "Modifier": 49
               }
             ]
@@ -869,7 +869,7 @@
       }
     },
     {
-      "Slot": 13,
+      "Slot": "MainHand",
       "Item": {
         "$type": "weapon",
         "WeaponFlags": "",
@@ -881,12 +881,12 @@
           {
             "AbilityName": "Envenom",
             "Level": 1,
-            "PulseLeft": 276,
-            "AuraFlags": 2,
+            "PulseLeft": 156,
+            "AuraFlags": "NoDispel",
             "Affects": [
               {
                 "$type": "weaponFlags",
-                "Operator": 1,
+                "Operator": "Or",
                 "Modifier": "Poison"
               }
             ]
@@ -895,7 +895,7 @@
       }
     },
     {
-      "Slot": 13,
+      "Slot": "MainHand",
       "Item": {
         "$type": "weapon",
         "WeaponFlags": "Vorpal,TwoHands",
@@ -909,15 +909,15 @@
   ],
   "Inventory": [
     {
-      "ItemId": 2104,
-      "Level": 3,
+      "ItemId": 2111,
+      "Level": 10,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
     },
     {
-      "ItemId": 2111,
-      "Level": 10,
+      "ItemId": 2104,
+      "Level": 3,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
@@ -927,13 +927,13 @@
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 9544,
-      "AuraFlags": 0,
+      "PulseLeft": 9424,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterAttribute",
-          "Operator": 0,
-          "Location": 1,
+          "Operator": "Add",
+          "Location": "Strength",
           "Modifier": 4
         }
       ]
@@ -941,12 +941,12 @@
     {
       "AbilityName": "Detect Evil",
       "Level": 1,
-      "PulseLeft": 9740,
-      "AuraFlags": 0,
+      "PulseLeft": 9620,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "DetectEvil"
         }
       ]
@@ -954,12 +954,12 @@
     {
       "AbilityName": "Detect Good",
       "Level": 1,
-      "PulseLeft": 9772,
-      "AuraFlags": 0,
+      "PulseLeft": 9652,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "DetectGood"
         }
       ]
@@ -967,12 +967,12 @@
     {
       "AbilityName": "Detect Invis",
       "Level": 1,
-      "PulseLeft": 9788,
-      "AuraFlags": 0,
+      "PulseLeft": 9668,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "DetectInvis"
         }
       ]
@@ -980,12 +980,12 @@
     {
       "AbilityName": "Detect Hidden",
       "Level": 1,
-      "PulseLeft": 9844,
-      "AuraFlags": 0,
+      "PulseLeft": 9724,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "DetectHidden"
         }
       ]
@@ -993,12 +993,12 @@
     {
       "AbilityName": "Shock Shield",
       "Level": 1,
-      "PulseLeft": 9544,
-      "AuraFlags": 0,
+      "PulseLeft": 9424,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "shieldFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "ShockShield"
         }
       ]
@@ -1006,12 +1006,12 @@
     {
       "AbilityName": "Fire Shield",
       "Level": 1,
-      "PulseLeft": 9344,
-      "AuraFlags": 0,
+      "PulseLeft": 9224,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "shieldFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "FireShield"
         }
       ]
@@ -1019,12 +1019,12 @@
     {
       "AbilityName": "Ice Shield",
       "Level": 1,
-      "PulseLeft": 9144,
-      "AuraFlags": 0,
+      "PulseLeft": 9024,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "shieldFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "IceShield"
         }
       ]
@@ -1032,49 +1032,49 @@
     {
       "AbilityName": "Berserk",
       "Level": 1,
-      "PulseLeft": 4544,
-      "AuraFlags": 2,
+      "PulseLeft": 4424,
+      "AuraFlags": "NoDispel",
       "Affects": [
         {
           "$type": "characterFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "Berserk"
         },
         {
           "$type": "characterAttribute",
-          "Operator": 0,
-          "Location": 9,
+          "Operator": "Add",
+          "Location": "DamRoll",
           "Modifier": 9
         },
         {
           "$type": "characterAttribute",
-          "Operator": 0,
-          "Location": 10,
+          "Operator": "Add",
+          "Location": "ArmorBash",
           "Modifier": 9
         },
         {
           "$type": "characterAttribute",
-          "Operator": 0,
-          "Location": 14,
+          "Operator": "Add",
+          "Location": "AllArmor",
           "Modifier": 90
         }
       ]
     },
     {
       "AbilityName": "Protection Evil",
-      "Level": 22,
-      "PulseLeft": 5280,
-      "AuraFlags": 0,
+      "Level": 16,
+      "PulseLeft": 5160,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterAttribute",
-          "Operator": 0,
-          "Location": 8,
+          "Operator": "Add",
+          "Location": "HitRoll",
           "Modifier": -1
         },
         {
           "$type": "shieldFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "ProtectEvil"
         },
         {
@@ -1085,19 +1085,19 @@
     },
     {
       "AbilityName": "Protection Good",
-      "Level": 33,
-      "PulseLeft": 5324,
-      "AuraFlags": 0,
+      "Level": 27,
+      "PulseLeft": 5204,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "characterAttribute",
-          "Operator": 0,
-          "Location": 8,
+          "Operator": "Add",
+          "Location": "HitRoll",
           "Modifier": -1
         },
         {
           "$type": "shieldFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "ProtectGood"
         },
         {
@@ -1108,13 +1108,13 @@
     },
     {
       "AbilityName": "Sanctuary",
-      "Level": 33,
-      "PulseLeft": 1528,
-      "AuraFlags": 0,
+      "Level": 26,
+      "PulseLeft": 1408,
+      "AuraFlags": "None",
       "Affects": [
         {
           "$type": "shieldFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "Sanctuary"
         },
         {
@@ -1127,17 +1127,17 @@
       "AbilityName": "Haste",
       "Level": 49,
       "PulseLeft": -1,
-      "AuraFlags": 4,
+      "AuraFlags": "Permanent",
       "Affects": [
         {
           "$type": "characterAttribute",
-          "Operator": 0,
-          "Location": 4,
+          "Operator": "Add",
+          "Location": "Dexterity",
           "Modifier": 4
         },
         {
           "$type": "characterFlags",
-          "Operator": 1,
+          "Operator": "Or",
           "Modifier": "Haste"
         },
         {
