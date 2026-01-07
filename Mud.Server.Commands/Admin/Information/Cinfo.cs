@@ -48,8 +48,8 @@ public class Cinfo : AdminGameAction
         sb.AppendFormatLine("Id: {0} Type: {1}", Blueprint.Id, Blueprint.GetType());
         sb.AppendFormatLine("Name: {0}", Blueprint.Name);
         sb.AppendFormatLine("ShortDescription: {0}", Blueprint.ShortDescription);
-        sb.AppendFormatLine("LongDescription: {0}", Blueprint.LongDescription);
-        sb.AppendFormatLine("Description: {0}", Blueprint.Description);
+        sb.AppendFormat("LongDescription: {0}", Blueprint.LongDescription);
+        sb.AppendFormat("Description: {0}", Blueprint.Description);
         sb.AppendFormatLine("Level: {0} Group: {1} Sex: {2}", Blueprint.Level, Blueprint.Group, Blueprint.Sex);
         sb.AppendFormatLine("Race: {0} Class: {1}", Blueprint.Race, Blueprint.Class);
         sb.AppendFormatLine("Wealth: {0} Alignment {1}", Blueprint.Wealth, Blueprint.Alignment);

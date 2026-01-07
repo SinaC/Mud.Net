@@ -1,5 +1,5 @@
-﻿using Mud.Common;
-using Mud.Blueprints.Item;
+﻿using Mud.Blueprints.Item;
+using Mud.Common;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -47,14 +47,17 @@ public class Iinfo : AdminGameAction
         sb.AppendFormatLine("Id: {0} Type: {1}", Blueprint.Id, Blueprint.GetType());
         sb.AppendFormatLine("Name: {0}", Blueprint.Name);
         sb.AppendFormatLine("ShortDescription: {0}", Blueprint.ShortDescription);
-        sb.AppendFormatLine("Description: {0}", Blueprint.Description);
         sb.AppendFormatLine("Level: {0} Weight: {1}", Blueprint.Level, Blueprint.Weight);
         sb.AppendFormatLine("Cost: {0} NoTake: {1}", Blueprint.Cost, Blueprint.NoTake);
         sb.AppendFormatLine("Flags: {0} WearLocation: {1}", Blueprint.ItemFlags, Blueprint.WearLocation);
+        sb.AppendFormat("Description: {0}", Blueprint.Description);
         if (Blueprint.ExtraDescriptions != null)
         {
             foreach (var extraDescription in Blueprint.ExtraDescriptions)
-                sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", string.Join(",", extraDescription.Keywords), extraDescription.Description);
+            {
+                sb.AppendFormatLine("ExtraDescription: {0}", string.Join(",", extraDescription.Keywords));
+                sb.Append(extraDescription.Description);
+            }
         }
         switch (Blueprint)
         {

@@ -1,12 +1,12 @@
 INGOING
 DONE
-    when using nofollow on pet, it remains in group
-        -> specific no follow command for playable character, if follower is a pet, call RemovePet instead of RemoveFollower
+    Additional world sanity check to detect exits with unknown/invalid key
+    new admin command: rinfo
+    minor refactoring for admin commands: cstat/cinfo/rstat/istat/iinfo 
 
 ==========
 == TODO ==
 ==========
-
 
 short display for flag pretty print
 
@@ -14,7 +14,6 @@ for each mob (will be saved periodically or on demand)
   killed count (number of times this mob has been killed)
   kill count (number of times this mob killed someone)
 check items balance
-missing keys for rooms/items
 cross-area items/mobs (resets from an area pointing to another area)
 
 rename PlayableCharacter Avatar

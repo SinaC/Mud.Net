@@ -240,7 +240,7 @@ public class Look : CharacterGameAction
                 Actor.Send("Nothing special there.");
             else
             {
-                Actor.Send(exit.Description ?? "Nothing special there.");
+                Actor.Send(exit.Description ?? "Nothing special there.", false);
                 if (exit.Keywords.Any())
                 {
                     string exitName = exit.Keywords.FirstOrDefault() ?? "door";

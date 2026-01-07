@@ -2,7 +2,6 @@
 using Mud.Server.Common;
 using Mud.Server.Common.Helpers;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Aura;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
@@ -53,11 +52,14 @@ public class Istat : AdminGameAction
         sb.AppendFormatLine("Name: {0} Keywords: {1}", What.Name, string.Join(",", What.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", What.DisplayName);
         sb.AppendFormatLine("ShortDescription: {0}", What.Blueprint.ShortDescription);
-        sb.AppendFormatLine("Description: {0}", What.Description);
+        sb.AppendFormat("Description: {0}", What.Description);
         if (What.ExtraDescriptions != null)
         {
             foreach (var extraDescription in What.ExtraDescriptions)
-                sb.AppendFormatLine("ExtraDescription: {0} " + Environment.NewLine + "{1}", string.Join(",", extraDescription.Keywords), extraDescription.Description);
+            {
+                sb.AppendFormatLine("ExtraDescription: {0}", string.Join(",", extraDescription.Keywords));
+                sb.Append(extraDescription.Description);
+            }
         }
         sb.AppendFormatLine("Type: {0}", What.GetType().Name);
         if (What.IncarnatedBy != null)
@@ -155,7 +157,7 @@ public class Istat : AdminGameAction
 
         // TODO: other item type
         //
-        foreach (IAura aura in What.Auras)
+        foreach (var aura in What.Auras)
             aura.Append(sb);
         //
         Actor.Send(sb);

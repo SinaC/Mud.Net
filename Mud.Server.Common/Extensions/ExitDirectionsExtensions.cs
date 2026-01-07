@@ -4,7 +4,6 @@ namespace Mud.Server.Common.Extensions;
 
 public static class ExitDirectionsExtensions
 {
-
     public static string ShortName(this ExitDirections exitDirections)
         => exitDirections switch
         {

@@ -4,9 +4,8 @@ namespace Mud.Server.Common.Extensions;
 
 public static class ResourceKindsExtensions
 {
-    public static string ResourceName(this ResourceKinds resource)
-    {
-        return resource switch
+    public static string DisplayName(this ResourceKinds resource)
+        => resource switch
         {
             ResourceKinds.HitPoints => "Hp",
             ResourceKinds.MovePoints => "Move",
@@ -17,7 +16,6 @@ public static class ResourceKindsExtensions
             ResourceKinds.Combo => "Combo",
             _ => resource.ToString(),
         };
-    }
 
     public static string ResourceColor(this ResourceKinds resource, bool shortDisplay)
     {
