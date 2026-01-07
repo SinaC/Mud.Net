@@ -46,4 +46,6 @@ public class AvatarData : CharacterData
     public required Dictionary<string, int> Cooldowns { get; set; }
 
     public required PetData[] Pets { get; set; }
+
+    public Dictionary<AvatarStatisticTypes, long> Statistics { get; set; } = []; // not mandatory
 }

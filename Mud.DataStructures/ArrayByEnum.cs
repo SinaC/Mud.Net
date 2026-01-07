@@ -25,6 +25,11 @@ public class ArrayByEnum<T, U> : IEnumerable<T>
         set => _array[Convert.ToInt32(key) - _lower] = value;
     }
 
+    public Dictionary<U, T> ToDictionary()
+    {
+        return Enum.GetValues(typeof(U)).Cast<U>().ToDictionary(x => x, x => this[x]);
+    }
+
     public IEnumerator<T> GetEnumerator()
     {
         return Enum.GetValues(typeof(U)).Cast<U>().Select(i => this[i]).GetEnumerator();

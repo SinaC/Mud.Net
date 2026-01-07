@@ -169,7 +169,7 @@ public class Buy : ShopPlayableCharacterGameActionBase
                 pet.SetName(PetName!);
             pet.SetDescription($"{PetBlueprint.Description}A neck tag says 'I belong to {Actor.DisplayName}'." + Environment.NewLine);
             pet.ActFlags.Set("pet");
-            pet.AddBaseCharacterFlags(true, "charm");
+            pet.AddBaseCharacterFlags(true, "Charm");
             Actor.AddPet(pet);
             Actor.Act(ActOptions.ToCharacter, "{0:N} tells you 'Enjoy your pet.'", Keeper.shopKeeper);
             Actor.Act(ActOptions.ToRoom, "{0} bought {1} as a pet.", Actor, pet);

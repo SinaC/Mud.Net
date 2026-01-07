@@ -90,6 +90,8 @@ public class Recall : NoTargetSkillBase
             pcUser.StopFighting(true);
         }
 
+        pcUser.IncrementStatistics(AvatarStatisticTypes.RecallUsed);
+
         pcUser.UpdateResource(ResourceKinds.MovePoints, -pcUser[ResourceKinds.MovePoints] / 2); // half move
         pcUser.Act(ActOptions.ToRoom, "{0:N} disappears.", pcUser);
         pcUser.ChangeRoom(RecallRoom, false);

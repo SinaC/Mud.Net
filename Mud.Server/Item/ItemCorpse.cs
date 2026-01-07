@@ -90,7 +90,7 @@ public class ItemCorpse : ItemBase, IItemCorpse
             long silver = victim.SilverCoins;
             long gold = victim.GoldCoins;
             if ((silver > 1 || gold > 1)
-                && victim is IPlayableCharacter pcVictim) // player keep half their money
+                && victim is IPlayableCharacter pcVictim) // player keep half their money and leave the rest in the body
             {
                 silver /= 2;
                 gold /= 2;

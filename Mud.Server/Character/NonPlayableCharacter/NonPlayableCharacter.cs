@@ -37,6 +37,7 @@ using Mud.Server.Quest.Objectives;
 using Mud.Server.Random;
 using System.Diagnostics;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mud.Server.Character.NonPlayableCharacter;
 
@@ -118,9 +119,9 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         SetCurrentMaxResource(ResourceKinds.HitPoints, maxHitPoints);
         SetResource(ResourceKinds.HitPoints, maxHitPoints);
         // move points
-        SetBaseMaxResource(ResourceKinds.MovePoints, 1000, false); // TODO
-        SetCurrentMaxResource(ResourceKinds.MovePoints, 1000);
-        SetResource(ResourceKinds.MovePoints, 1000);
+        SetBaseMaxResource(ResourceKinds.MovePoints, 100, false); // TODO
+        SetCurrentMaxResource(ResourceKinds.MovePoints, 100);
+        SetResource(ResourceKinds.MovePoints, 100);
         // mana
         var maxManaResource = RandomManager.Dice(blueprint.ManaDiceCount, blueprint.ManaDiceValue) + blueprint.ManaDiceBonus;
         SetBaseMaxResource(ResourceKinds.Mana, maxManaResource, false);
@@ -156,6 +157,11 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
         BaseSex = petData.Sex;
         BaseSize = petData.Size;
+        BaseCharacterFlags = new CharacterFlags(petData.CharacterFlags);
+        BaseImmunities = new IRVFlags(petData.Immunities);
+        BaseResistances = new IRVFlags(petData.Resistances);
+        BaseVulnerabilities = new IRVFlags(petData.Vulnerabilities);
+        BaseShieldFlags = new ShieldFlags(petData.ShieldFlags);
         // attributes
         if (petData.Attributes != null)
         {

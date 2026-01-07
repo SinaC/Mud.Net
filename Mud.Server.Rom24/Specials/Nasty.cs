@@ -52,8 +52,8 @@ namespace Mud.Server.Rom24.Specials
                     npc.Act(ActOptions.ToCharacter, "You slash apart {0:N}'s coin purse and gather his gold.", victim);
                     npc.ActToNotVictim(victim, "{0:N}'s coin purse is ripped apart!", victim);
                     var theft = victim.GoldCoins / 10;
-                    var availableGold = victim.DecrementGold(theft);
-                    victim.IncrementGold(availableGold);
+                    var (_, availableGold) = victim.StealMoney(0, theft);
+                    victim.UpdateMoney(0, availableGold);
                     return true;
                 }
                 else if (chance == 1) // flee

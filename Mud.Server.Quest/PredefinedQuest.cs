@@ -4,7 +4,7 @@ using Mud.Blueprints.Character;
 using Mud.Blueprints.Item;
 using Mud.Blueprints.Quest;
 using Mud.Common.Attributes;
-using Mud.Domain.SerializationData;
+using Mud.Domain;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Common;
 using Mud.Server.Interfaces;
@@ -34,13 +34,12 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
 
     protected override bool ShouldQuestItemBeDestroyed => Blueprint.ShouldQuestItemBeDestroyed;
 
-    #region IPredefineQuest
-
     public QuestBlueprint Blueprint { get; private set; } = null!;
 
     public void Initialize(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
     {
         Character = character;
+        Character.IncrementStatistics(AvatarStatisticTypes.PredefinedQuestsRequested);
 
         StartTime = TimeManager.CurrentTime;
         PulseLeft = blueprint.TimeLimit * Pulse.PulsePerMinutes;
@@ -52,8 +51,9 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
     public bool Initialize(QuestBlueprint blueprint, CurrentQuestData questData, IPlayableCharacter character)
     {
         Character = character;
+        // don't update statistics, we were already on that quest
 
-        // Extract informations from QuestData
+        // Extract informations from CurrentQuestData
         Blueprint = blueprint;
         StartTime = questData.StartTime;
         PulseLeft = questData.PulseLeft;
@@ -119,18 +119,43 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
 
     #region IQuest
 
-    public override string Title => Blueprint.Title;
+    public override string Title
+    {
+        get => Blueprint.Title;
+        protected set { /*nop*/ }
+    }
 
-    public override string Description =>  Blueprint.Description;
+    public override string? Description
+    {
+        get => Blueprint.Description;
+        protected set { /*nop*/ }
+    }
 
-    public override int Level => Blueprint.Level;
+    public override int Level
+    {
+        get => Blueprint.Level;
+        protected set { /*nop*/ }
+    }
 
-    public override int TimeLimit => Blueprint.TimeLimit;
+    public override int TimeLimit
+    {
+        get => Blueprint.TimeLimit;
+        protected set { /*nop*/ }
+    }
 
     public override IReadOnlyDictionary<int, QuestKillLootTable<int>> KillLootTable => Blueprint.KillLootTable;
 
+    public override void Timeout()
+    {
+        base.Timeout();
+
+        Character.IncrementStatistics(AvatarStatisticTypes.PredefinedQuestsTimedout);
+    }
+
     public override void Complete()
     {
+        Character.IncrementStatistics(AvatarStatisticTypes.PredefinedQuestsCompleted);
+
         // TODO: give xp/gold/loot
         if (Blueprint.ShouldQuestItemBeDestroyed && Blueprint.ItemObjectives != null)
             DestroyQuestItems();
@@ -169,7 +194,12 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
         CompletionTime = TimeManager.CurrentTime;
     }
 
-    #endregion
+    public override void Abandon()
+    {
+        base.Abandon();
+
+        Character.IncrementStatistics(AvatarStatisticTypes.PredefinedQuestsAbandoned);
+    }
 
     #endregion
 

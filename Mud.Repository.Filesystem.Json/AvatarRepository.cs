@@ -32,7 +32,7 @@ public class AvatarRepository : IAvatarRepository
         SerializerOptions.Converters.Add(new JsonStringEnumConverter());
     }
 
-    #region IPlayerRepository
+    #region IAvatarRepository
 
     public AvatarData? Load(string playerName)
     {

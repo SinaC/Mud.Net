@@ -56,11 +56,9 @@ public interface ICharacter : IEntity, IContainer
     // Money
     long SilverCoins { get; }
     long GoldCoins { get; }
-    (long silver, long gold) DeductCost(long cost);
-    void IncrementSilver(long increment);
-    void IncrementGold(long increment);
-    long DecrementSilver(long decrement);
-    long DecrementGold(long decrement);
+    (long silverSpent, long goldSpent) DeductCost(long cost);
+    void UpdateMoney(long silverCoins, long goldCoins);
+    (long stolenSilver, long stolenGold) StealMoney(long silverCoins, long goldCoins);
 
     // Furniture (sleep/sit/stand)
     IItemFurniture? Furniture { get; }
@@ -141,9 +139,6 @@ public interface ICharacter : IEntity, IContainer
     // Equipments
     bool Unequip(IItem item);
     bool Equip(IItem item);
-
-    // Money
-    void UpdateMoney(long silverCoins, long goldCoins);
 
     // Furniture
     bool ChangeFurniture(IItemFurniture? furniture);

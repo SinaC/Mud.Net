@@ -39,12 +39,10 @@ namespace Mud.Server.Rom24.Specials
             else
             {
                 var goldTheft = Math.Min(victim.GoldCoins * Math.Min(RandomManager.Range(1, 20), npc.Level / 2) / 100, npc.Level * npc.Level * 10);
-                var availableGold = victim.DecrementGold(goldTheft);
-                npc.IncrementGold(availableGold);
-
                 var silverTheft = Math.Min(victim.SilverCoins * Math.Min(RandomManager.Range(1, 20), npc.Level / 2) / 100, npc.Level * npc.Level * 25);
-                var availableSilver = victim.DecrementSilver(goldTheft);
-                npc.IncrementSilver(availableGold);
+
+                var (availableSilver, availableGold) = victim.StealMoney(silverTheft, goldTheft);
+                npc.UpdateMoney(availableSilver, availableGold);
                 return true;
             }
         }
