@@ -73,6 +73,8 @@ public class Eat : CastSpellCharacterGameActionBase
         {
             if (Actor is IPlayableCharacter pc)
             {
+                pc.IncrementStatistics(AvatarStatisticTypes.FoodEaten);
+
                 int hunger = pc[Conditions.Hunger];
                 pc.GainCondition(Conditions.Full, Food.FullHours);
                 pc.GainCondition(Conditions.Hunger, Food.HungerHours);
@@ -106,6 +108,9 @@ public class Eat : CastSpellCharacterGameActionBase
         }
         else if (Pill != null)
         {
+            if (Actor is IPlayableCharacter pc)
+                pc.IncrementStatistics(AvatarStatisticTypes.PillEaten);
+
             if (Pill.FirstSpellName != null)
                 CastSpell(Pill, Pill.FirstSpellName, Pill.SpellLevel);
             if (Pill.SecondSpellName != null)

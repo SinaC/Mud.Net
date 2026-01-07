@@ -219,7 +219,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public long SilverCoins { get; protected set; }
     public long GoldCoins { get; protected set; }
 
-    public (long silver, long gold) DeductCost(long cost)
+    public virtual (long silverSpent, long goldSpent) DeductCost(long cost)
     {
         long silver = Math.Min(SilverCoins, cost);
         long gold = 0;
@@ -247,38 +247,21 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return (silver, gold);
     }
 
-    public void IncrementSilver(long increment)
+    public virtual void UpdateMoney(long silverCoins, long goldCoins)
     {
-        SilverCoins += increment;
+        SilverCoins = Math.Max(0, SilverCoins + silverCoins);
+        GoldCoins = Math.Max(0, GoldCoins + goldCoins);
     }
 
-    public void IncrementGold(long increment)
+    public virtual (long stolenSilver, long stolenGold) StealMoney(long silverCoins, long goldCoins)
     {
-        GoldCoins += increment;
-    }
-
-    public long DecrementSilver(long decrement)
-    {
-        if (decrement > SilverCoins)
-        {
-            var available = SilverCoins;
-            SilverCoins = 0;
-            return available;
-        }
-        SilverCoins -= decrement;
-        return decrement;
-    }
-
-    public long DecrementGold(long decrement)
-    {
-        if (decrement > GoldCoins)
-        {
-            var available = GoldCoins;
-            GoldCoins = 0;
-            return available;
-        }
-        GoldCoins -= decrement;
-        return decrement;
+        if (silverCoins > SilverCoins)
+            silverCoins = SilverCoins;
+        if (goldCoins > GoldCoins)
+            goldCoins = GoldCoins;
+        SilverCoins -= silverCoins;
+        GoldCoins -= goldCoins;
+        return (silverCoins, goldCoins);
     }
 
     // Furniture (sleep/sit/stand)
@@ -446,13 +429,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (item is IItemLight itemLight && itemLight.IsLighten)
             Room.IncreaseLight();
         return true;
-    }
-
-    // Money
-    public void UpdateMoney(long silverCoins, long goldCoins)
-    {
-        SilverCoins = Math.Max(0, SilverCoins + silverCoins);
-        GoldCoins = Math.Max(0, GoldCoins + goldCoins);
     }
 
     // Furniture
@@ -1158,6 +1134,9 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         Act(ActOptions.ToRoom, "{0:N} steps into {1}.", this, portal);
         Act(ActOptions.ToCharacter, "You walk through {0} and find yourself somewhere else...", portal);
+
+        if (this is IPlayableCharacter pc)
+            pc.IncrementStatistics(AvatarStatisticTypes.PortalUsed);
 
         ChangeRoom(destination, false);
 

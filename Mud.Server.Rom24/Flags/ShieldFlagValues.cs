@@ -1,4 +1,5 @@
-﻿using Mud.Common.Attributes;
+﻿using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 
@@ -25,10 +26,10 @@ public class ShieldFlagValues : IFlagValues
         //        _ => string.Empty, // we don't want to display the other flags
         //    };
         //else
-            return flag switch
-            {
-                "Sanctuary" => "%W%(White Aura)%x%",
-                _ => string.Empty, // we don't want to display the other flags
-            };
+        return flag switch
+        {
+            string f when StringCompareHelpers.StringEquals(f, "Sanctuary") => "%W%(White Aura)%x%",
+            _ => string.Empty, // we don't want to display the other flags
+        };
     }
 }

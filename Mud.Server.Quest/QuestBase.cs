@@ -34,14 +34,15 @@ public abstract class QuestBase : IQuest
 
     public INonPlayableCharacter Giver { get; protected set; } = null!;
 
-    public abstract string Title { get; }
-    public abstract string? Description { get; }
+    public abstract string Title { get; protected set; }
 
-    public abstract int Level { get; }
+    public abstract string? Description { get; protected set; }
+
+    public abstract int Level { get; protected set; }
 
     public bool AreObjectivesFulfilled => Objectives == null || Objectives.All(x => x.IsCompleted);
 
-    public abstract int TimeLimit { get; }
+    public abstract int TimeLimit { get; protected set; }
 
     public DateTime StartTime { get; protected set; }
 
@@ -145,7 +146,7 @@ public abstract class QuestBase : IQuest
         }
     }
 
-    public void Timeout()
+    public virtual void Timeout()
     {
         Character.Send($"%R%You have run out of time for quest '{Title}'.%x%");
         if (ShouldQuestItemBeDestroyed && _objectives.OfType<ItemQuestObjective>().Any())

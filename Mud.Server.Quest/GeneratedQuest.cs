@@ -23,11 +23,6 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
     private IServiceProvider ServiceProvider { get; }
     private IRandomManager RandomManager { get; }
 
-    private string _title = null!;
-    private string? _description;
-    private int _level;
-    private int _timeLimit;
-
     public GeneratedQuest(ILogger<GeneratedQuest> logger, IServiceProvider serviceProvider, IItemManager itemManager, ITimeManager timeManager, IRandomManager randomManager)
         : base(logger, itemManager, timeManager)
     {
@@ -39,10 +34,25 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
 
     protected override bool ShouldQuestItemBeDestroyed => true;
 
-    #region IGeneratedQuest
+    protected void Initialize(IPlayableCharacter character, INonPlayableCharacter giver, IRoom room, int level, int timeLimit)
+    {
+        Character.IncrementStatistics(AvatarStatisticTypes.GeneratedQuestsRequested);
+
+        Room = room;
+        Character = character;
+        Giver = giver;
+        StartTime = TimeManager.CurrentTime;
+        PulseLeft = timeLimit * Pulse.PulsePerMinutes;
+        Giver = giver;
+        Level = level;
+        TimeLimit = timeLimit;
+    }
+
 
     public bool Initialize(IPlayableCharacter character, INonPlayableCharacter giver, int itemQuestBlueprintId, IRoom room, int level, int timeLimit)
     {
+        Initialize(character, giver, room, level, timeLimit);
+
         var itemQuestBlueprint = ItemManager.GetItemBlueprint<ItemQuestBlueprint>(itemQuestBlueprintId);
         if (itemQuestBlueprint == null)
         {
@@ -58,17 +68,9 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
 
         GeneratedQuestType = GeneratedQuestType.FindItem;
         ItemQuestBlueprint = itemQuestBlueprint;
-        Room = room;
-        Character = character;
-        Giver = giver;
-        StartTime = TimeManager.CurrentTime;
-        PulseLeft = timeLimit * Pulse.PulsePerMinutes;
-        Giver = giver;
-        _title = $"Recover the fabled {itemQuestBlueprint.ShortDescription} in {room.Area.DisplayName}";
+        Title = $"Recover the fabled {itemQuestBlueprint.ShortDescription} in {room.Area.DisplayName}";
         // TODO: description
-        _description = null;
-        _level = level;
-        _timeLimit = timeLimit;
+        Description = null;
 
         var itemQuestObjective = new ItemQuestObjective { Blueprint = itemQuestBlueprint, Total = 1 };
         _objectives.Add(itemQuestObjective);
@@ -78,6 +80,8 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
 
     public bool Initialize(IPlayableCharacter character, INonPlayableCharacter giver, int itemQuestBlueprintId, INonPlayableCharacter target, IRoom room, int timeLimit)
     {
+        Initialize(character, giver, room, target.Level, timeLimit);
+
         var itemQuestBlueprint = ItemManager.GetItemBlueprint<ItemQuestBlueprint>(itemQuestBlueprintId);
         if (itemQuestBlueprint == null)
         {
@@ -94,11 +98,9 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         StartTime = TimeManager.CurrentTime;
         PulseLeft = timeLimit * Pulse.PulsePerMinutes;
         Giver = giver;
-        _title = $"Recover the fabled {itemQuestBlueprint.ShortDescription} from {target.Blueprint.ShortDescription} in {room.Area.DisplayName}";
+        Title = $"Recover the fabled {itemQuestBlueprint.ShortDescription} from {target.Blueprint.ShortDescription} in {room.Area.DisplayName}";
         // TODO: description
-        _description = null;
-        _level = target.Level;
-        _timeLimit = timeLimit;
+        Description = null;
 
         var questKillLootTable = ServiceProvider.GetRequiredService<QuestKillLootTable<int>>();
         questKillLootTable.AddItem(itemQuestBlueprint.Id, 100); // TODO: 100% ?
@@ -112,6 +114,8 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
 
     public bool Initialize(IPlayableCharacter character, INonPlayableCharacter giver, INonPlayableCharacter target, IRoom room, int timeLimit)
     {
+        Initialize(character, giver, room, target.Level, timeLimit);
+
         GeneratedQuestType = GeneratedQuestType.KillMob;
         ItemQuestBlueprint = null;
         Target = target;
@@ -121,10 +125,9 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         StartTime = TimeManager.CurrentTime;
         PulseLeft = timeLimit * Pulse.PulsePerMinutes;
         Giver = giver;
-        _title = $"Slay the dreaded {target.Blueprint.ShortDescription} in {room.Area.DisplayName}";
+        Title = $"Slay the dreaded {target.Blueprint.ShortDescription} in {room.Area.DisplayName}";
         // TODO: description
-        _level = target.Level;
-        _timeLimit = timeLimit;
+        Description = null;
 
         var killQuestObjective = new KillQuestObjective { Blueprint = target.Blueprint, Total = 1 };
         var locationQuestObject = new LocationQuestObjective { Blueprint = room.Blueprint };
@@ -148,29 +151,27 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
 
     #region IQuest
 
-    public override string Title => _title;
+    public override string Title { get; protected set; } = null!;
 
-    public override string? Description => _description;
+    public override string? Description { get; protected set; }
 
-    public override int Level => _level;
+    public override int Level { get; protected set; }
 
-    public override int TimeLimit => _timeLimit;
+    public override int TimeLimit { get; protected set; }
 
     public override IReadOnlyDictionary<int, QuestKillLootTable<int>> KillLootTable => _killLootTable;
 
-    public override void Abandon()
+    public override void Timeout()
     {
-        base.Abandon();
+        base.Timeout();
 
-        Character.Act(ActOptions.ToCharacter, "{0:N} tells you 'You surprise me {1}.", Giver, Character.DisplayName);
-        Character.Act(ActOptions.ToCharacter, "{0:N} tells you 'I thought you could handle a such simple task.", Giver);
-
-        // set timer to 15 minutes for next quest
-        Character.SetTimeLeftBeforeNextAutomaticQuest(TimeSpan.FromMinutes(15));
+        Character.IncrementStatistics(AvatarStatisticTypes.GeneratedQuestsTimedout);
     }
 
     public override void Complete()
     {
+        Character.IncrementStatistics(AvatarStatisticTypes.GeneratedQuestsCompleted);
+
         if (_objectives.OfType<ItemQuestObjective>() != null)
             DestroyQuestItems();
 
@@ -196,6 +197,19 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         CompletionTime = TimeManager.CurrentTime;
     }
 
+    public override void Abandon()
+    {
+        base.Abandon();
+
+        Character.IncrementStatistics(AvatarStatisticTypes.GeneratedQuestsAbandoned);
+
+        Character.Act(ActOptions.ToCharacter, "{0:N} tells you 'You surprise me {1}.", Giver, Character.DisplayName);
+        Character.Act(ActOptions.ToCharacter, "{0:N} tells you 'I thought you could handle a such simple task.", Giver);
+
+        // set timer to 15 minutes for next quest
+        Character.SetTimeLeftBeforeNextAutomaticQuest(TimeSpan.FromMinutes(15));
+    }
+
     protected override void DestroyQuestItems()
     {
         base.DestroyQuestItems();
@@ -206,8 +220,6 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
                 ItemManager.RemoveItem(item);
         }
     }
-
-    #endregion
 
     #endregion
 }

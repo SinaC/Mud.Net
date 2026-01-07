@@ -1,4 +1,5 @@
-﻿using Mud.Common.Attributes;
+﻿using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 
@@ -38,14 +39,14 @@ public class WeaponFlagValues : IFlagValues
         //else
         return flag switch
         {
-            "Flaming" => "%R%(Flaming)%x%",
-            "Frost" => "%C%(Frost)%x%",
-            "Vampiric" => "%D%(Vampiric)%x%",
-            "Sharp" => "%W%(Sharp)%x%",
-            "Vorpal" => "%M%(Vorpal)%x%",
-            "TwoHands" => "%W%(Two-handed)%x%",
-            "Shocking" => "%Y%(Sparkling)%x%",
-            "Poison" => "%G%(Envenomed)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Flaming") => "%R%(Flaming)%x%",
+             string f when StringCompareHelpers.StringEquals(f, "Frost") => "%C%(Frost)%x%",
+             string f when StringCompareHelpers.StringEquals(f, "Vampiric") => "%D%(Vampiric)%x%",
+             string f when StringCompareHelpers.StringEquals(f, "Sharp") => "%W%(Sharp)%x%",
+             string f when StringCompareHelpers.StringEquals(f, "Vorpal") => "%M%(Vorpal)%x%",
+             string f when StringCompareHelpers.StringEquals(f, "TwoHands") => "%W%(Two-handed)%x%",
+             string f when StringCompareHelpers.StringEquals(f, "Shocking") => "%Y%(Sparkling)%x%",
+             string f when StringCompareHelpers.StringEquals(f, "Poison") => "%G%(Envenomed)%x%",
             _ => flag.ToString(),
         };
     }

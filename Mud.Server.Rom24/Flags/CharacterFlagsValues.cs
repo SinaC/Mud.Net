@@ -1,4 +1,5 @@
-﻿using Mud.Common.Attributes;
+﻿using Mud.Common;
+using Mud.Common.Attributes;
 using Mud.Server.Flags;
 using Mud.Server.Flags.Interfaces;
 
@@ -53,16 +54,16 @@ public class CharacterFlagValues : IFlagValues
         //        _ => string.Empty, // we don't want to display the other flags
         //    };
         //else
-            return flag switch
-            {
-                "Charm" => "%C%(Charmed)%x%",
-                "Flying" => "%c%(Flying)%x%",
-                "Invisible" => "%y%(Invis)%x%",
-                "Hide" => "%b%(Hide)%x%",
-                "Sneak" => "%R%(Sneaking)%x%",
-                "PassDoor" => "%c%(Translucent)%x%",
-                "FaerieFire" => "%m%(Pink Aura)%x%",
-                _ => string.Empty, // we don't want to display the other flags
-            };
+        return flag switch
+        {
+            string f when StringCompareHelpers.StringEquals(f, "Charm") => "%C%(Charmed)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Flying") => "%c%(Flying)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Invisible") => "%y%(Invis)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Hide") => "%b%(Hide)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "Sneak") => "%R%(Sneaking)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "PassDoor") => "%c%(Translucent)%x%",
+            string f when StringCompareHelpers.StringEquals(f, "FaerieFire") => "%m%(Pink Aura)%x%",
+            _ => string.Empty,// we don't want to display the other flags
+        };
     }
 }

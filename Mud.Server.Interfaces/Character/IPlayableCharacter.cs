@@ -20,6 +20,10 @@ public interface IPlayableCharacter : ICharacter
 
     bool IsImmortal { get; }
 
+    // Statistics
+    long this[AvatarStatisticTypes avatarStatisticType] { get; }
+    void IncrementStatistics(AvatarStatisticTypes avatarStatisticType, long increment = 1);
+
     // Currencies
     int this[Currencies currency] { get; }
     void UpdateCurrency(Currencies currency, int delta);

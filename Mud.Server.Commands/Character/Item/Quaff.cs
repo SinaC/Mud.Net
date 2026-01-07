@@ -51,6 +51,9 @@ public class Quaff : CastSpellCharacterGameActionBase
 
     public override void Execute(IActionInput actionInput)
     {
+        if (Actor is IPlayableCharacter pc)
+            pc.IncrementStatistics(AvatarStatisticTypes.PotionQuaffed);
+
         Actor.Act(ActOptions.ToRoom, "{0:N} quaff{0:v} {1}.", Actor, Potion);
 
         if (Potion.FirstSpellName != null)

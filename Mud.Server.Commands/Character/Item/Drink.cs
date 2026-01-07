@@ -100,6 +100,8 @@ public class Drink : CharacterGameAction
         // drunk/thirst/food/full
         if (Actor is IPlayableCharacter pc)
         {
+            pc.IncrementStatistics(AvatarStatisticTypes.BeveragesConsumed);
+
             pc.GainCondition(Conditions.Drunk, amount * LiquidInfo.proof / 36);
             pc.GainCondition(Conditions.Full, amount * LiquidInfo.full / 4);
             pc.GainCondition(Conditions.Thirst, amount * LiquidInfo.thirst / 10);

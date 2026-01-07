@@ -55,6 +55,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private IAbilityGroupManager AbilityGroupManager { get; }
     private int MaxLevel { get; }
 
+    private readonly ArrayByEnum<long, AvatarStatisticTypes> _statistics;
     private readonly ArrayByEnum<int, Currencies> _currencies;
     private readonly List<IQuest> _quests;
     private readonly ArrayByEnum<int, Conditions> _conditions;
@@ -72,6 +73,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         AbilityGroupManager = abilityGroupManager;
         MaxLevel = WorldOptions.Value.MaxLevel;
 
+        _statistics = [];
         _currencies = [];
         _quests = [];
         _conditions = new();
@@ -168,13 +170,18 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         // Must be built before equiping
         BuildEquipmentSlots();
 
+        // Statistics
+        if (data.Statistics != null)
+        {
+            foreach (var statistic in data.Statistics)
+                this[statistic.Key] = statistic.Value;
+        }
         // Currencies
         if (data.Currencies != null)
         {
-            foreach(var currency in data.Currencies)
+            foreach (var currency in data.Currencies)
                 this[currency.Key] = currency.Value;
         }
-
         // Equipped items
         if (data.Equipments != null)
         {
@@ -517,6 +524,10 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public override void KillingPayoff(ICharacter victim, IItemCorpse? corpse) // Gain xp/gold/reputation/...
     {
+        var killStatistics = victim is IPlayableCharacter
+            ? AvatarStatisticTypes.PcKill
+            : AvatarStatisticTypes.NpcKill;
+        IncrementStatistics(killStatistics);
         // Gain xp and alignment
         if (this != victim && victim is INonPlayableCharacter) // gain xp only for non-playable victim
         {
@@ -623,6 +634,23 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public bool IsImmortal { get; protected set; }
 
+    // Statistics
+    public long this[AvatarStatisticTypes avatarStatisticType]
+    {
+        get => _statistics[avatarStatisticType];
+        protected set => _statistics[avatarStatisticType] = value;
+    }
+
+    public void IncrementStatistics(AvatarStatisticTypes avatarStatisticType, long increment = 1)
+    {
+        if (increment <= 0)
+        {
+            Logger.LogError("IncrementStatistics: invalid increment {increment} for statistics {avatarStatisticType}", increment, avatarStatisticType);
+            return;
+        }
+        _statistics[avatarStatisticType] += increment;
+    }
+
 
     // Currencies
     public int this[Currencies currency]
@@ -633,6 +661,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     public void UpdateCurrency(Currencies currency, int delta)
     {
+        if (currency == Currencies.QuestPoints)
+        {
+            if (delta > 0)
+                IncrementStatistics(AvatarStatisticTypes.QuestPointsEarned, delta);
+            else if (delta < 0)
+                IncrementStatistics(AvatarStatisticTypes.QuestPointsSpent, -delta);
+        }
+
         _currencies[currency] = Math.Max(0, _currencies[currency] + delta);
     }
 
@@ -707,6 +743,31 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                     break;
             }
         }
+    }
+
+    public override (long silverSpent, long goldSpent) DeductCost(long cost)
+    {
+        var (silverSpent, goldSpent) = base.DeductCost(cost);
+        IncrementStatistics(AvatarStatisticTypes.SilverSpent, silverSpent);
+        IncrementStatistics(AvatarStatisticTypes.GoldSpent, goldSpent);
+        return (silverSpent, goldSpent);
+    }
+
+    public override void UpdateMoney(long silverCoins, long goldCoins)
+    {
+        base.UpdateMoney(silverCoins, goldCoins);
+        if (silverCoins > 0)
+            IncrementStatistics(AvatarStatisticTypes.SilverEarned, silverCoins);
+        if (goldCoins > 0)
+            IncrementStatistics(AvatarStatisticTypes.GoldEarned, goldCoins);
+    }
+
+    public override (long stolenSilver, long stolenGold) StealMoney(long silverCoins, long goldCoins)
+    {
+        var (stolenSilver, stolenGold) = base.StealMoney(silverCoins, goldCoins);
+        IncrementStatistics(AvatarStatisticTypes.SilverStolen, stolenSilver);
+        IncrementStatistics(AvatarStatisticTypes.GoldStolen, stolenGold);
+        return (stolenSilver, stolenGold);
     }
 
     public override bool CanSee(IItem? target)
@@ -973,7 +1034,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         else
             Send("Mota gives you {0} silver coins for your sacrifice.", silver);
         if (silver > 0)
-            SilverCoins += silver;
+            UpdateMoney(silver, 0);
         // autosplit
         if (silver > 0 && AutoFlags.HasFlag(AutoFlags.Split))
             SplitMoney(silver, 0);
@@ -1037,14 +1098,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             GoldCoins = GoldCoins,
             CurrentResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, x => this[x]),
             MaxResources = Enum.GetValues<ResourceKinds>().ToDictionary(x => x, MaxResource),
-            Currencies = Enum.GetValues<Currencies>().ToDictionary(x => x, x => this[x]),
+            Currencies = _currencies.ToDictionary(),
             Alignment = Alignment,
             Wimpy = Wimpy,
             Experience = Experience,
             Trains = Trains,
             Practices = Practices,
             AutoFlags = AutoFlags,
-            Conditions = Enum.GetValues<Conditions>().ToDictionary(x => x, x => this[x]),
+            Conditions = _conditions.ToDictionary(),
             Equipments = Equipments.Where(x => x.Item != null).Select(x => x.MapEquippedData()).ToArray(),
             Inventory = Inventory.Select(x => x.MapItemData()).ToArray(),
             PulseLeftBeforeNextAutomaticQuest = PulseLeftBeforeNextAutomaticQuest,
@@ -1061,6 +1122,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
             Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key, x => x.Value),
             Pets = Pets.Select(x => x.MapPetData()).ToArray(),
+            Statistics = _statistics.ToDictionary()
         };
         return data;
     }
@@ -1328,6 +1390,14 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override void DeathPayoff(ICharacter? killer) // Lose xp/reputation..
     {
+        var killedStatistics = AvatarStatisticTypes.NoSourceKilled;
+        if (killer != null)
+        {
+            killedStatistics = killer is IPlayableCharacter
+                ? AvatarStatisticTypes.PcKilled
+                : AvatarStatisticTypes.NpcKilled;
+        }
+        IncrementStatistics(killedStatistics);
         // 5/6 way back to previous level.
         var loss = -5 * ExperienceToLevel / 6;
         GainExperience(loss);
