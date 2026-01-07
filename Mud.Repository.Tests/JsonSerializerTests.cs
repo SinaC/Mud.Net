@@ -26,7 +26,7 @@ namespace Mud.Repository.Tests
                 Alignment = 0,
                 Trains = 0,
                 Practices = 0,
-                AutoFlags = AutoFlags.None,
+                AutoFlags = AutoFlags.Sacrifice | AutoFlags.Affect,
                 CurrentQuests = [],
                 LearnedAbilities = [],
                 LearnedAbilityGroups = [],
@@ -100,6 +100,8 @@ namespace Mud.Repository.Tests
             Assert.AreEqual("sinac", deserialized.Username);
             Assert.HasCount(2, deserialized.Aliases);
             Assert.IsNotNull(deserialized.AdminData);
+            Assert.AreEqual(AdminLevels.Implementor, deserialized.AdminData.AdminLevel);
+            Assert.AreEqual(Enum.GetValues<WiznetFlags>().Where(x => x != WiznetFlags.Resets).Aggregate(WiznetFlags.None, (acc, f) => acc | f), deserialized.AdminData.WiznetFlags);
             Assert.HasCount(3, deserialized.AvatarMetaDatas);
         }
 

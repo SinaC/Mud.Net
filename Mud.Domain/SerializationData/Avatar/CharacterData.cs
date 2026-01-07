@@ -31,6 +31,7 @@ public abstract class CharacterData
     public required string Resistances { get; set; }
 
     public required string Vulnerabilities { get; set; }
+
     public required string ShieldFlags { get; set; }
 
     public required Dictionary<CharacterAttributes, int> Attributes { get; set; }

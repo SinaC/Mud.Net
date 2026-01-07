@@ -750,14 +750,21 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
     {
         Logger.LogInformation("NetworkServerOnNewClientConnected");
         // Create/store a login state machine and starts it
-        LoginStateMachine loginStateMachine = new (AccountRepository, UniquenessManager);
+        var loginStateMachine = ServiceProvider.GetRequiredService<LoginStateMachine>();
+        if (loginStateMachine == null)
+        {
+            Logger.LogError("NetworkServerOnNewClientConnected: cannot create LoginStateMachine");
+            client.WriteData(StringHelpers.SomethingGoesWrong);
+            client.Disconnect();
+            return; // stop with this client
+        }
         _loginInClients.TryAdd(client, loginStateMachine);
         // Add login handlers
         loginStateMachine.LoginFailed += LoginStateMachineOnLoginFailed;
         loginStateMachine.LoginSuccessful += LoginStateMachineOnLoginSuccessful;
         client.DataReceived += ClientLoginOnDataReceived;
         // Send greetings
-        client.WriteData("Why don't you login or tell us the name you wish to be known by?");
+        loginStateMachine.Initialize(client);
     }
 
     private void NetworkServerOnClientDisconnected(IClient client)
@@ -902,6 +909,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         // TODO: if new player, avatar creation state machine
         if (isNewPlayer)
         {
+            // TODO
         }
 
         playerOrAdmin.ChangePlayerState(PlayerStates.Playing);
@@ -942,7 +950,11 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
         }
 
         if (!removed)
+        {
+            client.Disconnect();
+            client.DataReceived -= ClientPlayingOnDataReceived;
             Logger.LogError("ClientPlayingOnDisconnected: playingClient not found!!!");
+        }
         else
         {
             Wiznet.Log($"{playingClient!.Player.DisplayName} has disconnected.", WiznetFlags.Logins);
@@ -957,7 +969,7 @@ public class Server : IServer, IWorld, IPlayerManager, IServerAdminCommand, ISer
                     player.SetSnoopBy(null);
             }
             playingClient.Player.OnDisconnected();
-            playingClient.Client.Disconnect();
+            client.Disconnect();
             client.DataReceived -= ClientPlayingOnDataReceived;
             playingClient.Player.SendData -= PlayerOnSendData;
             playingClient.Player.PageData -= PlayerOnPageData;

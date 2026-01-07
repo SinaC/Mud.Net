@@ -1,8 +1,10 @@
-﻿using Mud.Server.Common;
+﻿using Microsoft.Extensions.Options;
+using Mud.Server.Common;
 using Mud.Server.Common.Attributes;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Options;
 
 namespace Mud.Server.Commands.Player.Account;
 
@@ -18,10 +20,12 @@ first delete.")]
 public class Delete : AccountGameActionBase
 {
     private IServerPlayerCommand ServerPlayerCommand { get; }
+    private bool CheckPassword { get; }
 
-    public Delete(IServerPlayerCommand serverPlayerCommand)
+    public Delete(IServerPlayerCommand serverPlayerCommand, IOptions<ServerOptions> options)
     {
         ServerPlayerCommand = serverPlayerCommand;
+        CheckPassword = options.Value.CheckPassword;
     }
 
     public override string? Guards(IActionInput actionInput)
@@ -33,7 +37,7 @@ public class Delete : AccountGameActionBase
         if (actionInput.Parameters.Length == 0)
             return BuildCommandSyntax();
 
-        if (Actor.Password != actionInput.Parameters[0].Value) // TODO: encode password
+        if (CheckPassword && Actor.Password != actionInput.Parameters[0].Value) // TODO: encode password
         {
             Actor.SetLag(10 * Pulse.PulsePerSeconds);
             return "Wrong password. Wait 10 seconds.";
