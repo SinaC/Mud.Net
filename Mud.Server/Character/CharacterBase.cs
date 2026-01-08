@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.DataStructures;
 using Mud.Domain;
@@ -40,6 +39,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
     private static ResourceKinds[] MandatoryAvailableResources { get; } = [ResourceKinds.HitPoints, ResourceKinds.MovePoints];
     private static ResourceKinds[] DefaultAvailableResources { get; } = [ResourceKinds.HitPoints, ResourceKinds.MovePoints, ResourceKinds.Mana];
 
+    private const int MaxRecompute = 5;
     private const int MinAlignment = -1000;
     private const int MaxAlignment = 1000;
 
@@ -582,12 +582,10 @@ public abstract class CharacterBase : EntityBase, ICharacter
     }
 
     // Visibility
-    public bool CanSee(ICharacter? victim)
+    public virtual bool CanSee(ICharacter? victim)
     {
         if (victim == null)
             return false;
-        if (this is IPlayableCharacter { IsImmortal: true })
-            return true;
         if (victim == this)
             return true;
         // blind
@@ -628,9 +626,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (item == null)
             return false;
 
-        if (this is IPlayableCharacter { IsImmortal: true })
-            return true;
-
         // visible death
         if (item.ItemFlags.IsSet("VisibleDeath"))
             return false;
@@ -659,20 +654,20 @@ public abstract class CharacterBase : EntityBase, ICharacter
         return true;
     }
 
-    public bool CanSee(IExit? exit)
+    public virtual bool CanSee(IExit? exit)
     {
         if (exit == null)
             return false;
-        if (this is IPlayableCharacter { IsImmortal: true })
-            return true;
-        if (CharacterFlags.IsSet("DetectHidden"))
-            return true;
-        //if (exit.ExitFlags.HasFlag(ExitFlags.IsHidden))
-        //    return false;
-        return true; // TODO: Hidden
+        if (exit.ExitFlags.HasFlag(ExitFlags.Hidden))
+        {
+            if (CharacterFlags.IsSet("DetectHidden"))
+                return true;
+            return false;
+        }
+        return true;
     }
 
-    public bool CanSee(IRoom? room)
+    public virtual bool CanSee(IRoom? room)
     {
         if (room == null)
             return false;
@@ -681,29 +676,18 @@ public abstract class CharacterBase : EntityBase, ICharacter
         //if (room.IsDark && !CharacterFlags.IsSet("Infrared"))
         //    return false;
 
-        // TODO
-        //        if (IS_SET(pRoomIndex->room_flags, ROOM_IMP_ONLY)
-        //&& get_trust(ch) < MAX_LEVEL)
-        //            return FALSE;
-
-        if (room.RoomFlags.IsSet("GodsOnly") // no difference with HeroesOnly
-            && (this as IPlayableCharacter)?.IsImmortal != true)
+        if (room.RoomFlags.IsSet("ImpOnly") || room.RoomFlags.IsSet("GodsOnly") || room.RoomFlags.IsSet("HeroesOnly"))
             return false;
 
-        if (room.RoomFlags.IsSet("HeroesOnly") // no difference with GodsOnly
-            && (this as IPlayableCharacter)?.IsImmortal != true)
+        if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5)
             return false;
 
-        if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && (this as IPlayableCharacter)?.IsImmortal != true)
-            return false;
-
-        // TODO
+        // TODO: clan
         //        if (!IS_IMMORTAL(ch) && pRoomIndex->clan && ch->clan != pRoomIndex->clan)
         //            return FALSE;
-
         //        return TRUE;
 
-        return true; // TODO
+        return true;
     }
 
     // Attributes
@@ -882,85 +866,67 @@ public abstract class CharacterBase : EntityBase, ICharacter
     {
         Logger.LogDebug("CharacterBase.Recompute: {name}", DebugName);
 
-        // Reset current attributes
-        ResetAttributesAndResourcesAndFlags();
+        var recomputeCount = 0;
+        var additionalRecomputeNeeded = false;
 
-        // 1) Apply room auras
-        if (Room != null)
-            ApplyAuras(Room);
-
-        // 2) Apply equipment auras
-        foreach (var equipment in Equipments.Where(x => x.Item != null))
-            ApplyAuras(equipment.Item!);
-
-        // 3) Apply equipment armor
-        foreach (var equippedItem in Equipments.Where(x => x.Item is IItemArmor || x.Item is IItemShield))
+        while (true)
         {
-            if (equippedItem.Item is IItemArmor armor)
-            {
-                int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equippedItem.Slot);
-                this[CharacterAttributes.ArmorBash] -= armor.Bash * equipmentSlotMultiplier;
-                this[CharacterAttributes.ArmorPierce] -= armor.Pierce * equipmentSlotMultiplier;
-                this[CharacterAttributes.ArmorSlash] -= armor.Slash * equipmentSlotMultiplier;
-                this[CharacterAttributes.ArmorExotic] -= armor.Exotic * equipmentSlotMultiplier;
-            }
-            if (equippedItem.Item is IItemShield shield)
-            {
-                int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equippedItem.Slot);
-                this[CharacterAttributes.ArmorBash] -= shield.Armor * equipmentSlotMultiplier;
-                this[CharacterAttributes.ArmorPierce] -= shield.Armor * equipmentSlotMultiplier;
-                this[CharacterAttributes.ArmorSlash] -= shield.Armor * equipmentSlotMultiplier;
-                this[CharacterAttributes.ArmorExotic] -= shield.Armor * equipmentSlotMultiplier;
-            }
-        }
+            // Reset current attributes
+            ResetAttributesAndResourcesAndFlags();
 
-        // 4) Apply own auras
-        ApplyAuras(this);
+            // 1) Apply room auras
+            if (Room != null)
+                ApplyAuras(Room);
 
-        // 5) Check if weapon can still be wielded
-        if (this is IPlayableCharacter)
-        {
-            bool shouldRecompute = false;
-            foreach (var equipedItem in Equipments.Where(x => x.Slot == EquipmentSlots.MainHand && x.Item is IItemWeapon))
+            // 2) Apply equipment auras
+            foreach (var equipment in Equipments.Where(x => x.Item != null))
+                ApplyAuras(equipment.Item!);
+
+            // 3) Apply equipment armor
+            foreach (var equippedItem in Equipments.Where(x => x.Item is IItemArmor || x.Item is IItemShield))
             {
-                if (equipedItem.Item is IItemWeapon weapon) // always true
+                if (equippedItem.Item is IItemArmor armor)
                 {
-                    if (!weapon.CanWield(this))
-                    {
-                        Act(ActOptions.ToAll, "{0:N} can't use {1} anymore.", this, weapon);
-                        weapon.ChangeEquippedBy(null, false);
-                        weapon.ChangeContainer(this);
-                        shouldRecompute = true;
-                    }
+                    int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equippedItem.Slot);
+                    this[CharacterAttributes.ArmorBash] -= armor.Bash * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorPierce] -= armor.Pierce * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorSlash] -= armor.Slash * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorExotic] -= armor.Exotic * equipmentSlotMultiplier;
+                }
+                if (equippedItem.Item is IItemShield shield)
+                {
+                    int equipmentSlotMultiplier = TableValues.EquipmentSlotMultiplier(equippedItem.Slot);
+                    this[CharacterAttributes.ArmorBash] -= shield.Armor * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorPierce] -= shield.Armor * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorSlash] -= shield.Armor * equipmentSlotMultiplier;
+                    this[CharacterAttributes.ArmorExotic] -= shield.Armor * equipmentSlotMultiplier;
                 }
             }
-            if (shouldRecompute)
-                Recompute();
-        }
 
-        // Keep resources in valid range
-        foreach(var resourceKind in Enum.GetValues<ResourceKinds>())
-            _currentResources[resourceKind] = Math.Min(_currentResources[resourceKind], _currentMaxResources[resourceKind]);
-        // keep basic attributes in valid range
-        //  3->25 for NPC
-        //  3->MIN(25, max)
-        //      where max = max race + 2 if prime attribute + 1 if enhanced prime attribute
-        foreach(var basicAttribute in Enum.GetValues<BasicAttributes>())
-        {
-            var maxAllowed = 25;
-            if (this is IPlayableCharacter pc && pc.Race is IPlayableRace playableRace)
+            // 4) Apply own auras
+            ApplyAuras(this);
+
+            // 5) Check some equipped items need to be unequipped which could imply an additional recompute
+            additionalRecomputeNeeded |= CheckEquippedItemsDuringRecompute();
+
+            // 6) Keep resources in valid range
+            foreach (var resourceKind in Enum.GetValues<ResourceKinds>())
+                _currentResources[resourceKind] = Math.Min(_currentResources[resourceKind], _currentMaxResources[resourceKind]);
+            // 7) keep basic attributes in valid range
+            //  3->25 for NPC
+            //  3->MIN(25, max)
+            //      where max = max race + 2 if prime attribute + 1 if enhanced prime attribute
+            foreach (var basicAttribute in Enum.GetValues<BasicAttributes>())
             {
-                var max = playableRace.GetMaxAttribute(basicAttribute) + 4;
-                if (Class != null && basicAttribute == Class.PrimeAttribute)
-                {
-                    max += 2;
-                    if (playableRace?.EnhancedPrimeAttribute == true)
-                        max++;
-                }
-                maxAllowed = Math.Min(max, 25);
+                var maxAllowed = MaxAllowedBasicAttribute(basicAttribute);
+                var characterAttributeIndex = (CharacterAttributes)basicAttribute;
+                _currentAttributes[characterAttributeIndex] = Math.Clamp(_currentAttributes[characterAttributeIndex], 3, maxAllowed);
             }
-            var characterAttributeIndex = (CharacterAttributes)basicAttribute;
-            _currentAttributes[characterAttributeIndex] = Math.Clamp(_currentAttributes[characterAttributeIndex], 3, maxAllowed);
+
+            // 8) additional recompute needed ?
+            if (!additionalRecomputeNeeded || recomputeCount >= MaxRecompute)
+                break;
+            recomputeCount++;
         }
     }
 
@@ -1259,10 +1225,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         Fighting = null;
         Stunned = 0;
-        if (this is INonPlayableCharacter npc)
-            npc.ChangePosition(npc.Blueprint.DefaultPosition);
-        else
-            ChangePosition(Positions.Standing);
+        ChangePosition(DefaultPosition);
         if (both)
         {
             foreach (ICharacter victim in CharacterManager.Characters.Where(x => x.Fighting == this))
@@ -2007,7 +1970,16 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
     protected abstract void AfterMove(ExitDirections direction, IRoom fromRoom, IRoom toRoom);
 
+    protected abstract bool CheckEquippedItemsDuringRecompute();
+
+    protected abstract int MaxAllowedBasicAttribute(BasicAttributes basicAttributes);
+
+    protected abstract Positions DefaultPosition { get; }
+
+    protected abstract bool CannotDie { get; }
+
     protected abstract (decimal hit, decimal move, decimal mana, decimal psy) CalculateResourcesDeltaByMinute();
+
     protected abstract (decimal energy, decimal rage) CalculateResourcesDeltaBySecond();
 
     protected virtual bool AutomaticallyDisplayRoom
@@ -2601,14 +2573,20 @@ public abstract class CharacterBase : EntityBase, ICharacter
             damage = (damage - 80) / 2 + 80;
 
         // drunk reduction
-        if (damage > 1 && this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
-            damage -= damage / 10;
-
-        // any damage modifier on victim (this) affects ?
-        var characterDamageDecreaseModifierAffects = Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterDamageModifierAffect>()).ToArray();
-        foreach (var characterDamageDecreaseModifierAffect in characterDamageDecreaseModifierAffects)
+        if (damage > 1)
         {
-            damage = characterDamageDecreaseModifierAffect.ModifyDamage(source, this, damageType, damageSource, damage);
+            if (this is IPlayableCharacter pcVictim && pcVictim[Conditions.Drunk] > 10)
+                damage -= damage / 10;
+        }
+
+        if (damage > 1)
+        {
+            // any damage modifier on victim (this) affects ?
+            var characterDamageDecreaseModifierAffects = Auras.Where(x => x.IsValid).SelectMany(x => x.Affects.OfType<ICharacterDamageModifierAffect>()).ToArray();
+            foreach (var characterDamageDecreaseModifierAffect in characterDamageDecreaseModifierAffects)
+            {
+                damage = characterDamageDecreaseModifierAffect.ModifyDamage(source, this, damageType, damageSource, damage);
+            }
         }
 
         // apply resistances
@@ -2701,8 +2679,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         // hurt the victim
         _currentResources[(int)ResourceKinds.HitPoints] -= damage; // don't use UpdateHitPoints because value will not be allowed to go below 0
-        // immortals don't really die
-        if (this is IPlayableCharacter { IsImmortal: true }
+        // check if can die
+        if (CannotDie
             && this[ResourceKinds.HitPoints] < 1)
             _currentResources[(int)ResourceKinds.HitPoints] = 1;
         // TODO: in original code, position is updating depending on hitpoints and a specific message depending on position is displayed (check update_pos)
