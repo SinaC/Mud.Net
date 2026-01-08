@@ -10,6 +10,7 @@ using Mud.Domain.SerializationData;
 using Mud.Domain.SerializationData.Avatar;
 using Mud.Server.Ability;
 using Mud.Server.Ability.AbilityGroup;
+using Mud.Server.Commands.Admin.Avatar;
 using Mud.Server.Common;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Domain;
@@ -18,6 +19,7 @@ using Mud.Server.Flags.Interfaces;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
+using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Affect;
 using Mud.Server.Interfaces.Affect.Character;
 using Mud.Server.Interfaces.Aura;
@@ -384,6 +386,45 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         return displayName.ToString();
     }
 
+    public override bool CanSee(ICharacter? victim)
+    {
+        if (victim == null)
+            return false;
+        if (IsImmortal)
+            return true;
+        return base.CanSee(victim);
+    }
+
+    public override bool CanSee(IExit? exit)
+    {
+        if (exit == null)
+            return false;
+        if (IsImmortal)
+            return true;
+        return base.CanSee(exit);
+    }
+
+    public override bool CanSee(IRoom? room)
+    {
+        if (room == null)
+            return false;
+
+        var adminLevel = (ImpersonatedBy as IAdmin)?.Level;
+        if (room.RoomFlags.IsSet("ImpOnly") && (!IsImmortal || adminLevel is null || adminLevel < AdminLevels.Implementor))
+            return false;
+
+        if (room.RoomFlags.IsSet("GodsOnly") && (!IsImmortal || adminLevel is null || adminLevel < AdminLevels.God))
+            return false;
+
+        if (room.RoomFlags.IsSet("HeroesOnly") && !IsImmortal)
+            return false;
+
+        if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && !IsImmortal)
+            return false;
+
+
+        return base.CanSee(room);
+    }
 
     public override void OnRemoved() // called before removing a character from the game
     {
@@ -1149,6 +1190,45 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     protected override bool AutomaticallyDisplayRoom => true;
+
+    protected override Positions DefaultPosition => Positions.Standing;
+
+    protected override bool CannotDie => IsImmortal;
+
+    protected override bool CheckEquippedItemsDuringRecompute()
+    {
+        var recomputeNeeded = false;
+        foreach (var equipedItem in Equipments.Where(x => x.Slot == EquipmentSlots.MainHand && x.Item is IItemWeapon))
+        {
+            if (equipedItem.Item is IItemWeapon weapon) // always true
+            {
+                if (!weapon.CanWield(this))
+                {
+                    Act(ActOptions.ToAll, "{0:N} can't use {1} anymore.", this, weapon);
+                    weapon.ChangeEquippedBy(null, false);
+                    weapon.ChangeContainer(this);
+                    recomputeNeeded = true;
+                }
+            }
+        }
+        return recomputeNeeded;
+    }
+
+    protected override int MaxAllowedBasicAttribute(BasicAttributes basicAttribute)
+    {
+        if (Race is IPlayableRace playableRace)
+        {
+            var max = playableRace.GetMaxAttribute(basicAttribute) + 4;
+            if (Class != null && basicAttribute == Class.PrimeAttribute)
+            {
+                max += 2;
+                if (playableRace?.EnhancedPrimeAttribute == true)
+                    max++;
+            }
+            return Math.Min(max, 25);
+        }
+        return 25;
+    }
 
     protected override (decimal hit, decimal move, decimal mana, decimal psy) CalculateResourcesDeltaByMinute()
     {

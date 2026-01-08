@@ -37,7 +37,6 @@ using Mud.Server.Quest.Objectives;
 using Mud.Server.Random;
 using System.Diagnostics;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Mud.Server.Character.NonPlayableCharacter;
 
@@ -693,6 +692,17 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
         learned = Math.Clamp(learned, 0, 100);
         return (learned, abilityLearned);
     }
+
+    protected override Positions DefaultPosition
+        => Blueprint.DefaultPosition;
+
+    protected override bool CannotDie => Blueprint is CharacterShopBlueprintBase || Blueprint is CharacterQuestorBlueprint;
+
+    protected override bool CheckEquippedItemsDuringRecompute() // no equipment check for NPC
+        => false;
+
+    protected override int MaxAllowedBasicAttribute(BasicAttributes basicAttribute)
+        => 25;
 
     protected override (decimal hit, decimal move, decimal mana, decimal psy) CalculateResourcesDeltaByMinute()
     {

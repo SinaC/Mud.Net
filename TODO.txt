@@ -1,8 +1,6 @@
 INGOING
+    Removing as much as possible this is IPlayableCharacter and this is INonPlayableCharacter in CharacterBase
 DONE
-    Additional world sanity check to detect exits with unknown/invalid key
-    new admin command: rinfo
-    minor refactoring for admin commands: cstat/cinfo/rstat/istat/iinfo 
 
 ==========
 == TODO ==
@@ -60,8 +58,6 @@ would be used for https://www.wowhead.com/mop-classic/spell=33876/mangle which i
 
 handle shapeshift using new type of affect
 cat form/bear form with new affects
-
-try to replace is INonPlayableCharacter with overrides (same goes for is IPlayableCharacter)
 
 generic dot affect
 
