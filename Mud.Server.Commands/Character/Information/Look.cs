@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Domain;
-using Mud.Server.Ability;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Common.Extensions;
 using Mud.Server.Common.Helpers;
@@ -14,7 +13,6 @@ using Mud.Server.Interfaces.Entity;
 using Mud.Server.Interfaces.GameAction;
 using Mud.Server.Interfaces.Item;
 using Mud.Server.Interfaces.Table;
-using System.Reflection.Metadata;
 using System.Text;
 
 namespace Mud.Server.Commands.Character.Information;
@@ -75,7 +73,7 @@ public class Look : CharacterGameAction
         if (Actor.CharacterFlags.IsSet("Blind"))
             return "You can't see a thing!";
 
-        if (Actor.Room.IsDark && !(Actor is IPlayableCharacter { IsImmortal: true }))
+        if (Actor.Room.IsDark && !Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
         {
             IsRoomDark = true;
             return null;

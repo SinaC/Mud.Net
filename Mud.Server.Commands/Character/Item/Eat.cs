@@ -59,7 +59,7 @@ public class Eat : CastSpellCharacterGameActionBase
         else
             return "That's not edible.";
 
-        if (Actor is IPlayableCharacter pc && pc[Conditions.Full] > 40 && pc.IsImmortal != true)
+        if (Actor is IPlayableCharacter pc && pc[Conditions.Full] > 40 && pc.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
             return "You are too full to eat more.";
 
         return null;

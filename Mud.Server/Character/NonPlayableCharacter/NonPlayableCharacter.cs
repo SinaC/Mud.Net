@@ -301,7 +301,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
             displayName.Append("Someone");
         else
             displayName.Append("someone");
-        if (playableBeholder?.IsImmortal == true)
+        if (beholder.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
             displayName.Append($" [id: {Blueprint?.Id.ToString() ?? " ??? "}]");
         return displayName.ToString();
     }
@@ -328,6 +328,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     }
 
     #endregion
+
+    public override ImmortalModeFlags ImmortalMode => ImmortalModeFlags.None;
 
     public override int MaxCarryWeight => ActFlags.IsSet("Pet")
         ? 0
@@ -696,7 +698,7 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     protected override Positions DefaultPosition
         => Blueprint.DefaultPosition;
 
-    protected override bool CannotDie => Blueprint is CharacterShopBlueprintBase || Blueprint is CharacterQuestorBlueprint;
+    protected override bool CannotDie => Blueprint is CharacterShopBlueprintBase || Blueprint is CharacterQuestorBlueprint || ActFlags.HasAny("Train", "Gain", "Practice", "IsHealer");
 
     protected override bool CheckEquippedItemsDuringRecompute() // no equipment check for NPC
         => false;
@@ -743,6 +745,12 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
 
     protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
         => (10, -1);
+
+    protected override bool CanGoTo(IRoom destination)
+    {
+        return !destination.RoomFlags.IsSet("NoMob")
+            && !(ActFlags.IsSet("Aggressive") && destination.RoomFlags.IsSet("Law"));
+    }
 
     protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
     {

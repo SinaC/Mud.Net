@@ -51,7 +51,7 @@ public abstract class SkillBase : CharacterGameAction, ISkill
             return "You don't know any skills of that name.";
 
         // 5) check costs
-        if (abilityLearned != null && abilityLearned.HasCost)
+        if (abilityLearned != null && abilityLearned.HasCost && !User.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
         {
             var resourceCostToPays = new List<ResourceCostToPay>();
             foreach (var abilityResourceCost in abilityLearned.AbilityUsage.ResourceCosts)

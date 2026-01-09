@@ -3,7 +3,6 @@ using Mud.Domain;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Domain;
 using Mud.Server.GameAction;
-using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.GameAction;
 using System.Text;
@@ -74,20 +73,17 @@ public class Score : CharacterGameAction
                 case Positions.Sitting: sb.AppendLine("You are sitting."); break;
                 case Positions.Standing: sb.AppendLine("You are standing."); break;
             }
-            if (pc.ImpersonatedBy is IAdmin)
-            {
-                if (pc.IsImmortal)
-                    sb.AppendLine("You are %G%IMMORTAL%x%");
-                else
-                    sb.AppendLine("You are %R%MORTAL%x%");
-            }
+            if (pc.ImmortalMode != ImmortalModeFlags.None)
+                sb.AppendFormatLine("You are %G%{0}%x%", pc.ImmortalMode);
+            else
+                sb.AppendLine("You are %R%MORTAL%x%");
             if (pc.AutoFlags.HasFlag(AutoFlags.Affect))
             {
                 if (Actor.Auras.Any())
                 {
                     sb.AppendLine("%c%You are affected by the following auras:%x%");
                     // Auras
-                    foreach (var aura in Actor.Auras.Where(x => (Actor is IPlayableCharacter pc && pc.IsImmortal) || !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.AuraFlags.HasFlag(AuraFlags.Permanent) ? int.MaxValue : x.PulseLeft))
+                    foreach (var aura in Actor.Auras.Where(x => Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.AuraFlags.HasFlag(AuraFlags.Permanent) ? int.MaxValue : x.PulseLeft))
                         aura.Append(sb, true); // short version
                 }
             }

@@ -56,10 +56,19 @@ public abstract class PassiveBase : IPassive
         }
 
         // 4) check if failed
-        diceRoll = RandomManager.Range(1, 100);
-        var checkSuccess = CheckSuccess(user, victim, learnPercentage, diceRoll);
-        if (!checkSuccess)
-            return false;
+        bool checkSuccess;
+        if (user.ImmortalMode.HasFlag(Mud.Domain.ImmortalModeFlags.Omniscient))
+        {
+            diceRoll = 100;
+            checkSuccess = true;
+        }
+        else
+        {
+            diceRoll = RandomManager.Range(1, 100);
+            checkSuccess = CheckSuccess(user, victim, learnPercentage, diceRoll);
+            if (!checkSuccess)
+                return false;
+        }
 
         // 5) set cooldown
         if (abilityDefinition.CooldownInSeconds.HasValue && abilityDefinition.CooldownInSeconds.Value > 0)

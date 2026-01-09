@@ -40,7 +40,7 @@ public class Nexus : TransportationSpellBase
     protected override void Invoke()
     {
         // search warpstone
-        if (Caster is INonPlayableCharacter || (Caster is IPlayableCharacter pcCaster && !pcCaster.IsImmortal))
+        if (!Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
         {
             var stone = Caster.GetEquipment(EquipmentSlots.OffHand) as IItemWarpstone;
             if (stone == null)

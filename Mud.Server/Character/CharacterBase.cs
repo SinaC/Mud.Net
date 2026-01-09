@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Mud.Blueprints.Character;
 using Mud.Common;
 using Mud.DataStructures;
 using Mud.Domain;
@@ -173,6 +174,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     public IRoom Room { get; protected set; }
 
     public ICharacter? Fighting { get; protected set; }
+
+    public abstract ImmortalModeFlags ImmortalMode { get; }
 
     public IEnumerable<IEquippedItem> Equipments => _equipments;
     public IEnumerable<IItem> Inventory => Content;
@@ -962,6 +965,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
         var exit = fromRoom[direction];
         var toRoom = exit?.Destination;
 
+        var passThru = ImmortalMode.HasFlag(ImmortalModeFlags.PassThru);
+
         // Check if existing exit
         if (exit == null || toRoom == null)
         {
@@ -970,33 +975,43 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return false;
         }
         // Closed ?
-        if (exit.IsClosed && (!CharacterFlags.IsSet("PassDoor") || exit.ExitFlags.HasFlag(ExitFlags.NoPass)))
+        if ((exit.IsClosed && (!CharacterFlags.IsSet("PassDoor") || exit.ExitFlags.HasFlag(ExitFlags.NoPass)))
+             && !passThru)
         {
             Act(ActOptions.ToCharacter, "The {0} is closed.", exit);
             return false;
         }
         // Private ?
-        if (toRoom.IsPrivate)
+        if (toRoom.IsPrivate) // even if pass-thru, we cannot go in private room
         {
             Send("That room is private right now.");
             return false;
         }
+        // Allowed ?
+        if (!CanGoTo(toRoom)
+            && !passThru)
+        {
+            Send("You are not allowed to go that direction.");
+            return false;
+        }
         // Size
-        if (toRoom.MaxSize.HasValue && toRoom.MaxSize.Value < Size)
+        if (toRoom.MaxSize.HasValue && toRoom.MaxSize.Value < Size
+            && !passThru)
         {
             Send("You're too huge to go that direction.");
             return false;
         }
         // Flying
         if ((fromRoom.SectorType == SectorTypes.Air || toRoom.SectorType == SectorTypes.Air)
-            && (!CharacterFlags.IsSet("Flying") && (this as IPlayableCharacter)?.IsImmortal != true))
+            && !CharacterFlags.IsSet("Flying")
+            && !passThru)
         {
             Send("You can't fly.");
             return false;
         }
         // Water
         if ((fromRoom.SectorType == SectorTypes.WaterSwim || toRoom.SectorType == SectorTypes.WaterSwim)
-            && (this as IPlayableCharacter)?.IsImmortal != true
+            && !passThru
             && !CharacterFlags.IsSet("Swim")
             && !CharacterFlags.IsSet("Flying")
             && !Inventory.OfType<IItemBoat>().Any()) // TODO: WalkOnWater
@@ -1006,7 +1021,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         }
         // Water no swim or underwater
         if ((fromRoom.SectorType == SectorTypes.WaterNoSwim || toRoom.SectorType == SectorTypes.WaterNoSwim)
-            && (this as IPlayableCharacter)?.IsImmortal != true
+            && !passThru
             && !CharacterFlags.IsSet("Flying")) // TODO: WalkOnWater
         {
             Send("You need to be flying or walking on water.");
@@ -1021,6 +1036,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         //
         if (!CharacterFlags.IsSet("Sneak"))
             Act(ActOptions.ToRoom, "{0} leaves {1}.", this, direction.DisplayNameLowerCase());
+
         ChangeRoom(toRoom, false);
 
         // Display special phrase after entering room
@@ -1049,14 +1065,16 @@ public abstract class CharacterBase : EntityBase, ICharacter
         if (portal == null)
             return false;
 
-        if (portal.PortalFlags.HasFlag(PortalFlags.Closed))
+        var passThru = ImmortalMode.HasFlag(ImmortalModeFlags.PassThru);
+
+        if (portal.PortalFlags.HasFlag(PortalFlags.Closed) && !passThru)
         {
             Send("You can't seem to find a way in.");
             return false;
         }
 
-        if ((portal.PortalFlags.HasFlag(PortalFlags.NoCurse) && CharacterFlags.IsSet("Curse"))
-            || Room.RoomFlags.IsSet("NoRecall"))
+        if (((portal.PortalFlags.HasFlag(PortalFlags.NoCurse) && CharacterFlags.IsSet("Curse")) || Room.RoomFlags.IsSet("NoRecall"))
+            && !passThru)
         {
             Send("Something prevents you from leaving...");
             return false;
@@ -1076,15 +1094,14 @@ public abstract class CharacterBase : EntityBase, ICharacter
 
         if (destination == null
             || destination == Room
-            || !CanSee(destination)
-            || destination.IsPrivate
-            || destination.RoomFlags.IsSet("Private"))
+            || (!CanSee(destination) && !passThru)
+            || destination.IsPrivate) // even if pass-thru, we cannot go in private room
         {
             Act(ActOptions.ToCharacter, "{0:N} doesn't seem to go anywhere.", portal);
             return false;
         }
 
-        if (this is INonPlayableCharacter npc && npc.ActFlags.IsSet("Aggressive") && destination.RoomFlags.IsSet("Law"))
+        if (!CanGoTo(destination))
         {
             Send("Something prevents you from leaving...");
             return false;
@@ -1101,8 +1118,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
         Act(ActOptions.ToRoom, "{0:N} steps into {1}.", this, portal);
         Act(ActOptions.ToCharacter, "You walk through {0} and find yourself somewhere else...", portal);
 
-        if (this is IPlayableCharacter pc)
-            pc.IncrementStatistics(AvatarStatisticTypes.PortalUsed);
+        (this as IPlayableCharacter)?.IncrementStatistics(AvatarStatisticTypes.PortalUsed);
 
         ChangeRoom(destination, false);
 
@@ -1332,20 +1348,17 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return true;
         if (victim.Fighting == caster || victim == caster)
             return false;
-        if (!area && (caster is IPlayableCharacter pcCaster && pcCaster.IsImmortal))
+        if (!area && ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe))
             return false;
+        // safe room
+        if (victim.Room.RoomFlags.IsSet("Safe"))
+            return true;
         // Killing npc
         if (victim is INonPlayableCharacter npcVictim)
         {
-            // safe room ?
-            if (victim.Room.RoomFlags.IsSet("Safe"))
-                return true;
-
-            if (npcVictim.Blueprint is CharacterShopBlueprintBase)
-                return true;
-
             if (npcVictim.ActFlags.HasAny("Train", "Gain", "Practice", "IsHealer")
-                || npcVictim.Blueprint is CharacterQuestorBlueprint)
+                || npcVictim.Blueprint is CharacterQuestorBlueprint
+                || npcVictim.Blueprint is CharacterShopBlueprintBase)
                 return true;
             // Npc doing the killing
             if (caster is INonPlayableCharacter)
@@ -1371,16 +1384,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
         // Killing players
         else
         {
-            if (area && (victim is IPlayableCharacter pcVictim && pcVictim.IsImmortal))
+            if (area && victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe))
                 return true;
             // Npc doing the killing
             if (caster is INonPlayableCharacter npcCaster)
             {
                 // charmed mobs and pets cannot attack players while owned
                 if (caster.CharacterFlags.IsSet("Charm") && npcCaster.Master!= null && npcCaster.Master.Fighting != victim)
-                    return true;
-                // safe room
-                if (victim.Room.RoomFlags.IsSet("Safe"))
                     return true;
                 // legal kill? -- mobs only hit players grouped with opponent
                 if (caster.Fighting != null && !caster.Fighting.IsSameGroupOrPet(victim))
@@ -1413,14 +1423,13 @@ public abstract class CharacterBase : EntityBase, ICharacter
             return "Invalid target!";
         if (victim.Fighting == aggressor || victim == aggressor)
             return null;
-        if (aggressor is IPlayableCharacter pcCaster && pcCaster.IsImmortal)
+        if (victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe))
             return null;
+        if (victim.Room.RoomFlags.IsSet("Safe"))
+            return "Not in this room.";
         // Killing npc
         if (victim is INonPlayableCharacter npcVictim)
         {
-            if (victim.Room.RoomFlags.IsSet("Safe"))
-                return "Not in this room.";
-
             if (npcVictim.Blueprint is CharacterShopBlueprintBase)
                 return "The shopkeeper wouldn't like that.";
 
@@ -1445,9 +1454,6 @@ public abstract class CharacterBase : EntityBase, ICharacter
             // Npc doing the killing
             if (aggressor is INonPlayableCharacter npcAggressor)
             {
-                // safe room
-                if (victim.Room.RoomFlags.IsSet("Safe"))
-                    return "Not in this room.";
                 // charmed mobs and pets cannot attack players while owned
                 if (aggressor.CharacterFlags.IsSet("Charm") && npcAggressor.Master != null && npcAggressor.Master.Fighting != victim)
                     return "Players are your friends!";
@@ -1502,7 +1508,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
             var destination = exit?.Destination;
             if (destination != null && exit?.IsClosed == false
                 && !(RandomManager.Range(0, Daze) != 0) // partially dazed, has some chance to flee
-                && !(pc == null && destination.RoomFlags.IsSet("NoMob")))
+                && CanGoTo(destination))
             {
                 // Try to move without checking if in combat or not
                 Move(randomExit, false, false); // followers will not follow
@@ -1528,6 +1534,7 @@ public abstract class CharacterBase : EntityBase, ICharacter
                 }
             }
         }
+
         Send("PANIC! You couldn't escape!");
         return false;
     }
@@ -1963,6 +1970,8 @@ public abstract class CharacterBase : EntityBase, ICharacter
     }
 
     #endregion
+
+    protected abstract bool CanGoTo(IRoom destination);
 
     protected abstract ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom);
 

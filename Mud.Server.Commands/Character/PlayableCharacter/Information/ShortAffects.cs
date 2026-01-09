@@ -27,7 +27,7 @@ public class ShortAffects : PlayableCharacterGameAction
         {
             sb.AppendLine("%c%You are affected by following auras:%x%");
             // Auras
-            foreach (var aura in Actor.Auras.Where(x => Actor.IsImmortal || !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.AuraFlags.HasFlag(AuraFlags.Permanent) ? int.MaxValue : x.PulseLeft))
+            foreach (var aura in Actor.Auras.Where(x => Actor.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || !x.AuraFlags.HasFlag(AuraFlags.Hidden)).OrderBy(x => x.AuraFlags.HasFlag(AuraFlags.Permanent) ? int.MaxValue : x.PulseLeft))
                 aura.Append(sb, true);
         }
         else

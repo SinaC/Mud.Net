@@ -64,6 +64,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     private readonly Dictionary<string, string> _aliases;
     private readonly List<INonPlayableCharacter> _pets;
     private readonly Dictionary<string, IAbilityGroupLearned> _learnedAbilityGroups;
+    private ImmortalModeFlags _immortalMode;
 
     public PlayableCharacter(ILogger<PlayableCharacter> logger, IGameActionManager gameActionManager, ICommandParser commandParser, IAbilityManager abilityManager, IOptions<MessageForwardOptions> messageForwardOptions, IOptions<WorldOptions> worldOptions, IRandomManager randomManager, ITableValues tableValues, IRoomManager roomManager, IItemManager itemManager, ICharacterManager characterManager, IAuraManager auraManager, IWeaponEffectManager weaponEffectManager, IFlagsManager flagsManager, IWiznet wiznet, IRaceManager raceManager, IClassManager classManager, IQuestManager questManager, IResistanceCalculator resistanceCalculator, IRageGenerator rageGenerator, IAffectManager affectManager, IAbilityGroupManager abilityGroupManager)
         : base(logger, gameActionManager, commandParser, abilityManager, messageForwardOptions, randomManager, tableValues, roomManager, itemManager, characterManager, auraManager, resistanceCalculator, rageGenerator, weaponEffectManager, affectManager, flagsManager, wiznet)
@@ -95,6 +96,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
         Room = RoomManager.NullRoom; // add in null room to avoid problem if an initializer needs a room
 
         // Extract informations from PlayableCharacterData
+        _immortalMode = data.ImmortalMode;
         CreationTime = data.CreationTime;
         Class = ClassManager[data.Class]!;
         if (Class == null)
@@ -381,7 +383,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             displayName.Append("Someone");
         else
             displayName.Append("someone");
-        if (beholder is IPlayableCharacter playableBeholder && playableBeholder.IsImmortal)
+        if (beholder.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
             displayName.Append($" [PLR {ImpersonatedBy?.DisplayName ?? " ??? "}]");
         return displayName.ToString();
     }
@@ -390,7 +392,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         if (victim == null)
             return false;
-        if (IsImmortal)
+        if (ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
             return true;
         return base.CanSee(victim);
     }
@@ -399,7 +401,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     {
         if (exit == null)
             return false;
-        if (IsImmortal)
+        if (ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
             return true;
         return base.CanSee(exit);
     }
@@ -410,16 +412,16 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             return false;
 
         var adminLevel = (ImpersonatedBy as IAdmin)?.Level;
-        if (room.RoomFlags.IsSet("ImpOnly") && (!IsImmortal || adminLevel is null || adminLevel < AdminLevels.Implementor))
+        if (room.RoomFlags.IsSet("ImpOnly") && (!ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || adminLevel is null || adminLevel < AdminLevels.Implementor))
             return false;
 
-        if (room.RoomFlags.IsSet("GodsOnly") && (!IsImmortal || adminLevel is null || adminLevel < AdminLevels.God))
+        if (room.RoomFlags.IsSet("GodsOnly") && (!ImmortalMode.HasFlag(ImmortalModeFlags.Holylight) || adminLevel is null || adminLevel < AdminLevels.God))
             return false;
 
-        if (room.RoomFlags.IsSet("HeroesOnly") && !IsImmortal)
+        if (room.RoomFlags.IsSet("HeroesOnly") && !ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
             return false;
 
-        if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && !IsImmortal)
+        if (room.RoomFlags.IsSet("NewbiesOnly") && Level > 5 && !ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
             return false;
 
 
@@ -464,11 +466,13 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     #endregion
 
-    public override int MaxCarryWeight => IsImmortal
+    public override ImmortalModeFlags ImmortalMode => _immortalMode;
+
+    public override int MaxCarryWeight => ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)
         ? 10000000
         : base.MaxCarryWeight;
 
-    public override int MaxCarryNumber => IsImmortal
+    public override int MaxCarryNumber => ImmortalMode.HasFlag(ImmortalModeFlags.Infinite)
         ? 1000
         : base.MaxCarryNumber;
 
@@ -672,8 +676,6 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     public DateTime CreationTime { get; protected set; }
-
-    public bool IsImmortal { get; protected set; }
 
     // Statistics
     public long this[AvatarStatisticTypes avatarStatisticType]
@@ -1026,13 +1028,10 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     // Immortality
-    public void ChangeImmortalState(bool isImmortal)
+    public void ChangeImmortalMode(ImmortalModeFlags mode)
     {
-        if (IsImmortal && !isImmortal)
-            Wiznet.Log($"{DebugName} is not immortal anymore.", WiznetFlags.Immortal, AdminLevels.God);
-        else if (!IsImmortal && isImmortal)
-            Wiznet.Log($"{DebugName} is now immortal.", WiznetFlags.Immortal, AdminLevels.God);
-        IsImmortal = isImmortal;
+        Wiznet.Log($"{DebugName} is immortal mode changed from {ImmortalMode} to {mode}.", WiznetFlags.Immortal, AdminLevels.God);
+        _immortalMode = mode;
     }
 
     // Misc
@@ -1163,7 +1162,8 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
             Aliases = Aliases.ToDictionary(x => x.Key, x => x.Value),
             Cooldowns = AbilitiesInCooldown.ToDictionary(x => x.Key, x => x.Value),
             Pets = Pets.Select(x => x.MapPetData()).ToArray(),
-            Statistics = _statistics.ToDictionary()
+            Statistics = _statistics.ToDictionary(),
+            ImmortalMode = ImmortalMode
         };
         return data;
     }
@@ -1193,7 +1193,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override Positions DefaultPosition => Positions.Standing;
 
-    protected override bool CannotDie => IsImmortal;
+    protected override bool CannotDie => ImmortalMode.HasFlag(ImmortalModeFlags.NoDeath);
 
     protected override bool CheckEquippedItemsDuringRecompute()
     {
@@ -1298,6 +1298,9 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
 
     protected override (decimal energy, decimal rage) CalculateResourcesDeltaBySecond()
         => (10, -1);
+
+    protected override bool CanGoTo(IRoom destination)
+        => true;
 
     protected override ExitDirections ChangeDirectionBeforeMove(ExitDirections direction, IRoom fromRoom)
     {
@@ -1690,5 +1693,5 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
     }
 
     //
-    private string DebuggerDisplay => $"PC {Name} IMP:{ImpersonatedBy?.Name} IMM:{IsImmortal} R:{Room?.Id} F:{Fighting?.Name}";
+    private string DebuggerDisplay => $"PC {Name} IMP:{ImpersonatedBy?.Name} IMM:{ImmortalMode} R:{Room?.Id} F:{Fighting?.Name}";
 }

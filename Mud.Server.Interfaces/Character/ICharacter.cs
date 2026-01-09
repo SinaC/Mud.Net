@@ -37,6 +37,7 @@ public interface ICharacter : IEntity, IContainer
 {
     IRoom Room { get; }
     ICharacter? Fighting { get; }
+    ImmortalModeFlags ImmortalMode { get; }
 
     IEnumerable<IEquippedItem> Equipments { get; }
     IEnumerable<IItem> Inventory { get; } // same as IContainer.Content

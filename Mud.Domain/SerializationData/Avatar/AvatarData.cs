@@ -48,4 +48,6 @@ public class AvatarData : CharacterData
     public required PetData[] Pets { get; set; }
 
     public Dictionary<AvatarStatisticTypes, long> Statistics { get; set; } = []; // not mandatory
+
+    public ImmortalModeFlags ImmortalMode { get; set; } = ImmortalModeFlags.None; // not mandatory
 }

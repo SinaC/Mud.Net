@@ -59,7 +59,7 @@ public class Calm : NoTargetSpellBase
         // Compute chance of stopping combat
         int chance = 4 * Level - maxLevel + 2 * count;
         // Always works if immortal
-        if (Caster is IPlayableCharacter pcCaster && pcCaster.IsImmortal)
+        if (Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
             sumLevel = 0;
         // Harder to stop large fights
         if (RandomManager.Range(0, chance) < sumLevel)

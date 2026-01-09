@@ -47,7 +47,7 @@ public class Summon : TransportationSpellBase
             || Victim.Room.RoomFlags.HasAny("Safe", "Private", "Solitary", "NoRecall", "ImpOnly")
             || (npcVictim != null && npcVictim.ActFlags.IsSet("Aggressive"))
             || Victim.Level >= Level + 3
-            || pcVictim?.IsImmortal == true
+            || !Victim.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe)
             || Victim.Fighting != null
             || (npcVictim != null && npcVictim.Immunities.IsSet("Summon"))
             || (npcVictim != null && (npcVictim.Blueprint is CharacterShopBlueprintBase))

@@ -95,22 +95,25 @@ public class Cstat : AdminGameAction
             sb.AppendLine("No blueprint");
         sb.AppendFormatLine("Name: {0} Keywords: {1}", Whom.Name, string.Join(",", Whom.Keywords));
         sb.AppendFormatLine("DisplayName: {0}", Whom.DisplayName);
-        if (Whom.Leader != null)
-            sb.AppendFormatLine("Leader: {0}", Whom.Leader.DisplayName);
-        if (npcWhom?.Master != null)
-            sb.AppendFormatLine("Master: {0}", npcWhom.Master.DisplayName);
+        sb.AppendFormatLine("Leader: {0}", Whom.Leader?.DisplayName ?? "/", npcWhom?.Master?.DisplayName ?? "/");
         if (pcWhom?.Group != null)
+        {
             foreach (IPlayableCharacter member in pcWhom.Group.Members)
                 sb.AppendFormatLine("Group member: {0}", member.DisplayName);
+        }
         if (pcWhom?.Pets.Any() == true)
+        {
             foreach (INonPlayableCharacter pet in pcWhom.Pets)
                 sb.AppendFormatLine("Pet: {0}", pet.DisplayName);
+        }
         if (Whom.IncarnatedBy != null)
             sb.AppendFormatLine("Incarnated by {0}", Whom.IncarnatedBy.DisplayName);
         else
             sb.AppendFormatLine("Incarnatable: {0}", Whom.Incarnatable);
         if (pcWhom?.ImpersonatedBy != null)
-            sb.AppendFormatLine("Impersonated by {0}", pcWhom.ImpersonatedBy.DisplayName);
+        {
+            sb.AppendFormatLine("Impersonated by {0} Immortal mode: {1}", pcWhom.ImpersonatedBy.DisplayName, pcWhom.ImmortalMode);
+        }
         if (Whom.Fighting != null)
             sb.AppendFormatLine("Fighting: {0}", Whom.Fighting.DisplayName);
         sb.AppendFormatLine("Shape: {0}", Whom.Shape);

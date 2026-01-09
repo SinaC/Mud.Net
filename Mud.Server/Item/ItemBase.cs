@@ -136,7 +136,7 @@ public abstract class ItemBase: EntityBase, IItem
             displayName.Append("Something");
         else
             displayName.Append("something");
-        if (playableBeholder?.IsImmortal == true)
+        if (beholder.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
             displayName.Append($" [id: {Blueprint?.Id.ToString() ?? " ??? "}]");
         return displayName.ToString();
     }
