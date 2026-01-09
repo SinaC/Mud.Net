@@ -48,8 +48,8 @@ public class LocateObject : SpellBase
     protected override void Invoke()
     {
         StringBuilder sb = new ();
-        var isImmortal = Caster is IPlayableCharacter pc && pc.IsImmortal;
-        int maxFound = isImmortal
+        var hasHolylight = Caster.ImmortalMode.HasFlag(Mud.Domain.ImmortalModeFlags.Holylight);
+        int maxFound = hasHolylight
             ? 200
             : Level * 2;
         int number = 0;
@@ -69,7 +69,7 @@ public class LocateObject : SpellBase
 
             if (item.ContainedInto is IRoom room)
             {
-                if (isImmortal)
+                if (hasHolylight)
                     sb.AppendFormatLine("One is in {0} (room {1})", room.DisplayName, room.Blueprint?.Id.ToString() ?? "???");
                 else
                     sb.AppendFormatLine("One is in {0}", room.DisplayName);

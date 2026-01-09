@@ -18,8 +18,6 @@ public interface IPlayableCharacter : ICharacter
     void SetAlias(string alias, string command);
     void RemoveAlias(string alias);
 
-    bool IsImmortal { get; }
-
     // Statistics
     long this[AvatarStatisticTypes avatarStatisticType] { get; }
     void IncrementStatistics(AvatarStatisticTypes avatarStatisticType, long increment = 1);
@@ -84,7 +82,7 @@ public interface IPlayableCharacter : ICharacter
     void AddLearnedAbilityGroup(IAbilityGroupUsage abilityGroupUsage);
 
     // Immortality
-    void ChangeImmortalState(bool isImmortal);
+    void ChangeImmortalMode(ImmortalModeFlags mode);
 
     // Misc
     bool SacrificeItem(IItem item);

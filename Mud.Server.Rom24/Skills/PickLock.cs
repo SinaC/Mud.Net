@@ -59,7 +59,7 @@ public class PickLock : SkillBase
             chance *= 2;
         if (Closeable.IsHard)
             chance /= 2;
-        if (!RandomManager.Chance(chance) && (User as IPlayableCharacter)?.IsImmortal != true)
+        if (!RandomManager.Chance(chance) && !User.ImmortalMode.HasFlag(ImmortalModeFlags.PassThru))
         {
             User.Send("You failed.");
             return false;
@@ -107,7 +107,7 @@ public class PickLock : SkillBase
             return "It's not closed.";
         if (!closeable.IsLockable)
             return "It can't be unlocked.";
-        if (closeable.IsPickProof && (User as IPlayableCharacter)?.IsImmortal != true)
+        if (closeable.IsPickProof && !User.ImmortalMode.HasFlag(ImmortalModeFlags.PassThru))
             return "You failed.";
         return null;
     }

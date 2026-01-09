@@ -24,7 +24,7 @@ namespace Mud.Server.Rom24.Specials
                 return false;
 
             // search a PC victim
-            var victim = npc.Room.People.OfType<IPlayableCharacter>().FirstOrDefault(x => !x.IsImmortal && RandomManager.Next(32) == 0 && npc.CanSee(x));
+            var victim = npc.Room.People.OfType<IPlayableCharacter>().FirstOrDefault(x => !x.ImmortalMode.HasFlag(ImmortalModeFlags.AlwaysSafe) && RandomManager.Next(32) == 0 && npc.CanSee(x));
             if (victim == null)
                 return false;
 

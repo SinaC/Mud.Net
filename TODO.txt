@@ -1,10 +1,26 @@
 INGOING
-    Removing as much as possible this is IPlayableCharacter and this is INonPlayableCharacter in CharacterBase
 DONE
-
+    different kind of immortal mode
+        NoDeath = 0x0001, // cannot die from damage
+        Holylight = 0x0002, // can see anything
+        Infinite = 0x0004, // infinite resource/no max weight/never full/no CD
+        PassThru = 0x0008, // can go anywhere, no key needed
+        AlwaysSafe = 0x0010, // will always be safe
+        Omniscient = 0x0020, // known every skills/spells/passives and never miss using/casting
+        UberMode: NoDeath+HolyLight+Infinite+PassThru+AlwaysSafe+Omniscient
 ==========
 == TODO ==
 ==========
+
+Use ImmortalModes.Omniscient in AbilityLearned, we have to create an artificial AbilityUsage or define an ImmortalAbilityUsages class which will create AbilityUsage on the fly for every ability
+due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
+    we should be able to add ability to a character even if not related to current class/race (for immortal for example)
+    -> must artificially create an AbilityUsage for that purpose
+    in fact, it's recompute known abilities which mess up learned abilities in pfile because it only considers racial abilities and abilities in learned groups
+
+who admin/player command
+
+Removing as much as possible this is IPlayableCharacter and this is INonPlayableCharacter in CharacterBase
 
 short display for flag pretty print
 
@@ -33,11 +49,6 @@ limbo/autoquit timer
 use SafeList where List is used (everywhere except in XXXManager)
 
 use resource cost for 'holy word': cost of 100% move and half hp
-
-due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
-    we should be able to add ability to a character even if not related to current class/race (for immortal for example)
-    -> must artificially create an AbilityUsage for that purpose
-    in fact, it's recompute known abilities which mess up learned abilities in pfile because it only considers racial abilities and abilities in learned groups
 
 new combat system
     how to handle mob assist ?(ASSIST_PLAYER, ASSIST_RACE, ASSIST_ALIGN, ASSIST_VNUM, ASSIST_GROUP)

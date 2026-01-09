@@ -107,5 +107,5 @@ public class Unlock : CharacterGameAction
         }
     }
 
-    private bool HasKey(int keyId) => Actor.Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == keyId) || Actor is IPlayableCharacter { IsImmortal: true };
+    private bool HasKey(int keyId) => Actor.Inventory.OfType<IItemKey>().Any(x => x.Blueprint.Id == keyId) || Actor.ImmortalMode.HasFlag(ImmortalModeFlags.PassThru);
 }

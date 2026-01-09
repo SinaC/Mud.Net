@@ -1,4 +1,5 @@
 ﻿using Mud.Common;
+using Mud.Domain;
 using Mud.Server.GameAction;
 using Mud.Server.Interfaces.Admin;
 using Mud.Server.Interfaces.GameAction;
@@ -41,7 +42,7 @@ public class Who : PlayerGameAction
                             player.Impersonating.Level,
                             player.Impersonating.Class?.DisplayName ?? "(none)",
                             player.Impersonating.Race?.DisplayName ?? "(none)",
-                            player.Impersonating.IsImmortal ? "{IMMORTAL}" : string.Empty);
+                            player.Impersonating.ImmortalMode != ImmortalModeFlags.None ? player.Impersonating.ImmortalMode : string.Empty);
                     else
                         sb.AppendFormatLine("[ IG] {0} playing something", player.DisplayName);
                     break;

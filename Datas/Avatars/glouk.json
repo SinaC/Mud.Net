@@ -795,6 +795,36 @@
   "Aliases": {},
   "Cooldowns": {},
   "Pets": [],
+  "Statistics": {
+    "NpcKill": 0,
+    "PcKill": 0,
+    "NpcKilled": 0,
+    "PcKilled": 0,
+    "NoSourceKilled": 0,
+    "GoldEarned": 0,
+    "GoldSpent": 0,
+    "GoldStolen": 0,
+    "SilverEarned": 0,
+    "SilverSpent": 0,
+    "SilverStolen": 0,
+    "RecallUsed": 0,
+    "FoodEaten": 0,
+    "BeveragesConsumed": 0,
+    "PillEaten": 0,
+    "PotionQuaffed": 0,
+    "PortalUsed": 0,
+    "QuestPointsEarned": 0,
+    "QuestPointsSpent": 0,
+    "GeneratedQuestsRequested": 0,
+    "GeneratedQuestsCompleted": 0,
+    "GeneratedQuestsAbandoned": 0,
+    "GeneratedQuestsTimedout": 0,
+    "PredefinedQuestsRequested": 0,
+    "PredefinedQuestsCompleted": 0,
+    "PredefinedQuestsAbandoned": 0,
+    "PredefinedQuestsTimedout": 0
+  },
+  "ImmortalMode": "UberMode",
   "Name": "glouk",
   "Race": "insectoid",
   "Class": "druid",
@@ -803,11 +833,11 @@
   "Size": "Medium",
   "CurrentResources": {
     "HitPoints": 15803,
-    "MovePoints": 1125,
+    "MovePoints": 1131,
     "Mana": 5301,
     "Psy": 100,
     "Energy": 100,
-    "Rage": 37,
+    "Rage": 19,
     "Combo": 0
   },
   "MaxResources": {
@@ -843,7 +873,7 @@
           {
             "AbilityName": "Test",
             "Level": 1,
-            "PulseLeft": 1032,
+            "PulseLeft": 960,
             "AuraFlags": "NoDispel",
             "Affects": [
               {
@@ -881,7 +911,7 @@
           {
             "AbilityName": "Envenom",
             "Level": 1,
-            "PulseLeft": 156,
+            "PulseLeft": 84,
             "AuraFlags": "NoDispel",
             "Affects": [
               {
@@ -909,15 +939,15 @@
   ],
   "Inventory": [
     {
-      "ItemId": 2111,
-      "Level": 10,
+      "ItemId": 2104,
+      "Level": 3,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
     },
     {
-      "ItemId": 2104,
-      "Level": 3,
+      "ItemId": 2111,
+      "Level": 10,
       "DecayPulseLeft": 0,
       "ItemFlags": "",
       "Auras": []
@@ -927,7 +957,7 @@
     {
       "AbilityName": "Giant Strength",
       "Level": 1,
-      "PulseLeft": 9424,
+      "PulseLeft": 9352,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -941,7 +971,7 @@
     {
       "AbilityName": "Detect Evil",
       "Level": 1,
-      "PulseLeft": 9620,
+      "PulseLeft": 9548,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -954,7 +984,7 @@
     {
       "AbilityName": "Detect Good",
       "Level": 1,
-      "PulseLeft": 9652,
+      "PulseLeft": 9580,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -967,7 +997,7 @@
     {
       "AbilityName": "Detect Invis",
       "Level": 1,
-      "PulseLeft": 9668,
+      "PulseLeft": 9596,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -980,7 +1010,7 @@
     {
       "AbilityName": "Detect Hidden",
       "Level": 1,
-      "PulseLeft": 9724,
+      "PulseLeft": 9652,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -993,7 +1023,7 @@
     {
       "AbilityName": "Shock Shield",
       "Level": 1,
-      "PulseLeft": 9424,
+      "PulseLeft": 9352,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1006,7 +1036,7 @@
     {
       "AbilityName": "Fire Shield",
       "Level": 1,
-      "PulseLeft": 9224,
+      "PulseLeft": 9152,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1019,7 +1049,7 @@
     {
       "AbilityName": "Ice Shield",
       "Level": 1,
-      "PulseLeft": 9024,
+      "PulseLeft": 8952,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1032,7 +1062,7 @@
     {
       "AbilityName": "Berserk",
       "Level": 1,
-      "PulseLeft": 4424,
+      "PulseLeft": 4352,
       "AuraFlags": "NoDispel",
       "Affects": [
         {
@@ -1062,8 +1092,8 @@
     },
     {
       "AbilityName": "Protection Evil",
-      "Level": 16,
-      "PulseLeft": 5160,
+      "Level": 13,
+      "PulseLeft": 5088,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1085,8 +1115,8 @@
     },
     {
       "AbilityName": "Protection Good",
-      "Level": 27,
-      "PulseLeft": 5204,
+      "Level": 22,
+      "PulseLeft": 5132,
       "AuraFlags": "None",
       "Affects": [
         {
@@ -1108,8 +1138,8 @@
     },
     {
       "AbilityName": "Sanctuary",
-      "Level": 26,
-      "PulseLeft": 1408,
+      "Level": 22,
+      "PulseLeft": 1336,
       "AuraFlags": "None",
       "Affects": [
         {

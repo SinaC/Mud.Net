@@ -263,16 +263,15 @@ public class Room : EntityBase, IRoom
 
     public StringBuilder Append(StringBuilder sb, ICharacter viewer)
     {
-        var playableCharacter = viewer as IPlayableCharacter;
         // Room name
-        if (playableCharacter?.IsImmortal == true)
+        if (viewer.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight))
             sb.AppendFormatLine($"%c%{DisplayName} [{Blueprint?.Id.ToString() ?? "???"}]%x%");
         else
             sb.AppendFormatLine("%c%{0}%x%", DisplayName);
         // Room description
         sb.Append(Description);
         // Exits
-        if (playableCharacter != null && playableCharacter.AutoFlags.HasFlag(AutoFlags.Exit))
+        if (viewer is IPlayableCharacter playableViewer && playableViewer.AutoFlags.HasFlag(AutoFlags.Exit))
             AppendExits(sb, viewer, true);
         ItemsHelpers.AppendItems(sb, Content.Where(viewer.CanSee), viewer, false, false);
         AppendCharacters(sb, viewer);
@@ -281,14 +280,14 @@ public class Room : EntityBase, IRoom
 
     public StringBuilder AppendExits(StringBuilder sb, ICharacter viewer, bool compact)
     {
+        var hasHolylight = viewer.ImmortalMode.HasFlag(ImmortalModeFlags.Holylight);
         if (compact)
             sb.Append("[Exits:");
-        else if (viewer is IPlayableCharacter playableCharacter && playableCharacter.IsImmortal)
+        else if (hasHolylight)
             sb.AppendFormatLine($"Obvious exits from room {Blueprint?.Id.ToString() ?? "???"}:");
         else
             sb.AppendLine("Obvious exits:");
         var exitFound = false;
-        var isImmortal = viewer is IPlayableCharacter { IsImmortal: true };
         foreach (var direction in Enum.GetValues<ExitDirections>())
         {
             var exit = this[direction];
@@ -314,7 +313,7 @@ public class Room : EntityBase, IRoom
                     sb.Append(" - ");
                     if (exit.IsClosed)
                         sb.Append("A closed door");
-                    else if (destination.IsDark && !isImmortal)
+                    else if (destination.IsDark && !hasHolylight)
                         sb.Append("Too dark to tell");
                     else
                         sb.Append(exit.Destination.DisplayName);
@@ -322,7 +321,7 @@ public class Room : EntityBase, IRoom
                         sb.Append(" (CLOSED)");
                     if (exit.IsHidden)
                         sb.Append(" [HIDDEN]");
-                    if (isImmortal)
+                    if (hasHolylight)
                         sb.Append($" (room {destination.Blueprint?.Id.ToString() ?? "???"})");
                     sb.AppendLine();
                 }

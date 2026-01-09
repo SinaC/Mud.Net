@@ -90,7 +90,7 @@ public abstract class SpellBase : ISpell
 
         // 5) check resource cost
         var (_, abilityLearned) = Caster.GetAbilityLearnedAndPercentage(AbilityDefinition.Name);
-        if (abilityLearned != null && abilityLearned.HasCost)
+        if (abilityLearned != null && abilityLearned.HasCost && !Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
         {
             var resourceCostToPays = new List<ResourceCostToPay>();
             foreach (var abilityResourceCost in abilityLearned.AbilityUsage.ResourceCosts)

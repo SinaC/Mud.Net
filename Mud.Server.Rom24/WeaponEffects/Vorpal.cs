@@ -33,7 +33,7 @@ public class Vorpal : IInstantDeathWeaponEffect
         // vulnerable: 0.5%
         // calculate weapon (or not) damage
         if (victim.BodyParts.IsSet("Head")
-            && !(victim is IPlayableCharacter pcVictim && pcVictim.IsImmortal))
+            && !victim.ImmortalMode.HasFlag(ImmortalModeFlags.NoDeath))
         {
             var resistanceLevel = ResistanceCalculator.CheckResistance(victim, damageType);
             var chance = resistanceLevel switch

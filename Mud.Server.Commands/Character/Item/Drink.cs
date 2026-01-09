@@ -84,7 +84,7 @@ public class Drink : CharacterGameAction
         if (Drinkable.IsEmpty)
             return "It is already empty.";
         // full ?
-        if (pc != null && pc[Conditions.Full] > 45 && pc.IsImmortal != true)
+        if (pc != null && pc[Conditions.Full] > 45 && !pc.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
             return "You're too full to drink more.";
 
         return null;

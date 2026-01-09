@@ -40,7 +40,7 @@ public class Portal : TransportationSpellBase
 
     protected override void Invoke()
     {
-        if (Caster is INonPlayableCharacter || (Caster is IPlayableCharacter pcCaster && !pcCaster.IsImmortal))
+        if (!Caster.ImmortalMode.HasFlag(ImmortalModeFlags.Infinite))
         {
             // search warpstone
             var stone = Caster.GetEquipment(EquipmentSlots.OffHand) as IItemWarpstone;
