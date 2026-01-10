@@ -52,6 +52,8 @@ public class AffectManager : IAffectManager
         AffectDefinitionByAffectDataType = affectDefinitions.Where(x => !x.NoAffectData).ToDictionary(x => x.AffectDataType!, x => x);
     }
 
+    public int Count => AffectDefinitionByName.Count;
+
     public IAffect? CreateInstance(string name)
     {
         if (!AffectDefinitionByName.TryGetValue(name, out var affectDefinition))

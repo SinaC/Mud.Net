@@ -27,7 +27,7 @@ namespace Mud.Server.Specials
             .ToDictionary(x => x.attribute.Name, x => x.executionType);
         }
 
-        public IReadOnlyCollection<string> Specials => SpecialBehaviorsByName.Keys.ToArray();
+        public int Count => SpecialBehaviorsByName.Count;
 
         public ISpecialBehavior? CreateInstance(string name)
         {

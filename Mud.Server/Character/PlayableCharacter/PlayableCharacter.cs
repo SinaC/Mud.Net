@@ -310,7 +310,7 @@ public class PlayableCharacter : CharacterBase, IPlayableCharacter
                 if (abilityDefinition == null)
                     Wiznet.Log($"Cooldown: ability {cooldown.Key} doesn't exist anymore", WiznetFlags.Bugs, AdminLevels.Implementor);
                 else
-                    SetCooldown(cooldown.Key, Pulse.FromPulse(cooldown.Value));
+                    SetCooldown(cooldown.Key, Pulse.ToTimeSpan(cooldown.Value));
             }
         }
         // Pets

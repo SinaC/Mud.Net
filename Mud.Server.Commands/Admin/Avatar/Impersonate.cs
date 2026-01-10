@@ -38,7 +38,7 @@ public class Impersonate : AdminGameAction
 
         var guards = PlayerImpersonate.Guards(actionInput);
         if (guards != null)
-            Actor.Send(guards);
+            return guards;
 
         if (Actor.Incarnating != null)
             return $"Stop incarnating {Actor.Incarnating.DisplayName} before trying to impersonate.";

@@ -39,7 +39,7 @@ public class Delete : AccountGameActionBase
 
         if (CheckPassword && !PasswordHelpers.Check(actionInput.Parameters[0].Value, Actor.Password))
         {
-            Actor.SetLag(10 * Pulse.PulsePerSeconds);
+            Actor.SetLag(Pulse.FromSeconds(10));
             return "Wrong password. Wait 10 seconds.";
         }
 

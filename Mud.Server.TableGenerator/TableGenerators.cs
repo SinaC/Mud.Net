@@ -80,7 +80,7 @@ public static class TableGenerators
                 return $"{x.Learned}%";
             });
         generator.AddColumn("Type", 10, x => x.AbilityUsage.AbilityDefinition.Type.ToString());
-        generator.AddColumn("Cooldown", 10, x => x.AbilityUsage.AbilityDefinition.CooldownInSeconds.HasValue ? x.AbilityUsage.AbilityDefinition.CooldownInSeconds.Value.FormatDelayShort() : "---");
+        generator.AddColumn("Cooldown", 10, x => x.AbilityUsage.AbilityDefinition.CooldownInSeconds.HasValue ? TimeSpan.FromSeconds(x.AbilityUsage.AbilityDefinition.CooldownInSeconds.Value).FormatDelayShort() : "---");
         return generator;
     });
 
@@ -192,7 +192,7 @@ public static class TableGenerators
         generator.AddColumn("Name", 23, x => x.Name.ToPascalCase(), new TableGenerator<IAbilityDefinition>.ColumnOptions { AlignLeft = true });
         generator.AddColumn("Type", 9, x => x.Type.ToString());
         generator.AddColumn("GCD", 5, x => x.PulseWaitTime?.ToString() ?? "???");
-        generator.AddColumn("Cooldown", 10, x => x.CooldownInSeconds.HasValue ? x.CooldownInSeconds.Value.FormatDelayShort() : "---");
+        generator.AddColumn("Cooldown", 10, x => x.CooldownInSeconds.HasValue ? TimeSpan.FromSeconds(x.CooldownInSeconds.Value).FormatDelayShort() : "---");
         generator.AddColumn("WearOff", 20, x => x.CharacterWearOffMessage?.ToString() ?? string.Empty);
         generator.AddColumn("ItemWearOff", 20, x => x.ItemWearOffMessage?.ToString() ?? string.Empty);
         generator.AddColumn("DispelRoom", 20, x => x.DispelRoomMessage?.ToString() ?? string.Empty);

@@ -74,13 +74,13 @@ public class ItemCorpse : ItemBase, IItemCorpse
 
         if (IsPlayableCharacterCorpse)
         {
-            DecayPulseLeft = RandomManager.Range(25, 40) * Pulse.PulsePerMinutes;
+            DecayPulseLeft = Pulse.FromMinutes(RandomManager.Range(25, 40));
             BaseItemFlags.Set("NoPurge"); // was handled in object description in limbo.are
             NoTake = true;
         }
         else
         {
-            DecayPulseLeft = RandomManager.Range(3, 6) * Pulse.PulsePerMinutes;
+            DecayPulseLeft = Pulse.FromMinutes(RandomManager.Range(3, 6));
             NoTake = false;
         }
 

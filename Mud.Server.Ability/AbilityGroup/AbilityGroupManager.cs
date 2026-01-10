@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Mud.Common;
 using Mud.Common.Attributes;
+using Mud.DataStructures.Trie;
 using Mud.Server.Common.Attributes;
 using Mud.Server.Interfaces.Ability;
 using Mud.Server.Interfaces.AbilityGroup;
@@ -15,14 +16,14 @@ namespace Mud.Server.Ability.AbilityGroup
         private ILogger<AbilityGroupManager> Logger { get; }
         private IAbilityManager AbilityManager { get; }
 
-        private readonly Dictionary<string, IAbilityGroupDefinition> _abilityGroupByName; // TODO: trie to optimize Search ?
+        private readonly Trie<IAbilityGroupDefinition> _abilityGroupByName; // TODO: trie to optimize Search ?
 
         public AbilityGroupManager(ILogger<AbilityGroupManager> logger, IAbilityManager abilityManager, IEnumerable<IAbilityGroup> abilityGroups)
         {
             Logger = logger;
             AbilityManager = abilityManager;
 
-            _abilityGroupByName = new Dictionary<string, IAbilityGroupDefinition>(StringComparer.InvariantCultureIgnoreCase);
+            _abilityGroupByName = [];
             GenerateAbilityGroupDefinitions(abilityGroups);
         }
 
@@ -32,7 +33,7 @@ namespace Mud.Server.Ability.AbilityGroup
             => _abilityGroupByName.GetValueOrDefault(abilityGroupName);
 
         public IAbilityGroupDefinition? Search(ICommandParameter parameter)
-            => AbilityGroups.FirstOrDefault(x => StringCompareHelpers.StringStartsWith(x.Name, parameter.Value));
+            => _abilityGroupByName.GetByPrefix(parameter.Value.ToLowerInvariant()).FirstOrDefault().Value;
 
         private void GenerateAbilityGroupDefinitions(IEnumerable<IAbilityGroup> abilityGroups)
         {

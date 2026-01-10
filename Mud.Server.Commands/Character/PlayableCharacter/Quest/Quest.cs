@@ -150,8 +150,8 @@ public class Quest : PlayableCharacterGameAction
                     {
                         if (Actor.PulseLeftBeforeNextAutomaticQuest > 0)
                         {
-                            var secondsLeft = Actor.PulseLeftBeforeNextAutomaticQuest / Pulse.PulsePerSeconds;
-                            sb.AppendFormatLine("Delay before next automated quest: {0}.", secondsLeft.FormatDelay());
+                            var timeLeft = Pulse.ToTimeSpan(Actor.PulseLeftBeforeNextAutomaticQuest);
+                            sb.AppendFormatLine("Delay before next automated quest: {0}.", timeLeft.FormatDelay());
                         }
                         else
                             sb.AppendFormatLine("Ready for an automated quest.");
@@ -221,7 +221,7 @@ public class Quest : PlayableCharacterGameAction
         else
             sb.Append($"{questType}{difficultyColor}{quest.Title}%x%: {(quest.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
         if (quest.TimeLimit > 0)
-            sb.Append($" Time left: {(quest.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
+            sb.Append($" Time left: {Pulse.ToTimeSpan(quest.PulseLeft).FormatDelay()}");
         sb.AppendLine();
         if (!quest.AreObjectivesFulfilled)
             BuildQuestObjectives(sb, quest);

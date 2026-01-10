@@ -45,7 +45,7 @@ public class QuestInfo : PlayableCharacterGameAction
         var difficultyColor = StringHelpers.DifficultyColor(Actor.Level, What.Level);
         sb.Append($"{questType}{difficultyColor}{What.Title}%x%: {(What.AreObjectivesFulfilled ? "%g%complete%x%" : "in progress")}");
         if (What.TimeLimit > 0)
-            sb.Append($" Time left: {(What.PulseLeft / Pulse.PulsePerSeconds).FormatDelay()}");
+            sb.Append($" Time left: {Pulse.ToTimeSpan(What.PulseLeft).FormatDelay()}");
         sb.AppendLine();
         if (What.Description != null)
             sb.AppendLine(What.Description);

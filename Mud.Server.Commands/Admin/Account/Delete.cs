@@ -14,6 +14,15 @@ return your character to 'safe' status if you change your mind after the
 first delete.")]
 public class Delete : AdminGameAction
 {
+    public override string? Guards(IActionInput actionInput)
+    {
+        var baseGuards = base.Guards(actionInput);
+        if (baseGuards != null)
+            return baseGuards;
+
+        return "An admin cannot be deleted in game!!!";
+    }
+
     public override void Execute(IActionInput actionInput)
     {
         Actor.Send("An admin cannot be deleted in game!!!");

@@ -40,7 +40,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         Character = character;
         Giver = giver;
         StartTime = TimeManager.CurrentTime;
-        PulseLeft = timeLimit * Pulse.PulsePerMinutes;
+        PulseLeft = Pulse.FromMinutes(timeLimit);
         Giver = giver;
         Level = level;
         TimeLimit = timeLimit;
@@ -90,14 +90,8 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         }
 
         GeneratedQuestType = GeneratedQuestType.LootItem;
-        Character = character;
-        Giver = giver;
         ItemQuestBlueprint = itemQuestBlueprint;
         Target = target;
-        Room = room;
-        StartTime = TimeManager.CurrentTime;
-        PulseLeft = timeLimit * Pulse.PulsePerMinutes;
-        Giver = giver;
         Title = $"Recover the fabled {itemQuestBlueprint.ShortDescription} from {target.Blueprint.ShortDescription} in {room.Area.DisplayName}";
         // TODO: description
         Description = null;
@@ -119,12 +113,6 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
         GeneratedQuestType = GeneratedQuestType.KillMob;
         ItemQuestBlueprint = null;
         Target = target;
-        Room = room;
-        Character = character;
-        Giver = giver;
-        StartTime = TimeManager.CurrentTime;
-        PulseLeft = timeLimit * Pulse.PulsePerMinutes;
-        Giver = giver;
         Title = $"Slay the dreaded {target.Blueprint.ShortDescription} in {room.Area.DisplayName}";
         // TODO: description
         Description = null;
