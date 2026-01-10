@@ -9,9 +9,11 @@ public interface IPredefinedQuest : IQuest
     QuestBlueprint Blueprint { get; }
 
     void Initialize(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver); // TODO: giver should be ICharacterQuestor
-    bool Initialize(QuestBlueprint blueprint, CurrentQuestData questData, IPlayableCharacter character);
+    bool Initialize(QuestBlueprint blueprint, ActiveQuestData questData, IPlayableCharacter character);
 
     void SpawnQuestItemOnFloorIfNeeded();
 
-    CurrentQuestData MapQuestData();
+    ICompletedQuest? GenerateCompletedQuest();
+
+    ActiveQuestData MapQuestData();
 }

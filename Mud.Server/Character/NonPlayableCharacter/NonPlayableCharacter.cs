@@ -511,8 +511,8 @@ public class NonPlayableCharacter : CharacterBase, INonPlayableCharacter
     public bool IsQuestObjective(IPlayableCharacter questingCharacter, bool checkCompleted)
     {
         // If 'this' is NPC and in objective list or in kill loot table
-        return questingCharacter.Quests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).SelectMany(q => q.Objectives).OfType<KillQuestObjective>().Any(o => !o.IsCompleted && o.TargetBlueprint.Id == Blueprint.Id)
-                || questingCharacter.Quests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).Any(q => q.KillLootTable.ContainsKey(Blueprint.Id));
+        return questingCharacter.ActiveQuests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).SelectMany(q => q.Objectives).OfType<KillQuestObjective>().Any(o => !o.IsCompleted && o.TargetBlueprint.Id == Blueprint.Id)
+                || questingCharacter.ActiveQuests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).Any(q => q.KillLootTable.ContainsKey(Blueprint.Id));
     }
 
 

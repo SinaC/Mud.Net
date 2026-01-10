@@ -190,11 +190,11 @@ public class Cstat : AdminGameAction
 
     private static void AppendQuests(StringBuilder sb, IPlayableCharacter pc)
     {
-        if (pc.Quests.Any())
+        if (pc.ActiveQuests.Any())
         {
             sb.AppendLine("Quests:");
             int id = 0;
-            foreach (var quest in pc.Quests)
+            foreach (var quest in pc.ActiveQuests)
             {
                 BuildQuestSummary(sb, pc, quest, id);
                 id++;

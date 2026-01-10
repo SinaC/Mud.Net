@@ -102,5 +102,5 @@ public class QuestGet : PlayableCharacterGameAction
         return quest;
     }
 
-    private IEnumerable<QuestBlueprint> GetAvailableQuestBlueprints(CharacterQuestorBlueprint questGiverBlueprint) => questGiverBlueprint.QuestBlueprints.Where(x => Actor.Quests.OfType<IPredefinedQuest>().All(y => y.Blueprint.Id != x.Id));
+    private IEnumerable<QuestBlueprint> GetAvailableQuestBlueprints(CharacterQuestorBlueprint questGiverBlueprint) => questGiverBlueprint.QuestBlueprints.Where(x => Actor.ActiveQuests.OfType<IPredefinedQuest>().All(y => y.Blueprint.Id != x.Id));
 }

@@ -31,9 +31,7 @@ public class AvatarData : CharacterData
 
     public required Dictionary<Currencies, int> Currencies { get; set; }
 
-    public int PulseLeftBeforeNextAutomaticQuest { get; set; } // not mandatory
-
-    public required CurrentQuestData[] CurrentQuests { get; set; }
+    public required ActiveQuestData[] ActiveQuests { get; set; }
 
     public required LearnedAbilityData[] LearnedAbilities { get; set; }
     
@@ -47,7 +45,12 @@ public class AvatarData : CharacterData
 
     public required PetData[] Pets { get; set; }
 
-    public Dictionary<AvatarStatisticTypes, long> Statistics { get; set; } = []; // not mandatory
+    // optional
+    public Dictionary<AvatarStatisticTypes, long> Statistics { get; set; } = [];
 
-    public ImmortalModeFlags ImmortalMode { get; set; } = ImmortalModeFlags.None; // not mandatory
+    public ImmortalModeFlags ImmortalMode { get; set; } = ImmortalModeFlags.None;
+
+    public CompletedQuestData[] CompletedQuests { get; set; } = [];
+
+    public int PulseLeftBeforeNextAutomaticQuest { get; set; }
 }

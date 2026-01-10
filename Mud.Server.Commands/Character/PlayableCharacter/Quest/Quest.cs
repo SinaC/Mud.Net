@@ -23,7 +23,8 @@ namespace Mud.Server.Commands.Character.PlayableCharacter.Quest;
         "[cmd] get <quest name>",
         "[cmd] get all",
         "[cmd] info",
-        "[cmd] list")]
+        "[cmd] list",
+        "[cmd] history")]
 public class Quest : PlayableCharacterGameAction
 {
     private ICommandParser CommandParser { get; }
@@ -44,7 +45,8 @@ public class Quest : PlayableCharacterGameAction
         Complete,
         Get,
         Info,
-        List
+        List,
+        History
     }
 
     protected Actions Action { get; set; }
@@ -69,7 +71,7 @@ public class Quest : PlayableCharacterGameAction
         {
             int id = actionInput.Parameters[0].AsNumber;
             What = id > 0
-                ? Actor.Quests.ElementAtOrDefault(id - 1)!
+                ? Actor.ActiveQuests.ElementAtOrDefault(id - 1)!
                 : null!; // index starts at 0
             if (What == null)
                 return "No such quest.";
@@ -124,6 +126,14 @@ public class Quest : PlayableCharacterGameAction
             return null;
         }
 
+        // quest history
+        if ("history".StartsWith(actionInput.Parameters[0].Value))
+        {
+            CommandLine = CommandParser.JoinParameters(actionInput.Parameters.Skip(1));
+            Action = Actions.List;
+            return null;
+        }
+
         return BuildCommandSyntax();
     }
 
@@ -135,18 +145,18 @@ public class Quest : PlayableCharacterGameAction
                 {
                     StringBuilder sb = new ();
                     sb.AppendLine("Quests:");
-                    if (!Actor.Quests.Any())
+                    if (!Actor.ActiveQuests.Any())
                         sb.AppendLine("None.");
                     else
                     {
                         int id = 0;
-                        foreach (IQuest quest in Actor.Quests)
+                        foreach (IQuest quest in Actor.ActiveQuests)
                         {
                             BuildQuestSummary(sb, quest, id);
                             id++;
                         }
                     }
-                    if (!Actor.Quests.OfType<IGeneratedQuest>().Any())
+                    if (!Actor.ActiveQuests.OfType<IGeneratedQuest>().Any())
                     {
                         if (Actor.PulseLeftBeforeNextAutomaticQuest > 0)
                         {
@@ -204,6 +214,13 @@ public class Quest : PlayableCharacterGameAction
             case Actions.List:
                 {
                     var executionResults = GameActionManager.Execute<QuestList, IPlayableCharacter>(Actor, CommandLine);
+                    if (executionResults != null)
+                        Actor.Send(executionResults);
+                    return;
+                }
+            case Actions.History:
+                {
+                    var executionResults = GameActionManager.Execute<QuestHistory, IPlayableCharacter>(Actor, CommandLine);
                     if (executionResults != null)
                         Actor.Send(executionResults);
                     return;

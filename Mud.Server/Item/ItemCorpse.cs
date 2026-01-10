@@ -151,7 +151,7 @@ public class ItemCorpse : ItemBase, IItemCorpse
         // Check killer quest table (only if killer is PC and victim is NPC) // TODO: only visible for people on quest???
         if (killer != null && killer is IPlayableCharacter playableCharacterKiller && victim is INonPlayableCharacter nonPlayableCharacterVictim)
         {
-            foreach (var quest in playableCharacterKiller.Quests)
+            foreach (var quest in playableCharacterKiller.ActiveQuests)
             {
                 // Update kill objectives
                 quest.Update(nonPlayableCharacterVictim);

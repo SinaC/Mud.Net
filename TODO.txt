@@ -1,16 +1,13 @@
 INGOING
 DONE
-    add StayDeath item flags
-        set it on quest item
-    item flags SellExtract use in item cost when selling (implies full price) and destroyed when bought by shop keeper
-    byMinuteDivisor and bySecondDivisor fixed (was inverse of expected value)
-    Act should not send any message if position < resting
+    cannot get again an already complete quest
+    rename CurrentQuest into ActiveQuest
+    quest history
+    quest save completed quests
 
 ==========
 == TODO ==
 ==========
-
-HandleViolence: what should npc.Reset do ?
 
 Use ImmortalModes.Omniscient in AbilityLearned, we have to create an artificial AbilityUsage or define an ImmortalAbilityUsages class which will create AbilityUsage on the fly for every ability
 due to new AbilityLearned (cost/amount/resource removed), an ability cannot be added if not related to current class/race
@@ -35,8 +32,6 @@ rename PlayableCharacter Avatar
 rename NonPlayableCharacter Mob
 
 quests:
-    quest history
-    quest save completed quests
     quest tree (prereq)
     repeteable or not quests
     (QUEST) flag on quest target should be optional
@@ -103,6 +98,7 @@ affect giving % damage increase/decrease (to be handled in DamageModifierManager
     ==> 10 + 10*20/100 + 5 = 10 + 2 + 5 = 17
 
 reimplement hot/dot
+    HandleViolence: what should npc.Reset do -> remove periodic aura
 
 when a player connects, if no avatar found -> switch to avatar create state machine
 compatibility must only be in blueprint loading

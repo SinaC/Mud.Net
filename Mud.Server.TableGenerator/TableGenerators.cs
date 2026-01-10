@@ -8,6 +8,7 @@ using Mud.Server.Interfaces.AbilityGroup;
 using Mud.Server.Interfaces.Area;
 using Mud.Server.Interfaces.Class;
 using Mud.Server.Interfaces.GameAction;
+using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Race;
 using System.Text;
 
@@ -308,6 +309,15 @@ public static class TableGenerators
         generator.AddColumn("SHFN", 6, x => ConvertSHFN(x));
         //generator.AddColumn("Method", 50, x => GetMethodName(x));
         generator.AddColumn("Method", 50, x => x.CommandExecutionType.FullName ?? "???");
+        return generator;
+    });
+
+    public static readonly Lazy<TableGenerator<ICompletedQuest>> CompletedQuestTableGenerator = new(() =>
+    {
+        TableGenerator<ICompletedQuest> generator = new();
+        generator.AddColumn("Title", 30, x => x.QuestBlueprint?.Title?.MaxLength(28) ?? "???");
+        generator.AddColumn("Started", 18, x => x.StartTime.ToString("yyyy/MM/dd HH:mm"));
+        generator.AddColumn("Completed", 18, x => x.CompletionTime.ToString("yyyy/MM/dd HH:mm"));
         return generator;
     });
 

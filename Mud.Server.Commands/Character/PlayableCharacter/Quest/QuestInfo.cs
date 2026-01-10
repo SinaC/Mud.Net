@@ -28,7 +28,7 @@ public class QuestInfo : PlayableCharacterGameAction
 
         var id = actionInput.Parameters[0].AsNumber;
         var quest = id > 0
-            ? Actor.Quests.ElementAtOrDefault(id - 1)
+            ? Actor.ActiveQuests.ElementAtOrDefault(id - 1)
             : null;
         if (quest == null)
             return "No such quest.";

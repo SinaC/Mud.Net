@@ -31,7 +31,7 @@ public class QuestReset : AdminGameAction
         if (Whom == null)
             return StringHelpers.CharacterNotFound;
 
-        if (!Whom.Quests.Any())
+        if (!Whom.ActiveQuests.Any())
             return $"No quest to reset on {Whom.DisplayName}";
 
         return null;
@@ -39,7 +39,7 @@ public class QuestReset : AdminGameAction
 
     public override void Execute(IActionInput actionInput)
     {
-        foreach (var quest in Whom.Quests)
+        foreach (var quest in Whom.ActiveQuests)
         {
             Actor.Send($"Resetting quest '{quest.Title}' for '{Whom.DisplayName}'");
             Whom.Send($"%y%The quest ''{quest.Title}' has been reset.%x%");

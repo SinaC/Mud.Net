@@ -15,7 +15,7 @@
     "QuestPoints": 17
   },
   "PulseLeftBeforeNextAutomaticQuest": 0,
-  "CurrentQuests": [
+  "ActiveQuests": [
     {
       "QuestId": 1,
       "StartTime": "2026-01-10T14:26:26.0474247+01:00",

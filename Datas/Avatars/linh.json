@@ -15,7 +15,7 @@
     "QuestPoints": 0
   },
   "PulseLeftBeforeNextAutomaticQuest": 0,
-  "CurrentQuests": [],
+  "ActiveQuests": [],
   "LearnedAbilities": [
     {
       "Name": "mace",

@@ -34,7 +34,7 @@ public class Quit : AccountGameActionBase
         if (baseGuards != null)
             return baseGuards;
 
-        if (Impersonating != null && Impersonating.Quests.OfType<IGeneratedQuest>().Any())
+        if (Impersonating != null && Impersonating.ActiveQuests.OfType<IGeneratedQuest>().Any())
         {
             if (actionInput.Parameters.Length == 0 || actionInput.Parameters[0].Value != "quit")
                 return "But you are still on an automated quest! use 'quit quit' to confirm";
@@ -47,7 +47,7 @@ public class Quit : AccountGameActionBase
     {
         if (Impersonating != null)
         {
-            var generatedQuests = Impersonating.Quests.OfType<IGeneratedQuest>().ToArray();
+            var generatedQuests = Impersonating.ActiveQuests.OfType<IGeneratedQuest>().ToArray();
             foreach (var generatedQuest in generatedQuests)
             {
                 generatedQuest.Delete();

@@ -231,7 +231,7 @@ public class Room : EntityBase, IRoom
         // Update location quest
         if (character is IPlayableCharacter playableCharacter)
         {
-            foreach(IQuest quest in playableCharacter.Quests)
+            foreach(IQuest quest in playableCharacter.ActiveQuests)
                 quest.Update(this);
         }
         return true;

@@ -35,7 +35,7 @@ public class QuestDisplay : AdminGameAction
         if (Whom == null)
             return StringHelpers.CharacterNotFound;
 
-        if (!Whom.Quests.Any())
+        if (!Whom.ActiveQuests.Any())
             return $"No quest to display on {Whom.DisplayName}";
 
         return null;
@@ -46,7 +46,7 @@ public class QuestDisplay : AdminGameAction
         StringBuilder sb = new ();
         sb.AppendLine($"Quests for {Whom.DisplayName}:");
         int id = 0;
-        foreach (var quest in Whom.Quests)
+        foreach (var quest in Whom.ActiveQuests)
         {
             BuildQuestInfo(sb, quest, id);
             id++;

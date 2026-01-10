@@ -36,7 +36,7 @@ public class CharacterDeserializationTests : TestBase
             Conditions = EnumHelpers.GetValues<Conditions>().ToDictionary(x => x, x => (int)AutoFaker.Generate<ushort>()),
             Equipments = [],
             Inventory = [],
-            CurrentQuests = [],
+            ActiveQuests = [],
             Cooldowns = [],
             Aliases = [],
             Pets = [],
@@ -190,7 +190,7 @@ public class CharacterDeserializationTests : TestBase
             Trains = 0,
             Practices = 0,
             Equipments = [],
-            CurrentQuests = [],
+            ActiveQuests = [],
             Cooldowns = [],
             Aliases = [],
             Pets = [],
@@ -339,7 +339,7 @@ public class CharacterDeserializationTests : TestBase
             Trains = 0,
             Practices = 0,
             Inventory = [],
-            CurrentQuests = [],
+            ActiveQuests = [],
             Cooldowns = [],
             Aliases = [],
             Pets = [],
@@ -444,9 +444,9 @@ public class CharacterDeserializationTests : TestBase
             Level = AutoFaker.Generate<int>(),
             Sex = AutoFaker.Generate<Sex>(),
             Experience = AutoFaker.Generate<long>(),
-            CurrentQuests = new []
+            ActiveQuests = new []
             {
-                new CurrentQuestData
+                new ActiveQuestData
                 {
                     QuestId = questBlueprint1.Id,
                     StartTime = AutoFaker.Generate<DateTime>(),
@@ -456,12 +456,12 @@ public class CharacterDeserializationTests : TestBase
                     GiverRoomId = room.Blueprint.Id,
                     Objectives = new []
                     {
-                        new CurrentQuestObjectiveData
+                        new ActiveQuestObjectiveData
                         {
                             ObjectiveId = 1,
                             Count = 2
                         },
-                        new CurrentQuestObjectiveData
+                        new ActiveQuestObjectiveData
                         {
                             ObjectiveId = 3,
                             Count = 1

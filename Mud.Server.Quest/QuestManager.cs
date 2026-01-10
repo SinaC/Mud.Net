@@ -55,7 +55,7 @@ public class QuestManager : IQuestManager
         return quest;
     }
 
-    public IPredefinedQuest? AddQuest(CurrentQuestData questData, IPlayableCharacter pc)
+    public IPredefinedQuest? AddQuest(ActiveQuestData questData, IPlayableCharacter pc)
     {
         var questBlueprint = GetQuestBlueprint(questData.QuestId);
         if (questBlueprint == null)
@@ -113,6 +113,22 @@ public class QuestManager : IQuestManager
             pc.AddQuest(quest);
             return quest;
         }
+    }
+
+    public ICompletedQuest? AddCompletedQuest(CompletedQuestData questData, IPlayableCharacter pc)
+    {
+        var questBlueprint = _questBlueprints.GetValueOrDefault(questData.QuestId);
+        if (questBlueprint == null)
+            Logger.LogError("Complete quest blueprint id {blueprintId} not found!!!", questData.QuestId);
+        var completedQuest = new CompletedQuest
+        {
+            QuestId = questData.QuestId,
+            QuestBlueprint = questBlueprint,
+            StartTime = questData.StartTime,
+            CompletionTime = questData.CompletionTime,
+        };
+        pc.AddCompletedQuest(completedQuest);
+        return completedQuest;
     }
 
     private static bool IsValidQuestTarget(INonPlayableCharacter target, IPlayableCharacter pc)

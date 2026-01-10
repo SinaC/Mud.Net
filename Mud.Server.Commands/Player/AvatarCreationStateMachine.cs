@@ -558,7 +558,7 @@ done	     exit the character generation process");
                 Conditions = Enum.GetValues<Conditions>().Where(x => x != Conditions.Drunk).ToDictionary(x => x, x => 48),
                 Equipments = [],
                 Inventory = [],
-                CurrentQuests = [],
+                ActiveQuests = [],
                 Auras = [],
                 CharacterFlags = _race!.CharacterFlags.Serialize(),
                 Immunities = _race!.Immunities.Serialize(),

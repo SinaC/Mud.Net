@@ -28,14 +28,14 @@ public class QuestComplete : PlayableCharacterGameAction
         // all
         if (actionInput.Parameters[0].IsAll)
         {
-            What = Actor.Quests.Where(x => x.AreObjectivesFulfilled).ToArray();
+            What = Actor.ActiveQuests.Where(x => x.AreObjectivesFulfilled).ToArray();
         }
         // id
         else
         {
             var id = actionInput.Parameters[0].AsNumber;
             var quest = id > 0
-                ? Actor.Quests.ElementAtOrDefault(id - 1)
+                ? Actor.ActiveQuests.ElementAtOrDefault(id - 1)
                 : null;
             if (quest == null)
                 return "No such quest.";
@@ -79,6 +79,12 @@ public class QuestComplete : PlayableCharacterGameAction
             {
                 Actor.Send("You complete '{0}' successfully.", questToComplete.Title);
                 questToComplete.Complete();
+                if (questToComplete is IPredefinedQuest predefinedQuest)
+                {
+                    var completedQuest = predefinedQuest.GenerateCompletedQuest();
+                    if (completedQuest != null)
+                        Actor.AddCompletedQuest(completedQuest);
+                }
                 Actor.RemoveQuest(questToComplete);
                 found = true;
             }
