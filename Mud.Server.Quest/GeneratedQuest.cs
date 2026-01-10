@@ -65,6 +65,7 @@ public class GeneratedQuest : QuestBase, IGeneratedQuest
             Logger.LogError("GeneratedQuest: cannot create quest item {blueprintId}", itemQuestBlueprintId);
             return false;
         }
+        itemQuest.AddBaseItemFlags(false, "StayDeath");
 
         GeneratedQuestType = GeneratedQuestType.FindItem;
         ItemQuestBlueprint = itemQuestBlueprint;

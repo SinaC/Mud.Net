@@ -11,9 +11,9 @@ public class ItemFlagValues : IFlagValues
     [
         "Glowing",
         "Humming",
-        "Dark",
-        "Lock",
-        "Evil",
+        "Dark", // not used
+        "Lock", // not used
+        "Evil", // used but has no impact
         "Invis",
         "Magic",
         "NoDrop", // Cannot be dropped once in inventory (cannot be put in container) [can be uncursed]
@@ -29,8 +29,8 @@ public class ItemFlagValues : IFlagValues
         "NonMetal",
         "NoLocate",
         "MeltOnDrop", // Melt when dropped
-        "HadTimer",
-        "SellExtract",
+        "HadTimer", // not used
+        "SellExtract", // no haggle and can be sold without any reduction
         "BurnProof",
         "NoUncurse",
         "NoSacrifice",

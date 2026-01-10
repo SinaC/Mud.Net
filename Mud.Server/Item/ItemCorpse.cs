@@ -109,9 +109,10 @@ public class ItemCorpse : ItemBase, IItemCorpse
                 item.ChangeContainer(this);
             else if (result == PerformActionOnItemResults.MoveToRoom)
                 item.ChangeContainer(victim.Room);
-            else
+            else if (result == PerformActionOnItemResults.Destroy)
                 ItemManager.RemoveItem(item);
         }
+
         // Fill corpse with equipment
         var equipment = victim.Equipments.Where(x => x.Item != null).Select(x => x.Item!).ToArray();
         foreach (var item in equipment)
@@ -127,7 +128,7 @@ public class ItemCorpse : ItemBase, IItemCorpse
                 item.ChangeEquippedBy(null, false);
                 item.ChangeContainer(victim.Room);
             }
-            else
+            else if (result == PerformActionOnItemResults.Destroy)
                 ItemManager.RemoveItem(item);
         }
 
@@ -224,18 +225,20 @@ public class ItemCorpse : ItemBase, IItemCorpse
             : blueprint.Description;
 
     // Perform actions on item before putting it in corpse
-    // returns false if item must be destroyed instead of being put in corpse
-    public enum PerformActionOnItemResults
+    private enum PerformActionOnItemResults
     {
-        MoveToCorpse,
-        MoveToRoom,
-        Destroy,
+        Nop, // stays on character
+        MoveToCorpse, // move item to corpse
+        MoveToRoom, // move item to room
+        Destroy, // destroy item
     }
+
     private PerformActionOnItemResults PerformActionOnItem(ICharacter victim, IItem item)
     {
         if (item.ItemFlags.IsSet("Inventory"))
             return PerformActionOnItemResults.Destroy;
-        // TODO: check stay death flag
+        if (item.ItemFlags.IsSet("StayDeath"))
+            return PerformActionOnItemResults.Nop;
         if (item is IItemPotion)
             item.SetTimer(TimeSpan.FromMinutes(RandomManager.Range(500,1000)));
         else if (item is IItemScroll)
