@@ -8,11 +8,12 @@ public abstract class AdminGameAction : PlayerGameActionBase<IAdmin, IAdminGameA
     public override string? Guards(IActionInput actionInput)
     {
         // Must be executed before any other tests because we don't want to 'give' any advice to admin that this command exists
-        if ((actionInput.GameActionInfo as AdminGameActionInfo)?.AdminGuards.Length > 0)
+        var adminGuards = (actionInput.GameActionInfo as AdminGameActionInfo)?.AdminGuards;
+        if (actionInput.Actor is IAdmin admin && adminGuards != null && adminGuards.Length > 0)
         {
-            foreach (var guard in GameActionInfo.AdminGuards)
+            foreach (var guard in adminGuards)
             {
-                var guardResult = guard.Guards(Actor);
+                var guardResult = guard.Guards(admin);
                 if (guardResult != null)
                     return guardResult;
             }

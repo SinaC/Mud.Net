@@ -5,7 +5,6 @@ using Mud.Blueprints.Item;
 using Mud.Blueprints.Reset;
 using Mud.Blueprints.Room;
 using Mud.Common.Attributes;
-using Mud.Server.Character;
 using Mud.Server.Interfaces;
 using Mud.Server.Interfaces.Character;
 using Mud.Server.Interfaces.Item;
@@ -49,27 +48,27 @@ namespace Mud.Server.Server
             var fatalErrorFound = false;
             if (RoomManager.GetRoomBlueprint(WorldOptions.BlueprintIds.NullRoom) == null)
             {
-                Logger.LogError("Room NullRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.NullRoom);
+                Logger.LogCritical("Room NullRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.NullRoom);
                 fatalErrorFound = true;
             }
             if (RoomManager.GetRoomBlueprint(WorldOptions.BlueprintIds.DefaultRoom) == null)
             {
-                Logger.LogError("Room DefaultRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.DefaultRoom);
+                Logger.LogCritical("Room DefaultRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.DefaultRoom);
                 fatalErrorFound = true;
             }
             if (RoomManager.GetRoomBlueprint(WorldOptions.BlueprintIds.DefaultRecallRoom) == null)
             {
-                Logger.LogError("Room DefaultRecallRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.DefaultRecallRoom);
+                Logger.LogCritical("Room DefaultRecallRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.DefaultRecallRoom);
                 fatalErrorFound = true;
             }
             if (RoomManager.GetRoomBlueprint(WorldOptions.BlueprintIds.DefaultDeathRoom) == null)
             {
-                Logger.LogError("Room DefaultDeathRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.DefaultDeathRoom);
+                Logger.LogCritical("Room DefaultDeathRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.DefaultDeathRoom);
                 fatalErrorFound = true;
             }
             if (RoomManager.GetRoomBlueprint(WorldOptions.BlueprintIds.MudSchoolRoom) == null)
             {
-                Logger.LogError("Room MudSchoolRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.MudSchoolRoom);
+                Logger.LogCritical("Room MudSchoolRoom blueprint {blueprintId} not found", WorldOptions.BlueprintIds.MudSchoolRoom);
                 fatalErrorFound = true;
             }
             return fatalErrorFound;
@@ -80,12 +79,12 @@ namespace Mud.Server.Server
             var fatalErrorFound = false;
             if (ItemManager.GetItemBlueprint<ItemCorpseBlueprint>(WorldOptions.BlueprintIds.Corpse) == null)
             {
-                Logger.LogError("Item Corpse blueprint {blueprintId} not found or not a corpse", WorldOptions.BlueprintIds.Corpse);
+                Logger.LogCritical("Item Corpse blueprint {blueprintId} not found or not a corpse", WorldOptions.BlueprintIds.Corpse);
                 fatalErrorFound = true;
             }
             if (ItemManager.GetItemBlueprint<ItemMoneyBlueprint>(WorldOptions.BlueprintIds.Coins) == null)
             {
-                Logger.LogError("Item Coins blueprint {blueprintId} not found or not money", WorldOptions.BlueprintIds.Coins);
+                Logger.LogCritical("Item Coins blueprint {blueprintId} not found or not money", WorldOptions.BlueprintIds.Coins);
                 fatalErrorFound = true;
             }
             return fatalErrorFound;

@@ -40,7 +40,7 @@ public class PulseManager : IPulseManager
             PulseResetValue = resetValue,
             PulseAction = action
         });
-        Logger.LogInformation("Adding Pulse {name} initial value: {initialValue} reset value: {resetValue} method: {methodName}", name, initialValue, resetValue, action.Method.Name);
+        Logger.LogInformation("Adding Pulse {name} with {initialValue} pulse initial, {resetValue} pulse reset value and method: {methodName}", name, initialValue, resetValue, action.Method.Name);
     }
 
     public void Pulse()

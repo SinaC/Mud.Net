@@ -12,7 +12,8 @@ public class QuestBlueprint
     public int TimeLimit { get; set; } // 0 means no limit, in minutes
 
     public Dictionary<int, QuestKillLootTable<int>> KillLootTable { get; set; } = default!;
-    public QuestItemObjectiveBlueprint[] ItemObjectives { get; set; } = default!;
+    public QuestLootItemObjectiveBlueprint[] LootItemObjectives { get; set; } = default!;
+    public QuestFloorItemObjectiveBlueprint[] FloorItemObjectives { get; set; } = default!;
     public QuestKillObjectiveBlueprint[] KillObjectives { get; set; } = default!;
     public QuestLocationObjectiveBlueprint[] LocationObjectives { get; set; } = default!;
 

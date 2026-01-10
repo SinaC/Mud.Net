@@ -6,11 +6,12 @@ namespace Mud.Server.Interfaces.Quest;
 
 public interface IPredefinedQuest : IQuest
 {
+    QuestBlueprint Blueprint { get; }
+
     void Initialize(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver); // TODO: giver should be ICharacterQuestor
     bool Initialize(QuestBlueprint blueprint, CurrentQuestData questData, IPlayableCharacter character);
 
-    QuestBlueprint Blueprint { get; }
+    void SpawnQuestItemOnFloorIfNeeded();
 
     CurrentQuestData MapQuestData();
-
 }

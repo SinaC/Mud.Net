@@ -517,19 +517,19 @@ public partial class ServerWindow : Window, INetworkServer
         IRoom templeSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3005);
         IRoom marketSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3014);
         IRoom commonSquare = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3025);
+        IRoom inn = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3006);
+        IRoom onTheBridge = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == 3051);
 
-        if (templeOfMota == null || templeSquare == null || marketSquare == null || commonSquare == null)
+        if (templeOfMota == null || templeSquare == null || marketSquare == null || commonSquare == null || inn == null)
             return;
 
-        ItemManager.AddItem(Guid.NewGuid(), questItem2Blueprint, templeSquare); // TODO: this should be added dynamically when player takes the quest
-
         // Quest
-        //QuestKillLootTable<int> quest1KillLoot = new(ServiceProvider.GetRequiredService<ILogger<QuestKillLootTable<int>>>(), RandomManager)
         QuestKillLootTable<int> quest1KillLoot = ServiceProvider.GetRequiredService<QuestKillLootTable<int>>();
         quest1KillLoot.Name = "Quest 1 kill 1 table";
         quest1KillLoot.Entries =
             [
-                new() {
+                new()
+                {
                     Value = questItem1Blueprint.Id,
                     Percentage = 80,
                 }
@@ -538,7 +538,7 @@ public partial class ServerWindow : Window, INetworkServer
         {
             Id = 1,
             Title = "Complex quest",
-            Description = "Kill 3 fido, get one quest item 2, get 2 quest item 1 on beggar and explore temple square",
+            Description = "Kill 3 fido, get 5 quest item 2, get 2 quest item 1 on beggar and explore temple square",
             Level = 50,
             Experience = 50000,
             Gold = 20,
@@ -552,19 +552,26 @@ public partial class ServerWindow : Window, INetworkServer
                     Count = 3
                 }
             ],
-            ItemObjectives =
+            LootItemObjectives =
             [
-                new QuestItemObjectiveBlueprint
-                {
-                    Id = 1,
-                    ItemBlueprintId = questItem2Blueprint.Id,
-                    Count = 1
-                },
-                new QuestItemObjectiveBlueprint
+                new QuestLootItemObjectiveBlueprint
                 {
                     Id = 2,
                     ItemBlueprintId = questItem1Blueprint.Id,
                     Count = 2
+                }
+            ],
+            FloorItemObjectives =
+            [
+                new QuestFloorItemObjectiveBlueprint
+                {
+                    Id = 1,
+                    ItemBlueprintId = questItem2Blueprint.Id,
+                    Count = 5,
+                    RoomBlueprintIds = [templeSquare.Blueprint.Id, inn.Blueprint.Id, onTheBridge.Blueprint.Id],
+                    SpawnCountOnRequest = 2,
+                    MaxInRoom = 1,
+                    MaxInWorld = 3,
                 }
             ],
             LocationObjectives =

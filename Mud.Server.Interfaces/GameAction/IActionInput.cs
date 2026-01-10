@@ -11,5 +11,4 @@ public interface IActionInput
     IGameActionInfo GameActionInfo { get; }
 
     object Context { get; set; }
-
 }

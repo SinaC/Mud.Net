@@ -95,7 +95,7 @@ public partial class App : Application
         services.Configure<ServerOptions>(options => configuration.GetSection(ServerOptions.SectionName).Bind(options));
         services.Configure<Network.Telnet.TelnetOptions>(options => configuration.GetSection(Network.Telnet.TelnetOptions.SectionName).Bind(options));
         services.Configure<WorldOptions>(options => configuration.GetSection(WorldOptions.SectionName).Bind(options));
-        services.Configure<QuestOptions>(options => configuration.GetSection(QuestOptions.SectionName).Bind(options));
+        services.Configure<GeneratedQuestOptions>(options => configuration.GetSection(GeneratedQuestOptions.SectionName).Bind(options));
     }
 
     private void OnExit(object sender, ExitEventArgs e)

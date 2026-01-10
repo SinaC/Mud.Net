@@ -14,6 +14,7 @@ using Mud.Server.Interfaces.Quest;
 using Mud.Server.Interfaces.Room;
 using Mud.Server.Options;
 using Mud.Server.Quest.Objectives;
+using Mud.Server.Random;
 
 namespace Mud.Server.Quest;
 
@@ -22,13 +23,15 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
 {
     private IRoomManager RoomManager { get; }
     private ICharacterManager CharacterManager { get; }
+    private IRandomManager RandomManager { get; }
     private int MaxLevel { get; }
 
-    public PredefinedQuest(ILogger<PredefinedQuest> logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager)
+    public PredefinedQuest(ILogger<PredefinedQuest> logger, IOptions<WorldOptions> worldOptions, ITimeManager timeManager, IItemManager itemManager, IRoomManager roomManager, ICharacterManager characterManager, IRandomManager randomManager)
         : base(logger, itemManager, timeManager)
     {
         RoomManager = roomManager;
         CharacterManager = characterManager;
+        RandomManager = randomManager;
         MaxLevel = worldOptions.Value.MaxLevel;
     }
 
@@ -39,13 +42,13 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
     public void Initialize(QuestBlueprint blueprint, IPlayableCharacter character, INonPlayableCharacter giver) // TODO: giver should be ICharacterQuestor
     {
         Character = character;
-        Character.IncrementStatistics(AvatarStatisticTypes.PredefinedQuestsRequested);
-
         StartTime = TimeManager.CurrentTime;
         PulseLeft = blueprint.TimeLimit * Pulse.PulsePerMinutes;
         Blueprint = blueprint;
         Giver = giver;
-        BuildObjectives(blueprint, character);
+        BuildObjectives(character);
+
+        Character.IncrementStatistics(AvatarStatisticTypes.PredefinedQuestsRequested);
     }
 
     public bool Initialize(QuestBlueprint blueprint, CurrentQuestData questData, IPlayableCharacter character)
@@ -77,7 +80,7 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
                 Giver = giver;
         }
 
-        BuildObjectives(blueprint, character);
+        BuildObjectives(character);
         foreach (var objectiveData in questData.Objectives)
         {
             // Search objective
@@ -87,7 +90,7 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
                 case QuestObjectiveCountBase questObjectiveCountBase:
                     questObjectiveCountBase.Count = objectiveData.Count;
                     break;
-                    // TODO: if quest item: test if conflict between stored count and inventory
+                // TODO: if quest item: test if conflict between stored count and inventory
                 case LocationQuestObjective questObjectiveLocation:
                     questObjectiveLocation.Explored = objectiveData.Count > 0;
                     break;
@@ -97,6 +100,37 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
             }
         }
         return true;
+    }
+
+    public void SpawnQuestItemOnFloorIfNeeded()
+    {
+        if (Blueprint.FloorItemObjectives == null)
+            return;
+        foreach (var questFloorItemObjectiveBlueprint in Blueprint.FloorItemObjectives)
+        {
+            var roomBlueprintId = RandomManager.Random(questFloorItemObjectiveBlueprint.RoomBlueprintIds);
+            var locationBlueprint = RoomManager.GetRoomBlueprint(roomBlueprintId);
+            if (locationBlueprint == null)
+            {
+                Logger.LogWarning("Floor item objective room {roomBlueprintId} doesn't exist for quest {blueprintId}", roomBlueprintId, Blueprint.Id);
+                return;
+            }
+
+            var room = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == locationBlueprint.Id);
+            if (room == null)
+            {
+                Logger.LogWarning("Floor item objective room {roomBlueprintId} doesn't exist for quest {blueprintId}", roomBlueprintId, Blueprint.Id);
+                return;
+            }
+            var itemQuestBlueprint = ItemManager.GetItemBlueprint<ItemQuestBlueprint>(questFloorItemObjectiveBlueprint.ItemBlueprintId);
+            if (itemQuestBlueprint == null)
+            {
+                Logger.LogWarning("Floor item objective item {itemBlueprintId} doesn't exist (or is not quest item) for quest {blueprintId}", questFloorItemObjectiveBlueprint.ItemBlueprintId, Blueprint.Id);
+                return;
+            }
+
+            SpawnQuestItemForObjectiveOnFloorIfNeeded(questFloorItemObjectiveBlueprint, itemQuestBlueprint, room);
+        }
     }
 
     public CurrentQuestData MapQuestData()
@@ -118,6 +152,8 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
     }
 
     #region IQuest
+
+    public override string DebugName => $"{Title}[{Blueprint.Id}]";
 
     public override string Title
     {
@@ -157,7 +193,7 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
         Character.IncrementStatistics(AvatarStatisticTypes.PredefinedQuestsCompleted);
 
         // TODO: give xp/gold/loot
-        if (Blueprint.ShouldQuestItemBeDestroyed && Blueprint.ItemObjectives != null)
+        if (Blueprint.ShouldQuestItemBeDestroyed && _objectives.OfType<ItemQuestObjectiveBase>() != null)
             DestroyQuestItems();
 
         int xpGain = 0;
@@ -177,10 +213,10 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
                 factorPercentage = 20;
             else if (Character.Level >= Blueprint.Level + 10)
                 factorPercentage = 10;
-            xpGain = (Blueprint.Experience*factorPercentage)/100;
+            xpGain = (Blueprint.Experience * factorPercentage) / 100;
         }
         else
-            goldGain = Blueprint.Experience*6;
+            goldGain = Blueprint.Experience * 6;
 
         // Display
         Character.Send("%y%You receive {0} experience and {1} gold.%x%", xpGain, goldGain);
@@ -210,7 +246,7 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
             case QuestObjectiveCountBase questObjectiveCountBase:
                 return questObjectiveCountBase.Count;
             case LocationQuestObjective questObjectiveLocation:
-                return questObjectiveLocation.Explored ? 1: 0;
+                return questObjectiveLocation.Explored ? 1 : 0;
             default:
                 Logger.LogError("Cannot convert quest objective {objectiveId} type {type} to count", questObjective.Id, questObjective.GetType().Name);
                 break;
@@ -219,57 +255,150 @@ public class PredefinedQuest : QuestBase, IPredefinedQuest
         return 0;
     }
 
-    private void BuildObjectives(QuestBlueprint blueprint, ICharacter character)
+    private void BuildObjectives(ICharacter character)
     {
-        if (Blueprint.ItemObjectives != null)
+        BuildLootItemObjectives(character);
+        BuildFloorItemObjectives(character);
+        BuildKillObjectives(character);
+        BuildLocationObjectives(character);
+    }
+
+    private void BuildLootItemObjectives(ICharacter character)
+    {
+        if (Blueprint.LootItemObjectives == null)
+            return;
+        foreach (var lootItemObjectiveBlueprint in Blueprint.LootItemObjectives)
         {
-            foreach (QuestItemObjectiveBlueprint itemObjective in Blueprint.ItemObjectives)
+            var itemBlueprint = ItemManager.GetItemBlueprint<ItemQuestBlueprint>(lootItemObjectiveBlueprint.ItemBlueprintId);
+            if (itemBlueprint != null)
+                _objectives.Add(new LootItemQuestObjective
+                {
+                    Id = lootItemObjectiveBlueprint.Id,
+                    ItemBlueprint = itemBlueprint,
+                    Count = character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == lootItemObjectiveBlueprint.ItemBlueprintId), // should always be 0
+                    Total = lootItemObjectiveBlueprint.Count
+                });
+            else
+                Logger.LogWarning("Loot item objective {itemBlueprintId} doesn't exist (or is not quest item) for quest {blueprintId}", lootItemObjectiveBlueprint.ItemBlueprintId, Blueprint.Id);
+        }
+    }
+
+    private void BuildFloorItemObjectives(ICharacter character)
+    {
+        if (Blueprint.FloorItemObjectives == null)
+            return;
+        foreach (var questFloorItemObjectiveBlueprint in Blueprint.FloorItemObjectives)
+        {
+            if (questFloorItemObjectiveBlueprint.RoomBlueprintIds == null || questFloorItemObjectiveBlueprint.RoomBlueprintIds.Length == 0)
+                Logger.LogError("Floor item object doesn't contain any room for quest {blueprintId}", Blueprint.Id);
+            else
             {
-                var itemBlueprint = ItemManager.GetItemBlueprint<ItemQuestBlueprint>(itemObjective.ItemBlueprintId);
-                if (itemBlueprint != null)
-                    _objectives.Add(new ItemQuestObjective
-                    {
-                        Id = itemObjective.Id,
-                        Blueprint = itemBlueprint,
-                        Count = character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == itemObjective.ItemBlueprintId), // should always be 0
-                        Total = itemObjective.Count
-                    });
+                var itemQuestBlueprint = ItemManager.GetItemBlueprint<ItemQuestBlueprint>(questFloorItemObjectiveBlueprint.ItemBlueprintId);
+                if (itemQuestBlueprint == null)
+                    Logger.LogWarning("Floor item objective item {itemBlueprintId} doesn't exist (or is not quest item) for quest {blueprintId}", questFloorItemObjectiveBlueprint.ItemBlueprintId, Blueprint.Id);
                 else
-                    Logger.LogWarning("Loot objective {itemBlueprintId} doesn't exist (or is not quest item) for quest {blueprintId}", itemObjective.ItemBlueprintId, blueprint.Id);
+                {
+                    // count item instance in character
+                    var alreadyFoundItemCountOnCharacter = character.Inventory.Where(x => x.Blueprint != null).Count(x => x.Blueprint.Id == questFloorItemObjectiveBlueprint.ItemBlueprintId);
+                    _objectives.Add(new FloorItemQuestObjective
+                    {
+                        Id = questFloorItemObjectiveBlueprint.Id,
+                        ItemBlueprint = itemQuestBlueprint,
+                        Count = alreadyFoundItemCountOnCharacter,
+                        Total = questFloorItemObjectiveBlueprint.Count
+                    });
+
+                    // spawn quest item(s) if needed
+                    // if already enough on character item to complete objective, don't spawn
+                    if (alreadyFoundItemCountOnCharacter < questFloorItemObjectiveBlueprint.Count)
+                    {
+                        var missingItemCount = questFloorItemObjectiveBlueprint.Count - alreadyFoundItemCountOnCharacter;
+                        var spawnCount = Math.Min(missingItemCount, questFloorItemObjectiveBlueprint.SpawnCountOnRequest); // no more then SpawnCountOnRequest nor missing count
+                        for (var i = 0; i < spawnCount; i++)
+                        {
+                            var roomBlueprintId = RandomManager.Random(questFloorItemObjectiveBlueprint.RoomBlueprintIds);
+                            var locationBlueprint = RoomManager.GetRoomBlueprint(roomBlueprintId);
+                            if (locationBlueprint == null)
+                                Logger.LogWarning("Floor item objective room {roomBlueprintId} doesn't exist for quest {blueprintId}", roomBlueprintId, Blueprint.Id);
+                            else
+                            {
+                                var room = RoomManager.Rooms.FirstOrDefault(x => x.Blueprint.Id == locationBlueprint.Id);
+                                if (room == null)
+                                    Logger.LogWarning("Floor item objective room {roomBlueprintId} doesn't exist for quest {blueprintId}", roomBlueprintId, Blueprint.Id);
+                                else
+                                {
+                                    // spawn quest item on the floor if needed
+                                    SpawnQuestItemForObjectiveOnFloorIfNeeded(questFloorItemObjectiveBlueprint, itemQuestBlueprint, room);
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
-        if (Blueprint.KillObjectives != null)
+    }
+
+    private void BuildKillObjectives(ICharacter character)
+    {
+        if (Blueprint.KillObjectives == null)
+            return;
+        foreach (var killObjectiveBlueprint in Blueprint.KillObjectives)
         {
-            foreach (QuestKillObjectiveBlueprint killObjective in Blueprint.KillObjectives)
-            {
-                var characterBlueprint = CharacterManager.GetCharacterBlueprint(killObjective.CharacterBlueprintId);
-                if (characterBlueprint != null)
-                    _objectives.Add(new KillQuestObjective
-                    {
-                        Id = killObjective.Id,
-                        Blueprint = characterBlueprint,
-                        Count = 0,
-                        Total = killObjective.Count
-                    });
-                else
-                    Logger.LogWarning("Kill objective {objectiveBlueprintId} doesn't exist for quest {blueprintId}", killObjective.CharacterBlueprintId, blueprint.Id);
-            }
+            var characterBlueprint = CharacterManager.GetCharacterBlueprint(killObjectiveBlueprint.CharacterBlueprintId);
+            if (characterBlueprint != null)
+                _objectives.Add(new KillQuestObjective
+                {
+                    Id = killObjectiveBlueprint.Id,
+                    TargetBlueprint = characterBlueprint,
+                    Count = 0,
+                    Total = killObjectiveBlueprint.Count
+                });
+            else
+                Logger.LogWarning("Kill objective {objectiveBlueprintId} doesn't exist for quest {blueprintId}", killObjectiveBlueprint.CharacterBlueprintId, Blueprint.Id);
         }
-        if (Blueprint.LocationObjectives != null)
+    }
+
+    private void BuildLocationObjectives(ICharacter character)
+    {
+        if (Blueprint.LocationObjectives == null)
+            return;
+        foreach (var locationObjectiveBlueprint in Blueprint.LocationObjectives)
         {
-            foreach (QuestLocationObjectiveBlueprint locationObjective in Blueprint.LocationObjectives)
-            {
-                var roomBlueprint = RoomManager.GetRoomBlueprint(locationObjective.RoomBlueprintId);
-                if (roomBlueprint != null)
-                    _objectives.Add(new LocationQuestObjective
-                    {
-                        Id = locationObjective.Id,
-                        Blueprint = roomBlueprint,
-                        Explored = character.Room?.Blueprint?.Id == roomBlueprint.Id
-                    });
-                else
-                    Logger.LogWarning("Location objective {objectiveBlueprintId} doesn't exist for quest {blueprintId}", locationObjective.RoomBlueprintId, blueprint.Id);
-            }
+            var roomBlueprint = RoomManager.GetRoomBlueprint(locationObjectiveBlueprint.RoomBlueprintId);
+            if (roomBlueprint != null)
+                _objectives.Add(new LocationQuestObjective
+                {
+                    Id = locationObjectiveBlueprint.Id,
+                    RoomBlueprint = roomBlueprint,
+                    Explored = character.Room?.Blueprint?.Id == roomBlueprint.Id
+                });
+            else
+                Logger.LogWarning("Location objective {objectiveBlueprintId} doesn't exist for quest {blueprintId}", locationObjectiveBlueprint.RoomBlueprintId, Blueprint.Id);
         }
+    }
+
+    private void SpawnQuestItemForObjectiveOnFloorIfNeeded(QuestFloorItemObjectiveBlueprint questFloorItemObjectiveBlueprint, ItemQuestBlueprint itemQuestBlueprint, IRoom room)
+    {
+        // count item instance on the room (if already one item on the floor, don't spawn)
+        var roomInstanceCount = room.Content.OfType<IItemQuest>().Count(x => x.Blueprint.Id == questFloorItemObjectiveBlueprint.ItemBlueprintId);
+        if (roomInstanceCount >= questFloorItemObjectiveBlueprint.MaxInRoom)
+            return;
+        // if count item instances in world (if it exceeds max instances allowed in quest, don't spawn)
+        var worldInstanceCount = RoomManager.Rooms.SelectMany(x => x.Content).OfType<IItemQuest>().Count(x => x.Blueprint.Id == questFloorItemObjectiveBlueprint.ItemBlueprintId);
+        if (worldInstanceCount >= questFloorItemObjectiveBlueprint.MaxInWorld)
+            return;
+
+        // create item on the floor
+        var itemQuest = ItemManager.AddItem(Guid.NewGuid(), itemQuestBlueprint, room);
+        if (itemQuest == null)
+        {
+            Logger.LogError("Cannot create quest item {itemBlueprintId} for quest {blueprintId}", itemQuestBlueprint.Id, Blueprint.Id);
+            return;
+        }
+        if (TimeLimit > 0)
+        {
+            itemQuest.SetTimer(TimeSpan.FromMinutes(TimeLimit + 5)); // make sure to destroy item (just in case we missed the destroy)
+        }
+        Logger.LogInformation("Spawn quest item {itemBlueprintId} in room {roomId} for quest {blueprintId}", itemQuestBlueprint.Id, room.Blueprint.Id, Blueprint.Id);
     }
 }

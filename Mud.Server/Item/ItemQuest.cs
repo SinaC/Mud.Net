@@ -49,7 +49,7 @@ public class ItemQuest : ItemBase, IItemQuest
 
     public override bool IsQuestObjective(IPlayableCharacter questingCharacter, bool checkCompleted)
     {
-        return questingCharacter.Quests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).SelectMany(q => q.Objectives).OfType<ItemQuestObjective>().Any(o => o.Blueprint.Id == Blueprint.Id);
+        return questingCharacter.Quests.Where(q => !checkCompleted || (checkCompleted && !q.AreObjectivesFulfilled)).SelectMany(q => q.Objectives).OfType<ItemQuestObjectiveBase>().Any(o => o.ItemBlueprint.Id == Blueprint.Id);
     }
 
     public override bool ChangeContainer(IContainer? container)
